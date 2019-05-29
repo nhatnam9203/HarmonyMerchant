@@ -4,7 +4,6 @@ import type { NavigationParams, NavigationRoute } from "react-navigation";
 let _container; // eslint-disable-line
 
 function setContainer(container: Object) {
-  console.log('---setContainer --- : ',container );
   _container = container;
 }
 
@@ -24,7 +23,6 @@ function reset(routeName: string, params?: NavigationParams) {
 }
 
 function navigate(routeName: string, params?: NavigationParams) {
-  console.log('--- navigate --- : ',_container);
 
   _container.dispatch(
     NavigationActions.navigate({

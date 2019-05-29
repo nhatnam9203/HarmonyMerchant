@@ -9,8 +9,9 @@
   "dependencies": {
     "ramda": "^0.26.1",
     "react": "16.8.3",
-    "react-native": "0.59.8",
+    "react-native": "^0.59.8",
     "react-native-gesture-handler": "^1.2.1",
+    "react-native-swiper": "^1.5.14",
     "react-navigation": "^3.9.2",
     "react-navigation-redux-helpers": "^3.0.2",
     "react-navigation-slide-from-right-transition": "^1.0.4",

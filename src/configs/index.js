@@ -2,7 +2,8 @@ import {Dimensions}from 'react-native';
 
 const configs = {
     VERSION: "1.0.0",
-    DEFAULT_WIDTH: 414,
+    DEFAULT_WIDTH: 768,
+    // DEFAULT_WIDTH: 736, mobile
     DEFAULT_HEIGHT: 736,
     FULL_WIDTH: Dimensions.get('window').width,
     // app's color 

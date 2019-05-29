@@ -1,7 +1,11 @@
 import Button from './Button';
-import Text from './Text'
+import Text from './Text';
+import ButtonCustom from './ButtonCustom';
+import InputAuth from './InputAuth';
 
 module.exports = {
     Button,
-    Text
+    Text,
+    ButtonCustom,
+    InputAuth
 }

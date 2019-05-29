@@ -1,8 +1,6 @@
 import Layout from './layout';
 import connectRedux from '../../redux/ConnectRedux';
 
-import NavigationServices from '../../navigators/NavigatorServices';
-
 class SplashScreen extends Layout {
 
     constructor(props) {
@@ -12,9 +10,9 @@ class SplashScreen extends Layout {
     }
 
     componentDidMount() {
-        setTimeout(() =>{
-            this.props.actions.app.test();
-        },1000)
+        // setTimeout(() =>{
+        //     this.props.actions.app.test();
+        // },1000)
         
         // this.props.navigation.navigate('Main');
         // NavigationServices.navigate("Main");
