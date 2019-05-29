@@ -4,11 +4,13 @@ import getSlideFromRightTransition from 'react-navigation-slide-from-right-trans
 
 import {
     SignInScreen,
+    ForgotPasswordScreen
 } from '../screens';
 
 const AuthStack = createStackNavigator(
     {
         SignIn: SignInScreen,
+        ForgotPassword:ForgotPasswordScreen
     },
     {
         initialRouteName: 'SignIn',

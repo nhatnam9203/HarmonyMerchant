@@ -3,7 +3,7 @@ import React from 'react';
 import Layout from './layout';
 import connectRedux from '../../redux/ConnectRedux';
 
-class SignInScreen extends Layout {
+class ForgotPasswordScreen extends Layout {
 
     constructor(props) {
         super(props);
@@ -19,8 +19,8 @@ class SignInScreen extends Layout {
         const password = this.passwordInputRef.current.value;
     }
 
-    forgotPassword = () =>{
-        this.props.navigation.navigate('ForgotPassword');
+    forgotPassword = () => {
+
     }
 
 
@@ -33,4 +33,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connectRedux(mapStateToProps, SignInScreen);
+export default connectRedux(mapStateToProps, ForgotPasswordScreen);
