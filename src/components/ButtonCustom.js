@@ -7,11 +7,12 @@ import { scaleSzie } from '../utils';
 export default class ButtonCustom extends React.PureComponent {
 
     render() {
-        const { width, backgroundColor, title, textColor } = this.props;
+        const { width, height,backgroundColor, title, textColor } = this.props;
+        const temtpHeight = height ? height : 60;
         return (
             <Button onPress={() => this.props.onPress()} style={{
                 width,
-                height: scaleSzie(60),
+                height: scaleSzie(temtpHeight),
                 backgroundColor,
                 borderRadius: scaleSzie(6),
                 justifyContent: 'center',

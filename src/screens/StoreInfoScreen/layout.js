@@ -31,8 +31,8 @@ export default class Layout extends React.Component {
                         }}
                     />}
                 >
-                    <TabStoreInfo tabLabel='1. Store Info' />
                     <TabAdminInfo tabLabel='2. Admin Info' />
+                    <TabStoreInfo tabLabel='1. Store Info' />
                     <TabStaffManagement tabLabel='3. Staff Management' />
                     <TabServiceProduct tabLabel='4. Services / Products' />
 
