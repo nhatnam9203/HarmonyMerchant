@@ -10,6 +10,8 @@ const {
 } = ReactNative;
 const Button = require('./Button');
 
+import {scaleSzie} from '../../utils';
+
 const DefaultTabBar = createReactClass({
   propTypes: {
     goToPage: PropTypes.func,
@@ -36,10 +38,10 @@ const DefaultTabBar = createReactClass({
   },
 
   renderTab(name, page, isTabActive, onPressHandler) {
-    const { activeTextColor, inactiveTextColor, textStyle, } = this.props;
+    const { activeTextColor, inactiveTextColor, textStyle,backgroundTabActive } = this.props;
     const textColor = isTabActive ? activeTextColor : inactiveTextColor;
     const fontWeight = isTabActive ? 'bold' : 'normal';
-
+    const backgroundColorActive = isTabActive ? {backgroundColor: backgroundTabActive} :{};
     return <Button
       style={{flex: 1, }}
       key={name}
@@ -48,7 +50,7 @@ const DefaultTabBar = createReactClass({
       accessibilityTraits='button'
       onPress={() => onPressHandler(page)}
     >
-      <View style={[styles.tab, this.props.tabStyle, ]}>
+      <View style={[styles.tab, this.props.tabStyle,backgroundColorActive ]}>
         <Text style={[{color: textColor, fontWeight, }, textStyle, ]}>
           {name}
         </Text>
@@ -72,13 +74,13 @@ const DefaultTabBar = createReactClass({
       outputRange: [0,  containerWidth / numberOfTabs],
     });
     return (
-      <View style={[styles.tabs, {backgroundColor: this.props.backgroundColor, }, this.props.style, ]}>
+      <View style={[styles.tabs, {backgroundColor: '#F1F1F1', }, this.props.style, ]}>
         {this.props.tabs.map((name, page) => {
           const isTabActive = this.props.activeTab === page;
           const renderTab = this.props.renderTab || this.renderTab;
           return renderTab(name, page, isTabActive, this.props.goToPage);
         })}
-        <Animated.View
+        {/* <Animated.View
           style={[
             tabUnderlineStyle,
             {
@@ -88,7 +90,7 @@ const DefaultTabBar = createReactClass({
             },
             this.props.underlineStyle,
           ]}
-        />
+        /> */}
       </View>
     );
   },
@@ -98,18 +100,17 @@ const styles = StyleSheet.create({
   tab: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: 10,
+    justifyContent: 'flex-end',
+    paddingBottom: scaleSzie(5),
+    borderRightWidth :0.5,
+    borderRightColor :'#404040'
   },
   tabs: {
-    height: 50,
+    height: scaleSzie(34),
     flexDirection: 'row',
     justifyContent: 'space-around',
-    borderWidth: 1,
-    borderTopWidth: 0,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    borderColor: '#ccc',
+    borderBottomWidth :scaleSzie(1),
+    borderBottomColor:'#0764B0'
   },
 });
 

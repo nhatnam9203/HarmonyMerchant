@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { InputAuth, ButtonCustom, Button,DefaultTabBar } from '../../components';
+import { InputAuth, ButtonCustom, Button, DefaultTabBar } from '../../components';
 import { scaleSzie } from '../../utils';
 import styles from './style';
 import Configs from '../../configs';
@@ -19,17 +19,27 @@ export default class Layout extends React.Component {
         return (
             <View style={styles.container} >
                 <ScrollableTabView
-                    style={{ marginTop: 20, }}
+                    style={{}}
                     initialPage={1}
-                    renderTabBar={() => <DefaultTabBar />}
+                    renderTabBar={() => <DefaultTabBar
+                        activeTextColor="#fff"
+                        inactiveTextColor="#6A6A6A"
+                        backgroundTabActive="#0764B0"
+                        textStyle={{
+                            fontSize: scaleSzie(10)
+                        }}
+                    />}
                 >
-                    <View tabLabel='Tab #1' style={{ flex: 1, backgroundColor: 'red' }} >
+                    <View tabLabel='1. Store Info' style={{ flex: 1,}} >
 
                     </View>
-                    <View tabLabel='Tab #2' style={{ flex: 1 }} >
+                    <View tabLabel='2. Admin Info' style={{ flex: 1 }} >
 
                     </View>
-                    <View tabLabel='Tab #3' style={{ flex: 1, backgroundColor: 'red' }} >
+                    <View tabLabel='3. Staff Management' style={{ flex: 1, }} >
+
+                    </View>
+                    <View tabLabel='4. Services / Products' style={{ flex: 1}} >
 
                     </View>
                 </ScrollableTabView>
