@@ -4,24 +4,39 @@ import NavigationServices from "../../navigators/NavigatorServices";
 
 import { requestAPI } from '../../utils';
 
-function* test(action) {
+function* login(action) {
     try {
-        console.log('--- saga catch ---');
-        yield put({ ...action, type: "TEST_USER_SUCCESS"});
-        NavigationServices.navigate("Main");
-        // yield put({ ...action, type: "REGISTER_USER_SUCCESS", payload: responses });
-        // const responses = yield requestAPI(action);
-        // responses.status ?
-        //     yield put({ ...action, type: "REGISTER_USER_SUCCESS", payload: responses })
-        //     : yield put({ ...action, type: "REGISTER_USER_FAIL", payload: responses })
-        
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        const { codeNumber } = responses;
+        console.log('codeNumber : ', codeNumber);
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: 'SAVE_PROFILE_LOCAL',
+                payload: {
+                    profile: responses.data.merchant,
+                    token: responses.data.token,
+                }
+            });
+            yield put({
+                type: 'LOGIN_APP_SUCCESS'
+            })
+        } else {
+            yield put({
+                type: 'LOGIN_APP_FAIL',
+                payload: responses
+            })
+        }
+        console.log('---- responses : ', responses);
     } catch (error) {
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
     }
 }
 
 
 export default function* saga() {
     yield all([
-        takeLatest('TEST', test),
+        takeLatest('LOGIN_APP', login),
     ])
 }

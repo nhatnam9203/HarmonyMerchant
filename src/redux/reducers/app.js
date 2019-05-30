@@ -1,13 +1,18 @@
 const initialState = {
-    test: false
+    loading: false
 }
 
 function appReducer(state = initialState, action) {
     switch (action.type) {
-        case 'TEST_SUCCESS':
+        case 'LOADING_ROOT':
             return {
                 ...state,
-                test: true
+                loading: true
+            }
+        case 'STOP_LOADING_ROOT':
+            return {
+                ...state,
+                loading: false
             }
         default:
             return state

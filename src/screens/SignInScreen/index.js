@@ -15,12 +15,21 @@ class SignInScreen extends Layout {
     }
 
     signIn = () => {
-        const id = this.idInputRef.current.state.value;
-        const password = this.passwordInputRef.current.value;
+        // harmony@gmail.com
+        // 123123
+        const email = this.idInputRef.current.state.value;
+        const password = this.passwordInputRef.current.state.value;
+        if (email === '' || password === '') {
+            alert('Please enter full information !');
+        } else {
+            this.props.actions.auth.login(email, password);
+        }
+
     }
 
-    forgotPassword = () =>{
-        this.props.navigation.navigate('ForgotPassword');
+    forgotPassword = () => {
+        // this.props.navigation.navigate('ForgotPassword');
+        this.props.actions.app.getMerchantByID(3);
     }
 
 
@@ -29,6 +38,7 @@ class SignInScreen extends Layout {
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
+    errorLogin: state.auth.errorLogin
 })
 
 

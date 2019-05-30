@@ -1,8 +1,9 @@
 const authMiddleware = store => next => action => {
+    console.log('---authMiddleware : ' ,action);
     if (action.token) {
-        const profile = store.getState().dataLocal.profile
-        const temptAction = { ...action, token: profile.accesstoken, email: profile.email };
-        next(temptAction);
+        const appState = store.getState();
+        console.log('---token : ', appState);
+        return next({ ...action, token: appState.dataLocal.token });
     } else {
         next(action);
     }

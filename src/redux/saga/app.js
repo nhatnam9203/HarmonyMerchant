@@ -4,17 +4,11 @@ import NavigationServices from "../../navigators/NavigatorServices";
 
 import { requestAPI } from '../../utils';
 
-function* test(action) {
+function* getMerchantByID(action) {
     try {
-        console.log('--- saga catch ---');
-        yield put({ ...action, type: "TEST_USER_SUCCESS"});
-        NavigationServices.navigate("Main");
-        // yield put({ ...action, type: "REGISTER_USER_SUCCESS", payload: responses });
-        // const responses = yield requestAPI(action);
-        // responses.status ?
-        //     yield put({ ...action, type: "REGISTER_USER_SUCCESS", payload: responses })
-        //     : yield put({ ...action, type: "REGISTER_USER_FAIL", payload: responses })
-        
+        console.log('--- getMerchantByID --');
+        const responses = yield requestAPI(action);
+        console.log('--- responses : ', responses);
     } catch (error) {
     }
 }
@@ -22,6 +16,6 @@ function* test(action) {
 
 export default function* saga() {
     yield all([
-        takeLatest('TEST', test),
+        takeLatest('GET_MERCHANT_BY_ID', getMerchantByID),
     ])
 }

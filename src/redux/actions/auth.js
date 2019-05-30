@@ -1,6 +1,13 @@
-export function login() {
+import apiConfigs from '../../configs/api';
+
+export function login(email, password) {
     return {
         type: 'LOGIN_APP',
-        payload: {}
+        body: {
+            "Email": email,
+            "Password": password
+        },
+        method: 'POST',
+        api: `${apiConfigs.BASE_API}Merchant/login`
     }
 }

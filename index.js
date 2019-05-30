@@ -8,6 +8,7 @@ import AppNavigators from './src/navigators/AppNavigator';
 import configureStore from './src/redux/store';
 import { name as appName } from './app.json';
 import NavigatorServices from './src/navigators/NavigatorServices';
+import { Loading } from './src/components';
 
 
 class App extends React.Component {
@@ -32,6 +33,7 @@ class App extends React.Component {
                             NavigatorServices.setContainer(navigatorRef);
                         }}
                     />
+                    <Loading />
                 </PersistGate>
             </Provider>
         );

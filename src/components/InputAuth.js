@@ -10,16 +10,22 @@ export default class InputAuth extends React.PureComponent {
         this.state = {
             value: ''
         }
+        this.textinputRef = React.createRef();
+    }
+
+    onFocusTexInput() {
+        this.textinputRef.current.focus();
     }
 
     render() {
-        const { placeholder,secureTextEntry } = this.props;
+        const { placeholder, secureTextEntry, onSubmitEditing } = this.props;
         return (
             <View style={{
                 width: scaleSzie(400), height: scaleSzie(45),
                 backgroundColor: '#fff', paddingHorizontal: scaleSzie(15)
             }} >
                 <TextInput
+                    ref={this.textinputRef}
                     style={{
                         flex: 1,
                         fontSize: scaleSzie(20)
@@ -28,6 +34,7 @@ export default class InputAuth extends React.PureComponent {
                     value={this.state.value}
                     onChangeText={value => this.setState({ value })}
                     secureTextEntry={secureTextEntry}
+                    onSubmitEditing={() => onSubmitEditing()}
                 />
             </View>
         );

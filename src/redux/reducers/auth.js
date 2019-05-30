@@ -1,13 +1,18 @@
 const initialState = {
-    test: false
+    errorLogin: ''
 }
 
 function appReducer(state = initialState, action) {
     switch (action.type) {
-        case 'TEST_SUCCESS':
+        case 'LOGIN_APP_SUCCESS':
             return {
                 ...state,
-                test: true
+                errorLogin: ''
+            }
+        case 'LOGIN_APP_FAIL':
+            return {
+                ...state,
+                errorLogin: action.payload.message
             }
         default:
             return state

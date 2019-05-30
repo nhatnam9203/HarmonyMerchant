@@ -1,14 +1,15 @@
 const initialState = {
     profile: {},
-    fcmToken: {}
+    token: ""
 }
 
 function dataLocal(state = initialState, action) {
     switch (action.type) {
-        case 'TEST_DATA_LOCAL':
+        case 'SAVE_PROFILE_LOCAL':
             return {
                 ...state,
-                profile: true
+                profile: action.payload.profile,
+                token: action.payload.token,
             }
         default:
             return state
