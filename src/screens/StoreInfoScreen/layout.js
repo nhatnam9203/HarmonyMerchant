@@ -12,6 +12,7 @@ import { scaleSzie } from '../../utils';
 import styles from './style';
 import Configs from '../../configs';
 import IMAGE from '../../resources';
+import { TabStoreInfo, TabAdminInfo, TabStaffManagement, TabServiceProduct } from './widget';
 
 export default class Layout extends React.Component {
 
@@ -20,7 +21,7 @@ export default class Layout extends React.Component {
             <View style={styles.container} >
                 <ScrollableTabView
                     style={{}}
-                    initialPage={1}
+                    initialPage={0}
                     renderTabBar={() => <DefaultTabBar
                         activeTextColor="#fff"
                         inactiveTextColor="#6A6A6A"
@@ -30,18 +31,11 @@ export default class Layout extends React.Component {
                         }}
                     />}
                 >
-                    <View tabLabel='1. Store Info' style={{ flex: 1,}} >
+                    <TabStoreInfo tabLabel='1. Store Info' />
+                    <TabAdminInfo tabLabel='2. Admin Info' />
+                    <TabStaffManagement tabLabel='3. Staff Management' />
+                    <TabServiceProduct tabLabel='4. Services / Products' />
 
-                    </View>
-                    <View tabLabel='2. Admin Info' style={{ flex: 1 }} >
-
-                    </View>
-                    <View tabLabel='3. Staff Management' style={{ flex: 1, }} >
-
-                    </View>
-                    <View tabLabel='4. Services / Products' style={{ flex: 1}} >
-
-                    </View>
                 </ScrollableTabView>
             </View>
 
