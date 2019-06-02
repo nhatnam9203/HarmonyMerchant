@@ -5,10 +5,10 @@ import {
     StyleSheet,
     TextInput
 } from 'react-native';
-import { Dropdown } from 'react-native-material-dropdown';
+// import { Dropdown } from 'react-native-material-dropdown';
 
 import { 
-    // Dropdown,
+    Dropdown,
      ButtonCustom, Button, Text } from '../../../components';
 import { scaleSzie } from '../../../utils';
 
@@ -84,7 +84,7 @@ class TabStoreInfo extends React.Component {
                                     backgroundColor: '#F1F1F1',
                                     borderWidth: 1,
                                     borderColor: '#6A6A6A',
-                                    height: scaleSzie(30),
+                                    flex:1
                                 }}
                             />
                         </View>
@@ -144,18 +144,6 @@ class TabStoreInfo extends React.Component {
         );
     }
 
-    render1() {
-        return (
-            <View style={styles.container} >
-                <Dropdown
-                    label='Favorite Fruit'
-                    data={data}
-                />
-
-            </View>
-
-        );
-    }
 
     render() {
         return (
@@ -173,7 +161,7 @@ const ItemAdminInfo = ({ title, placeholder }) => {
     return (
         <View style={{
             flexDirection: 'row',
-            height: scaleSzie(30),
+            height: scaleSzie(36),
             paddingLeft: scaleSzie(90),
             paddingRight: scaleSzie(90),
             marginTop: scaleSzie(25)
@@ -203,7 +191,7 @@ const ItemAdminInfoDoubleItem = ({ title, placeholder, children }) => {
     return (
         <View style={{
             flexDirection: 'row',
-            height: scaleSzie(30),
+            height: scaleSzie(36),
             paddingLeft: scaleSzie(90),
             paddingRight: scaleSzie(90),
             marginTop: scaleSzie(25)

@@ -2,9 +2,8 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    paddingVertical: 8,
-    borderRadius: 0,
+    top: 2,
+    alignSelf: 'flex-start',
     justifyContent: 'center',
-    // backgroundColor:'red'
   },
 });
