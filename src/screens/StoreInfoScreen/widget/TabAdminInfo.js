@@ -5,16 +5,43 @@ import {
     StyleSheet,
     TextInput
 } from 'react-native';
+import { Dropdown } from 'react-native-material-dropdown';
 
-import { InputAuth, ButtonCustom, Button, Text } from '../../../components';
+import { 
+    // Dropdown,
+     ButtonCustom, Button, Text } from '../../../components';
 import { scaleSzie } from '../../../utils';
 
+let data = [{
+    value: 'Banana',
+}, {
+    value: 'Mango',
+}, {
+    value: 'Pear',
+}, {
+    value: 'Banana',
+}, {
+    value: 'Mango',
+}, {
+    value: 'Pear',
+},
+{
+    value: 'Banana',
+}, {
+    value: 'Mango',
+}, {
+    value: 'Pear',
+}
+
+];
+
 class TabStoreInfo extends React.Component {
+
 
     renderBody() {
         return (
             <View style={styles.body} >
-                <ScrollView 
+                <ScrollView
                     showsVerticalScrollIndicator={false}
                 >
                     <ItemAdminInfoDoubleItem
@@ -47,12 +74,18 @@ class TabStoreInfo extends React.Component {
                         placeholder="City"
                     >
                         <View style={{
-                            flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingLeft: scaleSzie(5),
+                            flex: 1,
                             marginLeft: scaleSzie(5)
                         }} >
-                            <TextInput
-                                style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
-                                placeholder={'Last Name'}
+                            <Dropdown
+                                label='State'
+                                data={data}
+                                containerStyle={{
+                                    backgroundColor: '#F1F1F1',
+                                    borderWidth: 1,
+                                    borderColor: '#6A6A6A',
+                                    height: scaleSzie(30),
+                                }}
                             />
                         </View>
                     </ItemAdminInfoDoubleItem>
@@ -73,7 +106,7 @@ class TabStoreInfo extends React.Component {
                         title="Confirm PIN *"
                         placeholder="********"
                     />
-                    <View style={{height:scaleSzie(300)}} />
+                    <View style={{ height: scaleSzie(300) }} />
                 </ScrollView>
             </View>
         );
@@ -108,6 +141,19 @@ class TabStoreInfo extends React.Component {
                     />
                 </View>
             </View>
+        );
+    }
+
+    render1() {
+        return (
+            <View style={styles.container} >
+                <Dropdown
+                    label='Favorite Fruit'
+                    data={data}
+                />
+
+            </View>
+
         );
     }
 

@@ -3,7 +3,8 @@ import Text from './Text';
 import ButtonCustom from './ButtonCustom';
 import InputAuth from './InputAuth';
 import Loading from './Loading';
-import DefaultTabBar from './DefaultTabBar'
+import DefaultTabBar from './DefaultTabBar';
+import { Dropdown } from './react-native-material-dropdown';
 
 module.exports = {
     Button,
@@ -11,5 +12,6 @@ module.exports = {
     ButtonCustom,
     InputAuth,
     Loading,
-    DefaultTabBar
+    DefaultTabBar,
+    Dropdown
 }
