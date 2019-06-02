@@ -21,7 +21,7 @@ export default class Layout extends React.Component {
             <View style={styles.container} >
                 <ScrollableTabView
                     style={{}}
-                    initialPage={0}
+                    initialPage={1}
                     renderTabBar={() => <DefaultTabBar
                         activeTextColor="#fff"
                         inactiveTextColor="#6A6A6A"
@@ -31,8 +31,8 @@ export default class Layout extends React.Component {
                         }}
                     />}
                 >
-                    <TabAdminInfo tabLabel='2. Admin Info' />
                     <TabStoreInfo tabLabel='1. Store Info' />
+                    <TabAdminInfo tabLabel='2. Admin Info' />
                     <TabStaffManagement tabLabel='3. Staff Management' />
                     <TabServiceProduct tabLabel='4. Services / Products' />
 

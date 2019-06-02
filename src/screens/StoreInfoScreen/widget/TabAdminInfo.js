@@ -3,19 +3,77 @@ import {
     View,
     ScrollView,
     StyleSheet,
+    TextInput
 } from 'react-native';
 
-import { ButtonCustom, } from '../../../components';
+import { InputAuth, ButtonCustom, Button, Text } from '../../../components';
 import { scaleSzie } from '../../../utils';
 
-
-class TabAdminInfo extends React.Component {
+class TabStoreInfo extends React.Component {
 
     renderBody() {
         return (
             <View style={styles.body} >
-                <ScrollView>
+                <ScrollView 
+                    showsVerticalScrollIndicator={false}
+                >
+                    <ItemAdminInfoDoubleItem
+                        title="Name *"
+                        placeholder="First Name"
+                    >
+                        <View style={{
+                            flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingLeft: scaleSzie(5),
+                            marginLeft: scaleSzie(5)
+                        }} >
+                            <TextInput
+                                style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
+                                placeholder={'Last Name'}
+                            />
+                        </View>
+                    </ItemAdminInfoDoubleItem>
 
+                    <ItemAdminInfoDoubleItem
+                        title="Display Name *"
+                        placeholder="Display Name"
+                    />
+
+                    <ItemAdminInfo
+                        title="Address"
+                        placeholder="Street"
+                    />
+
+                    <ItemAdminInfoDoubleItem
+                        title=""
+                        placeholder="City"
+                    >
+                        <View style={{
+                            flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingLeft: scaleSzie(5),
+                            marginLeft: scaleSzie(5)
+                        }} >
+                            <TextInput
+                                style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
+                                placeholder={'Last Name'}
+                            />
+                        </View>
+                    </ItemAdminInfoDoubleItem>
+
+                    <ItemAdminInfo
+                        title="Cell phone *"
+                        placeholder="Phone number"
+                    />
+                    <ItemAdminInfo
+                        title="Contact email *"
+                        placeholder="Email"
+                    />
+                    <ItemAdminInfo
+                        title="Create PIN *"
+                        placeholder="********"
+                    />
+                    <ItemAdminInfo
+                        title="Confirm PIN *"
+                        placeholder="********"
+                    />
+                    <View style={{height:scaleSzie(300)}} />
                 </ScrollView>
             </View>
         );
@@ -28,14 +86,27 @@ class TabAdminInfo extends React.Component {
     renderFooter() {
         return (
             <View style={styles.footer} >
-                <ButtonCustom
-                    width={scaleSzie(220)}
-                    height={40}
-                    backgroundColor="#0764B0"
-                    title="NEXT"
-                    textColor="#fff"
-                    onPress={this.nextTab}
-                />
+                <View style={styles.buttonContainer} >
+                    <ButtonCustom
+                        width={scaleSzie(250)}
+                        height={40}
+                        backgroundColor="#F1F1F1"
+                        title="BACK"
+                        textColor="#6A6A6A"
+                        onPress={this.nextTab}
+                        style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                    />
+                </View>
+                <View style={styles.buttonContainer} >
+                    <ButtonCustom
+                        width={scaleSzie(250)}
+                        height={40}
+                        backgroundColor="#0764B0"
+                        title="NEXT"
+                        textColor="#fff"
+                        onPress={this.nextTab}
+                    />
+                </View>
             </View>
         );
     }
@@ -52,6 +123,72 @@ class TabAdminInfo extends React.Component {
     }
 }
 
+const ItemAdminInfo = ({ title, placeholder }) => {
+    return (
+        <View style={{
+            flexDirection: 'row',
+            height: scaleSzie(30),
+            paddingLeft: scaleSzie(90),
+            paddingRight: scaleSzie(90),
+            marginTop: scaleSzie(25)
+        }} >
+            <View style={{ width: scaleSzie(150), justifyContent: 'center' }} >
+                <Text style={{
+                    color: '#404040',
+                    fontSize: scaleSzie(14),
+                    fontWeight: '600',
+
+                }}  >
+                    {`${title}`}
+                </Text>
+            </View>
+
+            <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingLeft: scaleSzie(5) }} >
+                <TextInput
+                    style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
+                    placeholder={placeholder}
+                />
+            </View>
+        </View>
+    );
+}
+
+const ItemAdminInfoDoubleItem = ({ title, placeholder, children }) => {
+    return (
+        <View style={{
+            flexDirection: 'row',
+            height: scaleSzie(30),
+            paddingLeft: scaleSzie(90),
+            paddingRight: scaleSzie(90),
+            marginTop: scaleSzie(25)
+        }} >
+            <View style={{ width: scaleSzie(150), justifyContent: 'center' }} >
+                <Text style={{
+                    color: '#404040',
+                    fontSize: scaleSzie(14),
+                    fontWeight: '600',
+
+                }}  >
+                    {`${title}`}
+                </Text>
+            </View>
+
+            <View style={{ flex: 1, flexDirection: 'row' }} >
+                <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingLeft: scaleSzie(5) }} >
+                    <TextInput
+                        style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
+                        placeholder={placeholder}
+                    />
+                </View>
+
+                <View style={{ flex: 1, }} >
+                    {children}
+                </View>
+            </View>
+        </View>
+    );
+}
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -60,9 +197,14 @@ const styles = StyleSheet.create({
         flex: 1
     },
     footer: {
-        height: scaleSzie(60),
-        backgroundColor: 'red'
+        height: scaleSzie(50),
+        flexDirection: 'row',
+    },
+    buttonContainer: {
+        flex: 1,
+        alignItems: 'center'
     }
+
 })
 
-export default TabAdminInfo;
+export default TabStoreInfo;
