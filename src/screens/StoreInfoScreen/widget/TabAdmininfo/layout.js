@@ -10,9 +10,10 @@ import {
 import {
     Dropdown,
     ButtonCustom, Button, Text
-} from '../../../components';
-import { scaleSzie } from '../../../utils';
-import IMAGE from '../../../resources';
+} from '../../../../components';
+import { scaleSzie } from '../../../../utils';
+import IMAGE from '../../../../resources';
+import { ItemAdminInfo, ItemWorkingTime, ItemScalary } from '../componentTab';
 
 let data = [{
     value: 'Banana',
@@ -20,27 +21,16 @@ let data = [{
     value: 'Mango',
 }, {
     value: 'Pear',
-}, {
-    value: 'Banana',
-}, {
-    value: 'Mango',
-}, {
-    value: 'Pear',
-},
-{
-    value: 'Banana',
-}, {
-    value: 'Mango',
-}, {
-    value: 'Pear',
 }
-
 ];
 
-class TabStoreInfo extends React.Component {
-
+class Layout extends React.Component {
 
     renderBody() {
+        const { address, firstName, lastName, displayName,
+            cellphone, email
+        } = this.state.user;
+        const { street, city, state } = address;
         return (
             <View style={styles.body} >
                 <ScrollView
@@ -50,6 +40,8 @@ class TabStoreInfo extends React.Component {
                     <ItemAdminInfoDoubleItem
                         title="Name *"
                         placeholder="First Name"
+                        value={firstName}
+                        onChangeText={(value) => this.updateUserInfo('firstName', value)}
                     >
                         <View style={{
                             flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingLeft: scaleSzie(5),
@@ -58,6 +50,8 @@ class TabStoreInfo extends React.Component {
                             <TextInput
                                 style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
                                 placeholder={'Last Name'}
+                                value={lastName}
+                                onChangeText={value => this.updateUserInfo('lastName', value)}
                             />
                         </View>
                     </ItemAdminInfoDoubleItem>
@@ -65,16 +59,22 @@ class TabStoreInfo extends React.Component {
                     <ItemAdminInfoDoubleItem
                         title="Display Name *"
                         placeholder="Display Name"
+                        value={displayName}
+                        onChangeText={(value) => this.updateUserInfo('displayName', value)}
                     />
 
                     <ItemAdminInfo
                         title="Address"
                         placeholder="Street"
+                        value={street}
+                        onChangeText={(value) => this.updateUserInfo('street', value, 'address')}
                     />
 
                     <ItemAdminInfoDoubleItem
                         title=""
                         placeholder="City"
+                        value={city}
+                        onChangeText={(value) => this.updateUserInfo('city', value, 'address')}
                     >
                         <View style={{
                             flex: 1,
@@ -83,6 +83,8 @@ class TabStoreInfo extends React.Component {
                             <Dropdown
                                 label='State'
                                 data={data}
+                                value={data[0].value}
+                                onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
                                 containerStyle={{
                                     backgroundColor: '#F1F1F1',
                                     borderWidth: 1,
@@ -96,10 +98,15 @@ class TabStoreInfo extends React.Component {
                     <ItemAdminInfo
                         title="Cell phone *"
                         placeholder="Phone number"
+                        value={cellphone}
+                        onChangeText={(value) => this.updateUserInfo('cellphone', value)}
+
                     />
                     <ItemAdminInfo
                         title="Contact email *"
                         placeholder="Email"
+                        value={email}
+                        onChangeText={(value) => this.updateUserInfo('email', value)}
                     />
                     <ItemAdminInfo
                         title="Create PIN *"
@@ -160,10 +167,6 @@ class TabStoreInfo extends React.Component {
         );
     }
 
-    nextTab = () => {
-
-    }
-
     renderFooter() {
         return (
             <View style={styles.footer} >
@@ -205,37 +208,8 @@ class TabStoreInfo extends React.Component {
     }
 }
 
-const ItemAdminInfo = ({ title, placeholder }) => {
-    return (
-        <View style={{
-            flexDirection: 'row',
-            height: scaleSzie(36),
-            paddingLeft: scaleSzie(90),
-            paddingRight: scaleSzie(90),
-            marginTop: scaleSzie(25)
-        }} >
-            <View style={{ width: scaleSzie(150), justifyContent: 'center' }} >
-                <Text style={{
-                    color: '#404040',
-                    fontSize: scaleSzie(14),
-                    fontWeight: '600',
 
-                }}  >
-                    {`${title}`}
-                </Text>
-            </View>
-
-            <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingLeft: scaleSzie(5) }} >
-                <TextInput
-                    style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
-                    placeholder={placeholder}
-                />
-            </View>
-        </View>
-    );
-}
-
-const ItemAdminInfoDoubleItem = ({ title, placeholder, children }) => {
+const ItemAdminInfoDoubleItem = ({ title, placeholder, children, value, onChangeText }) => {
     return (
         <View style={{
             flexDirection: 'row',
@@ -260,6 +234,8 @@ const ItemAdminInfoDoubleItem = ({ title, placeholder, children }) => {
                     <TextInput
                         style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
                         placeholder={placeholder}
+                        value={value}
+                        onChangeText={(value => onChangeText(value))}
                     />
                 </View>
 
@@ -356,97 +332,6 @@ const TitleTabAdminInfo = ({ title }) => {
     );
 }
 
-const ItemWorkingTime = ({ title }) => {
-    return (
-        <View style={{
-            flexDirection: 'row',
-            height: scaleSzie(36),
-            paddingLeft: scaleSzie(90),
-            paddingRight: scaleSzie(90),
-            marginTop: scaleSzie(14)
-        }} >
-            <View style={{ width: scaleSzie(30), justifyContent: 'center' }} >
-                <Image source={IMAGE.checkBoxEmpty} style={{ width: scaleSzie(15), height: scaleSzie(15) }} />
-            </View>
-
-            <View style={{ width: scaleSzie(120), justifyContent: 'center' }} >
-                <Text style={{
-                    color: '#404040',
-                    fontSize: scaleSzie(14),
-                    fontWeight: '600',
-                }}  >
-                    {`${title}`}
-                </Text>
-            </View>
-
-            <View style={{ width: scaleSzie(150) }} >
-                <Dropdown
-                    label='Staff'
-                    data={data}
-                    containerStyle={{
-                        backgroundColor: '#F1F1F1',
-                        borderWidth: 1,
-                        borderColor: '#6A6A6A',
-                        flex: 1
-                    }}
-                />
-            </View>
-            <View style={{ justifyContent: 'center', paddingHorizontal: scaleSzie(8) }} >
-                <View style={{
-                    backgroundColor: '#404040',
-                    width: scaleSzie(12),
-                    height: 1
-                }}  >
-                </View>
-            </View>
-            <View style={{ width: scaleSzie(150) }} >
-                <Dropdown
-                    label='Staff'
-                    data={data}
-                    containerStyle={{
-                        backgroundColor: '#F1F1F1',
-                        borderWidth: 1,
-                        borderColor: '#6A6A6A',
-                        flex: 1
-                    }}
-                />
-            </View>
-        </View>
-    );
-}
-
-const ItemScalary = ({ title, placeholder }) => {
-    return (
-        <View style={{
-            flexDirection: 'row',
-            height: scaleSzie(36),
-            paddingLeft: scaleSzie(90),
-            paddingRight: scaleSzie(90),
-            marginTop: scaleSzie(14)
-        }} >
-            <View style={{ width: scaleSzie(30), justifyContent: 'center' }} >
-                <Image source={IMAGE.checkBoxEmpty} style={{ width: scaleSzie(15), height: scaleSzie(15) }} />
-            </View>
-
-            <View style={{ width: scaleSzie(120), justifyContent: 'center' }} >
-                <Text style={{
-                    color: '#404040',
-                    fontSize: scaleSzie(14),
-                    fontWeight: '600',
-                }}  >
-                    {`${title}`}
-                </Text>
-            </View>
-
-            <View style={[{ width: scaleSzie(150), paddingLeft: scaleSzie(5) }, styles.borderTextInput]} >
-                <TextInput
-                    style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
-                    placeholder={placeholder}
-                />
-            </View>
-        </View>
-    );
-}
 
 const styles = StyleSheet.create({
     container: {
@@ -470,4 +355,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default TabStoreInfo;
+export default Layout;

@@ -1,5 +1,5 @@
 import TabStoreInfo from './TabStoreInfo';
-import TabAdminInfo from './TabAdminInfo';
+import TabAdminInfo from '../widget/TabAdmininfo';
 import TabStaffManagement from './TabStaffManagement';
 import TabServiceProduct from './TabServiceProduct';
 
