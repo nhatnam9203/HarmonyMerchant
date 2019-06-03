@@ -21,6 +21,8 @@ import Counter from '../counter';
 
 import styles from './styles.js';
 
+import { scaleSzie } from '../../../../../utils';
+
 export default class TextField extends PureComponent {
   static defaultProps = {
     underlineColorAndroid: 'transparent',
@@ -167,7 +169,7 @@ export default class TextField extends PureComponent {
   }
 
   focusState(error, focused) {
-    return error? -1 : (focused? 1 : 0);
+    return error ? -1 : (focused ? 1 : 0);
   }
 
   focus() {
@@ -193,8 +195,8 @@ export default class TextField extends PureComponent {
     let { text, receivedFocus } = this.state;
     let { value, defaultValue } = this.props;
 
-    return (receivedFocus || null != value || null == defaultValue)?
-      text:
+    return (receivedFocus || null != value || null == defaultValue) ?
+      text :
       defaultValue;
   }
 
@@ -362,43 +364,43 @@ export default class TextField extends PureComponent {
 
     let defaultVisible = !(receivedFocus || null != value || null == defaultValue);
 
-    value = defaultVisible?
-      defaultValue:
+    value = defaultVisible ?
+      defaultValue :
       text;
 
     let active = !!(value || props.placeholder);
     let count = value.length;
     let restricted = limit < count;
 
-    let textAlign = I18nManager.isRTL?
-      'right':
+    let textAlign = I18nManager.isRTL ?
+      'right' :
       'left';
 
-    let borderBottomColor = restricted?
-      errorColor:
+    let borderBottomColor = restricted ?
+      errorColor :
       focus.interpolate({
         inputRange: [-1, 0, 1],
         outputRange: [errorColor, baseColor, tintColor],
       });
 
-    let borderBottomWidth = restricted?
-      activeLineWidth:
+    let borderBottomWidth = restricted ?
+      activeLineWidth :
       focus.interpolate({
         inputRange: [-1, 0, 1],
         outputRange: [activeLineWidth, lineWidth, activeLineWidth],
       });
 
     let inputContainerStyle = {
-      paddingTop: labelHeight,
-      paddingBottom: inputContainerPadding,
-      paddingLeft:5,
+      paddingTop: scaleSzie(10),
+      paddingBottom: scaleSzie(10),
+      paddingLeft: scaleSzie(10),
 
       // ...(disabled?
-        // { overflow: 'hidden' }:
-        // { borderBottomColor, borderBottomWidth }),
+      // { overflow: 'hidden' }:
+      // { borderBottomColor, borderBottomWidth }),
 
-      ...(props.multiline?
-        { height: 'web' === Platform.OS ? 'auto' : labelHeight + inputContainerPadding + height }:
+      ...(props.multiline ?
+        { height: 'web' === Platform.OS ? 'auto' : labelHeight + inputContainerPadding + height } :
         { height: labelHeight + inputContainerPadding + fontSize * 1.5 }),
     };
 
@@ -406,11 +408,11 @@ export default class TextField extends PureComponent {
       fontSize,
       textAlign,
 
-      color: (disabled || defaultVisible)?
-        baseColor:
+      color: (disabled || defaultVisible) ?
+        baseColor :
         textColor,
 
-      ...(props.multiline?
+      ...(props.multiline ?
         {
           height: fontSize * 1.5 + height,
 
@@ -418,7 +420,7 @@ export default class TextField extends PureComponent {
             ios: { top: -1 },
             android: { textAlignVertical: 'top' },
           }),
-        }:
+        } :
         { height: fontSize * 1.5 }),
     };
 
@@ -430,10 +432,10 @@ export default class TextField extends PureComponent {
         outputRange: [1, 0, 0],
       }),
 
-      fontSize: title?
-        titleFontSize:
+      fontSize: title ?
+        titleFontSize :
         focus.interpolate({
-          inputRange:  [-1, 0, 1],
+          inputRange: [-1, 0, 1],
           outputRange: [titleFontSize, 0, 0],
         }),
     };
@@ -451,10 +453,10 @@ export default class TextField extends PureComponent {
 
     let helperContainerStyle = {
       flexDirection: 'row',
-      height: (title || limit)?
-        titleFontSize * 2:
+      height: (title || limit) ?
+        titleFontSize * 2 :
         focus.interpolate({
-          inputRange:  [-1, 0, 1],
+          inputRange: [-1, 0, 1],
           outputRange: [titleFontSize * 2, 8, 8],
         }),
     };
@@ -463,8 +465,8 @@ export default class TextField extends PureComponent {
       style: containerStyle,
       onStartShouldSetResponder: () => true,
       onResponderRelease: this.onPress,
-      pointerEvents: !disabled && editable?
-        'auto':
+      pointerEvents: !disabled && editable ?
+        'auto' :
         'none',
     };
 
@@ -512,13 +514,13 @@ export default class TextField extends PureComponent {
         <Animated.View {...inputContainerProps}>
           {disabled && <Line {...lineProps} />}
 
-          <Label {...labelProps}>{label}</Label>
+          {value === '' ? <Label {...labelProps}>{label}</Label> : <View />}
 
           <View style={styles.row}>
             {this.renderAffix('prefix', active, focused)}
 
             <TextInput
-              style={[styles.input, inputStyle, inputStyleOverrides]}
+              style={[styles.input, inputStyle, inputStyleOverrides, { fontSize: scaleSzie(16) }]}
               selectionColor={tintColor}
 
               {...props}

@@ -1,19 +1,17 @@
 import { StyleSheet } from 'react-native';
 
+import {scaleSzie} from '../../../../../utils';
+
 export default StyleSheet.create({
   inputContainer: {
-    // backgroundColor: 'yellow',
-    // paddinghorizontal:5
-    
+    backgroundColor: 'transparent',
   },
 
   input: {
-    top: 2,
+    // top: scaleSzie(-10),
     padding: 0,
     margin: 0,
     flex: 1,
-    // backgroundColor:'red',
-
   },
 
   row: {
