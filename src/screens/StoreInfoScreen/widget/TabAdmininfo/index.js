@@ -31,25 +31,40 @@ class StoreInfoScreen extends Layout {
             }
         }
         // ---- Refs ----
-        this.inputRefs = [];
+        this.inputRefsTime = [];
+        this.inputRefsSalary = [];
+        this.inputRefsTip = [];
+
     }
 
-    setRef = (ref) => {
-        this.inputRefs.push(ref);
+    setRefTimeWorking = (ref) => {
+        this.inputRefsTime.push(ref);
+    };
+
+    setRefSalary = (ref) => {
+        this.inputRefsSalary.push(ref);
+    };
+
+    setRefTip = (ref) => {
+        this.inputRefsTip.push(ref);
     };
 
     nextTab = () => {
         const array = []
-        this.inputRefs.forEach(ref => {
+        // this.inputRefsTime.forEach(ref => {
+        //     if (ref.state.isCheck) {
+        //         array.push({
+        //             title: ref.props.title,
+        //             timeStart: ref.state.timeStart,
+        //             timeEnd: ref.state.timeEnd
+        //         })
+        //     }
+        // })
+        this.inputRefsTip.forEach(ref => {
             if (ref.state.isCheck) {
-                console.log('title : ' + ref.props.title);
-                console.log('timeStart : ' + ref.state.timeStart);
-                console.log('timeEnd : ' + ref.state.timeEnd);
-
                 array.push({
                     title: ref.props.title,
-                    timeStart: ref.state.timeStart,
-                    timeEnd: ref.state.timeEnd
+                    value: ref.state.value,
                 })
             }
         })

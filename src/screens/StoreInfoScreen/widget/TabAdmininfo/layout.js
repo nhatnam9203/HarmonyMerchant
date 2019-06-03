@@ -13,8 +13,10 @@ import {
 } from '../../../../components';
 import { scaleSzie } from '../../../../utils';
 import IMAGE from '../../../../resources';
-import { ItemAdminInfo, ItemScalary } from '../componentTab';
+import { ItemAdminInfo, } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
+import ItemScalary from '../ItemScalary';
+
 
 let data = [{
     value: 'Banana',
@@ -140,10 +142,12 @@ class Layout extends React.Component {
                         title="Working time"
                     />
                     {
-                        ['Monday', 'Tuesday', 'Wednesday'].map((day, index) => {
+                        ['Monday', 'Tuesday', 'Wednesday', 'Thursday',
+                            'Friday', 'Sarturday', 'Sunday'
+                        ].map((day, index) => {
                             return <ItemWorkingTime
                                 key={index}
-                                ref={this.setRef}
+                                ref={this.setRefTimeWorking}
                                 title={day}
                             />
                         })
@@ -153,27 +157,37 @@ class Layout extends React.Component {
                     <TitleTabAdminInfo
                         title="Salary"
                     />
-                    <ItemScalary
-                        title="Per hour ($)"
-                        placeholder="100"
-                    />
-                    <ItemScalary
-                        title="Commission (%)"
-                        placeholder="10"
-                    />
-                    {/* ----- Tip fee ---- */}
+                    {
+                        [{ title: 'Per hour ($)', placeholder: '100' },
+                        { title: 'Commission (%)', placeholder: '10' }
+                        ].map((salary, index) => {
+                            return <ItemScalary
+                                key={index}
+                                ref={this.setRefSalary}
+                                title={salary.title}
+                                placeholder={salary.placeholder}
+                            />
+                        })
+                    }
 
+                    {/* ----- Tip fee ---- */}
                     <TitleTabAdminInfo
                         title="Tip fee"
                     />
-                    <ItemScalary
-                        title="Per hour ($)"
-                        placeholder="100"
-                    />
-                    <ItemScalary
-                        title="Commission (%)"
-                        placeholder="10"
-                    />
+                    {
+                        [{ title: 'Percent (%)', placeholder: '100' },
+                        { title: 'Fixed amount ($)', placeholder: '10' }
+                        ].map((salary, index) => {
+                            return <ItemScalary
+                                key={index}
+                                ref={this.setRefTip}
+                                title={salary.title}
+                                placeholder={salary.placeholder}
+                            />
+                        })
+                    }
+
+
                     {/* ---- Address ---- */}
                     <ItemAdminInfo
                         title="Driver license"

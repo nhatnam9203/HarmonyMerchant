@@ -45,49 +45,6 @@ const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntr
     );
 }
 
-
-const ItemScalary = ({ title, placeholder }) => {
-    return (
-        <View style={{
-            flexDirection: 'row',
-            height: scaleSzie(36),
-            paddingLeft: scaleSzie(90),
-            paddingRight: scaleSzie(90),
-            marginTop: scaleSzie(14)
-        }} >
-            <View style={{ width: scaleSzie(30), justifyContent: 'center' }} >
-                <Image source={IMAGE.checkBoxEmpty} style={{ width: scaleSzie(15), height: scaleSzie(15) }} />
-            </View>
-
-            <View style={{ width: scaleSzie(120), justifyContent: 'center' }} >
-                <Text style={{
-                    color: '#404040',
-                    fontSize: scaleSzie(14),
-                    fontWeight: '600',
-                }}  >
-                    {`${title}`}
-                </Text>
-            </View>
-
-            <View style={[{ width: scaleSzie(150), paddingLeft: scaleSzie(5) }, styles.borderTextInput]} >
-                <TextInput
-                    style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
-                    placeholder={placeholder}
-                />
-            </View>
-        </View>
-    );
-}
-
-const styles = StyleSheet.create({
-    borderTextInput: {
-        borderWidth: 1,
-        borderColor: '#6A6A6A'
-    }
-
-})
-
 module.exports = {
     ItemAdminInfo,
-    ItemScalary
 }
