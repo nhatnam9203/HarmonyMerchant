@@ -13,7 +13,8 @@ import {
 } from '../../../../components';
 import { scaleSzie } from '../../../../utils';
 import IMAGE from '../../../../resources';
-import { ItemAdminInfo, ItemWorkingTime, ItemScalary } from '../componentTab';
+import { ItemAdminInfo, ItemScalary } from '../componentTab';
+import ItemWorkingTime from '../ItemWorkingTime';
 
 let data = [{
     value: 'Banana',
@@ -28,9 +29,11 @@ class Layout extends React.Component {
 
     renderBody() {
         const { address, firstName, lastName, displayName,
-            cellphone, email
+            cellphone, email, pin, confirmPin, roles,
+            driverlicense, socialSecurityNumber, professionalLicense
         } = this.state.user;
         const { street, city, state } = address;
+        const { nameRole, statusRole } = roles
         return (
             <View style={styles.body} >
                 <ScrollView
@@ -83,14 +86,9 @@ class Layout extends React.Component {
                             <Dropdown
                                 label='State'
                                 data={data}
-                                value={data[0].value}
+                                value={state}
                                 onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
-                                containerStyle={{
-                                    backgroundColor: '#F1F1F1',
-                                    borderWidth: 1,
-                                    borderColor: '#6A6A6A',
-                                    flex: 1
-                                }}
+                                containerStyle={styles.dropdown}
                             />
                         </View>
                     </ItemAdminInfoDoubleItem>
@@ -111,18 +109,46 @@ class Layout extends React.Component {
                     <ItemAdminInfo
                         title="Create PIN *"
                         placeholder="********"
+                        value={pin}
+                        onChangeText={(value) => this.updateUserInfo('pin', value)}
+                        secureTextEntry={true}
                     />
                     <ItemAdminInfo
                         title="Confirm PIN *"
                         placeholder="********"
+                        value={confirmPin}
+                        onChangeText={(value) => this.updateUserInfo('confirmPin', value)}
+                        secureTextEntry={true}
                     />
-                    <ItemAdminInfoRole />
+                    <ItemAdminInfoRole
+                        DropdowAdmin={() => <Dropdown
+                            label='Admin'
+                            data={data}
+                            value={nameRole}
+                            onChangeText={(value) => this.updateUserInfo('nameRole', value, 'roles')}
+                            containerStyle={styles.dropdown}
+                        />}
+                        DropdowStatusAdmin={() => <Dropdown
+                            label='Status'
+                            data={data}
+                            value={statusRole}
+                            onChangeText={(value) => this.updateUserInfo('statusRole', value, 'roles')}
+                            containerStyle={styles.dropdown}
+                        />}
+                    />
                     <TitleTabAdminInfo
                         title="Working time"
                     />
-                    <ItemWorkingTime
-                        title="Tuesday"
-                    />
+                    {
+                        ['Monday', 'Tuesday', 'Wednesday'].map((day, index) => {
+                            return <ItemWorkingTime
+                                key={index}
+                                ref={this.setRef}
+                                title={day}
+                            />
+                        })
+                    }
+
                     {/* ----- Salary ---- */}
                     <TitleTabAdminInfo
                         title="Salary"
@@ -152,14 +178,20 @@ class Layout extends React.Component {
                     <ItemAdminInfo
                         title="Driver license"
                         placeholder="0000-0000-0000"
+                        value={driverlicense}
+                        onChangeText={(value) => this.updateUserInfo('driverlicense', value)}
                     />
                     <ItemAdminInfo
                         title="Social security number"
                         placeholder="0000-0000-0000"
+                        value={socialSecurityNumber}
+                        onChangeText={(value) => this.updateUserInfo('socialSecurityNumber', value)}
                     />
                     <ItemAdminInfo
                         title="Professional license"
                         placeholder="0000-0000-0000"
+                        value={professionalLicense}
+                        onChangeText={(value) => this.updateUserInfo('professionalLicense', value)}
                     />
                     <View style={{ height: scaleSzie(300) }} />
                 </ScrollView>
@@ -247,7 +279,7 @@ const ItemAdminInfoDoubleItem = ({ title, placeholder, children, value, onChange
     );
 }
 
-const ItemAdminInfoRole = ({ }) => {
+const ItemAdminInfoRole = ({ DropdowAdmin, DropdowStatusAdmin }) => {
     return (
         <View style={{
             flexDirection: 'row',
@@ -270,16 +302,7 @@ const ItemAdminInfoRole = ({ }) => {
             <View style={{ flex: 1, flexDirection: 'row' }} >
                 <View style={{ flex: 1.3, flexDirection: 'row' }} >
                     <View style={{ flex: 1 }} >
-                        <Dropdown
-                            label='Staff'
-                            data={data}
-                            containerStyle={{
-                                backgroundColor: '#F1F1F1',
-                                borderWidth: 1,
-                                borderColor: '#6A6A6A',
-                                flex: 1
-                            }}
-                        />
+                        {DropdowAdmin()}
                     </View>
                     <View style={{ flex: 1 }} />
                 </View>
@@ -296,16 +319,7 @@ const ItemAdminInfoRole = ({ }) => {
                         </Text>
                     </View>
                     <View style={{ flex: 1, paddingLeft: 20 }} >
-                        <Dropdown
-                            label='Active'
-                            data={data}
-                            containerStyle={{
-                                backgroundColor: '#F1F1F1',
-                                borderWidth: 1,
-                                borderColor: '#6A6A6A',
-                                flex: 1
-                            }}
-                        />
+                        {DropdowStatusAdmin()}
                     </View>
                 </View>
             </View>
@@ -351,6 +365,12 @@ const styles = StyleSheet.create({
     borderTextInput: {
         borderWidth: 1,
         borderColor: '#6A6A6A'
+    },
+    dropdown: {
+        backgroundColor: '#F1F1F1',
+        borderWidth: 1,
+        borderColor: '#6A6A6A',
+        flex: 1
     }
 
 })

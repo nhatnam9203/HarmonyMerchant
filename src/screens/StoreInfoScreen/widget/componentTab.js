@@ -1,28 +1,18 @@
 import React from 'react';
 import {
     View,
-    ScrollView,
     StyleSheet,
     TextInput,
     Image
 } from 'react-native';
 
 import {
-    Dropdown,
-    ButtonCustom, Button, Text
+     Text
 } from '../../../components';
 import { scaleSzie } from '../../../utils';
 import IMAGE from '../../../resources';
-let data = [{
-    value: 'Banana',
-}, {
-    value: 'Mango',
-}, {
-    value: 'Pear',
-}
-];
 
-const ItemAdminInfo = ({ title, placeholder, value, onChangeText }) => {
+const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntry }) => {
     return (
         <View style={{
             flexDirection: 'row',
@@ -48,70 +38,13 @@ const ItemAdminInfo = ({ title, placeholder, value, onChangeText }) => {
                     placeholder={placeholder}
                     value={value}
                     onChangeText={(value => onChangeText(value))}
+                    secureTextEntry={secureTextEntry}
                 />
             </View>
         </View>
     );
 }
 
-const ItemWorkingTime = ({ title }) => {
-    return (
-        <View style={{
-            flexDirection: 'row',
-            height: scaleSzie(36),
-            paddingLeft: scaleSzie(90),
-            paddingRight: scaleSzie(90),
-            marginTop: scaleSzie(14)
-        }} >
-            <View style={{ width: scaleSzie(30), justifyContent: 'center' }} >
-                <Image source={IMAGE.checkBoxEmpty} style={{ width: scaleSzie(15), height: scaleSzie(15) }} />
-            </View>
-
-            <View style={{ width: scaleSzie(120), justifyContent: 'center' }} >
-                <Text style={{
-                    color: '#404040',
-                    fontSize: scaleSzie(14),
-                    fontWeight: '600',
-                }}  >
-                    {`${title}`}
-                </Text>
-            </View>
-
-            <View style={{ width: scaleSzie(150) }} >
-                <Dropdown
-                    label='Staff'
-                    data={data}
-                    containerStyle={{
-                        backgroundColor: '#F1F1F1',
-                        borderWidth: 1,
-                        borderColor: '#6A6A6A',
-                        flex: 1
-                    }}
-                />
-            </View>
-            <View style={{ justifyContent: 'center', paddingHorizontal: scaleSzie(8) }} >
-                <View style={{
-                    backgroundColor: '#404040',
-                    width: scaleSzie(12),
-                    height: 1
-                }}  >
-                </View>
-            </View>
-            <View style={{ width: scaleSzie(150) }} >
-                <Dropdown
-                    label='Staff'
-                    data={data}
-                    containerStyle={{
-                        backgroundColor: '#F1F1F1',
-                        borderWidth: 1,
-                        borderColor: '#6A6A6A',
-                        flex: 1
-                    }}
-                />
-            </View>
-        </View>
-    );
-}
 
 const ItemScalary = ({ title, placeholder }) => {
     return (
@@ -156,6 +89,5 @@ const styles = StyleSheet.create({
 
 module.exports = {
     ItemAdminInfo,
-    ItemWorkingTime,
     ItemScalary
 }
