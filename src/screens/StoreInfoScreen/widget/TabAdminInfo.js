@@ -3,7 +3,8 @@ import {
     View,
     ScrollView,
     StyleSheet,
-    TextInput
+    TextInput,
+    Image
 } from 'react-native';
 
 import {
@@ -11,6 +12,7 @@ import {
     ButtonCustom, Button, Text
 } from '../../../components';
 import { scaleSzie } from '../../../utils';
+import IMAGE from '../../../resources';
 
 let data = [{
     value: 'Banana',
@@ -44,6 +46,7 @@ class TabStoreInfo extends React.Component {
                 <ScrollView
                     showsVerticalScrollIndicator={false}
                 >
+                    <View style={{ height: scaleSzie(30) }} />
                     <ItemAdminInfoDoubleItem
                         title="Name *"
                         placeholder="First Name"
@@ -239,7 +242,7 @@ const ItemAdminInfoDoubleItem = ({ title, placeholder, children }) => {
             height: scaleSzie(36),
             paddingLeft: scaleSzie(90),
             paddingRight: scaleSzie(90),
-            marginTop: scaleSzie(25)
+            marginTop: scaleSzie(14)
         }} >
             <View style={{ width: scaleSzie(150), justifyContent: 'center' }} >
                 <Text style={{
@@ -275,7 +278,7 @@ const ItemAdminInfoRole = ({ }) => {
             height: scaleSzie(36),
             paddingLeft: scaleSzie(90),
             paddingRight: scaleSzie(90),
-            marginTop: scaleSzie(25)
+            marginTop: scaleSzie(14)
         }} >
             <View style={{ width: scaleSzie(150), justifyContent: 'center' }} >
                 <Text style={{
@@ -339,7 +342,7 @@ const TitleTabAdminInfo = ({ title }) => {
         <View style={{
             paddingLeft: scaleSzie(90),
             paddingRight: scaleSzie(90),
-            marginTop: scaleSzie(25)
+            marginTop: scaleSzie(14)
         }} >
             <Text style={{
                 color: '#404040',
@@ -360,12 +363,10 @@ const ItemWorkingTime = ({ title }) => {
             height: scaleSzie(36),
             paddingLeft: scaleSzie(90),
             paddingRight: scaleSzie(90),
-            marginTop: scaleSzie(25)
+            marginTop: scaleSzie(14)
         }} >
             <View style={{ width: scaleSzie(30), justifyContent: 'center' }} >
-                <View style={{ width: scaleSzie(15), height: scaleSzie(15), backgroundColor: 'red' }}  >
-
-                </View>
+                <Image source={IMAGE.checkBoxEmpty} style={{ width: scaleSzie(15), height: scaleSzie(15) }} />
             </View>
 
             <View style={{ width: scaleSzie(120), justifyContent: 'center' }} >
@@ -421,12 +422,10 @@ const ItemScalary = ({ title, placeholder }) => {
             height: scaleSzie(36),
             paddingLeft: scaleSzie(90),
             paddingRight: scaleSzie(90),
-            marginTop: scaleSzie(25)
+            marginTop: scaleSzie(14)
         }} >
             <View style={{ width: scaleSzie(30), justifyContent: 'center' }} >
-                <View style={{ width: scaleSzie(15), height: scaleSzie(15), backgroundColor: 'red' }}  >
-
-                </View>
+                <Image source={IMAGE.checkBoxEmpty} style={{ width: scaleSzie(15), height: scaleSzie(15) }} />
             </View>
 
             <View style={{ width: scaleSzie(120), justifyContent: 'center' }} >

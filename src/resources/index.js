@@ -6,4 +6,8 @@ export default {
     slider3: require('./img/slider3.png'),
     slider4: require('./img/slider4.png'),
     backgroundLogin: require('./img/background.png'),
+    checkBoxEmpty: require('./img/check-box-empty.png'),
+    checkBox: require('./img/check-box.png'),
+
+
 }
