@@ -11,20 +11,24 @@ class TabStaffManagement extends Layout {
         this.state = {
             isAddStaff: false,
             visibleArchive: false,
-            visibleRestore:false,
+            visibleRestore: false,
             infoStaffHandle: {}
         }
         this.inputRefsStaff = [];
     }
 
     setRefStaff = (ref) => {
-        this.inputRefsStaff.push(ref);
+        if (ref != null) {
+            this.inputRefsStaff.push(ref);
+        }
+
     };
 
     addNewStaff = () => {
         this.setState(prevState => ({
             isAddStaff: true
-        }))
+        }));
+        this.inputRefsStaff = [];
     }
 
     async  togglePopupArchive(bool, staff = {}) {
@@ -52,31 +56,37 @@ class TabStaffManagement extends Layout {
     editStaff() {
         this.setState({
             isAddStaff: true
-        })
+        });
+        this.inputRefsStaff = [];
     }
 
     archirveStaffYess() {
         const { infoStaffHandle } = this.state;
-        this.inputRefsStaff.forEach(ref => {
-            if (ref.props.staff.id === infoStaffHandle.id) {
-                ref.handleArchirveStaff();
+        for (let i = 0; i < this.inputRefsStaff.length; i++) {
+            if (this.inputRefsStaff[i].props.staff.id === infoStaffHandle.id) {
+                this.inputRefsStaff[i].handleArchirveStaff();
+                break;
             }
-        });
+        }
         this.setState({
             visibleArchive: false
         })
     }
 
-    restoreStaffYess(){
+    restoreStaffYess() {
         const { infoStaffHandle } = this.state;
-        this.inputRefsStaff.forEach(ref => {
-            if (ref.props.staff.id === infoStaffHandle.id) {
-                ref.handleRestoreStaff();
+        for (let i = 0; i < this.inputRefsStaff.length; i++) {
+            if (this.inputRefsStaff[i].props.staff.id === infoStaffHandle.id) {
+                this.inputRefsStaff[i].handleRestoreStaff();
+                break;
             }
-        });
+        }
         this.setState({
             visibleRestore: false
         })
+    }
+
+    componentWillUnmount() {
     }
 
 }
