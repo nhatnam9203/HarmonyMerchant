@@ -11,4 +11,5 @@ export default {
     sortDown: require('./img/down.png'),
     sortUp: require('./img/up.png'),
     indicate: require('./img/indicate.png'),
+    addStaff : require('./img/addStaff.png'),
 }

@@ -75,7 +75,7 @@ class TableHeader extends React.Component {
                             </Text>
                         </View>
                         <Button onPress={this.sortStaffName} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
-                            <Image source={iconSortStaffName} style={{ width: scaleSzie(10), height: scaleSzie(16) }} />
+                            <Image source={iconSortStaffName} style={styles.iconSort} />
                         </Button>
                         <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                             <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
@@ -91,7 +91,7 @@ class TableHeader extends React.Component {
                             </Text>
                         </View>
                         <Button onPress={this.sortId} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
-                            <Image source={iconSortId} style={{ width: scaleSzie(10), height: scaleSzie(16) }} />
+                            <Image source={iconSortId}  style={styles.iconSort} />
                         </Button>
                         <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                             <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
@@ -107,7 +107,7 @@ class TableHeader extends React.Component {
                             </Text>
                         </View>
                         <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
-                            <Image source={iconSortRole} style={{ width: scaleSzie(10), height: scaleSzie(16) }} />
+                            <Image source={iconSortRole}  style={styles.iconSort} />
                         </Button>
                         <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                             <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
@@ -123,7 +123,7 @@ class TableHeader extends React.Component {
                             </Text>
                         </View>
                         <Button onPress={this.sortStatus} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
-                            <Image source={iconSortStatus} style={{ width: scaleSzie(10), height: scaleSzie(16) }} />
+                            <Image source={iconSortStatus}  style={styles.iconSort} />
                         </Button>
                         <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                             <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
@@ -162,6 +162,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    iconSort:{
+         width: scaleSzie(8),
+          height: scaleSzie(12) 
+        }
 
 })
 
