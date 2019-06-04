@@ -10,56 +10,31 @@ import { InputAuth, ButtonCustom, Button, DefaultTabBar } from '../../../../../c
 import { scaleSzie } from '../../../../../utils';
 import IMAGE from '../../../../../resources';
 
-class TableHeader extends React.Component {
+class RowTable extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            sortUpStaffName: false,
-            sortUpId: false,
-            sortUpRole: false,
-            sortUpStatus: false
+           
         }
     }
 
-    sortStaffName = () => {
-        this.setState(prevState => ({
-            sortUpStaffName: !prevState.sortUpStaffName
-        }))
-    }
-
-    sortId = () => {
-        this.setState(prevState => ({
-            sortUpId: !prevState.sortUpId
-        }))
-    }
-
-    sortRole = () => {
-        this.setState(prevState => ({
-            sortUpRole: !prevState.sortUpRole
-        }))
-    }
-
-    sortStatus =() =>{
-        this.setState(prevState => ({
-            sortUpStatus: !prevState.sortUpStatus
-        }))
-    }
-
     render() {
-        const { sortUpStaffName, sortUpId, sortUpRole, sortUpStatus } = this.state;
-        const iconSortStaffName = sortUpStaffName ? IMAGE.sortUp : IMAGE.sortDown;
-        const iconSortId = sortUpId ? IMAGE.sortUp : IMAGE.sortDown;
-        const iconSortRole = sortUpRole ? IMAGE.sortUp : IMAGE.sortDown;
-        const iconSortStatus = sortUpStatus ? IMAGE.sortUp : IMAGE.sortDown;
+        const {staff,index} = this.props;
         return (
                 <View style={styles.tableHeader} >
                     {/* ----- 1 ------ */}
                     <View style={[{
                         width: scaleSzie(60),
-                    }, styles.itemTableHeaderContainer]} >
+                        flexDirection:'row',
+                        justifyContent:'space-around',
+                        alignItems:'center'
+                    }]} >
+                        <Image source={IMAGE.indicate} 
+                            style={{width:scaleSzie(12),height:scaleSzie(29)}}
+                        />
                         <Text style={styles.textTableHeader} >
-                            No.
+                            {`${index}.`}
                         </Text>
                     </View>
                     {/* ----- 2 ------ */}
@@ -71,12 +46,9 @@ class TableHeader extends React.Component {
                         </View>
                         <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
                             <Text style={styles.textTableHeader} >
-                                Staff Name
+                            {staff.name}
                             </Text>
                         </View>
-                        <Button onPress={this.sortStaffName} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
-                            <Image source={iconSortStaffName} style={{ width: scaleSzie(10), height: scaleSzie(16) }} />
-                        </Button>
                         <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                             <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                         </View>
@@ -87,12 +59,9 @@ class TableHeader extends React.Component {
                     }} >
                         <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
                             <Text style={styles.textTableHeader} >
-                                ID
+                            {staff.id}
                             </Text>
                         </View>
-                        <Button onPress={this.sortId} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
-                            <Image source={iconSortId} style={{ width: scaleSzie(10), height: scaleSzie(16) }} />
-                        </Button>
                         <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                             <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                         </View>
@@ -103,12 +72,9 @@ class TableHeader extends React.Component {
                     }} >
                         <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
                             <Text style={styles.textTableHeader} >
-                                Role
+                            {staff.role}
                             </Text>
                         </View>
-                        <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
-                            <Image source={iconSortRole} style={{ width: scaleSzie(10), height: scaleSzie(16) }} />
-                        </Button>
                         <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                             <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                         </View>
@@ -119,12 +85,9 @@ class TableHeader extends React.Component {
                     }} >
                         <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
                             <Text style={styles.textTableHeader} >
-                                Status
+                            {staff.status}
                             </Text>
                         </View>
-                        <Button onPress={this.sortStatus} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
-                            <Image source={iconSortStatus} style={{ width: scaleSzie(10), height: scaleSzie(16) }} />
-                        </Button>
                         <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                             <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                         </View>
@@ -148,15 +111,15 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
-        height: scaleSzie(35),
+        height: scaleSzie(60),
         backgroundColor: '#FAFAFA',
         borderWidth: 0.5,
         borderColor: '#C5C5C5',
         flexDirection: 'row'
     },
     textTableHeader: {
-        color: '#0764B0',
-        fontSize: scaleSzie(16)
+        color: '#6A6A6A',
+        fontSize: scaleSzie(14)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',
@@ -165,5 +128,5 @@ const styles = StyleSheet.create({
 
 })
 
-export default TableHeader;
+export default RowTable;
 
