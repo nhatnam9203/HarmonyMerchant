@@ -1,11 +1,11 @@
 import TableHeader from './TableHeader';
 import RowTable from './RowTable';
 import EmptyStaff from './EmptyStaff';
-import PopupArchive from './PopupArchive';
+import PopupConfirm from './PopupConfirm';
 
 module.exports = {
     TableHeader,
     RowTable,
     EmptyStaff,
-    PopupArchive
+    PopupConfirm
 }

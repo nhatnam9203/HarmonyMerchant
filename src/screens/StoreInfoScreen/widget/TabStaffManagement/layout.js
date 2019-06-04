@@ -11,7 +11,7 @@ import { InputAuth, ButtonCustom, Button, Text } from '../../../../components';
 import { scaleSzie } from '../../../../utils';
 import styles from './style';
 import StaffInfo from '../StaffInfo';
-import{EmptyStaff ,TableHeader,RowTable,PopupArchive} from './widget';
+import{EmptyStaff ,TableHeader,RowTable,PopupConfirm} from './widget';
 import IMAGE from '../../../../resources';
 
 
@@ -134,7 +134,7 @@ class TabStaffManagement extends React.Component {
                 {isAddStaff ? <StaffInfo
                     backTabelStaff={() => this.setState({ isAddStaff: false })}
                 /> : this.renderTable()}
-                <PopupArchive />
+                <PopupConfirm />
             </View>
 
         );

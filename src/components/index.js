@@ -6,6 +6,7 @@ import Loading from './Loading';
 import DefaultTabBar from './DefaultTabBar';
 import { Dropdown } from './react-native-material-dropdown';
 import ModalCustom from './ModalCustom';
+import PopupParent from './PopupParent';
 
 module.exports = {
     Button,
@@ -15,5 +16,6 @@ module.exports = {
     Loading,
     DefaultTabBar,
     Dropdown,
-    ModalCustom
+    ModalCustom,
+    PopupParent
 }

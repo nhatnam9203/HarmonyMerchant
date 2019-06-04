@@ -6,13 +6,11 @@ import {
     StyleSheet
 } from 'react-native';
 
-import {
-    InputAuth, ButtonCustom, Button, ModalCustom,
-} from '../../../../../components';
-import { scaleSzie } from '../../../../../utils';
-import IMAGE from '../../../../../resources';
+import ModalCustom from './ModalCustom';
+import { scaleSzie } from '../utils';
+import IMAGE from '../resources';
 
-class PopupArchive extends React.Component {
+class PopupParent extends React.Component {
 
     render() {
         return (
@@ -46,7 +44,7 @@ class PopupArchive extends React.Component {
                     </View>
                     {/* ----- Body --- */}
                     <View>
-
+                        {this.props.children}
                     </View>
                 </View>
 
@@ -70,5 +68,5 @@ const styles = StyleSheet.create({
     },
 })
 
-export default PopupArchive;
+export default PopupParent;
 
