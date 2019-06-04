@@ -223,7 +223,7 @@ class Layout extends React.Component {
                         backgroundColor="#F1F1F1"
                         title="BACK"
                         textColor="#6A6A6A"
-                        onPress={this.nextTab}
+                        onPress={() =>this.props.backTabelStaff()}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                     />
                 </View>
@@ -232,7 +232,7 @@ class Layout extends React.Component {
                         width={scaleSzie(250)}
                         height={40}
                         backgroundColor="#0764B0"
-                        title="NEXT"
+                        title="ADD"
                         textColor="#fff"
                         onPress={this.nextTab}
                     />

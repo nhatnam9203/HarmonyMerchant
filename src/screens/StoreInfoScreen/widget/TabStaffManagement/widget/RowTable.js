@@ -118,7 +118,7 @@ class RowTable extends React.Component {
                             backgroundColor="#FF3B30"
                             title="Archive"
                             textColor="#fff"
-                            onPress={this.nextTab}
+                            onPress={() => this.props.archiveStaff()}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(2) }}
                             styleText={{
                                 fontSize: scaleSzie(14)

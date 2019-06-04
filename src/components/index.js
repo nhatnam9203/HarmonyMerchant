@@ -5,6 +5,7 @@ import InputAuth from './InputAuth';
 import Loading from './Loading';
 import DefaultTabBar from './DefaultTabBar';
 import { Dropdown } from './react-native-material-dropdown';
+import ModalCustom from './ModalCustom';
 
 module.exports = {
     Button,
@@ -13,5 +14,6 @@ module.exports = {
     InputAuth,
     Loading,
     DefaultTabBar,
-    Dropdown
+    Dropdown,
+    ModalCustom
 }

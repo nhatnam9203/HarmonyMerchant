@@ -10,11 +10,10 @@ import { Table, Row, Rows } from 'react-native-table-component';
 import { InputAuth, ButtonCustom, Button, Text } from '../../../../components';
 import { scaleSzie } from '../../../../utils';
 import styles from './style';
-import EmptyStaff from './widget/EmptyStaff';
 import StaffInfo from '../StaffInfo';
-import TableHeader from './widget/TableHeader';
-import RowTable from './widget/RowTable';
+import{EmptyStaff ,TableHeader,RowTable,PopupArchive} from './widget';
 import IMAGE from '../../../../resources';
+
 
 
 const FakeData = [{
@@ -62,6 +61,7 @@ class TabStaffManagement extends React.Component {
                             key={index}
                             key={index} index={parseInt(index + 1)}
                             staff={item}
+                            archiveStaff={() => this.archiveStaff()}
                         />}
                         keyExtractor={(item, index) => item.id}
                     />
@@ -78,18 +78,19 @@ class TabStaffManagement extends React.Component {
                 height: scaleSzie(45),
                 paddingHorizontal: scaleSzie(15), paddingVertical: scaleSzie(4)
             }} >
-                <View style={{
+                <Button onPress={this.addNewStaff} style={{
                     flex: 1, backgroundColor: '#4CD964',
                     borderWidth: 1, borderColor: '#707070', borderRadius: scaleSzie(4),
                     justifyContent: 'center', alignItems: 'center', flexDirection: 'row'
                 }} >
                     <Image source={IMAGE.addStaff} style={{ width: scaleSzie(18), height: scaleSzie(18) }} />
-                    <Text style={{ color: '#fff', fontSize: scaleSzie(18), fontWeight: 'bold',
-                marginLeft:scaleSzie(8)
-                }} >
+                    <Text style={{
+                        color: '#fff', fontSize: scaleSzie(18), fontWeight: 'bold',
+                        marginLeft: scaleSzie(8)
+                    }} >
                         ADD NEW
                 </Text>
-                </View>
+                </Button>
             </View>
         );
     }
@@ -123,13 +124,17 @@ class TabStaffManagement extends React.Component {
     }
 
     render() {
+        const { isAddStaff } = this.state;
         return (
             <View style={styles.container} >
                 {/* <EmptyStaff 
                 addStaff={() =>alert('dd')}
                 /> */}
                 {/* <StaffInfo /> */}
-                {this.renderTable()}
+                {isAddStaff ? <StaffInfo
+                    backTabelStaff={() => this.setState({ isAddStaff: false })}
+                /> : this.renderTable()}
+                <PopupArchive />
             </View>
 
         );
