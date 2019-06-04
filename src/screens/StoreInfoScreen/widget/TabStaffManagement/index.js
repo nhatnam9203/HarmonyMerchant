@@ -10,9 +10,15 @@ class TabStaffManagement extends Layout {
         super(props);
         this.state = {
             isAddStaff: false,
-            visibleArchive: false
+            visibleArchive: false,
+            archirveStaff: {}
         }
+        this.inputRefsStaff = [];
     }
+
+    setRefStaff = (ref) => {
+        this.inputRefsStaff.push(ref);
+    };
 
     addNewStaff = () => {
         this.setState(prevState => ({
@@ -20,16 +26,31 @@ class TabStaffManagement extends Layout {
         }))
     }
 
-    togglePopupArchive(bool){
+    async   togglePopupArchive(bool, staff = {}) {
+        if (bool === true) {
+            await this.setState({
+                archirveStaff: staff
+            })
+        }
         this.setState(prevState => ({
             visibleArchive: bool
         }))
     }
 
-    editStaff(){
-      this.setState({
-          isAddStaff:true
-      })
+    editStaff() {
+        this.setState({
+            isAddStaff: true
+        })
+    }
+
+    archirveStaffYess() {
+        const { archirveStaff } = this.state;
+        console.log('archirveStaff : ',archirveStaff);
+        this.inputRefsStaff.forEach(ref => {
+            if(ref.props.staff.id === archirveStaff.id){
+                ref.handleArchirveStaff();
+            }
+        })
     }
 
 }

@@ -58,10 +58,11 @@ class TabStaffManagement extends React.Component {
                     <FlatList
                         data={FakeData}
                         renderItem={({ item, index }) => <RowTable
+                            ref={this.setRefStaff}
                             key={index}
                             key={index} index={parseInt(index + 1)}
                             staff={item}
-                            archiveStaff={() => this.togglePopupArchive(true)}
+                            archiveStaff={() => this.togglePopupArchive(true,item)}
                             editStaff={() => this.editStaff()}
                         />}
                         keyExtractor={(item, index) => item.id}
@@ -125,7 +126,7 @@ class TabStaffManagement extends React.Component {
     }
 
     render() {
-        const { isAddStaff,visibleArchive } = this.state;
+        const { isAddStaff, visibleArchive } = this.state;
         return (
             <View style={styles.container} >
                 {isAddStaff ? <StaffInfo
@@ -135,8 +136,8 @@ class TabStaffManagement extends React.Component {
                     visible={visibleArchive}
                     title="Confirmation"
                     message="Do you want to Archive this Staff ?"
-                    onRequestClose={() =>this.togglePopupArchive(false)}
-                    confimYes={() => alert('confimYes')}
+                    onRequestClose={() => this.togglePopupArchive(false)}
+                    confimYes={() => this.archirveStaffYess()}
                 />
             </View>
 
