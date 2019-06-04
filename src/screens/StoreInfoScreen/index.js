@@ -9,20 +9,8 @@ class StoreInfoScreen extends Layout {
         super(props);
         this.state = {
         }
-        this.idInputRef = React.createRef();
-        this.passwordInputRef = React.createRef();
 
     }
-
-    signIn = () => {
-        
-    }
-
-    forgotPassword = () => {
-
-    }
-
-
 
 }
 

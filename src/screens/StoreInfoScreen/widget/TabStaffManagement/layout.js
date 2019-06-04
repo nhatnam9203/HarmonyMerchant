@@ -40,7 +40,7 @@ const FakeData = [{
     status: 'Active'
 }]
 
-class TabStaffManagement extends React.Component {
+class Layout extends React.Component {
 
     renderTable() {
         return (
@@ -153,4 +153,4 @@ class TabStaffManagement extends React.Component {
     }
 }
 
-export default TabStaffManagement;
+export default Layout;

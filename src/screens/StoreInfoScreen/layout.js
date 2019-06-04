@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { InputAuth, ButtonCustom, Button, DefaultTabBar } from '../../components';
+import {  DefaultTabBar } from '../../components';
 import { scaleSzie } from '../../utils';
 import styles from './style';
 import Configs from '../../configs';
@@ -21,7 +21,7 @@ export default class Layout extends React.Component {
             <View style={styles.container} >
                 <ScrollableTabView
                     style={{}}
-                    initialPage={2}
+                    initialPage={3}
                     renderTabBar={() => <DefaultTabBar
                         activeTextColor="#fff"
                         inactiveTextColor="#6A6A6A"

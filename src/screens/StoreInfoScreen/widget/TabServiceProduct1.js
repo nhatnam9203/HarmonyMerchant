@@ -13,7 +13,7 @@ class TabServiceProduct extends React.Component {
 
     render() {
         return (
-            <View  style={styles.container} >
+            <View style={styles.container} >
             </View>
 
         );
