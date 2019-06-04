@@ -11,7 +11,8 @@ class TabStaffManagement extends Layout {
         this.state = {
             isAddStaff: false,
             visibleArchive: false,
-            archirveStaff: {}
+            visibleRestore:false,
+            infoStaffHandle: {}
         }
         this.inputRefsStaff = [];
     }
@@ -26,14 +27,25 @@ class TabStaffManagement extends Layout {
         }))
     }
 
-    async   togglePopupArchive(bool, staff = {}) {
+    async  togglePopupArchive(bool, staff = {}) {
         if (bool === true) {
             await this.setState({
-                archirveStaff: staff
+                infoStaffHandle: staff
             })
         }
         this.setState(prevState => ({
             visibleArchive: bool
+        }))
+    }
+
+    async  togglePopupRestore(bool, staff = {}) {
+        if (bool === true) {
+            await this.setState({
+                infoStaffHandle: staff
+            })
+        }
+        this.setState(prevState => ({
+            visibleRestore: bool
         }))
     }
 
@@ -44,12 +56,26 @@ class TabStaffManagement extends Layout {
     }
 
     archirveStaffYess() {
-        const { archirveStaff } = this.state;
-        console.log('archirveStaff : ',archirveStaff);
+        const { infoStaffHandle } = this.state;
         this.inputRefsStaff.forEach(ref => {
-            if(ref.props.staff.id === archirveStaff.id){
+            if (ref.props.staff.id === infoStaffHandle.id) {
                 ref.handleArchirveStaff();
             }
+        });
+        this.setState({
+            visibleArchive: false
+        })
+    }
+
+    restoreStaffYess(){
+        const { infoStaffHandle } = this.state;
+        this.inputRefsStaff.forEach(ref => {
+            if (ref.props.staff.id === infoStaffHandle.id) {
+                ref.handleRestoreStaff();
+            }
+        });
+        this.setState({
+            visibleRestore: false
         })
     }
 

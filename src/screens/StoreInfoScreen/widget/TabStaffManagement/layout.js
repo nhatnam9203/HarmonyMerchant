@@ -62,7 +62,8 @@ class TabStaffManagement extends React.Component {
                             key={index}
                             key={index} index={parseInt(index + 1)}
                             staff={item}
-                            archiveStaff={() => this.togglePopupArchive(true,item)}
+                            archiveStaff={() => this.togglePopupArchive(true, item)}
+                            restoreStaff={() => this.togglePopupRestore(true, item)}
                             editStaff={() => this.editStaff()}
                         />}
                         keyExtractor={(item, index) => item.id}
@@ -126,7 +127,7 @@ class TabStaffManagement extends React.Component {
     }
 
     render() {
-        const { isAddStaff, visibleArchive } = this.state;
+        const { isAddStaff, visibleArchive ,visibleRestore} = this.state;
         return (
             <View style={styles.container} >
                 {isAddStaff ? <StaffInfo
@@ -138,6 +139,13 @@ class TabStaffManagement extends React.Component {
                     message="Do you want to Archive this Staff ?"
                     onRequestClose={() => this.togglePopupArchive(false)}
                     confimYes={() => this.archirveStaffYess()}
+                />
+                 <PopupConfirm
+                    visible={visibleRestore}
+                    title="Confirmation"
+                    message="Do you want to Restore this Staff ?"
+                    onRequestClose={() => this.togglePopupRestore(false)}
+                    confimYes={() => this.restoreStaffYess()}
                 />
             </View>
 

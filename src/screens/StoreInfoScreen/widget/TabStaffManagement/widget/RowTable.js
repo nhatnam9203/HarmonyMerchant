@@ -25,9 +25,15 @@ class RowTable extends React.Component {
         })
     }
 
+    handleRestoreStaff = () => {
+        this.setState({
+            isArchive: true
+        })
+    }
+
     render() {
-        const { staff, index, archiveStaff, editStaff } = this.props;
-        const {isArchive }= this.state;
+        const { staff, index, archiveStaff, editStaff, restoreStaff } = this.props;
+        const { isArchive } = this.state;
         return (
             <View style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
@@ -138,7 +144,7 @@ class RowTable extends React.Component {
                                     backgroundColor="#F1F1F1"
                                     title="Restore"
                                     textColor="#6A6A6A"
-                                    onPress={() => archiveStaff()}
+                                    onPress={() => restoreStaff()}
                                     style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(2) }}
                                     styleText={{
                                         fontSize: scaleSzie(14)
