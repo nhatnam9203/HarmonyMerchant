@@ -8,6 +8,8 @@ export default {
     backgroundLogin: require('./img/background.png'),
     checkBoxEmpty: require('./img/check-box-empty.png'),
     checkBox: require('./img/check-box.png'),
+    sortDown:require('./img/down.png'),
+    sortUp:require('./img/up.png'),
 
 
 }

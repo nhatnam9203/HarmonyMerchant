@@ -5,14 +5,24 @@ import {
     Text,
     StyleSheet
 } from 'react-native';
+import { Table, Row, Rows } from 'react-native-table-component';
 
 import { InputAuth, ButtonCustom, Button, DefaultTabBar } from '../../../../components';
 import { scaleSzie } from '../../../../utils';
 import styles from './style';
 import EmptyStaff from './widget/EmptyStaff';
 import StaffInfo from '../StaffInfo';
+import TableHeader from './widget/TableHeader'
 
 class TabStaffManagement extends React.Component {
+
+    renderTable() {
+        return (
+            <View style={styles.container}>
+                <TableHeader />
+            </View>
+        )
+    }
 
     render() {
         return (
@@ -20,7 +30,8 @@ class TabStaffManagement extends React.Component {
                 {/* <EmptyStaff 
                 addStaff={() =>alert('dd')}
                 /> */}
-                <StaffInfo />
+                {/* <StaffInfo /> */}
+                {this.renderTable()}
             </View>
 
         );

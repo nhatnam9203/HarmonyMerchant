@@ -12,11 +12,6 @@ const { width, height } = Dimensions.get('window');
 export default StyleSheet.create({
     container: {
         flex: 1,
+        paddingTop:10
     },
-    logo: {
-        width: scaleSzie(210),
-        height: scaleSzie(50)
-    },
-    desc:
-        { color: '#fff', fontSize: scaleSzie(20) }
 })
