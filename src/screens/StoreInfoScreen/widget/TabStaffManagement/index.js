@@ -10,13 +10,7 @@ class TabStaffManagement extends Layout {
         super(props);
         this.state = {
             isAddStaff: false,
-            tableHead: ['No.', 'Staff Name', 'ID', 'Role', 'Status', 'Actions'],
-            tableData: [
-                ['1', '2', '3', '4', '3', '4'],
-                ['a', 'b', 'c', 'd', '3', '4'],
-                ['1', '2', '3', '456\n789', '3', '4'],
-                ['a', 'b', 'c', 'd', '3', '4']
-            ]
+            visibleArchive: false
         }
     }
 
@@ -26,8 +20,16 @@ class TabStaffManagement extends Layout {
         }))
     }
 
-    archiveStaff(){
-        // alert('d')
+    togglePopupArchive(bool){
+        this.setState(prevState => ({
+            visibleArchive: bool
+        }))
+    }
+
+    editStaff(){
+      this.setState({
+          isAddStaff:true
+      })
     }
 
 }

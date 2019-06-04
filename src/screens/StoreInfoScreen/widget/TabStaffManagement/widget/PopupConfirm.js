@@ -16,47 +16,52 @@ import IMAGE from '../../../../../resources';
 class PopupConfirm extends React.Component {
 
     render() {
+        const { title, visible, message,onRequestClose,confimYes } = this.props;
         return (
-            <PopupParent>
+            <PopupParent
+                title={title}
+                visible={visible}
+                onRequestClose={() => onRequestClose()}
+            >
                 <View style={{
                     height: scaleSzie(130), backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15)
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
-                            Do you want to Archive this Staff ?
+                            {message}
                         </Text>
                     </View>
                     <View style={{
                         height: scaleSzie(55), flexDirection: 'row',
                     }} >
-                        <View style={{ flex: 1,  alignItems: 'center' }} >
+                        <View style={{ flex: 1, alignItems: 'center' }} >
                             <ButtonCustom
                                 width={'60%'}
                                 height={35}
                                 backgroundColor="#fff"
                                 title="No"
                                 textColor="#6A6A6A"
-                                onPress={this.nextTab}
+                                onPress={() => onRequestClose()}
                                 style={{
-                                    borderWidth:1,
-                                    borderColor:'#C5C5C5'
+                                    borderWidth: 1,
+                                    borderColor: '#C5C5C5'
                                 }}
                                 styleText={{
-                                    fontSize:scaleSzie(14)
+                                    fontSize: scaleSzie(14)
                                 }}
                             />
                         </View>
-                        <View style={{ flex: 1,  alignItems: 'center' }} >
+                        <View style={{ flex: 1, alignItems: 'center' }} >
                             <ButtonCustom
                                 width={'60%'}
                                 height={35}
                                 backgroundColor="#0764B0"
                                 title="Yes"
                                 textColor="#fff"
-                                onPress={this.nextTab}
+                                onPress={() => confimYes()}
                                 styleText={{
-                                    fontSize:scaleSzie(14)
+                                    fontSize: scaleSzie(14)
                                 }}
                             />
                         </View>

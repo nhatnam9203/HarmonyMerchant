@@ -11,7 +11,7 @@ import { InputAuth, ButtonCustom, Button, Text } from '../../../../components';
 import { scaleSzie } from '../../../../utils';
 import styles from './style';
 import StaffInfo from '../StaffInfo';
-import{EmptyStaff ,TableHeader,RowTable,PopupConfirm} from './widget';
+import { EmptyStaff, TableHeader, RowTable, PopupConfirm } from './widget';
 import IMAGE from '../../../../resources';
 
 
@@ -61,7 +61,8 @@ class TabStaffManagement extends React.Component {
                             key={index}
                             key={index} index={parseInt(index + 1)}
                             staff={item}
-                            archiveStaff={() => this.archiveStaff()}
+                            archiveStaff={() => this.togglePopupArchive(true)}
+                            editStaff={() => this.editStaff()}
                         />}
                         keyExtractor={(item, index) => item.id}
                     />
@@ -124,17 +125,19 @@ class TabStaffManagement extends React.Component {
     }
 
     render() {
-        const { isAddStaff } = this.state;
+        const { isAddStaff,visibleArchive } = this.state;
         return (
             <View style={styles.container} >
-                {/* <EmptyStaff 
-                addStaff={() =>alert('dd')}
-                /> */}
-                {/* <StaffInfo /> */}
                 {isAddStaff ? <StaffInfo
                     backTabelStaff={() => this.setState({ isAddStaff: false })}
                 /> : this.renderTable()}
-                <PopupConfirm />
+                <PopupConfirm
+                    visible={visibleArchive}
+                    title="Confirmation"
+                    message="Do you want to Archive this Staff ?"
+                    onRequestClose={() =>this.togglePopupArchive(false)}
+                    confimYes={() => alert('confimYes')}
+                />
             </View>
 
         );
