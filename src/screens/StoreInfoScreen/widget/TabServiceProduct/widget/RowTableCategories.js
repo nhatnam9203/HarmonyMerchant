@@ -6,7 +6,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { InputAuth, ButtonCustom, Button, DefaultTabBar } from '../../../../../components';
+import {  ButtonCustom,} from '../../../../../components';
 import { scaleSzie } from '../../../../../utils';
 import IMAGE from '../../../../../resources';
 

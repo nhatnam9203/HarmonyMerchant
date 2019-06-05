@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { InputAuth, ButtonCustom, Button, Text,CustomTabBar } from '../../../../components';
+import {CustomTabBar } from '../../../../components';
 import { scaleSzie } from '../../../../utils';
 import styles from './style';
 import { TabCategories,TabServices,TabExtra,TabProducts} from './widget';

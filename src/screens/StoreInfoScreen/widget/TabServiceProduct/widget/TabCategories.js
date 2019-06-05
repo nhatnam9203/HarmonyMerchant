@@ -5,7 +5,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { FooterTab } from '../../../../../components';
+import { FooterTab, PopupConfirm } from '../../../../../components';
 import { scaleSzie } from '../../../../../utils';
 import HeaderTableCategories from './HeaderTableCategories';
 import RowTableCategories from './RowTableCategories';
@@ -66,6 +66,43 @@ class TabCategories extends React.Component {
         }))
     }
 
+    async  togglePopupRestore(bool, service = {}) {
+        if (bool === true) {
+            await this.setState({
+                serviceInfoHandle: service
+            })
+        }
+        this.setState(prevState => ({
+            visibleRestore: bool
+        }))
+    }
+
+    archirveServiceYess() {
+        const { serviceInfoHandle } = this.state;
+        for (let i = 0; i < this.inputRefsService.length; i++) {
+            if (this.inputRefsService[i].props.staff.id === serviceInfoHandle.id) {
+                this.inputRefsService[i].handleArchirveStaff();
+                break;
+            }
+        }
+        this.setState({
+            visibleArchive: false
+        })
+    }
+
+    restoreStaffYess() {
+        const { serviceInfoHandle } = this.state;
+        for (let i = 0; i < this.inputRefsService.length; i++) {
+            if (this.inputRefsService[i].props.staff.id === serviceInfoHandle.id) {
+                this.inputRefsService[i].handleRestoreStaff();
+                break;
+            }
+        }
+        this.setState({
+            visibleRestore: false
+        })
+    }
+    
     renderTable() {
         return (
             <View style={{ flex: 1 }} >
@@ -90,10 +127,25 @@ class TabCategories extends React.Component {
     }
 
     render() {
+        const { visibleArchive, visibleRestore } = this.state;
         return (
             <View style={styles.container} >
                 {this.renderTable()}
                 <FooterTab />
+                <PopupConfirm
+                    visible={visibleArchive}
+                    title="Confirmation"
+                    message="Do you want to Archive this Category ?"
+                    onRequestClose={() => this.togglePopupArchive(false)}
+                    confimYes={() => this.archirveServiceYess()}
+                />
+                <PopupConfirm
+                    visible={visibleRestore}
+                    title="Confirmation"
+                    message="Do you want to Restore this Category ?"
+                    onRequestClose={() => this.togglePopupRestore(false)}
+                    confimYes={() => this.restoreStaffYess()}
+                />
             </View>
 
         );
