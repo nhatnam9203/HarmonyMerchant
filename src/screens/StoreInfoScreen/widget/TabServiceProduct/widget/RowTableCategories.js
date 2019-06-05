@@ -32,7 +32,7 @@ class RowTable extends React.Component {
     }
 
     render() {
-        const { staff, index, archiveService, editStaff, restoreStaff } = this.props;
+        const { staff, index, archiveService, editService, restoreService } = this.props;
         const { isArchive } = this.state;
         return (
             <View style={styles.tableHeader} >
@@ -82,7 +82,7 @@ class RowTable extends React.Component {
                             backgroundColor="#0764B0"
                             title="Edit"
                             textColor="#fff"
-                            onPress={() => editStaff()}
+                            onPress={() => editService()}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(2) }}
                             styleText={{
                                 fontSize: scaleSzie(14)
@@ -109,7 +109,7 @@ class RowTable extends React.Component {
                                     backgroundColor="#F1F1F1"
                                     title="Restore"
                                     textColor="#6A6A6A"
-                                    onPress={() => restoreStaff()}
+                                    onPress={() => restoreService()}
                                     style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(2) }}
                                     styleText={{
                                         fontSize: scaleSzie(14)

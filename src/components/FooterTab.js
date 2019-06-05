@@ -18,7 +18,7 @@ export default class FooterTab extends React.PureComponent {
                 height: scaleSzie(45),
                 paddingHorizontal: scaleSzie(15), paddingVertical: scaleSzie(4)
             }} >
-                <Button onPress={this.addNewStaff} style={{
+                <Button onPress={() => this.props.addNew()} style={{
                     flex: 1, backgroundColor: '#4CD964',
                     borderWidth: 1, borderColor: '#707070', borderRadius: scaleSzie(4),
                     justifyContent: 'center', alignItems: 'center', flexDirection: 'row'

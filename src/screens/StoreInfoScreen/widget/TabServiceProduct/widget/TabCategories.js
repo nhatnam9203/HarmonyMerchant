@@ -10,6 +10,7 @@ import { scaleSzie } from '../../../../../utils';
 import HeaderTableCategories from './HeaderTableCategories';
 import RowTableCategories from './RowTableCategories';
 import IMAGE from '../../../../../resources';
+import PopupEditAddService from './PopupEditAddService';
 
 const FakeData = [{
     id: 'HP000002',
@@ -43,6 +44,8 @@ class TabCategories extends React.Component {
         this.state = {
             visibleArchive: false,
             visibleRestore: false,
+            visibleAdd:false,
+            visibleEdit:false,
             serviceInfoHandle: {}
         }
 
@@ -102,7 +105,16 @@ class TabCategories extends React.Component {
             visibleRestore: false
         })
     }
-    
+
+   async editService(service){
+      await  this.setState({
+            serviceInfoHandle:service
+        });
+        this.setState({
+            visibleEdit:true
+        })
+    }
+
     renderTable() {
         return (
             <View style={{ flex: 1 }} >
@@ -116,8 +128,8 @@ class TabCategories extends React.Component {
                             key={index} index={parseInt(index + 1)}
                             staff={item}
                             archiveService={() => this.togglePopupArchive(true, item)}
-                            restoreStaff={() => this.togglePopupRestore(true, item)}
-                            editStaff={() => this.editStaff()}
+                            restoreService={() => this.togglePopupRestore(true, item)}
+                            editService={() => this.editService(item)}
                         />}
                         keyExtractor={(item, index) => item.id}
                     />
@@ -127,11 +139,13 @@ class TabCategories extends React.Component {
     }
 
     render() {
-        const { visibleArchive, visibleRestore } = this.state;
+        const { visibleArchive, visibleRestore ,visibleAdd,visibleEdit} = this.state;
         return (
             <View style={styles.container} >
                 {this.renderTable()}
-                <FooterTab />
+                <FooterTab 
+                addNew={() => this.setState({visibleAdd:true})}
+                />
                 <PopupConfirm
                     visible={visibleArchive}
                     title="Confirmation"
@@ -145,6 +159,20 @@ class TabCategories extends React.Component {
                     message="Do you want to Restore this Category ?"
                     onRequestClose={() => this.togglePopupRestore(false)}
                     confimYes={() => this.restoreStaffYess()}
+                />
+                <PopupEditAddService
+                    visible={visibleAdd}
+                    title="Add Category"
+                    titleButton="Add"
+                    onRequestClose={() => this.setState({visibleAdd:false})}
+                    confimYes={() => this.setState({visibleAdd:false})}
+                />
+                <PopupEditAddService
+                    visible={visibleEdit}
+                    title="Edit Category"
+                    titleButton="Save"
+                    onRequestClose={() => this.setState({visibleEdit:false})}
+                    confimYes={() => this.setState({visibleEdit:false})}
                 />
             </View>
 

@@ -32,7 +32,7 @@ class PopupParent extends React.Component {
                     }} >
                         <View style={{ width: scaleSzie(70) }} />
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
-                            <Text style={{ color: '#fff', fontSize: scaleSzie(24), fontWeight: 'bold' }} >
+                            <Text style={{ color: '#fff', fontSize: scaleSzie(22), fontWeight: 'bold' }} >
                                 {title}
                             </Text>
                         </View>
@@ -41,10 +41,10 @@ class PopupParent extends React.Component {
                             paddingRight: scaleSzie(12)
                         }} >
                             <Button onPress={this.onPress} style={{
-                                width: scaleSzie(40), height: scaleSzie(40), backgroundColor: '#fff',
-                                borderRadius: scaleSzie(20), justifyContent: 'center', alignItems: 'center'
+                                width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#fff',
+                                borderRadius: scaleSzie(17), justifyContent: 'center', alignItems: 'center'
                             }} >
-                                <Image source={IMAGE.closePopup} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
+                                <Image source={IMAGE.closePopup} style={{ width: scaleSzie(16), height: scaleSzie(16) }} />
                             </Button>
                         </View>
                     </View>

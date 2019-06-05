@@ -30,7 +30,7 @@ class PopupConfirm extends React.Component {
                         </Text>
                     </View>
                     <View style={{
-                        height: scaleSzie(55), flexDirection: 'row',
+                        height: scaleSzie(45), flexDirection: 'row',
                     }} >
                         <View style={{ flex: 1, alignItems: 'center' }} >
                             <ButtonCustom
