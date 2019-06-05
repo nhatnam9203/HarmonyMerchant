@@ -8,7 +8,7 @@ import {
 import { FooterTab, PopupConfirm } from '../../../../../components';
 import { scaleSzie } from '../../../../../utils';
 import HeaderTableExtra from './HeaderTableExtra';
-import RowTableServices from './RowTableServices';
+import RowTableExtra from './RowTableExtra';
 import IMAGE from '../../../../../resources';
 import PopupEditAddService from './PopupEditAddService';
 
@@ -122,7 +122,7 @@ class TabExtra extends React.Component {
                 <View style={{ flex: 1 }} >
                     <FlatList
                         data={FakeData}
-                        renderItem={({ item, index }) => <RowTableServices
+                        renderItem={({ item, index }) => <RowTableExtra
                             ref={this.setRefService}
                             key={index}
                             key={index} index={parseInt(index + 1)}
