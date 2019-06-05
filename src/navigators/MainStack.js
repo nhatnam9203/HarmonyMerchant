@@ -4,16 +4,18 @@ import getSlideFromRightTransition from 'react-navigation-slide-from-right-trans
 
 import {
     HomeScreen,
-    StoreInfoScreen
+    StoreInfoScreen,
+    CongratulationScreen
 } from '../screens';
 
 const MainStack = createStackNavigator(
     {
         Home: HomeScreen,
-        StoreInfo:StoreInfoScreen
+        StoreInfo:StoreInfoScreen,
+        Congratulation:CongratulationScreen
     },
     {
-        initialRouteName: 'StoreInfo',
+        initialRouteName: 'Congratulation',
         headerMode: 'none',
     }
 );

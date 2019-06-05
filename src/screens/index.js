@@ -4,6 +4,7 @@ import IntroScreen from './IntroScreen';
 import SignInScreen from './SignInScreen';
 import ForgotPasswordScreen from './ForgotPasswordScreen';
 import StoreInfoScreen from './StoreInfoScreen';
+import CongratulationScreen from './CongratulationScreen';
 
 module.exports = {
     SplashScreen,
@@ -11,5 +12,6 @@ module.exports = {
     IntroScreen,
     SignInScreen,
     ForgotPasswordScreen,
-    StoreInfoScreen
+    StoreInfoScreen,
+    CongratulationScreen
 }

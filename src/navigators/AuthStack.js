@@ -13,7 +13,7 @@ const AuthStack = createStackNavigator(
         ForgotPassword:ForgotPasswordScreen
     },
     {
-        initialRouteName: 'SignIn',
+        initialRouteName: 'ForgotPassword',
         headerMode: 'none',
     }
 );
