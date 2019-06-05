@@ -8,7 +8,7 @@ import { Dropdown } from './react-native-material-dropdown';
 import ModalCustom from './ModalCustom';
 import PopupParent from './PopupParent';
 import CustomTabBar from './CustomTabBar';
-
+import FooterTab from './FooterTab';
 
 module.exports = {
     Button,
@@ -20,5 +20,6 @@ module.exports = {
     Dropdown,
     ModalCustom,
     PopupParent,
-    CustomTabBar
+    CustomTabBar,
+    FooterTab
 }

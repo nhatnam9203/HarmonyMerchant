@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { Table, Row, Rows } from 'react-native-table-component';
 
-import { InputAuth, ButtonCustom, Button, Text } from '../../../../components';
+import { FooterTab, ButtonCustom, Button, Text } from '../../../../components';
 import { scaleSzie } from '../../../../utils';
 import styles from './style';
 import StaffInfo from '../StaffInfo';
@@ -69,61 +69,9 @@ class Layout extends React.Component {
                         keyExtractor={(item, index) => item.id}
                     />
                 </View>
-                {this.renderButtonAdd()}
-                {this.renderFooter()}
+               <FooterTab />
             </View>
         )
-    }
-
-    renderButtonAdd() {
-        return (
-            <View style={{
-                height: scaleSzie(45),
-                paddingHorizontal: scaleSzie(15), paddingVertical: scaleSzie(4)
-            }} >
-                <Button onPress={this.addNewStaff} style={{
-                    flex: 1, backgroundColor: '#4CD964',
-                    borderWidth: 1, borderColor: '#707070', borderRadius: scaleSzie(4),
-                    justifyContent: 'center', alignItems: 'center', flexDirection: 'row'
-                }} >
-                    <Image source={IMAGE.addStaff} style={{ width: scaleSzie(18), height: scaleSzie(18) }} />
-                    <Text style={{
-                        color: '#fff', fontSize: scaleSzie(18), fontWeight: 'bold',
-                        marginLeft: scaleSzie(8)
-                    }} >
-                        ADD NEW
-                </Text>
-                </Button>
-            </View>
-        );
-    }
-
-    renderFooter() {
-        return (
-            <View style={styles.footer} >
-                <View style={styles.buttonContainer} >
-                    <ButtonCustom
-                        width={scaleSzie(250)}
-                        height={40}
-                        backgroundColor="#F1F1F1"
-                        title="BACK"
-                        textColor="#6A6A6A"
-                        onPress={this.nextTab}
-                        style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                    />
-                </View>
-                <View style={styles.buttonContainer} >
-                    <ButtonCustom
-                        width={scaleSzie(250)}
-                        height={40}
-                        backgroundColor="#0764B0"
-                        title="NEXT"
-                        textColor="#fff"
-                        onPress={this.nextTab}
-                    />
-                </View>
-            </View>
-        );
     }
 
     render() {

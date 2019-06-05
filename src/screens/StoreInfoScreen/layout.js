@@ -27,7 +27,7 @@ export default class Layout extends React.Component {
                         inactiveTextColor="#6A6A6A"
                         backgroundTabActive="#0764B0"
                         textStyle={{
-                            fontSize: scaleSzie(10)
+                            fontSize: scaleSzie(14)
                         }}
                     />}
                 >
