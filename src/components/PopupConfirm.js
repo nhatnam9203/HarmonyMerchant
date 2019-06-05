@@ -6,12 +6,9 @@ import {
     StyleSheet
 } from 'react-native';
 
-import {
-    InputAuth, ButtonCustom, Button, ModalCustom,
-    PopupParent
-} from '../../../../../components';
-import { scaleSzie } from '../../../../../utils';
-import IMAGE from '../../../../../resources';
+import ButtonCustom from './ButtonCustom';
+import PopupParent from './PopupParent';
+import { scaleSzie } from '../utils';
 
 class PopupConfirm extends React.Component {
 

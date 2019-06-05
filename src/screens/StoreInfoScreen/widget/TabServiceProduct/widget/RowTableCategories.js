@@ -32,7 +32,7 @@ class RowTable extends React.Component {
     }
 
     render() {
-        const { staff, index, archiveStaff, editStaff, restoreStaff } = this.props;
+        const { staff, index, archiveService, editStaff, restoreStaff } = this.props;
         const { isArchive } = this.state;
         return (
             <View style={styles.tableHeader} >
@@ -43,12 +43,11 @@ class RowTable extends React.Component {
                     <View style={[{
                         flex: 1,
                         flexDirection: 'row',
-                        // justifyContent: '',
                         alignItems: 'center',
-                        paddingLeft:scaleSzie(12)
+                        paddingLeft: scaleSzie(12)
                     }]} >
                         <Image source={IMAGE.indicate}
-                            style={{ width: scaleSzie(12), height: scaleSzie(29),marginRight:scaleSzie(12) }}
+                            style={{ width: scaleSzie(12), height: scaleSzie(29), marginRight: scaleSzie(12) }}
                         />
                         <Text style={styles.textTableHeader} >
                             {staff.name}
@@ -98,7 +97,7 @@ class RowTable extends React.Component {
                                 backgroundColor="#FF3B30"
                                 title="Archive"
                                 textColor="#fff"
-                                onPress={() => archiveStaff()}
+                                onPress={() => archiveService()}
                                 style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(2) }}
                                 styleText={{
                                     fontSize: scaleSzie(14)

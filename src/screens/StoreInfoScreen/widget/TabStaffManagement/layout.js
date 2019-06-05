@@ -7,11 +7,11 @@ import {
 } from 'react-native';
 import { Table, Row, Rows } from 'react-native-table-component';
 
-import { FooterTab, ButtonCustom, Button, Text } from '../../../../components';
+import { FooterTab, PopupConfirm, Text } from '../../../../components';
 import { scaleSzie } from '../../../../utils';
 import styles from './style';
 import StaffInfo from '../StaffInfo';
-import { EmptyStaff, TableHeader, RowTable, PopupConfirm } from './widget';
+import { EmptyStaff, TableHeader, RowTable } from './widget';
 import IMAGE from '../../../../resources';
 
 

@@ -40,8 +40,31 @@ class TabCategories extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            visibleArchive: false,
+            visibleRestore: false,
+            serviceInfoHandle: {}
+        }
+
+        this.inputRefsService = [];
     }
 
+    setRefService = (ref) => {
+        if (ref != null) {
+            this.inputRefsService.push(ref);
+        }
+    };
+
+    async  togglePopupArchive(bool, service = {}) {
+        if (bool === true) {
+            await this.setState({
+                serviceInfoHandle: service
+            })
+        }
+        this.setState(prevState => ({
+            visibleArchive: bool
+        }))
+    }
 
     renderTable() {
         return (
@@ -51,11 +74,11 @@ class TabCategories extends React.Component {
                     <FlatList
                         data={FakeData}
                         renderItem={({ item, index }) => <RowTableCategories
-                            // ref={this.setRefStaff}
+                            ref={this.setRefService}
                             key={index}
                             key={index} index={parseInt(index + 1)}
                             staff={item}
-                            archiveStaff={() => this.togglePopupArchive(true, item)}
+                            archiveService={() => this.togglePopupArchive(true, item)}
                             restoreStaff={() => this.togglePopupRestore(true, item)}
                             editStaff={() => this.editStaff()}
                         />}

@@ -9,6 +9,7 @@ import ModalCustom from './ModalCustom';
 import PopupParent from './PopupParent';
 import CustomTabBar from './CustomTabBar';
 import FooterTab from './FooterTab';
+import PopupConfirm from './PopupConfirm';
 
 module.exports = {
     Button,
@@ -21,5 +22,6 @@ module.exports = {
     ModalCustom,
     PopupParent,
     CustomTabBar,
-    FooterTab
+    FooterTab,
+    PopupConfirm
 }
