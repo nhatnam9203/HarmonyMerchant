@@ -6,7 +6,8 @@ import {
     HomeScreen,
     StoreInfoScreen,
     CongratulationScreen,
-    ApplicationSubmitScreen
+    ApplicationSubmitScreen,
+    UserGuideScreen
 } from '../screens';
 
 const MainStack = createStackNavigator(
@@ -14,10 +15,11 @@ const MainStack = createStackNavigator(
         Home: HomeScreen,
         StoreInfo:StoreInfoScreen,
         Congratulation:CongratulationScreen,
-        ApplicationSubmit:ApplicationSubmitScreen
+        ApplicationSubmit:ApplicationSubmitScreen,
+        UserGuide:UserGuideScreen
     },
     {
-        initialRouteName: 'ApplicationSubmit',
+        initialRouteName: 'UserGuide',
         headerMode: 'none',
     }
 );
