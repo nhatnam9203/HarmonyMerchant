@@ -149,14 +149,14 @@ class TabServices extends React.Component {
                 <PopupConfirm
                     visible={visibleArchive}
                     title="Confirmation"
-                    message="Do you want to Archive this Category ?"
+                    message="Do you want to Archive this Service ?"
                     onRequestClose={() => this.togglePopupArchive(false)}
                     confimYes={() => this.archirveServiceYess()}
                 />
                 <PopupConfirm
                     visible={visibleRestore}
                     title="Confirmation"
-                    message="Do you want to Restore this Category ?"
+                    message="Do you want to Restore this Service ?"
                     onRequestClose={() => this.togglePopupRestore(false)}
                     confimYes={() => this.restoreStaffYess()}
                 />

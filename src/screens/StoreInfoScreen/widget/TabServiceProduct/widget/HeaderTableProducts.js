@@ -63,7 +63,7 @@ class HeaderTableProducts extends React.Component {
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(20) }} >
                         <Text style={styles.textTableHeader} >
-                        Extra Name
+                            Product Name
                             </Text>
                     </View>
                     <Button onPress={this.sortStaffName} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
@@ -79,7 +79,7 @@ class HeaderTableProducts extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        Price ($)
+                            Categories
                             </Text>
                     </View>
                     <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
@@ -95,7 +95,7 @@ class HeaderTableProducts extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        Status
+                            Prices ($)
                             </Text>
                     </View>
                     <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
