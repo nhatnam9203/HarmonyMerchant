@@ -37,37 +37,32 @@ class RowTable extends React.Component {
         return (
             <View style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
-                {/* <View style={[{
-                    width: scaleSzie(60),
-                    flexDirection: 'row',
-                    justifyContent: 'space-around',
-                    alignItems: 'center'
-                }]} >
-                    <Image source={IMAGE.indicate}
-                        style={{ width: scaleSzie(12), height: scaleSzie(29) }}
-                    />
-                    <Text style={styles.textTableHeader} >
-                        {`${index}.`}
-                    </Text>
-                </View> */}
-                {/* ----- 2 ------ */}
                 <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
+                    width: scaleSzie(250), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
+                    <View style={[{
+                        flex: 1,
+                        flexDirection: 'row',
+                        // justifyContent: '',
+                        alignItems: 'center',
+                        paddingLeft:scaleSzie(12)
+                    }]} >
+                        <Image source={IMAGE.indicate}
+                            style={{ width: scaleSzie(12), height: scaleSzie(29),marginRight:scaleSzie(12) }}
+                        />
                         <Text style={styles.textTableHeader} >
-                            {staff.role}
+                            {staff.name}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
-                {/* ----- 5 ----- */}
+                {/* ----- 2 ----- */}
                 <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
+                    width: scaleSzie(350), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                             {staff.status}
                         </Text>
@@ -76,7 +71,7 @@ class RowTable extends React.Component {
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
-                {/* ----- 6 ------ */}
+                {/* ----- 3 ------ */}
                 <View style={{
                     flex: 1,
                     flexDirection: 'row'

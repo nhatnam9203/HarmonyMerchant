@@ -7,7 +7,7 @@ import {
 
 import { FooterTab } from '../../../../../components';
 import { scaleSzie } from '../../../../../utils';
-import TableHeaderCategories from './TableHeaderCategories';
+import HeaderTableCategories from './HeaderTableCategories';
 import RowTableCategories from './RowTableCategories';
 import IMAGE from '../../../../../resources';
 
@@ -46,7 +46,7 @@ class TabCategories extends React.Component {
     renderTable() {
         return (
             <View style={{ flex: 1 }} >
-                <TableHeaderCategories />
+                <HeaderTableCategories />
                 <View style={{ flex: 1 }} >
                     <FlatList
                         data={FakeData}

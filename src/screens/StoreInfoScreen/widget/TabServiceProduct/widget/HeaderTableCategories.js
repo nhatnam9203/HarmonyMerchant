@@ -10,7 +10,7 @@ import { InputAuth, ButtonCustom, Button, DefaultTabBar } from '../../../../../c
 import { scaleSzie } from '../../../../../utils';
 import IMAGE from '../../../../../resources';
 
-class TableHeaderCategories extends React.Component {
+class HeaderTableCategories extends React.Component {
 
     constructor(props) {
         super(props);
@@ -75,9 +75,9 @@ class TableHeaderCategories extends React.Component {
                 </View>
                 {/* ----- 2 ------ */}
                 <View style={{
-                    width: scaleSzie(300), flexDirection: 'row',
+                    width: scaleSzie(350), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                             Type
                             </Text>
@@ -129,5 +129,5 @@ const styles = StyleSheet.create({
 
 })
 
-export default TableHeaderCategories;
+export default HeaderTableCategories;
 
