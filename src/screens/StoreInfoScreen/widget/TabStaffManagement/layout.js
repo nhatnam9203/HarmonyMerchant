@@ -5,7 +5,6 @@ import {
     ScrollView,
     FlatList
 } from 'react-native';
-import { Table, Row, Rows } from 'react-native-table-component';
 
 import { FooterTab, PopupConfirm, Text } from '../../../../components';
 import { scaleSzie } from '../../../../utils';

@@ -10,7 +10,7 @@ import { InputAuth, ButtonCustom, Button, DefaultTabBar } from '../../../../../c
 import { scaleSzie } from '../../../../../utils';
 import IMAGE from '../../../../../resources';
 
-class HeaderTableServices extends React.Component {
+class HeaderTableExtra extends React.Component {
 
     constructor(props) {
         super(props);
@@ -63,7 +63,7 @@ class HeaderTableServices extends React.Component {
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(20) }} >
                         <Text style={styles.textTableHeader} >
-                            Service Name
+                        Extra Name
                             </Text>
                     </View>
                     <Button onPress={this.sortStaffName} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
@@ -79,7 +79,7 @@ class HeaderTableServices extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            Categories
+                        Price ($)
                             </Text>
                     </View>
                     <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
@@ -95,7 +95,7 @@ class HeaderTableServices extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            Extra
+                        Status
                             </Text>
                     </View>
                     <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
@@ -145,5 +145,5 @@ const styles = StyleSheet.create({
 
 })
 
-export default HeaderTableServices;
+export default HeaderTableExtra;
 
