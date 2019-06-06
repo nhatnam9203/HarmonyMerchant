@@ -14,6 +14,6 @@ export default {
     addStaff: require('./img/addStaff.png'),
     closePopup: require('./img/closePopup.png'),
     logoTop: require('./img/fill-form-top.png'),
-
+    camera:require('./img/camera.png'),
     
 }

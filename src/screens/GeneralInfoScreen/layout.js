@@ -26,8 +26,10 @@ export default class Layout extends React.Component {
     render() {
         return (
             <FormInfoParent
+                title="General Information"
                 back={() => alert('back')}
                 next={() => alert('next')}
+
             >
                 <View style={{ flex: 1, paddingHorizontal: scaleSzie(25) }} >
                     <View style={{ flex: 1 }} >
@@ -75,7 +77,7 @@ export default class Layout extends React.Component {
                             />
                             <View style={{
                                 height: scaleSzie(30), marginBottom: scaleSzie(24), justifyContent: 'space-between',
-                                flexDirection: 'row',alignItems:'flex-end'
+                                flexDirection: 'row', alignItems: 'flex-end'
                             }} >
                                 <View style={{ width: scaleSzie(180) }} >
                                     <InputForm
@@ -87,7 +89,7 @@ export default class Layout extends React.Component {
                                         }}
                                     />
                                 </View>
-                                <View style={{ width: scaleSzie(180),backgroundColor:'red' }} >
+                                <View style={{ width: scaleSzie(180), backgroundColor: 'red' }} >
                                     <Dropdown
                                         label={'State'}
                                         data={data}

@@ -45,6 +45,7 @@ export default class FormInfoParent extends React.PureComponent {
     }
 
     render() {
+        const {title} = this.props;
         return (
             <View style={{ flex: 1 }} >
                 <HeaderLogoTop />
@@ -60,7 +61,7 @@ export default class FormInfoParent extends React.PureComponent {
                         paddingLeft: scaleSzie(5), marginTop: scaleSzie(5)
                     }} >
                         <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: scaleSzie(18) }} >
-                            General Information
+                            {title}
                     </Text>
                     </View>
                 </View>
