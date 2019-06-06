@@ -10,6 +10,7 @@ import PopupParent from './PopupParent';
 import CustomTabBar from './CustomTabBar';
 import FooterTab from './FooterTab';
 import PopupConfirm from './PopupConfirm';
+import HeaderLogoTop from './HeaderLogoTop';
 
 module.exports = {
     Button,
@@ -23,5 +24,6 @@ module.exports = {
     PopupParent,
     CustomTabBar,
     FooterTab,
-    PopupConfirm
+    PopupConfirm,
+    HeaderLogoTop
 }

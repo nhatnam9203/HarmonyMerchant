@@ -4,9 +4,8 @@ import {
     Image,
     ScrollView
 } from 'react-native';
-import { ScrollViewIndicator } from "react-native-scrollview-indicator";
 
-import { Text, InputAuth, ButtonCustom, Button } from '../../components';
+import { Text, HeaderLogoTop, ButtonCustom, Button } from '../../components';
 import { scaleSzie } from '../../utils';
 import styles from './style';
 import Configs from '../../configs';
@@ -21,12 +20,7 @@ export default class Layout extends React.Component {
         const temptColorTextButton = isAgree ? '#fff' : '#6A6A6A';
         return (
             <View style={styles.container} >
-                <View style={styles.logoTopContainer} >
-                    <Image
-                        source={IMAGE.logoTop}
-                        style={{ width: null, height: null, flex: 1 }}
-                    />
-                </View>
+              <HeaderLogoTop />
                 <View style={{ flex: 1, alignItems: 'center' }} >
                     <Text style={styles.textTitle} >
                         Terms of Service

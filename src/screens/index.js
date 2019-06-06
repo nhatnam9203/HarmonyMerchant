@@ -8,6 +8,7 @@ import CongratulationScreen from './CongratulationScreen';
 import ApplicationSubmitScreen from './ApplicationSubmitScreen';
 import UserGuideScreen from './UserGuideScreen';
 import TermsScreen from './TermsScreen';
+import GeneralInfoScreen from './GeneralInfoScreen';
 
 module.exports = {
     SplashScreen,
@@ -19,5 +20,6 @@ module.exports = {
     CongratulationScreen,
     ApplicationSubmitScreen,
     UserGuideScreen,
-    TermsScreen
+    TermsScreen,
+    GeneralInfoScreen
 }

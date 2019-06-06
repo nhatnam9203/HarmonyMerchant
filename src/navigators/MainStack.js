@@ -8,7 +8,8 @@ import {
     CongratulationScreen,
     ApplicationSubmitScreen,
     UserGuideScreen,
-    TermsScreen
+    TermsScreen,
+    GeneralInfoScreen
 } from '../screens';
 
 const MainStack = createStackNavigator(
@@ -18,10 +19,11 @@ const MainStack = createStackNavigator(
         Congratulation:CongratulationScreen,
         ApplicationSubmit:ApplicationSubmitScreen,
         UserGuide:UserGuideScreen,
-        Terms:TermsScreen
+        Terms:TermsScreen,
+        GeneralInfo:GeneralInfoScreen
     },
     {
-        initialRouteName: 'Terms',
+        initialRouteName: 'GeneralInfo',
         headerMode: 'none',
     }
 );
