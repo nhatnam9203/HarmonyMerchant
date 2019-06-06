@@ -5,7 +5,7 @@ import {
     ScrollView
 } from 'react-native';
 
-import { Text, HeaderLogoTop, ButtonCustom, Button } from '../../components';
+import { Text, HeaderLogoTop, ButtonCustom, FormInfoParent } from '../../components';
 import { scaleSzie } from '../../utils';
 import styles from './style';
 import Configs from '../../configs';
@@ -15,14 +15,16 @@ export default class Layout extends React.Component {
 
     render() {
         return (
-            <View style={styles.container} >
-                <HeaderLogoTop />
+            <FormInfoParent
+                back={() => alert('back')}
+                next={() => alert('next')}
+            >
                 <View style={{ flex: 1 }} >
-                    <View style={{}} >
+                    <ScrollView>
 
-                    </View>
+                    </ScrollView>
                 </View>
-            </View>
+            </FormInfoParent>
 
         );
     }

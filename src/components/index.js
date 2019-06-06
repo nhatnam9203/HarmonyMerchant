@@ -11,6 +11,7 @@ import CustomTabBar from './CustomTabBar';
 import FooterTab from './FooterTab';
 import PopupConfirm from './PopupConfirm';
 import HeaderLogoTop from './HeaderLogoTop';
+import FormInfoParent from './FormInfoParent';
 
 module.exports = {
     Button,
@@ -25,5 +26,6 @@ module.exports = {
     CustomTabBar,
     FooterTab,
     PopupConfirm,
-    HeaderLogoTop
+    HeaderLogoTop,
+    FormInfoParent
 }
