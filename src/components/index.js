@@ -12,6 +12,7 @@ import FooterTab from './FooterTab';
 import PopupConfirm from './PopupConfirm';
 import HeaderLogoTop from './HeaderLogoTop';
 import FormInfoParent from './FormInfoParent';
+import InputForm from './InputForm';
 
 module.exports = {
     Button,
@@ -27,5 +28,6 @@ module.exports = {
     FooterTab,
     PopupConfirm,
     HeaderLogoTop,
-    FormInfoParent
+    FormInfoParent,
+    InputForm
 }
