@@ -12,5 +12,8 @@ export default {
     sortUp: require('./img/up.png'),
     indicate: require('./img/indicate.png'),
     addStaff: require('./img/addStaff.png'),
-    closePopup: require('./img/closePopup.png')
+    closePopup: require('./img/closePopup.png'),
+    logoTop: require('./img/fill-form-top.png'),
+
+    
 }
