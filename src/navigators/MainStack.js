@@ -11,7 +11,8 @@ import {
     TermsScreen,
     GeneralInfoScreen,
     BankInfoScreen,
-    BusinessInfoScreen
+    BusinessInfoScreen,
+    PrincipalScreen
 } from '../screens';
 
 const MainStack = createStackNavigator(
@@ -24,10 +25,11 @@ const MainStack = createStackNavigator(
         Terms:TermsScreen,
         GeneralInfo:GeneralInfoScreen,
         BankInfo:BankInfoScreen,
-        BusinessInfo:BusinessInfoScreen
+        BusinessInfo:BusinessInfoScreen,
+        Principal:PrincipalScreen
     },
     {
-        initialRouteName: 'BusinessInfo',
+        initialRouteName: 'Principal',
         headerMode: 'none',
     }
 );

@@ -11,6 +11,7 @@ import TermsScreen from './TermsScreen';
 import GeneralInfoScreen from './GeneralInfoScreen';
 import BankInfoScreen from './BankInfoScreen';
 import BusinessInfoScreen from './BusinessInfoScreen';
+import PrincipalScreen from './PrincipalScreen';
 
 module.exports = {
     SplashScreen,
@@ -25,5 +26,6 @@ module.exports = {
     TermsScreen,
     GeneralInfoScreen,
     BankInfoScreen,
-    BusinessInfoScreen
+    BusinessInfoScreen,
+    PrincipalScreen
 }
