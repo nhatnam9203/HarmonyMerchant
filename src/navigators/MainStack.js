@@ -10,7 +10,8 @@ import {
     UserGuideScreen,
     TermsScreen,
     GeneralInfoScreen,
-    BankInfoScreen
+    BankInfoScreen,
+    BusinessInfoScreen
 } from '../screens';
 
 const MainStack = createStackNavigator(
@@ -22,10 +23,11 @@ const MainStack = createStackNavigator(
         UserGuide:UserGuideScreen,
         Terms:TermsScreen,
         GeneralInfo:GeneralInfoScreen,
-        BankInfo:BankInfoScreen
+        BankInfo:BankInfoScreen,
+        BusinessInfo:BusinessInfoScreen
     },
     {
-        initialRouteName: 'BankInfo',
+        initialRouteName: 'BusinessInfo',
         headerMode: 'none',
     }
 );

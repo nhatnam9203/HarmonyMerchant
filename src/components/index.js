@@ -13,6 +13,7 @@ import PopupConfirm from './PopupConfirm';
 import HeaderLogoTop from './HeaderLogoTop';
 import FormInfoParent from './FormInfoParent';
 import InputForm from './InputForm';
+import InputQuestionBusiness from './InputQuestionBusiness';
 
 module.exports = {
     Button,
@@ -29,5 +30,6 @@ module.exports = {
     PopupConfirm,
     HeaderLogoTop,
     FormInfoParent,
-    InputForm
+    InputForm,
+    InputQuestionBusiness
 }
