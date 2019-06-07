@@ -6,6 +6,26 @@ class PrincipalScreen extends Layout {
     constructor(props) {
         super(props);
         this.state = {
+            principalInfo:{
+                firstName:'',
+                lastName:'',
+                position :'',
+                ownership:'',
+                homePhone:'',
+                mobilePhone:'',
+                address:{
+                    address:'',
+                    city:'',
+                    state:'',
+                    zip:''
+                },
+                yearAtThisAddress:"",
+                ssn :'',
+                dateOfBirth:'',
+                email:'',
+                driverLicense:'',
+                stateIssued:''
+            },
         }
 
     }

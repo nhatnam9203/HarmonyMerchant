@@ -27,7 +27,6 @@ class GeneralInfoScreen extends Layout {
                 lastName: '',
                 position: '',
                 contactPhone: ''
-
             }
         }
     }

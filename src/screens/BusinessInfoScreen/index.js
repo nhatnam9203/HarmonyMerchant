@@ -27,8 +27,6 @@ class BusinessInfoScreen extends Layout {
                     isAccept: false,
                     desc: ''
                 },
-
-
             }
         }
 
