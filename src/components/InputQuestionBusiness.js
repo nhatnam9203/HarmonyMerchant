@@ -27,13 +27,14 @@ export default class InputQuestionBusiness extends React.PureComponent {
         }));
 
         if (!this.state.isCheck) {
-            this.inputRef.current.value = ""
+            this.props.clearTextInput()
         }
     }
 
 
     render() {
-        const { question, subYes } = this.props;
+        const { question, subYes, value,
+            onChangeText, secureTextEntry } = this.props;
         const { isCheck } = this.state;
         const temptIconNo = isCheck ? IMAGE.checkBoxEmpty : IMAGE.checkBox;
         const temptIconYes = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
@@ -81,6 +82,9 @@ export default class InputQuestionBusiness extends React.PureComponent {
                             style={{ flex: 1, fontSize: scaleSzie(16) }}
                             placeholder={''}
                             editable={isCheck}
+                            value={value}
+                            onChangeText={(value => onChangeText(value))}
+                            secureTextEntry={secureTextEntry}
                         />
                     </View>
 

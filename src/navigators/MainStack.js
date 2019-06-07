@@ -29,7 +29,7 @@ const MainStack = createStackNavigator(
         Principal:PrincipalScreen
     },
     {
-        initialRouteName: 'GeneralInfo',
+        initialRouteName: 'BusinessInfo',
         headerMode: 'none',
     }
 );
