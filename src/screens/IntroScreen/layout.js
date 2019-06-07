@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 
-import { Text, ButtonCustom } from '../../components';
+import { Text, ButtonCustom, Button } from '../../components';
 import { scaleSzie } from '../../utils';
 import styles from './style';
 import Configs from '../../configs';
@@ -26,9 +26,11 @@ export default class Layout extends React.Component {
                     />
                 </View>
                 <View style={styles.headerRigth} >
-                    <Text style={styles.textSkip} >
-                        Skip
-                </Text>
+                    <Button onPress={this.skip} >
+                        <Text style={styles.textSkip} >
+                            Skip
+                        </Text>
+                    </Button>
                 </View>
             </View>
         );
@@ -37,7 +39,7 @@ export default class Layout extends React.Component {
     renderBody() {
         return (
             <View style={styles.body} >
-                <Swiper style={{  }}
+                <Swiper style={{}}
                     autoplay={true}
                     showsButtons={false}
                     autoplayTimeout={3}
@@ -76,7 +78,7 @@ export default class Layout extends React.Component {
 
 
 
-                    
+
                 </Swiper>
             </View>
         );
@@ -91,6 +93,7 @@ export default class Layout extends React.Component {
                         backgroundColor="#4CD964"
                         title="APPLICATION"
                         textColor="#fff"
+                        onPress={this.gotoApplication}
                     />
                 </View>
                 <View style={styles.footerLeft} >
@@ -99,6 +102,7 @@ export default class Layout extends React.Component {
                         backgroundColor="#0764B0"
                         title="DEMO"
                         textColor="#fff"
+                        onPress={this.gotoDemo}
                     />
                 </View>
             </View>
@@ -118,7 +122,7 @@ export default class Layout extends React.Component {
 
 
 const ItemSlide = props => {
-    const { title, desc ,icon} = props;
+    const { title, desc, icon } = props;
     return (
         <View style={styles.slide} >
             <View style={styles.slideImage} >

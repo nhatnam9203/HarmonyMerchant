@@ -32,7 +32,7 @@ export default StyleSheet.create({
     },
     textSkip: {
         color: '#0A88C1',
-        fontSize: scaleSzie(12),
+        fontSize: scaleSzie(16),
         fontWeight: '600'
     },
     body: {

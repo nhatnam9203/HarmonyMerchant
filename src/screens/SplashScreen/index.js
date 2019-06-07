@@ -14,11 +14,12 @@ class SplashScreen extends Layout {
     componentDidMount() {
         const { profile } = this.props;
         setTimeout(() => {
-            if (_.isEmpty(profile)) {
-                this.props.navigation.navigate('SignIn');
-            } else {
-                this.props.navigation.navigate('Main');
-            }
+            this.props.navigation.navigate('Intro');
+            // if (_.isEmpty(profile)) {
+            //     this.props.navigation.navigate('SignIn');
+            // } else {
+            //     this.props.navigation.navigate('Main');
+            // }
         }, 1000)
 
     }

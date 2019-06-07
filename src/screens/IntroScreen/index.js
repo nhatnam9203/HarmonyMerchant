@@ -9,7 +9,16 @@ class IntroScreen extends Layout {
         }
     }
 
-    componentDidMount() {
+    gotoApplication = () => {
+        this.props.navigation.navigate('Auth');
+    }
+
+    skip = () => {
+
+    }
+
+    gotoDemo = () => {
+
     }
 
 

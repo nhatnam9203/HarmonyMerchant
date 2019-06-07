@@ -20,7 +20,7 @@ class Layout extends React.Component {
             <View style={styles.container} >
                 <ScrollableTabView
                     style={{}}
-                    initialPage={1}
+                    initialPage={0}
                     renderTabBar={() => <CustomTabBar
                         activeTextColor="#fff"
                         inactiveTextColor="#6A6A6A"
