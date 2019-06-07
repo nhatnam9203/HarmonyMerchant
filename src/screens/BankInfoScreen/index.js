@@ -1,4 +1,5 @@
 import React from 'react';
+import ImagePicker from 'react-native-image-picker';
 
 import Layout from './layout';
 import connectRedux from '../../redux/ConnectRedux';
@@ -33,8 +34,24 @@ class BankInfoScreen extends Layout {
         }
     }
 
-    nextSreen=() =>{
-        
+    nextSreen = () => {
+        this.props.navigation.navigate('BankInfo');
+    }
+
+    takePhoto = () => {
+        ImagePicker.launchCamera({}, (response) => {
+            if (response.uri) {
+
+            }
+        });
+    }
+
+    openImageLibrary = () => {
+        ImagePicker.launchImageLibrary({}, (response) => {
+            if (response.uri) {
+                console.log(response.uri);
+            }
+        });
     }
 
 }

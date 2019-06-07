@@ -8,11 +8,6 @@ import {
     CongratulationScreen,
     ApplicationSubmitScreen,
     UserGuideScreen,
-    TermsScreen,
-    GeneralInfoScreen,
-    BankInfoScreen,
-    BusinessInfoScreen,
-    PrincipalScreen
 } from '../screens';
 
 const MainStack = createStackNavigator(
@@ -22,14 +17,9 @@ const MainStack = createStackNavigator(
         Congratulation:CongratulationScreen,
         ApplicationSubmit:ApplicationSubmitScreen,
         UserGuide:UserGuideScreen,
-        Terms:TermsScreen,
-        GeneralInfo:GeneralInfoScreen,
-        BusinessInfo:BusinessInfoScreen,
-        BankInfo:BankInfoScreen,
-        Principal:PrincipalScreen
     },
     {
-        initialRouteName: 'Principal',
+        initialRouteName: 'StoreInfo',
         headerMode: 'none',
     }
 );

@@ -50,9 +50,7 @@ class BusinessInfoScreen extends Layout {
     }
 
     nextTab =() =>{
-        const{businessInfo} = this.state;
-
-        console.log('businessInfo : ',businessInfo);
+        this.props.navigation.navigate('Principal');
     }
 
 

@@ -49,8 +49,7 @@ class GeneralInfoScreen extends Layout {
     }
 
     nextTab =() =>{
-        const {generalInfo} = this.state;
-        console.log('generalInfo :' ,generalInfo );
+        this.props.navigation.navigate('BusinessInfo');
     }
 
 

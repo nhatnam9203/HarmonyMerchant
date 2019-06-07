@@ -2,11 +2,9 @@ import React from 'react';
 import {
     View,
     Image,
-    ScrollView,
-    TextInput
 } from 'react-native';
 
-import { InputForm, FormInfoParent, Text } from '../../components';
+import { InputForm, FormInfoParent, Text, Button } from '../../components';
 import { scaleSzie } from '../../utils';
 import styles from './style';
 import Configs from '../../configs';
@@ -70,9 +68,12 @@ export default class Layout extends React.Component {
                             paddingTop: scaleSzie(5)
 
                         }} >
-                            <Image
-                                source={IMAGE.camera}
-                            />
+                            <Button onPress={this.takePhoto} >
+                                <Image
+                                    source={IMAGE.camera}
+                                />
+                            </Button>
+
                             <View style={{ flex: 1, justifyContent: 'space-around', alignItems: 'center' }} >
                                 <Text style={{
                                     color: '#6A6A6A', fontSize: scaleSzie(20), fontWeight: 'bold',
@@ -85,16 +86,18 @@ export default class Layout extends React.Component {
                                 }} >
                                     Or
                                     </Text>
-                                <View style={{
-                                    width: scaleSzie(180), height: scaleSzie(40), backgroundColor: '#F1F1F1',
-                                    borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 4, justifyContent: "center", alignItems: 'center'
-                                }} >
+                                <Button
+                                    onPress={this.openImageLibrary}
+                                    style={{
+                                        width: scaleSzie(180), height: scaleSzie(40), backgroundColor: '#F1F1F1',
+                                        borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 4, justifyContent: "center", alignItems: 'center'
+                                    }} >
                                     <Text style={{
                                         color: '#6A6A6A', fontSize: scaleSzie(20),
                                     }} >
                                         Browse File
                                             </Text>
-                                </View>
+                                </Button>
                             </View>
 
                         </View>
