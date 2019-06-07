@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import {  DefaultTabBar } from '../../components';
+import { DefaultTabBar } from '../../components';
 import { scaleSzie } from '../../utils';
 import styles from './style';
 import Configs from '../../configs';
@@ -20,6 +20,7 @@ export default class Layout extends React.Component {
         return (
             <View style={styles.container} >
                 <ScrollableTabView
+                    ref={this.scrollTabRef}
                     style={{}}
                     initialPage={0}
                     renderTabBar={() => <DefaultTabBar
@@ -31,9 +32,17 @@ export default class Layout extends React.Component {
                         }}
                     />}
                 >
-                    <TabStoreInfo tabLabel='1. Store Info' />
-                    <TabAdminInfo tabLabel='2. Admin Info' />
-                    <TabStaffManagement tabLabel='3. Staff Management' />
+                    <TabStoreInfo tabLabel='1. Store Info'
+                        nextTab={() => this.scrollTabRef.current.goToPage(1)}
+                    />
+                    <TabAdminInfo tabLabel='2. Admin Info'
+                        backTab={() => this.scrollTabRef.current.goToPage(0)}
+                        nextTab={this.gotoTabStaffManagement}
+                    />
+                    <TabStaffManagement tabLabel='3. Staff Management'
+                        backTab={() => this.scrollTabRef.current.goToPage(1)}
+                        nextTab={this.gotoTabService}
+                    />
                     <TabServiceProduct tabLabel='4. Services / Products' />
 
                 </ScrollableTabView>

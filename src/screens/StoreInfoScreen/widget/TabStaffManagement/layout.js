@@ -68,13 +68,18 @@ class Layout extends React.Component {
                         keyExtractor={(item, index) => item.id}
                     />
                 </View>
-               <FooterTab />
+                <FooterTab
+                    backTab={() => this.props.backTab()}
+                    nextTab={() => this.props.nextTab()}
+                    addNew={this.addNewStaff}
+
+                />
             </View>
         )
     }
 
     render() {
-        const { isAddStaff, visibleArchive ,visibleRestore} = this.state;
+        const { isAddStaff, visibleArchive, visibleRestore } = this.state;
         return (
             <View style={styles.container} >
                 {isAddStaff ? <StaffInfo
@@ -87,7 +92,7 @@ class Layout extends React.Component {
                     onRequestClose={() => this.togglePopupArchive(false)}
                     confimYes={() => this.archirveStaffYess()}
                 />
-                 <PopupConfirm
+                <PopupConfirm
                     visible={visibleRestore}
                     title="Confirmation"
                     message="Do you want to Restore this Staff ?"

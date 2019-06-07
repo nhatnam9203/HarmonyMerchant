@@ -9,7 +9,15 @@ class StoreInfoScreen extends Layout {
         super(props);
         this.state = {
         }
+        this.scrollTabRef = React.createRef();
+    }
 
+    gotoTabStaffManagement =() =>{
+        this.scrollTabRef.current.goToPage(2);
+    }
+
+    gotoTabService=()=>{
+        this.scrollTabRef.current.goToPage(3);
     }
 
 }

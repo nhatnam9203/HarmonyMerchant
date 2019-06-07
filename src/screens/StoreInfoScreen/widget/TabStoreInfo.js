@@ -62,7 +62,7 @@ class TabAdminInfo extends React.Component {
     }
 
     nextTab = () => {
-
+        this.props.nextTab();
     }
 
     renderFooter() {
