@@ -27,7 +27,7 @@ export default class Layout extends React.Component {
         return (
             <FormInfoParent
                 title="Principal Information"
-                back={() => alert('back')}
+                back={() => this.props.navigation.goBack()}
                 next={() => alert('next')}
 
             >

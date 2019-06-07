@@ -16,11 +16,14 @@ import IMAGE from '../../resources';
 export default class Layout extends React.Component {
 
     render() {
+        const {
+            bankName, routingNumber, accountNumber
+        } = this.state.bankInfo;
         return (
             <FormInfoParent
                 title="Bank Information"
-                back={() => alert('back')}
-                next={() => alert('next')}
+                back={() => this.props.navigation.goBack()}
+                next={this.nextSreen}
             >
                 <View style={{ flex: 1, paddingHorizontal: scaleSzie(25) }} >
                     <View style={{ height: scaleSzie(16) }} />
@@ -28,18 +31,24 @@ export default class Layout extends React.Component {
                         title="Bank Name *"
                         subTitle=""
                         placeholder=""
+                        value={bankName}
+                        onChangeText={(value) => this.updateBankInfo('bankName', value, '')}
                     />
 
                     <InputForm
                         title="ABA Routing Number *"
                         subTitle=""
                         placeholder=""
+                        value={routingNumber}
+                        onChangeText={(value) => this.updateBankInfo('routingNumber', value, '')}
                     />
 
                     <InputForm
                         title="Checking Account Number (DDA) *"
                         subTitle=""
                         placeholder=""
+                        value={accountNumber}
+                        onChangeText={(value) => this.updateBankInfo('accountNumber', value, '')}
                     />
 
                     <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >

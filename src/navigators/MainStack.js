@@ -29,7 +29,7 @@ const MainStack = createStackNavigator(
         Principal:PrincipalScreen
     },
     {
-        initialRouteName: 'BusinessInfo',
+        initialRouteName: 'BankInfo',
         headerMode: 'none',
     }
 );
