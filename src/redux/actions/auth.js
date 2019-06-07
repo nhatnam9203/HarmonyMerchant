@@ -8,6 +8,6 @@ export function login(email, password) {
             "Password": password
         },
         method: 'POST',
-        api: `${apiConfigs.BASE_API}Merchant/login`
+        api: `${apiConfigs.BASE_API}merchant/login`
     }
 }
