@@ -11,13 +11,14 @@ import IMAGE from '../resources';
 
 export default class InputForm extends React.PureComponent {
     render() {
-        const { title, subTitle, placeholder ,style} = this.props;
+        const { title, subTitle, placeholder, style, value,
+            onChangeText, secureTextEntry
+        } = this.props;
         return (
-            <View style={[{ marginBottom: scaleSzie(24) },style]} >
+            <View style={[{ marginBottom: scaleSzie(24) }, style]} >
                 <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
                     {title}
                     <Text style={{ color: '#404040', fontSize: scaleSzie(12) }} >
-
                         {subTitle}
                     </Text>
                 </Text>
@@ -28,6 +29,9 @@ export default class InputForm extends React.PureComponent {
                     <TextInput
                         style={{ flex: 1, fontSize: scaleSzie(16) }}
                         placeholder={placeholder}
+                        value={value}
+                        onChangeText={(value => onChangeText(value))}
+                        secureTextEntry={secureTextEntry}
                     />
 
                 </View>

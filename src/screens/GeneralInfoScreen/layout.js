@@ -24,11 +24,18 @@ let data = [{
 export default class Layout extends React.Component {
 
     render() {
+        const { generalInfo } = this.state;
+        const {
+            businessName, doingBusiness, tax, businessAddress, businessPhone, email,
+            firstName, lastName, position, contactPhone
+        } = generalInfo;
+        const { prefix, suffix } = tax;
+        const { address, city, state, zip } = businessAddress
         return (
             <FormInfoParent
                 title="General Information"
                 back={() => alert('back')}
-                next={() => alert('next')}
+                next={this.nextTab}
 
             >
                 <View style={{ flex: 1, paddingHorizontal: scaleSzie(25) }} >
@@ -37,17 +44,24 @@ export default class Layout extends React.Component {
                         title="Legal Business Name * "
                         subTitle="(as shown on your income tax return)"
                         placeholder="Legal Business Name"
+                        value={businessName}
+                        onChangeText={(value) => this.updateGeneralInfo('businessName', value)}
                     />
                     <InputForm
                         title="Doing Business As Name (DBA) *"
                         subTitle=""
                         placeholder="DBA"
-                    /><View style={{ flexDirection: 'row' }} >
+                        value={doingBusiness}
+                        onChangeText={(value) => this.updateGeneralInfo('doingBusiness', value)}
+                    />
+                    <View style={{ flexDirection: 'row' }} >
                         <View style={{ width: scaleSzie(100) }} >
                             <InputForm
                                 title="Federal Tax ID *"
                                 subTitle=""
                                 placeholder=""
+                                value={prefix}
+                                onChangeText={(value) => this.updateGeneralInfo('prefix', value, 'tax')}
                             />
                         </View>
                         <View style={{ width: scaleSzie(20), justifyContent: 'center', alignItems: 'center' }} >
@@ -60,6 +74,8 @@ export default class Layout extends React.Component {
                                 title="   "
                                 subTitle=""
                                 placeholder=""
+                                value={suffix}
+                                onChangeText={(value) => this.updateGeneralInfo('suffix', value, 'tax')}
                             />
                         </View>
                     </View>
@@ -70,6 +86,8 @@ export default class Layout extends React.Component {
                         style={{
                             marginBottom: scaleSzie(10)
                         }}
+                        value={address}
+                        onChangeText={(value) => this.updateGeneralInfo('address', value, 'businessAddress')}
                     />
                     <View style={{
                         height: scaleSzie(30), marginBottom: scaleSzie(24), justifyContent: 'space-between',
@@ -83,6 +101,8 @@ export default class Layout extends React.Component {
                                 style={{
                                     marginBottom: 0
                                 }}
+                                value={city}
+                                onChangeText={(value) => this.updateGeneralInfo('city', value, 'businessAddress')}
                             />
                         </View>
                         <View style={{ width: scaleSzie(180), backgroundColor: 'red' }} >
@@ -107,6 +127,8 @@ export default class Layout extends React.Component {
                                 style={{
                                     marginBottom: 0
                                 }}
+                                value={zip}
+                                onChangeText={(value) => this.updateGeneralInfo('zip', value, 'businessAddress')}
                             />
                         </View>
                     </View>
@@ -116,6 +138,8 @@ export default class Layout extends React.Component {
                                 title="Business Phone Number *"
                                 subTitle=""
                                 placeholder=""
+                                value={businessPhone}
+                                onChangeText={(value) => this.updateGeneralInfo('businessPhone', value)}
                             />
                         </View>
                         <View style={{ flex: 1 }} />
@@ -125,6 +149,8 @@ export default class Layout extends React.Component {
                         title="Contact's  Email Address *"
                         subTitle=""
                         placeholder="example@gmail.com"
+                        value={email}
+                        onChangeText={(value) => this.updateGeneralInfo('email', value)}
                     />
 
                     <View style={{ flexDirection: 'row' }} >
@@ -133,6 +159,8 @@ export default class Layout extends React.Component {
                                 title="Contact Name *"
                                 subTitle=""
                                 placeholder="First name"
+                                value={firstName}
+                                onChangeText={(value) => this.updateGeneralInfo('firstName', value)}
                             />
                         </View>
                         <View style={{ flex: 1, paddingLeft: scaleSzie(20) }} >
@@ -140,6 +168,8 @@ export default class Layout extends React.Component {
                                 title="   "
                                 subTitle=""
                                 placeholder="Last name"
+                                value={lastName}
+                                onChangeText={(value) => this.updateGeneralInfo('lastName', value)}
                             />
                         </View>
                     </View>
@@ -147,6 +177,8 @@ export default class Layout extends React.Component {
                         title="Title/Position *"
                         subTitle=""
                         placeholder="Manager"
+                        value={position}
+                        onChangeText={(value) => this.updateGeneralInfo('position', value)}
                     />
 
                     <View style={{ flexDirection: 'row' }} >
@@ -155,6 +187,8 @@ export default class Layout extends React.Component {
                                 title="Contact's Phone Number *"
                                 subTitle=""
                                 placeholder=""
+                                value={contactPhone}
+                                onChangeText={(value) => this.updateGeneralInfo('contactPhone', value)}
                             />
                         </View>
                         <View style={{ flex: 1 }} />
