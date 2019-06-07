@@ -24,12 +24,12 @@ const MainStack = createStackNavigator(
         UserGuide:UserGuideScreen,
         Terms:TermsScreen,
         GeneralInfo:GeneralInfoScreen,
-        BankInfo:BankInfoScreen,
         BusinessInfo:BusinessInfoScreen,
+        BankInfo:BankInfoScreen,
         Principal:PrincipalScreen
     },
     {
-        initialRouteName: 'Principal',
+        initialRouteName: 'GeneralInfo',
         headerMode: 'none',
     }
 );

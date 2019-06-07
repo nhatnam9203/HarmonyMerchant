@@ -3,7 +3,8 @@ import {
     View,
     Image,
     Dimensions,
-    Platform
+    Platform,
+    ScrollView
 } from 'react-native';
 
 import { scaleSzie } from '../utils';
@@ -45,28 +46,34 @@ export default class FormInfoParent extends React.PureComponent {
     }
 
     render() {
-        const {title} = this.props;
+        const { title } = this.props;
         return (
             <View style={{ flex: 1 }} >
                 <HeaderLogoTop />
-                <View style={{
-                    width, paddingHorizontal: scaleSzie(15),
-                    marginTop: scaleSzie(8)
-                }}  >
-                    <Text style={{ color: '#0764B0', fontWeight: 'bold', fontSize: scaleSzie(18) }} >
-                        Please fill the form below
-                    </Text>
-                    <View style={{
-                        height: scaleSzie(38), backgroundColor: '#0764B0', justifyContent: 'center',
-                        paddingLeft: scaleSzie(5), marginTop: scaleSzie(5)
-                    }} >
-                        <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: scaleSzie(18) }} >
-                            {title}
-                    </Text>
-                    </View>
-                </View>
                 <View style={{ flex: 1 }} >
-                    {this.props.children}
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                    >
+                        <View style={{
+                            width, paddingHorizontal: scaleSzie(15),
+                            marginTop: scaleSzie(8)
+                        }}  >
+                            <Text style={{ color: '#0764B0', fontWeight: 'bold', fontSize: scaleSzie(18) }} >
+                                Please fill the form below
+                            </Text>
+                            <View style={{
+                                height: scaleSzie(38), backgroundColor: '#0764B0', justifyContent: 'center',
+                                paddingLeft: scaleSzie(5), marginTop: scaleSzie(5)
+                            }} >
+                                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: scaleSzie(18) }} >
+                                    {title}
+                                </Text>
+                            </View>
+                        </View>
+                        {this.props.children}
+                        <View style={{ height: scaleSzie(250) }} />
+                    </ScrollView>
+
                 </View>
                 {this.renderFooter()}
             </View>
