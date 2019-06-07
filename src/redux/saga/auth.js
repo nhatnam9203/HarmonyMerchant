@@ -11,6 +11,7 @@ function* login(action) {
         const { codeNumber } = responses;
         console.log('codeNumber : ', codeNumber);
         if (parseInt(codeNumber) == 200) {
+            NavigationServices.navigate('Main');
             yield put({
                 type: 'SAVE_PROFILE_LOCAL',
                 payload: {

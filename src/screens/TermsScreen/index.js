@@ -13,12 +13,18 @@ class TermsScreen extends Layout {
 
     }
 
-    agreeTerm =() =>{
-        this.setState(prevState =>({
-            isAgree:!prevState.isAgree
+    agreeTerm = () => {
+        this.setState(prevState => ({
+            isAgree: !prevState.isAgree
         }))
     }
 
+    nextScreen = () => {
+        if (this.state.isAgree) {
+            this.props.navigation.navigate('GeneralInfo');
+        }
+
+    }
 }
 
 const mapStateToProps = state => ({

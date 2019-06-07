@@ -1,3 +1,5 @@
+import _ from 'ramda';
+
 import Layout from './layout';
 import connectRedux from '../../redux/ConnectRedux';
 
@@ -10,12 +12,15 @@ class SplashScreen extends Layout {
     }
 
     componentDidMount() {
-        // setTimeout(() =>{
-        //     this.props.actions.app.test();
-        // },1000)
-        
-        // this.props.navigation.navigate('Main');
-        // NavigationServices.navigate("Main");
+        const { profile } = this.props;
+        setTimeout(() => {
+            if (_.isEmpty(profile)) {
+                this.props.navigation.navigate('SignIn');
+            } else {
+                this.props.navigation.navigate('Main');
+            }
+        }, 1000)
+
     }
 
 

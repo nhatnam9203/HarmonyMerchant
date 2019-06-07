@@ -15,8 +15,7 @@ class SignInScreen extends Layout {
     }
 
     signIn = () => {
-        // harmony@gmail.com
-        // 123123
+        // email":"tu.tran@levincigroup.com", "Password":"123456"
         const email = this.idInputRef.current.state.value;
         const password = this.passwordInputRef.current.state.value;
         if (email === '' || password === '') {
@@ -27,9 +26,12 @@ class SignInScreen extends Layout {
 
     }
 
+    signUp =() =>{
+       this.props.navigation.navigate('Terms');
+    }
+
     forgotPassword = () => {
-        // this.props.navigation.navigate('ForgotPassword');
-        this.props.actions.app.getMerchantByID(3);
+        this.props.navigation.navigate('ForgotPassword');
     }
 
 

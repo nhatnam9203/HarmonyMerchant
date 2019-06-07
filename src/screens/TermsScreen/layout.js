@@ -83,7 +83,7 @@ export default class Layout extends React.Component {
                                 borderWidth:1
                             }}
                             textColor={temptColorTextButton}
-                            onPress={this.nextTab}
+                            onPress={this.nextScreen}
                         />
                     </View>
                 </View>

@@ -56,14 +56,15 @@ export default class Layout extends React.Component {
                     textColor="#fff"
                     onPress={this.signIn}
                 />
+                <Button  onPress={this.signUp} style={{marginTop: scaleSzie(18)}} >
                 <Text style={{
                     color: '#fff', fontSize: scaleSzie(16), fontWeight: 'bold',
-                    marginTop: scaleSzie(18)
                 }} >
                     Don’t have an account?<Text style={{
                         color: '#5AC8FA', fontSize: scaleSzie(16), fontWeight: 'bold',
                     }} > Sign up</Text>
                 </Text>
+                </Button>
             </ImageBackground>
 
         );
