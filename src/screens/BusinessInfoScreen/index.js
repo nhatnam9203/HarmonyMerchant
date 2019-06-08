@@ -50,7 +50,7 @@ class BusinessInfoScreen extends Layout {
     }
 
     nextTab =() =>{
-        this.props.navigation.navigate('Principal');
+        this.props.navigation.navigate('BankInfo');
     }
 
 

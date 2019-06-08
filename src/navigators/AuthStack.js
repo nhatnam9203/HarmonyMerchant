@@ -20,10 +20,10 @@ const AuthStack = createStackNavigator(
         GeneralInfo: GeneralInfoScreen,
         BankInfo: BankInfoScreen,
         BusinessInfo: BusinessInfoScreen,
-        Principal: PrincipalScreen
+        PrincipalInfo: PrincipalScreen
     },
     {
-        initialRouteName: 'SignIn',
+        initialRouteName: 'GeneralInfo',
         headerMode: 'none',
     }
 );

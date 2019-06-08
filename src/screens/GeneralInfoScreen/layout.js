@@ -109,8 +109,8 @@ export default class Layout extends React.Component {
                             <Dropdown
                                 label={'State'}
                                 data={data}
-                                // value={timeStart}
-                                // onChangeText={(value) => this.setState({ timeStart: value })}
+                                value={state}
+                                onChangeText={(value) => this.updateGeneralInfo('state', value, 'businessAddress')}
                                 containerStyle={{
                                     backgroundColor: '#F1F1F1',
                                     borderWidth: 1,

@@ -35,7 +35,7 @@ class BankInfoScreen extends Layout {
     }
 
     nextSreen = () => {
-        this.props.navigation.navigate('BankInfo');
+        this.props.navigation.navigate('PrincipalInfo');
     }
 
     takePhoto = () => {

@@ -21,7 +21,7 @@ export default createNavigationContainer(createSwitchNavigator({
     Intro:IntroScreen
 },
     {
-        initialRouteName: 'Main'
+        initialRouteName: 'Auth'
     }
 
 ))
