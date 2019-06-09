@@ -2,6 +2,20 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+  <key>Fabric</key>
+  <dict>
+    <key>APIKey</key>
+    <string>0f0084a0d929105cf47a24b38dd81f81901f8898</string>
+    <key>Kits</key>
+    <array>
+      <dict>
+        <key>KitInfo</key>
+        <dict/>
+        <key>KitName</key>
+        <string>Crashlytics</string>
+      </dict>
+    </array>
+  </dict>
   <key>NSPhotoLibraryUsageDescription</key>
   <string>$(PRODUCT_NAME) would like access to your photo gallery</string>
   <key>NSCameraUsageDescription</key>
