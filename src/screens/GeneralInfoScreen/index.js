@@ -56,7 +56,6 @@ class GeneralInfoScreen extends Layout {
         const arrayKey = Object.keys(generalInfo);
         let keyError = '';
         for (let i = 0; i < arrayKey.length; i++) {
-            console.log('key : ' + arrayKey[i]);
             if (arrayKey[i] == 'tax') {
                 if (generalInfo.tax.prefix == '') {
                     keyError = 'taxPrefix';
@@ -98,12 +97,11 @@ class GeneralInfoScreen extends Layout {
                 }
             }
         }
-        this.props.navigation.navigate('BusinessInfo');
-        // if (keyError !== '') {
-        //     Alert.alert(`Missing info : ${strings[keyError]}`);
-        // } else {
-        //     this.props.navigation.navigate('BusinessInfo');
-        // }
+        if (keyError !== '') {
+            Alert.alert(`Missing info : ${strings[keyError]}`);
+        } else {
+            this.props.navigation.navigate('BusinessInfo');
+        }
 
     }
 

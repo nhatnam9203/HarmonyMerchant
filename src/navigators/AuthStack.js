@@ -9,7 +9,8 @@ import {
     GeneralInfoScreen,
     BankInfoScreen,
     BusinessInfoScreen,
-    PrincipalScreen
+    PrincipalScreen,
+    ApplicationSubmitScreen,
 } from '../screens';
 
 const AuthStack = createStackNavigator(
@@ -20,10 +21,11 @@ const AuthStack = createStackNavigator(
         GeneralInfo: GeneralInfoScreen,
         BankInfo: BankInfoScreen,
         BusinessInfo: BusinessInfoScreen,
-        PrincipalInfo: PrincipalScreen
+        PrincipalInfo: PrincipalScreen,
+        ApplicationSubmit:ApplicationSubmitScreen
     },
     {
-        initialRouteName: 'GeneralInfo',
+        initialRouteName: 'PrincipalInfo',
         headerMode: 'none',
     }
 );

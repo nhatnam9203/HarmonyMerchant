@@ -9,20 +9,12 @@ class ApplicationSubmitScreen extends Layout {
         super(props);
         this.state = {
         }
-        this.idInputRef = React.createRef();
-        this.passwordInputRef = React.createRef();
 
     }
 
-    signIn = () => {
-        const id = this.idInputRef.current.state.value;
-        const password = this.passwordInputRef.current.value;
+    submit =() =>{
+        alert('ddd')
     }
-
-    forgotPassword = () => {
-
-    }
-
 
 
 }

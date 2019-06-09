@@ -6,7 +6,7 @@ import {
     TextInput
 } from 'react-native';
 
-import { InputForm, FormInfoParent, Text, Dropdown ,Button} from '../../components';
+import { InputForm, FormInfoParent, Text, Dropdown, Button } from '../../components';
 import { scaleSzie } from '../../utils';
 import styles from './style';
 import Configs from '../../configs';
@@ -143,8 +143,8 @@ export default class Layout extends React.Component {
                             <Dropdown
                                 label={'State'}
                                 data={data}
-                                // value={timeStart}
-                                // onChangeText={(value) => this.setState({ timeStart: value })}
+                                value={state}
+                                onChangeText={(value) => this.updatePrincipalInfo('state', value, 'addressPrincipal')}
                                 containerStyle={{
                                     backgroundColor: '#F1F1F1',
                                     borderWidth: 1,
@@ -259,8 +259,8 @@ export default class Layout extends React.Component {
                             <Dropdown
                                 label={'2000'}
                                 data={data}
-                                // value={timeStart}
-                                // onChangeText={(value) => this.setState({ timeStart: value })}
+                                value={stateIssued}
+                                onChangeText={(value) => this.updatePrincipalInfo('stateIssued', value)}
                                 containerStyle={{
                                     backgroundColor: '#F1F1F1',
                                     borderWidth: 1,
@@ -308,12 +308,12 @@ export default class Layout extends React.Component {
                                 }} >
                                     Or
                                     </Text>
-                                <Button 
-                                onPress={this.openImageLibrary}
-                                style={{
-                                    width: scaleSzie(180), height: scaleSzie(40), backgroundColor: '#F1F1F1',
-                                    borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 4, justifyContent: "center", alignItems: 'center'
-                                }} >
+                                <Button
+                                    onPress={this.openImageLibrary}
+                                    style={{
+                                        width: scaleSzie(180), height: scaleSzie(40), backgroundColor: '#F1F1F1',
+                                        borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 4, justifyContent: "center", alignItems: 'center'
+                                    }} >
                                     <Text style={{
                                         color: '#6A6A6A', fontSize: scaleSzie(20),
                                     }} >
