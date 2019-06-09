@@ -25,7 +25,7 @@ const AuthStack = createStackNavigator(
         ApplicationSubmit:ApplicationSubmitScreen
     },
     {
-        initialRouteName: 'PrincipalInfo',
+        initialRouteName: 'BankInfo',
         headerMode: 'none',
     }
 );

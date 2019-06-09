@@ -1,8 +1,10 @@
 import React from 'react';
 import ImagePicker from 'react-native-image-picker';
+import { Alert } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '../../redux/ConnectRedux';
+import strings from './strings';
 
 class BankInfoScreen extends Layout {
 
@@ -35,7 +37,21 @@ class BankInfoScreen extends Layout {
     }
 
     nextSreen = () => {
-        this.props.navigation.navigate('PrincipalInfo');
+        // this.props.navigation.navigate('PrincipalInfo');
+        const { bankInfo } = this.state;
+        const arrayKey = Object.keys(bankInfo);
+        let keyError = '';
+        for (let i = 0; i < arrayKey.length; i++){
+            if (bankInfo[arrayKey[i]] === '') {
+                keyError = arrayKey[i];
+                break;
+            }
+        }
+        if (keyError !== '') {
+            Alert.alert(`Missing info : ${strings[keyError]}`);
+        } else {
+            this.props.navigation.navigate('PrincipalInfo');
+        }
     }
 
     takePhoto = () => {
