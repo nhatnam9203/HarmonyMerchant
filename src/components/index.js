@@ -14,6 +14,7 @@ import HeaderLogoTop from './HeaderLogoTop';
 import FormInfoParent from './FormInfoParent';
 import InputForm from './InputForm';
 import InputQuestionBusiness from './InputQuestionBusiness';
+import PopupUpload from './PopupUpload';
 
 module.exports = {
     Button,
@@ -31,5 +32,6 @@ module.exports = {
     HeaderLogoTop,
     FormInfoParent,
     InputForm,
-    InputQuestionBusiness
+    InputQuestionBusiness,
+    PopupUpload
 }

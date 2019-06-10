@@ -28,6 +28,9 @@ target 'Hpmerchant' do
 # ----- npm ------
 pod 'Fabric'
 pod 'Crashlytics'
+pod 'React', path: '../node_modules/react-native', subspecs: [
+  'ART',
+]
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

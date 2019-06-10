@@ -5,12 +5,16 @@ import { Alert } from 'react-native';
 import Layout from './layout';
 import connectRedux from '../../redux/ConnectRedux';
 import strings from './strings';
+import { thisExpression } from '@babel/types';
 
 class BankInfoScreen extends Layout {
 
     constructor(props) {
         super(props);
         this.state = {
+            visibleUpload: false,
+            uriUpload: '',
+            savaFileUpload: false,
             bankInfo: {
                 bankName: '',
                 routingNumber: '',
@@ -42,7 +46,7 @@ class BankInfoScreen extends Layout {
 
     nextSreen = () => {
         // this.props.navigation.navigate('PrincipalInfo');
-        const { bankInfo } = this.state;
+        const { bankInfo,uriUpload } = this.state;
         const arrayKey = Object.keys(bankInfo);
         let keyError = '';
         for (let i = 0; i < arrayKey.length; i++) {
@@ -54,15 +58,23 @@ class BankInfoScreen extends Layout {
         if (keyError !== '') {
             Alert.alert(`Missing info : ${strings[keyError]}`);
         } else {
-            this.props.actions.app.setBankInfo(bankInfo);
-            this.props.navigation.navigate('PrincipalInfo');
+            if(uriUpload != ''){
+                this.props.actions.app.setBankInfo(bankInfo);
+                this.props.navigation.navigate('PrincipalInfo');
+            }else{
+                Alert.alert(`Please upload a photo`);
+            }
+           
         }
     }
 
     takePhoto = () => {
         ImagePicker.launchCamera({}, (response) => {
             if (response.uri) {
-
+                this.setState({
+                    uriUpload: response.uri,
+                    visibleUpload:true
+                })
             }
         });
     }
@@ -70,9 +82,19 @@ class BankInfoScreen extends Layout {
     openImageLibrary = () => {
         ImagePicker.launchImageLibrary({}, (response) => {
             if (response.uri) {
-                console.log(response.uri);
+                this.setState({
+                    uriUpload: response.uri,
+                    visibleUpload:true
+                })
             }
         });
+    }
+
+    saveFileUpload =() =>{
+        this.setState({
+            savaFileUpload: true,
+            visibleUpload:false,
+        })
     }
 
 }

@@ -13,6 +13,7 @@
     "react-native-gesture-handler": "^1.2.1",
     "react-native-image-picker": "^0.28.1",
     "react-native-material-dropdown": "^0.11.1",
+    "react-native-progress": "^3.6.0",
     "react-native-scrollable-tab-view": "^0.10.0",
     "react-native-swiper": "^1.5.14",
     "react-navigation": "^3.9.2",

@@ -15,5 +15,8 @@ export default {
     closePopup: require('./img/closePopup.png'),
     logoTop: require('./img/fill-form-top.png'),
     camera:require('./img/camera.png'),
+    iconUpload:require('./img/icon-upload.png'),
+
+    
     
 }
