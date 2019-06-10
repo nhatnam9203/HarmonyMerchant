@@ -54,8 +54,8 @@ class BankInfoScreen extends Layout {
         if (keyError !== '') {
             Alert.alert(`Missing info : ${strings[keyError]}`);
         } else {
-            this.props.navigation.navigate('PrincipalInfo');
             this.props.actions.app.setBankInfo(bankInfo);
+            this.props.navigation.navigate('PrincipalInfo');
         }
     }
 

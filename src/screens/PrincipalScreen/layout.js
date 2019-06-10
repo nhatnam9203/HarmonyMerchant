@@ -32,6 +32,7 @@ export default class Layout extends React.Component {
         const {
             address, city, state, zip
         } = addressPrincipal;
+        const {day,month,year} = dateOfBirth;
         return (
             <FormInfoParent
                 title="Principal Information"
@@ -191,10 +192,10 @@ export default class Layout extends React.Component {
                     }} >
                         <View style={{ width: scaleSzie(120) }} >
                             <Dropdown
-                                label={'1'}
-                                data={data}
-                                // value={timeStart}
-                                // onChangeText={(value) => this.setState({ timeStart: value })}
+                                label={'day'}
+                                data={[{value:'1'},{value:'2'},{value:'3'}]}
+                                value={day}
+                                onChangeText={(value) => this.updatePrincipalInfo('day', value, 'dateOfBirth')}
                                 containerStyle={{
                                     backgroundColor: '#F1F1F1',
                                     borderWidth: 1,
@@ -205,10 +206,10 @@ export default class Layout extends React.Component {
                         </View>
                         <View style={{ width: scaleSzie(120), marginHorizontal: scaleSzie(20) }} >
                             <Dropdown
-                                label={'Jan'}
-                                data={data}
-                                // value={timeStart}
-                                // onChangeText={(value) => this.setState({ timeStart: value })}
+                                label={'Month'}
+                                data={[{value:'1'},{value:'2'},{value:'3'}]}
+                                value={month}
+                                onChangeText={(value) => this.updatePrincipalInfo('month', value, 'dateOfBirth')}
                                 containerStyle={{
                                     backgroundColor: '#F1F1F1',
                                     borderWidth: 1,
@@ -219,10 +220,10 @@ export default class Layout extends React.Component {
                         </View>
                         <View style={{ width: scaleSzie(120) }} >
                             <Dropdown
-                                label={'2000'}
-                                data={data}
-                                // value={timeStart}
-                                // onChangeText={(value) => this.setState({ timeStart: value })}
+                                label={'Year'}
+                                data={[{value:'1990'},{value:'1991'},{value:'1992'}]}
+                                value={year}
+                                onChangeText={(value) => this.updatePrincipalInfo('year', value, 'dateOfBirth')}
                                 containerStyle={{
                                     backgroundColor: '#F1F1F1',
                                     borderWidth: 1,

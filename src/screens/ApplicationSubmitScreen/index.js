@@ -12,7 +12,7 @@ class ApplicationSubmitScreen extends Layout {
 
     }
 
-    submit1 = () =>{
+    submit1 = () => {
         this.props.navigation.navigate('GeneralInfo');
     }
 
@@ -83,14 +83,23 @@ class ApplicationSubmitScreen extends Layout {
                 "stateIssued": "123"
             }
         };
-        this.props.actions.app.registerUser(body);
+        const { generalInfo, businessInfo, bankInfo, principalInfo } = this.props;
+        this.props.actions.app.registerUser({
+            generalInfo,
+            businessInfo,
+            bankInfo,
+            principalInfo
+        });
     }
 
 
 }
 
 const mapStateToProps = state => ({
-    profile: state.dataLocal.profile,
+    generalInfo: state.app.generalInfo,
+    businessInfo: state.app.businessInfo,
+    bankInfo: state.app.bankInfo,
+    principalInfo: state.app.principalInfo
 })
 
 

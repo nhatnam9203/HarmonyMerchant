@@ -25,7 +25,11 @@ class PrincipalScreen extends Layout {
                 },
                 yearAtThisAddress: "",
                 ssn: '',
-                dateOfBirth: '',
+                dateOfBirth: {
+                    day:'',
+                    month:'',
+                    year:''
+                },
                 email: '',
                 driverLicense: '',
                 stateIssued: ''
@@ -50,11 +54,11 @@ class PrincipalScreen extends Layout {
         }
     }
 
-    nextScreen = () => {
+    nextScreen1 = () => {
         this.props.navigation.navigate('ApplicationSubmit');
     }
 
-    nextScreen1 = () => {
+    nextScreen = () => {
         const { principalInfo } = this.state;
         const arrayKey = Object.keys(principalInfo);
         let keyError = '';
@@ -77,7 +81,22 @@ class PrincipalScreen extends Layout {
                     break;
                 }
 
-            } else {
+            } else if(arrayKey[i] == 'dateOfBirth'){
+                if (principalInfo.dateOfBirth.day == '') {
+                    keyError = 'day';
+                    break;
+                }
+                if (principalInfo.dateOfBirth.month == '') {
+                    keyError = 'month';
+                    break;
+                }
+                if (principalInfo.dateOfBirth.year == '') {
+                    keyError = 'year';
+                    break;
+                }
+            }
+            
+            else {
                 if (principalInfo[arrayKey[i]] === '') {
                     keyError = arrayKey[i];
                     break;
@@ -87,7 +106,11 @@ class PrincipalScreen extends Layout {
         if (keyError !== '') {
             Alert.alert(`Missing info : ${strings[keyError]}`);
         } else {
+            const {dateOfBirth} =principalInfo;
+            const temptPrincipalInfo = {...principalInfo,dateOfBirth:`${dateOfBirth.day}/${dateOfBirth.month}/${dateOfBirth.year}`};
+            this.props.actions.app.setPrincipalInfo(temptPrincipalInfo);
             this.props.navigation.navigate('ApplicationSubmit');
+
         }
     }
 
