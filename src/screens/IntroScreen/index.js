@@ -10,11 +10,11 @@ class IntroScreen extends Layout {
     }
 
     gotoApplication = () => {
-        this.props.navigation.navigate('Auth');
+        this.props.navigation.navigate('Terms');
     }
 
     skip = () => {
-
+        this.props.navigation.navigate('UserGuide');
     }
 
     gotoDemo = () => {

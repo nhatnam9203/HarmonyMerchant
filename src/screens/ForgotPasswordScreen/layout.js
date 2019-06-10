@@ -44,7 +44,7 @@ export default class Layout extends React.Component {
                     backgroundColor="#4CD964"
                     title="SUBMIT"
                     textColor="#fff"
-                    onPress={this.signIn}
+                    onPress={this.forgotPass}
                 />
             </ImageBackground>
 

@@ -11,6 +11,8 @@ import {
     BusinessInfoScreen,
     PrincipalScreen,
     ApplicationSubmitScreen,
+    IntroScreen,
+    UserGuideScreen
 } from '../screens';
 
 const AuthStack = createStackNavigator(
@@ -22,10 +24,12 @@ const AuthStack = createStackNavigator(
         BusinessInfo: BusinessInfoScreen,
         BankInfo: BankInfoScreen,
         PrincipalInfo: PrincipalScreen,
-        ApplicationSubmit:ApplicationSubmitScreen
+        ApplicationSubmit:ApplicationSubmitScreen,
+        Intro:IntroScreen,
+        UserGuide:UserGuideScreen
     },
     {
-        initialRouteName: 'ApplicationSubmit',
+        initialRouteName: 'Intro',
         headerMode: 'none',
     }
 );

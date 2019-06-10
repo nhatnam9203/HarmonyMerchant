@@ -62,6 +62,7 @@ export default class Layout extends React.Component {
                                 placeholder=""
                                 value={prefix}
                                 onChangeText={(value) => this.updateGeneralInfo('prefix', value, 'tax')}
+                                keyboardType="numeric"
                             />
                         </View>
                         <View style={{ width: scaleSzie(20), justifyContent: 'center', alignItems: 'center' }} >
@@ -76,6 +77,7 @@ export default class Layout extends React.Component {
                                 placeholder=""
                                 value={suffix}
                                 onChangeText={(value) => this.updateGeneralInfo('suffix', value, 'tax')}
+                                keyboardType="numeric"
                             />
                         </View>
                     </View>
@@ -129,6 +131,7 @@ export default class Layout extends React.Component {
                                 }}
                                 value={zip}
                                 onChangeText={(value) => this.updateGeneralInfo('zip', value, 'businessAddress')}
+                                keyboardType="numeric"
                             />
                         </View>
                     </View>
@@ -140,6 +143,7 @@ export default class Layout extends React.Component {
                                 placeholder=""
                                 value={businessPhone}
                                 onChangeText={(value) => this.updateGeneralInfo('businessPhone', value)}
+                                keyboardType="numeric"
                             />
                         </View>
                         <View style={{ flex: 1 }} />
@@ -189,6 +193,7 @@ export default class Layout extends React.Component {
                                 placeholder=""
                                 value={contactPhone}
                                 onChangeText={(value) => this.updateGeneralInfo('contactPhone', value)}
+                                keyboardType="numeric"
                             />
                         </View>
                         <View style={{ flex: 1 }} />

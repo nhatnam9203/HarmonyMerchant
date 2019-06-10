@@ -15,8 +15,7 @@ class UserGuideScreen extends Layout {
     }
 
     signIn = () => {
-        const id = this.idInputRef.current.state.value;
-        const password = this.passwordInputRef.current.value;
+        this.props.navigation.navigate('SignIn');
     }
 
     forgotPassword = () => {

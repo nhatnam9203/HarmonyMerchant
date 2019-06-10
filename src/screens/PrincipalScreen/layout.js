@@ -101,6 +101,7 @@ export default class Layout extends React.Component {
                                 placeholder=""
                                 value={homePhone}
                                 onChangeText={(value) => this.updatePrincipalInfo('homePhone', value)}
+                                keyboardType="numeric"
                             />
                         </View>
                         <View style={{ flex: 1, paddingLeft: scaleSzie(20) }} >
@@ -110,6 +111,7 @@ export default class Layout extends React.Component {
                                 placeholder=""
                                 value={mobilePhone}
                                 onChangeText={(value) => this.updatePrincipalInfo('mobilePhone', value)}
+                                keyboardType="numeric"
                             />
                         </View>
                     </View>
@@ -164,6 +166,7 @@ export default class Layout extends React.Component {
                                 }}
                                 value={zip}
                                 onChangeText={(value) => this.updatePrincipalInfo('zip', value, 'addressPrincipal')}
+                                keyboardType="numeric"
                             />
                         </View>
                     </View>
@@ -174,6 +177,7 @@ export default class Layout extends React.Component {
                         placeholder=""
                         value={yearAtThisAddress}
                         onChangeText={(value) => this.updatePrincipalInfo('yearAtThisAddress', value)}
+                        keyboardType="numeric"
                     />
                     <InputForm
                         title="Social Security Number (SSN) *"
@@ -181,6 +185,7 @@ export default class Layout extends React.Component {
                         placeholder=""
                         value={ssn}
                         onChangeText={(value) => this.updatePrincipalInfo('ssn', value)}
+                        keyboardType="numeric"
                     />
                     {/* ------ thieu ----- */}
                     <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(6) }} >
@@ -251,6 +256,7 @@ export default class Layout extends React.Component {
                                 placeholder=""
                                 value={driverLicense}
                                 onChangeText={(value) => this.updatePrincipalInfo('driverLicense', value)}
+                                keyboardType="numeric"
                             />
                         </View>
                         <View style={{ width: scaleSzie(180), }} >

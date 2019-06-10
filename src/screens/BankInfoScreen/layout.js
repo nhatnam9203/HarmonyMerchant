@@ -39,6 +39,7 @@ export default class Layout extends React.Component {
                         placeholder=""
                         value={routingNumber}
                         onChangeText={(value) => this.updateBankInfo('routingNumber', value, '')}
+                        keyboardType="numeric"
                     />
 
                     <InputForm
@@ -47,6 +48,7 @@ export default class Layout extends React.Component {
                         placeholder=""
                         value={accountNumber}
                         onChangeText={(value) => this.updateBankInfo('accountNumber', value, '')}
+                        keyboardType="numeric"
                     />
 
                     <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >

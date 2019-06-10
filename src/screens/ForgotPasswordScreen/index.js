@@ -14,16 +14,8 @@ class ForgotPasswordScreen extends Layout {
 
     }
 
-    signIn = () => {
-        const id = this.idInputRef.current.state.value;
-        const password = this.passwordInputRef.current.value;
+    forgotPass = () => {
     }
-
-    forgotPassword = () => {
-
-    }
-
-
 
 }
 

@@ -8,7 +8,6 @@ import {
 
 import {
     SplashScreen,
-    IntroScreen
 } from '../screens';
 
 import AuthStack from './AuthStack';
@@ -18,10 +17,9 @@ export default createNavigationContainer(createSwitchNavigator({
     Auth: AuthStack,
     Main: MainStack,
     Splash:SplashScreen,
-    Intro:IntroScreen
 },
     {
-        initialRouteName: 'Auth'
+        initialRouteName: 'Splash'
     }
 
 ))

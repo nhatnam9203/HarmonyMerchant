@@ -12,7 +12,7 @@ import IMAGE from '../resources';
 export default class InputForm extends React.PureComponent {
     render() {
         const { title, subTitle, placeholder, style, value,
-            onChangeText, secureTextEntry
+            onChangeText, secureTextEntry,keyboardType
         } = this.props;
         return (
             <View style={[{ marginBottom: scaleSzie(24) }, style]} >
@@ -32,6 +32,7 @@ export default class InputForm extends React.PureComponent {
                         value={value}
                         onChangeText={(value => onChangeText(value))}
                         secureTextEntry={secureTextEntry}
+                        keyboardType={keyboardType ? keyboardType : "default"}
                     />
 
                 </View>
