@@ -64,8 +64,6 @@ export default class Layout extends React.Component {
                             this.state.savaFileUpload ?
                                 <View style={{
                                     width: scaleSzie(400), height: scaleSzie(200),
-                                    // borderWidth: 2, borderColor: '#C5C5C5', borderStyle: "dashed",
-                                    // borderRadius: scaleSzie(14),
                                     overflow:'hidden'
                                 }} >
                                     <Image

@@ -6,7 +6,7 @@ import {
     TextInput
 } from 'react-native';
 
-import { InputForm, FormInfoParent, Text, Dropdown, Button } from '../../components';
+import { InputForm, FormInfoParent, Text, Dropdown, Button, PopupUpload } from '../../components';
 import { scaleSzie } from '../../utils';
 import styles from './style';
 import Configs from '../../configs';
@@ -32,7 +32,7 @@ export default class Layout extends React.Component {
         const {
             address, city, state, zip
         } = addressPrincipal;
-        const {day,month,year} = dateOfBirth;
+        const { day, month, year } = dateOfBirth;
         return (
             <FormInfoParent
                 title="Principal Information"
@@ -193,7 +193,7 @@ export default class Layout extends React.Component {
                         <View style={{ width: scaleSzie(120) }} >
                             <Dropdown
                                 label={'day'}
-                                data={[{value:'1'},{value:'2'},{value:'3'}]}
+                                data={[{ value: '1' }, { value: '2' }, { value: '3' }]}
                                 value={day}
                                 onChangeText={(value) => this.updatePrincipalInfo('day', value, 'dateOfBirth')}
                                 containerStyle={{
@@ -207,7 +207,7 @@ export default class Layout extends React.Component {
                         <View style={{ width: scaleSzie(120), marginHorizontal: scaleSzie(20) }} >
                             <Dropdown
                                 label={'Month'}
-                                data={[{value:'1'},{value:'2'},{value:'3'}]}
+                                data={[{ value: '1' }, { value: '2' }, { value: '3' }]}
                                 value={month}
                                 onChangeText={(value) => this.updatePrincipalInfo('month', value, 'dateOfBirth')}
                                 containerStyle={{
@@ -221,7 +221,7 @@ export default class Layout extends React.Component {
                         <View style={{ width: scaleSzie(120) }} >
                             <Dropdown
                                 label={'Year'}
-                                data={[{value:'1990'},{value:'1991'},{value:'1992'}]}
+                                data={[{ value: '1990' }, { value: '1991' }, { value: '1992' }]}
                                 value={year}
                                 onChangeText={(value) => this.updatePrincipalInfo('year', value, 'dateOfBirth')}
                                 containerStyle={{
@@ -283,51 +283,72 @@ export default class Layout extends React.Component {
                         alignItems: 'center',
                         padding: scaleSzie(10), marginTop: scaleSzie(18)
                     }} >
-                        <View style={{
-                            width: scaleSzie(400), height: scaleSzie(200),
-                            borderWidth: 2, borderColor: '#C5C5C5', borderStyle: "dashed",
-                            borderRadius: scaleSzie(14),
-                            alignItems: 'center',
-                            paddingTop: scaleSzie(5)
-
-                        }} >
-                            <Button onPress={this.takePhoto} >
-                                <Image
-                                    source={IMAGE.camera}
-                                />
-                            </Button>
-
-                            <View style={{ flex: 1, justifyContent: 'space-around', alignItems: 'center' }} >
-                                <Text style={{
-                                    color: '#6A6A6A', fontSize: scaleSzie(20), fontWeight: 'bold',
+                        {
+                            this.state.savaFileUpload ?
+                                <View style={{
+                                    width: scaleSzie(400), height: scaleSzie(200),
+                                    overflow: 'hidden'
                                 }} >
-                                    Take a Photo
-                                    </Text>
+                                    <Image
+                                        source={{ uri: this.state.uriUpload }}
+                                        style={{ width: null, height: null, flex: 1 }}
+                                    />
+                                </View> :
 
-                                <Text style={{
-                                    color: '#6A6A6A', fontSize: scaleSzie(20),
+                                <View style={{
+                                    width: scaleSzie(400), height: scaleSzie(200),
+                                    borderWidth: 2, borderColor: '#C5C5C5', borderStyle: "dashed",
+                                    borderRadius: scaleSzie(14),
+                                    alignItems: 'center',
+                                    paddingTop: scaleSzie(5)
+
                                 }} >
-                                    Or
-                                    </Text>
-                                <Button
-                                    onPress={this.openImageLibrary}
-                                    style={{
-                                        width: scaleSzie(180), height: scaleSzie(40), backgroundColor: '#F1F1F1',
-                                        borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 4, justifyContent: "center", alignItems: 'center'
-                                    }} >
-                                    <Text style={{
-                                        color: '#6A6A6A', fontSize: scaleSzie(20),
-                                    }} >
-                                        Browse File
-                                            </Text>
-                                </Button>
-                            </View>
+                                    <Button onPress={this.takePhoto} >
+                                        <Image
+                                            source={IMAGE.camera}
+                                        />
+                                    </Button>
 
-                        </View>
+                                    <View style={{ flex: 1, justifyContent: 'space-around', alignItems: 'center' }} >
+                                        <Text style={{
+                                            color: '#6A6A6A', fontSize: scaleSzie(20), fontWeight: 'bold',
+                                        }} >
+                                            Take a Photo
+            </Text>
+
+                                        <Text style={{
+                                            color: '#6A6A6A', fontSize: scaleSzie(20),
+                                        }} >
+                                            Or
+            </Text>
+                                        <Button
+                                            onPress={this.openImageLibrary}
+                                            style={{
+                                                width: scaleSzie(180), height: scaleSzie(40), backgroundColor: '#F1F1F1',
+                                                borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 4, justifyContent: "center", alignItems: 'center'
+                                            }} >
+                                            <Text style={{
+                                                color: '#6A6A6A', fontSize: scaleSzie(20),
+                                            }} >
+                                                Browse File
+                    </Text>
+                                        </Button>
+                                    </View>
+
+                                </View>
+                        }
                     </View>
 
                     {/* ---------------------- */}
                 </View>
+                <PopupUpload
+                    visible={this.state.visibleUpload}
+                    title="File Upload"
+                    message="Do you want to Archive this Category ?"
+                    onRequestClose={() => this.setState({ visibleUpload: false, uriUpload: '' })}
+                    uri={this.state.uriUpload}
+                    save={this.saveFileUpload}
+                />
             </FormInfoParent>
 
         );

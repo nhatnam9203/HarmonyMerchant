@@ -10,6 +10,9 @@ class PrincipalScreen extends Layout {
     constructor(props) {
         super(props);
         this.state = {
+            visibleUpload: false,
+            uriUpload: '',
+            savaFileUpload: false,
             principalInfo: {
                 firstName: '',
                 lastName: '',
@@ -26,9 +29,9 @@ class PrincipalScreen extends Layout {
                 yearAtThisAddress: "",
                 ssn: '',
                 dateOfBirth: {
-                    day:'',
-                    month:'',
-                    year:''
+                    day: '',
+                    month: '',
+                    year: ''
                 },
                 email: '',
                 driverLicense: '',
@@ -59,7 +62,7 @@ class PrincipalScreen extends Layout {
     }
 
     nextScreen = () => {
-        const { principalInfo } = this.state;
+        const { principalInfo, uriUpload } = this.state;
         const arrayKey = Object.keys(principalInfo);
         let keyError = '';
         for (let i = 0; i < arrayKey.length; i++) {
@@ -81,7 +84,7 @@ class PrincipalScreen extends Layout {
                     break;
                 }
 
-            } else if(arrayKey[i] == 'dateOfBirth'){
+            } else if (arrayKey[i] == 'dateOfBirth') {
                 if (principalInfo.dateOfBirth.day == '') {
                     keyError = 'day';
                     break;
@@ -95,7 +98,7 @@ class PrincipalScreen extends Layout {
                     break;
                 }
             }
-            
+
             else {
                 if (principalInfo[arrayKey[i]] === '') {
                     keyError = arrayKey[i];
@@ -106,10 +109,15 @@ class PrincipalScreen extends Layout {
         if (keyError !== '') {
             Alert.alert(`Missing info : ${strings[keyError]}`);
         } else {
-            const {dateOfBirth} =principalInfo;
-            const temptPrincipalInfo = {...principalInfo,dateOfBirth:`${dateOfBirth.day}/${dateOfBirth.month}/${dateOfBirth.year}`};
-            this.props.actions.app.setPrincipalInfo(temptPrincipalInfo);
-            this.props.navigation.navigate('ApplicationSubmit');
+            if (uriUpload != '') {
+                const { dateOfBirth } = principalInfo;
+                const temptPrincipalInfo = { ...principalInfo, dateOfBirth: `${dateOfBirth.day}/${dateOfBirth.month}/${dateOfBirth.year}` };
+                this.props.actions.app.setPrincipalInfo(temptPrincipalInfo);
+                this.props.navigation.navigate('ApplicationSubmit');
+            } else {
+                Alert.alert(`Please upload a photo`);
+            }
+
 
         }
     }
@@ -117,7 +125,10 @@ class PrincipalScreen extends Layout {
     takePhoto = () => {
         ImagePicker.launchCamera({}, (response) => {
             if (response.uri) {
-
+                this.setState({
+                    uriUpload: response.uri,
+                    visibleUpload: true
+                })
             }
         });
     }
@@ -125,11 +136,20 @@ class PrincipalScreen extends Layout {
     openImageLibrary = () => {
         ImagePicker.launchImageLibrary({}, (response) => {
             if (response.uri) {
-                console.log(response.uri);
+                this.setState({
+                    uriUpload: response.uri,
+                    visibleUpload: true
+                })
             }
         });
     }
 
+    saveFileUpload = () => {
+        this.setState({
+            savaFileUpload: true,
+            visibleUpload: false,
+        })
+    }
 
 }
 

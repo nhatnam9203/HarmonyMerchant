@@ -45,7 +45,6 @@ class BankInfoScreen extends Layout {
     }
 
     nextSreen = () => {
-        // this.props.navigation.navigate('PrincipalInfo');
         const { bankInfo,uriUpload } = this.state;
         const arrayKey = Object.keys(bankInfo);
         let keyError = '';
