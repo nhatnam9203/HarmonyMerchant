@@ -9,7 +9,6 @@ function* login(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-        console.log('codeNumber : ', codeNumber);
         if (parseInt(codeNumber) == 200) {
             NavigationServices.navigate('Main');
             yield put({

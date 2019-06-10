@@ -69,7 +69,7 @@ class ApplicationSubmitScreen extends Layout {
                 "ownership": "NONE",
                 "homePhone": "019238123",
                 "mobilePhone": "12321312312312",
-                "address": {
+                "addressPrincipal": {
                     "address": "P Address",
                     "city": "2",
                     "state": "2",
@@ -84,12 +84,13 @@ class ApplicationSubmitScreen extends Layout {
             }
         };
         const { generalInfo, businessInfo, bankInfo, principalInfo } = this.props;
-        this.props.actions.app.registerUser({
-            generalInfo,
-            businessInfo,
-            bankInfo,
-            principalInfo
-        });
+        this.props.actions.app.registerUser(body);
+        // this.props.actions.app.registerUser({
+        //     generalInfo,
+        //     businessInfo,
+        //     bankInfo,
+        //     principalInfo
+        // });
     }
 
 
