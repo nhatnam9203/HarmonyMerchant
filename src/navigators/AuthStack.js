@@ -19,8 +19,8 @@ const AuthStack = createStackNavigator(
         ForgotPassword: ForgotPasswordScreen,
         Terms: TermsScreen,
         GeneralInfo: GeneralInfoScreen,
-        BankInfo: BankInfoScreen,
         BusinessInfo: BusinessInfoScreen,
+        BankInfo: BankInfoScreen,
         PrincipalInfo: PrincipalScreen,
         ApplicationSubmit:ApplicationSubmitScreen
     },

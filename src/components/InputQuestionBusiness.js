@@ -24,11 +24,11 @@ export default class InputQuestionBusiness extends React.PureComponent {
     onPress = async () => {
         await this.setState(prevState => ({
             isCheck: !prevState.isCheck
-        }));
+        }), () => {
+            this.props.changeStatusCheck(this.state.isCheck);
+        });
 
-        if (!this.state.isCheck) {
-            this.props.clearTextInput()
-        }
+
     }
 
 

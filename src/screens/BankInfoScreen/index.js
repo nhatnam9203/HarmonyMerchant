@@ -36,12 +36,16 @@ class BankInfoScreen extends Layout {
         }
     }
 
+    nextSreen1 = () => {
+        this.props.navigation.navigate('PrincipalInfo');
+    }
+
     nextSreen = () => {
         // this.props.navigation.navigate('PrincipalInfo');
         const { bankInfo } = this.state;
         const arrayKey = Object.keys(bankInfo);
         let keyError = '';
-        for (let i = 0; i < arrayKey.length; i++){
+        for (let i = 0; i < arrayKey.length; i++) {
             if (bankInfo[arrayKey[i]] === '') {
                 keyError = arrayKey[i];
                 break;
@@ -51,6 +55,7 @@ class BankInfoScreen extends Layout {
             Alert.alert(`Missing info : ${strings[keyError]}`);
         } else {
             this.props.navigation.navigate('PrincipalInfo');
+            this.props.actions.app.setBankInfo(bankInfo);
         }
     }
 

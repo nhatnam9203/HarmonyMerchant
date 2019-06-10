@@ -51,6 +51,10 @@ class PrincipalScreen extends Layout {
     }
 
     nextScreen = () => {
+        this.props.navigation.navigate('ApplicationSubmit');
+    }
+
+    nextScreen1 = () => {
         const { principalInfo } = this.state;
         const arrayKey = Object.keys(principalInfo);
         let keyError = '';

@@ -49,7 +49,23 @@ class BusinessInfoScreen extends Layout {
         }
     }
 
-    nextTab =() =>{
+    changeStatusCheck(isCheck, key) {
+        if (isCheck) {
+            this.updateBusinessInfo('isAccept', true, key);
+        } else {
+            const { businessInfo } = this.state;
+            const temptParent = businessInfo[key];
+            const temptChild = { ...temptParent, isAccept: false, desc: '' };
+            const temptUpdate = { ...businessInfo, [key]: temptChild };
+            this.setState({
+                businessInfo: temptUpdate
+            })
+        }
+    }
+
+    nextTab = () => {
+        const { businessInfo } = this.state;
+        this.props.actions.app.setBusinessInfo(businessInfo);
         this.props.navigation.navigate('BankInfo');
     }
 

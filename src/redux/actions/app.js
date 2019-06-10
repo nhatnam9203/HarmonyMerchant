@@ -8,3 +8,40 @@ export function getMerchantByID(id) {
         api: `${apiConfigs.BASE_API}merchant/${id}`
     }
 }
+
+export function registerUser(body) {
+    return {
+        type: 'REGISTER_USER',
+        method: 'POST',
+        body,
+        api: `${apiConfigs.BASE_API}merchant/add`
+    }
+}
+
+export function setGeneralInfo(payload) {
+    return {
+        type: 'SET_GENERAL_INFO',
+        payload
+    }
+}
+
+export function setBusinessInfo(payload) {
+    return {
+        type: 'SET_BUSINESS_INFO',
+        payload
+    }
+}
+
+export function setBankInfo(payload) {
+    return {
+        type: 'SET_BANK_INFO',
+        payload
+    }
+}
+
+export function setPrincipalInfo(payload) {
+    return {
+        type: 'SET_PRINCIPAL_INFO',
+        payload
+    }
+}

@@ -5,3 +5,9 @@ const strings = {
 }
 
 export default strings;
+
+// william@levincigroup.com
+// M00nL1ght2k18
+// 2020/06/09
+
+

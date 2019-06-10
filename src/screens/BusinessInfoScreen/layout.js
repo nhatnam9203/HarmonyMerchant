@@ -33,6 +33,9 @@ export default class Layout extends React.Component {
                         subYes="if yes, who was the processor"
                         value={question1.desc}
                         onChangeText={(value) => this.updateBusinessInfo('desc', value, 'question1')}
+                        changeStatusCheck={(isCheck) =>this.changeStatusCheck(isCheck,'question1')}
+                        // changeStatusCheck={(value) => this.updateBusinessInfo('isAccept', value, 'question1')}
+
                         clearTextInput={() => this.updateBusinessInfo('desc', '', 'question1')}
                     />
 
@@ -41,7 +44,8 @@ export default class Layout extends React.Component {
                         subYes="if yes, who was the processor"
                         value={question2.desc}
                         onChangeText={(value) => this.updateBusinessInfo('desc', value, 'question2')}
-                        clearTextInput={() => this.updateBusinessInfo('desc', '', 'question2')}
+                        changeStatusCheck={(value) => this.updateBusinessInfo('isAccept', value, 'question2')}
+                        // clearTextInput={() => this.updateBusinessInfo('desc', '', 'question2')}
                     />
 
                     <InputQuestionBusiness
@@ -49,7 +53,10 @@ export default class Layout extends React.Component {
                         subYes="if yes, date filed"
                         value={question3.desc}
                         onChangeText={(value) => this.updateBusinessInfo('desc', value, 'question3')}
-                        clearTextInput={() => this.updateBusinessInfo('desc', '', 'question3')}
+                        changeStatusCheck={(value) => this.updateBusinessInfo('isAccept', value, 'question3')}
+                        // changeStatusCheck={(value) => this.updateBusinessInfo('isAccept', value, 'question3')}
+
+                        // clearTextInput={() => this.updateBusinessInfo('desc', '', 'question3')}
                     />
 
                     <InputQuestionBusiness
@@ -57,7 +64,8 @@ export default class Layout extends React.Component {
                         subYes="if yes, was program and when"
                         value={question4.desc}
                         onChangeText={(value) => this.updateBusinessInfo('desc', value, 'question4')}
-                        clearTextInput={() => this.updateBusinessInfo('desc', '', 'question4')}
+                        changeStatusCheck={(value) => this.updateBusinessInfo('isAccept', value, 'question4')}
+                        // clearTextInput={() => this.updateBusinessInfo('desc', '', 'question4')}
                     />
 
                     <InputQuestionBusiness
@@ -65,7 +73,8 @@ export default class Layout extends React.Component {
                         subYes=""
                         value={question5.desc}
                         onChangeText={(value) => this.updateBusinessInfo('desc', value, 'question5')}
-                        clearTextInput={() => this.updateBusinessInfo('desc', '', 'question5')}
+                        changeStatusCheck={(value) => this.updateBusinessInfo('isAccept', value, 'question5')}
+                        // clearTextInput={() => this.updateBusinessInfo('desc', '', 'question5')}
                     />
 
                 </View>

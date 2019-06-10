@@ -51,6 +51,10 @@ class GeneralInfoScreen extends Layout {
         }
     }
 
+    nextTab1 =() =>{
+        this.props.navigation.navigate('BusinessInfo');
+    }
+
     nextTab = () => {
         const { generalInfo } = this.state;
         const arrayKey = Object.keys(generalInfo);
@@ -100,6 +104,8 @@ class GeneralInfoScreen extends Layout {
         if (keyError !== '') {
             Alert.alert(`Missing info : ${strings[keyError]}`);
         } else {
+            const temptGeneralInfo = {...generalInfo,tax:`${generalInfo.tax.prefix}-${generalInfo.tax.suffix}`};
+            this.props.actions.app.setGeneralInfo(temptGeneralInfo);
             this.props.navigation.navigate('BusinessInfo');
         }
 
