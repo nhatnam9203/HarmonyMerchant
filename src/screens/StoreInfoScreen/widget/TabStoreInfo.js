@@ -7,54 +7,59 @@ import {
 
 import { ButtonCustom, Text } from '../../../components';
 import { scaleSzie } from '../../../utils';
+import connectRedux from '../../../redux/ConnectRedux';
 
 
 class TabAdminInfo extends React.Component {
 
     renderBody() {
+        const { profile } = this.props;
+        const { businessName, address, cityId, stateId, zip, taxId, phone, email,
+            bankName, accountNumber, routingNumber, ein
+        } = profile;
         return (
             <View style={styles.body} >
                 <ScrollView>
                     <ItemTextStoreInfo
                         title="Business Name"
-                        value="Harmony Spa"
+                        value={businessName}
                     />
                     <ItemTextStoreInfoNotTilte
-                        city="NewYork"
-                        state="NewYork"
-                        zipcode="10001"
+                        city={cityId}
+                        state={stateId}
+                        zipcode={zip}
                     />
                     <ItemTextStoreInfo
                         title="Business Address"
-                        value="7550 High Ridge Avenue Perkasie, PA 18944"
+                        value={address}
                     />
                     <ItemTextStoreInfo
                         title="Federal Tax Id"
-                        value="P80710660"
+                        value={taxId}
                     />
                     <ItemTextStoreInfo
                         title="Phone Number"
-                        value="654-734-2840"
+                        value={phone}
                     />
                     <ItemTextStoreInfo
                         title="Contact Email"
-                        value="harmonyspa@gmail.com"
+                        value={email}
                     />
                     <ItemTextStoreInfo
                         title="Bank Name"
-                        value="Harmony Bank"
+                        value={bankName}
                     />
                     <ItemTextStoreInfo
                         title="Account Number"
-                        value="011401533"
+                        value={accountNumber}
                     />
                     <ItemTextStoreInfo
                         title="Routing Number"
-                        value="129131673"
+                        value={routingNumber}
                     />
                     <ItemTextStoreInfo
                         title="EIN"
-                        value="12-3456789"
+                        value={ein ? ein : ''}
                     />
                 </ScrollView>
             </View>
@@ -171,4 +176,10 @@ const styles = StyleSheet.create({
     }
 })
 
-export default TabAdminInfo;
+const mapStateToProps = state => ({
+    profile: state.dataLocal.profile,
+})
+
+
+
+export default connectRedux(mapStateToProps, TabAdminInfo);

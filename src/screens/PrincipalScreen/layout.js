@@ -143,7 +143,7 @@ export default class Layout extends React.Component {
                         <View style={{ width: scaleSzie(180), backgroundColor: 'red' }} >
                             <Dropdown
                                 label={'State'}
-                                data={data}
+                                data={[{value:1},{value:2},{value:3},{value:4}]}
                                 value={state}
                                 onChangeText={(value) => this.updatePrincipalInfo('state', value, 'addressPrincipal')}
                                 containerStyle={{

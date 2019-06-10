@@ -25,9 +25,11 @@ const AuthStack = createStackNavigator(
         ApplicationSubmit:ApplicationSubmitScreen
     },
     {
-        initialRouteName: 'PrincipalInfo',
+        initialRouteName: 'GeneralInfo',
         headerMode: 'none',
     }
 );
 
 export default AuthStack;
+
+// azuzemerchant1@gmail.com
