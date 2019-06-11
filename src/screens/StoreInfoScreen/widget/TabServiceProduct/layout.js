@@ -7,10 +7,10 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import {CustomTabBar } from '../../../../components';
+import { CustomTabBar } from '../../../../components';
 import { scaleSzie } from '../../../../utils';
 import styles from './style';
-import { TabCategories,TabServices,TabExtra,TabProducts} from './widget';
+import { TabCategories, TabServices, TabExtra, TabProducts } from './widget';
 import IMAGE from '../../../../resources';
 
 class Layout extends React.Component {
@@ -19,6 +19,7 @@ class Layout extends React.Component {
         return (
             <View style={styles.container} >
                 <ScrollableTabView
+                    ref={this.scrollTabRef}
                     style={{}}
                     initialPage={0}
                     renderTabBar={() => <CustomTabBar
@@ -30,10 +31,22 @@ class Layout extends React.Component {
                         }}
                     />}
                 >
-                    <TabCategories tabLabel='Categories'  />
-                    <TabServices tabLabel='Services' />
-                    <TabExtra tabLabel='Extra'  />
-                    <TabProducts tabLabel='Products'  />
+                    <TabCategories tabLabel='Categories'
+                        backTab={() => this.props.backTab()}
+                        nextTab={this.gotoTabServices}
+                    />
+                    <TabServices tabLabel='Services'
+                        backTab={() => this.scrollTabRef.current.goToPage(0)}
+                        nextTab={this.gotoTabExtra}
+                    />
+                    <TabExtra tabLabel='Extra'
+                        backTab={() => this.scrollTabRef.current.goToPage(1)}
+                        nextTab={this.gotoTabProduct}
+                    />
+                    <TabProducts tabLabel='Products' 
+                     backTab={() => this.scrollTabRef.current.goToPage(2)}
+                     nextTab={this.gotoCongratulation}
+                    />
 
                 </ScrollableTabView>
             </View>

@@ -44,8 +44,8 @@ class TabCategories extends React.Component {
         this.state = {
             visibleArchive: false,
             visibleRestore: false,
-            visibleAdd:false,
-            visibleEdit:false,
+            visibleAdd: false,
+            visibleEdit: false,
             serviceInfoHandle: {}
         }
 
@@ -106,12 +106,12 @@ class TabCategories extends React.Component {
         })
     }
 
-   async editService(service){
-      await  this.setState({
-            serviceInfoHandle:service
+    async editService(service) {
+        await this.setState({
+            serviceInfoHandle: service
         });
         this.setState({
-            visibleEdit:true
+            visibleEdit: true
         })
     }
 
@@ -139,12 +139,14 @@ class TabCategories extends React.Component {
     }
 
     render() {
-        const { visibleArchive, visibleRestore ,visibleAdd,visibleEdit} = this.state;
+        const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
         return (
             <View style={styles.container} >
                 {this.renderTable()}
-                <FooterTab 
-                addNew={() => this.setState({visibleAdd:true})}
+                <FooterTab
+                    addNew={() => this.setState({ visibleAdd: true })}
+                    backTab={() => this.props.backTab()}
+                    nextTab={() => this.props.nextTab()}
                 />
                 <PopupConfirm
                     visible={visibleArchive}
@@ -164,15 +166,15 @@ class TabCategories extends React.Component {
                     visible={visibleAdd}
                     title="Add Category"
                     titleButton="Add"
-                    onRequestClose={() => this.setState({visibleAdd:false})}
-                    confimYes={() => this.setState({visibleAdd:false})}
+                    onRequestClose={() => this.setState({ visibleAdd: false })}
+                    confimYes={() => this.setState({ visibleAdd: false })}
                 />
                 <PopupEditAddService
                     visible={visibleEdit}
                     title="Edit Category"
                     titleButton="Save"
-                    onRequestClose={() => this.setState({visibleEdit:false})}
-                    confimYes={() => this.setState({visibleEdit:false})}
+                    onRequestClose={() => this.setState({ visibleEdit: false })}
+                    confimYes={() => this.setState({ visibleEdit: false })}
                 />
             </View>
 

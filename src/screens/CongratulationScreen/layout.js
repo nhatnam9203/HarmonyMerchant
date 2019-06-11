@@ -40,7 +40,7 @@ export default class Layout extends React.Component {
                     backgroundColor="#4CD964"
                     title="FINISH"
                     textColor="#fff"
-                    onPress={this.signIn}
+                    onPress={this.gotoDrawerStack}
                 />
             </ImageBackground>
 

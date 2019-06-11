@@ -145,6 +145,8 @@ class TabProducts extends React.Component {
                 {this.renderTable()}
                 <FooterTab 
                 addNew={() => this.setState({visibleAdd:true})}
+                backTab={() => this.props.backTab()}
+                    nextTab={() => this.props.nextTab()}
                 />
                 <PopupConfirm
                     visible={visibleArchive}

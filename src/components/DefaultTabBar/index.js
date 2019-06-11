@@ -10,7 +10,7 @@ const {
 } = ReactNative;
 const Button = require('./Button');
 
-import {scaleSzie} from '../../utils';
+import { scaleSzie } from '../../utils';
 
 const DefaultTabBar = createReactClass({
   propTypes: {
@@ -38,24 +38,24 @@ const DefaultTabBar = createReactClass({
   },
 
   renderTab(name, page, isTabActive, onPressHandler) {
-    const { activeTextColor, inactiveTextColor, textStyle,backgroundTabActive } = this.props;
+    const { activeTextColor, inactiveTextColor, textStyle, backgroundTabActive } = this.props;
     const textColor = isTabActive ? activeTextColor : inactiveTextColor;
     const fontWeight = isTabActive ? 'bold' : 'normal';
-    const backgroundColorActive = isTabActive ? {backgroundColor: backgroundTabActive} :{};
-    return <Button
-      style={{flex: 1, }}
+    const backgroundColorActive = isTabActive ? { backgroundColor: backgroundTabActive } : {};
+    return <View
+      style={{ flex: 1, }}
       key={name}
       accessible={true}
       accessibilityLabel={name}
       accessibilityTraits='button'
-      onPress={() => onPressHandler(page)}
+    // onPress={() => onPressHandler(page)}
     >
-      <View style={[styles.tab, this.props.tabStyle,backgroundColorActive ]}>
-        <Text style={[{color: textColor, fontWeight, }, textStyle, ]}>
+      <View style={[styles.tab, this.props.tabStyle, backgroundColorActive]}>
+        <Text style={[{ color: textColor, fontWeight, }, textStyle,]}>
           {name}
         </Text>
       </View>
-    </Button>;
+    </View>;
   },
 
   render() {
@@ -71,10 +71,10 @@ const DefaultTabBar = createReactClass({
 
     const translateX = this.props.scrollValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [0,  containerWidth / numberOfTabs],
+      outputRange: [0, containerWidth / numberOfTabs],
     });
     return (
-      <View style={[styles.tabs, {backgroundColor: '#F1F1F1', }, this.props.style, ]}>
+      <View style={[styles.tabs, { backgroundColor: '#F1F1F1', }, this.props.style,]}>
         {this.props.tabs.map((name, page) => {
           const isTabActive = this.props.activeTab === page;
           const renderTab = this.props.renderTab || this.renderTab;
@@ -102,15 +102,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     paddingBottom: scaleSzie(5),
-    borderRightWidth :0.5,
-    borderRightColor :'#404040'
+    borderRightWidth: 0.5,
+    borderRightColor: '#404040'
   },
   tabs: {
     height: scaleSzie(34),
     flexDirection: 'row',
     justifyContent: 'space-around',
-    borderBottomWidth :scaleSzie(1),
-    borderBottomColor:'#0764B0'
+    borderBottomWidth: scaleSzie(1),
+    borderBottomColor: '#0764B0'
   },
 });
 
