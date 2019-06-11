@@ -2,7 +2,7 @@ import { Dimensions, Platform } from 'react-native';
 
 const configs = {
     VERSION: "1.0.0",
-    DEFAULT_WIDTH: 768,
+    DEFAULT_WIDTH: Platform.OS === 'ios' ? 768 : 900,
     // DEFAULT_WIDTH: 736, mobile
     DEFAULT_HEIGHT: 736,
     FULL_WIDTH: Dimensions.get('window').width,

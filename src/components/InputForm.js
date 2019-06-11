@@ -2,6 +2,7 @@ import React from 'react';
 import {
     View,
     TextInput,
+    Platform
 } from 'react-native';
 
 import ButtonCustom from './ButtonCustom';
@@ -14,6 +15,7 @@ export default class InputForm extends React.PureComponent {
         const { title, subTitle, placeholder, style, value,
             onChangeText, secureTextEntry,keyboardType
         } = this.props;
+        const temptHeight = Platform.OS === 'ios' ? 30 : 40
         return (
             <View style={[{ marginBottom: scaleSzie(24) }, style]} >
                 <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
@@ -23,7 +25,7 @@ export default class InputForm extends React.PureComponent {
                     </Text>
                 </Text>
                 <View style={{
-                    height: scaleSzie(30), borderWidth: 1, borderColor: '#6A6A6A',
+                    height: scaleSzie(temptHeight), borderWidth: 1, borderColor: '#6A6A6A',
                     marginTop: scaleSzie(5), paddingLeft: scaleSzie(8)
                 }} >
                     <TextInput
@@ -33,6 +35,7 @@ export default class InputForm extends React.PureComponent {
                         onChangeText={(value => onChangeText(value))}
                         secureTextEntry={secureTextEntry}
                         keyboardType={keyboardType ? keyboardType : "default"}
+                        placeholderTextColor="#A9A9A9"
                     />
 
                 </View>
