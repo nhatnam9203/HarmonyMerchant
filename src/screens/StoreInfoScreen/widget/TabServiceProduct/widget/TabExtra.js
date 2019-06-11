@@ -10,7 +10,7 @@ import { scaleSzie } from '../../../../../utils';
 import HeaderTableExtra from './HeaderTableExtra';
 import RowTableExtra from './RowTableExtra';
 import IMAGE from '../../../../../resources';
-import PopupEditAddCategories from './PopupEditAddCategories';
+import PopupEditAddExtra from './PopupEditAddExtra';
 
 const FakeData = [{
     id: 'HP000002',
@@ -162,19 +162,19 @@ class TabExtra extends React.Component {
                     onRequestClose={() => this.togglePopupRestore(false)}
                     confimYes={() => this.restoreStaffYess()}
                 />
-                <PopupEditAddCategories
+                <PopupEditAddExtra
                     visible={visibleAdd}
-                    title="Add Category"
+                    title="Add Extra"
                     titleButton="Add"
                     onRequestClose={() => this.setState({ visibleAdd: false })}
-                    confimYes={() => this.setState({ visibleAdd: false })}
+                    doneAddExtra={() => this.setState({ visibleAdd: false })}
                 />
-                <PopupEditAddCategories
+                <PopupEditAddExtra
                     visible={visibleEdit}
-                    title="Edit Category"
+                    title="Edit Extra"
                     titleButton="Save"
                     onRequestClose={() => this.setState({ visibleEdit: false })}
-                    confimYes={() => this.setState({ visibleEdit: false })}
+                    doneAddExtra={() => this.setState({ visibleEdit: false })}
                 />
             </View>
 
