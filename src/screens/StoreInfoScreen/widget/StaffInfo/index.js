@@ -69,7 +69,7 @@ class StaffInfo extends Layout {
             }
         })
 
-        console.log(array);
+        // console.log(array);
     }
 
 

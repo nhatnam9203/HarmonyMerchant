@@ -69,7 +69,7 @@ class StoreInfoScreen extends Layout {
             }
         })
 
-        console.log(array);
+        // console.log(array);
     }
 
 

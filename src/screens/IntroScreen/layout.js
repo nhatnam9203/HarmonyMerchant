@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     View,
-    Image
+    Image,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 

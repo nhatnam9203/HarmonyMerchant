@@ -2,10 +2,11 @@ import React from 'react';
 import {
     View,
     Image,
-    ScrollView
+    ScrollView,
+    StatusBar
 } from 'react-native';
 
-import { Text, HeaderLogoTop, ButtonCustom, Button } from '../../components';
+import { Text, HeaderLogoTop, ButtonCustom, Button ,StatusBarHeader} from '../../components';
 import { scaleSzie } from '../../utils';
 import styles from './style';
 import Configs from '../../configs';
@@ -14,13 +15,14 @@ import IMAGE from '../../resources';
 export default class Layout extends React.Component {
 
     render() {
-        const {isAgree} = this.state;
+        const { isAgree } = this.state;
         const temptIconCheck = isAgree ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         const temptBackgroundButton = isAgree ? '#0764B0' : '#F1F1F1';
         const temptColorTextButton = isAgree ? '#fff' : '#6A6A6A';
         return (
             <View style={styles.container} >
-              <HeaderLogoTop />
+                <StatusBarHeader />
+                <HeaderLogoTop />
                 <View style={{ flex: 1, alignItems: 'center' }} >
                     <Text style={styles.textTitle} >
                         Terms of Service
@@ -60,18 +62,18 @@ export default class Layout extends React.Component {
                             </Text>
                             </ScrollView>
                         </View>
-                        
+
                     </View>
                     <View style={styles.checkboxContainer} >
-                            <Button onPress={this.agreeTerm} style={{ width: scaleSzie(30), justifyContent: 'center'}} >
-                                <Image source={temptIconCheck} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
-                            </Button>
-                        <View style={{justifyContent:'center'}} >
-                            <Text style={{color:'#0764B0',fontSize:scaleSzie(16)}} >
-                            I have read the terms of service
+                        <Button onPress={this.agreeTerm} style={{ width: scaleSzie(30), justifyContent: 'center' }} >
+                            <Image source={temptIconCheck} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
+                        </Button>
+                        <View style={{ justifyContent: 'center' }} >
+                            <Text style={{ color: '#0764B0', fontSize: scaleSzie(16) }} >
+                                I have read the terms of service
                             </Text>
-                            </View>
                         </View>
+                    </View>
                     <View style={styles.buttonContainer} >
                         <ButtonCustom
                             width={scaleSzie(250)}
@@ -79,8 +81,8 @@ export default class Layout extends React.Component {
                             backgroundColor={temptBackgroundButton}
                             title="ACCEPT"
                             style={{
-                                borderColor:'#C5C5C5',
-                                borderWidth:1
+                                borderColor: '#C5C5C5',
+                                borderWidth: 1
                             }}
                             textColor={temptColorTextButton}
                             onPress={this.nextScreen}

@@ -12,6 +12,7 @@ import IMAGE from '../resources';
 import HeaderLogoTop from './HeaderLogoTop';
 import Text from './Text';
 import ButtonCustom from './ButtonCustom';
+import StatusBarHeader from './StatusBar';
 
 const { width, height } = Dimensions.get('window');
 
@@ -49,6 +50,7 @@ export default class FormInfoParent extends React.PureComponent {
         const { title } = this.props;
         return (
             <View style={{ flex: 1 }} >
+                <StatusBarHeader />
                 <HeaderLogoTop />
                 <View style={{ flex: 1 }} >
                     <ScrollView

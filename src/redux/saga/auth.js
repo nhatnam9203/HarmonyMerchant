@@ -27,7 +27,7 @@ function* login(action) {
                 payload: responses
             })
         }
-        console.log('---- responses : ', responses);
+        // console.log('---- responses : ', responses);
     } catch (error) {
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });

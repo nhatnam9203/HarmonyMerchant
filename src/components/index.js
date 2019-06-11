@@ -15,6 +15,7 @@ import FormInfoParent from './FormInfoParent';
 import InputForm from './InputForm';
 import InputQuestionBusiness from './InputQuestionBusiness';
 import PopupUpload from './PopupUpload';
+import StatusBarHeader from './StatusBar';
 
 module.exports = {
     Button,
@@ -33,5 +34,7 @@ module.exports = {
     FormInfoParent,
     InputForm,
     InputQuestionBusiness,
-    PopupUpload
+    PopupUpload,
+    StatusBarHeader
+
 }
