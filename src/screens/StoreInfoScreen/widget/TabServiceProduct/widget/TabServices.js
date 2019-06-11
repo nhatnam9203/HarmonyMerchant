@@ -163,18 +163,19 @@ class TabServices extends React.Component {
                     confimYes={() => this.restoreStaffYess()}
                 />
                 <PopupAddService
-                    visible={true}
+                    visible={visibleAdd}
                     title="Add Service"
                     titleButton="Add"
                     onRequestClose={() => this.setState({ visibleAdd: false })}
-                    confimYes={() => this.setState({ visibleAdd: false })}
+                    doneAddService={() => this.setState({ visibleAdd: false })}
                 />
                 <PopupAddService
                     visible={visibleEdit}
                     title="Edit Category"
                     titleButton="Save"
+                    isSave={true}
                     onRequestClose={() => this.setState({ visibleEdit: false })}
-                    confimYes={() => this.setState({ visibleEdit: false })}
+                    doneAddService={() => this.setState({ visibleEdit: false })}
                 />
             </View>
 

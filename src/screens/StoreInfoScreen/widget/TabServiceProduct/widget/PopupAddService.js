@@ -25,8 +25,9 @@ let data = [{
 class PopupAddService extends React.Component {
 
     render() {
-        const { title, visible, titleButton, onRequestClose, confimYes } = this.props;
+        const { title, visible, onRequestClose, doneAddService ,isSave} = this.props;
         const temptHeight = width - scaleSzie(500);
+        const temptTitleButton = isSave ? 'Save' : 'Done';
         return (
             <PopupParent
                 title={title}
@@ -223,9 +224,9 @@ class PopupAddService extends React.Component {
                             width={150}
                             height={35}
                             backgroundColor="#0764B0"
-                            title={'Done'}
+                            title={temptTitleButton}
                             textColor="#fff"
-                            onPress={() => { }}
+                            onPress={() =>doneAddService()}
                             style={{ borderRadius: scaleSzie(2) }}
                             styleText={{
                                 fontSize: scaleSzie(14)
