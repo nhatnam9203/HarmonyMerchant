@@ -19,7 +19,7 @@ export default createNavigationContainer(createSwitchNavigator({
     Splash:SplashScreen,
 },
     {
-        initialRouteName: 'Main'
+        initialRouteName: 'Splash'
     }
 
 ))

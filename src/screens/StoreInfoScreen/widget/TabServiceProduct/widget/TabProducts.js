@@ -10,7 +10,7 @@ import { scaleSzie } from '../../../../../utils';
 import HeaderTableProducts from './HeaderTableProducts';
 import RowTableProducts from './RowTableProducts';
 import IMAGE from '../../../../../resources';
-import PopupEditAddCategories from './PopupEditAddCategories';
+import PopupAddEditProduct from './PopupAddEditProduct';
 
 const FakeData = [{
     id: 'HP000002',
@@ -162,16 +162,16 @@ class TabProducts extends React.Component {
                     onRequestClose={() => this.togglePopupRestore(false)}
                     confimYes={() => this.restoreStaffYess()}
                 />
-                <PopupEditAddCategories
+                <PopupAddEditProduct
                     visible={visibleAdd}
-                    title="Add Category"
+                    title="Add Product"
                     titleButton="Add"
                     onRequestClose={() => this.setState({visibleAdd:false})}
                     confimYes={() => this.setState({visibleAdd:false})}
                 />
-                <PopupEditAddCategories
+                <PopupAddEditProduct
                     visible={visibleEdit}
-                    title="Edit Category"
+                    title="Edit Product"
                     titleButton="Save"
                     onRequestClose={() => this.setState({visibleEdit:false})}
                     confimYes={() => this.setState({visibleEdit:false})}
