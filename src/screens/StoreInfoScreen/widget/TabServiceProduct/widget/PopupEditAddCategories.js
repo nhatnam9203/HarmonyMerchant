@@ -19,7 +19,7 @@ let data = [{
 }
 ];
 
-class PopupEditAddService extends React.Component {
+class PopupEditAddCategories extends React.Component {
 
     render() {
         const { title, visible, titleButton, onRequestClose, confimYes } = this.props;
@@ -28,6 +28,7 @@ class PopupEditAddService extends React.Component {
                 title={title}
                 visible={visible}
                 onRequestClose={() => onRequestClose()}
+                style={{justifyContent:'flex-start',paddingTop:scaleSzie(70)}}
             >
                 <View style={{
                     height: scaleSzie(190), backgroundColor: '#fff',
@@ -38,10 +39,10 @@ class PopupEditAddService extends React.Component {
                         paddingVertical: scaleSzie(12)
                     }} >
                         <View style={{ flex: 1 }} >
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: 5 }} >
+                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10)}} >
                                 Category Type
                         </Text>
-                            <View style={{ width: scaleSzie(200), height: scaleSzie(38), backgroundColor: 'red' }} >
+                            <View style={{ width: scaleSzie(200), height: scaleSzie(30),}} >
                                 <Dropdown
                                     label='State'
                                     data={data}
@@ -55,11 +56,11 @@ class PopupEditAddService extends React.Component {
                                     }}
                                 />
                             </View>
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: 5, marginTop: scaleSzie(7) }} >
+                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                 Category Name
                             </Text>
                             <View style={{
-                                height: scaleSzie(38), borderWidth: 1, borderColor: '#6A6A6A',
+                                height: scaleSzie(30), borderWidth: 1, borderColor: '#6A6A6A',
                                 paddingLeft: scaleSzie(10)
                             }} >
                                 <TextInput
@@ -108,5 +109,5 @@ const styles = StyleSheet.create({
     },
 })
 
-export default PopupEditAddService;
+export default PopupEditAddCategories;
 

@@ -10,7 +10,7 @@ import { scaleSzie } from '../../../../../utils';
 import HeaderTableServices from './HeaderTableServices';
 import RowTableServices from './RowTableServices';
 import IMAGE from '../../../../../resources';
-import PopupEditAddService from './PopupEditAddService';
+import PopupAddService from './PopupAddService';
 
 const FakeData = [{
     id: 'HP000002',
@@ -162,14 +162,14 @@ class TabServices extends React.Component {
                     onRequestClose={() => this.togglePopupRestore(false)}
                     confimYes={() => this.restoreStaffYess()}
                 />
-                <PopupEditAddService
-                    visible={visibleAdd}
-                    title="Add Category"
+                <PopupAddService
+                    visible={true}
+                    title="Add Service"
                     titleButton="Add"
                     onRequestClose={() => this.setState({ visibleAdd: false })}
                     confimYes={() => this.setState({ visibleAdd: false })}
                 />
-                <PopupEditAddService
+                <PopupAddService
                     visible={visibleEdit}
                     title="Edit Category"
                     titleButton="Save"

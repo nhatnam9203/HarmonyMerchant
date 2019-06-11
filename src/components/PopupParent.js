@@ -18,12 +18,13 @@ class PopupParent extends React.Component {
     }
 
     render() {
-        const { title, visible } = this.props;
+        const { title, visible,style } = this.props;
         return (
             <ModalCustom
                 transparent={true}
                 visible={visible}
                 onRequestClose={() => { }}
+                style={style}
             >
                 <View style={{ width: scaleSzie(400) }} >
                     <View style={{
