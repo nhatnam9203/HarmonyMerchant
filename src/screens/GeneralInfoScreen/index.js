@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import Layout from './layout';
 import connectRedux from '../../redux/ConnectRedux';
 import strings from './strings';
-import {validateEmail} from '../../utils';
+import { validateEmail, validateIsNumber } from '../../utils';
 
 class GeneralInfoScreen extends Layout {
 
@@ -51,7 +51,7 @@ class GeneralInfoScreen extends Layout {
         }
     }
 
-    nextTab1 =() =>{
+    nextTab1 = () => {
         this.props.navigation.navigate('BusinessInfo');
     }
 
@@ -87,9 +87,9 @@ class GeneralInfoScreen extends Layout {
                     break;
                 }
 
-            } 
-            else if(arrayKey[i] == 'email'){
-                if(!validateEmail(generalInfo[arrayKey[i]])){
+            }
+            else if (arrayKey[i] == 'email') {
+                if (!validateEmail(generalInfo[arrayKey[i]])) {
                     keyError = 'emailInvalid';
                     break;
                 }
@@ -98,13 +98,25 @@ class GeneralInfoScreen extends Layout {
                 if (generalInfo[arrayKey[i]] === '') {
                     keyError = arrayKey[i];
                     break;
+                } else {
+                    if (arrayKey[i] === 'businessPhone') {
+                        if (!validateIsNumber(generalInfo[arrayKey[i]])) {
+                            keyError = 'businessPhoneNotNumber';
+                            break;
+                        }
+                    } else if (arrayKey[i] === 'contactPhone') {
+                        if (!validateIsNumber(generalInfo[arrayKey[i]])) {
+                            keyError = 'contactPhoneNotNumber';
+                            break;
+                        }
+                    }
                 }
             }
         }
         if (keyError !== '') {
-            Alert.alert(`Missing info : ${strings[keyError]}`);
+            Alert.alert(`${strings[keyError]}`);
         } else {
-            const temptGeneralInfo = {...generalInfo,tax:`${generalInfo.tax.prefix}-${generalInfo.tax.suffix}`};
+            const temptGeneralInfo = { ...generalInfo, tax: `${generalInfo.tax.prefix}-${generalInfo.tax.suffix}` };
             this.props.actions.app.setGeneralInfo(temptGeneralInfo);
             this.props.navigation.navigate('BusinessInfo');
         }

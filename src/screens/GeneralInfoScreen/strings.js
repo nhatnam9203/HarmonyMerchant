@@ -1,19 +1,21 @@
 const strings = {
-    businessName: 'Legal Business Name',
-    doingBusiness: 'Doing Business As Name (DBA)',
-    taxPrefix: 'Federal Tax ID',
-    taxSuffix: 'Federal Tax ID',
-    address: 'DBA Business Address',
-    city: 'City',
-    state: 'State',
-    zip: 'Zip',
-    businessPhone: 'Business Phone Number',
-    email: `Contact's  Email Address`,
-    firstName: 'First name',
-    lastName: 'Last name',
-    position: 'Title/Position',
-    contactPhone: `Contact's Phone Number`,
-    emailInvalid:'Email Invalid'
+    businessName: 'Missing info Legal Business Name',
+    doingBusiness: 'Missing info Doing Business As Name (DBA)',
+    taxPrefix: 'Missing info Federal Tax ID',
+    taxSuffix: 'Missing info Federal Tax ID',
+    address: 'Missing info DBA Business Address',
+    city: 'Missing info City',
+    state: 'Missing info State',
+    zip: 'Missing info Zip',
+    businessPhone: 'Missing info Business Phone Number',
+    email: `Missing info Contact's  Email Address`,
+    firstName: 'Missing info First name',
+    lastName: 'Missing info Last name',
+    position: 'Missing info Title/Position',
+    contactPhone: `Missing info Contact's Phone Number`,
+    emailInvalid:'Missing info Email Invalid',
+    businessPhoneNotNumber:'Business Phone Invalid',
+    contactPhoneNotNumber:'Contact Phone Invalid'
 }
 
 export default strings;

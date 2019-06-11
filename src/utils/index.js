@@ -71,3 +71,8 @@ export const openBrowser = (urlSocial) => {
         }
     }).catch(err => console.error('An error occurred', err));
 }
+
+export const validateIsNumber = (number) => {
+    var n = Number(number);
+    return !(n !== n);
+}
