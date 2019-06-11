@@ -4,6 +4,7 @@ import { Alert } from 'react-native';
 import Layout from './layout';
 import connectRedux from '../../redux/ConnectRedux';
 import strings from './strings';
+import { validateIsNumber } from '../../utils';
 
 class PrincipalScreen extends Layout {
 
@@ -103,11 +104,39 @@ class PrincipalScreen extends Layout {
                 if (principalInfo[arrayKey[i]] === '') {
                     keyError = arrayKey[i];
                     break;
+                } else {
+                    if (arrayKey[i] === 'homePhone') {
+                        if (!validateIsNumber(principalInfo[arrayKey[i]])) {
+                            keyError = 'homePhoneNotNumber';
+                            break;
+                        }
+                    } else if (arrayKey[i] === 'mobilePhone') {
+                        if (!validateIsNumber(principalInfo[arrayKey[i]])) {
+                            keyError = 'mobilePhoneNotNumber';
+                            break;
+                        }
+                    } else if (arrayKey[i] === 'yearAtThisAddress') {
+                        if (!validateIsNumber(principalInfo[arrayKey[i]]) || (principalInfo[arrayKey[i]]).length !== 4) {
+                            keyError = 'yearAtThisAddressInvalid';
+                            break;
+                        }
+                    } else if (arrayKey[i] === 'ssn') {
+                        if (!validateIsNumber(principalInfo[arrayKey[i]])) {
+                            keyError = 'ssnInvalid';
+                            break;
+                        }
+                    }
+                    else if (arrayKey[i] ===  'driverLicense') {
+                        if (!validateIsNumber(principalInfo[arrayKey[i]])) {
+                            keyError = 'driverLicenseInvalid';
+                            break;
+                        }
+                    }
                 }
             }
         }
         if (keyError !== '') {
-            Alert.alert(`Missing info : ${strings[keyError]}`);
+            Alert.alert(`${strings[keyError]}`);
         } else {
             if (uriUpload != '') {
                 const { dateOfBirth } = principalInfo;

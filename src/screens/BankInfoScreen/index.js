@@ -5,7 +5,7 @@ import { Alert } from 'react-native';
 import Layout from './layout';
 import connectRedux from '../../redux/ConnectRedux';
 import strings from './strings';
-import { thisExpression } from '@babel/types';
+import { validateIsNumber } from '../../utils';
 
 class BankInfoScreen extends Layout {
 
@@ -45,25 +45,37 @@ class BankInfoScreen extends Layout {
     }
 
     nextSreen = () => {
-        const { bankInfo,uriUpload } = this.state;
+        const { bankInfo, uriUpload } = this.state;
         const arrayKey = Object.keys(bankInfo);
         let keyError = '';
         for (let i = 0; i < arrayKey.length; i++) {
             if (bankInfo[arrayKey[i]] === '') {
                 keyError = arrayKey[i];
                 break;
+            } else {
+                if (arrayKey[i] === 'routingNumber') {
+                    if (!validateIsNumber(bankInfo[arrayKey[i]])) {
+                        keyError = 'routingNumberNotNumber';
+                        break;
+                    }
+                } else if (arrayKey[i] === 'accountNumber') {
+                    if (!validateIsNumber(bankInfo[arrayKey[i]])) {
+                        keyError = 'accountNumberNotNumber';
+                        break;
+                    }
+                }
             }
         }
         if (keyError !== '') {
-            Alert.alert(`Missing info : ${strings[keyError]}`);
+            Alert.alert(`${strings[keyError]}`);
         } else {
-            if(uriUpload != ''){
+            if (uriUpload != '') {
                 this.props.actions.app.setBankInfo(bankInfo);
                 this.props.navigation.navigate('PrincipalInfo');
-            }else{
+            } else {
                 Alert.alert(`Please upload a photo`);
             }
-           
+
         }
     }
 
@@ -72,7 +84,7 @@ class BankInfoScreen extends Layout {
             if (response.uri) {
                 this.setState({
                     uriUpload: response.uri,
-                    visibleUpload:true
+                    visibleUpload: true
                 })
             }
         });
@@ -83,16 +95,16 @@ class BankInfoScreen extends Layout {
             if (response.uri) {
                 this.setState({
                     uriUpload: response.uri,
-                    visibleUpload:true
+                    visibleUpload: true
                 })
             }
         });
     }
 
-    saveFileUpload =() =>{
+    saveFileUpload = () => {
         this.setState({
             savaFileUpload: true,
-            visibleUpload:false,
+            visibleUpload: false,
         })
     }
 
