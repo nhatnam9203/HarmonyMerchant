@@ -32,7 +32,7 @@ class RowTableExtra extends React.Component {
     }
 
     render() {
-        const { staff, index, archiveService, editService, restoreService } = this.props;
+        const { product, index, archiveService, editService, restoreService } = this.props;
         const { isArchive } = this.state;
         return (
             <View style={styles.tableHeader} >
@@ -50,7 +50,7 @@ class RowTableExtra extends React.Component {
                             style={{ width: scaleSzie(12), height: scaleSzie(29), marginRight: scaleSzie(12) }}
                         />
                         <Text style={styles.textTableHeader} >
-                            {staff.name}
+                            {product.name}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -63,7 +63,7 @@ class RowTableExtra extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            {staff.status}
+                            {product.status}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -76,7 +76,7 @@ class RowTableExtra extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            {staff.status}
+                            {product.price}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >

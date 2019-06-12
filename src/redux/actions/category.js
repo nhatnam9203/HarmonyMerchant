@@ -1,6 +1,7 @@
 import apiConfigs from '../../configs/api';
 
 export function addCategory(body,id) {
+    console.log('---- addCategory : ');
     return {
         type: 'ADD_CATEGORY',
         body,

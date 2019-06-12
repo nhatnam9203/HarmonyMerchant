@@ -25,7 +25,7 @@ function* addCategory(action) {
     }
 }
 
-function* getCategoriesByMerchantId(action) {
+function* getProductsByMerchantId(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
@@ -33,7 +33,7 @@ function* getCategoriesByMerchantId(action) {
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
-                type: 'GET_CATEGORIES_BY_MERCHANR_ID_SUCCESS',
+                type: 'GET_PRODUCTS_BY_MERCHANR_ID_SUCCESS',
                 payload: responses.data
             })
         }
@@ -46,8 +46,8 @@ function* getCategoriesByMerchantId(action) {
 
 export default function* saga() {
     yield all([
-        takeLatest('ADD_CATEGORY', addCategory),
-        takeLatest('GET_CATEGORIES_BY_MERCHANR_ID', getCategoriesByMerchantId),
+        // takeLatest('ADD_CATEGORY', addCategory),
+        takeLatest('GET_PRODUCTS_BY_MERCHANR_ID', getProductsByMerchantId),
 
 
     ])

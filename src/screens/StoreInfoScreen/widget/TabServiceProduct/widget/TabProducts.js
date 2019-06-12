@@ -12,6 +12,7 @@ import RowTableProducts from './RowTableProducts';
 import IMAGE from '../../../../../resources';
 import PopupAddEditProduct from './PopupAddEditProduct';
 import RowEmptyTableProducts from './RowEmptyTableProducts';
+import connectRedux from '../../../../../redux/ConnectRedux';
 
 const FakeData = [{
     id: 'HP000002',
@@ -45,12 +46,17 @@ class TabProducts extends React.Component {
         this.state = {
             visibleArchive: false,
             visibleRestore: false,
-            visibleAdd:false,
-            visibleEdit:false,
+            visibleAdd: false,
+            visibleEdit: false,
             serviceInfoHandle: {}
         }
 
         this.inputRefsService = [];
+    }
+
+    componentDidMount() {
+        const { profile } = this.props;
+        this.props.actions.product.getProductsByMerchantId(profile.id);
     }
 
     setRefService = (ref) => {
@@ -107,33 +113,33 @@ class TabProducts extends React.Component {
         })
     }
 
-   async editService(service){
-      await  this.setState({
-            serviceInfoHandle:service
+    async editService(service) {
+        await this.setState({
+            serviceInfoHandle: service
         });
         this.setState({
-            visibleEdit:true
+            visibleEdit: true
         })
     }
 
     renderTable() {
+        const { productsByMerchantId } = this.props;
         return (
             <View style={{ flex: 1 }} >
                 <HeaderTableProducts />
                 <View style={{ flex: 1 }} >
                     <FlatList
-                        // data={FakeData}
-                        data={[]}
+                        data={productsByMerchantId}
                         renderItem={({ item, index }) => <RowTableProducts
                             ref={this.setRefService}
                             key={index}
                             key={index} index={parseInt(index + 1)}
-                            staff={item}
+                            product={item}
                             archiveService={() => this.togglePopupArchive(true, item)}
                             restoreService={() => this.togglePopupRestore(true, item)}
                             editService={() => this.editService(item)}
                         />}
-                        keyExtractor={(item, index) => item.id}
+                        keyExtractor={(item, index) => `${item.id}`}
                         ListEmptyComponent={<RowEmptyTableProducts />}
                     />
                 </View>
@@ -142,13 +148,13 @@ class TabProducts extends React.Component {
     }
 
     render() {
-        const { visibleArchive, visibleRestore ,visibleAdd,visibleEdit} = this.state;
+        const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
         return (
             <View style={styles.container} >
                 {this.renderTable()}
-                <FooterTab 
-                addNew={() => this.setState({visibleAdd:true})}
-                backTab={() => this.props.backTab()}
+                <FooterTab
+                    addNew={() => this.setState({ visibleAdd: true })}
+                    backTab={() => this.props.backTab()}
                     nextTab={() => this.props.nextTab()}
                 />
                 <PopupConfirm
@@ -169,15 +175,15 @@ class TabProducts extends React.Component {
                     visible={visibleAdd}
                     title="Add Product"
                     titleButton="Add"
-                    onRequestClose={() => this.setState({visibleAdd:false})}
-                    confimYes={() => this.setState({visibleAdd:false})}
+                    onRequestClose={() => this.setState({ visibleAdd: false })}
+                    confimYes={() => this.setState({ visibleAdd: false })}
                 />
                 <PopupAddEditProduct
                     visible={visibleEdit}
                     title="Edit Product"
                     titleButton="Save"
-                    onRequestClose={() => this.setState({visibleEdit:false})}
-                    confimYes={() => this.setState({visibleEdit:false})}
+                    onRequestClose={() => this.setState({ visibleEdit: false })}
+                    confimYes={() => this.setState({ visibleEdit: false })}
                 />
             </View>
 
@@ -192,5 +198,11 @@ const styles = StyleSheet.create({
     },
 })
 
-export default TabProducts;
+const mapStateToProps = state => ({
+    profile: state.dataLocal.profile,
+    productsByMerchantId: state.product.productsByMerchantId
+});
+
+export default connectRedux(mapStateToProps, TabProducts);
+
 
