@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { DefaultTabBar ,Button,StatusBarHeader} from '../../components';
+import { DefaultTabBar, Button, StatusBarHeader } from '../../components';
 import { scaleSzie } from '../../utils';
 import styles from './style';
 import Configs from '../../configs';
@@ -49,7 +49,7 @@ export default class Layout extends React.Component {
                         backTab={() => this.scrollTabRef.current.goToPage(2)}
                     />
                 </ScrollableTabView>
-                <Button onPress={this.signOut} style={{position:'absolute',top:20,right:0}} >
+                <Button onPress={this.signOut} style={{ position: 'absolute', top: 20, right: 0 }} >
                     <Image source={IMAGE.signOut} style={{ width: scaleSzie(40), height: scaleSzie(40) }} />
                 </Button>
 

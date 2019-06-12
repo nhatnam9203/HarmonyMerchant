@@ -12,6 +12,7 @@ import RowTableCategories from './RowTableCategories';
 import IMAGE from '../../../../../resources';
 import PopupEditAddCategories from './PopupEditAddCategories';
 import RowEmptyTableCategories from './RowEmptyTableCategories';
+import connectRedux from '../../../../../redux/ConnectRedux';
 
 const FakeData = [{
     id: 'HP000002',
@@ -51,6 +52,10 @@ class TabCategories extends React.Component {
         }
 
         this.inputRefsService = [];
+    }
+
+    componentDidMount() {
+        this.props.actions.category.getListCategories();
     }
 
     setRefService = (ref) => {
@@ -116,14 +121,27 @@ class TabCategories extends React.Component {
         })
     }
 
+    addCategory = async (category) => {
+        const { profile } = this.props
+        const temptCategory = { ...category, merchantid: profile.id }
+        console.log(temptCategory);
+        await this.setState({
+            visibleAdd: false
+        });
+        this.props.actions.category.addCategory(temptCategory);
+    }
+
+    // --------- Render ------
+
     renderTable() {
+        const {categories} = this.props;
         return (
             <View style={{ flex: 1 }} >
                 <HeaderTableCategories />
                 <View style={{ flex: 1 }} >
                     <FlatList
-                        // data={[]}
-                        data={FakeData}
+                        data={categories}
+                        // data={FakeData}
                         renderItem={({ item, index }) => <RowTableCategories
                             ref={this.setRefService}
                             key={index}
@@ -132,7 +150,7 @@ class TabCategories extends React.Component {
                             archiveService={() => this.togglePopupArchive(true, item)}
                             restoreService={() => this.togglePopupRestore(true, item)}
                             editService={() => this.editService(item)}
-                            
+
                         />}
                         keyExtractor={(item, index) => item.id}
                         ListEmptyComponent={<RowEmptyTableCategories />}
@@ -171,7 +189,7 @@ class TabCategories extends React.Component {
                     title="Add Category"
                     titleButton="Add"
                     onRequestClose={() => this.setState({ visibleAdd: false })}
-                    confimYes={() => this.setState({ visibleAdd: false })}
+                    confimYes={this.addCategory}
                 />
                 <PopupEditAddCategories
                     visible={visibleEdit}
@@ -193,5 +211,11 @@ const styles = StyleSheet.create({
     },
 })
 
-export default TabCategories;
+const mapStateToProps = state => ({
+    profile: state.dataLocal.profile,
+    categories: state.category.categories
+});
+
+export default connectRedux(mapStateToProps, TabCategories);
+
 

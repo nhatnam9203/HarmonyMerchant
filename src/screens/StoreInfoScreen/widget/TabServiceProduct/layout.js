@@ -21,7 +21,7 @@ class Layout extends React.Component {
                 <ScrollableTabView
                     ref={this.scrollTabRef}
                     style={{}}
-                    initialPage={3}
+                    initialPage={0}
                     renderTabBar={() => <CustomTabBar
                         activeTextColor="#fff"
                         inactiveTextColor="#6A6A6A"
@@ -43,9 +43,9 @@ class Layout extends React.Component {
                         backTab={() => this.scrollTabRef.current.goToPage(1)}
                         nextTab={this.gotoTabProduct}
                     />
-                    <TabProducts tabLabel='Products' 
-                     backTab={() => this.scrollTabRef.current.goToPage(2)}
-                     nextTab={this.gotoCongratulation}
+                    <TabProducts tabLabel='Products'
+                        backTab={() => this.scrollTabRef.current.goToPage(2)}
+                        nextTab={this.gotoCongratulation}
                     />
 
                 </ScrollableTabView>
