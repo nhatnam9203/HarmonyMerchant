@@ -129,7 +129,7 @@ class TabCategories extends React.Component {
         await this.setState({
             visibleAdd: false
         });
-        this.props.actions.category.addCategory(temptCategory);
+        this.props.actions.category.addCategory(temptCategory, profile.id);
     }
 
     // --------- Render ------

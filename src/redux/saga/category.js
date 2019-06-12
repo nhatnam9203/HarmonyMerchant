@@ -1,8 +1,8 @@
 import { put, takeLatest, all, join } from "redux-saga/effects";
+
 import NavigationServices from "../../navigators/NavigatorServices";
-
-
 import { requestAPI } from '../../utils';
+import apiConfigs from '../../configs/api';
 
 function* addCategory(action) {
     try {
@@ -11,7 +11,12 @@ function* addCategory(action) {
         console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-
+            yield put({
+                type: 'GET_CATEGORIES_BY_MERCHANR_ID',
+                method: 'GET',
+                token: true,
+                api: `${apiConfigs.BASE_API}category/getbymerchant/${action.merchantId}`
+            })
         } else {
         }
     } catch (error) {
@@ -28,21 +33,10 @@ function* getCategoriesByMerchantId(action) {
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
-                type:'GET_CATEGORIES_BY_MERCHANR_ID_SUCCESS',
-                payload :responses.data
+                type: 'GET_CATEGORIES_BY_MERCHANR_ID_SUCCESS',
+                payload: responses.data
             })
-        } else {
         }
-        // const { codeNumber } = responses;
-        // if (parseInt(codeNumber) == 200) {
-        //     NavigationServices.navigate('SignIn');
-        // } else {
-        //     yield put({ type: 'STOP_LOADING_ROOT' });
-        //     setTimeout(() => {
-        //         alert(`Error: ${responses.message}`);
-        //     }, 200)
-        //     NavigationServices.navigate('GeneralInfo');
-        // }
     } catch (error) {
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -55,6 +49,6 @@ export default function* saga() {
         takeLatest('ADD_CATEGORY', addCategory),
         takeLatest('GET_CATEGORIES_BY_MERCHANR_ID', getCategoriesByMerchantId),
 
-        
+
     ])
 }
