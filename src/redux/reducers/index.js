@@ -6,6 +6,7 @@ import app from './app';
 import dataLocal from './dataLocal';
 import auth from './auth';
 import category from './category';
+import product from './product';
 
 const rootPersistConfig = {
     key: 'root',
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
     dataLocal: persistReducer(authPersistConfig, dataLocal),
     app,
     auth,
-    category
+    category,
+    product
 });
 
 export default persistReducer(rootPersistConfig, rootReducer);
