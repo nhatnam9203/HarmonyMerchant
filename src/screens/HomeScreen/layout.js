@@ -8,8 +8,8 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { HomeTabBar, StatusBarHeader ,Button} from '../../components';
 import { scaleSzie } from '../../utils';
 import styles from './style';
-import Configs from '../../configs';
 import IMAGE from '../../resources';
+import {TabMarketing}  from './widget';
 
 export default class Layout extends React.Component {
 
@@ -31,7 +31,7 @@ export default class Layout extends React.Component {
                         }}
                     />}
                 >
-                    <View tabLabel='MARKETING' style={{flex:1}} />
+                    <TabMarketing tabLabel='MARKETING' style={{flex:1}} />
                     <View tabLabel='APPOINTMENT' style={{flex:1}} />
                     <View tabLabel='CHECKOUT' style={{flex:1}} />
                 </ScrollableTabView>

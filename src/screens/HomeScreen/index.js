@@ -10,11 +10,11 @@ class HomeScreen extends Layout {
     }
 
     openDrawer =() =>{
-
+        this.props.navigation.openDrawer();
     }
 
     signOut =() =>{
-        
+
     }
 
 
