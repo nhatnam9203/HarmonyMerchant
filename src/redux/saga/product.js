@@ -36,6 +36,10 @@ function* getProductsByMerchantId(action) {
                 type: 'GET_PRODUCTS_BY_MERCHANR_ID_SUCCESS',
                 payload: responses.data
             })
+        }else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
         }
     } catch (error) {
     } finally {

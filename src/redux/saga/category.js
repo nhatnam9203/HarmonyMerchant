@@ -17,7 +17,10 @@ function* addCategory(action) {
                 token: true,
                 api: `${apiConfigs.BASE_API}category/getbymerchant/${action.merchantId}`
             })
-        } else {
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
         }
     } catch (error) {
     } finally {
@@ -35,6 +38,10 @@ function* getCategoriesByMerchantId(action) {
             yield put({
                 type: 'GET_CATEGORIES_BY_MERCHANR_ID_SUCCESS',
                 payload: responses.data
+            })
+        }else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
             })
         }
     } catch (error) {

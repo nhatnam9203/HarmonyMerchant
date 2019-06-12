@@ -33,9 +33,15 @@ function* login(action) {
     }
 }
 
+function* expiredToken(action) {
+    NavigationServices.navigate('SignIn');
+}
+
 
 export default function* saga() {
     yield all([
         takeLatest('LOGIN_APP', login),
+        takeLatest('UNAUTHORIZED', expiredToken),
+
     ])
 }

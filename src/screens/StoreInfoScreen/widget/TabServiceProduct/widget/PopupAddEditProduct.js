@@ -86,135 +86,38 @@ class PopupAddEditProduct extends React.Component {
                                     multiline={true}
                                 />
                             </View>
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                Duration
-                            </Text>
-                            <View style={{ height: scaleSzie(70), flexDirection: 'row', justifyContent: 'space-between' }} >
-                                <ItemTime
-                                    title="Minutes"
-                                />
-                                <ItemTime
-                                    title="Open Time"
-                                />
-                                <ItemTime
-                                    title="Second Time"
-                                />
-                            </View>
-                            <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
-                                <View style={{ flex: 1, paddingRight: scaleSzie(50) }}  >
-                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                        Price
+                            {/* -----  */}
+                            <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                                <View style={{ flex: 1 }} >
+                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
+                                        SKU number
                                     </Text>
-                                    <View style={{
-                                        height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
-                                        borderWidth: 1, borderColor: '#6A6A6A', flexDirection: 'row'
-                                    }} >
-                                        <TextInput
-                                            style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                            placeholder="$ 100"
-                                        />
+                                    <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
+                                        <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
+                                            <TextInput
+                                                placeholder="sku12345678"
+                                                style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                            />
+                                        </View>
                                     </View>
                                 </View>
-                                {/* ------ */}
-                                <View>
-                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                        Status
-                                    </Text>
-                                    <View style={{
-                                        height: scaleSzie(30), width: scaleSzie(90),
-                                        flexDirection: 'row'
-                                    }} >
-                                        <Dropdown
-                                            label='Active'
-                                            data={data}
-                                            // value={'Service Categories'}
-                                            // onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
-                                            containerStyle={{
-                                                backgroundColor: '#F1F1F1',
-                                                borderWidth: 1,
-                                                borderColor: '#6A6A6A',
-                                                flex: 1
-                                            }}
-                                        />
-                                    </View>
+                                <View style={{
+                                    width: scaleSzie(100), justifyContent: 'flex-end',
+                                }} >
+                                    <ButtonCustom
+                                        width={scaleSzie(100)}
+                                        height={30}
+                                        backgroundColor="#0764B0"
+                                        title={'Scan'}
+                                        textColor="#fff"
+                                        onPress={() => doneAddService()}
+                                        style={{ borderRadius: scaleSzie(2) }}
+                                        styleText={{
+                                            fontSize: scaleSzie(14)
+                                        }}
+                                    />
                                 </View>
                             </View>
-                            {/* ------ Line ------ */}
-                            <View style={{ height: 3, backgroundColor: '#0764B0', marginTop: scaleSzie(8), marginBottom: scaleSzie(20) }} />
-
-                            {/* ------ Extra ---- */}
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                Extra name
-                            </Text>
-                            <View style={{
-                                height: scaleSzie(30), borderWidth: 1, borderColor: '#6A6A6A',
-                                paddingLeft: scaleSzie(10),
-                            }} >
-                                <TextInput
-                                    placeholder="Extra name"
-                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                />
-                            </View>
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                Description
-                            </Text>
-                            <View style={{
-                                height: scaleSzie(60), borderWidth: 1, borderColor: '#6A6A6A',
-                                paddingLeft: scaleSzie(10), backgroundColor: '#FAFAFA', paddingTop: scaleSzie(5)
-                            }} >
-                                <TextInput
-                                    placeholder=""
-                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                    multiline={true}
-                                />
-                            </View>
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                Duration
-                            </Text>
-                            <ItemTime
-                                title="Minutes"
-                            />
-                            <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
-                                <View style={{ flex: 1, paddingRight: scaleSzie(50) }}  >
-                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                        Price
-                                    </Text>
-                                    <View style={{
-                                        height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
-                                        borderWidth: 1, borderColor: '#6A6A6A', flexDirection: 'row'
-                                    }} >
-                                        <TextInput
-                                            style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                            placeholder="$ 100"
-                                        />
-                                    </View>
-                                </View>
-                                {/* ------ */}
-                                <View>
-                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                        Status
-                                    </Text>
-                                    <View style={{
-                                        height: scaleSzie(30), width: scaleSzie(90),
-                                        flexDirection: 'row'
-                                    }} >
-                                        <Dropdown
-                                            label='Active'
-                                            data={data}
-                                            // value={'Service Categories'}
-                                            // onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
-                                            containerStyle={{
-                                                backgroundColor: '#F1F1F1',
-                                                borderWidth: 1,
-                                                borderColor: '#6A6A6A',
-                                                flex: 1
-                                            }}
-                                        />
-                                    </View>
-                                </View>
-                            </View>
-                            {/* ------ Line ------ */}
-                            <View style={{ height: 3, backgroundColor: '#0764B0', marginTop: scaleSzie(8), marginBottom: scaleSzie(20) }} />
                             <View style={{ height: scaleSzie(250) }} />
                         </ScrollView>
                     </View>

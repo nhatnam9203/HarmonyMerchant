@@ -2,7 +2,7 @@ import apiConfigs from '../../configs/api';
 
 export function addProductByMerchantId(body, id) {
     return {
-        type: 'ADD_CATEGORY',
+        type: 'ADD_PRODUCR_BY_MERCHANT_ID',
         body,
         method: 'POST',
         token: true,
