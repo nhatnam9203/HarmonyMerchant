@@ -11,6 +11,7 @@ import HeaderTableCategories from './HeaderTableCategories';
 import RowTableCategories from './RowTableCategories';
 import IMAGE from '../../../../../resources';
 import PopupEditAddCategories from './PopupEditAddCategories';
+import RowEmptyTableCategories from './RowEmptyTableCategories';
 
 const FakeData = [{
     id: 'HP000002',
@@ -121,6 +122,7 @@ class TabCategories extends React.Component {
                 <HeaderTableCategories />
                 <View style={{ flex: 1 }} >
                     <FlatList
+                        // data={[]}
                         data={FakeData}
                         renderItem={({ item, index }) => <RowTableCategories
                             ref={this.setRefService}
@@ -130,8 +132,10 @@ class TabCategories extends React.Component {
                             archiveService={() => this.togglePopupArchive(true, item)}
                             restoreService={() => this.togglePopupRestore(true, item)}
                             editService={() => this.editService(item)}
+                            
                         />}
                         keyExtractor={(item, index) => item.id}
+                        ListEmptyComponent={<RowEmptyTableCategories />}
                     />
                 </View>
             </View>
