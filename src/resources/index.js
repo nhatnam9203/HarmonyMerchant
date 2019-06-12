@@ -19,12 +19,12 @@ export default {
     signOut: require('./img/out.png'),
 
     // --- drawer --
-    customer: require('./drawer/customer.png'),
-    home: require('./drawer/home.png'),
-    inventory: require('./drawer/inventory.png'),
-    invoice: require('./drawer/invoice.png'),
-    report: require('./drawer/report.png'),
-    setting: require('./drawer/setting.png'),
-    settlement: require('./drawer/settlement.png'),
-    support: require('./drawer/support.png'),
+    Customer: require('./drawer/customer.png'),
+    Home: require('./drawer/home.png'),
+    Inventory: require('./drawer/inventory.png'),
+    Invoice: require('./drawer/invoice.png'),
+    Report: require('./drawer/report.png'),
+    Setting: require('./drawer/setting.png'),
+    Settlement: require('./drawer/settlement.png'),
+    Support: require('./drawer/support.png'),
 }

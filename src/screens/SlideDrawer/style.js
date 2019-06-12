@@ -12,6 +12,7 @@ const { width, height } = Dimensions.get('window');
 export default StyleSheet.create({
     container: {
         flex:1,
-        backgroundColor:'#0764B0'
+        backgroundColor:'#0764B0',
+        justifyContent:'space-around'
     },
 })
