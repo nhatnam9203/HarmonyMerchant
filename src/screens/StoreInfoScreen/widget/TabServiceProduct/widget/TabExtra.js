@@ -11,6 +11,7 @@ import HeaderTableExtra from './HeaderTableExtra';
 import RowTableExtra from './RowTableExtra';
 import IMAGE from '../../../../../resources';
 import PopupEditAddExtra from './PopupEditAddExtra';
+import RowEmptyTableExtra from './RowEmptyTableExtra';
 
 const FakeData = [{
     id: 'HP000002',
@@ -121,7 +122,8 @@ class TabExtra extends React.Component {
                 <HeaderTableExtra />
                 <View style={{ flex: 1 }} >
                     <FlatList
-                        data={FakeData}
+                        // data={FakeData}
+                        data={[]}
                         renderItem={({ item, index }) => <RowTableExtra
                             ref={this.setRefService}
                             key={index}
@@ -132,6 +134,8 @@ class TabExtra extends React.Component {
                             editService={() => this.editService(item)}
                         />}
                         keyExtractor={(item, index) => item.id}
+                        ListEmptyComponent={<RowEmptyTableExtra />}
+
                     />
                 </View>
             </View>

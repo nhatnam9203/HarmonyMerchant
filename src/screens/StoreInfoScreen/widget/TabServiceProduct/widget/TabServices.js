@@ -122,8 +122,8 @@ class TabServices extends React.Component {
                 <HeaderTableServices />
                 <View style={{ flex: 1 }} >
                     <FlatList
-                        data={[]}
-                        // data={FakeData}
+                        // data={[]}
+                        data={FakeData}
                         renderItem={({ item, index }) => <RowTableServices
                             ref={this.setRefService}
                             key={index}

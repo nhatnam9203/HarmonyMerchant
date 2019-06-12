@@ -11,6 +11,7 @@ import HeaderTableProducts from './HeaderTableProducts';
 import RowTableProducts from './RowTableProducts';
 import IMAGE from '../../../../../resources';
 import PopupAddEditProduct from './PopupAddEditProduct';
+import RowEmptyTableProducts from './RowEmptyTableProducts';
 
 const FakeData = [{
     id: 'HP000002',
@@ -121,7 +122,8 @@ class TabProducts extends React.Component {
                 <HeaderTableProducts />
                 <View style={{ flex: 1 }} >
                     <FlatList
-                        data={FakeData}
+                        // data={FakeData}
+                        data={[]}
                         renderItem={({ item, index }) => <RowTableProducts
                             ref={this.setRefService}
                             key={index}
@@ -132,6 +134,7 @@ class TabProducts extends React.Component {
                             editService={() => this.editService(item)}
                         />}
                         keyExtractor={(item, index) => item.id}
+                        ListEmptyComponent={<RowEmptyTableProducts />}
                     />
                 </View>
             </View>
