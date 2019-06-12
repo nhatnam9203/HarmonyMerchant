@@ -18,4 +18,13 @@ export default {
     iconUpload: require('./img/icon-upload.png'),
     signOut: require('./img/out.png'),
 
+    // --- drawer --
+    customer: require('./drawer/customer.png'),
+    home: require('./drawer/home.png'),
+    inventory: require('./drawer/inventory.png'),
+    invoice: require('./drawer/invoice.png'),
+    report: require('./drawer/report.png'),
+    setting: require('./drawer/setting.png'),
+    settlement: require('./drawer/settlement.png'),
+    support: require('./drawer/support.png'),
 }

@@ -12,14 +12,16 @@ import {
 
 import AuthStack from './AuthStack';
 import MainStack from './MainStack';
+import DrawerStack from './DrawerStack';
 
 export default createNavigationContainer(createSwitchNavigator({
     Auth: AuthStack,
     Main: MainStack,
     Splash:SplashScreen,
+    Drawer:DrawerStack
 },
     {
-        initialRouteName: 'Main'
+        initialRouteName: 'Drawer'
     }
 
 ))

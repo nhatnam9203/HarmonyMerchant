@@ -12,6 +12,7 @@ import GeneralInfoScreen from './GeneralInfoScreen';
 import BankInfoScreen from './BankInfoScreen';
 import BusinessInfoScreen from './BusinessInfoScreen';
 import PrincipalScreen from './PrincipalScreen';
+import SlideDrawer from './SlideDrawer';
 
 module.exports = {
     SplashScreen,
@@ -27,5 +28,6 @@ module.exports = {
     GeneralInfoScreen,
     BankInfoScreen,
     BusinessInfoScreen,
-    PrincipalScreen
+    PrincipalScreen,
+    SlideDrawer
 }
