@@ -1,13 +1,13 @@
 const initialState = {
-    categories:[],
+    categoriesByMerchant: [],
 }
 
 function appReducer(state = initialState, action) {
     switch (action.type) {
-        case 'GET_LIST_CATEGORY_SUCCESS':
+        case 'GET_CATEGORIES_BY_MERCHANR_ID_SUCCESS':
             return {
                 ...state,
-                categories: []
+                categoriesByMerchant: action.payload.category
             }
         default:
             return state

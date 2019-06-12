@@ -10,12 +10,12 @@ export function addCategory(body) {
     }
 }
 
-export function getListCategories() {
+export function getCategoriesByMerchantId(id) {
     return {
-        type: 'GET_LIST_CATEGORY',
+        type: 'GET_CATEGORIES_BY_MERCHANR_ID',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}category`
+        api: `${apiConfigs.BASE_API}category/getbymerchant/${id}`
     }
 }
 

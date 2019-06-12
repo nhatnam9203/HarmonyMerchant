@@ -55,7 +55,8 @@ class TabCategories extends React.Component {
     }
 
     componentDidMount() {
-        this.props.actions.category.getListCategories();
+        const { profile } = this.props
+        this.props.actions.category.getCategoriesByMerchantId(profile.id);
     }
 
     setRefService = (ref) => {
@@ -134,13 +135,13 @@ class TabCategories extends React.Component {
     // --------- Render ------
 
     renderTable() {
-        const {categories} = this.props;
+        const { categoriesByMerchant } = this.props;
         return (
             <View style={{ flex: 1 }} >
                 <HeaderTableCategories />
                 <View style={{ flex: 1 }} >
                     <FlatList
-                        data={categories}
+                        data={categoriesByMerchant}
                         // data={FakeData}
                         renderItem={({ item, index }) => <RowTableCategories
                             ref={this.setRefService}
@@ -213,7 +214,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
-    categories: state.category.categories
+    categoriesByMerchant: state.category.categoriesByMerchant
 });
 
 export default connectRedux(mapStateToProps, TabCategories);
