@@ -16,6 +16,7 @@ import InputForm from './InputForm';
 import InputQuestionBusiness from './InputQuestionBusiness';
 import PopupUpload from './PopupUpload';
 import StatusBarHeader from './StatusBar';
+import HomeTabBar from './HomeTabBar';
 
 module.exports = {
     Button,
@@ -35,6 +36,7 @@ module.exports = {
     InputForm,
     InputQuestionBusiness,
     PopupUpload,
-    StatusBarHeader
+    StatusBarHeader,
+    HomeTabBar
 
 }

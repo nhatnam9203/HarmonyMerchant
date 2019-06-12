@@ -17,6 +17,7 @@ export default {
     camera: require('./img/camera.png'),
     iconUpload: require('./img/icon-upload.png'),
     signOut: require('./img/out.png'),
+    openDrawer:require('./img/openDrawer.png'),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),

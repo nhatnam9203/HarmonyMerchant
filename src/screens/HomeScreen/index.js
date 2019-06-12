@@ -9,8 +9,12 @@ class HomeScreen extends Layout {
         }
     }
 
-    componentDidMount() {
-        // this.props.actions.app.test()
+    openDrawer =() =>{
+
+    }
+
+    signOut =() =>{
+        
     }
 
 
