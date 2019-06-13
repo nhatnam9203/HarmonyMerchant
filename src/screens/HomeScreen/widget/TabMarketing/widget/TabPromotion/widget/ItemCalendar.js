@@ -9,7 +9,7 @@ import styles from '../style';
 import IMAGE from '../../../../../../../resources';
 import { Button, Text } from '../../../../../../../components';
 
-const ItemCalendar = () => {
+const ItemCalendar = ({title,placeholder}) => {
     return (
         <View style={{ height: scaleSzie(30), flexDirection: 'row', marginTop: scaleSzie(8) }} >
             <View style={{
@@ -17,8 +17,8 @@ const ItemCalendar = () => {
                 alignItems: 'flex-end'
             }} >
                 <Text style={styles.textNormal} >
-                    Start Date
-                                    </Text>
+                    {title}
+                </Text>
             </View>
 
             <View style={{
@@ -27,7 +27,7 @@ const ItemCalendar = () => {
             }} >
                 <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(8) }} >
                     <Text style={styles.textNormal} >
-                        01/01/19
+                        {placeholder}
                                     </Text>
                 </View>
                 <View style={{ width: 1, paddingVertical: scaleSzie(2) }} >
