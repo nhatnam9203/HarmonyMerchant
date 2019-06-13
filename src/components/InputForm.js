@@ -13,7 +13,7 @@ import IMAGE from '../resources';
 export default class InputForm extends React.PureComponent {
     render() {
         const { title, subTitle, placeholder, style, value,
-            onChangeText, secureTextEntry,keyboardType
+            onChangeText, secureTextEntry, keyboardType
         } = this.props;
         const temptHeight = Platform.OS === 'ios' ? 30 : 40
         return (

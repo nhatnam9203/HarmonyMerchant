@@ -18,6 +18,9 @@ export default {
     iconUpload: require('./img/icon-upload.png'),
     signOut: require('./img/out.png'),
     openDrawer:require('./img/openDrawer.png'),
+    plus:require('./img/plus.png'),
+    sub:require('./img/sub.png'),
+    calendar :require('./img/calendar.png'),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),
