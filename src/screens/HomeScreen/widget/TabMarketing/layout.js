@@ -11,6 +11,7 @@ import { CustomTabBar } from '../../../../components';
 import { scaleSzie } from '../../../../utils';
 import styles from './style';
 import IMAGE from '../../../../resources';
+import {TabPromotion,TabCustomMarketing,TabCustomBanner} from './widget';
 
 class Layout extends React.Component {
 
@@ -30,15 +31,9 @@ class Layout extends React.Component {
                         }}
                     />}
                 >
-                    <View tabLabel='Promotions'
-                    style={{flex:1}}
-                    />
-                    <View tabLabel='Custom Banner'
-                    style={{flex:1}}
-                    />
-                    <View tabLabel='Custom Marketing'
-                    style={{flex:1}}
-                    />
+                    <TabPromotion tabLabel='Promotions' />
+                    <TabCustomBanner tabLabel='Custom Banner' />
+                    <TabCustomMarketing tabLabel='Custom Marketing'/>
 
                 </ScrollableTabView>
             </View>
