@@ -24,6 +24,7 @@ export default StyleSheet.create({
     },
     leftContent:{
         flex:1,
+        paddingTop:scaleSzie(15)
     },
     rightContent:{
         flex:0.8,

@@ -12,6 +12,7 @@ import IMAGE from '../../../../../../resources';
 import { ButtonCustom, Text, InputForm } from '../../../../../../components';
 import { ItemCalendar, ItemPromo, ItemDropdown, ItemCheckBoxInput } from './widget';
 
+const {width} = Dimensions.get('window');
 
 class Layout extends React.Component {
 
@@ -279,10 +280,11 @@ class Layout extends React.Component {
                         <View style={{ height: scaleSzie(300) }} />
                     </ScrollView>
                 </View>
-                <View style={{ height: scaleSzie(60), alignItems: 'center' }} >
+                <View style={{position:'absolute',bottom:0,
+                width:width,height: scaleSzie(70), alignItems: 'center' }} >
                     <ButtonCustom
-                        width={scaleSzie(250)}
-                        height={50}
+                          width={scaleSzie(290)}
+                          height={60}
                         backgroundColor="#0764B0"
                         title="APPLY"
                         textColor="#fff"
