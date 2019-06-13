@@ -21,6 +21,8 @@ export default {
     plus:require('./img/plus.png'),
     sub:require('./img/sub.png'),
     calendar :require('./img/calendar.png'),
+    iconItemBanner :require('./img/iconItemBanner.png'),
+    deleteIconBanner:require('./img/deleteIconBanner.png'),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),

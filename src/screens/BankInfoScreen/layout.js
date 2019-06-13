@@ -66,7 +66,7 @@ export default class Layout extends React.Component {
                             this.state.savaFileUpload ?
                                 <View style={{
                                     width: scaleSzie(400), height: scaleSzie(200),
-                                    overflow:'hidden'
+                                    overflow: 'hidden'
                                 }} >
                                     <Image
                                         source={{ uri: this.state.uriUpload }}
@@ -93,13 +93,13 @@ export default class Layout extends React.Component {
                                             color: '#6A6A6A', fontSize: scaleSzie(20), fontWeight: 'bold',
                                         }} >
                                             Take a Photo
-            </Text>
+                                        </Text>
 
                                         <Text style={{
                                             color: '#6A6A6A', fontSize: scaleSzie(20),
                                         }} >
                                             Or
-            </Text>
+                                        </Text>
                                         <Button
                                             onPress={this.openImageLibrary}
                                             style={{
@@ -110,10 +110,9 @@ export default class Layout extends React.Component {
                                                 color: '#6A6A6A', fontSize: scaleSzie(20),
                                             }} >
                                                 Browse File
-                    </Text>
+                                            </Text>
                                         </Button>
                                     </View>
-
                                 </View>
                         }
 
