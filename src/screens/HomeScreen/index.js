@@ -1,3 +1,5 @@
+import React from 'react';
+
 import Layout from './layout';
 import connectRedux from '../../redux/ConnectRedux';
 
@@ -7,13 +9,14 @@ class HomeScreen extends Layout {
         super(props);
         this.state = {
         }
+        this.scrollTabRef = React.createRef();
     }
 
-    openDrawer =() =>{
+    openDrawer = () => {
         this.props.navigation.openDrawer();
     }
 
-    signOut =() =>{
+    signOut = () => {
 
     }
 

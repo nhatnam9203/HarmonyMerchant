@@ -12,7 +12,7 @@ class CongratulationScreen extends Layout {
     }
 
     gotoDrawerStack= () =>{
-
+        this.props.navigation.navigate('Drawer');
     }
 
 

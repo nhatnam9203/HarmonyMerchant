@@ -118,6 +118,92 @@ class PopupAddEditProduct extends React.Component {
                                     />
                                 </View>
                             </View>
+                            {/* -----  */}
+                            <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                                <View style={{ flex: 1 }} >
+                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
+                                        Items in stock
+                                    </Text>
+                                    <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
+                                        <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
+                                            <TextInput
+                                                placeholder="100"
+                                                style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                            />
+                                        </View>
+                                    </View>
+                                </View>
+                                <View style={{ flex: 1 }} >
+
+                                </View>
+                            </View>
+                            {/* ----- */}
+                            <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                                <View style={{ flex: 1 }} >
+                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
+                                        Low theshold
+                                    </Text>
+                                    <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
+                                        <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
+                                            <TextInput
+                                                placeholder="10"
+                                                style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                            />
+                                        </View>
+                                    </View>
+                                </View>
+                                <View style={{ flex: 1 }} >
+                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
+                                        Max theshold
+                                    </Text>
+                                    <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
+                                        <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
+                                            <TextInput
+                                                placeholder="20"
+                                                style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                            />
+                                        </View>
+                                    </View>
+                                </View>
+                            </View>
+                            {/* ----- */}
+                            <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                                <View style={{ flex: 1 }} >
+                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
+                                        Price
+                                    </Text>
+                                    <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
+                                        <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
+                                            <TextInput
+                                                placeholder="10$"
+                                                style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                            />
+                                        </View>
+                                    </View>
+                                </View>
+                                <View style={{ flex: 1 }} >
+                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
+                                        Status
+                                    </Text>
+                                    <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
+                                        <View style={{ width:scaleSzie(100) ,height:scaleSzie(30) }} >
+                                            <Dropdown
+                                                label='Active'
+                                                data={data}
+                                                // value={'Service Categories'}
+                                                // onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
+                                                containerStyle={{
+                                                    backgroundColor: '#F1F1F1',
+                                                    borderWidth: 1,
+                                                    borderColor: '#6A6A6A',
+                                                    flex: 1
+                                                }}
+                                            />
+                                        </View>
+                                    </View>
+                                </View>
+                            </View>
+                            {/* -----  */}
                             <View style={{ height: scaleSzie(250) }} />
                         </ScrollView>
                     </View>
