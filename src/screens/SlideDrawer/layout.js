@@ -21,7 +21,7 @@ export default class Layout extends React.Component {
                     key={index}
                     title={item}
                     icon={IMAGE[item]}
-                    onPress={() => alert(item)}
+                    onPress={() => this.changeLanguage(item)}
                     />)
                 }
             </View>

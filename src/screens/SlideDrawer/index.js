@@ -11,12 +11,19 @@ class SlideDrawer extends Layout {
         }
     }
 
+    changeLanguage =(item)=>{
+        const {language}= this.props;
+        const  temptLanguage = language === 'en' ? 'vi' : 'en';
+        this.props.actions.dataLocal.changeLanguageApp(temptLanguage);
+    }
+
 
 
 }
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
+    language: state.dataLocal.language
 })
 
 

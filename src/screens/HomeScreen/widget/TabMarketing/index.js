@@ -12,11 +12,15 @@ class TabMarketing extends Layout {
         this.scrollTabRef = React.createRef();
     }
 
+    componentDidMount(){
+    }
+
 
 }
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
+    language: state.dataLocal.language
 })
 
 

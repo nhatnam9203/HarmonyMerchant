@@ -19,3 +19,10 @@ export function saveTokenFCM(payload) {
     }
 }
 
+export function changeLanguageApp(lang){
+    return{
+        type:'CHANGE_LANGUAGE_APP',
+        payload:lang
+    }
+}
+
