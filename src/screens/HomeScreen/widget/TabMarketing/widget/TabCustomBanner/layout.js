@@ -6,7 +6,7 @@ import {
     FlatList,
 } from 'react-native';
 
-import { scaleSzie } from '@utils';
+import { scaleSzie ,localize} from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import { Text, Button, ButtonCustom } from '@components';
@@ -15,6 +15,7 @@ import {ItemBanner} from './widget';
 class Layout extends React.Component {
 
     renderHeader() {
+        const {language} = this.props;
         return (
             <View style={styles.header} >
                 <View style={{
@@ -22,15 +23,15 @@ class Layout extends React.Component {
                     paddingLeft: scaleSzie(15), paddingBottom: scaleSzie(10)
                 }} >
                     <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
-                        Media List
-                        </Text>
+                        {localize('Media List',language)}
+                    </Text>
                 </View>
                 <View style={{
                     flex: 0.8,
                     paddingBottom: scaleSzie(10), justifyContent: 'flex-end'
                 }} >
                     <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
-                        Create new media
+                        {localize('Create new media',language)}
                         </Text>
                 </View>
             </View>
@@ -51,6 +52,7 @@ class Layout extends React.Component {
     }
 
     renderRightContent() {
+        const {language} = this.props;
         return (
             <View style={styles.rightContent} >
                 <View style={{ flex: 1, paddingTop: scaleSzie(40) }} >
@@ -73,19 +75,20 @@ class Layout extends React.Component {
                             <Text style={{
                                 color: '#6A6A6A', fontSize: scaleSzie(20), fontWeight: 'bold',
                             }} >
-                                Take a Photo
+                                {localize('Take a Photo',language)}
                             </Text>
                             <Text style={{
                                 color: '#6A6A6A', fontSize: scaleSzie(20),
                                 marginVertical: scaleSzie(15)
                             }} >
-                                Or
+                                
+                                {localize('Or',language)}
                             </Text>
                             <ButtonCustom
                                 width={scaleSzie(140)}
                                 height={40}
                                 backgroundColor="#F1F1F1"
-                                title="Browse File"
+                                title={localize('Browse File',language)}
                                 textColor="#6A6A6A"
                                 onPress={this.openImageLibrary}
                                 style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
@@ -99,7 +102,7 @@ class Layout extends React.Component {
                         width={scaleSzie(290)}
                         height={60}
                         backgroundColor="#0764B0"
-                        title="NEXT"
+                        title={localize('NEXT',language)}
                         textColor="#fff"
                         onPress={() => { }}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
