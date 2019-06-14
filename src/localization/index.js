@@ -73,7 +73,29 @@ const localization = {
         'BookingDes': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1 500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
         'PosDes': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1 500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
         'MarketingDes': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1 500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
-        'ReportDes': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1 500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+        'ReportDes': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1 500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+        'Principal Des' :'Provide the following information for each individual who owns, directly or indirectly,25% or more of the equity interest of your business.',
+        'Principal Information':'Principal Information',
+        'Principal Name *':'Principal Name *',
+        'First name':'First name',
+        'Last name':'Last name',
+        'Manager':'Manager',
+        'Ownership (%) *':'Ownership (%) *',
+        'Home Phone *':'Home Phone *',
+        'Mobile Phone':'Mobile Phone',
+        'Address *':'Address *',
+        'Home address':'Home address',
+        'City':'City',
+        'State':'State',
+        'Years at This Address *':'Years at This Address *',
+        'Date of Birth (dd/mm/yy) *':'Date of Birth (dd/mm/yy) *',
+        'day':'day',
+        'Month':'Month',
+        'Year':'Year',
+        'Email Address *':'Email Address *',
+        'Driver License Number *':'Driver License Number *',
+        'State Issued *':' State Issued *',
+        'Please take or upload photos of Driver License':'Please take or upload photos of Driver License'
     },
     'vi': {
         'MARKETING': 'Uu dai',
@@ -149,7 +171,15 @@ const localization = {
         'BookingDes': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1 500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
         'PosDes': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1 500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
         'MarketingDes': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1 500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
-        'ReportDes': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1 500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+        'ReportDes': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1 500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+        'Principal Des':'',
+        'Principal Information':'Principal Information',
+        'Principal Name *':'',
+        'First name':'',
+        'Last name':'',
+        'Manager':'',
+        'Ownership (%) *':'',
+        'Home Phone *':'',
     }
 }
 

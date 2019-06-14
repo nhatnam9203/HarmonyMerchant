@@ -7,9 +7,7 @@ import {
 } from 'react-native';
 
 import { InputForm, FormInfoParent, Text, Dropdown, Button, PopupUpload } from '@components';
-import { scaleSzie } from '@utils';
-import styles from './style';
-import Configs from '@configs';
+import { scaleSzie, localize } from '@utils';
 import IMAGE from '@resources';
 
 let data = [{
@@ -33,17 +31,17 @@ export default class Layout extends React.Component {
             address, city, state, zip
         } = addressPrincipal;
         const { day, month, year } = dateOfBirth;
+        const { language } = this.props;
         return (
             <FormInfoParent
-                title="Principal Information"
+                title={localize('Principal Information', language)}
                 back={() => this.props.navigation.goBack()}
                 next={this.nextScreen}
 
             >
                 <View style={{ paddingHorizontal: scaleSzie(16), marginTop: scaleSzie(10) }} >
                     <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
-                        Provide the following information for each individual who owns, directly or indirectly,
-                         25% or more of the equity interest of your business.
+                        {localize('Principal Des', language)}
                     </Text>
                 </View>
 
@@ -59,9 +57,9 @@ export default class Layout extends React.Component {
                     <View style={{ flexDirection: 'row' }} >
                         <View style={{ flex: 1 }} >
                             <InputForm
-                                title="Principal Name *"
+                                title={localize('Principal Name *', language)}
                                 subTitle=""
-                                placeholder="First name"
+                                placeholder={localize('First name', language)}
                                 value={firstName}
                                 onChangeText={(value) => this.updatePrincipalInfo('firstName', value)}
                             />
@@ -70,7 +68,7 @@ export default class Layout extends React.Component {
                             <InputForm
                                 title="   "
                                 subTitle=""
-                                placeholder="Last name"
+                                placeholder={localize('Last name', language)}
                                 value={lastName}
                                 onChangeText={(value) => this.updatePrincipalInfo('lastName', value)}
 
@@ -79,14 +77,14 @@ export default class Layout extends React.Component {
                     </View>
 
                     <InputForm
-                        title="Title/Position *"
+                        title={localize('Title/Position *', language)}
                         subTitle=""
-                        placeholder="Manager"
+                        placeholder={localize('Manager', language)}
                         value={position}
                         onChangeText={(value) => this.updatePrincipalInfo('position', value)}
                     />
                     <InputForm
-                        title="Ownership (%) *"
+                        title={localize('Ownership (%) *', language)}
                         subTitle=""
                         placeholder=""
                         value={ownership}
@@ -96,7 +94,7 @@ export default class Layout extends React.Component {
                     <View style={{ flexDirection: 'row' }} >
                         <View style={{ flex: 1 }} >
                             <InputForm
-                                title="Home Phone *"
+                                title={localize('Home Phone *', language)}
                                 subTitle=""
                                 placeholder=""
                                 value={homePhone}
@@ -106,7 +104,7 @@ export default class Layout extends React.Component {
                         </View>
                         <View style={{ flex: 1, paddingLeft: scaleSzie(20) }} >
                             <InputForm
-                                title="Mobile Phone"
+                                title={localize('Mobile Phone', language)}
                                 subTitle=""
                                 placeholder=""
                                 value={mobilePhone}
@@ -117,9 +115,9 @@ export default class Layout extends React.Component {
                     </View>
 
                     <InputForm
-                        title="Address *"
+                        title={localize('Address *', language)}
                         subTitle=""
-                        placeholder="Home address"
+                        placeholder={localize('Home address', language)}
                         style={{
                             marginBottom: scaleSzie(10)
                         }}
@@ -134,7 +132,7 @@ export default class Layout extends React.Component {
                             <InputForm
                                 title=""
                                 subTitle=""
-                                placeholder="City"
+                                placeholder={localize('City', language)}
                                 style={{
                                     marginBottom: 0
                                 }}
@@ -144,7 +142,7 @@ export default class Layout extends React.Component {
                         </View>
                         <View style={{ width: scaleSzie(180), backgroundColor: 'red' }} >
                             <Dropdown
-                                label={'State'}
+                                label={localize('State', language)}
                                 data={[{ value: '1' }, { value: '2' }, { value: '3' }, { value: '4' }]}
                                 value={state}
                                 onChangeText={(value) => this.updatePrincipalInfo('state', value, 'addressPrincipal')}
@@ -172,7 +170,7 @@ export default class Layout extends React.Component {
                     </View>
 
                     <InputForm
-                        title="Years at This Address *"
+                        title={localize('Years at This Address *')}
                         subTitle=""
                         placeholder=""
                         value={yearAtThisAddress}
@@ -180,7 +178,7 @@ export default class Layout extends React.Component {
                         keyboardType="numeric"
                     />
                     <InputForm
-                        title="Social Security Number (SSN) *"
+                        title={localize('Social Security Number (SSN) *', language)}
                         subTitle=""
                         placeholder=""
                         value={ssn}
@@ -189,15 +187,15 @@ export default class Layout extends React.Component {
                     />
                     {/* ------ thieu ----- */}
                     <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(6) }} >
-                        Date of Birth (dd/mm/yy) *
-                            </Text>
+                        {localize('Date of Birth (dd/mm/yy) *', language)}
+                    </Text>
                     <View style={{
                         height: scaleSzie(30), marginBottom: scaleSzie(24),
                         flexDirection: 'row', alignItems: 'flex-end'
                     }} >
                         <View style={{ width: scaleSzie(120) }} >
                             <Dropdown
-                                label={'day'}
+                                label={localize('day',language)}
                                 data={[{ value: '1' }, { value: '2' }, { value: '3' }]}
                                 value={day}
                                 onChangeText={(value) => this.updatePrincipalInfo('day', value, 'dateOfBirth')}
@@ -211,7 +209,7 @@ export default class Layout extends React.Component {
                         </View>
                         <View style={{ width: scaleSzie(120), marginHorizontal: scaleSzie(20) }} >
                             <Dropdown
-                                label={'Month'}
+                                label={localize('Month',language)}
                                 data={[{ value: '1' }, { value: '2' }, { value: '3' }]}
                                 value={month}
                                 onChangeText={(value) => this.updatePrincipalInfo('month', value, 'dateOfBirth')}
@@ -225,7 +223,7 @@ export default class Layout extends React.Component {
                         </View>
                         <View style={{ width: scaleSzie(120) }} >
                             <Dropdown
-                                label={'Year'}
+                                label={localize('Year',language)}
                                 data={[{ value: '1990' }, { value: '1991' }, { value: '1992' }]}
                                 value={year}
                                 onChangeText={(value) => this.updatePrincipalInfo('year', value, 'dateOfBirth')}
@@ -241,7 +239,7 @@ export default class Layout extends React.Component {
 
                     {/* ------------- */}
                     <InputForm
-                        title="Email Address *"
+                        title={localize('Email Address *')}
                         subTitle=""
                         placeholder="example@gmail.com"
                         value={email}
@@ -251,7 +249,7 @@ export default class Layout extends React.Component {
                     <View style={{ flexDirection: 'row' }} >
                         <View style={{ flex: 1, paddingRight: scaleSzie(20) }} >
                             <InputForm
-                                title="Driver License Number *"
+                                title={localize('Driver License Number *',language)}
                                 subTitle=""
                                 placeholder=""
                                 value={driverLicense}
@@ -261,7 +259,7 @@ export default class Layout extends React.Component {
                         </View>
                         <View style={{ width: scaleSzie(180), }} >
                             <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(5) }} >
-                                State Issued *
+                               {localize('State Issued *',language)}
                             </Text>
                             <Dropdown
                                 label={'2000'}
@@ -282,8 +280,8 @@ export default class Layout extends React.Component {
                     {/* ------ Take Photo ---- */}
 
                     <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginTop: scaleSzie(10) }} >
-                        Please take or upload photos of Driver License
-                            </Text>
+                        {localize('Please take or upload photos of Driver License',language)}
+                    </Text>
 
                     <View style={{
                         alignItems: 'center',
@@ -319,13 +317,13 @@ export default class Layout extends React.Component {
                                         <Text style={{
                                             color: '#6A6A6A', fontSize: scaleSzie(20), fontWeight: 'bold',
                                         }} >
-                                            Take a Photo
+                                            {localize('Take a Photo',language)}
             </Text>
 
                                         <Text style={{
                                             color: '#6A6A6A', fontSize: scaleSzie(20),
                                         }} >
-                                            Or
+                                            {localize('Or',language)}
             </Text>
                                         <Button
                                             onPress={this.openImageLibrary}
@@ -336,7 +334,7 @@ export default class Layout extends React.Component {
                                             <Text style={{
                                                 color: '#6A6A6A', fontSize: scaleSzie(20),
                                             }} >
-                                                Browse File
+                                                {localize('Browse File',language)}
                     </Text>
                                         </Button>
                                     </View>
@@ -349,7 +347,7 @@ export default class Layout extends React.Component {
                 </View>
                 <PopupUpload
                     visible={this.state.visibleUpload}
-                    title="File Upload"
+                    title={localize('File Upload',language)}
                     message="Do you want to Archive this Category ?"
                     onRequestClose={() => this.setState({ visibleUpload: false, uriUpload: '' })}
                     uri={this.state.uriUpload}
