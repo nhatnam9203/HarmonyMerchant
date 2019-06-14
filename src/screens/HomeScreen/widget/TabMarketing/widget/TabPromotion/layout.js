@@ -11,6 +11,7 @@ import styles from './style';
 import IMAGE from '@resources';
 import { ButtonCustom, Text, InputForm } from '@components';
 import { ItemCalendar, ItemPromo, ItemDropdown, ItemCheckBoxInput } from './widget';
+import localization from './localization';
 
 const {width} = Dimensions.get('window');
 
@@ -268,6 +269,7 @@ class Layout extends React.Component {
 
 
     render() {
+        const {language} = this.props;
         return (
             <View style={styles.container} >
                 <View style={{ flex: 1 }} >
@@ -286,7 +288,7 @@ class Layout extends React.Component {
                           width={scaleSzie(290)}
                           height={60}
                         backgroundColor="#0764B0"
-                        title="APPLY"
+                        title={`App`}
                         textColor="#fff"
                         onPress={() => { }}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}

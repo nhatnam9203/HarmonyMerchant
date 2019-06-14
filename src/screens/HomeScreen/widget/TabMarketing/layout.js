@@ -8,10 +8,9 @@ import {
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import { CustomTabBar } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie,localize } from '@utils';
 import styles from './style';
 import { TabPromotion, TabCustomMarketing, TabCustomBanner } from './widget';
-import localization from './localization';
 
 class Layout extends React.Component {
 
@@ -32,9 +31,9 @@ class Layout extends React.Component {
                         }}
                     />}
                 >
-                    <TabPromotion tabLabel={`${localization[language].titleTabPromo}`} />
-                    <TabCustomBanner tabLabel={`${localization[language].titleTabCustomBanner}`} />
-                    <TabCustomMarketing tabLabel={`${localization[language].titleTabCustomMarketing}`} />
+                    <TabPromotion tabLabel={`${localize('Promotions',language)}`} />
+                    <TabCustomBanner tabLabel={`${localize('Custom Banner',language)}`} />
+                    <TabCustomMarketing tabLabel={`${localize('Custom Marketing',language)}`} />
 
                 </ScrollableTabView>
             </View>

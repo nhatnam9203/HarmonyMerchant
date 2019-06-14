@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import { InputForm, FormInfoParent, Text, Button, PopupUpload } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie,localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 
@@ -15,9 +15,10 @@ export default class Layout extends React.Component {
         const {
             bankName, routingNumber, accountNumber
         } = this.state.bankInfo;
+        const {language} = this.props;
         return (
             <FormInfoParent
-                title="Bank Information"
+                title={`${localize('Bank Information',language)}`}
                 back={() => this.props.navigation.goBack()}
                 next={this.nextSreen}
             >
@@ -32,7 +33,7 @@ export default class Layout extends React.Component {
                     />
 
                     <InputForm
-                        title="ABA Routing Number *"
+                        title={`${localize('ABA Routing Number *',language)}`}
                         subTitle=""
                         placeholder=""
                         value={routingNumber}
@@ -41,7 +42,7 @@ export default class Layout extends React.Component {
                     />
 
                     <InputForm
-                        title="Checking Account Number (DDA) *"
+                        title={`${localize('Checking Account Number (DDA) *',language)}`}
                         subTitle=""
                         placeholder=""
                         value={accountNumber}
@@ -50,11 +51,11 @@ export default class Layout extends React.Component {
                     />
 
                     <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
-                        Void Check *
-                            </Text>
+                        {`${localize('Void Check *',language)}`}
+                    </Text>
                     <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginTop: scaleSzie(10) }} >
-                        Please take or upload photos of void check
-                            </Text>
+                    {`${localize('Please take or upload photos of void check',language)}`}
+                    </Text>
 
                     <View style={{
                         alignItems: 'center',
@@ -90,13 +91,13 @@ export default class Layout extends React.Component {
                                         <Text style={{
                                             color: '#6A6A6A', fontSize: scaleSzie(20), fontWeight: 'bold',
                                         }} >
-                                            Take a Photo
+                                            {`${localize('Take a Photo',language)}`}
                                         </Text>
 
                                         <Text style={{
                                             color: '#6A6A6A', fontSize: scaleSzie(20),
                                         }} >
-                                            Or
+                                            {`${localize('Or',language)}`}
                                         </Text>
                                         <Button
                                             onPress={this.openImageLibrary}
@@ -107,7 +108,7 @@ export default class Layout extends React.Component {
                                             <Text style={{
                                                 color: '#6A6A6A', fontSize: scaleSzie(20),
                                             }} >
-                                                Browse File
+                                                {`${localize('Browse File',language)}`}
                                             </Text>
                                         </Button>
                                     </View>
@@ -118,8 +119,8 @@ export default class Layout extends React.Component {
                 </View>
                 <PopupUpload
                     visible={this.state.visibleUpload}
-                    title="File Upload"
-                    message="Do you want to Archive this Category ?"
+                    title={`${localize('File Upload',language)}`}
+                    message={`${localize('Do you want to Archive this Category ?',language)}`}
                     onRequestClose={() => this.setState({ visibleUpload: false, uriUpload: '' })}
                     uri={this.state.uriUpload}
                     save={this.saveFileUpload}

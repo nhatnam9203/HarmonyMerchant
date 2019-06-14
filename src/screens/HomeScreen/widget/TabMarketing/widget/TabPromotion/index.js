@@ -14,6 +14,7 @@ class TabPromotion extends Layout {
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
+    language: state.dataLocal.language
 })
 
 

@@ -33,7 +33,8 @@ const mapStateToProps = state => ({
     generalInfo: state.app.generalInfo,
     businessInfo: state.app.businessInfo,
     bankInfo: state.app.bankInfo,
-    principalInfo: state.app.principalInfo
+    principalInfo: state.app.principalInfo,
+    language: state.dataLocal.language
 })
 
 

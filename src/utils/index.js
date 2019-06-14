@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 
 import Configs from '../configs';
+import Localization from '../localization';
 
 const { width } = Dimensions.get('window');
 
@@ -76,3 +77,8 @@ export const validateIsNumber = (number) => {
     var n = Number(number);
     return !(n !== n);
 }
+
+export const localize = (value, lang = 'en') => {
+    const temptValue = Localization[lang][value];
+    return temptValue ? Localization[lang][value] : value
+};

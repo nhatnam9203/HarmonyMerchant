@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 
 import { InputQuestionBusiness, FormInfoParent, Text } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie, localize } from '@utils';
 
 export default class Layout extends React.Component {
 
@@ -12,9 +12,10 @@ export default class Layout extends React.Component {
         const {
             question1, question2, question3, question4, question5
         } = this.state.businessInfo;
+        const { language } = this.props;
         return (
             <FormInfoParent
-                title="Business Information"
+                title={`${localize('Business Information', language)}`}
                 back={() => this.props.navigation.goBack()}
                 next={this.nextTab}
             >
@@ -22,52 +23,44 @@ export default class Layout extends React.Component {
                     <View style={{ height: scaleSzie(16) }} />
 
                     <InputQuestionBusiness
-                        question={'Have You Ever Accepted Credit/Debit Cards Before?'}
-                        subYes="if yes, who was the processor"
+                        question={`${localize('Have You Ever Accepted Credit/Debit Cards Before?', language)}`}
+                        subYes={`${localize('if yes, who was the processor', language)}`}
                         value={question1.desc}
                         onChangeText={(value) => this.updateBusinessInfo('desc', value, 'question1')}
-                        changeStatusCheck={(isCheck) =>this.changeStatusCheck(isCheck,'question1')}
-                        // changeStatusCheck={(value) => this.updateBusinessInfo('isAccept', value, 'question1')}
-
+                        changeStatusCheck={(isCheck) => this.changeStatusCheck(isCheck, 'question1')}
                         clearTextInput={() => this.updateBusinessInfo('desc', '', 'question1')}
                     />
 
                     <InputQuestionBusiness
-                        question={'Has a Processor Ever Terminated Your Merchant Account?'}
-                        subYes="if yes, who was the processor"
+                        question={`${localize('Has a Processor Ever Terminated Your Merchant Account?', language)}`}
+                        subYes={`${localize('if yes, who was the processor', language)}`}
                         value={question2.desc}
                         onChangeText={(value) => this.updateBusinessInfo('desc', value, 'question2')}
                         changeStatusCheck={(value) => this.updateBusinessInfo('isAccept', value, 'question2')}
-                        // clearTextInput={() => this.updateBusinessInfo('desc', '', 'question2')}
                     />
 
                     <InputQuestionBusiness
-                        question={'Has Merchant or any associated principal and/or owners disclosed below filed bankruptcy or been subject to any involuntary bankruptcy?'}
-                        subYes="if yes, date filed"
+                        question={`${localize('Has Merchant or any associated principal and/or owners disclosed below filed bankruptcy or been subject to any involuntary bankruptcy?', language)}`}
+                        subYes={`${localize('if yes, date filed', language)}`}
                         value={question3.desc}
                         onChangeText={(value) => this.updateBusinessInfo('desc', value, 'question3')}
                         changeStatusCheck={(value) => this.updateBusinessInfo('isAccept', value, 'question3')}
-                        // changeStatusCheck={(value) => this.updateBusinessInfo('isAccept', value, 'question3')}
-
-                        // clearTextInput={() => this.updateBusinessInfo('desc', '', 'question3')}
                     />
 
                     <InputQuestionBusiness
-                        question={'Has Merchant been previously identified by Visa/Mastercard Risk Programs?'}
-                        subYes="if yes, was program and when"
+                        question={`${localize('Has Merchant been previously identified by Visa/Mastercard Risk Programs?', language)}`}
+                        subYes={`${localize('if yes, was program and when', language)}`}
                         value={question4.desc}
                         onChangeText={(value) => this.updateBusinessInfo('desc', value, 'question4')}
                         changeStatusCheck={(value) => this.updateBusinessInfo('isAccept', value, 'question4')}
-                        // clearTextInput={() => this.updateBusinessInfo('desc', '', 'question4')}
                     />
 
                     <InputQuestionBusiness
-                        question={'Will Product(s) or Service(s) Be Sold Outside of The U.S ?'}
+                        question={`${localize('Will Product(s) or Service(s) Be Sold Outside of The U.S ?', language)}`}
                         subYes=""
                         value={question5.desc}
                         onChangeText={(value) => this.updateBusinessInfo('desc', value, 'question5')}
                         changeStatusCheck={(value) => this.updateBusinessInfo('isAccept', value, 'question5')}
-                        // clearTextInput={() => this.updateBusinessInfo('desc', '', 'question5')}
                     />
 
                 </View>

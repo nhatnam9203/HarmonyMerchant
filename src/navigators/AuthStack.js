@@ -29,12 +29,10 @@ const AuthStack = createStackNavigator(
         UserGuide:UserGuideScreen
     },
     {
-        initialRouteName: 'Intro',
+        initialRouteName: 'BusinessInfo',
         headerMode: 'none',
         transitionConfig: getSlideFromRightTransition
     }
 );
 
 export default AuthStack;
-
-// azuzemerchant1@gmail.com

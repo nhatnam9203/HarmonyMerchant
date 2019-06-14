@@ -6,13 +6,14 @@ import {
 } from 'react-native';
 
 import { Text, InputAuth, ButtonCustom, Button } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 
 export default class Layout extends React.Component {
 
     render() {
+        const { language } = this.props;
         return (
             <ImageBackground
                 style={styles.container}
@@ -24,19 +25,19 @@ export default class Layout extends React.Component {
                     color: '#fff', fontSize: scaleSzie(20), fontWeight: 'bold',
                     marginBottom: scaleSzie(10)
                 }} >
-                    Thank you for submitting application, one of our agent will
+                    {`${localize('Thank you for submitting application, one of our agent will', language)}`}
                 </Text>
                 <Text style={{
                     color: '#fff', fontSize: scaleSzie(20), fontWeight: 'bold',
                     marginBottom: scaleSzie(10)
                 }} >
-                    contact you within the next business day.
+                    {`${localize('contact you within the next business day.', language)}`}
                 </Text>
                 <View style={{ height: scaleSzie(60) }} />
                 <ButtonCustom
                     width={scaleSzie(400)}
                     backgroundColor="#4CD964"
-                    title="FINISH"
+                    title={`${localize('FINISH', language)}`}
                     textColor="#fff"
                     onPress={this.submit}
                 />
