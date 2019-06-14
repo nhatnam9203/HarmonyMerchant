@@ -6,13 +6,14 @@ import {
 } from 'react-native';
 
 import { Text, InputAuth, ButtonCustom } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie,localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 
 export default class Layout extends React.Component {
 
     render() {
+        const {language} = this.props;
         return (
             <ImageBackground
                 style={styles.container}
@@ -24,10 +25,10 @@ export default class Layout extends React.Component {
                     color: '#fff', fontSize: scaleSzie(30), fontWeight: 'bold',
                     marginBottom: scaleSzie(10)
                 }} >
-                    Forgot Password
+                    {localize('Forgot Password',language)}
                 </Text>
                 <Text style={styles.desc} >
-                    Please enter your email address and we'll send you
+                    {localize(`Please enter your email address and we'll send you`,language)}
                 </Text>
                 <Text style={[styles.desc, { marginBottom: scaleSzie(10) }]} >
                     instructions on how to reset your password

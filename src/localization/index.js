@@ -29,6 +29,10 @@ const localization = {
         'Has Merchant been previously identified by Visa/Mastercard Risk Programs?':'Has Merchant been previously identified by Visa/Mastercard Risk Programs?',
         'if yes, was program and when':'if yes, was program and when',
         'Will Product(s) or Service(s) Be Sold Outside of The U.S ?':'Will Product(s) or Service(s) Be Sold Outside of The U.S ?',
+        'CONGRATULATION !':'CONGRATULATION !',
+        'Your account is ready to operate':'Your account is ready to operate',
+        'Forgot Password':'Forgot Password',
+        
     },
     'vi': {
         'MARKETING': 'Uu dai',
@@ -59,7 +63,10 @@ const localization = {
         'if yes, date filed':'',
         'Has Merchant been previously identified by Visa/Mastercard Risk Programs?':'',
         'if yes, was program and when':'if yes, was program and when',
-        'Will Product(s) or Service(s) Be Sold Outside of The U.S ?':''
+        'Will Product(s) or Service(s) Be Sold Outside of The U.S ?':'',
+        'CONGRATULATION !':'',
+        'Your account is ready to operate':'',
+        'Forgot Password':''
     }
 }
 

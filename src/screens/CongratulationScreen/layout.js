@@ -6,13 +6,14 @@ import {
 } from 'react-native';
 
 import { Text,  ButtonCustom,  } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie ,localize} from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 
 export default class Layout extends React.Component {
 
     render() {
+        const {language} = this.props;
         return (
             <ImageBackground
                 style={styles.container}
@@ -24,20 +25,21 @@ export default class Layout extends React.Component {
                     color: '#00FFD6', fontSize: scaleSzie(40), fontWeight: 'bold',
                     marginBottom: scaleSzie(10)
                 }} >
-                    CONGRATULATION !
+                    {localize('CONGRATULATION !',language)}
                 </Text>
                 <View style={{ height: scaleSzie(20) }} />
                 <Text style={{
                     color: '#fff', fontSize: scaleSzie(30), fontWeight: 'bold',
                     marginBottom: scaleSzie(10)
                 }} >
-                    Your account is ready to operate
+                    
+                    {localize('Your account is ready to operate',language)}
                 </Text>
                 <View style={{ height: scaleSzie(60) }} />
                 <ButtonCustom
                     width={scaleSzie(400)}
                     backgroundColor="#4CD964"
-                    title="FINISH"
+                    title={localize('FINISH',language)}
                     textColor="#fff"
                     onPress={this.gotoDrawerStack}
                 />

@@ -80,5 +80,5 @@ export const validateIsNumber = (number) => {
 
 export const localize = (value, lang = 'en') => {
     const temptValue = Localization[lang][value];
-    return temptValue ? Localization[lang][value] : value
+    return temptValue ? `${Localization[lang][value]}` : `${value}`
 };
