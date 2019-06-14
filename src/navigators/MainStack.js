@@ -19,7 +19,7 @@ const MainStack = createStackNavigator(
         UserGuide:UserGuideScreen,
     },
     {
-        initialRouteName: 'Home',
+        initialRouteName: 'StoreInfo',
         headerMode: 'none',
     }
 );

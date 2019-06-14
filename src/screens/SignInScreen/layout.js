@@ -6,14 +6,14 @@ import {
 } from 'react-native';
 
 import { Text, InputAuth, ButtonCustom, Button } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie,localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 
 export default class Layout extends React.Component {
 
     render() {
-        const { errorLogin } = this.props;
+        const { errorLogin ,language} = this.props;
         return (
             <ImageBackground
                 style={styles.container}
@@ -33,7 +33,7 @@ export default class Layout extends React.Component {
                 <View style={{ height: scaleSzie(20) }} />
                 <InputAuth
                     ref={this.passwordInputRef}
-                    placeholder="password"
+                    placeholder={localize('password',language)}
                     secureTextEntry={true}
                     onSubmitEditing={this.signIn}
 
@@ -44,14 +44,14 @@ export default class Layout extends React.Component {
                 }} >
                     <Button onPress={this.forgotPassword} >
                         <Text style={{ color: '#fff', fontSize: scaleSzie(16), fontWeight: 'bold' }} >
-                            Forgot password
+                            {localize('Forgot password',language)}
                         </Text>
                     </Button>
                 </View>
                 <ButtonCustom
                     width={scaleSzie(400)}
                     backgroundColor="#4CD964"
-                    title="SIGN IN"
+                    title={localize('SIGN IN',language)}
                     textColor="#fff"
                     onPress={this.signIn}
                 />
@@ -59,9 +59,9 @@ export default class Layout extends React.Component {
                 <Text style={{
                     color: '#fff', fontSize: scaleSzie(16), fontWeight: 'bold',
                 }} >
-                    Don’t have an account?<Text style={{
+                    {localize('Don’t have an account? ',language)}<Text style={{
                         color: '#5AC8FA', fontSize: scaleSzie(16), fontWeight: 'bold',
-                    }} > Sign up</Text>
+                    }} > {localize('Sign up')}</Text>
                 </Text>
                 </Button>
             </ImageBackground>

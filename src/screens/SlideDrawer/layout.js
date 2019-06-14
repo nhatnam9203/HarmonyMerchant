@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import { Text ,Button} from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie,localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 
@@ -14,12 +14,13 @@ const dataDrawer = ['Home','Invoice','Settlement','Customer','Inventory','Report
 export default class Layout extends React.Component {
 
     render() {
+        const {language} = this.props;
         return (
             <View style={styles.container} >
                 {
                     dataDrawer.map((item,index) => <ItemDrawer 
                     key={index}
-                    title={item}
+                    title={localize(item,language) }
                     icon={IMAGE[item]}
                     onPress={() => this.changeLanguage(item)}
                     />)

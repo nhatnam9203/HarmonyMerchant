@@ -8,7 +8,7 @@ import {
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import { DefaultTabBar, Button, StatusBarHeader } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import { TabStoreInfo, TabAdminInfo, TabStaffManagement, TabServiceProduct } from './widget';
@@ -16,13 +16,14 @@ import { TabStoreInfo, TabAdminInfo, TabStaffManagement, TabServiceProduct } fro
 export default class Layout extends React.Component {
 
     render() {
+        const { language } = this.props;
         return (
             <View style={styles.container} >
                 <StatusBarHeader />
                 <ScrollableTabView
                     ref={this.scrollTabRef}
                     style={{}}
-                    initialPage={3}
+                    initialPage={0}
                     locked={true}
                     renderTabBar={() => <DefaultTabBar
                         activeTextColor="#fff"
@@ -33,23 +34,26 @@ export default class Layout extends React.Component {
                         }}
                     />}
                 >
-                    <TabStoreInfo tabLabel='1. Store Info'
+                    <TabStoreInfo tabLabel={`1. ${localize('Store Info', language)}`}
                         nextTab={() => this.scrollTabRef.current.goToPage(1)}
                     />
-                    <TabAdminInfo tabLabel='2. Admin Info'
+                    <TabAdminInfo
+                        tabLabel={`2. ${localize('Admin Info', language)}`}
                         backTab={() => this.scrollTabRef.current.goToPage(0)}
                         nextTab={this.gotoTabStaffManagement}
                     />
-                    <TabStaffManagement tabLabel='3. Staff Management'
+                    <TabStaffManagement
+                        tabLabel={`3. ${localize('Staff Management', language)}`}
                         backTab={() => this.scrollTabRef.current.goToPage(1)}
                         nextTab={this.gotoTabService}
                     />
-                    <TabServiceProduct tabLabel='4. Services / Products'
+                    <TabServiceProduct
+                        tabLabel={`4. ${localize('Services / Products', language)}`}
                         backTab={() => this.scrollTabRef.current.goToPage(2)}
                     />
                 </ScrollableTabView>
                 <Button onPress={this.signOut} style={{ position: 'absolute', top: 20, right: 0 }} >
-                    <Image source={IMAGE.signOut} style={{ width: scaleSzie(40), height: scaleSzie(40) }} />
+                    <Image source={IMAGE.signOut} style={{ width: scaleSzie(35), height: scaleSzie(35) }} />
                 </Button>
 
             </View>
