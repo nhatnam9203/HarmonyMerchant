@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 
 import { InputForm, FormInfoParent, Text, Dropdown } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie, localize } from '@utils';
 
 export default class Layout extends React.Component {
 
@@ -15,10 +15,11 @@ export default class Layout extends React.Component {
             firstName, lastName, position, contactPhone
         } = generalInfo;
         const { prefix, suffix } = tax;
-        const { address, city, state, zip } = businessAddress
+        const { address, city, state, zip } = businessAddress;
+        const { language } = this.props;
         return (
             <FormInfoParent
-                title="General Information"
+                title={localize('General Information', language)}
                 back={() => this.props.navigation.goBack()}
                 next={this.nextTab}
 
@@ -26,14 +27,14 @@ export default class Layout extends React.Component {
                 <View style={{ flex: 1, paddingHorizontal: scaleSzie(25) }} >
                     <View style={{ height: scaleSzie(16) }} />
                     <InputForm
-                        title="Legal Business Name * "
-                        subTitle="(as shown on your income tax return)"
-                        placeholder="Legal Business Name"
+                        title={localize('Legal Business Name * ', language)}
+                        subTitle={localize('(as shown on your income tax return)', language)}
+                        placeholder={localize('Legal Business Name *', language)}
                         value={businessName}
                         onChangeText={(value) => this.updateGeneralInfo('businessName', value)}
                     />
                     <InputForm
-                        title="Doing Business As Name (DBA) *"
+                        title={localize('Doing Business As Name (DBA) *', language)}
                         subTitle=""
                         placeholder="DBA"
                         value={doingBusiness}
@@ -42,7 +43,7 @@ export default class Layout extends React.Component {
                     <View style={{ flexDirection: 'row' }} >
                         <View style={{ width: scaleSzie(100) }} >
                             <InputForm
-                                title="Federal Tax ID *"
+                                title={localize('Federal Tax ID *', language)}
                                 subTitle=""
                                 placeholder=""
                                 value={prefix}
@@ -67,7 +68,7 @@ export default class Layout extends React.Component {
                         </View>
                     </View>
                     <InputForm
-                        title="DBA Business Address *"
+                        title={localize('DBA Business Address *', language)}
                         subTitle="(no P.O. Box)"
                         placeholder="DBA address"
                         style={{
@@ -95,7 +96,7 @@ export default class Layout extends React.Component {
                         <View style={{ width: scaleSzie(180), backgroundColor: 'red' }} >
                             <Dropdown
                                 label={'State'}
-                                data={[{value:'1'},{value:'2'},{value:3},{value:'4'}]}
+                                data={[{ value: '1' }, { value: '2' }, { value: 3 }, { value: '4' }]}
                                 value={state}
                                 onChangeText={(value) => this.updateGeneralInfo('state', value, 'businessAddress')}
                                 containerStyle={{
@@ -123,7 +124,7 @@ export default class Layout extends React.Component {
                     <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                         <View style={{ flex: 1 }} >
                             <InputForm
-                                title="Business Phone Number *"
+                                title={localize('Business Phone Number *', language)}
                                 subTitle=""
                                 placeholder=""
                                 value={businessPhone}
@@ -135,7 +136,7 @@ export default class Layout extends React.Component {
                     </View>
 
                     <InputForm
-                        title="Contact's  Email Address *"
+                        title={localize('Contact is  Email Address *', language)}
                         subTitle=""
                         placeholder="example@gmail.com"
                         value={email}
@@ -145,7 +146,7 @@ export default class Layout extends React.Component {
                     <View style={{ flexDirection: 'row' }} >
                         <View style={{ flex: 1 }} >
                             <InputForm
-                                title="Contact Name *"
+                                title={localize('Contact Name *', language)}
                                 subTitle=""
                                 placeholder="First name"
                                 value={firstName}
@@ -163,7 +164,7 @@ export default class Layout extends React.Component {
                         </View>
                     </View>
                     <InputForm
-                        title="Title/Position *"
+                        title={localize('Title/Position *', language)}
                         subTitle=""
                         placeholder="Manager"
                         value={position}
@@ -173,7 +174,7 @@ export default class Layout extends React.Component {
                     <View style={{ flexDirection: 'row' }} >
                         <View style={{ flex: 1 }} >
                             <InputForm
-                                title="Contact's Phone Number *"
+                                title={localize('Contact is Phone Number *', language)}
                                 subTitle=""
                                 placeholder=""
                                 value={contactPhone}
