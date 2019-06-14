@@ -19,7 +19,7 @@ const MainStack = createStackNavigator(
         UserGuide:UserGuideScreen,
     },
     {
-        initialRouteName: 'Congratulation',
+        initialRouteName: 'Home',
         headerMode: 'none',
     }
 );

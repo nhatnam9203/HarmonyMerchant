@@ -6,25 +6,25 @@ import {
     Dimensions
 } from 'react-native';
 
-import { scaleSzie } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import { ButtonCustom, Text, InputForm } from '@components';
 import { ItemCalendar, ItemPromo, ItemDropdown, ItemCheckBoxInput } from './widget';
-import localization from './localization';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 class Layout extends React.Component {
 
     renderDiscountAccording() {
+        const { language } = this.props;
         return (
             <ItemPromo
-                title="Discount according to the time frame"
+                title={localize('Discount according to the time frame', language)}
             >
                 <View style={{ paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10) }} >
                     <InputForm
-                        title="Campaign Name:"
+                        title={localize('Campaign Name:', language)}
                         subTitle=""
                         placeholder=""
                         // value={bankName}
@@ -32,17 +32,18 @@ class Layout extends React.Component {
                         style={{ marginBottom: scaleSzie(10) }}
                     />
                     <Text style={styles.textNormal} >
-                        Campaign Time:
-                            </Text>
+
+                        {localize('Campaign Time:', language)}
+                    </Text>
                     {/* ---- Row ---- */}
                     <View style={{ flexDirection: 'row' }} >
                         <ItemCalendar
-                            title="Start Date"
+                            title={localize('Start Date', language)}
                             placeholder="01/01/19"
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemCalendar
-                            title="End Date"
+                            title={localize('End Date', language)}
                             placeholder="01/01/19"
 
                         />
@@ -50,30 +51,30 @@ class Layout extends React.Component {
                     {/* ---- Row ---- */}
                     <View style={{ flexDirection: 'row', marginTop: scaleSzie(2), marginBottom: scaleSzie(20) }} >
                         <ItemDropdown
-                            title="From"
+                            title={localize('From', language)}
                             width={100}
                             placeholder="08:00 AM"
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemDropdown
-                            title="To"
+                            title={localize('To', language)}
                             width={100}
                             placeholder="08:00 AM"
                         />
                     </View>
                     {/* ---- Row ---- */}
                     <Text style={styles.textNormal} >
-                        Promotion form:
-                            </Text>
+                        {localize('Promotion form:', language)}
+                    </Text>
                     {/* ---- Row ---- */}
                     <View style={{ flexDirection: 'row' }} >
                         <ItemCheckBoxInput
-                            title="Discount by percent (%)"
+                            title={localize('Discount by percent (%)', language)}
                             placeholder="15"
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemCheckBoxInput
-                            title="Discount fixtom amount ($)"
+                            title={localize('Discount fixtom amount ($)', language)}
                             placeholder="100"
                         />
                     </View>
@@ -83,14 +84,15 @@ class Layout extends React.Component {
     }
 
     renderDiscountServices() {
+        const { language } = this.props;
         return (
             <ItemPromo
-                title="Discount when using the following services"
+                title={localize('Discount when using the following services', language)}
                 style={{ marginTop: scaleSzie(15) }}
             >
                 <View style={{ paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10) }} >
                     <InputForm
-                        title="Campaign Name:"
+                        title={localize('Campaign Name:', language)}
                         subTitle=""
                         placeholder=""
                         // value={bankName}
@@ -98,17 +100,17 @@ class Layout extends React.Component {
                         style={{ marginBottom: scaleSzie(10) }}
                     />
                     <Text style={styles.textNormal} >
-                        Campaign Time:
-                            </Text>
+                        {localize('Campaign Time:', language)}
+                    </Text>
                     {/* ---- Row ---- */}
                     <View style={{ flexDirection: 'row' }} >
                         <ItemCalendar
-                            title="Start Date"
+                            title={localize('Start Date', language)}
                             placeholder="01/01/19"
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemCalendar
-                            title="End Date"
+                            title={localize('End Date', language)}
                             placeholder="01/01/19"
 
                         />
@@ -116,30 +118,30 @@ class Layout extends React.Component {
                     {/* ---- Row ---- */}
                     <View style={{ flexDirection: 'row', marginTop: scaleSzie(2), marginBottom: scaleSzie(20) }} >
                         <ItemDropdown
-                            title="From"
+                            title={localize('From', language)}
                             width={100}
                             placeholder="08:00 AM"
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemDropdown
-                            title="To"
+                            title={localize('To', language)}
                             width={100}
                             placeholder="08:00 AM"
                         />
                     </View>
                     {/* ---- Row ---- */}
                     <Text style={styles.textNormal} >
-                        Promotion form:
-                            </Text>
+                        {localize('Promotion form:', language)}
+                    </Text>
                     {/* ---- Row ---- */}
                     <View style={{ flexDirection: 'row' }} >
                         <ItemCheckBoxInput
-                            title="Discount by percent (%)"
+                            title={localize('Discount by percent (%)', language)}
                             placeholder="15"
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemCheckBoxInput
-                            title="Discount fixtom amount ($)"
+                            title={localize('Discount fixtom amount ($)', language)}
                             placeholder="100"
                         />
                     </View>
@@ -149,14 +151,15 @@ class Layout extends React.Component {
     }
 
     renderDiscountOnBirthday() {
+        const { language } = this.props;
         return (
             <ItemPromo
-                title="Discount on birthday"
+                title={localize('Discount on birthday', language)}
                 style={{ marginTop: scaleSzie(15) }}
             >
                 <View style={{ paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10) }} >
                     <InputForm
-                        title="Campaign Name:"
+                        title={localize('Campaign Name:', language)}
                         subTitle=""
                         placeholder=""
                         // value={bankName}
@@ -165,17 +168,17 @@ class Layout extends React.Component {
                     />
                     {/* ---- Row ---- */}
                     <Text style={styles.textNormal} >
-                        Promotion form:
-                            </Text>
+                        {localize('Promotion form:', language)}
+                    </Text>
                     {/* ---- Row ---- */}
                     <View style={{ flexDirection: 'row' }} >
                         <ItemCheckBoxInput
-                            title="Discount by percent (%)"
+                            title={localize('Discount by percent (%)', language)}
                             placeholder="15"
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemCheckBoxInput
-                            title="Discount fixtom amount ($)"
+                            title={localize('Discount fixtom amount ($)', language)}
                             placeholder="100"
                         />
                     </View>
@@ -185,14 +188,15 @@ class Layout extends React.Component {
     }
 
     renderDiscountLoyalCustomer() {
+        const { language } = this.props;
         return (
             <ItemPromo
-                title="Discount for loyal customers"
+                title={localize('Discount for loyal customers', language)}
                 style={{ marginTop: scaleSzie(15) }}
             >
                 <View style={{ paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10) }} >
                     <InputForm
-                        title="Campaign Name:"
+                        title={localize('Campaign Name:', language)}
                         subTitle=""
                         placeholder=""
                         // value={bankName}
@@ -202,7 +206,7 @@ class Layout extends React.Component {
                     {/* ---- Row ---- */}
                     <View style={{ width: scaleSzie(200) }}  >
                         <InputForm
-                            title="Promotion applied on (times)"
+                            title={localize('Promotion applied on (times)', language)}
                             subTitle=""
                             placeholder="6"
                             // value={bankName}
@@ -212,17 +216,17 @@ class Layout extends React.Component {
                     </View>
                     {/* ---- Row ---- */}
                     <Text style={styles.textNormal} >
-                        Promotion form:
-                            </Text>
+                        {localize('Promotion form:', language)}
+                    </Text>
                     {/* ---- Row ---- */}
                     <View style={{ flexDirection: 'row' }} >
                         <ItemCheckBoxInput
-                            title="Discount by percent (%)"
+                            title={localize('Discount by percent (%)',language)}
                             placeholder="15"
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemCheckBoxInput
-                            title="Discount fixtom amount ($)"
+                            title={localize('Discount fixtom amount ($)',language)}
                             placeholder="100"
                         />
                     </View>
@@ -232,14 +236,15 @@ class Layout extends React.Component {
     }
 
     renderDiscountForReferrals() {
+        const {language} = this.props;
         return (
             <ItemPromo
-                title="Discount for referrals"
+                title={localize('Discount for referrals',language)}
                 style={{ marginTop: scaleSzie(15) }}
             >
                 <View style={{ paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10) }} >
                     <InputForm
-                        title="Campaign Name:"
+                        title={localize('Campaign Name:',language)}
                         subTitle=""
                         placeholder=""
                         // value={bankName}
@@ -248,17 +253,17 @@ class Layout extends React.Component {
                     />
                     {/* ---- Row ---- */}
                     <Text style={styles.textNormal} >
-                        Promotion form:
-                            </Text>
+                        {localize('Promotion form:',language)}
+                    </Text>
                     {/* ---- Row ---- */}
                     <View style={{ flexDirection: 'row' }} >
                         <ItemCheckBoxInput
-                            title="Discount by percent (%)"
+                            title={localize('Discount by percent (%)',language)}
                             placeholder="15"
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemCheckBoxInput
-                            title="Discount fixtom amount ($)"
+                            title={localize('Discount fixtom amount ($)',language)}
                             placeholder="100"
                         />
                     </View>
@@ -269,7 +274,7 @@ class Layout extends React.Component {
 
 
     render() {
-        const {language} = this.props;
+        const { language } = this.props;
         return (
             <View style={styles.container} >
                 <View style={{ flex: 1 }} >
@@ -282,13 +287,15 @@ class Layout extends React.Component {
                         <View style={{ height: scaleSzie(300) }} />
                     </ScrollView>
                 </View>
-                <View style={{position:'absolute',bottom:0,
-                width:width,height: scaleSzie(70), alignItems: 'center' }} >
+                <View style={{
+                    position: 'absolute', bottom: 0,
+                    width: width, height: scaleSzie(70), alignItems: 'center'
+                }} >
                     <ButtonCustom
-                          width={scaleSzie(290)}
-                          height={60}
+                        width={scaleSzie(290)}
+                        height={60}
                         backgroundColor="#0764B0"
-                        title={`App`}
+                        title={localize('APPLY', language)}
                         textColor="#fff"
                         onPress={() => { }}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
