@@ -7,11 +7,10 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { CustomTabBar } from '../../../../components';
-import { scaleSzie } from '../../../../utils';
+import { CustomTabBar } from '@components';
+import { scaleSzie } from '@utils';
 import styles from './style';
 import { TabCategories, TabServices, TabExtra, TabProducts } from './widget';
-import IMAGE from '../../../../resources';
 
 class Layout extends React.Component {
 

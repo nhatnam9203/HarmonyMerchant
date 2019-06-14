@@ -7,18 +7,8 @@ import {
     Alert
 } from 'react-native';
 
-import { ButtonCustom, PopupParent, Dropdown } from '../../../../../components';
-import { scaleSzie } from '../../../../../utils';
-
-
-let data = [{
-    value: 'Banana',
-}, {
-    value: 'Mango',
-}, {
-    value: 'Pear',
-}
-];
+import { ButtonCustom, PopupParent, Dropdown } from '@components';
+import { scaleSzie } from '@utils';
 
 class PopupEditAddCategories extends React.Component {
 

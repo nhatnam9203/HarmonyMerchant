@@ -5,10 +5,9 @@ import {
     StyleSheet,
 } from 'react-native';
 
-import { ButtonCustom, Text } from '../../../components';
-import { scaleSzie } from '../../../utils';
-import connectRedux from '../../../redux/ConnectRedux';
-
+import { ButtonCustom, Text } from '@components';
+import { scaleSzie } from '@utils';
+import connectRedux from '@redux/ConnectRedux';
 
 class TabAdminInfo extends React.Component {
 

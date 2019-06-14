@@ -6,9 +6,9 @@ import {
     StyleSheet
 } from 'react-native';
 
-import IMAGE from '../../../resources';
-import { Dropdown, Button } from '../../../components';
-import { scaleSzie } from '../../../utils';
+import IMAGE from '@resources';
+import { Dropdown, Button } from '@components';
+import { scaleSzie } from '@utils';
 
 let data = [{
     value: 'Banana',

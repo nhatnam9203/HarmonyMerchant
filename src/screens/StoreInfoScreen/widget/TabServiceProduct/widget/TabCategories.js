@@ -5,38 +5,13 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { FooterTab, PopupConfirm } from '../../../../../components';
-import { scaleSzie } from '../../../../../utils';
+import { FooterTab, PopupConfirm } from '@components';
+import { scaleSzie } from '@utils';
 import HeaderTableCategories from './HeaderTableCategories';
 import RowTableCategories from './RowTableCategories';
-import IMAGE from '../../../../../resources';
 import PopupEditAddCategories from './PopupEditAddCategories';
 import RowEmptyTableCategories from './RowEmptyTableCategories';
-import connectRedux from '../../../../../redux/ConnectRedux';
-
-const FakeData = [{
-    id: 'HP000002',
-    name: 'Pena Valdez',
-    role: 'Staff',
-    status: 'Active'
-},
-{
-    id: 'HP000003',
-    name: 'Jessica Miles',
-    role: 'Staff',
-    status: 'Active'
-},
-{
-    id: 'HP000004',
-    name: 'Pena Valdez',
-    role: 'Staff',
-    status: 'Active'
-}, {
-    id: 'HP000005',
-    name: 'Jessica Miles',
-    role: 'Staff',
-    status: 'Active'
-}]
+import connectRedux from '@redux/ConnectRedux';
 
 
 class TabCategories extends React.Component {

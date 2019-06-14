@@ -4,11 +4,10 @@ import {
     Image
 } from 'react-native';
 
-import { Text ,Button} from '../../components';
-import { scaleSzie } from '../../utils';
+import { Text ,Button} from '@components';
+import { scaleSzie } from '@utils';
 import styles from './style';
-import Configs from '../../configs';
-import IMAGE from '../../resources';
+import IMAGE from '@resources';
 
 const dataDrawer = ['Home','Invoice','Settlement','Customer','Inventory','Report','Setting','Support'];
 

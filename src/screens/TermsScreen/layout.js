@@ -6,11 +6,10 @@ import {
     StatusBar
 } from 'react-native';
 
-import { Text, HeaderLogoTop, ButtonCustom, Button ,StatusBarHeader} from '../../components';
-import { scaleSzie } from '../../utils';
+import { Text, HeaderLogoTop, ButtonCustom, Button ,StatusBarHeader} from '@components';
+import { scaleSzie } from '@utils';
 import styles from './style';
-import Configs from '../../configs';
-import IMAGE from '../../resources';
+import IMAGE from '@resources';
 
 export default class Layout extends React.Component {
 

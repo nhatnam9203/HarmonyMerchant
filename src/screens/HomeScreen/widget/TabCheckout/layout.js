@@ -6,9 +6,9 @@ import {
     FlatList,
 } from 'react-native';
 
-import { scaleSzie } from '../../../../utils';
+import { scaleSzie } from '@utils';
 import styles from './style';
-import IMAGE from '../../../../resources';
+import IMAGE from '@resources';
 
 class Layout extends React.Component {
 

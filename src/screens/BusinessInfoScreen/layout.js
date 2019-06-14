@@ -1,17 +1,10 @@
 import React from 'react';
 import {
     View,
-    Image,
-    ScrollView,
-    TextInput
 } from 'react-native';
 
-import { InputQuestionBusiness, FormInfoParent, Text } from '../../components';
-import { scaleSzie } from '../../utils';
-import styles from './style';
-import Configs from '../../configs';
-import IMAGE from '../../resources';
-
+import { InputQuestionBusiness, FormInfoParent, Text } from '@components';
+import { scaleSzie } from '@utils';
 
 export default class Layout extends React.Component {
 

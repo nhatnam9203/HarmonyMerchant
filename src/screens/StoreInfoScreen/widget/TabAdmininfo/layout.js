@@ -10,9 +10,8 @@ import {
 import {
     Dropdown,
     ButtonCustom, Button, Text
-} from '../../../../components';
-import { scaleSzie } from '../../../../utils';
-import IMAGE from '../../../../resources';
+} from '@components';
+import { scaleSzie } from '@utils';
 import { ItemAdminInfo, } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';

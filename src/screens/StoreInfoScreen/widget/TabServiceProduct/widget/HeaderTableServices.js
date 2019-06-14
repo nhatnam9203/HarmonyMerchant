@@ -6,9 +6,9 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { InputAuth, ButtonCustom, Button, DefaultTabBar } from '../../../../../components';
-import { scaleSzie } from '../../../../../utils';
-import IMAGE from '../../../../../resources';
+import {  Button } from '@components';
+import { scaleSzie } from '@utils';
+import IMAGE from '@resources';
 
 class HeaderTableServices extends React.Component {
 
@@ -49,9 +49,7 @@ class HeaderTableServices extends React.Component {
     render() {
         const { sortUpStaffName, sortUpId, sortUpRole, sortUpStatus } = this.state;
         const iconSortStaffName = sortUpStaffName ? IMAGE.sortUp : IMAGE.sortDown;
-        const iconSortId = sortUpId ? IMAGE.sortUp : IMAGE.sortDown;
         const iconSortRole = sortUpRole ? IMAGE.sortUp : IMAGE.sortDown;
-        const iconSortStatus = sortUpStatus ? IMAGE.sortUp : IMAGE.sortDown;
         return (
             <View style={styles.tableHeader} >
                 {/* ----- 1 ------ */}

@@ -2,9 +2,9 @@ import ImagePicker from 'react-native-image-picker';
 import { Alert } from 'react-native';
 
 import Layout from './layout';
-import connectRedux from '../../redux/ConnectRedux';
+import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateIsNumber } from '../../utils';
+import { validateIsNumber } from '@utils';
 
 class PrincipalScreen extends Layout {
 

@@ -1,10 +1,9 @@
-import React from 'react';
 import { Alert } from 'react-native';
 
 import Layout from './layout';
-import connectRedux from '../../redux/ConnectRedux';
+import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateEmail, validateIsNumber } from '../../utils';
+import { validateEmail, validateIsNumber } from '@utils';
 
 class GeneralInfoScreen extends Layout {
 

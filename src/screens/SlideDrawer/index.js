@@ -1,7 +1,7 @@
 import _ from 'ramda';
 
 import Layout from './layout';
-import connectRedux from '../../redux/ConnectRedux';
+import connectRedux from '@redux/ConnectRedux';
 
 class SlideDrawer extends Layout {
 

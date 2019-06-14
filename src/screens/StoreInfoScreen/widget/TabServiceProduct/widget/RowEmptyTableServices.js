@@ -6,9 +6,8 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { ButtonCustom, } from '../../../../../components';
-import { scaleSzie } from '../../../../../utils';
-import IMAGE from '../../../../../resources';
+import { scaleSzie } from '@utils';
+import IMAGE from '@resources';
 
 class RowEmptyTableServices extends React.Component {
 

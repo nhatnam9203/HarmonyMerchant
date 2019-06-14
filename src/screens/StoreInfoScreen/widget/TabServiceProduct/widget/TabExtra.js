@@ -5,38 +5,12 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { FooterTab, PopupConfirm } from '../../../../../components';
-import { scaleSzie } from '../../../../../utils';
+import { FooterTab, PopupConfirm } from '@components';
+import { scaleSzie } from '@utils';
 import HeaderTableExtra from './HeaderTableExtra';
 import RowTableExtra from './RowTableExtra';
-import IMAGE from '../../../../../resources';
 import PopupEditAddExtra from './PopupEditAddExtra';
 import RowEmptyTableExtra from './RowEmptyTableExtra';
-
-const FakeData = [{
-    id: 'HP000002',
-    name: 'Pena Valdez',
-    role: 'Staff',
-    status: 'Active'
-},
-{
-    id: 'HP000003',
-    name: 'Jessica Miles',
-    role: 'Staff',
-    status: 'Active'
-},
-{
-    id: 'HP000004',
-    name: 'Pena Valdez',
-    role: 'Staff',
-    status: 'Active'
-}, {
-    id: 'HP000005',
-    name: 'Jessica Miles',
-    role: 'Staff',
-    status: 'Active'
-}]
-
 
 class TabExtra extends React.Component {
 

@@ -4,10 +4,9 @@ import {
     Platform
 } from 'react-native';
 
-import Configs from '../../configs';
-import { scaleSzie } from '../../utils';
+import { scaleSzie } from '@utils';
 
-const { width, height } = Dimensions.get('window');
+const { width} = Dimensions.get('window');
 
 export default StyleSheet.create({
     container: {

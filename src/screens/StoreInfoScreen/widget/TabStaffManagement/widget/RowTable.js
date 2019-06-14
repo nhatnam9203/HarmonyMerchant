@@ -6,9 +6,9 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { InputAuth, ButtonCustom, Button, DefaultTabBar } from '../../../../../components';
-import { scaleSzie } from '../../../../../utils';
-import IMAGE from '../../../../../resources';
+import {  ButtonCustom } from '@components';
+import { scaleSzie } from '@utils';
+import IMAGE from '@resources';
 
 class RowTable extends React.Component {
 

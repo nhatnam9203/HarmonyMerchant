@@ -6,10 +6,10 @@ import {
     Dimensions
 } from 'react-native';
 
-import { scaleSzie } from '../../../../../../utils';
+import { scaleSzie } from '@utils';
 import styles from './style';
-import IMAGE from '../../../../../../resources';
-import { ButtonCustom, Text, InputForm } from '../../../../../../components';
+import IMAGE from '@resources';
+import { ButtonCustom, Text, InputForm } from '@components';
 import { ItemCalendar, ItemPromo, ItemDropdown, ItemCheckBoxInput } from './widget';
 
 const {width} = Dimensions.get('window');

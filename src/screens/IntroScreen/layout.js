@@ -5,11 +5,11 @@ import {
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 
-import { Text, ButtonCustom, Button } from '../../components';
-import { scaleSzie } from '../../utils';
+import { Text, ButtonCustom, Button } from '@components';
+import { scaleSzie } from '@utils';
 import styles from './style';
-import Configs from '../../configs';
-import IMAGE from '../../resources';
+import Configs from '@configs';
+import IMAGE from '@resources';
 import strings from './strings';
 
 export default class Layout extends React.Component {

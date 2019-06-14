@@ -7,10 +7,10 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { CustomTabBar } from '../../../../components';
-import { scaleSzie } from '../../../../utils';
+import { CustomTabBar } from '@components';
+import { scaleSzie } from '@utils';
 import styles from './style';
-import IMAGE from '../../../../resources';
+import IMAGE from '@resources';
 import {TabPromotion,TabCustomMarketing,TabCustomBanner} from './widget';
 
 class Layout extends React.Component {
@@ -21,7 +21,7 @@ class Layout extends React.Component {
                 <ScrollableTabView
                     ref={this.scrollTabRef}
                     style={{}}
-                    initialPage={1}
+                    initialPage={2}
                     renderTabBar={() => <CustomTabBar
                         activeTextColor="#fff"
                         inactiveTextColor="#0764B0"

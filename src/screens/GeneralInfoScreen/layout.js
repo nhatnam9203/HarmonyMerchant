@@ -1,25 +1,10 @@
 import React from 'react';
 import {
     View,
-    Image,
-    ScrollView,
-    TextInput
 } from 'react-native';
 
-import { InputForm, FormInfoParent, Text, Dropdown } from '../../components';
-import { scaleSzie } from '../../utils';
-import styles from './style';
-import Configs from '../../configs';
-import IMAGE from '../../resources';
-
-let data = [{
-    value: 'Banana',
-}, {
-    value: 'Mango',
-}, {
-    value: 'Pear',
-}
-];
+import { InputForm, FormInfoParent, Text, Dropdown } from '@components';
+import { scaleSzie } from '@utils';
 
 export default class Layout extends React.Component {
 

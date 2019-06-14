@@ -4,10 +4,10 @@ import {
     Image,
 } from 'react-native';
 
-import { scaleSzie } from '../../../../../../../utils';
+import { scaleSzie } from '@utils';
 import styles from '../style';
-import IMAGE from '../../../../../../../resources';
-import { InputForm, Button } from '../../../../../../../components';
+import IMAGE from '@resources';
+import { InputForm, Button } from '@components';
 
 class ItemCheckBoxInput extends React.Component {
 

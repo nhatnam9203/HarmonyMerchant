@@ -1,6 +1,6 @@
 import Layout from './layout';
-import connectRedux from '../../../../../../redux/ConnectRedux';
-import NavigationServices from "../../../../../../navigators/NavigatorServices";
+import connectRedux from '@redux/ConnectRedux';
+import NavigationServices from "@navigators/NavigatorServices";
 
 
 class TabCustomMarketing extends Layout {

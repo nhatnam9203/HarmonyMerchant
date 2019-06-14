@@ -5,11 +5,10 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { FooterTab, PopupConfirm } from '../../../../../components';
-import { scaleSzie } from '../../../../../utils';
+import { FooterTab, PopupConfirm } from '@components';
+import { scaleSzie } from '@utils';
 import HeaderTableServices from './HeaderTableServices';
 import RowTableServices from './RowTableServices';
-import IMAGE from '../../../../../resources';
 import PopupAddService from './PopupAddService';
 import RowEmptyTableServices from './RowEmptyTableServices';
 

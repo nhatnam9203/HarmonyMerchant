@@ -5,10 +5,9 @@ import {
     ImageBackground,
 } from 'react-native';
 
-import { Text, InputAuth, ButtonCustom, Button } from '../../components';
+import { Text, ButtonCustom } from '@components';
 import { scaleSzie } from '../../utils';
 import styles from './style';
-import Configs from '../../configs';
 import IMAGE from '../../resources';
 
 export default class Layout extends React.Component {

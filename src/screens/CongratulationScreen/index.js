@@ -1,7 +1,5 @@
-import React from 'react';
-
 import Layout from './layout';
-import connectRedux from '../../redux/ConnectRedux';
+import connectRedux from '@redux/ConnectRedux';
 
 class CongratulationScreen extends Layout {
 

@@ -4,14 +4,14 @@ import {
     Platform
 } from 'react-native';
 
-import Configs from '../../../../../../configs';
-import { scaleSzie } from '../../../../../../utils';
+import Configs from '@configs';
+import { scaleSzie } from '@utils';
 
 const { width, height } = Dimensions.get('window');
 
 export default StyleSheet.create({
     container: {
         flex: 1,
-        
+        paddingTop:scaleSzie(12)
     },
 })

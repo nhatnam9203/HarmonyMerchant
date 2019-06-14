@@ -5,10 +5,10 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { HomeTabBar, StatusBarHeader, Button } from '../../components';
-import { scaleSzie } from '../../utils';
+import { HomeTabBar, StatusBarHeader, Button } from '@components';
+import { scaleSzie } from '@utils';
 import styles from './style';
-import IMAGE from '../../resources';
+import IMAGE from '@resources';
 import { TabMarketing,TabAppointment ,TabCheckout} from './widget';
 
 export default class Layout extends React.Component {

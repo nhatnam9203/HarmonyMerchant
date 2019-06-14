@@ -7,18 +7,9 @@ import {
     TextInput
 } from 'react-native';
 
-import IMAGE from '../../../resources';
-import { Dropdown, Button } from '../../../components';
-import { scaleSzie } from '../../../utils';
-
-let data = [{
-    value: 'Banana',
-}, {
-    value: 'Mango',
-}, {
-    value: 'Pear',
-}
-];
+import IMAGE from '@resources';
+import {  Button } from '@components';
+import { scaleSzie } from '@utils';
 
 export default class ItemWorkingTime extends React.Component {
 

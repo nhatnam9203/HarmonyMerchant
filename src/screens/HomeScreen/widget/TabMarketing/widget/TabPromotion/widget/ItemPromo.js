@@ -5,10 +5,10 @@ import {
     Dimensions
 } from 'react-native';
 
-import { scaleSzie } from '../../../../../../../utils';
+import { scaleSzie } from '@utils';
 import styles from '../style';
-import IMAGE from '../../../../../../../resources';
-import { Button, Text } from '../../../../../../../components';
+import IMAGE from '@resources';
+import { Button, Text } from '@components';
 
 const { width } = Dimensions.get('window');
 

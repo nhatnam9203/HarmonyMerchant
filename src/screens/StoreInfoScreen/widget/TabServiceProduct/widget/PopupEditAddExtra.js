@@ -8,8 +8,8 @@ import {
     ScrollView
 } from 'react-native';
 
-import { ButtonCustom, PopupParent, Dropdown } from '../../../../../components';
-import { scaleSzie } from '../../../../../utils';
+import { ButtonCustom, PopupParent, Dropdown } from '@components';
+import { scaleSzie } from '@utils';
 
 const { width } = Dimensions.get('window');
 

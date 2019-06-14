@@ -6,8 +6,8 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { InputAuth, ButtonCustom, Button, DefaultTabBar } from '../../../../../components';
-import { scaleSzie } from '../../../../../utils';
+import { ButtonCustom } from '@components';
+import { scaleSzie } from '@utils';
 
 class EmptyStaff extends React.Component {
 

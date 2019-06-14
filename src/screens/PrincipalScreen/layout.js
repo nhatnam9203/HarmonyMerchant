@@ -6,11 +6,11 @@ import {
     TextInput
 } from 'react-native';
 
-import { InputForm, FormInfoParent, Text, Dropdown, Button, PopupUpload } from '../../components';
-import { scaleSzie } from '../../utils';
+import { InputForm, FormInfoParent, Text, Dropdown, Button, PopupUpload } from '@components';
+import { scaleSzie } from '@utils';
 import styles from './style';
-import Configs from '../../configs';
-import IMAGE from '../../resources';
+import Configs from '@configs';
+import IMAGE from '@resources';
 
 let data = [{
     value: 'Banana',

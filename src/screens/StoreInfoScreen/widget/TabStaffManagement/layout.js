@@ -6,14 +6,11 @@ import {
     FlatList
 } from 'react-native';
 
-import { FooterTab, PopupConfirm, Text } from '../../../../components';
-import { scaleSzie } from '../../../../utils';
+import { FooterTab, PopupConfirm, Text } from '@components';
+import { scaleSzie } from '@utils';
 import styles from './style';
 import StaffInfo from '../StaffInfo';
-import { EmptyStaff, TableHeader, RowTable } from './widget';
-import IMAGE from '../../../../resources';
-
-
+import { TableHeader, RowTable } from './widget';
 
 const FakeData = [{
     id: 'HP000002',

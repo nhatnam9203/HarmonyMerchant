@@ -1,5 +1,5 @@
 import Layout from './layout';
-import connectRedux from '../../../../redux/ConnectRedux';
+import connectRedux from '@redux/ConnectRedux';
 
 
 class TabStaffManagement extends Layout {

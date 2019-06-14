@@ -1,16 +1,13 @@
 import React from 'react';
 import {
     View,
-    StyleSheet,
     TextInput,
-    Image
 } from 'react-native';
 
 import {
      Text
-} from '../../../components';
-import { scaleSzie } from '../../../utils';
-import IMAGE from '../../../resources';
+} from '@components';
+import { scaleSzie } from '@utils';
 
 const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntry }) => {
     return (

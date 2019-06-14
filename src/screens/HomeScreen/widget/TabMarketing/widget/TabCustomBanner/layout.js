@@ -6,10 +6,10 @@ import {
     FlatList,
 } from 'react-native';
 
-import { scaleSzie } from '../../../../../../utils';
+import { scaleSzie } from '@utils';
 import styles from './style';
-import IMAGE from '../../../../../../resources';
-import { Text, Button, ButtonCustom } from '../../../../../../components';
+import IMAGE from '@resources';
+import { Text, Button, ButtonCustom } from '@components';
 import {ItemBanner} from './widget';
 
 class Layout extends React.Component {
