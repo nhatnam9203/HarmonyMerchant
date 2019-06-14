@@ -4,14 +4,13 @@ import {
     ScrollView,
     StyleSheet,
     TextInput,
-    Image
 } from 'react-native';
 
 import {
     Dropdown,
-    ButtonCustom, Button, Text
+    ButtonCustom, Text
 } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import { ItemAdminInfo, } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
@@ -34,7 +33,8 @@ class Layout extends React.Component {
             driverlicense, socialSecurityNumber, professionalLicense
         } = this.state.user;
         const { street, city, state } = address;
-        const { nameRole, statusRole } = roles
+        const { nameRole, statusRole } = roles;
+        const { language } = this.props;
         return (
             <View style={styles.body} >
                 <ScrollView
@@ -42,8 +42,8 @@ class Layout extends React.Component {
                 >
                     <View style={{ height: scaleSzie(30) }} />
                     <ItemAdminInfoDoubleItem
-                        title="Name *"
-                        placeholder="First Name"
+                        title={`${localize('Name', language)} *`}
+                        placeholder={localize('First Name', language)}
                         value={firstName}
                         onChangeText={(value) => this.updateUserInfo('firstName', value)}
                     >
@@ -53,7 +53,7 @@ class Layout extends React.Component {
                         }} >
                             <TextInput
                                 style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
-                                placeholder={'Last Name'}
+                                placeholder={localize('Last Name', language)}
                                 value={lastName}
                                 onChangeText={value => this.updateUserInfo('lastName', value)}
                             />
@@ -61,22 +61,22 @@ class Layout extends React.Component {
                     </ItemAdminInfoDoubleItem>
 
                     <ItemAdminInfoDoubleItem
-                        title="Display Name *"
-                        placeholder="Display Name"
+                        title={`${localize('Display Name', language)} *`}
+                        placeholder={localize('Display Name', language)}
                         value={displayName}
                         onChangeText={(value) => this.updateUserInfo('displayName', value)}
                     />
 
                     <ItemAdminInfo
-                        title="Address"
-                        placeholder="Street"
+                        title={localize('Address', language)}
+                        placeholder={localize('Street', language)}
                         value={street}
                         onChangeText={(value) => this.updateUserInfo('street', value, 'address')}
                     />
 
                     <ItemAdminInfoDoubleItem
                         title=""
-                        placeholder="City"
+                        placeholder={localize('City', language)}
                         value={city}
                         onChangeText={(value) => this.updateUserInfo('city', value, 'address')}
                     >
@@ -85,7 +85,7 @@ class Layout extends React.Component {
                             marginLeft: scaleSzie(5)
                         }} >
                             <Dropdown
-                                label='State'
+                                label={localize('State', language)}
                                 data={data}
                                 value={state}
                                 onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
@@ -95,27 +95,27 @@ class Layout extends React.Component {
                     </ItemAdminInfoDoubleItem>
 
                     <ItemAdminInfo
-                        title="Cell phone *"
-                        placeholder="Phone number"
+                        title={`${localize('Cell phone', language)} *`}
+                        placeholder={localize('Phone number', language)}
                         value={cellphone}
                         onChangeText={(value) => this.updateUserInfo('cellphone', value)}
 
                     />
                     <ItemAdminInfo
-                        title="Contact email *"
-                        placeholder="Email"
+                        title={`${localize('Contact email', language)} *`}
+                        placeholder={localize('Email')}
                         value={email}
                         onChangeText={(value) => this.updateUserInfo('email', value)}
                     />
                     <ItemAdminInfo
-                        title="Create PIN *"
+                        title={`${localize('Create PIN', language)} *`}
                         placeholder="********"
                         value={pin}
                         onChangeText={(value) => this.updateUserInfo('pin', value)}
                         secureTextEntry={true}
                     />
                     <ItemAdminInfo
-                        title="Confirm PIN *"
+                        title={`${localize('Confirm PIN', language)} *`}
                         placeholder="********"
                         value={confirmPin}
                         onChangeText={(value) => this.updateUserInfo('confirmPin', value)}
@@ -123,14 +123,14 @@ class Layout extends React.Component {
                     />
                     <ItemAdminInfoRole
                         DropdowAdmin={() => <Dropdown
-                            label='Admin'
+                            label={localize('Admin', language)}
                             data={data}
                             value={nameRole}
                             onChangeText={(value) => this.updateUserInfo('nameRole', value, 'roles')}
                             containerStyle={styles.dropdown}
                         />}
                         DropdowStatusAdmin={() => <Dropdown
-                            label='Status'
+                            label={localize('Status', language)}
                             data={data}
                             value={statusRole}
                             onChangeText={(value) => this.updateUserInfo('statusRole', value, 'roles')}
@@ -138,7 +138,7 @@ class Layout extends React.Component {
                         />}
                     />
                     <TitleTabAdminInfo
-                        title="Working time"
+                        title={localize('Working time', language)}
                     />
                     {
                         ['Monday', 'Tuesday', 'Wednesday', 'Thursday',
@@ -154,11 +154,11 @@ class Layout extends React.Component {
 
                     {/* ----- Salary ---- */}
                     <TitleTabAdminInfo
-                        title="Salary"
+                        title={localize('Salary', language)}
                     />
                     {
-                        [{ title: 'Per hour ($)', placeholder: '100' },
-                        { title: 'Commission (%)', placeholder: '10' }
+                        [{ title: `${localize('Per hour', language)} ($)`, placeholder: '100' },
+                        { title: `${localize('Commission')} (%)`, placeholder: '10' }
                         ].map((salary, index) => {
                             return <ItemScalary
                                 key={index}
@@ -171,11 +171,11 @@ class Layout extends React.Component {
 
                     {/* ----- Tip fee ---- */}
                     <TitleTabAdminInfo
-                        title="Tip fee"
+                        title={localize('Tip fee', language)}
                     />
                     {
-                        [{ title: 'Percent (%)', placeholder: '100' },
-                        { title: 'Fixed amount ($)', placeholder: '10' }
+                        [{ title: `${localize('Percent', language)} ($)`, placeholder: '100' },
+                        { title: `${localize('Fixed amount')} ($)`, placeholder: '10' }
                         ].map((salary, index) => {
                             return <ItemScalary
                                 key={index}
@@ -189,19 +189,19 @@ class Layout extends React.Component {
 
                     {/* ---- Address ---- */}
                     <ItemAdminInfo
-                        title="Driver license"
+                        title={localize('Driver license',language)}
                         placeholder="0000-0000-0000"
                         value={driverlicense}
                         onChangeText={(value) => this.updateUserInfo('driverlicense', value)}
                     />
                     <ItemAdminInfo
-                        title="Social security number"
+                        title={localize('Social security number',language)}
                         placeholder="0000-0000-0000"
                         value={socialSecurityNumber}
                         onChangeText={(value) => this.updateUserInfo('socialSecurityNumber', value)}
                     />
                     <ItemAdminInfo
-                        title="Professional license"
+                        title={localize('Professional license',language)}
                         placeholder="0000-0000-0000"
                         value={professionalLicense}
                         onChangeText={(value) => this.updateUserInfo('professionalLicense', value)}
@@ -233,7 +233,7 @@ class Layout extends React.Component {
                         backgroundColor="#0764B0"
                         title="NEXT"
                         textColor="#fff"
-                        onPress={() =>this.props.nextTab()}
+                        onPress={() => this.props.nextTab()}
                     />
                 </View>
             </View>

@@ -6,13 +6,13 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, Text } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class TabAdminInfo extends React.Component {
 
     renderBody() {
-        const { profile } = this.props;
+        const { profile, language } = this.props;
         const { businessName, address, cityId, stateId, zip, taxId, phone, email,
             bankName, accountNumber, routingNumber, ein
         } = profile;
@@ -20,7 +20,7 @@ class TabAdminInfo extends React.Component {
             <View style={styles.body} >
                 <ScrollView>
                     <ItemTextStoreInfo
-                        title="Business Name"
+                        title={localize('Business Name', language)}
                         value={businessName}
                     />
                     <ItemTextStoreInfoNotTilte
@@ -29,31 +29,31 @@ class TabAdminInfo extends React.Component {
                         zipcode={zip}
                     />
                     <ItemTextStoreInfo
-                        title="Business Address"
+                        title={localize('Business Address', language)}
                         value={address}
                     />
                     <ItemTextStoreInfo
-                        title="Federal Tax Id"
+                        title={localize('Federal Tax Id', language)}
                         value={taxId}
                     />
                     <ItemTextStoreInfo
-                        title="Phone Number"
+                        title={localize('Phone Number', language)}
                         value={phone}
                     />
                     <ItemTextStoreInfo
-                        title="Contact Email"
+                        title={localize('Contact Email', language)}
                         value={email}
                     />
                     <ItemTextStoreInfo
-                        title="Bank Name"
+                        title={localize('Bank Name', language)}
                         value={bankName}
                     />
                     <ItemTextStoreInfo
-                        title="Account Number"
+                        title={localize('Account Number', language)}
                         value={accountNumber}
                     />
                     <ItemTextStoreInfo
-                        title="Routing Number"
+                        title={localize('Routing Number', language)}
                         value={routingNumber}
                     />
                     <ItemTextStoreInfo
@@ -70,13 +70,14 @@ class TabAdminInfo extends React.Component {
     }
 
     renderFooter() {
+        const { language } = this.props;
         return (
             <View style={styles.footer} >
                 <ButtonCustom
                     width={scaleSzie(220)}
                     height={40}
                     backgroundColor="#0764B0"
-                    title="NEXT"
+                    title={localize('NEXT', language)}
                     textColor="#fff"
                     onPress={this.nextTab}
                 />
@@ -177,6 +178,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
+    language: state.dataLocal.language
 })
 
 
