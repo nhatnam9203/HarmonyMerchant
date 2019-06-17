@@ -8,13 +8,15 @@ class LockScreen extends Layout {
     constructor(props) {
         super(props);
         this.state = {
+            active: true,
         }
         this.idInputRef = React.createRef();
         this.passwordInputRef = React.createRef();
     }
 
     submitPincode = () =>{
-        alert('dd')
+        const password = this.passwordInputRef.current.state.value;
+        alert(password)
     }
 
     signIn = () => {
@@ -29,13 +31,18 @@ class LockScreen extends Layout {
 
     }
 
-    signUp =() =>{
-       this.props.navigation.navigate('Terms');
+    support =() =>{
     }
 
-    forgotPassword = () => {
-        this.props.navigation.navigate('ForgotPassword');
+    forgotPincode = () => {
+        // this.props.navigation.navigate('ForgotPassword');
     }
+
+    onAction = (active) => {
+        this.setState({
+          active,
+        });
+      }
 
 
 

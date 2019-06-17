@@ -18,7 +18,7 @@ export default class InputAuth extends React.PureComponent {
     }
 
     render() {
-        const { placeholder, secureTextEntry, onSubmitEditing,style } = this.props;
+        const { placeholder, secureTextEntry, onSubmitEditing,style,keyboardType } = this.props;
         return (
             <View style={{
                 width: scaleSzie(400), height: scaleSzie(45),
@@ -35,6 +35,7 @@ export default class InputAuth extends React.PureComponent {
                     onChangeText={value => this.setState({ value })}
                     secureTextEntry={secureTextEntry}
                     onSubmitEditing={() => onSubmitEditing()}
+                    keyboardType={keyboardType ? keyboardType : "default"}
                 />
             </View>
         );

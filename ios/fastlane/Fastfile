@@ -21,12 +21,13 @@ increment_build_number
     export_method: "ad-hoc",
      scheme: "Hpmerchant",
       workspace:"Hpmerchant.xcworkspace",
-    include_bitcode: true
+    include_bitcode: true,
   )
 
   # upload to Beta by Crashlytics
   crashlytics(
     api_token: "0f0084a0d929105cf47a24b38dd81f81901f8898",
-    build_secret: "a429bc1d026280dc76172be9fa9b8d4c7afbdf2b261dc836bc1e3b6f8b32c7c3"
+    build_secret: "a429bc1d026280dc76172be9fa9b8d4c7afbdf2b261dc836bc1e3b6f8b32c7c3",
+    crashlytics_path: "Pods/Crashlytics",
   )
 end

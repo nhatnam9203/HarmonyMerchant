@@ -21,7 +21,12 @@ export default createNavigationContainer(createSwitchNavigator({
     Drawer:DrawerStack
 },
     {
-        initialRouteName: 'Drawer'
+        initialRouteName: 'Auth'
     }
 
 ))
+
+// huynhthinhuy1297@gmail.com
+// admin123456@
+
+

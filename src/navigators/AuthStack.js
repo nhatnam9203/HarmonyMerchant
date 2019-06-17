@@ -29,10 +29,12 @@ const AuthStack = createStackNavigator(
         UserGuide: UserGuideScreen
     },
     {
-        initialRouteName: 'SignIn',
+        initialRouteName: 'Terms',
         headerMode: 'none',
         transitionConfig: getSlideFromRightTransition
     }
 );
 
 export default AuthStack;
+
+
