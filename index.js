@@ -1,6 +1,6 @@
 /** @format */
 import React from 'react'
-import { AppRegistry, View } from 'react-native';
+import { AppRegistry, View, Modal } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 
@@ -9,7 +9,7 @@ import configureStore from './src/redux/store';
 import { name as appName } from './app.json';
 import NavigatorServices from './src/navigators/NavigatorServices';
 import { Loading } from './src/components';
-
+import { LockScreen } from './src/screens';
 
 class App extends React.Component {
 
@@ -34,6 +34,7 @@ class App extends React.Component {
                         }}
                     />
                     <Loading />
+                    <LockScreen />
                 </PersistGate>
             </Provider>
         );

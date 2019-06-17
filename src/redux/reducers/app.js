@@ -3,7 +3,10 @@ const initialState = {
     generalInfo: '',
     businessInfo: '',
     bankInfo: '',
-    principalInfo: ''
+    principalInfo: '',
+    visibleModalLock: false,
+    timeOutLockScreen: 1 * 1000 * 60,
+
 }
 
 function appReducer(state = initialState, action) {
@@ -37,6 +40,12 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 principalInfo: action.payload
+            }
+
+        case 'HANDLE_LOCK_SCREEN':
+            return {
+                ...state,
+                visibleModalLock: action.payload
             }
         default:
             return state

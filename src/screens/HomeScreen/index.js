@@ -8,8 +8,35 @@ class HomeScreen extends Layout {
     constructor(props) {
         super(props);
         this.state = {
+            isFocus: true
         }
         this.scrollTabRef = React.createRef();
+    }
+
+    componentDidMount() {
+        this.didBlurSubscription = this.props.navigation.addListener(
+            'didBlur',
+            payload => {
+                this.setState({
+                    isFocus: false
+                })
+            }
+        );
+        this.didFocusSubscription = this.props.navigation.addListener(
+            'didFocus',
+            payload => {
+                this.setState({
+                    isFocus: true
+                })
+            }
+        );
+    }
+
+    handleLockScreen = () => {
+        const { isFocus } = this.state;
+        if (isFocus) {
+            this.props.actions.app.handleLockScreen(true);
+        }
     }
 
     openDrawer = () => {
@@ -18,6 +45,11 @@ class HomeScreen extends Layout {
 
     signOut = () => {
 
+    }
+
+    componentWillUnmount() {
+        this.didBlurSubscription.remove();
+        this.didFocusSubscription.remove();
     }
 
 

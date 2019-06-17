@@ -12,7 +12,6 @@ import {
 
 const MainStack = createStackNavigator(
     {
-        Home: HomeScreen,
         StoreInfo:StoreInfoScreen,
         Congratulation:CongratulationScreen,
         ApplicationSubmit:ApplicationSubmitScreen,

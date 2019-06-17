@@ -3,9 +3,10 @@ import {
     View,
     Image,
     ImageBackground,
+    Modal
 } from 'react-native';
 
-import { Text, InputAuth, ButtonCustom, Button, ParentContainer } from '@components';
+import { Text, InputAuth, ButtonCustom, Button } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
@@ -13,9 +14,14 @@ import IMAGE from '@resources';
 export default class Layout extends React.Component {
 
     render() {
-        const { errorLogin, language } = this.props;
+        const { errorLogin, language,visibleModalLock } = this.props;
         return (
-            <ParentContainer>
+            <Modal
+                animationType="slide"
+                transparent={false}
+                visible={visibleModalLock}
+                onRequestClose={() => { }}>
+
                 <ImageBackground
                     style={styles.container}
                     source={IMAGE.backgroundLogin}
@@ -63,7 +69,7 @@ export default class Layout extends React.Component {
                         </Text>
                     </Button>
                 </ImageBackground>
-            </ParentContainer>
+            </Modal>
         );
     }
 }

@@ -15,8 +15,8 @@ class LockScreen extends Layout {
     }
 
     submitPincode = () =>{
-        const password = this.passwordInputRef.current.state.value;
-        alert(password)
+        // const password = this.passwordInputRef.current.state.value;
+        this.props.actions.app.handleLockScreen(false);
     }
 
     signIn = () => {
@@ -50,7 +50,8 @@ class LockScreen extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    errorLogin: state.auth.errorLogin
+    errorLogin: state.auth.errorLogin,
+    visibleModalLock:state.app.visibleModalLock
 })
 
 

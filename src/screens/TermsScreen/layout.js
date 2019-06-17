@@ -323,7 +323,7 @@ the termination of these Terms of Service.
                                 {/* --------- Row ------- */}
                                 <View style={{ alignItems: 'center', marginVertical: scaleSzie(10) }} >
                                     <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: scaleSzie(14) }]}>
-                                    TERMINATION OF THE AGREEMENT
+                                    ARBITRATION
                                     </Text>
                                 </View>
                                 <Text style={styles.contentTerms}>

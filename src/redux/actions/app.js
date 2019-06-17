@@ -45,3 +45,10 @@ export function setPrincipalInfo(payload) {
         payload
     }
 }
+
+export function handleLockScreen(visible){
+    return{
+        type:'HANDLE_LOCK_SCREEN',
+        payload: visible
+    }
+}

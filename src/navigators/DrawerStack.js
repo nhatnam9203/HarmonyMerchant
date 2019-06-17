@@ -19,7 +19,7 @@ const DrawerStack = createDrawerNavigator({
     Home: HomeScreen,
     Lock:LockScreen,
 }, {
-        initialRouteName: "Lock",
+        initialRouteName: "Home",
         contentComponent: SlideDrawer,
         drawerWidth: scaleSzie(220)
 

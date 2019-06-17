@@ -3,7 +3,9 @@ import {
     PanResponder, View, StyleSheet
 } from 'react-native';
 
-const TIME_TO_WAIT_FOR_INACTIVITY_MS = 1000;
+import connectRedux from '@redux/ConnectRedux';
+
+const TIME_TO_WAIT_FOR_INACTIVITY_MS = 2000;
 const INACTIVITY_CHECK_INTERVAL_MS = 500;
 
 class ParentContainer extends Component {
@@ -11,7 +13,7 @@ class ParentContainer extends Component {
         super(props);
         this.state = {
             lastInteraction: new Date(),
-            panResponder : {}
+            panResponder: {}
         }
     }
 
@@ -25,10 +27,10 @@ class ParentContainer extends Component {
             onShouldBlockNativeResponder: () => false,
         });
 
-        this.maybeStartWatchingForInactivity(); 
+        this.maybeStartWatchingForInactivity();
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.setIsActive();
     }
 
@@ -39,7 +41,7 @@ class ParentContainer extends Component {
 
         this.inactivityTimer = setInterval(() => {
             if (
-                new Date() - this.lastInteraction >= TIME_TO_WAIT_FOR_INACTIVITY_MS
+                new Date() - this.lastInteraction >= this.props.timeOutLockScreen
             ) {
                 this.setIsInactive();
             }
@@ -58,7 +60,9 @@ class ParentContainer extends Component {
         this.setState({ timeWentInactive: new Date() });
         clearInterval(this.inactivityTimer);
         this.inactivityTimer = null;
-        // alert('Inactive'); this.props.Inactive();
+        // alert('Inactive');
+        // this.props.actions.app.handleLockScreen(true);
+        this.props.handleLockScreen();
     };
 
     handleStartShouldSetPanResponder = () => {
@@ -90,6 +94,11 @@ const styles = StyleSheet.create({
     },
 });
 
-// ~/Library/Logs/gym
+const mapStateToProps = state => ({
+    timeOutLockScreen: state.app.timeOutLockScreen
+})
 
-export default ParentContainer;
+
+
+export default connectRedux(mapStateToProps, ParentContainer);
+
