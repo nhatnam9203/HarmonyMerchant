@@ -139,7 +139,11 @@ const localization = {
         'Fixed amount':'Fixed amount',
         'Driver license':'Driver license',
         'Social security number':'Social security number',
-        'Professional license':'Professional license'
+        'Professional license':'Professional license',
+        'Forgot your PIN':'Forgot your PIN',
+        'START':'START',
+        'Don’t have a PIN code ? ':'Don’t have a PIN code ? ',
+        'PIN code' :'PIN code',
     },
     'vi': {
         'MARKETING': 'Uu dai',
@@ -224,6 +228,14 @@ const localization = {
         'Manager':'',
         'Ownership (%) *':'',
         'Home Phone *':'',
+        'Home':'Trang chủ',
+        'Invoice':'Đơn hàng',
+        'Settlement':'Settlement',
+        'Customer':'Khách Hàng',
+        'Inventory':'Tồn kho',
+        'Report':'Báo cáo',
+        'Setting':'Cài đăt',
+        'Support':'Hỗ trợ',
     }
 }
 

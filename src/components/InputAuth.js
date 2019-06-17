@@ -18,7 +18,7 @@ export default class InputAuth extends React.PureComponent {
     }
 
     render() {
-        const { placeholder, secureTextEntry, onSubmitEditing } = this.props;
+        const { placeholder, secureTextEntry, onSubmitEditing,style } = this.props;
         return (
             <View style={{
                 width: scaleSzie(400), height: scaleSzie(45),
@@ -26,10 +26,10 @@ export default class InputAuth extends React.PureComponent {
             }} >
                 <TextInput
                     ref={this.textinputRef}
-                    style={{
+                    style={[{
                         flex: 1,
                         fontSize: scaleSzie(20)
-                    }}
+                    },style]}
                     placeholder={placeholder}
                     value={this.state.value}
                     onChangeText={value => this.setState({ value })}

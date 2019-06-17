@@ -8,6 +8,7 @@ function* login(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
+        console.log(responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             NavigationServices.navigate('Main');
@@ -28,6 +29,7 @@ function* login(action) {
             })
         }
     } catch (error) {
+        console.log(error);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }

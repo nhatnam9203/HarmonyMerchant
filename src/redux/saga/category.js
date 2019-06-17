@@ -30,9 +30,10 @@ function* addCategory(action) {
 
 function* getCategoriesByMerchantId(action) {
     try {
+        console.log('action : ',action);
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log(responses);
+        console.log('getCategoriesByMerchantId : ',responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -45,6 +46,7 @@ function* getCategoriesByMerchantId(action) {
             })
         }
     } catch (error) {
+        console.log('error : ' ,error);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
