@@ -1,7 +1,9 @@
 import React from 'react';
+import { Alert } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
+import NavigatorServices from '@navigators/NavigatorServices';
 
 class LockScreen extends Layout {
 
@@ -14,9 +16,20 @@ class LockScreen extends Layout {
         this.passwordInputRef = React.createRef();
     }
 
-    submitPincode = () =>{
-        // const password = this.passwordInputRef.current.state.value;
-        this.props.actions.app.handleLockScreen(false);
+    submitPincode = () => {
+        const password = this.passwordInputRef.current.state.value;
+        const {profile}= this.props
+        if (password.length === 4) {
+            const pin = profile.pin ? profile.pin : '1234';
+            if(password == pin){
+                 this.props.actions.app.handleLockScreen(false);
+                 NavigatorServices.navigate('Drawer');
+            }else{
+                Alert.alert(`Pin not match !`);
+            }
+        } else {
+            Alert.alert(`Please enter pin`);
+        }
     }
 
     signIn = () => {
@@ -31,7 +44,7 @@ class LockScreen extends Layout {
 
     }
 
-    support =() =>{
+    support = () => {
     }
 
     forgotPincode = () => {
@@ -40,9 +53,9 @@ class LockScreen extends Layout {
 
     onAction = (active) => {
         this.setState({
-          active,
+            active,
         });
-      }
+    }
 
 
 
@@ -51,7 +64,8 @@ class LockScreen extends Layout {
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     errorLogin: state.auth.errorLogin,
-    visibleModalLock:state.app.visibleModalLock
+    visibleModalLock: state.app.visibleModalLock,
+    profile:state.dataLocal.profile
 })
 
 

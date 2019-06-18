@@ -5,7 +5,7 @@ const initialState = {
     bankInfo: '',
     principalInfo: '',
     visibleModalLock: false,
-    timeOutLockScreen: 1 * 1000 * 60,
+    timeOutLockScreen: 5 * 1000 * 60,
 
 }
 

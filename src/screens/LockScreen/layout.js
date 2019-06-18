@@ -40,6 +40,7 @@ export default class Layout extends React.Component {
                         style={{ textAlign: 'center' }}
                         onSubmitEditing={this.submitPincode}
                         keyboardType="numeric"
+                        maxLength={4}
 
                     />
                     <View style={{

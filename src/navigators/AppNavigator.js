@@ -17,8 +17,8 @@ import DrawerStack from './DrawerStack';
 export default createNavigationContainer(createSwitchNavigator({
     Auth: AuthStack,
     Main: MainStack,
-    Splash:SplashScreen,
-    Drawer:DrawerStack
+    Splash: SplashScreen,
+    Drawer: DrawerStack
 },
     {
         initialRouteName: 'Drawer'

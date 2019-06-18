@@ -23,7 +23,8 @@ export default {
     calendar :require('./img/calendar.png'),
     iconItemBanner :require('./img/iconItemBanner.png'),
     deleteIconBanner:require('./img/deleteIconBanner.png'),
-
+    arrowRight:require('./img/arrow_right.png'),
+    
     // --- drawer --
     Customer: require('./drawer/customer.png'),
     Home: require('./drawer/home.png'),

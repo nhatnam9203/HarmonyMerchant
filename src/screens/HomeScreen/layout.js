@@ -17,7 +17,7 @@ export default class Layout extends React.Component {
         const { language } = this.props;
         return (
             <ParentContainer
-            handleLockScreen={this.handleLockScreen}
+                handleLockScreen={this.handleLockScreen}
             >
                 <View style={styles.container} >
                     <StatusBarHeader />
@@ -43,7 +43,7 @@ export default class Layout extends React.Component {
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
 
-                    <Button onPress={this.signOut} style={{ position: 'absolute', top: 20, right: 0 }} >
+                    <Button onPress={this.showLockScreen} style={{ position: 'absolute', top: 20, right: 0 }} >
                         <Image source={IMAGE.signOut} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
                 </View>

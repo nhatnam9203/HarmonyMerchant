@@ -18,6 +18,7 @@ import PopupUpload from './PopupUpload';
 import StatusBarHeader from './StatusBar';
 import HomeTabBar from './HomeTabBar';
 import ParentContainer from './ParentContainer';
+import SettingTabBar from './SettingTabBar';
 
 module.exports = {
     Button,
@@ -39,6 +40,7 @@ module.exports = {
     PopupUpload,
     StatusBarHeader,
     HomeTabBar,
-    ParentContainer
+    ParentContainer,
+    SettingTabBar
 
 }

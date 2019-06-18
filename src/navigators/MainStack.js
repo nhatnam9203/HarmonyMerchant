@@ -14,11 +14,10 @@ const MainStack = createStackNavigator(
     {
         StoreInfo:StoreInfoScreen,
         Congratulation:CongratulationScreen,
-        ApplicationSubmit:ApplicationSubmitScreen,
         UserGuide:UserGuideScreen,
     },
     {
-        initialRouteName: 'StoreInfo',
+        initialRouteName: 'Congratulation',
         headerMode: 'none',
     }
 );

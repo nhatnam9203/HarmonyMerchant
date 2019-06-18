@@ -14,6 +14,7 @@ import BusinessInfoScreen from './BusinessInfoScreen';
 import PrincipalScreen from './PrincipalScreen';
 import SlideDrawer from './SlideDrawer';
 import LockScreen from './LockScreen';
+import SettingScreen from './SettingScreen';
 
 module.exports = {
     SplashScreen,
@@ -31,5 +32,6 @@ module.exports = {
     BusinessInfoScreen,
     PrincipalScreen,
     SlideDrawer,
-    LockScreen
+    LockScreen,
+    SettingScreen
 }

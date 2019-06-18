@@ -3,7 +3,7 @@ import React from 'react';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 
-class HomeScreen extends Layout {
+class SettingScreen extends Layout {
 
     constructor(props) {
         super(props);
@@ -44,7 +44,7 @@ class HomeScreen extends Layout {
     }
 
     showLockScreen = () => {
-        this.props.actions.app.handleLockScreen(true);
+        // this.props.actions.app.handleLockScreen(true);
     }
 
     componentWillUnmount() {
@@ -62,4 +62,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connectRedux(mapStateToProps, HomeScreen);
+export default connectRedux(mapStateToProps, SettingScreen);

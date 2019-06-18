@@ -2,6 +2,8 @@ import _ from 'ramda';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
+import NavigatorServices from '@navigators/NavigatorServices';
+
 
 class SlideDrawer extends Layout {
 
@@ -12,9 +14,10 @@ class SlideDrawer extends Layout {
     }
 
     changeLanguage =(item)=>{
-        const {language}= this.props;
-        const  temptLanguage = language === 'en' ? 'vi' : 'en';
-        this.props.actions.dataLocal.changeLanguageApp(temptLanguage);
+        // const {language}= this.props;
+        // const  temptLanguage = language === 'en' ? 'vi' : 'en';
+        // this.props.actions.dataLocal.changeLanguageApp(temptLanguage);
+        NavigatorServices.navigate(item)
     }
 
 
