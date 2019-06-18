@@ -1,4 +1,5 @@
 import React from 'react';
+import { Keyboard } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -9,7 +10,7 @@ class SettingScreen extends Layout {
         super(props);
         this.state = {
             isFocus: true,
-            indexTab : 1,
+            indexTab: 1,
         }
         this.scrollTabRef = React.createRef();
     }
@@ -44,11 +45,12 @@ class SettingScreen extends Layout {
         this.props.navigation.openDrawer();
     }
 
-    selectMenu(index){
+    selectMenu(index) {
         this.setState({
-            indexTab:index
+            indexTab: index
         });
         this.scrollTabRef.current.goToPage(index);
+        Keyboard.dismiss();
     }
 
     showLockScreen = () => {

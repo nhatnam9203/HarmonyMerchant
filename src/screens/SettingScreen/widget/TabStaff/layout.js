@@ -2,14 +2,15 @@ import React from 'react';
 import {
     View,
     Image,
-    TextInput
+    TextInput,
+    FlatList
 } from 'react-native';
 
 import { scaleSzie, localize } from '@utils';
 import { Text, Button, ButtonCustom, Dropdown } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
-import { HeaderTableStaff, RowTableStaff } from './widget';
+import { HeaderTableStaff, RowTableStaff ,AddStaff} from './widget';
 
 class Layout extends React.Component {
 
@@ -118,8 +119,9 @@ class Layout extends React.Component {
             </View>
         );
     }
+    
 
-    render() {
+    renderTableStaff() {
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
@@ -128,18 +130,22 @@ class Layout extends React.Component {
                 <View style={{ height: scaleSzie(10) }} />
                 <View style={{ flex: 1 }} >
                     <HeaderTableStaff />
-                    <RowTableStaff
-                        index={1}
-                        staff={{
-                            id: '1',
-                            name: 'Phi',
-                            role: 'Admin',
-                            status: 'Active',
-                        }}
+                    <FlatList 
+                        data={[{id: '1',name: 'Phi', role: 'Admin',status: 'Active',}]}
+                        renderItem={({item,index}) => <RowTableStaff
+                        index={index}
+                        staff={item}
+                    />}
+                        keyExtractor={(item,index) => `${index}`}
                     />
                 </View>
             </View>
         );
+    }
+
+    render(){
+        // return this.renderTableStaff();
+        return <AddStaff />
     }
 
 }
