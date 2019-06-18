@@ -5,6 +5,27 @@ class TabStaff extends Layout {
 
     constructor(props) {
         super(props);
+        this.state ={
+            isAddStaff: true
+        }
+    }
+
+    addStaff =() =>{
+        this.setState({
+            isAddStaff: true
+        })
+    }
+
+    archiveStaff(staff){
+
+    }
+
+    editStaff(staff){
+
+    }
+
+    restoreStaff(staff){
+
     }
 
 

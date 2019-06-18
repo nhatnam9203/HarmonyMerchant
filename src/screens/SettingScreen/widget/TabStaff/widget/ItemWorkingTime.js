@@ -8,16 +8,8 @@ import {
 
 import IMAGE from '@resources';
 import { Dropdown, Button } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie, WorkingTime} from '@utils';
 
-let data = [{
-    value: 'Banana',
-}, {
-    value: 'Mango',
-}, {
-    value: 'Pear',
-}
-];
 
 export default class ItemWorkingTime extends React.Component {
 
@@ -64,7 +56,7 @@ export default class ItemWorkingTime extends React.Component {
                 <View style={{ width: scaleSzie(150) }} >
                     <Dropdown
                         label={'08:00 AM'}
-                        data={data}
+                        data={WorkingTime}
                         value={timeStart}
                         onChangeText={(value) => this.setState({ timeStart: value })}
                         containerStyle={{
@@ -86,7 +78,7 @@ export default class ItemWorkingTime extends React.Component {
                 <View style={{ width: scaleSzie(150) }} >
                     <Dropdown
                         label={'09:00 AM'}
-                        data={data}
+                        data={WorkingTime}
                         value={timeEnd}
                         onChangeText={(value) => this.setState({ timeEnd: value })}
                         containerStyle={{

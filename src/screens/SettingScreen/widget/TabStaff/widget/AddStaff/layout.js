@@ -10,7 +10,7 @@ import {
     Dropdown,
     Text, ButtonCustom
 } from '@components';
-import { scaleSzie ,localize} from '@utils';
+import { scaleSzie ,localize,Roles,Status} from '@utils';
 import { ItemAdminInfo, } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
@@ -124,14 +124,14 @@ class Layout extends React.Component {
                     <ItemAdminInfoRole
                         DropdowAdmin={() => <Dropdown
                             label={localize('Admin',language)}
-                            data={data}
+                            data={Roles}
                             value={nameRole}
                             onChangeText={(value) => this.updateUserInfo('nameRole', value, 'roles')}
                             containerStyle={styles.dropdown}
                         />}
                         DropdowStatusAdmin={() => <Dropdown
                             label={localize('Status',language)}
-                            data={data}
+                            data={Status}
                             value={statusRole}
                             onChangeText={(value) => this.updateUserInfo('statusRole', value, 'roles')}
                             containerStyle={styles.dropdown}

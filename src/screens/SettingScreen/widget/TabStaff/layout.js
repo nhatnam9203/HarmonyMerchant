@@ -10,7 +10,7 @@ import { scaleSzie, localize } from '@utils';
 import { Text, Button, ButtonCustom, Dropdown } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
-import { HeaderTableStaff, RowTableStaff ,AddStaff} from './widget';
+import { HeaderTableStaff, RowTableStaff, AddStaff } from './widget';
 
 class Layout extends React.Component {
 
@@ -107,7 +107,7 @@ class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Add New', language)}
                             textColor="#6A6A6A"
-                            onPress={() => { }}
+                            onPress={this.addStaff}
                             style={{
                                 borderWidth: 1, borderColor: '#C5C5C5',
                                 backgroundColor: '#0764B0'
@@ -119,7 +119,7 @@ class Layout extends React.Component {
             </View>
         );
     }
-    
+
 
     renderTableStaff() {
         return (
@@ -130,22 +130,29 @@ class Layout extends React.Component {
                 <View style={{ height: scaleSzie(10) }} />
                 <View style={{ flex: 1 }} >
                     <HeaderTableStaff />
-                    <FlatList 
-                        data={[{id: '1',name: 'Phi', role: 'Admin',status: 'Active',}]}
-                        renderItem={({item,index}) => <RowTableStaff
-                        index={index}
-                        staff={item}
-                    />}
-                        keyExtractor={(item,index) => `${index}`}
+                    <FlatList
+                        data={[{ id: '1', name: 'Phi', role: 'Admin', status: 'Active', }]}
+                        renderItem={({ item, index }) => <RowTableStaff
+                            index={index}
+                            staff={item}
+                            archiveStaff={() => this.archiveStaff(item)}
+                            editStaff={() => this.editStaff(item)}
+                            restoreStaff={() => this.restoreStaff(item)}
+                        />}
+                        keyExtractor={(item, index) => `${index}`}
                     />
                 </View>
             </View>
         );
     }
 
-    render(){
-        // return this.renderTableStaff();
-        return <AddStaff />
+    render() {
+        const { isAddStaff } = this.state;
+        if (isAddStaff) {
+            return <AddStaff />
+        }
+        return this.renderTableStaff();
+
     }
 
 }

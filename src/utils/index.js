@@ -82,3 +82,168 @@ export const localize = (value, lang = 'en') => {
     const temptValue = Localization[lang][value];
     return temptValue ? `${Localization[lang][value]}` : `${value}`
 };
+
+export const WorkingTime = [
+    {
+        value:'00:00 AM',
+    },
+    {
+        value:'00:30 AM',
+    },
+    {
+        value:'01:00 AM',
+    },
+    {
+        value:'01:30 AM',
+    },
+    {
+        value:'02:00 AM',
+    },
+    {
+        value:'02:30 AM',
+    },
+    {
+        value:'03:00 AM',
+    },
+    {
+        value:'03:30 AM',
+    },
+    {
+        value:'04:00 AM',
+    },
+    {
+        value:'04:30 AM',
+    },
+    {
+        value:'05:00 AM',
+    },
+    {
+        value:'05:30 AM',
+    },
+    {
+        value:'06:00 AM',
+    },
+    {
+        value:'06:30 AM',
+    },
+    {
+        value:'07:00 AM',
+    },
+    {
+        value:'07:30 AM',
+    },
+    {
+        value:'08:00 AM',
+    },
+    {
+        value:'08:30 AM',
+    },
+    {
+        value:'09:00 AM',
+    },
+    {
+        value:'10:00 AM',
+    },
+    {
+        value:'10:30 AM',
+    },
+    {
+        value:'11:00 AM',
+    },
+    {
+        value:'11:30 AM',
+    },
+    {
+        value:'12:00 AM',
+    },
+    {
+        value:'12:30 AM',
+    },
+    {
+        value:'01:00PM',
+    },
+    {
+        value:'01:30PM',
+    },
+    {
+        value:'02:00PM',
+    },
+    {
+        value:'02:30PM',
+    },
+    {
+        value:'03:00PM',
+    },
+    {
+        value:'03:30PM',
+    },
+    {
+        value:'04:00PM',
+    },
+    {
+        value:'04:30PM',
+    },
+    {
+        value:'05:00PM',
+    },
+    {
+        value:'05:30PM',
+    },
+    {
+        value:'06:00PM',
+    },
+    {
+        value:'06:300PM',
+    },
+    {
+        value:'07:00PM',
+    },
+    {
+        value:'07:30PM',
+    },
+    {
+        value:'08:00PM',
+    },
+    {
+        value:'08:30PM',
+    },
+    {
+        value:'09:00PM',
+    },
+    {
+        value:'10:00PM',
+    },
+    {
+        value:'10:30PM',
+    },
+    {
+        value:'11:00PM',
+    },
+    {
+        value:'11:30PM',
+    },
+    {
+        value:'12:00PM',
+    },
+    {
+        value:'12:30PM',
+    },
+]
+
+export const Roles = [
+    {
+        value:'Admin'
+    },
+    {
+        value:'Staff'
+    }
+]
+
+export const Status = [
+    {
+        value :'Active'
+    },
+    {
+        value:'Disable'
+    }
+]
