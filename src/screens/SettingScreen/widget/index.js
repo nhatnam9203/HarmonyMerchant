@@ -1,9 +1,5 @@
-import TabMarketing from './TabMarketing';
-import TabAppointment from './TabAppointment';
-import TabCheckout from './TabCheckout';
+import TabStaff from './TabStaff';
 
 module.exports ={
-    TabMarketing,
-    TabAppointment,
-    TabCheckout
+    TabStaff
 }

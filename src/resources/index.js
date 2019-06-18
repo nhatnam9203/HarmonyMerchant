@@ -17,14 +17,14 @@ export default {
     camera: require('./img/camera.png'),
     iconUpload: require('./img/icon-upload.png'),
     signOut: require('./img/out.png'),
-    openDrawer:require('./img/openDrawer.png'),
-    plus:require('./img/plus.png'),
-    sub:require('./img/sub.png'),
-    calendar :require('./img/calendar.png'),
-    iconItemBanner :require('./img/iconItemBanner.png'),
-    deleteIconBanner:require('./img/deleteIconBanner.png'),
-    arrowRight:require('./img/arrow_right.png'),
-    
+    openDrawer: require('./img/openDrawer.png'),
+    plus: require('./img/plus.png'),
+    sub: require('./img/sub.png'),
+    calendar: require('./img/calendar.png'),
+    iconItemBanner: require('./img/iconItemBanner.png'),
+    deleteIconBanner: require('./img/deleteIconBanner.png'),
+    arrowRight: require('./img/arrow_right.png'),
+
     // --- drawer --
     Customer: require('./drawer/customer.png'),
     Home: require('./drawer/home.png'),
@@ -34,4 +34,21 @@ export default {
     Setting: require('./drawer/setting.png'),
     Settlement: require('./drawer/settlement.png'),
     Support: require('./drawer/support.png'),
+
+    // --- setting --
+    General: require('./setting/General.png'),
+    General_in: require('./setting/General_in.png'),
+    Staff: require('./setting/Staff.png'),
+    Staff_in: require('./setting/Staff_in.png'),
+    Services: require('./setting/Services.png'),
+    Services_in: require('./setting/Services_in.png'),
+    Payment: require('./setting/Payment.png'),
+    Payment_in: require('./setting/Payment_in.png'),
+    Hardware: require('./setting/Hardware.png'),
+    Hardware_in: require('./setting/Hardware_in.png'),
+    About: require('./setting/About.png'),
+    About_in: require('./setting/About_in.png'),
+    Logout: require('./setting/Logout.png'),
+    Logout_in: require('./setting/Logout_in.png'),
+
 }

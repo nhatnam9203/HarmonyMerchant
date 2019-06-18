@@ -9,7 +9,9 @@ import { StatusBarHeader, Button, ParentContainer, Text } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { TabMarketing, TabAppointment, TabCheckout } from './widget';
+import { TabStaff } from './widget';
+
+const MENU = ["General", "Staff", "Services", "Payment", "Hardware", "About", "Logout"];
 
 export default class Layout extends React.Component {
 
@@ -28,14 +30,31 @@ export default class Layout extends React.Component {
     }
 
     renderMenu() {
+        const { indexTab } = this.state;
         return (
             <View style={{ width: scaleSzie(140), backgroundColor: 'rgb(250,250,250)' }} >
-                <View style={{ height: scaleSzie(50), borderBottomColor: 'rgb(241,241,241)', borderBottomWidth: 3 }} >
-                    <Image source={IMAGE.checkBox} style={{width:scaleSzie(18),height:scaleSzie(18)}} />
-                    <Text>
-                        General
-                    </Text>
-                </View>
+                {
+                    MENU.map((title, index) => {
+                        const temptIcon = index === indexTab ? title : `${title}_in`;
+                        const temptBackground = index === indexTab ? { backgroundColor: '#fff', borderLeftColor: '#0764B0', borderLeftWidth: 7 } : {};
+                        const temptTextColorSelect = index === indexTab ? { color: '#0764B0' } : {}
+                        return (
+                            <Button onPress={() => this.selectMenu(index)} key={index} style={[{
+                                height: scaleSzie(55), borderBottomColor: 'rgb(241,241,241)', borderBottomWidth: 3,
+                                flexDirection: 'row', alignItems: "center", paddingLeft: scaleSzie(10)
+                            }, temptBackground]} >
+                                <Image source={IMAGE[temptIcon]} style={{
+                                    width: scaleSzie(18), height: scaleSzie(18),
+                                    marginRight: scaleSzie(10)
+                                }} />
+                                <Text style={[{ color: '#404040', fontSize: scaleSzie(16) }, temptTextColorSelect]} >
+                                    {title}
+                                </Text>
+                            </Button>
+                        );
+                    })
+                }
+
             </View>
         );
     }
@@ -55,22 +74,32 @@ export default class Layout extends React.Component {
                             <ScrollableTabView
                                 ref={this.scrollTabRef}
                                 style={{}}
-                                initialPage={0}
+                                initialPage={1}
                                 tabBarPosition="bottom"
+                                locked={true}
+                                springTension={1}
+                                springFriction={1}
                                 renderTabBar={() => <View />}
                             >
                                 <View style={{ flex: 1 }} >
 
                                 </View>
-                                <View style={{ flex: 1 }} >
-
-                                </View>
+                                <TabStaff />
                                 <View style={{ flex: 1, backgroundColor: 'red' }} >
 
                                 </View>
-                                <TabMarketing tabLabel={`${localize('MARKETING', language)}`} />
-                                <TabAppointment tabLabel={`${localize('APPOINTMENT', language)}`} />
-                                <TabCheckout tabLabel={`${localize('CHECKOUT', language)}`} />
+                                <View style={{ flex: 1 }} >
+
+                                </View>
+                                <View style={{ flex: 1 }} >
+
+                                </View>
+                                <View style={{ flex: 1 }} >
+
+                                </View>
+                                <View style={{ flex: 1, backgroundColor: 'yellow' }} >
+
+                                </View>
                             </ScrollableTabView>
                         </View>
                     </View>

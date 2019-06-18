@@ -1,7 +1,7 @@
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 
-class TabAppointment extends Layout {
+class TabStaff extends Layout {
 
     constructor(props) {
         super(props);
@@ -16,4 +16,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connectRedux(mapStateToProps, TabAppointment);
+export default connectRedux(mapStateToProps, TabStaff);

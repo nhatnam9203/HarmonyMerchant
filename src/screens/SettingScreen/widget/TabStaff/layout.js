@@ -10,6 +10,7 @@ class Layout extends React.Component {
     render() {
         return (
             <View style={styles.container} >
+                
             </View>
         );
     }

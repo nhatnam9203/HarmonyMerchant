@@ -8,7 +8,8 @@ class SettingScreen extends Layout {
     constructor(props) {
         super(props);
         this.state = {
-            isFocus: true
+            isFocus: true,
+            indexTab : 1,
         }
         this.scrollTabRef = React.createRef();
     }
@@ -41,6 +42,13 @@ class SettingScreen extends Layout {
 
     openDrawer = () => {
         this.props.navigation.openDrawer();
+    }
+
+    selectMenu(index){
+        this.setState({
+            indexTab:index
+        });
+        this.scrollTabRef.current.goToPage(index);
     }
 
     showLockScreen = () => {
