@@ -24,6 +24,7 @@ export default {
     iconItemBanner: require('./img/iconItemBanner.png'),
     deleteIconBanner: require('./img/deleteIconBanner.png'),
     arrowRight: require('./img/arrow_right.png'),
+    search:require('./img/search.png'),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),

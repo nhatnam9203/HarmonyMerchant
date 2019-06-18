@@ -144,6 +144,12 @@ const localization = {
         'START':'START',
         'Don’t have a PIN code ? ':'Don’t have a PIN code ? ',
         'PIN code' :'PIN code',
+        'Search':'Search',
+        'Add New':'Add New',
+        'Filters':'Filters',
+        'Staff Name':'Staff Name',
+        'Role':'Role',
+        'Statuses':'Statuses',
     },
     'vi': {
         'MARKETING': 'Uu dai',
