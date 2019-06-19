@@ -8,9 +8,11 @@ class InventoryScreen extends Layout {
     constructor(props) {
         super(props);
         this.state = {
-            isFocus: true
+            isFocus: true,
+            isSelectAll: false
         }
         this.scrollTabRef = React.createRef();
+        this.listProductRef = [];
     }
 
     componentDidMount() {
@@ -32,6 +34,12 @@ class InventoryScreen extends Layout {
         );
     }
 
+    setProductRef = ref => {
+        if (ref != null) {
+            this.listProductRef.push(ref);
+        }
+    }
+
     handleLockScreen = () => {
         const { isFocus } = this.state;
         if (isFocus) {
@@ -45,6 +53,17 @@ class InventoryScreen extends Layout {
 
     showLockScreen = () => {
         this.props.actions.app.handleLockScreen(true);
+    }
+
+    selectAll = () => {
+        this.setState(prevState => ({ isSelectAll: !prevState.isSelectAll }),
+            () => {
+                const { isSelectAll } = this.state;
+                for (let i = 0; i < this.listProductRef.length; i++) {
+                    this.listProductRef[i].setCheckBoxFromParent(isSelectAll);
+                }
+            })
+
     }
 
     componentWillUnmount() {

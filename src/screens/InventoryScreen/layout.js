@@ -2,14 +2,15 @@ import React from 'react';
 import {
     View,
     Image,
-    TextInput
+    TextInput,
+    FlatList
 } from 'react-native';
 
 import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import {HeaderTableProducts} from './widget';
+import { HeaderTableProducts, RowTableProducts } from './widget';
 
 export default class Layout extends React.Component {
 
@@ -70,6 +71,8 @@ export default class Layout extends React.Component {
 
     renderFilter() {
         const { language } = this.props;
+        const { isSelectAll } = this.state;
+        const temptIconCheckbox = isSelectAll ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
@@ -78,7 +81,9 @@ export default class Layout extends React.Component {
                             flexDirection: 'row', alignItems: 'flex-end', marginRight: scaleSzie(10),
                             paddingBottom: scaleSzie(2)
                         }} >
-                            <Image source={IMAGE.checkBox} style={{ marginBottom: scaleSzie(4) }} />
+                            <Button onPress={this.selectAll} style={{ marginBottom: scaleSzie(4) }} >
+                                <Image source={temptIconCheckbox} />
+                            </Button>
                             <Text style={{
                                 fontSize: scaleSzie(16), color: '#0764B0',
                                 marginLeft: scaleSzie(10)
@@ -148,6 +153,23 @@ export default class Layout extends React.Component {
         return (
             <View style={{ flex: 1, paddingTop: scaleSzie(20) }} >
                 <HeaderTableProducts />
+                <FlatList
+                    data={[{
+                        name: "Nails",
+                        status: "Active",
+                        price: "10"
+                    }, {
+                        name: "Nails",
+                        status: "Active",
+                        price: "10"
+                    }]}
+                    renderItem={({ item, index }) => <RowTableProducts
+                        ref={this.setProductRef}
+                        key={index}
+                        product={item}
+                    />}
+                    keyExtractor={(item, index) => `${index}`}
+                />
             </View>
         );
     }
