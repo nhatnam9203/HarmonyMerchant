@@ -154,6 +154,10 @@ const localization = {
         'SKU Number':'SKU Number',
         'Product Name':'Product Name',
         'Scan SKU':'Scan SKU',
+        'Select All':'Select All',
+        'Restock':'Restock',
+        'Export':'Export',
+        'Cteategories':'Cteategories',
     },
     'vi': {
         'MARKETING': 'Uu dai',

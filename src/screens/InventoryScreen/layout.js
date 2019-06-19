@@ -9,6 +9,7 @@ import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom } from '@c
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
+import {HeaderTableProducts} from './widget';
 
 export default class Layout extends React.Component {
 
@@ -73,33 +74,55 @@ export default class Layout extends React.Component {
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={{ flex: 1, flexDirection: 'row' }} >
-                        <View style={{ flexDirection: 'row', alignItems: 'flex-end',marginRight:scaleSzie(10) }} >
+                        <View style={{
+                            flexDirection: 'row', alignItems: 'flex-end', marginRight: scaleSzie(10),
+                            paddingBottom: scaleSzie(2)
+                        }} >
                             <Image source={IMAGE.checkBox} style={{ marginBottom: scaleSzie(4) }} />
                             <Text style={{
                                 fontSize: scaleSzie(16), color: '#0764B0',
                                 marginLeft: scaleSzie(10)
                             }} >
-                                Select All
+                                {localize('Select All', language)}
                             </Text>
                         </View>
 
-                        <View style={[{ width: scaleSzie(90), justifyContent: 'center', alignItems: 'center',
-                    marginRight:scaleSzie(10)
-                    }, styles.borderStyle]} >
+                        <View style={[{
+                            width: scaleSzie(90), justifyContent: 'center', alignItems: 'center',
+                            marginRight: scaleSzie(14)
+                        }, styles.borderStyle]} >
                             <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(15) }} >
-                                Restock
+
+                                {localize('Restock', language)}
                             </Text>
                         </View>
-                        <View style={[{ width: scaleSzie(160), justifyContent: 'center', alignItems: 'center' }, styles.borderStyle]} >
-                            <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(15) }} >
-                                Restock
-                            </Text>
-                        </View>
-                        <View style={{ flex: 1,flexDirection: "row", justifyContent: 'flex-end' }} >
-                            <View style={[{ width: scaleSzie(160), justifyContent: 'center', alignItems: 'center' }, styles.borderStyle]} >
+                        <View style={[{ width: scaleSzie(160), flexDirection: 'row', }, styles.borderStyle]} >
+                            <View style={{ alignItems: 'center', flexDirection: 'row' }} >
+                                <Image source={IMAGE.export} style={{
+                                    width: scaleSzie(22), height: scaleSzie(22),
+                                    marginHorizontal: scaleSzie(8)
+                                }} />
                                 <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(15) }} >
-                                    Restock
-                            </Text>
+
+                                    {localize('Export', language)}
+                                </Text>
+                            </View>
+
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(10) }} >
+                                <Image source={IMAGE.dropdown} style={{ width: scaleSzie(12), height: scaleSzie(6) }} />
+                            </View>
+                        </View>
+                        <View style={{ flex: 1, flexDirection: "row", justifyContent: 'flex-end' }} >
+                            <View style={[{ width: scaleSzie(160), flexDirection: 'row', }, styles.borderStyle]} >
+                                <View style={{ alignItems: 'center', flexDirection: 'row', paddingLeft: scaleSzie(10) }} >
+                                    <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(15) }} >
+                                        {localize('Cteategories', language)}
+                                    </Text>
+                                </View>
+
+                                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(10) }} >
+                                    <Image source={IMAGE.dropdown} style={{ width: scaleSzie(12), height: scaleSzie(6) }} />
+                                </View>
                             </View>
                         </View>
 
@@ -121,6 +144,14 @@ export default class Layout extends React.Component {
         );
     }
 
+    renderTable() {
+        return (
+            <View style={{ flex: 1, paddingTop: scaleSzie(20) }} >
+                <HeaderTableProducts />
+            </View>
+        );
+    }
+
     render() {
         const { language } = this.props;
         return (
@@ -134,6 +165,7 @@ export default class Layout extends React.Component {
                     {this.renderSearch()}
                     <View style={{ height: scaleSzie(10) }} />
                     {this.renderFilter()}
+                    {this.renderTable()}
                     <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>

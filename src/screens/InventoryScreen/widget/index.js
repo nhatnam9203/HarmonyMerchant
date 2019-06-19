@@ -1,7 +1,5 @@
-import TabAppointment from './TabAppointment';
-import TabCheckout from './TabCheckout';
+import HeaderTableProducts from './HeaderTableProducts';
 
 module.exports ={
-    TabAppointment,
-    TabCheckout
+    HeaderTableProducts
 }
