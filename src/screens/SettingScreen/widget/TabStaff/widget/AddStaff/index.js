@@ -27,7 +27,82 @@ class AddStaff extends Layout {
                 },
                 driverlicense: '',
                 socialSecurityNumber: '',
-                professionalLicense: ''
+                professionalLicense: '',
+                salary: [
+                    {
+                        "perHour": {
+                            isCheck: false,
+                            value: 0
+                        },
+                        "commission": {
+                            isCheck: false,
+                            value: 0
+                        }
+                    }
+                ],
+                tipFee: [
+                    {
+                        "percent": {
+                            isCheck: false,
+                            value:0
+                        },
+                        "commission":{
+                            isCheck:false,
+                            value:0
+                        }
+                    }
+                ],
+                workingTime: [
+                    {
+                        "Monday": {
+                            isCheck: false,
+                            start: "",
+                            end: ""
+                        }
+                    },
+                    {
+                        "Tuesday": {
+                            isCheck: false,
+                            start: "",
+                            end: ""
+                        }
+                    },
+                    {
+                        "Wednesday": {
+                            isCheck: false,
+                            start: "",
+                            end: ""
+                        }
+                    },
+                    {
+                        "Thursday": {
+                            isCheck: false,
+                            start: "",
+                            end: ""
+                        }
+                    },
+                    {
+                        "Friday": {
+                            isCheck: false,
+                            start: "",
+                            end: ""
+                        }
+                    },
+                    {
+                        "Sarturday": {
+                            isCheck: false,
+                            start: "",
+                            end: ""
+                        }
+                    },
+                    {
+                        "Sunday": {
+                            isCheck: false,
+                            start: "",
+                            end: ""
+                        }
+                    },
+                ]
             }
         }
         // ---- Refs ----

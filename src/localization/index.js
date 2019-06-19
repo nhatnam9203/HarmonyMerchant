@@ -150,6 +150,7 @@ const localization = {
         'Staff Name':'Staff Name',
         'Role':'Role',
         'Statuses':'Statuses',
+        'Inventory':'Inventory',
     },
     'vi': {
         'MARKETING': 'Uu dai',
