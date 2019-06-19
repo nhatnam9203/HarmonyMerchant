@@ -151,6 +151,9 @@ const localization = {
         'Role':'Role',
         'Statuses':'Statuses',
         'Inventory':'Inventory',
+        'SKU Number':'SKU Number',
+        'Product Name':'Product Name',
+        'Scan SKU':'Scan SKU',
     },
     'vi': {
         'MARKETING': 'Uu dai',
