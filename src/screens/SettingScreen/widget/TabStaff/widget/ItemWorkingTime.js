@@ -8,7 +8,7 @@ import {
 
 import IMAGE from '@resources';
 import { Dropdown, Button } from '@components';
-import { scaleSzie, WorkingTime} from '@utils';
+import { scaleSzie, WorkingTime } from '@utils';
 
 
 export default class ItemWorkingTime extends React.Component {
@@ -16,9 +16,9 @@ export default class ItemWorkingTime extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isCheck: false,
-            timeStart: '',
-            timeEnd: ''
+            isCheck: true,
+            timeStart: '08:00 AM',
+            timeEnd: '08:00 PM'
         }
     }
 
@@ -29,14 +29,14 @@ export default class ItemWorkingTime extends React.Component {
     }
 
     render() {
-        const { title, timeStart, timeEnd } = this.props;
-        const { isCheck } = this.state;
+        const { title,  } = this.props;
+        const { isCheck ,timeStart, timeEnd} = this.state;
         const temptIconCheck = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
             <View style={{
                 flexDirection: 'row',
                 height: scaleSzie(36),
-                paddingHorizontal:scaleSzie(25),
+                paddingHorizontal: scaleSzie(25),
                 marginTop: scaleSzie(14)
             }} >
                 <Button onPress={this.onPress} style={{ width: scaleSzie(30), justifyContent: 'center' }} >

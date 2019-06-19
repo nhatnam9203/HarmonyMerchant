@@ -63,7 +63,10 @@ class InventoryScreen extends Layout {
                     this.listProductRef[i].setCheckBoxFromParent(isSelectAll);
                 }
             })
+    }
 
+    unSelectAll =() =>{
+        this.setState({isSelectAll:false})
     }
 
     componentWillUnmount() {

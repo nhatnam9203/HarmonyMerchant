@@ -33,7 +33,11 @@ class RowTableProducts extends React.Component {
     }
 
     selectCheckBox = () => {
-        this.setState(prevState => ({ isCheck: !prevState.isCheck }))
+        this.setState(prevState => ({ isCheck: !prevState.isCheck }),() =>{
+            if(!this.state.isCheck){
+                this.props.unSelectAll();
+            }
+        })
     }
 
     setCheckBoxFromParent = (isSelect) => {

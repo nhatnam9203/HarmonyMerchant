@@ -31,7 +31,7 @@ class TabCategories extends React.Component {
 
     componentDidMount() {
         const { profile } = this.props
-        this.props.actions.category.getCategoriesByMerchantId(profile.id);
+        this.props.actions.category.getCategoriesByMerchantId(profile.merchantId);
     }
 
     setRefService = (ref) => {
@@ -99,12 +99,12 @@ class TabCategories extends React.Component {
 
     addCategory = async (category) => {
         const { profile } = this.props
-        const temptCategory = { ...category, merchantid: profile.id }
+        const temptCategory = { ...category, merchantid: profile.merchantId }
         console.log(temptCategory);
         await this.setState({
             visibleAdd: false
         });
-        this.props.actions.category.addCategory(temptCategory, profile.id);
+        this.props.actions.category.addCategory(temptCategory, profile.merchantId);
     }
 
     // --------- Render ------

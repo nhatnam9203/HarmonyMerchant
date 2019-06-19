@@ -167,6 +167,7 @@ export default class Layout extends React.Component {
                         ref={this.setProductRef}
                         key={index}
                         product={item}
+                        unSelectAll={this.unSelectAll}
                     />}
                     keyExtractor={(item, index) => `${index}`}
                 />

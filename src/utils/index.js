@@ -160,73 +160,73 @@ export const WorkingTime = [
         value:'12:30 AM',
     },
     {
-        value:'01:00PM',
+        value:'01:00 PM',
     },
     {
-        value:'01:30PM',
+        value:'01:30 PM',
     },
     {
-        value:'02:00PM',
+        value:'02:00 PM',
     },
     {
-        value:'02:30PM',
+        value:'02:30 PM',
     },
     {
-        value:'03:00PM',
+        value:'03:00 PM',
     },
     {
-        value:'03:30PM',
+        value:'03:30 PM',
     },
     {
-        value:'04:00PM',
+        value:'04:00 PM',
     },
     {
-        value:'04:30PM',
+        value:'04:30 PM',
     },
     {
-        value:'05:00PM',
+        value:'05:00 PM',
     },
     {
-        value:'05:30PM',
+        value:'05:30 PM',
     },
     {
-        value:'06:00PM',
+        value:'06:00 PM',
     },
     {
-        value:'06:300PM',
+        value:'06:300 PM',
     },
     {
-        value:'07:00PM',
+        value:'07:00 PM',
     },
     {
-        value:'07:30PM',
+        value:'07:30 PM',
     },
     {
-        value:'08:00PM',
+        value:'08:00 PM',
     },
     {
-        value:'08:30PM',
+        value:'08:30 PM',
     },
     {
-        value:'09:00PM',
+        value:'09:00 PM',
     },
     {
-        value:'10:00PM',
+        value:'10:00 PM',
     },
     {
-        value:'10:30PM',
+        value:'10:30 PM',
     },
     {
-        value:'11:00PM',
+        value:'11:00 PM',
     },
     {
-        value:'11:30PM',
+        value:'11:30 PM',
     },
     {
-        value:'12:00PM',
+        value:'12:00 PM',
     },
     {
-        value:'12:30PM',
+        value:'12:30 PM',
     },
 ]
 

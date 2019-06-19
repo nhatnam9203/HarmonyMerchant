@@ -31,7 +31,7 @@ class TabProducts extends React.Component {
 
     componentDidMount() {
         const { profile } = this.props;
-        this.props.actions.product.getProductsByMerchantId(profile.id);
+        this.props.actions.product.getProductsByMerchantId(profile.merchantId);
     }
 
     setRefService = (ref) => {
