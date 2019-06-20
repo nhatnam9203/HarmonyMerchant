@@ -6,7 +6,6 @@ const initialState = {
     principalInfo: '',
     visibleModalLock: false,
     timeOutLockScreen: 15 * 1000 * 60,
-
 }
 
 function appReducer(state = initialState, action) {

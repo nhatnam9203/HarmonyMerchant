@@ -28,23 +28,22 @@ function* addStaffByMerchant(action) {
     }
 }
 
-function* getCategoriesByMerchantId(action) {
+function* getStaffByMerchantId(action) {
     try {
-        console.log('action : ',action);
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('getCategoriesByMerchantId : ',responses);
-        const { codeNumber } = responses;
-        if (parseInt(codeNumber) == 200) {
-            yield put({
-                type: 'GET_CATEGORIES_BY_MERCHANR_ID_SUCCESS',
-                payload: responses.data
-            })
-        }else if (parseInt(codeNumber) === 401) {
-            yield put({
-                type: 'UNAUTHORIZED'
-            })
-        }
+        console.log('getStaffByMerchantId : ' + JSON.stringify(responses));
+        // const { codeNumber } = responses;
+        // if (parseInt(codeNumber) == 200) {
+        //     yield put({
+        //         type: 'GET_CATEGORIES_BY_MERCHANR_ID_SUCCESS',
+        //         payload: responses.data
+        //     })
+        // }else if (parseInt(codeNumber) === 401) {
+        //     yield put({
+        //         type: 'UNAUTHORIZED'
+        //     })
+        // }
     } catch (error) {
         console.log('error : ' ,error);
     } finally {
@@ -56,7 +55,7 @@ function* getCategoriesByMerchantId(action) {
 export default function* saga() {
     yield all([
         takeLatest('ADD_STAFF_BY_MERCHANT', addStaffByMerchant),
-        takeLatest('GET_CATEGORIES_BY_MERCHANR_ID', getCategoriesByMerchantId),
+        takeLatest('GET_STAFF_BY_MERCHANR_ID', getStaffByMerchantId),
 
 
     ])

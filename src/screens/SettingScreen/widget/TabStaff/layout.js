@@ -16,6 +16,7 @@ class Layout extends React.Component {
 
     renderSearch() {
         const { language } = this.props;
+        const { keySearch } = this.state;
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
@@ -30,9 +31,11 @@ class Layout extends React.Component {
                                 <TextInput
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
                                     placeholder={localize('Staff Name', language)}
+                                    value={keySearch}
+                                    onChangeText={(value) => this.setState({ keySearch: value })}
                                 />
                             </View>
-                            <Button onPress={() => { }} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
+                            <Button onPress={this.searchStaff} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
                                 <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
                             </Button>
 
@@ -45,7 +48,7 @@ class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Search', language)}
                             textColor="#6A6A6A"
-                            onPress={() => { }}
+                            onPress={this.searchStaff}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />

@@ -50,7 +50,7 @@ export const requestAPI = async (action, headers = {}) => {
     }
     let response = await fetch(action.api, request);
     const data = await response.json()
-    return { ...data, statusCode: response.status };
+    return { ...data };
 }
 
 export const isIphoneX = () => {
