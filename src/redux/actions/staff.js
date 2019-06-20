@@ -36,4 +36,21 @@ export function switchAddStaff(isAddStaff) {
     }
 }
 
+export function clearSearch() {
+    return {
+        type: 'CLEAR_SEARCH',
+        payload: true
+    }
+}
+
+
+export function archiveStaff(id) {
+    return {
+        type: 'ARCHICVE_STAFF',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}active${id}`
+    }
+}
+
 

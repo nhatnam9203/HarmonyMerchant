@@ -61,21 +61,17 @@ function* searchStaffByName(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         console.log('searchStaffByName : ' + JSON.stringify(responses));
-        // const { codeNumber } = responses;
-        // if (parseInt(codeNumber) == 200) {
-        //     yield put({
-        //         type: 'GET_STAFF_BY_MERCHANR_ID_SUCCESS',
-        //         payload: responses.data
-        //     });
-        //     yield put({
-        //         type: 'SWICH_ADD_STAFF',
-        //         payload: false
-        //     })
-        // } else if (parseInt(codeNumber) === 401) {
-        //     yield put({
-        //         type: 'UNAUTHORIZED'
-        //     })
-        // }
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: 'SEARCH_STAFF_BY_NAME_SUCCESS',
+                payload: responses.data
+            });
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        }
     } catch (error) {
         console.log('error : ', error);
     } finally {

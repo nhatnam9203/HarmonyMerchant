@@ -8,6 +8,7 @@ class TabStaff extends Layout {
         this.state = {
             isAddStaff: true,
             keySearch: '',
+            visibleArchive: false,
             filter: {
                 role: '',
                 status: ''
@@ -20,9 +21,19 @@ class TabStaff extends Layout {
         this.props.actions.staff.getStaffByMerchantId(profile.merchantId);
     }
 
+    togglePopupArchive =(visible) =>{
+        this.setState({
+            visibleArchive:visible
+        })
+    }
+
+    archirveStaffYess =() =>{
+        
+    }
+
     searchStaff = () => {
         const { keySearch } = this.state;
-       this.props.actions.staff.searchStaffByName(keySearch);
+        this.props.actions.staff.searchStaffByName(keySearch);
     }
 
     addStaff = () => {
@@ -33,7 +44,9 @@ class TabStaff extends Layout {
     }
 
     archiveStaff(staff) {
-
+        this.setState({
+            visibleArchive:true
+        })
     }
 
     editStaff(staff) {
@@ -51,7 +64,9 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     profile: state.dataLocal.profile,
     listStaffByMerchant: state.staff.listStaffByMerchant,
-    isAddStaff: state.staff.isAddStaff
+    isAddStaff: state.staff.isAddStaff,
+    isShowSearch: state.staff.isShowSearch,
+    listSearchStaff:state.staff.listSearchStaff
 })
 
 

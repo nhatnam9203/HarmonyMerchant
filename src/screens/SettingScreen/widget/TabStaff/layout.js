@@ -7,10 +7,10 @@ import {
 } from 'react-native';
 
 import { scaleSzie, localize } from '@utils';
-import { Text, Button, ButtonCustom, Dropdown } from '@components';
+import { Text, Button, ButtonCustom, Dropdown, PopupConfirm } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
-import { HeaderTableStaff, RowTableStaff, AddStaff } from './widget';
+import { HeaderTableStaff, RowTableStaff, AddStaff ,RowTableEmptyStaff} from './widget';
 
 class Layout extends React.Component {
 
@@ -32,7 +32,12 @@ class Layout extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
                                     placeholder={localize('Staff Name', language)}
                                     value={keySearch}
-                                    onChangeText={(value) => this.setState({ keySearch: value })}
+                                    onChangeText={(value) =>{
+                                        if(value === ''){
+                                            this.props.actions.staff.clearSearch();
+                                        }
+                                        this.setState({ keySearch: value });
+                                    }}
                                 />
                             </View>
                             <Button onPress={this.searchStaff} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
@@ -125,7 +130,9 @@ class Layout extends React.Component {
 
 
     renderTableStaff() {
-        const { listStaffByMerchant } = this.props;
+        const { listStaffByMerchant,isShowSearch,listSearchStaff } = this.props;
+        const { visibleArchive } = this.state;
+        const temptData = isShowSearch ? listSearchStaff  : listStaffByMerchant
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
@@ -135,7 +142,7 @@ class Layout extends React.Component {
                 <View style={{ flex: 1 }} >
                     <HeaderTableStaff />
                     <FlatList
-                        data={listStaffByMerchant}
+                        data={temptData}
                         renderItem={({ item, index }) => <RowTableStaff
                             index={index}
                             staff={item}
@@ -144,8 +151,16 @@ class Layout extends React.Component {
                             restoreStaff={() => this.restoreStaff(item)}
                         />}
                         keyExtractor={(item, index) => `${index}`}
+                        ListEmptyComponent={<RowTableEmptyStaff />}
                     />
                 </View>
+                <PopupConfirm
+                    visible={visibleArchive}
+                    title="Confirmation"
+                    message="Do you want to Archive this Staff ?"
+                    onRequestClose={() => this.togglePopupArchive(false)}
+                    confimYes={() => this.archirveStaffYess()}
+                />
             </View>
         );
     }

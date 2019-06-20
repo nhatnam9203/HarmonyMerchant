@@ -1,7 +1,8 @@
 const initialState = {
     listStaffByMerchant: [],
     listSearchStaff: [],
-    isAddStaff: false
+    isAddStaff: false,
+    isShowSearch: false
 }
 
 function appReducer(state = initialState, action) {
@@ -16,10 +17,16 @@ function appReducer(state = initialState, action) {
                 ...state,
                 isAddStaff: action.payload
             }
-        case 'SEARCH_STAFF_BY_NAME':
+        case 'CLEAR_SEARCH':
             return {
                 ...state,
-                listSearchStaff: action.payload
+                isShowSearch: false
+            }
+        case 'SEARCH_STAFF_BY_NAME_SUCCESS':
+            return {
+                ...state,
+                listSearchStaff: action.payload,
+                isShowSearch: true
             }
         default:
             return state

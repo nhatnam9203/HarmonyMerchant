@@ -19,7 +19,6 @@ class TabStaffManagement extends Layout {
         if (ref != null) {
             this.inputRefsStaff.push(ref);
         }
-
     };
 
     addNewStaff = () => {
