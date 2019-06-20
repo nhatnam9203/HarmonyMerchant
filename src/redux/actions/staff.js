@@ -11,21 +11,28 @@ export function addStaffByMerchant(body, id) {
     }
 }
 
-export function getStaffByMerchantId(id, name = '', role = '', status = '') {
+export function getStaffByMerchantId() {
     return {
         type: 'GET_STAFF_BY_MERCHANR_ID',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}staff/getbymerchant/id=${id}&name=${name}&role=${role}=&status=${status}`
+        api: `${apiConfigs.BASE_API}staff`
     }
 }
 
 export function searchStaffByName(name) {
     return {
-        type: 'GET_STAFF_BY_MERCHANR_ID',
+        type: 'SEARCH_STAFF_BY_NAME',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}staff/getbymerchant/${id}`
+        api: `${apiConfigs.BASE_API}staff/byname/${name}`
+    }
+}
+
+export function switchAddStaff(isAddStaff) {
+    return {
+        type: 'SWICH_ADD_STAFF',
+        payload: isAddStaff
     }
 }
 

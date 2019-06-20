@@ -10,7 +10,9 @@ import {
 } from '@components';
 import { scaleSzie } from '@utils';
 
-const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntry }) => {
+const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntry, type,
+maxLength
+}) => {
     return (
         <View style={{
             flexDirection: 'row',
@@ -30,15 +32,25 @@ const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntr
             </View>
 
             <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingLeft: scaleSzie(5) }} >
-                <TextInputMask
-                    // type="only-numbers"
-                    type="cel-phone"
-                    style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
-                    placeholder={placeholder}
-                    value={value}
-                    onChangeText={(value => onChangeText(value))}
-                    secureTextEntry={secureTextEntry}
-                />
+                {
+                    type ? <TextInputMask
+                        type="only-numbers"
+                        style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
+                        placeholder={placeholder}
+                        value={value}
+                        onChangeText={(value => onChangeText(value))}
+                        secureTextEntry={secureTextEntry}
+                        maxLength={maxLength ? maxLength : null}
+                    /> : <TextInput
+                            style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
+                            placeholder={placeholder}
+                            value={value}
+                            onChangeText={(value => onChangeText(value))}
+                            secureTextEntry={secureTextEntry}
+                            maxLength={maxLength ? maxLength : null}
+                        />
+                }
+
             </View>
         </View>
     );

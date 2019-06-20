@@ -7,28 +7,29 @@ class TabStaff extends Layout {
         super(props);
         this.state = {
             isAddStaff: true,
-            keySearch :'',
-            filter:{
-                role :'',
-                status:''
+            keySearch: '',
+            filter: {
+                role: '',
+                status: ''
             }
         }
     }
 
-    componentDidMount(){
-        const {profile} = this.props;
-        // this.props.actions.staff.getStaffByMerchantId(profile.merchantId);
+    componentDidMount() {
+        const { profile } = this.props;
+        this.props.actions.staff.getStaffByMerchantId(profile.merchantId);
     }
 
-    searchStaff =() =>{
-        const {keySearch} = this.state;
-        alert(keySearch)
+    searchStaff = () => {
+        const { keySearch } = this.state;
+       this.props.actions.staff.searchStaffByName(keySearch);
     }
 
     addStaff = () => {
-        this.setState({
-            isAddStaff: true
-        })
+        // this.setState({
+        //     isAddStaff: true
+        // })
+        this.props.actions.staff.switchAddStaff(true);
     }
 
     archiveStaff(staff) {
@@ -48,7 +49,9 @@ class TabStaff extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    profile: state.dataLocal.profile
+    profile: state.dataLocal.profile,
+    listStaffByMerchant: state.staff.listStaffByMerchant,
+    isAddStaff: state.staff.isAddStaff
 })
 
 

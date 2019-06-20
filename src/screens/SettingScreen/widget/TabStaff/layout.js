@@ -125,6 +125,7 @@ class Layout extends React.Component {
 
 
     renderTableStaff() {
+        const { listStaffByMerchant } = this.props;
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
@@ -134,7 +135,7 @@ class Layout extends React.Component {
                 <View style={{ flex: 1 }} >
                     <HeaderTableStaff />
                     <FlatList
-                        data={[{ id: '1', name: 'Phi', role: 'Admin', status: 'Active', }]}
+                        data={listStaffByMerchant}
                         renderItem={({ item, index }) => <RowTableStaff
                             index={index}
                             staff={item}
@@ -150,7 +151,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { isAddStaff } = this.state;
+        const { isAddStaff } = this.props;
         if (isAddStaff) {
             return <AddStaff />
         }

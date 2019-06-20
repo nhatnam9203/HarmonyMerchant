@@ -155,10 +155,10 @@ class AddStaff extends Layout {
             })
             const { profile } = this.props;
             const temptStaff = {
-                ...user, 
+                ...user,
                 workingTime: objWorkingTime,
-                salary:objSalary,
-                tipFee:objTipFee,
+                salary: objSalary,
+                tipFee: objTipFee,
             };
             // console.log('temptStaff  : ' + JSON.stringify(temptStaff));
             this.props.actions.staff.addStaffByMerchant(temptStaff, profile.merchantId)
@@ -187,7 +187,9 @@ class AddStaff extends Layout {
     }
 
     componentWillUnmount() {
-        alert('ddd')
+        this.inputRefsTime = [];
+        this.inputRefsSalary = [];
+        this.inputRefsTip = [];
     }
 
 

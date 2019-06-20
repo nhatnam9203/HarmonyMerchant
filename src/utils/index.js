@@ -46,8 +46,8 @@ export const requestAPI = async (action, headers = {}) => {
         request.headers['email'] = action.email;
     }
     if ((method == "POST" || method == "DELETE" || method == "PUT") && action.body) {
+        console.log('body -- :' +JSON.stringify(action.body));
         request['body'] = JSON.stringify(action.body);
-        console.log(JSON.stringify(action.body));
     }
     let response = await fetch(action.api, request);
     const data = await response.json();
