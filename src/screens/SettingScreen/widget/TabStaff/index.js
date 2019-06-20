@@ -6,7 +6,7 @@ class TabStaff extends Layout {
     constructor(props) {
         super(props);
         this.state = {
-            isAddStaff: false,
+            isAddStaff: true,
             keySearch :'',
             filter:{
                 role :'',
@@ -17,7 +17,7 @@ class TabStaff extends Layout {
 
     componentDidMount(){
         const {profile} = this.props;
-        this.props.actions.staff.getStaffByMerchantId(profile.merchantId);
+        // this.props.actions.staff.getStaffByMerchantId(profile.merchantId);
     }
 
     searchStaff =() =>{

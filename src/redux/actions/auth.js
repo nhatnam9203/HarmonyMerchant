@@ -4,8 +4,8 @@ export function login(email, password) {
     return {
         type: 'LOGIN_APP',
         body: {
-            "Email": email,
-            "Password": password
+            email: email,
+            password: password
         },
         method: 'POST',
         api: `${apiConfigs.BASE_API}merchant/login`

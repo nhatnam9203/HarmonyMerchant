@@ -23,6 +23,7 @@ function* addStaffByMerchant(action) {
         //     })
         // }
     } catch (error) {
+        console.log('error : ',error);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }

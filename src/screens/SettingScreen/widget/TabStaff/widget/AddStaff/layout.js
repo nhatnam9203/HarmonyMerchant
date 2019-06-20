@@ -5,6 +5,7 @@ import {
     StyleSheet,
     TextInput,
 } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text'
 
 import {
     Dropdown,

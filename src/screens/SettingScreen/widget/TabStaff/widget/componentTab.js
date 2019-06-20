@@ -3,9 +3,10 @@ import {
     View,
     TextInput,
 } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 
 import {
-     Text
+    Text
 } from '@components';
 import { scaleSzie } from '@utils';
 
@@ -14,7 +15,7 @@ const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntr
         <View style={{
             flexDirection: 'row',
             height: scaleSzie(36),
-            paddingHorizontal:scaleSzie(25),
+            paddingHorizontal: scaleSzie(25),
             marginTop: scaleSzie(25)
         }} >
             <View style={{ width: scaleSzie(150), justifyContent: 'center' }} >
@@ -29,7 +30,9 @@ const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntr
             </View>
 
             <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingLeft: scaleSzie(5) }} >
-                <TextInput
+                <TextInputMask
+                    // type="only-numbers"
+                    type="cel-phone"
                     style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
                     placeholder={placeholder}
                     value={value}

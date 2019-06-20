@@ -47,10 +47,12 @@ export const requestAPI = async (action, headers = {}) => {
     }
     if ((method == "POST" || method == "DELETE" || method == "PUT") && action.body) {
         request['body'] = JSON.stringify(action.body);
+        console.log(JSON.stringify(action.body));
     }
     let response = await fetch(action.api, request);
-    const data = await response.json()
-    return { ...data };
+    const data = await response.json();
+    console.log('data : ',data);
+    return { ...data, statusCode: response.status };
 }
 
 export const isIphoneX = () => {

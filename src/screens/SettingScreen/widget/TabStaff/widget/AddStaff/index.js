@@ -11,25 +11,25 @@ class AddStaff extends Layout {
         super(props);
         this.state = {
             user: {
-                firstName: '',
-                lastName: '',
-                displayName: '',
+                firstName: 'Phi',
+                lastName: 'Nguyen',
+                displayName: 'Phi',
                 address: {
-                    street: '',
-                    city: '',
-                    state: ''
+                    street: '123 ACb',
+                    city: 'NewYork',
+                    state: '1'
                 },
-                cellphone: '',
-                email: '',
-                pin: '',
-                confirmPin: '',
+                cellphone: '23342',
+                email: 'abc@gmail.com',
+                pin: '1234',
+                confirmPin: '1234',
                 roles: {
-                    nameRole: '',
-                    statusRole: ''
+                    nameRole: 'Admin',
+                    statusRole: 'Active'
                 },
-                driverlicense: '',
-                socialSecurityNumber: '',
-                professionalLicense: '',
+                driverlicense: '1234',
+                socialSecurityNumber: '1234',
+                professionalLicense: '1234',
             }
         }
         // ---- Refs ----
@@ -121,35 +121,46 @@ class AddStaff extends Layout {
         if (keyError !== '') {
             Alert.alert(`${strings[keyError]}`);
         } else {
-            const arrayWorkingTime = [];
-            const arraySalary = [];
-            const arrayTipFee = [];
+            let objWorkingTime = [];
+            let objSalary = {};
+            let objTipFee = {};
             this.inputRefsTime.forEach(ref => {
-                arrayWorkingTime.push({
+                objWorkingTime = {
+                    ...objWorkingTime,
                     [ref.props.title]: {
                         timeStart: ref.state.timeStart,
                         timeEnd: ref.state.timeEnd,
                         isCheck: ref.state.isCheck
                     }
-
-                })
+                }
             });
             this.inputRefsSalary.forEach(ref => {
-                arraySalary.push({
-                    [this.convertKeyToName(ref.props.title)]: ref.state.value,
-                    isCheck: ref.state.isCheck
-                })
+                objSalary = {
+                    ...objSalary,
+                    [this.convertKeyToName(ref.props.title)]: {
+                        value: 0,
+                        isCheck: ref.state.isCheck
+                    }
+                }
             });
 
             this.inputRefsTip.forEach(ref => {
-                arrayTipFee.push({
-                    [this.convertKeyToName(ref.props.title)]: ref.state.value,
-                    isCheck: ref.state.isCheck
-                })
+                objTipFee = {
+                    ...objTipFee,
+                    [this.convertKeyToName(ref.props.title)]: {
+                        value: 0,
+                        isCheck: ref.state.isCheck
+                    }
+                }
             })
             const { profile } = this.props;
-            const temptStaff = { ...user, workingTime: arrayWorkingTime, tipFee: arrayTipFee, salary: arraySalary, merchantId: profile.merchantId };
-            console.log('temptStaff  : '  + JSON.stringify(temptStaff));
+            const temptStaff = {
+                ...user, 
+                workingTime: objWorkingTime,
+                salary:objSalary,
+                tipFee:objTipFee,
+            };
+            // console.log('temptStaff  : ' + JSON.stringify(temptStaff));
             this.props.actions.staff.addStaffByMerchant(temptStaff, profile.merchantId)
         }
     }
