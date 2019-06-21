@@ -59,7 +59,7 @@ class RowTable extends React.Component {
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
                         <Text style={styles.textTableHeader} >
-                            {/* {staff.name} */}
+                            {staff.displayName}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -72,7 +72,7 @@ class RowTable extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
                         <Text style={styles.textTableHeader} >
-                            {/* {staff.id} */}
+                            {staff.staffId}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >

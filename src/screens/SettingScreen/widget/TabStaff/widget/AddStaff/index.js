@@ -194,7 +194,7 @@ class AddStaff extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    profile: state.dataLocal.profile
+    profile: state.dataLocal.profile,
 
 })
 

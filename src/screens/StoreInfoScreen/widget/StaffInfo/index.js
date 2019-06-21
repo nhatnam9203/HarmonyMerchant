@@ -133,7 +133,7 @@ class StaffInfo extends Layout {
                 salary: objSalary,
                 tipFee: objTipFee,
             };
-            this.props.actions.staff.createAdmin(temptStaff);
+            this.props.actions.staff.addStaffByMerchant(temptStaff)
         }
     }
 
@@ -183,7 +183,7 @@ class StaffInfo extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    profile: state.dataLocal.profile
+    profile: state.dataLocal.profile,
 })
 
 

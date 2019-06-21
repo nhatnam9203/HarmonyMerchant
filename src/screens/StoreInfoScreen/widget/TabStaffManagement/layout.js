@@ -63,7 +63,7 @@ class Layout extends React.Component {
                             restoreStaff={() => this.togglePopupRestore(true, item)}
                             editStaff={() => this.editStaff()}
                         />}
-                        keyExtractor={(item, index) => item.id}
+                        keyExtractor={(item, index) => `${item.staffId}`}
                         ListEmptyComponent={<RowEmptyTable />}
                     />
                 </View>
@@ -78,11 +78,12 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { isAddStaff, visibleArchive, visibleRestore } = this.state;
+        const { visibleArchive, visibleRestore } = this.state;
+        const { isAddStaff}  =this.props;
         return (
             <View style={styles.container} >
                 {isAddStaff ? <StaffInfo
-                    backTabelStaff={() => this.setState({ isAddStaff: false })}
+                    backTabelStaff={() => this.props.actions.staff.switchAddStaff(false)}
                 /> : this.renderTable()}
                 <PopupConfirm
                     visible={visibleArchive}

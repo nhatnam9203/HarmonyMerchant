@@ -87,7 +87,7 @@ class Layout extends React.Component {
                         }} >
                             <Dropdown
                                 label={localize('State', language)}
-                                data={data}
+                                data={[{value:'1'},{value:'2'}]}
                                 value={state}
                                 onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
                                 containerStyle={styles.dropdown}

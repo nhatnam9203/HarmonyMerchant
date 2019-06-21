@@ -87,7 +87,7 @@ class Layout extends React.Component {
                         }} >
                             <Dropdown
                                 label={localize('State', language)}
-                                data={data}
+                                data={[{value:'1'},{value:'2'}]}
                                 value={state}
                                 onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
                                 containerStyle={styles.dropdown}
@@ -130,14 +130,14 @@ class Layout extends React.Component {
                     <ItemAdminInfoRole
                         DropdowAdmin={() => <Dropdown
                             label={localize('Admin', language)}
-                            data={[{ value: 'Admin' }]}
+                            data={[{ value: 'Admin' },{value:'Staff'}]}
                             value={nameRole}
                             onChangeText={(value) => this.updateUserInfo('nameRole', value, 'roles')}
                             containerStyle={styles.dropdown}
                         />}
                         DropdowStatusAdmin={() => <Dropdown
                             label={localize('Status', language)}
-                            data={[{ value: 'Active' }]}
+                            data={[{ value: 'Active' },{ value: 'Disable' }]}
                             value={status}
                             onChangeText={(value) => this.updateUserInfo('status', value)}
                             containerStyle={styles.dropdown}

@@ -15,6 +15,11 @@ class TabStaffManagement extends Layout {
         this.inputRefsStaff = [];
     }
 
+    componentDidMount(){
+        const { profile } = this.props;
+        this.props.actions.staff.getStaffByMerchantId(profile.merchantId);
+    }
+
     setRefStaff = (ref) => {
         if (ref != null) {
             this.inputRefsStaff.push(ref);
@@ -22,9 +27,7 @@ class TabStaffManagement extends Layout {
     };
 
     addNewStaff = () => {
-        this.setState(prevState => ({
-            isAddStaff: true
-        }));
+        this.props.actions.staff.switchAddStaff(true);
         this.inputRefsStaff = [];
     }
 
@@ -91,6 +94,7 @@ class TabStaffManagement extends Layout {
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     listStaffByMerchant: state.staff.listStaffByMerchant,
+    isAddStaff: state.staff.isAddStaff,
 })
 
 

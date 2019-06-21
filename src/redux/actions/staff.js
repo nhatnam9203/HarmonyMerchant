@@ -1,6 +1,6 @@
 import apiConfigs from '../../configs/api';
 
-export function addStaffByMerchant(body, id) {
+export function addStaffByMerchant(body, id="") {
     return {
         type: 'ADD_STAFF_BY_MERCHANT',
         body,
