@@ -7,9 +7,11 @@ import {
     Dimensions,
     ScrollView
 } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent, Dropdown } from '@components';
 import { scaleSzie } from '@utils';
+import connectRedux from '@redux/ConnectRedux';
 
 const { width } = Dimensions.get('window');
 
@@ -24,8 +26,68 @@ let data = [{
 
 class PopupAddService extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            serviceInfo: {
+                categoryId: '',
+                name: "",
+                description: "",
+                duration: '',
+                openTime: '',
+                secondTime: '',
+                price: '',
+                status: '',
+            },
+            extras: [
+                {
+                    name: "",
+                    description: "",
+                    duration: 0,
+                    price: 0,
+                    status: ''
+                }
+            ]
+        }
+        this.durationRef = React.createRef();
+        this.openTimeRef = React.createRef();
+        this.secondTimeRef = React.createRef();
+    }
+
+    filterCategories(categories) {
+        return categories.map(category => ({ value: category.name, id: category.categoryId }));
+    }
+
+    updateServiceInfo(key, value, keyParent = '') {
+        const { serviceInfo } = this.state;
+        if (keyParent !== '') {
+            const temptParent = serviceInfo[keyParent];
+            const temptChild = { ...temptParent, [key]: value };
+            const temptUpdate = { ...serviceInfo, [keyParent]: temptChild };
+            this.setState({
+                serviceInfo: temptUpdate
+            })
+        } else {
+            const temptUpdate = { ...serviceInfo, [key]: value };
+            this.setState({
+                serviceInfo: temptUpdate
+            })
+        }
+    }
+
+    done = () => {
+        const { serviceInfo } = this.state;
+        console.log('serviceInfo : ', serviceInfo);
+    }
+
+    // ------- Render -----
+
     render() {
-        const { title, visible, onRequestClose, doneAddService ,isSave} = this.props;
+        const { title, visible, onRequestClose, doneAddService, isSave,
+            categoriesByMerchant
+        } = this.props;
+        const { categoryId, name, duration, description, price, status
+        } = this.state.serviceInfo;
         const temptHeight = width - scaleSzie(500);
         const temptTitleButton = isSave ? 'Save' : 'Done';
         return (
@@ -45,14 +107,14 @@ class PopupAddService extends React.Component {
                             showsVerticalScrollIndicator={false}
                         >
                             <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginTop: scaleSzie(10), marginBottom: scaleSzie(10) }} >
-                                Category Type
+                                Category
                             </Text>
                             <View style={{ width: scaleSzie(200), height: scaleSzie(30), }} >
                                 <Dropdown
                                     label='Facial'
-                                    data={data}
-                                    // value={'Service Categories'}
-                                    // onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
+                                    data={this.filterCategories(categoriesByMerchant)}
+                                    value={categoryId}
+                                    onChangeText={(value) => this.updateServiceInfo('categoryId', value)}
                                     containerStyle={{
                                         backgroundColor: '#F1F1F1',
                                         borderWidth: 1,
@@ -62,7 +124,7 @@ class PopupAddService extends React.Component {
                                 />
                             </View>
                             <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                Category Name
+                                Service
                             </Text>
                             <View style={{
                                 height: scaleSzie(30), borderWidth: 1, borderColor: '#6A6A6A',
@@ -71,6 +133,8 @@ class PopupAddService extends React.Component {
                                 <TextInput
                                     placeholder="Gel Nails"
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                    value={name}
+                                    onChangeText={value => this.updateServiceInfo('name', value)}
                                 />
                             </View>
                             <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
@@ -84,6 +148,8 @@ class PopupAddService extends React.Component {
                                     placeholder=""
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
                                     multiline={true}
+                                    value={description}
+                                    onChangeText={value => this.updateServiceInfo('description', value)}
                                 />
                             </View>
                             <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
@@ -109,9 +175,12 @@ class PopupAddService extends React.Component {
                                         height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
                                         borderWidth: 1, borderColor: '#6A6A6A', flexDirection: 'row'
                                     }} >
-                                        <TextInput
+                                        <TextInputMask
+                                            type="only-numbers"
                                             style={{ flex: 1, fontSize: scaleSzie(16) }}
                                             placeholder="$ 100"
+                                            value={price}
+                                            onChangeText={value => this.updateServiceInfo('price', value)}
                                         />
                                     </View>
                                 </View>
@@ -126,9 +195,9 @@ class PopupAddService extends React.Component {
                                     }} >
                                         <Dropdown
                                             label='Active'
-                                            data={data}
-                                            // value={'Service Categories'}
-                                            // onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
+                                            data={[{value:'Active'},{value:'Disable'}]}
+                                            value={status}
+                                            onChangeText={(value) => this.updateServiceInfo('status', value)}
                                             containerStyle={{
                                                 backgroundColor: '#F1F1F1',
                                                 borderWidth: 1,
@@ -183,9 +252,12 @@ class PopupAddService extends React.Component {
                                         height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
                                         borderWidth: 1, borderColor: '#6A6A6A', flexDirection: 'row'
                                     }} >
-                                        <TextInput
+                                        <TextInputMask
+                                            type="only-numbers"
                                             style={{ flex: 1, fontSize: scaleSzie(16) }}
                                             placeholder="$ 100"
+                                            value={price}
+                                            onChangeText={value => this.updateServiceInfo('price', value)}
                                         />
                                     </View>
                                 </View>
@@ -200,7 +272,7 @@ class PopupAddService extends React.Component {
                                     }} >
                                         <Dropdown
                                             label='Active'
-                                            data={data}
+                                            data={[{value:'Active'},{value:'Disable'}]}
                                             // value={'Service Categories'}
                                             // onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
                                             containerStyle={{
@@ -226,7 +298,7 @@ class PopupAddService extends React.Component {
                             backgroundColor="#0764B0"
                             title={temptTitleButton}
                             textColor="#fff"
-                            onPress={() =>doneAddService()}
+                            onPress={this.done}
                             style={{ borderRadius: scaleSzie(2) }}
                             styleText={{
                                 fontSize: scaleSzie(14)
@@ -240,31 +312,46 @@ class PopupAddService extends React.Component {
 
 }
 
-const ItemTime = (props) => {
-    const { title } = props;
-    return (
-        <View>
-            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                {title}
-            </Text>
-            <View style={{
-                height: scaleSzie(30), width: scaleSzie(90),
-                borderWidth: 1, borderColor: '#6A6A6A', flexDirection: 'row'
-            }} >
-                <View style={{ flex: 1, paddingLeft: scaleSzie(5) }} >
-                    <TextInput
-                        style={{ flex: 1, fontSize: scaleSzie(16) }}
-                    />
-                </View>
-                <View style={{ justifyContent: 'flex-end', paddingRight: 4 }} >
-                    <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
-                        min
-                </Text>
-                </View>
+class ItemTime extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: ''
+        }
+    }
+
+    render() {
+        const { title } = this.props;
+        const { value } = this.state;
+        return (
+            <View>
+                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                    {title}
+                </Text>
+                <View style={{
+                    height: scaleSzie(30), width: scaleSzie(90),
+                    borderWidth: 1, borderColor: '#6A6A6A', flexDirection: 'row'
+                }} >
+                    <View style={{ flex: 1, paddingLeft: scaleSzie(5) }} >
+                        <TextInputMask
+                            type="only-numbers"
+                            placeholder='10'
+                            style={{ flex: 1, fontSize: scaleSzie(16) }}
+                            value={value}
+                            onChangeText={(value) => this.setState({ value })}
+                        />
+                    </View>
+                    <View style={{ justifyContent: 'flex-end', paddingRight: 4 }} >
+                        <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
+                            min
+                </Text>
+                    </View>
+
+                </View>
             </View>
-        </View>
-    );
+        );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -281,5 +368,8 @@ const styles = StyleSheet.create({
     },
 })
 
-export default PopupAddService;
+const mapStateToProps = state => ({
+    categoriesByMerchant: state.category.categoriesByMerchant
+});
+export default connectRedux(mapStateToProps, PopupAddService);
 

@@ -13,7 +13,6 @@ import PopupEditAddCategories from './PopupEditAddCategories';
 import RowEmptyTableCategories from './RowEmptyTableCategories';
 import connectRedux from '@redux/ConnectRedux';
 
-
 class TabCategories extends React.Component {
 
     constructor(props) {

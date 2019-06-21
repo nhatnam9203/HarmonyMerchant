@@ -97,6 +97,16 @@ class TabServices extends React.Component {
         })
     }
 
+    showModalAddService = () =>{
+        const {categoriesByMerchant} = this.props;
+        if(categoriesByMerchant.length > 0){
+            this.setState({ visibleAdd: true })
+        }else{
+            alert('Create category before add service please !')
+        }
+        
+    }
+
     renderTable() {
         const {servicesByMerchant } = this.props;
          return (
@@ -128,7 +138,7 @@ class TabServices extends React.Component {
             <View style={styles.container} >
                 {this.renderTable()}
                 <FooterTab
-                    addNew={() => this.setState({ visibleAdd: true })}
+                    addNew={this.showModalAddService}
                     backTab={() => this.props.backTab()}
                     nextTab={() => this.props.nextTab()}
                 />
@@ -176,7 +186,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
-    servicesByMerchant: state.service.servicesByMerchant
+    servicesByMerchant: state.service.servicesByMerchant,
+    categoriesByMerchant: state.category.categoriesByMerchant
 });
 
 export default connectRedux(mapStateToProps, TabServices);
