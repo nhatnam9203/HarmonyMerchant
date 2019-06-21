@@ -10,7 +10,7 @@ import { FooterTab, PopupConfirm, Text } from '@components';
 import { scaleSzie } from '@utils';
 import styles from './style';
 import StaffInfo from '../StaffInfo';
-import { TableHeader, RowTable } from './widget';
+import { TableHeader, RowTable, RowEmptyTable } from './widget';
 
 const FakeData = [{
     id: 'HP000002',
@@ -39,6 +39,7 @@ const FakeData = [{
 class Layout extends React.Component {
 
     renderTable() {
+        const { listStaffByMerchant } = this.props;
         return (
             <View style={{ flex: 1 }}>
                 <View style={{
@@ -52,7 +53,7 @@ class Layout extends React.Component {
                 <TableHeader />
                 <View style={{ flex: 1 }} >
                     <FlatList
-                        data={FakeData}
+                        data={listStaffByMerchant}
                         renderItem={({ item, index }) => <RowTable
                             ref={this.setRefStaff}
                             key={index}
@@ -63,6 +64,7 @@ class Layout extends React.Component {
                             editStaff={() => this.editStaff()}
                         />}
                         keyExtractor={(item, index) => item.id}
+                        ListEmptyComponent={<RowEmptyTable />}
                     />
                 </View>
                 <FooterTab

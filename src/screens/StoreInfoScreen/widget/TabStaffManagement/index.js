@@ -90,6 +90,7 @@ class TabStaffManagement extends Layout {
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
+    listStaffByMerchant: state.staff.listStaffByMerchant,
 })
 
 

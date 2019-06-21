@@ -47,7 +47,7 @@ class RowTable extends React.Component {
                         style={{ width: scaleSzie(12), height: scaleSzie(29) }}
                     />
                     <Text style={styles.textTableHeader} >
-                        {`${index}.`}
+                        {/* {`${index}.`} */}
                     </Text>
                 </View>
                 {/* ----- 2 ------ */}
@@ -110,49 +110,6 @@ class RowTable extends React.Component {
                     flex: 1,
                     flexDirection: 'row'
                 }} >
-                    <View style={styles.actionButton} >
-                        <ButtonCustom
-                            width={'80%'}
-                            height={28}
-                            backgroundColor="#0764B0"
-                            title="Edit"
-                            textColor="#fff"
-                            onPress={() => editStaff()}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(2) }}
-                            styleText={{
-                                fontSize: scaleSzie(14)
-                            }}
-                        />
-                    </View>
-                    <View style={styles.actionButton} >
-                        {
-                            isArchive ? <ButtonCustom
-                                width={'80%'}
-                                height={28}
-                                backgroundColor="#FF3B30"
-                                title="Archive"
-                                textColor="#fff"
-                                onPress={() => archiveStaff()}
-                                style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(2) }}
-                                styleText={{
-                                    fontSize: scaleSzie(14)
-                                }}
-                            /> :
-                                <ButtonCustom
-                                    width={'80%'}
-                                    height={28}
-                                    backgroundColor="#F1F1F1"
-                                    title="Restore"
-                                    textColor="#6A6A6A"
-                                    onPress={() => restoreStaff()}
-                                    style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(2) }}
-                                    styleText={{
-                                        fontSize: scaleSzie(14)
-                                    }}
-                                />
-                        }
-
-                    </View>
                 </View>
             </View>
 

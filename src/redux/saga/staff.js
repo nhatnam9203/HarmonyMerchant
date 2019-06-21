@@ -106,11 +106,35 @@ function* archiveStaff(action) {
     }
 }
 
+function* createAdmin(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log('createAdmin : ' + JSON.stringify(responses));
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({ type: 'STOP_LOADING_ROOT' });
+            setTimeout(() => {
+                alert(`Create admin success `);
+            }, 200)
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        }
+    } catch (error) {
+        console.log('error : ', error);
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 export default function* saga() {
     yield all([
         takeLatest('ADD_STAFF_BY_MERCHANT', addStaffByMerchant),
         takeLatest('GET_STAFF_BY_MERCHANR_ID', getStaffByMerchantId),
         takeLatest('SEARCH_STAFF_BY_NAME', searchStaffByName),
         takeLatest('ARCHICVE_STAFF', archiveStaff),
+        takeLatest('CREATE_ADMIN', createAdmin),
     ])
 }

@@ -13,25 +13,25 @@ class StoreInfoScreen extends Layout {
         super(props);
         this.state = {
             user: {
-                firstName: 'Phi',
-                lastName: 'Nguyen',
-                displayName: 'Phi',
+                firstName: '',
+                lastName: '',
+                displayName: '',
                 address: {
-                    street: '123 ACb',
-                    city: 'NewYork',
-                    state: '1'
+                    street: '',
+                    city: '',
+                    state: ''
                 },
-                cellphone: '23342',
-                email: 'abc@gmail.com',
-                pin: '1234',
-                confirmPin: '1234',
+                cellphone: '',
+                email: '',
+                pin: '',
+                confirmPin: '',
                 status: 'Active',
                 roles: {
                     nameRole: 'Admin',
                 },
-                driverlicense: '1234',
-                socialSecurityNumber: '1234',
-                professionalLicense: '1234',
+                driverlicense: '',
+                socialSecurityNumber: '',
+                professionalLicense: '',
             }
         }
         // ---- Refs ----
@@ -53,7 +53,7 @@ class StoreInfoScreen extends Layout {
         this.inputRefsTip.push(ref);
     };
 
-    nextTab = () => {
+    addAdmin = () => {
         const { user } = this.state;
         const arrayKey = Object.keys(user);
         let keyError = '';
@@ -126,7 +126,6 @@ class StoreInfoScreen extends Layout {
                     }
                 }
             });
-            const { profile } = this.props;
             const temptStaff = {
                 ...user,
                 status: (user.status === 'Active' ? true : false),
@@ -134,14 +133,15 @@ class StoreInfoScreen extends Layout {
                 salary: objSalary,
                 tipFee: objTipFee,
             };
-            console.log('temptStaff  : ' + JSON.stringify(temptStaff));
+            this.props.actions.staff.createAdmin(temptStaff);
         }
     }
 
     convertKeyToName(key) {
+        console.log('key : ', key);
         let name = '';
         switch (key) {
-            case 'Percent (%)':
+            case 'Percent ($)':
                 name = 'percent';
                 break;
             case 'Fixed amount ($)':

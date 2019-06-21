@@ -11,6 +11,16 @@ export function addStaffByMerchant(body, id) {
     }
 }
 
+export function createAdmin(body) {
+    return {
+        type: 'CREATE_ADMIN',
+        body,
+        method: 'POST',
+        token: true,
+        api: `${apiConfigs.BASE_API}staff`,
+    }
+}
+
 export function getStaffByMerchantId() {
     return {
         type: 'GET_STAFF_BY_MERCHANR_ID',
@@ -52,5 +62,6 @@ export function archiveStaff(id) {
         api: `${apiConfigs.BASE_API}active/${id}`
     }
 }
+
 
 
