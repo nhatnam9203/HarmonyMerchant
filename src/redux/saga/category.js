@@ -55,18 +55,20 @@ function* archiveCategory(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('archiveCategory : ', responses);
-        // const { codeNumber } = responses;
-        // if (parseInt(codeNumber) == 200) {
-        //     yield put({
-        //         type: 'GET_CATEGORIES_BY_MERCHANR_ID_SUCCESS',
-        //         payload: responses.data
-        //     })
-        // } else if (parseInt(codeNumber) === 401) {
-        //     yield put({
-        //         type: 'UNAUTHORIZED'
-        //     })
-        // }
+        const { codeNumber } = responses;
+        console.log('--- responses : ', responses);
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: 'GET_CATEGORIES_BY_MERCHANR_ID',
+                method: 'GET',
+                token: true,
+                api: `${apiConfigs.BASE_API}category`
+            })
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        }
     } catch (error) {
         console.log('error : ', error);
     } finally {

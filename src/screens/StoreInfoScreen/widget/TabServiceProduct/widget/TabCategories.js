@@ -64,12 +64,6 @@ class TabCategories extends React.Component {
 
     archirveServiceYess() {
         const { categoryInfoHandle } = this.state;
-        for (let i = 0; i < this.inputRefCategory.length; i++) {
-            if (this.inputRefCategory[i].props.category.categoryId === categoryInfoHandle.categoryId) {
-                this.inputRefCategory[i].handleArchirveStaff();
-                break;
-            }
-        }
         this.props.actions.category.archiveCategory(categoryInfoHandle.categoryId);
         this.setState({
             visibleArchive: false
