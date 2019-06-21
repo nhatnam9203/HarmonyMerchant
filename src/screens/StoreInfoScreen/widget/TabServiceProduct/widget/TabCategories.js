@@ -23,10 +23,11 @@ class TabCategories extends React.Component {
             visibleRestore: false,
             visibleAdd: false,
             visibleEdit: false,
-            serviceInfoHandle: {}
+            categoryInfoHandle: {}
         }
 
         this.inputRefCategory = [];
+        this.refAddCategory = React.createRef();
     }
 
     componentDidMount() {
@@ -39,10 +40,10 @@ class TabCategories extends React.Component {
         }
     };
 
-    async  togglePopupArchive(bool, service = {}) {
+    async  togglePopupArchive(bool, category = {}) {
         if (bool === true) {
             await this.setState({
-                serviceInfoHandle: service
+                categoryInfoHandle: category
             })
         }
         this.setState(prevState => ({
@@ -50,10 +51,10 @@ class TabCategories extends React.Component {
         }))
     }
 
-    async  togglePopupRestore(bool, service = {}) {
+    async  togglePopupRestore(bool, category = {}) {
         if (bool === true) {
             await this.setState({
-                serviceInfoHandle: service
+                categoryInfoHandle: category
             })
         }
         this.setState(prevState => ({
@@ -62,23 +63,23 @@ class TabCategories extends React.Component {
     }
 
     archirveServiceYess() {
-        const { serviceInfoHandle } = this.state;
+        const { categoryInfoHandle } = this.state;
         for (let i = 0; i < this.inputRefCategory.length; i++) {
-            if (this.inputRefCategory[i].props.category.categoryId === serviceInfoHandle.categoryId) {
+            if (this.inputRefCategory[i].props.category.categoryId === categoryInfoHandle.categoryId) {
                 this.inputRefCategory[i].handleArchirveStaff();
                 break;
             }
         }
-        this.props.actions.category.archiveCategory(serviceInfoHandle.categoryId);
+        this.props.actions.category.archiveCategory(categoryInfoHandle.categoryId);
         this.setState({
             visibleArchive: false
         })
     }
 
     restoreStaffYess() {
-        const { serviceInfoHandle } = this.state;
+        const { categoryInfoHandle } = this.state;
         for (let i = 0; i < this.inputRefCategory.length; i++) {
-            if (this.inputRefCategory[i].props.category.categoryId === serviceInfoHandle.categoryId) {
+            if (this.inputRefCategory[i].props.category.categoryId === categoryInfoHandle.categoryId) {
                 this.inputRefCategory[i].handleRestoreStaff();
                 break;
             }
@@ -88,10 +89,8 @@ class TabCategories extends React.Component {
         })
     }
 
-    async editService(service) {
-        await this.setState({
-            serviceInfoHandle: service
-        });
+    async editService(category) {
+        this.refAddCategory.current.setCategoryFromParent(category);
         this.setState({
             visibleEdit: true
         })
@@ -105,6 +104,17 @@ class TabCategories extends React.Component {
             visibleAdd: false
         });
         this.props.actions.category.addCategory(temptCategory, profile.merchantId);
+    }
+
+    editCategory = async (category) => {
+        // ---- edit category ----
+        this.props.actions.category.editCategory({
+            CategoryType: category.categoryType,
+            name: category.name
+        }, category.categoryId);
+        this.setState({
+            visibleEdit: false
+        });
     }
 
     // --------- Render ------
@@ -137,7 +147,9 @@ class TabCategories extends React.Component {
     }
 
     render() {
-        const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
+        const { visibleArchive, visibleRestore, visibleAdd, visibleEdit,
+            categoryInfoHandle
+        } = this.state;
         return (
             <View style={styles.container} >
                 {this.renderTable()}
@@ -168,11 +180,12 @@ class TabCategories extends React.Component {
                     confimYes={this.addCategory}
                 />
                 <PopupEditAddCategories
+                    ref={this.refAddCategory}
                     visible={visibleEdit}
                     title="Edit Category"
                     titleButton="Save"
                     onRequestClose={() => this.setState({ visibleEdit: false })}
-                    confimYes={() => this.setState({ visibleEdit: false })}
+                    confimYes={this.editCategory}
                 />
             </View>
 

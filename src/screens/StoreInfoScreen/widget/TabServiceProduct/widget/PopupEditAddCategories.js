@@ -22,8 +22,11 @@ class PopupEditAddCategories extends React.Component {
         }
     }
 
-    componentDidMount(){
-        
+    setCategoryFromParent = (category) => {
+        // console.log('setCategoryFromParent : ', category);
+        this.setState({
+            category
+        })
     }
 
     updateCategoryInfo(key, value, keyParent = '') {
@@ -100,7 +103,7 @@ class PopupEditAddCategories extends React.Component {
                                     placeholder="Gel Nails"
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
                                     value={name}
-                                    onChangeText={(value) => this.updateCategoryInfo('name',value)}
+                                    onChangeText={(value) => this.updateCategoryInfo('name', value)}
                                 />
                             </View>
                         </View>

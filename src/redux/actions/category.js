@@ -30,4 +30,12 @@ export function archiveCategory(id) {
     }
 }
 
-
+export function editCategory(body, id) {
+    return {
+        type: 'EDIT_CATEGORY',
+        body,
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}category/${id}`,
+    }
+}
