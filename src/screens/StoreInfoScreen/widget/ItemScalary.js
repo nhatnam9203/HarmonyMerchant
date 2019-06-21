@@ -6,18 +6,19 @@ import {
     StyleSheet,
     TextInput
 } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 
 import IMAGE from '@resources';
-import {  Button } from '@components';
+import { Button } from '@components';
 import { scaleSzie } from '@utils';
 
-export default class ItemWorkingTime extends React.Component {
+export default class ItemScalary extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             isCheck: false,
-            value:''
+            value: ''
         }
     }
 
@@ -29,7 +30,7 @@ export default class ItemWorkingTime extends React.Component {
 
     render() {
         const { title, placeholder } = this.props;
-        const { isCheck ,value} = this.state;
+        const { isCheck, value } = this.state;
         const temptIconCheck = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
             <View style={{
@@ -54,11 +55,12 @@ export default class ItemWorkingTime extends React.Component {
                 </View>
 
                 <View style={[{ width: scaleSzie(150), paddingLeft: scaleSzie(5) }, styles.borderTextInput]} >
-                    <TextInput
+                    <TextInputMask
+                        type="only-numbers"
                         style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
                         placeholder={placeholder}
                         value={value}
-                        onChangeText={(value) => this.setState({value})}
+                        onChangeText={(value) => this.setState({ value })}
                     />
                 </View>
             </View>

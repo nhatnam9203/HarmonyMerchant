@@ -30,10 +30,11 @@ class Layout extends React.Component {
     renderBody() {
         const { address, firstName, lastName, displayName,
             cellphone, email, pin, confirmPin, roles,
-            driverlicense, socialSecurityNumber, professionalLicense
+            driverlicense, socialSecurityNumber, professionalLicense,
+            status
         } = this.state.user;
         const { street, city, state } = address;
-        const { nameRole, statusRole } = roles;
+        const { nameRole } = roles;
         const { language } = this.props;
         return (
             <View style={styles.body} >
@@ -99,6 +100,7 @@ class Layout extends React.Component {
                         placeholder={localize('Phone number', language)}
                         value={cellphone}
                         onChangeText={(value) => this.updateUserInfo('cellphone', value)}
+                        type={true}
 
                     />
                     <ItemAdminInfo
@@ -109,17 +111,21 @@ class Layout extends React.Component {
                     />
                     <ItemAdminInfo
                         title={`${localize('Create PIN', language)} *`}
-                        placeholder="********"
+                        placeholder="****"
                         value={pin}
                         onChangeText={(value) => this.updateUserInfo('pin', value)}
                         secureTextEntry={true}
+                        maxLength={4}
+                        type={true}
                     />
                     <ItemAdminInfo
                         title={`${localize('Confirm PIN', language)} *`}
-                        placeholder="********"
+                        placeholder="****"
                         value={confirmPin}
                         onChangeText={(value) => this.updateUserInfo('confirmPin', value)}
                         secureTextEntry={true}
+                        maxLength={4}
+                        type={true}
                     />
                     <ItemAdminInfoRole
                         DropdowAdmin={() => <Dropdown
@@ -132,8 +138,8 @@ class Layout extends React.Component {
                         DropdowStatusAdmin={() => <Dropdown
                             label={localize('Status', language)}
                             data={data}
-                            value={statusRole}
-                            onChangeText={(value) => this.updateUserInfo('statusRole', value, 'roles')}
+                            value={status}
+                            onChangeText={(value) => this.updateUserInfo('status', value)}
                             containerStyle={styles.dropdown}
                         />}
                     />
@@ -189,22 +195,25 @@ class Layout extends React.Component {
 
                     {/* ---- Address ---- */}
                     <ItemAdminInfo
-                        title={localize('Driver license',language)}
+                        title={localize('Driver license', language)}
                         placeholder="0000-0000-0000"
                         value={driverlicense}
                         onChangeText={(value) => this.updateUserInfo('driverlicense', value)}
+                        type={true}
                     />
                     <ItemAdminInfo
-                        title={localize('Social security number',language)}
+                        title={localize('Social security number', language)}
                         placeholder="0000-0000-0000"
                         value={socialSecurityNumber}
                         onChangeText={(value) => this.updateUserInfo('socialSecurityNumber', value)}
+                        type={true}
                     />
                     <ItemAdminInfo
-                        title={localize('Professional license',language)}
+                        title={localize('Professional license', language)}
                         placeholder="0000-0000-0000"
                         value={professionalLicense}
                         onChangeText={(value) => this.updateUserInfo('professionalLicense', value)}
+                        type={true}
                     />
                     <View style={{ height: scaleSzie(300) }} />
                 </ScrollView>
@@ -233,7 +242,7 @@ class Layout extends React.Component {
                         backgroundColor="#0764B0"
                         title="NEXT"
                         textColor="#fff"
-                        onPress={() => this.props.nextTab()}
+                        onPress={this.nextTab}
                     />
                 </View>
             </View>

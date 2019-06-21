@@ -12,7 +12,8 @@ class TabStaff extends Layout {
             filter: {
                 role: '',
                 status: ''
-            }
+            },
+            staffHandle: {}
         }
     }
 
@@ -21,14 +22,17 @@ class TabStaff extends Layout {
         this.props.actions.staff.getStaffByMerchantId(profile.merchantId);
     }
 
-    togglePopupArchive =(visible) =>{
+    togglePopupArchive = (visible) => {
         this.setState({
-            visibleArchive:visible
+            visibleArchive: visible
         })
     }
 
-    archirveStaffYess =() =>{
-        
+    archirveStaffYess = async () => {
+        await this.setState({
+            visibleArchive: false,
+        });
+        this.props.actions.staff.archiveStaff(this.state.staffHandle.staffId)
     }
 
     searchStaff = () => {
@@ -45,7 +49,8 @@ class TabStaff extends Layout {
 
     archiveStaff(staff) {
         this.setState({
-            visibleArchive:true
+            visibleArchive: true,
+            staffHandle: staff
         })
     }
 
@@ -66,7 +71,7 @@ const mapStateToProps = state => ({
     listStaffByMerchant: state.staff.listStaffByMerchant,
     isAddStaff: state.staff.isAddStaff,
     isShowSearch: state.staff.isShowSearch,
-    listSearchStaff:state.staff.listSearchStaff
+    listSearchStaff: state.staff.listSearchStaff
 })
 
 

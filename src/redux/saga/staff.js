@@ -79,10 +79,38 @@ function* searchStaffByName(action) {
     }
 }
 
+function* archiveStaff(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log('archiveStaff : ' + JSON.stringify(responses));
+        // const { codeNumber } = responses;
+        // if (parseInt(codeNumber) == 200) {
+        //     yield put({
+        //         type: 'GET_STAFF_BY_MERCHANR_ID_SUCCESS',
+        //         payload: responses.data
+        //     });
+        //     yield put({
+        //         type: 'SWICH_ADD_STAFF',
+        //         payload: false
+        //     })
+        // } else if (parseInt(codeNumber) === 401) {
+        //     yield put({
+        //         type: 'UNAUTHORIZED'
+        //     })
+        // }
+    } catch (error) {
+        console.log('error : ', error);
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 export default function* saga() {
     yield all([
         takeLatest('ADD_STAFF_BY_MERCHANT', addStaffByMerchant),
         takeLatest('GET_STAFF_BY_MERCHANR_ID', getStaffByMerchantId),
         takeLatest('SEARCH_STAFF_BY_NAME', searchStaffByName),
+        takeLatest('ARCHICVE_STAFF', archiveStaff),
     ])
 }

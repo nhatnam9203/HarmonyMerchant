@@ -23,9 +23,9 @@ class AddStaff extends Layout {
                 email: 'abc@gmail.com',
                 pin: '1234',
                 confirmPin: '1234',
+                status: 'Active',
                 roles: {
                     nameRole: 'Admin',
-                    statusRole: 'Active'
                 },
                 driverlicense: '1234',
                 socialSecurityNumber: '1234',
@@ -100,10 +100,6 @@ class AddStaff extends Layout {
                     keyError = 'nameRole';
                     break;
                 }
-                if (user.roles.statusRole == '') {
-                    keyError = 'statusRole';
-                    break;
-                }
             }
             else if (arrayKey[i] == 'email') {
                 if (!validateEmail(user[arrayKey[i]])) {
@@ -138,7 +134,7 @@ class AddStaff extends Layout {
                 objSalary = {
                     ...objSalary,
                     [this.convertKeyToName(ref.props.title)]: {
-                        value: 0,
+                        value: parseInt(ref.state.value ? ref.state.value : 0),
                         isCheck: ref.state.isCheck
                     }
                 }
@@ -148,7 +144,7 @@ class AddStaff extends Layout {
                 objTipFee = {
                     ...objTipFee,
                     [this.convertKeyToName(ref.props.title)]: {
-                        value: 0,
+                        value: parseInt(ref.state.value ? ref.state.value : 0),
                         isCheck: ref.state.isCheck
                     }
                 }
@@ -156,6 +152,7 @@ class AddStaff extends Layout {
             const { profile } = this.props;
             const temptStaff = {
                 ...user,
+                status: (user.status === 'Active' ? true : false),
                 workingTime: objWorkingTime,
                 salary: objSalary,
                 tipFee: objTipFee,

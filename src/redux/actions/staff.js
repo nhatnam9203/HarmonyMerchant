@@ -49,7 +49,7 @@ export function archiveStaff(id) {
         type: 'ARCHICVE_STAFF',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}active${id}`
+        api: `${apiConfigs.BASE_API}active/${id}`
     }
 }
 

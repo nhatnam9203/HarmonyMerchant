@@ -30,10 +30,11 @@ class Layout extends React.Component {
     renderBody() {
         const { address, firstName, lastName, displayName,
             cellphone, email, pin, confirmPin, roles,
-            driverlicense, socialSecurityNumber, professionalLicense
+            driverlicense, socialSecurityNumber, professionalLicense,
+            status
         } = this.state.user;
         const { street, city, state } = address;
-        const { nameRole, statusRole } = roles;
+        const { nameRole } = roles;
         const { language } = this.props;
         return (
             <View style={styles.body} >
@@ -137,8 +138,8 @@ class Layout extends React.Component {
                         DropdowStatusAdmin={() => <Dropdown
                             label={localize('Status', language)}
                             data={Status}
-                            value={statusRole}
-                            onChangeText={(value) => this.updateUserInfo('statusRole', value, 'roles')}
+                            value={status}
+                            onChangeText={(value) => this.updateUserInfo('status', value)}
                             containerStyle={styles.dropdown}
                         />}
                     />

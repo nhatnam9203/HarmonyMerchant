@@ -8,7 +8,7 @@ import {
 
 import IMAGE from '@resources';
 import { Dropdown, Button } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie,WorkingTime } from '@utils';
 
 let data = [{
     value: 'Banana',
@@ -24,9 +24,9 @@ export default class ItemWorkingTime extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isCheck: false,
-            timeStart: '',
-            timeEnd: ''
+            isCheck: true,
+            timeStart: '08:00 AM',
+            timeEnd: '08:00 PM'
         }
     }
 
@@ -37,8 +37,8 @@ export default class ItemWorkingTime extends React.Component {
     }
 
     render() {
-        const { title, timeStart, timeEnd } = this.props;
-        const { isCheck } = this.state;
+        const { title, } = this.props;
+        const { isCheck ,timeStart, timeEnd } = this.state;
         const temptIconCheck = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
             <View style={{
@@ -65,7 +65,7 @@ export default class ItemWorkingTime extends React.Component {
                 <View style={{ width: scaleSzie(150) }} >
                     <Dropdown
                         label={'08:00 AM'}
-                        data={data}
+                        data={WorkingTime}
                         value={timeStart}
                         onChangeText={(value) => this.setState({ timeStart: value })}
                         containerStyle={{
@@ -87,7 +87,7 @@ export default class ItemWorkingTime extends React.Component {
                 <View style={{ width: scaleSzie(150) }} >
                     <Dropdown
                         label={'09:00 AM'}
-                        data={data}
+                        data={WorkingTime}
                         value={timeEnd}
                         onChangeText={(value) => this.setState({ timeEnd: value })}
                         containerStyle={{

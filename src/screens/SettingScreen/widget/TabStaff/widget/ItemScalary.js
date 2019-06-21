@@ -6,6 +6,7 @@ import {
     StyleSheet,
     TextInput
 } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 
 import IMAGE from '@resources';
 import {  Button } from '@components';
@@ -53,7 +54,8 @@ export default class ItemWorkingTime extends React.Component {
                 </View>
 
                 <View style={[{ width: scaleSzie(150), paddingLeft: scaleSzie(5) }, styles.borderTextInput]} >
-                    <TextInput
+                    <TextInputMask
+                    type="only-numbers"
                         style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
                         placeholder={placeholder}
                         value={value}
