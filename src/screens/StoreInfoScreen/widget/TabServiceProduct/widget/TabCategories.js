@@ -26,17 +26,16 @@ class TabCategories extends React.Component {
             serviceInfoHandle: {}
         }
 
-        this.inputRefsService = [];
+        this.inputRefCategory = [];
     }
 
     componentDidMount() {
-        const { profile } = this.props
-        this.props.actions.category.getCategoriesByMerchantId(profile.merchantId);
+        this.props.actions.category.getCategoriesByMerchantId();
     }
 
-    setRefService = (ref) => {
+    setRefCategory = (ref) => {
         if (ref != null) {
-            this.inputRefsService.push(ref);
+            this.inputRefCategory.push(ref);
         }
     };
 
@@ -64,12 +63,13 @@ class TabCategories extends React.Component {
 
     archirveServiceYess() {
         const { serviceInfoHandle } = this.state;
-        for (let i = 0; i < this.inputRefsService.length; i++) {
-            if (this.inputRefsService[i].props.staff.id === serviceInfoHandle.id) {
-                this.inputRefsService[i].handleArchirveStaff();
+        for (let i = 0; i < this.inputRefCategory.length; i++) {
+            if (this.inputRefCategory[i].props.category.categoryId === serviceInfoHandle.categoryId) {
+                this.inputRefCategory[i].handleArchirveStaff();
                 break;
             }
         }
+        this.props.actions.category.archiveCategory(serviceInfoHandle.categoryId);
         this.setState({
             visibleArchive: false
         })
@@ -77,9 +77,9 @@ class TabCategories extends React.Component {
 
     restoreStaffYess() {
         const { serviceInfoHandle } = this.state;
-        for (let i = 0; i < this.inputRefsService.length; i++) {
-            if (this.inputRefsService[i].props.staff.id === serviceInfoHandle.id) {
-                this.inputRefsService[i].handleRestoreStaff();
+        for (let i = 0; i < this.inputRefCategory.length; i++) {
+            if (this.inputRefCategory[i].props.category.categoryId === serviceInfoHandle.categoryId) {
+                this.inputRefCategory[i].handleRestoreStaff();
                 break;
             }
         }
@@ -119,7 +119,7 @@ class TabCategories extends React.Component {
                         data={categoriesByMerchant}
                         // data={FakeData}
                         renderItem={({ item, index }) => <RowTableCategories
-                            ref={this.setRefService}
+                            ref={this.setRefCategory}
                             key={index}
                             key={index} index={parseInt(index + 1)}
                             category={item}
@@ -128,7 +128,7 @@ class TabCategories extends React.Component {
                             editService={() => this.editService(item)}
 
                         />}
-                        keyExtractor={(item, index) => `${item.id}`}
+                        keyExtractor={(item, index) => `${item.categoryId}`}
                         ListEmptyComponent={<RowEmptyTableCategories />}
                     />
                 </View>

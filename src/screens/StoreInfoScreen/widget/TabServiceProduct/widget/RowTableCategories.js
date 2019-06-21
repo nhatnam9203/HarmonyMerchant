@@ -6,7 +6,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-import {  ButtonCustom,} from '@components';
+import { ButtonCustom, } from '@components';
 import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 
@@ -15,7 +15,7 @@ class RowTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isArchive: true
+            isArchive: this.props.category.isDisabled === 0 ? true : false
         }
     }
 
@@ -63,7 +63,7 @@ class RowTable extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            {category.style}
+                            {category.categoryType}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >

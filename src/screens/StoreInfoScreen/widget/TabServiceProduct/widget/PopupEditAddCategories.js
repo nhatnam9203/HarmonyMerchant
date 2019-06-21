@@ -16,10 +16,14 @@ class PopupEditAddCategories extends React.Component {
         super(props);
         this.state = {
             category: {
-                style: '',
+                categoryType: '',
                 name: ''
             }
         }
+    }
+
+    componentDidMount(){
+        
     }
 
     updateCategoryInfo(key, value, keyParent = '') {
@@ -41,8 +45,8 @@ class PopupEditAddCategories extends React.Component {
 
 
     checkInputCategory = () => {
-        const { style, name } = this.state.category;
-        if (style === '' || name === '') {
+        const { categoryType, name } = this.state.category;
+        if (categoryType === '' || name === '') {
             Alert.alert(`Please enter full info!`);
         } else {
             this.props.confimYes(this.state.category);
@@ -51,7 +55,7 @@ class PopupEditAddCategories extends React.Component {
 
     render() {
         const { title, visible, titleButton, onRequestClose } = this.props;
-        const { style, name } = this.state.category
+        const { categoryType, name } = this.state.category
         return (
             <PopupParent
                 title={title}
@@ -75,8 +79,8 @@ class PopupEditAddCategories extends React.Component {
                                 <Dropdown
                                     label='Type'
                                     data={[{ value: 'Product' }, { value: 'Service' }]}
-                                    value={style}
-                                    onChangeText={(value) => this.updateCategoryInfo('style', value)}
+                                    value={categoryType}
+                                    onChangeText={(value) => this.updateCategoryInfo('categoryType', value)}
                                     containerStyle={{
                                         backgroundColor: '#F1F1F1',
                                         borderWidth: 1,
