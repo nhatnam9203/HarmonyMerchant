@@ -5,6 +5,7 @@ import auth from './auth';
 import category from './category';
 import product from './product';
 import staff from './staff';
+import service from './service';
 
 export default function* sagaRoot() {
     yield all([
@@ -12,6 +13,7 @@ export default function* sagaRoot() {
         auth(),
         category(),
         product(),
-        staff()
+        staff(),
+        service()
     ])
 }

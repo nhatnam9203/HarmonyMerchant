@@ -4,6 +4,7 @@ import * as auth from './auth';
 import * as category from './category';
 import * as product from './product';
 import * as staff from './staff';
+import * as service from './service';
 
 export default {
     app,
@@ -11,5 +12,6 @@ export default {
     auth,
     category,
     product,
-    staff
+    staff,
+    service
 }

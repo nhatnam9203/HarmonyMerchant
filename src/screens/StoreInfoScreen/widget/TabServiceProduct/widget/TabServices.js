@@ -11,30 +11,8 @@ import HeaderTableServices from './HeaderTableServices';
 import RowTableServices from './RowTableServices';
 import PopupAddService from './PopupAddService';
 import RowEmptyTableServices from './RowEmptyTableServices';
+import connectRedux from '@redux/ConnectRedux';
 
-const FakeData = [{
-    id: 'HP000002',
-    name: 'Pena Valdez',
-    role: 'Staff',
-    status: 'Active'
-},
-{
-    id: 'HP000003',
-    name: 'Jessica Miles',
-    role: 'Staff',
-    status: 'Active'
-},
-{
-    id: 'HP000004',
-    name: 'Pena Valdez',
-    role: 'Staff',
-    status: 'Active'
-}, {
-    id: 'HP000005',
-    name: 'Jessica Miles',
-    role: 'Staff',
-    status: 'Active'
-}]
 
 
 class TabServices extends React.Component {
@@ -116,13 +94,13 @@ class TabServices extends React.Component {
     }
 
     renderTable() {
-        return (
+        const {servicesByMerchant } = this.props;
+         return (
             <View style={{ flex: 1 }} >
                 <HeaderTableServices />
                 <View style={{ flex: 1 }} >
                     <FlatList
-                        // data={[]}
-                        data={FakeData}
+                        data={servicesByMerchant}
                         renderItem={({ item, index }) => <RowTableServices
                             ref={this.setRefService}
                             key={index}
@@ -192,5 +170,10 @@ const styles = StyleSheet.create({
     },
 })
 
-export default TabServices;
+const mapStateToProps = state => ({
+    profile: state.dataLocal.profile,
+    servicesByMerchant: state.service.servicesByMerchant
+});
+
+export default connectRedux(mapStateToProps, TabServices);
 
