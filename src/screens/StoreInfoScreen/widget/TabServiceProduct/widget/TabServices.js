@@ -30,6 +30,10 @@ class TabServices extends React.Component {
         this.inputRefsService = [];
     }
 
+    componentDidMount(){
+        this.props.actions.service.getServicesByMerchant();
+    }
+
     setRefService = (ref) => {
         if (ref != null) {
             this.inputRefsService.push(ref);

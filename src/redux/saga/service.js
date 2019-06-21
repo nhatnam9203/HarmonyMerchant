@@ -28,15 +28,15 @@ function* addCategory(action) {
     }
 }
 
-function* getCategoriesByMerchantId(action) {
+function* getServicesByMerchant(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('getCategoriesByMerchantId : ', responses);
+        console.log('getServicesByMerchant : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
-                type: 'GET_CATEGORIES_BY_MERCHANR_ID_SUCCESS',
+                type: 'GET_SERVICE_BY_MERCHANT_SUCCESS',
                 payload: responses.data
             })
         } else if (parseInt(codeNumber) === 401) {
@@ -104,7 +104,7 @@ function* editCategory(action) {
 export default function* saga() {
     yield all([
         // takeLatest('ADD_CATEGORY', addCategory),
-        // takeLatest('GET_CATEGORIES_BY_MERCHANR_ID', getCategoriesByMerchantId),
+        takeLatest('GET_SERVICE_BY_MERCHANT', getServicesByMerchant),
         // takeLatest('ARCHIVE_CATEGORY', archiveCategory),
         // takeLatest('EDIT_CATEGORY', editCategory),
     ])
