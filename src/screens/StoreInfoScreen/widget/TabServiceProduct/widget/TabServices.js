@@ -124,7 +124,7 @@ class TabServices extends React.Component {
                             restoreService={() => this.togglePopupRestore(true, item)}
                             editService={() => this.editService(item)}
                         />}
-                        keyExtractor={(item, index) => item.id}
+                        keyExtractor={(item, index) => `${item.serviceId}`}
                         ListEmptyComponent={<RowEmptyTableServices />}
                     />
                 </View>

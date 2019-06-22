@@ -5,7 +5,8 @@ import {
     StyleSheet,
     TextInput,
     Dimensions,
-    ScrollView
+    ScrollView,
+    Alert
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
@@ -37,17 +38,9 @@ class PopupAddService extends React.Component {
                 openTime: '',
                 secondTime: '',
                 price: '',
-                status: '',
+                status: 'Active',
             },
-            extras: [
-                {
-                    name: "",
-                    description: "",
-                    duration: 0,
-                    price: 0,
-                    status: ''
-                }
-            ]
+            arrayExtra: [1]
         }
         this.durationRef = React.createRef();
         this.openTimeRef = React.createRef();
@@ -77,7 +70,31 @@ class PopupAddService extends React.Component {
 
     done = () => {
         const { serviceInfo } = this.state;
-        console.log('serviceInfo : ', serviceInfo);
+        const duration = this.durationRef.current.state.value;
+        const openTime = this.openTimeRef.current.state.value;
+        const secondTime = this.secondTimeRef.current.state.value;
+        const temptServiceInfo = { ...serviceInfo, duration, openTime, secondTime };
+        const arrayKey = Object.keys(temptServiceInfo);
+        let keyError = "";
+        for (let i = 0; i <= arrayKey.length; i++) {
+            if (temptServiceInfo[arrayKey[i]] == "") {
+                keyError = arrayKey[i];
+                break;
+            }
+        }
+        if (keyError != '') {
+            Alert.alert(`${strings[keyError]}`);
+        } else {
+
+        }
+
+    }
+    addMoreExtra = () => {
+        const temptArrayExtra = [...this.state.arrayExtra];
+        temptArrayExtra.push(this.state.arrayExtra.length + 1);
+        this.setState({
+            arrayExtra: temptArrayExtra
+        })
     }
 
     // ------- Render -----
@@ -157,12 +174,15 @@ class PopupAddService extends React.Component {
                             </Text>
                             <View style={{ height: scaleSzie(70), flexDirection: 'row', justifyContent: 'space-between' }} >
                                 <ItemTime
+                                    ref={this.durationRef}
                                     title="Minutes"
                                 />
                                 <ItemTime
+                                    ref={this.openTimeRef}
                                     title="Open Time"
                                 />
                                 <ItemTime
+                                    ref={this.secondTimeRef}
                                     title="Second Time"
                                 />
                             </View>
@@ -195,7 +215,7 @@ class PopupAddService extends React.Component {
                                     }} >
                                         <Dropdown
                                             label='Active'
-                                            data={[{value:'Active'},{value:'Disable'}]}
+                                            data={[{ value: 'Active' }, { value: 'Disable' }]}
                                             value={status}
                                             onChangeText={(value) => this.updateServiceInfo('status', value)}
                                             containerStyle={{
@@ -209,84 +229,28 @@ class PopupAddService extends React.Component {
                                 </View>
                             </View>
                             {/* ------ Line ------ */}
-                            <View style={{ height: 3, backgroundColor: '#0764B0', marginTop: scaleSzie(8), marginBottom: scaleSzie(20) }} />
+                            {
+                                this.state.arrayExtra.map(index => <ItemExtra key={index} />)
+                            }
 
-                            {/* ------ Extra ---- */}
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                Extra name
-                            </Text>
-                            <View style={{
-                                height: scaleSzie(30), borderWidth: 1, borderColor: '#6A6A6A',
-                                paddingLeft: scaleSzie(10),
-                            }} >
-                                <TextInput
-                                    placeholder="Extra name"
-                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                />
-                            </View>
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                Description
-                            </Text>
-                            <View style={{
-                                height: scaleSzie(60), borderWidth: 1, borderColor: '#6A6A6A',
-                                paddingLeft: scaleSzie(10), backgroundColor: '#FAFAFA', paddingTop: scaleSzie(5)
-                            }} >
-                                <TextInput
-                                    placeholder=""
-                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                    multiline={true}
-                                />
-                            </View>
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                Duration
-                            </Text>
-                            <ItemTime
-                                title="Minutes"
-                            />
-                            <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
-                                <View style={{ flex: 1, paddingRight: scaleSzie(50) }}  >
-                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                        Price
-                                    </Text>
-                                    <View style={{
-                                        height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
-                                        borderWidth: 1, borderColor: '#6A6A6A', flexDirection: 'row'
-                                    }} >
-                                        <TextInputMask
-                                            type="only-numbers"
-                                            style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                            placeholder="$ 100"
-                                            value={price}
-                                            onChangeText={value => this.updateServiceInfo('price', value)}
-                                        />
-                                    </View>
-                                </View>
-                                {/* ------ */}
-                                <View>
-                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                        Status
-                                    </Text>
-                                    <View style={{
-                                        height: scaleSzie(30), width: scaleSzie(90),
-                                        flexDirection: 'row'
-                                    }} >
-                                        <Dropdown
-                                            label='Active'
-                                            data={[{value:'Active'},{value:'Disable'}]}
-                                            // value={'Service Categories'}
-                                            // onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
-                                            containerStyle={{
-                                                backgroundColor: '#F1F1F1',
-                                                borderWidth: 1,
-                                                borderColor: '#6A6A6A',
-                                                flex: 1
-                                            }}
-                                        />
-                                    </View>
-                                </View>
-                            </View>
+
                             {/* ------ Line ------ */}
                             <View style={{ height: 3, backgroundColor: '#0764B0', marginTop: scaleSzie(8), marginBottom: scaleSzie(20) }} />
+
+                            <View style={{ height: scaleSzie(60) }} >
+                                <ButtonCustom
+                                    width={'100%'}
+                                    height={35}
+                                    backgroundColor="#4CD964"
+                                    title={'Add more extra'}
+                                    textColor="#fff"
+                                    onPress={this.addMoreExtra}
+                                    style={{ borderRadius: scaleSzie(2) }}
+                                    styleText={{
+                                        fontSize: scaleSzie(14)
+                                    }}
+                                />
+                            </View>
                             <View style={{ height: scaleSzie(250) }} />
                         </ScrollView>
                     </View>
@@ -307,6 +271,104 @@ class PopupAddService extends React.Component {
                     </View>
                 </View>
             </PopupParent>
+        );
+    }
+
+}
+
+class ItemExtra extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            extraInfo: {
+                name: "",
+                description: "",
+                duration: 0,
+                price: 0,
+                status: ''
+            }
+        }
+    }
+
+    render() {
+        return (
+            <View>
+                <View style={{ height: 3, backgroundColor: '#0764B0', marginTop: scaleSzie(8), marginBottom: scaleSzie(20) }} />
+                {/* ------ Extra ---- */}
+                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                    Extra name
+                            </Text>
+                <View style={{
+                    height: scaleSzie(30), borderWidth: 1, borderColor: '#6A6A6A',
+                    paddingLeft: scaleSzie(10),
+                }} >
+                    <TextInput
+                        placeholder="Extra name"
+                        style={{ flex: 1, fontSize: scaleSzie(16) }}
+                    />
+                </View>
+                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                    Description
+                            </Text>
+                <View style={{
+                    height: scaleSzie(60), borderWidth: 1, borderColor: '#6A6A6A',
+                    paddingLeft: scaleSzie(10), backgroundColor: '#FAFAFA', paddingTop: scaleSzie(5)
+                }} >
+                    <TextInput
+                        placeholder=""
+                        style={{ flex: 1, fontSize: scaleSzie(16) }}
+                        multiline={true}
+                    />
+                </View>
+                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                    Duration
+                            </Text>
+                <ItemTime
+                    title="Minutes"
+                />
+                <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
+                    <View style={{ flex: 1, paddingRight: scaleSzie(50) }}  >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                            Price
+                                    </Text>
+                        <View style={{
+                            height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
+                            borderWidth: 1, borderColor: '#6A6A6A', flexDirection: 'row'
+                        }} >
+                            <TextInputMask
+                                type="only-numbers"
+                                style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                placeholder="$ 100"
+                            // value={price}
+                            // onChangeText={value => this.updateServiceInfo('price', value)}
+                            />
+                        </View>
+                    </View>
+                    {/* ------ */}
+                    <View>
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                            Status
+                                    </Text>
+                        <View style={{
+                            height: scaleSzie(30), width: scaleSzie(90),
+                            flexDirection: 'row'
+                        }} >
+                            <Dropdown
+                                label='Active'
+                                data={[{ value: 'Active' }, { value: 'Disable' }]}
+                                // value={'Service Categories'}
+                                // onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
+                                containerStyle={{
+                                    backgroundColor: '#F1F1F1',
+                                    borderWidth: 1,
+                                    borderColor: '#6A6A6A',
+                                    flex: 1
+                                }}
+                            />
+                        </View>
+                    </View>
+                </View>
+            </View>
         );
     }
 
@@ -354,19 +416,16 @@ class ItemTime extends React.Component {
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    footer: {
-        height: scaleSzie(50),
-        flexDirection: 'row',
-    },
-    buttonContainer: {
-        flex: 1,
-        alignItems: 'center'
-    },
-})
+const strings = {
+    categoryId: 'Mising info : Category',
+    name: 'Mising info : Name service',
+    description: 'Mising info : Description',
+    duration: 'Mising info : Duration',
+    openTime: 'Mising info : Open time',
+    secondTime: 'Mising info : Second time',
+    price: 'Mising info : Price',
+    status: 'Mising info :Status',
+}
 
 const mapStateToProps = state => ({
     categoriesByMerchant: state.category.categoriesByMerchant
