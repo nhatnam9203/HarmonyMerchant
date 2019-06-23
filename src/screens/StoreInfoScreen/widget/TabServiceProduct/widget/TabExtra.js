@@ -11,6 +11,7 @@ import HeaderTableExtra from './HeaderTableExtra';
 import RowTableExtra from './RowTableExtra';
 import PopupEditAddExtra from './PopupEditAddExtra';
 import RowEmptyTableExtra from './RowEmptyTableExtra';
+import connectRedux from '@redux/ConnectRedux';
 
 class TabExtra extends React.Component {
 
@@ -25,6 +26,10 @@ class TabExtra extends React.Component {
         }
 
         this.inputRefsService = [];
+    }
+
+    componentDidMount(){
+        this.props.actions.extra.getExtraByMerchant();
     }
 
     setRefService = (ref) => {
@@ -91,13 +96,13 @@ class TabExtra extends React.Component {
     }
 
     renderTable() {
+        const {extrasByMerchant} = this.props;
         return (
             <View style={{ flex: 1 }} >
                 <HeaderTableExtra />
                 <View style={{ flex: 1 }} >
                     <FlatList
-                        // data={FakeData}
-                        data={[]}
+                        data={extrasByMerchant}
                         renderItem={({ item, index }) => <RowTableExtra
                             ref={this.setRefService}
                             key={index}
@@ -167,5 +172,10 @@ const styles = StyleSheet.create({
     },
 })
 
-export default TabExtra;
+const mapStateToProps = state => ({
+    extrasByMerchant: state.extra.extrasByMerchant
+});
+
+export default connectRedux(mapStateToProps, TabExtra);
+
 

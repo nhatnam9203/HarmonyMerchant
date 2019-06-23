@@ -5,28 +5,73 @@ import {
     StyleSheet,
     TextInput,
     Dimensions,
-    ScrollView
+    ScrollView,
+    Alert
 } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent, Dropdown } from '@components';
 import { scaleSzie } from '@utils';
 
 const { width } = Dimensions.get('window');
 
-let data = [{
-    value: 'Banana',
-}, {
-    value: 'Mango',
-}, {
-    value: 'Pear',
-}
-];
-
 class PopupEditAddExtra extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            extraInfo: {
+                name: "",
+                description: "",
+                duration: '',
+                price: '',
+                status: 'Active'
+            }
+        }
+
+        this.durationRef = React.createRef();
+    }
+
+    updateExtraInfo(key, value, keyParent = '') {
+        const { extraInfo } = this.state;
+        if (keyParent !== '') {
+            const temptParent = extraInfo[keyParent];
+            const temptChild = { ...temptParent, [key]: value };
+            const temptUpdate = { ...extraInfo, [keyParent]: temptChild };
+            this.setState({
+                extraInfo: temptUpdate
+            })
+        } else {
+            const temptUpdate = { ...extraInfo, [key]: value };
+            this.setState({
+                extraInfo: temptUpdate
+            })
+        }
+    }
+
+    doneAddExtra = () => {
+        // this.props.doneAddExtra();
+        const { extraInfo } = this.state;
+        const temptExtraInfo ={...extraInfo, duration: this.durationRef.current.state.value};
+        const arrayKey = Object.keys(temptExtraInfo);
+        let keyError = "";
+        for (let i = 0; i <= temptExtraInfo.length; i++) {
+            if (temptExtraInfo[arrayKey[i]] === '') {
+                keyError = arrayKey[i];
+                break;
+            }
+        }
+        if (keyError != '') {
+            Alert.alert(`${strings[keyError]}`);
+        } else {
+            this.props.actions.extra.addExtraByMerchant(temptExtraInfo);
+        }
+
+    }
+
     render() {
-        const { title, visible, onRequestClose, doneAddExtra ,isSave} = this.props;
-        // const temptHeight = width - scaleSzie(800);
+        const { title, visible, onRequestClose, isSave } = this.props;
+        const { name, description, price, status } = this.state.extraInfo;
         const temptTitleButton = isSave ? 'Save' : 'Done';
         return (
             <PopupParent
@@ -56,6 +101,8 @@ class PopupEditAddExtra extends React.Component {
                                 <TextInput
                                     placeholder="Extra name"
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                    value={name}
+                                    onChangeText={(value) => this.updateExtraInfo('name', value)}
                                 />
                             </View>
                             <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
@@ -69,13 +116,17 @@ class PopupEditAddExtra extends React.Component {
                                     placeholder=""
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
                                     multiline={true}
+                                    value={description}
+                                    onChangeText={value => this.updateExtraInfo('description', value)}
                                 />
                             </View>
                             <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                 Duration
                             </Text>
                             <ItemTime
+                                ref={this.durationRef}
                                 title="Minutes"
+
                             />
                             <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
                                 <View style={{ flex: 1, paddingRight: scaleSzie(50) }}  >
@@ -86,9 +137,12 @@ class PopupEditAddExtra extends React.Component {
                                         height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
                                         borderWidth: 1, borderColor: '#6A6A6A', flexDirection: 'row'
                                     }} >
-                                        <TextInput
+                                        <TextInputMask
+                                            type="only-numbers"
                                             style={{ flex: 1, fontSize: scaleSzie(16) }}
                                             placeholder="$ 100"
+                                            value={price}
+                                            onChangeText={value => this.updateExtraInfo('price', value)}
                                         />
                                     </View>
                                 </View>
@@ -103,9 +157,9 @@ class PopupEditAddExtra extends React.Component {
                                     }} >
                                         <Dropdown
                                             label='Active'
-                                            data={data}
-                                            // value={'Service Categories'}
-                                            // onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
+                                            data={[{ value: 'Active' }, { value: 'Disable' }]}
+                                            value={status}
+                                            onChangeText={(value) => this.updateExtraInfo('status', value)}
                                             containerStyle={{
                                                 backgroundColor: '#F1F1F1',
                                                 borderWidth: 1,
@@ -127,7 +181,7 @@ class PopupEditAddExtra extends React.Component {
                             backgroundColor="#0764B0"
                             title={temptTitleButton}
                             textColor="#fff"
-                            onPress={() =>doneAddExtra()}
+                            onPress={this.doneAddExtra}
                             style={{ borderRadius: scaleSzie(2) }}
                             styleText={{
                                 fontSize: scaleSzie(14)
@@ -141,46 +195,55 @@ class PopupEditAddExtra extends React.Component {
 
 }
 
-const ItemTime = (props) => {
-    const { title } = props;
-    return (
-        <View>
-            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                {title}
-            </Text>
-            <View style={{
-                height: scaleSzie(30), width: scaleSzie(90),
-                borderWidth: 1, borderColor: '#6A6A6A', flexDirection: 'row'
-            }} >
-                <View style={{ flex: 1, paddingLeft: scaleSzie(5) }} >
-                    <TextInput
-                        style={{ flex: 1, fontSize: scaleSzie(16) }}
-                    />
-                </View>
-                <View style={{ justifyContent: 'flex-end', paddingRight: 4 }} >
-                    <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
-                        min
-                </Text>
-                </View>
+class ItemTime extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: ''
+        }
+    }
+
+    render() {
+        const { title } = this.props;
+        const { value } = this.state;
+        return (
+            <View>
+                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                    {title}
+                </Text>
+                <View style={{
+                    height: scaleSzie(30), width: scaleSzie(90),
+                    borderWidth: 1, borderColor: '#6A6A6A', flexDirection: 'row'
+                }} >
+                    <View style={{ flex: 1, paddingLeft: scaleSzie(5) }} >
+                        <TextInputMask
+                            type="only-numbers"
+                            placeholder='10'
+                            style={{ flex: 1, fontSize: scaleSzie(16) }}
+                            value={value}
+                            onChangeText={(value) => this.setState({ value })}
+                        />
+                    </View>
+                    <View style={{ justifyContent: 'flex-end', paddingRight: 4 }} >
+                        <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
+                            min
+                </Text>
+                    </View>
+
+                </View>
             </View>
-        </View>
-    );
+        );
+    }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    footer: {
-        height: scaleSzie(50),
-        flexDirection: 'row',
-    },
-    buttonContainer: {
-        flex: 1,
-        alignItems: 'center'
-    },
-})
+const strings = {
+    name: 'Mising info : Name service',
+    description: 'Mising info : Description',
+    duration: 'Mising info : Duration',
+    price: 'Mising info : Price',
+    status: 'Mising info :Status',
+}
 
 export default PopupEditAddExtra;
 

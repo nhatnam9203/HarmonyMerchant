@@ -13,8 +13,6 @@ import PopupAddService from './PopupAddService';
 import RowEmptyTableServices from './RowEmptyTableServices';
 import connectRedux from '@redux/ConnectRedux';
 
-
-
 class TabServices extends React.Component {
 
     constructor(props) {

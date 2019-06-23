@@ -16,14 +16,6 @@ import connectRedux from '@redux/ConnectRedux';
 
 const { width } = Dimensions.get('window');
 
-let data = [{
-    value: 'Banana',
-}, {
-    value: 'Mango',
-}, {
-    value: 'Pear',
-}
-];
 
 class PopupAddService extends React.Component {
 

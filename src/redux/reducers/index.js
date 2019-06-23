@@ -29,7 +29,8 @@ const rootReducer = combineReducers({
     category,
     product,
     staff,
-    service
+    service,
+    extra
 });
 
 export default persistReducer(rootPersistConfig, rootReducer);

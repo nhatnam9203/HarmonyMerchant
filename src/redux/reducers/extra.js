@@ -1,13 +1,13 @@
 const initialState = {
-    servicesByMerchant: [],
+    extrasByMerchant: [],
 }
 
 function appReducer(state = initialState, action) {
     switch (action.type) {
-        case 'GET_SERVICE_BY_MERCHANT_SUCCESS':
+        case 'GET_EXTRA_BY_MERCHANT_SUCCESS':
             return {
                 ...state,
-                servicesByMerchant: action.payload
+                extrasByMerchant: action.payload
             }
         default:
             return state

@@ -1,8 +1,8 @@
 import apiConfigs from '../../configs/api';
 
-export function addServiceByMerchant(body) {
+export function addExtraByMerchant(body) {
     return {
-        type: 'ADD_SERVICE_BY_MERCHANT',
+        type: 'ADD_EXTRA_BY_MERCHANT',
         body,
         method: 'POST',
         token: true,
@@ -10,12 +10,12 @@ export function addServiceByMerchant(body) {
     }
 }
 
-export function getServicesByMerchant() {
+export function getExtraByMerchant() {
     return {
-        type: 'GET_SERVICE_BY_MERCHANT',
+        type: 'GET_EXTRA_BY_MERCHANT',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}service`
+        api: `${apiConfigs.BASE_API}extra`
     }
 }
 

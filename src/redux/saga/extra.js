@@ -4,7 +4,7 @@ import NavigationServices from "../../navigators/NavigatorServices";
 import { requestAPI } from '../../utils';
 import apiConfigs from '../../configs/api';
 
-function* addServiceByMerchant(action) {
+function* addExtraByMerchant(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
@@ -28,15 +28,15 @@ function* addServiceByMerchant(action) {
     }
 }
 
-function* getServicesByMerchant(action) {
+function* getExtraByMerchant(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('getServicesByMerchant : ', responses);
+        console.log('getExtraByMerchant : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
-                type: 'GET_SERVICE_BY_MERCHANT_SUCCESS',
+                type: 'GET_EXTRA_BY_MERCHANT_SUCCESS',
                 payload: responses.data
             })
         } else if (parseInt(codeNumber) === 401) {
@@ -103,8 +103,8 @@ function* editCategory(action) {
 
 export default function* saga() {
     yield all([
-        takeLatest('ADD_SERVICE_BY_MERCHANT', addServiceByMerchant),
-        takeLatest('GET_SERVICE_BY_MERCHANT', getServicesByMerchant),
+        takeLatest('ADD_EXTRA_BY_MERCHANT', addExtraByMerchant),
+        takeLatest('GET_EXTRA_BY_MERCHANT', getExtraByMerchant),
         // takeLatest('ARCHIVE_CATEGORY', archiveCategory),
         // takeLatest('EDIT_CATEGORY', editCategory),
     ])
