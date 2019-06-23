@@ -84,6 +84,7 @@ class Layout extends React.Component {
             <View style={styles.container} >
                 {isAddStaff ? <StaffInfo
                     backTabelStaff={() => this.props.actions.staff.switchAddStaff(false)}
+                    nextTab={() => this.props.nextTab()}
                 /> : this.renderTable()}
                 <PopupConfirm
                     visible={visibleArchive}

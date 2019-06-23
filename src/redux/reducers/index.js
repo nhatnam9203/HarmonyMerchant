@@ -9,6 +9,7 @@ import category from './category';
 import product from './product';
 import staff from './staff';
 import service from './service';
+import extra from './extra';
 
 const rootPersistConfig = {
     key: 'root',

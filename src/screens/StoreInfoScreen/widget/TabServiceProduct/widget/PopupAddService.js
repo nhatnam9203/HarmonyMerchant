@@ -45,6 +45,11 @@ class PopupAddService extends React.Component {
         this.durationRef = React.createRef();
         this.openTimeRef = React.createRef();
         this.secondTimeRef = React.createRef();
+        this.arrayExtraRef = [];
+    }
+
+    addExtraRef = (ref) => {
+        this.arrayExtraRef.push(ref);
     }
 
     filterCategories(categories) {
@@ -73,7 +78,10 @@ class PopupAddService extends React.Component {
         const duration = this.durationRef.current.state.value;
         const openTime = this.openTimeRef.current.state.value;
         const secondTime = this.secondTimeRef.current.state.value;
-        const temptServiceInfo = { ...serviceInfo, duration, openTime, secondTime };
+        const temptServiceInfo = {
+            ...serviceInfo, duration, openTime, secondTime,
+            status: serviceInfo.status == 'Active' ? 1 : 0
+        };
         const arrayKey = Object.keys(temptServiceInfo);
         let keyError = "";
         for (let i = 0; i <= arrayKey.length; i++) {
@@ -85,10 +93,17 @@ class PopupAddService extends React.Component {
         if (keyError != '') {
             Alert.alert(`${strings[keyError]}`);
         } else {
-
+            // --- Handle extra ---
+            const arrayExtra = []
+            this.arrayExtraRef.forEach(extra => {
+                arrayExtra.push(extra.getInfoExtraFromParent());
+            });
+            const dataServiceAdd = { ...temptServiceInfo, extras: arrayExtra };
+            console.log('arrayExtra : ' + JSON.stringify(dataServiceAdd));
+            this.props.actions.service.addServiceByMerchant(dataServiceAdd);
         }
-
     }
+
     addMoreExtra = () => {
         const temptArrayExtra = [...this.state.arrayExtra];
         temptArrayExtra.push(this.state.arrayExtra.length + 1);
@@ -230,7 +245,10 @@ class PopupAddService extends React.Component {
                             </View>
                             {/* ------ Line ------ */}
                             {
-                                this.state.arrayExtra.map(index => <ItemExtra key={index} />)
+                                this.state.arrayExtra.map(index => <ItemExtra
+                                    ref={this.addExtraRef}
+                                    key={index}
+                                />)
                             }
 
 
@@ -283,14 +301,41 @@ class ItemExtra extends React.Component {
             extraInfo: {
                 name: "",
                 description: "",
-                duration: 0,
-                price: 0,
-                status: ''
+                duration: '',
+                price: '',
+                status: 'Active'
             }
+        }
+        this.durationRef = React.createRef();
+    }
+
+    getInfoExtraFromParent = () => {
+        const duration = this.durationRef.current.state.value;
+        const temptExtra = { ...this.state.extraInfo, duration: duration ,
+            status: this.state.extraInfo.status == 'Active' ? 1 : 0
+        }
+        return temptExtra
+    }
+
+    updateExtraInfo(key, value, keyParent = '') {
+        const { extraInfo } = this.state;
+        if (keyParent !== '') {
+            const temptParent = extraInfo[keyParent];
+            const temptChild = { ...temptParent, [key]: value };
+            const temptUpdate = { ...extraInfo, [keyParent]: temptChild };
+            this.setState({
+                extraInfo: temptUpdate
+            })
+        } else {
+            const temptUpdate = { ...extraInfo, [key]: value };
+            this.setState({
+                extraInfo: temptUpdate
+            })
         }
     }
 
     render() {
+        const { name, description, duration, price, status } = this.state.extraInfo;
         return (
             <View>
                 <View style={{ height: 3, backgroundColor: '#0764B0', marginTop: scaleSzie(8), marginBottom: scaleSzie(20) }} />
@@ -305,6 +350,8 @@ class ItemExtra extends React.Component {
                     <TextInput
                         placeholder="Extra name"
                         style={{ flex: 1, fontSize: scaleSzie(16) }}
+                        value={name}
+                        onChangeText={value => this.updateExtraInfo('name', value)}
                     />
                 </View>
                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
@@ -318,12 +365,15 @@ class ItemExtra extends React.Component {
                         placeholder=""
                         style={{ flex: 1, fontSize: scaleSzie(16) }}
                         multiline={true}
+                        value={description}
+                        onChangeText={value => this.updateExtraInfo('description', value)}
                     />
                 </View>
                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                     Duration
                             </Text>
                 <ItemTime
+                    ref={this.durationRef}
                     title="Minutes"
                 />
                 <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
@@ -339,8 +389,8 @@ class ItemExtra extends React.Component {
                                 type="only-numbers"
                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
                                 placeholder="$ 100"
-                            // value={price}
-                            // onChangeText={value => this.updateServiceInfo('price', value)}
+                                value={price}
+                                onChangeText={value => this.updateExtraInfo('price', value)}
                             />
                         </View>
                     </View>
@@ -356,8 +406,8 @@ class ItemExtra extends React.Component {
                             <Dropdown
                                 label='Active'
                                 data={[{ value: 'Active' }, { value: 'Disable' }]}
-                                // value={'Service Categories'}
-                                // onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
+                                value={status}
+                                onChangeText={(value) => this.updateExtraInfo('status', value)}
                                 containerStyle={{
                                     backgroundColor: '#F1F1F1',
                                     borderWidth: 1,
