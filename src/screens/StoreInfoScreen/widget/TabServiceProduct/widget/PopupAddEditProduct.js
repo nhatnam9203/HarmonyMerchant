@@ -7,6 +7,7 @@ import {
     Dimensions,
     ScrollView
 } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent, Dropdown } from '@components';
 import { scaleSzie } from '@utils';
@@ -24,10 +25,53 @@ let data = [{
 
 class PopupAddEditProduct extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            productInfo: {
+                categoryId: '',
+                name: "",
+                description: "",
+                skuNumber: '',
+                itemsInStock: '',
+                lowTheshold: '',
+                maxTheshold: '',
+                price: '',
+                status: 'Active',
+            }
+        }
+    }
+
+    updateProductInfo(key, value, keyParent = '') {
+        const { productInfo } = this.state;
+        if (keyParent !== '') {
+            const temptParent = productInfo[keyParent];
+            const temptChild = { ...temptParent, [key]: value };
+            const temptUpdate = { ...productInfo, [keyParent]: temptChild };
+            this.setState({
+                productInfo: temptUpdate
+            })
+        } else {
+            const temptUpdate = { ...productInfo, [key]: value };
+            this.setState({
+                productInfo: temptUpdate
+            })
+        }
+    }
+
+    doneAddService = () => {
+        // this.props.doneAddService();
+        const { productInfo } = this.state;
+        console.log('productInfo: ', productInfo);
+    }
+
     render() {
         const { title, visible, onRequestClose, doneAddService, isSave } = this.props;
         const temptHeight = width - scaleSzie(500);
         const temptTitleButton = isSave ? 'Save' : 'Done';
+        const { categoryId, name, description, skuNumber, itemsInStock, lowTheshold,
+            maxTheshold, price, status
+        } = this.state.productInfo
         return (
             <PopupParent
                 title={title}
@@ -45,14 +89,14 @@ class PopupAddEditProduct extends React.Component {
                             showsVerticalScrollIndicator={false}
                         >
                             <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginTop: scaleSzie(10), marginBottom: scaleSzie(10) }} >
-                                Category Type
+                                Category
                             </Text>
                             <View style={{ width: scaleSzie(200), height: scaleSzie(30), }} >
                                 <Dropdown
                                     label='Facial'
                                     data={data}
-                                    // value={'Service Categories'}
-                                    // onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
+                                    value={categoryId}
+                                    onChangeText={(value) => this.updateProductInfo('categoryId', value)}
                                     containerStyle={{
                                         backgroundColor: '#F1F1F1',
                                         borderWidth: 1,
@@ -71,6 +115,8 @@ class PopupAddEditProduct extends React.Component {
                                 <TextInput
                                     placeholder="Product 1"
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                    value={name}
+                                    onChangeText={(value) => this.updateProductInfo('name', value)}
                                 />
                             </View>
                             <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
@@ -84,6 +130,8 @@ class PopupAddEditProduct extends React.Component {
                                     placeholder=""
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
                                     multiline={true}
+                                    value={description}
+                                    onChangeText={value => this.updateProductInfo('description', value)}
                                 />
                             </View>
                             {/* -----  */}
@@ -97,6 +145,8 @@ class PopupAddEditProduct extends React.Component {
                                             <TextInput
                                                 placeholder="sku12345678"
                                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                value={skuNumber}
+                                                onChangeText={value => this.updateProductInfo('skuNumber', value)}
                                             />
                                         </View>
                                     </View>
@@ -110,7 +160,7 @@ class PopupAddEditProduct extends React.Component {
                                         backgroundColor="#0764B0"
                                         title={'Scan'}
                                         textColor="#fff"
-                                        onPress={() => doneAddService()}
+                                        onPress={() => alert('scan')}
                                         style={{ borderRadius: scaleSzie(2) }}
                                         styleText={{
                                             fontSize: scaleSzie(14)
@@ -126,9 +176,12 @@ class PopupAddEditProduct extends React.Component {
                                     </Text>
                                     <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                         <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
-                                            <TextInput
+                                            <TextInputMask
+                                                type="only-numbers"
                                                 placeholder="100"
                                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                value={itemsInStock}
+                                                onChangeText={value => this.updateProductInfo('itemsInStock', value)}
                                             />
                                         </View>
                                     </View>
@@ -145,9 +198,12 @@ class PopupAddEditProduct extends React.Component {
                                     </Text>
                                     <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                         <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
-                                            <TextInput
+                                            <TextInputMask
+                                                type="only-numbers"
                                                 placeholder="10"
                                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                value={lowTheshold}
+                                                onChangeText={value => this.updateProductInfo('lowTheshold', value)}
                                             />
                                         </View>
                                     </View>
@@ -158,9 +214,12 @@ class PopupAddEditProduct extends React.Component {
                                     </Text>
                                     <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                         <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
-                                            <TextInput
+                                            <TextInputMask
+                                                type="only-numbers"
                                                 placeholder="20"
                                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                value={maxTheshold}
+                                                onChangeText={value => this.updateProductInfo('maxTheshold', value)}
                                             />
                                         </View>
                                     </View>
@@ -174,9 +233,12 @@ class PopupAddEditProduct extends React.Component {
                                     </Text>
                                     <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                         <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
-                                            <TextInput
+                                            <TextInputMask
+                                                type="only-numbers"
                                                 placeholder="10$"
                                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                value={price}
+                                                onChangeText={value => this.updateProductInfo('price', value)}
                                             />
                                         </View>
                                     </View>
@@ -186,12 +248,12 @@ class PopupAddEditProduct extends React.Component {
                                         Status
                                     </Text>
                                     <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
-                                        <View style={{ width:scaleSzie(100) ,height:scaleSzie(30) }} >
+                                        <View style={{ width: scaleSzie(100), height: scaleSzie(30) }} >
                                             <Dropdown
                                                 label='Active'
-                                                data={data}
-                                                // value={'Service Categories'}
-                                                // onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
+                                                data={[{ value: 'Active' }, { value: 'Disable' }]}
+                                                value={status}
+                                                onChangeText={(value) => this.updateProductInfo('status', value)}
                                                 containerStyle={{
                                                     backgroundColor: '#F1F1F1',
                                                     borderWidth: 1,
@@ -215,7 +277,7 @@ class PopupAddEditProduct extends React.Component {
                             backgroundColor="#0764B0"
                             title={temptTitleButton}
                             textColor="#fff"
-                            onPress={() => doneAddService()}
+                            onPress={this.doneAddService}
                             style={{ borderRadius: scaleSzie(2) }}
                             styleText={{
                                 fontSize: scaleSzie(14)
