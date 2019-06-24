@@ -51,7 +51,7 @@ function* getServicesByMerchant(action) {
     }
 }
 
-function* archiveCategory(action) {
+function* archiveService(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
@@ -59,10 +59,35 @@ function* archiveCategory(action) {
         console.log('--- responses : ', responses);
         if (parseInt(codeNumber) == 200) {
             yield put({
-                type: 'GET_CATEGORIES_BY_MERCHANR_ID',
+                type: 'GET_SERVICE_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}category`
+                api: `${apiConfigs.BASE_API}service`
+            })
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        }
+    } catch (error) {
+        console.log('error : ', error);
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+function* restoreService(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        const { codeNumber } = responses;
+        console.log('--- restoreService : ', responses);
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: 'GET_SERVICE_BY_MERCHANT',
+                method: 'GET',
+                token: true,
+                api: `${apiConfigs.BASE_API}service`
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -105,7 +130,8 @@ export default function* saga() {
     yield all([
         takeLatest('ADD_SERVICE_BY_MERCHANT', addServiceByMerchant),
         takeLatest('GET_SERVICE_BY_MERCHANT', getServicesByMerchant),
-        // takeLatest('ARCHIVE_CATEGORY', archiveCategory),
+        takeLatest('ARCHIVE_SERVICE', archiveService),
+        takeLatest('RESTORE_SERVICE', restoreService),
         // takeLatest('EDIT_CATEGORY', editCategory),
     ])
 }

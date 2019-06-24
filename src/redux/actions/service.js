@@ -19,13 +19,23 @@ export function getServicesByMerchant() {
     }
 }
 
-export function archiveCategory(id) {
+export function archiveService(id) {
     return {
-        type: 'ARCHIVE_CATEGORY',
+        type: 'ARCHIVE_SERVICE',
         body: {},
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}category/archive/${id}`,
+        api: `${apiConfigs.BASE_API}service/archive/${id}`,
+    }
+}
+
+export function restoreService(id) {
+    return {
+        type: 'RESTORE_SERVICE',
+        body: {},
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}service/restore/${id}`,
     }
 }
 

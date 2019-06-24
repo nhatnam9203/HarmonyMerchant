@@ -28,7 +28,7 @@ class TabServices extends React.Component {
         this.inputRefsService = [];
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.actions.service.getServicesByMerchant();
     }
 
@@ -62,12 +62,7 @@ class TabServices extends React.Component {
 
     archirveServiceYess() {
         const { serviceInfoHandle } = this.state;
-        for (let i = 0; i < this.inputRefsService.length; i++) {
-            if (this.inputRefsService[i].props.staff.id === serviceInfoHandle.id) {
-                this.inputRefsService[i].handleArchirveStaff();
-                break;
-            }
-        }
+        this.props.actions.service.archiveService(serviceInfoHandle.serviceId);
         this.setState({
             visibleArchive: false
         })
@@ -75,12 +70,7 @@ class TabServices extends React.Component {
 
     restoreStaffYess() {
         const { serviceInfoHandle } = this.state;
-        for (let i = 0; i < this.inputRefsService.length; i++) {
-            if (this.inputRefsService[i].props.staff.id === serviceInfoHandle.id) {
-                this.inputRefsService[i].handleRestoreStaff();
-                break;
-            }
-        }
+        this.props.actions.service.restoreService(serviceInfoHandle.serviceId);
         this.setState({
             visibleRestore: false
         })
@@ -95,19 +85,19 @@ class TabServices extends React.Component {
         })
     }
 
-    showModalAddService = () =>{
-        const {categoriesByMerchant} = this.props;
-        if(categoriesByMerchant.length > 0){
+    showModalAddService = () => {
+        const { categoriesByMerchant } = this.props;
+        if (categoriesByMerchant.length > 0) {
             this.setState({ visibleAdd: true })
-        }else{
+        } else {
             alert('Create category before add service please !')
         }
-        
+
     }
 
     renderTable() {
-        const {servicesByMerchant } = this.props;
-         return (
+        const { servicesByMerchant } = this.props;
+        return (
             <View style={{ flex: 1 }} >
                 <HeaderTableServices />
                 <View style={{ flex: 1 }} >
@@ -117,7 +107,7 @@ class TabServices extends React.Component {
                             ref={this.setRefService}
                             key={index}
                             key={index} index={parseInt(index + 1)}
-                            staff={item}
+                            service={item}
                             archiveService={() => this.togglePopupArchive(true, item)}
                             restoreService={() => this.togglePopupRestore(true, item)}
                             editService={() => this.editService(item)}
