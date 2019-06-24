@@ -23,7 +23,7 @@ class LockScreen extends Layout {
             const pin = profile.pin ? profile.pin : '1234';
             if(password == pin){
                  this.props.actions.app.handleLockScreen(false);
-                 NavigatorServices.navigate('Drawer');
+                //  NavigatorServices.navigate('Drawer');
             }else{
                 Alert.alert(`Pin not match !`);
             }

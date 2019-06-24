@@ -24,10 +24,10 @@ class PopupAddEditProduct extends React.Component {
                 categoryId: '',
                 name: "",
                 description: "",
-                skuNumber: '',
-                itemsInStock: '',
-                lowTheshold: '',
-                maxTheshold: '',
+                sku: '',
+                quantity: '',
+                minThreshold: '',
+                maxThreshold: '',
                 price: '',
                 status: 'Active',
             }
@@ -51,7 +51,54 @@ class PopupAddEditProduct extends React.Component {
         }
     }
 
-    doneAddService = () => {
+    setProductInfoFromParent = (productInfo) => {
+        console.log('setProductInfoFromParent : ',productInfo);
+        this.setState({
+            productInfo: {
+                productId: productInfo.productId,
+                categoryId: this.getCateroryName(productInfo.categoryId),
+                name: productInfo.name,
+                description: productInfo.description,
+                sku: productInfo.sku ? productInfo.sku : '',
+                quantity: productInfo.quantity ? productInfo.quantity : '',
+                minThreshold: productInfo.minThreshold ? productInfo.minThreshold : '',
+                maxThreshold: productInfo.maxThreshold ? productInfo.maxThreshold : '',
+                price: productInfo.price ? productInfo.price : '',
+                status: productInfo.isDisabled === 0 ? 'Active' : 'Disable'
+            }
+        })
+    }
+
+    setDefaultStateFromParent = () => {
+        this.setState({
+            productInfo: {
+                categoryId: '',
+                name: "",
+                description: "",
+                sku: '',
+                quantity: '',
+                minThreshold: '',
+                maxThreshold: '',
+                price: '',
+                status: 'Active',
+            }
+        })
+    }
+
+    getCateroryName(id) {
+        const { categoriesByMerchant } = this.props;
+        let name = '';
+        for (let i = 0; i < categoriesByMerchant.length - 1; i++) {
+            if (categoriesByMerchant[i].categoryId == id) {
+                name = categoriesByMerchant[i].name;
+                break;
+            }
+        }
+        console.log(`name: ${name},id :${id}`);
+        return name;
+    }
+
+    doneAddProduct = () => {
         const { productInfo } = this.state;
         const temptProductInfo = {
             ...productInfo,
@@ -60,7 +107,7 @@ class PopupAddEditProduct extends React.Component {
         }
         const arrayKey = Object.keys(temptProductInfo);
         let keyError = "";
-        for (let i = 0; i <= arrayKey.length; i++) {
+        for (let i = 0; i <= arrayKey.length -1; i++) {
             if (temptProductInfo[arrayKey[i]] == "") {
                 keyError = arrayKey[i];
                 break;
@@ -69,9 +116,12 @@ class PopupAddEditProduct extends React.Component {
         if (keyError != '') {
             Alert.alert(`${strings[keyError]}`);
         } else {
-            console.log('productInfo: ' + JSON.stringify(temptProductInfo));
-            this.props.actions.product.addProductByMerchant(temptProductInfo)
-            this.props.confimYes();
+            if (this.props.isSave) {
+                this.props.editProduct(temptProductInfo);
+            } else {
+                this.props.confimYes(temptProductInfo);
+            }
+
         }
     }
 
@@ -91,14 +141,15 @@ class PopupAddEditProduct extends React.Component {
         return categories.map(category => ({ value: category.name, id: category.categoryId }));
     }
 
+
     render() {
-        const { title, visible, onRequestClose, doneAddService, isSave,
+        const { title, visible, onRequestClose, isSave,
             categoriesByMerchant
         } = this.props;
         const temptHeight = width - scaleSzie(500);
         const temptTitleButton = isSave ? 'Save' : 'Done';
-        const { categoryId, name, description, skuNumber, itemsInStock, lowTheshold,
-            maxTheshold, price, status
+        const { categoryId, name, description, sku, quantity, minThreshold,
+            maxThreshold, price, status
         } = this.state.productInfo
         return (
             <PopupParent
@@ -173,8 +224,8 @@ class PopupAddEditProduct extends React.Component {
                                             <TextInput
                                                 placeholder="sku12345678"
                                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                                value={skuNumber}
-                                                onChangeText={value => this.updateProductInfo('skuNumber', value)}
+                                                value={sku}
+                                                onChangeText={value => this.updateProductInfo('sku', value)}
                                             />
                                         </View>
                                     </View>
@@ -208,8 +259,8 @@ class PopupAddEditProduct extends React.Component {
                                                 type="only-numbers"
                                                 placeholder="100"
                                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                                value={itemsInStock}
-                                                onChangeText={value => this.updateProductInfo('itemsInStock', value)}
+                                                value={quantity}
+                                                onChangeText={value => this.updateProductInfo('quantity', value)}
                                             />
                                         </View>
                                     </View>
@@ -230,8 +281,8 @@ class PopupAddEditProduct extends React.Component {
                                                 type="only-numbers"
                                                 placeholder="10"
                                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                                value={lowTheshold}
-                                                onChangeText={value => this.updateProductInfo('lowTheshold', value)}
+                                                value={minThreshold}
+                                                onChangeText={value => this.updateProductInfo('minThreshold', value)}
                                             />
                                         </View>
                                     </View>
@@ -246,8 +297,8 @@ class PopupAddEditProduct extends React.Component {
                                                 type="only-numbers"
                                                 placeholder="20"
                                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                                value={maxTheshold}
-                                                onChangeText={value => this.updateProductInfo('maxTheshold', value)}
+                                                value={maxThreshold}
+                                                onChangeText={value => this.updateProductInfo('maxThreshold', value)}
                                             />
                                         </View>
                                     </View>
@@ -305,7 +356,7 @@ class PopupAddEditProduct extends React.Component {
                             backgroundColor="#0764B0"
                             title={temptTitleButton}
                             textColor="#fff"
-                            onPress={this.doneAddService}
+                            onPress={this.doneAddProduct}
                             style={{ borderRadius: scaleSzie(2) }}
                             styleText={{
                                 fontSize: scaleSzie(14)
@@ -319,48 +370,24 @@ class PopupAddEditProduct extends React.Component {
 
 }
 
-const ItemTime = (props) => {
-    const { title } = props;
-    return (
-        <View>
-            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                {title}
-            </Text>
-            <View style={{
-                height: scaleSzie(30), width: scaleSzie(90),
-                borderWidth: 1, borderColor: '#6A6A6A', flexDirection: 'row'
-            }} >
-                <View style={{ flex: 1, paddingLeft: scaleSzie(5) }} >
-                    <TextInput
-                        style={{ flex: 1, fontSize: scaleSzie(16) }}
-                    />
-                </View>
-                <View style={{ justifyContent: 'flex-end', paddingRight: 4 }} >
-                    <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
-                        min
-                </Text>
-                </View>
-
-            </View>
-        </View>
-    );
-}
 
 const strings = {
     categoryId: 'Mising info : Category',
     name: 'Mising info : Name Product',
     description: 'Mising info : Description',
-    skuNumber: 'Mising info : SKU Number',
-    itemsInStock: 'Mising info : Item In Stock',
-    lowTheshold: 'Mising info : Low Theshold',
-    maxTheshold: 'Mising info : Max Theshold',
+    sku: 'Mising info : SKU Number',
+    quantity: 'Mising info : Item In Stock',
+    minThreshold: 'Mising info : Low Theshold',
+    maxThreshold: 'Mising info : Max Theshold',
     price: 'Mising info : Price',
     status: 'Active',
 }
 
-const mapStateToProps = state => ({
-    categoriesByMerchant: state.category.categoriesByMerchant
-});
-export default connectRedux(mapStateToProps, PopupAddEditProduct);
+// const mapStateToProps = state => ({
+//     categoriesByMerchant: state.category.categoriesByMerchant
+// });
+// export default connectRedux(mapStateToProps, PopupAddEditProduct);
+
+export default PopupAddEditProduct;
 
 

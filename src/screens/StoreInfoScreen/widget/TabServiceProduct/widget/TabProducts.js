@@ -27,10 +27,11 @@ class TabProducts extends React.Component {
         }
 
         this.inputRefsService = [];
+        this.addProductRef = React.createRef();
+        this.editProductRef = React.createRef();
     }
 
     componentDidMount() {
-        const { profile } = this.props;
         this.props.actions.product.getProductsByMerchant();
     }
 
@@ -78,22 +79,31 @@ class TabProducts extends React.Component {
         })
     }
 
-    async editService(service) {
-        await this.setState({
-            serviceInfoHandle: service
-        });
+    async editService(product) {
+        this.editProductRef.current.setProductInfoFromParent(product);
         this.setState({
             visibleEdit: true
         })
     }
 
-    showModalAddProduct = () =>{
+    showModalAddProduct = () => {
         const { categoriesByMerchant } = this.props;
         if (categoriesByMerchant.length > 0) {
-            this.setState({ visibleAdd: true })
+            this.setState({ visibleAdd: true });
+            this.addProductRef.current.setDefaultStateFromParent();
         } else {
             alert('Create category before add service please !')
         }
+    }
+
+    addProduct = product => {
+        this.props.actions.product.addProductByMerchant(product);
+        this.setState({ visibleAdd: false })
+    }
+
+    editProduct = product => {
+        this.props.actions.product.editProduct(product, product.productId);
+        this.setState({ visibleEdit: false })
     }
 
     renderTable() {
@@ -132,6 +142,7 @@ class TabProducts extends React.Component {
                     nextTab={() => this.props.nextTab()}
                 />
                 <PopupConfirm
+                    ref={this.addProductRef}
                     visible={visibleArchive}
                     title="Confirmation"
                     message="Do you want to Archive this Product ?"
@@ -146,18 +157,24 @@ class TabProducts extends React.Component {
                     confimYes={() => this.restoreStaffYess()}
                 />
                 <PopupAddEditProduct
+                    ref={this.addProductRef}
                     visible={visibleAdd}
                     title="Add Product"
                     titleButton="Add"
                     onRequestClose={() => this.setState({ visibleAdd: false })}
-                    confimYes={() => this.setState({ visibleAdd: false })}
+                    confimYes={this.addProduct}
+                    categoriesByMerchant={this.props.categoriesByMerchant}
                 />
                 <PopupAddEditProduct
+                    ref={this.editProductRef}
                     visible={visibleEdit}
                     title="Edit Product"
                     titleButton="Save"
+                    isSave={true}
                     onRequestClose={() => this.setState({ visibleEdit: false })}
-                    confimYes={() => this.setState({ visibleEdit: false })}
+                    // confimYes={() => this.setState({ visibleEdit: false })}
+                    editProduct={this.editProduct}
+                    categoriesByMerchant={this.props.categoriesByMerchant}
                 />
             </View>
 
@@ -175,7 +192,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     productsByMerchantId: state.product.productsByMerchantId,
-    categoriesByMerchant: state.category.categoriesByMerchant
+    categoriesByMerchant: state.category.categoriesByMerchant,
+
 });
 
 export default connectRedux(mapStateToProps, TabProducts);

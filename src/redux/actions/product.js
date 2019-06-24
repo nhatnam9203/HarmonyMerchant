@@ -39,3 +39,13 @@ export function restoreProduct(id) {
     }
 }
 
+export function editProduct(body,id) {
+    return {
+        type: 'EDIT_PRODUCT',
+        body: body,
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}product/${id}`,
+    }
+}
+

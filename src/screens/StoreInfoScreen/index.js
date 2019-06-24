@@ -23,7 +23,7 @@ class StoreInfoScreen extends Layout {
     }
 
     signOut = () => {
-        NavigatorServices.navigate('SignIn')
+        this.props.actions.app.handleLockScreen(true);
     }
 
 }

@@ -89,6 +89,27 @@ function* restoreProduct(action) {
     }
 }
 
+function* editProduct(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log('--- responses : ', responses);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: 'GET_PRODUCTS_BY_MERCHANR_ID',
+                method: 'GET',
+                token: true,
+                api: `${apiConfigs.BASE_API}product`
+            })
+        } else {
+        }
+    } catch (error) {
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 
 export default function* saga() {
     yield all([
@@ -96,5 +117,8 @@ export default function* saga() {
         takeLatest('GET_PRODUCTS_BY_MERCHANR_ID', getProductsByMerchantId),
         takeLatest('ARCHIVE_PRODUCT', archiveProduct),
         takeLatest('RESTORE_PRODUCT', restoreProduct),
+        takeLatest('EDIT_PRODUCT', editProduct),
+
+        
     ])
 }
