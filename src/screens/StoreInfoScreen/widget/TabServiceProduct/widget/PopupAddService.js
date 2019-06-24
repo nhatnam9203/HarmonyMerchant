@@ -72,7 +72,8 @@ class PopupAddService extends React.Component {
         const secondTime = this.secondTimeRef.current.state.value;
         const temptServiceInfo = {
             ...serviceInfo, duration, openTime, secondTime,
-            status: serviceInfo.status == 'Active' ? 1 : 0
+            status: serviceInfo.status == 'Active' ? 1 : 0,
+            categoryId: serviceInfo.categoryId !== '' ? this.getCateroryId(serviceInfo.categoryId) : ''
         };
         const arrayKey = Object.keys(temptServiceInfo);
         let keyError = "";
@@ -86,14 +87,41 @@ class PopupAddService extends React.Component {
             Alert.alert(`${strings[keyError]}`);
         } else {
             // --- Handle extra ---
-            const arrayExtra = []
+            const arrayExtra = [];
+            let checkValidateExtra = true;
+            let errorCheckExtra = '';
             this.arrayExtraRef.forEach(extra => {
-                arrayExtra.push(extra.getInfoExtraFromParent());
+                console.log(extra.getInfoExtraFromParent());
+                if (extra.getInfoExtraFromParent().isValid) {
+                    arrayExtra.push(extra.getInfoExtraFromParent());
+                } else {
+                    checkValidateExtra = false;
+                    errorCheckExtra=extra.getInfoExtraFromParent().errorMessage;
+                }
+
             });
-            const dataServiceAdd = { ...temptServiceInfo, extras: arrayExtra };
-            console.log('arrayExtra : ' + JSON.stringify(dataServiceAdd));
-            this.props.actions.service.addServiceByMerchant(dataServiceAdd);
+            if (checkValidateExtra) {
+                const dataServiceAdd = { ...temptServiceInfo, extras: arrayExtra };
+                console.log('arrayExtra : ' + JSON.stringify(dataServiceAdd));
+                this.props.actions.service.addServiceByMerchant(dataServiceAdd);
+                this.props.doneAddService();
+            } else {
+                Alert.alert(`${strings[errorCheckExtra]}`);
+            }
+
         }
+    }
+
+    getCateroryId(name) {
+        const { categoriesByMerchant } = this.props;
+        let categoryId = -1;
+        for (let i = 0; i < categoriesByMerchant.length - 1; i++) {
+            if (categoriesByMerchant[i].name == name) {
+                categoryId = categoriesByMerchant[i].categoryId;
+                break;
+            }
+        }
+        return categoryId;
     }
 
     addMoreExtra = () => {
@@ -302,11 +330,33 @@ class ItemExtra extends React.Component {
     }
 
     getInfoExtraFromParent = () => {
+        const { extraInfo } = this.state;
         const duration = this.durationRef.current.state.value;
-        const temptExtra = { ...this.state.extraInfo, duration: duration ,
-            status: this.state.extraInfo.status == 'Active' ? 1 : 0
+        const temptExtra = {
+            ...extraInfo, duration: duration,
+            status: extraInfo.status == 'Active' ? 1 : 0
         }
-        return temptExtra
+
+        const arrayKey = Object.keys(temptExtra);
+        let keyError = "";
+        for (let i = 0; i <= arrayKey.length; i++) {
+            if (temptExtra[arrayKey[i]] == "") {
+                keyError = `${arrayKey[i]}_extra`;
+                break;
+            }
+        }
+        if (keyError != "") {
+            return {
+                isValid: false,
+                errorMessage:keyError,
+                data :{}
+            }
+        }
+        return {
+            isValid: true,
+            errorMessage:'',
+            data :temptExtra
+        }
     }
 
     updateExtraInfo(key, value, keyParent = '') {
@@ -467,6 +517,13 @@ const strings = {
     secondTime: 'Mising info : Second time',
     price: 'Mising info : Price',
     status: 'Mising info :Status',
+
+    // --- Extra ---
+    name_extra: 'Mising info : Name extra',
+    description_extra: 'Mising info : Description extra',
+    duration_extra: 'Mising info : Duration Extra ',
+    price_extra: 'Mising info : Price extra',
+    status: 'Active'
 }
 
 const mapStateToProps = state => ({

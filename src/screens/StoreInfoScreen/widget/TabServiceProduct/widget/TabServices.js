@@ -26,6 +26,7 @@ class TabServices extends React.Component {
         }
 
         this.inputRefsService = [];
+        this.addServiceRef = React.createRef();
     }
 
     componentDidMount() {
@@ -88,7 +89,8 @@ class TabServices extends React.Component {
     showModalAddService = () => {
         const { categoriesByMerchant } = this.props;
         if (categoriesByMerchant.length > 0) {
-            this.setState({ visibleAdd: true })
+
+            this.setState({ visibleAdd: true });
         } else {
             alert('Create category before add service please !')
         }
@@ -138,6 +140,7 @@ class TabServices extends React.Component {
                     confimYes={() => this.archirveServiceYess()}
                 />
                 <PopupConfirm
+                    ref={this.addServiceRef}
                     visible={visibleRestore}
                     title="Confirmation"
                     message="Do you want to Restore this Service ?"

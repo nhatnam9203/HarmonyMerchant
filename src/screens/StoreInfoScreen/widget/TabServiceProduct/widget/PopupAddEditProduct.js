@@ -62,7 +62,7 @@ class PopupAddEditProduct extends React.Component {
     doneAddService = () => {
         // this.props.doneAddService();
         const { productInfo } = this.state;
-        console.log('productInfo: ', productInfo);
+        console.log('productInfo: ' + JSON.stringify(productInfo));
         const arrayKey = Object.keys(productInfo);
         let keyError = "";
         for (let i = 0; i <= arrayKey.length; i++) {

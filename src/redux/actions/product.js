@@ -11,12 +11,12 @@ export function addProductByMerchantId(body, id) {
     }
 }
 
-export function getProductsByMerchantId(id) {
+export function getProductsByMerchant() {
     return {
         type: 'GET_PRODUCTS_BY_MERCHANR_ID',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}product/getbymerchantid/${id}`
+        api: `${apiConfigs.BASE_API}product`
     }
 }
 

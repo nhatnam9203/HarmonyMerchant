@@ -31,7 +31,7 @@ class TabProducts extends React.Component {
 
     componentDidMount() {
         const { profile } = this.props;
-        this.props.actions.product.getProductsByMerchantId(profile.merchantId);
+        this.props.actions.product.getProductsByMerchant();
     }
 
     setRefService = (ref) => {
@@ -64,12 +64,12 @@ class TabProducts extends React.Component {
 
     archirveServiceYess() {
         const { serviceInfoHandle } = this.state;
-        for (let i = 0; i < this.inputRefsService.length; i++) {
-            if (this.inputRefsService[i].props.staff.id === serviceInfoHandle.id) {
-                this.inputRefsService[i].handleArchirveStaff();
-                break;
-            }
-        }
+        // for (let i = 0; i < this.inputRefsService.length; i++) {
+        //     if (this.inputRefsService[i].props.staff.id === serviceInfoHandle.id) {
+        //         this.inputRefsService[i].handleArchirveStaff();
+        //         break;
+        //     }
+        // }
         this.setState({
             visibleArchive: false
         })
