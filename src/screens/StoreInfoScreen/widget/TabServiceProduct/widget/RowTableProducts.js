@@ -104,7 +104,7 @@ class RowTableExtra extends React.Component {
                     </View>
                     <View style={styles.actionButton} >
                         {
-                            isArchive ? <ButtonCustom
+                            product.isDisabled === 0 ? <ButtonCustom
                                 width={'80%'}
                                 height={28}
                                 backgroundColor="#FF3B30"

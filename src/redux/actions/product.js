@@ -20,4 +20,23 @@ export function getProductsByMerchant() {
     }
 }
 
+export function archiveProduct(id) {
+    return {
+        type: 'ARCHIVE_PRODUCT',
+        body: {},
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}product/archive/${id}`,
+    }
+}
+
+export function restoreProduct(id) {
+    return {
+        type: 'RESTORE_PRODUCT',
+        body: {},
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}product/restore/${id}`,
+    }
+}
 

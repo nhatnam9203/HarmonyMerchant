@@ -64,12 +64,7 @@ class TabProducts extends React.Component {
 
     archirveServiceYess() {
         const { serviceInfoHandle } = this.state;
-        // for (let i = 0; i < this.inputRefsService.length; i++) {
-        //     if (this.inputRefsService[i].props.staff.id === serviceInfoHandle.id) {
-        //         this.inputRefsService[i].handleArchirveStaff();
-        //         break;
-        //     }
-        // }
+        this.props.actions.product.archiveProduct(serviceInfoHandle.productId);
         this.setState({
             visibleArchive: false
         })
@@ -77,12 +72,13 @@ class TabProducts extends React.Component {
 
     restoreStaffYess() {
         const { serviceInfoHandle } = this.state;
-        for (let i = 0; i < this.inputRefsService.length; i++) {
-            if (this.inputRefsService[i].props.staff.id === serviceInfoHandle.id) {
-                this.inputRefsService[i].handleRestoreStaff();
-                break;
-            }
-        }
+        // for (let i = 0; i < this.inputRefsService.length; i++) {
+        //     if (this.inputRefsService[i].props.staff.id === serviceInfoHandle.id) {
+        //         this.inputRefsService[i].handleRestoreStaff();
+        //         break;
+        //     }
+        // }
+        this.props.actions.product.restoreProduct(serviceInfoHandle.productId);
         this.setState({
             visibleRestore: false
         })

@@ -148,7 +148,7 @@ class TabExtra extends React.Component {
                     doneAddExtra={() => this.setState({ visibleAdd: false })}
                 />
                 <PopupEditAddExtra
-                    ref={this.editExtraRef}
+                    // ref={this.editExtraRef}
                     visible={visibleEdit}
                     title="Edit Extra"
                     titleButton="Save"
