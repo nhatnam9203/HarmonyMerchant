@@ -82,7 +82,7 @@ class TabExtra extends React.Component {
         //     extraInfoHandle: service
         // });
 
-        console.log(this.editExtraRef);
+        // console.log(this.editExtraRef);
 
         // this.editExtraRef.current.setStateFromParent(extra);
         // this.setState({

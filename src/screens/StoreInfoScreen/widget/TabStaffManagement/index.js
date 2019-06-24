@@ -54,10 +54,10 @@ class TabStaffManagement extends Layout {
     }
 
     editStaff() {
-        this.setState({
-            isAddStaff: true
-        });
-        this.inputRefsStaff = [];
+        // this.setState({
+        //     isAddStaff: true
+        // });
+        // this.inputRefsStaff = [];
     }
 
     archirveStaffYess() {

@@ -78,12 +78,12 @@ class TabServices extends React.Component {
     }
 
     async editService(service) {
-        await this.setState({
-            serviceInfoHandle: service
-        });
-        this.setState({
-            visibleEdit: true
-        })
+        // await this.setState({
+        //     serviceInfoHandle: service
+        // });
+        // this.setState({
+        //     visibleEdit: true
+        // })
     }
 
     showModalAddService = () => {
