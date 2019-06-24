@@ -22,13 +22,13 @@ class TabExtra extends React.Component {
             visibleRestore: false,
             visibleAdd: false,
             visibleEdit: false,
-            serviceInfoHandle: {}
+            extraInfoHandle: {}
         }
 
         this.inputRefsService = [];
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.actions.extra.getExtraByMerchant();
     }
 
@@ -38,10 +38,10 @@ class TabExtra extends React.Component {
         }
     };
 
-    async  togglePopupArchive(bool, service = {}) {
+    async  togglePopupArchive(bool, extra = {}) {
         if (bool === true) {
             await this.setState({
-                serviceInfoHandle: service
+                extraInfoHandle: extra
             })
         }
         this.setState(prevState => ({
@@ -52,7 +52,7 @@ class TabExtra extends React.Component {
     async  togglePopupRestore(bool, service = {}) {
         if (bool === true) {
             await this.setState({
-                serviceInfoHandle: service
+                extraInfoHandle: service
             })
         }
         this.setState(prevState => ({
@@ -61,26 +61,28 @@ class TabExtra extends React.Component {
     }
 
     archirveServiceYess() {
-        const { serviceInfoHandle } = this.state;
-        for (let i = 0; i < this.inputRefsService.length; i++) {
-            if (this.inputRefsService[i].props.staff.id === serviceInfoHandle.id) {
-                this.inputRefsService[i].handleArchirveStaff();
-                break;
-            }
-        }
+        const { extraInfoHandle } = this.state;
+        // for (let i = 0; i < this.inputRefsService.length; i++) {
+        //     if (this.inputRefsService[i].props.staff.id === extraInfoHandle.id) {
+        //         this.inputRefsService[i].handleArchirveStaff();
+        //         break;
+        //     }
+        // }
+        this.props.actions.extra.archiveExtra(extraInfoHandle.extraId);
         this.setState({
             visibleArchive: false
         })
     }
 
     restoreStaffYess() {
-        const { serviceInfoHandle } = this.state;
-        for (let i = 0; i < this.inputRefsService.length; i++) {
-            if (this.inputRefsService[i].props.staff.id === serviceInfoHandle.id) {
-                this.inputRefsService[i].handleRestoreStaff();
-                break;
-            }
-        }
+        const { extraInfoHandle } = this.state;
+        // for (let i = 0; i < this.inputRefsService.length; i++) {
+        //     if (this.inputRefsService[i].props.staff.id === extraInfoHandle.id) {
+        //         this.inputRefsService[i].handleRestoreStaff();
+        //         break;
+        //     }
+        // }
+        this.props.actions.extra.restoreExtra(extraInfoHandle.extraId);
         this.setState({
             visibleRestore: false
         })
@@ -88,7 +90,7 @@ class TabExtra extends React.Component {
 
     async editService(service) {
         await this.setState({
-            serviceInfoHandle: service
+            extraInfoHandle: service
         });
         this.setState({
             visibleEdit: true
@@ -96,7 +98,7 @@ class TabExtra extends React.Component {
     }
 
     renderTable() {
-        const {extrasByMerchant} = this.props;
+        const { extrasByMerchant } = this.props;
         return (
             <View style={{ flex: 1 }} >
                 <HeaderTableExtra />

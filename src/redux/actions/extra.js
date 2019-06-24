@@ -19,13 +19,23 @@ export function getExtraByMerchant() {
     }
 }
 
-export function archiveCategory(id) {
+export function archiveExtra(id) {
     return {
-        type: 'ARCHIVE_CATEGORY',
+        type: 'ARCHIVE_EXTRA',
         body: {},
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}category/archive/${id}`,
+        api: `${apiConfigs.BASE_API}extra/archive/${id}`,
+    }
+}
+
+export function restoreExtra(id) {
+    return {
+        type: 'RESTORE_EXTRA',
+        body: {},
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}extra/restore/${id}`,
     }
 }
 
