@@ -32,7 +32,7 @@ class RowTableExtra extends React.Component {
     }
 
     render() {
-        const { staff, index, archiveService, editService, restoreService } = this.props;
+        const { extra, index, archiveService, editService, restoreService } = this.props;
         const { isArchive } = this.state;
         return (
             <View style={styles.tableHeader} >
@@ -50,7 +50,7 @@ class RowTableExtra extends React.Component {
                             style={{ width: scaleSzie(12), height: scaleSzie(29), marginRight: scaleSzie(12) }}
                         />
                         <Text style={styles.textTableHeader} >
-                            {staff.name}
+                            {extra.name}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -63,7 +63,7 @@ class RowTableExtra extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            {staff.status}
+                            {extra.price}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -76,7 +76,7 @@ class RowTableExtra extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            {staff.status}
+                            {extra.isDisabled === 0 ? 'Active': 'Disable'}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -104,7 +104,7 @@ class RowTableExtra extends React.Component {
                     </View>
                     <View style={styles.actionButton} >
                         {
-                            isArchive ? <ButtonCustom
+                            extra.isDisabled === 0 ? <ButtonCustom
                                 width={'80%'}
                                 height={28}
                                 backgroundColor="#FF3B30"

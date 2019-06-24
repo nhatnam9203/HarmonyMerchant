@@ -107,12 +107,12 @@ class TabExtra extends React.Component {
                             ref={this.setRefService}
                             key={index}
                             key={index} index={parseInt(index + 1)}
-                            staff={item}
+                            extra={item}
                             archiveService={() => this.togglePopupArchive(true, item)}
                             restoreService={() => this.togglePopupRestore(true, item)}
                             editService={() => this.editService(item)}
                         />}
-                        keyExtractor={(item, index) => item.id}
+                        keyExtractor={(item, index) => `${item.extraId}`}
                         ListEmptyComponent={<RowEmptyTableExtra />}
 
                     />

@@ -51,7 +51,6 @@ class PopupEditAddExtra extends React.Component {
     }
 
     doneAddExtra = () => {
-        // this.props.doneAddExtra();
         const { extraInfo } = this.state;
         const temptExtraInfo = { ...extraInfo, duration: this.durationRef.current.state.value ,
             isDisable: extraInfo.isDisable === 'Active' ? 0 : 1
@@ -71,6 +70,7 @@ class PopupEditAddExtra extends React.Component {
         } else {
             console.log('temptExtraInfo : ',temptExtraInfo);
             this.props.actions.extra.addExtraByMerchant(temptExtraInfo);
+            this.props.doneAddExtra();
         }
 
     }
