@@ -39,12 +39,12 @@ export function restoreExtra(id) {
     }
 }
 
-export function editCategory(body, id) {
+export function editExtra(body, id) {
     return {
-        type: 'EDIT_CATEGORY',
+        type: 'EDIT_EXTRA',
         body,
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}category/${id}`,
+        api: `${apiConfigs.BASE_API}extra/${id}`,
     }
 }

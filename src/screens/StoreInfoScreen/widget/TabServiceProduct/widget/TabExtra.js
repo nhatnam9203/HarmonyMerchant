@@ -25,16 +25,17 @@ class TabExtra extends React.Component {
             extraInfoHandle: {}
         }
 
-        this.inputRefsService = [];
+        this.inputRefsExtra = [];
+        this.editExtraRef = React.createRef();
     }
 
     componentDidMount() {
         this.props.actions.extra.getExtraByMerchant();
     }
 
-    setRefService = (ref) => {
+    setRefExtra = (ref) => {
         if (ref != null) {
-            this.inputRefsService.push(ref);
+            this.inputRefsExtra.push(ref);
         }
     };
 
@@ -62,12 +63,6 @@ class TabExtra extends React.Component {
 
     archirveServiceYess() {
         const { extraInfoHandle } = this.state;
-        // for (let i = 0; i < this.inputRefsService.length; i++) {
-        //     if (this.inputRefsService[i].props.staff.id === extraInfoHandle.id) {
-        //         this.inputRefsService[i].handleArchirveStaff();
-        //         break;
-        //     }
-        // }
         this.props.actions.extra.archiveExtra(extraInfoHandle.extraId);
         this.setState({
             visibleArchive: false
@@ -76,25 +71,23 @@ class TabExtra extends React.Component {
 
     restoreStaffYess() {
         const { extraInfoHandle } = this.state;
-        // for (let i = 0; i < this.inputRefsService.length; i++) {
-        //     if (this.inputRefsService[i].props.staff.id === extraInfoHandle.id) {
-        //         this.inputRefsService[i].handleRestoreStaff();
-        //         break;
-        //     }
-        // }
         this.props.actions.extra.restoreExtra(extraInfoHandle.extraId);
         this.setState({
             visibleRestore: false
         })
     }
 
-    async editService(service) {
-        await this.setState({
-            extraInfoHandle: service
-        });
-        this.setState({
-            visibleEdit: true
-        })
+    async editService(extra) {
+        // await this.setState({
+        //     extraInfoHandle: service
+        // });
+
+        console.log(this.editExtraRef);
+
+        // this.editExtraRef.current.setStateFromParent(extra);
+        // this.setState({
+        //     visibleEdit: true
+        // })
     }
 
     renderTable() {
@@ -106,7 +99,7 @@ class TabExtra extends React.Component {
                     <FlatList
                         data={extrasByMerchant}
                         renderItem={({ item, index }) => <RowTableExtra
-                            ref={this.setRefService}
+                            ref={this.setRefExtra}
                             key={index}
                             key={index} index={parseInt(index + 1)}
                             extra={item}
@@ -155,6 +148,7 @@ class TabExtra extends React.Component {
                     doneAddExtra={() => this.setState({ visibleAdd: false })}
                 />
                 <PopupEditAddExtra
+                    ref={this.editExtraRef}
                     visible={visibleEdit}
                     title="Edit Extra"
                     titleButton="Save"

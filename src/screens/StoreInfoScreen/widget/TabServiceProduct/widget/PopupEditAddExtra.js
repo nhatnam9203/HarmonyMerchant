@@ -33,6 +33,12 @@ class PopupEditAddExtra extends React.Component {
         this.durationRef = React.createRef();
     }
 
+    setExtraFromParent = (extra) => {
+        this.setState({
+            extraInfo: extra
+        })
+    }
+
     updateExtraInfo(key, value, keyParent = '') {
         const { extraInfo } = this.state;
         if (keyParent !== '') {
@@ -52,7 +58,8 @@ class PopupEditAddExtra extends React.Component {
 
     doneAddExtra = () => {
         const { extraInfo } = this.state;
-        const temptExtraInfo = { ...extraInfo, duration: this.durationRef.current.state.value ,
+        const temptExtraInfo = {
+            // ...extraInfo, duration: this.durationRef.current.state.value,
             isDisable: extraInfo.isDisable === 'Active' ? 0 : 1
         };
         const arrayKey = Object.keys(temptExtraInfo);
@@ -68,7 +75,7 @@ class PopupEditAddExtra extends React.Component {
         if (keyError != "") {
             Alert.alert(`${strings[keyError]}`);
         } else {
-            console.log('temptExtraInfo : ',temptExtraInfo);
+            console.log('temptExtraInfo : ', temptExtraInfo);
             this.props.actions.extra.addExtraByMerchant(temptExtraInfo);
             this.props.doneAddExtra();
         }

@@ -23,7 +23,6 @@ class PopupEditAddCategories extends React.Component {
     }
 
     setCategoryFromParent = (category) => {
-        // console.log('setCategoryFromParent : ', category);
         this.setState({
             category
         })
