@@ -30,6 +30,16 @@ export function archiveCategory(id) {
     }
 }
 
+export function restoreCategory(id) {
+    return {
+        type: 'RESTORE_CATEGORY',
+        body: {},
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}category/restore/${id}`,
+    }
+}
+
 export function editCategory(body, id) {
     return {
         type: 'EDIT_CATEGORY',

@@ -6,7 +6,7 @@ export function addExtraByMerchant(body) {
         body,
         method: 'POST',
         token: true,
-        api: `${apiConfigs.BASE_API}service`,
+        api: `${apiConfigs.BASE_API}extra`,
     }
 }
 

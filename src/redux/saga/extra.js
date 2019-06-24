@@ -45,7 +45,7 @@ function* getExtraByMerchant(action) {
             })
         }
     } catch (error) {
-        console.log('error : ', error);
+        console.log('error : ' + JSON.stringify(error));
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }

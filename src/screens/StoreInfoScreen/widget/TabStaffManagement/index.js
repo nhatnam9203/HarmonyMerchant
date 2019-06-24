@@ -62,12 +62,14 @@ class TabStaffManagement extends Layout {
 
     archirveStaffYess() {
         const { infoStaffHandle } = this.state;
-        for (let i = 0; i < this.inputRefsStaff.length; i++) {
-            if (this.inputRefsStaff[i].props.staff.id === infoStaffHandle.id) {
-                this.inputRefsStaff[i].handleArchirveStaff();
-                break;
-            }
-        }
+        // for (let i = 0; i < this.inputRefsStaff.length; i++) {
+        //     if (this.inputRefsStaff[i].props.staff.id === infoStaffHandle.id) {
+        //         this.inputRefsStaff[i].handleArchirveStaff();
+        //         break;
+        //     }
+        // }
+        console.log('infoStaffHandle : ',infoStaffHandle.staffId);
+        this.props.actions.staff.archiveStaff(infoStaffHandle.staffId);
         this.setState({
             visibleArchive: false
         })
@@ -75,12 +77,14 @@ class TabStaffManagement extends Layout {
 
     restoreStaffYess() {
         const { infoStaffHandle } = this.state;
-        for (let i = 0; i < this.inputRefsStaff.length; i++) {
-            if (this.inputRefsStaff[i].props.staff.id === infoStaffHandle.id) {
-                this.inputRefsStaff[i].handleRestoreStaff();
-                break;
-            }
-        }
+        // for (let i = 0; i < this.inputRefsStaff.length; i++) {
+        //     if (this.inputRefsStaff[i].props.staff.id === infoStaffHandle.id) {
+        //         this.inputRefsStaff[i].handleRestoreStaff();
+        //         break;
+        //     }
+        // }
+        this.props.actions.staff.restoreStaff(infoStaffHandle.staffId);
+        console.log('infoStaffHandle : ',infoStaffHandle);
         this.setState({
             visibleRestore: false
         })

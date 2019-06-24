@@ -12,6 +12,7 @@ import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent, Dropdown } from '@components';
 import { scaleSzie } from '@utils';
+import connectRedux from '@redux/ConnectRedux';
 
 const { width } = Dimensions.get('window');
 
@@ -25,7 +26,7 @@ class PopupEditAddExtra extends React.Component {
                 description: "",
                 duration: '',
                 price: '',
-                status: 'Active'
+                isDisable: 'Active'
             }
         }
 
@@ -52,18 +53,23 @@ class PopupEditAddExtra extends React.Component {
     doneAddExtra = () => {
         // this.props.doneAddExtra();
         const { extraInfo } = this.state;
-        const temptExtraInfo ={...extraInfo, duration: this.durationRef.current.state.value};
+        const temptExtraInfo = { ...extraInfo, duration: this.durationRef.current.state.value ,
+            isDisable: extraInfo.isDisable === 'Active' ? 0 : 1
+        };
         const arrayKey = Object.keys(temptExtraInfo);
         let keyError = "";
-        for (let i = 0; i <= temptExtraInfo.length; i++) {
+        for (let i = 0; i <= arrayKey.length - 1; i++) {
+            console.log('arrayKey[i] : ' + arrayKey[i]);
             if (temptExtraInfo[arrayKey[i]] === '') {
                 keyError = arrayKey[i];
                 break;
             }
         }
-        if (keyError != '') {
+
+        if (keyError != "") {
             Alert.alert(`${strings[keyError]}`);
         } else {
+            console.log('temptExtraInfo : ',temptExtraInfo);
             this.props.actions.extra.addExtraByMerchant(temptExtraInfo);
         }
 
@@ -71,7 +77,7 @@ class PopupEditAddExtra extends React.Component {
 
     render() {
         const { title, visible, onRequestClose, isSave } = this.props;
-        const { name, description, price, status } = this.state.extraInfo;
+        const { name, description, price, isDisable } = this.state.extraInfo;
         const temptTitleButton = isSave ? 'Save' : 'Done';
         return (
             <PopupParent
@@ -158,8 +164,8 @@ class PopupEditAddExtra extends React.Component {
                                         <Dropdown
                                             label='Active'
                                             data={[{ value: 'Active' }, { value: 'Disable' }]}
-                                            value={status}
-                                            onChangeText={(value) => this.updateExtraInfo('status', value)}
+                                            value={isDisable}
+                                            onChangeText={(value) => this.updateExtraInfo('isDisable', value)}
                                             containerStyle={{
                                                 backgroundColor: '#F1F1F1',
                                                 borderWidth: 1,
@@ -245,5 +251,9 @@ const strings = {
     status: 'Mising info :Status',
 }
 
-export default PopupEditAddExtra;
+const mapStateToProps = state => ({
+    categoriesByMerchant: state.category.categoriesByMerchant
+});
+export default connectRedux(mapStateToProps, PopupEditAddExtra);
+
 

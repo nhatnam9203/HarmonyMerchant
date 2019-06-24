@@ -1,6 +1,6 @@
 import apiConfigs from '../../configs/api';
 
-export function addStaffByMerchant(body, id="") {
+export function addStaffByMerchant(body, id = "") {
     return {
         type: 'ADD_STAFF_BY_MERCHANT',
         body,
@@ -57,9 +57,18 @@ export function clearSearch() {
 export function archiveStaff(id) {
     return {
         type: 'ARCHICVE_STAFF',
-        method: 'GET',
+        method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}active/${id}`
+        api: `${apiConfigs.BASE_API}staff/archive/${id}`
+    }
+}
+
+export function restoreStaff(id) {
+    return {
+        type: 'RESTORE_STAFF',
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}staff/restore/${id}`
     }
 }
 

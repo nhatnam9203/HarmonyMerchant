@@ -2,8 +2,8 @@ import React from 'react';
 import {
     View,
     Text,
-    StyleSheet,
     TextInput,
+    Alert,
     Dimensions,
     ScrollView
 } from 'react-native';
@@ -63,6 +63,22 @@ class PopupAddEditProduct extends React.Component {
         // this.props.doneAddService();
         const { productInfo } = this.state;
         console.log('productInfo: ', productInfo);
+        const arrayKey = Object.keys(productInfo);
+        let keyError = "";
+        for (let i = 0; i <= arrayKey.length; i++) {
+            if (productInfo[arrayKey[i]] == "") {
+                keyError = arrayKey[i];
+                break;
+            }
+        }
+        if (keyError != '') {
+            Alert.alert(`${strings[keyError]}`);
+        } else {
+            const temptProduct = {
+                ...productInfo,
+                status: productInfo.status === 'Active' ? 1 : 0
+            }
+        }
     }
 
     render() {
@@ -318,19 +334,17 @@ const ItemTime = (props) => {
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    footer: {
-        height: scaleSzie(50),
-        flexDirection: 'row',
-    },
-    buttonContainer: {
-        flex: 1,
-        alignItems: 'center'
-    },
-})
+const strings = {
+    categoryId: 'Mising info : Category',
+    name: 'Mising info : Name Product',
+    description: 'Mising info : Description',
+    skuNumber: 'Mising info : SKU Number',
+    itemsInStock: 'Mising info : Item In Stock',
+    lowTheshold: 'Mising info : Low Theshold',
+    maxTheshold: 'Mising info : Max Theshold',
+    price: 'Mising info : Price',
+    status: 'Active',
+}
 
 export default PopupAddEditProduct;
 

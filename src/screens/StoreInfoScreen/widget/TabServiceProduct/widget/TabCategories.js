@@ -71,12 +71,13 @@ class TabCategories extends React.Component {
 
     restoreStaffYess() {
         const { categoryInfoHandle } = this.state;
-        for (let i = 0; i < this.inputRefCategory.length; i++) {
-            if (this.inputRefCategory[i].props.category.categoryId === categoryInfoHandle.categoryId) {
-                this.inputRefCategory[i].handleRestoreStaff();
-                break;
-            }
-        }
+        // for (let i = 0; i < this.inputRefCategory.length; i++) {
+        //     if (this.inputRefCategory[i].props.category.categoryId === categoryInfoHandle.categoryId) {
+        //         this.inputRefCategory[i].handleRestoreStaff();
+        //         break;
+        //     }
+        // }
+        this.props.actions.category.restoreCategory(categoryInfoHandle.categoryId);
         this.setState({
             visibleRestore: false
         })
