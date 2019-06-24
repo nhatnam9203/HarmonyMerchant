@@ -91,7 +91,6 @@ class PopupAddService extends React.Component {
             let checkValidateExtra = true;
             let errorCheckExtra = '';
             this.arrayExtraRef.forEach(extra => {
-                console.log(extra.getInfoExtraFromParent());
                 if (extra.getInfoExtraFromParent().isValid) {
                     arrayExtra.push(extra.getInfoExtraFromParent());
                 } else {
@@ -102,7 +101,6 @@ class PopupAddService extends React.Component {
             });
             if (checkValidateExtra) {
                 const dataServiceAdd = { ...temptServiceInfo, extras: arrayExtra };
-                console.log('arrayExtra : ' + JSON.stringify(dataServiceAdd));
                 this.props.actions.service.addServiceByMerchant(dataServiceAdd);
                 this.props.doneAddService();
             } else {

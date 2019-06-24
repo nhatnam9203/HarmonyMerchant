@@ -1,13 +1,12 @@
 import apiConfigs from '../../configs/api';
 
-export function addProductByMerchantId(body, id) {
+export function addProductByMerchant(body) {
     return {
         type: 'ADD_PRODUCR_BY_MERCHANT_ID',
         body,
         method: 'POST',
         token: true,
-        api: `${apiConfigs.BASE_API}category/add`,
-        merchantId: id
+        api: `${apiConfigs.BASE_API}product`,
     }
 }
 

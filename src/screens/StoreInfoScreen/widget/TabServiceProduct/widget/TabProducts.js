@@ -72,12 +72,6 @@ class TabProducts extends React.Component {
 
     restoreStaffYess() {
         const { serviceInfoHandle } = this.state;
-        // for (let i = 0; i < this.inputRefsService.length; i++) {
-        //     if (this.inputRefsService[i].props.staff.id === serviceInfoHandle.id) {
-        //         this.inputRefsService[i].handleRestoreStaff();
-        //         break;
-        //     }
-        // }
         this.props.actions.product.restoreProduct(serviceInfoHandle.productId);
         this.setState({
             visibleRestore: false
@@ -91,6 +85,15 @@ class TabProducts extends React.Component {
         this.setState({
             visibleEdit: true
         })
+    }
+
+    showModalAddProduct = () =>{
+        const { categoriesByMerchant } = this.props;
+        if (categoriesByMerchant.length > 0) {
+            this.setState({ visibleAdd: true })
+        } else {
+            alert('Create category before add service please !')
+        }
     }
 
     renderTable() {
@@ -110,7 +113,7 @@ class TabProducts extends React.Component {
                             restoreService={() => this.togglePopupRestore(true, item)}
                             editService={() => this.editService(item)}
                         />}
-                        keyExtractor={(item, index) => `${item.id}`}
+                        keyExtractor={(item, index) => `${item.productId}`}
                         ListEmptyComponent={<RowEmptyTableProducts />}
                     />
                 </View>
@@ -124,7 +127,7 @@ class TabProducts extends React.Component {
             <View style={styles.container} >
                 {this.renderTable()}
                 <FooterTab
-                    addNew={() => this.setState({ visibleAdd: true })}
+                    addNew={this.showModalAddProduct}
                     backTab={() => this.props.backTab()}
                     nextTab={() => this.props.nextTab()}
                 />
@@ -171,7 +174,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
-    productsByMerchantId: state.product.productsByMerchantId
+    productsByMerchantId: state.product.productsByMerchantId,
+    categoriesByMerchant: state.category.categoriesByMerchant
 });
 
 export default connectRedux(mapStateToProps, TabProducts);

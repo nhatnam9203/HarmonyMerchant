@@ -4,7 +4,7 @@ import NavigationServices from "../../navigators/NavigatorServices";
 import { requestAPI } from '../../utils';
 import apiConfigs from '../../configs/api';
 
-function* addCategory(action) {
+function* addProductByMerchant(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
@@ -12,10 +12,10 @@ function* addCategory(action) {
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
-                type: 'GET_CATEGORIES_BY_MERCHANR_ID',
+                type: 'GET_PRODUCTS_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}category/getbymerchant/${action.merchantId}`
+                api: `${apiConfigs.BASE_API}product`
             })
         } else {
         }
@@ -92,7 +92,7 @@ function* restoreProduct(action) {
 
 export default function* saga() {
     yield all([
-        // takeLatest('ADD_CATEGORY', addCategory),
+        takeLatest('ADD_PRODUCR_BY_MERCHANT_ID', addProductByMerchant),
         takeLatest('GET_PRODUCTS_BY_MERCHANR_ID', getProductsByMerchantId),
         takeLatest('ARCHIVE_PRODUCT', archiveProduct),
         takeLatest('RESTORE_PRODUCT', restoreProduct),

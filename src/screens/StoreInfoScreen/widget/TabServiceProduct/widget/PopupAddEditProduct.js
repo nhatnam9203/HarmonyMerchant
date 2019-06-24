@@ -11,17 +11,9 @@ import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent, Dropdown } from '@components';
 import { scaleSzie } from '@utils';
+import connectRedux from '@redux/ConnectRedux';
 
 const { width } = Dimensions.get('window');
-
-let data = [{
-    value: 'Banana',
-}, {
-    value: 'Mango',
-}, {
-    value: 'Pear',
-}
-];
 
 class PopupAddEditProduct extends React.Component {
 
@@ -60,13 +52,16 @@ class PopupAddEditProduct extends React.Component {
     }
 
     doneAddService = () => {
-        // this.props.doneAddService();
         const { productInfo } = this.state;
-        console.log('productInfo: ' + JSON.stringify(productInfo));
-        const arrayKey = Object.keys(productInfo);
+        const temptProductInfo = {
+            ...productInfo,
+            status: productInfo.status === 'Active' ? 1 : 0,
+            categoryId: productInfo.categoryId !== '' ? this.getCateroryId(productInfo.categoryId) : ''
+        }
+        const arrayKey = Object.keys(temptProductInfo);
         let keyError = "";
         for (let i = 0; i <= arrayKey.length; i++) {
-            if (productInfo[arrayKey[i]] == "") {
+            if (temptProductInfo[arrayKey[i]] == "") {
                 keyError = arrayKey[i];
                 break;
             }
@@ -74,15 +69,32 @@ class PopupAddEditProduct extends React.Component {
         if (keyError != '') {
             Alert.alert(`${strings[keyError]}`);
         } else {
-            const temptProduct = {
-                ...productInfo,
-                status: productInfo.status === 'Active' ? 1 : 0
-            }
+            console.log('productInfo: ' + JSON.stringify(temptProductInfo));
+            this.props.actions.product.addProductByMerchant(temptProductInfo)
+            this.props.confimYes();
         }
     }
 
+    getCateroryId(name) {
+        const { categoriesByMerchant } = this.props;
+        let categoryId = -1;
+        for (let i = 0; i < categoriesByMerchant.length - 1; i++) {
+            if (categoriesByMerchant[i].name == name) {
+                categoryId = categoriesByMerchant[i].categoryId;
+                break;
+            }
+        }
+        return categoryId;
+    }
+
+    filterCategories(categories) {
+        return categories.map(category => ({ value: category.name, id: category.categoryId }));
+    }
+
     render() {
-        const { title, visible, onRequestClose, doneAddService, isSave } = this.props;
+        const { title, visible, onRequestClose, doneAddService, isSave,
+            categoriesByMerchant
+        } = this.props;
         const temptHeight = width - scaleSzie(500);
         const temptTitleButton = isSave ? 'Save' : 'Done';
         const { categoryId, name, description, skuNumber, itemsInStock, lowTheshold,
@@ -110,7 +122,7 @@ class PopupAddEditProduct extends React.Component {
                             <View style={{ width: scaleSzie(200), height: scaleSzie(30), }} >
                                 <Dropdown
                                     label='Facial'
-                                    data={data}
+                                    data={this.filterCategories(categoriesByMerchant)}
                                     value={categoryId}
                                     onChangeText={(value) => this.updateProductInfo('categoryId', value)}
                                     containerStyle={{
@@ -346,5 +358,9 @@ const strings = {
     status: 'Active',
 }
 
-export default PopupAddEditProduct;
+const mapStateToProps = state => ({
+    categoriesByMerchant: state.category.categoriesByMerchant
+});
+export default connectRedux(mapStateToProps, PopupAddEditProduct);
+
 
