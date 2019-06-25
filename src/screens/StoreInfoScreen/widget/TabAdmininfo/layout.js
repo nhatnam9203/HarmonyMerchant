@@ -16,15 +16,6 @@ import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
 
 
-let data = [{
-    value: 'Banana',
-}, {
-    value: 'Mango',
-}, {
-    value: 'Pear',
-}
-];
-
 class Layout extends React.Component {
 
     renderBody() {
@@ -87,7 +78,7 @@ class Layout extends React.Component {
                         }} >
                             <Dropdown
                                 label={localize('State', language)}
-                                data={[{value:'1'},{value:'2'}]}
+                                data={[{ value: '1' }, { value: '2' }]}
                                 value={state}
                                 onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
                                 containerStyle={styles.dropdown}
@@ -154,6 +145,11 @@ class Layout extends React.Component {
                                 key={index}
                                 ref={this.setRefTimeWorking}
                                 title={day}
+                                dataInit={{
+                                    timeStart: "08:00 AM",
+                                    timeEnd: "08:00 PM",
+                                    isCheck: true
+                                }}
                             />
                         })
                     }
@@ -171,6 +167,10 @@ class Layout extends React.Component {
                                 ref={this.setRefSalary}
                                 title={salary.title}
                                 placeholder={salary.placeholder}
+                                dataInit={{
+                                    value: '',
+                                    isCheck: false
+                                }}
                             />
                         })
                     }
@@ -188,6 +188,10 @@ class Layout extends React.Component {
                                 ref={this.setRefTip}
                                 title={salary.title}
                                 placeholder={salary.placeholder}
+                                dataInit={{
+                                    value: '',
+                                    isCheck: false
+                                }}
                             />
                         })
                     }
@@ -260,7 +264,7 @@ class Layout extends React.Component {
                         backgroundColor="#0764B0"
                         title="NEXT"
                         textColor="#fff"
-                        onPress={()=>  this.props.nextTab()}
+                        onPress={() => this.props.nextTab()}
                     />
                 </View>
             </View>

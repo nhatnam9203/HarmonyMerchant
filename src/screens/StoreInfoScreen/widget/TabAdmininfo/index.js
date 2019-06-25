@@ -83,7 +83,7 @@ class StoreInfoScreen extends Layout {
                     keyError = 'emailInvalid';
                     break;
                 }
-            } else {
+            } else if (arrayKey[i] != 'driverlicense' && arrayKey[i] != 'socialSecurityNumber' && arrayKey[i] != 'professionalLicense') {
                 if (user[arrayKey[i]] === '') {
                     keyError = arrayKey[i];
                     break;

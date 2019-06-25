@@ -53,6 +53,11 @@ function* getStaffByMerchantId(action) {
         console.log('error : ', error);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
+        if (action.isCreateAdmin && action.isCreateAdmin) {
+            setTimeout(() => {
+                alert(`Create admin success `);
+            }, 200)
+        }
     }
 }
 
@@ -136,10 +141,15 @@ function* createAdmin(action) {
         console.log('createAdmin : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            yield put({ type: 'STOP_LOADING_ROOT' });
-            setTimeout(() => {
-                alert(`Create admin success `);
-            }, 200)
+            // yield put({ type: 'STOP_LOADING_ROOT' });
+            yield put({
+                type: 'GET_STAFF_BY_MERCHANR_ID',
+                method: 'GET',
+                token: true,
+                api: `${apiConfigs.BASE_API}staff`,
+                isCreateAdmin: true
+            });
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
