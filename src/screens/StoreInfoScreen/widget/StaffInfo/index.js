@@ -2,10 +2,8 @@ import React from 'react';
 import { Alert } from 'react-native';
 
 import Layout from './layout';
-import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
 import { validateEmail } from '@utils';
-
 
 class StaffInfo extends Layout {
 
@@ -32,6 +30,64 @@ class StaffInfo extends Layout {
                 driverlicense: '',
                 socialSecurityNumber: '',
                 professionalLicense: '',
+            },
+            staffId: '',
+            workingTime: {
+                Monday: {
+                    timeStart: "08:00 AM",
+                    timeEnd: "08:00 PM",
+                    isCheck: true
+                },
+                Tuesday: {
+                    timeStart: "08:00 AM",
+                    timeEnd: "08:00 PM",
+                    isCheck: true
+                },
+                Wednesday: {
+                    timeStart: "08:00 AM",
+                    timeEnd: "08:00 PM",
+                    isCheck: true
+                },
+                Thursday: {
+                    timeStart: "08:00 AM",
+                    timeEnd: "08:00 PM",
+                    isCheck: true
+                },
+                Friday: {
+                    timeStart: "08:00 AM",
+                    timeEnd: "08:00 PM",
+                    isCheck: true
+                },
+                Sarturday: {
+                    timeStart: "08:00 AM",
+                    timeEnd: "08:00 PM",
+                    isCheck: true
+                },
+                Sunday: {
+                    timeStart: "08:00 AM",
+                    timeEnd: "08:00 PM",
+                    isCheck: true
+                }
+            },
+            tipFee: {
+                percent: {
+                    value: '',
+                    isCheck: false
+                },
+                fixedAmount: {
+                    value: '',
+                    isCheck: false
+                }
+            },
+            salary: {
+                perHour: {
+                    value: '',
+                    isCheck: false
+                },
+                commission: {
+                    value: '',
+                    isCheck: false
+                }
             }
         }
         // ---- Refs ----
@@ -39,6 +95,44 @@ class StaffInfo extends Layout {
         this.inputRefsSalary = [];
         this.inputRefsTip = [];
 
+    }
+
+    componentDidMount() {
+        if (this.props.isEditStaff) {
+            const { infoStaffHandle } = this.props;
+            this.setState({
+                user: {
+                    firstName: infoStaffHandle.firstName,
+                    lastName: infoStaffHandle.lastName,
+                    displayName: infoStaffHandle.displayName,
+                    address: {
+                        street: infoStaffHandle.address,
+                        city: infoStaffHandle.city,
+                        state: infoStaffHandle.stateId,
+                    },
+                    cellphone: infoStaffHandle.phone,
+                    email: infoStaffHandle.email,
+                    pin: infoStaffHandle.pin,
+                    confirmPin: infoStaffHandle.pin,
+                    status: infoStaffHandle.isDisabled === 0 ? 'Active' : 'Disable',
+                    roles: {
+                        nameRole: 'Admin',
+                    },
+                    driverlicense: infoStaffHandle.driverLicense,
+                    socialSecurityNumber: '',
+                    professionalLicense: infoStaffHandle.professionalLicense,
+                },
+                staffId: infoStaffHandle.staffId,
+                workingTime: infoStaffHandle.workingTimes,
+                tipFee: infoStaffHandle.tipFees,
+                salary: infoStaffHandle.salaries
+            })
+        }
+
+    }
+
+    setStaffInfoFromParent = staff => {
+        console.log('setStaffInfoFromParent : ', staff);
     }
 
     setRefTimeWorking = (ref) => {
@@ -83,7 +177,7 @@ class StaffInfo extends Layout {
                     keyError = 'emailInvalid';
                     break;
                 }
-            } else {
+            } else if (arrayKey[i] != 'driverlicense' && arrayKey[i] != 'socialSecurityNumber' && arrayKey[i] != 'professionalLicense') {
                 if (user[arrayKey[i]] === '') {
                     keyError = arrayKey[i];
                     break;
@@ -133,7 +227,11 @@ class StaffInfo extends Layout {
                 salary: objSalary,
                 tipFee: objTipFee,
             };
-            this.props.actions.staff.addStaffByMerchant(temptStaff)
+            if (this.props.isEditStaff) {
+                this.props.editStaff(temptStaff,this.state.staffId)
+            } else {
+                this.props.addStaff(temptStaff);
+            }
         }
     }
 
@@ -181,11 +279,4 @@ class StaffInfo extends Layout {
 
 }
 
-const mapStateToProps = state => ({
-    language: state.dataLocal.language,
-    profile: state.dataLocal.profile,
-})
-
-
-
-export default connectRedux(mapStateToProps, StaffInfo);
+export default StaffInfo;

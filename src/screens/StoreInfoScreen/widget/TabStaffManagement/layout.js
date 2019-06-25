@@ -12,29 +12,6 @@ import styles from './style';
 import StaffInfo from '../StaffInfo';
 import { TableHeader, RowTable, RowEmptyTable } from './widget';
 
-const FakeData = [{
-    id: 'HP000002',
-    name: 'Pena Valdez',
-    role: 'Staff',
-    status: 'Active'
-},
-{
-    id: 'HP000003',
-    name: 'Jessica Miles',
-    role: 'Staff',
-    status: 'Active'
-},
-{
-    id: 'HP000004',
-    name: 'Pena Valdez',
-    role: 'Staff',
-    status: 'Active'
-}, {
-    id: 'HP000005',
-    name: 'Jessica Miles',
-    role: 'Staff',
-    status: 'Active'
-}]
 
 class Layout extends React.Component {
 
@@ -61,7 +38,7 @@ class Layout extends React.Component {
                             staff={item}
                             archiveStaff={() => this.togglePopupArchive(true, item)}
                             restoreStaff={() => this.togglePopupRestore(true, item)}
-                            editStaff={() => this.editStaff()}
+                            editStaff={() => this.editStaff(item)}
                         />}
                         keyExtractor={(item, index) => `${item.staffId}`}
                         ListEmptyComponent={<RowEmptyTable />}
@@ -78,13 +55,25 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { visibleArchive, visibleRestore } = this.state;
-        const { isAddStaff}  =this.props;
+        const { visibleArchive, visibleRestore, infoStaffHandle,
+            isEditStaff
+        } = this.state;
+        const { isAddStaff, language } = this.props;
         return (
             <View style={styles.container} >
                 {isAddStaff ? <StaffInfo
-                    backTabelStaff={() => this.props.actions.staff.switchAddStaff(false)}
+                    language={language}
+                    backTabelStaff={() => {
+                        this.props.actions.staff.switchAddStaff(false);
+                        this.setState({
+                            isEditStaff: false
+                        })
+                    }}
                     nextTab={() => this.props.nextTab()}
+                    infoStaffHandle={infoStaffHandle}
+                    isEditStaff={isEditStaff}
+                    addStaff={this.submitAddStaff}
+                    editStaff={this.submitEditStaff}
                 /> : this.renderTable()}
                 <PopupConfirm
                     visible={visibleArchive}

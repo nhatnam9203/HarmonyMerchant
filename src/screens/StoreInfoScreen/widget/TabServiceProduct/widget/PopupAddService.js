@@ -115,7 +115,10 @@ class PopupAddService extends React.Component {
         const openTime = this.openTimeRef.current.state.value;
         const secondTime = this.secondTimeRef.current.state.value;
         const temptServiceInfo = {
-            ...serviceInfo, duration, openTime, secondTime,
+            ...serviceInfo,
+            duration,
+            openTime,
+            secondTime,
             status: serviceInfo.status == 'Active' ? 1 : 0,
             categoryId: serviceInfo.categoryId !== '' ? this.getCateroryId(serviceInfo.categoryId) : ''
         };

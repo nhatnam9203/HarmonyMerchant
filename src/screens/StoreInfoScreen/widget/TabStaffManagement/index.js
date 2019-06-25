@@ -1,6 +1,7 @@
+import React from 'react';
+
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-
 
 class TabStaffManagement extends Layout {
 
@@ -10,12 +11,14 @@ class TabStaffManagement extends Layout {
             isAddStaff: false,
             visibleArchive: false,
             visibleRestore: false,
-            infoStaffHandle: {}
+            infoStaffHandle: {},
+            isEditStaff:false
         }
         this.inputRefsStaff = [];
+        this.staffInfoRef = React.createRef();
     }
 
-    componentDidMount(){
+    componentDidMount() {
         const { profile } = this.props;
         this.props.actions.staff.getStaffByMerchantId(profile.merchantId);
     }
@@ -25,6 +28,15 @@ class TabStaffManagement extends Layout {
             this.inputRefsStaff.push(ref);
         }
     };
+
+    submitAddStaff =(staff)=>{
+        this.props.actions.staff.addStaffByMerchant(staff)
+    }
+
+    submitEditStaff =(staff,id) =>{
+        this.props.actions.staff.editStaff(staff,id)
+        // console.log(`Staff: ${staff}- id : ${id}`);
+    }
 
     addNewStaff = () => {
         this.props.actions.staff.switchAddStaff(true);
@@ -53,22 +65,20 @@ class TabStaffManagement extends Layout {
         }))
     }
 
-    editStaff() {
-        // this.setState({
-        //     isAddStaff: true
-        // });
+    async editStaff(staff) {
+           await this.setState({
+            infoStaffHandle: staff,
+            isEditStaff:true
+            });
+        this.props.actions.staff.switchAddStaff(true);
+        // this.staffInfoRef.current.setStaffInfoFromParent(staff);
         // this.inputRefsStaff = [];
+
+        // console.log('staff : ',staff);
     }
 
     archirveStaffYess() {
         const { infoStaffHandle } = this.state;
-        // for (let i = 0; i < this.inputRefsStaff.length; i++) {
-        //     if (this.inputRefsStaff[i].props.staff.id === infoStaffHandle.id) {
-        //         this.inputRefsStaff[i].handleArchirveStaff();
-        //         break;
-        //     }
-        // }
-        console.log('infoStaffHandle : ',infoStaffHandle.staffId);
         this.props.actions.staff.archiveStaff(infoStaffHandle.staffId);
         this.setState({
             visibleArchive: false
@@ -84,7 +94,7 @@ class TabStaffManagement extends Layout {
         //     }
         // }
         this.props.actions.staff.restoreStaff(infoStaffHandle.staffId);
-        console.log('infoStaffHandle : ',infoStaffHandle);
+        console.log('infoStaffHandle : ', infoStaffHandle);
         this.setState({
             visibleRestore: false
         })
@@ -99,6 +109,7 @@ const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     listStaffByMerchant: state.staff.listStaffByMerchant,
     isAddStaff: state.staff.isAddStaff,
+    language: state.dataLocal.language,
 })
 
 

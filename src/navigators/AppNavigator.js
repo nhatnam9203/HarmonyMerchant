@@ -26,7 +26,4 @@ export default createNavigationContainer(createSwitchNavigator({
 
 ))
 
-// huynhthinhuy1297@gmail.com
-// admin123456@
-
 

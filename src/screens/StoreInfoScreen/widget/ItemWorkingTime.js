@@ -10,23 +10,16 @@ import IMAGE from '@resources';
 import { Dropdown, Button } from '@components';
 import { scaleSzie,WorkingTime } from '@utils';
 
-let data = [{
-    value: 'Banana',
-}, {
-    value: 'Mango',
-}, {
-    value: 'Pear',
-}
-];
 
 export default class ItemWorkingTime extends React.Component {
 
     constructor(props) {
         super(props);
+        const {dataInit} = this.props;
         this.state = {
-            isCheck: true,
-            timeStart: '08:00 AM',
-            timeEnd: '08:00 PM'
+            isCheck: dataInit.isCheck,
+            timeStart: dataInit.timeStart,
+            timeEnd: dataInit.timeEnd
         }
     }
 

@@ -152,6 +152,31 @@ function* createAdmin(action) {
     }
 }
 
+function* editStaff(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log('editStaff : ' + JSON.stringify(responses));
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: 'GET_STAFF_BY_MERCHANR_ID',
+                method: 'GET',
+                token: true,
+                api: `${apiConfigs.BASE_API}staff`
+            });
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        }
+    } catch (error) {
+        console.log('error : ', error);
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 export default function* saga() {
     yield all([
         takeLatest('ADD_STAFF_BY_MERCHANT', addStaffByMerchant),
@@ -160,5 +185,6 @@ export default function* saga() {
         takeLatest('ARCHICVE_STAFF', archiveStaff),
         takeLatest('RESTORE_STAFF', restoreStaff),
         takeLatest('CREATE_ADMIN', createAdmin),
+        takeLatest('EDIT_STAFF_BY_MERCHANT', editStaff),
     ])
 }

@@ -72,5 +72,14 @@ export function restoreStaff(id) {
     }
 }
 
+export function editStaff(body, id = "") {
+    return {
+        type: 'EDIT_STAFF_BY_MERCHANT',
+        body,
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}staff/${id}`,
+    }
+}
 
 
