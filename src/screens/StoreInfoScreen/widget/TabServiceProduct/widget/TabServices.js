@@ -84,9 +84,7 @@ class TabServices extends React.Component {
     }
 
     async editService(service) {
-        // await this.setState({
-        //     serviceInfoHandle: service
-        // });
+       this.editServiceRef.current.setServiceFromParent(service);
         this.setState({
             visibleEdit: true
         })
@@ -101,8 +99,22 @@ class TabServices extends React.Component {
                 break;
             }
         }
-        console.log(`name:${name}-id:${id}`);
         return name;
+    }
+
+    getExtraName(extras) {
+        if (extras.length > 0) {
+            let temptExtraName = '';
+            extras.forEach(extra => {
+                if(temptExtraName == ''){
+                    temptExtraName = `${extra.name}`
+                }else{
+                    temptExtraName = `${temptExtraName},${extra.name}`
+                }
+            });
+            return temptExtraName;
+        }
+        return ''
     }
 
     showModalAddService = () => {
@@ -133,6 +145,7 @@ class TabServices extends React.Component {
                             restoreService={() => this.togglePopupRestore(true, item)}
                             editService={() => this.editService(item)}
                             categoryName={this.getCateroryName(item.categoryId)}
+                            extraName={this.getExtraName(item.extras)}
                         />}
                         keyExtractor={(item, index) => `${item.serviceId}`}
                         ListEmptyComponent={<RowEmptyTableServices />}
@@ -179,7 +192,7 @@ class TabServices extends React.Component {
                 <PopupAddService
                     ref={this.editServiceRef}
                     visible={visibleEdit}
-                    title="Edit Category"
+                    title="Edit Service"
                     titleButton="Save"
                     isSave={true}
                     onRequestClose={() => this.setState({ visibleEdit: false })}

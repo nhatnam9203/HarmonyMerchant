@@ -106,6 +106,19 @@ class TabProducts extends React.Component {
         this.setState({ visibleEdit: false })
     }
 
+    getCateroryName(id) {
+        const { categoriesByMerchant } = this.props;
+        let name = '';
+        for (let i = 0; i < categoriesByMerchant.length - 1; i++) {
+            if (categoriesByMerchant[i].categoryId == id) {
+                name = categoriesByMerchant[i].name;
+                break;
+            }
+        }
+        console.log(`name:${name}-id:${id}`);
+        return name;
+    }
+
     renderTable() {
         const { productsByMerchantId } = this.props;
         return (
@@ -122,6 +135,7 @@ class TabProducts extends React.Component {
                             archiveService={() => this.togglePopupArchive(true, item)}
                             restoreService={() => this.togglePopupRestore(true, item)}
                             editService={() => this.editService(item)}
+                            categoryName={this.getCateroryName(item.categoryId)}
                         />}
                         keyExtractor={(item, index) => `${item.productId}`}
                         ListEmptyComponent={<RowEmptyTableProducts />}

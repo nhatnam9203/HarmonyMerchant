@@ -31,13 +31,7 @@ class PopupAddService extends React.Component {
                 price: '',
                 status: 'Active',
             },
-            arrayExtra: [{
-                name: "Ho",
-                description: "",
-                duration: '',
-                price: '',
-                status: 'Active'
-            }]
+            arrayExtra: []
         }
         this.durationRef = React.createRef();
         this.openTimeRef = React.createRef();
@@ -49,16 +43,16 @@ class PopupAddService extends React.Component {
         this.setState({
             serviceInfo: {
                 serviceId: service.serviceId,
-                categoryId: this.getCateroryName(productInfo.categoryId),
+                categoryId: this.getCateroryName(service.categoryId),
                 name: service.name,
                 description: service.description,
                 duration: service.duration,
-                openTime: '',
-                secondTime: '',
+                openTime: service.openTime,
+                secondTime: service.secondTime,
                 price: service.price,
                 status: service.isDisabled === 0 ? 'Active' : 'Disable',
             },
-            arrayExtra: service.extras.length > 0 ? service.extras : [1]
+            arrayExtra: service.extras.length > 0 ? service.extras : []
         })
     }
 
@@ -86,13 +80,7 @@ class PopupAddService extends React.Component {
                 price: '',
                 status: 'Active',
             },
-            arrayExtra: [{
-                name: "",
-                description: "",
-                duration: '',
-                price: '',
-                status: 'Active'
-            }]
+            arrayExtra: []
         })
     }
 
@@ -275,14 +263,17 @@ class PopupAddService extends React.Component {
                                 <ItemTime
                                     ref={this.durationRef}
                                     title="Minutes"
+                                    value={this.state.serviceInfo.duration}
                                 />
                                 <ItemTime
                                     ref={this.openTimeRef}
                                     title="Open Time"
+                                    value={this.state.serviceInfo.openTime}
                                 />
                                 <ItemTime
                                     ref={this.secondTimeRef}
                                     title="Second Time"
+                                    value={this.state.serviceInfo.secondTime}
                                 />
                             </View>
                             <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
@@ -538,7 +529,7 @@ class ItemTime extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: ''
+            value: this.props.value
         }
     }
 
