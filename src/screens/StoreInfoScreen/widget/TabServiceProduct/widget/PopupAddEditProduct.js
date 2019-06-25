@@ -11,7 +11,6 @@ import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent, Dropdown } from '@components';
 import { scaleSzie } from '@utils';
-import connectRedux from '@redux/ConnectRedux';
 
 const { width } = Dimensions.get('window');
 
@@ -94,7 +93,6 @@ class PopupAddEditProduct extends React.Component {
                 break;
             }
         }
-        console.log(`name: ${name},id :${id}`);
         return name;
     }
 
@@ -382,11 +380,6 @@ const strings = {
     price: 'Mising info : Price',
     status: 'Active',
 }
-
-// const mapStateToProps = state => ({
-//     categoriesByMerchant: state.category.categoriesByMerchant
-// });
-// export default connectRedux(mapStateToProps, PopupAddEditProduct);
 
 export default PopupAddEditProduct;
 

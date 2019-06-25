@@ -27,6 +27,7 @@ class TabServices extends React.Component {
 
         this.inputRefsService = [];
         this.addServiceRef = React.createRef();
+        this.editServiceRef = React.createRef();
     }
 
     componentDidMount() {
@@ -77,19 +78,37 @@ class TabServices extends React.Component {
         })
     }
 
+    addService = service => {
+        this.props.actions.service.addServiceByMerchant(service);
+        this.setState({ visibleAdd: false })
+    }
+
     async editService(service) {
         // await this.setState({
         //     serviceInfoHandle: service
         // });
-        // this.setState({
-        //     visibleEdit: true
-        // })
+        this.setState({
+            visibleEdit: true
+        })
+    }
+
+    getCateroryName(id) {
+        const { categoriesByMerchant } = this.props;
+        let name = '';
+        for (let i = 0; i < categoriesByMerchant.length - 1; i++) {
+            if (categoriesByMerchant[i].categoryId == id) {
+                name = categoriesByMerchant[i].name;
+                break;
+            }
+        }
+        console.log(`name:${name}-id:${id}`);
+        return name;
     }
 
     showModalAddService = () => {
         const { categoriesByMerchant } = this.props;
         if (categoriesByMerchant.length > 0) {
-
+            this.addServiceRef.current.setDefaultStateFromParent();
             this.setState({ visibleAdd: true });
         } else {
             alert('Create category before add service please !')
@@ -113,6 +132,7 @@ class TabServices extends React.Component {
                             archiveService={() => this.togglePopupArchive(true, item)}
                             restoreService={() => this.togglePopupRestore(true, item)}
                             editService={() => this.editService(item)}
+                            categoryName={this.getCateroryName(item.categoryId)}
                         />}
                         keyExtractor={(item, index) => `${item.serviceId}`}
                         ListEmptyComponent={<RowEmptyTableServices />}
@@ -148,19 +168,23 @@ class TabServices extends React.Component {
                     confimYes={() => this.restoreStaffYess()}
                 />
                 <PopupAddService
+                    ref={this.addServiceRef}
                     visible={visibleAdd}
                     title="Add Service"
                     titleButton="Add"
                     onRequestClose={() => this.setState({ visibleAdd: false })}
-                    doneAddService={() => this.setState({ visibleAdd: false })}
+                    doneAddService={this.addService}
+                    categoriesByMerchant={this.props.categoriesByMerchant}
                 />
                 <PopupAddService
+                    ref={this.editServiceRef}
                     visible={visibleEdit}
                     title="Edit Category"
                     titleButton="Save"
                     isSave={true}
                     onRequestClose={() => this.setState({ visibleEdit: false })}
                     doneAddService={() => this.setState({ visibleEdit: false })}
+                    categoriesByMerchant={this.props.categoriesByMerchant}
                 />
             </View>
 

@@ -32,7 +32,9 @@ class RowTableServices extends React.Component {
     }
 
     render() {
-        const { service, index, archiveService, editService, restoreService } = this.props;
+        const { service, index, archiveService, editService, restoreService,
+            categoryName
+        } = this.props;
         const { isArchive } = this.state;
         return (
             <View style={styles.tableHeader} >
@@ -63,7 +65,7 @@ class RowTableServices extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            {service.status}
+                            {categoryName}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >

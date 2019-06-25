@@ -12,7 +12,6 @@ import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent, Dropdown } from '@components';
 import { scaleSzie } from '@utils';
-import connectRedux from '@redux/ConnectRedux';
 
 const { width } = Dimensions.get('window');
 
@@ -32,12 +31,69 @@ class PopupAddService extends React.Component {
                 price: '',
                 status: 'Active',
             },
-            arrayExtra: [1]
+            arrayExtra: [{
+                name: "Ho",
+                description: "",
+                duration: '',
+                price: '',
+                status: 'Active'
+            }]
         }
         this.durationRef = React.createRef();
         this.openTimeRef = React.createRef();
         this.secondTimeRef = React.createRef();
         this.arrayExtraRef = [];
+    }
+
+    setServiceFromParent = (service) => {
+        this.setState({
+            serviceInfo: {
+                serviceId: service.serviceId,
+                categoryId: this.getCateroryName(productInfo.categoryId),
+                name: service.name,
+                description: service.description,
+                duration: service.duration,
+                openTime: '',
+                secondTime: '',
+                price: service.price,
+                status: service.isDisabled === 0 ? 'Active' : 'Disable',
+            },
+            arrayExtra: service.extras.length > 0 ? service.extras : [1]
+        })
+    }
+
+    getCateroryName(id) {
+        const { categoriesByMerchant } = this.props;
+        let name = '';
+        for (let i = 0; i < categoriesByMerchant.length - 1; i++) {
+            if (categoriesByMerchant[i].categoryId == id) {
+                name = categoriesByMerchant[i].name;
+                break;
+            }
+        }
+        return name;
+    }
+
+    setDefaultStateFromParent = () => {
+        this.setState({
+            serviceInfo: {
+                categoryId: '',
+                name: "",
+                description: "",
+                duration: '',
+                openTime: '',
+                secondTime: '',
+                price: '',
+                status: 'Active',
+            },
+            arrayExtra: [{
+                name: "",
+                description: "",
+                duration: '',
+                price: '',
+                status: 'Active'
+            }]
+        })
     }
 
     addExtraRef = (ref) => {
@@ -92,17 +148,21 @@ class PopupAddService extends React.Component {
             let errorCheckExtra = '';
             this.arrayExtraRef.forEach(extra => {
                 if (extra.getInfoExtraFromParent().isValid) {
-                    arrayExtra.push(extra.getInfoExtraFromParent());
+                    arrayExtra.push(extra.getInfoExtraFromParent().data);
                 } else {
                     checkValidateExtra = false;
-                    errorCheckExtra=extra.getInfoExtraFromParent().errorMessage;
+                    errorCheckExtra = extra.getInfoExtraFromParent().errorMessage;
                 }
 
             });
             if (checkValidateExtra) {
                 const dataServiceAdd = { ...temptServiceInfo, extras: arrayExtra };
-                this.props.actions.service.addServiceByMerchant(dataServiceAdd);
-                this.props.doneAddService();
+                if (this.props.isSave) {
+
+                } else {
+                    this.props.doneAddService(dataServiceAdd);
+                }
+
             } else {
                 Alert.alert(`${strings[errorCheckExtra]}`);
             }
@@ -124,7 +184,13 @@ class PopupAddService extends React.Component {
 
     addMoreExtra = () => {
         const temptArrayExtra = [...this.state.arrayExtra];
-        temptArrayExtra.push(this.state.arrayExtra.length + 1);
+        temptArrayExtra.push({
+            name: "",
+            description: "",
+            duration: '',
+            price: '',
+            status: 'Active'
+        });
         this.setState({
             arrayExtra: temptArrayExtra
         })
@@ -263,9 +329,10 @@ class PopupAddService extends React.Component {
                             </View>
                             {/* ------ Line ------ */}
                             {
-                                this.state.arrayExtra.map(index => <ItemExtra
+                                this.state.arrayExtra.map((extra, index) => <ItemExtra
                                     ref={this.addExtraRef}
                                     key={index}
+                                    extraInfo={extra}
                                 />)
                             }
 
@@ -315,14 +382,16 @@ class PopupAddService extends React.Component {
 class ItemExtra extends React.Component {
     constructor(props) {
         super(props);
+        console.log(this.props.extraInfo);
         this.state = {
-            extraInfo: {
-                name: "",
-                description: "",
-                duration: '',
-                price: '',
-                status: 'Active'
-            }
+            // extraInfo: {
+            //     name: "",
+            //     description: "",
+            //     duration: '',
+            //     price: '',
+            //     status: 'Active'
+            // }
+            extraInfo: this.props.extraInfo
         }
         this.durationRef = React.createRef();
     }
@@ -346,14 +415,14 @@ class ItemExtra extends React.Component {
         if (keyError != "") {
             return {
                 isValid: false,
-                errorMessage:keyError,
-                data :{}
+                errorMessage: keyError,
+                data: {}
             }
         }
         return {
             isValid: true,
-            errorMessage:'',
-            data :temptExtra
+            errorMessage: '',
+            data: temptExtra
         }
     }
 
@@ -524,8 +593,9 @@ const strings = {
     status: 'Active'
 }
 
-const mapStateToProps = state => ({
-    categoriesByMerchant: state.category.categoriesByMerchant
-});
-export default connectRedux(mapStateToProps, PopupAddService);
+// const mapStateToProps = state => ({
+//     categoriesByMerchant: state.category.categoriesByMerchant
+// });
+// export default connectRedux(mapStateToProps, PopupAddService);
+export default PopupAddService;
 
