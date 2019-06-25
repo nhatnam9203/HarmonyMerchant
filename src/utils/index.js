@@ -46,12 +46,10 @@ export const requestAPI = async (action, headers = {}) => {
         request.headers['email'] = action.email;
     }
     if ((method == "POST" || method == "DELETE" || method == "PUT") && action.body) {
-        console.log('body -- :' +JSON.stringify(action.body));
         request['body'] = JSON.stringify(action.body);
     }
     let response = await fetch(action.api, request);
     const data = await response.json();
-    console.log('data : ',data);
     return { ...data, statusCode: response.status };
 }
 

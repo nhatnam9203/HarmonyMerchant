@@ -39,8 +39,8 @@ class PopupAddService extends React.Component {
         this.arrayExtraRef = [];
     }
 
-    setServiceFromParent = (service) => {
-        this.setState({
+    setServiceFromParent = async (service) => {
+        await this.setState({
             serviceInfo: {
                 serviceId: service.serviceId,
                 categoryId: this.getCateroryName(service.categoryId),
@@ -53,7 +53,7 @@ class PopupAddService extends React.Component {
                 status: service.isDisabled === 0 ? 'Active' : 'Disable',
             },
             arrayExtra: service.extras.length > 0 ? service.extras : []
-        })
+        });
     }
 
     getCateroryName(id) {
@@ -85,7 +85,9 @@ class PopupAddService extends React.Component {
     }
 
     addExtraRef = (ref) => {
-        this.arrayExtraRef.push(ref);
+        if (ref != null) {
+            this.arrayExtraRef.push(ref);
+        }
     }
 
     filterCategories(categories) {
@@ -119,12 +121,12 @@ class PopupAddService extends React.Component {
             duration,
             openTime,
             secondTime,
-            status: serviceInfo.status == 'Active' ? 1 : 0,
+            // status: serviceInfo.status == 'Active' ? 1 : 0,
             categoryId: serviceInfo.categoryId !== '' ? this.getCateroryId(serviceInfo.categoryId) : ''
         };
         const arrayKey = Object.keys(temptServiceInfo);
         let keyError = "";
-        for (let i = 0; i <= arrayKey.length; i++) {
+        for (let i = 0; i <= arrayKey.length - 1; i++) {
             if (temptServiceInfo[arrayKey[i]] == "") {
                 keyError = arrayKey[i];
                 break;
@@ -134,6 +136,7 @@ class PopupAddService extends React.Component {
             Alert.alert(`${strings[keyError]}`);
         } else {
             // --- Handle extra ---
+            // console.log('Handle extra :  ', this.arrayExtraRef);
             const arrayExtra = [];
             let checkValidateExtra = true;
             let errorCheckExtra = '';
@@ -148,6 +151,7 @@ class PopupAddService extends React.Component {
             });
             if (checkValidateExtra) {
                 const dataServiceAdd = { ...temptServiceInfo, extras: arrayExtra };
+                this.arrayExtraRef = [];
                 if (this.props.isSave) {
                     this.props.editService(dataServiceAdd);
                 } else {
@@ -376,17 +380,10 @@ class PopupAddService extends React.Component {
 class ItemExtra extends React.Component {
     constructor(props) {
         super(props);
-        console.log('ItemExtra : ', this.props.extraInfo);
         const { extraInfo } = this.props;
         this.state = {
-            // extraInfo: {
-            //     name: "",
-            //     description: "",
-            //     duration: '',
-            //     price: '',
-            //     status: 'Active'
-            // }
             extraInfo: {
+                extraId: extraInfo.extraId ? extraInfo.extraId : '00',
                 name: extraInfo.name,
                 description: extraInfo.description,
                 duration: extraInfo.duration,
@@ -401,8 +398,9 @@ class ItemExtra extends React.Component {
         const { extraInfo } = this.state;
         const duration = this.durationRef.current.state.value;
         const temptExtra = {
-            ...extraInfo, duration: duration,
-            status: extraInfo.status == 'Active' ? 1 : 0
+            ...extraInfo,
+            duration: duration,
+            // status: extraInfo.status == 'Active' ? 1 : 0
         }
 
         const arrayKey = Object.keys(temptExtra);
@@ -539,7 +537,6 @@ class ItemTime extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log('ItemTime : ' + this.props.value);
         this.state = {
             value: this.props.value
         }
@@ -596,9 +593,5 @@ const strings = {
     status: 'Active'
 }
 
-// const mapStateToProps = state => ({
-//     categoriesByMerchant: state.category.categoriesByMerchant
-// });
-// export default connectRedux(mapStateToProps, PopupAddService);
 export default PopupAddService;
 
