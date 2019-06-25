@@ -9,23 +9,28 @@ class BusinessInfoScreen extends Layout {
             businessInfo: {
                 question1: {
                     isAccept: false,
-                    desc: ''
+                    desc: '',
+                    question:'question1'
                 },
                 question2: {
                     isAccept: false,
-                    desc: ''
+                    desc: '',
+                    question:'question2'
                 },
                 question3: {
                     isAccept: false,
-                    desc: ''
+                    desc: '',
+                    question:'question3'
                 },
                 question4: {
                     isAccept: false,
-                    desc: ''
+                    desc: '',
+                    question:'question4'
                 },
                 question5: {
                     isAccept: false,
-                    desc: ''
+                    desc: '',
+                    question:'question5'
                 },
             }
         }

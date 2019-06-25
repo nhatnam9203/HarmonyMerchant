@@ -94,6 +94,7 @@ export default class Layout extends React.Component {
                     <View style={{ flexDirection: 'row' }} >
                         <View style={{ flex: 1 }} >
                             <InputForm
+                                isOnlyNumber={true}
                                 title={localize('Home Phone *', language)}
                                 subTitle=""
                                 placeholder=""
@@ -104,6 +105,7 @@ export default class Layout extends React.Component {
                         </View>
                         <View style={{ flex: 1, paddingLeft: scaleSzie(20) }} >
                             <InputForm
+                                isOnlyNumber={true}
                                 title={localize('Mobile Phone', language)}
                                 subTitle=""
                                 placeholder=""
@@ -170,14 +172,17 @@ export default class Layout extends React.Component {
                     </View>
 
                     <InputForm
+                        isOnlyNumber={true}
                         title={localize('Years at This Address *')}
                         subTitle=""
                         placeholder=""
                         value={yearAtThisAddress}
                         onChangeText={(value) => this.updatePrincipalInfo('yearAtThisAddress', value)}
                         keyboardType="numeric"
+                        maxLength={4}
                     />
                     <InputForm
+                        isOnlyNumber={true}
                         title={localize('Social Security Number (SSN) *', language)}
                         subTitle=""
                         placeholder=""
@@ -195,7 +200,7 @@ export default class Layout extends React.Component {
                     }} >
                         <View style={{ width: scaleSzie(120) }} >
                             <Dropdown
-                                label={localize('day',language)}
+                                label={localize('day', language)}
                                 data={[{ value: '1' }, { value: '2' }, { value: '3' }]}
                                 value={day}
                                 onChangeText={(value) => this.updatePrincipalInfo('day', value, 'dateOfBirth')}
@@ -209,7 +214,7 @@ export default class Layout extends React.Component {
                         </View>
                         <View style={{ width: scaleSzie(120), marginHorizontal: scaleSzie(20) }} >
                             <Dropdown
-                                label={localize('Month',language)}
+                                label={localize('Month', language)}
                                 data={[{ value: '1' }, { value: '2' }, { value: '3' }]}
                                 value={month}
                                 onChangeText={(value) => this.updatePrincipalInfo('month', value, 'dateOfBirth')}
@@ -223,7 +228,7 @@ export default class Layout extends React.Component {
                         </View>
                         <View style={{ width: scaleSzie(120) }} >
                             <Dropdown
-                                label={localize('Year',language)}
+                                label={localize('Year', language)}
                                 data={[{ value: '1990' }, { value: '1991' }, { value: '1992' }]}
                                 value={year}
                                 onChangeText={(value) => this.updatePrincipalInfo('year', value, 'dateOfBirth')}
@@ -249,7 +254,8 @@ export default class Layout extends React.Component {
                     <View style={{ flexDirection: 'row' }} >
                         <View style={{ flex: 1, paddingRight: scaleSzie(20) }} >
                             <InputForm
-                                title={localize('Driver License Number *',language)}
+                                isOnlyNumber={true}
+                                title={localize('Driver License Number *', language)}
                                 subTitle=""
                                 placeholder=""
                                 value={driverLicense}
@@ -259,7 +265,7 @@ export default class Layout extends React.Component {
                         </View>
                         <View style={{ width: scaleSzie(180), }} >
                             <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(5) }} >
-                               {localize('State Issued *',language)}
+                                {localize('State Issued *', language)}
                             </Text>
                             <Dropdown
                                 label={'2000'}
@@ -280,7 +286,7 @@ export default class Layout extends React.Component {
                     {/* ------ Take Photo ---- */}
 
                     <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginTop: scaleSzie(10) }} >
-                        {localize('Please take or upload photos of Driver License',language)}
+                        {localize('Please take or upload photos of Driver License', language)}
                     </Text>
 
                     <View style={{
@@ -317,14 +323,14 @@ export default class Layout extends React.Component {
                                         <Text style={{
                                             color: '#6A6A6A', fontSize: scaleSzie(20), fontWeight: 'bold',
                                         }} >
-                                            {localize('Take a Photo',language)}
-            </Text>
+                                            {localize('Take a Photo', language)}
+                                        </Text>
 
                                         <Text style={{
                                             color: '#6A6A6A', fontSize: scaleSzie(20),
                                         }} >
-                                            {localize('Or',language)}
-            </Text>
+                                            {localize('Or', language)}
+                                        </Text>
                                         <Button
                                             onPress={this.openImageLibrary}
                                             style={{
@@ -334,8 +340,8 @@ export default class Layout extends React.Component {
                                             <Text style={{
                                                 color: '#6A6A6A', fontSize: scaleSzie(20),
                                             }} >
-                                                {localize('Browse File',language)}
-                    </Text>
+                                                {localize('Browse File', language)}
+                                            </Text>
                                         </Button>
                                     </View>
 
@@ -347,7 +353,7 @@ export default class Layout extends React.Component {
                 </View>
                 <PopupUpload
                     visible={this.state.visibleUpload}
-                    title={localize('File Upload',language)}
+                    title={localize('File Upload', language)}
                     message="Do you want to Archive this Category ?"
                     onRequestClose={() => this.setState({ visibleUpload: false, uriUpload: '' })}
                     uri={this.state.uriUpload}

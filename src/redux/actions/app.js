@@ -14,7 +14,7 @@ export function registerUser(body) {
         type: 'REGISTER_USER',
         method: 'POST',
         body,
-        api: `${apiConfigs.BASE_API}merchant/add`
+        api: `${apiConfigs.BASE_API}merchant`
     }
 }
 
@@ -46,9 +46,9 @@ export function setPrincipalInfo(payload) {
     }
 }
 
-export function handleLockScreen(visible){
-    return{
-        type:'HANDLE_LOCK_SCREEN',
+export function handleLockScreen(visible) {
+    return {
+        type: 'HANDLE_LOCK_SCREEN',
         payload: visible
     }
 }

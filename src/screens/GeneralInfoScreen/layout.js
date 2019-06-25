@@ -2,6 +2,7 @@ import React from 'react';
 import {
     View,
 } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 
 import { InputForm, FormInfoParent, Text, Dropdown } from '@components';
 import { scaleSzie, localize } from '@utils';
@@ -124,6 +125,7 @@ export default class Layout extends React.Component {
                     <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                         <View style={{ flex: 1 }} >
                             <InputForm
+                                isOnlyNumber={true}
                                 title={localize('Business Phone Number *', language)}
                                 subTitle=""
                                 placeholder=""
@@ -174,6 +176,7 @@ export default class Layout extends React.Component {
                     <View style={{ flexDirection: 'row' }} >
                         <View style={{ flex: 1 }} >
                             <InputForm
+                                isOnlyNumber={true}
                                 title={localize('Contact is Phone Number *', language)}
                                 subTitle=""
                                 placeholder=""

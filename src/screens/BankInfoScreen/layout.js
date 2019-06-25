@@ -33,6 +33,7 @@ export default class Layout extends React.Component {
                     />
 
                     <InputForm
+                    isOnlyNumber={true}
                         title={`${localize('ABA Routing Number *',language)}`}
                         subTitle=""
                         placeholder=""
@@ -42,6 +43,7 @@ export default class Layout extends React.Component {
                     />
 
                     <InputForm
+                     isOnlyNumber={true}
                         title={`${localize('Checking Account Number (DDA) *',language)}`}
                         subTitle=""
                         placeholder=""
