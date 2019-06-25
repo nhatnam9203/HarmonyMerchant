@@ -26,6 +26,7 @@ class TabExtra extends React.Component {
         }
 
         this.inputRefsExtra = [];
+        this.addExtraRef = React.createRef();
         this.editExtraRef = React.createRef();
     }
 
@@ -77,17 +78,28 @@ class TabExtra extends React.Component {
         })
     }
 
+    showModalAddExtra = () => {
+        this.addExtraRef.current.setStateDefaultFromParent();
+        this.setState({ visibleAdd: true })
+    }
+
+    addExtra = (extra) => {
+        this.props.actions.extra.addExtraByMerchant(extra);
+        this.setState({ visibleAdd: false })
+    }
+
+    editExtra = extra =>{
+        this.props.actions.extra.editExtra(extra,extra.extraId);
+        this.setState({
+            visibleEdit: false
+        })
+    }
+
     async editService(extra) {
-        // await this.setState({
-        //     extraInfoHandle: service
-        // });
-
-        // console.log(this.editExtraRef);
-
-        // this.editExtraRef.current.setStateFromParent(extra);
-        // this.setState({
-        //     visibleEdit: true
-        // })
+        this.editExtraRef.current.setExtraFromParent(extra);
+        this.setState({
+            visibleEdit: true
+        })
     }
 
     renderTable() {
@@ -122,7 +134,7 @@ class TabExtra extends React.Component {
             <View style={styles.container} >
                 {this.renderTable()}
                 <FooterTab
-                    addNew={() => this.setState({ visibleAdd: true })}
+                    addNew={this.showModalAddExtra}
                     backTab={() => this.props.backTab()}
                     nextTab={() => this.props.nextTab()}
                 />
@@ -141,19 +153,24 @@ class TabExtra extends React.Component {
                     confimYes={() => this.restoreStaffYess()}
                 />
                 <PopupEditAddExtra
+                    ref={this.addExtraRef}
                     visible={visibleAdd}
                     title="Add Extra"
                     titleButton="Add"
                     onRequestClose={() => this.setState({ visibleAdd: false })}
-                    doneAddExtra={() => this.setState({ visibleAdd: false })}
+                    doneAddExtra={this.addExtra}
+                    categoriesByMerchant={this.props.categoriesByMerchant}
                 />
                 <PopupEditAddExtra
-                    // ref={this.editExtraRef}
+                    ref={this.editExtraRef}
                     visible={visibleEdit}
                     title="Edit Extra"
                     titleButton="Save"
                     onRequestClose={() => this.setState({ visibleEdit: false })}
                     doneAddExtra={() => this.setState({ visibleEdit: false })}
+                    categoriesByMerchant={this.props.categoriesByMerchant}
+                    isEdit={true}
+                    editExtra={this.editExtra}
                 />
             </View>
 
@@ -169,7 +186,8 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-    extrasByMerchant: state.extra.extrasByMerchant
+    extrasByMerchant: state.extra.extrasByMerchant,
+    categoriesByMerchant: state.category.categoriesByMerchant
 });
 
 export default connectRedux(mapStateToProps, TabExtra);

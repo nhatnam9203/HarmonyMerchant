@@ -33,9 +33,22 @@ class PopupEditAddExtra extends React.Component {
         this.durationRef = React.createRef();
     }
 
-    setExtraFromParent = (extra) => {
+    setStateDefaultFromParent = () =>{
         this.setState({
-            extraInfo: extra
+            extraInfo: {
+                name: "",
+                description: "",
+                duration: '',
+                price: '',
+                isDisable: 'Active'
+            }
+        })
+    }
+
+    setExtraFromParent = (extra) => {
+        console.log('setExtraFromParent : ',extra);
+        this.setState({
+            extraInfo: {...extra,isDisable:extra.isDisabled === 0 ? 'Active':'Disable' }
         })
     }
 
@@ -59,7 +72,7 @@ class PopupEditAddExtra extends React.Component {
     doneAddExtra = () => {
         const { extraInfo } = this.state;
         const temptExtraInfo = {
-            // ...extraInfo, duration: this.durationRef.current.state.value,
+            ...extraInfo, duration: this.durationRef.current.state.value,
             isDisable: extraInfo.isDisable === 'Active' ? 0 : 1
         };
         const arrayKey = Object.keys(temptExtraInfo);
@@ -75,17 +88,20 @@ class PopupEditAddExtra extends React.Component {
         if (keyError != "") {
             Alert.alert(`${strings[keyError]}`);
         } else {
-            console.log('temptExtraInfo : ', temptExtraInfo);
-            this.props.actions.extra.addExtraByMerchant(temptExtraInfo);
-            this.props.doneAddExtra();
+            if(this.props.isEdit){
+                this.props.editExtra(temptExtraInfo);
+            }else{
+                this.props.doneAddExtra(temptExtraInfo);
+            }
+           
         }
 
     }
 
     render() {
-        const { title, visible, onRequestClose, isSave } = this.props;
+        const { title, visible, onRequestClose, isEdit } = this.props;
         const { name, description, price, isDisable } = this.state.extraInfo;
-        const temptTitleButton = isSave ? 'Save' : 'Done';
+        const temptTitleButton = isEdit ? 'Save' : 'Done';
         return (
             <PopupParent
                 title={title}
@@ -139,6 +155,7 @@ class PopupEditAddExtra extends React.Component {
                             <ItemTime
                                 ref={this.durationRef}
                                 title="Minutes"
+                                value={this.state.extraInfo.duration}
 
                             />
                             <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
@@ -213,7 +230,7 @@ class ItemTime extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: ''
+            value: this.props.value
         }
     }
 
@@ -258,9 +275,10 @@ const strings = {
     status: 'Mising info :Status',
 }
 
-const mapStateToProps = state => ({
-    categoriesByMerchant: state.category.categoriesByMerchant
-});
-export default connectRedux(mapStateToProps, PopupEditAddExtra);
+// const mapStateToProps = state => ({
+//     categoriesByMerchant: state.category.categoriesByMerchant
+// });
+// export default connectRedux(mapStateToProps, PopupEditAddExtra);
+export default PopupEditAddExtra
 
 
