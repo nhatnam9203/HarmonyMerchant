@@ -45,7 +45,7 @@ function* getServicesByMerchant(action) {
             })
         }
     } catch (error) {
-        if(`${error}` == 'TypeError: Network request failed'){
+        if (`${error}` == 'TypeError: Network request failed') {
             alert('Network fail')
         }
         console.log(`error : ${error}`);
@@ -104,7 +104,7 @@ function* restoreService(action) {
     }
 }
 
-function* editCategory(action) {
+function* editService(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
@@ -112,10 +112,10 @@ function* editCategory(action) {
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
-                type: 'GET_CATEGORIES_BY_MERCHANR_ID',
+                type: 'GET_SERVICE_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}category`
+                api: `${apiConfigs.BASE_API}service`
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -135,6 +135,6 @@ export default function* saga() {
         takeLatest('GET_SERVICE_BY_MERCHANT', getServicesByMerchant),
         takeLatest('ARCHIVE_SERVICE', archiveService),
         takeLatest('RESTORE_SERVICE', restoreService),
-        // takeLatest('EDIT_CATEGORY', editCategory),
+        takeLatest('EDIT_SERVICE', editService),
     ])
 }

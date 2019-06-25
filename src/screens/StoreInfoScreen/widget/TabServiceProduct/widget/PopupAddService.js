@@ -146,7 +146,7 @@ class PopupAddService extends React.Component {
             if (checkValidateExtra) {
                 const dataServiceAdd = { ...temptServiceInfo, extras: arrayExtra };
                 if (this.props.isSave) {
-
+                    this.props.editService(dataServiceAdd);
                 } else {
                     this.props.doneAddService(dataServiceAdd);
                 }
@@ -373,7 +373,8 @@ class PopupAddService extends React.Component {
 class ItemExtra extends React.Component {
     constructor(props) {
         super(props);
-        console.log(this.props.extraInfo);
+        console.log('ItemExtra : ', this.props.extraInfo);
+        const { extraInfo } = this.props;
         this.state = {
             // extraInfo: {
             //     name: "",
@@ -382,7 +383,13 @@ class ItemExtra extends React.Component {
             //     price: '',
             //     status: 'Active'
             // }
-            extraInfo: this.props.extraInfo
+            extraInfo: {
+                name: extraInfo.name,
+                description: extraInfo.description,
+                duration: extraInfo.duration,
+                price: extraInfo.price,
+                status: extraInfo.isDisabled === 0 ? 'Active' : 'Disable'
+            }
         }
         this.durationRef = React.createRef();
     }
@@ -397,7 +404,7 @@ class ItemExtra extends React.Component {
 
         const arrayKey = Object.keys(temptExtra);
         let keyError = "";
-        for (let i = 0; i <= arrayKey.length; i++) {
+        for (let i = 0; i <= arrayKey.length - 1; i++) {
             if (temptExtra[arrayKey[i]] == "") {
                 keyError = `${arrayKey[i]}_extra`;
                 break;
@@ -475,12 +482,13 @@ class ItemExtra extends React.Component {
                 <ItemTime
                     ref={this.durationRef}
                     title="Minutes"
+                    value={duration}
                 />
                 <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
                     <View style={{ flex: 1, paddingRight: scaleSzie(50) }}  >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                             Price
-                                    </Text>
+                        </Text>
                         <View style={{
                             height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
                             borderWidth: 1, borderColor: '#6A6A6A', flexDirection: 'row'
@@ -528,6 +536,7 @@ class ItemTime extends React.Component {
 
     constructor(props) {
         super(props);
+        console.log('ItemTime : ' + this.props.value);
         this.state = {
             value: this.props.value
         }

@@ -83,11 +83,16 @@ class TabServices extends React.Component {
         this.setState({ visibleAdd: false })
     }
 
-    async editService(service) {
+    async showModalEditService(service) {
        this.editServiceRef.current.setServiceFromParent(service);
         this.setState({
             visibleEdit: true
         })
+    }
+
+    editService = service =>{
+        this.props.actions.service.editService(service,service.serviceId);
+        this.setState({ visibleEdit: false })
     }
 
     getCateroryName(id) {
@@ -143,7 +148,7 @@ class TabServices extends React.Component {
                             service={item}
                             archiveService={() => this.togglePopupArchive(true, item)}
                             restoreService={() => this.togglePopupRestore(true, item)}
-                            editService={() => this.editService(item)}
+                            editService={() => this.showModalEditService(item)}
                             categoryName={this.getCateroryName(item.categoryId)}
                             extraName={this.getExtraName(item.extras)}
                         />}
@@ -196,7 +201,7 @@ class TabServices extends React.Component {
                     titleButton="Save"
                     isSave={true}
                     onRequestClose={() => this.setState({ visibleEdit: false })}
-                    doneAddService={() => this.setState({ visibleEdit: false })}
+                    editService={this.editService}
                     categoriesByMerchant={this.props.categoriesByMerchant}
                 />
             </View>

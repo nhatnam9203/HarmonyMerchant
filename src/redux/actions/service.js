@@ -39,12 +39,12 @@ export function restoreService(id) {
     }
 }
 
-export function editCategory(body, id) {
+export function editService(body, id) {
     return {
-        type: 'EDIT_CATEGORY',
+        type: 'EDIT_SERVICE',
         body,
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}category/${id}`,
+        api: `${apiConfigs.BASE_API}service/${id}`,
     }
 }
