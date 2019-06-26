@@ -10,7 +10,7 @@ import { Button, } from '@components';
 import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 
-class RowTableProducts extends React.Component {
+class RowTableCustomer extends React.Component {
 
     constructor(props) {
         super(props);
@@ -60,12 +60,9 @@ class RowTableProducts extends React.Component {
                         alignItems: 'center',
                         paddingLeft: scaleSzie(12)
                     }]} >
-                        <Button onPress={this.selectCheckBox} style={{ marginRight: scaleSzie(12) }} >
-                            <Image source={temptIconCheckbox}
-                            />
-                        </Button>
                         <Text style={styles.textTableHeader} >
-                            {product.name}
+                            {/* {product.name} */}
+                            Adrienne Miller
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -74,11 +71,12 @@ class RowTableProducts extends React.Component {
                 </View>
                 {/* ----- 2 ----- */}
                 <View style={{
-                    width: scaleSzie(140), flexDirection: 'row',
+                    width: scaleSzie(172), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            {product.sku}
+                            {/* {product.sku} */}
+                            093755566
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -87,11 +85,12 @@ class RowTableProducts extends React.Component {
                 </View>
                 {/* ----- 3 ----- */}
                 <View style={{
-                    width: scaleSzie(140), flexDirection: 'row',
+                    width: scaleSzie(172), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            {product.price}
+                            {/* {product.price} */}
+                            abc@gmail.com
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -100,26 +99,14 @@ class RowTableProducts extends React.Component {
                 </View>
                 {/* ----- 3 ----- */}
                 <View style={{
-                    width: scaleSzie(140), flexDirection: 'row',
+                    width: scaleSzie(172), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            {product.price}
+                        Deandre Wallace
                         </Text>
-                    </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View>
-                </View>
-                {/* ----- 4 ------ */}
-
-                {/* ----- 3 ----- */}
-                <View style={{
-                    width: scaleSzie(140), flexDirection: 'row',
-                }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            {product.needToorDer}
+                        (874) 895-8899
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -159,5 +146,5 @@ const styles = StyleSheet.create({
 
 })
 
-export default RowTableProducts;
+export default RowTableCustomer;
 
