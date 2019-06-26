@@ -10,7 +10,7 @@ import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom } from '@c
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { HeaderTableProducts, RowTableProducts, RowEmptyTableProducts } from './widget';
+import { HeaderTableCustomer, RowTableProducts, RowEmptyTableCustomer } from './widget';
 
 export default class Layout extends React.Component {
 
@@ -43,7 +43,7 @@ export default class Layout extends React.Component {
                             <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
                                 <TextInput
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
-                                    placeholder={`${localize('SKU Number', language)}/ ${localize('Product Name', language)}`}
+                                    placeholder={`${localize('Phone number', language)}/ ${localize('Customer Name', language)}`}
                                 />
                             </View>
                             <Button onPress={() => { }} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
@@ -71,74 +71,21 @@ export default class Layout extends React.Component {
 
     renderFilter() {
         const { language } = this.props;
-        const { isSelectAll } = this.state;
-        const temptIconCheckbox = isSelectAll ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
-                    <View style={{ flex: 1, flexDirection: 'row' }} >
-                        <View style={{
-                            flexDirection: 'row', alignItems: 'flex-end', marginRight: scaleSzie(10),
-                            paddingBottom: scaleSzie(2)
-                        }} >
-                            <Button onPress={this.selectAll} style={{ marginBottom: scaleSzie(4) }} >
-                                <Image source={temptIconCheckbox} />
-                            </Button>
-                            <Text style={{
-                                fontSize: scaleSzie(16), color: '#0764B0',
-                                marginLeft: scaleSzie(10)
-                            }} >
-                                {localize('Select All', language)}
-                            </Text>
-                        </View>
-
-                        <View style={[{
-                            width: scaleSzie(90), justifyContent: 'center', alignItems: 'center',
-                            marginRight: scaleSzie(14)
-                        }, styles.borderStyle]} >
-                            <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(15) }} >
-
-                                {localize('Restock', language)}
-                            </Text>
-                        </View>
-                        <View style={[{ width: scaleSzie(160), flexDirection: 'row', }, styles.borderStyle]} >
-                            <View style={{ alignItems: 'center', flexDirection: 'row' }} >
-                                <Image source={IMAGE.export} style={{
-                                    width: scaleSzie(22), height: scaleSzie(22),
-                                    marginHorizontal: scaleSzie(8)
-                                }} />
-                                <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(15) }} >
-
-                                    {localize('Export', language)}
-                                </Text>
-                            </View>
-
-                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(10) }} >
-                                <Image source={IMAGE.dropdown} style={{ width: scaleSzie(12), height: scaleSzie(6) }} />
-                            </View>
-                        </View>
-                        <View style={{ flex: 1, flexDirection: "row", justifyContent: 'flex-end' }} >
-                            <View style={[{ width: scaleSzie(160), flexDirection: 'row', }, styles.borderStyle]} >
-                                <View style={{ alignItems: 'center', flexDirection: 'row', paddingLeft: scaleSzie(10) }} >
-                                    <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(15) }} >
-                                        {localize('Cteategories', language)}
-                                    </Text>
-                                </View>
-
-                                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(10) }} >
-                                    <Image source={IMAGE.dropdown} style={{ width: scaleSzie(12), height: scaleSzie(6) }} />
-                                </View>
-                            </View>
-                        </View>
-
+                    <View style={{ flex: 1, justifyContent:'flex-end' }} >
+                        <Text style={{color:'#0764B0',fontSize:scaleSzie(18),fontWeight:'bold'}} >
+                            {localize('Customer list', language)}
+                        </Text>
                     </View>
                     <View style={{ width: scaleSzie(170), alignItems: 'flex-end' }} >
                         <ButtonCustom
                             width={'90%'}
                             height={40}
-                            backgroundColor="#F1F1F1"
-                            title={localize('Scan SKU', language)}
-                            textColor="#6A6A6A"
+                            backgroundColor="#0764B0"
+                            title={localize('Add New', language)}
+                            textColor="#fff"
                             onPress={() => { }}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
@@ -152,10 +99,10 @@ export default class Layout extends React.Component {
     renderTable() {
         const { productsByMerchantId } = this.props;
         return (
-            <View style={{ flex: 1, paddingTop: scaleSzie(20) }} >
-                <HeaderTableProducts />
+            <View style={{ flex: 1 }} >
+                <HeaderTableCustomer />
                 <FlatList
-                    data={productsByMerchantId}
+                    data={[]}
                     renderItem={({ item, index }) => <RowTableProducts
                         ref={this.setProductRef}
                         key={index}
@@ -163,7 +110,7 @@ export default class Layout extends React.Component {
                         unSelectAll={this.unSelectAll}
                     />}
                     keyExtractor={(item, index) => `${item.productId}`}
-                    ListEmptyComponent={<RowEmptyTableProducts />}
+                    ListEmptyComponent={<RowEmptyTableCustomer />}
                 />
             </View>
         );
@@ -178,11 +125,12 @@ export default class Layout extends React.Component {
                 <View style={styles.container} >
                     <StatusBarHeader />
                     {this.renderHeader()}
-                    {/* <View style={{ height: scaleSzie(18) }} />
+                    <View style={{ height: scaleSzie(18) }} />
                     {this.renderSearch()}
-                    <View style={{ height: scaleSzie(10) }} />
+                    <View style={{ height: scaleSzie(16) }} />
                     {this.renderFilter()}
-                    {this.renderTable()} */}
+                    <View style={{ height: scaleSzie(18) }} />
+                    {this.renderTable()} 
 
                     <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />

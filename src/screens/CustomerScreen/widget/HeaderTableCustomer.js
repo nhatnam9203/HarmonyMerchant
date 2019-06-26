@@ -10,7 +10,7 @@ import { Button } from '@components';
 import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 
-class HeaderTableProducts extends React.Component {
+class HeaderTableCustomer extends React.Component {
 
     constructor(props) {
         super(props);
@@ -63,8 +63,8 @@ class HeaderTableProducts extends React.Component {
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(20) }} >
                         <Text style={styles.textTableHeader} >
-                            Product
-                            </Text>
+                        Name
+                        </Text>
                     </View>
                     <Button onPress={this.sortStaffName} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
                         <Image source={iconSortStaffName} style={styles.iconSort} />
@@ -75,64 +75,39 @@ class HeaderTableProducts extends React.Component {
                 </View>
                 {/* ----- 2 ------ */}
                 <View style={{
-                    width: scaleSzie(140), flexDirection: 'row',
+                    width: scaleSzie(172), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        SKU number
+                        Phone number
                             </Text>
                     </View>
-                    <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
-                        <Image source={iconSortRole} style={styles.iconSort} />
-                    </Button>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View>
-                </View>
-                {/* ----- 2 ------ */}
-                <View style={{
-                    width: scaleSzie(140), flexDirection: 'row',
-                }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
-                            Categories
-                            </Text>
-                    </View>
-                    <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
-                        <Image source={iconSortRole} style={styles.iconSort} />
-                    </Button>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 3 ------ */}
                 <View style={{
-                    width: scaleSzie(140), flexDirection: 'row',
+                    width: scaleSzie(172), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            Quantity
+                        Email
                             </Text>
                     </View>
-                    <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
-                        <Image source={iconSortRole} style={styles.iconSort} />
-                    </Button>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 4 ------ */}
                 <View style={{
-                   width: scaleSzie(140), flexDirection: 'row',
+                   width: scaleSzie(172), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        Need to order
-                            </Text>
+                        Referrer
+                        </Text>
                     </View>
-                    <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
-                        <Image source={iconSortRole} style={styles.iconSort} />
-                    </Button>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
@@ -169,5 +144,5 @@ const styles = StyleSheet.create({
 
 })
 
-export default HeaderTableProducts;
+export default HeaderTableCustomer;
 

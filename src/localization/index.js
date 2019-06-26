@@ -159,6 +159,10 @@ const localization = {
         'Export':'Export',
         'Cteategories':'Cteategories',
         'Customer':'Customer',
+        'Customer Name':'Customer Name',
+        'Phone number':'Phone number',
+        'Add New':'Add New',
+        'Customer list':'Customer list',
     },
     'vi': {
         'MARKETING': 'Uu dai',

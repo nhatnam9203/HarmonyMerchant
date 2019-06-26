@@ -9,7 +9,7 @@ import {
 import { Button, } from '@components';
 import { scaleSzie } from '@utils';
 
-const RowEmptyTableProducts = () => {
+const RowEmptyTableCustomer = () => {
     return (
         <View style={styles.tableHeader} >
             {/* ----- 1 ------ */}
@@ -34,7 +34,7 @@ const RowEmptyTableProducts = () => {
             </View>
             {/* ----- 2 ----- */}
             <View style={{
-                width: scaleSzie(140), flexDirection: 'row',
+                width: scaleSzie(172), flexDirection: 'row',
             }} >
                 <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                     <Text style={styles.textTableHeader} >
@@ -47,20 +47,7 @@ const RowEmptyTableProducts = () => {
             </View>
             {/* ----- 3 ----- */}
             <View style={{
-                width: scaleSzie(140), flexDirection: 'row',
-            }} >
-                <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                    <Text style={styles.textTableHeader} >
-                        {/* {product.price} */}
-                    </Text>
-                </View>
-                <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                    <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                </View>
-            </View>
-            {/* ----- 3 ----- */}
-            <View style={{
-                width: scaleSzie(140), flexDirection: 'row',
+                width: scaleSzie(172), flexDirection: 'row',
             }} >
                 <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                     <Text style={styles.textTableHeader} >
@@ -75,7 +62,7 @@ const RowEmptyTableProducts = () => {
 
             {/* ----- 3 ----- */}
             <View style={{
-                width: scaleSzie(140), flexDirection: 'row',
+                width: scaleSzie(172), flexDirection: 'row',
             }} >
                 <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                     <Text style={styles.textTableHeader} >
@@ -118,5 +105,5 @@ const styles = StyleSheet.create({
 
 })
 
-export default RowEmptyTableProducts;
+export default RowEmptyTableCustomer;
 

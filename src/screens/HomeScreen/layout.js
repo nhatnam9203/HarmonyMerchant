@@ -25,6 +25,7 @@ export default class Layout extends React.Component {
                         ref={this.scrollTabRef}
                         style={{}}
                         initialPage={1}
+                        locked={true}
                         renderTabBar={() => <HomeTabBar
                             activeTextColor="#fff"
                             inactiveTextColor="#0764B0"
