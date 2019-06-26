@@ -158,6 +158,7 @@ const localization = {
         'Restock':'Restock',
         'Export':'Export',
         'Cteategories':'Cteategories',
+        'Customer':'Customer',
     },
     'vi': {
         'MARKETING': 'Uu dai',

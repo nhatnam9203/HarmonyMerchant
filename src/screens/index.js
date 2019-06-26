@@ -16,6 +16,7 @@ import SlideDrawer from './SlideDrawer';
 import LockScreen from './LockScreen';
 import SettingScreen from './SettingScreen';
 import InventoryScreen from './InventoryScreen';
+import CustomerScreen from './CustomerScreen';
 
 module.exports = {
     SplashScreen,
@@ -35,5 +36,6 @@ module.exports = {
     SlideDrawer,
     LockScreen,
     SettingScreen,
-    InventoryScreen
+    InventoryScreen,
+    CustomerScreen
 }

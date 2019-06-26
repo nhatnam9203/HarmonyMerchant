@@ -3,7 +3,7 @@ import React from 'react';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 
-class InventoryScreen extends Layout {
+class CustomerScreen extends Layout {
 
     constructor(props) {
         super(props);
@@ -16,7 +16,7 @@ class InventoryScreen extends Layout {
     }
 
     componentDidMount() {
-        this.props.actions.product.getProductsByMerchant();
+        // this.props.actions.product.getProductsByMerchant();
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {
@@ -86,4 +86,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connectRedux(mapStateToProps, InventoryScreen);
+export default connectRedux(mapStateToProps, CustomerScreen);

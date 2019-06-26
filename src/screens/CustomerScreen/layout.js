@@ -22,7 +22,7 @@ export default class Layout extends React.Component {
                 justifyContent: 'center'
             }} >
                 <Text style={{ fontSize: scaleSzie(16), color: '#0764B0' }} >
-                    {localize('Inventory', language)}
+                    {localize('Customer', language)}
                 </Text>
             </View>
         );
@@ -178,11 +178,12 @@ export default class Layout extends React.Component {
                 <View style={styles.container} >
                     <StatusBarHeader />
                     {this.renderHeader()}
-                    <View style={{ height: scaleSzie(18) }} />
+                    {/* <View style={{ height: scaleSzie(18) }} />
                     {this.renderSearch()}
                     <View style={{ height: scaleSzie(10) }} />
                     {this.renderFilter()}
-                    {this.renderTable()}
+                    {this.renderTable()} */}
+
                     <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>

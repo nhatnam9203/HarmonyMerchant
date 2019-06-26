@@ -11,7 +11,8 @@ import {
     SlideDrawer,
     HomeScreen,
     SettingScreen,
-    InventoryScreen
+    InventoryScreen,
+    CustomerScreen
 } from '../screens';
 
 const DrawerStack = createDrawerNavigator({
@@ -19,9 +20,10 @@ const DrawerStack = createDrawerNavigator({
     ForgotPassword: ForgotPasswordScreen,
     Home: HomeScreen,
     Setting: SettingScreen,
-    Inventory: InventoryScreen
+    Inventory: InventoryScreen,
+    Customer: CustomerScreen
 }, {
-        initialRouteName: "Inventory",
+        initialRouteName: "Customer",
         contentComponent: SlideDrawer,
         drawerWidth: scaleSzie(220)
 
