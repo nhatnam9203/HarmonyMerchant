@@ -10,7 +10,7 @@ import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom } from '@c
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { HeaderTableCustomer, RowTableProducts, RowEmptyTableCustomer } from './widget';
+import { HeaderTableCustomer, RowTableCustomer, RowEmptyTableCustomer } from './widget';
 
 export default class Layout extends React.Component {
 
@@ -102,8 +102,8 @@ export default class Layout extends React.Component {
             <View style={{ flex: 1 }} >
                 <HeaderTableCustomer />
                 <FlatList
-                    data={[]}
-                    renderItem={({ item, index }) => <RowTableProducts
+                    data={[1]}
+                    renderItem={({ item, index }) => <RowTableCustomer
                         ref={this.setProductRef}
                         key={index}
                         product={item}

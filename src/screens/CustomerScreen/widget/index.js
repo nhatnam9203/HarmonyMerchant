@@ -1,9 +1,9 @@
 import HeaderTableCustomer from './HeaderTableCustomer';
-import RowTableProducts from './RowTableProducts';
+import RowTableCustomer from './RowTableCustomer';
 import RowEmptyTableCustomer from './RowEmptyTableCustomer';
 
 module.exports ={
     HeaderTableCustomer,
-    RowTableProducts,
+    RowTableCustomer,
     RowEmptyTableCustomer
 }
