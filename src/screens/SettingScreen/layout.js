@@ -108,7 +108,7 @@ export default class Layout extends React.Component {
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
 
-                    <Button onPress={this.showLockScreen} style={{
+                    <Button onPress={this.backTab} style={{
                         position: 'absolute', top: 20, right: 0,
                         width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
                     }} >

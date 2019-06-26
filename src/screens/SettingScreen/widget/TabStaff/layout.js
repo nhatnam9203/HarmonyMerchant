@@ -10,7 +10,7 @@ import { scaleSzie, localize } from '@utils';
 import { Text, Button, ButtonCustom, Dropdown, PopupConfirm } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
-import { HeaderTableStaff, RowTableStaff, AddStaff ,RowTableEmptyStaff} from './widget';
+import { HeaderTableStaff, RowTableStaff, AddStaff, RowTableEmptyStaff } from './widget';
 
 class Layout extends React.Component {
 
@@ -32,8 +32,8 @@ class Layout extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
                                     placeholder={localize('Staff Name', language)}
                                     value={keySearch}
-                                    onChangeText={(value) =>{
-                                        if(value === ''){
+                                    onChangeText={(value) => {
+                                        if (value === '') {
                                             this.props.actions.staff.clearSearch();
                                         }
                                         this.setState({ keySearch: value });
@@ -130,9 +130,9 @@ class Layout extends React.Component {
 
 
     renderTableStaff() {
-        const { listStaffByMerchant,isShowSearch,listSearchStaff } = this.props;
-        const { visibleArchive } = this.state;
-        const temptData = isShowSearch ? listSearchStaff  : listStaffByMerchant
+        const { listStaffByMerchant, isShowSearch, listSearchStaff } = this.props;
+        const { visibleArchive, visibleRestore } = this.state;
+        const temptData = isShowSearch ? listSearchStaff : listStaffByMerchant
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
@@ -160,6 +160,13 @@ class Layout extends React.Component {
                     message="Do you want to Archive this Staff ?"
                     onRequestClose={() => this.togglePopupArchive(false)}
                     confimYes={() => this.archirveStaffYess()}
+                />
+                <PopupConfirm
+                    visible={visibleRestore}
+                    title="Confirmation"
+                    message="Do you want to Restore this Staff ?"
+                    onRequestClose={() => this.togglePopupRestore(false)}
+                    confimYes={() => this.archirveRestoreYess()}
                 />
             </View>
         );

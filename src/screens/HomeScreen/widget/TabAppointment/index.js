@@ -5,6 +5,15 @@ class TabAppointment extends Layout {
 
     constructor(props) {
         super(props);
+       
+    }
+
+    onLoadStartWebview =() =>{
+        this.props.actions.app.loadingApp();
+    }
+
+    onLoadEndWebview =()=>{
+        this.props.actions.app.stopLoadingApp();
     }
 
 

@@ -53,7 +53,11 @@ class SettingScreen extends Layout {
         Keyboard.dismiss();
     }
 
-    showLockScreen = () => {
+    backTab = () => {
+        const {indexTab} = this.state;
+        if(indexTab == 1){
+            this.props.actions.staff.switchAddStaff(false);
+        }
         // this.props.actions.app.handleLockScreen(true);
     }
 

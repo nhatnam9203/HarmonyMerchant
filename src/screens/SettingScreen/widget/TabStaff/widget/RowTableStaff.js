@@ -86,7 +86,10 @@ class RowTable extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            {/* {staff.status} */}
+                            
+                            {
+                                staff.isDisabled === 0 ? 'Active' :'Disable'
+                            }
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -114,7 +117,7 @@ class RowTable extends React.Component {
                     </View>
                     <View style={styles.actionButton} >
                         {
-                            isArchive ? <ButtonCustom
+                            staff.isDisabled === 0 ? <ButtonCustom
                                 width={'80%'}
                                 height={28}
                                 backgroundColor="#FF3B30"

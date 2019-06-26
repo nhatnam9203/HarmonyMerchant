@@ -9,6 +9,7 @@ class TabStaff extends Layout {
             isAddStaff: true,
             keySearch: '',
             visibleArchive: false,
+            visibleRestore: false,
             filter: {
                 role: '',
                 status: ''
@@ -28,11 +29,24 @@ class TabStaff extends Layout {
         })
     }
 
+    togglePopupRestore = (visible) => {
+        this.setState({
+            visibleRestore: visible
+        })
+    }
+
     archirveStaffYess = async () => {
         await this.setState({
             visibleArchive: false,
         });
         this.props.actions.staff.archiveStaff(this.state.staffHandle.staffId)
+    }
+
+    archirveRestoreYess = async () => {
+        await this.setState({
+            visibleRestore: false,
+        });
+        this.props.actions.staff.restoreStaff(this.state.staffHandle.staffId)
     }
 
     searchStaff = () => {
@@ -41,9 +55,6 @@ class TabStaff extends Layout {
     }
 
     addStaff = () => {
-        // this.setState({
-        //     isAddStaff: true
-        // })
         this.props.actions.staff.switchAddStaff(true);
     }
 
@@ -59,7 +70,10 @@ class TabStaff extends Layout {
     }
 
     restoreStaff(staff) {
-
+        this.setState({
+            visibleRestore: true,
+            staffHandle: staff
+        })
     }
 
 

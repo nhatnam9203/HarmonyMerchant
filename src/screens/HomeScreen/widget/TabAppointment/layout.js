@@ -11,7 +11,10 @@ class Layout extends React.Component {
     render() {
         return (
             <View style={styles.container} >
-                 <WebView source={{ uri: 'https://facebook.github.io/react-native/' }} />
+                <WebView source={{ uri: 'https://facebook.github.io/react-native/' }}
+                onLoadStart={this.onLoadStartWebview}
+                    onLoadEnd={this.onLoadEndWebview}
+                />
             </View>
         );
     }

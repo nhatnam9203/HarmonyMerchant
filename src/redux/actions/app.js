@@ -1,5 +1,18 @@
 import apiConfigs from '../../configs/api';
 
+// ---- Loading ----
+export function loadingApp(){
+    return {
+        type:'LOADING_ROOT',
+    }
+}
+
+export function stopLoadingApp(){
+    return {
+        type:'STOP_LOADING_ROOT',
+    }
+}
+
 export function getMerchantByID(id) {
     return {
         type: 'GET_MERCHANT_BY_ID',
