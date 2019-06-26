@@ -32,6 +32,8 @@ pod 'React', path: '../node_modules/react-native', subspecs: [
   'ART',
 ]
 
+pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     if target.name == "React"
