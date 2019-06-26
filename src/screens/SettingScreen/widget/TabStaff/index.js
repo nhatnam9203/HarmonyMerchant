@@ -10,6 +10,7 @@ class TabStaff extends Layout {
             keySearch: '',
             visibleArchive: false,
             visibleRestore: false,
+            isEditStaff: false,
             filter: {
                 role: '',
                 status: ''
@@ -54,7 +55,10 @@ class TabStaff extends Layout {
         this.props.actions.staff.searchStaffByName(keySearch);
     }
 
-    addStaff = () => {
+    addStaff = async () => {
+        await this.setState({
+            isEditStaff: false
+        })
         this.props.actions.staff.switchAddStaff(true);
     }
 
@@ -65,8 +69,12 @@ class TabStaff extends Layout {
         })
     }
 
-    editStaff(staff) {
-
+    async editStaff(staff) {
+        await this.setState({
+            staffHandle: staff,
+            isEditStaff: true
+        });
+        this.props.actions.staff.switchAddStaff(true);
     }
 
     restoreStaff(staff) {
@@ -76,6 +84,14 @@ class TabStaff extends Layout {
         })
     }
 
+    // ------ ADD EDIT STAFF -----
+    submitAddStaff = (staff) => {
+        this.props.actions.staff.addStaffByMerchant(staff)
+    }
+
+    submitEditStaff = (staff, id) => {
+        this.props.actions.staff.editStaff(staff, id)
+    }
 
 }
 

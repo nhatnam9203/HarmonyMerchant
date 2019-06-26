@@ -173,12 +173,21 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { isAddStaff } = this.props;
-        if (isAddStaff) {
-            return <AddStaff />
-        }
-        return this.renderTableStaff();
-
+        const { isAddStaff,language } = this.props;
+        const {isEditStaff,staffHandle}  = this.state
+        return (
+            <View style={{flex:1}} >
+                {
+                    isAddStaff ? <AddStaff
+                        language={language}
+                        infoStaffHandle={staffHandle}
+                        isEditStaff={isEditStaff}
+                        addStaff={this.submitAddStaff}
+                        editStaff={this.submitEditStaff}
+                    /> : this.renderTableStaff()
+                }
+            </View>
+        );
     }
 
 }

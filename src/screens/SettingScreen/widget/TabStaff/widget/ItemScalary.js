@@ -9,16 +9,17 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 
 import IMAGE from '@resources';
-import {  Button } from '@components';
+import { Button } from '@components';
 import { scaleSzie } from '@utils';
 
-export default class ItemWorkingTime extends React.Component {
+export default class ItemScalary extends React.Component {
 
     constructor(props) {
         super(props);
+        const {dataInit} = this.props;
         this.state = {
-            isCheck: false,
-            value:''
+            isCheck:dataInit.isCheck,
+            value: dataInit.value
         }
     }
 
@@ -30,13 +31,13 @@ export default class ItemWorkingTime extends React.Component {
 
     render() {
         const { title, placeholder } = this.props;
-        const { isCheck ,value} = this.state;
+        const { isCheck, value } = this.state;
         const temptIconCheck = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
             <View style={{
                 flexDirection: 'row',
                 height: scaleSzie(36),
-               paddingHorizontal:scaleSzie(25),
+                paddingHorizontal: scaleSzie(25),
                 marginTop: scaleSzie(14)
             }} >
                 <Button onPress={this.onPress} style={{ width: scaleSzie(30), justifyContent: 'center' }} >
@@ -55,11 +56,11 @@ export default class ItemWorkingTime extends React.Component {
 
                 <View style={[{ width: scaleSzie(150), paddingLeft: scaleSzie(5) }, styles.borderTextInput]} >
                     <TextInputMask
-                    type="only-numbers"
+                        type="only-numbers"
                         style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
                         placeholder={placeholder}
                         value={value}
-                        onChangeText={(value) => this.setState({value})}
+                        onChangeText={(value) => this.setState({ value })}
                     />
                 </View>
             </View>

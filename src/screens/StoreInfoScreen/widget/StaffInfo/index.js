@@ -123,7 +123,7 @@ class StaffInfo extends Layout {
                     professionalLicense: infoStaffHandle.professionalLicense,
                 },
                 staffId: infoStaffHandle.staffId,
-                workingTime: infoStaffHandle.workingTimes,
+                // workingTime: infoStaffHandle.workingTimes,
                 tipFee: infoStaffHandle.tipFees,
                 salary: infoStaffHandle.salaries
             })

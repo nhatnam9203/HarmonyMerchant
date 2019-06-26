@@ -5,25 +5,16 @@ import {
     StyleSheet,
     TextInput,
 } from 'react-native';
-import { TextInputMask } from 'react-native-masked-text'
 
 import {
     Dropdown,
-    Text, ButtonCustom
+    ButtonCustom, Text
 } from '@components';
-import { scaleSzie, localize, Roles, Status } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import { ItemAdminInfo, } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
 
-let data = [{
-    value: 'Banana',
-}, {
-    value: 'Mango',
-}, {
-    value: 'Pear',
-}
-];
 
 class Layout extends React.Component {
 
@@ -35,7 +26,12 @@ class Layout extends React.Component {
         } = this.state.user;
         const { street, city, state } = address;
         const { nameRole } = roles;
-        const { language } = this.props;
+        const { language,isEditStaff,infoStaffHandle } = this.props;
+        
+        const titleButton = this.props.isEditStaff ? 'SAVE' : 'ADD';
+        const temptDataWorkingTime = isEditStaff ? infoStaffHandle.workingTimes : this.state.workingTime;
+        const temptDataTipFee = isEditStaff ? infoStaffHandle.tipFees : this.state.tipFee;
+        const temptDataSalary = isEditStaff ? infoStaffHandle.salaries : this.state.salary;
         return (
             <View style={styles.body} >
                 <ScrollView
@@ -87,7 +83,7 @@ class Layout extends React.Component {
                         }} >
                             <Dropdown
                                 label={localize('State', language)}
-                                data={data}
+                                data={[{ value: '1' }, { value: '2' }]}
                                 value={state}
                                 onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
                                 containerStyle={styles.dropdown}
@@ -96,30 +92,30 @@ class Layout extends React.Component {
                     </ItemAdminInfoDoubleItem>
 
                     <ItemAdminInfo
-                        type={true}
-                        title={`${localize('Cell phone', language)}*`}
+                        title={`${localize('Cell phone', language)} *`}
                         placeholder={localize('Phone number', language)}
                         value={cellphone}
                         onChangeText={(value) => this.updateUserInfo('cellphone', value)}
+                        type={true}
 
                     />
                     <ItemAdminInfo
-                        title={`${localize('Contact email', language)}*`}
-                        placeholder={localize('Email', language)}
+                        title={`${localize('Contact email', language)} *`}
+                        placeholder={localize('Email')}
                         value={email}
                         onChangeText={(value) => this.updateUserInfo('email', value)}
                     />
                     <ItemAdminInfo
-                        type={true}
-                        title={`${localize('Create PIN', language)}*`}
+                        title={`${localize('Create PIN', language)} *`}
                         placeholder="****"
                         value={pin}
                         onChangeText={(value) => this.updateUserInfo('pin', value)}
                         secureTextEntry={true}
                         maxLength={4}
+                        type={true}
                     />
                     <ItemAdminInfo
-                        title={`${localize('Confirm PIN', language)}*`}
+                        title={`${localize('Confirm PIN', language)} *`}
                         placeholder="****"
                         value={confirmPin}
                         onChangeText={(value) => this.updateUserInfo('confirmPin', value)}
@@ -130,14 +126,14 @@ class Layout extends React.Component {
                     <ItemAdminInfoRole
                         DropdowAdmin={() => <Dropdown
                             label={localize('Admin', language)}
-                            data={Roles}
+                            data={[{ value: 'Admin' }, { value: 'Staff' }]}
                             value={nameRole}
                             onChangeText={(value) => this.updateUserInfo('nameRole', value, 'roles')}
                             containerStyle={styles.dropdown}
                         />}
                         DropdowStatusAdmin={() => <Dropdown
                             label={localize('Status', language)}
-                            data={Status}
+                            data={[{ value: 'Active' }, { value: 'Disable' }]}
                             value={status}
                             onChangeText={(value) => this.updateUserInfo('status', value)}
                             containerStyle={styles.dropdown}
@@ -147,14 +143,12 @@ class Layout extends React.Component {
                         title={localize('Working time', language)}
                     />
                     {
-                        ['Monday', 'Tuesday', 'Wednesday', 'Thursday',
-                            'Friday', 'Sarturday', 'Sunday'
-                        ].map((day, index) => {
+                        Object.keys(temptDataWorkingTime).map((day, index) => {
                             return <ItemWorkingTime
-                                ref={this.setRefTimeWorking}
                                 key={index}
                                 ref={this.setRefTimeWorking}
                                 title={day}
+                                dataInit={temptDataWorkingTime[day]}
                             />
                         })
                     }
@@ -164,14 +158,14 @@ class Layout extends React.Component {
                         title={localize('Salary', language)}
                     />
                     {
-                        [{ title: 'Per hour ($)', placeholder: '100' },
-                        { title: 'Commission (%)', placeholder: '10' }
-                        ].map((salary, index) => {
+                        Object.keys(temptDataSalary).map((tip, index) => {
+                            const temptTitle = tip == 'perHour' ? 'Per hour' : 'Commission';
                             return <ItemScalary
                                 key={index}
                                 ref={this.setRefSalary}
-                                title={salary.title}
-                                placeholder={salary.placeholder}
+                                title={`${localize(temptTitle, language)} ($)`}
+                                placeholder={'10'}
+                                dataInit={temptDataSalary[tip]}
                             />
                         })
                     }
@@ -181,14 +175,14 @@ class Layout extends React.Component {
                         title={localize('Tip fee', language)}
                     />
                     {
-                        [{ title: `${localize('Percent', language)} (%)`, placeholder: '100' },
-                        { title: `${localize('Fixed amount', language)} ($)`, placeholder: '10' }
-                        ].map((salary, index) => {
+                        Object.keys(temptDataTipFee).map((tip, index) => {
+                            const temptTitle = tip == 'percent' ? 'Percent' : 'Fixed amount';
                             return <ItemScalary
                                 key={index}
                                 ref={this.setRefTip}
-                                title={salary.title}
-                                placeholder={salary.placeholder}
+                                title={`${localize(temptTitle, language)} ($)`}
+                                placeholder={'10'}
+                                dataInit={temptDataTipFee[tip]}
                             />
                         })
                     }
@@ -224,9 +218,9 @@ class Layout extends React.Component {
                             width={scaleSzie(120)}
                             height={40}
                             backgroundColor="#F1F1F1"
-                            title={localize('ADD', language)}
+                            title={localize(titleButton, language)}
                             textColor="#6A6A6A"
-                            onPress={this.addStaff}
+                            onPress={this.addAdmin}
                             style={{
                                 borderWidth: 1, borderColor: '#C5C5C5',
                                 backgroundColor: '#0764B0'
@@ -239,7 +233,6 @@ class Layout extends React.Component {
             </View>
         );
     }
-
 
     render() {
         return (

@@ -17,9 +17,19 @@ export default class ItemWorkingTime extends React.Component {
         super(props);
         this.state = {
             isCheck: true,
-            timeStart: '08:00 AM',
-            timeEnd: '08:00 PM'
+            timeStart: '',
+            timeEnd: ''
         }
+    }
+
+   async componentDidMount() {
+        const { dataInit } = this.props;
+        console.log('dataInit : '+ JSON.stringify(dataInit));
+      await  this.setState({
+            isCheck: dataInit.isCheck,
+            timeStart: dataInit.timeStart,
+            timeEnd: dataInit.timeEnd
+        })
     }
 
     onPress = () => {
@@ -29,9 +39,10 @@ export default class ItemWorkingTime extends React.Component {
     }
 
     render() {
-        const { title,  } = this.props;
-        const { isCheck ,timeStart, timeEnd} = this.state;
+        const { title, dataInit } = this.props;
+        const { isCheck, timeStart, timeEnd } = this.state;
         const temptIconCheck = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
+        console.log(`${title}-${isCheck}`);
         return (
             <View style={{
                 flexDirection: 'row',

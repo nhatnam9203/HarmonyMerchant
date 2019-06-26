@@ -26,9 +26,12 @@ class Layout extends React.Component {
         } = this.state.user;
         const { street, city, state } = address;
         const { nameRole } = roles;
-        const { language } = this.props;
+        const { language, isEditStaff, infoStaffHandle } = this.props;
 
-        const titleButton = this.props.isEditStaff ? 'SAVE' : 'ADD'
+        const titleButton = this.props.isEditStaff ? 'SAVE' : 'ADD';
+        const temptDataWorkingTime = isEditStaff ? infoStaffHandle.workingTimes : this.state.workingTime;
+        const temptDataTipFee = isEditStaff ? infoStaffHandle.tipFees : this.state.tipFee;
+        const temptDataSalary = isEditStaff ? infoStaffHandle.salaries : this.state.salary;
         return (
             <View style={styles.body} >
                 <ScrollView
@@ -140,12 +143,12 @@ class Layout extends React.Component {
                         title={localize('Working time', language)}
                     />
                     {
-                        Object.keys(this.state.workingTime).map((day, index) => {
+                        Object.keys(temptDataWorkingTime).map((day, index) => {
                             return <ItemWorkingTime
                                 key={index}
                                 ref={this.setRefTimeWorking}
                                 title={day}
-                                dataInit={this.state.workingTime[day]}
+                                dataInit={temptDataWorkingTime[day]}
                             />
                         })
                     }
@@ -155,14 +158,14 @@ class Layout extends React.Component {
                         title={localize('Salary', language)}
                     />
                     {
-                        Object.keys(this.state.salary).map((tip, index) => {
+                        Object.keys(temptDataSalary).map((tip, index) => {
                             const temptTitle = tip == 'perHour' ? 'Per hour' : 'Commission';
                             return <ItemScalary
                                 key={index}
                                 ref={this.setRefSalary}
                                 title={`${localize(temptTitle, language)} ($)`}
                                 placeholder={'10'}
-                                dataInit={this.state.salary[tip]}
+                                dataInit={temptDataSalary[tip]}
                             />
                         })
                     }
@@ -172,14 +175,14 @@ class Layout extends React.Component {
                         title={localize('Tip fee', language)}
                     />
                     {
-                        Object.keys(this.state.tipFee).map((tip, index) => {
+                        Object.keys(temptDataTipFee).map((tip, index) => {
                             const temptTitle = tip == 'percent' ? 'Percent' : 'Fixed amount';
                             return <ItemScalary
                                 key={index}
                                 ref={this.setRefTip}
                                 title={`${localize(temptTitle, language)} ($)`}
                                 placeholder={'10'}
-                                dataInit={this.state.tipFee[tip]}
+                                dataInit={temptDataTipFee[tip]}
                             />
                         })
                     }

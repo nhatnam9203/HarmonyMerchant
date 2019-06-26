@@ -1,7 +1,8 @@
+import React from 'react';
 import { Alert } from 'react-native';
+import _ from 'ramda';
 
 import Layout from './layout';
-import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
 import { validateEmail } from '@utils';
 
@@ -11,25 +12,83 @@ class AddStaff extends Layout {
         super(props);
         this.state = {
             user: {
-                firstName: 'Phi',
-                lastName: 'Nguyen',
-                displayName: 'Phi',
+                firstName: '',
+                lastName: '',
+                displayName: '',
                 address: {
-                    street: '123 ACb',
-                    city: 'NewYork',
-                    state: '1'
+                    street: '',
+                    city: '',
+                    state: ''
                 },
-                cellphone: '23342',
-                email: 'abc@gmail.com',
-                pin: '1234',
-                confirmPin: '1234',
+                cellphone: '',
+                email: '',
+                pin: '',
+                confirmPin: '',
                 status: 'Active',
                 roles: {
                     nameRole: 'Admin',
                 },
-                driverlicense: '1234',
-                socialSecurityNumber: '1234',
-                professionalLicense: '1234',
+                driverlicense: '',
+                socialSecurityNumber: '',
+                professionalLicense: '',
+            },
+            staffId: '',
+            workingTime: {
+                Monday: {
+                    timeStart: "08:00 AM",
+                    timeEnd: "08:00 PM",
+                    isCheck: true
+                },
+                Tuesday: {
+                    timeStart: "08:00 AM",
+                    timeEnd: "08:00 PM",
+                    isCheck: true
+                },
+                Wednesday: {
+                    timeStart: "08:00 AM",
+                    timeEnd: "08:00 PM",
+                    isCheck: true
+                },
+                Thursday: {
+                    timeStart: "08:00 AM",
+                    timeEnd: "08:00 PM",
+                    isCheck: true
+                },
+                Friday: {
+                    timeStart: "08:00 AM",
+                    timeEnd: "08:00 PM",
+                    isCheck: true
+                },
+                Sarturday: {
+                    timeStart: "08:00 AM",
+                    timeEnd: "08:00 PM",
+                    isCheck: true
+                },
+                Sunday: {
+                    timeStart: "08:00 AM",
+                    timeEnd: "08:00 PM",
+                    isCheck: true
+                }
+            },
+            tipFee: {
+                percent: {
+                    value: '',
+                    isCheck: false
+                },
+                fixedAmount: {
+                    value: '',
+                    isCheck: false
+                }
+            },
+            salary: {
+                perHour: {
+                    value: '',
+                    isCheck: false
+                },
+                commission: {
+                    value: '',
+                    isCheck: false
+                }
             }
         }
         // ---- Refs ----
@@ -39,11 +98,44 @@ class AddStaff extends Layout {
 
     }
 
-    setRefTimeWorking = (ref) => {
-        if (ref != null) {
-            this.inputRefsTime.push(ref);
+    async componentDidMount() {
+        if (this.props.isEditStaff) {
+            const { infoStaffHandle } = this.props;
+            // console.log('workingTimes : ' ,infoStaffHandle.workingTimes);
+            await this.setState({
+                user: {
+                    firstName: infoStaffHandle.firstName,
+                    lastName: infoStaffHandle.lastName,
+                    displayName: infoStaffHandle.displayName,
+                    address: {
+                        street: infoStaffHandle.address,
+                        city: infoStaffHandle.city,
+                        state: infoStaffHandle.stateId,
+                    },
+                    cellphone: infoStaffHandle.phone,
+                    email: infoStaffHandle.email,
+                    pin: infoStaffHandle.pin,
+                    confirmPin: infoStaffHandle.pin,
+                    status: infoStaffHandle.isDisabled === 0 ? 'Active' : 'Disable',
+                    roles: {
+                        nameRole: 'Admin',
+                    },
+                    driverlicense: infoStaffHandle.driverLicense,
+                    socialSecurityNumber: '',
+                    professionalLicense: infoStaffHandle.professionalLicense,
+                },
+                staffId: infoStaffHandle.staffId,
+            })
         }
 
+    }
+
+    setStaffInfoFromParent = staff => {
+        console.log('setStaffInfoFromParent : ', staff);
+    }
+
+    setRefTimeWorking = (ref) => {
+        this.inputRefsTime.push(ref);
     };
 
     setRefSalary = (ref) => {
@@ -54,29 +146,7 @@ class AddStaff extends Layout {
         this.inputRefsTip.push(ref);
     };
 
-    updateUserInfo(key, value, keyParent = '') {
-        const { user } = this.state;
-        if (keyParent !== '') {
-            const temptParent = user[keyParent];
-            const temptChild = { ...temptParent, [key]: value };
-            const temptUpdate = { ...user, [keyParent]: temptChild };
-            this.setState({
-                user: temptUpdate
-            })
-        } else {
-            const temptUpdate = { ...user, [key]: value };
-            this.setState({
-                user: temptUpdate
-            })
-        }
-    }
-
-    addStaff1 = () => {
-        const { profile } = this.props;
-        console.log(profile);
-    }
-
-    addStaff = () => {
+    addAdmin = () => {
         const { user } = this.state;
         const arrayKey = Object.keys(user);
         let keyError = '';
@@ -106,7 +176,7 @@ class AddStaff extends Layout {
                     keyError = 'emailInvalid';
                     break;
                 }
-            } else {
+            } else if (arrayKey[i] != 'driverlicense' && arrayKey[i] != 'socialSecurityNumber' && arrayKey[i] != 'professionalLicense') {
                 if (user[arrayKey[i]] === '') {
                     keyError = arrayKey[i];
                     break;
@@ -148,8 +218,7 @@ class AddStaff extends Layout {
                         isCheck: ref.state.isCheck
                     }
                 }
-            })
-            const { profile } = this.props;
+            });
             const temptStaff = {
                 ...user,
                 status: (user.status === 'Active' ? true : false),
@@ -157,15 +226,19 @@ class AddStaff extends Layout {
                 salary: objSalary,
                 tipFee: objTipFee,
             };
-            // console.log('temptStaff  : ' + JSON.stringify(temptStaff));
-            this.props.actions.staff.addStaffByMerchant(temptStaff, profile.merchantId)
+            if (this.props.isEditStaff) {
+                this.props.editStaff(temptStaff, this.state.staffId)
+            } else {
+                this.props.addStaff(temptStaff);
+            }
         }
     }
 
     convertKeyToName(key) {
+        console.log('key : ', key);
         let name = '';
         switch (key) {
-            case 'Percent (%)':
+            case 'Percent ($)':
                 name = 'percent';
                 break;
             case 'Fixed amount ($)':
@@ -183,21 +256,25 @@ class AddStaff extends Layout {
         return name;
     }
 
-    componentWillUnmount() {
-        this.inputRefsTime = [];
-        this.inputRefsSalary = [];
-        this.inputRefsTip = [];
+
+    updateUserInfo(key, value, keyParent = '') {
+        const { user } = this.state;
+        if (keyParent !== '') {
+            const temptParent = user[keyParent];
+            const temptChild = { ...temptParent, [key]: value };
+            const temptUpdate = { ...user, [keyParent]: temptChild };
+            this.setState({
+                user: temptUpdate
+            })
+        } else {
+            const temptUpdate = { ...user, [key]: value };
+            this.setState({
+                user: temptUpdate
+            })
+        }
     }
 
 
 }
 
-const mapStateToProps = state => ({
-    language: state.dataLocal.language,
-    profile: state.dataLocal.profile,
-
-})
-
-
-
-export default connectRedux(mapStateToProps, AddStaff);
+export default AddStaff;

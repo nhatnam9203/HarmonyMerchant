@@ -6,13 +6,12 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 
 import {
-    Text
+     Text
 } from '@components';
 import { scaleSzie } from '@utils';
 
-const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntry, type,
-maxLength
-}) => {
+const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntry , type,
+    maxLength}) => {
     return (
         <View style={{
             flexDirection: 'row',
@@ -32,7 +31,7 @@ maxLength
             </View>
 
             <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingLeft: scaleSzie(5) }} >
-                {
+            {
                     type ? <TextInputMask
                         type="only-numbers"
                         style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
@@ -50,7 +49,6 @@ maxLength
                             maxLength={maxLength ? maxLength : null}
                         />
                 }
-
             </View>
         </View>
     );

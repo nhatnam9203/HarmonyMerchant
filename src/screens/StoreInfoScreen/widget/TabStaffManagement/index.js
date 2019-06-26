@@ -35,7 +35,6 @@ class TabStaffManagement extends Layout {
 
     submitEditStaff =(staff,id) =>{
         this.props.actions.staff.editStaff(staff,id)
-        // console.log(`Staff: ${staff}- id : ${id}`);
     }
 
     addNewStaff = () => {
@@ -71,10 +70,6 @@ class TabStaffManagement extends Layout {
             isEditStaff:true
             });
         this.props.actions.staff.switchAddStaff(true);
-        // this.staffInfoRef.current.setStaffInfoFromParent(staff);
-        // this.inputRefsStaff = [];
-
-        // console.log('staff : ',staff);
     }
 
     archirveStaffYess() {
@@ -87,14 +82,7 @@ class TabStaffManagement extends Layout {
 
     restoreStaffYess() {
         const { infoStaffHandle } = this.state;
-        // for (let i = 0; i < this.inputRefsStaff.length; i++) {
-        //     if (this.inputRefsStaff[i].props.staff.id === infoStaffHandle.id) {
-        //         this.inputRefsStaff[i].handleRestoreStaff();
-        //         break;
-        //     }
-        // }
         this.props.actions.staff.restoreStaff(infoStaffHandle.staffId);
-        console.log('infoStaffHandle : ', infoStaffHandle);
         this.setState({
             visibleRestore: false
         })
