@@ -21,6 +21,7 @@ class TabAppointment extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
+    
 })
 
 

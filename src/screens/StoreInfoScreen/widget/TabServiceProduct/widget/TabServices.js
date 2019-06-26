@@ -98,7 +98,7 @@ class TabServices extends React.Component {
     getCateroryName(id) {
         const { categoriesByMerchant } = this.props;
         let name = '';
-        for (let i = 0; i < categoriesByMerchant.length - 1; i++) {
+        for (let i = 0; i <= categoriesByMerchant.length - 1; i++) {
             if (categoriesByMerchant[i].categoryId == id) {
                 name = categoriesByMerchant[i].name;
                 break;
