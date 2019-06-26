@@ -163,6 +163,7 @@ const localization = {
         'Phone number':'Phone number',
         'Add New':'Add New',
         'Customer list':'Customer list',
+        'Referrer Phone Number':'Referrer Phone Number',
     },
     'vi': {
         'MARKETING': 'Uu dai',

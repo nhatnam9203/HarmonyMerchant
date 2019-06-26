@@ -50,9 +50,9 @@ class PopupParent extends React.Component {
                         </View>
                     </View>
                     {/* ----- Body --- */}
-                    <View>
+                    {/* <View style={{flex:1,backgroundColor:'red'}} > */}
                         {this.props.children}
-                    </View>
+                    {/* </View> */}
                 </View>
 
             </ModalCustom>

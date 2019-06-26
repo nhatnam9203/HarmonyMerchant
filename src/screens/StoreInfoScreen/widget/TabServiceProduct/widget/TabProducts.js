@@ -186,7 +186,6 @@ class TabProducts extends React.Component {
                     titleButton="Save"
                     isSave={true}
                     onRequestClose={() => this.setState({ visibleEdit: false })}
-                    // confimYes={() => this.setState({ visibleEdit: false })}
                     editProduct={this.editProduct}
                     categoriesByMerchant={this.props.categoriesByMerchant}
                 />

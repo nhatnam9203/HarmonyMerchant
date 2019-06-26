@@ -27,6 +27,7 @@ export default {
     search:require('./img/search.png'),
     export : require('./img/export.png'),
     dropdown:require('./img/dropdown.png'),
+    arrowNote:require('./img/enter.png'),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),

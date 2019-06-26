@@ -10,7 +10,9 @@ import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom } from '@c
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { HeaderTableCustomer, RowTableCustomer, RowEmptyTableCustomer } from './widget';
+import { HeaderTableCustomer, RowTableCustomer, RowEmptyTableCustomer,
+    PopupAddEditCustomer
+} from './widget';
 
 export default class Layout extends React.Component {
 
@@ -143,6 +145,12 @@ export default class Layout extends React.Component {
                         <Image source={IMAGE.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
                     </Button>
                 </View>
+                <PopupAddEditCustomer 
+                    language={language}
+                 visible={true}
+                 title="New Customer"
+                 titleButton="Save"
+                />
             </ParentContainer>
         );
     }
