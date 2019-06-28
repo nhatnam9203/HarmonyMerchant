@@ -6,35 +6,77 @@ class BusinessInfoScreen extends Layout {
     constructor(props) {
         super(props);
         this.state = {
+            initQuestion: false,
             businessInfo: {
                 question1: {
                     isAccept: false,
                     desc: '',
-                    question:'question1'
+                    question: 'question1'
                 },
                 question2: {
                     isAccept: false,
                     desc: '',
-                    question:'question2'
+                    question: 'question2'
                 },
                 question3: {
                     isAccept: false,
                     desc: '',
-                    question:'question3'
+                    question: 'question3'
                 },
                 question4: {
                     isAccept: false,
                     desc: '',
-                    question:'question4'
+                    question: 'question4'
                 },
                 question5: {
                     isAccept: false,
                     desc: '',
-                    question:'question5'
+                    question: 'question5'
                 },
             }
         }
+    }
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.question.length > 0 && !prevState.initQuestion) {
+            console.log(nextProps.question);
+            const { question } = nextProps
+            return {
+                initQuestion: true,
+                businessInfo: {
+                    question1: {
+                        isAccept: false,
+                        desc: '',
+                        question: question[0].value
+                    },
+                    question2: {
+                        isAccept: false,
+                        desc: '',
+                        question: question[1].value
+                    },
+                    question3: {
+                        isAccept: false,
+                        desc: '',
+                        question: question[2].value
+                    },
+                    question4: {
+                        isAccept: false,
+                        desc: '',
+                        question: question[3].value
+                    },
+                    question5: {
+                        isAccept: false,
+                        desc: '',
+                        question: question[4].value
+                    },
+                }
+            }
+        }
+        return null
+    }
+
+    componentDidMount() {
+        this.props.actions.app.getQuestion();
     }
 
     updateBusinessInfo(key, value, keyParent = '') {
@@ -75,11 +117,15 @@ class BusinessInfoScreen extends Layout {
     }
 
 
+
+
 }
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
-    language: state.dataLocal.language
+    language: state.dataLocal.language,
+    question: state.app.question,
+    loading: state.app.loading
 })
 
 
