@@ -51,7 +51,7 @@ class PopupAddEditProduct extends React.Component {
     }
 
     setProductInfoFromParent = (productInfo) => {
-        console.log('setProductInfoFromParent : ',productInfo);
+        // console.log('setProductInfoFromParent : ',productInfo);
         this.setState({
             productInfo: {
                 productId: productInfo.productId,

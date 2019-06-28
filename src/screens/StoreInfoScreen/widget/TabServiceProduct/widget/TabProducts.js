@@ -115,7 +115,7 @@ class TabProducts extends React.Component {
                 break;
             }
         }
-        console.log(`name:${name}-id:${id}`);
+        // console.log(`name:${name}-id:${id}`);
         return name;
     }
 

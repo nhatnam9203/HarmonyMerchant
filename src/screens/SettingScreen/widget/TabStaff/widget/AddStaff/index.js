@@ -101,7 +101,6 @@ class AddStaff extends Layout {
     async componentDidMount() {
         if (this.props.isEditStaff) {
             const { infoStaffHandle } = this.props;
-            // console.log('workingTimes : ' ,infoStaffHandle.workingTimes);
             await this.setState({
                 user: {
                     firstName: infoStaffHandle.firstName,
@@ -131,7 +130,7 @@ class AddStaff extends Layout {
     }
 
     setStaffInfoFromParent = staff => {
-        console.log('setStaffInfoFromParent : ', staff);
+        // console.log('setStaffInfoFromParent : ', staff);
     }
 
     setRefTimeWorking = (ref) => {
@@ -235,7 +234,6 @@ class AddStaff extends Layout {
     }
 
     convertKeyToName(key) {
-        console.log('key : ', key);
         let name = '';
         switch (key) {
             case 'Percent ($)':

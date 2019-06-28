@@ -132,7 +132,7 @@ class StaffInfo extends Layout {
     }
 
     setStaffInfoFromParent = staff => {
-        console.log('setStaffInfoFromParent : ', staff);
+        // console.log('setStaffInfoFromParent : ', staff);
     }
 
     setRefTimeWorking = (ref) => {
@@ -236,7 +236,7 @@ class StaffInfo extends Layout {
     }
 
     convertKeyToName(key) {
-        console.log('key : ', key);
+        // console.log('key : ', key);
         let name = '';
         switch (key) {
             case 'Percent ($)':

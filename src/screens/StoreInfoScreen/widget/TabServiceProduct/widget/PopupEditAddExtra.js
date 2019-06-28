@@ -43,7 +43,7 @@ class PopupEditAddExtra extends React.Component {
     }
 
     setExtraFromParent = (extra) => {
-        console.log('setExtraFromParent : ', extra);
+        // console.log('setExtraFromParent : ', extra);
         this.setState({
             extraInfo: { ...extra, isDisable: extra.isDisabled === 0 ? 'Active' : 'Disable' }
         })
@@ -75,7 +75,6 @@ class PopupEditAddExtra extends React.Component {
         const arrayKey = Object.keys(temptExtraInfo);
         let keyError = "";
         for (let i = 0; i <= arrayKey.length - 1; i++) {
-            console.log('arrayKey[i] : ' + arrayKey[i]);
             if (temptExtraInfo[arrayKey[i]] === '') {
                 keyError = arrayKey[i];
                 break;
@@ -92,7 +91,6 @@ class PopupEditAddExtra extends React.Component {
             }
 
         }
-
     }
 
     render() {

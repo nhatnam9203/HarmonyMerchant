@@ -88,7 +88,7 @@ class TabCategories extends React.Component {
     addCategory = async (category) => {
         const { profile } = this.props
         const temptCategory = { ...category, merchantid: profile.merchantId }
-        console.log(temptCategory);
+        // console.log(temptCategory);
         await this.setState({
             visibleAdd: false
         });

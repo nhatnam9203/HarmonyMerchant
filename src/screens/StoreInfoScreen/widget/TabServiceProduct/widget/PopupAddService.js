@@ -152,9 +152,9 @@ class PopupAddService extends React.Component {
                 const dataServiceAdd = { ...temptServiceInfo, extras: arrayExtra };
                 this.arrayExtraRef = [];
                 if (this.props.isSave) {
-                    this.props.editService(dataServiceAdd);
+                    this.props.editService({...dataServiceAdd,status:dataServiceAdd.status === 'Active' ? 0 : 1});
                 } else {
-                    this.props.doneAddService(dataServiceAdd);
+                    this.props.doneAddService({...dataServiceAdd,status:dataServiceAdd.status === 'Active' ? 0 : 1});
                 }
 
             } else {
