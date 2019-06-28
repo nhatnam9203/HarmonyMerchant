@@ -28,7 +28,7 @@ class PopupAddEditProduct extends React.Component {
                 minThreshold: '',
                 maxThreshold: '',
                 price: '',
-                status: 'Active',
+                isDisabled: 'Active',
             }
         }
     }
@@ -51,7 +51,6 @@ class PopupAddEditProduct extends React.Component {
     }
 
     setProductInfoFromParent = (productInfo) => {
-        // console.log('setProductInfoFromParent : ',productInfo);
         this.setState({
             productInfo: {
                 productId: productInfo.productId,
@@ -63,7 +62,7 @@ class PopupAddEditProduct extends React.Component {
                 minThreshold: productInfo.minThreshold ? productInfo.minThreshold : '',
                 maxThreshold: productInfo.maxThreshold ? productInfo.maxThreshold : '',
                 price: productInfo.price ? productInfo.price : '',
-                status: productInfo.isDisabled === 0 ? 'Active' : 'Disable'
+                isDisabled: productInfo.isDisabled === 0 ? 'Active' : 'Disable'
             }
         })
     }
@@ -79,7 +78,7 @@ class PopupAddEditProduct extends React.Component {
                 minThreshold: '',
                 maxThreshold: '',
                 price: '',
-                status: 'Active',
+                isDisabled: 'Active',
             }
         })
     }
@@ -100,7 +99,6 @@ class PopupAddEditProduct extends React.Component {
         const { productInfo } = this.state;
         const temptProductInfo = {
             ...productInfo,
-            status: productInfo.status === 'Active' ? 1 : 0,
             categoryId: productInfo.categoryId !== '' ? this.getCateroryId(productInfo.categoryId) : ''
         }
         const arrayKey = Object.keys(temptProductInfo);
@@ -115,7 +113,7 @@ class PopupAddEditProduct extends React.Component {
             Alert.alert(`${strings[keyError]}`);
         } else {
             if (this.props.isSave) {
-                this.props.editProduct(temptProductInfo);
+                this.props.editProduct({...temptProductInfo,isDisabled:productInfo.isDisabled === 'Active' ? 0 : 1, });
             } else {
                 this.props.confimYes(temptProductInfo);
             }
@@ -147,7 +145,7 @@ class PopupAddEditProduct extends React.Component {
         const temptHeight = width - scaleSzie(500);
         const temptTitleButton = isSave ? 'Save' : 'Done';
         const { categoryId, name, description, sku, quantity, minThreshold,
-            maxThreshold, price, status
+            maxThreshold, price, isDisabled
         } = this.state.productInfo
         return (
             <PopupParent
@@ -329,8 +327,8 @@ class PopupAddEditProduct extends React.Component {
                                             <Dropdown
                                                 label='Active'
                                                 data={[{ value: 'Active' }, { value: 'Disable' }]}
-                                                value={status}
-                                                onChangeText={(value) => this.updateProductInfo('status', value)}
+                                                value={isDisabled}
+                                                onChangeText={(value) => this.updateProductInfo('isDisabled', value)}
                                                 containerStyle={{
                                                     backgroundColor: '#F1F1F1',
                                                     borderWidth: 1,
