@@ -23,7 +23,7 @@ class StaffInfo extends Layout {
                 email: '',
                 pin: '',
                 confirmPin: '',
-                status: 'Active',
+                isDisabled: 'Active',
                 roles: {
                     nameRole: 'Admin',
                 },
@@ -114,12 +114,12 @@ class StaffInfo extends Layout {
                     email: infoStaffHandle.email,
                     pin: infoStaffHandle.pin,
                     confirmPin: infoStaffHandle.pin,
-                    status: infoStaffHandle.isDisabled === 0 ? 'Active' : 'Disable',
+                    isDisabled: infoStaffHandle.isDisabled === 0 ? 'Active' : 'Disable',
                     roles: {
                         nameRole: 'Admin',
                     },
                     driverlicense: infoStaffHandle.driverLicense,
-                    socialSecurityNumber: '',
+                    socialSecurityNumber: infoStaffHandle.ssn,
                     professionalLicense: infoStaffHandle.professionalLicense,
                 },
                 staffId: infoStaffHandle.staffId,
@@ -222,7 +222,7 @@ class StaffInfo extends Layout {
             });
             const temptStaff = {
                 ...user,
-                status: (user.status === 'Active' ? true : false),
+                isDisabled: (user.isDisabled === 'Active' ? 0 : 1),
                 workingTime: objWorkingTime,
                 salary: objSalary,
                 tipFee: objTipFee,

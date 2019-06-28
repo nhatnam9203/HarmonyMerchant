@@ -29,7 +29,7 @@ class PopupAddService extends React.Component {
                 openTime: '',
                 secondTime: '',
                 price: '',
-                status: 'Active',
+                isDisabled: 'Active',
             },
             arrayExtra: []
         }
@@ -50,7 +50,7 @@ class PopupAddService extends React.Component {
                 openTime: service.openTime,
                 secondTime: service.secondTime,
                 price: service.price,
-                status: service.isDisabled === 0 ? 'Active' : 'Disable',
+                isDisabled: service.isDisabled === 0 ? 'Active' : 'Disable',
             },
             arrayExtra: service.extras.length > 0 ? service.extras : []
         });
@@ -78,7 +78,7 @@ class PopupAddService extends React.Component {
                 openTime: '',
                 secondTime: '',
                 price: '',
-                status: 'Active',
+                isDisabled: 'Active',
             },
             arrayExtra: []
         })
@@ -152,9 +152,9 @@ class PopupAddService extends React.Component {
                 const dataServiceAdd = { ...temptServiceInfo, extras: arrayExtra };
                 this.arrayExtraRef = [];
                 if (this.props.isSave) {
-                    this.props.editService({...dataServiceAdd,status:dataServiceAdd.status === 'Active' ? 0 : 1});
+                    this.props.editService({...dataServiceAdd,isDisabled:dataServiceAdd.isDisabled === 'Active' ? 0 : 1});
                 } else {
-                    this.props.doneAddService({...dataServiceAdd,status:dataServiceAdd.status === 'Active' ? 0 : 1});
+                    this.props.doneAddService({...dataServiceAdd,isDisabled:dataServiceAdd.isDisabled === 'Active' ? 0 : 1});
                 }
 
             } else {
@@ -183,7 +183,7 @@ class PopupAddService extends React.Component {
             description: "",
             duration: '',
             price: '',
-            status: 'Active'
+            isDisabled: 'Active'
         });
         this.setState({
             arrayExtra: temptArrayExtra
@@ -196,7 +196,7 @@ class PopupAddService extends React.Component {
         const { title, visible, onRequestClose, doneAddService, isSave,
             categoriesByMerchant
         } = this.props;
-        const { categoryId, name, duration, description, price, status
+        const { categoryId, name, duration, description, price, isDisabled
         } = this.state.serviceInfo;
         const temptHeight = width - scaleSzie(500);
         const temptTitleButton = isSave ? 'Save' : 'Done';
@@ -312,8 +312,8 @@ class PopupAddService extends React.Component {
                                         <Dropdown
                                             label='Active'
                                             data={[{ value: 'Active' }, { value: 'Disable' }]}
-                                            value={status}
-                                            onChangeText={(value) => this.updateServiceInfo('status', value)}
+                                            value={isDisabled}
+                                            onChangeText={(value) => this.updateServiceInfo('isDisabled', value)}
                                             containerStyle={{
                                                 backgroundColor: '#F1F1F1',
                                                 borderWidth: 1,
@@ -387,7 +387,7 @@ class ItemExtra extends React.Component {
                 description: extraInfo.description,
                 duration: extraInfo.duration,
                 price: extraInfo.price,
-                status: extraInfo.isDisabled === 0 ? 'Active' : 'Disable'
+                isDisabled: extraInfo.isDisabled === 0 ? 'Active' : 'Disable'
             }
         }
         this.durationRef = React.createRef();
@@ -399,7 +399,6 @@ class ItemExtra extends React.Component {
         const temptExtra = {
             ...extraInfo,
             duration: duration,
-            // status: extraInfo.status == 'Active' ? 1 : 0
         }
 
         const arrayKey = Object.keys(temptExtra);
@@ -442,7 +441,7 @@ class ItemExtra extends React.Component {
     }
 
     render() {
-        const { name, description, duration, price, status } = this.state.extraInfo;
+        const { name, description, duration, price, isDisabled } = this.state.extraInfo;
         return (
             <View>
                 <View style={{ height: 3, backgroundColor: '#0764B0', marginTop: scaleSzie(8), marginBottom: scaleSzie(20) }} />
@@ -514,8 +513,8 @@ class ItemExtra extends React.Component {
                             <Dropdown
                                 label='Active'
                                 data={[{ value: 'Active' }, { value: 'Disable' }]}
-                                value={status}
-                                onChangeText={(value) => this.updateExtraInfo('status', value)}
+                                value={isDisabled}
+                                onChangeText={(value) => this.updateExtraInfo('isDisabled', value)}
                                 containerStyle={{
                                     backgroundColor: '#F1F1F1',
                                     borderWidth: 1,

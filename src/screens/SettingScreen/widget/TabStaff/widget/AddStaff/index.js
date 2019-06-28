@@ -120,7 +120,7 @@ class AddStaff extends Layout {
                         nameRole: 'Admin',
                     },
                     driverlicense: infoStaffHandle.driverLicense,
-                    socialSecurityNumber: '',
+                    socialSecurityNumber: infoStaffHandle.ssn,
                     professionalLicense: infoStaffHandle.professionalLicense,
                 },
                 staffId: infoStaffHandle.staffId,
