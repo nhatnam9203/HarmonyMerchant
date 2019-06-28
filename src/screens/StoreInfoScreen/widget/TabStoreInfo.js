@@ -13,7 +13,7 @@ class TabAdminInfo extends React.Component {
 
     renderBody() {
         const { profile, language } = this.props;
-        const { businessName, address, cityId, stateId, zip, taxId, phone, email,
+        const { businessName, address, city, stateId, zip, taxId, phone, email,
             bankName, accountNumber, routingNumber, ein
         } = profile;
         return (
@@ -24,7 +24,7 @@ class TabAdminInfo extends React.Component {
                         value={businessName}
                     />
                     <ItemTextStoreInfoNotTilte
-                        city={cityId}
+                        city={city}
                         state={stateId}
                         zipcode={zip}
                     />

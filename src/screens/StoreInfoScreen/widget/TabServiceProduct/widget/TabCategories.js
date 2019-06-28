@@ -27,6 +27,7 @@ class TabCategories extends React.Component {
 
         this.inputRefCategory = [];
         this.refAddCategory = React.createRef();
+        this.refEditCategory = React.createRef();
     }
 
     componentDidMount() {
@@ -71,12 +72,6 @@ class TabCategories extends React.Component {
 
     restoreStaffYess() {
         const { categoryInfoHandle } = this.state;
-        // for (let i = 0; i < this.inputRefCategory.length; i++) {
-        //     if (this.inputRefCategory[i].props.category.categoryId === categoryInfoHandle.categoryId) {
-        //         this.inputRefCategory[i].handleRestoreStaff();
-        //         break;
-        //     }
-        // }
         this.props.actions.category.restoreCategory(categoryInfoHandle.categoryId);
         this.setState({
             visibleRestore: false
@@ -84,7 +79,7 @@ class TabCategories extends React.Component {
     }
 
     async editService(category) {
-        this.refAddCategory.current.setCategoryFromParent(category);
+        this.refEditCategory.current.setCategoryFromParent(category);
         this.setState({
             visibleEdit: true
         })
@@ -148,7 +143,10 @@ class TabCategories extends React.Component {
             <View style={styles.container} >
                 {this.renderTable()}
                 <FooterTab
-                    addNew={() => this.setState({ visibleAdd: true })}
+                    addNew={() => {
+                        this.refAddCategory.current.setStateDefaultFromParent();
+                        this.setState({ visibleAdd: true });
+                    }}
                     backTab={() => this.props.backTab()}
                     nextTab={() => this.props.nextTab()}
                 />
@@ -167,6 +165,7 @@ class TabCategories extends React.Component {
                     confimYes={() => this.restoreStaffYess()}
                 />
                 <PopupEditAddCategories
+                    ref={this.refAddCategory}
                     visible={visibleAdd}
                     title="Add Category"
                     titleButton="Add"
@@ -174,7 +173,7 @@ class TabCategories extends React.Component {
                     confimYes={this.addCategory}
                 />
                 <PopupEditAddCategories
-                    ref={this.refAddCategory}
+                    ref={this.refEditCategory}
                     visible={visibleEdit}
                     title="Edit Category"
                     titleButton="Save"
