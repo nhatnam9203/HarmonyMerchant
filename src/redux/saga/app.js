@@ -34,11 +34,43 @@ function* registerUser(action) {
     }
 }
 
+function* getStateCity(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log('--- responses : ', responses);
+        yield put({
+            type: 'GET_STATE_CITY_SUCCESS',
+            payload: responses.data
+
+        });
+    } catch (error) {
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+function* getQuestion(action) {
+    try {
+        // yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log('--- responses : ', responses);
+        yield put({
+            type: 'GET_QUESTION_SUCCESS',
+            payload: responses.data
+
+        });
+    } catch (error) {
+    } finally {
+        // yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
 
 export default function* saga() {
     yield all([
         takeLatest('GET_MERCHANT_BY_ID', getMerchantByID),
         takeLatest('REGISTER_USER', registerUser),
-
+        takeLatest('GET_STATE_CITY', getStateCity),
+        takeLatest('GET_QUESTION', getQuestion)
     ])
 }

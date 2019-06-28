@@ -12,9 +12,6 @@ import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent, Dropdown } from '@components';
 import { scaleSzie } from '@utils';
-import connectRedux from '@redux/ConnectRedux';
-
-const { width } = Dimensions.get('window');
 
 class PopupEditAddExtra extends React.Component {
 
@@ -89,9 +86,9 @@ class PopupEditAddExtra extends React.Component {
             Alert.alert(`${strings[keyError]}`);
         } else {
             if (this.props.isEdit) {
-                this.props.editExtra({ ...temptExtraInfo, status: temptExtraInfo.isDisable });
+                this.props.editExtra({ ...temptExtraInfo, isDisabled: temptExtraInfo.isDisable });
             } else {
-                this.props.doneAddExtra({ ...temptExtraInfo, status: temptExtraInfo.isDisable });
+                this.props.doneAddExtra({ ...temptExtraInfo, isDisabled: temptExtraInfo.isDisable });
             }
 
         }

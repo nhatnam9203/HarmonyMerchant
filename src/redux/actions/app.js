@@ -1,15 +1,15 @@
 import apiConfigs from '../../configs/api';
 
 // ---- Loading ----
-export function loadingApp(){
+export function loadingApp() {
     return {
-        type:'LOADING_ROOT',
+        type: 'LOADING_ROOT',
     }
 }
 
-export function stopLoadingApp(){
+export function stopLoadingApp() {
     return {
-        type:'STOP_LOADING_ROOT',
+        type: 'STOP_LOADING_ROOT',
     }
 }
 
@@ -63,5 +63,21 @@ export function handleLockScreen(visible) {
     return {
         type: 'HANDLE_LOCK_SCREEN',
         payload: visible
+    }
+}
+
+export function getStateCity() {
+    return {
+        type: 'GET_STATE_CITY',
+        method: 'GET',
+        api: `${apiConfigs.BASE_API}state`
+    }
+}
+
+export function getQuestion() {
+    return {
+        type: 'GET_QUESTION',
+        method: 'GET',
+        api: `${apiConfigs.BASE_API}question`
     }
 }
