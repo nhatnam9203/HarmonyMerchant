@@ -30,7 +30,6 @@ export const scaleSzie = size => {
 }
 
 export const requestAPI = async (action, headers = {}) => {
-
     let method = action.method || 'GET';
     let request = {
         method: method,
@@ -41,9 +40,6 @@ export const requestAPI = async (action, headers = {}) => {
     };
     if (action.token) {
         request.headers['Authorization'] = "Bearer " + action.token;
-    }
-    if (action.email) {
-        request.headers['email'] = action.email;
     }
     if ((method == "POST" || method == "DELETE" || method == "PUT") && action.body) {
         request['body'] = JSON.stringify(action.body);
@@ -57,6 +53,50 @@ export const requestAPI = async (action, headers = {}) => {
     const data = await response.json();
     return { ...data, statusCode: response.status };
 }
+
+export const uploadFromData = async (action, headers = {}) => {
+    let method = action.method || 'GET';
+    let request = {
+        method: method,
+        headers: Object.assign({
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }, headers)
+    };
+    if (action.token) {
+        request.headers['Authorization'] = "Bearer " + action.token;
+    }
+    if (
+        (method == "POST" || method == "DELETE" || method == "PUT") &&
+        action.body
+    ) {
+        request["body"] = this.createFormData(action.media, action.body);
+    }
+    try {
+        let response = await fetch(action.api, request);
+        return await response.json();
+    } catch (error) {
+        // console.log("error uploadMultiImage : ", error);
+    }
+};
+
+createFormData = (media, body) => {
+    const data = new FormData();
+    for (let i = 0; i < media.length; i++) {
+        data.append("files[]", {
+            uri:
+                Platform.OS === "android"
+                    ? media[i].uri
+                    : media[i].uri.replace("file://", ""),
+            name: media[i].fileName ? media[i].fileName : "phi.jpg",
+            type: media[i].type ? media[i].type : "image/jpeg"
+        });
+    }
+    Object.keys(body).forEach(key => {
+        data.append(key, body[key]);
+    });
+    return data;
+};
 
 export const isIphoneX = () => {
     const { height, width } = Dimensions.get('window');
@@ -89,7 +129,6 @@ export const localize = (value, lang = 'en') => {
 };
 
 export const getCategoryName = (categories, id) => {
-    console.log(`categories--- :${categories} :${id}`);
     let name = '';
     for (let i = 0; i < categories.length - 1; i++) {
         if (categories[i].categoryId == id) {
