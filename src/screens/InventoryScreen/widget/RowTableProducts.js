@@ -45,7 +45,7 @@ class RowTableProducts extends React.Component {
     }
 
     render() {
-        const { product, index, archiveService, editService, restoreService } = this.props;
+        const { product,nameCategory } = this.props;
         const { isCheck } = this.state;
         const temptIconCheckbox = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
@@ -91,7 +91,7 @@ class RowTableProducts extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            {product.price}
+                            {nameCategory}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >

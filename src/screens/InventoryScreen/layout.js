@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom } from '@components';
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize ,getCategoryName} from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import { HeaderTableProducts, RowTableProducts, RowEmptyTableProducts } from './widget';
@@ -150,7 +150,7 @@ export default class Layout extends React.Component {
     }
 
     renderTable() {
-        const { productsByMerchantId } = this.props;
+        const { productsByMerchantId ,categoriesByMerchant} = this.props;
         return (
             <View style={{ flex: 1, paddingTop: scaleSzie(20) }} >
                 <HeaderTableProducts />
@@ -161,6 +161,7 @@ export default class Layout extends React.Component {
                         key={index}
                         product={item}
                         unSelectAll={this.unSelectAll}
+                        nameCategory={getCategoryName(categoriesByMerchant,item.categoryId)}
                     />}
                     keyExtractor={(item, index) => `${item.productId}`}
                     ListEmptyComponent={<RowEmptyTableProducts />}

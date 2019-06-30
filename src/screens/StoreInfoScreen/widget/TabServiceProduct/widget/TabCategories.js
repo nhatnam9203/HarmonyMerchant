@@ -116,7 +116,6 @@ class TabCategories extends React.Component {
                 <View style={{ flex: 1 }} >
                     <FlatList
                         data={categoriesByMerchant}
-                        // data={FakeData}
                         renderItem={({ item, index }) => <RowTableCategories
                             ref={this.setRefCategory}
                             key={index}
@@ -137,7 +136,6 @@ class TabCategories extends React.Component {
 
     render() {
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit,
-            categoryInfoHandle
         } = this.state;
         return (
             <View style={styles.container} >

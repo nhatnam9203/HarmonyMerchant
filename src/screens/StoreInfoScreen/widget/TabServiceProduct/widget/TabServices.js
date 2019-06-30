@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { FooterTab, PopupConfirm } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie, getCategoryName } from '@utils';
 import HeaderTableServices from './HeaderTableServices';
 import RowTableServices from './RowTableServices';
 import PopupAddService from './PopupAddService';
@@ -84,36 +84,24 @@ class TabServices extends React.Component {
     }
 
     async showModalEditService(service) {
-       this.editServiceRef.current.setServiceFromParent(service);
+        this.editServiceRef.current.setServiceFromParent(service);
         this.setState({
             visibleEdit: true
         })
     }
 
-    editService = service =>{
-        this.props.actions.service.editService(service,service.serviceId);
+    editService = service => {
+        this.props.actions.service.editService(service, service.serviceId);
         this.setState({ visibleEdit: false })
-    }
-
-    getCateroryName(id) {
-        const { categoriesByMerchant } = this.props;
-        let name = '';
-        for (let i = 0; i <= categoriesByMerchant.length - 1; i++) {
-            if (categoriesByMerchant[i].categoryId == id) {
-                name = categoriesByMerchant[i].name;
-                break;
-            }
-        }
-        return name;
     }
 
     getExtraName(extras) {
         if (extras.length > 0) {
             let temptExtraName = '';
             extras.forEach(extra => {
-                if(temptExtraName == ''){
+                if (temptExtraName == '') {
                     temptExtraName = `${extra.name}`
-                }else{
+                } else {
                     temptExtraName = `${temptExtraName},${extra.name}`
                 }
             });
@@ -134,7 +122,7 @@ class TabServices extends React.Component {
     }
 
     renderTable() {
-        const { servicesByMerchant } = this.props;
+        const { servicesByMerchant, categoriesByMerchant } = this.props;
         return (
             <View style={{ flex: 1 }} >
                 <HeaderTableServices />
@@ -149,7 +137,7 @@ class TabServices extends React.Component {
                             archiveService={() => this.togglePopupArchive(true, item)}
                             restoreService={() => this.togglePopupRestore(true, item)}
                             editService={() => this.showModalEditService(item)}
-                            categoryName={this.getCateroryName(item.categoryId)}
+                            categoryName={getCategoryName(categoriesByMerchant, item.categoryId)}
                             extraName={this.getExtraName(item.extras)}
                         />}
                         keyExtractor={(item, index) => `${item.serviceId}`}

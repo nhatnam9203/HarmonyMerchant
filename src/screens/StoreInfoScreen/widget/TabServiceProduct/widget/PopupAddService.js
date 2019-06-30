@@ -11,7 +11,7 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent, Dropdown } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie ,getCategoryName} from '@utils';
 
 const { width } = Dimensions.get('window');
 
@@ -40,10 +40,11 @@ class PopupAddService extends React.Component {
     }
 
     setServiceFromParent = async (service) => {
+        const {categoriesByMerchant} = this.props;
         await this.setState({
             serviceInfo: {
                 serviceId: service.serviceId,
-                categoryId: this.getCateroryName(service.categoryId),
+                categoryId: getCategoryName(categoriesByMerchant, service.categoryId),
                 name: service.name,
                 description: service.description,
                 duration: service.duration,
@@ -56,17 +57,6 @@ class PopupAddService extends React.Component {
         });
     }
 
-    getCateroryName(id) {
-        const { categoriesByMerchant } = this.props;
-        let name = '';
-        for (let i = 0; i < categoriesByMerchant.length - 1; i++) {
-            if (categoriesByMerchant[i].categoryId == id) {
-                name = categoriesByMerchant[i].name;
-                break;
-            }
-        }
-        return name;
-    }
 
     setDefaultStateFromParent = () => {
         this.setState({

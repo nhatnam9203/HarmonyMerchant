@@ -50,9 +50,9 @@ export const requestAPI = async (action, headers = {}) => {
     }
     let response = await fetch(action.api, request);
     const codeNumber = response.status;
-    console.log('codeNumber: ',codeNumber);
-    if(codeNumber === 401){
-        return{codeNumber:codeNumber}
+    console.log('codeNumber: ', codeNumber);
+    if (codeNumber === 401) {
+        return { codeNumber: codeNumber }
     }
     const data = await response.json();
     return { ...data, statusCode: response.status };
@@ -88,167 +88,179 @@ export const localize = (value, lang = 'en') => {
     return temptValue ? `${Localization[lang][value]}` : `${value}`
 };
 
+export const getCategoryName = (categories, id) => {
+    console.log(`categories--- :${categories} :${id}`);
+    let name = '';
+    for (let i = 0; i < categories.length - 1; i++) {
+        if (categories[i].categoryId == id) {
+            name = categories[i].name;
+            break;
+        }
+    }
+    return name;
+}
+
 export const WorkingTime = [
     {
-        value:'00:00 AM',
+        value: '00:00 AM',
     },
     {
-        value:'00:30 AM',
+        value: '00:30 AM',
     },
     {
-        value:'01:00 AM',
+        value: '01:00 AM',
     },
     {
-        value:'01:30 AM',
+        value: '01:30 AM',
     },
     {
-        value:'02:00 AM',
+        value: '02:00 AM',
     },
     {
-        value:'02:30 AM',
+        value: '02:30 AM',
     },
     {
-        value:'03:00 AM',
+        value: '03:00 AM',
     },
     {
-        value:'03:30 AM',
+        value: '03:30 AM',
     },
     {
-        value:'04:00 AM',
+        value: '04:00 AM',
     },
     {
-        value:'04:30 AM',
+        value: '04:30 AM',
     },
     {
-        value:'05:00 AM',
+        value: '05:00 AM',
     },
     {
-        value:'05:30 AM',
+        value: '05:30 AM',
     },
     {
-        value:'06:00 AM',
+        value: '06:00 AM',
     },
     {
-        value:'06:30 AM',
+        value: '06:30 AM',
     },
     {
-        value:'07:00 AM',
+        value: '07:00 AM',
     },
     {
-        value:'07:30 AM',
+        value: '07:30 AM',
     },
     {
-        value:'08:00 AM',
+        value: '08:00 AM',
     },
     {
-        value:'08:30 AM',
+        value: '08:30 AM',
     },
     {
-        value:'09:00 AM',
+        value: '09:00 AM',
     },
     {
-        value:'10:00 AM',
+        value: '10:00 AM',
     },
     {
-        value:'10:30 AM',
+        value: '10:30 AM',
     },
     {
-        value:'11:00 AM',
+        value: '11:00 AM',
     },
     {
-        value:'11:30 AM',
+        value: '11:30 AM',
     },
     {
-        value:'12:00 AM',
+        value: '12:00 AM',
     },
     {
-        value:'12:30 AM',
+        value: '12:30 AM',
     },
     {
-        value:'01:00 PM',
+        value: '01:00 PM',
     },
     {
-        value:'01:30 PM',
+        value: '01:30 PM',
     },
     {
-        value:'02:00 PM',
+        value: '02:00 PM',
     },
     {
-        value:'02:30 PM',
+        value: '02:30 PM',
     },
     {
-        value:'03:00 PM',
+        value: '03:00 PM',
     },
     {
-        value:'03:30 PM',
+        value: '03:30 PM',
     },
     {
-        value:'04:00 PM',
+        value: '04:00 PM',
     },
     {
-        value:'04:30 PM',
+        value: '04:30 PM',
     },
     {
-        value:'05:00 PM',
+        value: '05:00 PM',
     },
     {
-        value:'05:30 PM',
+        value: '05:30 PM',
     },
     {
-        value:'06:00 PM',
+        value: '06:00 PM',
     },
     {
-        value:'06:300 PM',
+        value: '06:300 PM',
     },
     {
-        value:'07:00 PM',
+        value: '07:00 PM',
     },
     {
-        value:'07:30 PM',
+        value: '07:30 PM',
     },
     {
-        value:'08:00 PM',
+        value: '08:00 PM',
     },
     {
-        value:'08:30 PM',
+        value: '08:30 PM',
     },
     {
-        value:'09:00 PM',
+        value: '09:00 PM',
     },
     {
-        value:'10:00 PM',
+        value: '10:00 PM',
     },
     {
-        value:'10:30 PM',
+        value: '10:30 PM',
     },
     {
-        value:'11:00 PM',
+        value: '11:00 PM',
     },
     {
-        value:'11:30 PM',
+        value: '11:30 PM',
     },
     {
-        value:'12:00 PM',
+        value: '12:00 PM',
     },
     {
-        value:'12:30 PM',
+        value: '12:30 PM',
     },
 ]
 
 export const Roles = [
     {
-        value:'Admin'
+        value: 'Admin'
     },
     {
-        value:'Staff'
+        value: 'Staff'
     }
 ]
 
 export const Status = [
     {
-        value :'Active'
+        value: 'Active'
     },
     {
-        value:'Disable'
+        value: 'Disable'
     }
 ]
