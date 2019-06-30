@@ -45,6 +45,7 @@ class PopupAddService extends React.Component {
             serviceInfo: {
                 serviceId: service.serviceId,
                 categoryId: getCategoryName(categoriesByMerchant, service.categoryId),
+                // categoryId:'dd',
                 name: service.name,
                 description: service.description,
                 duration: service.duration,

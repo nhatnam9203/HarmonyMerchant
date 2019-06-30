@@ -10,7 +10,7 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent, Dropdown } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie ,getCategoryName} from '@utils';
 
 const { width } = Dimensions.get('window');
 
@@ -51,10 +51,11 @@ class PopupAddEditProduct extends React.Component {
     }
 
     setProductInfoFromParent = (productInfo) => {
+        const {categoriesByMerchant} = this.props;
         this.setState({
             productInfo: {
                 productId: productInfo.productId,
-                categoryId: this.getCateroryName(productInfo.categoryId),
+                categoryId: getCategoryName(categoriesByMerchant,productInfo.categoryId),
                 name: productInfo.name,
                 description: productInfo.description,
                 sku: productInfo.sku ? productInfo.sku : '',
