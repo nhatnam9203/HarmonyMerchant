@@ -7,7 +7,6 @@ class TabStaff extends Layout {
         super(props);
         this.state = {
             isAddStaff: true,
-            keySearch: '',
             visibleArchive: false,
             visibleRestore: false,
             isEditStaff: false,
@@ -15,13 +14,36 @@ class TabStaff extends Layout {
                 role: '',
                 status: ''
             },
-            staffHandle: {}
+            staffHandle: {},
+            // ----
+            searchFilter: {
+                keySearch: '',
+                role: '',
+                status: ''
+            }
         }
     }
 
     componentDidMount() {
         const { profile } = this.props;
         this.props.actions.staff.getStaffByMerchantId(profile.merchantId);
+    }
+
+    updateSearchFilterInfo(key, value, keyParent = '') {
+        const { searchFilter } = this.state;
+        if (keyParent !== '') {
+            const temptParent = searchFilter[keyParent];
+            const temptChild = { ...temptParent, [key]: value };
+            const temptUpdate = { ...searchFilter, [keyParent]: temptChild };
+            this.setState({
+                searchFilter: temptUpdate
+            })
+        } else {
+            const temptUpdate = { ...searchFilter, [key]: value };
+            this.setState({
+                searchFilter: temptUpdate
+            })
+        }
     }
 
     togglePopupArchive = (visible) => {
@@ -51,8 +73,9 @@ class TabStaff extends Layout {
     }
 
     searchStaff = () => {
-        const { keySearch } = this.state;
-        this.props.actions.staff.searchStaffByName(keySearch);
+        const { searchFilter } = this.state;
+        const { keySearch,role,status} = searchFilter;
+        this.props.actions.staff.searchStaffByName(keySearch,role,status);
     }
 
     addStaff = async () => {

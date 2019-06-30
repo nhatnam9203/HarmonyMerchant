@@ -30,7 +30,7 @@ export function getStaffByMerchantId() {
     }
 }
 
-export function searchStaffByName(name, role = '', status = '') {
+export function searchStaffByName(name = '', role = '', status = '') {
     return {
         type: 'SEARCH_STAFF_BY_NAME',
         method: 'GET',

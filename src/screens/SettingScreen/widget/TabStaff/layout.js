@@ -16,7 +16,8 @@ class Layout extends React.Component {
 
     renderSearch() {
         const { language } = this.props;
-        const { keySearch } = this.state;
+        const { searchFilter } = this.state;
+        const { keySearch } = searchFilter;
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
@@ -36,8 +37,9 @@ class Layout extends React.Component {
                                         if (value === '') {
                                             this.props.actions.staff.clearSearch();
                                         }
-                                        this.setState({ keySearch: value });
+                                        this.updateSearchFilterInfo('keySearch', value)
                                     }}
+                                    onSubmitEditing={this.searchStaff}
                                 />
                             </View>
                             <Button onPress={this.searchStaff} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
@@ -65,6 +67,8 @@ class Layout extends React.Component {
 
     renderFilter() {
         const { language } = this.props;
+        const { searchFilter } = this.state;
+        const { role, status } = searchFilter;
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
@@ -78,9 +82,9 @@ class Layout extends React.Component {
                             <View style={{ width: scaleSzie(120) }} >
                                 <Dropdown
                                     label={localize('Role', language)}
-                                    data={[{ value: 'Admin' }, { value: 'Member' }, { value: 'Staff' }]}
-                                    // value={state}
-                                    // onChangeText={(value) => this.updateGeneralInfo('state', value, 'businessAddress')}
+                                    data={[{ value: '' }, { value: 'Admin' }, { value: 'Staff' }]}
+                                    value={role}
+                                    onChangeText={(value) => this.updateSearchFilterInfo('role', value)}
                                     containerStyle={{
                                         backgroundColor: 'rgb(246,246,246)',
                                         borderWidth: 1,
@@ -94,9 +98,9 @@ class Layout extends React.Component {
                             <View style={{ width: scaleSzie(120) }} >
                                 <Dropdown
                                     label={localize('Statuses', language)}
-                                    data={[{ value: '1' }, { value: '2' }, { value: 3 }, { value: '4' }]}
-                                    // value={state}
-                                    // onChangeText={(value) => this.updateGeneralInfo('state', value, 'businessAddress')}
+                                    data={[{ value: '' }, { value: 'Active' }, { value: 'Disable' }]}
+                                    value={status}
+                                    onChangeText={(value) => this.updateSearchFilterInfo('status', value)}
                                     containerStyle={{
                                         backgroundColor: '#F1F1F1',
                                         borderWidth: 1,
@@ -173,10 +177,10 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { isAddStaff,language } = this.props;
-        const {isEditStaff,staffHandle}  = this.state
+        const { isAddStaff, language } = this.props;
+        const { isEditStaff, staffHandle } = this.state
         return (
-            <View style={{flex:1}} >
+            <View style={{ flex: 1 }} >
                 {
                     isAddStaff ? <AddStaff
                         language={language}
