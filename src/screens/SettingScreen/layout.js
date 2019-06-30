@@ -85,7 +85,7 @@ export default class Layout extends React.Component {
 
                                 </View>
                                 <TabStaff />
-                                <View style={{ flex: 1, backgroundColor: 'red' }} >
+                                <View style={{ flex: 1, }} >
 
                                 </View>
                                 <View style={{ flex: 1 }} >
@@ -97,7 +97,7 @@ export default class Layout extends React.Component {
                                 <View style={{ flex: 1 }} >
 
                                 </View>
-                                <View style={{ flex: 1, backgroundColor: 'yellow' }} >
+                                <View style={{ flex: 1,  }} >
 
                                 </View>
                             </ScrollableTabView>

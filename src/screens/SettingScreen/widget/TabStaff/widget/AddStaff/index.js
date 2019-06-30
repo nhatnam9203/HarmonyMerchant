@@ -24,7 +24,7 @@ class AddStaff extends Layout {
                 email: '',
                 pin: '',
                 confirmPin: '',
-                status: 'Active',
+                isDisabled: 'Active',
                 roles: {
                     nameRole: 'Admin',
                 },
@@ -115,7 +115,7 @@ class AddStaff extends Layout {
                     email: infoStaffHandle.email,
                     pin: infoStaffHandle.pin,
                     confirmPin: infoStaffHandle.pin,
-                    status: infoStaffHandle.isDisabled === 0 ? 'Active' : 'Disable',
+                    isDisabled: infoStaffHandle.isDisabled === 0 ? 'Active' : 'Disable',
                     roles: {
                         nameRole: 'Admin',
                     },
@@ -220,7 +220,8 @@ class AddStaff extends Layout {
             });
             const temptStaff = {
                 ...user,
-                status: (user.status === 'Active' ? true : false),
+                // status: (user.status === 'Active' ? true : false),
+                isDisabled: (user.isDisabled === 'Active' ? 0 : 1),
                 workingTime: objWorkingTime,
                 salary: objSalary,
                 tipFee: objTipFee,

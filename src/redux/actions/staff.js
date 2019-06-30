@@ -30,12 +30,12 @@ export function getStaffByMerchantId() {
     }
 }
 
-export function searchStaffByName(name) {
+export function searchStaffByName(name, role = '', status = '') {
     return {
         type: 'SEARCH_STAFF_BY_NAME',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}staff/byname/${name}`
+        api: `${apiConfigs.BASE_API}staff/search?name=${name}&role=${role}&status=${status}`
     }
 }
 

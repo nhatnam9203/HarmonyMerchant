@@ -22,7 +22,7 @@ class Layout extends React.Component {
         const { address, firstName, lastName, displayName,
             cellphone, email, pin, confirmPin, roles,
             driverlicense, socialSecurityNumber, professionalLicense,
-            status
+            isDisabled
         } = this.state.user;
         const { street, city, state } = address;
         const { nameRole } = roles;
@@ -134,8 +134,8 @@ class Layout extends React.Component {
                         DropdowStatusAdmin={() => <Dropdown
                             label={localize('Status', language)}
                             data={[{ value: 'Active' }, { value: 'Disable' }]}
-                            value={status}
-                            onChangeText={(value) => this.updateUserInfo('status', value)}
+                            value={isDisabled}
+                            onChangeText={(value) => this.updateUserInfo('isDisabled', value)}
                             containerStyle={styles.dropdown}
                         />}
                     />
