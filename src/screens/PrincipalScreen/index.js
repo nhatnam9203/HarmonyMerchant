@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateIsNumber } from '@utils';
+import { validateIsNumber, getIdStateByName } from '@utils';
 
 class PrincipalScreen extends Layout {
 
@@ -144,7 +144,7 @@ class PrincipalScreen extends Layout {
                             break;
                         }
                     }
-                    else if (arrayKey[i] ===  'driverLicense') {
+                    else if (arrayKey[i] === 'driverLicense') {
                         if (!validateIsNumber(principalInfo[arrayKey[i]])) {
                             keyError = 'driverLicenseInvalid';
                             break;
@@ -157,10 +157,14 @@ class PrincipalScreen extends Layout {
             Alert.alert(`${strings[keyError]}`);
         } else {
             if (uriUpload != '') {
-                const { dateOfBirth } = principalInfo;
-                const temptPrincipalInfo = { ...principalInfo, dateOfBirth: `${dateOfBirth.day}/${dateOfBirth.month}/${dateOfBirth.year}`,
-                fileId: this.state.fileId 
-            };
+                const { dateOfBirth, addressPrincipal } = principalInfo;
+                const temptAddressPrincipal = { ...addressPrincipal, state: getIdStateByName(this.props.stateCity, addressPrincipal.state) };
+                const temptPrincipalInfo = {
+                    ...principalInfo,
+                    dateOfBirth: `${dateOfBirth.day}/${dateOfBirth.month}/${dateOfBirth.year}`,
+                    fileId: this.state.fileId,
+                    addressPrincipal: temptAddressPrincipal
+                };
                 this.props.actions.app.setPrincipalInfo(temptPrincipalInfo);
                 this.props.navigation.navigate('ApplicationSubmit');
             } else {
@@ -231,7 +235,8 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     loading: state.app.loading,
     isUpload: state.upload.isUpload,
-    dataUpload: state.upload.dataUpload
+    dataUpload: state.upload.dataUpload,
+    stateCity: state.dataLocal.stateCity
 })
 
 

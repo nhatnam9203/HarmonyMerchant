@@ -3,30 +3,19 @@ import { createStackNavigator } from 'react-navigation';
 import getSlideFromRightTransition from 'react-navigation-slide-from-right-transition';
 
 import {
-    TermsScreen,
-    GeneralInfoScreen,
-    BankInfoScreen,
-    BusinessInfoScreen,
-    PrincipalScreen,
-    ApplicationSubmitScreen,
+    StoreInfoScreen,
+    CongratulationScreen,
 } from '../screens';
 
 const SetupStoreStack = createStackNavigator(
     {
-        Terms: TermsScreen,
-        GeneralInfo: GeneralInfoScreen,
-        BusinessInfo: BusinessInfoScreen,
-        BankInfo: BankInfoScreen,
-        PrincipalInfo: PrincipalScreen,
-        ApplicationSubmit: ApplicationSubmitScreen,
+        StoreInfo:StoreInfoScreen,
+        Congratulation:CongratulationScreen,
     },
     {
-        initialRouteName: 'Terms',
+        initialRouteName: 'StoreInfo',
         headerMode: 'none',
-        transitionConfig: getSlideFromRightTransition
     }
 );
 
 export default SetupStoreStack;
-
-

@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { InputForm, FormInfoParent, Text, Dropdown, Button, PopupUpload } from '@components';
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize,getArrayNameStateCity } from '@utils';
 import IMAGE from '@resources';
 
 let data = [{
@@ -31,7 +31,7 @@ export default class Layout extends React.Component {
             address, city, state, zip
         } = addressPrincipal;
         const { day, month, year } = dateOfBirth;
-        const { language } = this.props;
+        const { language,stateCity } = this.props;
         return (
             <FormInfoParent
                 title={localize('Principal Information', language)}
@@ -145,7 +145,7 @@ export default class Layout extends React.Component {
                         <View style={{ width: scaleSzie(180), backgroundColor: 'red' }} >
                             <Dropdown
                                 label={localize('State', language)}
-                                data={[{ value: '1' }, { value: '2' }, { value: '3' }, { value: '4' }]}
+                                data={getArrayNameStateCity(stateCity)}
                                 value={state}
                                 onChangeText={(value) => this.updatePrincipalInfo('state', value, 'addressPrincipal')}
                                 containerStyle={{
