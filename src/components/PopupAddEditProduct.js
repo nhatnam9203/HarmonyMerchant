@@ -9,7 +9,10 @@ import {
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
-import { ButtonCustom, PopupParent, Dropdown } from '@components';
+import ButtonCustom from './ButtonCustom';
+import PopupParent from './PopupParent';
+import {Dropdown} from './react-native-material-dropdown';
+
 import { scaleSzie ,getCategoryName} from '@utils';
 
 const { width } = Dimensions.get('window');

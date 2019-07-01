@@ -1,9 +1,6 @@
-import React from 'react';
 import {
-    createStackNavigator,
     createSwitchNavigator,
     createNavigationContainer,
-    createBottomTabNavigator
 } from 'react-navigation';
 
 import {
@@ -21,7 +18,7 @@ export default createNavigationContainer(createSwitchNavigator({
     Drawer: DrawerStack,
 },
     {
-        initialRouteName: 'Splash'
+        initialRouteName: 'SetupStore'
     }
 
 ))

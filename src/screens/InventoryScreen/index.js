@@ -66,9 +66,23 @@ class InventoryScreen extends Layout {
             })
     }
 
-    unSelectAll =() =>{
-        this.setState({isSelectAll:false})
+    unSelectAll = () => {
+        this.setState({ isSelectAll: false })
     }
+
+    // ----- Handle  -----
+    restock = () => {
+        alert('dd')
+    }
+
+    showDetailProduct = (product) => {
+        alert(product.name)
+    }
+
+
+
+
+    // ----- End Handle ---
 
     componentWillUnmount() {
         this.didBlurSubscription.remove();

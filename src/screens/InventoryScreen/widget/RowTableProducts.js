@@ -45,11 +45,11 @@ class RowTableProducts extends React.Component {
     }
 
     render() {
-        const { product,nameCategory } = this.props;
+        const { product,nameCategory ,showDetailProduct} = this.props;
         const { isCheck } = this.state;
         const temptIconCheckbox = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
-            <View style={styles.tableHeader} >
+            <Button onPress={()=>showDetailProduct(product)} style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
                 <View style={{
                     flex: 1, flexDirection: 'row',
@@ -126,7 +126,7 @@ class RowTableProducts extends React.Component {
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
-            </View>
+            </Button>
 
         );
     }

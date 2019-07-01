@@ -92,7 +92,7 @@ export default class Layout extends React.Component {
                             </Text>
                         </View>
 
-                        <View style={[{
+                        <Button onPress={this.restock} style={[{
                             width: scaleSzie(90), justifyContent: 'center', alignItems: 'center',
                             marginRight: scaleSzie(14)
                         }, styles.borderStyle]} >
@@ -100,7 +100,7 @@ export default class Layout extends React.Component {
 
                                 {localize('Restock', language)}
                             </Text>
-                        </View>
+                        </Button>
                         <View style={[{ width: scaleSzie(160), flexDirection: 'row', }, styles.borderStyle]} >
                             <View style={{ alignItems: 'center', flexDirection: 'row' }} >
                                 <Image source={IMAGE.export} style={{
@@ -162,6 +162,7 @@ export default class Layout extends React.Component {
                         product={item}
                         unSelectAll={this.unSelectAll}
                         nameCategory={getCategoryName(categoriesByMerchant,item.categoryId)}
+                        showDetailProduct={this.showDetailProduct}
                     />}
                     keyExtractor={(item, index) => `${item.productId}`}
                     ListEmptyComponent={<RowEmptyTableProducts />}
