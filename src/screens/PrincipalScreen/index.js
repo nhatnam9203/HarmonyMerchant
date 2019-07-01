@@ -14,6 +14,9 @@ class PrincipalScreen extends Layout {
             visibleUpload: false,
             uriUpload: '',
             savaFileUpload: false,
+            isActiveScreen: true,
+            fileUpload: {},
+            fileId: -1,
             principalInfo: {
                 firstName: '',
                 lastName: '',
@@ -41,6 +44,25 @@ class PrincipalScreen extends Layout {
         }
     }
 
+    componentDidMount() {
+        this.didBlurSubscription = this.props.navigation.addListener(
+            'didBlur',
+            payload => {
+                this.setState({
+                    isActiveScreen: false
+                })
+            }
+        );
+        this.didFocusSubscription = this.props.navigation.addListener(
+            'didFocus',
+            payload => {
+                this.setState({
+                    isActiveScreen: true
+                })
+            }
+        );
+    }
+
     updatePrincipalInfo(key, value, keyParent = '') {
         const { principalInfo } = this.state;
         if (keyParent !== '') {
@@ -56,10 +78,6 @@ class PrincipalScreen extends Layout {
                 principalInfo: temptUpdate
             })
         }
-    }
-
-    nextScreen1 = () => {
-        this.props.navigation.navigate('ApplicationSubmit');
     }
 
     nextScreen = () => {
@@ -140,7 +158,9 @@ class PrincipalScreen extends Layout {
         } else {
             if (uriUpload != '') {
                 const { dateOfBirth } = principalInfo;
-                const temptPrincipalInfo = { ...principalInfo, dateOfBirth: `${dateOfBirth.day}/${dateOfBirth.month}/${dateOfBirth.year}` };
+                const temptPrincipalInfo = { ...principalInfo, dateOfBirth: `${dateOfBirth.day}/${dateOfBirth.month}/${dateOfBirth.year}`,
+                fileId: this.state.fileId 
+            };
                 this.props.actions.app.setPrincipalInfo(temptPrincipalInfo);
                 this.props.navigation.navigate('ApplicationSubmit');
             } else {
@@ -156,6 +176,11 @@ class PrincipalScreen extends Layout {
             if (response.uri) {
                 this.setState({
                     uriUpload: response.uri,
+                    fileUpload: {
+                        uri: response.uri,
+                        fileName: response.fileName,
+                        type: response.type
+                    },
                     visibleUpload: true
                 })
             }
@@ -167,6 +192,11 @@ class PrincipalScreen extends Layout {
             if (response.uri) {
                 this.setState({
                     uriUpload: response.uri,
+                    fileUpload: {
+                        uri: response.uri,
+                        fileName: response.fileName,
+                        type: response.type
+                    },
                     visibleUpload: true
                 })
             }
@@ -174,16 +204,34 @@ class PrincipalScreen extends Layout {
     }
 
     saveFileUpload = () => {
-        this.setState({
-            savaFileUpload: true,
-            visibleUpload: false,
-        })
+        const { fileUpload } = this.state;
+        this.props.actions.upload.uploadAvatar([fileUpload]);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const { loading, isUpload, dataUpload } = this.props;
+        const { isActiveScreen, visibleUpload } = this.state;
+        if (!loading && isUpload && isActiveScreen && visibleUpload) {
+            this.setState({
+                savaFileUpload: true,
+                visibleUpload: false,
+                fileId: dataUpload.fileId
+            })
+        }
+    }
+
+    componentWillUnmount() {
+        this.didBlurSubscription.remove();
+        this.didFocusSubscription.remove();
     }
 
 }
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
+    loading: state.app.loading,
+    isUpload: state.upload.isUpload,
+    dataUpload: state.upload.dataUpload
 })
 
 

@@ -88,7 +88,7 @@ class BankInfoScreen extends Layout {
             Alert.alert(`${strings[keyError]}`);
         } else {
             if (uriUpload != '') {
-                const temptBankInfo = {...bankInfo,fileId:this.state.fileId};
+                const temptBankInfo = { ...bankInfo, fileId: this.state.fileId };
                 this.props.actions.app.setBankInfo(temptBankInfo);
                 this.props.navigation.navigate('PrincipalInfo');
             } else {
@@ -103,6 +103,11 @@ class BankInfoScreen extends Layout {
             if (response.uri) {
                 this.setState({
                     uriUpload: response.uri,
+                    fileUpload: {
+                        uri: response.uri,
+                        fileName: response.fileName,
+                        type: response.type
+                    },
                     visibleUpload: true
                 })
             }
@@ -150,7 +155,6 @@ class BankInfoScreen extends Layout {
 }
 
 const mapStateToProps = state => ({
-    profile: state.dataLocal.profile,
     language: state.dataLocal.language,
     loading: state.app.loading,
     isUpload: state.upload.isUpload,
