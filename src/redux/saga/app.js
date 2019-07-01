@@ -36,7 +36,7 @@ function* registerUser(action) {
 
 function* getStateCity(action) {
     try {
-        yield put({ type: 'LOADING_ROOT' });
+        // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         console.log('--- responses : ', responses);
         yield put({
@@ -46,7 +46,7 @@ function* getStateCity(action) {
         });
     } catch (error) {
     } finally {
-        yield put({ type: 'STOP_LOADING_ROOT' });
+        // yield put({ type: 'STOP_LOADING_ROOT' });
     }
 }
 

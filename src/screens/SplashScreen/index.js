@@ -12,11 +12,16 @@ class SplashScreen extends Layout {
     }
 
     componentDidMount() {
-        const { profile } = this.props;
+        const { profile, token } = this.props;
         this.props.actions.app.getStateCity();
-        this.props.actions.app.getQuestion();
         setTimeout(() => {
-            this.props.navigation.navigate('Auth');
+            if (!token) {
+                this.props.navigation.navigate('Auth');
+            }else if(token && profile.staffs){
+                this.props.navigation.navigate('Drawer');
+            }else{
+                this.props.navigation.navigate('SetupStore');
+            }
         }, 1000)
 
     }
@@ -26,6 +31,7 @@ class SplashScreen extends Layout {
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
+    token :state.dataLocal.token
 })
 
 

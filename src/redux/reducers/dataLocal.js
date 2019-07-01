@@ -1,6 +1,7 @@
 const initialState = {
     profile: {},
-    token: "",
+    token: false,
+    stateCity: [],
     language: 'en'
 }
 
@@ -16,6 +17,11 @@ function dataLocal(state = initialState, action) {
             return {
                 ...state,
                 language: action.payload,
+            }
+        case 'GET_STATE_CITY_SUCCESS':
+            return {
+                ...state,
+                stateCity: action.payload
             }
         default:
             return state
