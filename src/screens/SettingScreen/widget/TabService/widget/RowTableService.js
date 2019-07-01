@@ -48,7 +48,7 @@ class RowTableService extends React.Component {
                         style={{ width: scaleSzie(12), height: scaleSzie(29) }}
                     />
                     <Text style={styles.textTableHeader} >
-                        {`${index}.`}
+                        {`${parseInt(index)+1}.`}
                     </Text>
                 </View>
                 {/* ----- 2 ------ */}

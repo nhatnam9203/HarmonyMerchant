@@ -119,7 +119,7 @@ class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Add New', language)}
                             textColor="#6A6A6A"
-                            onPress={this.addStaff}
+                            onPress={this.showModalAddService}
                             style={{
                                 borderWidth: 1, borderColor: '#C5C5C5',
                                 backgroundColor: '#0764B0'
@@ -165,7 +165,7 @@ class Layout extends React.Component {
                     title="Add Service"
                     titleButton="Add"
                     onRequestClose={() => this.setState({ visibleAdd: false })}
-                    doneAddService={this.addService}
+                    doneAddService={this.submitAddService}
                     categoriesByMerchant={this.props.categoriesByMerchant}
                 />
                 <PopupAddEditService

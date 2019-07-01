@@ -83,11 +83,19 @@ class TabService extends Layout {
         this.props.actions.staff.searchStaffByName(keySearch, role, status);
     }
 
-    addStaff = async () => {
-        await this.setState({
-            isEditStaff: false
-        })
-        this.props.actions.staff.switchAddStaff(true);
+    showModalAddService = () => {
+        const { categoriesByMerchant } = this.props;
+        if (categoriesByMerchant.length > 0) {
+            this.addServiceRef.current.setDefaultStateFromParent();
+            this.setState({ visibleAdd: true });
+        } else {
+            alert('Create category before add service please !')
+        }
+    }
+
+    submitAddService =(service)=>{
+        this.props.actions.service.addServiceByMerchant(service);
+        this.setState({ visibleAdd: false })
     }
 
     archiveService(service) {

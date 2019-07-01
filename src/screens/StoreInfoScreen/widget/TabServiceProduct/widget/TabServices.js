@@ -117,7 +117,6 @@ class TabServices extends React.Component {
         } else {
             alert('Create category before add service please !')
         }
-
     }
 
     renderTable() {
