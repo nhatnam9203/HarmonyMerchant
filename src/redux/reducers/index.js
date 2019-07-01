@@ -10,6 +10,7 @@ import product from './product';
 import staff from './staff';
 import service from './service';
 import extra from './extra';
+import upload from './upload';
 
 const rootPersistConfig = {
     key: 'root',
@@ -30,7 +31,8 @@ const rootReducer = combineReducers({
     product,
     staff,
     service,
-    extra
+    extra,
+    upload
 });
 
 export default persistReducer(rootPersistConfig, rootReducer);

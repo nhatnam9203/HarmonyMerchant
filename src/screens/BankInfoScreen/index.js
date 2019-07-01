@@ -15,12 +15,34 @@ class BankInfoScreen extends Layout {
             visibleUpload: false,
             uriUpload: '',
             savaFileUpload: false,
+            isActiveScreen: true,
+            fileUpload: {},
+            fileId: -1,
             bankInfo: {
                 bankName: '',
                 routingNumber: '',
                 accountNumber: '',
             }
         }
+    }
+
+    componentDidMount() {
+        this.didBlurSubscription = this.props.navigation.addListener(
+            'didBlur',
+            payload => {
+                this.setState({
+                    isActiveScreen: false
+                })
+            }
+        );
+        this.didFocusSubscription = this.props.navigation.addListener(
+            'didFocus',
+            payload => {
+                this.setState({
+                    isActiveScreen: true
+                })
+            }
+        );
     }
 
     updateBankInfo(key, value, keyParent = '') {
@@ -66,7 +88,8 @@ class BankInfoScreen extends Layout {
             Alert.alert(`${strings[keyError]}`);
         } else {
             if (uriUpload != '') {
-                this.props.actions.app.setBankInfo(bankInfo);
+                const temptBankInfo = {...bankInfo,fileId:this.state.fileId};
+                this.props.actions.app.setBankInfo(temptBankInfo);
                 this.props.navigation.navigate('PrincipalInfo');
             } else {
                 Alert.alert(`Please upload a photo`);
@@ -89,32 +112,49 @@ class BankInfoScreen extends Layout {
     openImageLibrary = () => {
         ImagePicker.launchImageLibrary({}, (response) => {
             if (response.uri) {
-                console.log(response);
-                // this.setState({
-                //     uriUpload: response.uri,
-                //     visibleUpload: true
-                // })
-                this.props.actions.upload.uploadAvatar([{
-                    uri: response.uri,
-                    fileName: response.fileName,
-                    type: response.type
-                }]);
+                this.setState({
+                    uriUpload: response.uri,
+                    fileUpload: {
+                        uri: response.uri,
+                        fileName: response.fileName,
+                        type: response.type
+                    },
+                    visibleUpload: true
+                })
             }
         });
     }
 
     saveFileUpload = () => {
-        this.setState({
-            savaFileUpload: true,
-            visibleUpload: false,
-        })
+        const { fileUpload } = this.state;
+        this.props.actions.upload.uploadAvatar([fileUpload]);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const { loading, isUpload, dataUpload } = this.props;
+        const { isActiveScreen, visibleUpload } = this.state;
+        if (!loading && isUpload && isActiveScreen && visibleUpload) {
+            this.setState({
+                savaFileUpload: true,
+                visibleUpload: false,
+                fileId: dataUpload.fileId
+            })
+        }
+    }
+
+    componentWillUnmount() {
+        this.didBlurSubscription.remove();
+        this.didFocusSubscription.remove();
     }
 
 }
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
-    language: state.dataLocal.language
+    language: state.dataLocal.language,
+    loading: state.app.loading,
+    isUpload: state.upload.isUpload,
+    dataUpload: state.upload.dataUpload
 })
 
 

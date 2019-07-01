@@ -21,8 +21,6 @@ class PopupUpload extends React.Component {
         }
     }
 
-    
-
     render() {
         const { title, visible, onRequestClose, uri, save } = this.props;
         return (
@@ -87,9 +85,9 @@ class PopupUpload extends React.Component {
                                 textColor="#6A6A6A"
                                 onPress={() => {
                                     save();
-                                    this.setState({
-                                        progress:0
-                                    })
+                                    // this.setState({
+                                    //     progress:0
+                                    // })
                                 }}
                                 style={{
                                     borderWidth: 1, borderColor: '#C5C5C5',
