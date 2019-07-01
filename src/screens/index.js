@@ -18,6 +18,7 @@ import SettingScreen from './SettingScreen';
 import InventoryScreen from './InventoryScreen';
 import CustomerScreen from './CustomerScreen';
 
+
 module.exports = {
     SplashScreen,
     HomeScreen,

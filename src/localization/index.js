@@ -164,6 +164,7 @@ const localization = {
         'Add New':'Add New',
         'Customer list':'Customer list',
         'Referrer Phone Number':'Referrer Phone Number',
+        'Service':'Service',
     },
     'vi': {
         'MARKETING': 'Uu dai',
