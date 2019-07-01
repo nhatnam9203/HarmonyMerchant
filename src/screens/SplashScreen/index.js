@@ -17,7 +17,8 @@ class SplashScreen extends Layout {
         setTimeout(() => {
             if (!token) {
                 this.props.navigation.navigate('Auth');
-            } else if (token && profile.staffs) {
+            } else if (token && !profile.staffs) {
+                this.props.actions.category.getCategoriesByMerchantId();
                 this.props.navigation.navigate('Drawer');
             } else {
                 this.props.navigation.navigate('SetupStore');

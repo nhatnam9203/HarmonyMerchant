@@ -159,6 +159,17 @@ export const getIdStateByName = (stateCity = [], name = '') => {
     return stateId;
 }
 
+export const getNameStateById = (stateCity = [], id = '') => {
+    let stateName = '';
+    for (let i = 0; i < stateCity.length; i++) {
+        if (stateCity[i].stateId == id) {
+            stateName = stateCity[i].name;
+            break;
+        }
+    };
+    return stateName
+}
+
 export const WorkingTime = [
     {
         value: '00:00 AM',

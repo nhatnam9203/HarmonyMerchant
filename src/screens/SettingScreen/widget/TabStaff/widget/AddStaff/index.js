@@ -4,7 +4,7 @@ import _ from 'ramda';
 
 import Layout from './layout';
 import strings from './strings';
-import { validateEmail, getIdStateByName } from '@utils';
+import { validateEmail, getIdStateByName,getNameStateById } from '@utils';
 
 class AddStaff extends Layout {
 
@@ -100,7 +100,7 @@ class AddStaff extends Layout {
 
     async componentDidMount() {
         if (this.props.isEditStaff) {
-            const { infoStaffHandle } = this.props;
+            const { infoStaffHandle ,stateCity} = this.props;
             await this.setState({
                 user: {
                     firstName: infoStaffHandle.firstName,
@@ -109,7 +109,7 @@ class AddStaff extends Layout {
                     address: {
                         street: infoStaffHandle.address,
                         city: infoStaffHandle.city,
-                        state: infoStaffHandle.stateId,
+                        state: getNameStateById(stateCity,infoStaffHandle.stateId) ,
                     },
                     cellphone: infoStaffHandle.phone,
                     email: infoStaffHandle.email,
