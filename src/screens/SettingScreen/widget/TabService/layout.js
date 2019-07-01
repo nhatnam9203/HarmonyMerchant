@@ -3,14 +3,14 @@ import {
     View,
     Image,
     TextInput,
-    FlatList
+    FlatList,
 } from 'react-native';
 
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize , getCategoryName} from '@utils';
 import { Text, Button, ButtonCustom, Dropdown, PopupConfirm } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
-import { HeaderTableService, RowTableStaff, RowTableEmptyStaff } from './widget';
+import { HeaderTableService, RowTableService, RowTableEmptyService } from './widget';
 
 class Layout extends React.Component {
 
@@ -134,9 +134,9 @@ class Layout extends React.Component {
 
 
     renderTableStaff() {
-        const { listStaffByMerchant, isShowSearch, listSearchStaff } = this.props;
+        const {  servicesByMerchant,categoriesByMerchant} = this.props;
         const { visibleArchive, visibleRestore } = this.state;
-        const temptData = isShowSearch ? listSearchStaff : listStaffByMerchant
+        // const temptData = isShowSearch ? listSearchStaff : listStaffByMerchant
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
@@ -146,16 +146,17 @@ class Layout extends React.Component {
                 <View style={{ flex: 1 }} >
                     <HeaderTableService />
                     <FlatList
-                        data={temptData}
-                        renderItem={({ item, index }) => <RowTableStaff
+                        data={servicesByMerchant}
+                        renderItem={({ item, index }) => <RowTableService
                             index={index}
-                            staff={item}
+                            service={item}
                             archiveStaff={() => this.archiveStaff(item)}
                             editStaff={() => this.editStaff(item)}
                             restoreStaff={() => this.restoreStaff(item)}
+                            categoryName={getCategoryName(categoriesByMerchant,item.categoryId)}
                         />}
                         keyExtractor={(item, index) => `${index}`}
-                        ListEmptyComponent={<RowTableEmptyStaff />}
+                        ListEmptyComponent={<RowTableEmptyService />}
                     />
                 </View>
                 <PopupConfirm

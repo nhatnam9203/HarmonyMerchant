@@ -6,11 +6,11 @@ import {
     StyleSheet
 } from 'react-native';
 
-import {  ButtonCustom } from '@components';
+import { ButtonCustom } from '@components';
 import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 
-class RowTable extends React.Component {
+class RowTableService extends React.Component {
 
     constructor(props) {
         super(props);
@@ -32,8 +32,9 @@ class RowTable extends React.Component {
     }
 
     render() {
-        const { staff, index, archiveStaff, editStaff, restoreStaff } = this.props;
-        const { isArchive } = this.state;
+        const { service, index, archiveStaff, editStaff, restoreStaff,
+            categoryName
+        } = this.props;
         return (
             <View style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
@@ -54,12 +55,9 @@ class RowTable extends React.Component {
                 <View style={{
                     width: scaleSzie(160), flexDirection: 'row',
                 }} >
-                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
                         <Text style={styles.textTableHeader} >
-                            {staff.displayName}
+                            {service.name}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -67,28 +65,27 @@ class RowTable extends React.Component {
                     </View>
                 </View>
                 {/* ----- 3 ------ */}
-                {/* ----- 4 ------ */}
                 <View style={{
                     width: scaleSzie(140), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            {staff.role}
+                            {categoryName}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
-                {/* ----- 5 ----- */}
+                {/* ----- 4 ----- */}
                 <View style={{
                     width: scaleSzie(110), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            
+
                             {
-                                staff.isDisabled === 0 ? 'Active' :'Disable'
+                                service.isDisabled === 0 ? 'Active' : 'Disable'
                             }
                         </Text>
                     </View>
@@ -96,7 +93,7 @@ class RowTable extends React.Component {
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
-                {/* ----- 6 ------ */}
+                {/* ----- 5 ------ */}
                 <View style={{
                     flex: 1,
                     flexDirection: 'row'
@@ -117,7 +114,7 @@ class RowTable extends React.Component {
                     </View>
                     <View style={styles.actionButton} >
                         {
-                            staff.isDisabled === 0 ? <ButtonCustom
+                            service.isDisabled === 0 ? <ButtonCustom
                                 width={'80%'}
                                 height={28}
                                 backgroundColor="#FF3B30"
@@ -178,5 +175,5 @@ const styles = StyleSheet.create({
 
 })
 
-export default RowTable;
+export default RowTableService;
 

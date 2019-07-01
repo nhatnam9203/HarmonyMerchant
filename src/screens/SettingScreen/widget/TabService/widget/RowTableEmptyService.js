@@ -10,7 +10,7 @@ import { ButtonCustom } from '@components';
 import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 
-class RowTableEmptyStaff extends React.Component {
+class RowTableEmptyService extends React.Component {
 
     constructor(props) {
         super(props);
@@ -133,5 +133,5 @@ const styles = StyleSheet.create({
 
 })
 
-export default RowTableEmptyStaff;
+export default RowTableEmptyService;
 

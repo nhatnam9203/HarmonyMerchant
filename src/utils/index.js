@@ -131,7 +131,6 @@ export const localize = (value, lang = 'en') => {
 
 export const getCategoryName = (categories, id) => {
     let name = '';
-    console.log(`categories:${JSON.stringify(categories)} - id:${id} `);
     for (let i = 0; i < categories.length; i++) {
         if (categories[i].categoryId == id) {
             name = categories[i].name;
