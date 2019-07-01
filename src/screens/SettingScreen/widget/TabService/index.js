@@ -1,3 +1,5 @@
+import React from 'react';
+
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 
@@ -15,13 +17,17 @@ class TabService extends Layout {
                 status: ''
             },
             serviceHanle: {},
+            visibleAdd: false,
+            visibleEdit: false,
             // ----
             searchFilter: {
                 keySearch: '',
                 role: '',
                 status: ''
             }
-        }
+        };
+        this.addServiceRef = React.createRef();
+        this.editServiceRef = React.createRef();
     }
 
     componentDidMount() {
@@ -91,12 +97,16 @@ class TabService extends Layout {
         })
     }
 
-    async editStaff(staff) {
-        await this.setState({
-            serviceHanle: staff,
-            isEditStaff: true
-        });
-        this.props.actions.staff.switchAddStaff(true);
+    async showModalEditService(service) {
+        this.editServiceRef.current.setServiceFromParent(service);
+        this.setState({
+            visibleEdit: true
+        })
+    }
+
+    submitEditService = (service) => {
+        this.props.actions.service.editService(service, service.serviceId);
+        this.setState({ visibleEdit: false })
     }
 
     restoreService(service) {

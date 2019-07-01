@@ -32,7 +32,7 @@ class RowTableService extends React.Component {
     }
 
     render() {
-        const { service, index, archiveService, editStaff, restoreService,
+        const { service, index, archiveService, editService, restoreService,
             categoryName
         } = this.props;
         return (
@@ -105,7 +105,7 @@ class RowTableService extends React.Component {
                             backgroundColor="#0764B0"
                             title="Edit"
                             textColor="#fff"
-                            onPress={() => editStaff()}
+                            onPress={() => editService()}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(2) }}
                             styleText={{
                                 fontSize: scaleSzie(14)

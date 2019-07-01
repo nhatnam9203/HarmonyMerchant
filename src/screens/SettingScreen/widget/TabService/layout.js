@@ -6,8 +6,8 @@ import {
     FlatList,
 } from 'react-native';
 
-import { scaleSzie, localize , getCategoryName} from '@utils';
-import { Text, Button, ButtonCustom, Dropdown, PopupConfirm } from '@components';
+import { scaleSzie, localize, getCategoryName } from '@utils';
+import { Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import { HeaderTableService, RowTableService, RowTableEmptyService } from './widget';
@@ -134,8 +134,8 @@ class Layout extends React.Component {
 
 
     renderTableStaff() {
-        const {  servicesByMerchant,categoriesByMerchant} = this.props;
-        const { visibleArchive, visibleRestore } = this.state;
+        const { servicesByMerchant, categoriesByMerchant } = this.props;
+        const { visibleArchive, visibleRestore,visibleAdd,visibleEdit } = this.state;
         // const temptData = isShowSearch ? listSearchStaff : listStaffByMerchant
         return (
             <View style={styles.container} >
@@ -151,14 +151,33 @@ class Layout extends React.Component {
                             index={index}
                             service={item}
                             archiveService={() => this.archiveService(item)}
-                            editStaff={() => this.editStaff(item)}
+                            editService={() => this.showModalEditService(item)}
                             restoreService={() => this.restoreService(item)}
-                            categoryName={getCategoryName(categoriesByMerchant,item.categoryId)}
+                            categoryName={getCategoryName(categoriesByMerchant, item.categoryId)}
                         />}
                         keyExtractor={(item, index) => `${index}`}
                         ListEmptyComponent={<RowTableEmptyService />}
                     />
                 </View>
+                <PopupAddEditService
+                    ref={this.addServiceRef}
+                    visible={visibleAdd}
+                    title="Add Service"
+                    titleButton="Add"
+                    onRequestClose={() => this.setState({ visibleAdd: false })}
+                    doneAddService={this.addService}
+                    categoriesByMerchant={this.props.categoriesByMerchant}
+                />
+                <PopupAddEditService
+                    ref={this.editServiceRef}
+                    visible={visibleEdit}
+                    title="Edit Service"
+                    titleButton="Save"
+                    isSave={true}
+                    onRequestClose={() => this.setState({ visibleEdit: false })}
+                    editService={this.submitEditService}
+                    categoriesByMerchant={this.props.categoriesByMerchant}
+                />
                 <PopupConfirm
                     visible={visibleArchive}
                     title="Confirmation"
