@@ -10,7 +10,7 @@ import { scaleSzie, localize } from '@utils';
 import { Text, Button, ButtonCustom, Dropdown, PopupConfirm } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
-import { HeaderTableStaff, RowTableStaff, AddStaff, RowTableEmptyStaff } from './widget';
+import { HeaderTableService, RowTableStaff, RowTableEmptyStaff } from './widget';
 
 class Layout extends React.Component {
 
@@ -144,7 +144,7 @@ class Layout extends React.Component {
                 {this.renderFilter()}
                 <View style={{ height: scaleSzie(10) }} />
                 <View style={{ flex: 1 }} >
-                    <HeaderTableStaff />
+                    <HeaderTableService />
                     <FlatList
                         data={temptData}
                         renderItem={({ item, index }) => <RowTableStaff
@@ -177,20 +177,9 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { isAddStaff, language, stateCity } = this.props;
-        const { isEditStaff, staffHandle } = this.state
         return (
             <View style={{ flex: 1 }} >
-                {
-                    isAddStaff ? <AddStaff
-                        stateCity={stateCity}
-                        language={language}
-                        infoStaffHandle={staffHandle}
-                        isEditStaff={isEditStaff}
-                        addStaff={this.submitAddStaff}
-                        editStaff={this.submitEditStaff}
-                    /> : this.renderTableStaff()
-                }
+                {this.renderTableStaff()}
             </View>
         );
     }
