@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateEmail } from '@utils';
+import { validateEmail, getIdStateByName } from '@utils';
 
 
 class StoreInfoScreen extends Layout {
@@ -25,7 +25,7 @@ class StoreInfoScreen extends Layout {
                 email: '',
                 pin: '',
                 confirmPin: '',
-                status: 'Active',
+                isDisabled: 'Active',
                 roles: {
                     nameRole: 'Admin',
                 },
@@ -126,13 +126,17 @@ class StoreInfoScreen extends Layout {
                     }
                 }
             });
+            const { address } = user;
+            const temptAddress = { ...address, state: getIdStateByName(this.props.stateCity, address.state) };
             const temptStaff = {
                 ...user,
-                status: (user.status === 'Active' ? true : false),
+                isDisabled: (user.isDisabled === 'Active' ? 1 : 0),
+                address: temptAddress,
                 workingTime: objWorkingTime,
                 salary: objSalary,
                 tipFee: objTipFee,
             };
+            // console.log('temptStaff : ' + JSON.stringify(temptStaff));
             this.props.actions.staff.createAdmin(temptStaff);
         }
     }
@@ -183,7 +187,8 @@ class StoreInfoScreen extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    profile: state.dataLocal.profile
+    profile: state.dataLocal.profile,
+    stateCity: state.dataLocal.stateCity
 })
 
 

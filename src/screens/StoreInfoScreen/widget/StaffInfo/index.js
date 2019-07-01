@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 
 import Layout from './layout';
 import strings from './strings';
-import { validateEmail } from '@utils';
+import { validateEmail, getIdStateByName } from '@utils';
 
 class StaffInfo extends Layout {
 
@@ -220,15 +220,18 @@ class StaffInfo extends Layout {
                     }
                 }
             });
+            const { address } = user;
+            const temptAddress = { ...address, state: getIdStateByName(this.props.stateCity, address.state) };
             const temptStaff = {
                 ...user,
                 isDisabled: (user.isDisabled === 'Active' ? 0 : 1),
+                address: temptAddress,
                 workingTime: objWorkingTime,
                 salary: objSalary,
                 tipFee: objTipFee,
             };
             if (this.props.isEditStaff) {
-                this.props.editStaff(temptStaff,this.state.staffId)
+                this.props.editStaff(temptStaff, this.state.staffId)
             } else {
                 this.props.addStaff(temptStaff);
             }

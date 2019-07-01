@@ -58,10 +58,11 @@ class Layout extends React.Component {
         const { visibleArchive, visibleRestore, infoStaffHandle,
             isEditStaff
         } = this.state;
-        const { isAddStaff, language } = this.props;
+        const { isAddStaff, language, stateCity } = this.props;
         return (
             <View style={styles.container} >
                 {isAddStaff ? <StaffInfo
+                    stateCity={stateCity}
                     language={language}
                     backTabelStaff={() => {
                         this.props.actions.staff.switchAddStaff(false);

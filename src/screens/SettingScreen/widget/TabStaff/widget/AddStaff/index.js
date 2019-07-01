@@ -4,7 +4,7 @@ import _ from 'ramda';
 
 import Layout from './layout';
 import strings from './strings';
-import { validateEmail } from '@utils';
+import { validateEmail, getIdStateByName } from '@utils';
 
 class AddStaff extends Layout {
 
@@ -218,9 +218,11 @@ class AddStaff extends Layout {
                     }
                 }
             });
+            const { address } = user;
+            const temptAddress = { ...address, state: getIdStateByName(this.props.stateCity, address.state) };
             const temptStaff = {
                 ...user,
-                // status: (user.status === 'Active' ? true : false),
+                address: temptAddress,
                 isDisabled: (user.isDisabled === 'Active' ? 0 : 1),
                 workingTime: objWorkingTime,
                 salary: objSalary,

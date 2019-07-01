@@ -98,6 +98,7 @@ const mapStateToProps = state => ({
     listStaffByMerchant: state.staff.listStaffByMerchant,
     isAddStaff: state.staff.isAddStaff,
     language: state.dataLocal.language,
+    stateCity: state.dataLocal.stateCity
 })
 
 

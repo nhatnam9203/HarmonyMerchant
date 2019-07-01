@@ -177,12 +177,13 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { isAddStaff, language } = this.props;
+        const { isAddStaff, language, stateCity } = this.props;
         const { isEditStaff, staffHandle } = this.state
         return (
             <View style={{ flex: 1 }} >
                 {
                     isAddStaff ? <AddStaff
+                        stateCity={stateCity}
                         language={language}
                         infoStaffHandle={staffHandle}
                         isEditStaff={isEditStaff}

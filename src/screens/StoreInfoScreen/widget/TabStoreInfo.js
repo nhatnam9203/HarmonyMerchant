@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
-    language: state.dataLocal.language
+    language: state.dataLocal.language,
 })
 
 

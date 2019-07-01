@@ -10,7 +10,7 @@ import {
     Dropdown,
     ButtonCustom, Text
 } from '@components';
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize, getArrayNameStateCity } from '@utils';
 import { ItemAdminInfo, } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
@@ -26,8 +26,8 @@ class Layout extends React.Component {
         } = this.state.user;
         const { street, city, state } = address;
         const { nameRole } = roles;
-        const { language,isEditStaff,infoStaffHandle } = this.props;
-        
+        const { language, isEditStaff, infoStaffHandle, stateCity } = this.props;
+
         const titleButton = this.props.isEditStaff ? 'SAVE' : 'ADD';
         const temptDataWorkingTime = isEditStaff ? infoStaffHandle.workingTimes : this.state.workingTime;
         const temptDataTipFee = isEditStaff ? infoStaffHandle.tipFees : this.state.tipFee;
@@ -83,7 +83,7 @@ class Layout extends React.Component {
                         }} >
                             <Dropdown
                                 label={localize('State', language)}
-                                data={[{ value: '1' }, { value: '2' }]}
+                                data={getArrayNameStateCity(stateCity)}
                                 value={state}
                                 onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
                                 containerStyle={styles.dropdown}

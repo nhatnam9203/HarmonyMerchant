@@ -124,7 +124,8 @@ const mapStateToProps = state => ({
     listStaffByMerchant: state.staff.listStaffByMerchant,
     isAddStaff: state.staff.isAddStaff,
     isShowSearch: state.staff.isShowSearch,
-    listSearchStaff: state.staff.listSearchStaff
+    listSearchStaff: state.staff.listSearchStaff,
+    stateCity: state.dataLocal.stateCity
 })
 
 

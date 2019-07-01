@@ -10,7 +10,7 @@ import {
     Dropdown,
     ButtonCustom, Text
 } from '@components';
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize,getArrayNameStateCity } from '@utils';
 import { ItemAdminInfo, } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
@@ -22,11 +22,11 @@ class Layout extends React.Component {
         const { address, firstName, lastName, displayName,
             cellphone, email, pin, confirmPin, roles,
             driverlicense, socialSecurityNumber, professionalLicense,
-            status
+            isDisabled
         } = this.state.user;
         const { street, city, state } = address;
         const { nameRole } = roles;
-        const { language } = this.props;
+        const { language ,stateCity} = this.props;
         return (
             <View style={styles.body} >
                 <ScrollView
@@ -78,7 +78,7 @@ class Layout extends React.Component {
                         }} >
                             <Dropdown
                                 label={localize('State', language)}
-                                data={[{ value: '1' }, { value: '2' }]}
+                                data={getArrayNameStateCity(stateCity)}
                                 value={state}
                                 onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
                                 containerStyle={styles.dropdown}
@@ -129,8 +129,8 @@ class Layout extends React.Component {
                         DropdowStatusAdmin={() => <Dropdown
                             label={localize('Status', language)}
                             data={[{ value: 'Active' }]}
-                            value={status}
-                            onChangeText={(value) => this.updateUserInfo('status', value)}
+                            value={isDisabled}
+                            onChangeText={(value) => this.updateUserInfo('isDisabled', value)}
                             containerStyle={styles.dropdown}
                         />}
                     />
