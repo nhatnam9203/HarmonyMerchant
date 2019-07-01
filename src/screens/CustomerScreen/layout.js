@@ -10,7 +10,8 @@ import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom } from '@c
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { HeaderTableCustomer, RowTableCustomer, RowEmptyTableCustomer,
+import {
+    HeaderTableCustomer, RowTableCustomer, RowEmptyTableCustomer,
     PopupAddEditCustomer
 } from './widget';
 
@@ -76,8 +77,8 @@ export default class Layout extends React.Component {
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
-                    <View style={{ flex: 1, justifyContent:'flex-end' }} >
-                        <Text style={{color:'#0764B0',fontSize:scaleSzie(18),fontWeight:'bold'}} >
+                    <View style={{ flex: 1, justifyContent: 'flex-end' }} >
+                        <Text style={{ color: '#0764B0', fontSize: scaleSzie(18), fontWeight: 'bold' }} >
                             {localize('Customer list', language)}
                         </Text>
                     </View>
@@ -120,6 +121,7 @@ export default class Layout extends React.Component {
 
     render() {
         const { language } = this.props;
+        const {visibleEditAddCustomer} = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -132,7 +134,7 @@ export default class Layout extends React.Component {
                     <View style={{ height: scaleSzie(16) }} />
                     {this.renderFilter()}
                     <View style={{ height: scaleSzie(18) }} />
-                    {this.renderTable()} 
+                    {this.renderTable()}
 
                     <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
@@ -145,11 +147,11 @@ export default class Layout extends React.Component {
                         <Image source={IMAGE.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
                     </Button>
                 </View>
-                <PopupAddEditCustomer 
+                <PopupAddEditCustomer
                     language={language}
-                 visible={true}
-                 title="New Customer"
-                 titleButton="Save"
+                    visible={visibleEditAddCustomer}
+                    title="New Customer"
+                    titleButton="Save"
                 />
             </ParentContainer>
         );

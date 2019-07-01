@@ -9,7 +9,8 @@ class CustomerScreen extends Layout {
         super(props);
         this.state = {
             isFocus: true,
-            isSelectAll: false
+            isSelectAll: false,
+            visibleEditAddCustomer:false
         }
         this.scrollTabRef = React.createRef();
         this.listProductRef = [];

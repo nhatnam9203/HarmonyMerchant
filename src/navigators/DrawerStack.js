@@ -16,14 +16,14 @@ import {
 } from '../screens';
 
 const DrawerStack = createDrawerNavigator({
-    SignIn: SignInScreen,
-    ForgotPassword: ForgotPasswordScreen,
+    // SignIn: SignInScreen,
+    // ForgotPassword: ForgotPasswordScreen,
     Home: HomeScreen,
     Setting: SettingScreen,
     Inventory: InventoryScreen,
     Customer: CustomerScreen
 }, {
-        initialRouteName: "Home",
+        initialRouteName: "Setting",
         contentComponent: SlideDrawer,
         drawerWidth: scaleSzie(220)
 
