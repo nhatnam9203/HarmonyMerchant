@@ -14,7 +14,7 @@ class TabService extends Layout {
                 role: '',
                 status: ''
             },
-            staffHandle: {},
+            serviceHanle: {},
             // ----
             searchFilter: {
                 keySearch: '',
@@ -25,7 +25,6 @@ class TabService extends Layout {
     }
 
     componentDidMount() {
-        // const { profile } = this.props;
         this.props.actions.service.getServicesByMerchant();
     }
 
@@ -58,18 +57,18 @@ class TabService extends Layout {
         })
     }
 
-    archirveStaffYess = async () => {
+    archiveServiceYess = async () => {
         await this.setState({
             visibleArchive: false,
         });
-        this.props.actions.staff.archiveStaff(this.state.staffHandle.staffId)
+        this.props.actions.service.archiveService(this.state.serviceHanle.serviceId);
     }
 
-    archirveRestoreYess = async () => {
+    restoreServiceYess = async () => {
         await this.setState({
             visibleRestore: false,
         });
-        this.props.actions.staff.restoreStaff(this.state.staffHandle.staffId)
+        this.props.actions.service.restoreService(this.state.serviceHanle.serviceId);
     }
 
     searchStaff = () => {
@@ -85,25 +84,25 @@ class TabService extends Layout {
         this.props.actions.staff.switchAddStaff(true);
     }
 
-    archiveStaff(staff) {
+    archiveService(service) {
         this.setState({
             visibleArchive: true,
-            staffHandle: staff
+            serviceHanle: service
         })
     }
 
     async editStaff(staff) {
         await this.setState({
-            staffHandle: staff,
+            serviceHanle: staff,
             isEditStaff: true
         });
         this.props.actions.staff.switchAddStaff(true);
     }
 
-    restoreStaff(staff) {
+    restoreService(service) {
         this.setState({
             visibleRestore: true,
-            staffHandle: staff
+            serviceHanle: service
         })
     }
 

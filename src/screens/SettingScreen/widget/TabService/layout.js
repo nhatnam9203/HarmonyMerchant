@@ -150,9 +150,9 @@ class Layout extends React.Component {
                         renderItem={({ item, index }) => <RowTableService
                             index={index}
                             service={item}
-                            archiveStaff={() => this.archiveStaff(item)}
+                            archiveService={() => this.archiveService(item)}
                             editStaff={() => this.editStaff(item)}
-                            restoreStaff={() => this.restoreStaff(item)}
+                            restoreService={() => this.restoreService(item)}
                             categoryName={getCategoryName(categoriesByMerchant,item.categoryId)}
                         />}
                         keyExtractor={(item, index) => `${index}`}
@@ -162,16 +162,16 @@ class Layout extends React.Component {
                 <PopupConfirm
                     visible={visibleArchive}
                     title="Confirmation"
-                    message="Do you want to Archive this Staff ?"
+                    message="Do you want to Archive this Service ?"
                     onRequestClose={() => this.togglePopupArchive(false)}
-                    confimYes={() => this.archirveStaffYess()}
+                    confimYes={() => this.archiveServiceYess()}
                 />
                 <PopupConfirm
                     visible={visibleRestore}
                     title="Confirmation"
-                    message="Do you want to Restore this Staff ?"
+                    message="Do you want to Restore this Service ?"
                     onRequestClose={() => this.togglePopupRestore(false)}
-                    confimYes={() => this.archirveRestoreYess()}
+                    confimYes={() => this.restoreServiceYess()}
                 />
             </View>
         );
