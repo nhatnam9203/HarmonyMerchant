@@ -5,11 +5,10 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { FooterTab, PopupConfirm } from '@components';
+import { FooterTab, PopupConfirm,PopupAddEditService } from '@components';
 import { scaleSzie, getCategoryName } from '@utils';
 import HeaderTableServices from './HeaderTableServices';
 import RowTableServices from './RowTableServices';
-import PopupAddService from './PopupAddService';
 import RowEmptyTableServices from './RowEmptyTableServices';
 import connectRedux from '@redux/ConnectRedux';
 
@@ -173,7 +172,7 @@ class TabServices extends React.Component {
                     onRequestClose={() => this.togglePopupRestore(false)}
                     confimYes={() => this.restoreStaffYess()}
                 />
-                <PopupAddService
+                <PopupAddEditService
                     ref={this.addServiceRef}
                     visible={visibleAdd}
                     title="Add Service"
@@ -182,7 +181,7 @@ class TabServices extends React.Component {
                     doneAddService={this.addService}
                     categoriesByMerchant={this.props.categoriesByMerchant}
                 />
-                <PopupAddService
+                <PopupAddEditService
                     ref={this.editServiceRef}
                     visible={visibleEdit}
                     title="Edit Service"

@@ -19,6 +19,7 @@ import StatusBarHeader from './StatusBar';
 import HomeTabBar from './HomeTabBar';
 import ParentContainer from './ParentContainer';
 import SettingTabBar from './SettingTabBar';
+import PopupAddEditService from './PopupAddEditService';
 
 module.exports = {
     Button,
@@ -41,6 +42,7 @@ module.exports = {
     StatusBarHeader,
     HomeTabBar,
     ParentContainer,
-    SettingTabBar
+    SettingTabBar,
+    PopupAddEditService
 
 }

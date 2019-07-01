@@ -2,7 +2,6 @@ import React from 'react';
 import {
     View,
     Text,
-    StyleSheet,
     TextInput,
     Dimensions,
     ScrollView,
@@ -10,13 +9,15 @@ import {
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
-import { ButtonCustom, PopupParent, Dropdown } from '@components';
-import { scaleSzie ,getCategoryName} from '@utils';
+import ButtonCustom from './ButtonCustom';
+import PopupParent from './PopupParent';
+import {Dropdown} from './react-native-material-dropdown';
+
+import { scaleSzie, getCategoryName } from '@utils';
 
 const { width } = Dimensions.get('window');
 
-
-class PopupAddService extends React.Component {
+class PopupAddEditService extends React.Component {
 
     constructor(props) {
         super(props);
@@ -40,7 +41,7 @@ class PopupAddService extends React.Component {
     }
 
     setServiceFromParent = async (service) => {
-        const {categoriesByMerchant} = this.props;
+        const { categoriesByMerchant } = this.props;
         await this.setState({
             serviceInfo: {
                 serviceId: service.serviceId,
@@ -143,9 +144,9 @@ class PopupAddService extends React.Component {
                 const dataServiceAdd = { ...temptServiceInfo, extras: arrayExtra };
                 this.arrayExtraRef = [];
                 if (this.props.isSave) {
-                    this.props.editService({...dataServiceAdd,isDisabled:dataServiceAdd.isDisabled === 'Active' ? 0 : 1});
+                    this.props.editService({ ...dataServiceAdd, isDisabled: dataServiceAdd.isDisabled === 'Active' ? 0 : 1 });
                 } else {
-                    this.props.doneAddService({...dataServiceAdd,isDisabled:dataServiceAdd.isDisabled === 'Active' ? 0 : 1});
+                    this.props.doneAddService({ ...dataServiceAdd, isDisabled: dataServiceAdd.isDisabled === 'Active' ? 0 : 1 });
                 }
 
             } else {
@@ -158,7 +159,7 @@ class PopupAddService extends React.Component {
     getCateroryId(name) {
         const { categoriesByMerchant } = this.props;
         let categoryId = '';
-        for (let i = 0; i <= categoriesByMerchant.length -1; i++) {
+        for (let i = 0; i <= categoriesByMerchant.length - 1; i++) {
             if (categoriesByMerchant[i].name == name) {
                 categoryId = categoriesByMerchant[i].categoryId;
                 break;
@@ -582,5 +583,5 @@ const strings = {
     status: 'Active'
 }
 
-export default PopupAddService;
+export default PopupAddEditService;
 
