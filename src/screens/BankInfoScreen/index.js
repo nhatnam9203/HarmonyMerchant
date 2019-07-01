@@ -40,10 +40,6 @@ class BankInfoScreen extends Layout {
         }
     }
 
-    nextSreen1 = () => {
-        this.props.navigation.navigate('PrincipalInfo');
-    }
-
     nextSreen = () => {
         const { bankInfo, uriUpload } = this.state;
         const arrayKey = Object.keys(bankInfo);
@@ -93,10 +89,16 @@ class BankInfoScreen extends Layout {
     openImageLibrary = () => {
         ImagePicker.launchImageLibrary({}, (response) => {
             if (response.uri) {
-                this.setState({
-                    uriUpload: response.uri,
-                    visibleUpload: true
-                })
+                console.log(response);
+                // this.setState({
+                //     uriUpload: response.uri,
+                //     visibleUpload: true
+                // })
+                this.props.actions.upload.uploadAvatar([{
+                    uri: response.uri,
+                    fileName: response.fileName,
+                    type: response.type
+                }]);
             }
         });
     }

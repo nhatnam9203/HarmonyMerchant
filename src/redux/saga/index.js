@@ -7,6 +7,7 @@ import product from './product';
 import staff from './staff';
 import service from './service';
 import extra from './extra';
+import upload from './upload';
 
 export default function* sagaRoot() {
     yield all([
@@ -16,6 +17,7 @@ export default function* sagaRoot() {
         product(),
         staff(),
         service(),
-        extra()
+        extra(),
+        upload()
     ])
 }

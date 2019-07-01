@@ -17,9 +17,9 @@ class SplashScreen extends Layout {
         setTimeout(() => {
             if (!token) {
                 this.props.navigation.navigate('Auth');
-            }else if(token && profile.staffs){
+            } else if (token && profile.staffs) {
                 this.props.navigation.navigate('Drawer');
-            }else{
+            } else {
                 this.props.navigation.navigate('SetupStore');
             }
         }, 1000)
@@ -31,7 +31,7 @@ class SplashScreen extends Layout {
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
-    token :state.dataLocal.token
+    token: state.dataLocal.token
 })
 
 

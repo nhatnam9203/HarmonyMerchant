@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateEmail, validateIsNumber } from '@utils';
+import { validateEmail, validateIsNumber, getIdStateByName } from '@utils';
 
 class GeneralInfoScreen extends Layout {
 
@@ -112,21 +112,26 @@ class GeneralInfoScreen extends Layout {
                 }
             }
         }
+
         if (keyError !== '') {
             Alert.alert(`${strings[keyError]}`);
         } else {
-            const temptGeneralInfo = { ...generalInfo, tax: `${generalInfo.tax.prefix}-${generalInfo.tax.suffix}` };
+            const { businessAddress } = generalInfo;
+            const temptBusinessAddress = { ...businessAddress, state: getIdStateByName(this.props.stateCity, businessAddress.state) };
+            const temptGeneralInfo = {
+                ...generalInfo, tax: `${generalInfo.tax.prefix}-${generalInfo.tax.suffix}`,
+                businessAddress: temptBusinessAddress
+            };
             this.props.actions.app.setGeneralInfo(temptGeneralInfo);
             this.props.navigation.navigate('BusinessInfo');
         }
 
     }
-
-
 }
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
+    stateCity: state.dataLocal.stateCity
 })
 
 

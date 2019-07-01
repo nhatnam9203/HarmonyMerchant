@@ -6,6 +6,7 @@ import * as product from './product';
 import * as staff from './staff';
 import * as service from './service';
 import * as extra from './extra';
+import * as upload from './upload';
 
 export default {
     app,
@@ -15,5 +16,6 @@ export default {
     product,
     staff,
     service,
-    extra
+    extra,
+    upload
 }

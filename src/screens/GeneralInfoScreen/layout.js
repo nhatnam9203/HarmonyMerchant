@@ -5,7 +5,7 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 
 import { InputForm, FormInfoParent, Text, Dropdown } from '@components';
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize,getArrayNameStateCity } from '@utils';
 
 export default class Layout extends React.Component {
 
@@ -17,7 +17,7 @@ export default class Layout extends React.Component {
         } = generalInfo;
         const { prefix, suffix } = tax;
         const { address, city, state, zip } = businessAddress;
-        const { language } = this.props;
+        const { language ,stateCity} = this.props;
         return (
             <FormInfoParent
                 title={localize('General Information', language)}
@@ -97,7 +97,7 @@ export default class Layout extends React.Component {
                         <View style={{ width: scaleSzie(180), backgroundColor: 'red' }} >
                             <Dropdown
                                 label={'State'}
-                                data={[{ value: '1' }, { value: '2' }, { value: 3 }, { value: '4' }]}
+                                data={getArrayNameStateCity(stateCity)}
                                 value={state}
                                 onChangeText={(value) => this.updateGeneralInfo('state', value, 'businessAddress')}
                                 containerStyle={{

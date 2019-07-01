@@ -66,12 +66,13 @@ export const uploadFromData = async (action, headers = {}) => {
     if (action.token) {
         request.headers['Authorization'] = "Bearer " + action.token;
     }
-    if (
-        (method == "POST" || method == "DELETE" || method == "PUT") &&
-        action.body
-    ) {
-        request["body"] = this.createFormData(action.media, action.body);
-    }
+    request["body"] = this.createFormData(action.media);
+    // if (
+    //     (method == "POST" || method == "DELETE" || method == "PUT") &&
+    //     action.body
+    // ) {
+    //     request["body"] = this.createFormData(action.media, action.body);
+    // }
     try {
         let response = await fetch(action.api, request);
         return await response.json();
@@ -80,7 +81,7 @@ export const uploadFromData = async (action, headers = {}) => {
     }
 };
 
-createFormData = (media, body) => {
+createFormData = (media) => {
     const data = new FormData();
     for (let i = 0; i < media.length; i++) {
         data.append("files[]", {
@@ -92,9 +93,9 @@ createFormData = (media, body) => {
             type: media[i].type ? media[i].type : "image/jpeg"
         });
     }
-    Object.keys(body).forEach(key => {
-        data.append(key, body[key]);
-    });
+    // Object.keys(body).forEach(key => {
+    //     data.append(key, body[key]);
+    // });
     return data;
 };
 
@@ -138,6 +139,24 @@ export const getCategoryName = (categories, id) => {
         }
     }
     return name;
+}
+
+export const getArrayNameStateCity = (stateCity = []) => {
+    const p = stateCity.map(state => {
+        return { value: state.name }
+    });
+    return p;
+}
+
+export const getIdStateByName = (stateCity = [], name = '') => {
+    let stateId = '';
+    for (let i = 0; i < stateCity.length; i++) {
+        if (stateCity[i].name == name) {
+            stateId = stateCity[i].stateId;
+            break;
+        }
+    }
+    return stateId;
 }
 
 export const WorkingTime = [
