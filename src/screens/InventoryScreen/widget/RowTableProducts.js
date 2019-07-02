@@ -45,11 +45,13 @@ class RowTableProducts extends React.Component {
     }
 
     render() {
-        const { product,nameCategory ,showDetailProduct} = this.props;
+        const { product, nameCategory, showDetailProduct } = this.props;
         const { isCheck } = this.state;
         const temptIconCheckbox = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
+        const { minThreshold, quantity, needToorDer } = product;
+        const temptTextColor = quantity < needToorDer || quantity < minThreshold ? { color: '#FF3B30' } : { color: '#6A6A6A' };
         return (
-            <Button onPress={()=>showDetailProduct(product)} style={styles.tableHeader} >
+            <Button onPress={() => showDetailProduct(product)} style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
                 <View style={{
                     flex: 1, flexDirection: 'row',
@@ -64,7 +66,7 @@ class RowTableProducts extends React.Component {
                             <Image source={temptIconCheckbox}
                             />
                         </Button>
-                        <Text style={styles.textTableHeader} >
+                        <Text style={[styles.textTableHeader, temptTextColor]} >
                             {product.name}
                         </Text>
                     </View>
@@ -77,7 +79,7 @@ class RowTableProducts extends React.Component {
                     width: scaleSzie(140), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
+                        <Text style={[styles.textTableHeader, temptTextColor]} >
                             {product.sku}
                         </Text>
                     </View>
@@ -90,7 +92,7 @@ class RowTableProducts extends React.Component {
                     width: scaleSzie(140), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
+                        <Text style={[styles.textTableHeader, temptTextColor]} >
                             {nameCategory}
                         </Text>
                     </View>
@@ -103,7 +105,7 @@ class RowTableProducts extends React.Component {
                     width: scaleSzie(140), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
+                        <Text style={[styles.textTableHeader, temptTextColor]} >
                             {product.price}
                         </Text>
                     </View>
@@ -118,7 +120,7 @@ class RowTableProducts extends React.Component {
                     width: scaleSzie(140), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
+                        <Text style={[styles.textTableHeader, temptTextColor]} >
                             {product.needToorDer}
                         </Text>
                     </View>
@@ -145,6 +147,7 @@ const styles = StyleSheet.create({
     },
     textTableHeader: {
         color: '#6A6A6A',
+        // color:'#FF3B30',
         fontSize: scaleSzie(14)
     },
     itemTableHeaderContainer: {

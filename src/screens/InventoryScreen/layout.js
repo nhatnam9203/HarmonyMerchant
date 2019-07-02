@@ -10,7 +10,7 @@ import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown 
 import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { HeaderTableProducts, RowTableProducts, RowEmptyTableProducts } from './widget';
+import { HeaderTableProducts, RowTableProducts, RowEmptyTableProducts, PopupDetailProduct } from './widget';
 
 export default class Layout extends React.Component {
 
@@ -167,8 +167,8 @@ export default class Layout extends React.Component {
     }
 
     renderTable() {
-        const { productsByMerchantId, categoriesByMerchant ,
-            listProductsSearch,isShowSearchProduct
+        const { productsByMerchantId, categoriesByMerchant,
+            listProductsSearch, isShowSearchProduct
         } = this.props;
         const tempData = isShowSearchProduct ? listProductsSearch : productsByMerchantId;
         return (
@@ -215,7 +215,13 @@ export default class Layout extends React.Component {
                     }} >
                         <Image source={IMAGE.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
                     </Button>
+                    <PopupDetailProduct
+                    title={'Product Details'}
+                    visible={true}
+                    onRequestClose={() => { }}
+                />
                 </View>
+              
             </ParentContainer>
         );
     }
