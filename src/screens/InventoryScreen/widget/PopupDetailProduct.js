@@ -10,7 +10,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-import { ButtonCustom, PopupParent } from '@components';
+import { ButtonCustom, PopupParent, PopupConfirm } from '@components';
 import { scaleSzie, localize, getCategoryName } from '@utils';
 
 const { width } = Dimensions.get('window');
@@ -32,7 +32,9 @@ class PopupDetailProduct extends React.Component {
                 price: '',
                 isDisabled: 'Active',
                 needToorDer: 0
-            }
+            },
+            visibleArchive: false,
+            visibleRestore: false
         }
     }
 
@@ -47,6 +49,24 @@ class PopupDetailProduct extends React.Component {
             }
         })
     }
+
+    showModalEditProduct = () => {
+
+    }
+
+    showModalArchive = () => {
+        this.setState({
+            visibleArchive: true
+        });
+    }
+
+    showModalRestore = () => {
+        this.setState({
+            visibleRestore: true
+        })
+    }
+
+    // ---------- Render --------
 
     render() {
         const { title, visible, onRequestClose, language } = this.props;
@@ -122,9 +142,8 @@ class PopupDetailProduct extends React.Component {
                                         placeholder=""
                                         style={{ flex: 1, fontSize: scaleSzie(16) }}
                                         multiline={true}
-                                    value={description}
-                                    editable={false}
-                                    // onChangeText={value => this.updateProductInfo('description', value)}
+                                        value={description}
+                                        editable={false}
                                     />
                                 </View>
                             </TouchableOpacity>
@@ -141,7 +160,7 @@ class PopupDetailProduct extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Edit', language)}
                             textColor="#6A6A6A"
-                            onPress={this.doneAddProduct}
+                            onPress={this.showModalEditProduct}
                             style={{
                                 borderRadius: scaleSzie(2),
                                 borderColor: '#C5C5C5',
@@ -152,25 +171,59 @@ class PopupDetailProduct extends React.Component {
                                 fontWeight: '500'
                             }}
                         />
-                        <ButtonCustom
-                            width={200}
-                            height={45}
-                            backgroundColor="#F1F1F1"
-                            title={localize('Archive', language)}
-                            textColor="#6A6A6A"
-                            onPress={this.doneAddProduct}
-                            style={{
-                                borderRadius: scaleSzie(2),
-                                borderColor: '#C5C5C5',
-                                borderWidth: 1,
-                            }}
-                            styleText={{
-                                fontSize: scaleSzie(16),
-                                fontWeight: '500'
-                            }}
-                        />
+                        {
+                            isDisabled === 0 || isDisabled === 'Active' ?
+                                <ButtonCustom
+                                    width={200}
+                                    height={45}
+                                    backgroundColor="#F1F1F1"
+                                    title={localize('Archive', language)}
+                                    textColor="#6A6A6A"
+                                    onPress={this.showModalArchive}
+                                    style={{
+                                        borderRadius: scaleSzie(2),
+                                        borderColor: '#C5C5C5',
+                                        borderWidth: 1,
+                                    }}
+                                    styleText={{
+                                        fontSize: scaleSzie(16),
+                                        fontWeight: '500'
+                                    }}
+                                /> : <ButtonCustom
+                                    width={200}
+                                    height={45}
+                                    backgroundColor="#F1F1F1"
+                                    title={localize('Restore', language)}
+                                    textColor="#6A6A6A"
+                                    onPress={this.showModalRestore}
+                                    style={{
+                                        borderRadius: scaleSzie(2),
+                                        borderColor: '#C5C5C5',
+                                        borderWidth: 1,
+                                    }}
+                                    styleText={{
+                                        fontSize: scaleSzie(16),
+                                        fontWeight: '500'
+                                    }}
+                                />
+                        }
+
                     </View>
                 </View>
+                <PopupConfirm
+                    visible={this.state.visibleArchive}
+                    title="Confirmation"
+                    message="Do you want to Archive this Product ?"
+                    onRequestClose={() => this.setState({ visibleArchive: false })}
+                    confimYes={() => { }}
+                />
+                <PopupConfirm
+                    visible={this.state.visibleRestore}
+                    title="Confirmation"
+                    message="Do you want to Restore this Product ?"
+                    onRequestClose={() => this.setState({ visibleRestore: false })}
+                    confimYes={() => { }}
+                />
             </PopupParent>
         );
     }
