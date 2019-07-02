@@ -22,7 +22,7 @@ class TabService extends Layout {
             // ----
             searchFilter: {
                 keySearch: '',
-                role: '',
+                category: '',
                 status: ''
             }
         };
@@ -79,8 +79,12 @@ class TabService extends Layout {
 
     searchStaff = () => {
         const { searchFilter } = this.state;
-        const { keySearch, role, status } = searchFilter;
-        this.props.actions.staff.searchStaffByName(keySearch, role, status);
+        const { keySearch, category, status } = searchFilter;
+        if (keySearch == '' && category == '' & status == '') {
+            // this.props.actions.staff.clearSearch();
+        } else {
+            this.props.actions.service.searchService(keySearch, category, status);
+        }
     }
 
     showModalAddService = () => {
@@ -93,7 +97,7 @@ class TabService extends Layout {
         }
     }
 
-    submitAddService =(service)=>{
+    submitAddService = (service) => {
         this.props.actions.service.addServiceByMerchant(service);
         this.setState({ visibleAdd: false })
     }

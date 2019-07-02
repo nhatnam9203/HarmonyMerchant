@@ -68,7 +68,7 @@ class Layout extends React.Component {
     renderFilter() {
         const { language } = this.props;
         const { searchFilter } = this.state;
-        const { role, status } = searchFilter;
+        const { category, status } = searchFilter;
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
@@ -83,8 +83,8 @@ class Layout extends React.Component {
                                 <Dropdown
                                     label={localize('Categories', language)}
                                     data={[{ value: '' }, { value: 'Admin' }, { value: 'Staff' }]}
-                                    value={role}
-                                    onChangeText={(value) => this.updateSearchFilterInfo('role', value)}
+                                    value={category}
+                                    onChangeText={(value) => this.updateSearchFilterInfo('category', value)}
                                     containerStyle={{
                                         backgroundColor: 'rgb(246,246,246)',
                                         borderWidth: 1,

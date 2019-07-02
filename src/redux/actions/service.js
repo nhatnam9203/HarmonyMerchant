@@ -48,3 +48,12 @@ export function editService(body, id) {
         api: `${apiConfigs.BASE_API}service/${id}`,
     }
 }
+
+export function searchService(name = '', category = '', status = '') {
+    return {
+        type: 'SEARCH_SERVICE',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}service/search?name=${name}&category=${category}&status=${status}`
+    }
+}
