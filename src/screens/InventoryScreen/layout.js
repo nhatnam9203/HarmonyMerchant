@@ -6,7 +6,7 @@ import {
     FlatList
 } from 'react-native';
 
-import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown } from '@components';
+import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown,PopupAddEditProduct } from '@components';
 import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
@@ -226,6 +226,17 @@ export default class Layout extends React.Component {
                     categoriesByMerchant={categoriesByMerchant}
                     submitArchiveYess={this.submitArchiveYess}
                     submitRestoreYess={this.submitRestoreYess}
+                    showModalEditProduct={this.showModalEditProduct}
+                />
+                 <PopupAddEditProduct
+                    ref={this.editProductRef}
+                    visible={this.state.visibleEdit}
+                    title="Edit Product"
+                    titleButton="Save"
+                    isSave={true}
+                    onRequestClose={() => this.setState({ visibleEdit: false })}
+                    editProduct={this.editProduct}
+                    categoriesByMerchant={this.props.categoriesByMerchant}
                 />
             </ParentContainer>
         );

@@ -90,7 +90,7 @@ class PopupAddEditProduct extends React.Component {
         const { productInfo } = this.state;
         const temptProductInfo = {
             ...productInfo,
-            categoryId: productInfo.categoryId !== '' ? getCategoryIdByName(this.props.categoriesByMerchant,serviceInfo.categoryId,'Service') : ''
+            categoryId: productInfo.categoryId !== '' ? getCategoryIdByName(this.props.categoriesByMerchant,productInfo.categoryId,'Product') : ''
         }
         const arrayKey = Object.keys(temptProductInfo);
         let keyError = "";

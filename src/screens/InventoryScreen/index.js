@@ -11,7 +11,8 @@ class InventoryScreen extends Layout {
         this.state = {
             isFocus: true,
             isSelectAll: false,
-            visiblePopupDetail:false,
+            visiblePopupDetail: false,
+            visibleEdit: false,
             searchFilter: {
                 keySearch: '',
                 category: '',
@@ -21,6 +22,7 @@ class InventoryScreen extends Layout {
         this.scrollTabRef = React.createRef();
         this.productDetailRef = React.createRef();
         this.listProductRef = [];
+        this.editProductRef = React.createRef();
     }
 
     componentDidMount() {
@@ -95,9 +97,9 @@ class InventoryScreen extends Layout {
         this.setState({ isSelectAll: false })
     }
 
-    closePopupProductDetail =() =>{
+    closePopupProductDetail = () => {
         this.setState({
-            visiblePopupDetail:false
+            visiblePopupDetail: false
         })
     }
 
@@ -106,10 +108,10 @@ class InventoryScreen extends Layout {
         alert('dd')
     }
 
-    showDetailProduct =  (product) => {
+    showDetailProduct = (product) => {
         this.productDetailRef.current.setProductInfoFromParent(product);
         this.setState({
-            visiblePopupDetail:true
+            visiblePopupDetail: true
         })
     }
 
@@ -125,12 +127,38 @@ class InventoryScreen extends Layout {
         }
     }
 
-    submitArchiveYess = (id) =>{
+    submitArchiveYess = (id) => {
         this.props.actions.product.archiveProduct(id);
     }
 
-    submitRestoreYess =(id) =>{
+    submitRestoreYess = (id) => {
         this.props.actions.product.restoreProduct(id);
+    }
+
+    showModalEditProduct = async (id) => {
+        await this.setState({
+            visiblePopupDetail: false
+        });
+        const { productsByMerchantId, listProductsSearch, isShowSearchProduct} = this.props;
+        const tempData = isShowSearchProduct ? listProductsSearch : productsByMerchantId;
+        let temptProductEdit = '';
+        for(let i = 0 ; i< tempData.length ; i++){
+            if(tempData[i].productId === id){
+                temptProductEdit = {...tempData[i]};
+                break;
+            }
+        }
+        this.editProductRef.current.setProductInfoFromParent(temptProductEdit);
+        this.setState({
+            visibleEdit: true
+        })
+        // console.log(id);
+
+    }
+
+    editProduct = (product) => {
+        this.props.actions.product.editProduct(product, product.productId);
+        this.setState({ visibleEdit: false })
     }
 
     // ----- End Handle ---

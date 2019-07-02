@@ -50,8 +50,9 @@ class PopupDetailProduct extends React.Component {
         })
     }
 
-    showModalEditProduct = () => {
-
+    showModalEditProduct = async () => {
+        const { productInfo } = this.state;
+        this.props.showModalEditProduct(productInfo.productId);
     }
 
     showModalArchive = () => {
