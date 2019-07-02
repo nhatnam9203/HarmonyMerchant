@@ -13,7 +13,7 @@ import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import {Dropdown} from './react-native-material-dropdown';
 
-import { scaleSzie, getCategoryName } from '@utils';
+import { scaleSzie, getCategoryName,getArrayNameCategories } from '@utils';
 
 const { width } = Dimensions.get('window');
 
@@ -80,10 +80,6 @@ class PopupAddEditService extends React.Component {
         if (ref != null) {
             this.arrayExtraRef.push(ref);
         }
-    }
-
-    filterCategories(categories) {
-        return categories.map(category => ({ value: category.name, id: category.categoryId }));
     }
 
     updateServiceInfo(key, value, keyParent = '') {
@@ -214,7 +210,7 @@ class PopupAddEditService extends React.Component {
                             <View style={{ width: scaleSzie(200), height: scaleSzie(30), }} >
                                 <Dropdown
                                     label='Facial'
-                                    data={this.filterCategories(categoriesByMerchant)}
+                                    data={getArrayNameCategories(categoriesByMerchant,'Service')}
                                     value={categoryId}
                                     onChangeText={(value) => this.updateServiceInfo('categoryId', value)}
                                     containerStyle={{

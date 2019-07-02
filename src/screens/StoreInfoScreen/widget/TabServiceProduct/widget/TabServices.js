@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { FooterTab, PopupConfirm,PopupAddEditService } from '@components';
-import { scaleSzie, getCategoryName } from '@utils';
+import { scaleSzie, getCategoryName ,getArrayNameCategories} from '@utils';
 import HeaderTableServices from './HeaderTableServices';
 import RowTableServices from './RowTableServices';
 import RowEmptyTableServices from './RowEmptyTableServices';
@@ -111,11 +111,11 @@ class TabServices extends React.Component {
 
     showModalAddService = () => {
         const { categoriesByMerchant } = this.props;
-        if (categoriesByMerchant.length > 0) {
+        if (getArrayNameCategories(categoriesByMerchant,'Service').length > 0) {
             this.addServiceRef.current.setDefaultStateFromParent();
             this.setState({ visibleAdd: true });
         } else {
-            alert('Create category before add service please !')
+            alert('Create service category before add service please !')
         }
     }
 

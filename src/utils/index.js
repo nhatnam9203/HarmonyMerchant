@@ -140,11 +140,27 @@ export const getCategoryName = (categories, id) => {
     return name;
 }
 
+export const getArrayNameCategories = (categories = [], type = '') => {
+    const arrayName = [];
+    for(let i = 0; i< categories.length ; i++){
+        if(type == ''){
+            arrayName.push({value :categories[i].name});
+        }else{
+            if (categories[i].categoryType == type) {
+                arrayName.push({value :categories[i].name});
+            }
+        }
+    }
+    console.log('arrayName : ',arrayName);
+    return arrayName
+
+}
+
 export const getArrayNameStateCity = (stateCity = []) => {
-    const p = stateCity.map(state => {
+    const arrayName = stateCity.map(state => {
         return { value: state.name }
     });
-    return p;
+    return arrayName;
 }
 
 export const getIdStateByName = (stateCity = [], name = '') => {

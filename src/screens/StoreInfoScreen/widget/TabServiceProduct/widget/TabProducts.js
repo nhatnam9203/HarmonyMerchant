@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { FooterTab, PopupConfirm,PopupAddEditProduct} from '@components';
-import { scaleSzie, getCategoryName } from '@utils';
+import { scaleSzie, getCategoryName ,getArrayNameCategories} from '@utils';
 import HeaderTableProducts from './HeaderTableProducts';
 import RowTableProducts from './RowTableProducts';
 import RowEmptyTableProducts from './RowEmptyTableProducts';
@@ -87,7 +87,7 @@ class TabProducts extends React.Component {
 
     showModalAddProduct = () => {
         const { categoriesByMerchant } = this.props;
-        if (categoriesByMerchant.length > 0) {
+        if (getArrayNameCategories(categoriesByMerchant,'Product').length > 0) {
             this.setState({ visibleAdd: true });
             this.addProductRef.current.setDefaultStateFromParent();
         } else {
