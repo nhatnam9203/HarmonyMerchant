@@ -13,7 +13,7 @@ import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import { Dropdown } from './react-native-material-dropdown';
 
-import { scaleSzie, getCategoryName, getArrayNameCategories } from '@utils';
+import { scaleSzie, getCategoryName, getArrayNameCategories ,getCategoryIdByName} from '@utils';
 
 const { width } = Dimensions.get('window');
 
@@ -108,7 +108,7 @@ class PopupAddEditService extends React.Component {
             duration,
             openTime,
             secondTime,
-            categoryId: serviceInfo.categoryId !== '' ? this.getCateroryId(serviceInfo.categoryId) : ''
+            categoryId: serviceInfo.categoryId !== '' ? getCategoryIdByName(this.props.categoriesByMerchant,serviceInfo.categoryId,'Service') : ''
         };
         const arrayKey = Object.keys(temptServiceInfo);
         let keyError = "";
@@ -154,17 +154,6 @@ class PopupAddEditService extends React.Component {
         }
     }
 
-    getCateroryId(name) {
-        const { categoriesByMerchant } = this.props;
-        let categoryId = '';
-        for (let i = 0; i <= categoriesByMerchant.length - 1; i++) {
-            if (categoriesByMerchant[i].name == name) {
-                categoryId = categoriesByMerchant[i].categoryId;
-                break;
-            }
-        }
-        return categoryId;
-    }
 
     addMoreExtra = () => {
         const temptArrayExtra = [...this.state.arrayExtra];

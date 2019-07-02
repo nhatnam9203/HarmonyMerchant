@@ -20,7 +20,8 @@ function appReducer(state = initialState, action) {
         case 'CLEAR_SEARCH':
             return {
                 ...state,
-                isShowSearch: false
+                isShowSearch: false,
+                listSearchStaff: []
             }
         case 'SEARCH_STAFF_BY_NAME_SUCCESS':
             return {

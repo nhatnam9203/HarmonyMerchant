@@ -2,7 +2,7 @@ import React from 'react';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { getArrayNameCategories} from '@utils';
+import { getArrayNameCategories, getCategoryIdByName } from '@utils';
 
 class TabService extends Layout {
 
@@ -81,15 +81,16 @@ class TabService extends Layout {
         const { searchFilter } = this.state;
         const { keySearch, category, status } = searchFilter;
         if (keySearch == '' && category == '' & status == '') {
-            // this.props.actions.staff.clearSearch();
+            this.props.actions.service.clearSearchService();
         } else {
-            this.props.actions.service.searchService(keySearch, category, status);
+            const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Service') : '';
+            this.props.actions.service.searchService(keySearch, temptCategory, status);
         }
     }
 
     showModalAddService = () => {
         const { categoriesByMerchant } = this.props;
-        if (getArrayNameCategories(categoriesByMerchant,'Service').length > 0) {
+        if (getArrayNameCategories(categoriesByMerchant, 'Service').length > 0) {
             this.addServiceRef.current.setDefaultStateFromParent();
             this.setState({ visibleAdd: true });
         } else {
@@ -142,7 +143,9 @@ class TabService extends Layout {
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     servicesByMerchant: state.service.servicesByMerchant,
-    categoriesByMerchant: state.category.categoriesByMerchant
+    categoriesByMerchant: state.category.categoriesByMerchant,
+    listServicesSearch: state.service.listServicesSearch,
+    isShowSearchService: state.service.isShowSearchService
 })
 
 

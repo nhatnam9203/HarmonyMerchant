@@ -57,3 +57,10 @@ export function searchService(name = '', category = '', status = '') {
         api: `${apiConfigs.BASE_API}service/search?name=${name}&category=${category}&status=${status}`
     }
 }
+
+export function clearSearchService() {
+    return {
+        type: 'CLEAR_SEARCH_SERVICE',
+        payload: true
+    }
+}

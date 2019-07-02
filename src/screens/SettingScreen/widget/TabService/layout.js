@@ -6,7 +6,7 @@ import {
     FlatList,
 } from 'react-native';
 
-import { scaleSzie, localize, getCategoryName ,getArrayNameCategories} from '@utils';
+import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
 import { Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
@@ -35,7 +35,7 @@ class Layout extends React.Component {
                                     value={keySearch}
                                     onChangeText={(value) => {
                                         if (value === '') {
-                                            this.props.actions.staff.clearSearch();
+                                            this.props.actions.service.clearSearchService();
                                         }
                                         this.updateSearchFilterInfo('keySearch', value)
                                     }}
@@ -66,9 +66,11 @@ class Layout extends React.Component {
     }
 
     renderFilter() {
-        const { language,categoriesByMerchant } = this.props;
+        const { language, categoriesByMerchant } = this.props;
         const { searchFilter } = this.state;
         const { category, status } = searchFilter;
+        const dataServicesCategory =getArrayNameCategories(categoriesByMerchant, 'Service');
+        dataServicesCategory.unshift({value:''})
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
@@ -82,7 +84,7 @@ class Layout extends React.Component {
                             <View style={{ width: scaleSzie(120) }} >
                                 <Dropdown
                                     label={localize('Categories', language)}
-                                    data={getArrayNameCategories(categoriesByMerchant,'Service')}
+                                    data={dataServicesCategory}
                                     value={category}
                                     onChangeText={(value) => this.updateSearchFilterInfo('category', value)}
                                     containerStyle={{
@@ -134,9 +136,11 @@ class Layout extends React.Component {
 
 
     renderTableStaff() {
-        const { servicesByMerchant, categoriesByMerchant } = this.props;
-        const { visibleArchive, visibleRestore,visibleAdd,visibleEdit } = this.state;
-        // const temptData = isShowSearch ? listSearchStaff : listStaffByMerchant
+        const { servicesByMerchant, categoriesByMerchant,
+            isShowSearchService, listServicesSearch
+        } = this.props;
+        const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
+        const temptData = isShowSearchService ? listServicesSearch : servicesByMerchant
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
@@ -146,7 +150,7 @@ class Layout extends React.Component {
                 <View style={{ flex: 1 }} >
                     <HeaderTableService />
                     <FlatList
-                        data={servicesByMerchant}
+                        data={temptData}
                         renderItem={({ item, index }) => <RowTableService
                             index={index}
                             service={item}

@@ -140,14 +140,32 @@ export const getCategoryName = (categories, id) => {
     return name;
 }
 
+export const getCategoryIdByName = (categories, name, type = '') => {
+    let categoryId = '';
+    for (let i = 0; i < categories.length; i++) {
+        if (categories[i].name == name) {
+            if (type === '') {
+                categoryId = categories[i].categoryId;
+                break;
+            } else {
+                if (categories[i].categoryType == type) {
+                    categoryId = categories[i].categoryId;
+                    break;
+                }
+            }
+        }
+    }
+    return categoryId;
+}
+
 export const getArrayNameCategories = (categories = [], type = '') => {
     const arrayName = [];
-    for(let i = 0; i< categories.length ; i++){
-        if(type == ''){
-            arrayName.push({value :categories[i].name});
-        }else{
+    for (let i = 0; i < categories.length; i++) {
+        if (type == '') {
+            arrayName.push({ value: categories[i].name });
+        } else {
             if (categories[i].categoryType == type) {
-                arrayName.push({value :categories[i].name});
+                arrayName.push({ value: categories[i].name });
             }
         }
     }

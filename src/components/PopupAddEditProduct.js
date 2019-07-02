@@ -12,7 +12,7 @@ import { TextInputMask } from 'react-native-masked-text';
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import {Dropdown} from './react-native-material-dropdown';
-import { scaleSzie, getCategoryName,getArrayNameCategories } from '@utils';
+import { scaleSzie, getCategoryName,getArrayNameCategories,getCategoryIdByName } from '@utils';
 
 const { width } = Dimensions.get('window');
 
@@ -90,7 +90,7 @@ class PopupAddEditProduct extends React.Component {
         const { productInfo } = this.state;
         const temptProductInfo = {
             ...productInfo,
-            categoryId: productInfo.categoryId !== '' ? this.getCateroryId(productInfo.categoryId) : ''
+            categoryId: productInfo.categoryId !== '' ? getCategoryIdByName(this.props.categoriesByMerchant,serviceInfo.categoryId,'Service') : ''
         }
         const arrayKey = Object.keys(temptProductInfo);
         let keyError = "";
@@ -112,17 +112,6 @@ class PopupAddEditProduct extends React.Component {
         }
     }
 
-    getCateroryId(name) {
-        const { categoriesByMerchant } = this.props;
-        let categoryId = -1;
-        for (let i = 0; i < categoriesByMerchant.length - 1; i++) {
-            if (categoriesByMerchant[i].name == name) {
-                categoryId = categoriesByMerchant[i].categoryId;
-                break;
-            }
-        }
-        return categoryId;
-    }
 
     render() {
         const { title, visible, onRequestClose, isSave,

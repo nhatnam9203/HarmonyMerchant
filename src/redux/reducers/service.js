@@ -1,5 +1,7 @@
 const initialState = {
     servicesByMerchant: [],
+    listServicesSearch: [],
+    isShowSearchService: false,
 }
 
 function appReducer(state = initialState, action) {
@@ -9,6 +11,20 @@ function appReducer(state = initialState, action) {
                 ...state,
                 servicesByMerchant: action.payload
             }
+        case 'SEARCH_SERVICE_SUCCESS':
+            return {
+                ...state,
+                listServicesSearch: action.payload,
+                isShowSearchService: true
+            }
+        case 'CLEAR_SEARCH_SERVICE':
+            return {
+                ...state,
+                listServicesSearch: [],
+                isShowSearchService: false
+            }
+
+
         default:
             return state
     }
