@@ -151,7 +151,6 @@ export const getArrayNameCategories = (categories = [], type = '') => {
             }
         }
     }
-    console.log('arrayName : ',arrayName);
     return arrayName
 
 }

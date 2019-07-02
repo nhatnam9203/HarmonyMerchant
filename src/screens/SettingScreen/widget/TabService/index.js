@@ -2,13 +2,13 @@ import React from 'react';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
+import { getArrayNameCategories} from '@utils';
 
 class TabService extends Layout {
 
     constructor(props) {
         super(props);
         this.state = {
-            isAddStaff: true,
             visibleArchive: false,
             visibleRestore: false,
             isEditStaff: false,
@@ -89,11 +89,11 @@ class TabService extends Layout {
 
     showModalAddService = () => {
         const { categoriesByMerchant } = this.props;
-        if (categoriesByMerchant.length > 0) {
+        if (getArrayNameCategories(categoriesByMerchant,'Service').length > 0) {
             this.addServiceRef.current.setDefaultStateFromParent();
             this.setState({ visibleAdd: true });
         } else {
-            alert('Create category before add service please !')
+            alert('Create service category before add service please !')
         }
     }
 
@@ -141,13 +141,6 @@ class TabService extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    profile: state.dataLocal.profile,
-    listStaffByMerchant: state.staff.listStaffByMerchant,
-    isAddStaff: state.staff.isAddStaff,
-    isShowSearch: state.staff.isShowSearch,
-    listSearchStaff: state.staff.listSearchStaff,
-    stateCity: state.dataLocal.stateCity,
-
     servicesByMerchant: state.service.servicesByMerchant,
     categoriesByMerchant: state.category.categoriesByMerchant
 })

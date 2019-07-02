@@ -11,9 +11,9 @@ import { TextInputMask } from 'react-native-masked-text';
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
-import {Dropdown} from './react-native-material-dropdown';
+import { Dropdown } from './react-native-material-dropdown';
 
-import { scaleSzie, getCategoryName,getArrayNameCategories } from '@utils';
+import { scaleSzie, getCategoryName, getArrayNameCategories } from '@utils';
 
 const { width } = Dimensions.get('window');
 
@@ -46,7 +46,6 @@ class PopupAddEditService extends React.Component {
             serviceInfo: {
                 serviceId: service.serviceId,
                 categoryId: getCategoryName(categoriesByMerchant, service.categoryId),
-                // categoryId:'dd',
                 name: service.name,
                 description: service.description,
                 duration: service.duration,
@@ -129,7 +128,10 @@ class PopupAddEditService extends React.Component {
             let errorCheckExtra = '';
             this.arrayExtraRef.forEach(extra => {
                 if (extra.getInfoExtraFromParent().isValid) {
-                    arrayExtra.push(extra.getInfoExtraFromParent().data);
+                    const data = extra.getInfoExtraFromParent().data;
+                    const temptData = { ...data, isDisabled: data.isDisabled === 'Active' ? 0 : 1 };
+                    console.log('-----ExtraFromParent : ', JSON.stringify(temptData));
+                    arrayExtra.push(temptData);
                 } else {
                     checkValidateExtra = false;
                     errorCheckExtra = extra.getInfoExtraFromParent().errorMessage;
@@ -178,6 +180,11 @@ class PopupAddEditService extends React.Component {
         })
     }
 
+    resetRefPopup =() =>{
+        this.arrayExtraRef = [];
+        this.props.onRequestClose();
+    }
+
     // ------- Render -----
 
     render() {
@@ -192,7 +199,7 @@ class PopupAddEditService extends React.Component {
             <PopupParent
                 title={title}
                 visible={visible}
-                onRequestClose={() => onRequestClose()}
+                onRequestClose={this.resetRefPopup}
                 style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
             >
                 <View style={{
@@ -210,7 +217,7 @@ class PopupAddEditService extends React.Component {
                             <View style={{ width: scaleSzie(200), height: scaleSzie(30), }} >
                                 <Dropdown
                                     label='Facial'
-                                    data={getArrayNameCategories(categoriesByMerchant,'Service')}
+                                    data={getArrayNameCategories(categoriesByMerchant, 'Service')}
                                     value={categoryId}
                                     onChangeText={(value) => this.updateServiceInfo('categoryId', value)}
                                     containerStyle={{
@@ -367,23 +374,38 @@ class PopupAddEditService extends React.Component {
 class ItemExtra extends React.Component {
     constructor(props) {
         super(props);
-        const { extraInfo } = this.props;
         this.state = {
             extraInfo: {
-                extraId: extraInfo.extraId ? extraInfo.extraId : '00',
-                name: extraInfo.name,
-                description: extraInfo.description,
-                duration: extraInfo.duration,
-                price: extraInfo.price,
-                isDisabled: extraInfo.isDisabled === 0 ? 'Active' : 'Disable'
-            }
+                name: '',
+                description: '',
+                duration: '',
+                price: '',
+                isDisabled: 'Active'
+            },
         }
-        this.durationRef = React.createRef();
+        this.durationExtraRef = React.createRef();
+    }
+
+    componentDidMount() {
+        const { extraInfo } = this.props;
+        if (extraInfo.extraId) {
+            this.setState({
+                extraInfo: {
+                    extraId: extraInfo.extraId,
+                    name: extraInfo.name,
+                    description: extraInfo.description,
+                    duration: extraInfo.duration,
+                    price: extraInfo.price,
+                    isDisabled: extraInfo.isDisabled === 0 ? 'Active' : 'Disable'
+                }
+            });
+            this.durationExtraRef.current.setStateFromParent(extraInfo.duration);
+        }
     }
 
     getInfoExtraFromParent = () => {
         const { extraInfo } = this.state;
-        const duration = this.durationRef.current.state.value;
+        const duration = this.durationExtraRef.current.state.value;
         const temptExtra = {
             ...extraInfo,
             duration: duration,
@@ -465,9 +487,9 @@ class ItemExtra extends React.Component {
                 </View>
                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                     Duration
-                            </Text>
+                </Text>
                 <ItemTime
-                    ref={this.durationRef}
+                    ref={this.durationExtraRef}
                     title="Minutes"
                     value={duration}
                 />
@@ -525,7 +547,13 @@ class ItemTime extends React.Component {
         super(props);
         this.state = {
             value: this.props.value
-        }
+        };
+    }
+
+    setStateFromParent = (value) =>{
+        this.setState({
+            value
+        })
     }
 
     render() {

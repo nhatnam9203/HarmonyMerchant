@@ -6,7 +6,7 @@ import {
     FlatList,
 } from 'react-native';
 
-import { scaleSzie, localize, getCategoryName } from '@utils';
+import { scaleSzie, localize, getCategoryName ,getArrayNameCategories} from '@utils';
 import { Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
@@ -66,7 +66,7 @@ class Layout extends React.Component {
     }
 
     renderFilter() {
-        const { language } = this.props;
+        const { language,categoriesByMerchant } = this.props;
         const { searchFilter } = this.state;
         const { category, status } = searchFilter;
         return (
@@ -82,7 +82,7 @@ class Layout extends React.Component {
                             <View style={{ width: scaleSzie(120) }} >
                                 <Dropdown
                                     label={localize('Categories', language)}
-                                    data={[{ value: '' }, { value: 'Admin' }, { value: 'Staff' }]}
+                                    data={getArrayNameCategories(categoriesByMerchant,'Service')}
                                     value={category}
                                     onChangeText={(value) => this.updateSearchFilterInfo('category', value)}
                                     containerStyle={{
