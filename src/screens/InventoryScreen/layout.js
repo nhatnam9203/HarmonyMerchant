@@ -224,6 +224,7 @@ export default class Layout extends React.Component {
                     onRequestClose={this.closePopupProductDetail}
                     language={language}
                     categoriesByMerchant={categoriesByMerchant}
+                    submitArchiveYess={this.submitArchiveYess}
                 />
             </ParentContainer>
         );

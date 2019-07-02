@@ -66,6 +66,16 @@ class PopupDetailProduct extends React.Component {
         })
     }
 
+    submitArchiveYess = () => {
+        const { productInfo } = this.state;
+        this.props.submitArchiveYess(productInfo.productId);
+        const temptProductInfo = { ...productInfo, isDisabled: 'Disable' };
+        this.setState({
+            visibleArchive: false,
+            productInfo: temptProductInfo,
+        })
+    }
+
     // ---------- Render --------
 
     render() {
@@ -215,7 +225,7 @@ class PopupDetailProduct extends React.Component {
                     title="Confirmation"
                     message="Do you want to Archive this Product ?"
                     onRequestClose={() => this.setState({ visibleArchive: false })}
-                    confimYes={() => { }}
+                    confimYes={this.submitArchiveYess}
                 />
                 <PopupConfirm
                     visible={this.state.visibleRestore}

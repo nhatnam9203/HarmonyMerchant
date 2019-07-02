@@ -125,6 +125,11 @@ class InventoryScreen extends Layout {
         }
     }
 
+    submitArchiveYess = (id) =>{
+        // alert(id)
+        this.props.actions.product.archiveProduct(id);
+    }
+
     // ----- End Handle ---
     componentWillUnmount() {
         this.didBlurSubscription.remove();
