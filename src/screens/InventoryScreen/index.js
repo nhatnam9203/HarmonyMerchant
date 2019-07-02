@@ -126,8 +126,11 @@ class InventoryScreen extends Layout {
     }
 
     submitArchiveYess = (id) =>{
-        // alert(id)
         this.props.actions.product.archiveProduct(id);
+    }
+
+    submitRestoreYess =(id) =>{
+        this.props.actions.product.restoreProduct(id);
     }
 
     // ----- End Handle ---

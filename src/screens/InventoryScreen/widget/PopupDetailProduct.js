@@ -76,6 +76,16 @@ class PopupDetailProduct extends React.Component {
         })
     }
 
+    submitRestoreYess = () =>{
+        const { productInfo } = this.state;
+        this.props.submitRestoreYess(productInfo.productId);
+        const temptProductInfo = { ...productInfo, isDisabled: 'Active' };
+        this.setState({
+            visibleRestore: false,
+            productInfo: temptProductInfo,
+        })
+    }
+
     // ---------- Render --------
 
     render() {
@@ -232,7 +242,7 @@ class PopupDetailProduct extends React.Component {
                     title="Confirmation"
                     message="Do you want to Restore this Product ?"
                     onRequestClose={() => this.setState({ visibleRestore: false })}
-                    confimYes={() => { }}
+                    confimYes={this.submitRestoreYess}
                 />
             </PopupParent>
         );

@@ -225,6 +225,7 @@ export default class Layout extends React.Component {
                     language={language}
                     categoriesByMerchant={categoriesByMerchant}
                     submitArchiveYess={this.submitArchiveYess}
+                    submitRestoreYess={this.submitRestoreYess}
                 />
             </ParentContainer>
         );
