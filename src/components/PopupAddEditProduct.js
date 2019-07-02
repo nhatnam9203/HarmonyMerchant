@@ -173,7 +173,7 @@ class PopupAddEditProduct extends React.Component {
                                 Description
                             </Text>
                             <View style={{
-                                height: scaleSzie(60), borderWidth: 1, borderColor: '#6A6A6A',
+                                height: scaleSzie(70), borderWidth: 1, borderColor: '#C5C5C5',
                                 paddingLeft: scaleSzie(10), backgroundColor: '#FAFAFA', paddingTop: scaleSzie(5)
                             }} >
                                 <TextInput

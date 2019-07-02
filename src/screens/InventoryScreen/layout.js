@@ -192,7 +192,8 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { language } = this.props;
+        const { language, categoriesByMerchant } = this.props;
+        const { visiblePopupDetail } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -215,13 +216,15 @@ export default class Layout extends React.Component {
                     }} >
                         <Image source={IMAGE.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
                     </Button>
-                    <PopupDetailProduct
-                    title={'Product Details'}
-                    visible={true}
-                    onRequestClose={() => { }}
-                />
                 </View>
-              
+                <PopupDetailProduct
+                    ref={this.productDetailRef}
+                    title={'Product Details'}
+                    visible={visiblePopupDetail}
+                    onRequestClose={this.closePopupProductDetail}
+                    language={language}
+                    categoriesByMerchant={categoriesByMerchant}
+                />
             </ParentContainer>
         );
     }

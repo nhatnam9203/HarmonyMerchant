@@ -11,6 +11,7 @@ class InventoryScreen extends Layout {
         this.state = {
             isFocus: true,
             isSelectAll: false,
+            visiblePopupDetail:false,
             searchFilter: {
                 keySearch: '',
                 category: '',
@@ -18,6 +19,7 @@ class InventoryScreen extends Layout {
             }
         }
         this.scrollTabRef = React.createRef();
+        this.productDetailRef = React.createRef();
         this.listProductRef = [];
     }
 
@@ -93,13 +95,22 @@ class InventoryScreen extends Layout {
         this.setState({ isSelectAll: false })
     }
 
+    closePopupProductDetail =() =>{
+        this.setState({
+            visiblePopupDetail:false
+        })
+    }
+
     // ----- Handle  -----
     restock = () => {
         alert('dd')
     }
 
-    showDetailProduct = (product) => {
-        alert(product.name)
+    showDetailProduct =  (product) => {
+        this.productDetailRef.current.setProductInfoFromParent(product);
+        this.setState({
+            visiblePopupDetail:true
+        })
     }
 
 
@@ -114,15 +125,11 @@ class InventoryScreen extends Layout {
         }
     }
 
-
     // ----- End Handle ---
-
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();
     }
-
-
 }
 
 const mapStateToProps = state => ({
@@ -131,7 +138,7 @@ const mapStateToProps = state => ({
     productsByMerchantId: state.product.productsByMerchantId,
     categoriesByMerchant: state.category.categoriesByMerchant,
     listProductsSearch: state.product.listProductsSearch,
-    isShowSearchProduct: state.product.isShowSearchProduct
+    isShowSearchProduct: state.product.isShowSearchProduct,
 })
 
 

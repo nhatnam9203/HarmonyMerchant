@@ -3,7 +3,8 @@ import {
     View,
     Image,
     Text,
-    StyleSheet
+    StyleSheet,
+    TouchableOpacity
 } from 'react-native';
 
 import ModalCustom from './ModalCustom';
@@ -50,9 +51,7 @@ class PopupParent extends React.Component {
                         </View>
                     </View>
                     {/* ----- Body --- */}
-                    {/* <View style={{flex:1,backgroundColor:'red'}} > */}
                         {this.props.children}
-                    {/* </View> */}
                 </View>
 
             </ModalCustom>
