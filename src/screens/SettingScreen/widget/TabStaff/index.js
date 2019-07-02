@@ -75,7 +75,12 @@ class TabStaff extends Layout {
     searchStaff = () => {
         const { searchFilter } = this.state;
         const { keySearch,role,status} = searchFilter;
-        this.props.actions.staff.searchStaffByName(keySearch,role,status);
+        if(keySearch == '' && role == '' & status == ''){
+            this.props.actions.staff.clearSearch();
+        }else{
+            this.props.actions.staff.searchStaffByName(keySearch,role,status);
+        }
+        
     }
 
     addStaff = async () => {

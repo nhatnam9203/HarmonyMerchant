@@ -81,7 +81,7 @@ class Layout extends React.Component {
                         <View style={{ flex: 1, flexDirection: 'row' }} >
                             <View style={{ width: scaleSzie(120) }} >
                                 <Dropdown
-                                    label={localize('Role', language)}
+                                    label={localize('Categories', language)}
                                     data={[{ value: '' }, { value: 'Admin' }, { value: 'Staff' }]}
                                     value={role}
                                     onChangeText={(value) => this.updateSearchFilterInfo('role', value)}
