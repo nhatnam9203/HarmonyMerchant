@@ -1,7 +1,7 @@
 import { put, takeLatest, all, join } from "redux-saga/effects";
 import NavigationServices from "../../navigators/NavigatorServices";
 
-
+import apiConfigs from '../../configs/api';
 import { requestAPI } from '../../utils';
 
 function* login(action) {
@@ -13,7 +13,7 @@ function* login(action) {
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             const { merchant } = responses.data;
-            if (merchant.staffs) {
+            if (!merchant.needSetting) {
                 NavigationServices.navigate('Drawer');
             } else {
                 NavigationServices.navigate('SetupStore');

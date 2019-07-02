@@ -2,6 +2,7 @@ import React from 'react';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
+import { getCategoryIdByName } from '@utils';
 
 class InventoryScreen extends Layout {
 
@@ -9,7 +10,12 @@ class InventoryScreen extends Layout {
         super(props);
         this.state = {
             isFocus: true,
-            isSelectAll: false
+            isSelectAll: false,
+            searchFilter: {
+                keySearch: '',
+                category: '',
+                status: ''
+            }
         }
         this.scrollTabRef = React.createRef();
         this.listProductRef = [];
@@ -33,6 +39,23 @@ class InventoryScreen extends Layout {
                 })
             }
         );
+    }
+
+    updateSearchFilterInfo(key, value, keyParent = '') {
+        const { searchFilter } = this.state;
+        if (keyParent !== '') {
+            const temptParent = searchFilter[keyParent];
+            const temptChild = { ...temptParent, [key]: value };
+            const temptUpdate = { ...searchFilter, [keyParent]: temptChild };
+            this.setState({
+                searchFilter: temptUpdate
+            })
+        } else {
+            const temptUpdate = { ...searchFilter, [key]: value };
+            this.setState({
+                searchFilter: temptUpdate
+            })
+        }
     }
 
     setProductRef = ref => {
@@ -80,6 +103,16 @@ class InventoryScreen extends Layout {
     }
 
 
+    searchProduct = () => {
+        const { searchFilter } = this.state;
+        const { keySearch, category, status } = searchFilter;
+        if (keySearch == '' && category == '' & status == '') {
+            this.props.actions.product.clearSearchProduct();
+        } else {
+            const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Product') : '';
+            this.props.actions.product.searchProduct(keySearch, temptCategory, status);
+        }
+    }
 
 
     // ----- End Handle ---
@@ -96,7 +129,9 @@ const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     language: state.dataLocal.language,
     productsByMerchantId: state.product.productsByMerchantId,
-    categoriesByMerchant: state.category.categoriesByMerchant
+    categoriesByMerchant: state.category.categoriesByMerchant,
+    listProductsSearch: state.product.listProductsSearch,
+    isShowSearchProduct: state.product.isShowSearchProduct
 })
 
 

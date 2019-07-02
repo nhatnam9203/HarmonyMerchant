@@ -6,8 +6,8 @@ import {
     FlatList
 } from 'react-native';
 
-import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom } from '@components';
-import { scaleSzie, localize ,getCategoryName} from '@utils';
+import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown } from '@components';
+import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import { HeaderTableProducts, RowTableProducts, RowEmptyTableProducts } from './widget';
@@ -30,6 +30,8 @@ export default class Layout extends React.Component {
 
     renderSearch() {
         const { language } = this.props;
+        const { searchFilter } = this.state;
+        const { keySearch } = searchFilter;
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
@@ -44,9 +46,17 @@ export default class Layout extends React.Component {
                                 <TextInput
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
                                     placeholder={`${localize('SKU Number', language)}/ ${localize('Product Name', language)}`}
+                                    value={keySearch}
+                                    onChangeText={(value) => {
+                                        if (value === '') {
+                                            this.props.actions.product.clearSearchProduct();
+                                        }
+                                        this.updateSearchFilterInfo('keySearch', value)
+                                    }}
+                                    onSubmitEditing={this.searchProduct}
                                 />
                             </View>
-                            <Button onPress={() => { }} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
+                            <Button onPress={this.searchProduct} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
                                 <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
                             </Button>
 
@@ -59,7 +69,7 @@ export default class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Search', language)}
                             textColor="#6A6A6A"
-                            onPress={() => { }}
+                            onPress={this.searchProduct}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
@@ -70,8 +80,11 @@ export default class Layout extends React.Component {
     }
 
     renderFilter() {
-        const { language } = this.props;
-        const { isSelectAll } = this.state;
+        const { language, categoriesByMerchant } = this.props;
+        const { isSelectAll, searchFilter } = this.state;
+        const { category, status } = searchFilter;
+        const dataProductCategory = getArrayNameCategories(categoriesByMerchant, 'Product');
+        dataProductCategory.unshift({ value: '' });
         const temptIconCheckbox = isSelectAll ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
@@ -118,16 +131,20 @@ export default class Layout extends React.Component {
                             </View>
                         </View>
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: 'flex-end' }} >
-                            <View style={[{ width: scaleSzie(160), flexDirection: 'row', }, styles.borderStyle]} >
-                                <View style={{ alignItems: 'center', flexDirection: 'row', paddingLeft: scaleSzie(10) }} >
-                                    <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(15) }} >
-                                        {localize('Cteategories', language)}
-                                    </Text>
-                                </View>
-
-                                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(10) }} >
-                                    <Image source={IMAGE.dropdown} style={{ width: scaleSzie(12), height: scaleSzie(6) }} />
-                                </View>
+                            <View style={[{ width: scaleSzie(160) }]} >
+                                <Dropdown
+                                    label={localize('Categories', language)}
+                                    data={dataProductCategory}
+                                    value={category}
+                                    onChangeText={(value) => this.updateSearchFilterInfo('category', value)}
+                                    containerStyle={{
+                                        borderWidth: 1,
+                                        flex: 1,
+                                        borderRadius: scaleSzie(4),
+                                        borderColor: '#C5C5C5',
+                                        backgroundColor: '#F1F1F1',
+                                    }}
+                                />
                             </View>
                         </View>
 
@@ -150,18 +167,21 @@ export default class Layout extends React.Component {
     }
 
     renderTable() {
-        const { productsByMerchantId ,categoriesByMerchant} = this.props;
+        const { productsByMerchantId, categoriesByMerchant ,
+            listProductsSearch,isShowSearchProduct
+        } = this.props;
+        const tempData = isShowSearchProduct ? listProductsSearch : productsByMerchantId;
         return (
             <View style={{ flex: 1, paddingTop: scaleSzie(20) }} >
                 <HeaderTableProducts />
                 <FlatList
-                    data={productsByMerchantId}
+                    data={tempData}
                     renderItem={({ item, index }) => <RowTableProducts
                         ref={this.setProductRef}
                         key={index}
                         product={item}
                         unSelectAll={this.unSelectAll}
-                        nameCategory={getCategoryName(categoriesByMerchant,item.categoryId)}
+                        nameCategory={getCategoryName(categoriesByMerchant, item.categoryId)}
                         showDetailProduct={this.showDetailProduct}
                     />}
                     keyExtractor={(item, index) => `${item.productId}`}

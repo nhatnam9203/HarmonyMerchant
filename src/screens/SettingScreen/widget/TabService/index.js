@@ -77,7 +77,7 @@ class TabService extends Layout {
         this.props.actions.service.restoreService(this.state.serviceHanle.serviceId);
     }
 
-    searchStaff = () => {
+    searchService = () => {
         const { searchFilter } = this.state;
         const { keySearch, category, status } = searchFilter;
         if (keySearch == '' && category == '' & status == '') {

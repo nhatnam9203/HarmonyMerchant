@@ -39,10 +39,10 @@ class Layout extends React.Component {
                                         }
                                         this.updateSearchFilterInfo('keySearch', value)
                                     }}
-                                    onSubmitEditing={this.searchStaff}
+                                    onSubmitEditing={this.searchService}
                                 />
                             </View>
-                            <Button onPress={this.searchStaff} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
+                            <Button onPress={this.searchService} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
                                 <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
                             </Button>
 
@@ -55,7 +55,7 @@ class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Search', language)}
                             textColor="#6A6A6A"
-                            onPress={this.searchStaff}
+                            onPress={this.searchService}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
@@ -70,7 +70,7 @@ class Layout extends React.Component {
         const { searchFilter } = this.state;
         const { category, status } = searchFilter;
         const dataServicesCategory =getArrayNameCategories(categoriesByMerchant, 'Service');
-        dataServicesCategory.unshift({value:''})
+        dataServicesCategory.unshift({value:''});
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >

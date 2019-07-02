@@ -39,7 +39,7 @@ export function restoreProduct(id) {
     }
 }
 
-export function editProduct(body,id) {
+export function editProduct(body, id) {
     return {
         type: 'EDIT_PRODUCT',
         body: body,
@@ -49,3 +49,18 @@ export function editProduct(body,id) {
     }
 }
 
+export function searchProduct(name = '', category = '', status = '') {
+    return {
+        type: 'SEARCH_PRODUCT',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}product/search?name=${name}&category=${category}&status=${status}`
+    }
+}
+
+export function clearSearchProduct() {
+    return {
+        type: 'CLEAR_SEARCH_PRODUCT',
+        payload: true
+    }
+}
