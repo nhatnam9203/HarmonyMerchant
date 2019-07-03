@@ -165,7 +165,10 @@ const localization = {
         'Customer list':'Customer list',
         'Referrer Phone Number':'Referrer Phone Number',
         'Service':'Service',
-        'Product':'Product'
+        'Product':'Product',
+        'Enter the amount of product added':'Enter the amount of product added',
+        'Cancel':'Cancel',
+        'Submit':'Submit',
     },
     'vi': {
         'MARKETING': 'Uu dai',

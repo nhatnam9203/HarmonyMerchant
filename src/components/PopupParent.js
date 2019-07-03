@@ -19,7 +19,8 @@ class PopupParent extends React.Component {
     }
 
     render() {
-        const { title, visible,style } = this.props;
+        const { title, visible,style ,width} = this.props;
+        const temptWidth = width ? width : 400;
         return (
             <ModalCustom
                 transparent={true}
@@ -27,7 +28,7 @@ class PopupParent extends React.Component {
                 onRequestClose={() => { }}
                 style={style}
             >
-                <View style={{ width: scaleSzie(400) }} >
+                <View style={{ width: scaleSzie(temptWidth) }} >
                     <View style={{
                         height: scaleSzie(55), backgroundColor: '#0764B0',
                         borderTopRightRadius: scaleSzie(15), borderTopLeftRadius: scaleSzie(15), flexDirection: 'row'

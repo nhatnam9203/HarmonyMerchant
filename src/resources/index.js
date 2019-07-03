@@ -28,6 +28,8 @@ export default {
     export : require('./img/export.png'),
     dropdown:require('./img/dropdown.png'),
     arrowNote:require('./img/enter.png'),
+    clearKeyboard: require('./img/clearKeyboard.png'),
+    subKeyboard: require('./img/subKeyboard.png'),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),
