@@ -9,9 +9,9 @@ import { StatusBarHeader, Button, ParentContainer, Text } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { TabStaff,TabService } from './widget';
+import { TabStaff, TabService } from './widget';
 
-const MENU = ["General", "Staff", "Services", "Payment", "Hardware", "About", "Logout"];
+const MENU = ["General", "Staff", "Services", "Extra", "Payment", "Hardware", "About", "Logout"];
 
 export default class Layout extends React.Component {
 
@@ -95,7 +95,10 @@ export default class Layout extends React.Component {
                                 <View style={{ flex: 1 }} >
 
                                 </View>
-                                <View style={{ flex: 1,  }} >
+                                <View style={{ flex: 1, }} >
+
+                                </View>
+                                <View style={{ flex: 1, }} >
 
                                 </View>
                             </ScrollableTabView>

@@ -24,10 +24,10 @@ export default {
     iconItemBanner: require('./img/iconItemBanner.png'),
     deleteIconBanner: require('./img/deleteIconBanner.png'),
     arrowRight: require('./img/arrow_right.png'),
-    search:require('./img/search.png'),
-    export : require('./img/export.png'),
-    dropdown:require('./img/dropdown.png'),
-    arrowNote:require('./img/enter.png'),
+    search: require('./img/search.png'),
+    export: require('./img/export.png'),
+    dropdown: require('./img/dropdown.png'),
+    arrowNote: require('./img/enter.png'),
     clearKeyboard: require('./img/clearKeyboard.png'),
     subKeyboard: require('./img/subKeyboard.png'),
 
@@ -56,5 +56,6 @@ export default {
     About_in: require('./setting/About_in.png'),
     Logout: require('./setting/Logout.png'),
     Logout_in: require('./setting/Logout_in.png'),
-
+    Extra: require('./setting/Extra.png'),
+    Extra_in: require('./setting/Extra_in.png'),
 }
