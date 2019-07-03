@@ -5,7 +5,8 @@ import {
     Dimensions,
     StyleSheet,
     Platform,
-    Image
+    Image,
+    TouchableOpacity
 } from 'react-native';
 
 import { ButtonCustom, PopupParent, Button } from '@components';
@@ -18,6 +19,37 @@ class PopupRestock extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            quality: 0
+        }
+    }
+
+    setStateFromParent = (quality) => {
+        this.setState({
+            quality
+        })
+    }
+
+    onPressNumber = (number) => {
+        this.setState(prevState => ({
+            quality: prevState.quality == 0 ? `${number}` : `${prevState.quality}${number}`
+        }))
+    }
+
+    convertNagativeNumber = () => {
+        this.setState({
+            quality: 0
+        })
+    }
+
+    clearNumber = () => {
+        this.setState(prevState => ({
+            quality: `${prevState.quality}`.slice(0, (`${prevState.quality}`.length) - 1)
+        }))
+    }
+
+    submitStock = () => {
+
     }
 
     // ---------- Render --------
@@ -48,10 +80,10 @@ class PopupRestock extends React.Component {
                         {/* ------ Display Box --- */}
                         <View style={{
                             height: scaleSzie(65), backgroundColor: '#FAFAFA', borderWidth: 1, borderColor: '#C5C5C5',
-                            justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(10), marginBottom: scaleSzie(12)
+                            justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(10), marginBottom: scaleSzie(3)
                         }} >
                             <Text style={{ fontSize: scaleSzie(40), color: '#0764B0' }} >
-                                10
+                                {this.state.quality}
                             </Text>
                         </View>
                         {/* ----- Keyboard ---- */}
@@ -64,71 +96,62 @@ class PopupRestock extends React.Component {
                                         [7, 8, 9].map((number, index) => <Key
                                             key={index}
                                             number={number}
-                                            onPressNumber={(number) => { console.log(number) }}
+                                            onPressNumber={this.onPressNumber}
                                         />)
                                     }
                                 </View>
                                 {/* ---- Row 2 ----- */}
-                                <View style={[styles.rowKeyboard, { marginTop: scaleSzie(9) }]} >
+                                <View style={styles.rowKeyboard} >
                                     {
                                         [4, 5, 6].map((number, index) => <Key
                                             key={index}
                                             number={number}
-                                            onPressNumber={(number) => { console.log(number) }}
+                                            onPressNumber={this.onPressNumber}
                                         />)
                                     }
                                 </View>
                                 {/* ---- Row 3 ----- */}
-                                <View style={[styles.rowKeyboard, { marginTop: scaleSzie(9) }]} >
+                                <View style={styles.rowKeyboard} >
                                     {
                                         [1, 2, 3].map((number, index) => <Key
                                             key={index}
                                             number={number}
-                                            onPressNumber={(number) => { console.log(number) }}
+                                            onPressNumber={this.onPressNumber}
                                         />)
                                     }
                                 </View>
                                 {/* ---- Row 4 ----- */}
-                                <View style={[styles.rowKeyboard, { marginTop: scaleSzie(9) }]} >
-                                    <Button onPress={() => onPressNumber(number)} style={styles.keyContainer} >
-                                        <Image source={IMAGE.subKeyboard} />
+                                <View style={styles.rowKeyboard} >
+                                    <Button onPress={this.convertNagativeNumber} style={styles.keyContainer} >
+                                        <Text style={{ fontSize: scaleSzie(26), color: '#404040', fontWeight: '500' }} >
+                                            {`AC`}
+                                        </Text>
                                     </Button>
 
                                     <Key
                                         number={0}
-                                        onPressNumber={() => { }}
+                                        onPressNumber={this.onPressNumber}
                                     />
-                                    <Button onPress={() => onPressNumber(number)} style={styles.keyContainer} >
+                                    <TouchableOpacity onPress={this.clearNumber} style={styles.keyContainer} >
                                         <Image source={IMAGE.clearKeyboard} />
-                                    </Button>
+                                    </TouchableOpacity>
                                 </View>
 
                             </View>
                             {/* ---- Center ----- */}
-                            <View style={{ width: scaleSzie(18), paddingBottom: scaleSzie(20), alignItems: 'center' }} >
+                            <View style={{ width: scaleSzie(18), paddingBottom: scaleSzie(20), paddingTop: scaleSzie(9), alignItems: 'center' }} >
                                 <View style={{ height: '100%', width: scaleSzie(4), backgroundColor: '#D0D2D3' }} />
                             </View>
                             {/* ---- Right ----- */}
                             <View style={{ width: scaleSzie(70) }} >
-                                <Key
-                                    number={10}
-                                    onPressNumber={() => { }}
-                                />
-                                 <Key
-                                    number={20}
-                                    onPressNumber={() => { }}
-                                    style={{marginTop: scaleSzie(9) }}
-                                />
-                                <Key
-                                    number={50}
-                                    onPressNumber={() => { }}
-                                    style={{marginTop: scaleSzie(9) }}
-                                />
-                                <Key
-                                    number={100}
-                                    onPressNumber={() => { }}
-                                    style={{marginTop: scaleSzie(9) }}
-                                />
+                                {
+                                    [10, 20, 50, 100].map((number, index) => <Key
+                                        key={number}
+                                        number={number}
+                                        onPressNumber={this.onPressNumber}
+                                        style={{ marginTop: scaleSzie(9) }}
+                                    />)
+                                }
                             </View>
                         </View>
                         {/* ---- Footer ------ */}
@@ -142,7 +165,7 @@ class PopupRestock extends React.Component {
                                 backgroundColor="#F1F1F1"
                                 title={localize('Cancel', language)}
                                 textColor="#6A6A6A"
-                                onPress={this.showModalEditProduct}
+                                onPress={() => onRequestClose()}
                                 style={{
                                     borderRadius: scaleSzie(2),
                                     borderColor: '#C5C5C5',
@@ -160,7 +183,7 @@ class PopupRestock extends React.Component {
                                 backgroundColor="#0764B0"
                                 title={localize('Submit', language)}
                                 textColor="#fff"
-                                onPress={this.showModalEditProduct}
+                                onPress={this.submitStock}
                                 style={{
                                     borderRadius: scaleSzie(2),
                                     borderColor: '#C5C5C5',
@@ -179,9 +202,9 @@ class PopupRestock extends React.Component {
     }
 }
 
-const Key = ({ number, onPressNumber,style }) => {
+const Key = ({ number, onPressNumber, style }) => {
     return (
-        <Button onPress={() => onPressNumber(number)} style={[styles.keyContainer,style]} >
+        <Button onPress={() => onPressNumber(number)} style={[styles.keyContainer, style]} >
             <Text style={{ fontSize: scaleSzie(26), color: '#404040', fontWeight: '500' }} >
                 {number}
             </Text>
@@ -214,7 +237,8 @@ const styles = StyleSheet.create({
     rowKeyboard: {
         width: '100%',
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginTop: scaleSzie(9)
     }
 })
 

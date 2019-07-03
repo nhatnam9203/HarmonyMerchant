@@ -24,6 +24,7 @@ class InventoryScreen extends Layout {
         this.productDetailRef = React.createRef();
         this.listProductRef = [];
         this.editProductRef = React.createRef();
+        this.restockRef = React.createRef();
     }
 
     componentDidMount() {
@@ -106,9 +107,10 @@ class InventoryScreen extends Layout {
 
     // ----- Handle  -----
     restock = () => {
-      this.setState({
-          visibleRestock:true
-      })
+        this.restockRef.current.setStateFromParent(0);
+        this.setState({
+            visibleRestock: true
+        })
     }
 
     showDetailProduct = (product) => {
@@ -142,12 +144,12 @@ class InventoryScreen extends Layout {
         await this.setState({
             visiblePopupDetail: false
         });
-        const { productsByMerchantId, listProductsSearch, isShowSearchProduct} = this.props;
+        const { productsByMerchantId, listProductsSearch, isShowSearchProduct } = this.props;
         const tempData = isShowSearchProduct ? listProductsSearch : productsByMerchantId;
         let temptProductEdit = '';
-        for(let i = 0 ; i< tempData.length ; i++){
-            if(tempData[i].productId === id){
-                temptProductEdit = {...tempData[i]};
+        for (let i = 0; i < tempData.length; i++) {
+            if (tempData[i].productId === id) {
+                temptProductEdit = { ...tempData[i] };
                 break;
             }
         }

@@ -6,11 +6,12 @@ import {
     FlatList
 } from 'react-native';
 
-import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown,PopupAddEditProduct } from '@components';
+import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupAddEditProduct } from '@components';
 import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { HeaderTableProducts, RowTableProducts, RowEmptyTableProducts, PopupDetailProduct ,
+import {
+    HeaderTableProducts, RowTableProducts, RowEmptyTableProducts, PopupDetailProduct,
     PopupRestock
 } from './widget';
 
@@ -230,7 +231,7 @@ export default class Layout extends React.Component {
                     submitRestoreYess={this.submitRestoreYess}
                     showModalEditProduct={this.showModalEditProduct}
                 />
-                 <PopupAddEditProduct
+                <PopupAddEditProduct
                     ref={this.editProductRef}
                     visible={this.state.visibleEdit}
                     title="Edit Product"
@@ -240,11 +241,12 @@ export default class Layout extends React.Component {
                     editProduct={this.editProduct}
                     categoriesByMerchant={this.props.categoriesByMerchant}
                 />
-                <PopupRestock 
-                 title={'Add Item to Stock'}
-                 visible={this.state.visibleRestock}
-                 onRequestClose={() =>{}}
-                 language={language}
+                <PopupRestock
+                    ref={this.restockRef}
+                    title={'Add Item to Stock'}
+                    visible={this.state.visibleRestock}
+                    onRequestClose={() => this.setState({ visibleRestock: false })}
+                    language={language}
                 />
             </ParentContainer>
         );
