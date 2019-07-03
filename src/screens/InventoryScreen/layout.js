@@ -39,11 +39,6 @@ export default class Layout extends React.Component {
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={{ flex: 1, flexDirection: 'row' }} >
-                        <View style={{ width: scaleSzie(70), justifyContent: 'center' }} >
-                            <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A' }} >
-                                {localize('Search', language)}
-                            </Text>
-                        </View>
                         <View style={{ flex: 1, borderColor: '#C5C5C5', borderWidth: 1, borderRadius: scaleSzie(4), flexDirection: 'row' }} >
                             <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
                                 <TextInput
@@ -65,7 +60,7 @@ export default class Layout extends React.Component {
 
                         </View>
                     </View>
-                    <View style={{ width: scaleSzie(170), alignItems: 'flex-end' }} >
+                    <View style={{ width: scaleSzie(120), alignItems: 'flex-end' }} >
                         <ButtonCustom
                             width={'90%'}
                             height={40}
@@ -74,7 +69,19 @@ export default class Layout extends React.Component {
                             textColor="#6A6A6A"
                             onPress={this.searchProduct}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                            styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
+                            styleText={{ fontSize: scaleSzie(15), fontWeight: 'normal' }}
+                        />
+                    </View>
+                    <View style={{ width: scaleSzie(120), alignItems: 'flex-end' }} >
+                        <ButtonCustom
+                            width={'90%'}
+                            height={40}
+                            backgroundColor="#F1F1F1"
+                            title={localize('Scan SKU', language)}
+                            textColor="#6A6A6A"
+                            onPress={this.searchProduct}
+                            style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                            styleText={{ fontSize: scaleSzie(15), fontWeight: 'normal' }}
                         />
                     </View>
                 </View>
@@ -93,48 +100,7 @@ export default class Layout extends React.Component {
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={{ flex: 1, flexDirection: 'row' }} >
-                        <View style={{
-                            flexDirection: 'row', alignItems: 'flex-end', marginRight: scaleSzie(10),
-                            paddingBottom: scaleSzie(2)
-                        }} >
-                            <Button onPress={this.selectAll} style={{ marginBottom: scaleSzie(4) }} >
-                                <Image source={temptIconCheckbox} />
-                            </Button>
-                            <Text style={{
-                                fontSize: scaleSzie(16), color: '#0764B0',
-                                marginLeft: scaleSzie(10)
-                            }} >
-                                {localize('Select All', language)}
-                            </Text>
-                        </View>
-
-                        <Button onPress={this.restock} style={[{
-                            width: scaleSzie(90), justifyContent: 'center', alignItems: 'center',
-                            marginRight: scaleSzie(14)
-                        }, styles.borderStyle]} >
-                            <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(15) }} >
-
-                                {localize('Restock', language)}
-                            </Text>
-                        </Button>
-                        <View style={[{ width: scaleSzie(160), flexDirection: 'row', }, styles.borderStyle]} >
-                            <View style={{ alignItems: 'center', flexDirection: 'row' }} >
-                                <Image source={IMAGE.export} style={{
-                                    width: scaleSzie(22), height: scaleSzie(22),
-                                    marginHorizontal: scaleSzie(8)
-                                }} />
-                                <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(15) }} >
-
-                                    {localize('Export', language)}
-                                </Text>
-                            </View>
-
-                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(10) }} >
-                                <Image source={IMAGE.dropdown} style={{ width: scaleSzie(12), height: scaleSzie(6) }} />
-                            </View>
-                        </View>
-                        <View style={{ flex: 1, flexDirection: "row", justifyContent: 'flex-end' }} >
-                            <View style={[{ width: scaleSzie(160) }]} >
+                        <View style={[{ width: scaleSzie(160) }]} >
                                 <Dropdown
                                     label={localize('Categories', language)}
                                     data={dataProductCategory}
@@ -149,19 +115,47 @@ export default class Layout extends React.Component {
                                     }}
                                 />
                             </View>
+                        <View style={{ flex: 1, flexDirection: "row", justifyContent: 'flex-end' }} >
+                            <Button onPress={this.restock} style={[{
+                                width: scaleSzie(120), justifyContent: 'center', alignItems: 'center',
+                            }, styles.borderStyle]} >
+                                <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(15) }} >
+
+                                    {localize('Restock', language)}
+                                </Text>
+                            </Button>
                         </View>
 
                     </View>
-                    <View style={{ width: scaleSzie(170), alignItems: 'flex-end' }} >
+                    <View style={[{ width: scaleSzie(120), alignItems: 'flex-end' }]} >
+                        <View style={[{ height: scaleSzie(40), width: '90%', flexDirection: 'row' }, styles.borderStyle]} >
+                            <View style={{ alignItems: 'center', flexDirection: 'row' }} >
+                                <Image source={IMAGE.export} style={{
+                                    width: scaleSzie(18), height: scaleSzie(18),
+                                    marginHorizontal: scaleSzie(8)
+                                }} />
+                                <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(15) }} >
+
+                                    {localize('Export', language)}
+                                </Text>
+                            </View>
+
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(6) }} >
+                                <Image source={IMAGE.dropdown} style={{ width: scaleSzie(12), height: scaleSzie(6) }} />
+                            </View>
+                        </View>
+
+                    </View>
+                    <View style={{ width: scaleSzie(120), alignItems: 'flex-end' }} >
                         <ButtonCustom
                             width={'90%'}
                             height={40}
-                            backgroundColor="#F1F1F1"
-                            title={localize('Scan SKU', language)}
-                            textColor="#6A6A6A"
-                            onPress={() => { }}
+                            backgroundColor="#0764B0"
+                            title={localize('Add New', language)}
+                            textColor="#fff"
+                            onPress={this.searchProduct}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                            styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
+                            styleText={{ fontSize: scaleSzie(15), fontWeight: 'normal' }}
                         />
                     </View>
                 </View>
