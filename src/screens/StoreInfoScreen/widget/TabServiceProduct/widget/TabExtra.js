@@ -166,7 +166,6 @@ class TabExtra extends React.Component {
                     title="Edit Extra"
                     titleButton="Save"
                     onRequestClose={() => this.setState({ visibleEdit: false })}
-                    doneAddExtra={() => this.setState({ visibleEdit: false })}
                     categoriesByMerchant={this.props.categoriesByMerchant}
                     isEdit={true}
                     editExtra={this.editExtra}

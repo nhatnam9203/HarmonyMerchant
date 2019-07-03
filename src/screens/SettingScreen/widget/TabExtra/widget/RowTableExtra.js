@@ -32,7 +32,7 @@ class RowTableExtra extends React.Component {
     }
 
     render() {
-        const { extra, index, archiveService, editService, restoreService,
+        const { extra, index, archiveExtra, editService, restoreExtra,
             categoryName
         } = this.props;
         return (
@@ -120,7 +120,7 @@ class RowTableExtra extends React.Component {
                                 backgroundColor="#FF3B30"
                                 title="Archive"
                                 textColor="#fff"
-                                onPress={() => archiveService()}
+                                onPress={() => archiveExtra()}
                                 style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(2) }}
                                 styleText={{
                                     fontSize: scaleSzie(14)
@@ -132,7 +132,7 @@ class RowTableExtra extends React.Component {
                                     backgroundColor="#F1F1F1"
                                     title="Restore"
                                     textColor="#6A6A6A"
-                                    onPress={() => restoreService()}
+                                    onPress={() => restoreExtra()}
                                     style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(2) }}
                                     styleText={{
                                         fontSize: scaleSzie(14)

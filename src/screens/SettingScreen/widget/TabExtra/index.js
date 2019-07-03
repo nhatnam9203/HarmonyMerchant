@@ -11,7 +11,7 @@ class TabExtra extends Layout {
         this.state = {
             visibleArchive: false,
             visibleRestore: false,
-            serviceHanle: {},
+            extraHandle: {},
             visibleAdd: false,
             visibleEdit: false,
             searchFilter: {
@@ -20,8 +20,8 @@ class TabExtra extends Layout {
                 status: ''
             }
         };
-        this.addServiceRef = React.createRef();
-        this.editServiceRef = React.createRef();
+        this.addExtraRef = React.createRef();
+        this.editExtraRef = React.createRef();
     }
 
     componentDidMount() {
@@ -57,69 +57,66 @@ class TabExtra extends Layout {
         })
     }
 
-    archiveServiceYess = async () => {
+    archiveExtraYess = async () => {
         await this.setState({
             visibleArchive: false,
         });
-        this.props.actions.service.archiveService(this.state.serviceHanle.serviceId);
+        this.props.actions.extra.archiveExtra(this.state.extraHandle.extraId);
     }
 
-    restoreServiceYess = async () => {
+    restoreExtraYess = async () => {
         await this.setState({
             visibleRestore: false,
         });
-        this.props.actions.service.restoreService(this.state.serviceHanle.serviceId);
+        this.props.actions.extra.restoreExtra(this.state.extraHandle.extraId);
     }
 
     searchService = () => {
         const { searchFilter } = this.state;
         const { keySearch, category, status } = searchFilter;
         if (keySearch == '' && category == '' & status == '') {
-            this.props.actions.service.clearSearchService();
+            // this.props.actions.service.clearSearchService();
         } else {
-            const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Service') : '';
-            this.props.actions.service.searchService(keySearch, temptCategory, status);
+            // const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Service') : '';
+            // this.props.actions.service.searchService(keySearch, temptCategory, status);
         }
     }
 
-    showModalAddService = () => {
-        const { categoriesByMerchant } = this.props;
-        if (getArrayNameCategories(categoriesByMerchant, 'Service').length > 0) {
-            this.addServiceRef.current.setDefaultStateFromParent();
-            this.setState({ visibleAdd: true });
-        } else {
-            alert('Create service category before add service please !')
-        }
+    showModalAddExtra = () => {
+        this.addExtraRef.current.setStateDefaultFromParent();
+        this.setState({ visibleAdd: true })
     }
 
-    submitAddService = (service) => {
-        this.props.actions.service.addServiceByMerchant(service);
+    submitAddExtra = (extra) => {
+        this.props.actions.extra.addExtraByMerchant(extra);
         this.setState({ visibleAdd: false })
     }
 
-    archiveService(service) {
+    archiveExtra(extra) {
         this.setState({
             visibleArchive: true,
-            serviceHanle: service
+            extraHandle: extra
         })
     }
 
-    async showModalEditService(service) {
-        this.editServiceRef.current.setServiceFromParent(service);
+    async showModalEditExtra(extra) {
+        this.editExtraRef.current.setExtraFromParent(extra);
         this.setState({
             visibleEdit: true
         })
     }
 
-    submitEditService = (service) => {
-        this.props.actions.service.editService(service, service.serviceId);
-        this.setState({ visibleEdit: false })
+    submitEditExtra = (extra) => {
+        this.props.actions.extra.editExtra(extra, extra.extraId);
+        this.setState({
+            visibleEdit: false
+        })
     }
 
-    restoreService(service) {
+    restoreExtra(extra) {
         this.setState({
             visibleRestore: true,
-            serviceHanle: service
+            extraHandle: extra
         })
     }
 

@@ -7,7 +7,10 @@ import {
 } from 'react-native';
 
 import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
-import { Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService } from '@components';
+import {
+    Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService,
+    PopupEditAddExtra
+} from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import { HeaderTableExtra, RowTableExtra, RowTableEmptyExtra } from './widget';
@@ -35,14 +38,14 @@ class Layout extends React.Component {
                                     value={keySearch}
                                     onChangeText={(value) => {
                                         if (value === '') {
-                                            this.props.actions.service.clearSearchService();
+                                            // this.props.actions.service.clearSearchService();
                                         }
                                         this.updateSearchFilterInfo('keySearch', value)
                                     }}
-                                    onSubmitEditing={this.searchService}
+                                    onSubmitEditing={this.searchExtra}
                                 />
                             </View>
-                            <Button onPress={this.searchService} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
+                            <Button onPress={this.searchExtra} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
                                 <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
                             </Button>
 
@@ -55,7 +58,7 @@ class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Search', language)}
                             textColor="#6A6A6A"
-                            onPress={this.searchService}
+                            onPress={this.searchExtra}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
@@ -105,7 +108,7 @@ class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Add New', language)}
                             textColor="#6A6A6A"
-                            onPress={this.showModalAddService}
+                            onPress={this.showModalAddExtra}
                             style={{
                                 borderWidth: 1, borderColor: '#C5C5C5',
                                 backgroundColor: '#0764B0'
@@ -120,7 +123,7 @@ class Layout extends React.Component {
 
 
     renderTableStaff() {
-        const {  categoriesByMerchant,language,extrasByMerchant } = this.props;
+        const { categoriesByMerchant, language, extrasByMerchant } = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
         // const temptData = isShowSearchService ? listServicesSearch : servicesByMerchant
         return (
@@ -138,47 +141,47 @@ class Layout extends React.Component {
                         renderItem={({ item, index }) => <RowTableExtra
                             index={index}
                             extra={item}
-                            archiveService={() => this.archiveService(item)}
-                            editService={() => this.showModalEditService(item)}
-                            restoreService={() => this.restoreService(item)}
+                            archiveExtra={() => this.archiveExtra(item)}
+                            editService={() => this.showModalEditExtra(item)}
+                            restoreExtra={() => this.restoreExtra(item)}
                             categoryName={getCategoryName(categoriesByMerchant, item.categoryId)}
                         />}
                         keyExtractor={(item, index) => `${item.extraId}`}
                         ListEmptyComponent={<RowTableEmptyExtra />}
                     />
                 </View>
-                <PopupAddEditService
-                    ref={this.addServiceRef}
+                <PopupEditAddExtra
+                    ref={this.addExtraRef}
                     visible={visibleAdd}
-                    title="Add Service"
+                    title="Add Extra"
                     titleButton="Add"
                     onRequestClose={() => this.setState({ visibleAdd: false })}
-                    doneAddService={this.submitAddService}
+                    doneAddExtra={this.submitAddExtra}
                     categoriesByMerchant={this.props.categoriesByMerchant}
                 />
-                <PopupAddEditService
-                    ref={this.editServiceRef}
+                <PopupEditAddExtra
+                    ref={this.editExtraRef}
                     visible={visibleEdit}
-                    title="Edit Service"
+                    title="Edit Extra"
                     titleButton="Save"
-                    isSave={true}
                     onRequestClose={() => this.setState({ visibleEdit: false })}
-                    editService={this.submitEditService}
                     categoriesByMerchant={this.props.categoriesByMerchant}
+                    isEdit={true}
+                    editExtra={this.submitEditExtra}
                 />
                 <PopupConfirm
                     visible={visibleArchive}
                     title="Confirmation"
-                    message="Do you want to Archive this Service ?"
+                    message="Do you want to Archive this Extra ?"
                     onRequestClose={() => this.togglePopupArchive(false)}
-                    confimYes={() => this.archiveServiceYess()}
+                    confimYes={() => this.archiveExtraYess()}
                 />
                 <PopupConfirm
                     visible={visibleRestore}
                     title="Confirmation"
-                    message="Do you want to Restore this Service ?"
+                    message="Do you want to Restore this Extra ?"
                     onRequestClose={() => this.togglePopupRestore(false)}
-                    confimYes={() => this.restoreServiceYess()}
+                    confimYes={() => this.restoreExtraYess()}
                 />
             </View>
         );
