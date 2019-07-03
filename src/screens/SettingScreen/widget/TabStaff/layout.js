@@ -88,7 +88,7 @@ class Layout extends React.Component {
                                     containerStyle={{
                                         backgroundColor: 'rgb(246,246,246)',
                                         borderWidth: 1,
-                                        borderColor: '#6A6A6A',
+                                        borderColor: '#C5C5C5',
                                         flex: 1,
                                         borderRadius: scaleSzie(4)
                                     }}
@@ -104,7 +104,7 @@ class Layout extends React.Component {
                                     containerStyle={{
                                         backgroundColor: '#F1F1F1',
                                         borderWidth: 1,
-                                        borderColor: '#6A6A6A',
+                                        borderColor: '#C5C5C5',
                                         flex: 1,
                                         borderRadius: scaleSzie(4)
                                     }}

@@ -9,7 +9,7 @@ import { StatusBarHeader, Button, ParentContainer, Text } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { TabStaff, TabService } from './widget';
+import { TabStaff, TabService ,TabExtra} from './widget';
 
 const MENU = ["General", "Staff", "Services", "Extra", "Payment", "Hardware", "About", "Logout"];
 
@@ -86,9 +86,8 @@ export default class Layout extends React.Component {
                                 </View>
                                 <TabStaff />
                                 <TabService />
-                                <View style={{ flex: 1 }} >
-
-                                </View>
+                                <TabExtra />
+                                
                                 <View style={{ flex: 1 }} >
 
                                 </View>
