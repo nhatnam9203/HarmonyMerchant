@@ -11,15 +11,9 @@ class TabExtra extends Layout {
         this.state = {
             visibleArchive: false,
             visibleRestore: false,
-            isEditStaff: false,
-            filter: {
-                role: '',
-                status: ''
-            },
             serviceHanle: {},
             visibleAdd: false,
             visibleEdit: false,
-            // ----
             searchFilter: {
                 keySearch: '',
                 category: '',
@@ -31,7 +25,7 @@ class TabExtra extends Layout {
     }
 
     componentDidMount() {
-        this.props.actions.service.getServicesByMerchant();
+        // this.props.actions.service.getServicesByMerchant();
     }
 
     updateSearchFilterInfo(key, value, keyParent = '') {

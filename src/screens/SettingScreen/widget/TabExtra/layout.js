@@ -10,7 +10,7 @@ import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@u
 import { Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
-import { HeaderTableService, RowTableService, RowTableEmptyService } from './widget';
+import { HeaderTableExtra, RowTableService, RowTableEmptyExtra } from './widget';
 
 class Layout extends React.Component {
 
@@ -31,7 +31,7 @@ class Layout extends React.Component {
                             <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
                                 <TextInput
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
-                                    placeholder={localize('Service', language)}
+                                    placeholder={localize('Extra name', language)}
                                     value={keySearch}
                                     onChangeText={(value) => {
                                         if (value === '') {
@@ -69,8 +69,8 @@ class Layout extends React.Component {
         const { language, categoriesByMerchant } = this.props;
         const { searchFilter } = this.state;
         const { category, status } = searchFilter;
-        const dataServicesCategory =getArrayNameCategories(categoriesByMerchant, 'Service');
-        dataServicesCategory.unshift({value:''});
+        const dataServicesCategory = getArrayNameCategories(categoriesByMerchant, 'Service');
+        dataServicesCategory.unshift({ value: '' });
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
@@ -81,22 +81,6 @@ class Layout extends React.Component {
                             </Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }} >
-                            <View style={{ width: scaleSzie(120) }} >
-                                <Dropdown
-                                    label={localize('Categories', language)}
-                                    data={dataServicesCategory}
-                                    value={category}
-                                    onChangeText={(value) => this.updateSearchFilterInfo('category', value)}
-                                    containerStyle={{
-                                        backgroundColor: 'rgb(246,246,246)',
-                                        borderWidth: 1,
-                                        borderColor: '#C5C5C5',
-                                        flex: 1,
-                                        borderRadius: scaleSzie(4)
-                                    }}
-                                />
-                            </View>
-                            <View style={{ width: scaleSzie(12) }} />
                             <View style={{ width: scaleSzie(120) }} >
                                 <Dropdown
                                     label={localize('Statuses', language)}
@@ -137,7 +121,8 @@ class Layout extends React.Component {
 
     renderTableStaff() {
         const { servicesByMerchant, categoriesByMerchant,
-            isShowSearchService, listServicesSearch
+            isShowSearchService, listServicesSearch,
+            language
         } = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
         const temptData = isShowSearchService ? listServicesSearch : servicesByMerchant
@@ -148,7 +133,9 @@ class Layout extends React.Component {
                 {this.renderFilter()}
                 <View style={{ height: scaleSzie(10) }} />
                 <View style={{ flex: 1 }} >
-                    <HeaderTableService />
+                    <HeaderTableExtra
+                        language={language}
+                    />
                     <FlatList
                         data={temptData}
                         renderItem={({ item, index }) => <RowTableService
@@ -160,7 +147,7 @@ class Layout extends React.Component {
                             categoryName={getCategoryName(categoriesByMerchant, item.categoryId)}
                         />}
                         keyExtractor={(item, index) => `${index}`}
-                        ListEmptyComponent={<RowTableEmptyService />}
+                        ListEmptyComponent={<RowTableEmptyExtra />}
                     />
                 </View>
                 <PopupAddEditService

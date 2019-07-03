@@ -10,7 +10,7 @@ class SettingScreen extends Layout {
         super(props);
         this.state = {
             isFocus: true,
-            indexTab: 2,
+            indexTab: 3,
         }
         this.scrollTabRef = React.createRef();
     }

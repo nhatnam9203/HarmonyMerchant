@@ -7,10 +7,10 @@ import {
 } from 'react-native';
 
 import {  Button } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie ,localize} from '@utils';
 import IMAGE from '@resources';
 
-class HeaderTableService extends React.Component {
+class HeaderTableExtra extends React.Component {
 
     constructor(props) {
         super(props);
@@ -47,7 +47,7 @@ class HeaderTableService extends React.Component {
     }
 
     render() {
-        const { sortUpStaffName, sortUpId, sortUpRole, sortUpStatus } = this.state;
+        const {language} = this.props
         return (
                 <View style={styles.tableHeader} >
                     {/* ----- 1 ------ */}
@@ -55,24 +55,18 @@ class HeaderTableService extends React.Component {
                         width: scaleSzie(50),
                     }, styles.itemTableHeaderContainer]} >
                         <Text style={styles.textTableHeader} >
-                            No.
+                            {localize('No.',language)}
                         </Text>
                     </View>
                     {/* ----- 2 ------ */}
                     <View style={{
                         width: scaleSzie(160), flexDirection: 'row',
                     }} >
-                        {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                            <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                        </View> */}
                         <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
                             <Text style={styles.textTableHeader} >
-                            Service Name
+                            {localize('Name',language)}
                             </Text>
                         </View>
-                        {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                            <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                        </View> */}
                     </View>
                     {/* ----- 3 ------ */}
                     <View style={{
@@ -80,12 +74,9 @@ class HeaderTableService extends React.Component {
                     }} >
                         <View style={{ flex: 1, justifyContent: 'center',paddingLeft: scaleSzie(10)   }} >
                             <Text style={styles.textTableHeader} >
-                            Categories
+                            {`${localize('Price',language)} $`}
                             </Text>
                         </View>
-                        {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                            <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                        </View> */}
                     </View>
                     {/* ----- 4 ----- */}
                     <View style={{
@@ -96,9 +87,6 @@ class HeaderTableService extends React.Component {
                                 Status
                             </Text>
                         </View>
-                        {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                            <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                        </View> */}
                     </View>
                     {/* ----- 5 ------ */}
                     <View style={[{
@@ -140,5 +128,5 @@ const styles = StyleSheet.create({
 
 })
 
-export default HeaderTableService;
+export default HeaderTableExtra;
 

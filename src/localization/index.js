@@ -169,6 +169,7 @@ const localization = {
         'Enter the amount of product added':'Enter the amount of product added',
         'Cancel':'Cancel',
         'Submit':'Submit',
+        'Extra name':'Extra name',
     },
     'vi': {
         'MARKETING': 'Uu dai',
