@@ -10,7 +10,9 @@ import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown,
 import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { HeaderTableProducts, RowTableProducts, RowEmptyTableProducts, PopupDetailProduct } from './widget';
+import { HeaderTableProducts, RowTableProducts, RowEmptyTableProducts, PopupDetailProduct ,
+    PopupRestock
+} from './widget';
 
 export default class Layout extends React.Component {
 
@@ -237,6 +239,12 @@ export default class Layout extends React.Component {
                     onRequestClose={() => this.setState({ visibleEdit: false })}
                     editProduct={this.editProduct}
                     categoriesByMerchant={this.props.categoriesByMerchant}
+                />
+                <PopupRestock 
+                 title={'Add Item to Stock'}
+                 visible={this.state.visibleRestock}
+                 onRequestClose={() =>{}}
+                 language={language}
                 />
             </ParentContainer>
         );

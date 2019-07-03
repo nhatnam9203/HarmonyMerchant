@@ -13,6 +13,7 @@ class InventoryScreen extends Layout {
             isSelectAll: false,
             visiblePopupDetail: false,
             visibleEdit: false,
+            visibleRestock: false,
             searchFilter: {
                 keySearch: '',
                 category: '',
@@ -105,7 +106,9 @@ class InventoryScreen extends Layout {
 
     // ----- Handle  -----
     restock = () => {
-        alert('dd')
+      this.setState({
+          visibleRestock:true
+      })
     }
 
     showDetailProduct = (product) => {
@@ -152,8 +155,6 @@ class InventoryScreen extends Layout {
         this.setState({
             visibleEdit: true
         })
-        // console.log(id);
-
     }
 
     editProduct = (product) => {

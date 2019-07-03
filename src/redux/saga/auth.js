@@ -12,12 +12,6 @@ function* login(action) {
         console.log('responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            const { merchant } = responses.data;
-            if (!merchant.needSetting) {
-                NavigationServices.navigate('Drawer');
-            } else {
-                NavigationServices.navigate('SetupStore');
-            }
             yield put({
                 type: 'SAVE_PROFILE_LOCAL',
                 payload: {
@@ -25,15 +19,16 @@ function* login(action) {
                     token: responses.data.token,
                 }
             });
-            yield put({
-                type: 'GET_CATEGORIES_BY_MERCHANR_ID',
-                method: 'GET',
-                token: true,
-                api: `${apiConfigs.BASE_API}category`
-            })
+            const { merchant } = responses.data;
+            if (!merchant.needSetting) {
+                NavigationServices.navigate('Drawer');
+            } else {
+                NavigationServices.navigate('SetupStore');
+            }
             yield put({
                 type: 'LOGIN_APP_SUCCESS'
             })
+
         } else {
             yield put({
                 type: 'LOGIN_APP_FAIL',
@@ -44,6 +39,12 @@ function* login(action) {
         console.log('error : ', error);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
+        yield put({
+            type: 'GET_CATEGORIES_BY_MERCHANR_ID',
+            method: 'GET',
+            token: true,
+            api: `${apiConfigs.BASE_API}category`
+        })
     }
 }
 
