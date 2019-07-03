@@ -9,8 +9,8 @@ import {
 
 const SetupStoreStack = createStackNavigator(
     {
-        StoreInfo:StoreInfoScreen,
-        Congratulation:CongratulationScreen,
+        StoreInfo: StoreInfoScreen,
+        Congratulation: CongratulationScreen,
     },
     {
         initialRouteName: 'StoreInfo',

@@ -40,7 +40,7 @@ export default class Layout extends React.Component {
                         const temptTextColorSelect = index === indexTab ? { color: '#0764B0' } : {}
                         return (
                             <Button onPress={() => this.selectMenu(index)} key={index} style={[{
-                                height: scaleSzie(55), borderBottomColor: 'rgb(241,241,241)', borderBottomWidth: 3,
+                                height: scaleSzie(50), borderBottomColor: 'rgb(241,241,241)', borderBottomWidth: 3,
                                 flexDirection: 'row', alignItems: "center", paddingLeft: scaleSzie(10)
                             }, temptBackground]} >
                                 <Image source={IMAGE[temptIcon]} style={{
@@ -74,7 +74,7 @@ export default class Layout extends React.Component {
                             <ScrollableTabView
                                 ref={this.scrollTabRef}
                                 style={{}}
-                                initialPage={3}
+                                initialPage={1}
                                 tabBarPosition="bottom"
                                 locked={true}
                                 springTension={1}

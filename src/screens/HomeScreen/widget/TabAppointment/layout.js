@@ -16,7 +16,7 @@ class Layout extends React.Component {
         const{token} =this.props;
         return (
             <View style={styles.container} >
-                <WebView source={{ uri: `${url}${token}&storeid=${storeId}` }}
+                <WebView source={{ uri: `${url}${token}` }}
                     onLoadStart={this.onLoadStartWebview}
                     onLoadEnd={this.onLoadEndWebview}
                 />
