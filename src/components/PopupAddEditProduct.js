@@ -106,7 +106,7 @@ class PopupAddEditProduct extends React.Component {
             if (this.props.isSave) {
                 this.props.editProduct({...temptProductInfo,isDisabled:productInfo.isDisabled === 'Active' ? 0 : 1, });
             } else {
-                this.props.confimYes(temptProductInfo);
+                this.props.confimYes({...temptProductInfo,isDisabled:productInfo.isDisabled === 'Active' ? 0 : 1, });
             }
 
         }

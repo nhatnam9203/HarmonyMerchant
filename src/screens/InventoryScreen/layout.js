@@ -79,7 +79,7 @@ export default class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Scan SKU', language)}
                             textColor="#6A6A6A"
-                            onPress={this.searchProduct}
+                            onPress={this.scanUKU}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: 'normal' }}
                         />
@@ -95,7 +95,6 @@ export default class Layout extends React.Component {
         const { category, status } = searchFilter;
         const dataProductCategory = getArrayNameCategories(categoriesByMerchant, 'Product');
         dataProductCategory.unshift({ value: '' });
-        const temptIconCheckbox = isSelectAll ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
@@ -153,7 +152,7 @@ export default class Layout extends React.Component {
                             backgroundColor="#0764B0"
                             title={localize('Add New', language)}
                             textColor="#fff"
-                            onPress={this.searchProduct}
+                            onPress={this.showModaAddProduct}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: 'normal' }}
                         />
@@ -233,6 +232,15 @@ export default class Layout extends React.Component {
                     isSave={true}
                     onRequestClose={() => this.setState({ visibleEdit: false })}
                     editProduct={this.editProduct}
+                    categoriesByMerchant={this.props.categoriesByMerchant}
+                />
+                <PopupAddEditProduct
+                    ref={this.addProductRef}
+                    visible={this.state.visibleAdd}
+                    title="Add Product"
+                    titleButton="Add"
+                    onRequestClose={() => this.setState({ visibleAdd: false })}
+                    confimYes={this.addProduct}
                     categoriesByMerchant={this.props.categoriesByMerchant}
                 />
                 <PopupRestock

@@ -2,7 +2,7 @@ import React from 'react';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { getCategoryIdByName } from '@utils';
+import { getCategoryIdByName, getArrayNameCategories } from '@utils';
 
 class InventoryScreen extends Layout {
 
@@ -13,6 +13,7 @@ class InventoryScreen extends Layout {
             isSelectAll: false,
             visiblePopupDetail: false,
             visibleEdit: false,
+            visibleAdd: false,
             visibleRestock: false,
             searchFilter: {
                 keySearch: '',
@@ -24,6 +25,7 @@ class InventoryScreen extends Layout {
         this.productDetailRef = React.createRef();
         this.listProductRef = [];
         this.editProductRef = React.createRef();
+        this.addProductRef = React.createRef();
         this.restockRef = React.createRef();
     }
 
@@ -162,6 +164,25 @@ class InventoryScreen extends Layout {
     editProduct = (product) => {
         this.props.actions.product.editProduct(product, product.productId);
         this.setState({ visibleEdit: false })
+    }
+
+    showModaAddProduct = () => {
+        const { categoriesByMerchant } = this.props;
+        if (getArrayNameCategories(categoriesByMerchant, 'Product').length > 0) {
+            this.setState({ visibleAdd: true });
+            this.addProductRef.current.setDefaultStateFromParent();
+        } else {
+            alert('Create category before add service please !')
+        }
+    }
+
+    addProduct = product => {
+        this.props.actions.product.addProductByMerchant(product);
+        this.setState({ visibleAdd: false })
+    }
+
+    scanUKU = () =>{
+        
     }
 
     // ----- End Handle ---
