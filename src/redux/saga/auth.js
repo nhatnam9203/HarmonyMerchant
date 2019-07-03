@@ -39,12 +39,12 @@ function* login(action) {
         console.log('error : ', error);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
-        yield put({
-            type: 'GET_CATEGORIES_BY_MERCHANR_ID',
-            method: 'GET',
-            token: true,
-            api: `${apiConfigs.BASE_API}category`
-        })
+        // yield put({
+        //     type: 'GET_CATEGORIES_BY_MERCHANR_ID',
+        //     method: 'GET',
+        //     token: true,
+        //     api: `${apiConfigs.BASE_API}category`
+        // })
     }
 }
 

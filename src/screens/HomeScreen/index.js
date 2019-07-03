@@ -14,6 +14,7 @@ class HomeScreen extends Layout {
     }
 
     componentDidMount() {
+        this.props.actions.category.getCategoriesByMerchantId();
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {

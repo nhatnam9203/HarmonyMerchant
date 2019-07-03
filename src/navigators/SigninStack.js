@@ -9,22 +9,16 @@ import {
     SignInScreen,
     ForgotPasswordScreen,
     SlideDrawer,
-    HomeScreen,
-    SettingScreen,
-    InventoryScreen,
-    CustomerScreen
 } from '../screens';
 
-const DrawerStack = createDrawerNavigator({
-    Home: HomeScreen,
-    Setting: SettingScreen,
-    Inventory: InventoryScreen,
-    Customer: CustomerScreen
+const SigninStack = createDrawerNavigator({
+    SignIn: SignInScreen,
+    ForgotPassword: ForgotPasswordScreen,
 }, {
-        initialRouteName: "Home",
+        initialRouteName: "SignIn",
         contentComponent: SlideDrawer,
         drawerWidth: scaleSzie(220)
 
     });
 
-export default DrawerStack;
+export default SigninStack;

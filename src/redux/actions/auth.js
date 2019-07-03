@@ -11,3 +11,11 @@ export function login(email, password) {
         api: `${apiConfigs.BASE_API}merchant/login`
     }
 }
+
+export function logout() {
+    return {
+        type: 'LOGOUT_APP',
+    }
+}
+
+

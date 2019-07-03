@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { StatusBarHeader, Button, ParentContainer, Text } from '@components';
+import { StatusBarHeader, Button, ParentContainer, Text ,PopupLogout} from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
@@ -111,6 +111,13 @@ export default class Layout extends React.Component {
                         <Image source={IMAGE.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
                     </Button>
                 </View>
+                <PopupLogout
+                    visible={this.state.visibleLogout}
+                    title="Confirmation"
+                    message="Are you sure you want to Log out?"
+                    onRequestClose={() => this.setState({visibleLogout:false})}
+                    confimYes={this.logout}
+                />
             </ParentContainer>
         );
     }

@@ -23,6 +23,12 @@ function dataLocal(state = initialState, action) {
                 ...state,
                 stateCity: action.payload
             }
+        case 'LOGOUT_APP':
+            return {
+                ...state,
+                profile: {},
+                token: false,
+            }
         default:
             return state
     }

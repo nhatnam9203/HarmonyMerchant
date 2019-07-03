@@ -22,6 +22,7 @@ import SettingTabBar from './SettingTabBar';
 import PopupAddEditService from './PopupAddEditService';
 import PopupAddEditProduct from './PopupAddEditProduct';
 import PopupEditAddExtra from './PopupEditAddExtra';
+import PopupLogout from './PopupLogout';
 
 module.exports = {
     Button,
@@ -47,5 +48,6 @@ module.exports = {
     SettingTabBar,
     PopupAddEditService,
     PopupAddEditProduct,
-    PopupEditAddExtra
+    PopupEditAddExtra,
+    PopupLogout
 }

@@ -11,6 +11,7 @@ class SettingScreen extends Layout {
         this.state = {
             isFocus: true,
             indexTab: 1,
+            visibleLogout: false
         }
         this.scrollTabRef = React.createRef();
     }
@@ -46,16 +47,29 @@ class SettingScreen extends Layout {
     }
 
     selectMenu(index) {
-        this.setState({
-            indexTab: index
-        });
-        this.scrollTabRef.current.goToPage(index);
-        Keyboard.dismiss();
+
+        if (index === 7) {
+            this.setState({
+                visibleLogout: true
+            })
+        } else {
+            this.setState({
+                indexTab: index
+            });
+            this.scrollTabRef.current.goToPage(index);
+            Keyboard.dismiss();
+        }
+
+    }
+
+    logout = () => {
+        this.props.actions.auth.logout();
+        this.props.navigation.navigate('SigninStack');
     }
 
     backTab = () => {
-        const {indexTab} = this.state;
-        if(indexTab == 1){
+        const { indexTab } = this.state;
+        if (indexTab == 1) {
             this.props.actions.staff.switchAddStaff(false);
         }
         // this.props.actions.app.handleLockScreen(true);
