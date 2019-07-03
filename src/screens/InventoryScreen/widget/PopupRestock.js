@@ -55,7 +55,6 @@ class PopupRestock extends React.Component {
     // ---------- Render --------
     render() {
         const { title, visible, onRequestClose, language } = this.props;
-        const temptHeight = width - scaleSzie(540);
         return (
             <PopupParent
                 title={title}
@@ -65,7 +64,7 @@ class PopupRestock extends React.Component {
                 width={330}
             >
                 <View style={{
-                    height: scaleSzie(temptHeight), backgroundColor: '#fff',
+                    height: scaleSzie(420), backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15),
                     borderBottomRightRadius: scaleSzie(15),
                     paddingHorizontal: scaleSzie(12)
@@ -139,7 +138,7 @@ class PopupRestock extends React.Component {
 
                             </View>
                             {/* ---- Center ----- */}
-                            <View style={{ width: scaleSzie(18), paddingBottom: scaleSzie(20), paddingTop: scaleSzie(9), alignItems: 'center' }} >
+                            <View style={{ width: scaleSzie(18), paddingBottom: scaleSzie(38), paddingTop: scaleSzie(9), alignItems: 'center' }} >
                                 <View style={{ height: '100%', width: scaleSzie(4), backgroundColor: '#D0D2D3' }} />
                             </View>
                             {/* ---- Right ----- */}

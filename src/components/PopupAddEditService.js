@@ -182,7 +182,6 @@ class PopupAddEditService extends React.Component {
         } = this.props;
         const { categoryId, name, duration, description, price, isDisabled
         } = this.state.serviceInfo;
-        const temptHeight = width - scaleSzie(500);
         const temptTitleButton = isSave ? 'Save' : 'Done';
         return (
             <PopupParent
@@ -192,7 +191,7 @@ class PopupAddEditService extends React.Component {
                 style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
             >
                 <View style={{
-                    height: scaleSzie(temptHeight), backgroundColor: '#fff',
+                    height: scaleSzie(480), backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
                     paddingHorizontal: scaleSzie(30)
                 }} >

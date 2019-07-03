@@ -21,6 +21,7 @@ import ParentContainer from './ParentContainer';
 import SettingTabBar from './SettingTabBar';
 import PopupAddEditService from './PopupAddEditService';
 import PopupAddEditProduct from './PopupAddEditProduct';
+import PopupEditAddExtra from './PopupEditAddExtra';
 
 module.exports = {
     Button,
@@ -45,5 +46,6 @@ module.exports = {
     ParentContainer,
     SettingTabBar,
     PopupAddEditService,
-    PopupAddEditProduct
+    PopupAddEditProduct,
+    PopupEditAddExtra
 }

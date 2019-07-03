@@ -51,7 +51,7 @@ class PopupParent extends React.Component {
                             </Button>
                         </View>
                     </View>
-                    {/* ----- Body --- */}
+                    
                         {this.props.children}
                 </View>
 

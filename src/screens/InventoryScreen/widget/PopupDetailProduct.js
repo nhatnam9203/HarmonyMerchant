@@ -91,7 +91,6 @@ class PopupDetailProduct extends React.Component {
 
     render() {
         const { title, visible, onRequestClose, language } = this.props;
-        const temptHeight = width - scaleSzie(500);
         const { categoryId, name, description, sku,
             quantity, minThreshold, maxThreshold, price, isDisabled, needToorDer
         } = this.state.productInfo;
@@ -103,7 +102,7 @@ class PopupDetailProduct extends React.Component {
                 style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
             >
                 <View style={{
-                    height: scaleSzie(temptHeight), backgroundColor: '#fff',
+                    height: scaleSzie(480), backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15),
                     borderBottomRightRadius: scaleSzie(15),
                     paddingHorizontal: scaleSzie(30)

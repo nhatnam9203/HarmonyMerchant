@@ -2,15 +2,15 @@ import React from 'react';
 import {
     View,
     Text,
-    StyleSheet,
     TextInput,
-    Dimensions,
     ScrollView,
     Alert
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
-import { ButtonCustom, PopupParent, Dropdown } from '@components';
+import ButtonCustom from './ButtonCustom';
+import PopupParent from './PopupParent';
+import { Dropdown } from './react-native-material-dropdown';
 import { scaleSzie } from '@utils';
 
 class PopupEditAddExtra extends React.Component {
@@ -105,7 +105,7 @@ class PopupEditAddExtra extends React.Component {
                 style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
             >
                 <View style={{
-                    height: scaleSzie(400), backgroundColor: '#fff',
+                    height: scaleSzie(480), backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
                     paddingHorizontal: scaleSzie(30)
                 }} >

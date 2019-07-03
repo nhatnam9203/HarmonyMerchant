@@ -18,7 +18,7 @@ export default createNavigationContainer(createSwitchNavigator({
     Drawer: DrawerStack,
 },
     {
-        initialRouteName: 'Splash'
+        initialRouteName: 'SetupStore'
     }
 
 ))

@@ -117,7 +117,6 @@ class PopupAddEditProduct extends React.Component {
         const { title, visible, onRequestClose, isSave,
             categoriesByMerchant
         } = this.props;
-        const temptHeight = width - scaleSzie(500);
         const temptTitleButton = isSave ? 'Save' : 'Done';
         const { categoryId, name, description, sku, quantity, minThreshold,
             maxThreshold, price, isDisabled
@@ -130,7 +129,7 @@ class PopupAddEditProduct extends React.Component {
                 style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
             >
                 <View style={{
-                    height: scaleSzie(temptHeight), backgroundColor: '#fff',
+                    height: scaleSzie(480), backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
                     paddingHorizontal: scaleSzie(30)
                 }} >
