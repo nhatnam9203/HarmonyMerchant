@@ -10,7 +10,7 @@ import { ButtonCustom } from '@components';
 import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 
-class RowTableService extends React.Component {
+class RowTableExtra extends React.Component {
 
     constructor(props) {
         super(props);
@@ -32,7 +32,7 @@ class RowTableService extends React.Component {
     }
 
     render() {
-        const { service, index, archiveService, editService, restoreService,
+        const { extra, index, archiveService, editService, restoreService,
             categoryName
         } = this.props;
         return (
@@ -57,7 +57,7 @@ class RowTableService extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
                         <Text style={styles.textTableHeader} >
-                            {service.name}
+                            {extra.name}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -70,7 +70,7 @@ class RowTableService extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            {categoryName}
+                            {extra.price}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -85,7 +85,7 @@ class RowTableService extends React.Component {
                         <Text style={styles.textTableHeader} >
 
                             {
-                                service.isDisabled === 0 ? 'Active' : 'Disable'
+                                extra.isDisabled === 0 ? 'Active' : 'Disable'
                             }
                         </Text>
                     </View>
@@ -114,7 +114,7 @@ class RowTableService extends React.Component {
                     </View>
                     <View style={styles.actionButton} >
                         {
-                            service.isDisabled === 0 ? <ButtonCustom
+                            extra.isDisabled === 0 ? <ButtonCustom
                                 width={'80%'}
                                 height={28}
                                 backgroundColor="#FF3B30"
@@ -175,5 +175,5 @@ const styles = StyleSheet.create({
 
 })
 
-export default RowTableService;
+export default RowTableExtra;
 

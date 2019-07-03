@@ -10,7 +10,7 @@ import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@u
 import { Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
-import { HeaderTableExtra, RowTableService, RowTableEmptyExtra } from './widget';
+import { HeaderTableExtra, RowTableExtra, RowTableEmptyExtra } from './widget';
 
 class Layout extends React.Component {
 
@@ -120,12 +120,9 @@ class Layout extends React.Component {
 
 
     renderTableStaff() {
-        const { servicesByMerchant, categoriesByMerchant,
-            isShowSearchService, listServicesSearch,
-            language
-        } = this.props;
+        const {  categoriesByMerchant,language,extrasByMerchant } = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
-        const temptData = isShowSearchService ? listServicesSearch : servicesByMerchant
+        // const temptData = isShowSearchService ? listServicesSearch : servicesByMerchant
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
@@ -137,16 +134,16 @@ class Layout extends React.Component {
                         language={language}
                     />
                     <FlatList
-                        data={temptData}
-                        renderItem={({ item, index }) => <RowTableService
+                        data={extrasByMerchant}
+                        renderItem={({ item, index }) => <RowTableExtra
                             index={index}
-                            service={item}
+                            extra={item}
                             archiveService={() => this.archiveService(item)}
                             editService={() => this.showModalEditService(item)}
                             restoreService={() => this.restoreService(item)}
                             categoryName={getCategoryName(categoriesByMerchant, item.categoryId)}
                         />}
-                        keyExtractor={(item, index) => `${index}`}
+                        keyExtractor={(item, index) => `${item.extraId}`}
                         ListEmptyComponent={<RowTableEmptyExtra />}
                     />
                 </View>

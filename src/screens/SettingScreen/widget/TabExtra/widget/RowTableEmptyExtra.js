@@ -52,7 +52,7 @@ class RowTableEmptyExtra extends React.Component {
                 </View>
                 {/* ----- 2 ------ */}
                 <View style={{
-                    width: scaleSzie(180), flexDirection: 'row',
+                    width: scaleSzie(160), flexDirection: 'row',
                 }} >
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
@@ -69,7 +69,7 @@ class RowTableEmptyExtra extends React.Component {
                 {/* ----- 3 ------ */}
                 {/* ----- 4 ------ */}
                 <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
+                    width: scaleSzie(140), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >

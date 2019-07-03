@@ -25,7 +25,7 @@ class TabExtra extends Layout {
     }
 
     componentDidMount() {
-        // this.props.actions.service.getServicesByMerchant();
+        this.props.actions.extra.getExtraByMerchant();
     }
 
     updateSearchFilterInfo(key, value, keyParent = '') {
@@ -136,10 +136,13 @@ class TabExtra extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    servicesByMerchant: state.service.servicesByMerchant,
     categoriesByMerchant: state.category.categoriesByMerchant,
+
+    servicesByMerchant: state.service.servicesByMerchant,
     listServicesSearch: state.service.listServicesSearch,
-    isShowSearchService: state.service.isShowSearchService
+    isShowSearchService: state.service.isShowSearchService,
+
+    extrasByMerchant: state.extra.extrasByMerchant,
 })
 
 

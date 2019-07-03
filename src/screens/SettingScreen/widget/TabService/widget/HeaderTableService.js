@@ -76,7 +76,7 @@ class HeaderTableService extends React.Component {
                     </View>
                     {/* ----- 3 ------ */}
                     <View style={{
-                        width: scaleSzie(110), flexDirection: 'row',
+                        width: scaleSzie(140), flexDirection: 'row',
                     }} >
                         <View style={{ flex: 1, justifyContent: 'center',paddingLeft: scaleSzie(10)   }} >
                             <Text style={styles.textTableHeader} >
