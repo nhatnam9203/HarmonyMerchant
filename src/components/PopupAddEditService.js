@@ -13,7 +13,7 @@ import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import { Dropdown } from './react-native-material-dropdown';
 
-import { scaleSzie, getCategoryName, getArrayNameCategories ,getCategoryIdByName} from '@utils';
+import { scaleSzie, getCategoryName, getArrayNameCategories, getCategoryIdByName } from '@utils';
 
 const { width } = Dimensions.get('window');
 
@@ -26,9 +26,9 @@ class PopupAddEditService extends React.Component {
                 categoryId: '',
                 name: "",
                 description: "",
-                duration: '',
-                openTime: '',
-                secondTime: '',
+                duration: 0,
+                openTime: 0,
+                secondTime: 0,
                 price: '',
                 isDisabled: 'Active',
             },
@@ -65,9 +65,9 @@ class PopupAddEditService extends React.Component {
                 categoryId: '',
                 name: "",
                 description: "",
-                duration: '',
-                openTime: '',
-                secondTime: '',
+                duration: 0,
+                openTime: 0,
+                secondTime: 0,
                 price: '',
                 isDisabled: 'Active',
             },
@@ -108,12 +108,13 @@ class PopupAddEditService extends React.Component {
             duration,
             openTime,
             secondTime,
-            categoryId: serviceInfo.categoryId !== '' ? getCategoryIdByName(this.props.categoriesByMerchant,serviceInfo.categoryId,'Service') : ''
+            categoryId: serviceInfo.categoryId !== '' ? getCategoryIdByName(this.props.categoriesByMerchant, serviceInfo.categoryId, 'Service') : ''
         };
         const arrayKey = Object.keys(temptServiceInfo);
         let keyError = "";
         for (let i = 0; i <= arrayKey.length - 1; i++) {
-            if (temptServiceInfo[arrayKey[i]] == "") {
+            if (temptServiceInfo[arrayKey[i]] === "") {
+                console.log(arrayKey[i] + '-' + temptServiceInfo[arrayKey[i]]);
                 keyError = arrayKey[i];
                 break;
             }
@@ -130,7 +131,6 @@ class PopupAddEditService extends React.Component {
                 if (extra.getInfoExtraFromParent().isValid) {
                     const data = extra.getInfoExtraFromParent().data;
                     const temptData = { ...data, isDisabled: data.isDisabled === 'Active' ? 0 : 1 };
-                    console.log('-----ExtraFromParent : ', JSON.stringify(temptData));
                     arrayExtra.push(temptData);
                 } else {
                     checkValidateExtra = false;
@@ -169,7 +169,7 @@ class PopupAddEditService extends React.Component {
         })
     }
 
-    resetRefPopup =() =>{
+    resetRefPopup = () => {
         this.arrayExtraRef = [];
         this.props.onRequestClose();
     }
@@ -538,7 +538,7 @@ class ItemTime extends React.Component {
         };
     }
 
-    setStateFromParent = (value) =>{
+    setStateFromParent = (value) => {
         this.setState({
             value
         })

@@ -130,13 +130,12 @@ class StoreInfoScreen extends Layout {
             const temptAddress = { ...address, state: getIdStateByName(this.props.stateCity, address.state) };
             const temptStaff = {
                 ...user,
-                isDisabled: (user.isDisabled === 'Active' ? 1 : 0),
+                isDisabled: (user.isDisabled === 'Active' ? 0 : 1),
                 address: temptAddress,
                 workingTime: objWorkingTime,
                 salary: objSalary,
                 tipFee: objTipFee,
             };
-            // console.log('temptStaff : ' + JSON.stringify(temptStaff));
             this.props.actions.staff.createAdmin(temptStaff);
         }
     }

@@ -117,7 +117,7 @@ class AddStaff extends Layout {
                     confirmPin: infoStaffHandle.pin,
                     isDisabled: infoStaffHandle.isDisabled === 0 ? 'Active' : 'Disable',
                     roles: {
-                        nameRole: 'Admin',
+                        nameRole: infoStaffHandle.roleName,
                     },
                     driverlicense: infoStaffHandle.driverLicense,
                     socialSecurityNumber: infoStaffHandle.ssn,

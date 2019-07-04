@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 
 import Layout from './layout';
 import strings from './strings';
-import { validateEmail, getIdStateByName,getNameStateById } from '@utils';
+import { validateEmail, getIdStateByName, getNameStateById } from '@utils';
 
 class StaffInfo extends Layout {
 
@@ -99,7 +99,7 @@ class StaffInfo extends Layout {
 
     componentDidMount() {
         if (this.props.isEditStaff) {
-            const { infoStaffHandle ,stateCity} = this.props;
+            const { infoStaffHandle, stateCity } = this.props;
             this.setState({
                 user: {
                     firstName: infoStaffHandle.firstName,
@@ -109,7 +109,7 @@ class StaffInfo extends Layout {
                         street: infoStaffHandle.address,
                         city: infoStaffHandle.city,
                         state: infoStaffHandle.stateId,
-                        state: getNameStateById(stateCity,infoStaffHandle.stateId) ,
+                        state: getNameStateById(stateCity, infoStaffHandle.stateId),
                     },
                     cellphone: infoStaffHandle.phone,
                     email: infoStaffHandle.email,
@@ -117,7 +117,7 @@ class StaffInfo extends Layout {
                     confirmPin: infoStaffHandle.pin,
                     isDisabled: infoStaffHandle.isDisabled === 0 ? 'Active' : 'Disable',
                     roles: {
-                        nameRole: 'Admin',
+                        nameRole: infoStaffHandle.roleName,
                     },
                     driverlicense: infoStaffHandle.driverLicense,
                     socialSecurityNumber: infoStaffHandle.ssn,
