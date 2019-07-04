@@ -30,6 +30,7 @@ export default {
     arrowNote: require('./img/enter.png'),
     clearKeyboard: require('./img/clearKeyboard.png'),
     subKeyboard: require('./img/subKeyboard.png'),
+    imagePlaceHolder: require('./img/imagePlaceHolder.png'),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),

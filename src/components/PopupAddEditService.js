@@ -6,17 +6,20 @@ import {
     Dimensions,
     ScrollView,
     Alert,
-    TouchableOpacity
+    TouchableOpacity,
+    StyleSheet,
+    Platform,
+    Image
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
+import BrowserFile from './BrowserFile';
 import { Dropdown } from './react-native-material-dropdown';
+import IMAGE from '@resources';
 
 import { scaleSzie, getCategoryName, getArrayNameCategories, getCategoryIdByName } from '@utils';
-
-const { width } = Dimensions.get('window');
 
 class PopupAddEditService extends React.Component {
 
@@ -248,10 +251,7 @@ class PopupAddEditService extends React.Component {
                                     />
                                 </View>
                                 {/* ------- Upload Image ----- */}
-                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                    Image
-                            </Text>
-
+                                <BrowserFile />
                                 {/* -------------------------- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                     Duration
@@ -603,6 +603,7 @@ const strings = {
     price_extra: 'Mising info : Price extra',
     status: 'Active'
 }
+
 
 export default PopupAddEditService;
 
