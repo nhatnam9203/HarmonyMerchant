@@ -137,7 +137,7 @@ const mapStateToProps = state => ({
     categoriesByMerchant: state.category.categoriesByMerchant,
     listServicesSearch: state.service.listServicesSearch,
     isShowSearchService: state.service.isShowSearchService,
-    refreshListServices : state.service.refreshListServices
+    refreshListServices: state.service.refreshListServices
 })
 
 

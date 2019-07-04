@@ -5,7 +5,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { FooterTab, PopupConfirm,PopupEditAddExtra } from '@components';
+import { FooterTab, PopupConfirm, PopupEditAddExtra } from '@components';
 import { scaleSzie } from '@utils';
 import HeaderTableExtra from './HeaderTableExtra';
 import RowTableExtra from './RowTableExtra';
@@ -87,8 +87,8 @@ class TabExtra extends React.Component {
         this.setState({ visibleAdd: false })
     }
 
-    editExtra = extra =>{
-        this.props.actions.extra.editExtra(extra,extra.extraId);
+    editExtra = extra => {
+        this.props.actions.extra.editExtra(extra, extra.extraId);
         this.setState({
             visibleEdit: false
         })
@@ -102,7 +102,7 @@ class TabExtra extends React.Component {
     }
 
     renderTable() {
-        const { extrasByMerchant } = this.props;
+        const { extrasByMerchant, refreshListExtras } = this.props;
         return (
             <View style={{ flex: 1 }} >
                 <HeaderTableExtra />
@@ -120,7 +120,8 @@ class TabExtra extends React.Component {
                         />}
                         keyExtractor={(item, index) => `${item.extraId}`}
                         ListEmptyComponent={<RowEmptyTableExtra />}
-
+                        refreshing={refreshListExtras}
+                        onRefresh={() => this.props.actions.extra.getExtraByMerchant(false)}
                     />
                 </View>
             </View>
@@ -185,7 +186,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
     extrasByMerchant: state.extra.extrasByMerchant,
-    categoriesByMerchant: state.category.categoriesByMerchant
+    categoriesByMerchant: state.category.categoriesByMerchant,
+    refreshListExtras: state.extra.refreshListExtras
 });
 
 export default connectRedux(mapStateToProps, TabExtra);

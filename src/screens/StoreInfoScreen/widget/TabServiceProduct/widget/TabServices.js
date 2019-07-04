@@ -5,8 +5,8 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { FooterTab, PopupConfirm,PopupAddEditService } from '@components';
-import { scaleSzie, getCategoryName ,getArrayNameCategories} from '@utils';
+import { FooterTab, PopupConfirm, PopupAddEditService } from '@components';
+import { scaleSzie, getCategoryName, getArrayNameCategories } from '@utils';
 import HeaderTableServices from './HeaderTableServices';
 import RowTableServices from './RowTableServices';
 import RowEmptyTableServices from './RowEmptyTableServices';
@@ -111,7 +111,7 @@ class TabServices extends React.Component {
 
     showModalAddService = () => {
         const { categoriesByMerchant } = this.props;
-        if (getArrayNameCategories(categoriesByMerchant,'Service').length > 0) {
+        if (getArrayNameCategories(categoriesByMerchant, 'Service').length > 0) {
             this.addServiceRef.current.setDefaultStateFromParent();
             this.setState({ visibleAdd: true });
         } else {
@@ -120,7 +120,7 @@ class TabServices extends React.Component {
     }
 
     renderTable() {
-        const { servicesByMerchant, categoriesByMerchant } = this.props;
+        const { servicesByMerchant, categoriesByMerchant,refreshListServices } = this.props;
         return (
             <View style={{ flex: 1 }} >
                 <HeaderTableServices />
@@ -140,6 +140,8 @@ class TabServices extends React.Component {
                         />}
                         keyExtractor={(item, index) => `${item.serviceId}`}
                         ListEmptyComponent={<RowEmptyTableServices />}
+                        refreshing={refreshListServices}
+                        onRefresh={() => this.props.actions.service.getServicesByMerchant(false)}
                     />
                 </View>
             </View>
@@ -206,7 +208,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     servicesByMerchant: state.service.servicesByMerchant,
-    categoriesByMerchant: state.category.categoriesByMerchant
+    categoriesByMerchant: state.category.categoriesByMerchant,
+    refreshListServices : state.service.refreshListServices
 });
 
 export default connectRedux(mapStateToProps, TabServices);

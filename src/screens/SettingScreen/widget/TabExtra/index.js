@@ -120,6 +120,10 @@ class TabExtra extends Layout {
         })
     }
 
+    searchExtra = () => {
+
+    }
+
 }
 
 const mapStateToProps = state => ({
@@ -131,7 +135,7 @@ const mapStateToProps = state => ({
     isShowSearchService: state.service.isShowSearchService,
 
     extrasByMerchant: state.extra.extrasByMerchant,
-    refreshListExtras : state.extra.refreshListExtras
+    refreshListExtras: state.extra.refreshListExtras
 })
 
 

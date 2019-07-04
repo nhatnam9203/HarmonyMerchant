@@ -106,7 +106,7 @@ class TabProducts extends React.Component {
     }
 
     renderTable() {
-        const { productsByMerchantId, categoriesByMerchant } = this.props;
+        const { productsByMerchantId, categoriesByMerchant,refreshListProducts } = this.props;
         return (
             <View style={{ flex: 1 }} >
                 <HeaderTableProducts />
@@ -125,6 +125,8 @@ class TabProducts extends React.Component {
                         />}
                         keyExtractor={(item, index) => `${item.productId}`}
                         ListEmptyComponent={<RowEmptyTableProducts />}
+                        refreshing={refreshListProducts}
+                    onRefresh={() => this.props.actions.product.getProductsByMerchant(false)}
                     />
                 </View>
             </View>
@@ -192,7 +194,7 @@ const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     productsByMerchantId: state.product.productsByMerchantId,
     categoriesByMerchant: state.category.categoriesByMerchant,
-
+    refreshListProducts: state.product.refreshListProducts
 });
 
 export default connectRedux(mapStateToProps, TabProducts);

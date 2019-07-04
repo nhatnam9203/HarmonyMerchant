@@ -39,17 +39,12 @@ function* login(action) {
         console.log('error : ', error);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
-        // yield put({
-        //     type: 'GET_CATEGORIES_BY_MERCHANR_ID',
-        //     method: 'GET',
-        //     token: true,
-        //     api: `${apiConfigs.BASE_API}category`
-        // })
     }
 }
 
 function* expiredToken(action) {
     NavigationServices.navigate('SignIn');
+    yield put({ type: 'LOGOUT_APP' });
 }
 
 
@@ -57,6 +52,5 @@ export default function* saga() {
     yield all([
         takeLatest('LOGIN_APP', login),
         takeLatest('UNAUTHORIZED', expiredToken),
-
     ])
 }

@@ -105,7 +105,7 @@ class TabCategories extends React.Component {
     // --------- Render ------
 
     renderTable() {
-        const { categoriesByMerchant } = this.props;
+        const { categoriesByMerchant,refreshListCategories } = this.props;
         return (
             <View style={{ flex: 1 }} >
                 <HeaderTableCategories />
@@ -120,10 +120,11 @@ class TabCategories extends React.Component {
                             archiveService={() => this.togglePopupArchive(true, item)}
                             restoreService={() => this.togglePopupRestore(true, item)}
                             editService={() => this.showModalEditcategory(item)}
-
                         />}
                         keyExtractor={(item, index) => `${item.categoryId}`}
                         ListEmptyComponent={<RowEmptyTableCategories />}
+                        refreshing={refreshListCategories}
+                        onRefresh={() => this.props.actions.category.getCategoriesByMerchantId(false)}
                     />
                 </View>
             </View>
@@ -189,7 +190,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
-    categoriesByMerchant: state.category.categoriesByMerchant
+    categoriesByMerchant: state.category.categoriesByMerchant,
+    refreshListCategories: state.category.refreshListCategories
 });
 
 export default connectRedux(mapStateToProps, TabCategories);
