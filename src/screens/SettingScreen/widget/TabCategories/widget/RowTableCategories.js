@@ -32,7 +32,7 @@ class RowTableCategories extends React.Component {
     }
 
     render() {
-        const { category, index, archiveCategory, editService, restoreCategory,
+        const { category, index, archiveCategory, editCategory, restoreCategory,
         } = this.props;
         return (
             <View style={styles.tableHeader} >
@@ -88,7 +88,7 @@ class RowTableCategories extends React.Component {
                             backgroundColor="#0764B0"
                             title="Edit"
                             textColor="#fff"
-                            onPress={() => editService()}
+                            onPress={() => editCategory()}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(2) }}
                             styleText={{
                                 fontSize: scaleSzie(14)

@@ -156,7 +156,7 @@ class Layout extends React.Component {
                             index={index}
                             category={item}
                             archiveCategory={() => this.archiveCategory(item)}
-                            editService={() => this.showModalEditService(item)}
+                            editCategory={() => this.showModalEditcategory(item)}
                             restoreCategory={() => this.restoreCategory(item)}
                         />}
                         keyExtractor={(item, index) => `${index}`}
@@ -170,6 +170,14 @@ class Layout extends React.Component {
                     titleButton="Add"
                     onRequestClose={() => this.setState({ visibleAdd: false })}
                     confimYes={this.submitAddCategory}
+                />
+                 <PopupEditAddCategories
+                    ref={this.editCategoryRef}
+                    visible={visibleEdit}
+                    title="Edit Category"
+                    titleButton="Save"
+                    onRequestClose={() => this.setState({ visibleEdit: false })}
+                    confimYes={this.submitEditCategory}
                 />
                 <PopupConfirm
                     visible={visibleArchive}

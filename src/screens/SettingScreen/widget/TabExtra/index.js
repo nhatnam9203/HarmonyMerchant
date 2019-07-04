@@ -120,15 +120,6 @@ class TabExtra extends Layout {
         })
     }
 
-    // ------ ADD EDIT STAFF -----
-    submitAddStaff = (staff) => {
-        this.props.actions.staff.addStaffByMerchant(staff)
-    }
-
-    submitEditStaff = (staff, id) => {
-        this.props.actions.staff.editStaff(staff, id)
-    }
-
 }
 
 const mapStateToProps = state => ({

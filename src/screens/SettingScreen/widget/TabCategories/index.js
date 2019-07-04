@@ -27,11 +27,11 @@ class TabCategories extends Layout {
             }
         };
         this.addCategoryRef = React.createRef();
-        this.editServiceRef = React.createRef();
+        this.editCategoryRef = React.createRef();
     }
 
     componentDidMount() {
-        // this.props.actions.service.getServicesByMerchant();
+        // this.props.actions.category.getCategoriesByMerchantId();
     }
 
     updateSearchFilterInfo(key, value, keyParent = '') {
@@ -107,16 +107,21 @@ class TabCategories extends Layout {
         })
     }
 
-    async showModalEditService(service) {
-        this.editServiceRef.current.setServiceFromParent(service);
+    async showModalEditcategory(category) {
+        this.editCategoryRef.current.setCategoryFromParent(category);
         this.setState({
             visibleEdit: true
         })
     }
 
-    submitEditService = (service) => {
-        this.props.actions.service.editService(service, service.serviceId);
-        this.setState({ visibleEdit: false })
+    submitEditCategory = (category) => {
+        this.props.actions.category.editCategory({
+            CategoryType: category.categoryType,
+            name: category.name
+        }, category.categoryId);
+        this.setState({
+            visibleEdit: false
+        });
     }
 
     restoreCategory(category) {
@@ -124,15 +129,6 @@ class TabCategories extends Layout {
             visibleRestore: true,
             categoryHandle: category
         })
-    }
-
-    // ------ ADD EDIT STAFF -----
-    submitAddStaff = (staff) => {
-        this.props.actions.staff.addStaffByMerchant(staff)
-    }
-
-    submitEditStaff = (staff, id) => {
-        this.props.actions.staff.editStaff(staff, id)
     }
 
 }

@@ -77,7 +77,7 @@ class TabCategories extends React.Component {
         })
     }
 
-    async editService(category) {
+    async showModalEditcategory(category) {
         this.refEditCategory.current.setCategoryFromParent(category);
         this.setState({
             visibleEdit: true
@@ -91,7 +91,7 @@ class TabCategories extends React.Component {
         });
     }
 
-    editCategory = async (category) => {
+    editCategory =  (category) => {
         // ---- edit category ----
         this.props.actions.category.editCategory({
             CategoryType: category.categoryType,
@@ -119,7 +119,7 @@ class TabCategories extends React.Component {
                             category={item}
                             archiveService={() => this.togglePopupArchive(true, item)}
                             restoreService={() => this.togglePopupRestore(true, item)}
-                            editService={() => this.editService(item)}
+                            editService={() => this.showModalEditcategory(item)}
 
                         />}
                         keyExtractor={(item, index) => `${item.categoryId}`}
