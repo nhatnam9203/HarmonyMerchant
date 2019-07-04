@@ -10,14 +10,17 @@ import ImagePicker from 'react-native-image-picker';
 
 import ButtonCustom from './ButtonCustom';
 import IMAGE from '@resources';
+import connectRedux from '@redux/ConnectRedux';
 
 import { scaleSzie } from '@utils';
-export default class BrowserFile extends React.PureComponent {
+
+class BrowserFile extends React.PureComponent {
 
     constructor(props) {
         super(props);
         this.state = {
-            uriUpload: ''
+            uriUpload: '',
+            isProcessingUpload: false
         }
     }
 
@@ -27,9 +30,14 @@ export default class BrowserFile extends React.PureComponent {
         }, (response) => {
             if (response.uri) {
                 this.setState({
-                    uriUpload: response.uri
-                })
-                console.log(response.uri);
+                    uriUpload: response.uri,
+                    isProcessingUpload: true
+                });
+                this.props.actions.upload.uploadAvatar([{
+                    uri: response.uri,
+                    fileName: response.fileName,
+                    type: response.type
+                }]);
             }
         });
     }
@@ -65,6 +73,19 @@ export default class BrowserFile extends React.PureComponent {
             </View>
         );
     }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const { loading, isUpload, dataUpload } = this.props;
+        const { isProcessingUpload } = this.state;
+        if (!loading && isUpload && isProcessingUpload) {
+            console.log('fileId : ' + dataUpload.fileId);
+            this.setState({
+                isProcessingUpload: false,
+                fileId: dataUpload.fileId
+            });
+            this.props.updateFileId(dataUpload.fileId);
+        }
+    }
 }
 
 const styles = StyleSheet.create({
@@ -83,3 +104,14 @@ const styles = StyleSheet.create({
         })
     },
 })
+
+const mapStateToProps = state => ({
+    language: state.dataLocal.language,
+    loading: state.app.loading,
+    isUpload: state.upload.isUpload,
+    dataUpload: state.upload.dataUpload
+})
+
+
+
+export default connectRedux(mapStateToProps, BrowserFile);

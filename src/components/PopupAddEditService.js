@@ -36,7 +36,8 @@ class PopupAddEditService extends React.Component {
                 price: '',
                 isDisabled: 'Active',
             },
-            arrayExtra: []
+            arrayExtra: [],
+            fileId: null
         }
         this.durationRef = React.createRef();
         this.openTimeRef = React.createRef();
@@ -58,7 +59,8 @@ class PopupAddEditService extends React.Component {
                 price: service.price,
                 isDisabled: service.isDisabled === 0 ? 'Active' : 'Disable',
             },
-            arrayExtra: service.extras.length > 0 ? service.extras : []
+            arrayExtra: service.extras.length > 0 ? service.extras : [],
+            fileId: null
         });
     }
 
@@ -75,7 +77,8 @@ class PopupAddEditService extends React.Component {
                 price: '',
                 isDisabled: 'Active',
             },
-            arrayExtra: []
+            arrayExtra: [],
+            fileId: null
         })
     }
 
@@ -146,9 +149,15 @@ class PopupAddEditService extends React.Component {
                 const dataServiceAdd = { ...temptServiceInfo, extras: arrayExtra };
                 this.arrayExtraRef = [];
                 if (this.props.isSave) {
-                    this.props.editService({ ...dataServiceAdd, isDisabled: dataServiceAdd.isDisabled === 'Active' ? 0 : 1 });
+                    this.props.editService({
+                        ...dataServiceAdd, isDisabled: dataServiceAdd.isDisabled === 'Active' ? 0 : 1,
+                        fileId: this.state.fileId
+                    });
                 } else {
-                    this.props.doneAddService({ ...dataServiceAdd, isDisabled: dataServiceAdd.isDisabled === 'Active' ? 0 : 1 });
+                    this.props.doneAddService({
+                        ...dataServiceAdd, isDisabled: dataServiceAdd.isDisabled === 'Active' ? 0 : 1,
+                        fileId: this.state.fileId
+                    });
                 }
 
             } else {
@@ -176,6 +185,12 @@ class PopupAddEditService extends React.Component {
     resetRefPopup = () => {
         this.arrayExtraRef = [];
         this.props.onRequestClose();
+    }
+
+    updateFileId = (fileId) => {
+        this.setState({
+            fileId
+        })
     }
 
     // ------- Render -----
@@ -251,7 +266,9 @@ class PopupAddEditService extends React.Component {
                                     />
                                 </View>
                                 {/* ------- Upload Image ----- */}
-                                <BrowserFile />
+                                <BrowserFile
+                                    updateFileId={this.updateFileId}
+                                />
                                 {/* -------------------------- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                     Duration
