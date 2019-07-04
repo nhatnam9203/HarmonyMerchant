@@ -19,8 +19,7 @@ class TabStaffManagement extends Layout {
     }
 
     componentDidMount() {
-        const { profile } = this.props;
-        this.props.actions.staff.getStaffByMerchantId(profile.merchantId);
+        this.props.actions.staff.getStaffByMerchantId();
     }
 
     setRefStaff = (ref) => {

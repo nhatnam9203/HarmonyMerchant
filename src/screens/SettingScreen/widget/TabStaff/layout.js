@@ -134,7 +134,7 @@ class Layout extends React.Component {
 
 
     renderTableStaff() {
-        const { listStaffByMerchant, isShowSearch, listSearchStaff } = this.props;
+        const { listStaffByMerchant, isShowSearch, listSearchStaff, refreshListStaffs } = this.props;
         const { visibleArchive, visibleRestore } = this.state;
         const temptData = isShowSearch ? listSearchStaff : listStaffByMerchant
         return (
@@ -156,6 +156,8 @@ class Layout extends React.Component {
                         />}
                         keyExtractor={(item, index) => `${index}`}
                         ListEmptyComponent={<RowTableEmptyStaff />}
+                        onRefresh={() => this.props.actions.staff.getStaffByMerchantId(false)}
+                        refreshing={refreshListStaffs}
                     />
                 </View>
                 <PopupConfirm

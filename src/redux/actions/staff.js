@@ -21,12 +21,13 @@ export function createAdmin(body) {
     }
 }
 
-export function getStaffByMerchantId() {
+export function getStaffByMerchantId(isShowLoading = true) {
     return {
         type: 'GET_STAFF_BY_MERCHANR_ID',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}staff`
+        api: `${apiConfigs.BASE_API}staff`,
+        isShowLoading
     }
 }
 

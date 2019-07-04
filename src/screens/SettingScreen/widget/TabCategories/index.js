@@ -95,7 +95,7 @@ class TabCategories extends Layout {
 
     submitAddCategory = (category) => {
         this.props.actions.category.addCategory(category);
-         this.setState({
+        this.setState({
             visibleAdd: false
         });
     }

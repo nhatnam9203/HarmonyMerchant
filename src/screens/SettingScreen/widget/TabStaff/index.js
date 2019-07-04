@@ -25,8 +25,7 @@ class TabStaff extends Layout {
     }
 
     componentDidMount() {
-        const { profile } = this.props;
-        this.props.actions.staff.getStaffByMerchantId(profile.merchantId);
+        this.props.actions.staff.getStaffByMerchantId();
     }
 
     updateSearchFilterInfo(key, value, keyParent = '') {
@@ -130,7 +129,8 @@ const mapStateToProps = state => ({
     isAddStaff: state.staff.isAddStaff,
     isShowSearch: state.staff.isShowSearch,
     listSearchStaff: state.staff.listSearchStaff,
-    stateCity: state.dataLocal.stateCity
+    stateCity: state.dataLocal.stateCity,
+    refreshListStaffs: state.staff.refreshListStaffs
 })
 
 

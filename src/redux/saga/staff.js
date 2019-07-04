@@ -31,9 +31,9 @@ function* addStaffByMerchant(action) {
 
 function* getStaffByMerchantId(action) {
     try {
-        yield put({ type: 'LOADING_ROOT' });
+
+        action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
-        // console.log('getStaffByMerchantId : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -47,6 +47,10 @@ function* getStaffByMerchantId(action) {
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'GET_STAFF_BY_MERCHANR_ID_FAIL'
             })
         }
     } catch (error) {
