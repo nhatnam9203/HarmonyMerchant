@@ -7,7 +7,10 @@ import {
 } from 'react-native';
 
 import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
-import { Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService } from '@components';
+import {
+    Text, Button, ButtonCustom, Dropdown, PopupConfirm,
+    PopupEditAddCategories
+} from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import { HeaderTableCategories, RowTableCategories, RowTableEmptyCategories } from './widget';
@@ -121,7 +124,7 @@ class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Add New', language)}
                             textColor="#6A6A6A"
-                            onPress={this.showModalAddService}
+                            onPress={this.showModalAddCategory}
                             style={{
                                 borderWidth: 1, borderColor: '#C5C5C5',
                                 backgroundColor: '#0764B0'
@@ -160,24 +163,13 @@ class Layout extends React.Component {
                         ListEmptyComponent={<RowTableEmptyCategories />}
                     />
                 </View>
-                <PopupAddEditService
-                    ref={this.addServiceRef}
+                <PopupEditAddCategories
+                    ref={this.addCategoryRef}
                     visible={visibleAdd}
-                    title="Add Service"
+                    title="Add Category"
                     titleButton="Add"
                     onRequestClose={() => this.setState({ visibleAdd: false })}
-                    doneAddService={this.submitAddService}
-                    categoriesByMerchant={this.props.categoriesByMerchant}
-                />
-                <PopupAddEditService
-                    ref={this.editServiceRef}
-                    visible={visibleEdit}
-                    title="Edit Service"
-                    titleButton="Save"
-                    isSave={true}
-                    onRequestClose={() => this.setState({ visibleEdit: false })}
-                    editService={this.submitEditService}
-                    categoriesByMerchant={this.props.categoriesByMerchant}
+                    confimYes={this.submitAddCategory}
                 />
                 <PopupConfirm
                     visible={visibleArchive}

@@ -5,7 +5,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { FooterTab, PopupConfirm,PopupEditAddCategories } from '@components';
+import { FooterTab, PopupConfirm, PopupEditAddCategories } from '@components';
 import { scaleSzie } from '@utils';
 import HeaderTableCategories from './HeaderTableCategories';
 import RowTableCategories from './RowTableCategories';
@@ -84,14 +84,11 @@ class TabCategories extends React.Component {
         })
     }
 
-    addCategory = async (category) => {
-        const { profile } = this.props
-        const temptCategory = { ...category, merchantid: profile.merchantId }
-        // console.log(temptCategory);
-        await this.setState({
+    addCategory = (category) => {
+        this.props.actions.category.addCategory(category);
+        this.setState({
             visibleAdd: false
         });
-        this.props.actions.category.addCategory(temptCategory, profile.merchantId);
     }
 
     editCategory = async (category) => {

@@ -26,7 +26,7 @@ class TabCategories extends Layout {
                 status: ''
             }
         };
-        this.addServiceRef = React.createRef();
+        this.addCategoryRef = React.createRef();
         this.editServiceRef = React.createRef();
     }
 
@@ -88,19 +88,16 @@ class TabCategories extends Layout {
         }
     }
 
-    showModalAddService = () => {
-        const { categoriesByMerchant } = this.props;
-        if (getArrayNameCategories(categoriesByMerchant, 'Service').length > 0) {
-            this.addServiceRef.current.setDefaultStateFromParent();
-            this.setState({ visibleAdd: true });
-        } else {
-            alert('Create service category before add service please !')
-        }
+    showModalAddCategory = () => {
+        this.addCategoryRef.current.setStateDefaultFromParent();
+        this.setState({ visibleAdd: true });
     }
 
-    submitAddService = (service) => {
-        this.props.actions.service.addServiceByMerchant(service);
-        this.setState({ visibleAdd: false })
+    submitAddCategory = (category) => {
+        this.props.actions.category.addCategory(category);
+         this.setState({
+            visibleAdd: false
+        });
     }
 
     archiveCategory(category) {
