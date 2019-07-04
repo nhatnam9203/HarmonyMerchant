@@ -4,7 +4,8 @@ import {
     Text,
     TextInput,
     ScrollView,
-    Alert
+    Alert,
+    TouchableOpacity
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
@@ -112,7 +113,7 @@ class PopupEditAddExtra extends React.Component {
                         <ScrollView
                             showsVerticalScrollIndicator={false}
                         >
-
+                             <TouchableOpacity activeOpacity={1}>
                             {/* ------ Extra ---- */}
                             <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(20) }} >
                                 Extra name
@@ -195,6 +196,7 @@ class PopupEditAddExtra extends React.Component {
                                 </View>
                             </View>
                             <View style={{ height: scaleSzie(250) }} />
+                            </TouchableOpacity>
                         </ScrollView>
                     </View>
                     {/* ---- Footer ---- */}

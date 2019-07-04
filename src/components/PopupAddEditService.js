@@ -5,7 +5,8 @@ import {
     TextInput,
     Dimensions,
     ScrollView,
-    Alert
+    Alert,
+    TouchableOpacity
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
@@ -199,142 +200,150 @@ class PopupAddEditService extends React.Component {
                         <ScrollView
                             showsVerticalScrollIndicator={false}
                         >
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginTop: scaleSzie(10), marginBottom: scaleSzie(10) }} >
-                                Category
+                            <TouchableOpacity activeOpacity={1}>
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginTop: scaleSzie(10), marginBottom: scaleSzie(10) }} >
+                                    Category
                             </Text>
-                            <View style={{ width: scaleSzie(200), height: scaleSzie(30), }} >
-                                <Dropdown
-                                    label='Facial'
-                                    data={getArrayNameCategories(categoriesByMerchant, 'Service')}
-                                    value={categoryId}
-                                    onChangeText={(value) => this.updateServiceInfo('categoryId', value)}
-                                    containerStyle={{
-                                        backgroundColor: '#F1F1F1',
-                                        borderWidth: 1,
-                                        borderColor: '#6A6A6A',
-                                        flex: 1
-                                    }}
-                                />
-                            </View>
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                Service
+                                <View style={{ width: scaleSzie(200), height: scaleSzie(30), }} >
+                                    <Dropdown
+                                        label='Facial'
+                                        data={getArrayNameCategories(categoriesByMerchant, 'Service')}
+                                        value={categoryId}
+                                        onChangeText={(value) => this.updateServiceInfo('categoryId', value)}
+                                        containerStyle={{
+                                            backgroundColor: '#F1F1F1',
+                                            borderWidth: 1,
+                                            borderColor: '#6A6A6A',
+                                            flex: 1
+                                        }}
+                                    />
+                                </View>
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                                    Service
                             </Text>
-                            <View style={{
-                                height: scaleSzie(30), borderWidth: 1, borderColor: '#6A6A6A',
-                                paddingLeft: scaleSzie(10),
-                            }} >
-                                <TextInput
-                                    placeholder="Gel Nails"
-                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                    value={name}
-                                    onChangeText={value => this.updateServiceInfo('name', value)}
-                                />
-                            </View>
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                Description
+                                <View style={{
+                                    height: scaleSzie(30), borderWidth: 1, borderColor: '#6A6A6A',
+                                    paddingLeft: scaleSzie(10),
+                                }} >
+                                    <TextInput
+                                        placeholder="Gel Nails"
+                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                        value={name}
+                                        onChangeText={value => this.updateServiceInfo('name', value)}
+                                    />
+                                </View>
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                                    Description
                             </Text>
-                            <View style={{
-                                height: scaleSzie(60), borderWidth: 1, borderColor: '#6A6A6A',
-                                paddingLeft: scaleSzie(10), backgroundColor: '#FAFAFA', paddingTop: scaleSzie(5)
-                            }} >
-                                <TextInput
-                                    placeholder=""
-                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                    multiline={true}
-                                    value={description}
-                                    onChangeText={value => this.updateServiceInfo('description', value)}
-                                />
-                            </View>
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                Duration
+                                <View style={{
+                                    height: scaleSzie(60), borderWidth: 1, borderColor: '#6A6A6A',
+                                    paddingLeft: scaleSzie(10), backgroundColor: '#FAFAFA', paddingTop: scaleSzie(5)
+                                }} >
+                                    <TextInput
+                                        placeholder=""
+                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                        multiline={true}
+                                        value={description}
+                                        onChangeText={value => this.updateServiceInfo('description', value)}
+                                    />
+                                </View>
+                                {/* ------- Upload Image ----- */}
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                                    Image
                             </Text>
-                            <View style={{ height: scaleSzie(70), flexDirection: 'row', justifyContent: 'space-between' }} >
-                                <ItemTime
-                                    ref={this.durationRef}
-                                    title="Minutes"
-                                    value={this.state.serviceInfo.duration}
-                                />
-                                <ItemTime
-                                    ref={this.openTimeRef}
-                                    title="Open Time"
-                                    value={this.state.serviceInfo.openTime}
-                                />
-                                <ItemTime
-                                    ref={this.secondTimeRef}
-                                    title="Second Time"
-                                    value={this.state.serviceInfo.secondTime}
-                                />
-                            </View>
-                            <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
-                                <View style={{ flex: 1, paddingRight: scaleSzie(50) }}  >
-                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                        Price
+
+                                {/* -------------------------- */}
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                                    Duration
+                            </Text>
+                                <View style={{ height: scaleSzie(70), flexDirection: 'row', justifyContent: 'space-between' }} >
+                                    <ItemTime
+                                        ref={this.durationRef}
+                                        title="Minutes"
+                                        value={this.state.serviceInfo.duration}
+                                    />
+                                    <ItemTime
+                                        ref={this.openTimeRef}
+                                        title="Open Time"
+                                        value={this.state.serviceInfo.openTime}
+                                    />
+                                    <ItemTime
+                                        ref={this.secondTimeRef}
+                                        title="Second Time"
+                                        value={this.state.serviceInfo.secondTime}
+                                    />
+                                </View>
+                                <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
+                                    <View style={{ flex: 1, paddingRight: scaleSzie(50) }}  >
+                                        <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                                            Price
                                     </Text>
-                                    <View style={{
-                                        height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
-                                        borderWidth: 1, borderColor: '#6A6A6A', flexDirection: 'row'
-                                    }} >
-                                        <TextInputMask
-                                            type="only-numbers"
-                                            style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                            placeholder="$ 100"
-                                            value={price}
-                                            onChangeText={value => this.updateServiceInfo('price', value)}
-                                        />
+                                        <View style={{
+                                            height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
+                                            borderWidth: 1, borderColor: '#6A6A6A', flexDirection: 'row'
+                                        }} >
+                                            <TextInputMask
+                                                type="only-numbers"
+                                                style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                placeholder="$ 100"
+                                                value={price}
+                                                onChangeText={value => this.updateServiceInfo('price', value)}
+                                            />
+                                        </View>
+                                    </View>
+                                    {/* ------ */}
+                                    <View>
+                                        <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                                            Status
+                                    </Text>
+                                        <View style={{
+                                            height: scaleSzie(30), width: scaleSzie(90),
+                                            flexDirection: 'row'
+                                        }} >
+                                            <Dropdown
+                                                label='Active'
+                                                data={[{ value: 'Active' }, { value: 'Disable' }]}
+                                                value={isDisabled}
+                                                onChangeText={(value) => this.updateServiceInfo('isDisabled', value)}
+                                                containerStyle={{
+                                                    backgroundColor: '#F1F1F1',
+                                                    borderWidth: 1,
+                                                    borderColor: '#6A6A6A',
+                                                    flex: 1
+                                                }}
+                                            />
+                                        </View>
                                     </View>
                                 </View>
-                                {/* ------ */}
-                                <View>
-                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                        Status
-                                    </Text>
-                                    <View style={{
-                                        height: scaleSzie(30), width: scaleSzie(90),
-                                        flexDirection: 'row'
-                                    }} >
-                                        <Dropdown
-                                            label='Active'
-                                            data={[{ value: 'Active' }, { value: 'Disable' }]}
-                                            value={isDisabled}
-                                            onChangeText={(value) => this.updateServiceInfo('isDisabled', value)}
-                                            containerStyle={{
-                                                backgroundColor: '#F1F1F1',
-                                                borderWidth: 1,
-                                                borderColor: '#6A6A6A',
-                                                flex: 1
-                                            }}
-                                        />
-                                    </View>
+                                {/* ------ Line ------ */}
+                                {
+                                    this.state.arrayExtra.map((extra, index) => <ItemExtra
+                                        ref={this.addExtraRef}
+                                        key={index}
+                                        extraInfo={extra}
+                                    />)
+                                }
+
+
+                                {/* ------ Line ------ */}
+                                <View style={{ height: 3, backgroundColor: '#0764B0', marginTop: scaleSzie(8), marginBottom: scaleSzie(20) }} />
+
+                                <View style={{ height: scaleSzie(60) }} >
+                                    <ButtonCustom
+                                        width={'100%'}
+                                        height={35}
+                                        backgroundColor="#4CD964"
+                                        title={'Add more extra'}
+                                        textColor="#fff"
+                                        onPress={this.addMoreExtra}
+                                        style={{ borderRadius: scaleSzie(2) }}
+                                        styleText={{
+                                            fontSize: scaleSzie(14)
+                                        }}
+                                    />
                                 </View>
-                            </View>
-                            {/* ------ Line ------ */}
-                            {
-                                this.state.arrayExtra.map((extra, index) => <ItemExtra
-                                    ref={this.addExtraRef}
-                                    key={index}
-                                    extraInfo={extra}
-                                />)
-                            }
-
-
-                            {/* ------ Line ------ */}
-                            <View style={{ height: 3, backgroundColor: '#0764B0', marginTop: scaleSzie(8), marginBottom: scaleSzie(20) }} />
-
-                            <View style={{ height: scaleSzie(60) }} >
-                                <ButtonCustom
-                                    width={'100%'}
-                                    height={35}
-                                    backgroundColor="#4CD964"
-                                    title={'Add more extra'}
-                                    textColor="#fff"
-                                    onPress={this.addMoreExtra}
-                                    style={{ borderRadius: scaleSzie(2) }}
-                                    styleText={{
-                                        fontSize: scaleSzie(14)
-                                    }}
-                                />
-                            </View>
-                            <View style={{ height: scaleSzie(250) }} />
+                                <View style={{ height: scaleSzie(250) }} />
+                            </TouchableOpacity>
                         </ScrollView>
                     </View>
                     {/* ---- Footer ---- */}

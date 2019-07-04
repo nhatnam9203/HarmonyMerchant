@@ -10,7 +10,7 @@ class SettingScreen extends Layout {
         super(props);
         this.state = {
             isFocus: true,
-            indexTab: 2,
+            indexTab: 3,
             visibleLogout: false
         }
         this.scrollTabRef = React.createRef();
@@ -47,8 +47,7 @@ class SettingScreen extends Layout {
     }
 
     selectMenu(index) {
-
-        if (index === 7) {
+        if (index === 8) {
             this.setState({
                 visibleLogout: true
             })
@@ -59,7 +58,6 @@ class SettingScreen extends Layout {
             this.scrollTabRef.current.goToPage(index);
             Keyboard.dismiss();
         }
-
     }
 
     logout = () => {

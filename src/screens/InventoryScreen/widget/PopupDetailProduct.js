@@ -3,8 +3,6 @@ import {
     View,
     Text,
     TextInput,
-    Alert,
-    Dimensions,
     ScrollView,
     StyleSheet,
     TouchableOpacity
@@ -13,7 +11,6 @@ import {
 import { ButtonCustom, PopupParent, PopupConfirm } from '@components';
 import { scaleSzie, localize, getCategoryName } from '@utils';
 
-const { width } = Dimensions.get('window');
 
 class PopupDetailProduct extends React.Component {
 
