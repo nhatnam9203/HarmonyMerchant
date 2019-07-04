@@ -63,18 +63,18 @@ class TabCategories extends Layout {
         })
     }
 
-    archiveServiceYess = async () => {
+    archiveCategoryYess = async () => {
         await this.setState({
             visibleArchive: false,
         });
-        // this.props.actions.service.archiveService(this.state.categoryHandle.serviceId);
+        this.props.actions.category.archiveCategory(this.state.categoryHandle.categoryId);
     }
 
     restoreServiceYess = async () => {
         await this.setState({
             visibleRestore: false,
         });
-        this.props.actions.service.restoreService(this.state.categoryHandle.serviceId);
+        this.props.actions.category.restoreCategory(this.state.categoryHandle.categoryId);
     }
 
     searchService = () => {
@@ -122,10 +122,10 @@ class TabCategories extends Layout {
         this.setState({ visibleEdit: false })
     }
 
-    restoreService(service) {
+    restoreCategory(category) {
         this.setState({
             visibleRestore: true,
-            categoryHandle: service
+            categoryHandle: category
         })
     }
 

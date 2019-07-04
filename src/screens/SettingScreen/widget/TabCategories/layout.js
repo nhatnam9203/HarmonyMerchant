@@ -154,8 +154,7 @@ class Layout extends React.Component {
                             category={item}
                             archiveCategory={() => this.archiveCategory(item)}
                             editService={() => this.showModalEditService(item)}
-                            restoreService={() => this.restoreService(item)}
-                        // categoryName={getCategoryName(categoriesByMerchant, item.categoryId)}
+                            restoreCategory={() => this.restoreCategory(item)}
                         />}
                         keyExtractor={(item, index) => `${index}`}
                         ListEmptyComponent={<RowTableEmptyCategories />}
@@ -185,7 +184,7 @@ class Layout extends React.Component {
                     title="Confirmation"
                     message="Do you want to Archive this Category ?"
                     onRequestClose={() => this.togglePopupArchive(false)}
-                    confimYes={() => this.archiveServiceYess()}
+                    confimYes={() => this.archiveCategoryYess()}
                 />
                 <PopupConfirm
                     visible={visibleRestore}
