@@ -199,6 +199,7 @@ const mapStateToProps = state => ({
     categoriesByMerchant: state.category.categoriesByMerchant,
     listProductsSearch: state.product.listProductsSearch,
     isShowSearchProduct: state.product.isShowSearchProduct,
+    refreshListProducts: state.product.refreshListProducts
 })
 
 

@@ -10,12 +10,13 @@ export function addProductByMerchant(body) {
     }
 }
 
-export function getProductsByMerchant() {
+export function getProductsByMerchant(isShowLoading= true) {
     return {
         type: 'GET_PRODUCTS_BY_MERCHANR_ID',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}product`
+        api: `${apiConfigs.BASE_API}product`,
+        isShowLoading
     }
 }
 

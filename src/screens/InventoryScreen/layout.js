@@ -164,7 +164,7 @@ export default class Layout extends React.Component {
 
     renderTable() {
         const { productsByMerchantId, categoriesByMerchant,
-            listProductsSearch, isShowSearchProduct
+            listProductsSearch, isShowSearchProduct,refreshListProducts
         } = this.props;
         const tempData = isShowSearchProduct ? listProductsSearch : productsByMerchantId;
         return (
@@ -182,6 +182,8 @@ export default class Layout extends React.Component {
                     />}
                     keyExtractor={(item, index) => `${item.productId}`}
                     ListEmptyComponent={<RowEmptyTableProducts />}
+                    refreshing={refreshListProducts}
+                    onRefresh={() => this.props.actions.product.getProductsByMerchant(false)}
                 />
             </View>
         );

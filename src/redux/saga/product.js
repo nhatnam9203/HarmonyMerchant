@@ -15,7 +15,8 @@ function* addProductByMerchant(action) {
                 type: 'GET_PRODUCTS_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}product`
+                api: `${apiConfigs.BASE_API}product`,
+                isShowLoading: true
             })
         } else {
         }
@@ -27,7 +28,7 @@ function* addProductByMerchant(action) {
 
 function* getProductsByMerchantId(action) {
     try {
-        yield put({ type: 'LOADING_ROOT' });
+        action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
         console.log(responses);
         const { codeNumber } = responses;
@@ -39,6 +40,10 @@ function* getProductsByMerchantId(action) {
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'GET_PRODUCTS_BY_MERCHANR_ID_FAIL',
             })
         }
     } catch (error) {
@@ -58,7 +63,8 @@ function* archiveProduct(action) {
                 type: 'GET_PRODUCTS_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}product`
+                api: `${apiConfigs.BASE_API}product`,
+                isShowLoading: true
             })
         } else {
         }
@@ -79,7 +85,8 @@ function* restoreProduct(action) {
                 type: 'GET_PRODUCTS_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}product`
+                api: `${apiConfigs.BASE_API}product`,
+                isShowLoading: true
             })
         } else {
         }
@@ -100,7 +107,8 @@ function* editProduct(action) {
                 type: 'GET_PRODUCTS_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}product`
+                api: `${apiConfigs.BASE_API}product`,
+                isShowLoading: true
             })
         } else {
         }
