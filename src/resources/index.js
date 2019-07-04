@@ -58,4 +58,7 @@ export default {
     Logout_in: require('./setting/Logout_in.png'),
     Extra: require('./setting/Extra.png'),
     Extra_in: require('./setting/Extra_in.png'),
+    Categories: require('./setting/Categories.png'),
+    Categories_in: require('./setting/Categories_in.png'),
+
 }
