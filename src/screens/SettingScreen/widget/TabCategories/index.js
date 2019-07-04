@@ -16,7 +16,7 @@ class TabCategories extends Layout {
                 role: '',
                 status: ''
             },
-            serviceHanle: {},
+            categoryHandle: {},
             visibleAdd: false,
             visibleEdit: false,
             // ----
@@ -31,7 +31,7 @@ class TabCategories extends Layout {
     }
 
     componentDidMount() {
-        this.props.actions.service.getServicesByMerchant();
+        // this.props.actions.service.getServicesByMerchant();
     }
 
     updateSearchFilterInfo(key, value, keyParent = '') {
@@ -67,14 +67,14 @@ class TabCategories extends Layout {
         await this.setState({
             visibleArchive: false,
         });
-        this.props.actions.service.archiveService(this.state.serviceHanle.serviceId);
+        // this.props.actions.service.archiveService(this.state.categoryHandle.serviceId);
     }
 
     restoreServiceYess = async () => {
         await this.setState({
             visibleRestore: false,
         });
-        this.props.actions.service.restoreService(this.state.serviceHanle.serviceId);
+        this.props.actions.service.restoreService(this.state.categoryHandle.serviceId);
     }
 
     searchService = () => {
@@ -103,10 +103,10 @@ class TabCategories extends Layout {
         this.setState({ visibleAdd: false })
     }
 
-    archiveService(service) {
+    archiveCategory(category) {
         this.setState({
             visibleArchive: true,
-            serviceHanle: service
+            categoryHandle: category
         })
     }
 
@@ -125,7 +125,7 @@ class TabCategories extends Layout {
     restoreService(service) {
         this.setState({
             visibleRestore: true,
-            serviceHanle: service
+            categoryHandle: service
         })
     }
 

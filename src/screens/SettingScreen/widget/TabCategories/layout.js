@@ -10,7 +10,7 @@ import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@u
 import { Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
-import { HeaderTableService, RowTableService, RowTableEmptyService } from './widget';
+import { HeaderTableCategories, RowTableCategories, RowTableEmptyCategories } from './widget';
 
 class Layout extends React.Component {
 
@@ -31,7 +31,7 @@ class Layout extends React.Component {
                             <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
                                 <TextInput
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
-                                    placeholder={localize('Service', language)}
+                                    placeholder={localize('Catgory Name', language)}
                                     value={keySearch}
                                     onChangeText={(value) => {
                                         if (value === '') {
@@ -69,8 +69,8 @@ class Layout extends React.Component {
         const { language, categoriesByMerchant } = this.props;
         const { searchFilter } = this.state;
         const { category, status } = searchFilter;
-        const dataServicesCategory =getArrayNameCategories(categoriesByMerchant, 'Service');
-        dataServicesCategory.unshift({value:''});
+        const dataServicesCategory = getArrayNameCategories(categoriesByMerchant);
+        dataServicesCategory.unshift({ value: '' });
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
@@ -81,10 +81,10 @@ class Layout extends React.Component {
                             </Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }} >
-                            <View style={{ width: scaleSzie(120) }} >
+                            <View style={{ width: scaleSzie(160) }} >
                                 <Dropdown
-                                    label={localize('Categories', language)}
-                                    data={dataServicesCategory}
+                                    label={localize('Category Type', language)}
+                                    data={[{ value: '' }, { value: 'Product' }, { value: 'Service' }]}
                                     value={category}
                                     onChangeText={(value) => this.updateSearchFilterInfo('category', value)}
                                     containerStyle={{
@@ -136,11 +136,9 @@ class Layout extends React.Component {
 
 
     renderTableStaff() {
-        const { servicesByMerchant, categoriesByMerchant,
-            isShowSearchService, listServicesSearch
-        } = this.props;
+        const { categoriesByMerchant } = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
-        const temptData = isShowSearchService ? listServicesSearch : servicesByMerchant
+        // const temptData = isShowSearchService ? listServicesSearch : servicesByMerchant
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
@@ -148,19 +146,19 @@ class Layout extends React.Component {
                 {this.renderFilter()}
                 <View style={{ height: scaleSzie(10) }} />
                 <View style={{ flex: 1 }} >
-                    <HeaderTableService />
+                    <HeaderTableCategories />
                     <FlatList
-                        data={temptData}
-                        renderItem={({ item, index }) => <RowTableService
+                        data={categoriesByMerchant}
+                        renderItem={({ item, index }) => <RowTableCategories
                             index={index}
-                            service={item}
-                            archiveService={() => this.archiveService(item)}
+                            category={item}
+                            archiveCategory={() => this.archiveCategory(item)}
                             editService={() => this.showModalEditService(item)}
                             restoreService={() => this.restoreService(item)}
-                            categoryName={getCategoryName(categoriesByMerchant, item.categoryId)}
+                        // categoryName={getCategoryName(categoriesByMerchant, item.categoryId)}
                         />}
                         keyExtractor={(item, index) => `${index}`}
-                        ListEmptyComponent={<RowTableEmptyService />}
+                        ListEmptyComponent={<RowTableEmptyCategories />}
                     />
                 </View>
                 <PopupAddEditService
@@ -185,14 +183,14 @@ class Layout extends React.Component {
                 <PopupConfirm
                     visible={visibleArchive}
                     title="Confirmation"
-                    message="Do you want to Archive this Service ?"
+                    message="Do you want to Archive this Category ?"
                     onRequestClose={() => this.togglePopupArchive(false)}
                     confimYes={() => this.archiveServiceYess()}
                 />
                 <PopupConfirm
                     visible={visibleRestore}
                     title="Confirmation"
-                    message="Do you want to Restore this Service ?"
+                    message="Do you want to Restore this Category ?"
                     onRequestClose={() => this.togglePopupRestore(false)}
                     confimYes={() => this.restoreServiceYess()}
                 />

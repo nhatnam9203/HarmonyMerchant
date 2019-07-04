@@ -10,7 +10,7 @@ import { ButtonCustom } from '@components';
 import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 
-class RowTableService extends React.Component {
+class RowTableCategories extends React.Component {
 
     constructor(props) {
         super(props);
@@ -32,8 +32,7 @@ class RowTableService extends React.Component {
     }
 
     render() {
-        const { service, index, archiveService, editService, restoreService,
-            categoryName
+        const { category, index, archiveCategory, editService, restoreService,
         } = this.props;
         return (
             <View style={styles.tableHeader} >
@@ -53,11 +52,11 @@ class RowTableService extends React.Component {
                 </View>
                 {/* ----- 2 ------ */}
                 <View style={{
-                    width: scaleSzie(160), flexDirection: 'row',
+                    width: scaleSzie(180), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
                         <Text style={styles.textTableHeader} >
-                            {service.name}
+                            {category.name}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -66,27 +65,11 @@ class RowTableService extends React.Component {
                 </View>
                 {/* ----- 3 ------ */}
                 <View style={{
-                    width: scaleSzie(140), flexDirection: 'row',
+                    width: scaleSzie(230), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            {categoryName}
-                        </Text>
-                    </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View>
-                </View>
-                {/* ----- 4 ----- */}
-                <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
-                }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
-
-                            {
-                                service.isDisabled === 0 ? 'Active' : 'Disable'
-                            }
+                            {category.categoryType}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -114,13 +97,13 @@ class RowTableService extends React.Component {
                     </View>
                     <View style={styles.actionButton} >
                         {
-                            service.isDisabled === 0 ? <ButtonCustom
+                            category.isDisabled === 0 ? <ButtonCustom
                                 width={'80%'}
                                 height={28}
                                 backgroundColor="#FF3B30"
                                 title="Archive"
                                 textColor="#fff"
-                                onPress={() => archiveService()}
+                                onPress={() => archiveCategory()}
                                 style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(2) }}
                                 styleText={{
                                     fontSize: scaleSzie(14)
@@ -175,5 +158,5 @@ const styles = StyleSheet.create({
 
 })
 
-export default RowTableService;
+export default RowTableCategories;
 

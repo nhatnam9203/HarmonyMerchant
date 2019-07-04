@@ -1,9 +1,9 @@
-import HeaderTableService from './HeaderTableService';
-import RowTableService from './RowTableService';
-import RowTableEmptyService from './RowTableEmptyService';
+import HeaderTableCategories from './HeaderTableCategories';
+import RowTableCategories from './RowTableCategories';
+import RowTableEmptyCategories from './RowTableEmptyCategories';
 
 module.exports = {
-    HeaderTableService,
-    RowTableService,
-    RowTableEmptyService
+    HeaderTableCategories,
+    RowTableCategories,
+    RowTableEmptyCategories
 }

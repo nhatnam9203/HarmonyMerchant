@@ -10,7 +10,7 @@ import { ButtonCustom } from '@components';
 import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 
-class RowTableEmptyService extends React.Component {
+class RowTableEmptyCategories extends React.Component {
 
     constructor(props) {
         super(props);
@@ -52,24 +52,20 @@ class RowTableEmptyService extends React.Component {
                 </View>
                 {/* ----- 2 ------ */}
                 <View style={{
-                    width: scaleSzie(160), flexDirection: 'row',
+                    width: scaleSzie(180), flexDirection: 'row',
                 }} >
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
-                        <Text style={styles.textTableHeader} >
-                            {/* {staff.displayName} */}
-                        </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 3 ------ */}
-                {/* ----- 4 ------ */}
                 <View style={{
-                    width: scaleSzie(140), flexDirection: 'row',
+                    width: scaleSzie(230), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
@@ -80,20 +76,7 @@ class RowTableEmptyService extends React.Component {
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
-                {/* ----- 5 ----- */}
-                <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
-                }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
-                            {/* {staff.status} */}
-                        </Text>
-                    </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View>
-                </View>
-                {/* ----- 6 ------ */}
+                {/* ----- 4 ------ */}
                 <View style={{
                     flex: 1,
                     flexDirection: 'row'
@@ -133,5 +116,5 @@ const styles = StyleSheet.create({
 
 })
 
-export default RowTableEmptyService;
+export default RowTableEmptyCategories;
 
