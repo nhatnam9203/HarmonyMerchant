@@ -23,6 +23,7 @@ import PopupAddEditService from './PopupAddEditService';
 import PopupAddEditProduct from './PopupAddEditProduct';
 import PopupEditAddExtra from './PopupEditAddExtra';
 import PopupLogout from './PopupLogout';
+import PopupEditAddCategories from './PopupEditAddCategories';
 
 module.exports = {
     Button,
@@ -49,5 +50,6 @@ module.exports = {
     PopupAddEditService,
     PopupAddEditProduct,
     PopupEditAddExtra,
-    PopupLogout
+    PopupLogout,
+    PopupEditAddCategories
 }

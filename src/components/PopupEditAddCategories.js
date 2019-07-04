@@ -7,7 +7,9 @@ import {
     Alert
 } from 'react-native';
 
-import { ButtonCustom, PopupParent, Dropdown } from '@components';
+import ButtonCustom from './ButtonCustom';
+import PopupParent from './PopupParent';
+import { Dropdown } from './react-native-material-dropdown';
 import { scaleSzie } from '@utils';
 
 class PopupEditAddCategories extends React.Component {

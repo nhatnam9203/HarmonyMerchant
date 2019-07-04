@@ -56,7 +56,7 @@ class HeaderTableCategories extends React.Component {
             <View style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
                 <View style={{
-                    width: scaleSzie(250), flexDirection: 'row',
+                    width: scaleSzie(300), flexDirection: 'row',
                 }} >
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
@@ -75,7 +75,7 @@ class HeaderTableCategories extends React.Component {
                 </View>
                 {/* ----- 2 ------ */}
                 <View style={{
-                    width: scaleSzie(350), flexDirection: 'row',
+                    width: scaleSzie(300), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >

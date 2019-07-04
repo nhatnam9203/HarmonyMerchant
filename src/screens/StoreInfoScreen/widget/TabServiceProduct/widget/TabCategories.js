@@ -5,11 +5,10 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { FooterTab, PopupConfirm } from '@components';
+import { FooterTab, PopupConfirm,PopupEditAddCategories } from '@components';
 import { scaleSzie } from '@utils';
 import HeaderTableCategories from './HeaderTableCategories';
 import RowTableCategories from './RowTableCategories';
-import PopupEditAddCategories from './PopupEditAddCategories';
 import RowEmptyTableCategories from './RowEmptyTableCategories';
 import connectRedux from '@redux/ConnectRedux';
 
