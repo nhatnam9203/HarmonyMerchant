@@ -131,6 +131,7 @@ const mapStateToProps = state => ({
     isShowSearchService: state.service.isShowSearchService,
 
     extrasByMerchant: state.extra.extrasByMerchant,
+    refreshListExtras : state.extra.refreshListExtras
 })
 
 

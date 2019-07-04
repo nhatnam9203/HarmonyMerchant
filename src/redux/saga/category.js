@@ -15,7 +15,8 @@ function* addCategory(action) {
                 type: 'GET_CATEGORIES_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}category`
+                api: `${apiConfigs.BASE_API}category`,
+                isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -66,7 +67,8 @@ function* archiveCategory(action) {
                 type: 'GET_CATEGORIES_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}category`
+                api: `${apiConfigs.BASE_API}category`,
+                isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -91,7 +93,8 @@ function* restoreCategory(action) {
                 type: 'GET_CATEGORIES_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}category`
+                api: `${apiConfigs.BASE_API}category`,
+                isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -116,7 +119,8 @@ function* editCategory(action) {
                 type: 'GET_CATEGORIES_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}category`
+                api: `${apiConfigs.BASE_API}category`,
+                isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({

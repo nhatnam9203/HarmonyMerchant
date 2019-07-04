@@ -15,7 +15,8 @@ function* addServiceByMerchant(action) {
                 type: 'GET_SERVICE_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}service`
+                api: `${apiConfigs.BASE_API}service`,
+                isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -69,7 +70,8 @@ function* archiveService(action) {
                 type: 'GET_SERVICE_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}service`
+                api: `${apiConfigs.BASE_API}service`,
+                isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -94,7 +96,8 @@ function* restoreService(action) {
                 type: 'GET_SERVICE_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}service`
+                api: `${apiConfigs.BASE_API}service`,
+                isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -119,7 +122,8 @@ function* editService(action) {
                 type: 'GET_SERVICE_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}service`
+                api: `${apiConfigs.BASE_API}service`,
+                isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({

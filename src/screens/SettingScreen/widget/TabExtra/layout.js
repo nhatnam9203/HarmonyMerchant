@@ -123,7 +123,7 @@ class Layout extends React.Component {
 
 
     renderTableStaff() {
-        const { categoriesByMerchant, language, extrasByMerchant } = this.props;
+        const { categoriesByMerchant, language, extrasByMerchant ,refreshListExtras} = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
         // const temptData = isShowSearchService ? listServicesSearch : servicesByMerchant
         return (
@@ -148,6 +148,8 @@ class Layout extends React.Component {
                         />}
                         keyExtractor={(item, index) => `${item.extraId}`}
                         ListEmptyComponent={<RowTableEmptyExtra />}
+                        refreshing={refreshListExtras}
+                        onRefresh={() => this.props.actions.extra.getExtraByMerchant(false)}
                     />
                 </View>
                 <PopupEditAddExtra

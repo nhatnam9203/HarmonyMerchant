@@ -15,7 +15,8 @@ function* addExtraByMerchant(action) {
                 type: 'GET_EXTRA_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}extra`
+                api: `${apiConfigs.BASE_API}extra`,
+                isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -30,7 +31,7 @@ function* addExtraByMerchant(action) {
 
 function* getExtraByMerchant(action) {
     try {
-        yield put({ type: 'LOADING_ROOT' });
+        action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
         console.log('getExtraByMerchant : ', responses);
         const { codeNumber } = responses;
@@ -42,6 +43,10 @@ function* getExtraByMerchant(action) {
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'GET_EXTRA_BY_MERCHANT_FAIL',
             })
         }
     } catch (error) {
@@ -66,7 +71,8 @@ function* archiveExtra(action) {
                 type: 'GET_EXTRA_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}extra`
+                api: `${apiConfigs.BASE_API}extra`,
+                isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -91,7 +97,8 @@ function* restoreExtra(action) {
                 type: 'GET_EXTRA_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}extra`
+                api: `${apiConfigs.BASE_API}extra`,
+                isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -116,7 +123,8 @@ function* editExtra(action) {
                 type: 'GET_EXTRA_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}extra`
+                api: `${apiConfigs.BASE_API}extra`,
+                isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({

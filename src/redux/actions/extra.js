@@ -10,12 +10,13 @@ export function addExtraByMerchant(body) {
     }
 }
 
-export function getExtraByMerchant() {
+export function getExtraByMerchant(isShowLoading = true) {
     return {
         type: 'GET_EXTRA_BY_MERCHANT',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}extra`
+        api: `${apiConfigs.BASE_API}extra`,
+        isShowLoading
     }
 }
 
