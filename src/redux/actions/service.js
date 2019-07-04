@@ -10,12 +10,13 @@ export function addServiceByMerchant(body) {
     }
 }
 
-export function getServicesByMerchant() {
+export function getServicesByMerchant(isShowLoading= true) {
     return {
         type: 'GET_SERVICE_BY_MERCHANT',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}service`
+        api: `${apiConfigs.BASE_API}service`,
+        isShowLoading
     }
 }
 

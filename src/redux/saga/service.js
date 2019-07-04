@@ -30,7 +30,7 @@ function* addServiceByMerchant(action) {
 
 function* getServicesByMerchant(action) {
     try {
-        yield put({ type: 'LOADING_ROOT' });
+        action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
         console.log('getServicesByMerchant : ', responses);
         const { codeNumber } = responses;
@@ -43,6 +43,10 @@ function* getServicesByMerchant(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
+        } else {
+            yield put({
+                type: 'SEARCH_SERVICE_FAIL',
+            });
         }
     } catch (error) {
         if (`${error}` == 'TypeError: Network request failed') {
@@ -132,7 +136,7 @@ function* searchService(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('--- responses : ', responses);
+        // console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({

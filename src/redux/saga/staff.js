@@ -15,7 +15,8 @@ function* addStaffByMerchant(action) {
                 type: 'GET_STAFF_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}staff`
+                api: `${apiConfigs.BASE_API}staff`,
+                isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -99,7 +100,8 @@ function* archiveStaff(action) {
                 type: 'GET_STAFF_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}staff`
+                api: `${apiConfigs.BASE_API}staff`,
+                isShowLoading: true
             });
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -124,7 +126,8 @@ function* restoreStaff(action) {
                 type: 'GET_STAFF_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}staff`
+                api: `${apiConfigs.BASE_API}staff`,
+                isShowLoading: true
             });
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -151,7 +154,8 @@ function* createAdmin(action) {
                 method: 'GET',
                 token: true,
                 api: `${apiConfigs.BASE_API}staff`,
-                isCreateAdmin: true
+                isCreateAdmin: true,
+                isShowLoading: true
             });
 
         } else if (parseInt(codeNumber) === 401) {
@@ -177,7 +181,8 @@ function* editStaff(action) {
                 type: 'GET_STAFF_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}staff`
+                api: `${apiConfigs.BASE_API}staff`,
+                isShowLoading: true
             });
         } else if (parseInt(codeNumber) === 401) {
             yield put({

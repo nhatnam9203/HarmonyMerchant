@@ -30,7 +30,7 @@ function* addCategory(action) {
 
 function* getCategoriesByMerchantId(action) {
     try {
-        yield put({ type: 'LOADING_ROOT' });
+        action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
         console.log('getCategoriesByMerchantId : ', responses);
         const { codeNumber } = responses;
@@ -42,6 +42,10 @@ function* getCategoriesByMerchantId(action) {
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'GET_CATEGORIES_BY_MERCHANR_ID_FAIL',
             })
         }
     } catch (error) {

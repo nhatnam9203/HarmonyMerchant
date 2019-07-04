@@ -139,7 +139,7 @@ class Layout extends React.Component {
 
 
     renderTableStaff() {
-        const { categoriesByMerchant } = this.props;
+        const { categoriesByMerchant,refreshListCategories } = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
         // const temptData = isShowSearchService ? listServicesSearch : servicesByMerchant
         return (
@@ -161,6 +161,8 @@ class Layout extends React.Component {
                         />}
                         keyExtractor={(item, index) => `${index}`}
                         ListEmptyComponent={<RowTableEmptyCategories />}
+                        refreshing={refreshListCategories}
+                        onRefresh={() => this.props.actions.category.getCategoriesByMerchantId(false)}
                     />
                 </View>
                 <PopupEditAddCategories
