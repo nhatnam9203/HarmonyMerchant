@@ -5,13 +5,13 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { StatusBarHeader, Button, ParentContainer, Text ,PopupLogout} from '@components';
+import { StatusBarHeader, Button, ParentContainer, Text, PopupLogout } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { TabStaff, TabService, TabExtra,TabCategories } from './widget';
+import { TabStaff, TabService, TabExtra, TabCategories, TabGaneral } from './widget';
 
-const MENU = ["General", "Staff","Categories", "Services", "Extra", "Payment", "Hardware", "About", "Logout"];
+const MENU = ["General", "Staff", "Categories", "Services", "Extra", "Payment", "Hardware", "About", "Logout"];
 
 export default class Layout extends React.Component {
 
@@ -74,29 +74,21 @@ export default class Layout extends React.Component {
                             <ScrollableTabView
                                 ref={this.scrollTabRef}
                                 style={{}}
-                                initialPage={3}
+                                initialPage={0}
                                 tabBarPosition="bottom"
                                 locked={true}
                                 springTension={1}
                                 springFriction={1}
                                 renderTabBar={() => <View />}
                             >
-                                <View style={{ flex: 1 }} >
-
-                                </View>
+                                <TabGaneral />
                                 <TabStaff />
                                 <TabCategories />
                                 <TabService />
                                 <TabExtra />
-
                                 <View style={{ flex: 1 }} />
-
-                                <View style={{ flex: 1 }} />
-
                                 <View style={{ flex: 1, }} />
-
                                 <View style={{ flex: 1, }} />
-
                             </ScrollableTabView>
                         </View>
                     </View>
@@ -116,7 +108,7 @@ export default class Layout extends React.Component {
                     visible={this.state.visibleLogout}
                     title="Confirmation"
                     message="Are you sure you want to Log out?"
-                    onRequestClose={() => this.setState({visibleLogout:false})}
+                    onRequestClose={() => this.setState({ visibleLogout: false })}
                     confimYes={this.logout}
                 />
             </ParentContainer>
