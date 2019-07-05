@@ -176,7 +176,7 @@ class PopupDetailProduct extends React.Component {
                             height={45}
                             backgroundColor="#F1F1F1"
                             title={localize('Edit', language)}
-                            textColor="#C5C5C5"
+                            textColor="#6A6A6A"
                             onPress={this.showModalEditProduct}
                             style={{
                                 borderRadius: scaleSzie(2),
@@ -195,7 +195,7 @@ class PopupDetailProduct extends React.Component {
                                     height={45}
                                     backgroundColor="#F1F1F1"
                                     title={localize('Archive', language)}
-                                    textColor="#C5C5C5"
+                                    textColor="#6A6A6A"
                                     onPress={this.showModalArchive}
                                     style={{
                                         borderRadius: scaleSzie(2),
@@ -211,7 +211,7 @@ class PopupDetailProduct extends React.Component {
                                     height={45}
                                     backgroundColor="#F1F1F1"
                                     title={localize('Restore', language)}
-                                    textColor="#C5C5C5"
+                                    textColor="#6A6A6A"
                                     onPress={this.showModalRestore}
                                     style={{
                                         borderRadius: scaleSzie(2),

@@ -131,7 +131,7 @@ class RowTableExtra extends React.Component {
                                     height={28}
                                     backgroundColor="#F1F1F1"
                                     title="Restore"
-                                    textColor="#C5C5C5"
+                                    textColor="#6A6A6A"
                                     onPress={() => restoreExtra()}
                                     style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(2) }}
                                     styleText={{
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     textTableHeader: {
-        color: '#C5C5C5',
+        color: '#6A6A6A',
         fontSize: scaleSzie(14)
     },
     itemTableHeaderContainer: {

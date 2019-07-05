@@ -66,7 +66,7 @@ export default class Layout extends React.Component {
                             height={40}
                             backgroundColor="#F1F1F1"
                             title={localize('Search', language)}
-                            textColor="#C5C5C5"
+                            textColor="#6A6A6A"
                             onPress={this.searchProduct}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: 'normal' }}
@@ -78,7 +78,7 @@ export default class Layout extends React.Component {
                             height={40}
                             backgroundColor="#F1F1F1"
                             title={localize('Scan SKU', language)}
-                            textColor="#C5C5C5"
+                            textColor="#6A6A6A"
                             onPress={this.scanUKU}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: 'normal' }}
@@ -118,7 +118,7 @@ export default class Layout extends React.Component {
                             <Button onPress={this.restock} style={[{
                                 width: scaleSzie(120), justifyContent: 'center', alignItems: 'center',
                             }, styles.borderStyle]} >
-                                <Text style={{ color: '#C5C5C5', fontSize: scaleSzie(15) }} >
+                                <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(15) }} >
 
                                     {localize('Restock', language)}
                                 </Text>
@@ -133,7 +133,7 @@ export default class Layout extends React.Component {
                                     width: scaleSzie(18), height: scaleSzie(18),
                                     marginHorizontal: scaleSzie(8)
                                 }} />
-                                <Text style={{ color: '#C5C5C5', fontSize: scaleSzie(15) }} >
+                                <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(15) }} >
 
                                     {localize('Export', language)}
                                 </Text>

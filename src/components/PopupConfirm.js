@@ -38,7 +38,7 @@ class PopupConfirm extends React.Component {
                                 height={35}
                                 backgroundColor="#fff"
                                 title="No"
-                                textColor="#C5C5C5"
+                                textColor="#6A6A6A"
                                 onPress={() => onRequestClose()}
                                 style={{
                                     borderWidth: 1,

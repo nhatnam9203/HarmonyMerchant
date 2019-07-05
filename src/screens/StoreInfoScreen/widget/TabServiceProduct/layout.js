@@ -23,7 +23,7 @@ class Layout extends React.Component {
                     initialPage={0}
                     renderTabBar={() => <CustomTabBar
                         activeTextColor="#fff"
-                        inactiveTextColor="#C5C5C5"
+                        inactiveTextColor="#6A6A6A"
                         backgroundTabActive="#0764B0"
                         textStyle={{
                             fontSize: scaleSzie(16)
