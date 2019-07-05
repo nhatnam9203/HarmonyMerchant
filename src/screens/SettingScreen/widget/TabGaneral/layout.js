@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, Text, Dropdown } from '@components';
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize, WorkingTime } from '@utils';
 import IMAGE from '@resources';
 
 class Layout extends React.Component {
@@ -14,22 +14,40 @@ class Layout extends React.Component {
     renderSetup() {
         const { language } = this.props;
         return (
-            <View style={{ width: '100%',marginTop: scaleSzie(6) }} >
-                {/* ------- Item Change Language  ------ */}
-                <ItemSetupGeneral
-                    title={`${localize('Language', language)}:`}
-                    data={[{ value: 'English' }, { value: 'Viet Nam' }]}
-                />
-                {/* ------- Item Auto close at:  ------ */}
-                <ItemSetupGeneral
-                    title={`${localize('Auto close at', language)}:`}
-                    data={[{ value: 'English' }, { value: 'Viet Nam' }]}
-                />
-                {/* ------- Item Auto lock screen after:  ------ */}
-                <ItemSetupGeneral
-                    title={`${localize('Auto lock screen after', language)}:`}
-                    data={[{ value: '05:00 min' }, { value: '10:00 min' },{ value: '15:00 min' },{ value: '30:00 min' }]}
-                />
+            <View style={{ width: '100%', marginTop: scaleSzie(6), flexDirection: 'row' }} >
+                <View style={{ flex: 1 }} >
+                    {/* ------- Item Change Language  ------ */}
+                    <ItemSetupGeneral
+                        title={`${localize('Language', language)}:`}
+                        data={[{ value: 'English' }, { value: 'Viet Nam' }]}
+                    />
+                    {/* ------- Item Auto close at:  ------ */}
+                    <ItemSetupGeneral
+                        title={`${localize('Auto close at', language)}:`}
+                        data={WorkingTime}
+                    />
+                    {/* ------- Item Auto lock screen after:  ------ */}
+                    <ItemSetupGeneral
+                        title={`${localize('Auto lock screen after', language)}:`}
+                        data={[{ value: '05:00 min' }, { value: '10:00 min' }, { value: '15:00 min' }, { value: '30:00 min' }]}
+                    />
+                </View>
+                {/* ------ Button Save --- */}
+                <View style={{ width: scaleSzie(140),justifyContent:'center' }} >
+                    <ButtonCustom
+                        width={scaleSzie(120)}
+                        height={50}
+                        backgroundColor="#F1F1F1"
+                        title={localize('SAVE', language)}
+                        textColor="#6A6A6A"
+                        onPress={this.saveSettngApp}
+                        style={{
+                            borderWidth: 1, borderColor: '#C5C5C5',
+                            backgroundColor: '#0764B0'
+                        }}
+                        styleText={{ fontSize: scaleSzie(18), fontWeight: '500', color: '#fff' }}
+                    />
+                </View>
             </View>
         );
     }
@@ -103,9 +121,9 @@ class Layout extends React.Component {
     }
 }
 
-const ItemSetupGeneral = ({ title ,data}) => {
+const ItemSetupGeneral = ({ title, data }) => {
     return (
-        <View style={{ flexDirection: 'row' ,marginTop: scaleSzie(8)}} >
+        <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
             <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
                 <Text style={{
                     color: '#404040',

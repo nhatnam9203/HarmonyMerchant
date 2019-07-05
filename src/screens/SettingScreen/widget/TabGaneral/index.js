@@ -11,6 +11,10 @@ class TabGaneral extends Layout {
         };
     }
 
+    saveSettngApp = () => {
+
+    }
+
 }
 
 const mapStateToProps = state => ({
