@@ -17,7 +17,7 @@ export default class Layout extends React.Component {
         const { isAgree } = this.state;
         const temptIconCheck = isAgree ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         const temptBackgroundButton = isAgree ? '#0764B0' : '#F1F1F1';
-        const temptColorTextButton = isAgree ? '#fff' : '#6A6A6A';
+        const temptColorTextButton = isAgree ? '#fff' : '#C5C5C5';
         return (
             <View style={styles.container} >
                 <StatusBarHeader />

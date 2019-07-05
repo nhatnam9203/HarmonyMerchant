@@ -74,7 +74,7 @@ export default class InputQuestionBusiness extends React.PureComponent {
                     </View>
 
                     <View style={{
-                        width: scaleSzie(320), borderColor: '#6A6A6A', borderWidth: 1,
+                        width: scaleSzie(320), borderColor: '#C5C5C5', borderWidth: 1,
                         paddingLeft: scaleSzie(10)
                     }} >
                         <TextInput

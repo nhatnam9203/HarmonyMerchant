@@ -167,7 +167,7 @@ class PopupAddEditProduct extends React.Component {
                                         containerStyle={{
                                             backgroundColor: '#F1F1F1',
                                             borderWidth: 1,
-                                            borderColor: '#6A6A6A',
+                                            borderColor: '#C5C5C5',
                                             flex: 1
                                         }}
                                     />
@@ -176,7 +176,7 @@ class PopupAddEditProduct extends React.Component {
                                     Product
                             </Text>
                                 <View style={{
-                                    height: scaleSzie(30), borderWidth: 1, borderColor: '#6A6A6A',
+                                    height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
                                     paddingLeft: scaleSzie(10),
                                 }} >
                                     <TextInput
@@ -212,7 +212,7 @@ class PopupAddEditProduct extends React.Component {
                                             SKU number
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
-                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
                                                 <TextInput
                                                     placeholder="sku12345678"
                                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
@@ -246,7 +246,7 @@ class PopupAddEditProduct extends React.Component {
                                             Items in stock
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
-                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
                                                 <TextInputMask
                                                     type="only-numbers"
                                                     placeholder="100"
@@ -268,7 +268,7 @@ class PopupAddEditProduct extends React.Component {
                                             Low theshold
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
-                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
                                                 <TextInputMask
                                                     type="only-numbers"
                                                     placeholder="10"
@@ -284,7 +284,7 @@ class PopupAddEditProduct extends React.Component {
                                             Max theshold
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
-                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
                                                 <TextInputMask
                                                     type="only-numbers"
                                                     placeholder="20"
@@ -303,7 +303,7 @@ class PopupAddEditProduct extends React.Component {
                                             Price
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
-                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
                                                 <TextInputMask
                                                     type="only-numbers"
                                                     placeholder="10$"
@@ -328,7 +328,7 @@ class PopupAddEditProduct extends React.Component {
                                                     containerStyle={{
                                                         backgroundColor: '#F1F1F1',
                                                         borderWidth: 1,
-                                                        borderColor: '#6A6A6A',
+                                                        borderColor: '#C5C5C5',
                                                         flex: 1
                                                     }}
                                                 />

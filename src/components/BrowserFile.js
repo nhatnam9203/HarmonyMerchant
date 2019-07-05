@@ -61,7 +61,7 @@ class BrowserFile extends React.PureComponent {
                             height={38}
                             backgroundColor="#F1F1F1"
                             title={'Browse File'}
-                            textColor="#6A6A6A"
+                            textColor="#C5C5C5"
                             onPress={this.showPicker}
                             style={[{ borderRadius: scaleSzie(2) }, styles.shadowBtn]}
                             styleText={{

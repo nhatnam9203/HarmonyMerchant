@@ -27,7 +27,7 @@ export default class InputForm extends React.PureComponent {
                     </Text>
                 </Text>
                 <View style={{
-                    height: scaleSzie(temptHeight), borderWidth: 1, borderColor: '#6A6A6A',
+                    height: scaleSzie(temptHeight), borderWidth: 1, borderColor: '#C5C5C5',
                     marginTop: scaleSzie(5), paddingLeft: scaleSzie(8)
                 }} >
                     {

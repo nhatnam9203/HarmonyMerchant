@@ -224,7 +224,7 @@ class PopupAddEditService extends React.Component {
                                         containerStyle={{
                                             backgroundColor: '#F1F1F1',
                                             borderWidth: 1,
-                                            borderColor: '#6A6A6A',
+                                            borderColor: '#C5C5C5',
                                             flex: 1
                                         }}
                                     />
@@ -233,7 +233,7 @@ class PopupAddEditService extends React.Component {
                                     Service
                             </Text>
                                 <View style={{
-                                    height: scaleSzie(30), borderWidth: 1, borderColor: '#6A6A6A',
+                                    height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
                                     paddingLeft: scaleSzie(10),
                                 }} >
                                     <TextInput
@@ -247,7 +247,7 @@ class PopupAddEditService extends React.Component {
                                     Description
                             </Text>
                                 <View style={{
-                                    height: scaleSzie(60), borderWidth: 1, borderColor: '#6A6A6A',
+                                    height: scaleSzie(60), borderWidth: 1, borderColor: '#C5C5C5',
                                     paddingLeft: scaleSzie(10), backgroundColor: '#FAFAFA', paddingTop: scaleSzie(5)
                                 }} >
                                     <TextInput
@@ -290,7 +290,7 @@ class PopupAddEditService extends React.Component {
                                     </Text>
                                         <View style={{
                                             height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
-                                            borderWidth: 1, borderColor: '#6A6A6A', flexDirection: 'row'
+                                            borderWidth: 1, borderColor: '#C5C5C5', flexDirection: 'row'
                                         }} >
                                             <TextInputMask
                                                 type="only-numbers"
@@ -318,7 +318,7 @@ class PopupAddEditService extends React.Component {
                                                 containerStyle={{
                                                     backgroundColor: '#F1F1F1',
                                                     borderWidth: 1,
-                                                    borderColor: '#6A6A6A',
+                                                    borderColor: '#C5C5C5',
                                                     flex: 1
                                                 }}
                                             />
@@ -467,7 +467,7 @@ class ItemExtra extends React.Component {
                     Extra name
                             </Text>
                 <View style={{
-                    height: scaleSzie(30), borderWidth: 1, borderColor: '#6A6A6A',
+                    height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
                     paddingLeft: scaleSzie(10),
                 }} >
                     <TextInput
@@ -481,7 +481,7 @@ class ItemExtra extends React.Component {
                     Description
                             </Text>
                 <View style={{
-                    height: scaleSzie(60), borderWidth: 1, borderColor: '#6A6A6A',
+                    height: scaleSzie(60), borderWidth: 1, borderColor: '#C5C5C5',
                     paddingLeft: scaleSzie(10), backgroundColor: '#FAFAFA', paddingTop: scaleSzie(5)
                 }} >
                     <TextInput
@@ -507,7 +507,7 @@ class ItemExtra extends React.Component {
                         </Text>
                         <View style={{
                             height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
-                            borderWidth: 1, borderColor: '#6A6A6A', flexDirection: 'row'
+                            borderWidth: 1, borderColor: '#C5C5C5', flexDirection: 'row'
                         }} >
                             <TextInputMask
                                 type="only-numbers"
@@ -535,7 +535,7 @@ class ItemExtra extends React.Component {
                                 containerStyle={{
                                     backgroundColor: '#F1F1F1',
                                     borderWidth: 1,
-                                    borderColor: '#6A6A6A',
+                                    borderColor: '#C5C5C5',
                                     flex: 1
                                 }}
                             />
@@ -573,7 +573,7 @@ class ItemTime extends React.Component {
                 </Text>
                 <View style={{
                     height: scaleSzie(30), width: scaleSzie(90),
-                    borderWidth: 1, borderColor: '#6A6A6A', flexDirection: 'row'
+                    borderWidth: 1, borderColor: '#C5C5C5', flexDirection: 'row'
                 }} >
                     <View style={{ flex: 1, paddingLeft: scaleSzie(5) }} >
                         <TextInputMask
@@ -585,7 +585,7 @@ class ItemTime extends React.Component {
                         />
                     </View>
                     <View style={{ justifyContent: 'flex-end', paddingRight: 4 }} >
-                        <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
+                        <Text style={{ color: '#C5C5C5', fontSize: scaleSzie(14) }} >
                             min
                 </Text>
                     </View>

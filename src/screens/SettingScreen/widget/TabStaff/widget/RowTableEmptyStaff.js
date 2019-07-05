@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     textTableHeader: {
-        color: '#6A6A6A',
+        color: '#C5C5C5',
         fontSize: scaleSzie(14)
     },
     itemTableHeaderContainer: {

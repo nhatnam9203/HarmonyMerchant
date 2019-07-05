@@ -97,7 +97,7 @@ class PopupEditAddCategories extends React.Component {
                                     containerStyle={{
                                         backgroundColor: '#F1F1F1',
                                         borderWidth: 1,
-                                        borderColor: '#6A6A6A',
+                                        borderColor: '#C5C5C5',
                                         flex: 1
                                     }}
                                 />
@@ -106,7 +106,7 @@ class PopupEditAddCategories extends React.Component {
                                 Category Name
                             </Text>
                             <View style={{
-                                height: scaleSzie(30), borderWidth: 1, borderColor: '#6A6A6A',
+                                height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
                                 paddingLeft: scaleSzie(10)
                             }} >
                                 <TextInput

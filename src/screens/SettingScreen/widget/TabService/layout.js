@@ -23,7 +23,7 @@ class Layout extends React.Component {
                 <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={{ flex: 1, flexDirection: 'row' }} >
                         <View style={{ width: scaleSzie(70), justifyContent: 'center' }} >
-                            <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A' }} >
+                            <Text style={{ fontSize: scaleSzie(18), color: '#C5C5C5' }} >
                                 {localize('Search', language)}
                             </Text>
                         </View>
@@ -54,7 +54,7 @@ class Layout extends React.Component {
                             height={40}
                             backgroundColor="#F1F1F1"
                             title={localize('Search', language)}
-                            textColor="#6A6A6A"
+                            textColor="#C5C5C5"
                             onPress={this.searchService}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
@@ -76,7 +76,7 @@ class Layout extends React.Component {
                 <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={{ flex: 1, flexDirection: 'row' }} >
                         <View style={{ width: scaleSzie(70), justifyContent: 'center' }} >
-                            <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A' }} >
+                            <Text style={{ fontSize: scaleSzie(18), color: '#C5C5C5' }} >
                                 {localize('Filters', language)}
                             </Text>
                         </View>
@@ -120,7 +120,7 @@ class Layout extends React.Component {
                             height={40}
                             backgroundColor="#F1F1F1"
                             title={localize('Add New', language)}
-                            textColor="#6A6A6A"
+                            textColor="#C5C5C5"
                             onPress={this.showModalAddService}
                             style={{
                                 borderWidth: 1, borderColor: '#C5C5C5',

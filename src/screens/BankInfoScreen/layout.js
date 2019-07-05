@@ -91,13 +91,13 @@ export default class Layout extends React.Component {
 
                                     <View style={{ flex: 1, justifyContent: 'space-around', alignItems: 'center' }} >
                                         <Text style={{
-                                            color: '#6A6A6A', fontSize: scaleSzie(20), fontWeight: 'bold',
+                                            color: '#C5C5C5', fontSize: scaleSzie(20), fontWeight: 'bold',
                                         }} >
                                             {`${localize('Take a Photo',language)}`}
                                         </Text>
 
                                         <Text style={{
-                                            color: '#6A6A6A', fontSize: scaleSzie(20),
+                                            color: '#C5C5C5', fontSize: scaleSzie(20),
                                         }} >
                                             {`${localize('Or',language)}`}
                                         </Text>
@@ -108,7 +108,7 @@ export default class Layout extends React.Component {
                                                 borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 4, justifyContent: "center", alignItems: 'center'
                                             }} >
                                             <Text style={{
-                                                color: '#6A6A6A', fontSize: scaleSzie(20),
+                                                color: '#C5C5C5', fontSize: scaleSzie(20),
                                             }} >
                                                 {`${localize('Browse File',language)}`}
                                             </Text>

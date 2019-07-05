@@ -73,12 +73,12 @@ class Layout extends React.Component {
 
                         <View style={{ flex: 1, alignItems: 'center', marginTop: scaleSzie(10) }} >
                             <Text style={{
-                                color: '#6A6A6A', fontSize: scaleSzie(20), fontWeight: 'bold',
+                                color: '#C5C5C5', fontSize: scaleSzie(20), fontWeight: 'bold',
                             }} >
                                 {localize('Take a Photo',language)}
                             </Text>
                             <Text style={{
-                                color: '#6A6A6A', fontSize: scaleSzie(20),
+                                color: '#C5C5C5', fontSize: scaleSzie(20),
                                 marginVertical: scaleSzie(15)
                             }} >
                                 
@@ -89,7 +89,7 @@ class Layout extends React.Component {
                                 height={40}
                                 backgroundColor="#F1F1F1"
                                 title={localize('Browse File',language)}
-                                textColor="#6A6A6A"
+                                textColor="#C5C5C5"
                                 onPress={this.openImageLibrary}
                                 style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                                 styleText={{ fontSize: scaleSzie(16), fontWeight: '500' }}

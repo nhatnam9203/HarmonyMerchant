@@ -38,7 +38,7 @@ class PopupLogout extends React.Component {
                                 height={35}
                                 backgroundColor="#fff"
                                 title="CANCEL"
-                                textColor="#6A6A6A"
+                                textColor="#C5C5C5"
                                 onPress={() => onRequestClose()}
                                 style={{
                                     borderWidth: 1,

@@ -49,7 +49,7 @@ class RowTableProducts extends React.Component {
         const { isCheck } = this.state;
         const temptIconCheckbox = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         const { minThreshold, quantity, needToorDer } = product;
-        const temptTextColor = quantity < needToorDer || quantity < minThreshold ? { color: '#FF3B30' } : { color: '#6A6A6A' };
+        const temptTextColor = quantity < needToorDer || quantity < minThreshold ? { color: '#FF3B30' } : { color: '#C5C5C5' };
         return (
             <Button onPress={() => showDetailProduct(product)} style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     textTableHeader: {
-        color: '#6A6A6A',
+        color: '#C5C5C5',
         // color:'#FF3B30',
         fontSize: scaleSzie(14)
     },

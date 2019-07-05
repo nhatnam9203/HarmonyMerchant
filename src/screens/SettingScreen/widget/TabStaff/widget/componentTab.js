@@ -30,7 +30,7 @@ const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntr
                 </Text>
             </View>
 
-            <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingLeft: scaleSzie(5) }} >
+            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSzie(5) }} >
             {
                     type ? <TextInputMask
                         type="only-numbers"

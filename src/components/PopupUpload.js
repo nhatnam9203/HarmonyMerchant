@@ -82,7 +82,7 @@ class PopupUpload extends React.Component {
                                 height={35}
                                 backgroundColor="#F1F1F1"
                                 title="Save"
-                                textColor="#6A6A6A"
+                                textColor="#C5C5C5"
                                 onPress={() => {
                                     save();
                                     // this.setState({

@@ -40,7 +40,7 @@ class Layout extends React.Component {
                         onChangeText={(value) => this.updateUserInfo('firstName', value)}
                     >
                         <View style={{
-                            flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingLeft: scaleSzie(5),
+                            flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSzie(5),
                             marginLeft: scaleSzie(5)
                         }} >
                             <TextInput
@@ -228,7 +228,7 @@ class Layout extends React.Component {
                             height={40}
                             backgroundColor="#F1F1F1"
                             title={localize('ADD', language)}
-                            textColor="#6A6A6A"
+                            textColor="#C5C5C5"
                             onPress={this.addAdmin}
                             style={{
                                 borderWidth: 1, borderColor: '#C5C5C5',
@@ -252,7 +252,7 @@ class Layout extends React.Component {
                         height={40}
                         backgroundColor="#F1F1F1"
                         title="BACK"
-                        textColor="#6A6A6A"
+                        textColor="#C5C5C5"
                         onPress={() => this.props.backTab()}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                     />
@@ -305,7 +305,7 @@ const ItemAdminInfoDoubleItem = ({ title, placeholder, children, value, onChange
             </View>
 
             <View style={{ flex: 1, flexDirection: 'row' }} >
-                <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingLeft: scaleSzie(5) }} >
+                <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSzie(5) }} >
                     <TextInput
                         style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
                         placeholder={placeholder}
@@ -407,12 +407,12 @@ const styles = StyleSheet.create({
     },
     borderTextInput: {
         borderWidth: 1,
-        borderColor: '#6A6A6A'
+        borderColor: '#C5C5C5'
     },
     dropdown: {
         backgroundColor: '#F1F1F1',
         borderWidth: 1,
-        borderColor: '#6A6A6A',
+        borderColor: '#C5C5C5',
         flex: 1
     }
 

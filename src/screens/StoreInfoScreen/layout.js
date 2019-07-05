@@ -27,7 +27,7 @@ export default class Layout extends React.Component {
                     locked={true}
                     renderTabBar={() => <DefaultTabBar
                         activeTextColor="#fff"
-                        inactiveTextColor="#6A6A6A"
+                        inactiveTextColor="#C5C5C5"
                         backgroundTabActive="#0764B0"
                         textStyle={{
                             fontSize: scaleSzie(14)

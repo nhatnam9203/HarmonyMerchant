@@ -163,7 +163,7 @@ class PopupRestock extends React.Component {
                                 height={45}
                                 backgroundColor="#F1F1F1"
                                 title={localize('Cancel', language)}
-                                textColor="#6A6A6A"
+                                textColor="#C5C5C5"
                                 onPress={() => onRequestClose()}
                                 style={{
                                     borderRadius: scaleSzie(2),

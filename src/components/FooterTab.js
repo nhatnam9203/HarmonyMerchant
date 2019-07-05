@@ -44,7 +44,7 @@ export default class FooterTab extends React.PureComponent {
                         height={40}
                         backgroundColor="#F1F1F1"
                         title="BACK"
-                        textColor="#6A6A6A"
+                        textColor="#C5C5C5"
                         onPress={() =>this.props.backTab()}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                     />

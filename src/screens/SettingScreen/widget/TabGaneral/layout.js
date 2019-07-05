@@ -5,11 +5,34 @@ import {
     StyleSheet,
 } from 'react-native';
 
-import { ButtonCustom, Text } from '@components';
+import { ButtonCustom, Text, Dropdown } from '@components';
 import { scaleSzie, localize } from '@utils';
 import IMAGE from '@resources';
 
 class Layout extends React.Component {
+
+    renderSetup() {
+        const { language } = this.props;
+        return (
+            <View style={{ width: '100%',marginTop: scaleSzie(6) }} >
+                {/* ------- Item Change Language  ------ */}
+                <ItemSetupGeneral
+                    title={`${localize('Language', language)}:`}
+                    data={[{ value: 'English' }, { value: 'Viet Nam' }]}
+                />
+                {/* ------- Item Auto close at:  ------ */}
+                <ItemSetupGeneral
+                    title={`${localize('Auto close at', language)}:`}
+                    data={[{ value: 'English' }, { value: 'Viet Nam' }]}
+                />
+                {/* ------- Item Auto lock screen after:  ------ */}
+                <ItemSetupGeneral
+                    title={`${localize('Auto lock screen after', language)}:`}
+                    data={[{ value: '05:00 min' }, { value: '10:00 min' },{ value: '15:00 min' },{ value: '30:00 min' }]}
+                />
+            </View>
+        );
+    }
 
     renderBody() {
         const { profile, language } = this.props;
@@ -18,7 +41,11 @@ class Layout extends React.Component {
         } = profile;
         return (
             <View style={styles.body} >
-                <ScrollView>
+                <ScrollView showsVerticalScrollIndicator={false} >
+                    {this.renderSetup()}
+                    {/* ------ Line ----- */}
+                    <View style={{ height: scaleSzie(2), width: '100%', backgroundColor: '#C5C5C5', marginTop: scaleSzie(18) }} />
+
                     <ItemTextStoreInfo
                         title={localize('Business Name', language)}
                         value={businessName}
@@ -60,27 +87,8 @@ class Layout extends React.Component {
                         title="EIN"
                         value={ein ? ein : ''}
                     />
+                    <View style={{ height: scaleSzie(250) }} />
                 </ScrollView>
-            </View>
-        );
-    }
-
-    nextTab = () => {
-        this.props.nextTab();
-    }
-
-    renderFooter() {
-        const { language } = this.props;
-        return (
-            <View style={styles.footer} >
-                <ButtonCustom
-                    width={scaleSzie(220)}
-                    height={40}
-                    backgroundColor="#0764B0"
-                    title={localize('NEXT', language)}
-                    textColor="#fff"
-                    onPress={this.nextTab}
-                />
             </View>
         );
     }
@@ -89,21 +97,47 @@ class Layout extends React.Component {
         return (
             <View style={styles.container} >
                 {this.renderBody()}
-                {this.renderFooter()}
-
             </View>
 
         );
     }
 }
 
+const ItemSetupGeneral = ({ title ,data}) => {
+    return (
+        <View style={{ flexDirection: 'row' ,marginTop: scaleSzie(8)}} >
+            <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
+                <Text style={{
+                    color: '#404040',
+                    fontSize: scaleSzie(16),
+                    fontWeight: '600',
+                }}  >
+                    {title}
+                </Text>
+            </View>
+            <View style={{ height: scaleSzie(40), width: scaleSzie(140) }} >
+                <Dropdown
+                    label={localize('Language')}
+                    data={data}
+                    value={'English'}
+                    containerStyle={{
+                        backgroundColor: '#F1F1F1',
+                        borderWidth: 1,
+                        borderColor: '#C5C5C5',
+                        flex: 1
+                    }}
+                />
+            </View>
+        </View>
+    );
+}
+
 const ItemTextStoreInfoNotTilte = ({ city, state, zipcode }) => {
     return (
         <View style={{
             flexDirection: 'row',
-            paddingLeft: scaleSzie(15),
             paddingRight: scaleSzie(50),
-             marginTop: scaleSzie(25),
+            marginTop: scaleSzie(25),
         }} >
             <Text style={{
                 color: '#404040',
@@ -143,9 +177,6 @@ const ItemTextStoreInfo = ({ title, value }) => {
     return (
         <View style={{
             flexDirection: 'row',
-            // paddingLeft: scaleSzie(90),
-            // paddingRight: scaleSzie(52), 
-            paddingHorizontal:scaleSzie(15),
             marginTop: scaleSzie(25)
         }} >
             <Text style={{
@@ -171,7 +202,8 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     body: {
-        flex: 1
+        flex: 1,
+        paddingHorizontal: scaleSzie(18)
     },
     footer: {
         height: scaleSzie(60),

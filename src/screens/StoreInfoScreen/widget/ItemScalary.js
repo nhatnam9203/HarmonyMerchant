@@ -72,7 +72,7 @@ export default class ItemScalary extends React.Component {
 const styles = StyleSheet.create({
     borderTextInput: {
         borderWidth: 1,
-        borderColor: '#6A6A6A'
+        borderColor: '#C5C5C5'
     }
 
 })

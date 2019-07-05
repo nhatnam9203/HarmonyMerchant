@@ -158,7 +158,7 @@ class PopupAddEditCustomer extends React.Component {
                                         {`${localize('First Name', language)} *`}
                                     </Text>
                                     <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
-                                        <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
+                                        <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
                                             <TextInput
                                                 placeholder="Jerry"
                                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
@@ -173,7 +173,7 @@ class PopupAddEditCustomer extends React.Component {
                                         {`${localize('Last Name', language)} *`}
                                     </Text>
                                     <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
-                                        <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
+                                        <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
                                             <TextInput
                                                 placeholder="Nguyen"
                                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
@@ -189,7 +189,7 @@ class PopupAddEditCustomer extends React.Component {
                                 {localize('Phone Number *', language)}
                             </Text>
                             <View style={{
-                                height: scaleSzie(30), borderWidth: 1, borderColor: '#6A6A6A',
+                                height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
                                 paddingLeft: scaleSzie(10),
                             }} >
                                 <TextInput
@@ -204,7 +204,7 @@ class PopupAddEditCustomer extends React.Component {
                                 {localize('Contact email', language)}
                             </Text>
                             <View style={{
-                                height: scaleSzie(30), borderWidth: 1, borderColor: '#6A6A6A',
+                                height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
                                 paddingLeft: scaleSzie(10),
                             }} >
                                 <TextInput
@@ -219,7 +219,7 @@ class PopupAddEditCustomer extends React.Component {
                                 {localize('Address', language)}
                             </Text>
                             <View style={{
-                                height: scaleSzie(30), borderWidth: 1, borderColor: '#6A6A6A',
+                                height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
                                 paddingLeft: scaleSzie(10),
                             }} >
                                 <TextInput
@@ -233,7 +233,7 @@ class PopupAddEditCustomer extends React.Component {
                             <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                                 <View style={{ flex: 1 }} >
                                     <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(10) }} >
-                                        <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
+                                        <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
                                             <TextInput
                                                 placeholder="City"
                                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
@@ -255,7 +255,7 @@ class PopupAddEditCustomer extends React.Component {
                                                 containerStyle={{
                                                     backgroundColor: '#F1F1F1',
                                                     borderWidth: 1,
-                                                    borderColor: '#6A6A6A',
+                                                    borderColor: '#C5C5C5',
                                                     flex: 1
                                                 }}
                                             />
@@ -268,7 +268,7 @@ class PopupAddEditCustomer extends React.Component {
                                 {localize('Referrer Phone Number', language)}
                             </Text>
                             <View style={{
-                                height: scaleSzie(30), borderWidth: 1, borderColor: '#6A6A6A',
+                                height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
                                 paddingLeft: scaleSzie(10),
                             }} >
                                 <TextInput
