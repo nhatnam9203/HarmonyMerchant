@@ -10,7 +10,7 @@ import { scaleSzie, localize } from '@utils';
 import { Text, ButtonCustom, Button } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
-import { ItemCategory, ColPlaceHolder } from './widget';
+import { ItemCategory, ColPlaceHolder,ItemBasket } from './widget';
 
 class Layout extends React.Component {
 
@@ -77,7 +77,9 @@ class Layout extends React.Component {
                 {/* -------- Content Basket -------- */}
                 <View style={{ flex: 1 }} >
                     <View style={{ flex: 1 }} >
-
+                        {/* ------ Item Basket ------- */}
+                        <ItemBasket />
+                        <ItemBasket />
                     </View>
                     {/* ----------- Payment Number --------- */}
                     <View style={{ flexDirection: 'row' }} >
@@ -123,7 +125,7 @@ class Layout extends React.Component {
                                 <Text style={styles.textPay} >
                                     {`${localize('Total', language)}:`}
                                 </Text>
-                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)',fontSize:scaleSzie(20) }]} >
                                     $500
                             </Text>
                             </View>
@@ -133,7 +135,7 @@ class Layout extends React.Component {
 
                 </View>
                 {/* -------- Footer Basket -------- */}
-                <View style={{ height: scaleSzie(80), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
+                <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
                     <ButtonCustom
                         width={`100%`}
                         backgroundColor="#F1F1F1"
