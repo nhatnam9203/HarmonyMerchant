@@ -201,6 +201,22 @@ export const getNameStateById = (stateCity = [], id = '') => {
     return stateName
 }
 
+export const getNameLanguage = (keyLanguage) => {
+    let language = '';
+    switch (keyLanguage) {
+        case 'en':
+            language = 'English';
+            break;
+        case 'vi':
+            language = 'Viet Nam';
+            break;
+        default:
+            language = 'Viet Nam';
+            break;
+    }
+    return language;
+}
+
 export const WorkingTime = [
     {
         value: '00:00 AM',

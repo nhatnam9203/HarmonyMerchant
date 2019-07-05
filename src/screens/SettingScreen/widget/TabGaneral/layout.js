@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, Text, Dropdown } from '@components';
-import { scaleSzie, localize, WorkingTime } from '@utils';
+import { scaleSzie, localize, WorkingTime,getNameLanguage } from '@utils';
 import IMAGE from '@resources';
 
 class Layout extends React.Component {
@@ -20,6 +20,7 @@ class Layout extends React.Component {
                     <ItemSetupGeneral
                         title={`${localize('Language', language)}:`}
                         data={[{ value: 'English' }, { value: 'Viet Nam' }]}
+                        value={getNameLanguage(language)}
                     />
                     {/* ------- Item Auto close at:  ------ */}
                     <ItemSetupGeneral
@@ -121,7 +122,7 @@ class Layout extends React.Component {
     }
 }
 
-const ItemSetupGeneral = ({ title, data }) => {
+const ItemSetupGeneral = ({ title, data ,value = ''}) => {
     return (
         <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
             <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
@@ -137,7 +138,7 @@ const ItemSetupGeneral = ({ title, data }) => {
                 <Dropdown
                     label={localize('Language')}
                     data={data}
-                    value={'English'}
+                    value={value}
                     containerStyle={{
                         backgroundColor: '#F1F1F1',
                         borderWidth: 1,
