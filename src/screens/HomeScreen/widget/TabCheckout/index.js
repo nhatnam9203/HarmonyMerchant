@@ -9,6 +9,10 @@ class TabCheckout extends Layout {
         super(props);
     }
 
+    pressPay =() =>{
+        
+    }
+
 
 }
 

@@ -50,5 +50,16 @@ export default StyleSheet.create({
                 elevation: 2,
             },
         })
+    },
+    headerBasket: {
+        height: scaleSzie(46),
+        borderWidth: 1,
+        borderColor: 'rgb(197,197,197)',
+        borderRightColor: 'rgb(223,223,223)',
+        borderRightWidth: 3,
+        borderLeftWidth: 0,
+        borderTopWidth: 0,
+        justifyContent:'center',
+        alignItems:'center'
     }
 })
