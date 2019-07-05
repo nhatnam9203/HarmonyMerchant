@@ -31,6 +31,7 @@ export default {
     clearKeyboard: require('./img/clearKeyboard.png'),
     subKeyboard: require('./img/subKeyboard.png'),
     imagePlaceHolder: require('./img/imagePlaceHolder.png'),
+    discountBtn: require('./img/discountBtn.png'),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),

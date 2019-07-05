@@ -10,6 +10,10 @@ class TabCheckout extends Layout {
     }
 
     pressPay =() =>{
+
+    }
+
+    showModalDiscount =() =>{
         
     }
 

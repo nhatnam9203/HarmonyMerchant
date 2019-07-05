@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { scaleSzie, localize } from '@utils';
-import { Text, ButtonCustom } from '@components';
+import { Text, ButtonCustom, Button } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import { ItemCategory, ColPlaceHolder } from './widget';
@@ -76,13 +76,66 @@ class Layout extends React.Component {
                 </View>
                 {/* -------- Content Basket -------- */}
                 <View style={{ flex: 1 }} >
+                    <View style={{ flex: 1 }} >
+
+                    </View>
+                    {/* ----------- Payment Number --------- */}
+                    <View style={{ flexDirection: 'row' }} >
+                        <View style={{ flex: 1 }} />
+
+                        <View style={{ flex: 1.3, paddingRight: scaleSzie(12) }} >
+                            {/* ---------- Price ------ */}
+                            <View style={styles.payNumberTextContainer} >
+                                <Text style={styles.textPay} >
+                                    {`${localize('Subtotal', language)}:`}
+                                </Text>
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                    $500
+                            </Text>
+                            </View>
+                            {/* ---------- Tax ------ */}
+                            <View style={styles.payNumberTextContainer} >
+                                <Text style={styles.textPay} >
+                                    {`${localize('Tax', language)}:`}
+                                </Text>
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                    $0
+                            </Text>
+                            </View>
+                            {/* ---------- Discount ------ */}
+                            <View style={styles.payNumberTextContainer} >
+                            <Button onPress={this.showModalDiscount} >
+                                <Text style={styles.textPay} >
+                                    {`${localize('Discount', language)}:`}
+                                   
+                                        <Image source={IMAGE.discountBtn}
+                                            style={{ width: scaleSzie(20), height: scaleSzie(20) }}
+                                        />
+                                    
+                                </Text>
+                                </Button>
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                    $0
+                            </Text>
+                            </View>
+                            {/* ---------- Total ------ */}
+                            <View style={styles.payNumberTextContainer} >
+                                <Text style={styles.textPay} >
+                                    {`${localize('Total', language)}:`}
+                                </Text>
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                    $500
+                            </Text>
+                            </View>
+                        </View>
+
+                    </View>
 
                 </View>
                 {/* -------- Footer Basket -------- */}
                 <View style={{ height: scaleSzie(80), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
                     <ButtonCustom
                         width={`100%`}
-                        // height={}
                         backgroundColor="#F1F1F1"
                         title={localize('PAY', language)}
                         textColor="#6A6A6A"
@@ -90,7 +143,7 @@ class Layout extends React.Component {
                         style={{
                             borderWidth: 1, borderColor: '#C5C5C5',
                             backgroundColor: '#0764B0',
-                            flex:1
+                            flex: 1
                         }}
                         styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', color: '#fff' }}
                     />

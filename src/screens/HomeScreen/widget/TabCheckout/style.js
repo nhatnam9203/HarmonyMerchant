@@ -61,5 +61,14 @@ export default StyleSheet.create({
         borderTopWidth: 0,
         justifyContent:'center',
         alignItems:'center'
+    },
+    payNumberTextContainer:{ 
+        flexDirection: 'row',
+        justifyContent:'space-between' ,
+        marginBottom:scaleSzie(6)
+    },
+    textPay:{
+        fontSize: scaleSzie(16),
+        color: '#404040'
     }
 })
