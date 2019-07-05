@@ -12,8 +12,9 @@ import { TextInputMask } from 'react-native-masked-text';
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
-import {Dropdown} from './react-native-material-dropdown';
-import { scaleSzie, getCategoryName,getArrayNameCategories,getCategoryIdByName } from '@utils';
+import BrowserFile from './BrowserFile';
+import { Dropdown } from './react-native-material-dropdown';
+import { scaleSzie, getCategoryName, getArrayNameCategories, getCategoryIdByName } from '@utils';
 
 const { width } = Dimensions.get('window');
 
@@ -32,7 +33,8 @@ class PopupAddEditProduct extends React.Component {
                 maxThreshold: '',
                 price: '',
                 isDisabled: 'Active',
-            }
+            },
+            fileId: null
         }
     }
 
@@ -54,11 +56,11 @@ class PopupAddEditProduct extends React.Component {
     }
 
     setProductInfoFromParent = (productInfo) => {
-        const {categoriesByMerchant} = this.props;
+        const { categoriesByMerchant } = this.props;
         this.setState({
             productInfo: {
                 productId: productInfo.productId,
-                categoryId: getCategoryName(categoriesByMerchant,productInfo.categoryId),
+                categoryId: getCategoryName(categoriesByMerchant, productInfo.categoryId),
                 name: productInfo.name,
                 description: productInfo.description,
                 sku: productInfo.sku ? productInfo.sku : '',
@@ -83,7 +85,8 @@ class PopupAddEditProduct extends React.Component {
                 maxThreshold: '',
                 price: '',
                 isDisabled: 'Active',
-            }
+            },
+            fileId: null
         })
     }
 
@@ -91,11 +94,11 @@ class PopupAddEditProduct extends React.Component {
         const { productInfo } = this.state;
         const temptProductInfo = {
             ...productInfo,
-            categoryId: productInfo.categoryId !== '' ? getCategoryIdByName(this.props.categoriesByMerchant,productInfo.categoryId,'Product') : ''
+            categoryId: productInfo.categoryId !== '' ? getCategoryIdByName(this.props.categoriesByMerchant, productInfo.categoryId, 'Product') : ''
         }
         const arrayKey = Object.keys(temptProductInfo);
         let keyError = "";
-        for (let i = 0; i <= arrayKey.length -1; i++) {
+        for (let i = 0; i <= arrayKey.length - 1; i++) {
             if (temptProductInfo[arrayKey[i]] == "") {
                 keyError = arrayKey[i];
                 break;
@@ -105,14 +108,27 @@ class PopupAddEditProduct extends React.Component {
             Alert.alert(`${strings[keyError]}`);
         } else {
             if (this.props.isSave) {
-                this.props.editProduct({...temptProductInfo,isDisabled:productInfo.isDisabled === 'Active' ? 0 : 1, });
+                this.props.editProduct({
+                    ...temptProductInfo, isDisabled: productInfo.isDisabled === 'Active' ? 0 : 1,
+                    fileId: this.state.fileId
+                });
             } else {
-                this.props.confimYes({...temptProductInfo,isDisabled:productInfo.isDisabled === 'Active' ? 0 : 1, });
+                this.props.confimYes({
+                    ...temptProductInfo, isDisabled: productInfo.isDisabled === 'Active' ? 0 : 1,
+                    fileId: this.state.fileId
+                });
             }
 
         }
     }
 
+    updateFileId = (fileId) => {
+        this.setState({
+            fileId
+        })
+    }
+
+    // --------- Render -----
 
     render() {
         const { title, visible, onRequestClose, isSave,
@@ -138,186 +154,190 @@ class PopupAddEditProduct extends React.Component {
                         <ScrollView
                             showsVerticalScrollIndicator={false}
                         >
-                             <TouchableOpacity activeOpacity={1}>
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginTop: scaleSzie(10), marginBottom: scaleSzie(10) }} >
-                                Category
+                            <TouchableOpacity activeOpacity={1}>
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginTop: scaleSzie(10), marginBottom: scaleSzie(10) }} >
+                                    Category
                             </Text>
-                            <View style={{ width: scaleSzie(200), height: scaleSzie(30), }} >
-                                <Dropdown
-                                    label='Facial'
-                                    data={getArrayNameCategories(categoriesByMerchant,'Product')}
-                                    value={categoryId}
-                                    onChangeText={(value) => this.updateProductInfo('categoryId', value)}
-                                    containerStyle={{
-                                        backgroundColor: '#F1F1F1',
-                                        borderWidth: 1,
-                                        borderColor: '#6A6A6A',
-                                        flex: 1
-                                    }}
-                                />
-                            </View>
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                Product
-                            </Text>
-                            <View style={{
-                                height: scaleSzie(30), borderWidth: 1, borderColor: '#6A6A6A',
-                                paddingLeft: scaleSzie(10),
-                            }} >
-                                <TextInput
-                                    placeholder="Product 1"
-                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                    value={name}
-                                    onChangeText={(value) => this.updateProductInfo('name', value)}
-                                />
-                            </View>
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                Description
-                            </Text>
-                            <View style={{
-                                height: scaleSzie(70), borderWidth: 1, borderColor: '#C5C5C5',
-                                paddingLeft: scaleSzie(10), backgroundColor: '#FAFAFA', paddingTop: scaleSzie(5)
-                            }} >
-                                <TextInput
-                                    placeholder=""
-                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                    multiline={true}
-                                    value={description}
-                                    onChangeText={value => this.updateProductInfo('description', value)}
-                                />
-                            </View>
-                            {/* -----  */}
-                            <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
-                                <View style={{ flex: 1 }} >
-                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                        SKU number
-                                    </Text>
-                                    <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
-                                        <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
-                                            <TextInput
-                                                placeholder="sku12345678"
-                                                style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                                value={sku}
-                                                onChangeText={value => this.updateProductInfo('sku', value)}
-                                            />
-                                        </View>
-                                    </View>
-                                </View>
-                                <View style={{
-                                    width: scaleSzie(100), justifyContent: 'flex-end',
-                                }} >
-                                    <ButtonCustom
-                                        width={scaleSzie(100)}
-                                        height={30}
-                                        backgroundColor="#0764B0"
-                                        title={'Scan'}
-                                        textColor="#fff"
-                                        onPress={() => alert('scan')}
-                                        style={{ borderRadius: scaleSzie(2) }}
-                                        styleText={{
-                                            fontSize: scaleSzie(14)
+                                <View style={{ width: scaleSzie(200), height: scaleSzie(30), }} >
+                                    <Dropdown
+                                        label='Facial'
+                                        data={getArrayNameCategories(categoriesByMerchant, 'Product')}
+                                        value={categoryId}
+                                        onChangeText={(value) => this.updateProductInfo('categoryId', value)}
+                                        containerStyle={{
+                                            backgroundColor: '#F1F1F1',
+                                            borderWidth: 1,
+                                            borderColor: '#6A6A6A',
+                                            flex: 1
                                         }}
                                     />
                                 </View>
-                            </View>
-                            {/* -----  */}
-                            <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
-                                <View style={{ flex: 1 }} >
-                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                        Items in stock
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                                    Product
+                            </Text>
+                                <View style={{
+                                    height: scaleSzie(30), borderWidth: 1, borderColor: '#6A6A6A',
+                                    paddingLeft: scaleSzie(10),
+                                }} >
+                                    <TextInput
+                                        placeholder="Product 1"
+                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                        value={name}
+                                        onChangeText={(value) => this.updateProductInfo('name', value)}
+                                    />
+                                </View>
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                                    Description
+                            </Text>
+                                <View style={{
+                                    height: scaleSzie(70), borderWidth: 1, borderColor: '#C5C5C5',
+                                    paddingLeft: scaleSzie(10), backgroundColor: '#FAFAFA', paddingTop: scaleSzie(5)
+                                }} >
+                                    <TextInput
+                                        placeholder=""
+                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                        multiline={true}
+                                        value={description}
+                                        onChangeText={value => this.updateProductInfo('description', value)}
+                                    />
+                                </View>
+                                {/* ------- Upload Image ----- */}
+                                <BrowserFile
+                                    updateFileId={this.updateFileId}
+                                />
+                                {/* -------------------------- */}
+                                <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                                    <View style={{ flex: 1 }} >
+                                        <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
+                                            SKU number
                                     </Text>
-                                    <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
-                                        <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
-                                            <TextInputMask
-                                                type="only-numbers"
-                                                placeholder="100"
-                                                style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                                value={quantity}
-                                                onChangeText={value => this.updateProductInfo('quantity', value)}
-                                            />
+                                        <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
+                                                <TextInput
+                                                    placeholder="sku12345678"
+                                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                    value={sku}
+                                                    onChangeText={value => this.updateProductInfo('sku', value)}
+                                                />
+                                            </View>
                                         </View>
                                     </View>
+                                    <View style={{
+                                        width: scaleSzie(100), justifyContent: 'flex-end',
+                                    }} >
+                                        <ButtonCustom
+                                            width={scaleSzie(100)}
+                                            height={30}
+                                            backgroundColor="#0764B0"
+                                            title={'Scan'}
+                                            textColor="#fff"
+                                            onPress={() => alert('scan')}
+                                            style={{ borderRadius: scaleSzie(2) }}
+                                            styleText={{
+                                                fontSize: scaleSzie(14)
+                                            }}
+                                        />
+                                    </View>
                                 </View>
-                                <View style={{ flex: 1 }} >
+                                {/* -----  */}
+                                <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                                    <View style={{ flex: 1 }} >
+                                        <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
+                                            Items in stock
+                                    </Text>
+                                        <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
+                                                <TextInputMask
+                                                    type="only-numbers"
+                                                    placeholder="100"
+                                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                    value={quantity}
+                                                    onChangeText={value => this.updateProductInfo('quantity', value)}
+                                                />
+                                            </View>
+                                        </View>
+                                    </View>
+                                    <View style={{ flex: 1 }} >
 
+                                    </View>
                                 </View>
-                            </View>
-                            {/* ----- */}
-                            <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
-                                <View style={{ flex: 1 }} >
-                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                        Low theshold
+                                {/* ----- */}
+                                <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                                    <View style={{ flex: 1 }} >
+                                        <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
+                                            Low theshold
                                     </Text>
-                                    <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
-                                        <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
-                                            <TextInputMask
-                                                type="only-numbers"
-                                                placeholder="10"
-                                                style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                                value={minThreshold}
-                                                onChangeText={value => this.updateProductInfo('minThreshold', value)}
-                                            />
+                                        <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
+                                                <TextInputMask
+                                                    type="only-numbers"
+                                                    placeholder="10"
+                                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                    value={minThreshold}
+                                                    onChangeText={value => this.updateProductInfo('minThreshold', value)}
+                                                />
+                                            </View>
+                                        </View>
+                                    </View>
+                                    <View style={{ flex: 1 }} >
+                                        <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
+                                            Max theshold
+                                    </Text>
+                                        <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
+                                                <TextInputMask
+                                                    type="only-numbers"
+                                                    placeholder="20"
+                                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                    value={maxThreshold}
+                                                    onChangeText={value => this.updateProductInfo('maxThreshold', value)}
+                                                />
+                                            </View>
                                         </View>
                                     </View>
                                 </View>
-                                <View style={{ flex: 1 }} >
-                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                        Max theshold
+                                {/* ----- */}
+                                <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                                    <View style={{ flex: 1 }} >
+                                        <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
+                                            Price
                                     </Text>
-                                    <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
-                                        <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
-                                            <TextInputMask
-                                                type="only-numbers"
-                                                placeholder="20"
-                                                style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                                value={maxThreshold}
-                                                onChangeText={value => this.updateProductInfo('maxThreshold', value)}
-                                            />
+                                        <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
+                                                <TextInputMask
+                                                    type="only-numbers"
+                                                    placeholder="10$"
+                                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                    value={price}
+                                                    onChangeText={value => this.updateProductInfo('price', value)}
+                                                />
+                                            </View>
+                                        </View>
+                                    </View>
+                                    <View style={{ flex: 1 }} >
+                                        <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
+                                            Status
+                                    </Text>
+                                        <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
+                                            <View style={{ width: scaleSzie(100), height: scaleSzie(30) }} >
+                                                <Dropdown
+                                                    label='Active'
+                                                    data={[{ value: 'Active' }, { value: 'Disable' }]}
+                                                    value={isDisabled}
+                                                    onChangeText={(value) => this.updateProductInfo('isDisabled', value)}
+                                                    containerStyle={{
+                                                        backgroundColor: '#F1F1F1',
+                                                        borderWidth: 1,
+                                                        borderColor: '#6A6A6A',
+                                                        flex: 1
+                                                    }}
+                                                />
+                                            </View>
                                         </View>
                                     </View>
                                 </View>
-                            </View>
-                            {/* ----- */}
-                            <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
-                                <View style={{ flex: 1 }} >
-                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                        Price
-                                    </Text>
-                                    <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
-                                        <View style={{ flex: 1, borderWidth: 1, borderColor: '#6A6A6A', paddingHorizontal: scaleSzie(5) }} >
-                                            <TextInputMask
-                                                type="only-numbers"
-                                                placeholder="10$"
-                                                style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                                value={price}
-                                                onChangeText={value => this.updateProductInfo('price', value)}
-                                            />
-                                        </View>
-                                    </View>
-                                </View>
-                                <View style={{ flex: 1 }} >
-                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                        Status
-                                    </Text>
-                                    <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
-                                        <View style={{ width: scaleSzie(100), height: scaleSzie(30) }} >
-                                            <Dropdown
-                                                label='Active'
-                                                data={[{ value: 'Active' }, { value: 'Disable' }]}
-                                                value={isDisabled}
-                                                onChangeText={(value) => this.updateProductInfo('isDisabled', value)}
-                                                containerStyle={{
-                                                    backgroundColor: '#F1F1F1',
-                                                    borderWidth: 1,
-                                                    borderColor: '#6A6A6A',
-                                                    flex: 1
-                                                }}
-                                            />
-                                        </View>
-                                    </View>
-                                </View>
-                            </View>
-                            {/* -----  */}
-                            <View style={{ height: scaleSzie(250) }} />
+                                {/* -----  */}
+                                <View style={{ height: scaleSzie(250) }} />
                             </TouchableOpacity>
                         </ScrollView>
                     </View>

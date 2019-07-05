@@ -5,7 +5,6 @@ import NavigationServices from "../../navigators/NavigatorServices";
 import { requestAPI, uploadFromData } from '../../utils';
 
 function* uploadAvatar(action) {
-    console.log('action : ', action);
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield uploadFromData(action);
@@ -14,9 +13,9 @@ function* uploadAvatar(action) {
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'UPLOAD_AVATAR_SUCCESS',
-                payload:responses.data
+                payload: responses.data
             })
-        }else{
+        } else {
             yield put({
                 type: 'UPLOAD_AVATAR_FAIL'
             })

@@ -3,13 +3,9 @@ import {
     View,
     Text,
     TextInput,
-    Dimensions,
     ScrollView,
     Alert,
     TouchableOpacity,
-    StyleSheet,
-    Platform,
-    Image
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
@@ -17,7 +13,6 @@ import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import BrowserFile from './BrowserFile';
 import { Dropdown } from './react-native-material-dropdown';
-import IMAGE from '@resources';
 
 import { scaleSzie, getCategoryName, getArrayNameCategories, getCategoryIdByName } from '@utils';
 
@@ -196,9 +191,7 @@ class PopupAddEditService extends React.Component {
     // ------- Render -----
 
     render() {
-        const { title, visible, onRequestClose, doneAddService, isSave,
-            categoriesByMerchant
-        } = this.props;
+        const { title, visible, isSave, categoriesByMerchant } = this.props;
         const { categoryId, name, duration, description, price, isDisabled
         } = this.state.serviceInfo;
         const temptTitleButton = isSave ? 'Save' : 'Done';
