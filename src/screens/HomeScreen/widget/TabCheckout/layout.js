@@ -10,6 +10,7 @@ import { scaleSzie, localize } from '@utils';
 import { Text } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
+import { ItemCategory, ColPlaceHolder } from './widget';
 
 class Layout extends React.Component {
 
@@ -46,37 +47,30 @@ class Layout extends React.Component {
                     </View>
                     {/* ------- Body ----- */}
                     <View style={styles.categoriesBody} >
-                        {/* ----- Item Category Checkout ----- */}
-                        <View style={{
-                            height: scaleSzie(85), justifyContent: 'center',
-                            alignItems: 'center', borderBottomWidth: 3, borderBottomColor: '#fff'
-                        }} >
-                            <Text style={styles.textHeader} >
-                               S_Categories
-                            </Text>
-                        </View>
+                        <ItemCategory />
+                        <ItemCategory />
+                        <ItemCategory />
+                        <ItemCategory />
                     </View>
                 </View>
-                <View style={styles.shadowLine} >
 
-                </View>
-
-
-
+                {/* ------- Line ----- */}
+                {this.renderLineShadow()}
             </View>
         );
+    }
+
+    renderLineShadow() {
+        return <View style={styles.shadowLine} />;
     }
 
     renderBodyCheckout() {
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
                 {this.renderCategoriesCheckout()}
-                <View style={{ width: scaleSzie(140) }} >
-
-                </View>
-                <View style={{ width: scaleSzie(140), backgroundColor: 'yellow' }} >
-
-                </View>
+                <View style={{ width: scaleSzie(5) }} />
+                <ColPlaceHolder />
+                <ColPlaceHolder />
                 <View style={{ flex: 1 }} >
 
                 </View>
