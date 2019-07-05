@@ -106,7 +106,7 @@ const ItemTextStoreInfoNotTilte = ({ city, state, zipcode }) => {
         }} >
             <Text style={{
                 color: '#404040',
-                fontSize: scaleSzie(14),
+                fontSize: scaleSzie(16),
                 fontWeight: '600',
                 width: scaleSzie(150)
             }}  >
@@ -115,19 +115,19 @@ const ItemTextStoreInfoNotTilte = ({ city, state, zipcode }) => {
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }} >
                 <Text style={{
                     color: '#404040',
-                    fontSize: scaleSzie(14),
+                    fontSize: scaleSzie(16),
                 }}  >
                     {`City: ${city}`}
                 </Text>
                 <Text style={{
                     color: '#404040',
-                    fontSize: scaleSzie(14),
+                    fontSize: scaleSzie(16),
                 }}  >
                     {`State: ${state}`}
                 </Text>
                 <Text style={{
                     color: '#404040',
-                    fontSize: scaleSzie(14),
+                    fontSize: scaleSzie(16),
                 }}  >
                     {`Zip code: ${zipcode}`}
                 </Text>
@@ -147,7 +147,7 @@ const ItemTextStoreInfo = ({ title, value }) => {
         }} >
             <Text style={{
                 color: '#404040',
-                fontSize: scaleSzie(14),
+                fontSize: scaleSzie(16),
                 fontWeight: '600',
                 width: scaleSzie(150)
             }}  >
@@ -155,7 +155,7 @@ const ItemTextStoreInfo = ({ title, value }) => {
             </Text>
             <Text style={{
                 color: '#404040',
-                fontSize: scaleSzie(14),
+                fontSize: scaleSzie(16),
             }}  >
                 {value}
             </Text>
