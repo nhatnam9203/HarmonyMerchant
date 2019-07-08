@@ -1,3 +1,5 @@
+import React from 'react';
+
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import NavigationServices from "@navigators/NavigatorServices";
@@ -8,8 +10,8 @@ class TabCheckout extends Layout {
     constructor(props) {
         super(props);
         this.state = {
-            isShowColProduct: true,
-            isShowColAmount: true,
+            isShowColProduct: false,
+            isShowColAmount: false,
             categorySelected: {
                 categoryId: -1,
                 categoryType: ''
@@ -18,7 +20,8 @@ class TabCheckout extends Layout {
                 name: ''
             },
             categoryTypeSelected: 'Service'
-        }
+        };
+        this.amountRef = React.createRef();
     }
 
     getDataColProduct() {

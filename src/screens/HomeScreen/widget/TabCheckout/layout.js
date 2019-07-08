@@ -10,7 +10,7 @@ import { scaleSzie, localize } from '@utils';
 import { Text, ButtonCustom, Button } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
-import { ItemCategory, ColPlaceHolder, ItemBasket, ItemProductService,ItemAmount } from './widget';
+import { ItemCategory, ColPlaceHolder, ItemBasket, ItemProductService, ItemAmount ,ItemExtra} from './widget';
 
 class Layout extends React.Component {
 
@@ -149,7 +149,7 @@ class Layout extends React.Component {
 
     renderAmountCheckout() {
         const { language } = this.props;
-        const { isShowColAmount, categorySelected } = this.state;
+        const { isShowColAmount, categorySelected, categoryTypeSelected, productSeleted } = this.state;
         const temptWidth = isShowColAmount ? 190 : 140;
         const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
         return (
@@ -177,7 +177,19 @@ class Layout extends React.Component {
                             </Button>
                             {/* ------- Content ----- */}
                             <View style={{ flex: 1 }} >
-                                <ItemAmount />
+                                {
+                                    categoryTypeSelected === 'Product' ? <ItemAmount
+                                        ref={this.amountRef}
+                                    /> : <ScrollView>
+                                            {
+                                                productSeleted.extras.map((extra, index) => <ItemExtra
+                                                    key={index}
+                                                    extra={extra}
+                                                />)
+                                            }
+                                        </ScrollView>
+                                }
+
                             </View>
                             {/* ------- Footer -------- */}
                             <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
