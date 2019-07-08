@@ -10,7 +10,7 @@ import { scaleSzie, localize } from '@utils';
 import { Text, ButtonCustom, Button } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
-import { ItemCategory, ColPlaceHolder, ItemBasket, ItemProductService } from './widget';
+import { ItemCategory, ColPlaceHolder, ItemBasket, ItemProductService,ItemAmount } from './widget';
 
 class Layout extends React.Component {
 
@@ -78,10 +78,13 @@ class Layout extends React.Component {
 
     renderProductCheckout() {
         const { language } = this.props;
-        const { isShowColProduct, isShowColAmount, categorySelected } = this.state;
+        const { isShowColProduct, isShowColAmount, categorySelected, productSeleted,
+            categoryTypeSelected
+        } = this.state;
         let temptWidth = isShowColProduct ? 190 : 140;
         temptWidth = isShowColAmount ? 140 : temptWidth;
         const temptBorder = isShowColAmount ? 'rgb(197,197,197)' : '#404040';
+        const temptColorHeader = isShowColAmount ? { color: '#6A6A6A' } : {};
         const data = this.getDataColProduct();
         return (
             <View style={{ width: scaleSzie(temptWidth) }} >
@@ -101,7 +104,7 @@ class Layout extends React.Component {
 
                         <View style={{ flex: 1 }} >
                             {/* ----- Header ---- */}
-                            <View  style={{
+                            <View style={{
                                 height: scaleSzie(46),
                                 borderBottomColor: temptBorder,
                                 borderTopColor: temptBorder,
@@ -110,19 +113,23 @@ class Layout extends React.Component {
                                 justifyContent: 'center',
                                 alignItems: 'center'
                             }} >
-                                <Text style={styles.textHeader} >
+                                <Text style={[styles.textHeader, temptColorHeader]} >
                                     {localize(categorySelected.categoryType, language)}
                                 </Text>
                             </View>
                             {/* --------- List ------- */}
                             <View style={{ flex: 1 }} >
                                 <ScrollView showsVerticalScrollIndicator={false} >
-                                        {
-                                            data.map((item, index) => <ItemProductService
-                                                key={index}
-                                                item={item}
-                                            />)
-                                        }
+                                    {
+                                        data.map((item, index) => <ItemProductService
+                                            key={index}
+                                            item={item}
+                                            showColAmount={this.showColAmount}
+                                            colorText={temptColorHeader}
+                                            itemSelected={productSeleted}
+                                            categoryTypeSelected={categoryTypeSelected}
+                                        />)
+                                    }
                                 </ScrollView>
                             </View>
                         </View>
@@ -142,8 +149,9 @@ class Layout extends React.Component {
 
     renderAmountCheckout() {
         const { language } = this.props;
-        const { isShowColAmount } = this.state;
+        const { isShowColAmount, categorySelected } = this.state;
         const temptWidth = isShowColAmount ? 190 : 140;
+        const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
         return (
             <View style={{ width: scaleSzie(temptWidth) }} >
                 {
@@ -164,9 +172,30 @@ class Layout extends React.Component {
                                 alignItems: 'center'
                             }} >
                                 <Text style={styles.textHeader} >
-                                    {localize('Products', language)}
+                                    {localize(temptHeader, language)}
                                 </Text>
                             </Button>
+                            {/* ------- Content ----- */}
+                            <View style={{ flex: 1 }} >
+                                <ItemAmount />
+                            </View>
+                            {/* ------- Footer -------- */}
+                            <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
+                                <ButtonCustom
+                                    width={`100%`}
+                                    backgroundColor="#F1F1F1"
+                                    title={localize('ADD', language)}
+                                    textColor="#6A6A6A"
+                                    onPress={this.addAmount}
+                                    style={{
+                                        borderWidth: 1, borderColor: '#C5C5C5',
+                                        backgroundColor: '#0764B0',
+                                        flex: 1
+                                    }}
+                                    styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', color: '#fff' }}
+                                />
+                            </View>
+
                         </View>
                         {/* ------- Line ----- */}
                         <ShadowLine
@@ -266,7 +295,6 @@ class Layout extends React.Component {
                         styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', color: '#fff' }}
                     />
                 </View>
-
             </View>
         );
     }

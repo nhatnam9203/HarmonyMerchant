@@ -8,19 +8,23 @@ class TabCheckout extends Layout {
     constructor(props) {
         super(props);
         this.state = {
-            isShowColProduct: false,
-            isShowColAmount: false,
+            isShowColProduct: true,
+            isShowColAmount: true,
             categorySelected: {
                 categoryId: -1,
                 categoryType: ''
             },
+            productSeleted: {
+                name: ''
+            },
+            categoryTypeSelected: 'Service'
         }
     }
 
     getDataColProduct() {
-        const { categorySelected } = this.state;
+        const { categorySelected, categoryTypeSelected } = this.state;
         const { productsByMerchantId, servicesByMerchant } = this.props;
-        const data = categorySelected.categoryType === 'Service' ? servicesByMerchant : productsByMerchantId;
+        const data = categoryTypeSelected === 'Service' ? servicesByMerchant : productsByMerchantId;
         const temptData = data.filter(item => {
             return item.categoryId === categorySelected.categoryId
         });
@@ -28,14 +32,25 @@ class TabCheckout extends Layout {
     }
 
     onPressSelectCategory = (category) => {
-        this.setState({
-            categorySelected: category,
-            isShowColProduct: true
-        })
+        const { categorySelected } = this.state;
+        if (categorySelected.categoryId !== category.categoryId) {
+            this.setState({
+                categorySelected: category,
+                categoryTypeSelected: category.categoryType,
+                isShowColProduct: true,
+                isShowColAmount: false
+            })
+        }
+
     }
 
-    showColAmount = () => {
+    addAmount = () => {
+
+    }
+
+    showColAmount = (item) => {
         this.setState({
+            productSeleted: item,
             isShowColAmount: true
         })
     }
