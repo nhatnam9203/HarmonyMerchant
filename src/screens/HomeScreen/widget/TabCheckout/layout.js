@@ -37,7 +37,7 @@ class Layout extends React.Component {
     renderCategoriesCheckout() {
         const { language } = this.props;
         const { isShowColProduct } = this.state;
-        const temptWidth = isShowColProduct ?140 : 180;
+        const temptWidth = isShowColProduct ? 140 : 190;
         return (
             <View style={{ width: scaleSzie(temptWidth), flexDirection: 'row' }} >
                 <View style={{ flex: 1 }} >
@@ -68,12 +68,55 @@ class Layout extends React.Component {
 
     renderProductCheckout() {
         const { language } = this.props;
-        const { isShowColProduct } = this.state;
-        const temptWidth = isShowColProduct ?180 : 140;
+        const { isShowColProduct, isShowColAmount } = this.state;
+        let temptWidth = isShowColProduct ? 190 : 140;
+        temptWidth = isShowColAmount ? 140 : temptWidth;
         return (
             <View style={{ width: scaleSzie(temptWidth) }} >
                 {
                     !isShowColProduct ? <ColPlaceHolder /> : <View style={{ flex: 1, flexDirection: 'row' }} >
+                        {/* ------- Line ----- */}
+                        <ShadowLine
+                            style={styles.shadowLineLeft}
+                        />
+                        <View style={{ flex: 1 }} >
+                            {/* ----- Header ---- */}
+                            <Button onPress={this.showColAmount} style={{
+                                height: scaleSzie(46),
+                                borderBottomColor: '#404040',
+                                borderTopColor: '#404040',
+                                borderBottomWidth: 1,
+                                borderTopWidth: 1,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }} >
+                                <Text style={styles.textHeader} >
+                                    {localize('Products', language)}
+                                </Text>
+                            </Button>
+                        </View>
+                        {/* ------- Line ----- */}
+                        {
+                            isShowColAmount ? <View /> : <ShadowLine
+                                style={styles.shadowLineRight}
+                            />
+                        }
+
+                    </View>
+                }
+            </View>
+
+        );
+    }
+
+    renderAmountCheckout() {
+        const { language } = this.props;
+        const { isShowColAmount } = this.state;
+        const temptWidth = isShowColAmount ? 190 : 140;
+        return (
+            <View style={{ width: scaleSzie(temptWidth) }} >
+                {
+                    !isShowColAmount ? <ColPlaceHolder /> : <View style={{ flex: 1, flexDirection: 'row' }} >
                         {/* ------- Line ----- */}
                         <ShadowLine
                             style={styles.shadowLineLeft}
@@ -103,16 +146,7 @@ class Layout extends React.Component {
             </View>
 
         );
-    }
 
-    renderAmountCheckout() {
-        return (
-            <View style={{ width: scaleSzie(140) }} >
-                <ColPlaceHolder />
-
-            </View>
-
-        );
     }
 
     renderBasket() {
@@ -207,14 +241,15 @@ class Layout extends React.Component {
     }
 
     renderBodyCheckout() {
-        const { isShowColProduct } = this.state;
+        const { isShowColProduct, isShowColAmount } = this.state;
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
                 {this.renderCategoriesCheckout()}
                 {isShowColProduct ? <View /> : <View style={{ width: scaleSzie(5) }} />}
                 {this.renderProductCheckout()}
-                {!isShowColProduct ? <View /> : <View style={{ width: scaleSzie(5) }} />}
+                {!isShowColProduct && !isShowColAmount ? <View /> : <View style={{ width: scaleSzie(5) }} />}
                 {this.renderAmountCheckout()}
+                {isShowColAmount ? <View style={{ width: scaleSzie(1) }} /> : <View />}
                 {this.renderBasket()}
             </View>
         );

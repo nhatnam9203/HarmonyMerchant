@@ -8,7 +8,7 @@ class TabCheckout extends Layout {
     constructor(props) {
         super(props);
         this.state = {
-            isShowColProduct: true,
+            isShowColProduct: false,
             isShowColAmount: false,
         }
     }
