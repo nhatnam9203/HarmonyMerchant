@@ -10,16 +10,31 @@ class TabCheckout extends Layout {
         this.state = {
             isShowColProduct: false,
             isShowColAmount: false,
+            categorySelected: {
+                categoryId: -1,
+                categoryType: ''
+            },
         }
     }
 
-    onPressSelectCategory = () => {
+    getDataColProduct() {
+        const { categorySelected } = this.state;
+        const { productsByMerchantId, servicesByMerchant } = this.props;
+        const data = categorySelected.categoryType === 'Service' ? servicesByMerchant : productsByMerchantId;
+        const temptData = data.filter(item => {
+            return item.categoryId === categorySelected.categoryId
+        });
+        return temptData;
+    }
+
+    onPressSelectCategory = (category) => {
         this.setState({
+            categorySelected: category,
             isShowColProduct: true
         })
     }
 
-    showColAmount = () =>{
+    showColAmount = () => {
         this.setState({
             isShowColAmount: true
         })
@@ -38,7 +53,9 @@ class TabCheckout extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    categoriesByMerchant: state.category.categoriesByMerchant
+    categoriesByMerchant: state.category.categoriesByMerchant,
+    productsByMerchantId: state.product.productsByMerchantId,
+    servicesByMerchant: state.service.servicesByMerchant
 })
 
 

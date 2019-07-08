@@ -10,7 +10,7 @@ import { scaleSzie, localize } from '@utils';
 import { Text, ButtonCustom, Button } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
-import { ItemCategory, ColPlaceHolder, ItemBasket } from './widget';
+import { ItemCategory, ColPlaceHolder, ItemBasket, ItemProductService } from './widget';
 
 class Layout extends React.Component {
 
@@ -58,6 +58,7 @@ class Layout extends React.Component {
                                     category={category}
                                     onPressSelectCategory={this.onPressSelectCategory}
                                     colorText={temptColorHeader}
+                                    categorySelected={this.state.categorySelected}
                                 />)
                             }
                         </ScrollView>
@@ -77,10 +78,11 @@ class Layout extends React.Component {
 
     renderProductCheckout() {
         const { language } = this.props;
-        const { isShowColProduct, isShowColAmount } = this.state;
+        const { isShowColProduct, isShowColAmount, categorySelected } = this.state;
         let temptWidth = isShowColProduct ? 190 : 140;
         temptWidth = isShowColAmount ? 140 : temptWidth;
         const temptBorder = isShowColAmount ? 'rgb(197,197,197)' : '#404040';
+        const data = this.getDataColProduct();
         return (
             <View style={{ width: scaleSzie(temptWidth) }} >
                 {
@@ -99,7 +101,7 @@ class Layout extends React.Component {
 
                         <View style={{ flex: 1 }} >
                             {/* ----- Header ---- */}
-                            <Button onPress={this.showColAmount} style={{
+                            <View  style={{
                                 height: scaleSzie(46),
                                 borderBottomColor: temptBorder,
                                 borderTopColor: temptBorder,
@@ -109,9 +111,20 @@ class Layout extends React.Component {
                                 alignItems: 'center'
                             }} >
                                 <Text style={styles.textHeader} >
-                                    {localize('Products', language)}
+                                    {localize(categorySelected.categoryType, language)}
                                 </Text>
-                            </Button>
+                            </View>
+                            {/* --------- List ------- */}
+                            <View style={{ flex: 1 }} >
+                                <ScrollView showsVerticalScrollIndicator={false} >
+                                        {
+                                            data.map((item, index) => <ItemProductService
+                                                key={index}
+                                                item={item}
+                                            />)
+                                        }
+                                </ScrollView>
+                            </View>
                         </View>
                         {/* ------- Line ----- */}
                         {
