@@ -10,7 +10,7 @@ import { scaleSzie, localize } from '@utils';
 import { Text, ButtonCustom, Button } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
-import { ItemCategory, ColPlaceHolder,ItemBasket } from './widget';
+import { ItemCategory, ColPlaceHolder, ItemBasket } from './widget';
 
 class Layout extends React.Component {
 
@@ -36,6 +36,7 @@ class Layout extends React.Component {
 
     renderCategoriesCheckout() {
         const { language } = this.props;
+        const { isShowColProduct } = this.state
         return (
             <View style={{ width: scaleSzie(180), flexDirection: 'row' }} >
                 <View style={{ flex: 1 }} >
@@ -47,21 +48,69 @@ class Layout extends React.Component {
                     </View>
                     {/* ------- Body ----- */}
                     <View style={styles.categoriesBody} >
-                        <ItemCategory />
-                        <ItemCategory />
-                        <ItemCategory />
-                        <ItemCategory />
+                        <ItemCategory
+                            onPressSelectCategory={this.onPressSelectCategory}
+                        />
                     </View>
                 </View>
 
                 {/* ------- Line ----- */}
-                {this.renderLineShadow()}
+                {
+                    isShowColProduct ? <View /> : <ShadowLine
+                        style={styles.shadowLineRight}
+                    />
+                }
+
             </View>
         );
     }
 
-    renderLineShadow() {
-        return <View style={styles.shadowLine} />;
+    renderProductCheckout() {
+        const { language } = this.props;
+        const { isShowColProduct } = this.state
+        return (
+            <View style={{ width: scaleSzie(140) }} >
+                {
+                    !isShowColProduct ? <ColPlaceHolder /> : <View style={{ flex: 1, flexDirection: 'row' }} >
+                        {/* ------- Line ----- */}
+                        <ShadowLine
+                            style={styles.shadowLineLeft}
+                        />
+                        <View style={{ flex: 1 }} >
+                            {/* ----- Header ---- */}
+                            <View style={{
+                                height: scaleSzie(46),
+                                borderBottomColor: '#404040',
+                                borderTopColor: '#404040',
+                                borderBottomWidth: 1,
+                                borderTopWidth: 1,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }} >
+                                <Text style={styles.textHeader} >
+                                    {localize('Products', language)}
+                                </Text>
+                            </View>
+                        </View>
+                        {/* ------- Line ----- */}
+                        <ShadowLine
+                            style={styles.shadowLineRight}
+                        />
+                    </View>
+                }
+            </View>
+
+        );
+    }
+
+    renderAmountCheckout() {
+        return (
+            <View style={{ width: scaleSzie(140) }} >
+                <ColPlaceHolder />
+
+            </View>
+
+        );
     }
 
     renderBasket() {
@@ -106,15 +155,15 @@ class Layout extends React.Component {
                             </View>
                             {/* ---------- Discount ------ */}
                             <View style={styles.payNumberTextContainer} >
-                            <Button onPress={this.showModalDiscount} >
-                                <Text style={styles.textPay} >
-                                    {`${localize('Discount', language)}:`}
-                                   
+                                <Button onPress={this.showModalDiscount} >
+                                    <Text style={styles.textPay} >
+                                        {`${localize('Discount', language)}:`}
+
                                         <Image source={IMAGE.discountBtn}
                                             style={{ width: scaleSzie(20), height: scaleSzie(20) }}
                                         />
-                                    
-                                </Text>
+
+                                    </Text>
                                 </Button>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
                                     $0
@@ -125,7 +174,7 @@ class Layout extends React.Component {
                                 <Text style={styles.textPay} >
                                     {`${localize('Total', language)}:`}
                                 </Text>
-                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)',fontSize:scaleSzie(20) }]} >
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(20) }]} >
                                     $500
                             </Text>
                             </View>
@@ -156,12 +205,14 @@ class Layout extends React.Component {
     }
 
     renderBodyCheckout() {
+        const { isShowColProduct } = this.state;
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
                 {this.renderCategoriesCheckout()}
-                <View style={{ width: scaleSzie(5) }} />
-                <ColPlaceHolder />
-                <ColPlaceHolder />
+                {isShowColProduct ? <View /> : <View style={{ width: scaleSzie(5) }} />}
+                {this.renderProductCheckout()}
+                {!isShowColProduct ? <View /> : <View style={{ width: scaleSzie(5) }} />}
+                {this.renderAmountCheckout()}
                 {this.renderBasket()}
             </View>
         );
@@ -176,6 +227,13 @@ class Layout extends React.Component {
         );
     }
 
+}
+
+
+const ShadowLine = ({ style }) => {
+    return (
+        <View style={[styles.shadowLine, style]} />
+    )
 }
 
 export default Layout;

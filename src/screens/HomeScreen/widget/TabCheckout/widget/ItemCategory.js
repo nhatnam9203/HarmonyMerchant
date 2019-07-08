@@ -4,18 +4,18 @@ import {
 } from 'react-native';
 
 import { scaleSzie, localize } from '@utils';
-import { Text } from '@components';
+import { Text ,Button} from '@components';
 
-const ItemCategory = ({ }) => {
+const ItemCategory = ({ onPressSelectCategory}) => {
     return (
-        <View style={{
+        <Button onPress={() => onPressSelectCategory()} style={{
             height: scaleSzie(85), justifyContent: 'center',
             alignItems: 'center', borderBottomWidth: 3, borderBottomColor: '#fff'
         }} >
             <Text style={{ fontSize: scaleSzie(20), color: '#404040' }} >
                 S_Categories
             </Text>
-        </View>
+        </Button>
     );
 }
 

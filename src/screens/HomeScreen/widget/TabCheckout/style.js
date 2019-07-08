@@ -43,13 +43,19 @@ export default StyleSheet.create({
             ios: {
                 shadowColor: 'rgba(0, 0, 0,1)',
                 shadowOpacity: 1,
-                shadowOffset: { width: 3.5, height: 2 },
+
             },
 
             android: {
                 elevation: 2,
             },
         })
+    },
+    shadowLineLeft: {
+        shadowOffset: { width: -3.5, height: 2 },
+    },
+    shadowLineRight: {
+        shadowOffset: { width: 3.5, height: 2 },
     },
     headerBasket: {
         height: scaleSzie(46),
@@ -59,15 +65,15 @@ export default StyleSheet.create({
         borderRightWidth: 3,
         borderLeftWidth: 0,
         borderTopWidth: 0,
-        justifyContent:'center',
-        alignItems:'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
-    payNumberTextContainer:{ 
+    payNumberTextContainer: {
         flexDirection: 'row',
-        justifyContent:'space-between' ,
-        marginBottom:scaleSzie(6)
+        justifyContent: 'space-between',
+        marginBottom: scaleSzie(6)
     },
-    textPay:{
+    textPay: {
         fontSize: scaleSzie(16),
         color: '#404040'
     }

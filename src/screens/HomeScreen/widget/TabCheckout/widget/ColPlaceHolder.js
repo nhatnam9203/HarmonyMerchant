@@ -7,7 +7,7 @@ import { scaleSzie } from '@utils';
 
 const ColPlaceHolder = ({ }) => {
     return (
-        <View style={{ width: scaleSzie(140) }} >
+        <View style={{ flex:1 }} >
             <View style={{
                 height: scaleSzie(46),
                 borderWidth: 1,
