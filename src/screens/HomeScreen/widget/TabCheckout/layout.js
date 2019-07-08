@@ -51,10 +51,11 @@ class Layout extends React.Component {
                     </View>
                     {/* ------- Body ----- */}
                     <View style={styles.categoriesBody} >
-                        <ScrollView>
+                        <ScrollView showsVerticalScrollIndicator={false} >
                             {
                                 categoriesByMerchant.map((category, index) => <ItemCategory
                                     key={index}
+                                    category={category}
                                     onPressSelectCategory={this.onPressSelectCategory}
                                     colorText={temptColorHeader}
                                 />)

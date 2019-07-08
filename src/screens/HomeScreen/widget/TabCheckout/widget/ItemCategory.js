@@ -6,7 +6,8 @@ import {
 import { scaleSzie, localize } from '@utils';
 import { Text ,Button} from '@components';
 
-const ItemCategory = ({ onPressSelectCategory,colorText}) => {
+const ItemCategory = ({category, onPressSelectCategory,colorText}) => {
+    console.log('category : ',category);
     return (
         <Button onPress={() => onPressSelectCategory()} style={{
             height: scaleSzie(85), justifyContent: 'center',
@@ -14,7 +15,7 @@ const ItemCategory = ({ onPressSelectCategory,colorText}) => {
             backgroundColor :'#F1F1F1'
         }} >
             <Text style={[{ fontSize: scaleSzie(20), color: '#404040' },colorText]} >
-                S_Categories
+               {category.name}
             </Text>
         </Button>
     );

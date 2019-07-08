@@ -19,16 +19,10 @@ function* login(action) {
                     token: responses.data.token,
                 }
             });
-            const { merchant } = responses.data;
-            if (!merchant.needSetting) {
-                NavigationServices.navigate('Drawer');
-            } else {
-                NavigationServices.navigate('SetupStore');
-            }
             yield put({
                 type: 'LOGIN_APP_SUCCESS'
-            })
-
+            });
+            NavigationServices.navigate('Splash');
         } else {
             yield put({
                 type: 'LOGIN_APP_FAIL',

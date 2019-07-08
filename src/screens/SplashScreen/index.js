@@ -11,15 +11,25 @@ class SplashScreen extends Layout {
         }
     }
 
-    componentDidMount() {
+     componentDidMount() {
         const { profile, token } = this.props;
         this.props.actions.app.getStateCity();
         setTimeout(() => {
             if (!token) {
                 this.props.navigation.navigate('Auth');
             } else if (token && !profile.needSetting) {
-                this.props.actions.category.getCategoriesByMerchantId();
-                this.props.navigation.navigate('Drawer');
+              Promise.all([
+                    this.props.actions.category.getCategoriesByMerchantId(),
+                    this.props.actions.extra.getExtraByMerchant(),
+                    this.props.actions.service.getServicesByMerchant(),
+                    this.props.actions.product.getProductsByMerchant(),
+                    this.props.actions.staff.getStaffByMerchantId()
+                ]).then((data) => {
+                    
+                    this.props.navigation.navigate('Drawer');
+                });
+
+                
             } else {
                 this.props.navigation.navigate('SetupStore');
             }
