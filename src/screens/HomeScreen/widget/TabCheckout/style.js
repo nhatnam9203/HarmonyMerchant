@@ -34,7 +34,7 @@ export default StyleSheet.create({
     },
     categoriesBody: {
         flex: 1,
-        backgroundColor: '#F1F1F1'
+        // backgroundColor: '#F1F1F1'
     },
     shadowLine: {
         width: 2,

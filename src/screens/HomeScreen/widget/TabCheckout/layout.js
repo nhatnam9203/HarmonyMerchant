@@ -35,23 +35,31 @@ class Layout extends React.Component {
     }
 
     renderCategoriesCheckout() {
-        const { language } = this.props;
+        const { language, categoriesByMerchant } = this.props;
         const { isShowColProduct } = this.state;
         const temptWidth = isShowColProduct ? 140 : 190;
+        const temptColorHeader = isShowColProduct ? { color: '#6A6A6A' } : {};
+        const temptBorderColor = isShowColProduct ? { borderColor: rgb(197, 197, 197) } : {};
         return (
             <View style={{ width: scaleSzie(temptWidth), flexDirection: 'row' }} >
                 <View style={{ flex: 1 }} >
                     {/* ------- Header ----- */}
-                    <View style={[styles.categoriesHeader, { borderRightWidth: 0 }]} >
-                        <Text style={styles.textHeader} >
+                    <View style={[styles.categoriesHeader, { borderRightWidth: 0 }, temptBorderColor]} >
+                        <Text style={[styles.textHeader, temptColorHeader]} >
                             {localize('Categories', language)}
                         </Text>
                     </View>
                     {/* ------- Body ----- */}
                     <View style={styles.categoriesBody} >
-                        <ItemCategory
-                            onPressSelectCategory={this.onPressSelectCategory}
-                        />
+                        <ScrollView>
+                            {
+                                categoriesByMerchant.map((category, index) => <ItemCategory
+                                    key={index}
+                                    onPressSelectCategory={this.onPressSelectCategory}
+                                    colorText={temptColorHeader}
+                                />)
+                            }
+                        </ScrollView>
                     </View>
                 </View>
 
@@ -71,20 +79,29 @@ class Layout extends React.Component {
         const { isShowColProduct, isShowColAmount } = this.state;
         let temptWidth = isShowColProduct ? 190 : 140;
         temptWidth = isShowColAmount ? 140 : temptWidth;
+        const temptBorder = isShowColAmount ? 'rgb(197,197,197)' : '#404040';
         return (
             <View style={{ width: scaleSzie(temptWidth) }} >
                 {
                     !isShowColProduct ? <ColPlaceHolder /> : <View style={{ flex: 1, flexDirection: 'row' }} >
                         {/* ------- Line ----- */}
-                        <ShadowLine
-                            style={styles.shadowLineLeft}
-                        />
+                        {
+                            isShowColAmount ? <ShadowLine
+                                style={{
+                                    shadowOffset: { width: -2, height: 2 }, backgroundColor: 'rgb(197,197,197)',
+                                    width: 1
+                                }}
+                            /> : <ShadowLine
+                                    style={styles.shadowLineLeft}
+                                />
+                        }
+
                         <View style={{ flex: 1 }} >
                             {/* ----- Header ---- */}
                             <Button onPress={this.showColAmount} style={{
                                 height: scaleSzie(46),
-                                borderBottomColor: '#404040',
-                                borderTopColor: '#404040',
+                                borderBottomColor: temptBorder,
+                                borderTopColor: temptBorder,
                                 borderBottomWidth: 1,
                                 borderTopWidth: 1,
                                 justifyContent: 'center',
@@ -247,7 +264,7 @@ class Layout extends React.Component {
                 {this.renderCategoriesCheckout()}
                 {isShowColProduct ? <View /> : <View style={{ width: scaleSzie(5) }} />}
                 {this.renderProductCheckout()}
-                {!isShowColProduct && !isShowColAmount ? <View /> : <View style={{ width: scaleSzie(5) }} />}
+                {isShowColAmount ? <View /> : isShowColProduct ? <View style={{ width: scaleSzie(4) }} /> : <View />}
                 {this.renderAmountCheckout()}
                 {isShowColAmount ? <View style={{ width: scaleSzie(1) }} /> : <View />}
                 {this.renderBasket()}

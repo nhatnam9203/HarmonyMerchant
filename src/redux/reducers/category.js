@@ -1,6 +1,5 @@
 const initialState = {
     categoriesByMerchant: [],
-
     refreshListCategories: false
 }
 

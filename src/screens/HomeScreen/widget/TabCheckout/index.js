@@ -38,6 +38,7 @@ class TabCheckout extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
+    categoriesByMerchant: state.category.categoriesByMerchant
 })
 
 
