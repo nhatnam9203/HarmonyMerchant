@@ -36,9 +36,10 @@ class Layout extends React.Component {
 
     renderCategoriesCheckout() {
         const { language } = this.props;
-        const { isShowColProduct } = this.state
+        const { isShowColProduct } = this.state;
+        const temptWidth = isShowColProduct ?140 : 180;
         return (
-            <View style={{ width: scaleSzie(180), flexDirection: 'row' }} >
+            <View style={{ width: scaleSzie(temptWidth), flexDirection: 'row' }} >
                 <View style={{ flex: 1 }} >
                     {/* ------- Header ----- */}
                     <View style={[styles.categoriesHeader, { borderRightWidth: 0 }]} >
@@ -67,9 +68,10 @@ class Layout extends React.Component {
 
     renderProductCheckout() {
         const { language } = this.props;
-        const { isShowColProduct } = this.state
+        const { isShowColProduct } = this.state;
+        const temptWidth = isShowColProduct ?180 : 140;
         return (
-            <View style={{ width: scaleSzie(140) }} >
+            <View style={{ width: scaleSzie(temptWidth) }} >
                 {
                     !isShowColProduct ? <ColPlaceHolder /> : <View style={{ flex: 1, flexDirection: 'row' }} >
                         {/* ------- Line ----- */}
@@ -78,7 +80,7 @@ class Layout extends React.Component {
                         />
                         <View style={{ flex: 1 }} >
                             {/* ----- Header ---- */}
-                            <View style={{
+                            <Button onPress={this.showColAmount} style={{
                                 height: scaleSzie(46),
                                 borderBottomColor: '#404040',
                                 borderTopColor: '#404040',
@@ -90,7 +92,7 @@ class Layout extends React.Component {
                                 <Text style={styles.textHeader} >
                                     {localize('Products', language)}
                                 </Text>
-                            </View>
+                            </Button>
                         </View>
                         {/* ------- Line ----- */}
                         <ShadowLine

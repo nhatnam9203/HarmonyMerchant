@@ -8,13 +8,20 @@ class TabCheckout extends Layout {
     constructor(props) {
         super(props);
         this.state = {
-            isShowColProduct: false
+            isShowColProduct: true,
+            isShowColAmount: false,
         }
     }
 
     onPressSelectCategory = () => {
         this.setState({
             isShowColProduct: true
+        })
+    }
+
+    showColAmount = () =>{
+        this.setState({
+            isShowColAmount: true
         })
     }
 
