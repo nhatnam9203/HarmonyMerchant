@@ -26,9 +26,11 @@ class TabCheckout extends Layout {
             },
             basket: [],
             visibleDiscount: false,
-            paymentSelected: ''
+            paymentSelected: '',
+            tabCurrent: 0
         };
         this.amountRef = React.createRef();
+        this.scrollTabRef = React.createRef();
     }
 
     getDataColProduct() {
@@ -102,7 +104,7 @@ class TabCheckout extends Layout {
         }
     }
 
-    selectedPayment = (payment) =>{
+    selectedPayment = (payment) => {
         this.setState({
             paymentSelected: payment
         })
@@ -126,6 +128,11 @@ class TabCheckout extends Layout {
     }
 
     pressPay = () => {
+        this.scrollTabRef.current.goToPage(1);
+    }
+
+    backAddBasket =() =>{
+        this.scrollTabRef.current.goToPage(0);
     }
 
     closeModalDiscount = () => {
@@ -138,6 +145,10 @@ class TabCheckout extends Layout {
         this.setState({
             visibleDiscount: true
         })
+    }
+
+    payBasket =() =>{
+        
     }
 
 

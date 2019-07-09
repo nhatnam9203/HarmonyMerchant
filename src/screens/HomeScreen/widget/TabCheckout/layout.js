@@ -308,22 +308,92 @@ class Layout extends React.Component {
                 </View>
                 {/* -------- Footer Basket -------- */}
                 <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
-                    <ButtonCustom
-                        width={`100%`}
-                        backgroundColor="#F1F1F1"
-                        title={localize('PAY', language)}
-                        textColor="#6A6A6A"
-                        onPress={this.pressPay}
-                        style={{
-                            borderWidth: 1, borderColor: '#C5C5C5',
-                            backgroundColor: '#0764B0',
-                            flex: 1
-                        }}
-                        styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', color: '#fff' }}
-                    />
+                    {this.renderButtonChekout()}
                 </View>
             </View>
         );
+    }
+
+    renderButtonChekout() {
+        const { tabCurrent, basket, paymentSelected } = this.state;
+        const { language } = this.props;
+        if (tabCurrent === 1) {
+            if (paymentSelected === '') {
+                return (
+                    <ButtonCustom
+                        width={`100%`}
+                        backgroundColor="#F1F1F1"
+                        title={localize('DONE', language)}
+                        textColor="#6A6A6A"
+                        onPress={() => { }}
+                        style={{
+                            borderWidth: 1, borderColor: '#C5C5C5',
+                            flex: 1
+                        }}
+                        styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                    />
+                );
+            }
+            return <ButtonCustom
+                width={`100%`}
+                backgroundColor="#0764B0"
+                title={localize('DONE', language)}
+                textColor="#fff"
+                onPress={this.payBasket}
+                style={{
+                    borderWidth: 1, borderColor: '#C5C5C5',
+                    flex: 1
+                }}
+                styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+            />
+
+        } else if (tabCurrent === 2) {
+            return (
+                <ButtonCustom
+                    width={`100%`}
+                    backgroundColor="#0764B0"
+                    title={localize('CONFIRM', language)}
+                    textColor="#fff"
+                    onPress={this.pressPay}
+                    style={{
+                        borderWidth: 1, borderColor: '#C5C5C5',
+                        flex: 1
+                    }}
+                    styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                />
+            );
+        } else {
+            if (basket.length > 0) {
+                return (
+                    <ButtonCustom
+                        width={`100%`}
+                        backgroundColor="#0764B0"
+                        title={localize('PAY', language)}
+                        textColor="#fff"
+                        onPress={this.pressPay}
+                        style={{
+                            borderWidth: 1, borderColor: '#C5C5C5',
+                            flex: 1
+                        }}
+                        styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                    />
+                );
+            }
+            return (
+                <ButtonCustom
+                    width={`100%`}
+                    backgroundColor="#F1F1F1"
+                    title={localize('PAY', language)}
+                    textColor="#6A6A6A"
+                    onPress={() => { }}
+                    style={{
+                        borderWidth: 1, borderColor: '#C5C5C5',
+                        flex: 1
+                    }}
+                    styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                />
+            );
+        }
     }
 
     renderPaymetsMethod() {
@@ -363,7 +433,7 @@ class Layout extends React.Component {
                         backgroundColor="#F1F1F1"
                         title="BACK"
                         textColor="#6A6A6A"
-                        onPress={() => { }}
+                        onPress={this.backAddBasket}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                         styleText={{ fontSize: scaleSzie(26) }}
                     />
@@ -403,8 +473,8 @@ class Layout extends React.Component {
                         to complete the transaction
                 </Text>
                 </View>
-                 {/* ------ Footer ----- */}
-                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(8) }} >
+                {/* ------ Footer ----- */}
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(8) }} >
                     <ButtonCustom
                         width={scaleSzie(350)}
                         height={60}
@@ -428,9 +498,13 @@ class Layout extends React.Component {
                     <ScrollableTabView
                         ref={this.scrollTabRef}
                         style={{}}
-                        initialPage={2}
+                        initialPage={0}
                         // locked={true}
                         renderTabBar={() => <View />}
+                        onChangeTab={(index) => {
+                            console.log('onChangeTab : ', index.i);
+                            this.setState({ tabCurrent: index.i })
+                        }}
                     >
                         <View style={{ flex: 1, flexDirection: 'row' }} >
                             {this.renderCategoriesCheckout()}
