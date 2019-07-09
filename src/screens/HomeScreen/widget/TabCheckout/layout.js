@@ -5,6 +5,7 @@ import {
     ScrollView,
     FlatList,
 } from 'react-native';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import { scaleSzie, localize } from '@utils';
 import { Text, ButtonCustom, Button } from '@components';
@@ -324,16 +325,73 @@ class Layout extends React.Component {
         );
     }
 
+    renderPaymetsMethod() {
+        return (
+            <View style={{
+                flex: 1, borderRightWidth: 1, borderRightColor: 'rgb(197, 197, 197)',
+                paddingHorizontal: scaleSzie(22)
+            }} >
+                <Text style={[styles.textHeader, { fontSize: scaleSzie(18), marginTop: scaleSzie(40), marginBottom: scaleSzie(50) }]} >
+                    Select payment method
+                </Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
+                    <ItemPaymentMethod
+                        title={'Harmony Pay'}
+                    />
+                    <ItemPaymentMethod
+                        title={'Harmony Pay'}
+                    />
+                </View>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' ,marginTop:scaleSzie(30)}} >
+                    <ItemPaymentMethod
+                        title={'Harmony Pay'}
+                    />
+                    <ItemPaymentMethod
+                        title={'Harmony Pay'}
+                    />
+                </View>
+                {/* ------ Footer ----- */}
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(8) }} >
+                        <ButtonCustom
+                            width={scaleSzie(350)}
+                            height={60}
+                            backgroundColor="#F1F1F1"
+                            title="BACK"
+                            textColor="#6A6A6A"
+                            onPress={() => { }}
+                            style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                            styleText={{fontSize:scaleSzie(26)}}
+                        />
+                    </View>
+
+            </View>
+        );
+    }
+
     renderBodyCheckout() {
         const { isShowColProduct, isShowColAmount } = this.state;
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
-                {this.renderCategoriesCheckout()}
-                {isShowColProduct ? <View /> : <View style={{ width: scaleSzie(5) }} />}
-                {this.renderProductCheckout()}
-                {isShowColAmount ? <View /> : isShowColProduct ? <View style={{ width: scaleSzie(4) }} /> : <View />}
-                {this.renderAmountCheckout()}
-                {isShowColAmount ? <View style={{ width: scaleSzie(1) }} /> : <View />}
+                <View style={{ width: scaleSzie(474) }} >
+                    <ScrollableTabView
+                        ref={this.scrollTabRef}
+                        style={{}}
+                        initialPage={1}
+                        // locked={true}
+                        renderTabBar={() => <View />}
+                    >
+                        <View style={{ flex: 1, flexDirection: 'row' }} >
+                            {this.renderCategoriesCheckout()}
+                            {isShowColProduct ? <View /> : <View style={{ width: scaleSzie(3) }} />}
+                            {this.renderProductCheckout()}
+                            {isShowColAmount ? <View /> : isShowColProduct ? <View style={{ width: scaleSzie(2) }} /> : <View />}
+                            {this.renderAmountCheckout()}
+                            {isShowColAmount ? <View style={{ width: scaleSzie(1) }} /> : <View />}
+                        </View>
+                        {this.renderPaymetsMethod()}
+                    </ScrollableTabView>
+                </View>
+
                 {this.renderBasket()}
             </View>
         );
@@ -344,10 +402,10 @@ class Layout extends React.Component {
             <View style={styles.container} >
                 {this.renderHeader()}
                 {this.renderBodyCheckout()}
-                <PopupDiscount 
+                <PopupDiscount
                     title={'Discount'}
                     visible={this.state.visibleDiscount}
-                    onRequestClose={() =>{}}
+                    onRequestClose={this.closeModalDiscount}
                 />
             </View>
         );
@@ -355,6 +413,18 @@ class Layout extends React.Component {
 
 }
 
+const ItemPaymentMethod = ({ title }) => {
+    return (
+        <View style={{
+            width: scaleSzie(200), height: scaleSzie(90), borderWidth: 1, borderColor: '#6A6A6A',
+            justifyContent: 'center', alignItems: 'center'
+        }} >
+            <Text style={[styles.textHeader, { fontSize: scaleSzie(18) }]} >
+                {title}
+            </Text>
+        </View>
+    );
+}
 
 const ShadowLine = ({ style }) => {
     return (

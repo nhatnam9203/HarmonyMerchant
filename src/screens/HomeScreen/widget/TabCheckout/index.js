@@ -122,6 +122,12 @@ class TabCheckout extends Layout {
     pressPay = () => {
     }
 
+    closeModalDiscount =() =>{
+        this.setState({
+            visibleDiscount:false
+        })
+    }
+
     showModalDiscount = () => {
         this.setState({
             visibleDiscount:true

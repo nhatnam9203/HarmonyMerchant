@@ -27,7 +27,7 @@ class PopupDiscount extends React.Component {
                 title={title}
                 visible={visible}
                 onRequestClose={() => onRequestClose()}
-                width={600} 
+                width={600}
                 style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
             >
                 <View style={{
@@ -57,7 +57,7 @@ class PopupDiscount extends React.Component {
                                 borderColor: '#707070', borderWidth: 1, marginLeft: scaleSzie(20), borderRadius: scaleSzie(4),
                                 flexDirection: 'row', marginLeft: scaleSzie(20)
                             }} >
-                                <View style={{ flex: 1,paddingHorizontal:scaleSzie(10) }} >
+                                <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
                                     <TextInputMask
                                         type="only-numbers"
                                         style={{ flex: 1, fontSize: scaleSzie(16) }}
@@ -98,7 +98,7 @@ class PopupDiscount extends React.Component {
                                 borderColor: '#707070', borderWidth: 1, marginLeft: scaleSzie(20), borderRadius: scaleSzie(4),
                                 flexDirection: 'row',
                             }} >
-                                <View style={{ flex: 1,paddingHorizontal:scaleSzie(10) }} >
+                                <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
                                     <TextInputMask
                                         type="only-numbers"
                                         style={{ flex: 1, fontSize: scaleSzie(16) }}
