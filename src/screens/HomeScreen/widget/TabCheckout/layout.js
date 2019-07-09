@@ -335,34 +335,38 @@ class Layout extends React.Component {
                     Select payment method
                 </Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
-                    <ItemPaymentMethod
-                        title={'Harmony Pay'}
-                    />
-                    <ItemPaymentMethod
-                        title={'Harmony Pay'}
-                    />
+                    {
+                        ['Harmony Pay', 'Cash'].map((title, index) => <ItemPaymentMethod
+                            key={index}
+                            title={title}
+                            selectedPayment={this.selectedPayment}
+                            paymentSelected={this.state.paymentSelected}
+                        />)
+                    }
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' ,marginTop:scaleSzie(30)}} >
-                    <ItemPaymentMethod
-                        title={'Harmony Pay'}
-                    />
-                    <ItemPaymentMethod
-                        title={'Harmony Pay'}
-                    />
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: scaleSzie(30) }} >
+                    {
+                        ['Credit Cards', 'Others - Check'].map((title, index) => <ItemPaymentMethod
+                            key={index}
+                            title={title}
+                            selectedPayment={this.selectedPayment}
+                            paymentSelected={this.state.paymentSelected}
+                        />)
+                    }
                 </View>
                 {/* ------ Footer ----- */}
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(8) }} >
-                        <ButtonCustom
-                            width={scaleSzie(350)}
-                            height={60}
-                            backgroundColor="#F1F1F1"
-                            title="BACK"
-                            textColor="#6A6A6A"
-                            onPress={() => { }}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                            styleText={{fontSize:scaleSzie(26)}}
-                        />
-                    </View>
+                    <ButtonCustom
+                        width={scaleSzie(350)}
+                        height={60}
+                        backgroundColor="#F1F1F1"
+                        title="BACK"
+                        textColor="#6A6A6A"
+                        onPress={() => { }}
+                        style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                        styleText={{ fontSize: scaleSzie(26) }}
+                    />
+                </View>
 
             </View>
         );
@@ -413,16 +417,19 @@ class Layout extends React.Component {
 
 }
 
-const ItemPaymentMethod = ({ title }) => {
+const ItemPaymentMethod = ({ title, selectedPayment, paymentSelected }) => {
+    const temptBackground = title === paymentSelected ? { backgroundColor: '#0764B0' } : {};
+    const temptTextColor = title === paymentSelected ? { color: '#fff' } : {};
+
     return (
-        <View style={{
+        <Button onPress={() => selectedPayment(title)} style={[{
             width: scaleSzie(200), height: scaleSzie(90), borderWidth: 1, borderColor: '#6A6A6A',
             justifyContent: 'center', alignItems: 'center'
-        }} >
-            <Text style={[styles.textHeader, { fontSize: scaleSzie(18) }]} >
+        }, temptBackground]} >
+            <Text style={[styles.textHeader, { fontSize: scaleSzie(18) }, temptTextColor]} >
                 {title}
             </Text>
-        </View>
+        </Button>
     );
 }
 

@@ -25,7 +25,8 @@ class TabCheckout extends Layout {
                 name: ''
             },
             basket: [],
-            visibleDiscount: false
+            visibleDiscount: false,
+            paymentSelected: ''
         };
         this.amountRef = React.createRef();
     }
@@ -80,7 +81,7 @@ class TabCheckout extends Layout {
                     type: 'Service',
                     id: `${productSeleted.serviceId}_ser`,
                     data: productSeleted,
-                    serviceName:productSeleted.name
+                    serviceName: productSeleted.name
                 });
                 this.setState({
                     basket: temptBasket
@@ -91,7 +92,7 @@ class TabCheckout extends Layout {
                     type: 'Extra',
                     id: `${extraSelected.extraId}_extra`,
                     data: extraSelected,
-                    serviceName:productSeleted.name
+                    serviceName: productSeleted.name
                 });
                 this.setState({
                     basket: temptBasket
@@ -99,7 +100,12 @@ class TabCheckout extends Layout {
             }
 
         }
+    }
 
+    selectedPayment = (payment) =>{
+        this.setState({
+            paymentSelected: payment
+        })
     }
 
     showColAmount = (item) => {
@@ -122,15 +128,15 @@ class TabCheckout extends Layout {
     pressPay = () => {
     }
 
-    closeModalDiscount =() =>{
+    closeModalDiscount = () => {
         this.setState({
-            visibleDiscount:false
+            visibleDiscount: false
         })
     }
 
     showModalDiscount = () => {
         this.setState({
-            visibleDiscount:true
+            visibleDiscount: true
         })
     }
 
