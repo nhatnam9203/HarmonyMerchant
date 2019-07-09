@@ -40,6 +40,7 @@ class ItemAmount extends React.Component {
 
     render() {
         const { quanlity } = this.state;
+        const {price} = this.props
         return (
             <View style={{
                 height: scaleSzie(85),
@@ -75,7 +76,7 @@ class ItemAmount extends React.Component {
 
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                     <Text style={{ color: '#fff', fontSize: scaleSzie(20) }} >
-                        $ 10
+                      {`$ ${price}`}
                     </Text>
                 </View>
             </View>

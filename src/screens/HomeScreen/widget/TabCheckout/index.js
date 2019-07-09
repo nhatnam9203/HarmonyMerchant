@@ -19,7 +19,12 @@ class TabCheckout extends Layout {
             productSeleted: {
                 name: ''
             },
-            categoryTypeSelected: 'Service'
+            categoryTypeSelected: '',
+            extraSelected: {
+                extraId: -1,
+                name: ''
+            },
+            basket: [],
         };
         this.amountRef = React.createRef();
     }
@@ -41,20 +46,52 @@ class TabCheckout extends Layout {
                 categorySelected: category,
                 categoryTypeSelected: category.categoryType,
                 isShowColProduct: true,
-                isShowColAmount: false
+                isShowColAmount: false,
+                productSeleted: {
+                    name: ''
+                },
+                extraSelected: {
+                    extraId: -1,
+                    name: ''
+                },
             })
         }
 
     }
 
     addAmount = () => {
+        const { categoryTypeSelected, basket, productSeleted } = this.state;
+        if (categoryTypeSelected === 'Product') {
+            const temptBasket = basket.filter((item) => item.id !== productSeleted.productId);
+            temptBasket.unshift({
+                type: 'Product',
+                id: productSeleted.productId,
+                data: productSeleted,
+                quanlitySet: this.amountRef.current.state.quanlity
+            });
+            this.setState({
+                basket: temptBasket
+            })
+        } else {
+            alert('Service')
+        }
 
     }
 
     showColAmount = (item) => {
         this.setState({
             productSeleted: item,
-            isShowColAmount: true
+            isShowColAmount: true,
+            extraSelected: {
+                extraId: -1,
+                name: ''
+            },
+        })
+    }
+
+    onPressSelectExtra = (extra) => {
+        this.setState({
+            extraSelected: extra
         })
     }
 

@@ -180,11 +180,14 @@ class Layout extends React.Component {
                                 {
                                     categoryTypeSelected === 'Product' ? <ItemAmount
                                         ref={this.amountRef}
+                                        price={productSeleted.price}
                                     /> : <ScrollView>
                                             {
                                                 productSeleted.extras.map((extra, index) => <ItemExtra
                                                     key={index}
                                                     extra={extra}
+                                                    onPressSelectExtra={this.onPressSelectExtra}
+                                                    extraSelected={this.state.extraSelected}
                                                 />)
                                             }
                                         </ScrollView>
@@ -223,6 +226,7 @@ class Layout extends React.Component {
 
     renderBasket() {
         const { language } = this.props;
+        const {basket }= this.state;
         return (
             <View style={{ flex: 1 }} >
                 {/* -------- Header Basket -------- */}
@@ -234,12 +238,18 @@ class Layout extends React.Component {
                 {/* -------- Content Basket -------- */}
                 <View style={{ flex: 1 }} >
                     <View style={{ flex: 1 }} >
-                        {/* ------ Item Basket ------- */}
-                        <ItemBasket />
-                        <ItemBasket />
+                        {/* ------ Items Basket ------- */}
+                        <ScrollView showsVerticalScrollIndicator={false} >
+                            {
+                                basket.map((item,index) =><ItemBasket 
+                                key={index}
+                                item={item}
+                                /> )
+                            }
+                        </ScrollView>
                     </View>
                     {/* ----------- Payment Number --------- */}
-                    <View style={{ flexDirection: 'row' }} >
+                    <View style={{ flexDirection: 'row',marginTop:scaleSzie(10) }} >
                         <View style={{ flex: 1 }} />
 
                         <View style={{ flex: 1.3, paddingRight: scaleSzie(12) }} >
