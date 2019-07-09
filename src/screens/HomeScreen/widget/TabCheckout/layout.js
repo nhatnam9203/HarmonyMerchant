@@ -372,6 +372,17 @@ class Layout extends React.Component {
         );
     }
 
+    renderOfflineMode(){
+        return(
+            <View style={{
+                flex: 1, borderRightWidth: 1, borderRightColor: 'rgb(197, 197, 197)',
+                paddingHorizontal: scaleSzie(22)
+            }} >
+
+            </View>
+        );
+    }
+
     renderBodyCheckout() {
         const { isShowColProduct, isShowColAmount } = this.state;
         return (
@@ -380,7 +391,7 @@ class Layout extends React.Component {
                     <ScrollableTabView
                         ref={this.scrollTabRef}
                         style={{}}
-                        initialPage={1}
+                        initialPage={2}
                         // locked={true}
                         renderTabBar={() => <View />}
                     >
@@ -393,6 +404,7 @@ class Layout extends React.Component {
                             {isShowColAmount ? <View style={{ width: scaleSzie(1) }} /> : <View />}
                         </View>
                         {this.renderPaymetsMethod()}
+                        {this.renderOfflineMode()}
                     </ScrollableTabView>
                 </View>
 
