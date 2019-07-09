@@ -25,6 +25,7 @@ class TabCheckout extends Layout {
                 name: ''
             },
             basket: [],
+            visibleDiscount: false
         };
         this.amountRef = React.createRef();
     }
@@ -119,11 +120,12 @@ class TabCheckout extends Layout {
     }
 
     pressPay = () => {
-
     }
 
     showModalDiscount = () => {
-
+        this.setState({
+            visibleDiscount:true
+        })
     }
 
 

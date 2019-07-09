@@ -10,7 +10,10 @@ import { scaleSzie, localize } from '@utils';
 import { Text, ButtonCustom, Button } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
-import { ItemCategory, ColPlaceHolder, ItemBasket, ItemProductService, ItemAmount ,ItemExtra} from './widget';
+import {
+    ItemCategory, ColPlaceHolder, ItemBasket, ItemProductService, ItemAmount,
+    ItemExtra, PopupDiscount
+} from './widget';
 
 class Layout extends React.Component {
 
@@ -226,7 +229,7 @@ class Layout extends React.Component {
 
     renderBasket() {
         const { language } = this.props;
-        const {basket }= this.state;
+        const { basket } = this.state;
         return (
             <View style={{ flex: 1 }} >
                 {/* -------- Header Basket -------- */}
@@ -241,15 +244,15 @@ class Layout extends React.Component {
                         {/* ------ Items Basket ------- */}
                         <ScrollView showsVerticalScrollIndicator={false} >
                             {
-                                basket.map((item,index) =><ItemBasket 
-                                key={index}
-                                item={item}
-                                /> )
+                                basket.map((item, index) => <ItemBasket
+                                    key={index}
+                                    item={item}
+                                />)
                             }
                         </ScrollView>
                     </View>
                     {/* ----------- Payment Number --------- */}
-                    <View style={{ flexDirection: 'row',marginTop:scaleSzie(10) }} >
+                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                         <View style={{ flex: 1 }} />
 
                         <View style={{ flex: 1.3, paddingRight: scaleSzie(12) }} >
@@ -341,6 +344,11 @@ class Layout extends React.Component {
             <View style={styles.container} >
                 {this.renderHeader()}
                 {this.renderBodyCheckout()}
+                <PopupDiscount 
+                    title={'Discount'}
+                    visible={this.state.visibleDiscount}
+                    onRequestClose={() =>{}}
+                />
             </View>
         );
     }

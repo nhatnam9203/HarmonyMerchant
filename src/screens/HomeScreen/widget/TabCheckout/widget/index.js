@@ -4,6 +4,7 @@ import ItemBasket from './ItemBasket';
 import ItemProductService from './ItemProductService';
 import ItemAmount from './ItemAmount';
 import ItemExtra from './ItemExtra';
+import PopupDiscount from './PopupDiscount';
 
 module.exports = {
     ItemCategory,
@@ -11,5 +12,6 @@ module.exports = {
     ItemBasket,
     ItemProductService,
     ItemAmount,
-    ItemExtra
+    ItemExtra,
+    PopupDiscount
 }
