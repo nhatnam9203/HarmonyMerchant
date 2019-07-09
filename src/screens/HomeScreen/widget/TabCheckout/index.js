@@ -60,7 +60,7 @@ class TabCheckout extends Layout {
     }
 
     addAmount = () => {
-        const { categoryTypeSelected, basket, productSeleted } = this.state;
+        const { categoryTypeSelected, basket, productSeleted, extraSelected } = this.state;
         if (categoryTypeSelected === 'Product') {
             const temptBasket = basket.filter((item) => item.id !== `${productSeleted.productId}_pro`);
             temptBasket.unshift({
@@ -73,16 +73,30 @@ class TabCheckout extends Layout {
                 basket: temptBasket
             })
         } else {
-            const temptBasket = basket.filter((item) => item.id !== `${productSeleted.serviceId}_ser`);
-            console.log('temptBasket : ',temptBasket);
-            temptBasket.unshift({
-                type: 'Service',
-                id: `${productSeleted.serviceId}_ser`,
-                data: productSeleted,
-            });
-            this.setState({
-                basket: temptBasket
-            })
+            if (extraSelected.extraId === -1) {
+                const temptBasket = basket.filter((item) => item.id !== `${productSeleted.serviceId}_ser`);
+                temptBasket.unshift({
+                    type: 'Service',
+                    id: `${productSeleted.serviceId}_ser`,
+                    data: productSeleted,
+                    serviceName:productSeleted.name
+                });
+                this.setState({
+                    basket: temptBasket
+                })
+            } else {
+                const temptBasket = basket.filter((item) => item.id !== `${extraSelected.extraId}_extra`);
+                temptBasket.unshift({
+                    type: 'Extra',
+                    id: `${extraSelected.extraId}_extra`,
+                    data: extraSelected,
+                    serviceName:productSeleted.name
+                });
+                this.setState({
+                    basket: temptBasket
+                })
+            }
+
         }
 
     }

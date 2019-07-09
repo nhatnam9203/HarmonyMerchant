@@ -18,9 +18,9 @@ const ItemBasket = ({ item }) => {
             {/* -------- Avatar ------- */}
             <View style={{ width: scaleSzie(45), justifyContent: 'center', alignItems: 'center' }} >
                 {
-                    item.type === 'Service' ? <View style={{ width: scaleSzie(30), height: scaleSzie(30), backgroundColor: 'red', borderRadius: scaleSzie(20) }} >
-
-                    </View> : <Image source={IMAGE.productBasket} style={{ width: scaleSzie(22), height: scaleSzie(20) }} />
+                    item.type === 'Service' ? <View style={{ width: scaleSzie(30), height: scaleSzie(30), backgroundColor: 'red', borderRadius: scaleSzie(20) }} ></View> :
+                        item.type === 'Extra' ? <View style={{ width: scaleSzie(30), height: scaleSzie(30), backgroundColor: 'green', borderRadius: scaleSzie(20) }} ></View> :
+                            <Image source={IMAGE.productBasket} style={{ width: scaleSzie(22), height: scaleSzie(20) }} />
                 }
             </View>
             {/* -------- Avatar ------- */}
@@ -34,8 +34,9 @@ const ItemBasket = ({ item }) => {
 
                 {/* ------------ */}
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+                   
                     <Text style={{ color: '#fff', fontSize: scaleSzie(13), }} >
-                        {item.quanlitySet}
+                        { item.type === 'Product' ?  item.quanlitySet : item.serviceName}
                     </Text>
                 </View>
                 {/* ------------ */}
