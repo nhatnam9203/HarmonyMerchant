@@ -6,6 +6,7 @@ import {
     FlatList,
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
+import QRCode from 'react-native-qrcode-svg';
 
 import { scaleSzie, localize } from '@utils';
 import { Text, ButtonCustom, Button } from '@components';
@@ -372,13 +373,49 @@ class Layout extends React.Component {
         );
     }
 
-    renderOfflineMode(){
-        return(
+    renderOfflineMode() {
+        return (
             <View style={{
                 flex: 1, borderRightWidth: 1, borderRightColor: 'rgb(197, 197, 197)',
                 paddingHorizontal: scaleSzie(22)
             }} >
-
+                <Text style={[styles.textHeader, { fontSize: scaleSzie(19), marginTop: scaleSzie(10), marginBottom: scaleSzie(12) }]} >
+                    Offline mode
+                </Text>
+                <View style={{ alignItems: 'center', marginBottom: scaleSzie(30) }} >
+                    <Text style={[styles.textHeader, { fontSize: scaleSzie(18) }]} >
+                        Use consumer app to scan QR code below
+                </Text>
+                </View>
+                <View style={{ alignItems: 'center' }} >
+                    <View style={styles.containerQrcode} >
+                        <QRCode
+                            value="http://awesome.link.qr"
+                            size={scaleSzie(200)}
+                        />
+                    </View>
+                </View>
+                <View style={{ alignItems: 'center', marginTop: scaleSzie(25) }} >
+                    <Text style={[styles.textHeader, { fontSize: scaleSzie(18) }]} >
+                        Then scan the QR code on the phone
+                </Text>
+                    <Text style={[styles.textHeader, { fontSize: scaleSzie(18) }]} >
+                        to complete the transaction
+                </Text>
+                </View>
+                 {/* ------ Footer ----- */}
+                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(8) }} >
+                    <ButtonCustom
+                        width={scaleSzie(350)}
+                        height={60}
+                        backgroundColor="#F1F1F1"
+                        title="BACK"
+                        textColor="#6A6A6A"
+                        onPress={() => { }}
+                        style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                        styleText={{ fontSize: scaleSzie(26) }}
+                    />
+                </View>
             </View>
         );
     }

@@ -76,5 +76,26 @@ export default StyleSheet.create({
     textPay: {
         fontSize: scaleSzie(16),
         color: '#404040'
+    },
+
+    containerQrcode: {
+        width: scaleSzie(220), 
+        height: scaleSzie(220),
+        justifyContent: 'center', 
+        alignItems: 'center',
+        borderColor:'rgb(230,236,242)',
+        borderWidth:1,
+        ...Platform.select({
+            ios: {
+                shadowColor: 'rgba(0, 0, 0,0.3)',
+                shadowOffset: { width: 1, height: 0},
+                shadowOpacity: 1,
+
+            },
+
+            android: {
+                elevation: 2,
+            },
+        })
     }
 })
