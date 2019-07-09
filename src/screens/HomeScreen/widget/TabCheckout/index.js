@@ -62,10 +62,10 @@ class TabCheckout extends Layout {
     addAmount = () => {
         const { categoryTypeSelected, basket, productSeleted } = this.state;
         if (categoryTypeSelected === 'Product') {
-            const temptBasket = basket.filter((item) => item.id !== productSeleted.productId);
+            const temptBasket = basket.filter((item) => item.id !== `${productSeleted.productId}_pro`);
             temptBasket.unshift({
                 type: 'Product',
-                id: productSeleted.productId,
+                id: `${productSeleted.productId}_pro`,
                 data: productSeleted,
                 quanlitySet: this.amountRef.current.state.quanlity
             });
@@ -73,7 +73,16 @@ class TabCheckout extends Layout {
                 basket: temptBasket
             })
         } else {
-            alert('Service')
+            const temptBasket = basket.filter((item) => item.id !== `${productSeleted.serviceId}_ser`);
+            console.log('temptBasket : ',temptBasket);
+            temptBasket.unshift({
+                type: 'Service',
+                id: `${productSeleted.serviceId}_ser`,
+                data: productSeleted,
+            });
+            this.setState({
+                basket: temptBasket
+            })
         }
 
     }
