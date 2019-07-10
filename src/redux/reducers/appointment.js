@@ -1,7 +1,5 @@
 const initialState = {
-    appointmentDetail: {
-        total: 0
-    }
+    appointmentDetail: {}
 }
 
 function appReducer(state = initialState, action) {
@@ -10,6 +8,11 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 appointmentDetail: action.payload
+            }
+        case 'GET_APPOINTMENT_BY_ID_FAIL':
+            return {
+                ...state,
+                appointmentDetail: {}
             }
         default:
             return state

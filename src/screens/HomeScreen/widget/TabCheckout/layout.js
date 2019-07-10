@@ -231,7 +231,7 @@ class Layout extends React.Component {
 
     renderBasket() {
         const { language } = this.props;
-        const { basket } = this.state;
+        const { basket,total } = this.state;
         return (
             <View style={{ flex: 1 }} >
                 {/* -------- Header Basket -------- */}
@@ -264,7 +264,7 @@ class Layout extends React.Component {
                                     {`${localize('Subtotal', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    $500
+                                    {`$${total}`}
                             </Text>
                             </View>
                             {/* ---------- Tax ------ */}
@@ -298,7 +298,7 @@ class Layout extends React.Component {
                                     {`${localize('Total', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(20) }]} >
-                                    $500
+                                {`$${total}`}
                             </Text>
                             </View>
                         </View>

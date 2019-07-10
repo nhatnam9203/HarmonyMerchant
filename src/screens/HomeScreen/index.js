@@ -33,6 +33,10 @@ class HomeScreen extends Layout {
         );
     }
 
+    gotoCheckoutScreen =() =>{
+        this.scrollTabRef.current.goToPage(2);
+    }
+
     handleLockScreen = () => {
         const { isFocus } = this.state;
         if (isFocus) {

@@ -36,9 +36,16 @@ export default class Layout extends React.Component {
                             }}
                         />}
                     >
-                        <TabMarketing tabLabel={`${localize('MARKETING', language)}`} />
-                        <TabAppointment tabLabel={`${localize('APPOINTMENT', language)}`} />
-                        <TabCheckout tabLabel={`${localize('CHECKOUT', language)}`} />
+                        <TabMarketing
+                            tabLabel={`${localize('MARKETING', language)}`}
+                        />
+                        <TabAppointment
+                            tabLabel={`${localize('APPOINTMENT', language)}`}
+                            gotoCheckoutScreen={this.gotoCheckoutScreen}
+                        />
+                        <TabCheckout
+                            tabLabel={`${localize('CHECKOUT', language)}`}
+                        />
                     </ScrollableTabView>
                     <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />

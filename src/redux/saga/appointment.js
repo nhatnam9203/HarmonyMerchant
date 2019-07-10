@@ -15,7 +15,11 @@ function* getAppointmentById(action) {
                 type: 'GET_APPOINTMENT_BY_ID_SUCCESS',
                 payload: responses.data
             })
-        } else {
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        }else {
             yield put({
                 type: 'GET_APPOINTMENT_BY_ID_FAIL'
             })

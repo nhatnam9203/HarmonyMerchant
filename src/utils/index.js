@@ -217,6 +217,55 @@ export const getNameLanguage = (keyLanguage) => {
     return language;
 }
 
+export const getArrayProductsFromAppointment = (products = []) => {
+    const temptArrayProducts = products.map((product) => {
+        return {
+            type: 'Product',
+            id: `${product.productId}_pro`,
+            quanlitySet: product.quantity,
+            data: {
+                name: product.productName,
+                productId: product.productId,
+                price: product.price
+            }
+        }
+    });
+    return temptArrayProducts
+}
+
+export const getArrayServicesFromAppointment = (services = []) => {
+    const temptArrayServices = services.map((service) => {
+        return {
+            type: 'Service',
+            id: `${service.serviceId}_ser`,
+            data: {
+                name: service.serviceName,
+                serviceId: service.serviceId,
+                price: service.price
+            },
+            serviceName: 'Service'
+        }
+    });
+    return temptArrayServices
+}
+
+export const getArrayExtrasFromAppointment = (extras = []) => {
+    const temptArrayExtras = extras.map(extra => {
+        return {
+            type: 'Extra',
+            id: `${extra.extraId}_extra`,
+            data: {
+                name: extra.extraName,
+                extraId: extra.extraId,
+                price: extra.price
+            },
+            serviceName: 'Extra'
+        }
+    });
+
+    return temptArrayExtras;
+}
+
 export const WorkingTime = [
     {
         value: '00:00 AM',

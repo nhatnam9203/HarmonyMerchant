@@ -1,9 +1,12 @@
 import React from 'react';
+import _ from 'ramda';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import NavigationServices from "@navigators/NavigatorServices";
-
+import {
+    getArrayProductsFromAppointment, getArrayServicesFromAppointment,
+    getArrayExtrasFromAppointment
+} from '@utils'
 
 class TabCheckout extends Layout {
 
@@ -27,11 +30,32 @@ class TabCheckout extends Layout {
             basket: [],
             visibleDiscount: false,
             paymentSelected: '',
-            tabCurrent: 0
+            tabCurrent: 0,
+            total: 0,
+            isInitBasket: false
         };
         this.amountRef = React.createRef();
         this.scrollTabRef = React.createRef();
     }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        const { appointmentDetail } = nextProps;
+        if (!_.isEmpty(nextProps.appointmentDetail) && !prevState.isInitBasket) {
+            const { services, products, extras } = appointmentDetail;
+            const arrayProducts = getArrayProductsFromAppointment(products);
+            const arryaServices = getArrayServicesFromAppointment(services);
+            const arrayExtras = getArrayExtrasFromAppointment(extras);
+            const temptBasket = arrayProducts.concat(arryaServices, arrayExtras);
+            return {
+                total: appointmentDetail.total,
+                basket: temptBasket,
+                isInitBasket: true
+            }
+        }
+        console.log('dddd');
+        return null
+    }
+
 
     getDataColProduct() {
         const { categorySelected, categoryTypeSelected } = this.state;
@@ -70,7 +94,11 @@ class TabCheckout extends Layout {
             temptBasket.unshift({
                 type: 'Product',
                 id: `${productSeleted.productId}_pro`,
-                data: productSeleted,
+                data: {
+                    name: productSeleted.name,
+                    productId: productSeleted.productId,
+                    price: productSeleted.price
+                },
                 quanlitySet: this.amountRef.current.state.quanlity
             });
             this.setState({
@@ -81,7 +109,11 @@ class TabCheckout extends Layout {
             temptBasket.unshift({
                 type: 'Service',
                 id: `${productSeleted.serviceId}_ser`,
-                data: productSeleted,
+                data: {
+                    name: productSeleted.name,
+                    serviceId: productSeleted.serviceId,
+                    price: productSeleted.price
+                },
                 serviceName: productSeleted.name
             });
             const temptBasketExtra = temptBasket.filter((item) => item.id !== `${extraSelected.extraId}_extra`);
@@ -89,7 +121,11 @@ class TabCheckout extends Layout {
                 temptBasketExtra.unshift({
                     type: 'Extra',
                     id: `${extraSelected.extraId}_extra`,
-                    data: extraSelected,
+                    data: {
+                        name: extraSelected.name,
+                        extraId: extraSelected.extraId,
+                        price: extraSelected.price
+                    },
                     serviceName: productSeleted.name
                 });
             }
@@ -124,7 +160,9 @@ class TabCheckout extends Layout {
     }
 
     pressPay = () => {
-        this.scrollTabRef.current.goToPage(1);
+        // this.scrollTabRef.current.goToPage(1);
+        const { basket } = this.state;
+        console.log('basket : ' + JSON.stringify(basket));
     }
 
     backAddBasket = () => {
@@ -154,7 +192,8 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     categoriesByMerchant: state.category.categoriesByMerchant,
     productsByMerchantId: state.product.productsByMerchantId,
-    servicesByMerchant: state.service.servicesByMerchant
+    servicesByMerchant: state.service.servicesByMerchant,
+    appointmentDetail: state.appointment.appointmentDetail
 })
 
 

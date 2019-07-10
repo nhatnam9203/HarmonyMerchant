@@ -27,6 +27,7 @@ class Layout extends React.Component {
                     ref={this.webviewRef}
                     source={{ uri: `${url}${token}` }}
                     startInLoadingState={true}
+                    shouldStartLoad={true}
                     onLoadStart={this.onLoadStartWebview}
                     onLoadEnd={this.onLoadEndWebview}
                     injectedJavaScript={injectedJavascript}
