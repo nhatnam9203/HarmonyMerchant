@@ -8,6 +8,7 @@ import staff from './staff';
 import service from './service';
 import extra from './extra';
 import upload from './upload';
+import appointment from './appointment';
 
 export default function* sagaRoot() {
     yield all([
@@ -18,6 +19,7 @@ export default function* sagaRoot() {
         staff(),
         service(),
         extra(),
-        upload()
+        upload(),
+        appointment()
     ])
 }

@@ -77,30 +77,26 @@ class TabCheckout extends Layout {
                 basket: temptBasket
             })
         } else {
-            if (extraSelected.extraId === -1) {
-                const temptBasket = basket.filter((item) => item.id !== `${productSeleted.serviceId}_ser`);
-                temptBasket.unshift({
-                    type: 'Service',
-                    id: `${productSeleted.serviceId}_ser`,
-                    data: productSeleted,
-                    serviceName: productSeleted.name
-                });
-                this.setState({
-                    basket: temptBasket
-                })
-            } else {
-                const temptBasket = basket.filter((item) => item.id !== `${extraSelected.extraId}_extra`);
-                temptBasket.unshift({
+            const temptBasket = basket.filter((item) => item.id !== `${productSeleted.serviceId}_ser`);
+            temptBasket.unshift({
+                type: 'Service',
+                id: `${productSeleted.serviceId}_ser`,
+                data: productSeleted,
+                serviceName: productSeleted.name
+            });
+            const temptBasketExtra = temptBasket.filter((item) => item.id !== `${extraSelected.extraId}_extra`);
+            if (extraSelected.extraId !== -1) {
+                temptBasketExtra.unshift({
                     type: 'Extra',
                     id: `${extraSelected.extraId}_extra`,
                     data: extraSelected,
                     serviceName: productSeleted.name
                 });
-                this.setState({
-                    basket: temptBasket
-                })
             }
 
+            this.setState({
+                basket: temptBasketExtra
+            })
         }
     }
 
@@ -131,7 +127,7 @@ class TabCheckout extends Layout {
         this.scrollTabRef.current.goToPage(1);
     }
 
-    backAddBasket =() =>{
+    backAddBasket = () => {
         this.scrollTabRef.current.goToPage(0);
     }
 
@@ -147,8 +143,8 @@ class TabCheckout extends Layout {
         })
     }
 
-    payBasket =() =>{
-        
+    payBasket = () => {
+
     }
 
 

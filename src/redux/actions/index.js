@@ -7,6 +7,7 @@ import * as staff from './staff';
 import * as service from './service';
 import * as extra from './extra';
 import * as upload from './upload';
+import * as appointment from './appointment';
 
 export default {
     app,
@@ -17,5 +18,6 @@ export default {
     staff,
     service,
     extra,
-    upload
+    upload,
+    appointment
 }
