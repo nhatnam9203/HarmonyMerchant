@@ -19,3 +19,15 @@ export function addItemIntoAppointment(body, id) {
         appointmentId: id
     }
 }
+
+
+export function removeItemIntoAppointment(body, id) {
+    return {
+        type: 'REMOVE_ITEM_INTO_APPOINTMENT',
+        body: body,
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}appointment/removeitem/${id}`,
+        appointmentId: id
+    }
+}

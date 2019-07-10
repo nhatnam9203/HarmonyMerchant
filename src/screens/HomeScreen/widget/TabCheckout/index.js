@@ -104,7 +104,7 @@ class TabCheckout extends Layout {
             if (appointmentId !== -1) {
                 // ------- Buy With Appointment -----
                 await this.setState({
-                    isInitBasket:false
+                    isInitBasket: false
                 })
                 this.props.actions.appointment.addItemIntoAppointment(
                     {
@@ -167,8 +167,34 @@ class TabCheckout extends Layout {
         }
     }
 
-    removeItemBasket =(item) =>{
-        console.log('removeItemBasket : ',item );
+    removeItemBasket = (item) => {
+        // console.log('removeItemBasket : ', item);
+        const { appointmentId } = this.state;
+        let dataRemove = {};
+        switch (item.type) {
+            case 'Product':
+                dataRemove = {
+                    services: [],
+                    extras: [],
+                    products: [{ bookingProductId: item.data.productId }]
+                }
+                break;
+            case 'Service':
+                dataRemove = {
+                    services: [{ bookingServiceId: item.data.serviceId }],
+                    extras: [],
+                    products: []
+                }
+                break;
+            case 'Extra':
+                dataRemove = {
+                    services: [],
+                    extras: [{ bookingExtraId: item.data.extraId }],
+                    products: []
+                }
+                break;
+        }
+        this.props.actions.appointment.removeItemIntoAppointment(dataRemove,appointmentId);
     }
 
     selectedPayment = (payment) => {
