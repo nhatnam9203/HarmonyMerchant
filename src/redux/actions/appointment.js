@@ -1,19 +1,21 @@
 import apiConfigs from '../../configs/api';
 
-export function uploadAvatar(files) {
-    return {
-        type: 'UPLOAD_AVATAR',
-        method: 'POST',
-        media: files,
-        api: `${apiConfigs.BASE_API}file?category=avatar`
-    }
-}
-
 export function getAppointmentById(id) {
     return {
         type: 'GET_APPOINTMENT_BY_ID',
         method: 'GET',
         api: `${apiConfigs.BASE_API}appointment/${id}`,
-        token:true
+        token: true
+    }
+}
+
+export function addItemIntoAppointment(body, id) {
+    return {
+        type: 'ADD_ITEM_INTO_APPOINTMENT',
+        body: body,
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}appointment/additem/${id}`,
+        appointmentId: id
     }
 }

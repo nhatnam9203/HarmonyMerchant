@@ -249,6 +249,7 @@ class Layout extends React.Component {
                                 basket.map((item, index) => <ItemBasket
                                     key={index}
                                     item={item}
+                                    removeItemBasket={this.removeItemBasket}
                                 />)
                             }
                         </ScrollView>

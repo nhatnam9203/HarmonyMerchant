@@ -32,7 +32,13 @@ class TabCheckout extends Layout {
             paymentSelected: '',
             tabCurrent: 0,
             total: 0,
-            isInitBasket: false
+            isInitBasket: false,
+            appointmentId: -1,
+            infoUser: {
+                firstName: '',
+                lastName: '',
+                phoneNumber: ''
+            }
         };
         this.amountRef = React.createRef();
         this.scrollTabRef = React.createRef();
@@ -49,10 +55,15 @@ class TabCheckout extends Layout {
             return {
                 total: appointmentDetail.total,
                 basket: temptBasket,
-                isInitBasket: true
+                isInitBasket: true,
+                appointmentId: appointmentDetail.appointmentId,
+                infoUser: {
+                    firstName: appointmentDetail.firstName,
+                    lastName: appointmentDetail.lastName,
+                    phoneNumber: appointmentDetail.phoneNumber,
+                }
             }
         }
-        console.log('dddd');
         return null
     }
 
@@ -87,23 +98,43 @@ class TabCheckout extends Layout {
 
     }
 
-    addAmount = () => {
-        const { categoryTypeSelected, basket, productSeleted, extraSelected } = this.state;
+    addAmount = async () => {
+        const { categoryTypeSelected, basket, productSeleted, extraSelected, appointmentId } = this.state;
         if (categoryTypeSelected === 'Product') {
-            const temptBasket = basket.filter((item) => item.id !== `${productSeleted.productId}_pro`);
-            temptBasket.unshift({
-                type: 'Product',
-                id: `${productSeleted.productId}_pro`,
-                data: {
-                    name: productSeleted.name,
-                    productId: productSeleted.productId,
-                    price: productSeleted.price
-                },
-                quanlitySet: this.amountRef.current.state.quanlity
-            });
-            this.setState({
-                basket: temptBasket
-            })
+            if (appointmentId !== -1) {
+                // ------- Buy With Appointment -----
+                await this.setState({
+                    isInitBasket:false
+                })
+                this.props.actions.appointment.addItemIntoAppointment(
+                    {
+                        services: [],
+                        extras: [],
+                        products: [{
+                            productId: productSeleted.productId,
+                            quantity: this.amountRef.current.state.quanlity
+                        }]
+                    }, appointmentId)
+            } else {
+                // ------ Buy Ofline -----------
+                const temptBasket = basket.filter((item) => item.id !== `${productSeleted.productId}_pro`);
+                temptBasket.unshift({
+                    type: 'Product',
+                    id: `${productSeleted.productId}_pro`,
+                    data: {
+                        name: productSeleted.name,
+                        productId: productSeleted.productId,
+                        price: productSeleted.price
+                    },
+                    quanlitySet: this.amountRef.current.state.quanlity
+                });
+                this.setState({
+                    basket: temptBasket
+                })
+            }
+
+
+
         } else {
             const temptBasket = basket.filter((item) => item.id !== `${productSeleted.serviceId}_ser`);
             temptBasket.unshift({
@@ -134,6 +165,10 @@ class TabCheckout extends Layout {
                 basket: temptBasketExtra
             })
         }
+    }
+
+    removeItemBasket =(item) =>{
+        console.log('removeItemBasket : ',item );
     }
 
     selectedPayment = (payment) => {
