@@ -1,20 +1,15 @@
 const initialState = {
-    isUpload: false,
-    dataUpload : {}
+    appointmentDetail: {
+        total: 0
+    }
 }
 
 function appReducer(state = initialState, action) {
     switch (action.type) {
-        case 'UPLOAD_AVATAR_SUCCESS':
+        case 'GET_APPOINTMENT_BY_ID_SUCCESS':
             return {
                 ...state,
-                isUpload: true,
-                dataUpload: action.payload
-            }
-        case 'UPLOAD_AVATAR_FAIL':
-            return {
-                ...state,
-                isUpload: false
+                appointmentDetail: action.payload
             }
         default:
             return state

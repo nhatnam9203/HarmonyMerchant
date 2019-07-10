@@ -4,20 +4,20 @@ import NavigationServices from "../../navigators/NavigatorServices";
 
 import { requestAPI, uploadFromData } from '../../utils';
 
-function* uploadAvatar(action) {
+function* getAppointmentById(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
-        const responses = yield uploadFromData(action);
+        const responses = yield requestAPI(action);
         console.log('responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
-                type: 'UPLOAD_AVATAR_SUCCESS',
+                type: 'GET_APPOINTMENT_BY_ID_SUCCESS',
                 payload: responses.data
             })
         } else {
             yield put({
-                type: 'UPLOAD_AVATAR_FAIL'
+                type: 'GET_APPOINTMENT_BY_ID_FAIL'
             })
         }
     } catch (error) {
@@ -31,7 +31,7 @@ function* uploadAvatar(action) {
 
 export default function* saga() {
     yield all([
-        takeLatest('UPLOAD_AVATAR', uploadAvatar),
+        takeLatest('GET_APPOINTMENT_BY_ID', getAppointmentById),
 
     ])
 }

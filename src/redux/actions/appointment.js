@@ -8,3 +8,12 @@ export function uploadAvatar(files) {
         api: `${apiConfigs.BASE_API}file?category=avatar`
     }
 }
+
+export function getAppointmentById(id) {
+    return {
+        type: 'GET_APPOINTMENT_BY_ID',
+        method: 'GET',
+        api: `${apiConfigs.BASE_API}appointment/${id}`,
+        token:true
+    }
+}
