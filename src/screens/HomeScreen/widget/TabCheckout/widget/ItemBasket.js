@@ -18,7 +18,7 @@ const ItemBasket = ({ item ,removeItemBasket}) => {
             backgroundColor: '#fff',
             component: <Button onPress={()=>removeItemBasket(item)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                 <Image source={IMAGE.removeItemBasket} style={{width:scaleSzie(26),height:scaleSzie(26)}} />
-            </Button>
+            </Button>,
         }
     ]
     return (
@@ -26,6 +26,7 @@ const ItemBasket = ({ item ,removeItemBasket}) => {
             right={swipeoutBtns}
             buttonWidth={scaleSzie(45)}
             // disabled={true}
+            close={true}
         >
             <View style={{
                 height: scaleSzie(40), backgroundColor: '#0764B0', borderBottomColor: '#fff', borderBottomWidth: 2,

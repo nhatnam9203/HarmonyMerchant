@@ -226,7 +226,8 @@ export const getArrayProductsFromAppointment = (products = []) => {
             data: {
                 name: product.productName,
                 productId: product.productId,
-                price: product.price
+                price: product.price,
+                bookingProductId: product.bookingProductId
             }
         }
     });
@@ -241,7 +242,8 @@ export const getArrayServicesFromAppointment = (services = []) => {
             data: {
                 name: service.serviceName,
                 serviceId: service.serviceId,
-                price: service.price
+                price: service.price,
+                bookingServiceId: service.bookingServiceId
             },
             serviceName: 'Service'
         }
@@ -257,7 +259,8 @@ export const getArrayExtrasFromAppointment = (extras = []) => {
             data: {
                 name: extra.extraName,
                 extraId: extra.extraId,
-                price: extra.price
+                price: extra.price,
+                bookingExtraId: extra.bookingExtraId
             },
             serviceName: 'Extra'
         }

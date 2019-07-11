@@ -75,7 +75,10 @@ class HomeScreen extends Layout {
                 visibleConfirm: true,
                 temptCurrentTap: index
             })
-
+        }
+        else if (currentTab === 2 && !checkVisibleConfirm) {
+            this.props.actions.appointment.resetBasketEmpty();
+            this.scrollTabParentRef.current.goToPage(index);
         } else {
             this.scrollTabParentRef.current.goToPage(index);
         }

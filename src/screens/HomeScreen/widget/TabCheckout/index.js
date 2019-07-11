@@ -181,7 +181,7 @@ class TabCheckout extends Layout {
     }
 
     removeItemBasket = (item) => {
-        // console.log('removeItemBasket : ', item);
+        // ----- Remove With Appointmnet 
         const { appointmentId } = this.state;
         let dataRemove = {};
         switch (item.type) {
@@ -189,12 +189,12 @@ class TabCheckout extends Layout {
                 dataRemove = {
                     services: [],
                     extras: [],
-                    products: [{ bookingProductId: item.data.productId }]
+                    products: [{ bookingProductId: item.data.bookingProductId }]
                 }
                 break;
             case 'Service':
                 dataRemove = {
-                    services: [{ bookingServiceId: item.data.serviceId }],
+                    services: [{ bookingServiceId: item.data.bookingServiceId }],
                     extras: [],
                     products: []
                 }
@@ -202,7 +202,7 @@ class TabCheckout extends Layout {
             case 'Extra':
                 dataRemove = {
                     services: [],
-                    extras: [{ bookingExtraId: item.data.extraId }],
+                    extras: [{ bookingExtraId: item.data.bookingExtraId }],
                     products: []
                 }
                 break;
