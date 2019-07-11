@@ -25,7 +25,7 @@ export default class Layout extends React.Component {
                     <ScrollableTabView
                         ref={this.scrollTabParentRef}
                         style={{}}
-                        initialPage={1}
+                        initialPage={2}
                         locked={true}
                         renderTabBar={() => <HomeTabBar
                             activeTextColor="#fff"
@@ -54,6 +54,7 @@ export default class Layout extends React.Component {
                             closePopupConfirm={() => this.setState({visibleConfirm:false})}
                             gotoPageCurent={this.gotoPageCurent}
                             checkVisibleConfirm={this.checkVisibleConfirm}
+                            gotoAppoitmentScreen={this.gotoAppoitmentScreen}
                         />
                     </ScrollableTabView>
                     <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >

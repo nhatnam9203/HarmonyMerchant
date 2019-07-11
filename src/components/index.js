@@ -25,6 +25,7 @@ import PopupEditAddExtra from './PopupEditAddExtra';
 import PopupLogout from './PopupLogout';
 import PopupEditAddCategories from './PopupEditAddCategories';
 import BrowserFile from './BrowserFile';
+import PopupPayCompleted from './PopupPayCompleted';
 
 module.exports = {
     Button,
@@ -53,5 +54,6 @@ module.exports = {
     PopupEditAddExtra,
     PopupLogout,
     PopupEditAddCategories,
-    BrowserFile
+    BrowserFile,
+    PopupPayCompleted
 }

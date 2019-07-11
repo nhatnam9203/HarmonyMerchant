@@ -9,7 +9,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import QRCode from 'react-native-qrcode-svg';
 
 import { scaleSzie, localize } from '@utils';
-import { Text, ButtonCustom, Button, PopupConfirm } from '@components';
+import { Text, ButtonCustom, Button, PopupConfirm ,PopupPayCompleted} from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import {
@@ -387,7 +387,7 @@ class Layout extends React.Component {
                     backgroundColor="#F1F1F1"
                     title={localize('SELECT PAYMENT', language)}
                     textColor="#6A6A6A"
-                    onPress={() => { }}
+                    onPress={() => this.setState({visiblePaymentCompleted:true})}
                     style={{
                         borderWidth: 1, borderColor: '#C5C5C5',
                         flex: 1
@@ -493,7 +493,7 @@ class Layout extends React.Component {
     }
 
     renderBodyCheckout() {
-        const { isShowColProduct, isShowColAmount } = this.state;
+        const { isShowColProduct, isShowColAmount, } = this.state;
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
                 <View style={{ width: scaleSzie(474) }} >
@@ -527,7 +527,7 @@ class Layout extends React.Component {
 
     render() {
         const { visibleConfirm, checkVisibleConfirm } = this.props;
-        const { basket } = this.state;
+        const { basket ,visiblePaymentCompleted} = this.state;
         const temptVisibleConfirm = basket.length > 0 ? true : false;
         checkVisibleConfirm(temptVisibleConfirm);
         return (
@@ -545,6 +545,12 @@ class Layout extends React.Component {
                     message="If you exit Checkout Screen , Basket will Reset ?"
                     onRequestClose={() => this.props.closePopupConfirm()}
                     confimYes={this.clearDataCofrim}
+                />
+                <PopupPayCompleted 
+                    visible={visiblePaymentCompleted}
+                    onRequestClose={() => {}}
+                    gotoAppoitmentScreen={this.gotoAppoitmentScreen}
+
                 />
             </View>
         );

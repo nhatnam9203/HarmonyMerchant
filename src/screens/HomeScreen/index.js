@@ -42,6 +42,10 @@ class HomeScreen extends Layout {
         );
     }
 
+    gotoAppoitmentScreen =() =>{
+        this.scrollTabParentRef.current.goToPage(1);
+    }
+
     initWatchVisible = () => {
         this.watchVisibleConfrim.pipe(
             distinctUntilChanged(),

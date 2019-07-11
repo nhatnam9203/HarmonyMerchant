@@ -35,6 +35,7 @@ const initState = {
         lastName: '',
         phoneNumber: ''
     },
+    visiblePaymentCompleted:false
 }
 
 class TabCheckout extends Layout {
@@ -294,6 +295,12 @@ class TabCheckout extends Layout {
             this.props.actions.appointment.paymentAppointment(appointmentId, method);
         }
 
+    }
+
+    gotoAppoitmentScreen =() =>{
+        this.scrollTabRef.current.goToPage(0);
+        this.setState(initState);
+        this.props.gotoAppoitmentScreen();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
