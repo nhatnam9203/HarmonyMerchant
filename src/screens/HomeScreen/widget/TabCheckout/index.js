@@ -134,35 +134,50 @@ class TabCheckout extends Layout {
 
 
         } else {
-            const temptBasket = basket.filter((item) => item.id !== `${productSeleted.serviceId}_ser`);
-            temptBasket.unshift({
-                type: 'Service',
-                id: `${productSeleted.serviceId}_ser`,
-                data: {
-                    name: productSeleted.name,
-                    serviceId: productSeleted.serviceId,
-                    price: productSeleted.price
-                },
-                serviceName: productSeleted.name
-            });
-            const temptBasketExtra = temptBasket.filter((item) => item.id !== `${extraSelected.extraId}_extra`);
-            if (extraSelected.extraId !== -1) {
-                temptBasketExtra.unshift({
-                    type: 'Extra',
-                    id: `${extraSelected.extraId}_extra`,
+            if (appointmentId !== -1) {
+                // ------- Buy with appointment ------
+                const temptExtra = extraSelected.extraId !== -1 ? [{ extraId: extraSelected.extraId }] : [];
+                this.props.actions.appointment.addItemIntoAppointment(
+                    {
+                        services: [{
+                            serviceId: productSeleted.serviceId
+                        }],
+                        extras: temptExtra,
+                        products: []
+                    }, appointmentId)
+            } else {
+                // ------ Buy Offline ------
+                const temptBasket = basket.filter((item) => item.id !== `${productSeleted.serviceId}_ser`);
+                temptBasket.unshift({
+                    type: 'Service',
+                    id: `${productSeleted.serviceId}_ser`,
                     data: {
-                        name: extraSelected.name,
-                        extraId: extraSelected.extraId,
-                        price: extraSelected.price
+                        name: productSeleted.name,
+                        serviceId: productSeleted.serviceId,
+                        price: productSeleted.price
                     },
                     serviceName: productSeleted.name
                 });
-            }
+                const temptBasketExtra = temptBasket.filter((item) => item.id !== `${extraSelected.extraId}_extra`);
+                if (extraSelected.extraId !== -1) {
+                    temptBasketExtra.unshift({
+                        type: 'Extra',
+                        id: `${extraSelected.extraId}_extra`,
+                        data: {
+                            name: extraSelected.name,
+                            extraId: extraSelected.extraId,
+                            price: extraSelected.price
+                        },
+                        serviceName: productSeleted.name
+                    });
+                }
 
-            this.setState({
-                basket: temptBasketExtra
-            })
+                this.setState({
+                    basket: temptBasketExtra
+                })
+            }
         }
+
     }
 
     removeItemBasket = (item) => {
@@ -243,13 +258,21 @@ class TabCheckout extends Layout {
     clearDataCofrim = () => {
         this.props.gotoPageCurent();
         this.setState(initState);
+        this.props.actions.appointment.resetBasketEmpty();
     }
 
     payBasket = () => {
 
     }
 
-    componentWillUnmount() {
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const { loading, isGetAppointmentSucces } = this.props;
+        if (!loading && isGetAppointmentSucces) {
+            this.props.actions.appointment.resetKeyUpdateAppointment();
+            this.setState({
+                isInitBasket: false
+            })
+        }
     }
 
 }
@@ -259,7 +282,9 @@ const mapStateToProps = state => ({
     categoriesByMerchant: state.category.categoriesByMerchant,
     productsByMerchantId: state.product.productsByMerchantId,
     servicesByMerchant: state.service.servicesByMerchant,
-    appointmentDetail: state.appointment.appointmentDetail
+    appointmentDetail: state.appointment.appointmentDetail,
+    loading: state.app.loading,
+    isGetAppointmentSucces: state.appointment.isGetAppointmentSucces
 })
 
 

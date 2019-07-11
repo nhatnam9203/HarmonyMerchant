@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import QRCode from 'react-native-qrcode-svg';
-import { NavigationEvents } from 'react-navigation';
 
 import { scaleSzie, localize } from '@utils';
 import { Text, ButtonCustom, Button, PopupConfirm } from '@components';
@@ -22,19 +21,20 @@ class Layout extends React.Component {
 
     renderHeader() {
         const { language } = this.props;
+        const {firstName,lastName,phoneNumber}= this.state.infoUser;
         return (
             <View style={styles.headerContainer} >
                 <Text style={styles.textHeader} >
                     {`${localize('Customer', language)}:`}
                 </Text>
                 <Text style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(90) }]} >
-                    Jerry Nguyen
+                    {`${firstName} ${lastName}`}
                 </Text>
                 <Text style={styles.textHeader} >
                     {`${localize('Phone', language)}:`}
                 </Text>
                 <Text style={[styles.textHeader, { marginLeft: scaleSzie(12) }]} >
-                    0123 456 789
+                    {phoneNumber}
                 </Text>
             </View>
         );
@@ -532,12 +532,6 @@ class Layout extends React.Component {
         checkVisibleConfirm(temptVisibleConfirm);
         return (
             <View style={styles.container} >
-                <NavigationEvents
-                    onWillFocus={payload => console.log('will focus', payload)}
-                    onDidFocus={payload => console.log('did focus', payload)}
-                    onWillBlur={payload => console.log('will blur', payload)}
-                    onDidBlur={payload => console.log('did blur', payload)}
-                />
                 {this.renderHeader()}
                 {this.renderBodyCheckout()}
                 <PopupDiscount

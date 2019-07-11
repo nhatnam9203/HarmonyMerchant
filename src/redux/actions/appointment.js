@@ -31,3 +31,16 @@ export function removeItemIntoAppointment(body, id) {
         appointmentId: id
     }
 }
+
+export function resetBasketEmpty(){
+    return{
+        type:'RESET_BASKET_EMPTY'
+    }
+}
+
+export function resetKeyUpdateAppointment(){
+    return{
+        type:'RESET_KEY_GET_APPOINTMENT'
+    }
+}
+
