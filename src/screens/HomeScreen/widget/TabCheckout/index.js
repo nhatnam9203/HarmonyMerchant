@@ -130,8 +130,6 @@ class TabCheckout extends Layout {
                 })
             }
 
-
-
         } else {
             if (appointmentId !== -1) {
                 // ------- Buy with appointment ------
@@ -241,10 +239,8 @@ class TabCheckout extends Layout {
         })
     }
 
-    pressPay = () => {
-        // this.scrollTabRef.current.goToPage(1);
-        const { basket } = this.state;
-        console.log('basket : ' + JSON.stringify(basket));
+    selectPayment = () => {
+        this.scrollTabRef.current.goToPage(1);
     }
 
     backAddBasket = () => {
@@ -269,7 +265,34 @@ class TabCheckout extends Layout {
         this.props.actions.appointment.resetBasketEmpty();
     }
 
+    getPaymentString(type) {
+        let method = '';
+        switch (type) {
+            case 'Harmony Pay':
+                method = 'harmony';
+                break;
+            case 'Cash':
+                method = 'cash';
+                break;
+            case 'Credit Cards':
+                method = 'credit_card';
+                break;
+            case 'Others - Check':
+                method = 'orther';
+                break;
+            default:
+                method = 'cash'
+        }
+        return method
+    }
+
     payBasket = () => {
+        const { appointmentId, paymentSelected } = this.state;
+        let method = this.getPaymentString(paymentSelected);
+        if (appointmentId !== -1) {
+            // --------- Payment with appointment -----
+            this.props.actions.appointment.paymentAppointment(appointmentId, method);
+        }
 
     }
 

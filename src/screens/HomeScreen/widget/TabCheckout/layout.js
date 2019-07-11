@@ -21,7 +21,7 @@ class Layout extends React.Component {
 
     renderHeader() {
         const { language } = this.props;
-        const {firstName,lastName,phoneNumber}= this.state.infoUser;
+        const { firstName, lastName, phoneNumber } = this.state.infoUser;
         return (
             <View style={styles.headerContainer} >
                 <Text style={styles.textHeader} >
@@ -325,7 +325,7 @@ class Layout extends React.Component {
                     <ButtonCustom
                         width={`100%`}
                         backgroundColor="#F1F1F1"
-                        title={localize('DONE', language)}
+                        title={localize('PAY', language)}
                         textColor="#6A6A6A"
                         onPress={() => { }}
                         style={{
@@ -339,7 +339,7 @@ class Layout extends React.Component {
             return <ButtonCustom
                 width={`100%`}
                 backgroundColor="#0764B0"
-                title={localize('DONE', language)}
+                title={localize('PAY', language)}
                 textColor="#fff"
                 onPress={this.payBasket}
                 style={{
@@ -356,7 +356,7 @@ class Layout extends React.Component {
                     backgroundColor="#0764B0"
                     title={localize('CONFIRM', language)}
                     textColor="#fff"
-                    onPress={this.pressPay}
+                    onPress={()=>{}}
                     style={{
                         borderWidth: 1, borderColor: '#C5C5C5',
                         flex: 1
@@ -370,14 +370,14 @@ class Layout extends React.Component {
                     <ButtonCustom
                         width={`100%`}
                         backgroundColor="#0764B0"
-                        title={localize('PAY', language)}
+                        title={localize('SELECT PAYMENT', language)}
                         textColor="#fff"
-                        onPress={this.pressPay}
+                        onPress={this.selectPayment}
                         style={{
                             borderWidth: 1, borderColor: '#C5C5C5',
                             flex: 1
                         }}
-                        styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                        styleText={{ fontSize: scaleSzie(22), fontWeight: 'bold', }}
                     />
                 );
             }
@@ -385,14 +385,14 @@ class Layout extends React.Component {
                 <ButtonCustom
                     width={`100%`}
                     backgroundColor="#F1F1F1"
-                    title={localize('PAY', language)}
+                    title={localize('SELECT PAYMENT', language)}
                     textColor="#6A6A6A"
                     onPress={() => { }}
                     style={{
                         borderWidth: 1, borderColor: '#C5C5C5',
                         flex: 1
                     }}
-                    styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                    styleText={{ fontSize: scaleSzie(22), fontWeight: 'bold', }}
                 />
             );
         }
@@ -501,7 +501,7 @@ class Layout extends React.Component {
                         ref={this.scrollTabRef}
                         style={{}}
                         initialPage={0}
-                        // locked={true}
+                        locked={true}
                         renderTabBar={() => <View />}
                         onChangeTab={(index) => {
                             this.setState({ tabCurrent: index.i })
@@ -528,7 +528,7 @@ class Layout extends React.Component {
     render() {
         const { visibleConfirm, checkVisibleConfirm } = this.props;
         const { basket } = this.state;
-        const temptVisibleConfirm =  basket.length > 0 ? true : false;
+        const temptVisibleConfirm = basket.length > 0 ? true : false;
         checkVisibleConfirm(temptVisibleConfirm);
         return (
             <View style={styles.container} >

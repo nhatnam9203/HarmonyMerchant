@@ -32,15 +32,37 @@ export function removeItemIntoAppointment(body, id) {
     }
 }
 
-export function resetBasketEmpty(){
-    return{
-        type:'RESET_BASKET_EMPTY'
+export function resetBasketEmpty() {
+    return {
+        type: 'RESET_BASKET_EMPTY'
     }
 }
 
-export function resetKeyUpdateAppointment(){
-    return{
-        type:'RESET_KEY_GET_APPOINTMENT'
+export function resetKeyUpdateAppointment() {
+    return {
+        type: 'RESET_KEY_GET_APPOINTMENT'
     }
 }
 
+
+export function checkoutAppointment(id) {
+    return {
+        type: 'CHECK_OUT_APPOINTMENT',
+        body: {},
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}appointment/checkout/${id}`,
+    }
+}
+
+export function paymentAppointment(appointmentId, method) {
+    return {
+        type: 'PAY_APPOINTMENT',
+        body: {
+            method
+        },
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}appointment/pay/${appointmentId}`,
+    }
+}

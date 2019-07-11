@@ -48,6 +48,7 @@ class TabAppointment extends Layout {
             const {action,appointmentId} = data;
             if(action  === 'checkout'){
                this.props.actions.appointment.getAppointmentById(appointmentId);
+               this.props.actions.appointment.checkoutAppointment(appointmentId);
                this.props.gotoCheckoutScreen();
             }
         }
