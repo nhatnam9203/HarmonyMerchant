@@ -7,9 +7,10 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import QRCode from 'react-native-qrcode-svg';
+import { NavigationEvents } from 'react-navigation';
 
 import { scaleSzie, localize } from '@utils';
-import { Text, ButtonCustom, Button } from '@components';
+import { Text, ButtonCustom, Button, PopupConfirm } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import {
@@ -231,7 +232,7 @@ class Layout extends React.Component {
 
     renderBasket() {
         const { language } = this.props;
-        const { basket,total } = this.state;
+        const { basket, total } = this.state;
         return (
             <View style={{ flex: 1 }} >
                 {/* -------- Header Basket -------- */}
@@ -266,7 +267,7 @@ class Layout extends React.Component {
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
                                     {`$${total}`}
-                            </Text>
+                                </Text>
                             </View>
                             {/* ---------- Tax ------ */}
                             <View style={styles.payNumberTextContainer} >
@@ -299,8 +300,8 @@ class Layout extends React.Component {
                                     {`${localize('Total', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(20) }]} >
-                                {`$${total}`}
-                            </Text>
+                                    {`$${total}`}
+                                </Text>
                             </View>
                         </View>
 
@@ -503,7 +504,6 @@ class Layout extends React.Component {
                         // locked={true}
                         renderTabBar={() => <View />}
                         onChangeTab={(index) => {
-                            console.log('onChangeTab : ', index.i);
                             this.setState({ tabCurrent: index.i })
                         }}
                     >
@@ -526,14 +526,31 @@ class Layout extends React.Component {
     }
 
     render() {
+        const { visibleConfirm, checkVisibleConfirm } = this.props;
+        const { basket } = this.state;
+        const temptVisibleConfirm =  basket.length > 0 ? true : false;
+        checkVisibleConfirm(temptVisibleConfirm);
         return (
             <View style={styles.container} >
+                <NavigationEvents
+                    onWillFocus={payload => console.log('will focus', payload)}
+                    onDidFocus={payload => console.log('did focus', payload)}
+                    onWillBlur={payload => console.log('will blur', payload)}
+                    onDidBlur={payload => console.log('did blur', payload)}
+                />
                 {this.renderHeader()}
                 {this.renderBodyCheckout()}
                 <PopupDiscount
                     title={'Discount'}
                     visible={this.state.visibleDiscount}
                     onRequestClose={this.closeModalDiscount}
+                />
+                <PopupConfirm
+                    visible={visibleConfirm}
+                    title="Confirmation"
+                    message="If you exit Checkout Screen , Basket will Reset ?"
+                    onRequestClose={() => this.props.closePopupConfirm()}
+                    confimYes={this.clearDataCofrim}
                 />
             </View>
         );

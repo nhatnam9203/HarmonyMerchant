@@ -8,38 +8,40 @@ import {
     getArrayExtrasFromAppointment
 } from '@utils'
 
+const initState = {
+    isShowColProduct: false,
+    isShowColAmount: false,
+    categorySelected: {
+        categoryId: -1,
+        categoryType: ''
+    },
+    productSeleted: {
+        name: ''
+    },
+    categoryTypeSelected: '',
+    extraSelected: {
+        extraId: -1,
+        name: ''
+    },
+    basket: [],
+    visibleDiscount: false,
+    paymentSelected: '',
+    tabCurrent: 0,
+    total: 0,
+    isInitBasket: false,
+    appointmentId: -1,
+    infoUser: {
+        firstName: '',
+        lastName: '',
+        phoneNumber: ''
+    },
+}
+
 class TabCheckout extends Layout {
 
     constructor(props) {
         super(props);
-        this.state = {
-            isShowColProduct: false,
-            isShowColAmount: false,
-            categorySelected: {
-                categoryId: -1,
-                categoryType: ''
-            },
-            productSeleted: {
-                name: ''
-            },
-            categoryTypeSelected: '',
-            extraSelected: {
-                extraId: -1,
-                name: ''
-            },
-            basket: [],
-            visibleDiscount: false,
-            paymentSelected: '',
-            tabCurrent: 0,
-            total: 0,
-            isInitBasket: false,
-            appointmentId: -1,
-            infoUser: {
-                firstName: '',
-                lastName: '',
-                phoneNumber: ''
-            }
-        };
+        this.state = initState;
         this.amountRef = React.createRef();
         this.scrollTabRef = React.createRef();
     }
@@ -66,7 +68,6 @@ class TabCheckout extends Layout {
         }
         return null
     }
-
 
     getDataColProduct() {
         const { categorySelected, categoryTypeSelected } = this.state;
@@ -103,9 +104,6 @@ class TabCheckout extends Layout {
         if (categoryTypeSelected === 'Product') {
             if (appointmentId !== -1) {
                 // ------- Buy With Appointment -----
-                await this.setState({
-                    isInitBasket: false
-                })
                 this.props.actions.appointment.addItemIntoAppointment(
                     {
                         services: [],
@@ -194,7 +192,7 @@ class TabCheckout extends Layout {
                 }
                 break;
         }
-        this.props.actions.appointment.removeItemIntoAppointment(dataRemove,appointmentId);
+        this.props.actions.appointment.removeItemIntoAppointment(dataRemove, appointmentId);
     }
 
     selectedPayment = (payment) => {
@@ -242,10 +240,17 @@ class TabCheckout extends Layout {
         })
     }
 
+    clearDataCofrim = () => {
+        this.props.gotoPageCurent();
+        this.setState(initState);
+    }
+
     payBasket = () => {
 
     }
 
+    componentWillUnmount() {
+    }
 
 }
 

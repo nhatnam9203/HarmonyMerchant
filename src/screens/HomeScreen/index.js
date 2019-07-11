@@ -1,4 +1,6 @@
 import React from 'react';
+import { Subject } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -10,13 +12,18 @@ class HomeScreen extends Layout {
         this.state = {
             isFocus: true,
             currentTab: 0,
-            visibleConfirm: false
+            visibleConfirm: false,
+            temptCurrentTap: -1,
+            checkVisibleConfirm: false
         }
-        this.scrollTabRef = React.createRef();
+        this.scrollTabParentRef = React.createRef();
+        this.checkoutRef = React.createRef();
+        this.watchVisibleConfrim = new Subject();
     }
 
     componentDidMount() {
         this.props.actions.category.getCategoriesByMerchantId();
+        this.initWatchVisible();
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {
@@ -35,21 +42,47 @@ class HomeScreen extends Layout {
         );
     }
 
-    onPressHandlerChangeTab = (index) => {
-        const { currentTab } = this.state;
-        if (currentTab === 2) {
-          this.setState({
-            visibleConfirm: true,
-            currentTab: index
-          })
-        } else {
-            this.scrollTabRef.current.goToPage(index);
-        }
+    initWatchVisible = () => {
+        this.watchVisibleConfrim.pipe(
+            distinctUntilChanged(),
+        ).subscribe(val => {
+            if (this.state.checkVisibleConfirm !== val) {
+                this.setState({
+                    checkVisibleConfirm: val
+                })
+            }
 
+
+        })
+    }
+
+    checkVisibleConfirm = (visible) => {
+        this.watchVisibleConfrim.next(visible)
+    }
+
+    gotoPageCurent = () => {
+        const { temptCurrentTap } = this.state;
+        this.scrollTabParentRef.current.goToPage(temptCurrentTap);
+        this.setState({
+            visibleConfirm: false
+        })
+    }
+
+    onPressHandlerChangeTab = (index) => {
+        const { currentTab, checkVisibleConfirm } = this.state;
+        if (currentTab === 2 && checkVisibleConfirm) {
+            this.setState({
+                visibleConfirm: true,
+                temptCurrentTap: index
+            })
+
+        } else {
+            this.scrollTabParentRef.current.goToPage(index);
+        }
     }
 
     gotoCheckoutScreen = () => {
-        this.scrollTabRef.current.goToPage(2);
+        this.scrollTabParentRef.current.goToPage(2);
     }
 
     handleLockScreen = () => {

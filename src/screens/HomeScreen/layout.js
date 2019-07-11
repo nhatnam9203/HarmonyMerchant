@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { HomeTabBar, StatusBarHeader, Button, ParentContainer, PopupConfirm } from '@components';
+import { HomeTabBar, StatusBarHeader, Button, ParentContainer } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
@@ -15,7 +15,7 @@ export default class Layout extends React.Component {
 
     render() {
         const { language } = this.props;
-        const { visibleConfirm, currentTab } = this.state;
+        const { visibleConfirm } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -23,7 +23,7 @@ export default class Layout extends React.Component {
                 <View style={styles.container} >
                     <StatusBarHeader />
                     <ScrollableTabView
-                        ref={this.scrollTabRef}
+                        ref={this.scrollTabParentRef}
                         style={{}}
                         initialPage={1}
                         locked={true}
@@ -49,6 +49,11 @@ export default class Layout extends React.Component {
                         />
                         <TabCheckout
                             tabLabel={`${localize('CHECKOUT', language)}`}
+                            navigation={this.props.navigation}
+                            visibleConfirm={visibleConfirm}
+                            closePopupConfirm={() => this.setState({visibleConfirm:false})}
+                            gotoPageCurent={this.gotoPageCurent}
+                            checkVisibleConfirm={this.checkVisibleConfirm}
                         />
                     </ScrollableTabView>
                     <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
@@ -59,16 +64,6 @@ export default class Layout extends React.Component {
                         <Image source={IMAGE.signOut} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
                 </View>
-                <PopupConfirm
-                    visible={visibleConfirm}
-                    title="Confirmation"
-                    message="If you exit Checkout Screen , Basket will Reset ?"
-                    onRequestClose={() => this.setState({ visibleConfirm: false })}
-                    confimYes={() => {
-                        this.scrollTabRef.current.goToPage(currentTab);
-                        this.setState({ visibleConfirm: false })
-                    }}
-                />
             </ParentContainer>
         );
     }
