@@ -387,7 +387,7 @@ class Layout extends React.Component {
                     backgroundColor="#F1F1F1"
                     title={localize('SELECT PAYMENT', language)}
                     textColor="#6A6A6A"
-                    onPress={() => this.setState({visiblePaymentCompleted:true})}
+                    onPress={() => {}}
                     style={{
                         borderWidth: 1, borderColor: '#C5C5C5',
                         flex: 1
@@ -527,7 +527,7 @@ class Layout extends React.Component {
 
     render() {
         const { visibleConfirm, checkVisibleConfirm } = this.props;
-        const { basket ,visiblePaymentCompleted} = this.state;
+        const { basket } = this.state;
         const temptVisibleConfirm = basket.length > 0 ? true : false;
         checkVisibleConfirm(temptVisibleConfirm);
         return (
@@ -547,7 +547,7 @@ class Layout extends React.Component {
                     confimYes={this.clearDataCofrim}
                 />
                 <PopupPayCompleted 
-                    visible={visiblePaymentCompleted}
+                    visible={this.props.visiblePaymentCompleted}
                     onRequestClose={() => {}}
                     gotoAppoitmentScreen={this.gotoAppoitmentScreen}
 

@@ -1,6 +1,7 @@
 const initialState = {
     appointmentDetail: {},
-    isGetAppointmentSucces: false
+    isGetAppointmentSucces: false,
+    visiblePaymentCompleted: false
 }
 
 function appReducer(state = initialState, action) {
@@ -26,6 +27,17 @@ function appReducer(state = initialState, action) {
                 ...state,
                 appointmentDetail: {}
             }
+        case 'PAY_APPOINTMENT_SUCCESS':
+            return {
+                ...state,
+                visiblePaymentCompleted: true
+            }
+        case 'CLOSE_MODAL_PAYMENT_COMPLETED':
+            return {
+                ...state,
+                visiblePaymentCompleted: false
+            }
+
 
 
         default:

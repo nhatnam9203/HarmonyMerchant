@@ -35,7 +35,7 @@ const initState = {
         lastName: '',
         phoneNumber: ''
     },
-    visiblePaymentCompleted:false
+    visiblePaymentCompleted: false
 }
 
 class TabCheckout extends Layout {
@@ -293,14 +293,18 @@ class TabCheckout extends Layout {
         if (appointmentId !== -1) {
             // --------- Payment with appointment -----
             this.props.actions.appointment.paymentAppointment(appointmentId, method);
+        } else {
+            alert('Payment Offline')
         }
 
     }
 
-    gotoAppoitmentScreen =() =>{
+    gotoAppoitmentScreen = () => {
         this.scrollTabRef.current.goToPage(0);
         this.setState(initState);
+        this.props.actions.appointment.closeModalPaymentCompleted();
         this.props.gotoAppoitmentScreen();
+        this.props.actions.appointment.resetBasketEmpty();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -322,7 +326,8 @@ const mapStateToProps = state => ({
     servicesByMerchant: state.service.servicesByMerchant,
     appointmentDetail: state.appointment.appointmentDetail,
     loading: state.app.loading,
-    isGetAppointmentSucces: state.appointment.isGetAppointmentSucces
+    isGetAppointmentSucces: state.appointment.isGetAppointmentSucces,
+    visiblePaymentCompleted: state.appointment.visiblePaymentCompleted
 })
 
 

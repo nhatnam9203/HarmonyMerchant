@@ -66,3 +66,9 @@ export function paymentAppointment(appointmentId, method) {
         api: `${apiConfigs.BASE_API}appointment/pay/${appointmentId}`,
     }
 }
+
+export function closeModalPaymentCompleted(){
+    return{
+        type: 'CLOSE_MODAL_PAYMENT_COMPLETED'
+    }
+}

@@ -123,23 +123,20 @@ function* paymentAppointment(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         console.log('responses : ', responses);
-        // const { codeNumber } = responses;
-        // if (parseInt(codeNumber) == 200) {
-        //     yield put({
-        //         type: 'GET_APPOINTMENT_BY_ID',
-        //         method: 'GET',
-        //         api: `${apiConfigs.BASE_API}appointment/${action.appointmentId}`,
-        //         token: true
-        //     })
-        // } else if (parseInt(codeNumber) === 401) {
-        //     yield put({
-        //         type: 'UNAUTHORIZED'
-        //     })
-        // } else {
-        //     yield put({
-        //         type: 'ADD_ITEM_INTO_APPOINTMENT_FAIL'
-        //     })
-        // }
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: 'PAY_APPOINTMENT_SUCCESS',
+            })
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'PAY_APPOINTMENT_FAIL'
+            })
+        }
     } catch (error) {
         console.log('error : ', error);
     } finally {
