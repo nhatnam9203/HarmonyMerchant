@@ -8,7 +8,9 @@ class HomeScreen extends Layout {
     constructor(props) {
         super(props);
         this.state = {
-            isFocus: true
+            isFocus: true,
+            currentTab: 0,
+            visibleConfirm: false
         }
         this.scrollTabRef = React.createRef();
     }
@@ -33,7 +35,20 @@ class HomeScreen extends Layout {
         );
     }
 
-    gotoCheckoutScreen =() =>{
+    onPressHandlerChangeTab = (index) => {
+        const { currentTab } = this.state;
+        if (currentTab === 2) {
+          this.setState({
+            visibleConfirm: true,
+            currentTab: index
+          })
+        } else {
+            this.scrollTabRef.current.goToPage(index);
+        }
+
+    }
+
+    gotoCheckoutScreen = () => {
         this.scrollTabRef.current.goToPage(2);
     }
 

@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { HomeTabBar, StatusBarHeader, Button, ParentContainer } from '@components';
+import { HomeTabBar, StatusBarHeader, Button, ParentContainer, PopupConfirm } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
@@ -15,6 +15,7 @@ export default class Layout extends React.Component {
 
     render() {
         const { language } = this.props;
+        const { visibleConfirm, currentTab } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -34,7 +35,10 @@ export default class Layout extends React.Component {
                                 fontSize: scaleSzie(16),
                                 fontWeight: '500'
                             }}
+                            onPressHandlerChangeTab={this.onPressHandlerChangeTab}
                         />}
+                        onChangeTab={index => this.setState({ currentTab: index.i })}
+
                     >
                         <TabMarketing
                             tabLabel={`${localize('MARKETING', language)}`}
@@ -55,6 +59,16 @@ export default class Layout extends React.Component {
                         <Image source={IMAGE.signOut} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
                 </View>
+                <PopupConfirm
+                    visible={visibleConfirm}
+                    title="Confirmation"
+                    message="If you exit Checkout Screen , Basket will Reset ?"
+                    onRequestClose={() => this.setState({ visibleConfirm: false })}
+                    confimYes={() => {
+                        this.scrollTabRef.current.goToPage(currentTab);
+                        this.setState({ visibleConfirm: false })
+                    }}
+                />
             </ParentContainer>
         );
     }
