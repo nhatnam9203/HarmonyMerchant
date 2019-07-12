@@ -34,7 +34,8 @@ class PopupAddEditProduct extends React.Component {
                 price: '',
                 isDisabled: 'Active',
             },
-            fileId: null
+            fileId: 0,
+            imageUrl: ''
         }
     }
 
@@ -69,7 +70,8 @@ class PopupAddEditProduct extends React.Component {
                 maxThreshold: productInfo.maxThreshold ? productInfo.maxThreshold : '',
                 price: productInfo.price ? productInfo.price : '',
                 isDisabled: productInfo.isDisabled === 0 ? 'Active' : 'Disable'
-            }
+            },
+            imageUrl: productInfo.imageUrl
         })
     }
 
@@ -86,7 +88,8 @@ class PopupAddEditProduct extends React.Component {
                 price: '',
                 isDisabled: 'Active',
             },
-            fileId: null
+            fileId: 0,
+            imageUrl:''
         })
     }
 
@@ -204,6 +207,7 @@ class PopupAddEditProduct extends React.Component {
                                 {/* ------- Upload Image ----- */}
                                 <BrowserFile
                                     updateFileId={this.updateFileId}
+                                    imageUrl={this.state.imageUrl}
                                 />
                                 {/* -------------------------- */}
                                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >

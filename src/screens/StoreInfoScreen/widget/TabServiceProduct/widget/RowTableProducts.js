@@ -5,6 +5,7 @@ import {
     Text,
     StyleSheet
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 import { ButtonCustom, } from '@components';
 import { scaleSzie } from '@utils';
@@ -49,6 +50,17 @@ class RowTableExtra extends React.Component {
                         <Image source={IMAGE.indicate}
                             style={{ width: scaleSzie(12), height: scaleSzie(29), marginRight: scaleSzie(12) }}
                         />
+                        <View style={{justifyContent:'center',marginRight:scaleSzie(8)}} >
+                        {
+                            product.imageUrl ? <FastImage
+                                style={{ width: scaleSzie(30), height: scaleSzie(30) }}
+                                source={{
+                                    uri: product.imageUrl,
+                                    priority: FastImage.priority.low,
+                                }}
+                            /> : <Image source={IMAGE.product_holder} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
+                        }
+                        </View>
                         <Text style={styles.textTableHeader} >
                             {product.name}
                         </Text>

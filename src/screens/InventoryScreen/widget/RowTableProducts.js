@@ -5,6 +5,7 @@ import {
     Text,
     StyleSheet
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 import { Button, } from '@components';
 import { scaleSzie } from '@utils';
@@ -66,6 +67,17 @@ class RowTableProducts extends React.Component {
                             <Image source={temptIconCheckbox}
                             />
                         </Button>
+                        <View style={{justifyContent:'center',marginRight:scaleSzie(8)}} >
+                        {
+                            product.imageUrl ? <FastImage
+                                style={{ width: scaleSzie(30), height: scaleSzie(30) }}
+                                source={{
+                                    uri: product.imageUrl,
+                                    priority: FastImage.priority.low,
+                                }}
+                            /> : <Image source={IMAGE.product_holder} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
+                        }
+                        </View>
                         <Text style={[styles.textTableHeader, temptTextColor]} >
                             {product.name}
                         </Text>
@@ -78,6 +90,7 @@ class RowTableProducts extends React.Component {
                 <View style={{
                     width: scaleSzie(140), flexDirection: 'row',
                 }} >
+                    
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={[styles.textTableHeader, temptTextColor]} >
                             {product.sku}
