@@ -32,7 +32,7 @@ class PopupAddEditService extends React.Component {
                 isDisabled: 'Active',
             },
             arrayExtra: [],
-            fileId: null
+            fileId: 0
         }
         this.durationRef = React.createRef();
         this.openTimeRef = React.createRef();
@@ -55,7 +55,7 @@ class PopupAddEditService extends React.Component {
                 isDisabled: service.isDisabled === 0 ? 'Active' : 'Disable',
             },
             arrayExtra: service.extras.length > 0 ? service.extras : [],
-            fileId: null
+            fileId: 0
         });
     }
 
@@ -73,7 +73,7 @@ class PopupAddEditService extends React.Component {
                 isDisabled: 'Active',
             },
             arrayExtra: [],
-            fileId: null
+            fileId: 0
         })
     }
 

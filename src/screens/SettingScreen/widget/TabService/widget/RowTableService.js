@@ -5,6 +5,7 @@ import {
     Text,
     StyleSheet
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 import { ButtonCustom } from '@components';
 import { scaleSzie } from '@utils';
@@ -48,13 +49,26 @@ class RowTableService extends React.Component {
                         style={{ width: scaleSzie(12), height: scaleSzie(29) }}
                     />
                     <Text style={styles.textTableHeader} >
-                        {`${parseInt(index)+1}.`}
+                        {`${parseInt(index) + 1}.`}
                     </Text>
                 </View>
                 {/* ----- 2 ------ */}
                 <View style={{
                     width: scaleSzie(160), flexDirection: 'row',
                 }} >
+                    <View style={{ justifyContent: 'center' }} >
+                        {/* <View style={{ width: scaleSzie(25), height: scaleSzie(25), backgroundColor: 'red' }} > */}
+                        <FastImage
+                            style={{ width: scaleSzie(30), height: scaleSzie(30) }}
+                            source={{
+                                uri: service.imageUrl,
+                                priority: FastImage.priority.normal,
+                            }}
+                            // resizeMode={FastImage.resizeMode.contain}
+                        />
+                        {/* </View> */}
+                    </View>
+
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
                         <Text style={styles.textTableHeader} >
                             {service.name}
