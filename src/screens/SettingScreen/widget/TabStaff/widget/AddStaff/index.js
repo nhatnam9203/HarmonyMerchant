@@ -89,7 +89,9 @@ class AddStaff extends Layout {
                     value: '',
                     isCheck: false
                 }
-            }
+            },
+            fileId: 0,
+            imageUrl:''
         }
         // ---- Refs ----
         this.inputRefsTime = [];
@@ -124,6 +126,8 @@ class AddStaff extends Layout {
                     professionalLicense: infoStaffHandle.professionalLicense,
                 },
                 staffId: infoStaffHandle.staffId,
+                fileId: 0,
+                imageUrl:infoStaffHandle.imageUrl
             })
         }
 
@@ -144,6 +148,12 @@ class AddStaff extends Layout {
     setRefTip = (ref) => {
         this.inputRefsTip.push(ref);
     };
+
+    updateFileId = (fileId) => {
+        this.setState({
+            fileId
+        })
+    }
 
     addAdmin = () => {
         const { user } = this.state;
@@ -227,6 +237,7 @@ class AddStaff extends Layout {
                 workingTime: objWorkingTime,
                 salary: objSalary,
                 tipFee: objTipFee,
+                fileId:this.state.fileId
             };
             if (this.props.isEditStaff) {
                 this.props.editStaff(temptStaff, this.state.staffId)

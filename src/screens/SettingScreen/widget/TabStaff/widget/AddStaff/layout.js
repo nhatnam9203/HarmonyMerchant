@@ -8,7 +8,7 @@ import {
 
 import {
     Dropdown,
-    ButtonCustom, Text
+    ButtonCustom, Text, BrowserFile
 } from '@components';
 import { scaleSzie, localize, getArrayNameStateCity } from '@utils';
 import { ItemAdminInfo, } from '../componentTab';
@@ -139,6 +139,15 @@ class Layout extends React.Component {
                             containerStyle={styles.dropdown}
                         />}
                     />
+                    {/* ------- Upload Image ----- */}
+                    <View style={{paddingHorizontal:scaleSzie(25)}} >
+                    <BrowserFile
+                        updateFileId={this.updateFileId}
+                        imageUrl={this.state.imageUrl}
+
+                    />
+                    </View>
+                   
                     <TitleTabAdminInfo
                         title={localize('Working time', language)}
                     />

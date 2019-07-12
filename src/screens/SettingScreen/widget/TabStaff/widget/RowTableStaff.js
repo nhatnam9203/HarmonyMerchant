@@ -5,8 +5,9 @@ import {
     Text,
     StyleSheet
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 
-import {  ButtonCustom } from '@components';
+import { ButtonCustom } from '@components';
 import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 
@@ -47,16 +48,25 @@ class RowTable extends React.Component {
                         style={{ width: scaleSzie(12), height: scaleSzie(29) }}
                     />
                     <Text style={styles.textTableHeader} >
-                    {`${parseInt(index)+1}.`}
+                        {`${parseInt(index) + 1}.`}
                     </Text>
                 </View>
                 {/* ----- 2 ------ */}
                 <View style={{
                     width: scaleSzie(180), flexDirection: 'row',
                 }} >
-                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
+                    <View style={{ justifyContent: 'center' }} >
+                        {
+                            staff.imageUrl ? <FastImage
+                                style={{ width: scaleSzie(30), height: scaleSzie(30) }}
+                                source={{
+                                    uri: staff.imageUrl,
+                                    priority: FastImage.priority.low,
+                                }}
+                            /> : <Image source={IMAGE.staff_holder} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
+                        }
+
+                    </View>
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
                         <Text style={styles.textTableHeader} >
                             {staff.displayName}
@@ -86,9 +96,9 @@ class RowTable extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            
+
                             {
-                                staff.isDisabled === 0 ? 'Active' :'Disable'
+                                staff.isDisabled === 0 ? 'Active' : 'Disable'
                             }
                         </Text>
                     </View>
