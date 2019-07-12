@@ -140,14 +140,18 @@ class Layout extends React.Component {
                         />}
                     />
                     {/* ------- Upload Image ----- */}
-                    <View style={{paddingHorizontal:scaleSzie(25)}} >
-                    <BrowserFile
-                        updateFileId={this.updateFileId}
-                        imageUrl={this.state.imageUrl}
-
-                    />
+                    <View style={{ paddingHorizontal: scaleSzie(25) }} >
+                        <BrowserFile
+                            updateFileId={this.updateFileId}
+                            imageUrl={this.state.imageUrl}
+                            styleText={{
+                                color: '#404040',
+                                fontSize: scaleSzie(14),
+                                fontWeight: '600',
+                            }}
+                        />
                     </View>
-                   
+
                     <TitleTabAdminInfo
                         title={localize('Working time', language)}
                     />

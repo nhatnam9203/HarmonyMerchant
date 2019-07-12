@@ -22,6 +22,19 @@ class BrowserFile extends React.PureComponent {
             uriUpload: this.props.imageUrl,
             isProcessingUpload: false
         }
+
+    }
+
+    componentDidMount() {
+
+        setTimeout(() => {
+            // console.log('this.props.imageUrl : ',this.props.imageUrl);
+            this.setState({
+                uriUpload: this.props.imageUrl,
+            })
+        }, 1000)
+
+
     }
 
     showPicker = () => {
@@ -52,7 +65,7 @@ class BrowserFile extends React.PureComponent {
         const temptImage = uriUpload === '' ? IMAGE.imagePlaceHolder : { uri: uriUpload }
         return (
             <View style={{ marginBottom: scaleSzie(10), marginTop: scaleSzie(10) }} >
-                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
+                <Text style={[{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }, this.props.styleText]} >
                     Image
                 </Text>
                 <View style={{ flexDirection: 'row' }} >
