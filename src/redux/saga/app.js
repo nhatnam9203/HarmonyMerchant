@@ -28,7 +28,7 @@ function* registerUser(action) {
             NavigationServices.navigate('GeneralInfo');
         }
     } catch (error) {
-        console.log('error : ', error);
+        // console.log('error : ', error);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -38,7 +38,7 @@ function* getStateCity(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('--- responses : ', responses);
+        // console.log('--- responses : ', responses);
         yield put({
             type: 'GET_STATE_CITY_SUCCESS',
             payload: responses.data
@@ -54,7 +54,7 @@ function* getQuestion(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('--- responses : ', responses);
+        // console.log('--- responses : ', responses);
         yield put({
             type: 'GET_QUESTION_SUCCESS',
             payload: responses.data

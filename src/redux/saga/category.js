@@ -8,7 +8,7 @@ function* addCategory(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('--- responses : ', responses);
+        // console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -33,7 +33,7 @@ function* getCategoriesByMerchantId(action) {
     try {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
-        console.log('getCategoriesByMerchantId : ', responses);
+        // console.log('getCategoriesByMerchantId : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -50,7 +50,7 @@ function* getCategoriesByMerchantId(action) {
             })
         }
     } catch (error) {
-        console.log('error : ', error);
+        // console.log('error : ', error);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -61,7 +61,7 @@ function* archiveCategory(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-        console.log('--- responses : ', responses);
+        // console.log('--- responses : ', responses);
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'GET_CATEGORIES_BY_MERCHANR_ID',
@@ -76,7 +76,7 @@ function* archiveCategory(action) {
             })
         }
     } catch (error) {
-        console.log('error : ', error);
+        // console.log('error : ', error);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -87,7 +87,7 @@ function* restoreCategory(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-        console.log('--- restoreCategory : ', responses);
+        // console.log('--- restoreCategory : ', responses);
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'GET_CATEGORIES_BY_MERCHANR_ID',
@@ -112,7 +112,7 @@ function* editCategory(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('--- responses : ', responses);
+        // console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({

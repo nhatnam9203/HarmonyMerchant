@@ -116,7 +116,7 @@ class PopupAddEditService extends React.Component {
         let keyError = "";
         for (let i = 0; i <= arrayKey.length - 1; i++) {
             if (temptServiceInfo[arrayKey[i]] === "") {
-                console.log(arrayKey[i] + '-' + temptServiceInfo[arrayKey[i]]);
+                // console.log(arrayKey[i] + '-' + temptServiceInfo[arrayKey[i]]);
                 keyError = arrayKey[i];
                 break;
             }

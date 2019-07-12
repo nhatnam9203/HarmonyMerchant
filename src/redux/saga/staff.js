@@ -8,7 +8,7 @@ function* addStaffByMerchant(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('--- responses : ', responses);
+        // console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -24,7 +24,7 @@ function* addStaffByMerchant(action) {
             })
         }
     } catch (error) {
-        console.log('error : ', error);
+        // console.log('error : ', error);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -55,7 +55,7 @@ function* getStaffByMerchantId(action) {
             })
         }
     } catch (error) {
-        console.log('error : ', error);
+        // console.log('error : ', error);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (action.isCreateAdmin && action.isCreateAdmin) {
@@ -83,7 +83,7 @@ function* searchStaffByName(action) {
             })
         }
     } catch (error) {
-        console.log('error : ', error);
+        // console.log('error : ', error);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -93,7 +93,7 @@ function* archiveStaff(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('archiveStaff : ' + JSON.stringify(responses));
+        // console.log('archiveStaff : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -109,7 +109,7 @@ function* archiveStaff(action) {
             })
         }
     } catch (error) {
-        console.log('error : ', error);
+        // console.log('error : ', error);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -119,7 +119,7 @@ function* restoreStaff(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('restoreStaff : ' + JSON.stringify(responses));
+        // console.log('restoreStaff : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -135,7 +135,7 @@ function* restoreStaff(action) {
             })
         }
     } catch (error) {
-        console.log('error : ', error);
+        // console.log('error : ', error);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -145,7 +145,7 @@ function* createAdmin(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('createAdmin : ' + JSON.stringify(responses));
+        // console.log('createAdmin : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             // yield put({ type: 'STOP_LOADING_ROOT' });
@@ -174,7 +174,7 @@ function* editStaff(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('editStaff : ' + JSON.stringify(responses));
+        // console.log('editStaff : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -190,7 +190,7 @@ function* editStaff(action) {
             })
         }
     } catch (error) {
-        console.log('error : ', error);
+        // console.log('error : ', error);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }

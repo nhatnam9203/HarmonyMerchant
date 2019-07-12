@@ -8,7 +8,7 @@ function* addExtraByMerchant(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('--- responses : ', responses);
+        // console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -33,7 +33,7 @@ function* getExtraByMerchant(action) {
     try {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
-        console.log('getExtraByMerchant : ', responses);
+        // console.log('getExtraByMerchant : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -52,9 +52,9 @@ function* getExtraByMerchant(action) {
     } catch (error) {
         if (`${error}`.includes('TypeError: Network request failed')) {
             // alert('Network fail')
-            console.log('Network fail')
+            // console.log('Network fail')
         }
-        console.log(`error :${error}`);
+        // console.log(`error :${error}`);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -65,7 +65,7 @@ function* archiveExtra(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-        console.log('--- archiveExtra : ', responses);
+        // console.log('--- archiveExtra : ', responses);
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'GET_EXTRA_BY_MERCHANT',
@@ -80,7 +80,7 @@ function* archiveExtra(action) {
             })
         }
     } catch (error) {
-        console.log('error : ', error);
+        // console.log('error : ', error);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -91,7 +91,7 @@ function* restoreExtra(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-        console.log('--- restoreExtra : ', responses);
+        // console.log('--- restoreExtra : ', responses);
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'GET_EXTRA_BY_MERCHANT',
@@ -106,7 +106,7 @@ function* restoreExtra(action) {
             })
         }
     } catch (error) {
-        console.log('error : ', error);
+        // console.log('error : ', error);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -116,7 +116,7 @@ function* editExtra(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('--- responses : ', responses);
+        // console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({

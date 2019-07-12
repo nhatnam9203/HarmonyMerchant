@@ -294,7 +294,7 @@ class TabCheckout extends Layout {
             // --------- Payment with appointment -----
             this.props.actions.appointment.paymentAppointment(appointmentId, method);
         } else {
-            alert('Payment Offline')
+            alert('Payment Anymous')
         }
 
     }

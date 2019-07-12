@@ -13,6 +13,7 @@ class Layout extends React.Component {
 
     renderSetup() {
         const { language } = this.props;
+        const {languageApp} = this.state;
         return (
             <View style={{ width: '100%', marginTop: scaleSzie(6), flexDirection: 'row' }} >
                 <View style={{ flex: 1 }} >
@@ -20,17 +21,26 @@ class Layout extends React.Component {
                     <ItemSetupGeneral
                         title={`${localize('Language', language)}:`}
                         data={[{ value: 'English' }, { value: 'Viet Nam' }]}
-                        value={getNameLanguage(language)}
+                        value={languageApp}
+                        onChangeText={value => {
+                            // console.log(value);
+                            this.setState({languageApp :value})
+                        }}
+                        placeHolder={localize('Language', language)}
                     />
                     {/* ------- Item Auto close at:  ------ */}
                     <ItemSetupGeneral
                         title={`${localize('Auto close at', language)}:`}
                         data={WorkingTime}
+                        onChangeText={value => {}}
+                        placeHolder='08:00 AM'
                     />
                     {/* ------- Item Auto lock screen after:  ------ */}
                     <ItemSetupGeneral
                         title={`${localize('Auto lock screen after', language)}:`}
                         data={[{ value: '05:00 min' }, { value: '10:00 min' }, { value: '15:00 min' }, { value: '30:00 min' }]}
+                        onChangeText={value => {}}
+                        placeHolder='15:00 min'
                     />
                 </View>
                 {/* ------ Button Save --- */}
@@ -122,7 +132,7 @@ class Layout extends React.Component {
     }
 }
 
-const ItemSetupGeneral = ({ title, data ,value = ''}) => {
+const ItemSetupGeneral = ({ title, data ,placeHolder,value = '',onChangeText}) => {
     return (
         <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
             <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
@@ -136,9 +146,10 @@ const ItemSetupGeneral = ({ title, data ,value = ''}) => {
             </View>
             <View style={{ height: scaleSzie(40), width: scaleSzie(140) }} >
                 <Dropdown
-                    label={localize('Language')}
+                    label={placeHolder}
                     data={data}
                     value={value}
+                    onChangeText={(value) => onChangeText(value)}
                     containerStyle={{
                         backgroundColor: '#F1F1F1',
                         borderWidth: 1,

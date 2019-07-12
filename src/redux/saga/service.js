@@ -8,7 +8,7 @@ function* addServiceByMerchant(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('--- responses : ', responses);
+        // console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -33,7 +33,7 @@ function* getServicesByMerchant(action) {
     try {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
-        console.log('getServicesByMerchant : ', responses);
+        // console.log('getServicesByMerchant : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -53,7 +53,7 @@ function* getServicesByMerchant(action) {
         if (`${error}` == 'TypeError: Network request failed') {
             alert('Network fail')
         }
-        console.log(`error : ${error}`);
+        // console.log(`error : ${error}`);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -64,7 +64,7 @@ function* archiveService(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-        console.log('--- responses : ', responses);
+        // console.log('--- responses : ', responses);
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'GET_SERVICE_BY_MERCHANT',
@@ -79,7 +79,7 @@ function* archiveService(action) {
             })
         }
     } catch (error) {
-        console.log('error : ', error);
+        // console.log('error : ', error);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -90,7 +90,7 @@ function* restoreService(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-        console.log('--- restoreService : ', responses);
+        // console.log('--- restoreService : ', responses);
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'GET_SERVICE_BY_MERCHANT',
@@ -105,7 +105,7 @@ function* restoreService(action) {
             })
         }
     } catch (error) {
-        console.log('error : ', error);
+        // console.log('error : ', error);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -115,7 +115,7 @@ function* editService(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('--- responses : ', responses);
+        // console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
