@@ -288,16 +288,28 @@ class TabCheckout extends Layout {
     }
 
     payBasket = () => {
-        const { appointmentId, paymentSelected } = this.state;
+        const { appointmentId, paymentSelected ,basket} = this.state;
         let method = this.getPaymentString(paymentSelected);
         if (appointmentId !== -1) {
             // --------- Payment with appointment -----
             this.props.actions.appointment.paymentAppointment(appointmentId, method);
         } else {
-            alert('Payment Anymous')
+            //-------Payment Anymous ------
+            const {profile} = this.props;
+            const arrayProductBuy = basket.map((product) =>{
+                if(product.type ==='Product'){
+                    return {
+                        productId: product.data.productId,
+                        quantity:product.quanlitySet
+                    }
+                }
+            })
+             this.props.actions.appointment.createAnymousAppointment(profile.merchantId,arrayProductBuy,method)
         }
 
     }
+
+
 
     gotoAppoitmentScreen = () => {
         this.scrollTabRef.current.goToPage(0);
@@ -327,7 +339,8 @@ const mapStateToProps = state => ({
     appointmentDetail: state.appointment.appointmentDetail,
     loading: state.app.loading,
     isGetAppointmentSucces: state.appointment.isGetAppointmentSucces,
-    visiblePaymentCompleted: state.appointment.visiblePaymentCompleted
+    visiblePaymentCompleted: state.appointment.visiblePaymentCompleted,
+    profile: state.dataLocal.profile
 })
 
 

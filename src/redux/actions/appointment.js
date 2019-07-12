@@ -67,8 +67,26 @@ export function paymentAppointment(appointmentId, method) {
     }
 }
 
-export function closeModalPaymentCompleted(){
-    return{
+export function closeModalPaymentCompleted() {
+    return {
         type: 'CLOSE_MODAL_PAYMENT_COMPLETED'
+    }
+}
+
+export function createAnymousAppointment(merchantId, products,paymentMethod) {
+    return {
+        type: 'CREATE_ANYMOUS_APPOINTMENT',
+        body: {
+            merchantId,
+            userId: 0,
+            status: 'unconfirm',
+            services: [],
+            extras: [],
+            products: products
+        },
+        method: 'POST',
+        token: true,
+        api: `${apiConfigs.BASE_API}appointment`,
+        paymentMethod
     }
 }

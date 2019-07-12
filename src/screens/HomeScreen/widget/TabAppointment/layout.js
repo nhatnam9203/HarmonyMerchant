@@ -25,7 +25,7 @@ class Layout extends React.Component {
             <View style={styles.container} >
                 <WebView
                     ref={this.webviewRef}
-                    source={{ uri: `${url}${token}&merchantId=${profile.merchantId}` }}
+                    source={{ uri: `${url}${token}&merchantid=${profile.merchantId}` }}
                     startInLoadingState={true}
                     shouldStartLoad={true}
                     onLoadStart={this.onLoadStartWebview}
