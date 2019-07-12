@@ -49,3 +49,19 @@ export function editExtra(body, id) {
         api: `${apiConfigs.BASE_API}extra/${id}`,
     }
 }
+
+export function searchExtra(name = '', status = '') {
+    return {
+        type: 'SEARCH_EXTRA',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}extra/search?name=${name}&status=${status}`
+    }
+}
+
+export function clearSearchExtra() {
+    return {
+        type: 'CLEAR_SEARCH_EXTRA',
+        payload: true
+    }
+}

@@ -121,6 +121,13 @@ class TabExtra extends Layout {
     }
 
     searchExtra = () => {
+        const { searchFilter } = this.state;
+        const { keySearch, category, status } = searchFilter;
+        if (keySearch == '' & status == '') {
+            this.props.actions.extra.clearSearchExtra();
+        } else {
+            this.props.actions.extra.searchExtra(keySearch,status)
+        }
 
     }
 
@@ -129,13 +136,10 @@ class TabExtra extends Layout {
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     categoriesByMerchant: state.category.categoriesByMerchant,
-
-    servicesByMerchant: state.service.servicesByMerchant,
-    listServicesSearch: state.service.listServicesSearch,
-    isShowSearchService: state.service.isShowSearchService,
-
     extrasByMerchant: state.extra.extrasByMerchant,
-    refreshListExtras: state.extra.refreshListExtras
+    refreshListExtras: state.extra.refreshListExtras,
+    listExtrasSearch: state.extra.listExtrasSearch,
+    isShowSearchExtra: state.extra.isShowSearchExtra
 })
 
 

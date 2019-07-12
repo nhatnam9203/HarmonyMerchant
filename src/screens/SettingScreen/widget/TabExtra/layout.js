@@ -38,7 +38,7 @@ class Layout extends React.Component {
                                     value={keySearch}
                                     onChangeText={(value) => {
                                         if (value === '') {
-                                            // this.props.actions.service.clearSearchService();
+                                            this.props.actions.extra.clearSearchExtra();
                                         }
                                         this.updateSearchFilterInfo('keySearch', value)
                                     }}
@@ -123,9 +123,11 @@ class Layout extends React.Component {
 
 
     renderTableStaff() {
-        const { categoriesByMerchant, language, extrasByMerchant ,refreshListExtras} = this.props;
+        const { categoriesByMerchant, language, extrasByMerchant, refreshListExtras,
+            listExtrasSearch, isShowSearchExtra
+        } = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
-        // const temptData = isShowSearchService ? listServicesSearch : servicesByMerchant
+        const temptData = isShowSearchExtra ? listExtrasSearch : extrasByMerchant
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
@@ -137,7 +139,7 @@ class Layout extends React.Component {
                         language={language}
                     />
                     <FlatList
-                        data={extrasByMerchant}
+                        data={temptData}
                         renderItem={({ item, index }) => <RowTableExtra
                             index={index}
                             extra={item}

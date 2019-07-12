@@ -35,8 +35,6 @@ function appReducer(state = initialState, action) {
                 listServicesSearch: [],
                 isShowSearchService: false
             }
-
-
         default:
             return state
     }

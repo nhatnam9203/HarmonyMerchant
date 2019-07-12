@@ -1,6 +1,8 @@
 const initialState = {
     extrasByMerchant: [],
-    refreshListExtras: false
+    refreshListExtras: false,
+    listExtrasSearch: [],
+    isShowSearchExtra: false,
 }
 
 function appReducer(state = initialState, action) {
@@ -20,6 +22,18 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 refreshListExtras: false
+            }
+        case 'SEARCH_EXTRA_SUCCESS':
+            return {
+                ...state,
+                listExtrasSearch: action.payload,
+                isShowSearchExtra: true
+            }
+        case 'CLEAR_SEARCH_EXTRA':
+            return {
+                ...state,
+                listExtrasSearch: [],
+                isShowSearchExtra: false
             }
         default:
             return state

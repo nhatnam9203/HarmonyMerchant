@@ -137,6 +137,27 @@ function* editExtra(action) {
     }
 }
 
+function* searchExtra(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log('--- responses : ', responses);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: 'SEARCH_EXTRA_SUCCESS',
+                payload: responses.data
+            });
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        }
+    } catch (error) {
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
 
 export default function* saga() {
     yield all([
@@ -145,5 +166,6 @@ export default function* saga() {
         takeLatest('ARCHIVE_EXTRA', archiveExtra),
         takeLatest('RESTORE_EXTRA', restoreExtra),
         takeLatest('EDIT_EXTRA', editExtra),
+        takeLatest('SEARCH_EXTRA', searchExtra),
     ])
 }

@@ -74,7 +74,7 @@ export default class Layout extends React.Component {
                             <ScrollableTabView
                                 ref={this.scrollTabRef}
                                 style={{}}
-                                initialPage={0}
+                                initialPage={4}
                                 tabBarPosition="bottom"
                                 locked={true}
                                 springTension={1}
