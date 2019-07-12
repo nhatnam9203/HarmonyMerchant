@@ -27,7 +27,8 @@ class PopupEditAddExtra extends React.Component {
                 price: '',
                 isDisable: 'Active'
             },
-            fileId: null
+            fileId: 0,
+            imageUrl: ''
         }
 
         this.durationRef = React.createRef();
@@ -42,13 +43,15 @@ class PopupEditAddExtra extends React.Component {
                 price: '',
                 isDisable: 'Active'
             },
-            fileId: null
+            fileId: 0,
+            imageUrl: ''
         })
     }
 
     setExtraFromParent = (extra) => {
         this.setState({
-            extraInfo: { ...extra, isDisable: extra.isDisabled === 0 ? 'Active' : 'Disable' }
+            extraInfo: { ...extra, isDisable: extra.isDisabled === 0 ? 'Active' : 'Disable' },
+            imageUrl: extra.imageUrl
         })
     }
 
@@ -77,14 +80,15 @@ class PopupEditAddExtra extends React.Component {
         };
         const arrayKey = Object.keys(temptExtraInfo);
         let keyError = "";
-        for (let i = 0; i <= arrayKey.length - 1; i++) {
-            if (temptExtraInfo[arrayKey[i]] === '') {
+        for (let i = 0; i < arrayKey.length ; i++) {
+            if (temptExtraInfo[arrayKey[i]] === '' && arrayKey[i] !== 'imageUrl') {
                 keyError = arrayKey[i];
                 break;
             }
         }
 
         if (keyError != "") {
+            console.log('keyError:',keyError);
             Alert.alert(`${strings[keyError]}`);
         } else {
             if (this.props.isEdit) {
@@ -164,6 +168,7 @@ class PopupEditAddExtra extends React.Component {
                                 {/* ------- Upload Image ----- */}
                                 <BrowserFile
                                     updateFileId={this.updateFileId}
+                                    imageUrl={this.state.imageUrl}
                                 />
                                 {/* -------------------------- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >

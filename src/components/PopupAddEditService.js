@@ -43,7 +43,6 @@ class PopupAddEditService extends React.Component {
 
     setServiceFromParent = async (service) => {
         const { categoriesByMerchant } = this.props;
-        console.log('service : ', service);
         await this.setState({
             serviceInfo: {
                 serviceId: service.serviceId,
