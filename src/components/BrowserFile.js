@@ -33,9 +33,13 @@ class BrowserFile extends React.PureComponent {
                     uriUpload: response.uri,
                     isProcessingUpload: true
                 });
+                let fileName = response.fileName;
+                if (Platform.OS === 'ios' && (fileName.endsWith('.heic') || fileName.endsWith('.HEIC'))) {
+                    fileName = `${fileName.split(".")[0]}.JPG`;
+                }
                 this.props.actions.upload.uploadAvatar([{
                     uri: response.uri,
-                    fileName: response.fileName,
+                    fileName: fileName,
                     type: response.type
                 }]);
             }

@@ -1,6 +1,4 @@
 import React from 'react';
-import { Subject, interval } from 'rxjs';
-import { auditTime } from 'rxjs/operators';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -10,29 +8,17 @@ class TabAppointment extends Layout {
 
     constructor(props) {
         super(props);
-
         this.webviewRef = React.createRef();
-        // this.reloadWebviewStream = new Subject()
-
     }
 
     componentDidMount() {
-        // this.initReloadWebviewStream();
-    }
-
-    initReloadWebviewStream = () => {
-        this.reloadWebviewStream.pipe(
-            // auditTime(1000)
-        ).subscribe(val => {
-            this.webviewRef.current.reload();
-        })
     }
 
     onLoadStartWebview = () => {
         this.props.actions.app.loadingApp();
         setTimeout(() => {
             this.props.actions.app.stopLoadingApp();
-        }, 3000)
+        }, 4000)
 
     }
 
@@ -41,15 +27,16 @@ class TabAppointment extends Layout {
     }
 
     onMessageFromWebview = (event) => {
-        const data =JSON.parse(event.nativeEvent.data);
+        const data = JSON.parse(event.nativeEvent.data);
+        console.log('data : ', JSON.stringify(data));
         if (validateIsNumber(data) && data < 0) {
             this.onLoadStartWebview();
-        }else{
-            const {action,appointmentId} = data;
-            if(action  === 'checkout'){
-               this.props.actions.appointment.getAppointmentById(appointmentId);
-               this.props.actions.appointment.checkoutAppointment(appointmentId);
-               this.props.gotoCheckoutScreen();
+        } else {
+            const { action, appointmentId } = data;
+            if (action === 'checkout') {
+                this.props.actions.appointment.getAppointmentById(appointmentId);
+                this.props.actions.appointment.checkoutAppointment(appointmentId);
+                this.props.gotoCheckoutScreen();
             }
         }
     }

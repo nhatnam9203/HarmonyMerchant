@@ -12,7 +12,7 @@ const url = 'https://hpcalendar.levincidemo.com/?token=';
 class Layout extends React.Component {
 
     render() {
-        const { token } = this.props;
+        const { token, profile } = this.props;
         const injectedJavascript = `(function() {
             window.postMessage = function(data) {
               window.ReactNativeWebView.postMessage(data);
@@ -23,9 +23,9 @@ class Layout extends React.Component {
           `;
         return (
             <View style={styles.container} >
-                <WebView 
+                <WebView
                     ref={this.webviewRef}
-                    source={{ uri: `${url}${token}` }}
+                    source={{ uri: `${url}${token}&merchantId=${profile.merchantId}` }}
                     startInLoadingState={true}
                     shouldStartLoad={true}
                     onLoadStart={this.onLoadStartWebview}
