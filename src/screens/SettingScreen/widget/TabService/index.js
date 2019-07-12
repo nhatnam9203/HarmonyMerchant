@@ -31,7 +31,7 @@ class TabService extends Layout {
     }
 
     componentDidMount() {
-        this.props.actions.service.getServicesByMerchant();
+        // this.props.actions.service.getServicesByMerchant();
     }
 
     updateSearchFilterInfo(key, value, keyParent = '') {

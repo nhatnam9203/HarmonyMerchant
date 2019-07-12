@@ -25,7 +25,7 @@ class TabStaff extends Layout {
     }
 
     componentDidMount() {
-        this.props.actions.staff.getStaffByMerchantId();
+        // this.props.actions.staff.getStaffByMerchantId();
     }
 
     updateSearchFilterInfo(key, value, keyParent = '') {

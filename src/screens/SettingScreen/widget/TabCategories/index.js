@@ -77,14 +77,14 @@ class TabCategories extends Layout {
         this.props.actions.category.restoreCategory(this.state.categoryHandle.categoryId);
     }
 
-    searchService = () => {
+    searchCategories = () => {
         const { searchFilter } = this.state;
         const { keySearch, category, status } = searchFilter;
+        console.log('searchFilter : ', searchFilter);
         if (keySearch == '' && category == '' & status == '') {
-            this.props.actions.service.clearSearchService();
+            this.props.actions.category.clearSearchCategories();
         } else {
-            const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Service') : '';
-            this.props.actions.service.searchService(keySearch, temptCategory, status);
+            this.props.actions.category.searchCategories(keySearch, status, category);
         }
     }
 
@@ -135,11 +135,10 @@ class TabCategories extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    servicesByMerchant: state.service.servicesByMerchant,
     categoriesByMerchant: state.category.categoriesByMerchant,
-    listServicesSearch: state.service.listServicesSearch,
-    isShowSearchService: state.service.isShowSearchService,
-    refreshListCategories: state.category.refreshListCategories
+    refreshListCategories: state.category.refreshListCategories,
+    listCategoriesSearch: state.category.listCategoriesSearch,
+    isShowSearchCategories: state.category.isShowSearchCategories
 })
 
 

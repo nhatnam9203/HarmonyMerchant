@@ -38,14 +38,14 @@ class Layout extends React.Component {
                                     value={keySearch}
                                     onChangeText={(value) => {
                                         if (value === '') {
-                                            this.props.actions.service.clearSearchService();
+                                            this.props.actions.category.clearSearchCategories();
                                         }
                                         this.updateSearchFilterInfo('keySearch', value)
                                     }}
-                                    onSubmitEditing={this.searchService}
+                                    onSubmitEditing={this.searchCategories}
                                 />
                             </View>
-                            <Button onPress={this.searchService} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
+                            <Button onPress={this.searchCategories} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
                                 <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
                             </Button>
 
@@ -58,7 +58,7 @@ class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Search', language)}
                             textColor="#6A6A6A"
-                            onPress={this.searchService}
+                            onPress={this.searchCategories}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
@@ -139,9 +139,11 @@ class Layout extends React.Component {
 
 
     renderTableStaff() {
-        const { categoriesByMerchant,refreshListCategories } = this.props;
+        const { categoriesByMerchant, refreshListCategories,
+            isShowSearchCategories, listCategoriesSearch
+        } = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
-        // const temptData = isShowSearchService ? listServicesSearch : servicesByMerchant
+        const temptData = isShowSearchCategories ? listCategoriesSearch : categoriesByMerchant
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
@@ -151,7 +153,7 @@ class Layout extends React.Component {
                 <View style={{ flex: 1 }} >
                     <HeaderTableCategories />
                     <FlatList
-                        data={categoriesByMerchant}
+                        data={temptData}
                         renderItem={({ item, index }) => <RowTableCategories
                             index={index}
                             category={item}
@@ -173,7 +175,7 @@ class Layout extends React.Component {
                     onRequestClose={() => this.setState({ visibleAdd: false })}
                     confimYes={this.submitAddCategory}
                 />
-                 <PopupEditAddCategories
+                <PopupEditAddCategories
                     ref={this.editCategoryRef}
                     visible={visibleEdit}
                     title="Edit Category"

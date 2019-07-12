@@ -133,6 +133,28 @@ function* editCategory(action) {
     }
 }
 
+function* searchCategories(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log('--- responses : ', responses);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: 'SEARCH_CATEGORIES_SUCCESS',
+                payload: responses.data
+            });
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        }
+    } catch (error) {
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 
 export default function* saga() {
     yield all([
@@ -141,5 +163,6 @@ export default function* saga() {
         takeLatest('ARCHIVE_CATEGORY', archiveCategory),
         takeLatest('RESTORE_CATEGORY', restoreCategory),
         takeLatest('EDIT_CATEGORY', editCategory),
+        takeLatest('SEARCH_CATEGORIES', searchCategories),
     ])
 }

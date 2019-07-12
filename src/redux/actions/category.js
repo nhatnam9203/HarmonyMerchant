@@ -49,3 +49,21 @@ export function editCategory(body, id) {
         api: `${apiConfigs.BASE_API}category/${id}`,
     }
 }
+
+export function searchCategories(name = '', status = '', type = '') {
+    return {
+        type: 'SEARCH_CATEGORIES',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}category/search?name=${name}&status=${status}&type=${type}`
+    }
+}
+
+
+export function clearSearchCategories() {
+    return {
+        type: 'CLEAR_SEARCH_CATEGORIES',
+        payload: true
+    }
+}
+

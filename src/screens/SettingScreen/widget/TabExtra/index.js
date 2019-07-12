@@ -25,7 +25,7 @@ class TabExtra extends Layout {
     }
 
     componentDidMount() {
-        this.props.actions.extra.getExtraByMerchant();
+        // this.props.actions.extra.getExtraByMerchant();
     }
 
     updateSearchFilterInfo(key, value, keyParent = '') {

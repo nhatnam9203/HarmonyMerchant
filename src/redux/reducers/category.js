@@ -1,6 +1,8 @@
 const initialState = {
     categoriesByMerchant: [],
-    refreshListCategories: false
+    refreshListCategories: false,
+    listCategoriesSearch: [],
+    isShowSearchCategories: false,
 }
 
 function appReducer(state = initialState, action) {
@@ -21,6 +23,18 @@ function appReducer(state = initialState, action) {
                 ...state,
                 categoriesByMerchant: action.payload,
                 refreshListCategories: false
+            }
+        case 'SEARCH_CATEGORIES_SUCCESS':
+            return {
+                ...state,
+                listCategoriesSearch: action.payload,
+                isShowSearchCategories: true
+            }
+        case 'CLEAR_SEARCH_CATEGORIES':
+            return {
+                ...state,
+                listCategoriesSearch: [],
+                isShowSearchCategories: false
             }
         default:
             return state
