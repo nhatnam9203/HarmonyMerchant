@@ -57,16 +57,16 @@ class RowTableService extends React.Component {
                     width: scaleSzie(160), flexDirection: 'row',
                 }} >
                     <View style={{ justifyContent: 'center' }} >
-                        {/* <View style={{ width: scaleSzie(25), height: scaleSzie(25), backgroundColor: 'red' }} > */}
-                        <FastImage
+                        {
+                            service.imageUrl ?  <FastImage
                             style={{ width: scaleSzie(30), height: scaleSzie(30) }}
                             source={{
                                 uri: service.imageUrl,
                                 priority: FastImage.priority.normal,
                             }}
-                        // resizeMode={FastImage.resizeMode.contain}
-                        />
-                        {/* </View> */}
+                        /> :<Image source={IMAGE.service_holder}  style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
+                        }
+                       
                     </View>
 
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >

@@ -5,6 +5,7 @@ import {
     Text,
     StyleSheet
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 import { ButtonCustom, } from '@components';
 import { scaleSzie } from '@utils';
@@ -48,6 +49,15 @@ class RowTableServices extends React.Component {
                         alignItems: 'center',
                         paddingLeft: scaleSzie(12)
                     }]} >
+                        {
+                            service.imageUrl ? <FastImage
+                                style={{ width: scaleSzie(30), height: scaleSzie(30) }}
+                                source={{
+                                    uri: service.imageUrl,
+                                    priority: FastImage.priority.normal,
+                                }}
+                            /> : <Image source={IMAGE.service_holder} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
+                        }
                         <Image source={IMAGE.indicate}
                             style={{ width: scaleSzie(12), height: scaleSzie(29), marginRight: scaleSzie(12) }}
                         />
