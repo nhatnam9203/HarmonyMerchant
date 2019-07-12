@@ -127,7 +127,8 @@ class TabCheckout extends Layout {
                     quanlitySet: this.amountRef.current.state.quanlity
                 });
                 this.setState({
-                    basket: temptBasket
+                    basket: temptBasket,
+                    total : parseInt(this.amountRef.current.state.quanlity*productSeleted.price)
                 })
             }
 
@@ -145,34 +146,35 @@ class TabCheckout extends Layout {
                     }, appointmentId)
             } else {
                 // ------ Buy Offline ------
-                const temptBasket = basket.filter((item) => item.id !== `${productSeleted.serviceId}_ser`);
-                temptBasket.unshift({
-                    type: 'Service',
-                    id: `${productSeleted.serviceId}_ser`,
-                    data: {
-                        name: productSeleted.name,
-                        serviceId: productSeleted.serviceId,
-                        price: productSeleted.price
-                    },
-                    serviceName: productSeleted.name
-                });
-                const temptBasketExtra = temptBasket.filter((item) => item.id !== `${extraSelected.extraId}_extra`);
-                if (extraSelected.extraId !== -1) {
-                    temptBasketExtra.unshift({
-                        type: 'Extra',
-                        id: `${extraSelected.extraId}_extra`,
-                        data: {
-                            name: extraSelected.name,
-                            extraId: extraSelected.extraId,
-                            price: extraSelected.price
-                        },
-                        serviceName: productSeleted.name
-                    });
-                }
+                alert('You can only sell products to visitors');
+                // const temptBasket = basket.filter((item) => item.id !== `${productSeleted.serviceId}_ser`);
+                // temptBasket.unshift({
+                //     type: 'Service',
+                //     id: `${productSeleted.serviceId}_ser`,
+                //     data: {
+                //         name: productSeleted.name,
+                //         serviceId: productSeleted.serviceId,
+                //         price: productSeleted.price
+                //     },
+                //     serviceName: productSeleted.name
+                // });
+                // const temptBasketExtra = temptBasket.filter((item) => item.id !== `${extraSelected.extraId}_extra`);
+                // if (extraSelected.extraId !== -1) {
+                //     temptBasketExtra.unshift({
+                //         type: 'Extra',
+                //         id: `${extraSelected.extraId}_extra`,
+                //         data: {
+                //             name: extraSelected.name,
+                //             extraId: extraSelected.extraId,
+                //             price: extraSelected.price
+                //         },
+                //         serviceName: productSeleted.name
+                //     });
+                // }
 
-                this.setState({
-                    basket: temptBasketExtra
-                })
+                // this.setState({
+                //     basket: temptBasketExtra
+                // })
             }
         }
 
@@ -288,23 +290,23 @@ class TabCheckout extends Layout {
     }
 
     payBasket = () => {
-        const { appointmentId, paymentSelected ,basket} = this.state;
+        const { appointmentId, paymentSelected, basket } = this.state;
         let method = this.getPaymentString(paymentSelected);
         if (appointmentId !== -1) {
             // --------- Payment with appointment -----
             this.props.actions.appointment.paymentAppointment(appointmentId, method);
         } else {
             //-------Payment Anymous ------
-            const {profile} = this.props;
-            const arrayProductBuy = basket.map((product) =>{
-                if(product.type ==='Product'){
+            const { profile } = this.props;
+            const arrayProductBuy = basket.map((product) => {
+                if (product.type === 'Product') {
                     return {
                         productId: product.data.productId,
-                        quantity:product.quanlitySet
+                        quantity: product.quanlitySet
                     }
                 }
             })
-             this.props.actions.appointment.createAnymousAppointment(profile.merchantId,arrayProductBuy,method)
+            this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, method)
         }
 
     }
