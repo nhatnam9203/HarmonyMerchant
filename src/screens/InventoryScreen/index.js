@@ -19,7 +19,8 @@ class InventoryScreen extends Layout {
                 keySearch: '',
                 category: '',
                 status: ''
-            }
+            },
+            arrayProductRestock: [],
         }
         this.scrollTabRef = React.createRef();
         this.productDetailRef = React.createRef();
@@ -109,9 +110,28 @@ class InventoryScreen extends Layout {
 
     // ----- Handle  -----
     restock = () => {
-        this.restockRef.current.setStateFromParent(0);
+        let arrayProductRestock = [];
+        for (let i = 0; i < this.listProductRef.length; i++) {
+            if (this.listProductRef[i].state.isCheck) {
+                arrayProductRestock.push(this.listProductRef[i].props.product.productId);
+            }
+        }
+        if (arrayProductRestock.length > 0) {
+            this.restockRef.current.setStateFromParent(0);
+            this.setState({
+                arrayProductRestock,
+                visibleRestock: true
+            })
+        } else {
+            alert('Please select products restock !')
+        }
+    }
+
+    submitRestock =(quantity) =>{
+        const {arrayProductRestock} = this.state;
+        this.props.actions.product.restockProduct(arrayProductRestock,parseInt(quantity));
         this.setState({
-            visibleRestock: true
+            visibleRestock:false
         })
     }
 
@@ -181,8 +201,8 @@ class InventoryScreen extends Layout {
         this.setState({ visibleAdd: false })
     }
 
-    scanUKU = () =>{
-        
+    scanUKU = () => {
+
     }
 
     // ----- End Handle ---

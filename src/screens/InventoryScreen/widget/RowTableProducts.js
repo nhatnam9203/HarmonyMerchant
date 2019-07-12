@@ -119,7 +119,7 @@ class RowTableProducts extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={[styles.textTableHeader, temptTextColor]} >
-                            {product.price}
+                            {product.quantity}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >

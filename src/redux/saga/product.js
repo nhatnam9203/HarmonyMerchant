@@ -18,7 +18,10 @@ function* addProductByMerchant(action) {
                 api: `${apiConfigs.BASE_API}product`,
                 isShowLoading: true
             })
-        } else {
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
         }
     } catch (error) {
     } finally {
@@ -66,7 +69,10 @@ function* archiveProduct(action) {
                 api: `${apiConfigs.BASE_API}product`,
                 isShowLoading: true
             })
-        } else {
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
         }
     } catch (error) {
     } finally {
@@ -88,7 +94,10 @@ function* restoreProduct(action) {
                 api: `${apiConfigs.BASE_API}product`,
                 isShowLoading: true
             })
-        } else {
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
         }
     } catch (error) {
     } finally {
@@ -110,7 +119,10 @@ function* editProduct(action) {
                 api: `${apiConfigs.BASE_API}product`,
                 isShowLoading: true
             })
-        } else {
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
         }
     } catch (error) {
     } finally {
@@ -140,6 +152,31 @@ function* searchProduct(action) {
     }
 }
 
+function* restockProduct(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log('--- restockProduct : ', responses);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: 'GET_PRODUCTS_BY_MERCHANR_ID',
+                method: 'GET',
+                token: true,
+                api: `${apiConfigs.BASE_API}product`,
+                isShowLoading: true
+            })
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        }
+    } catch (error) {
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 export default function* saga() {
     yield all([
         takeLatest('ADD_PRODUCR_BY_MERCHANT_ID', addProductByMerchant),
@@ -148,5 +185,6 @@ export default function* saga() {
         takeLatest('RESTORE_PRODUCT', restoreProduct),
         takeLatest('EDIT_PRODUCT', editProduct),
         takeLatest('SEARCH_PRODUCT', searchProduct),
+        takeLatest('RESTOCK_PRODUCT',restockProduct)
     ])
 }

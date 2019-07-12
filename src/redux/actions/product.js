@@ -10,7 +10,7 @@ export function addProductByMerchant(body) {
     }
 }
 
-export function getProductsByMerchant(isShowLoading= true) {
+export function getProductsByMerchant(isShowLoading = true) {
     return {
         type: 'GET_PRODUCTS_BY_MERCHANR_ID',
         method: 'GET',
@@ -63,5 +63,19 @@ export function clearSearchProduct() {
     return {
         type: 'CLEAR_SEARCH_PRODUCT',
         payload: true
+    }
+}
+
+
+export function restockProduct(ids, quantity) {
+    return {
+        type: 'RESTOCK_PRODUCT',
+        body: {
+            quantity,
+            ids
+        },
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}product/restock`,
     }
 }

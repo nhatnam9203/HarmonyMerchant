@@ -251,6 +251,7 @@ export default class Layout extends React.Component {
                     visible={this.state.visibleRestock}
                     onRequestClose={() => this.setState({ visibleRestock: false })}
                     language={language}
+                    submitRestock={this.submitRestock}
                 />
             </ParentContainer>
         );

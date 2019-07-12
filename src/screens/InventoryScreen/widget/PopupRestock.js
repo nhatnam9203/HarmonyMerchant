@@ -49,7 +49,7 @@ class PopupRestock extends React.Component {
     }
 
     submitStock = () => {
-
+        this.props.submitRestock(this.state.quality);
     }
 
     // ---------- Render --------
