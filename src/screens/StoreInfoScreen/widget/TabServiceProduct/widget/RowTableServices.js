@@ -54,12 +54,15 @@ class RowTableServices extends React.Component {
                                 style={{ width: scaleSzie(30), height: scaleSzie(30) }}
                                 source={{
                                     uri: service.imageUrl,
-                                    priority: FastImage.priority.normal,
+                                    priority: FastImage.priority.low,
                                 }}
                             /> : <Image source={IMAGE.service_holder} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
                         }
                         <Image source={IMAGE.indicate}
-                            style={{ width: scaleSzie(12), height: scaleSzie(29), marginRight: scaleSzie(12) }}
+                            style={{
+                                width: scaleSzie(12), height: scaleSzie(29), marginRight: scaleSzie(12),
+                                marginLeft: scaleSzie(8)
+                            }}
                         />
                         <Text style={styles.textTableHeader} >
                             {service.name}

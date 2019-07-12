@@ -62,7 +62,7 @@ class RowTableService extends React.Component {
                             style={{ width: scaleSzie(30), height: scaleSzie(30) }}
                             source={{
                                 uri: service.imageUrl,
-                                priority: FastImage.priority.normal,
+                                priority: FastImage.priority.low,
                             }}
                         /> :<Image source={IMAGE.service_holder}  style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
                         }
