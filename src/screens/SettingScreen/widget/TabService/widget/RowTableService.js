@@ -64,7 +64,7 @@ class RowTableService extends React.Component {
                                 uri: service.imageUrl,
                                 priority: FastImage.priority.normal,
                             }}
-                            // resizeMode={FastImage.resizeMode.contain}
+                        // resizeMode={FastImage.resizeMode.contain}
                         />
                         {/* </View> */}
                     </View>

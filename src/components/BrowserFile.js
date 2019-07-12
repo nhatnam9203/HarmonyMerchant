@@ -19,7 +19,7 @@ class BrowserFile extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            uriUpload: '',
+            uriUpload: this.props.imageUrl,
             isProcessingUpload: false
         }
     }

@@ -32,9 +32,9 @@ export default {
     subKeyboard: require('./img/subKeyboard.png'),
     imagePlaceHolder: require('./img/imagePlaceHolder.png'),
     discountBtn: require('./img/discountBtn.png'),
-    subAmount:require('./img/subAmount.png'),
-    plusAmount:require('./img/plusAmount.png'),
-    productBasket:require('./img/productBasket.png'),
+    subAmount: require('./img/subAmount.png'),
+    plusAmount: require('./img/plusAmount.png'),
+    productBasket: require('./img/productBasket.png'),
     removeItemBasket: require('./img/removeItemBasket.png'),
 
     // --- drawer --
@@ -66,5 +66,11 @@ export default {
     Extra_in: require('./setting/Extra_in.png'),
     Categories: require('./setting/Categories.png'),
     Categories_in: require('./setting/Categories_in.png'),
+
+    // --- Place holder --
+    extra_holder: require('./placeholder/extra_holder.png'),
+    product_holder: require('./placeholder/product_holder.png'),
+    service_holder: require('./placeholder/service_holder.png'),
+    staff_holder: require('./placeholder/staff_holder.png'),
 
 }

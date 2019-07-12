@@ -32,7 +32,8 @@ class PopupAddEditService extends React.Component {
                 isDisabled: 'Active',
             },
             arrayExtra: [],
-            fileId: 0
+            fileId: 0,
+            imageUrl: ''
         }
         this.durationRef = React.createRef();
         this.openTimeRef = React.createRef();
@@ -42,6 +43,7 @@ class PopupAddEditService extends React.Component {
 
     setServiceFromParent = async (service) => {
         const { categoriesByMerchant } = this.props;
+        console.log('service : ', service);
         await this.setState({
             serviceInfo: {
                 serviceId: service.serviceId,
@@ -55,7 +57,8 @@ class PopupAddEditService extends React.Component {
                 isDisabled: service.isDisabled === 0 ? 'Active' : 'Disable',
             },
             arrayExtra: service.extras.length > 0 ? service.extras : [],
-            fileId: 0
+            fileId: 0,
+            imageUrl: service.imageUrl
         });
     }
 
@@ -73,7 +76,8 @@ class PopupAddEditService extends React.Component {
                 isDisabled: 'Active',
             },
             arrayExtra: [],
-            fileId: 0
+            fileId: 0,
+            imageUrl: ''
         })
     }
 
@@ -261,6 +265,8 @@ class PopupAddEditService extends React.Component {
                                 {/* ------- Upload Image ----- */}
                                 <BrowserFile
                                     updateFileId={this.updateFileId}
+                                    imageUrl={this.state.imageUrl}
+
                                 />
                                 {/* -------------------------- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
