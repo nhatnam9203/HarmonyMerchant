@@ -5,8 +5,9 @@ import {
     Text,
     StyleSheet
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 
-import {  ButtonCustom } from '@components';
+import { ButtonCustom } from '@components';
 import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 
@@ -54,6 +55,17 @@ class RowTable extends React.Component {
                 <View style={{
                     width: scaleSzie(200), flexDirection: 'row',
                 }} >
+                    <View style={{ justifyContent: 'center' }} >
+                        {
+                            staff.imageUrl ? <FastImage
+                                style={{ width: scaleSzie(30), height: scaleSzie(30) }}
+                                source={{
+                                    uri: staff.imageUrl,
+                                    priority: FastImage.priority.low,
+                                }}
+                            /> : <Image source={IMAGE.staff_holder} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
+                        }
+                    </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>

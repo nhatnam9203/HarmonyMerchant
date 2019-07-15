@@ -128,9 +128,26 @@ class TabCheckout extends Layout {
                 });
                 this.setState({
                     basket: temptBasket,
-                    total : parseInt(this.amountRef.current.state.quanlity*productSeleted.price)
+                    total: parseInt(this.amountRef.current.state.quanlity * productSeleted.price)
                 })
             }
+
+            this.setState({
+                isShowColProduct: false,
+                isShowColAmount: false,
+                categorySelected: {
+                    categoryId: -1,
+                    categoryType: ''
+                },
+                productSeleted: {
+                    name: ''
+                },
+                categoryTypeSelected: '',
+                extraSelected: {
+                    extraId: -1,
+                    name: ''
+                },
+            })
 
         } else {
             if (appointmentId !== -1) {
@@ -176,6 +193,22 @@ class TabCheckout extends Layout {
                 //     basket: temptBasketExtra
                 // })
             }
+            this.setState({
+                isShowColProduct: false,
+                isShowColAmount: false,
+                categorySelected: {
+                    categoryId: -1,
+                    categoryType: ''
+                },
+                productSeleted: {
+                    name: ''
+                },
+                categoryTypeSelected: '',
+                extraSelected: {
+                    extraId: -1,
+                    name: ''
+                },
+            })
         }
 
     }

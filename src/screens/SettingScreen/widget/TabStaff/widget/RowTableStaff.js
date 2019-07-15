@@ -65,7 +65,6 @@ class RowTable extends React.Component {
                                 }}
                             /> : <Image source={IMAGE.staff_holder} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
                         }
-
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
                         <Text style={styles.textTableHeader} >

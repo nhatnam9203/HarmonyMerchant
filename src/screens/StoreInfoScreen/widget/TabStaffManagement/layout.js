@@ -16,7 +16,7 @@ import { TableHeader, RowTable, RowEmptyTable } from './widget';
 class Layout extends React.Component {
 
     renderTable() {
-        const { listStaffByMerchant } = this.props;
+        const { listStaffByMerchant, refreshListStaffs } = this.props;
         return (
             <View style={{ flex: 1 }}>
                 <View style={{
@@ -42,6 +42,8 @@ class Layout extends React.Component {
                         />}
                         keyExtractor={(item, index) => `${item.staffId}`}
                         ListEmptyComponent={<RowEmptyTable />}
+                        onRefresh={() => this.props.actions.staff.getStaffByMerchantId(false)}
+                        refreshing={refreshListStaffs}
                     />
                 </View>
                 <FooterTab
