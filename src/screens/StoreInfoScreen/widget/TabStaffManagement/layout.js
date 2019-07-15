@@ -6,7 +6,7 @@ import {
     FlatList
 } from 'react-native';
 
-import { FooterTab, PopupConfirm, Text } from '@components';
+import { FooterTab, PopupConfirm, Text} from '@components';
 import { scaleSzie } from '@utils';
 import styles from './style';
 import StaffInfo from '../StaffInfo';

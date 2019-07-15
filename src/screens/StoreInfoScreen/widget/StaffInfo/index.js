@@ -88,7 +88,9 @@ class StaffInfo extends Layout {
                     value: '',
                     isCheck: false
                 }
-            }
+            },
+            fileId: 0,
+            imageUrl:''
         }
         // ---- Refs ----
         this.inputRefsTime = [];
@@ -126,7 +128,9 @@ class StaffInfo extends Layout {
                 staffId: infoStaffHandle.staffId,
                 // workingTime: infoStaffHandle.workingTimes,
                 tipFee: infoStaffHandle.tipFees,
-                salary: infoStaffHandle.salaries
+                salary: infoStaffHandle.salaries,
+                fileId: 0,
+                imageUrl:infoStaffHandle.imageUrl
             })
         }
 
@@ -147,6 +151,12 @@ class StaffInfo extends Layout {
     setRefTip = (ref) => {
         this.inputRefsTip.push(ref);
     };
+
+    updateFileId = (fileId) => {
+        this.setState({
+            fileId
+        })
+    }
 
     addAdmin = () => {
         const { user } = this.state;
@@ -230,6 +240,7 @@ class StaffInfo extends Layout {
                 workingTime: objWorkingTime,
                 salary: objSalary,
                 tipFee: objTipFee,
+                fileId:this.state.fileId
             };
             if (this.props.isEditStaff) {
                 this.props.editStaff(temptStaff, this.state.staffId)
