@@ -92,11 +92,21 @@ function* getQuestion(action) {
     }
 }
 
+function* requestNetworkTimeout(action) {
+    alert('Please check your internet !');
+}
+
+function* timeout(action) {
+    alert('Server not response');
+}
+
 export default function* saga() {
     yield all([
         takeLatest('GET_MERCHANT_BY_ID', getMerchantByID),
         takeLatest('REGISTER_USER', registerUser),
         takeLatest('GET_STATE_CITY', getStateCity),
-        takeLatest('GET_QUESTION', getQuestion)
+        takeLatest('GET_QUESTION', getQuestion),
+        takeLatest('NET_WORK_REQUEST_FAIL', requestNetworkTimeout),
+        takeLatest('TIME_OUT', timeout)
     ])
 }

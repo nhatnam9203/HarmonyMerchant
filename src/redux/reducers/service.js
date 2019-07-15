@@ -35,6 +35,16 @@ function appReducer(state = initialState, action) {
                 listServicesSearch: [],
                 isShowSearchService: false
             }
+            case 'NET_WORK_REQUEST_FAIL':
+                return {
+                    ...state,
+                    refreshListServices: false
+                }
+            case 'TIME_OUT':
+                return {
+                    ...state,
+                    refreshListServices: false
+                }
         default:
             return state
     }

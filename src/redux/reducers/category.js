@@ -36,6 +36,16 @@ function appReducer(state = initialState, action) {
                 listCategoriesSearch: [],
                 isShowSearchCategories: false
             }
+        case 'NET_WORK_REQUEST_FAIL':
+            return {
+                ...state,
+                refreshListCategories: false
+            }
+        case 'TIME_OUT':
+            return {
+                ...state,
+                refreshListCategories: false
+            }
         default:
             return state
     }

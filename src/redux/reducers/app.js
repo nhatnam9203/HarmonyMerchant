@@ -6,7 +6,7 @@ const initialState = {
     principalInfo: '',
     visibleModalLock: false,
     timeOutLockScreen: 15 * 1000 * 60,
-    question :[]
+    question: []
 }
 
 function appReducer(state = initialState, action) {
@@ -47,15 +47,20 @@ function appReducer(state = initialState, action) {
                 ...state,
                 visibleModalLock: action.payload
             }
-        // case 'GET_STATE_CITY_SUCCESS':
-        //     return {
-        //         ...state,
-        //         stateCity: action.payload
-        //     }
         case 'GET_QUESTION_SUCCESS':
             return {
                 ...state,
                 question: action.payload
+            }
+        case 'NET_WORK_REQUEST_FAIL':
+            return {
+                ...state,
+                loading: false
+            }
+        case 'TIME_OUT':
+            return {
+                ...state,
+                loading: false
             }
         default:
             return state

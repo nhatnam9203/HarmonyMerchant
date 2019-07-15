@@ -42,6 +42,16 @@ function appReducer(state = initialState, action) {
                 listSearchStaff: action.payload,
                 isShowSearch: true
             }
+            case 'NET_WORK_REQUEST_FAIL':
+                return {
+                    ...state,
+                    refreshListStaffs: false
+                }
+            case 'TIME_OUT':
+                return {
+                    ...state,
+                    refreshListStaffs: false
+                }
         default:
             return state
     }

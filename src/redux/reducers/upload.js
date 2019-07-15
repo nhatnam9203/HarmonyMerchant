@@ -1,6 +1,6 @@
 const initialState = {
     isUpload: false,
-    dataUpload : {}
+    dataUpload: {}
 }
 
 function appReducer(state = initialState, action) {
