@@ -16,6 +16,12 @@ function appReducer(state = initialState, action) {
                 ...state,
                 isUpload: false
             }
+        case 'RESET_STATE_UPLOAD':
+            return {
+                ...state,
+                isUpload: false
+            }
+
         default:
             return state
     }

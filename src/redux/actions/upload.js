@@ -8,3 +8,9 @@ export function uploadAvatar(files) {
         api: `${apiConfigs.BASE_API}file?category=avatar`
     }
 }
+
+export function resetStateUpload(){
+    return{
+        type:'RESET_STATE_UPLOAD'
+    }
+}

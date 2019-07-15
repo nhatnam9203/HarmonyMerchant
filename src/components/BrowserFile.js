@@ -99,11 +99,12 @@ class BrowserFile extends React.PureComponent {
         const { loading, isUpload, dataUpload } = this.props;
         const { isProcessingUpload } = this.state;
         if (!loading && isUpload && isProcessingUpload) {
-            // console.log('fileId : ' + dataUpload.fileId);
+            console.log('fileId : ' + dataUpload.fileId);
             this.setState({
                 isProcessingUpload: false,
                 fileId: dataUpload.fileId
             });
+            this.props.actions.upload.resetStateUpload();
             this.props.updateFileId(dataUpload.fileId);
         }
     }
