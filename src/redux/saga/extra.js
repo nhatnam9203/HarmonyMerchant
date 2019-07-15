@@ -24,6 +24,15 @@ function* addExtraByMerchant(action) {
             })
         }
     } catch (error) {
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -50,11 +59,15 @@ function* getExtraByMerchant(action) {
             })
         }
     } catch (error) {
-        if (`${error}`.includes('TypeError: Network request failed')) {
-            // alert('Network fail')
-            // console.log('Network fail')
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
         }
-        // console.log(`error :${error}`);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -80,7 +93,15 @@ function* archiveExtra(action) {
             })
         }
     } catch (error) {
-        // console.log('error : ', error);
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -106,7 +127,15 @@ function* restoreExtra(action) {
             })
         }
     } catch (error) {
-        // console.log('error : ', error);
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -132,6 +161,15 @@ function* editExtra(action) {
             })
         }
     } catch (error) {
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -154,6 +192,15 @@ function* searchExtra(action) {
             })
         }
     } catch (error) {
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }

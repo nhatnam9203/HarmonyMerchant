@@ -24,7 +24,15 @@ function* addStaffByMerchant(action) {
             })
         }
     } catch (error) {
-        // console.log('error : ', error);
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -55,7 +63,15 @@ function* getStaffByMerchantId(action) {
             })
         }
     } catch (error) {
-        // console.log('error : ', error);
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (action.isCreateAdmin && action.isCreateAdmin) {
@@ -83,7 +99,15 @@ function* searchStaffByName(action) {
             })
         }
     } catch (error) {
-        // console.log('error : ', error);
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -109,7 +133,15 @@ function* archiveStaff(action) {
             })
         }
     } catch (error) {
-        // console.log('error : ', error);
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -135,7 +167,15 @@ function* restoreStaff(action) {
             })
         }
     } catch (error) {
-        // console.log('error : ', error);
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -164,7 +204,15 @@ function* createAdmin(action) {
             })
         }
     } catch (error) {
-        console.log('error : ', error);
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -190,7 +238,15 @@ function* editStaff(action) {
             })
         }
     } catch (error) {
-        // console.log('error : ', error);
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }

@@ -24,6 +24,15 @@ function* addCategory(action) {
             })
         }
     } catch (error) {
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -50,7 +59,15 @@ function* getCategoriesByMerchantId(action) {
             })
         }
     } catch (error) {
-        // console.log('error : ', error);
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -102,7 +119,15 @@ function* restoreCategory(action) {
             })
         }
     } catch (error) {
-        console.log('error : ', error);
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -128,6 +153,15 @@ function* editCategory(action) {
             })
         }
     } catch (error) {
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -150,6 +184,15 @@ function* searchCategories(action) {
             })
         }
     } catch (error) {
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }

@@ -29,6 +29,15 @@ export const scaleSzie = size => {
     return width * size / Configs.DEFAULT_WIDTH;
 }
 
+function fetchWithTimeout(url, options, timeout = 7000) {
+    return Promise.race([
+        fetch(url, options),
+        new Promise((_, reject) =>
+            setTimeout(() => reject('timeout'), timeout)
+        )
+    ]);
+}
+
 export const requestAPI = async (action, headers = {}) => {
     let method = action.method || 'GET';
     let request = {
@@ -44,13 +53,20 @@ export const requestAPI = async (action, headers = {}) => {
     if ((method == "POST" || method == "DELETE" || method == "PUT") && action.body) {
         request['body'] = JSON.stringify(action.body);
     }
-    let response = await fetch(action.api, request);
-    const codeNumber = response.status;
-    if (codeNumber === 401) {
-        return { codeNumber: codeNumber }
+    try {
+        let response = await fetchWithTimeout(action.api, request, 3000);
+        console.log(response);
+        // let response = await fetch(action.api, request);
+        const codeNumber = response.status;
+        if (codeNumber === 401) {
+            return { codeNumber: codeNumber }
+        }
+        const data = await response.json();
+        return { ...data };
+    } catch (error) {
+        throw(error);
     }
-    const data = await response.json();
-    return { ...data };
+
 }
 
 export const uploadFromData = async (action, headers = {}) => {

@@ -24,6 +24,15 @@ function* addProductByMerchant(action) {
             })
         }
     } catch (error) {
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -50,6 +59,15 @@ function* getProductsByMerchantId(action) {
             })
         }
     } catch (error) {
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -75,6 +93,15 @@ function* archiveProduct(action) {
             })
         }
     } catch (error) {
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -100,6 +127,15 @@ function* restoreProduct(action) {
             })
         }
     } catch (error) {
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -125,6 +161,15 @@ function* editProduct(action) {
             })
         }
     } catch (error) {
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -147,6 +192,15 @@ function* searchProduct(action) {
             })
         }
     } catch (error) {
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -172,6 +226,15 @@ function* restockProduct(action) {
             })
         }
     } catch (error) {
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
