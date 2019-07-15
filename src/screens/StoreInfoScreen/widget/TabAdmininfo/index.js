@@ -6,34 +6,37 @@ import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
 import { validateEmail, getIdStateByName } from '@utils';
 
+const initState = {
+    user: {
+        firstName: '',
+        lastName: '',
+        displayName: '',
+        address: {
+            street: '',
+            city: '',
+            state: ''
+        },
+        cellphone: '',
+        email: '',
+        pin: '',
+        confirmPin: '',
+        isDisabled: 'Active',
+        roles: {
+            nameRole: 'Admin',
+        },
+        driverlicense: '',
+        socialSecurityNumber: '',
+        professionalLicense: '',
+    },
+    fileId: 0,
+    imageUrl: ''
+}
 
 class StoreInfoScreen extends Layout {
 
     constructor(props) {
         super(props);
-        this.state = {
-            user: {
-                firstName: '',
-                lastName: '',
-                displayName: '',
-                address: {
-                    street: '',
-                    city: '',
-                    state: ''
-                },
-                cellphone: '',
-                email: '',
-                pin: '',
-                confirmPin: '',
-                isDisabled: 'Active',
-                roles: {
-                    nameRole: 'Admin',
-                },
-                driverlicense: '',
-                socialSecurityNumber: '',
-                professionalLicense: '',
-            }
-        }
+        this.state = initState;
         // ---- Refs ----
         this.inputRefsTime = [];
         this.inputRefsSalary = [];
@@ -52,6 +55,12 @@ class StoreInfoScreen extends Layout {
     setRefTip = (ref) => {
         this.inputRefsTip.push(ref);
     };
+
+    updateFileId = (fileId) => {
+        this.setState({
+            fileId
+        })
+    }
 
     addAdmin = () => {
         const { user } = this.state;
@@ -135,6 +144,7 @@ class StoreInfoScreen extends Layout {
                 workingTime: objWorkingTime,
                 salary: objSalary,
                 tipFee: objTipFee,
+                fileId: this.state.fileId
             };
             this.props.actions.staff.createAdmin(temptStaff);
         }
@@ -180,6 +190,15 @@ class StoreInfoScreen extends Layout {
         }
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const { loading, isResetInfoAdmin } = this.props;
+        const { isProcessingUpload } = this.state;
+        if (!loading && isResetInfoAdmin) {
+            this.setState(initState);
+            this.props.actions.staff.resetFlagCreateAdmin();
+        }
+    }
+
 
 
 }
@@ -187,7 +206,8 @@ class StoreInfoScreen extends Layout {
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     profile: state.dataLocal.profile,
-    stateCity: state.dataLocal.stateCity
+    stateCity: state.dataLocal.stateCity,
+    isResetInfoAdmin: state.staff.isResetInfoAdmin
 })
 
 

@@ -83,4 +83,9 @@ export function editStaff(body, id = "") {
     }
 }
 
+export function resetFlagCreateAdmin() {
+    return {
+        type: 'SET_FLAG_RESET_INFO_ADMIN',
+    }
+}
 

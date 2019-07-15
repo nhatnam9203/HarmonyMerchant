@@ -77,6 +77,7 @@ function* getStaffByMerchantId(action) {
         if (action.isCreateAdmin && action.isCreateAdmin) {
             setTimeout(() => {
                 alert(`Create admin success `);
+               
             }, 200)
         }
     }
@@ -188,7 +189,9 @@ function* createAdmin(action) {
         // console.log('createAdmin : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            // yield put({ type: 'STOP_LOADING_ROOT' });
+            yield put({
+                type: 'RESET_INFO_ADMIN',
+            });
             yield put({
                 type: 'GET_STAFF_BY_MERCHANR_ID',
                 method: 'GET',

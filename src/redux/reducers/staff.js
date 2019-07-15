@@ -3,7 +3,8 @@ const initialState = {
     listSearchStaff: [],
     isAddStaff: false,
     isShowSearch: false,
-    refreshListStaffs: false
+    refreshListStaffs: false,
+    isResetInfoAdmin: false
 
 }
 
@@ -42,16 +43,27 @@ function appReducer(state = initialState, action) {
                 listSearchStaff: action.payload,
                 isShowSearch: true
             }
-            case 'NET_WORK_REQUEST_FAIL':
-                return {
-                    ...state,
-                    refreshListStaffs: false
-                }
-            case 'TIME_OUT':
-                return {
-                    ...state,
-                    refreshListStaffs: false
-                }
+        case 'RESET_INFO_ADMIN':
+            return {
+                ...state,
+                isResetInfoAdmin: true
+            }
+        case 'SET_FLAG_RESET_INFO_ADMIN': {
+            return {
+                ...state,
+                isResetInfoAdmin: false
+            }
+        }
+        case 'NET_WORK_REQUEST_FAIL':
+            return {
+                ...state,
+                refreshListStaffs: false
+            }
+        case 'TIME_OUT':
+            return {
+                ...state,
+                refreshListStaffs: false
+            }
         default:
             return state
     }

@@ -8,9 +8,9 @@ import {
 
 import {
     Dropdown,
-    ButtonCustom, Text
+    ButtonCustom, Text, BrowserFile
 } from '@components';
-import { scaleSzie, localize,getArrayNameStateCity } from '@utils';
+import { scaleSzie, localize, getArrayNameStateCity } from '@utils';
 import { ItemAdminInfo, } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
@@ -26,7 +26,7 @@ class Layout extends React.Component {
         } = this.state.user;
         const { street, city, state } = address;
         const { nameRole } = roles;
-        const { language ,stateCity} = this.props;
+        const { language, stateCity } = this.props;
         return (
             <View style={styles.body} >
                 <ScrollView
@@ -134,6 +134,18 @@ class Layout extends React.Component {
                             containerStyle={styles.dropdown}
                         />}
                     />
+                    {/* ------- Upload Image ----- */}
+                    <View style={{ paddingHorizontal: scaleSzie(90) }} >
+                        <BrowserFile
+                            updateFileId={this.updateFileId}
+                            imageUrl={this.state.imageUrl}
+                            styleText={{
+                                color: '#404040',
+                                fontSize: scaleSzie(14),
+                                fontWeight: '600',
+                            }}
+                        />
+                    </View>
                     <TitleTabAdminInfo
                         title={localize('Working time', language)}
                     />
