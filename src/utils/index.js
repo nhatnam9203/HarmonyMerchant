@@ -55,7 +55,6 @@ export const requestAPI = async (action, headers = {}) => {
     }
     try {
         let response = await fetchWithTimeout(action.api, request, 3000);
-        console.log(response);
         // let response = await fetch(action.api, request);
         const codeNumber = response.status;
         if (codeNumber === 401) {

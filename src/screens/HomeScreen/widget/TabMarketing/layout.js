@@ -31,7 +31,9 @@ class Layout extends React.Component {
                         }}
                     />}
                 >
-                    <TabPromotion tabLabel={`${localize('Promotions',language)}`} />
+                    <TabPromotion tabLabel={`${localize('Promotions',language)}`} 
+                    addPromotion={this.addPromotion}
+                    />
                     <TabCustomBanner tabLabel={`${localize('Custom Banner',language)}`} />
                     <TabCustomMarketing tabLabel={`${localize('Custom Marketing',language)}`} />
 
