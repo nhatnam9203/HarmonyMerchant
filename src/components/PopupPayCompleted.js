@@ -15,10 +15,6 @@ import Button from './Button';
 
 class PopupPayCompleted extends React.Component {
 
-    gotoAppoitmentScreen = () => {
-        this.props.gotoAppoitmentScreen();
-    }
-
     render() {
         const { visible, style } = this.props;
         return (
@@ -59,7 +55,7 @@ class PopupPayCompleted extends React.Component {
                             // title={localize('Search', language)}
                             title="Yes"
                             textColor="#fff"
-                            onPress={this.gotoAppoitmentScreen}
+                            onPress={() =>this.props.printBill()}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(18), fontWeight: 'normal' }}
                         />
@@ -71,7 +67,8 @@ class PopupPayCompleted extends React.Component {
                             // title={localize('Search', language)}
                             title="No"
                             textColor="#6A6A6A"
-                            onPress={this.gotoAppoitmentScreen}
+                            
+                            onPress={() =>this.props.donotPrintBill()}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(18), fontWeight: 'normal' }}
                         />

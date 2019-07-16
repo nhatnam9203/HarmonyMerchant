@@ -351,9 +351,6 @@ class TabCheckout extends Layout {
             })
             this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, method)
         }
-        // -------- print Invoice -------
-        this.printInvoice();
-
     }
 
     async printInvoice() {
@@ -364,7 +361,7 @@ class TabCheckout extends Layout {
         commands.push({ appendInternational: StarPRNT.InternationalType.UK });
 
         commands.push({
-            append :`Business Name : ${profile.businessName}  \nAddress : ${profile.address}  \nCity, State 12345\nPhone Number :${profile.phone}  \nDate : ${temptDate}\n`
+            append: `Business Name : ${profile.businessName}  \nAddress : ${profile.address}  \nCity, State 12345\nPhone Number :${profile.phone}  \nDate : ${temptDate}\n`
         })
         commands.push({
             appendAlignment: StarPRNT.AlignmentPosition.Center,
@@ -390,7 +387,7 @@ class TabCheckout extends Layout {
 
         commands.push({
             appendAlignment: StarPRNT.AlignmentPosition.Center,
-            data: "----------------------\n"
+            data: "\n"
         })
 
         commands.push({
@@ -410,7 +407,7 @@ class TabCheckout extends Layout {
 
         commands.push({
             appendAlignment: StarPRNT.AlignmentPosition.Center,
-            data: "----------See you again ------------\n"
+            data: "--- See you again ---\n"
         })
 
         commands.push({ appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed });
@@ -418,7 +415,7 @@ class TabCheckout extends Layout {
             const printer = await PrintManager.getInstance().portDiscovery();
             if (printer) {
                 const portName = printer[0].portName;
-                // PrintManager.getInstance().openCashDrawer(portName);
+                PrintManager.getInstance().openCashDrawer(portName);
                 PrintManager.getInstance().print(portName, commands);
             } else {
                 alert('Please connect to your print ! ')
@@ -428,14 +425,18 @@ class TabCheckout extends Layout {
         }
     }
 
-
-
-    gotoAppoitmentScreen = () => {
+    donotPrintBill = () => {
         this.scrollTabRef.current.goToPage(0);
-        this.setState(initState);
         this.props.actions.appointment.closeModalPaymentCompleted();
         this.props.gotoAppoitmentScreen();
         this.props.actions.appointment.resetBasketEmpty();
+        this.setState(initState);
+    }
+
+
+    printBill = () => {
+        this.printInvoice();
+        this.donotPrintBill();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
