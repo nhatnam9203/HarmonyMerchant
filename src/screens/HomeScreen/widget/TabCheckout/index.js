@@ -354,75 +354,78 @@ class TabCheckout extends Layout {
     }
 
     async printInvoice() {
-        const { profile } = this.props;
-        const { basket } = this.state;
-        const commands = [];
-        const temptDate = `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
-        commands.push({ appendInternational: StarPRNT.InternationalType.UK });
-
-        commands.push({
-            append: `Business Name : ${profile.businessName}  \nAddress : ${profile.address}  \nCity, State 12345\nPhone Number :${profile.phone}  \nDate : ${temptDate}\n`
-        })
-        commands.push({
-            appendAlignment: StarPRNT.AlignmentPosition.Center,
-            data: "----------------------\n"
-        })
-
-        for (let i = 0; i < basket.length; i++) {
-            commands.push({
-                appendAbsolutePosition: 0,
-                data: `${i + 1}`
-            })
-
-            commands.push({
-                appendAbsolutePosition: 50,
-                data: `${basket[i].data.name} : `
-            })
-
-            commands.push({
-                appendAbsolutePosition: 320,
-                data: `$  ${basket[i].data.price} \n`
-            })
-        }
-
-        commands.push({
-            appendAlignment: StarPRNT.AlignmentPosition.Center,
-            data: "\n"
-        })
-
-        commands.push({
-            appendAbsolutePosition: 0,
-            data: ``
-        })
-
-        commands.push({
-            appendAbsolutePosition: 50,
-            data: `Total : `
-        })
-
-        commands.push({
-            appendAbsolutePosition: 320,
-            data: `$  ${this.state.total} \n`
-        })
-
-        commands.push({
-            appendAlignment: StarPRNT.AlignmentPosition.Center,
-            data: "--- See you again ---\n"
-        })
-
-        commands.push({ appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed });
         try {
             const printer = await PrintManager.getInstance().portDiscovery();
             if (printer) {
                 const portName = printer[0].portName;
                 PrintManager.getInstance().openCashDrawer(portName);
-                PrintManager.getInstance().print(portName, commands);
+                // -------- GET INFO BILL --------
+                const { profile } = this.props;
+                const { basket } = this.state;
+                const commands = [];
+                const temptDate = `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
+                commands.push({ appendInternational: StarPRNT.InternationalType.UK });
+
+                commands.push({
+                    append: `Business Name : ${profile.businessName}  \nAddress : ${profile.address}  \nCity, State 12345\nPhone Number :${profile.phone}  \nDate : ${temptDate}\n`
+                })
+                commands.push({
+                    appendAlignment: StarPRNT.AlignmentPosition.Center,
+                    data: "----------------------\n"
+                })
+
+                for (let i = 0; i < basket.length; i++) {
+                    commands.push({
+                        appendAbsolutePosition: 0,
+                        data: `${i + 1}`
+                    })
+
+                    commands.push({
+                        appendAbsolutePosition: 50,
+                        data: `${basket[i].data.name} : `
+                    })
+
+                    commands.push({
+                        appendAbsolutePosition: 320,
+                        data: `$  ${basket[i].data.price} \n`
+                    })
+                }
+
+                commands.push({
+                    appendAlignment: StarPRNT.AlignmentPosition.Center,
+                    data: "\n"
+                })
+
+                commands.push({
+                    appendAbsolutePosition: 0,
+                    data: ``
+                })
+
+                commands.push({
+                    appendAbsolutePosition: 50,
+                    data: `Total : `
+                })
+
+                commands.push({
+                    appendAbsolutePosition: 320,
+                    data: `$  ${this.state.total} \n`
+                })
+
+                commands.push({
+                    appendAlignment: StarPRNT.AlignmentPosition.Center,
+                    data: "--- See you again ---\n"
+                })
+
+                commands.push({ appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed });
+                const result = await PrintManager.getInstance().print(portName, commands);
+                this.donotPrintBill();
             } else {
                 alert('Please connect to your print ! ')
             }
         } catch (error) {
             console.log('scan error : ', error);
         }
+
     }
 
     donotPrintBill = () => {
@@ -436,7 +439,6 @@ class TabCheckout extends Layout {
 
     printBill = () => {
         this.printInvoice();
-        this.donotPrintBill();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

@@ -34,12 +34,7 @@ export default class PrintManager {
     }
 
     async print(portName,commands) {
-        try {
-            var printResult = await StarPRNT.print('StarPRNT', commands, portName);
-            console.log(printResult); // Success!
-        } catch (e) {
-            console.error(e);
-        }
+       return StarPRNT.print('StarPRNT', commands, portName);
     }
 
 }
