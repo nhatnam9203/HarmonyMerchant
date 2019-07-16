@@ -324,11 +324,11 @@ class TabCheckout extends Layout {
         return method
     }
 
-    payBasket = () =>{
+    payBasket = () => {
         const { appointmentId, paymentSelected, basket } = this.state;
-        for(let i = 0; i< basket.length ; i++){
-            console.log('basket item : ',basket[i]);
-          console.log(`${basket[i].data.name}`);
+        for (let i = 0; i < basket.length; i++) {
+            console.log('basket item : ', basket[i]);
+            console.log(`${basket[i].data.name}`);
         }
     }
 
@@ -358,39 +358,60 @@ class TabCheckout extends Layout {
 
     async printInvoice() {
         const { profile } = this.props;
-        const {basket} = this.state;
+        const { basket } = this.state;
         const commands = [];
+        const temptDate = `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
         commands.push({ appendInternational: StarPRNT.InternationalType.UK });
-        commands.push({
-            appendAlignment: StarPRNT.AlignmentPosition.Center,
-            data: `Business Name : ${profile.businessName}  \n`
-        });
-        commands.push({
-            appendAlignment: StarPRNT.AlignmentPosition.Center,
-            data: `Address : ${profile.address}  \n`
-        });
-        commands.push({
-            appendAlignment: StarPRNT.AlignmentPosition.Center,
-            data: `Phone Number : ${profile.phone}  \n`
-        });
 
         commands.push({
-            appendAlignment: StarPRNT.AlignmentPosition.Center,
-            data: `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()} \n`
-        });
-
+            append :`Business Name : ${profile.businessName}  \nAddress : ${profile.address}  \nCity, State 12345\nPhone Number :${profile.phone}  \nDate : ${temptDate}\n`
+        })
         commands.push({
             appendAlignment: StarPRNT.AlignmentPosition.Center,
-            data: "\n----------------------\n"
+            data: "----------------------\n"
         })
 
-        for(let i = 0; i< basket.length ; i++){
+        for (let i = 0; i < basket.length; i++) {
             commands.push({
-                appendAlignment: StarPRNT.AlignmentPosition.Center,
-                data: `${basket[i].data.name}  \n`
+                appendAbsolutePosition: 0,
+                data: `${i + 1}`
+            })
+
+            commands.push({
+                appendAbsolutePosition: 50,
+                data: `${basket[i].data.name} : `
+            })
+
+            commands.push({
+                appendAbsolutePosition: 320,
+                data: `$  ${basket[i].data.price} \n`
             })
         }
-        
+
+        commands.push({
+            appendAlignment: StarPRNT.AlignmentPosition.Center,
+            data: "----------------------\n"
+        })
+
+        commands.push({
+            appendAbsolutePosition: 0,
+            data: ``
+        })
+
+        commands.push({
+            appendAbsolutePosition: 50,
+            data: `Total : `
+        })
+
+        commands.push({
+            appendAbsolutePosition: 320,
+            data: `$  ${this.state.total} \n`
+        })
+
+        commands.push({
+            appendAlignment: StarPRNT.AlignmentPosition.Center,
+            data: "----------See you again ------------\n"
+        })
 
         commands.push({ appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed });
         try {
