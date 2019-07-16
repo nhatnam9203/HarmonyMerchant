@@ -19,19 +19,16 @@ class TabMarketing extends Layout {
     addPromotion = async () => {
         try {
             const printer = await PrintManager.getInstance().portDiscovery();
-            console.log('printer : ',printer);
+            if (printer) {
+                const portName = printer[0].portName;
+                PrintManager.getInstance().openCashDrawer(portName);
+                PrintManager.getInstance().print(portName);
+            } else {
+                alert('Please connect to your print ! ')
+            }
         } catch (error) {
-            console.log('scan error : ',error);
+            console.log('scan error : ', error);
         }
-        
-        // if (printer) {
-        //     const portName = printer[0].portName;
-        //     const emulation = 'StarPRNT';
-        //     console.log(portName);
-        //     PrintManager.getInstance().print(portName,emulation);
-        // } else {
-        //     alert('Cannot connect your printer !')
-        // }
     }
 
 

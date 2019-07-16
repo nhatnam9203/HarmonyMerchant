@@ -22,8 +22,22 @@ export default class PrintManager {
         ])
     }
 
-    async print(portName, emulation) {
-        var commandsArray = [];
+    async  openCashDrawer(portName) {
+        let commands = [];
+        commands.push({
+            openCashDrawer: 1
+        });
+
+        try {
+            var printResult = await StarPRNT.print('StarPRNT', commands, portName);
+            console.log(printResult); // Success!
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async print(portName) {
+        const commandsArray = [];
         commandsArray.push({ appendInternational: StarPRNT.InternationalType.UK });
         commandsArray.push({
             appendLogo: 1,  //Logo number configured using Star Print utility
@@ -33,7 +47,7 @@ export default class PrintManager {
         commandsArray.push({ append: "Luis Nani \n" });
         commandsArray.push({ appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed });
         try {
-            var printResult = await StarPRNT.print(emulation, commandsArray, portName);
+            var printResult = await StarPRNT.print('StarPRNT', commandsArray, portName);
             console.log(printResult); // Success!
         } catch (e) {
             console.error(e);
