@@ -28,8 +28,8 @@ class TabAppointment extends Layout {
 
     onMessageFromWebview = (event) => {
         const data = JSON.parse(event.nativeEvent.data);
-        // console.log('data : ', JSON.stringify(data));
-        if (validateIsNumber(data) && data < 0) {
+        console.log('data : ', JSON.stringify(data));
+        if (validateIsNumber(data) && data < -150) {
             this.onLoadStartWebview();
         } else {
             const { action, appointmentId } = data;

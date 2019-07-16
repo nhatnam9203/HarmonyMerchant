@@ -93,11 +93,17 @@ function* getQuestion(action) {
 }
 
 function* requestNetworkTimeout(action) {
-    alert('Please check your internet !');
+    setTimeout(() =>{
+        alert('Please check your internet !');
+    },1000)
+    
 }
 
 function* timeout(action) {
-    alert('Server not response');
+    setTimeout(() =>{
+        alert('Server not response');
+    },1000)
+    
 }
 
 export default function* saga() {

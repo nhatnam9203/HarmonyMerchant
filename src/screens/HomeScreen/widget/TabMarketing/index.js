@@ -17,18 +17,18 @@ class TabMarketing extends Layout {
     }
 
     addPromotion = async () => {
-        try {
-            const printer = await PrintManager.getInstance().portDiscovery();
-            if (printer) {
-                const portName = printer[0].portName;
-                PrintManager.getInstance().openCashDrawer(portName);
-                PrintManager.getInstance().print(portName);
-            } else {
-                alert('Please connect to your print ! ')
-            }
-        } catch (error) {
-            console.log('scan error : ', error);
-        }
+        // try {
+        //     const printer = await PrintManager.getInstance().portDiscovery();
+        //     if (printer) {
+        //         const portName = printer[0].portName;
+        //         PrintManager.getInstance().openCashDrawer(portName);
+        //         PrintManager.getInstance().print(portName);
+        //     } else {
+        //         alert('Please connect to your print ! ')
+        //     }
+        // } catch (error) {
+        //     console.log('scan error : ', error);
+        // }
     }
 
 

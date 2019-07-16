@@ -1,12 +1,14 @@
 import React from 'react';
 import _ from 'ramda';
+import { StarPRNT } from 'react-native-star-prnt';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment,
     getArrayExtrasFromAppointment
-} from '@utils'
+} from '@utils';
+import PrintManager from '@lib/PrintManager';
 
 const initState = {
     isShowColProduct: false,
@@ -322,7 +324,15 @@ class TabCheckout extends Layout {
         return method
     }
 
-    payBasket = () => {
+    payBasket = () =>{
+        const { appointmentId, paymentSelected, basket } = this.state;
+        for(let i = 0; i< basket.length ; i++){
+            console.log('basket item : ',basket[i]);
+          console.log(`${basket[i].data.name}`);
+        }
+    }
+
+    payBasket = async () => {
         const { appointmentId, paymentSelected, basket } = this.state;
         let method = this.getPaymentString(paymentSelected);
         if (appointmentId !== -1) {
@@ -341,7 +351,60 @@ class TabCheckout extends Layout {
             })
             this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, method)
         }
+        // -------- print Invoice -------
+        this.printInvoice();
 
+    }
+
+    async printInvoice() {
+        const { profile } = this.props;
+        const {basket} = this.state;
+        const commands = [];
+        commands.push({ appendInternational: StarPRNT.InternationalType.UK });
+        commands.push({
+            appendAlignment: StarPRNT.AlignmentPosition.Center,
+            data: `Business Name : ${profile.businessName}  \n`
+        });
+        commands.push({
+            appendAlignment: StarPRNT.AlignmentPosition.Center,
+            data: `Address : ${profile.address}  \n`
+        });
+        commands.push({
+            appendAlignment: StarPRNT.AlignmentPosition.Center,
+            data: `Phone Number : ${profile.phone}  \n`
+        });
+
+        commands.push({
+            appendAlignment: StarPRNT.AlignmentPosition.Center,
+            data: `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()} \n`
+        });
+
+        commands.push({
+            appendAlignment: StarPRNT.AlignmentPosition.Center,
+            data: "\n----------------------\n"
+        })
+
+        for(let i = 0; i< basket.length ; i++){
+            commands.push({
+                appendAlignment: StarPRNT.AlignmentPosition.Center,
+                data: `${basket[i].data.name}  \n`
+            })
+        }
+        
+
+        commands.push({ appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed });
+        try {
+            const printer = await PrintManager.getInstance().portDiscovery();
+            if (printer) {
+                const portName = printer[0].portName;
+                // PrintManager.getInstance().openCashDrawer(portName);
+                PrintManager.getInstance().print(portName, commands);
+            } else {
+                alert('Please connect to your print ! ')
+            }
+        } catch (error) {
+            console.log('scan error : ', error);
+        }
     }
 
 
