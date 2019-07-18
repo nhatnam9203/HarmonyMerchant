@@ -324,14 +324,6 @@ class TabCheckout extends Layout {
         return method
     }
 
-    payBasket = () => {
-        const { appointmentId, paymentSelected, basket } = this.state;
-        for (let i = 0; i < basket.length; i++) {
-            console.log('basket item : ', basket[i]);
-            console.log(`${basket[i].data.name}`);
-        }
-    }
-
     payBasket = async () => {
         const { appointmentId, paymentSelected, basket } = this.state;
         let method = this.getPaymentString(paymentSelected);
@@ -353,12 +345,23 @@ class TabCheckout extends Layout {
         }
     }
 
+    getHour() {
+        const hours = parseInt(new Date().getHours()) - 12 > 0 ? parseInt(new Date().getHours()) - 13 : parseInt(new Date().getHours());
+        const surfix = parseInt(new Date().getHours()) - 12 > 0 ? 'PM' : 'AM'
+        const temptDate = `${hours}:${new Date().getMinutes()}:${new Date().getSeconds()} ${surfix}`;
+        return temptDate;
+    }
+
+    getDate() {
+        return `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`;
+    }
+
     async printInvoice() {
         try {
             const printer = await PrintManager.getInstance().portDiscovery();
-            if (printer) {
+            if (printer.length > 0) {
                 const portName = printer[0].portName;
-                PrintManager.getInstance().openCashDrawer(portName);
+                // PrintManager.getInstance().openCashDrawer(portName);
                 // -------- GET INFO BILL --------
                 const { profile } = this.props;
                 const { basket } = this.state;
@@ -366,56 +369,94 @@ class TabCheckout extends Layout {
                 const temptDate = `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
                 commands.push({ appendInternational: StarPRNT.InternationalType.UK });
 
-                commands.push({
-                    append: `Business Name : ${profile.businessName}  \nAddress : ${profile.address}  \nCity, State 12345\nPhone Number :${profile.phone}  \nDate : ${temptDate}\n`
-                })
-                commands.push({
-                    appendAlignment: StarPRNT.AlignmentPosition.Center,
-                    data: "----------------------\n"
-                })
+                commands.push({ appendAlignment: StarPRNT.AlignmentPosition.Center });
+                commands.push({ append: `${profile.businessName}\n` });
+                commands.push({ append: `${profile.phone}\n` });
+                commands.push({ append: `Fax : ${profile.taxId}\n` });
+                commands.push({ append: `https://www.google.com/\n` });
 
-                for (let i = 0; i < basket.length; i++) {
-                    commands.push({
-                        appendAbsolutePosition: 0,
-                        data: `${i + 1}`
-                    })
+                // commands.push({appendUnderline:"30 days"})
+                // commands.push({appendLineFeed:2})
+                // commands.push({appendInvert:"Refunds and Exchanges\n"})
+                // commands.push({appendLineSpace:32})
+                // commands.push({appendBlackMark: 'Valid'})
 
-                    commands.push({
-                        appendAbsolutePosition: 50,
-                        data: `${basket[i].data.name} : `
-                    })
+                commands.push({ appendLineFeed: 2 })
+                // commands.push({ appendAlignment: StarPRNT.AlignmentPosition.Left });
+                // commands.push({
+                //     appendAlignment: 'Left',
+                //     data: `${this.getDate()}`
+                // });
 
-                    commands.push({
-                        appendAbsolutePosition: 320,
-                        data: `$  ${basket[i].data.price} \n`
-                    })
-                }
+                // commands.push({ appendHorizontalTabPosition: [15, 35] })
 
-                commands.push({
-                    appendAlignment: StarPRNT.AlignmentPosition.Center,
-                    data: "\n"
-                })
+                // commands.push({ appendHorizontalTabPosition: [15, 35] })
 
-                commands.push({
-                    appendAbsolutePosition: 0,
-                    data: ``
-                })
+                // commands.push({
+                //     appendAbsolutePosition: 10,
+                //     data: `${this.getHour()}`
+                // });
+                // commands.push({
+                //     appendAbsolutePosition: 300,
+                //     data: "Text"
+                // });
 
-                commands.push({
-                    appendAbsolutePosition: 50,
-                    data: `Total : `
-                })
 
-                commands.push({
-                    appendAbsolutePosition: 320,
-                    data: `$  ${this.state.total} \n`
-                })
 
-                commands.push({
-                    appendAlignment: StarPRNT.AlignmentPosition.Center,
-                    data: "--- See you again ---\n"
-                })
 
+                // commands.push({
+                //     appendAlignment: StarPRNT.AlignmentPosition.Center,
+                //     append: `${profile.businessName}`
+                // \nAddress : ${profile.address}  \nCity, State 12345\nPhone Number :${profile.phone}  \nDate : ${temptDate}\n`
+                // })
+                // commands.push({
+                //     appendAlignment: StarPRNT.AlignmentPosition.Center,
+                //     data: "----------------------\n"
+                // })
+
+                // for (let i = 0; i < basket.length; i++) {
+                //     commands.push({
+                //         appendAbsolutePosition: 0,
+                //         data: `${i + 1}`
+                //     })
+
+                //     commands.push({
+                //         appendAbsolutePosition: 50,
+                //         data: `${basket[i].data.name} : `
+                //     })
+
+                //     commands.push({
+                //         appendAbsolutePosition: 320,
+                //         data: `$  ${basket[i].data.price} \n`
+                //     })
+                // }
+
+                // commands.push({
+                //     appendAlignment: StarPRNT.AlignmentPosition.Center,
+                //     data: "\n"
+                // })
+
+                // commands.push({
+                //     appendAbsolutePosition: 0,
+                //     data: `=`
+                // })
+
+                // commands.push({
+                //     appendAbsolutePosition: 50,
+                //     data: `Total : `
+                // })
+
+                // commands.push({
+                //     appendAbsolutePosition: 320,
+                //     data: `$  ${this.state.total} \n`
+                // })
+
+                // commands.push({
+                //     appendAlignment: StarPRNT.AlignmentPosition.Center,
+                //     data: "--- See you again ---\n"
+                // })
+
+                // commands.push({ appendLineFeed: 1 })
                 commands.push({ appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed });
                 const result = await PrintManager.getInstance().print(portName, commands);
                 this.donotPrintBill();
@@ -439,6 +480,16 @@ class TabCheckout extends Layout {
 
     printBill = () => {
         this.printInvoice();
+    }
+
+    async  openCashDrawer() {
+        const printer = await PrintManager.getInstance().portDiscovery();
+        if (printer.length > 0) {
+            const portName = printer[0].portName;
+            PrintManager.getInstance().openCashDrawer(portName);
+        } else {
+            alert('Please connect to your print ! ')
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

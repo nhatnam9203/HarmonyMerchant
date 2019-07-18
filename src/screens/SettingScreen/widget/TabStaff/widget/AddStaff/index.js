@@ -126,7 +126,7 @@ class AddStaff extends Layout {
                     professionalLicense: infoStaffHandle.professionalLicense,
                 },
                 staffId: infoStaffHandle.staffId,
-                fileId: 0,
+                fileId: infoStaffHandle.fileId,
                 imageUrl:infoStaffHandle.imageUrl
             })
         }

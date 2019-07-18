@@ -28,11 +28,10 @@ class BrowserFile extends React.PureComponent {
     componentDidMount() {
 
         setTimeout(() => {
-            // console.log('this.props.imageUrl : ',this.props.imageUrl);
             this.setState({
                 uriUpload: this.props.imageUrl,
             })
-        }, 1000)
+        }, 200)
 
 
     }

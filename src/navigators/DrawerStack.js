@@ -6,8 +6,6 @@ import getSlideFromRightTransition from 'react-navigation-slide-from-right-trans
 import { scaleSzie } from '../utils';
 
 import {
-    SignInScreen,
-    ForgotPasswordScreen,
     SlideDrawer,
     HomeScreen,
     SettingScreen,
@@ -21,7 +19,7 @@ const DrawerStack = createDrawerNavigator({
     Inventory: InventoryScreen,
     Customer: CustomerScreen
 }, {
-        initialRouteName: "Home",
+        initialRouteName: "Setting",
         contentComponent: SlideDrawer,
         drawerWidth: scaleSzie(220)
 

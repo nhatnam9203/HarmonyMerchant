@@ -55,7 +55,10 @@ class RowTable extends React.Component {
                 <View style={{
                     width: scaleSzie(200), flexDirection: 'row',
                 }} >
-                    <View style={{ justifyContent: 'center' }} >
+                      <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
+                    </View>
+                    <View style={{ justifyContent: 'center' ,marginLeft:scaleSzie(6)}} >
                         {
                             staff.imageUrl ? <FastImage
                                 style={{ width: scaleSzie(30), height: scaleSzie(30) }}
@@ -66,9 +69,7 @@ class RowTable extends React.Component {
                             /> : <Image source={IMAGE.staff_holder} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
                         }
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View>
+                  
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
                         <Text style={styles.textTableHeader} >
                             {staff.displayName}

@@ -129,7 +129,7 @@ class StaffInfo extends Layout {
                 // workingTime: infoStaffHandle.workingTimes,
                 tipFee: infoStaffHandle.tipFees,
                 salary: infoStaffHandle.salaries,
-                fileId: 0,
+                fileId: infoStaffHandle.fileId,
                 imageUrl:infoStaffHandle.imageUrl
             })
         }
