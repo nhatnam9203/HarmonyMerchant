@@ -22,6 +22,11 @@ function* addProductByMerchant(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
+        }else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
         }
     } catch (error) {
         if (`${error}` == 'TypeError: Network request failed') {
@@ -55,7 +60,8 @@ function* getProductsByMerchantId(action) {
             })
         } else {
             yield put({
-                type: 'GET_PRODUCTS_BY_MERCHANR_ID_FAIL',
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
             })
         }
     } catch (error) {
@@ -91,6 +97,11 @@ function* archiveProduct(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
+        }else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
         }
     } catch (error) {
         if (`${error}` == 'TypeError: Network request failed') {
@@ -124,6 +135,11 @@ function* restoreProduct(action) {
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
+            })
+        }else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
             })
         }
     } catch (error) {
@@ -159,6 +175,11 @@ function* editProduct(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
+        }else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
         }
     } catch (error) {
         if (`${error}` == 'TypeError: Network request failed') {
@@ -189,6 +210,11 @@ function* searchProduct(action) {
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
+            })
+        }else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
             })
         }
     } catch (error) {
@@ -223,6 +249,11 @@ function* restockProduct(action) {
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
+            })
+        }else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
             })
         }
     } catch (error) {

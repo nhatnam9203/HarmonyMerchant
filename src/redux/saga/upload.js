@@ -17,7 +17,8 @@ function* uploadAvatar(action) {
             })
         } else {
             yield put({
-                type: 'UPLOAD_AVATAR_FAIL'
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
             })
         }
     } catch (error) {

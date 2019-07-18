@@ -22,6 +22,11 @@ function* addServiceByMerchant(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
+        }else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
         }
     } catch (error) {
         if (`${error}` == 'TypeError: Network request failed') {
@@ -55,8 +60,9 @@ function* getServicesByMerchant(action) {
             })
         } else {
             yield put({
-                type: 'SEARCH_SERVICE_FAIL',
-            });
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
         }
     } catch (error) {
         if (`${error}` == 'TypeError: Network request failed') {
@@ -91,6 +97,11 @@ function* archiveService(action) {
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
+            })
+        }else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
             })
         }
     } catch (error) {
@@ -127,6 +138,11 @@ function* restoreService(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
+        }else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
         }
     } catch (error) {
         if (`${error}` == 'TypeError: Network request failed') {
@@ -162,6 +178,11 @@ function* editService(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
+        }else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
         }
     } catch (error) {
         if (`${error}` == 'TypeError: Network request failed') {
@@ -192,6 +213,11 @@ function* searchService(action) {
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
+            })
+        }else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
             })
         }
     } catch (error) {

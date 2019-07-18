@@ -22,6 +22,11 @@ function* addStaffByMerchant(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
         }
     } catch (error) {
         if (`${error}` == 'TypeError: Network request failed') {
@@ -59,7 +64,8 @@ function* getStaffByMerchantId(action) {
             })
         } else {
             yield put({
-                type: 'GET_STAFF_BY_MERCHANR_ID_FAIL'
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
             })
         }
     } catch (error) {
@@ -77,7 +83,7 @@ function* getStaffByMerchantId(action) {
         if (action.isCreateAdmin && action.isCreateAdmin) {
             setTimeout(() => {
                 alert(`Create admin success `);
-               
+
             }, 200)
         }
     }
@@ -97,6 +103,11 @@ function* searchStaffByName(action) {
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
             })
         }
     } catch (error) {
@@ -122,7 +133,7 @@ function* archiveStaff(action) {
         // console.log('archiveStaff : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            yield put({type:'IS_GET_LIST_SEARCH_STAFF'});
+            yield put({ type: 'IS_GET_LIST_SEARCH_STAFF' });
             yield put({
                 type: 'GET_STAFF_BY_MERCHANR_ID',
                 method: 'GET',
@@ -133,6 +144,11 @@ function* archiveStaff(action) {
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
             })
         }
     } catch (error) {
@@ -157,7 +173,7 @@ function* restoreStaff(action) {
         // console.log('restoreStaff : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            yield put({type:'IS_GET_LIST_SEARCH_STAFF'});
+            yield put({ type: 'IS_GET_LIST_SEARCH_STAFF' });
             yield put({
                 type: 'GET_STAFF_BY_MERCHANR_ID',
                 method: 'GET',
@@ -168,6 +184,11 @@ function* restoreStaff(action) {
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
             })
         }
     } catch (error) {
@@ -208,6 +229,11 @@ function* createAdmin(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
         }
     } catch (error) {
         if (`${error}` == 'TypeError: Network request failed') {
@@ -241,6 +267,11 @@ function* editStaff(action) {
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
             })
         }
     } catch (error) {

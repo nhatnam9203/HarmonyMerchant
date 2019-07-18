@@ -22,6 +22,11 @@ function* addExtraByMerchant(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
+        }else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
         }
     } catch (error) {
         if (`${error}` == 'TypeError: Network request failed') {
@@ -55,7 +60,8 @@ function* getExtraByMerchant(action) {
             })
         } else {
             yield put({
-                type: 'GET_EXTRA_BY_MERCHANT_FAIL',
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
             })
         }
     } catch (error) {
@@ -92,6 +98,11 @@ function* archiveExtra(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
+        }else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
         }
     } catch (error) {
         if (`${error}` == 'TypeError: Network request failed') {
@@ -126,6 +137,11 @@ function* restoreExtra(action) {
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
+            })
+        }else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
             })
         }
     } catch (error) {
@@ -162,6 +178,11 @@ function* editExtra(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
+        }else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
         }
     } catch (error) {
         if (`${error}` == 'TypeError: Network request failed') {
@@ -192,6 +213,11 @@ function* searchExtra(action) {
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
+            })
+        }else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
             })
         }
     } catch (error) {

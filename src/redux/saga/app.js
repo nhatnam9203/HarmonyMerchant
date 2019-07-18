@@ -21,10 +21,10 @@ function* registerUser(action) {
         if (parseInt(codeNumber) == 200) {
             NavigationServices.navigate('SignIn');
         } else {
-            yield put({ type: 'STOP_LOADING_ROOT' });
-            setTimeout(() => {
-                alert(`Error: ${responses.message}`);
-            }, 200)
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
             NavigationServices.navigate('GeneralInfo');
         }
     } catch (error) {
@@ -93,17 +93,24 @@ function* getQuestion(action) {
 }
 
 function* requestNetworkTimeout(action) {
-    setTimeout(() =>{
+    setTimeout(() => {
         alert('Please check your internet !');
-    },1000)
-    
+    }, 300)
+
 }
 
 function* timeout(action) {
-    setTimeout(() =>{
+    setTimeout(() => {
         alert('Server not response');
-    },1000)
-    
+    }, 300)
+
+}
+
+function* showErrorMessage(action) {
+    setTimeout(() => {
+        alert(action.message);
+    }, 300)
+
 }
 
 export default function* saga() {
@@ -113,6 +120,7 @@ export default function* saga() {
         takeLatest('GET_STATE_CITY', getStateCity),
         takeLatest('GET_QUESTION', getQuestion),
         takeLatest('NET_WORK_REQUEST_FAIL', requestNetworkTimeout),
-        takeLatest('TIME_OUT', timeout)
+        takeLatest('TIME_OUT', timeout),
+        takeLatest('SHOW_ERROR_MESSAGE', showErrorMessage),
     ])
 }

@@ -21,7 +21,8 @@ function* getAppointmentById(action) {
             })
         } else {
             yield put({
-                type: 'GET_APPOINTMENT_BY_ID_FAIL'
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
             })
         }
     } catch (error) {
@@ -56,9 +57,10 @@ function* addItemIntoAppointment(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        } else {
+        }else {
             yield put({
-                type: 'ADD_ITEM_INTO_APPOINTMENT_FAIL'
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
             })
         }
     } catch (error) {
@@ -95,7 +97,8 @@ function* removeItemIntoAppointment(action) {
             })
         } else {
             yield put({
-                type: 'ADD_ITEM_INTO_APPOINTMENT_FAIL'
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
             })
         }
     } catch (error) {
@@ -138,7 +141,8 @@ function* checkoutAppointment(action) {
             })
         } else {
             yield put({
-                type: 'ADD_ITEM_INTO_APPOINTMENT_FAIL'
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
             })
         }
     } catch (error) {
@@ -172,7 +176,8 @@ function* paymentAppointment(action) {
             })
         } else {
             yield put({
-                type: 'PAY_APPOINTMENT_FAIL'
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
             })
         }
     } catch (error) {
@@ -217,7 +222,8 @@ function* createAnymousAppointment(action) {
             })
         } else {
             yield put({
-                type: 'PAY_APPOINTMENT_FAIL'
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
             })
         }
     } catch (error) {
