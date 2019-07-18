@@ -100,6 +100,7 @@ function* searchStaffByName(action) {
             })
         }
     } catch (error) {
+        console.log(error);
         if (`${error}` == 'TypeError: Network request failed') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
@@ -121,6 +122,7 @@ function* archiveStaff(action) {
         // console.log('archiveStaff : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            yield put({type:'IS_GET_LIST_SEARCH_STAFF'});
             yield put({
                 type: 'GET_STAFF_BY_MERCHANR_ID',
                 method: 'GET',
@@ -155,6 +157,7 @@ function* restoreStaff(action) {
         // console.log('restoreStaff : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            yield put({type:'IS_GET_LIST_SEARCH_STAFF'});
             yield put({
                 type: 'GET_STAFF_BY_MERCHANR_ID',
                 method: 'GET',

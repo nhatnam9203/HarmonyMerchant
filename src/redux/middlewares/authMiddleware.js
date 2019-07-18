@@ -3,9 +3,8 @@ const authMiddleware = store => next => action => {
         const appState = store.getState();
         return next({ ...action, token: appState.dataLocal.token });
 
-    } else {
-        next(action);
     }
+    return next(action);
 
 }
 

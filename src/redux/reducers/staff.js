@@ -4,7 +4,8 @@ const initialState = {
     isAddStaff: false,
     isShowSearch: false,
     refreshListStaffs: false,
-    isResetInfoAdmin: false
+    isResetInfoAdmin: false,
+    isGetListSearchStaff: false
 
 }
 
@@ -41,7 +42,8 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 listSearchStaff: action.payload,
-                isShowSearch: true
+                isShowSearch: true,
+                isGetListSearchStaff: false
             }
         case 'RESET_INFO_ADMIN':
             return {
@@ -64,6 +66,13 @@ function appReducer(state = initialState, action) {
                 ...state,
                 refreshListStaffs: false
             }
+        case 'IS_GET_LIST_SEARCH_STAFF':
+            return {
+                ...state,
+                isGetListSearchStaff: true
+            }
+
+
         default:
             return state
     }

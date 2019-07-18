@@ -131,6 +131,14 @@ class TabCategories extends Layout {
         })
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const { isShowSearchCategories,isGetListSearchCategories } = this.props;
+        if(isShowSearchCategories && isGetListSearchCategories){
+            this.searchCategories();
+        }
+        
+    }
+
 }
 
 const mapStateToProps = state => ({
@@ -138,7 +146,8 @@ const mapStateToProps = state => ({
     categoriesByMerchant: state.category.categoriesByMerchant,
     refreshListCategories: state.category.refreshListCategories,
     listCategoriesSearch: state.category.listCategoriesSearch,
-    isShowSearchCategories: state.category.isShowSearchCategories
+    isShowSearchCategories: state.category.isShowSearchCategories,
+    isGetListSearchCategories: state.category.isGetListSearchCategories
 })
 
 

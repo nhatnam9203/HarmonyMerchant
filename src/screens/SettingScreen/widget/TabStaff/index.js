@@ -61,14 +61,14 @@ class TabStaff extends Layout {
         await this.setState({
             visibleArchive: false,
         });
-        this.props.actions.staff.archiveStaff(this.state.staffHandle.staffId)
+        this.props.actions.staff.archiveStaff(this.state.staffHandle.staffId);
     }
 
     archirveRestoreYess = async () => {
         await this.setState({
             visibleRestore: false,
         });
-        this.props.actions.staff.restoreStaff(this.state.staffHandle.staffId)
+        this.props.actions.staff.restoreStaff(this.state.staffHandle.staffId);
     }
 
     searchStaff = () => {
@@ -120,6 +120,14 @@ class TabStaff extends Layout {
         this.props.actions.staff.editStaff(staff, id)
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const { isShowSearch,isGetListSearchStaff } = this.props;
+        if(isShowSearch && isGetListSearchStaff){
+            this.searchStaff();
+        }
+        
+    }
+
 }
 
 const mapStateToProps = state => ({
@@ -130,7 +138,8 @@ const mapStateToProps = state => ({
     isShowSearch: state.staff.isShowSearch,
     listSearchStaff: state.staff.listSearchStaff,
     stateCity: state.dataLocal.stateCity,
-    refreshListStaffs: state.staff.refreshListStaffs
+    refreshListStaffs: state.staff.refreshListStaffs,
+    isGetListSearchStaff: state.staff.isGetListSearchStaff
 })
 
 

@@ -3,6 +3,7 @@ const initialState = {
     refreshListCategories: false,
     listCategoriesSearch: [],
     isShowSearchCategories: false,
+    isGetListSearchCategories:false
 }
 
 function appReducer(state = initialState, action) {
@@ -28,7 +29,8 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 listCategoriesSearch: action.payload,
-                isShowSearchCategories: true
+                isShowSearchCategories: true,
+                isGetListSearchCategories:false
             }
         case 'CLEAR_SEARCH_CATEGORIES':
             return {
@@ -46,6 +48,12 @@ function appReducer(state = initialState, action) {
                 ...state,
                 refreshListCategories: false
             }
+        case 'IS_GET_LIST_SEARCH_CATEGORIES':
+            return {
+                ...state,
+                isGetListSearchCategories: true
+            }
+
         default:
             return state
     }

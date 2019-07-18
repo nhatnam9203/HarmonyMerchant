@@ -80,6 +80,7 @@ function* archiveCategory(action) {
         const { codeNumber } = responses;
         // console.log('--- responses : ', responses);
         if (parseInt(codeNumber) == 200) {
+            yield put({type:'IS_GET_LIST_SEARCH_CATEGORIES'});
             yield put({
                 type: 'GET_CATEGORIES_BY_MERCHANR_ID',
                 method: 'GET',
@@ -106,6 +107,7 @@ function* restoreCategory(action) {
         const { codeNumber } = responses;
         // console.log('--- restoreCategory : ', responses);
         if (parseInt(codeNumber) == 200) {
+            yield put({type:'IS_GET_LIST_SEARCH_CATEGORIES'});
             yield put({
                 type: 'GET_CATEGORIES_BY_MERCHANR_ID',
                 method: 'GET',
@@ -140,6 +142,7 @@ function* editCategory(action) {
         // console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            yield put({type:'IS_GET_LIST_SEARCH_CATEGORIES'});
             yield put({
                 type: 'GET_CATEGORIES_BY_MERCHANR_ID',
                 method: 'GET',
