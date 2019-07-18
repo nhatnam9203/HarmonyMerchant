@@ -2,7 +2,8 @@ const initialState = {
     servicesByMerchant: [],
     listServicesSearch: [],
     isShowSearchService: false,
-    refreshListServices: false
+    refreshListServices: false,
+    isGetListSearchService: false
 }
 
 function appReducer(state = initialState, action) {
@@ -27,7 +28,8 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 listServicesSearch: action.payload,
-                isShowSearchService: true
+                isShowSearchService: true,
+                isGetListSearchService:false
             }
         case 'CLEAR_SEARCH_SERVICE':
             return {
@@ -35,16 +37,23 @@ function appReducer(state = initialState, action) {
                 listServicesSearch: [],
                 isShowSearchService: false
             }
-            case 'NET_WORK_REQUEST_FAIL':
-                return {
-                    ...state,
-                    refreshListServices: false
-                }
-            case 'TIME_OUT':
-                return {
-                    ...state,
-                    refreshListServices: false
-                }
+        case 'NET_WORK_REQUEST_FAIL':
+            return {
+                ...state,
+                refreshListServices: false
+            }
+        case 'TIME_OUT':
+            return {
+                ...state,
+                refreshListServices: false
+            }
+        case 'IS_GET_LIST_SEARCH_SERVICE':
+            return {
+                ...state,
+                isGetListSearchService: true
+            }
+
+
         default:
             return state
     }

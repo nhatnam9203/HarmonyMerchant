@@ -3,6 +3,7 @@ const initialState = {
     refreshListExtras: false,
     listExtrasSearch: [],
     isShowSearchExtra: false,
+    isGetListSearchExtra: false
 }
 
 function appReducer(state = initialState, action) {
@@ -27,7 +28,8 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 listExtrasSearch: action.payload,
-                isShowSearchExtra: true
+                isShowSearchExtra: true,
+                isGetListSearchExtra:false
             }
         case 'CLEAR_SEARCH_EXTRA':
             return {
@@ -35,16 +37,21 @@ function appReducer(state = initialState, action) {
                 listExtrasSearch: [],
                 isShowSearchExtra: false
             }
-            case 'NET_WORK_REQUEST_FAIL':
-                return {
-                    ...state,
-                    refreshListExtras: false
-                }
-            case 'TIME_OUT':
-                return {
-                    ...state,
-                    refreshListExtras: false
-                }
+        case 'NET_WORK_REQUEST_FAIL':
+            return {
+                ...state,
+                refreshListExtras: false
+            }
+        case 'TIME_OUT':
+            return {
+                ...state,
+                refreshListExtras: false
+            }
+        case 'IS_GET_LIST_SEARCH_EXTRA':
+            return {
+                ...state,
+                isGetListSearchExtra: true
+            }
         default:
             return state
     }

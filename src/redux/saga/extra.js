@@ -80,6 +80,7 @@ function* archiveExtra(action) {
         const { codeNumber } = responses;
         // console.log('--- archiveExtra : ', responses);
         if (parseInt(codeNumber) == 200) {
+            yield put({type:'IS_GET_LIST_SEARCH_EXTRA'});
             yield put({
                 type: 'GET_EXTRA_BY_MERCHANT',
                 method: 'GET',
@@ -114,6 +115,7 @@ function* restoreExtra(action) {
         const { codeNumber } = responses;
         // console.log('--- restoreExtra : ', responses);
         if (parseInt(codeNumber) == 200) {
+            yield put({type:'IS_GET_LIST_SEARCH_EXTRA'});
             yield put({
                 type: 'GET_EXTRA_BY_MERCHANT',
                 method: 'GET',
@@ -148,6 +150,7 @@ function* editExtra(action) {
         // console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            yield put({type:'IS_GET_LIST_SEARCH_EXTRA'});
             yield put({
                 type: 'GET_EXTRA_BY_MERCHANT',
                 method: 'GET',

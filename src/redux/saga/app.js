@@ -71,7 +71,7 @@ function* getQuestion(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('--- responses : ', responses);
+        console.log('--- responses 2222 : ', responses);
         yield put({
             type: 'GET_QUESTION_SUCCESS',
             payload: responses.data

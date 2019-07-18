@@ -129,6 +129,14 @@ class TabService extends Layout {
         })
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const { isShowSearchService,isGetListSearchService } = this.props;
+        if(isShowSearchService && isGetListSearchService){
+            this.searchService();
+        }
+        
+    }
+
 }
 
 const mapStateToProps = state => ({
@@ -137,7 +145,8 @@ const mapStateToProps = state => ({
     categoriesByMerchant: state.category.categoriesByMerchant,
     listServicesSearch: state.service.listServicesSearch,
     isShowSearchService: state.service.isShowSearchService,
-    refreshListServices: state.service.refreshListServices
+    refreshListServices: state.service.refreshListServices,
+    isGetListSearchService: state.service.isGetListSearchService
 })
 
 

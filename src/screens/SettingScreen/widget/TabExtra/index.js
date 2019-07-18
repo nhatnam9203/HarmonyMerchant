@@ -131,6 +131,15 @@ class TabExtra extends Layout {
 
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const { isShowSearchExtra,isGetListSearchExtra } = this.props;
+        if(isShowSearchExtra && isGetListSearchExtra){
+            this.searchExtra();
+        }
+        
+    }
+
+
 }
 
 const mapStateToProps = state => ({
@@ -139,7 +148,8 @@ const mapStateToProps = state => ({
     extrasByMerchant: state.extra.extrasByMerchant,
     refreshListExtras: state.extra.refreshListExtras,
     listExtrasSearch: state.extra.listExtrasSearch,
-    isShowSearchExtra: state.extra.isShowSearchExtra
+    isShowSearchExtra: state.extra.isShowSearchExtra,
+    isGetListSearchExtra: state.extra.isGetListSearchExtra
 })
 
 

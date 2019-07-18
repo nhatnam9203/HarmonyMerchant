@@ -80,6 +80,7 @@ function* archiveService(action) {
         const { codeNumber } = responses;
         // console.log('--- responses : ', responses);
         if (parseInt(codeNumber) == 200) {
+            yield put({type:'IS_GET_LIST_SEARCH_SERVICE'});
             yield put({
                 type: 'GET_SERVICE_BY_MERCHANT',
                 method: 'GET',
@@ -114,6 +115,7 @@ function* restoreService(action) {
         const { codeNumber } = responses;
         // console.log('--- restoreService : ', responses);
         if (parseInt(codeNumber) == 200) {
+            yield put({type:'IS_GET_LIST_SEARCH_SERVICE'});
             yield put({
                 type: 'GET_SERVICE_BY_MERCHANT',
                 method: 'GET',
@@ -148,6 +150,7 @@ function* editService(action) {
         console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            yield put({type:'IS_GET_LIST_SEARCH_SERVICE'});
             yield put({
                 type: 'GET_SERVICE_BY_MERCHANT',
                 method: 'GET',
