@@ -1,6 +1,7 @@
 import React from 'react';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
+const signalR = require('@aspnet/signalr');
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -22,7 +23,8 @@ class HomeScreen extends Layout {
     }
 
     componentDidMount() {
-        this.props.actions.category.getCategoriesByMerchantId();
+        // this.props.actions.category.getCategoriesByMerchantId();
+        this.setupSignalR();
         this.initWatchVisible();
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
@@ -42,7 +44,24 @@ class HomeScreen extends Layout {
         );
     }
 
-    gotoAppoitmentScreen =() =>{
+    setupSignalR() {
+        const { profile, token } = this.props;
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl(`https://api2.levincidemo.com/notification/?merchantId=${profile.merchantId}&Title=Merchant&type=appointment_pay`, { accessTokenFactory: () => token })
+            .build();
+
+        connection.on("ListWaNotification", (data) => {
+             console.log('ListWaNotification : ',data);
+            const temptData = JSON.parse(data)
+            console.log('---- : ', temptData.json);
+        });
+
+        connection.start().catch(function (err) {
+            console.log("Error on Start : ", err);
+        });
+    }
+
+    gotoAppoitmentScreen = () => {
         this.scrollTabParentRef.current.goToPage(1);
     }
 
@@ -117,7 +136,8 @@ class HomeScreen extends Layout {
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
-    language: state.dataLocal.language
+    language: state.dataLocal.language,
+    token: state.dataLocal.token
 })
 
 
