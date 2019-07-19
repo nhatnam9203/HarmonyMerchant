@@ -90,3 +90,16 @@ export function createAnymousAppointment(merchantId, products,paymentMethod) {
         paymentMethod
     }
 }
+
+export function resetPayment() {
+    return {
+        type: 'RESET_PAYMENT'
+    }
+}
+
+export function showModalPrintReceipt() {
+    return {
+        type: 'SHOW_MODAL_PRINT_RECEIPT'
+    }
+}
+

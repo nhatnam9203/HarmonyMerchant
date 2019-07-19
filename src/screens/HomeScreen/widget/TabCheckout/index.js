@@ -37,7 +37,10 @@ const initState = {
         lastName: '',
         phoneNumber: ''
     },
-    visiblePaymentCompleted: false
+    visiblePaymentCompleted: false,
+    changeButtonDone: false,
+    isPressDone: false,
+    methodPayment: ''
 }
 
 class TabCheckout extends Layout {
@@ -301,6 +304,8 @@ class TabCheckout extends Layout {
         this.props.gotoPageCurent();
         this.setState(initState);
         this.props.actions.appointment.resetBasketEmpty();
+        this.scrollTabRef.current.goToPage(0);
+        this.props.actions.appointment.resetPayment();
     }
 
     getPaymentString(type) {
@@ -327,6 +332,12 @@ class TabCheckout extends Layout {
     payBasket = async () => {
         const { appointmentId, paymentSelected, basket } = this.state;
         let method = this.getPaymentString(paymentSelected);
+        this.setState({
+            changeButtonDone: true,
+            isPressDone: false,
+            methodPayment: method
+        })
+
         if (appointmentId !== -1) {
             // --------- Payment with appointment -----
             this.props.actions.appointment.paymentAppointment(appointmentId, method);
@@ -475,6 +486,7 @@ class TabCheckout extends Layout {
         this.props.gotoAppoitmentScreen();
         this.props.actions.appointment.resetBasketEmpty();
         this.setState(initState);
+        this.props.actions.appointment.resetPayment();
     }
 
 
@@ -492,12 +504,26 @@ class TabCheckout extends Layout {
         }
     }
 
+    donePayment = () => {
+        const { methodPayment } = this.state;
+        if (methodPayment === 'cash' || methodPayment === 'orther') {
+            this.openCashDrawer();
+            this.props.actions.appointment.showModalPrintReceipt();
+        } else if (methodPayment === 'harmony') {
+
+        } else if (methodPayment === 'credit_card') {
+
+        } else {
+            // this.props.actions.appointment.showModalPrintReceipt();
+        }
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         const { loading, isGetAppointmentSucces } = this.props;
         if (!loading && isGetAppointmentSucces) {
             this.props.actions.appointment.resetKeyUpdateAppointment();
             this.setState({
-                isInitBasket: false
+                isInitBasket: false,
             })
         }
     }
@@ -513,7 +539,8 @@ const mapStateToProps = state => ({
     loading: state.app.loading,
     isGetAppointmentSucces: state.appointment.isGetAppointmentSucces,
     visiblePaymentCompleted: state.appointment.visiblePaymentCompleted,
-    profile: state.dataLocal.profile
+    profile: state.dataLocal.profile,
+    isDonePayment: state.appointment.isDonePayment
 })
 
 

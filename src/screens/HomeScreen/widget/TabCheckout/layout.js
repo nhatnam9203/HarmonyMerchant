@@ -9,7 +9,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import QRCode from 'react-native-qrcode-svg';
 
 import { scaleSzie, localize } from '@utils';
-import { Text, ButtonCustom, Button, PopupConfirm ,PopupPayCompleted} from '@components';
+import { Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import {
@@ -317,10 +317,40 @@ class Layout extends React.Component {
     }
 
     renderButtonChekout() {
-        const { tabCurrent, basket, paymentSelected } = this.state;
-        const { language } = this.props;
+        const { tabCurrent, basket, paymentSelected, changeButtonDone,
+            isPressDone
+        } = this.state;
+        const { language ,isDonePayment} = this.props;
         if (tabCurrent === 1) {
-            if (paymentSelected === '') {
+            if (changeButtonDone && !isDonePayment) {
+                return (
+                    <ButtonCustom
+                        width={`100%`}
+                        backgroundColor="#F1F1F1"
+                        title={localize('DONE', language)}
+                        textColor="#6A6A6A"
+                        onPress={() => { }}
+                        style={{
+                            borderWidth: 1, borderColor: '#C5C5C5',
+                            flex: 1
+                        }}
+                        styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                    />
+                );
+            } else if (changeButtonDone && isDonePayment) {
+                return <ButtonCustom
+                    width={`100%`}
+                    backgroundColor="#0764B0"
+                    title={localize('DONE', language)}
+                    textColor="#fff"
+                    onPress={this.donePayment}
+                    style={{
+                        borderWidth: 1, borderColor: '#C5C5C5',
+                        flex: 1
+                    }}
+                    styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                />
+            } else if (paymentSelected === '') {
                 return (
                     <ButtonCustom
                         width={`100%`}
@@ -356,7 +386,7 @@ class Layout extends React.Component {
                     backgroundColor="#0764B0"
                     title={localize('CONFIRM', language)}
                     textColor="#fff"
-                    onPress={()=>{}}
+                    onPress={() => { }}
                     style={{
                         borderWidth: 1, borderColor: '#C5C5C5',
                         flex: 1
@@ -387,7 +417,7 @@ class Layout extends React.Component {
                     backgroundColor="#F1F1F1"
                     title={localize('SELECT PAYMENT', language)}
                     textColor="#6A6A6A"
-                    onPress={() => {}}
+                    onPress={() => { }}
                     style={{
                         borderWidth: 1, borderColor: '#C5C5C5',
                         flex: 1
@@ -546,9 +576,9 @@ class Layout extends React.Component {
                     onRequestClose={() => this.props.closePopupConfirm()}
                     confimYes={this.clearDataCofrim}
                 />
-                <PopupPayCompleted 
+                <PopupPayCompleted
                     visible={this.props.visiblePaymentCompleted}
-                    onRequestClose={() => {}}
+                    onRequestClose={() => { }}
                     printBill={this.printBill}
                     donotPrintBill={this.donotPrintBill}
                 />

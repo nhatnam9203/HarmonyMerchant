@@ -52,8 +52,8 @@ class HomeScreen extends Layout {
 
         connection.on("ListWaNotification", (data) => {
              console.log('ListWaNotification : ',data);
-            const temptData = JSON.parse(data)
-            console.log('---- : ', temptData.json);
+            // const temptData = JSON.parse(data)
+            // console.log('---- : ', temptData.json);
         });
 
         connection.start().catch(function (err) {

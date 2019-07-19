@@ -57,7 +57,7 @@ function* addItemIntoAppointment(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -167,9 +167,12 @@ function* paymentAppointment(action) {
         console.log('responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            yield put({
-                type: 'PAY_APPOINTMENT_SUCCESS',
-            })
+            if (action.body.method !== 'harmony') {
+                yield put({
+                    type: 'PAY_APPOINTMENT_SUCCESS',
+                });
+                yield put({ type: 'STOP_LOADING_ROOT' });
+            }
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
