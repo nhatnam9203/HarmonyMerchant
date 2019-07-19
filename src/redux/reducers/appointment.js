@@ -2,7 +2,8 @@ const initialState = {
     appointmentDetail: {},
     isGetAppointmentSucces: false,
     visiblePaymentCompleted: false,
-    isDonePayment: false
+    isDonePayment: false,
+    appointmentIdOffline:''
 }
 
 function appReducer(state = initialState, action) {
@@ -49,6 +50,12 @@ function appReducer(state = initialState, action) {
                 ...state,
                 visiblePaymentCompleted: true
             }
+        case 'CHECK_OUT_APPOINTMENT_OFFLINE_SUCCESS':
+            return {
+                ...state,
+                appointmentIdOffline: action.payload
+            }
+
 
         default:
             return state

@@ -598,17 +598,18 @@ class TabCheckout extends Layout {
 
     donePayment = () => {
         const { methodPayment } = this.state;
-        const {appointmentDetail} = this.props;
+        const { appointmentDetail ,appointmentIdOffline} = this.props;
+        const temptAppointmentId = _.isEmpty(appointmentDetail) ? appointmentIdOffline :appointmentDetail.appointmentId ;
         if (methodPayment === 'cash') {
             this.openCashDrawer();
-            // this.props.actions.appointment.checkoutSubmit(appointmentDetail.appointmentId);
+            this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
             this.props.actions.appointment.showModalPrintReceipt();
         } else if (methodPayment === 'harmony') {
             this.props.actions.appointment.showModalPrintReceipt();
         } else if (methodPayment === 'credit_card') {
             this.props.actions.appointment.showModalPrintReceipt();
         } else {
-             this.openCashDrawer();
+            // this.openCashDrawer();
             this.props.actions.appointment.showModalPrintReceipt();
         }
     }
@@ -635,7 +636,8 @@ const mapStateToProps = state => ({
     isGetAppointmentSucces: state.appointment.isGetAppointmentSucces,
     visiblePaymentCompleted: state.appointment.visiblePaymentCompleted,
     profile: state.dataLocal.profile,
-    isDonePayment: state.appointment.isDonePayment
+    isDonePayment: state.appointment.isDonePayment,
+    appointmentIdOffline: state.appointment.appointmentIdOffline
 })
 
 

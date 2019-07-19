@@ -208,6 +208,10 @@ function* createAnymousAppointment(action) {
             // ------- Call checkout -----
             const appointmentId = responses.data;
             yield put({
+                type:'CHECK_OUT_APPOINTMENT_OFFLINE_SUCCESS',
+                payload:appointmentId
+            });
+            yield put({
                 type: 'CHECK_OUT_APPOINTMENT',
                 body: {},
                 method: 'PUT',
