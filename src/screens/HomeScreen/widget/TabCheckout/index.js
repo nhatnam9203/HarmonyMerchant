@@ -380,94 +380,186 @@ class TabCheckout extends Layout {
                 const temptDate = `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
                 commands.push({ appendInternational: StarPRNT.InternationalType.UK });
 
-                commands.push({ appendAlignment: StarPRNT.AlignmentPosition.Center });
-                commands.push({ append: `${profile.businessName}\n` });
-                commands.push({ append: `${profile.phone}\n` });
-                commands.push({ append: `Fax : ${profile.taxId}\n` });
-                commands.push({ append: `https://www.google.com/\n` });
+                commands.push({
+                    appendAlignment: StarPRNT.AlignmentPosition.Center,
+                    data: `${profile.businessName}\n`
+                });
 
-                // commands.push({appendUnderline:"30 days"})
-                // commands.push({appendLineFeed:2})
-                // commands.push({appendInvert:"Refunds and Exchanges\n"})
-                // commands.push({appendLineSpace:32})
-                // commands.push({appendBlackMark: 'Valid'})
+                commands.push({
+                    appendAlignment: StarPRNT.AlignmentPosition.Center,
+                    data: `${profile.phone}\n`
+                });
 
-                commands.push({ appendLineFeed: 2 })
-                // commands.push({ appendAlignment: StarPRNT.AlignmentPosition.Left });
-                // commands.push({
-                //     appendAlignment: 'Left',
-                //     data: `${this.getDate()}`
-                // });
+                commands.push({
+                    appendAlignment: StarPRNT.AlignmentPosition.Center,
+                    data: `Fax : ${profile.taxId}\n`
+                });
 
-                // commands.push({ appendHorizontalTabPosition: [15, 35] })
+                commands.push({
+                    appendAlignment: StarPRNT.AlignmentPosition.Center,
+                    data: `https://www.google.com/\n`
+                });
 
-                // commands.push({ appendHorizontalTabPosition: [15, 35] })
+                commands.push({ appendLineFeed: 2 });
+                commands.push({
+                    appendAbsolutePosition: 10,
+                    data: `${this.getHour()}`
+                });
+                commands.push({
+                    appendAbsolutePosition: 210,
+                    data: `Drawer:Simon\n`
+                });
+                // ----------------
+                commands.push({
+                    appendAbsolutePosition: 10,
+                    data: `${this.getDate()}`
+                })
+                commands.push({
+                    appendAbsolutePosition: 210,
+                    data: `#1038400389489\n`
+                })
+                // ----------------
+                commands.push({
+                    appendAbsolutePosition: 10,
+                    data: `Client : Maggie Victory\n`
+                });
+                // ----------------
+                commands.push({
+                    appendAlignment: StarPRNT.AlignmentPosition.Center,
+                    data: "-------------------------------\n"
+                });
 
-                // commands.push({
-                //     appendAbsolutePosition: 10,
-                //     data: `${this.getHour()}`
-                // });
-                // commands.push({
-                //     appendAbsolutePosition: 300,
-                //     data: "Text"
-                // });
+                // ----------------
+                commands.push({
+                    appendAbsolutePosition: 10,
+                    data: `DESCRIPTION`
+                });
+
+                commands.push({
+                    appendAbsolutePosition: 220,
+                    data: `QTY`
+                });
+
+                commands.push({
+                    appendAbsolutePosition: 320,
+                    data: `PRICE\n`
+                });
+
+                // ----------------
+
+                commands.push({
+                    appendAbsolutePosition: 10,
+                    data: `---------------`
+                });
+
+                commands.push({
+                    appendAbsolutePosition: 210,
+                    data: `-----`
+                });
+
+                commands.push({
+                    appendAbsolutePosition: 285,
+                    data: `--------\n`
+                });
+                // ------- Price ------ 
+                for (let i = 0; i < basket.length; i++) {
+                    commands.push({
+                        appendAbsolutePosition: 10,
+                        data: `${basket[i].data.name}`,
+                    })
+
+                    commands.push({
+                        appendAbsolutePosition: 230,
+                        data: `${basket[i].quanlitySet ? basket[i].quanlitySet : ''}`
+                    })
+
+                    commands.push({
+                        appendAbsolutePosition: 330,
+                        data: `${basket[i].data.price}\n`
+                    })
+                }
+
+                // --------
+                commands.push({
+                    appendAbsolutePosition: 10,
+                    data: `                    `
+                })
+
+                commands.push({
+                    appendUnderline: "           \n"
+                })
+
+                // --------
+                commands.push({
+                    appendAbsolutePosition: 130,
+                    data: `Sub total`
+                });
+                commands.push({
+                    appendAbsolutePosition: 320,
+                    data: `$ ${this.state.total}\n`
+                });
+                // --------
+                commands.push({
+                    appendAbsolutePosition: 200,
+                    data: `Tax`
+                });
+                commands.push({
+                    appendAbsolutePosition: 320,
+                    data: `$ 0\n`
+                });
+                // --------
+                commands.push({
+                    appendAbsolutePosition: 180,
+                    data: `TOTAL`
+                });
+                commands.push({
+                    appendAbsolutePosition: 320,
+                    data: `$ ${this.state.total}\n`
+                });
+
+                // --------
+                commands.push({ appendLineFeed: 1 });
+
+                // --------
+                commands.push({
+                    appendAbsolutePosition: 185,
+                    data: `CASH`
+                });
+                commands.push({
+                    appendAbsolutePosition: 320,
+                    data: `${this.state.total}\n`
+                });
+                // --------
+                commands.push({ appendLineFeed: 1 });
+
+                // --------
+                commands.push({
+                    appendAbsolutePosition: 140,
+                    data: `Tendered`
+                });
+                commands.push({
+                    appendAbsolutePosition: 320,
+                    data: `120\n`
+                });
+
+                // --------
+                commands.push({
+                    appendAbsolutePosition: 160,
+                    data: `Change`
+                });
+                commands.push({
+                    appendAbsolutePosition: 320,
+                    data: `15\n`
+                });
+                // ------
+                commands.push({ appendLineFeed: 1 });
+
+                commands.push({
+                    appendAlignment: StarPRNT.AlignmentPosition.Center,
+                    data: "--- See you again ---\n"
+                })
 
 
-
-
-                // commands.push({
-                //     appendAlignment: StarPRNT.AlignmentPosition.Center,
-                //     append: `${profile.businessName}`
-                // \nAddress : ${profile.address}  \nCity, State 12345\nPhone Number :${profile.phone}  \nDate : ${temptDate}\n`
-                // })
-                // commands.push({
-                //     appendAlignment: StarPRNT.AlignmentPosition.Center,
-                //     data: "----------------------\n"
-                // })
-
-                // for (let i = 0; i < basket.length; i++) {
-                //     commands.push({
-                //         appendAbsolutePosition: 0,
-                //         data: `${i + 1}`
-                //     })
-
-                //     commands.push({
-                //         appendAbsolutePosition: 50,
-                //         data: `${basket[i].data.name} : `
-                //     })
-
-                //     commands.push({
-                //         appendAbsolutePosition: 320,
-                //         data: `$  ${basket[i].data.price} \n`
-                //     })
-                // }
-
-                // commands.push({
-                //     appendAlignment: StarPRNT.AlignmentPosition.Center,
-                //     data: "\n"
-                // })
-
-                // commands.push({
-                //     appendAbsolutePosition: 0,
-                //     data: `=`
-                // })
-
-                // commands.push({
-                //     appendAbsolutePosition: 50,
-                //     data: `Total : `
-                // })
-
-                // commands.push({
-                //     appendAbsolutePosition: 320,
-                //     data: `$  ${this.state.total} \n`
-                // })
-
-                // commands.push({
-                //     appendAlignment: StarPRNT.AlignmentPosition.Center,
-                //     data: "--- See you again ---\n"
-                // })
-
-                // commands.push({ appendLineFeed: 1 })
                 commands.push({ appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed });
                 const result = await PrintManager.getInstance().print(portName, commands);
                 this.donotPrintBill();
@@ -507,12 +599,12 @@ class TabCheckout extends Layout {
     donePayment = () => {
         const { methodPayment } = this.state;
         if (methodPayment === 'cash' || methodPayment === 'orther') {
-            this.openCashDrawer();
+            // this.openCashDrawer();
             this.props.actions.appointment.showModalPrintReceipt();
         } else if (methodPayment === 'harmony') {
-
+            this.props.actions.appointment.showModalPrintReceipt();
         } else if (methodPayment === 'credit_card') {
-
+            this.props.actions.appointment.showModalPrintReceipt();
         } else {
             // this.props.actions.appointment.showModalPrintReceipt();
         }

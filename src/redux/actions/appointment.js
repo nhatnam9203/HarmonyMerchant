@@ -73,7 +73,7 @@ export function closeModalPaymentCompleted() {
     }
 }
 
-export function createAnymousAppointment(merchantId, products,paymentMethod) {
+export function createAnymousAppointment(merchantId, products, paymentMethod) {
     return {
         type: 'CREATE_ANYMOUS_APPOINTMENT',
         body: {
@@ -103,3 +103,9 @@ export function showModalPrintReceipt() {
     }
 }
 
+
+export function donePaymentHarmony() {
+    return {
+        type: 'PAY_APPOINTMENT_SUCCESS'
+    }
+}

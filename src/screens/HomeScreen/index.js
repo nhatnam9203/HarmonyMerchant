@@ -2,6 +2,7 @@ import React from 'react';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 const signalR = require('@aspnet/signalr');
+import _ from 'ramda';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -52,8 +53,13 @@ class HomeScreen extends Layout {
 
         connection.on("ListWaNotification", (data) => {
              console.log('ListWaNotification : ',data);
-            // const temptData = JSON.parse(data)
-            // console.log('---- : ', temptData.json);
+            // // const temptData = JSON.parse(data)
+            // // console.log('---- : ', temptData.json);
+            const temptData = JSON.parse(data);
+            if (!_.isEmpty(temptData.data)) {
+                this.props.actions.appointment.donePaymentHarmony();
+            }
+
         });
 
         connection.start().catch(function (err) {
