@@ -109,3 +109,13 @@ export function donePaymentHarmony() {
         type: 'PAY_APPOINTMENT_SUCCESS'
     }
 }
+
+export function checkoutSubmit(appointmentId) {
+    return {
+        type: 'CHECKOUT_SUBMIT',
+        body: {},
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}checkout/submit/${appointmentId}`,
+    }
+}

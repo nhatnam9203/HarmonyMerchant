@@ -598,15 +598,18 @@ class TabCheckout extends Layout {
 
     donePayment = () => {
         const { methodPayment } = this.state;
-        if (methodPayment === 'cash' || methodPayment === 'orther') {
-            // this.openCashDrawer();
+        const {appointmentDetail} = this.props;
+        if (methodPayment === 'cash') {
+            this.openCashDrawer();
+            // this.props.actions.appointment.checkoutSubmit(appointmentDetail.appointmentId);
             this.props.actions.appointment.showModalPrintReceipt();
         } else if (methodPayment === 'harmony') {
             this.props.actions.appointment.showModalPrintReceipt();
         } else if (methodPayment === 'credit_card') {
             this.props.actions.appointment.showModalPrintReceipt();
         } else {
-            // this.props.actions.appointment.showModalPrintReceipt();
+             this.openCashDrawer();
+            this.props.actions.appointment.showModalPrintReceipt();
         }
     }
 
