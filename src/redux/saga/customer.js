@@ -43,7 +43,7 @@ function* getListCustomersByMerchant(action) {
 
 function* searchCustomer(action) {
     try {
-        action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
+        yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         console.log('responses : ', responses);
         const { codeNumber } = responses;

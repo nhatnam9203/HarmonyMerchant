@@ -33,6 +33,7 @@ export default class Layout extends React.Component {
 
     renderSearch() {
         const { language } = this.props;
+        const { keySearch } = this.state;
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
@@ -47,9 +48,17 @@ export default class Layout extends React.Component {
                                 <TextInput
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
                                     placeholder={`${localize('Phone number', language)}/ ${localize('Customer Name', language)}`}
+                                    value={keySearch}
+                                    onChangeText={(keySearch) => {
+                                        if (keySearch == '') {
+                                            this.props.actions.customer.clearSearCustomer();
+                                        }
+                                        this.setState({ keySearch })
+                                    }}
+                                    onSubmitEditing={this.searchCustomer}
                                 />
                             </View>
-                            <Button onPress={() => { }} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
+                            <Button onPress={this.searchCustomer} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
                                 <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
                             </Button>
 
@@ -62,7 +71,7 @@ export default class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Search', language)}
                             textColor="#6A6A6A"
-                            onPress={() => { }}
+                            onPress={this.searchCustomer}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
@@ -100,14 +109,14 @@ export default class Layout extends React.Component {
     }
 
     renderTable() {
-        const { listCustomersByExtra } = this.props;
+        const { listCustomersByMerchant ,listCustomersSearch ,isShowSearchCustomer} = this.props;
+        const temptData = isShowSearchCustomer ? listCustomersSearch : listCustomersByMerchant;
         return (
             <View style={{ flex: 1 }} >
                 <HeaderTableCustomer />
                 <FlatList
-                    data={listCustomersByExtra}
+                    data={temptData}
                     renderItem={({ item, index }) => <RowTableCustomer
-                        ref={this.setProductRef}
                         key={index}
                         customer={item}
                         unSelectAll={this.unSelectAll}

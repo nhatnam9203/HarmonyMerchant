@@ -20,4 +20,10 @@ export function searchCustomer(key) {
     }
 }
 
+export function clearSearCustomer(){
+    return{
+        type : 'CLEAR_SEARCH_CUSTOMER'
+    }
+}
+
 

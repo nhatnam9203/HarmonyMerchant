@@ -10,10 +10,10 @@ class CustomerScreen extends Layout {
         this.state = {
             isFocus: true,
             isSelectAll: false,
-            visibleEditAddCustomer: false
+            visibleEditAddCustomer: false,
+            keySearch: ''
         }
         this.scrollTabRef = React.createRef();
-        this.listProductRef = [];
     }
 
     componentDidMount() {
@@ -36,17 +36,21 @@ class CustomerScreen extends Layout {
         );
     }
 
+    searchCustomer = () => {
+        const { keySearch } = this.state;
+        if (keySearch == '') {
+            this.props.actions.customer.clearSearCustomer();
+        } else {
+            this.props.actions.customer.searchCustomer(keySearch);
+        }
+    }
+
     showModalAddCustomer = () => {
         this.setState({
             visibleEditAddCustomer: true
         })
     }
 
-    setProductRef = ref => {
-        if (ref != null) {
-            this.listProductRef.push(ref);
-        }
-    }
 
     handleLockScreen = () => {
         const { isFocus } = this.state;
@@ -63,19 +67,7 @@ class CustomerScreen extends Layout {
         this.props.actions.app.handleLockScreen(true);
     }
 
-    selectAll = () => {
-        this.setState(prevState => ({ isSelectAll: !prevState.isSelectAll }),
-            () => {
-                const { isSelectAll } = this.state;
-                for (let i = 0; i < this.listProductRef.length; i++) {
-                    this.listProductRef[i].setCheckBoxFromParent(isSelectAll);
-                }
-            })
-    }
 
-    unSelectAll = () => {
-        this.setState({ isSelectAll: false })
-    }
 
     componentWillUnmount() {
         this.didBlurSubscription.remove();
@@ -88,7 +80,9 @@ class CustomerScreen extends Layout {
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     language: state.dataLocal.language,
-    listCustomersByExtra: state.customer.listCustomersByExtra
+    listCustomersByMerchant: state.customer.listCustomersByMerchant,
+    listCustomersSearch: state.customer.listCustomersSearch,
+    isShowSearchCustomer: state.customer.isShowSearchCustomer
 })
 
 
