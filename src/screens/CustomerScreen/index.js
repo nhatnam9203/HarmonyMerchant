@@ -17,7 +17,7 @@ class CustomerScreen extends Layout {
     }
 
     componentDidMount() {
-        // this.props.actions.product.getProductsByMerchant();
+        this.props.actions.customer.getListCustomersByMerchant();
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {
@@ -34,6 +34,12 @@ class CustomerScreen extends Layout {
                 })
             }
         );
+    }
+
+    showModalAddCustomer = () =>{
+       this.setState({
+        visibleEditAddCustomer: true
+       })
     }
 
     setProductRef = ref => {
