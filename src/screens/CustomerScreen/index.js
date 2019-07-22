@@ -51,6 +51,15 @@ class CustomerScreen extends Layout {
         })
     }
 
+    closeModalAddCustomer = () => {
+        this.setState({
+            visibleEditAddCustomer: false
+        })
+    }
+
+    showModalDetail = () =>{
+        
+    }
 
     handleLockScreen = () => {
         const { isFocus } = this.state;

@@ -49,7 +49,7 @@ class RowTableCustomer extends React.Component {
         const { isCheck } = this.state;
         const temptIconCheckbox = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
-            <View style={styles.tableHeader} >
+            <Button onPress={() => this.props.showModalDetail()} style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
                 <View style={{
                     flex: 1, flexDirection: 'row',
@@ -103,15 +103,14 @@ class RowTableCustomer extends React.Component {
                             {/* Deandre Wallace */}
                         </Text>
                         <Text style={styles.textTableHeader} >
-                           {customer.referrerPhone}
+                            {customer.referrerPhone}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
-            </View>
-
+            </Button>
         );
     }
 }

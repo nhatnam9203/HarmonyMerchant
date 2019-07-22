@@ -11,7 +11,7 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent, Dropdown } from '@components';
-import { scaleSzie, localize ,getCategoryName} from '@utils';
+import { scaleSzie, localize, getCategoryName } from '@utils';
 import IMAGE from '@resources';
 
 const { width } = Dimensions.get('window');
@@ -21,33 +21,35 @@ class PopupAddEditCustomer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            productInfo: {
-                categoryId: '',
-                name: "",
-                description: "",
-                sku: '',
-                quantity: '',
-                minThreshold: '',
-                maxThreshold: '',
-                price: '',
-                status: 'Active',
+            customerInfo: {
+                firstName: '',
+                lastName: '',
+                phone: '',
+                email: '',
+                address: {
+                    street: '',
+                    city: '',
+                    state: ''
+                },
+                referenPhone: '',
+                favourite: ''
             }
         }
     }
 
-    updateProductInfo(key, value, keyParent = '') {
-        const { productInfo } = this.state;
+    updateCustomerInfo(key, value, keyParent = '') {
+        const { customerInfo } = this.state;
         if (keyParent !== '') {
-            const temptParent = productInfo[keyParent];
+            const temptParent = customerInfo[keyParent];
             const temptChild = { ...temptParent, [key]: value };
-            const temptUpdate = { ...productInfo, [keyParent]: temptChild };
+            const temptUpdate = { ...customerInfo, [keyParent]: temptChild };
             this.setState({
-                productInfo: temptUpdate
+                customerInfo: temptUpdate
             })
         } else {
-            const temptUpdate = { ...productInfo, [key]: value };
+            const temptUpdate = { ...customerInfo, [key]: value };
             this.setState({
-                productInfo: temptUpdate
+                customerInfo: temptUpdate
             })
         }
     }
@@ -57,7 +59,7 @@ class PopupAddEditCustomer extends React.Component {
         this.setState({
             productInfo: {
                 productId: productInfo.productId,
-                categoryId:getCategoryName(categoriesByMerchant, productInfo.categoryId),
+                categoryId: getCategoryName(categoriesByMerchant, productInfo.categoryId),
                 name: productInfo.name,
                 description: productInfo.description,
                 sku: productInfo.sku ? productInfo.sku : '',
@@ -72,31 +74,31 @@ class PopupAddEditCustomer extends React.Component {
 
     setDefaultStateFromParent = () => {
         this.setState({
-            productInfo: {
-                categoryId: '',
-                name: "",
-                description: "",
-                sku: '',
-                quantity: '',
-                minThreshold: '',
-                maxThreshold: '',
-                price: '',
-                status: 'Active',
+            customerInfo: {
+                firstName: '',
+                lastName: '',
+                phone: '',
+                email: '',
+                address: {
+                    street: '',
+                    city: '',
+                    state: ''
+                },
+                referenPhone: '',
+                favourite: ''
             }
         })
     }
 
     doneAddProduct = () => {
-        const { productInfo } = this.state;
+        const { customerInfo } = this.state;
         const temptProductInfo = {
-            ...productInfo,
-            status: productInfo.status === 'Active' ? 1 : 0,
-            categoryId: productInfo.categoryId !== '' ? this.getCateroryId(productInfo.categoryId) : ''
+            ...customerInfo,
         }
         const arrayKey = Object.keys(temptProductInfo);
         let keyError = "";
         for (let i = 0; i <= arrayKey.length - 1; i++) {
-            if (temptProductInfo[arrayKey[i]] == "") {
+            if (temptProductInfo[arrayKey[i]] == "" && (arrayKey[i] === 'firstName' || arrayKey[i] === 'lastName' || arrayKey[i] === 'phone')) {
                 keyError = arrayKey[i];
                 break;
             }
@@ -105,34 +107,23 @@ class PopupAddEditCustomer extends React.Component {
             Alert.alert(`${strings[keyError]}`);
         } else {
             if (this.props.isSave) {
-                this.props.editProduct(temptProductInfo);
+                // this.props.editProduct(temptProductInfo);
             } else {
-                this.props.confimYes(temptProductInfo);
+                // this.props.confimYes(temptProductInfo);
             }
 
         }
     }
 
-    getCateroryId(name) {
-        const { categoriesByMerchant } = this.props;
-        let categoryId = -1;
-        for (let i = 0; i < categoriesByMerchant.length - 1; i++) {
-            if (categoriesByMerchant[i].name == name) {
-                categoryId = categoriesByMerchant[i].categoryId;
-                break;
-            }
-        }
-        return categoryId;
-    }
 
     render() {
         const { title, visible, onRequestClose, isSave, language
         } = this.props;
         const temptHeight = width - scaleSzie(500);
         const temptTitleButton = isSave ? 'Save' : 'Add';
-        const { categoryId, name, description, sku, quantity, minThreshold,
-            maxThreshold, price, status
-        } = this.state.productInfo
+
+        const { firstName, lastName, phone, email, referenPhone, favourite, address } = this.state.customerInfo;
+        const { street, city, state } = address;
         return (
             <PopupParent
                 title={title}
@@ -162,8 +153,8 @@ class PopupAddEditCustomer extends React.Component {
                                             <TextInput
                                                 placeholder="Jerry"
                                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                                value={minThreshold}
-                                                onChangeText={value => this.updateProductInfo('minThreshold', value)}
+                                                value={firstName}
+                                                onChangeText={value => this.updateCustomerInfo('firstName', value)}
                                             />
                                         </View>
                                     </View>
@@ -177,8 +168,8 @@ class PopupAddEditCustomer extends React.Component {
                                             <TextInput
                                                 placeholder="Nguyen"
                                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                                value={maxThreshold}
-                                                onChangeText={value => this.updateProductInfo('maxThreshold', value)}
+                                                value={lastName}
+                                                onChangeText={value => this.updateCustomerInfo('lastName', value)}
                                             />
                                         </View>
                                     </View>
@@ -192,11 +183,12 @@ class PopupAddEditCustomer extends React.Component {
                                 height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
                                 paddingLeft: scaleSzie(10),
                             }} >
-                                <TextInput
+                                <TextInputMask
+                                    type="only-numbers"
                                     placeholder="0123 456 456"
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                    value={name}
-                                    onChangeText={(value) => this.updateProductInfo('name', value)}
+                                    value={phone}
+                                    onChangeText={value => this.updateCustomerInfo('phone', value)}
                                 />
                             </View>
                             {/* ---- */}
@@ -210,8 +202,8 @@ class PopupAddEditCustomer extends React.Component {
                                 <TextInput
                                     placeholder="example@gmail.com"
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                    value={name}
-                                    onChangeText={(value) => this.updateProductInfo('name', value)}
+                                    value={email}
+                                    onChangeText={value => this.updateCustomerInfo('email', value)}
                                 />
                             </View>
                             {/* ------- */}
@@ -225,8 +217,8 @@ class PopupAddEditCustomer extends React.Component {
                                 <TextInput
                                     placeholder="Street"
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                    value={name}
-                                    onChangeText={(value) => this.updateProductInfo('name', value)}
+                                    value={street}
+                                    onChangeText={value => this.updateCustomerInfo('street', value, 'address')}
                                 />
                             </View>
                             {/* ----- */}
@@ -237,8 +229,8 @@ class PopupAddEditCustomer extends React.Component {
                                             <TextInput
                                                 placeholder="City"
                                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                                value={minThreshold}
-                                                onChangeText={value => this.updateProductInfo('minThreshold', value)}
+                                                value={city}
+                                                onChangeText={value => this.updateCustomerInfo('city', value, 'address')}
                                             />
                                         </View>
                                     </View>
@@ -250,8 +242,8 @@ class PopupAddEditCustomer extends React.Component {
                                                 label='State'
                                                 // data={this.filterCategories(categoriesByMerchant)}
                                                 data={[{ value: 1 }, { value: 2 }]}
-                                                // value={categoryId}
-                                                // onChangeText={(value) => this.updateProductInfo('categoryId', value)}
+                                                value={state}
+                                                onChangeText={(value) => this.updateCustomerInfo('state', value, 'address')}
                                                 containerStyle={{
                                                     backgroundColor: '#F1F1F1',
                                                     borderWidth: 1,
@@ -271,40 +263,50 @@ class PopupAddEditCustomer extends React.Component {
                                 height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
                                 paddingLeft: scaleSzie(10),
                             }} >
-                                <TextInput
+                                <TextInputMask
+                                    type="only-numbers"
                                     placeholder="0123 456 456"
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                    value={name}
-                                    onChangeText={(value) => this.updateProductInfo('name', value)}
+                                    value={referenPhone}
+                                    onChangeText={value => this.updateCustomerInfo('referenPhone', value)}
+
                                 />
                             </View>
                             {/* ------- */}
                             <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                               {localize('Note',language)}
+                                {localize('Note', language)}
                             </Text>
                             <View style={{
-                                height: scaleSzie(140), 
+                                height: scaleSzie(110),
                                 backgroundColor: '#F1F1F1',
-                                paddingHorizontal:scaleSzie(15),
-                                paddingBottom:scaleSzie(10),
-                                justifyContent:'flex-end'
+                                paddingHorizontal: scaleSzie(15),
+                                paddingBottom: scaleSzie(10),
+                                paddingTop: scaleSzie(12)
                             }} >
-                                <View style={{height:scaleSzie(40),flexDirection:'row'}} >
-                                    <View style={{flex:1,backgroundColor:'#fff',
-                                borderWidth:1,borderColor:'#C5C5C5', borderTopLeftRadius:4,borderBottomLeftRadius:4
-                                }} >
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
+                                    Note about customer's favourite
+                                </Text>
+                                <View style={{ flex: 1, justifyContent: 'flex-end' }} >
+                                    <View style={{ height: scaleSzie(40), flexDirection: 'row' }} >
+                                        <View style={{
+                                            flex: 1, backgroundColor: '#fff',
+                                            borderWidth: 1, borderColor: '#C5C5C5', borderTopLeftRadius: 4, borderBottomLeftRadius: 4
+                                        }} >
+
+                                        </View>
+                                        <View style={{
+                                            width: scaleSzie(40), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center',
+                                            borderTopRightRadius: 4, borderBottomRightRadius: 4
+                                        }} >
+                                            <Image
+                                                source={IMAGE.arrowNote}
+                                                style={{ width: scaleSzie(20), height: scaleSzie(23) }}
+                                            />
+                                        </View>
 
                                     </View>
-                                    <View style={{width:scaleSzie(40),backgroundColor:'#0764B0',justifyContent:'center',alignItems:'center',
-                                borderTopRightRadius:4,borderBottomRightRadius:4
-                                }} >
-                                        <Image 
-                                        source={IMAGE.arrowNote}
-                                        style={{width:scaleSzie(20),height:scaleSzie(23)}}
-                                        />
-                                    </View>
-
                                 </View>
+
                             </View>
                             {/* -----  */}
                             <View style={{ height: scaleSzie(250) }} />
@@ -334,15 +336,9 @@ class PopupAddEditCustomer extends React.Component {
 
 
 const strings = {
-    categoryId: 'Mising info : Category',
-    name: 'Mising info : Name Product',
-    description: 'Mising info : Description',
-    sku: 'Mising info : SKU Number',
-    quantity: 'Mising info : Item In Stock',
-    minThreshold: 'Mising info : Low Theshold',
-    maxThreshold: 'Mising info : Max Theshold',
-    price: 'Mising info : Price',
-    status: 'Active',
+    firstName: 'Mising info : First Name',
+    lastName: 'Mising info : Last Name',
+    phone: 'Mising info : Phone',
 }
 
 export default PopupAddEditCustomer;

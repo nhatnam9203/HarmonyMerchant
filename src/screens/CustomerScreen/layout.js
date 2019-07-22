@@ -109,7 +109,7 @@ export default class Layout extends React.Component {
     }
 
     renderTable() {
-        const { listCustomersByMerchant ,listCustomersSearch ,isShowSearchCustomer,
+        const { listCustomersByMerchant, listCustomersSearch, isShowSearchCustomer,
             refreshListCustomer
         } = this.props;
         const temptData = isShowSearchCustomer ? listCustomersSearch : listCustomersByMerchant;
@@ -122,6 +122,7 @@ export default class Layout extends React.Component {
                         key={index}
                         customer={item}
                         unSelectAll={this.unSelectAll}
+                        showModalDetail={this.showModalDetail}
                     />}
                     keyExtractor={(item, index) => `${item.customerId}`}
                     ListEmptyComponent={<RowEmptyTableCustomer />}
@@ -165,6 +166,7 @@ export default class Layout extends React.Component {
                     visible={visibleEditAddCustomer}
                     title="New Customer"
                     titleButton="Save"
+                    onRequestClose={this.closeModalAddCustomer}
                 />
             </ParentContainer>
         );
