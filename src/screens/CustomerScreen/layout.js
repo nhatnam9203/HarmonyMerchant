@@ -100,19 +100,19 @@ export default class Layout extends React.Component {
     }
 
     renderTable() {
-        const { productsByMerchantId } = this.props;
+        const { listCustomersByExtra } = this.props;
         return (
             <View style={{ flex: 1 }} >
                 <HeaderTableCustomer />
                 <FlatList
-                    data={[]}
+                    data={listCustomersByExtra}
                     renderItem={({ item, index }) => <RowTableCustomer
                         ref={this.setProductRef}
                         key={index}
-                        product={item}
+                        customer={item}
                         unSelectAll={this.unSelectAll}
                     />}
-                    keyExtractor={(item, index) => `${item.productId}`}
+                    keyExtractor={(item, index) => `${item.customerId}`}
                     ListEmptyComponent={<RowEmptyTableCustomer />}
                 />
             </View>

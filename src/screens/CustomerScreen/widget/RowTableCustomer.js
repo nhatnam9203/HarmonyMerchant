@@ -45,7 +45,7 @@ class RowTableCustomer extends React.Component {
     }
 
     render() {
-        const { product, index, archiveService, editService, restoreService } = this.props;
+        const { customer, index, archiveService, editService, restoreService } = this.props;
         const { isCheck } = this.state;
         const temptIconCheckbox = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
@@ -61,8 +61,7 @@ class RowTableCustomer extends React.Component {
                         paddingLeft: scaleSzie(12)
                     }]} >
                         <Text style={styles.textTableHeader} >
-                            {/* {product.name} */}
-                            Adrienne Miller
+                            {`${customer.firstName} ${customer.lastName}`}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -75,8 +74,7 @@ class RowTableCustomer extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            {/* {product.sku} */}
-                            093755566
+                            {customer.phone}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -89,8 +87,7 @@ class RowTableCustomer extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            {/* {product.price} */}
-                            abc@gmail.com
+                            {customer.email}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -103,10 +100,10 @@ class RowTableCustomer extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        Deandre Wallace
+                            {/* Deandre Wallace */}
                         </Text>
                         <Text style={styles.textTableHeader} >
-                        (874) 895-8899
+                           {customer.referrerPhone}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >

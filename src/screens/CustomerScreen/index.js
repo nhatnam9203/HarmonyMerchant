@@ -10,7 +10,7 @@ class CustomerScreen extends Layout {
         this.state = {
             isFocus: true,
             isSelectAll: false,
-            visibleEditAddCustomer:false
+            visibleEditAddCustomer: false
         }
         this.scrollTabRef = React.createRef();
         this.listProductRef = [];
@@ -36,10 +36,10 @@ class CustomerScreen extends Layout {
         );
     }
 
-    showModalAddCustomer = () =>{
-       this.setState({
-        visibleEditAddCustomer: true
-       })
+    showModalAddCustomer = () => {
+        this.setState({
+            visibleEditAddCustomer: true
+        })
     }
 
     setProductRef = ref => {
@@ -73,8 +73,8 @@ class CustomerScreen extends Layout {
             })
     }
 
-    unSelectAll =() =>{
-        this.setState({isSelectAll:false})
+    unSelectAll = () => {
+        this.setState({ isSelectAll: false })
     }
 
     componentWillUnmount() {
@@ -88,7 +88,7 @@ class CustomerScreen extends Layout {
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     language: state.dataLocal.language,
-    productsByMerchantId: state.product.productsByMerchantId
+    listCustomersByExtra: state.customer.listCustomersByExtra
 })
 
 

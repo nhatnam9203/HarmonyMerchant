@@ -1,5 +1,5 @@
 const initialState = {
-    listCustomersByExtra:[]
+    listCustomersByExtra: []
 }
 
 function appReducer(state = initialState, action) {
