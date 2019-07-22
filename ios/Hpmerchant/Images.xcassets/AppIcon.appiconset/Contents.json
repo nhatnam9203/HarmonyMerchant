@@ -3,55 +3,55 @@
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "Merchant 40x40-1.png",
+      "filename" : "Merchant 40.png",
       "scale" : "2x"
     },
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "Merchant 60x60.png",
+      "filename" : "Merchant 60.png",
       "scale" : "3x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "Merchant 58x58.png",
+      "filename" : "Merchant 58.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "Merchant 87x87.png",
+      "filename" : "Merchant 87.png",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "Merchant 80x80.png",
+      "filename" : "Merchant 80.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "Merchant 120x120.png",
+      "filename" : "Merchant 120.png",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "Merchant 120x120-1.png",
+      "filename" : "Merchant 120-1.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "Merchant 180x180.png",
+      "filename" : "Merchant 180.png",
       "scale" : "3x"
     },
     {
       "size" : "1024x1024",
       "idiom" : "ios-marketing",
-      "filename" : "Merchant 1024x1024.png",
+      "filename" : "Merchant 1024.png",
       "scale" : "1x"
     }
   ],
