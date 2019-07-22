@@ -109,7 +109,9 @@ export default class Layout extends React.Component {
     }
 
     renderTable() {
-        const { listCustomersByMerchant ,listCustomersSearch ,isShowSearchCustomer} = this.props;
+        const { listCustomersByMerchant ,listCustomersSearch ,isShowSearchCustomer,
+            refreshListCustomer
+        } = this.props;
         const temptData = isShowSearchCustomer ? listCustomersSearch : listCustomersByMerchant;
         return (
             <View style={{ flex: 1 }} >
@@ -123,6 +125,8 @@ export default class Layout extends React.Component {
                     />}
                     keyExtractor={(item, index) => `${item.customerId}`}
                     ListEmptyComponent={<RowEmptyTableCustomer />}
+                    refreshing={refreshListCustomer}
+                    onRefresh={() => this.props.actions.customer.getListCustomersByMerchant(false)}
                 />
             </View>
         );
