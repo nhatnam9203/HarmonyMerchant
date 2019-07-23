@@ -21,14 +21,33 @@ class PopupCustomerDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            customerInfo: {
+                firstName: '',
+                lastName: '',
+                phone: '',
+                email: '',
+                address: {
+                    street: '',
+                    city: '',
+                    state: 0
+                },
+                referrerPhone: '',
+                favourite: ''
+            }
         }
     }
 
+    setStateFromParent = customer => {
+        this.setState({
+            customerInfo: customer
+        })
+    }
 
     render() {
-        const { title, visible, onRequestClose, isSave, language
+        const { title, visible, onRequestClose, language
         } = this.props;
         const temptHeight = width - scaleSzie(500);
+        const {firstName,lastName,phone,email,referrerPhone,favourite} = this.state.customerInfo;
         return (
             <PopupParent
                 title={title}
@@ -47,59 +66,59 @@ class PopupCustomerDetail extends React.Component {
                         <ScrollView
                             showsVerticalScrollIndicator={false}
                         >
-                               <TouchableOpacity activeOpacity={1}>
-                            {/* -------------------- */}
-                            <View style={{ marginTop: scaleSzie(14), flexDirection: 'row' }} >
-                                <View style={{ flex: 1 }} >
-                                    <ItemDetail
-                                        title={`${localize('First Name', language)} *`}
-                                        value={'Adrienne'}
-                                    />
+                            <TouchableOpacity activeOpacity={1}>
+                                {/* -------------------- */}
+                                <View style={{ marginTop: scaleSzie(14), flexDirection: 'row' }} >
+                                    <View style={{ flex: 1 }} >
+                                        <ItemDetail
+                                            title={`${localize('First Name', language)} *`}
+                                            value={firstName}
+                                        />
+                                    </View>
+                                    <View style={{ flex: 1 }} >
+                                        <ItemDetail
+                                            title={`${localize('Last Name', language)} *`}
+                                            value={lastName}
+                                        />
+                                    </View>
                                 </View>
-                                <View style={{ flex: 1 }} >
-                                    <ItemDetail
-                                        title={`${localize('Last Name', language)} *`}
-                                        value={'Miller'}
-                                    />
-                                </View>
-                            </View>
-                            {/* -------------------- */}
-                            <ItemDetail
-                                style={{ marginTop: scaleSzie(12) }}
-                                title={`${localize('Phone Number', language)} *`}
-                                value={'(362) 200-4503'}
-                            />
+                                {/* -------------------- */}
+                                <ItemDetail
+                                    style={{ marginTop: scaleSzie(12) }}
+                                    title={`${localize('Phone Number', language)} *`}
+                                    value={phone}
+                                />
 
-                            {/* -------------------- */}
-                            <ItemDetail
-                                style={{ marginTop: scaleSzie(12) }}
-                                title={`${localize('Contact email', language)}:`}
-                                value={'hillct@yahoo.com'}
-                            />
+                                {/* -------------------- */}
+                                <ItemDetail
+                                    style={{ marginTop: scaleSzie(12) }}
+                                    title={`${localize('Contact email', language)}:`}
+                                    value={email}
+                                />
 
-                            {/* -------------------- */}
-                            <ItemDetail
-                                style={{ marginTop: scaleSzie(12) }}
-                                title={`${localize('Address', language)}`}
-                                value={'Unknown'}
-                            />
+                                {/* -------------------- */}
+                                <ItemDetail
+                                    style={{ marginTop: scaleSzie(12) }}
+                                    title={`${localize('Address', language)}`}
+                                    value={'Unknown'}
+                                />
 
-                            {/* -------------------- */}
-                            <ItemDetail
-                                style={{ marginTop: scaleSzie(12) }}
-                                title={`${localize('Referrer Phone Number', language)}`}
-                                value={'(874) 895-8899'}
-                            />
+                                {/* -------------------- */}
+                                <ItemDetail
+                                    style={{ marginTop: scaleSzie(12) }}
+                                    title={`${localize('Referrer Phone Number', language)}`}
+                                    value={referrerPhone}
+                                />
 
-                            {/* -------------------- */}
-                            <ItemDetail
-                                style={{ marginTop: scaleSzie(12) }}
-                                title={`${localize('Note', language)}`}
-                                value={'- Note about customers favourite'}
-                            />
+                                {/* -------------------- */}
+                                <ItemDetail
+                                    style={{ marginTop: scaleSzie(12) }}
+                                    title={`${localize('Note', language)}`}
+                                    value={favourite}
+                                />
 
-                            {/* -----  */}
-                            <View style={{ height: scaleSzie(250) }} />
+                                {/* -----  */}
+                                <View style={{ height: scaleSzie(250) }} />
                             </TouchableOpacity>
                         </ScrollView>
                     </View>
@@ -111,7 +130,7 @@ class PopupCustomerDetail extends React.Component {
                             backgroundColor="#0764B0"
                             title={'Edit'}
                             textColor="#fff"
-                            onPress={this.doneAddProduct}
+                            onPress={() => this.props.showModalEditCustomer()}
                             style={{ borderRadius: scaleSzie(2) }}
                             styleText={{
                                 fontSize: scaleSzie(14)

@@ -11,10 +11,12 @@ class CustomerScreen extends Layout {
             isFocus: true,
             isSelectAll: false,
             visibleEditAddCustomer: false,
-            visibleDetail:false,
+            visibleDetail: false,
             keySearch: ''
         }
         this.scrollTabRef = React.createRef();
+        this.modalDetailRef = React.createRef();
+        this.modalAddRef = React.createRef();
     }
 
     componentDidMount() {
@@ -47,6 +49,7 @@ class CustomerScreen extends Layout {
     }
 
     showModalAddCustomer = () => {
+        this.modalAddRef.current.setStateDefaultFromParent();
         this.setState({
             visibleEditAddCustomer: true
         })
@@ -58,21 +61,22 @@ class CustomerScreen extends Layout {
         })
     }
 
-    closeModalDetail =() =>{
+    closeModalDetail = () => {
         this.setState({
-            visibleDetail:false
+            visibleDetail: false
         })
     }
 
-    showModalDetail = () =>{
+    showModalDetail = (customer) => {
+        this.modalDetailRef.current.setStateFromParent(customer);
         this.setState({
-            visibleDetail:true
+            visibleDetail: true
         })
     }
 
-    addCustomer = (customer) =>{
+    addCustomer = (customer) => {
         this.props.actions.customer.addCustomer(customer);
-        console.log('customer : ',customer);
+        console.log('customer : ', customer);
     }
 
     handleLockScreen = () => {

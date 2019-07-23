@@ -27,7 +27,7 @@ class PopupAddEditCustomer extends React.Component {
                 lastName: '',
                 phone: '',
                 email: '',
-                address: {
+                addressPost: {
                     street: '',
                     city: '',
                     state: ''
@@ -37,6 +37,7 @@ class PopupAddEditCustomer extends React.Component {
             }
         }
     }
+
 
     updateCustomerInfo(key, value, keyParent = '') {
         const { customerInfo } = this.state;
@@ -73,14 +74,14 @@ class PopupAddEditCustomer extends React.Component {
         })
     }
 
-    setDefaultStateFromParent = () => {
+    setStateDefaultFromParent = () => {
         this.setState({
             customerInfo: {
                 firstName: '',
                 lastName: '',
                 phone: '',
                 email: '',
-                address: {
+                addressPost: {
                     street: '',
                     city: '',
                     state: ''
@@ -124,8 +125,8 @@ class PopupAddEditCustomer extends React.Component {
         const temptHeight = width - scaleSzie(500);
         const temptTitleButton = isSave ? 'Save' : 'Add';
 
-        const { firstName, lastName, phone, email, referrerPhone, favourite, address } = this.state.customerInfo;
-        const { street, city, state } = address;
+        const { firstName, lastName, phone, email, referrerPhone, favourite, addressPost } = this.state.customerInfo;
+        const { street, city, state } = addressPost;
         return (
             <PopupParent
                 title={title}
@@ -221,7 +222,7 @@ class PopupAddEditCustomer extends React.Component {
                                     placeholder="Street"
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
                                     value={street}
-                                    onChangeText={value => this.updateCustomerInfo('street', value, 'address')}
+                                    onChangeText={value => this.updateCustomerInfo('street', value, 'addressPost')}
                                 />
                             </View>
                             {/* ----- */}
@@ -233,7 +234,7 @@ class PopupAddEditCustomer extends React.Component {
                                                 placeholder="City"
                                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
                                                 value={city}
-                                                onChangeText={value => this.updateCustomerInfo('city', value, 'address')}
+                                                onChangeText={value => this.updateCustomerInfo('city', value, 'addressPost')}
                                             />
                                         </View>
                                     </View>
@@ -246,7 +247,7 @@ class PopupAddEditCustomer extends React.Component {
                                                 // data={this.filterCategories(categoriesByMerchant)}
                                                 data={[{ value: 1 }, { value: 2 }]}
                                                 value={state}
-                                                onChangeText={(value) => this.updateCustomerInfo('state', value, 'address')}
+                                                onChangeText={(value) => this.updateCustomerInfo('state', value, 'addressPost')}
                                                 containerStyle={{
                                                     backgroundColor: '#F1F1F1',
                                                     borderWidth: 1,

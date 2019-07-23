@@ -85,10 +85,13 @@ function* addCustomer(action) {
         console.log('responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            // yield put({
-            //     type: 'SEARCH_CUSTOMER_SUCCESS',
-            //     payload: responses.data
-            // })
+            yield put({
+                type: 'GET_LIST_CUSTOMER_BY_MERCHANT',
+                method: 'GET',
+                api: `${apiConfigs.BASE_API}customer/bymerchant`,
+                token: true,
+                isShowLoading
+            })
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({

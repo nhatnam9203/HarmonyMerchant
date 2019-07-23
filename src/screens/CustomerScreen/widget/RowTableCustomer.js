@@ -49,7 +49,7 @@ class RowTableCustomer extends React.Component {
         const { isCheck } = this.state;
         const temptIconCheckbox = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
-            <Button onPress={() => this.props.showModalDetail()} style={styles.tableHeader} >
+            <Button onPress={() => this.props.showModalDetail(customer)} style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
                 <View style={{
                     flex: 1, flexDirection: 'row',

@@ -162,6 +162,7 @@ export default class Layout extends React.Component {
                     </Button>
                 </View>
                 <PopupAddEditCustomer
+                    ref={this.modalAddRef}
                     language={language}
                     visible={visibleEditAddCustomer}
                     title="New Customer"
@@ -169,6 +170,7 @@ export default class Layout extends React.Component {
                     addCustomer={this.addCustomer}
                 />
                 <PopupCustomerDetail
+                    ref={this.modalDetailRef}
                     language={language}
                     visible={visibleDetail}
                     title="Customer Details"
