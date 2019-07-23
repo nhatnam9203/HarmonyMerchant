@@ -36,4 +36,15 @@ export function addCustomer(body) {
     }
 }
 
+export function editCustomer(id, body) {
+    return {
+        type: 'EDIT_CUSTOMER',
+        method: 'PUT',
+        body,
+        api: `${apiConfigs.BASE_API}customer/${id}`,
+        token: true
+    }
+}
+
+
 

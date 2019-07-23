@@ -134,8 +134,8 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { language } = this.props;
-        const { visibleEditAddCustomer, visibleDetail } = this.state;
+        const { language,stateCity } = this.props;
+        const { visibleAdd, visibleDetail,visibleEdit } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -164,10 +164,21 @@ export default class Layout extends React.Component {
                 <PopupAddEditCustomer
                     ref={this.modalAddRef}
                     language={language}
-                    visible={visibleEditAddCustomer}
+                    visible={visibleAdd}
                     title="New Customer"
                     onRequestClose={this.closeModalAddCustomer}
                     addCustomer={this.addCustomer}
+                    stateCity={stateCity}
+                />
+                <PopupAddEditCustomer
+                    ref={this.modalEditRef}
+                    language={language}
+                    visible={visibleEdit}
+                    title="Edit Customer"
+                    onRequestClose={this.closeModalEditCustomer}
+                    editCustomer={this.editCustomer}
+                    stateCity={stateCity}
+                    isSave={true}
                 />
                 <PopupCustomerDetail
                     ref={this.modalDetailRef}
@@ -175,6 +186,7 @@ export default class Layout extends React.Component {
                     visible={visibleDetail}
                     title="Customer Details"
                     onRequestClose={this.closeModalDetail}
+                    showModalEditCustomer={this.showModalEditCustomer}
                 />
             </ParentContainer>
         );

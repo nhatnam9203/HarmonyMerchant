@@ -12,7 +12,7 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent, Dropdown } from '@components';
-import { scaleSzie, localize, getCategoryName } from '@utils';
+import { scaleSzie, localize, getArrayNameStateCity, getIdStateByName,getNameStateById } from '@utils';
 import IMAGE from '@resources';
 
 const { width } = Dimensions.get('window');
@@ -34,7 +34,8 @@ class PopupAddEditCustomer extends React.Component {
                 },
                 referrerPhone: '',
                 favourite: ''
-            }
+            },
+            customerId: ''
         }
     }
 
@@ -56,21 +57,22 @@ class PopupAddEditCustomer extends React.Component {
         }
     }
 
-    setProductInfoFromParent = (productInfo) => {
-        const { categoriesByMerchant } = this.props;
+    setStateFromParent = customer => {
         this.setState({
-            productInfo: {
-                productId: productInfo.productId,
-                categoryId: getCategoryName(categoriesByMerchant, productInfo.categoryId),
-                name: productInfo.name,
-                description: productInfo.description,
-                sku: productInfo.sku ? productInfo.sku : '',
-                quantity: productInfo.quantity ? productInfo.quantity : '',
-                minThreshold: productInfo.minThreshold ? productInfo.minThreshold : '',
-                maxThreshold: productInfo.maxThreshold ? productInfo.maxThreshold : '',
-                price: productInfo.price ? productInfo.price : '',
-                status: productInfo.isDisabled === 0 ? 'Active' : 'Disable'
-            }
+            customerInfo: {
+                firstName: customer.firstName,
+                lastName: customer.lastName,
+                phone: customer.phone,
+                email: customer.email,
+                addressPost: {
+                    street: customer.addressPost.street,
+                    city: customer.addressPost.city,
+                    state: customer.addressPost.state === 0 ? '' :  getNameStateById(this.props.stateCity,customer.addressPost.state)
+                },
+                referrerPhone: customer.referrerPhone,
+                favourite: customer.favourite
+            },
+            customerId: customer.customerId
         })
     }
 
@@ -94,13 +96,10 @@ class PopupAddEditCustomer extends React.Component {
 
     doneAddProduct = () => {
         const { customerInfo } = this.state;
-        const temptCustomerInfo = {
-            ...customerInfo,
-        }
-        const arrayKey = Object.keys(temptCustomerInfo);
+        const arrayKey = Object.keys(customerInfo);
         let keyError = "";
         for (let i = 0; i <= arrayKey.length - 1; i++) {
-            if (temptCustomerInfo[arrayKey[i]] == "" && (arrayKey[i] === 'firstName' || arrayKey[i] === 'lastName' || arrayKey[i] === 'phone')) {
+            if (customerInfo[arrayKey[i]] == "" && (arrayKey[i] === 'firstName' || arrayKey[i] === 'lastName' || arrayKey[i] === 'phone')) {
                 keyError = arrayKey[i];
                 break;
             }
@@ -108,11 +107,20 @@ class PopupAddEditCustomer extends React.Component {
         if (keyError != '') {
             Alert.alert(`${strings[keyError]}`);
         } else {
+            const { addressPost } = customerInfo;
+            const temptAddress = {
+                ...addressPost,
+                state: addressPost.state === '' ? 0 : getIdStateByName(this.props.stateCity, addressPost.state)
+            };
+            const temptCustomerInfo = {
+                ...customerInfo,
+                addressPost: temptAddress
+            };
             if (this.props.isSave) {
-                // this.props.editProduct(temptCustomerInfo);
+                this.props.editCustomer(this.state.customerId,temptCustomerInfo);
             } else {
                 this.props.addCustomer(temptCustomerInfo);
-                // console.log('temptCustomerInfo : ',temptCustomerInfo);
+                // console.log('temptCustomerInfo : ', temptCustomerInfo);
             }
 
         }
@@ -120,7 +128,7 @@ class PopupAddEditCustomer extends React.Component {
 
 
     render() {
-        const { title, visible, onRequestClose, isSave, language
+        const { title, visible, onRequestClose, isSave, language, stateCity
         } = this.props;
         const temptHeight = width - scaleSzie(500);
         const temptTitleButton = isSave ? 'Save' : 'Add';
@@ -145,175 +153,179 @@ class PopupAddEditCustomer extends React.Component {
                         <ScrollView
                             showsVerticalScrollIndicator={false}
                         >
-                              <TouchableOpacity activeOpacity={1}>
-                            {/* ----- */}
-                            <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
-                                <View style={{ flex: 1 }} >
-                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6) }} >
-                                        {`${localize('First Name', language)} *`}
-                                    </Text>
-                                    <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
-                                        <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
-                                            <TextInput
-                                                placeholder="Jerry"
-                                                style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                                value={firstName}
-                                                onChangeText={value => this.updateCustomerInfo('firstName', value)}
-                                            />
+                            <TouchableOpacity activeOpacity={1}>
+                                {/* ----- */}
+                                <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                                    <View style={{ flex: 1 }} >
+                                        <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6) }} >
+                                            {`${localize('First Name', language)} *`}
+                                        </Text>
+                                        <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
+                                                <TextInput
+                                                    placeholder="Jerry"
+                                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                    value={firstName}
+                                                    onChangeText={value => this.updateCustomerInfo('firstName', value)}
+                                                />
+                                            </View>
+                                        </View>
+                                    </View>
+                                    <View style={{ flex: 1 }} >
+                                        <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6) }} >
+                                            {`${localize('Last Name', language)} *`}
+                                        </Text>
+                                        <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
+                                                <TextInput
+                                                    placeholder="Nguyen"
+                                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                    value={lastName}
+                                                    onChangeText={value => this.updateCustomerInfo('lastName', value)}
+                                                />
+                                            </View>
                                         </View>
                                     </View>
                                 </View>
-                                <View style={{ flex: 1 }} >
-                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6) }} >
-                                        {`${localize('Last Name', language)} *`}
-                                    </Text>
-                                    <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
-                                        <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
-                                            <TextInput
-                                                placeholder="Nguyen"
-                                                style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                                value={lastName}
-                                                onChangeText={value => this.updateCustomerInfo('lastName', value)}
-                                            />
-                                        </View>
-                                    </View>
-                                </View>
-                            </View>
-                            {/* ---- */}
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
-                                {localize('Phone Number *', language)}
-                            </Text>
-                            <View style={{
-                                height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
-                                paddingLeft: scaleSzie(10),
-                            }} >
-                                <TextInputMask
-                                    type="only-numbers"
-                                    placeholder="0123 456 456"
-                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                    value={phone}
-                                    onChangeText={value => this.updateCustomerInfo('phone', value)}
-                                />
-                            </View>
-                            {/* ---- */}
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
-                                {localize('Contact email', language)}
-                            </Text>
-                            <View style={{
-                                height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
-                                paddingLeft: scaleSzie(10),
-                            }} >
-                                <TextInput
-                                    placeholder="example@gmail.com"
-                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                    value={email}
-                                    onChangeText={value => this.updateCustomerInfo('email', value)}
-                                />
-                            </View>
-                            {/* ------- */}
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
-                                {localize('Address', language)}
-                            </Text>
-                            <View style={{
-                                height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
-                                paddingLeft: scaleSzie(10),
-                            }} >
-                                <TextInput
-                                    placeholder="Street"
-                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                    value={street}
-                                    onChangeText={value => this.updateCustomerInfo('street', value, 'addressPost')}
-                                />
-                            </View>
-                            {/* ----- */}
-                            <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
-                                <View style={{ flex: 1 }} >
-                                    <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(10) }} >
-                                        <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
-                                            <TextInput
-                                                placeholder="City"
-                                                style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                                value={city}
-                                                onChangeText={value => this.updateCustomerInfo('city', value, 'addressPost')}
-                                            />
-                                        </View>
-                                    </View>
-                                </View>
-                                <View style={{ flex: 1 }} >
-                                    <View style={{ height: scaleSzie(30), }} >
-                                        <View style={{ flex: 1 }} >
-                                            <Dropdown
-                                                label='State'
-                                                // data={this.filterCategories(categoriesByMerchant)}
-                                                data={[{ value: 1 }, { value: 2 }]}
-                                                value={state}
-                                                onChangeText={(value) => this.updateCustomerInfo('state', value, 'addressPost')}
-                                                containerStyle={{
-                                                    backgroundColor: '#F1F1F1',
-                                                    borderWidth: 1,
-                                                    borderColor: '#C5C5C5',
-                                                    flex: 1
-                                                }}
-                                            />
-                                        </View>
-                                    </View>
-                                </View>
-                            </View>
-                            {/* ---- */}
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
-                                {localize('Referrer Phone Number', language)}
-                            </Text>
-                            <View style={{
-                                height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
-                                paddingLeft: scaleSzie(10),
-                            }} >
-                                <TextInputMask
-                                    type="only-numbers"
-                                    placeholder="0123 456 456"
-                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                    value={referrerPhone}
-                                    onChangeText={value => this.updateCustomerInfo('referrerPhone', value)}
-
-                                />
-                            </View>
-                            {/* ------- */}
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                {localize('Note', language)}
-                            </Text>
-                            <View style={{
-                                height: scaleSzie(110),
-                                backgroundColor: '#F1F1F1',
-                                paddingHorizontal: scaleSzie(15),
-                                paddingBottom: scaleSzie(10),
-                                paddingTop: scaleSzie(12)
-                            }} >
-                                <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
-                                    Note about customer's favourite
+                                {/* ---- */}
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
+                                    {localize('Phone Number *', language)}
                                 </Text>
-                                <View style={{ flex: 1, justifyContent: 'flex-end' }} >
-                                    <View style={{ height: scaleSzie(40), flexDirection: 'row' }} >
-                                        <View style={{
-                                            flex: 1, backgroundColor: '#fff',
-                                            borderWidth: 1, borderColor: '#C5C5C5', borderTopLeftRadius: 4, borderBottomLeftRadius: 4
-                                        }} >
-
+                                <View style={{
+                                    height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
+                                    paddingLeft: scaleSzie(10),
+                                }} >
+                                    <TextInputMask
+                                        type="only-numbers"
+                                        placeholder="0123 456 456"
+                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                        value={phone}
+                                        onChangeText={value => this.updateCustomerInfo('phone', value)}
+                                    />
+                                </View>
+                                {/* ---- */}
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
+                                    {localize('Contact email', language)}
+                                </Text>
+                                <View style={{
+                                    height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
+                                    paddingLeft: scaleSzie(10),
+                                }} >
+                                    <TextInput
+                                        placeholder="example@gmail.com"
+                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                        value={email}
+                                        onChangeText={value => this.updateCustomerInfo('email', value)}
+                                    />
+                                </View>
+                                {/* ------- */}
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
+                                    {localize('Address', language)}
+                                </Text>
+                                <View style={{
+                                    height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
+                                    paddingLeft: scaleSzie(10),
+                                }} >
+                                    <TextInput
+                                        placeholder="Street"
+                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                        value={street}
+                                        onChangeText={value => this.updateCustomerInfo('street', value, 'addressPost')}
+                                    />
+                                </View>
+                                {/* ----- */}
+                                <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                                    <View style={{ flex: 1 }} >
+                                        <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(10) }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
+                                                <TextInput
+                                                    placeholder="City"
+                                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                    value={city}
+                                                    onChangeText={value => this.updateCustomerInfo('city', value, 'addressPost')}
+                                                />
+                                            </View>
                                         </View>
-                                        <View style={{
-                                            width: scaleSzie(40), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center',
-                                            borderTopRightRadius: 4, borderBottomRightRadius: 4
-                                        }} >
-                                            <Image
-                                                source={IMAGE.arrowNote}
-                                                style={{ width: scaleSzie(20), height: scaleSzie(23) }}
-                                            />
+                                    </View>
+                                    <View style={{ flex: 1 }} >
+                                        <View style={{ height: scaleSzie(30), }} >
+                                            <View style={{ flex: 1 }} >
+                                                <Dropdown
+                                                    label='State'
+                                                    data={getArrayNameStateCity(stateCity)}
+                                                    value={state}
+                                                    onChangeText={(value) => this.updateCustomerInfo('state', value, 'addressPost')}
+                                                    containerStyle={{
+                                                        backgroundColor: '#F1F1F1',
+                                                        borderWidth: 1,
+                                                        borderColor: '#C5C5C5',
+                                                        flex: 1
+                                                    }}
+                                                />
+                                            </View>
                                         </View>
-
                                     </View>
                                 </View>
+                                {/* ---- */}
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
+                                    {localize('Referrer Phone Number', language)}
+                                </Text>
+                                <View style={{
+                                    height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
+                                    paddingLeft: scaleSzie(10),
+                                }} >
+                                    <TextInputMask
+                                        type="only-numbers"
+                                        placeholder="0123 456 456"
+                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                        value={referrerPhone}
+                                        onChangeText={value => this.updateCustomerInfo('referrerPhone', value)}
 
-                            </View>
-                            {/* -----  */}
-                            <View style={{ height: scaleSzie(250) }} />
+                                    />
+                                </View>
+                                {/* ------- */}
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                                    {localize('Note', language)}
+                                </Text>
+                                <View style={{
+                                    height: scaleSzie(110),
+                                    backgroundColor: '#F1F1F1',
+                                    paddingHorizontal: scaleSzie(15),
+                                    paddingBottom: scaleSzie(10),
+                                    paddingTop: scaleSzie(12)
+                                }} >
+                                    <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
+                                        Note about customer's favourite
+                                </Text>
+                                    <View style={{ flex: 1, justifyContent: 'flex-end' }} >
+                                        <View style={{ height: scaleSzie(40), flexDirection: 'row' }} >
+                                            <View style={{
+                                                flex: 1, backgroundColor: '#fff',
+                                                borderWidth: 1, borderColor: '#C5C5C5', borderTopLeftRadius: 4, borderBottomLeftRadius: 4,
+                                                paddingHorizontal: scaleSzie(10)
+                                            }} >
+                                                <TextInput
+                                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                    value={favourite}
+                                                    onChangeText={value => this.updateCustomerInfo('favourite', value)}
+                                                />
+                                            </View>
+                                            <View style={{
+                                                width: scaleSzie(40), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center',
+                                                borderTopRightRadius: 4, borderBottomRightRadius: 4
+                                            }} >
+                                                <Image
+                                                    source={IMAGE.arrowNote}
+                                                    style={{ width: scaleSzie(20), height: scaleSzie(23) }}
+                                                />
+                                            </View>
+
+                                        </View>
+                                    </View>
+
+                                </View>
+                                {/* -----  */}
+                                <View style={{ height: scaleSzie(250) }} />
                             </TouchableOpacity>
                         </ScrollView>
                     </View>

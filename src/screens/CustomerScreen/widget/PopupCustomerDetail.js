@@ -11,7 +11,7 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent, Dropdown } from '@components';
-import { scaleSzie, localize, getCategoryName } from '@utils';
+import { scaleSzie, localize, getNameStateById } from '@utils';
 import IMAGE from '@resources';
 
 const { width } = Dimensions.get('window');
@@ -26,7 +26,7 @@ class PopupCustomerDetail extends React.Component {
                 lastName: '',
                 phone: '',
                 email: '',
-                address: {
+                addressPost: {
                     street: '',
                     city: '',
                     state: 0
@@ -47,7 +47,8 @@ class PopupCustomerDetail extends React.Component {
         const { title, visible, onRequestClose, language
         } = this.props;
         const temptHeight = width - scaleSzie(500);
-        const {firstName,lastName,phone,email,referrerPhone,favourite} = this.state.customerInfo;
+        const {firstName,lastName,phone,email,referrerPhone,favourite,addressPost} = this.state.customerInfo;
+        const {street,city,state} = addressPost;
         return (
             <PopupParent
                 title={title}
@@ -100,7 +101,7 @@ class PopupCustomerDetail extends React.Component {
                                 <ItemDetail
                                     style={{ marginTop: scaleSzie(12) }}
                                     title={`${localize('Address', language)}`}
-                                    value={'Unknown'}
+                                    value={`${street} ${city}`}
                                 />
 
                                 {/* -------------------- */}
@@ -130,7 +131,7 @@ class PopupCustomerDetail extends React.Component {
                             backgroundColor="#0764B0"
                             title={'Edit'}
                             textColor="#fff"
-                            onPress={() => this.props.showModalEditCustomer()}
+                            onPress={() => this.props.showModalEditCustomer(this.state.customerInfo)}
                             style={{ borderRadius: scaleSzie(2) }}
                             styleText={{
                                 fontSize: scaleSzie(14)

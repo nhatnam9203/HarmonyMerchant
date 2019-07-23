@@ -10,13 +10,15 @@ class CustomerScreen extends Layout {
         this.state = {
             isFocus: true,
             isSelectAll: false,
-            visibleEditAddCustomer: false,
+            visibleAdd: false,
             visibleDetail: false,
+            visibleEdit: false,
             keySearch: ''
         }
         this.scrollTabRef = React.createRef();
         this.modalDetailRef = React.createRef();
         this.modalAddRef = React.createRef();
+        this.modalEditRef = React.createRef();
     }
 
     componentDidMount() {
@@ -51,13 +53,27 @@ class CustomerScreen extends Layout {
     showModalAddCustomer = () => {
         this.modalAddRef.current.setStateDefaultFromParent();
         this.setState({
-            visibleEditAddCustomer: true
+            visibleAdd: true
+        })
+    }
+
+    showModalEditCustomer = (customer) => {
+        this.modalEditRef.current.setStateFromParent(customer);
+        this.setState({
+            visibleDetail: false,
+            visibleEdit: true
+        })
+    }
+
+    closeModalEditCustomer = () => {
+        this.setState({
+            visibleEdit: false
         })
     }
 
     closeModalAddCustomer = () => {
         this.setState({
-            visibleEditAddCustomer: false
+            visibleAdd: false
         })
     }
 
@@ -76,7 +92,16 @@ class CustomerScreen extends Layout {
 
     addCustomer = (customer) => {
         this.props.actions.customer.addCustomer(customer);
-        console.log('customer : ', customer);
+        this.setState({
+            visibleAdd: false
+        })
+    }
+
+    editCustomer  =(customerId,customer) =>{
+        this.props.actions.customer.editCustomer(customerId,customer);
+        this.setState({
+            visibleEdit:false
+        })
     }
 
     handleLockScreen = () => {
@@ -110,7 +135,8 @@ const mapStateToProps = state => ({
     listCustomersByMerchant: state.customer.listCustomersByMerchant,
     listCustomersSearch: state.customer.listCustomersSearch,
     isShowSearchCustomer: state.customer.isShowSearchCustomer,
-    refreshListCustomer: state.customer.refreshListCustomer
+    refreshListCustomer: state.customer.refreshListCustomer,
+    stateCity: state.dataLocal.stateCity
 })
 
 
