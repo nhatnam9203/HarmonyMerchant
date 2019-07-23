@@ -11,6 +11,7 @@ class CustomerScreen extends Layout {
             isFocus: true,
             isSelectAll: false,
             visibleEditAddCustomer: false,
+            visibleDetail:false,
             keySearch: ''
         }
         this.scrollTabRef = React.createRef();
@@ -57,8 +58,16 @@ class CustomerScreen extends Layout {
         })
     }
 
+    closeModalDetail =() =>{
+        this.setState({
+            visibleDetail:false
+        })
+    }
+
     showModalDetail = () =>{
-        
+        this.setState({
+            visibleDetail:true
+        })
     }
 
     addCustomer = (customer) =>{

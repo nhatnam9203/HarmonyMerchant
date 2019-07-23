@@ -6,7 +6,8 @@ import {
     Alert,
     Dimensions,
     ScrollView,
-    Image
+    Image,
+    TouchableOpacity
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
@@ -143,6 +144,7 @@ class PopupAddEditCustomer extends React.Component {
                         <ScrollView
                             showsVerticalScrollIndicator={false}
                         >
+                              <TouchableOpacity activeOpacity={1}>
                             {/* ----- */}
                             <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                                 <View style={{ flex: 1 }} >
@@ -311,6 +313,7 @@ class PopupAddEditCustomer extends React.Component {
                             </View>
                             {/* -----  */}
                             <View style={{ height: scaleSzie(250) }} />
+                            </TouchableOpacity>
                         </ScrollView>
                     </View>
                     {/* ---- Footer ---- */}

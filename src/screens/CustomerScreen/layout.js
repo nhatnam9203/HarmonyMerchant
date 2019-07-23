@@ -12,7 +12,7 @@ import styles from './style';
 import IMAGE from '@resources';
 import {
     HeaderTableCustomer, RowTableCustomer, RowEmptyTableCustomer,
-    PopupAddEditCustomer
+    PopupAddEditCustomer, PopupCustomerDetail
 } from './widget';
 
 export default class Layout extends React.Component {
@@ -135,7 +135,7 @@ export default class Layout extends React.Component {
 
     render() {
         const { language } = this.props;
-        const { visibleEditAddCustomer } = this.state;
+        const { visibleEditAddCustomer, visibleDetail } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -165,9 +165,14 @@ export default class Layout extends React.Component {
                     language={language}
                     visible={visibleEditAddCustomer}
                     title="New Customer"
-                    titleButton="Save"
                     onRequestClose={this.closeModalAddCustomer}
                     addCustomer={this.addCustomer}
+                />
+                <PopupCustomerDetail
+                    language={language}
+                    visible={visibleDetail}
+                    title="Customer Details"
+                    onRequestClose={this.closeModalDetail}
                 />
             </ParentContainer>
         );
