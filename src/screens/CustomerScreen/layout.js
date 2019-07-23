@@ -167,6 +167,7 @@ export default class Layout extends React.Component {
                     title="New Customer"
                     titleButton="Save"
                     onRequestClose={this.closeModalAddCustomer}
+                    addCustomer={this.addCustomer}
                 />
             </ParentContainer>
         );

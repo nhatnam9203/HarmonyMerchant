@@ -20,9 +20,19 @@ export function searchCustomer(key) {
     }
 }
 
-export function clearSearCustomer(){
-    return{
-        type : 'CLEAR_SEARCH_CUSTOMER'
+export function clearSearCustomer() {
+    return {
+        type: 'CLEAR_SEARCH_CUSTOMER'
+    }
+}
+
+export function addCustomer(body) {
+    return {
+        type: 'ADD_CUSTOMER',
+        method: 'POST',
+        body,
+        api: `${apiConfigs.BASE_API}customer`,
+        token: true
     }
 }
 

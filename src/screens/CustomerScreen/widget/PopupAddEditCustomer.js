@@ -31,7 +31,7 @@ class PopupAddEditCustomer extends React.Component {
                     city: '',
                     state: ''
                 },
-                referenPhone: '',
+                referrerPhone: '',
                 favourite: ''
             }
         }
@@ -84,7 +84,7 @@ class PopupAddEditCustomer extends React.Component {
                     city: '',
                     state: ''
                 },
-                referenPhone: '',
+                referrerPhone: '',
                 favourite: ''
             }
         })
@@ -92,13 +92,13 @@ class PopupAddEditCustomer extends React.Component {
 
     doneAddProduct = () => {
         const { customerInfo } = this.state;
-        const temptProductInfo = {
+        const temptCustomerInfo = {
             ...customerInfo,
         }
-        const arrayKey = Object.keys(temptProductInfo);
+        const arrayKey = Object.keys(temptCustomerInfo);
         let keyError = "";
         for (let i = 0; i <= arrayKey.length - 1; i++) {
-            if (temptProductInfo[arrayKey[i]] == "" && (arrayKey[i] === 'firstName' || arrayKey[i] === 'lastName' || arrayKey[i] === 'phone')) {
+            if (temptCustomerInfo[arrayKey[i]] == "" && (arrayKey[i] === 'firstName' || arrayKey[i] === 'lastName' || arrayKey[i] === 'phone')) {
                 keyError = arrayKey[i];
                 break;
             }
@@ -107,9 +107,10 @@ class PopupAddEditCustomer extends React.Component {
             Alert.alert(`${strings[keyError]}`);
         } else {
             if (this.props.isSave) {
-                // this.props.editProduct(temptProductInfo);
+                // this.props.editProduct(temptCustomerInfo);
             } else {
-                // this.props.confimYes(temptProductInfo);
+                this.props.addCustomer(temptCustomerInfo);
+                // console.log('temptCustomerInfo : ',temptCustomerInfo);
             }
 
         }
@@ -122,7 +123,7 @@ class PopupAddEditCustomer extends React.Component {
         const temptHeight = width - scaleSzie(500);
         const temptTitleButton = isSave ? 'Save' : 'Add';
 
-        const { firstName, lastName, phone, email, referenPhone, favourite, address } = this.state.customerInfo;
+        const { firstName, lastName, phone, email, referrerPhone, favourite, address } = this.state.customerInfo;
         const { street, city, state } = address;
         return (
             <PopupParent
@@ -267,8 +268,8 @@ class PopupAddEditCustomer extends React.Component {
                                     type="only-numbers"
                                     placeholder="0123 456 456"
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                    value={referenPhone}
-                                    onChangeText={value => this.updateCustomerInfo('referenPhone', value)}
+                                    value={referrerPhone}
+                                    onChangeText={value => this.updateCustomerInfo('referrerPhone', value)}
 
                                 />
                             </View>

@@ -61,6 +61,11 @@ class CustomerScreen extends Layout {
         
     }
 
+    addCustomer = (customer) =>{
+        this.props.actions.customer.addCustomer(customer);
+        console.log('customer : ',customer);
+    }
+
     handleLockScreen = () => {
         const { isFocus } = this.state;
         if (isFocus) {
