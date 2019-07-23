@@ -6,13 +6,12 @@ import {
     FlatList
 } from 'react-native';
 
-import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom } from '@components';
+import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import {
-    HeaderTableCustomer, RowTableCustomer, RowEmptyTableCustomer,
-    PopupAddEditCustomer, PopupCustomerDetail
+    ItemInvoice
 } from './widget';
 
 export default class Layout extends React.Component {
@@ -38,16 +37,11 @@ export default class Layout extends React.Component {
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={{ flex: 1, flexDirection: 'row' }} >
-                        <View style={{ width: scaleSzie(70), justifyContent: 'center' }} >
-                            <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A' }} >
-                                {localize('Search', language)}
-                            </Text>
-                        </View>
                         <View style={{ flex: 1, borderColor: '#C5C5C5', borderWidth: 1, borderRadius: scaleSzie(4), flexDirection: 'row' }} >
                             <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
                                 <TextInput
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
-                                    placeholder={`${localize('Phone number', language)}/ ${localize('Customer Name', language)}`}
+                                    placeholder={`${localize('Invoice No / SKU number/Phone number / Customer Name', language)}`}
                                     value={keySearch}
                                     onChangeText={(keySearch) => {
                                         if (keySearch == '') {
@@ -64,12 +58,24 @@ export default class Layout extends React.Component {
 
                         </View>
                     </View>
-                    <View style={{ width: scaleSzie(170), alignItems: 'flex-end' }} >
+                    <View style={{ width: scaleSzie(120), alignItems: 'flex-end' }} >
                         <ButtonCustom
                             width={'90%'}
                             height={40}
                             backgroundColor="#F1F1F1"
                             title={localize('Search', language)}
+                            textColor="#6A6A6A"
+                            onPress={this.searchCustomer}
+                            style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                            styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
+                        />
+                    </View>
+                    <View style={{ width: scaleSzie(120), alignItems: 'flex-end' }} >
+                        <ButtonCustom
+                            width={'90%'}
+                            height={40}
+                            backgroundColor="#F1F1F1"
+                            title={localize('Scan SKU', language)}
                             textColor="#6A6A6A"
                             onPress={this.searchCustomer}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
@@ -86,21 +92,57 @@ export default class Layout extends React.Component {
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
-                    <View style={{ flex: 1, justifyContent: 'flex-end' }} >
-                        <Text style={{ color: '#0764B0', fontSize: scaleSzie(18), fontWeight: 'bold' }} >
-                            {localize('Customer list', language)}
+                    <View style={{ width: scaleSzie(70), justifyContent: 'center' }} >
+                        <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A' }} >
+                            {localize('Filters', language)}
                         </Text>
                     </View>
-                    <View style={{ width: scaleSzie(170), alignItems: 'flex-end' }} >
-                        <ButtonCustom
-                            width={'90%'}
-                            height={40}
-                            backgroundColor="#0764B0"
-                            title={localize('Add New', language)}
-                            textColor="#fff"
-                            onPress={this.showModalAddCustomer}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                            styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
+                    {/* ------------- */}
+                    <View style={{ width: scaleSzie(180) }} >
+                        <Dropdown
+                            label={localize('Time Range', language)}
+                            data={[{ value: '' }, { value: 'Product' }, { value: 'Service' }]}
+                            // value={category}
+                            // onChangeText={(value) => this.updateSearchFilterInfo('category', value)}
+                            containerStyle={{
+                                backgroundColor: 'rgb(246,246,246)',
+                                borderWidth: 1,
+                                borderColor: '#C5C5C5',
+                                flex: 1,
+                                borderRadius: scaleSzie(4)
+                            }}
+                        />
+                    </View>
+                    {/* ------------- */}
+                    <View style={{ width: scaleSzie(170), marginLeft: scaleSzie(16) }} >
+                        <Dropdown
+                            label={localize('Payment Method', language)}
+                            data={[{ value: '' }, { value: 'Product' }, { value: 'Service' }]}
+                            // value={category}
+                            // onChangeText={(value) => this.updateSearchFilterInfo('category', value)}
+                            containerStyle={{
+                                backgroundColor: 'rgb(246,246,246)',
+                                borderWidth: 1,
+                                borderColor: '#C5C5C5',
+                                flex: 1,
+                                borderRadius: scaleSzie(4)
+                            }}
+                        />
+                    </View>
+                    {/* ------------- */}
+                    <View style={{ width: scaleSzie(140), marginLeft: scaleSzie(16) }} >
+                        <Dropdown
+                            label={localize('Statuses', language)}
+                            data={[{ value: '' }, { value: 'Product' }, { value: 'Service' }]}
+                            // value={category}
+                            // onChangeText={(value) => this.updateSearchFilterInfo('category', value)}
+                            containerStyle={{
+                                backgroundColor: 'rgb(246,246,246)',
+                                borderWidth: 1,
+                                borderColor: '#C5C5C5',
+                                flex: 1,
+                                borderRadius: scaleSzie(4)
+                            }}
                         />
                     </View>
                 </View>
@@ -109,33 +151,48 @@ export default class Layout extends React.Component {
     }
 
     renderTable() {
-        const { listCustomersByMerchant, listCustomersSearch, isShowSearchCustomer,
-            refreshListCustomer
-        } = this.props;
-        const temptData = isShowSearchCustomer ? listCustomersSearch : listCustomersByMerchant;
+        const { } = this.props;
         return (
-            <View style={{ flex: 1 }} >
-                <HeaderTableCustomer />
-                <FlatList
-                    data={temptData}
-                    renderItem={({ item, index }) => <RowTableCustomer
-                        key={index}
-                        customer={item}
-                        unSelectAll={this.unSelectAll}
-                        showModalDetail={this.showModalDetail}
-                    />}
-                    keyExtractor={(item, index) => `${item.customerId}`}
-                    ListEmptyComponent={<RowEmptyTableCustomer />}
-                    refreshing={refreshListCustomer}
-                    onRefresh={() => this.props.actions.customer.getListCustomersByMerchant(false)}
-                />
+            <View style={{ flex: 1, flexDirection: 'row' }} >
+                {/* ---------- Left ------ */}
+                <View style={{ flex: 1.4 }}>
+                    <View style={{
+                        paddingLeft: scaleSzie(12),
+                        borderBottomColor: '#C5C5C5', borderBottomWidth: 1, paddingBottom: scaleSzie(6)
+                    }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
+                            Invoice List
+                        </Text>
+                    </View>
+                    <View style={{ flex: 1 }} >
+                        {/* ----- Item Invoice ----- */}
+                        <ItemInvoice />
+                        <ItemInvoice />
+                        <ItemInvoice />
+                    </View>
+                </View>
+                {/* ---------- Right ------ */}
+                <View style={{ flex: 1, }}>
+                    <View style={{
+                        paddingLeft: scaleSzie(12),
+                        borderBottomColor: '#C5C5C5', borderBottomWidth: 1, paddingBottom: scaleSzie(6)
+                    }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
+                            Invoice Detail
+                        </Text>
+                    </View>
+                    <View style={{ flex: 1 }} >
+
+                    </View>
+
+                </View>
             </View>
         );
     }
 
     render() {
-        const { language,stateCity } = this.props;
-        const { visibleAdd, visibleDetail,visibleEdit } = this.state;
+        const { language, stateCity } = this.props;
+        const { visibleAdd, visibleDetail, visibleEdit } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -161,33 +218,6 @@ export default class Layout extends React.Component {
                         <Image source={IMAGE.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
                     </Button>
                 </View>
-                <PopupAddEditCustomer
-                    ref={this.modalAddRef}
-                    language={language}
-                    visible={visibleAdd}
-                    title="New Customer"
-                    onRequestClose={this.closeModalAddCustomer}
-                    addCustomer={this.addCustomer}
-                    stateCity={stateCity}
-                />
-                <PopupAddEditCustomer
-                    ref={this.modalEditRef}
-                    language={language}
-                    visible={visibleEdit}
-                    title="Edit Customer"
-                    onRequestClose={this.closeModalEditCustomer}
-                    editCustomer={this.editCustomer}
-                    stateCity={stateCity}
-                    isSave={true}
-                />
-                <PopupCustomerDetail
-                    ref={this.modalDetailRef}
-                    language={language}
-                    visible={visibleDetail}
-                    title="Customer Details"
-                    onRequestClose={this.closeModalDetail}
-                    showModalEditCustomer={this.showModalEditCustomer}
-                />
             </ParentContainer>
         );
     }
