@@ -13,5 +13,14 @@ export default StyleSheet.create({
         borderColor:'#C5C5C5',
         borderRadius:scaleSzie(4),
         backgroundColor:'#F1F1F1',
-    }
+    },
+    payNumberTextContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: scaleSzie(6)
+    },
+    textPay: {
+        fontSize: scaleSzie(14),
+        color: '#404040'
+    },
 })

@@ -304,7 +304,6 @@ class Layout extends React.Component {
                                 </Text>
                             </View>
                         </View>
-
                     </View>
 
                 </View>

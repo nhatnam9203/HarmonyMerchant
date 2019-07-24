@@ -13,7 +13,7 @@ import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import {
-    ItemInvoice, ItemInfo, ItemButton
+    ItemInvoice, ItemInfo, ItemButton,ItemBasket
 } from './widget';
 
 export default class Layout extends React.Component {
@@ -228,7 +228,7 @@ export default class Layout extends React.Component {
     }
 
     renderPaymentInfomation() {
-        const {language} = this.props;
+        const { language } = this.props;
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(8) }} >
                 {/* ---------------- Header ---------------- */}
@@ -256,7 +256,7 @@ export default class Layout extends React.Component {
                 </View>
                 {/* ----------- Body --------- */}
                 <View style={{ flex: 1 }} >
-                    <View style={{height:scaleSzie(16)}} />
+                    <View style={{ height: scaleSzie(16) }} />
                     <ItemInfo
                         title={localize('Payment method', language)}
                         value={'Credit Card'}
@@ -265,14 +265,112 @@ export default class Layout extends React.Component {
                         title={localize('CC type', language)}
                         value={'Visa/Master'}
                     />
-                     <ItemInfo
+                    <ItemInfo
                         title={localize('CC number', language)}
                         value={'xxxx xxxx xxxx 0001'}
                     />
-                     <ItemInfo
+                    <ItemInfo
                         title={localize('CC exp', language)}
                         value={'01/22'}
                     />
+                </View>
+            </View>
+        );
+    }
+
+    renderBasket() {
+        const { language } = this.props;
+        return (
+            <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(8) }} >
+                {/* ---------------- Header ---------------- */}
+                <View style={{ flexDirection: 'row' }} >
+                    <View style={{ flex: 1, paddingTop: scaleSzie(2) }} >
+                        <Button onPress={() => { }} style={{ flexDirection: 'row', alignItems: 'center' }} >
+                            <Image source={IMAGE.back} style={{
+                                width: scaleSzie(7), height: scaleSzie(13),
+                                marginRight: scaleSzie(6)
+                            }} />
+                            <Text style={{ color: '#0764B0', fontSize: scaleSzie(14) }} >
+                                Back
+                        </Text>
+                        </Button>
+
+                    </View>
+                    <View style={{}} >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
+                            Basket
+                        </Text>
+                    </View>
+                    <View style={{ flex: 1 }} >
+
+                    </View>
+                </View>
+                {/* ----------- Body --------- */}
+                <View style={{ flex: 1 }} >
+                    <View style={{ height: scaleSzie(16) }} />
+                    <View style={{ flex: 1 }} >
+                        {/* --------- Item basket ---------- */}
+                       <ItemBasket />
+                    </View>
+
+
+                    {/* ----------- Payment Number --------- */}
+                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                        <View style={{ flex: 1 }} />
+
+                        <View style={{ flex: 1.3, paddingRight: scaleSzie(12) }} >
+                            {/* ---------- Price ------ */}
+                            <View style={styles.payNumberTextContainer} >
+                                <Text style={styles.textPay} >
+                                    {`${localize('Subtotal', language)}:`}
+                                </Text>
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                    $0
+                                </Text>
+                            </View>
+                            {/* ---------- Tax ------ */}
+                            <View style={styles.payNumberTextContainer} >
+                                <Text style={styles.textPay} >
+                                    {`${localize('Tax', language)}:`}
+                                </Text>
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                    $0
+                            </Text>
+                            </View>
+                            {/* ---------- Discount ------ */}
+                            <View style={styles.payNumberTextContainer} >
+                                <Text style={styles.textPay} >
+                                    {`${localize('Discount', language)}:`}
+
+                                </Text>
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                    $0
+                            </Text>
+                            </View>
+                            {/* ---------- Total ------ */}
+                            <View style={styles.payNumberTextContainer} >
+                                <Text style={styles.textPay} >
+                                    {`${localize('Total', language)}:`}
+                                </Text>
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(16) }]} >
+                                    $0
+                                </Text>
+                            </View>
+                        </View>
+                    </View>
+                    {/* -------- */}
+                    {/* ----------- Button Reefund --------- */}
+                    <ButtonCustom
+                        width={'100%'}
+                        height={55}
+                        backgroundColor="#F1F1F1"
+                        title={localize('REFUND', language)}
+                        textColor="#6A6A6A"
+                        onPress={this.searchCustomer}
+                        style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                        styleText={{ fontSize: scaleSzie(16), fontWeight: 'bold' }}
+                    />
+                    <View style={{height:scaleSzie(10)}} />
                 </View>
             </View>
         );
@@ -323,6 +421,7 @@ export default class Layout extends React.Component {
                         >
                             {this.renderDetailInvoice()}
                             {this.renderPaymentInfomation()}
+                            {this.renderBasket()}
                         </ScrollableTabView>
                     </View>
                 </View>
