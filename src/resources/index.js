@@ -36,6 +36,7 @@ export default {
     plusAmount: require('./img/plusAmount.png'),
     productBasket: require('./img/productBasket.png'),
     removeItemBasket: require('./img/removeItemBasket.png'),
+    arrowRightButton:require('./img/arrowRightButton.png'),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),

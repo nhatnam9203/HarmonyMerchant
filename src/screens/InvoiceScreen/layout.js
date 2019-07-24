@@ -11,7 +11,7 @@ import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import {
-    ItemInvoice
+    ItemInvoice, ItemInfo, ItemButton
 } from './widget';
 
 export default class Layout extends React.Component {
@@ -150,8 +150,79 @@ export default class Layout extends React.Component {
         );
     }
 
-    renderTable() {
-        const { } = this.props;
+    renderDetailInvoice() {
+        const { language } = this.props;
+        return (
+            <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(8) }} >
+                {/* ------- */}
+                <ItemInfo
+                    title={localize('Invoice No', language)}
+                    value={'#1500'}
+                />
+                <ItemInfo
+                    title={localize('Customer name', language)}
+                    value={'Deandre Wallace'}
+                />
+                <ItemInfo
+                    title={localize('Phone Number', language)}
+                    value={'(362) 200-4503'}
+                />
+                <ItemInfo
+                    title={localize('Date', language)}
+                    value={'11/1/2019'}
+                />
+                <ItemInfo
+                    title={localize('Time', language)}
+                    value={'4:39 pm'}
+                />
+                <ItemInfo
+                    title={localize('Status', language)}
+                    value={'Pending'}
+                />
+                <ItemInfo
+                    title={localize('Payment method', language)}
+                    value={'Credit Card'}
+                />
+                <ItemInfo
+                    title={localize('Total amount', language)}
+                    value={'$ 200'}
+                />
+                <ItemInfo
+                    title={localize('Created by', language)}
+                    value={'Mederith'}
+                />
+                <ItemInfo
+                    title={localize('Modified by', language)}
+                    value={'William'}
+                />
+                {/* ------- button ------ */}
+                <ItemButton
+                    title={'Payment information'}
+                />
+                <ItemButton
+                    title={'Basket'}
+                />
+                <ItemButton
+                    title={'History'}
+                />
+
+                <ButtonCustom
+                    width={'100%'}
+                    height={60}
+                    backgroundColor="#F1F1F1"
+                    title={localize('Search', language)}
+                    textColor="#6A6A6A"
+                    onPress={this.searchCustomer}
+                    style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                    styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
+                />
+
+            </View>
+        );
+    }
+
+    renderInvoice() {
+        const { language } = this.props;
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
                 {/* ---------- Left ------ */}
@@ -181,10 +252,7 @@ export default class Layout extends React.Component {
                             Invoice Detail
                         </Text>
                     </View>
-                    <View style={{ flex: 1 }} >
-
-                    </View>
-
+                    {this.renderDetailInvoice()}
                 </View>
             </View>
         );
@@ -205,7 +273,7 @@ export default class Layout extends React.Component {
                     <View style={{ height: scaleSzie(16) }} />
                     {this.renderFilter()}
                     <View style={{ height: scaleSzie(18) }} />
-                    {this.renderTable()}
+                    {this.renderInvoice()}
 
                     <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
