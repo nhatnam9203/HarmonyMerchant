@@ -13,7 +13,7 @@ import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import {
-    ItemInvoice, ItemInfo, ItemButton,ItemBasket,ItemHistory,PopupCalendar
+    ItemInvoice, ItemInfo, ItemButton, ItemBasket, ItemHistory, PopupCalendar
 } from './widget';
 
 export default class Layout extends React.Component {
@@ -121,7 +121,7 @@ export default class Layout extends React.Component {
                             label={localize('Payment Method', language)}
                             data={[{ value: '' }, { value: 'HP-Harmony Account' }, { value: 'HP-Credit Card' },
                             { value: 'Credit Card' }, { value: 'Cash' }, { value: 'Cheque/Bank Transfer' }
-                        ]}
+                            ]}
                             // value={category}
                             // onChangeText={(value) => this.updateSearchFilterInfo('category', value)}
                             containerStyle={{
@@ -139,7 +139,7 @@ export default class Layout extends React.Component {
                             label={localize('Statuses', language)}
                             data={[{ value: '' }, { value: 'Pending' }, { value: 'Paid' }, { value: 'Voided' },
                             { value: 'Refunded' }
-                        ]}
+                            ]}
                             // value={category}
                             // onChangeText={(value) => this.updateSearchFilterInfo('category', value)}
                             containerStyle={{
@@ -205,19 +205,22 @@ export default class Layout extends React.Component {
                     {/* ------- button ------ */}
                     <ItemButton
                         title={'Payment information'}
+                        onPress={this.gotoTabPaymentInfomation}
                     />
                     <ItemButton
                         title={'Basket'}
+                        onPress={this.gotoBasket}
                     />
                     <ItemButton
                         title={'History'}
+                        onPress={this.gotoHistory}
                     />
 
                     <ButtonCustom
                         width={'100%'}
-                        height={60}
+                        height={50}
                         backgroundColor="#F1F1F1"
-                        title={localize('Search', language)}
+                        title={localize('VOID', language)}
                         textColor="#6A6A6A"
                         onPress={this.searchCustomer}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
@@ -238,7 +241,7 @@ export default class Layout extends React.Component {
                 {/* ---------------- Header ---------------- */}
                 <View style={{ flexDirection: 'row' }} >
                     <View style={{ flex: 1, paddingTop: scaleSzie(2) }} >
-                        <Button onPress={() => { }} style={{ flexDirection: 'row', alignItems: 'center' }} >
+                        <Button onPress={this.backTab} style={{ flexDirection: 'row', alignItems: 'center' }} >
                             <Image source={IMAGE.back} style={{
                                 width: scaleSzie(7), height: scaleSzie(13),
                                 marginRight: scaleSzie(6)
@@ -289,7 +292,7 @@ export default class Layout extends React.Component {
                 {/* ---------------- Header ---------------- */}
                 <View style={{ flexDirection: 'row' }} >
                     <View style={{ flex: 1, paddingTop: scaleSzie(2) }} >
-                        <Button onPress={() => { }} style={{ flexDirection: 'row', alignItems: 'center' }} >
+                        <Button onPress={this.backTab} style={{ flexDirection: 'row', alignItems: 'center' }} >
                             <Image source={IMAGE.back} style={{
                                 width: scaleSzie(7), height: scaleSzie(13),
                                 marginRight: scaleSzie(6)
@@ -314,7 +317,7 @@ export default class Layout extends React.Component {
                     <View style={{ height: scaleSzie(16) }} />
                     <View style={{ flex: 1 }} >
                         {/* --------- Item basket ---------- */}
-                       <ItemBasket />
+                        <ItemBasket />
                     </View>
 
 
@@ -374,20 +377,20 @@ export default class Layout extends React.Component {
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                         styleText={{ fontSize: scaleSzie(16), fontWeight: 'bold' }}
                     />
-                    <View style={{height:scaleSzie(10)}} />
+                    <View style={{ height: scaleSzie(10) }} />
                 </View>
             </View>
         );
     }
 
-    renderHistoryInvoice(){
+    renderHistoryInvoice() {
         const { language } = this.props;
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(8) }} >
                 {/* ---------------- Header ---------------- */}
                 <View style={{ flexDirection: 'row' }} >
                     <View style={{ flex: 1, paddingTop: scaleSzie(2) }} >
-                        <Button onPress={() => { }} style={{ flexDirection: 'row', alignItems: 'center' }} >
+                        <Button onPress={this.backTab} style={{ flexDirection: 'row', alignItems: 'center' }} >
                             <Image source={IMAGE.back} style={{
                                 width: scaleSzie(7), height: scaleSzie(13),
                                 marginRight: scaleSzie(6)
@@ -400,7 +403,7 @@ export default class Layout extends React.Component {
                     </View>
                     <View style={{}} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
-                        History
+                            History
                         </Text>
                     </View>
                     <View style={{ flex: 1 }} >
@@ -451,10 +454,10 @@ export default class Layout extends React.Component {
                     {/* -------- ScrollableTabView ---- */}
                     <View style={{ flex: 1, }} >
                         <ScrollableTabView
-                            // ref={this.scrollTabRef}
+                            ref={this.scrollTabInvoiceRef}
                             style={{}}
-                            initialPage={3}
-                            // locked={true}
+                            initialPage={0}
+                            locked={true}
                             renderTabBar={() => <View />}
                             onChangeTab={(index) => {
                                 this.setState({ tabCurrent: index.i })
@@ -473,7 +476,7 @@ export default class Layout extends React.Component {
 
     render() {
         const { language, stateCity } = this.props;
-        const { visibleCalendar} = this.state;
+        const { visibleCalendar } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -499,9 +502,9 @@ export default class Layout extends React.Component {
                         <Image source={IMAGE.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
                     </Button>
                 </View>
-                <PopupCalendar 
-                visible={visibleCalendar}
-                onRequestClose={() =>this.setState({visibleCalendar:false})}
+                <PopupCalendar
+                    visible={visibleCalendar}
+                    onRequestClose={() => this.setState({ visibleCalendar: false })}
                 />
             </ParentContainer>
         );

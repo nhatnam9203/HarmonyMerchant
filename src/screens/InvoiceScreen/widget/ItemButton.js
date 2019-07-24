@@ -19,9 +19,9 @@ class ItemButton extends React.Component {
     }
 
     render() {
-        const {title} = this.props;
+        const {title,onPress} = this.props;
         return (
-            <View style={{
+            <Button onPress={() =>onPress() } style={{
                 height: scaleSzie(34), backgroundColor: '#F1F1F1',
                 borderColor: '#C5C5C5', borderWidth: 1, borderRadius: 6,
                 flexDirection: 'row',marginBottom:5
@@ -34,7 +34,7 @@ class ItemButton extends React.Component {
                 <View style={{ justifyContent: 'center', paddingRight: scaleSzie(12) }} >
                     <Image source={IMAGE.arrowRightButton} style={{ width: scaleSzie(6), height: scaleSzie(13) }} />
                 </View>
-            </View>
+            </Button>
         );
     }
 }

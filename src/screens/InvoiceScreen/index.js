@@ -11,7 +11,7 @@ class InvoiceScreen extends Layout {
             isFocus: true,
             visibleCalendar: false
         }
-        this.scrollTabRef = React.createRef();
+        this.scrollTabInvoiceRef = React.createRef();
     }
 
     componentDidMount() {
@@ -32,6 +32,22 @@ class InvoiceScreen extends Layout {
                 })
             }
         );
+    }
+
+    gotoTabPaymentInfomation =() =>{
+        this.scrollTabInvoiceRef.current.goToPage(1);
+    }
+
+    gotoBasket =() =>{
+        this.scrollTabInvoiceRef.current.goToPage(2);
+    }
+
+    gotoHistory =() =>{
+        this.scrollTabInvoiceRef.current.goToPage(3);
+    }
+
+    backTab =() =>{
+        this.scrollTabInvoiceRef.current.goToPage(0);
     }
 
     searchCustomer = () => {
