@@ -3,8 +3,10 @@ import {
     View,
     Image,
     TextInput,
-    FlatList
+    FlatList,
+    ScrollView
 } from 'react-native';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown } from '@components';
 import { scaleSzie, localize } from '@utils';
@@ -154,69 +156,124 @@ export default class Layout extends React.Component {
         const { language } = this.props;
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(8) }} >
-                {/* ------- */}
-                <ItemInfo
-                    title={localize('Invoice No', language)}
-                    value={'#1500'}
-                />
-                <ItemInfo
-                    title={localize('Customer name', language)}
-                    value={'Deandre Wallace'}
-                />
-                <ItemInfo
-                    title={localize('Phone Number', language)}
-                    value={'(362) 200-4503'}
-                />
-                <ItemInfo
-                    title={localize('Date', language)}
-                    value={'11/1/2019'}
-                />
-                <ItemInfo
-                    title={localize('Time', language)}
-                    value={'4:39 pm'}
-                />
-                <ItemInfo
-                    title={localize('Status', language)}
-                    value={'Pending'}
-                />
-                <ItemInfo
-                    title={localize('Payment method', language)}
-                    value={'Credit Card'}
-                />
-                <ItemInfo
-                    title={localize('Total amount', language)}
-                    value={'$ 200'}
-                />
-                <ItemInfo
-                    title={localize('Created by', language)}
-                    value={'Mederith'}
-                />
-                <ItemInfo
-                    title={localize('Modified by', language)}
-                    value={'William'}
-                />
-                {/* ------- button ------ */}
-                <ItemButton
-                    title={'Payment information'}
-                />
-                <ItemButton
-                    title={'Basket'}
-                />
-                <ItemButton
-                    title={'History'}
-                />
+                <ScrollView showsVerticalScrollIndicator={false} >
+                    {/* ------- */}
+                    <ItemInfo
+                        title={localize('Invoice No', language)}
+                        value={'#1500'}
+                    />
+                    <ItemInfo
+                        title={localize('Customer name', language)}
+                        value={'Deandre Wallace'}
+                    />
+                    <ItemInfo
+                        title={localize('Phone Number', language)}
+                        value={'(362) 200-4503'}
+                    />
+                    <ItemInfo
+                        title={localize('Date', language)}
+                        value={'11/1/2019'}
+                    />
+                    <ItemInfo
+                        title={localize('Time', language)}
+                        value={'4:39 pm'}
+                    />
+                    <ItemInfo
+                        title={localize('Status', language)}
+                        value={'Pending'}
+                    />
+                    <ItemInfo
+                        title={localize('Payment method', language)}
+                        value={'Credit Card'}
+                    />
+                    <ItemInfo
+                        title={localize('Total amount', language)}
+                        value={'$ 200'}
+                    />
+                    <ItemInfo
+                        title={localize('Created by', language)}
+                        value={'Mederith'}
+                    />
+                    <ItemInfo
+                        title={localize('Modified by', language)}
+                        value={'William'}
+                    />
+                    {/* ------- button ------ */}
+                    <ItemButton
+                        title={'Payment information'}
+                    />
+                    <ItemButton
+                        title={'Basket'}
+                    />
+                    <ItemButton
+                        title={'History'}
+                    />
 
-                <ButtonCustom
-                    width={'100%'}
-                    height={60}
-                    backgroundColor="#F1F1F1"
-                    title={localize('Search', language)}
-                    textColor="#6A6A6A"
-                    onPress={this.searchCustomer}
-                    style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                    styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
-                />
+                    <ButtonCustom
+                        width={'100%'}
+                        height={60}
+                        backgroundColor="#F1F1F1"
+                        title={localize('Search', language)}
+                        textColor="#6A6A6A"
+                        onPress={this.searchCustomer}
+                        style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                        styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
+                    />
+                    <View style={{ height: scaleSzie(70) }} />
+                </ScrollView>
 
+
+            </View>
+        );
+    }
+
+    renderPaymentInfomation() {
+        const {language} = this.props;
+        return (
+            <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(8) }} >
+                {/* ---------------- Header ---------------- */}
+                <View style={{ flexDirection: 'row' }} >
+                    <View style={{ flex: 1, paddingTop: scaleSzie(2) }} >
+                        <Button onPress={() => { }} style={{ flexDirection: 'row', alignItems: 'center' }} >
+                            <Image source={IMAGE.back} style={{
+                                width: scaleSzie(7), height: scaleSzie(13),
+                                marginRight: scaleSzie(6)
+                            }} />
+                            <Text style={{ color: '#0764B0', fontSize: scaleSzie(14) }} >
+                                Back
+                        </Text>
+                        </Button>
+
+                    </View>
+                    <View style={{}} >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
+                            Payment information
+                        </Text>
+                    </View>
+                    <View style={{ flex: 1 }} >
+
+                    </View>
+                </View>
+                {/* ----------- Body --------- */}
+                <View style={{ flex: 1 }} >
+                    <View style={{height:scaleSzie(16)}} />
+                    <ItemInfo
+                        title={localize('Payment method', language)}
+                        value={'Credit Card'}
+                    />
+                    <ItemInfo
+                        title={localize('CC type', language)}
+                        value={'Visa/Master'}
+                    />
+                     <ItemInfo
+                        title={localize('CC number', language)}
+                        value={'xxxx xxxx xxxx 0001'}
+                    />
+                     <ItemInfo
+                        title={localize('CC exp', language)}
+                        value={'01/22'}
+                    />
+                </View>
             </View>
         );
     }
@@ -252,7 +309,22 @@ export default class Layout extends React.Component {
                             Invoice Detail
                         </Text>
                     </View>
-                    {this.renderDetailInvoice()}
+                    {/* -------- ScrollableTabView ---- */}
+                    <View style={{ flex: 1, }} >
+                        <ScrollableTabView
+                            // ref={this.scrollTabRef}
+                            style={{}}
+                            initialPage={0}
+                            // locked={true}
+                            renderTabBar={() => <View />}
+                            onChangeTab={(index) => {
+                                this.setState({ tabCurrent: index.i })
+                            }}
+                        >
+                            {this.renderDetailInvoice()}
+                            {this.renderPaymentInfomation()}
+                        </ScrollableTabView>
+                    </View>
                 </View>
             </View>
         );
