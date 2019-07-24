@@ -13,7 +13,7 @@ import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import {
-    ItemInvoice, ItemInfo, ItemButton,ItemBasket
+    ItemInvoice, ItemInfo, ItemButton,ItemBasket,ItemHistory,PopupCalendar
 } from './widget';
 
 export default class Layout extends React.Component {
@@ -42,7 +42,7 @@ export default class Layout extends React.Component {
                         <View style={{ flex: 1, borderColor: '#C5C5C5', borderWidth: 1, borderRadius: scaleSzie(4), flexDirection: 'row' }} >
                             <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
                                 <TextInput
-                                    style={{ flex: 1, fontSize: scaleSzie(18) }}
+                                    style={{ flex: 1, fontSize: scaleSzie(14) }}
                                     placeholder={`${localize('Invoice No / SKU number/Phone number / Customer Name', language)}`}
                                     value={keySearch}
                                     onChangeText={(keySearch) => {
@@ -119,7 +119,9 @@ export default class Layout extends React.Component {
                     <View style={{ width: scaleSzie(170), marginLeft: scaleSzie(16) }} >
                         <Dropdown
                             label={localize('Payment Method', language)}
-                            data={[{ value: '' }, { value: 'Product' }, { value: 'Service' }]}
+                            data={[{ value: '' }, { value: 'HP-Harmony Account' }, { value: 'HP-Credit Card' },
+                            { value: 'Credit Card' }, { value: 'Cash' }, { value: 'Cheque/Bank Transfer' }
+                        ]}
                             // value={category}
                             // onChangeText={(value) => this.updateSearchFilterInfo('category', value)}
                             containerStyle={{
@@ -135,7 +137,9 @@ export default class Layout extends React.Component {
                     <View style={{ width: scaleSzie(140), marginLeft: scaleSzie(16) }} >
                         <Dropdown
                             label={localize('Statuses', language)}
-                            data={[{ value: '' }, { value: 'Product' }, { value: 'Service' }]}
+                            data={[{ value: '' }, { value: 'Pending' }, { value: 'Paid' }, { value: 'Voided' },
+                            { value: 'Refunded' }
+                        ]}
                             // value={category}
                             // onChangeText={(value) => this.updateSearchFilterInfo('category', value)}
                             containerStyle={{
@@ -376,6 +380,43 @@ export default class Layout extends React.Component {
         );
     }
 
+    renderHistoryInvoice(){
+        const { language } = this.props;
+        return (
+            <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(8) }} >
+                {/* ---------------- Header ---------------- */}
+                <View style={{ flexDirection: 'row' }} >
+                    <View style={{ flex: 1, paddingTop: scaleSzie(2) }} >
+                        <Button onPress={() => { }} style={{ flexDirection: 'row', alignItems: 'center' }} >
+                            <Image source={IMAGE.back} style={{
+                                width: scaleSzie(7), height: scaleSzie(13),
+                                marginRight: scaleSzie(6)
+                            }} />
+                            <Text style={{ color: '#0764B0', fontSize: scaleSzie(14) }} >
+                                Back
+                        </Text>
+                        </Button>
+
+                    </View>
+                    <View style={{}} >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
+                        History
+                        </Text>
+                    </View>
+                    <View style={{ flex: 1 }} >
+
+                    </View>
+                </View>
+                {/* ----------- Body --------- */}
+                <View style={{ flex: 1 }} >
+                    <View style={{ height: scaleSzie(16) }} />
+                    <ItemHistory />
+                    <ItemHistory />
+                </View>
+            </View>
+        );
+    }
+
     renderInvoice() {
         const { language } = this.props;
         return (
@@ -412,7 +453,7 @@ export default class Layout extends React.Component {
                         <ScrollableTabView
                             // ref={this.scrollTabRef}
                             style={{}}
-                            initialPage={0}
+                            initialPage={3}
                             // locked={true}
                             renderTabBar={() => <View />}
                             onChangeTab={(index) => {
@@ -422,6 +463,7 @@ export default class Layout extends React.Component {
                             {this.renderDetailInvoice()}
                             {this.renderPaymentInfomation()}
                             {this.renderBasket()}
+                            {this.renderHistoryInvoice()}
                         </ScrollableTabView>
                     </View>
                 </View>
@@ -431,7 +473,7 @@ export default class Layout extends React.Component {
 
     render() {
         const { language, stateCity } = this.props;
-        const { visibleAdd, visibleDetail, visibleEdit } = this.state;
+        const { visibleCalendar} = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -457,6 +499,10 @@ export default class Layout extends React.Component {
                         <Image source={IMAGE.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
                     </Button>
                 </View>
+                <PopupCalendar 
+                visible={visibleCalendar}
+                onRequestClose={() =>this.setState({visibleCalendar:false})}
+                />
             </ParentContainer>
         );
     }

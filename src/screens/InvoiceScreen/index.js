@@ -9,16 +9,9 @@ class InvoiceScreen extends Layout {
         super(props);
         this.state = {
             isFocus: true,
-            isSelectAll: false,
-            visibleAdd: false,
-            visibleDetail: false,
-            visibleEdit: false,
-            keySearch: ''
+            visibleCalendar: false
         }
         this.scrollTabRef = React.createRef();
-        this.modalDetailRef = React.createRef();
-        this.modalAddRef = React.createRef();
-        this.modalEditRef = React.createRef();
     }
 
     componentDidMount() {
@@ -42,67 +35,11 @@ class InvoiceScreen extends Layout {
     }
 
     searchCustomer = () => {
-        const { keySearch } = this.state;
-        if (keySearch == '') {
-            this.props.actions.customer.clearSearCustomer();
-        } else {
-            this.props.actions.customer.searchCustomer(keySearch);
-        }
-    }
-
-    showModalAddCustomer = () => {
-        this.modalAddRef.current.setStateDefaultFromParent();
         this.setState({
-            visibleAdd: true
+            visibleCalendar: true
         })
     }
 
-    showModalEditCustomer = (customer) => {
-        this.modalEditRef.current.setStateFromParent(customer);
-        this.setState({
-            visibleDetail: false,
-            visibleEdit: true
-        })
-    }
-
-    closeModalEditCustomer = () => {
-        this.setState({
-            visibleEdit: false
-        })
-    }
-
-    closeModalAddCustomer = () => {
-        this.setState({
-            visibleAdd: false
-        })
-    }
-
-    closeModalDetail = () => {
-        this.setState({
-            visibleDetail: false
-        })
-    }
-
-    showModalDetail = (customer) => {
-        this.modalDetailRef.current.setStateFromParent(customer);
-        this.setState({
-            visibleDetail: true
-        })
-    }
-
-    addCustomer = (customer) => {
-        this.props.actions.customer.addCustomer(customer);
-        this.setState({
-            visibleAdd: false
-        })
-    }
-
-    editCustomer  =(customerId,customer) =>{
-        this.props.actions.customer.editCustomer(customerId,customer);
-        this.setState({
-            visibleEdit:false
-        })
-    }
 
     handleLockScreen = () => {
         const { isFocus } = this.state;
