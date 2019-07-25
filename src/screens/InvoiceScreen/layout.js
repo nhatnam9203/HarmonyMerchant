@@ -421,7 +421,7 @@ export default class Layout extends React.Component {
     }
 
     renderInvoice() {
-        const { language } = this.props;
+        const { language, listInvoicesByMerchant } = this.props;
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
                 {/* ---------- Left ------ */}
@@ -436,9 +436,13 @@ export default class Layout extends React.Component {
                     </View>
                     <View style={{ flex: 1 }} >
                         {/* ----- Item Invoice ----- */}
-                        <ItemInvoice />
-                        <ItemInvoice />
-                        <ItemInvoice />
+                        <FlatList
+                            data={listInvoicesByMerchant}
+                            renderItem={({ item, index }) => <ItemInvoice
+                                invoice={item}
+                            />}
+                            keyExtractor={(item, index) => `${item.checkoutId}`}
+                        />
                     </View>
                 </View>
                 {/* ---------- Right ------ */}

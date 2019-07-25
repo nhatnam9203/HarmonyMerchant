@@ -15,7 +15,7 @@ class InvoiceScreen extends Layout {
     }
 
     componentDidMount() {
-        // this.props.actions.customer.getListCustomersByMerchant();
+        this.props.actions.invoice.getListInvoicesByMerchant();
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {
@@ -34,19 +34,19 @@ class InvoiceScreen extends Layout {
         );
     }
 
-    gotoTabPaymentInfomation =() =>{
+    gotoTabPaymentInfomation = () => {
         this.scrollTabInvoiceRef.current.goToPage(1);
     }
 
-    gotoBasket =() =>{
+    gotoBasket = () => {
         this.scrollTabInvoiceRef.current.goToPage(2);
     }
 
-    gotoHistory =() =>{
+    gotoHistory = () => {
         this.scrollTabInvoiceRef.current.goToPage(3);
     }
 
-    backTab =() =>{
+    backTab = () => {
         this.scrollTabInvoiceRef.current.goToPage(0);
     }
 
@@ -89,7 +89,8 @@ const mapStateToProps = state => ({
     listCustomersSearch: state.customer.listCustomersSearch,
     isShowSearchCustomer: state.customer.isShowSearchCustomer,
     refreshListCustomer: state.customer.refreshListCustomer,
-    stateCity: state.dataLocal.stateCity
+    stateCity: state.dataLocal.stateCity,
+    listInvoicesByMerchant:state.invoice.listInvoicesByMerchant
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);

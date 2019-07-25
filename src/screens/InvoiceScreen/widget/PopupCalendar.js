@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import moment from 'moment';
 
-import { Button, ModalCustom, ButtonCustom ,CalendarPicker} from '@components';
+import { Button, ModalCustom, ButtonCustom, CalendarPicker } from '@components';
 import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 
@@ -19,22 +19,22 @@ class PopupCalendar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            startDate :moment().format('DD/MM/YYYY'),
-            endDate : moment().format('DD/MM/YYYY')
+            startDate: moment().format('DD/MM/YYYY'),
+            endDate: moment().format('DD/MM/YYYY')
         }
     }
 
     onDateStartChange = (date) => {
-        const {day,month,year} = date._i;
+        const { day, month, year } = date._i;
         this.setState({
-            startDate:`${day}/${month}/${year}`
+            startDate: `${day}/${month}/${year}`
         })
     }
 
-    onDateEndChange = (date)=>{
-        const {day,month,year} = date._i;
+    onDateEndChange = (date) => {
+        const { day, month, year } = date._i;
         this.setState({
-            endDate:`${day}/${month}/${year}`
+            endDate: `${day}/${month}/${year}`
         })
     }
 
@@ -101,10 +101,10 @@ class PopupCalendar extends React.Component {
                                 }} >
                                     <View style={{
                                         width: scaleSzie(100), borderColor: '#317AE2', borderWidth: 1,
-                                        height: scaleSzie(30),justifyContent:'center',paddingLeft:scaleSzie(8)
+                                        height: scaleSzie(30), justifyContent: 'center', paddingLeft: scaleSzie(8)
                                     }} >
-                                        <Text style={{color:'#404040',fontSize:scaleSzie(12)}} >
-                                       {this.state.startDate}
+                                        <Text style={{ color: '#404040', fontSize: scaleSzie(12) }} >
+                                            {this.state.startDate}
                                         </Text>
                                     </View>
                                     <View style={{ height: scaleSzie(30), marginHorizontal: scaleSzie(10), justifyContent: 'center' }} >
@@ -115,13 +115,13 @@ class PopupCalendar extends React.Component {
 
                                     <View style={{
                                         width: scaleSzie(100), borderColor: '#317AE2', borderWidth: 1,
-                                        height: scaleSzie(30),justifyContent:'center',paddingLeft:scaleSzie(8)
+                                        height: scaleSzie(30), justifyContent: 'center', paddingLeft: scaleSzie(8)
                                     }} >
-                                        <Text style={{color:'#404040',fontSize:scaleSzie(12)}} >
-                                        {this.state.endDate}
+                                        <Text style={{ color: '#404040', fontSize: scaleSzie(12) }} >
+                                            {this.state.endDate}
                                         </Text>
                                     </View>
-                                    <View style={{ flex: 1, alignItems: 'flex-end',paddingRight:scaleSzie(10) }} >
+                                    <View style={{ flex: 1, alignItems: 'flex-end', paddingRight: scaleSzie(10) }} >
                                         {/* -------- Button Apply ------ */}
                                         <ButtonCustom
                                             width={scaleSzie(100)}
@@ -129,7 +129,7 @@ class PopupCalendar extends React.Component {
                                             backgroundColor="#0764B0"
                                             title="Apply"
                                             textColor="#fff"
-                                            onPress={()=>{}}
+                                            onPress={() => { }}
                                             style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 4 }}
                                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                                         />
@@ -147,10 +147,10 @@ class PopupCalendar extends React.Component {
     }
 }
 
-const ItemDay = ({ title ,index}) => {
+const ItemDay = ({ title, index }) => {
     const temptTextColor = index !== 6 ? '#404040' : '#0764B0';
     return (
-        <Button onPress={() =>{}} style={{
+        <Button onPress={() => { }} style={{
             height: scaleSzie(320 / 7),
             justifyContent: 'center', paddingLeft: scaleSzie(12)
         }} >

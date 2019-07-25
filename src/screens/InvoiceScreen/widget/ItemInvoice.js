@@ -19,6 +19,7 @@ class ItemInvoice extends React.Component {
     }
 
     render() {
+        const {invoice} = this.props;
         return (
             <View style={{
                 height: scaleSzie(62), paddingHorizontal: scaleSzie(10),
@@ -48,7 +49,7 @@ class ItemInvoice extends React.Component {
                         </Text>
                         <View style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: 'red' }} />
                         <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A', marginLeft: scaleSzie(5) }} >
-                            Pending
+                          {invoice.status}
                         </Text>
 
                     </View>

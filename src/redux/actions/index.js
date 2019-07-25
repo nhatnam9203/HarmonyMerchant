@@ -9,6 +9,7 @@ import * as extra from './extra';
 import * as upload from './upload';
 import * as appointment from './appointment';
 import * as customer from './customer';
+import * as invoice from './invoice';
 
 export default {
     app,
@@ -21,5 +22,6 @@ export default {
     extra,
     upload,
     appointment,
-    customer
+    customer,
+    invoice
 }
