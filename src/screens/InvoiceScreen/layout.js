@@ -7,6 +7,7 @@ import {
     ScrollView
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
+import moment from 'moment';
 
 import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown } from '@components';
 import { scaleSzie, localize } from '@utils';
@@ -158,49 +159,50 @@ export default class Layout extends React.Component {
 
     renderDetailInvoice() {
         const { language } = this.props;
+        const { invoiceDetail } = this.state;
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(8) }} >
                 <ScrollView showsVerticalScrollIndicator={false} >
                     {/* ------- */}
                     <ItemInfo
                         title={localize('Invoice No', language)}
-                        value={'#1500'}
+                        value={invoiceDetail.checkoutId ? `# ${invoiceDetail.checkoutId}` : ''}
                     />
                     <ItemInfo
                         title={localize('Customer name', language)}
-                        value={'Deandre Wallace'}
+                        value={invoiceDetail.user ? `${invoiceDetail.user.firstName} ${invoiceDetail.user.lastName}` : ''}
                     />
                     <ItemInfo
                         title={localize('Phone Number', language)}
-                        value={'(362) 200-4503'}
+                        value={invoiceDetail.user ? `${invoiceDetail.user.phone}` : ''}
                     />
                     <ItemInfo
                         title={localize('Date', language)}
-                        value={'11/1/2019'}
+                        value={invoiceDetail.createdDate ? `${moment(invoiceDetail.createdDate).format('DD/MM/YYYY')}` : ''}
                     />
                     <ItemInfo
                         title={localize('Time', language)}
-                        value={'4:39 pm'}
+                        value={invoiceDetail.createdDate ? `${moment(invoiceDetail.createdDate).format('h:mm a')}` : ''}
                     />
                     <ItemInfo
                         title={localize('Status', language)}
-                        value={'Pending'}
+                        value={invoiceDetail.status ? invoiceDetail.status : ''}
                     />
                     <ItemInfo
                         title={localize('Payment method', language)}
-                        value={'Credit Card'}
+                        value={invoiceDetail.paymentMethod ? invoiceDetail.paymentMethod : ''}
                     />
                     <ItemInfo
                         title={localize('Total amount', language)}
-                        value={'$ 200'}
+                        value={invoiceDetail.total ? `$ ${invoiceDetail.total}` : ''}
                     />
                     <ItemInfo
                         title={localize('Created by', language)}
-                        value={'Mederith'}
+                        value={''}
                     />
                     <ItemInfo
                         title={localize('Modified by', language)}
-                        value={'William'}
+                        value={''}
                     />
                     {/* ------- button ------ */}
                     <ItemButton
@@ -287,6 +289,8 @@ export default class Layout extends React.Component {
 
     renderBasket() {
         const { language } = this.props;
+        const { invoiceDetail } = this.state;
+        const basket = invoiceDetail.basket ? this.convertBasket(invoiceDetail.basket) : [];
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(8) }} >
                 {/* ---------------- Header ---------------- */}
@@ -315,9 +319,15 @@ export default class Layout extends React.Component {
                 {/* ----------- Body --------- */}
                 <View style={{ flex: 1 }} >
                     <View style={{ height: scaleSzie(16) }} />
-                    <View style={{ flex: 1 }} >
-                        {/* --------- Item basket ---------- */}
-                        <ItemBasket />
+                    <View style={{ flex: 1}} >
+                        <ScrollView showsVerticalScrollIndicator={false} >
+                            {
+                                basket.map((item,index) =><ItemBasket 
+                                key={index}
+                                item={item}
+                                />)
+                            }
+                        </ScrollView>
                     </View>
 
 
@@ -332,7 +342,7 @@ export default class Layout extends React.Component {
                                     {`${localize('Subtotal', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    $0
+                                    {`$ ${invoiceDetail.total ? invoiceDetail.total : 0}`}
                                 </Text>
                             </View>
                             {/* ---------- Tax ------ */}
@@ -360,7 +370,7 @@ export default class Layout extends React.Component {
                                     {`${localize('Total', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(16) }]} >
-                                    $0
+                                    {`$ ${invoiceDetail.total ? invoiceDetail.total : 0}`}
                                 </Text>
                             </View>
                         </View>
@@ -439,7 +449,9 @@ export default class Layout extends React.Component {
                         <FlatList
                             data={listInvoicesByMerchant}
                             renderItem={({ item, index }) => <ItemInvoice
+                                ref={this.setListInvoiceRef}
                                 invoice={item}
+                                onPress={() => this.setInvoiceDetail(item)}
                             />}
                             keyExtractor={(item, index) => `${item.checkoutId}`}
                         />

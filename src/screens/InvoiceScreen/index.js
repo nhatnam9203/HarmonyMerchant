@@ -2,6 +2,10 @@ import React from 'react';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
+import {
+    getArrayProductsFromAppointment, getArrayServicesFromAppointment,
+    getArrayExtrasFromAppointment
+} from '@utils';
 
 class InvoiceScreen extends Layout {
 
@@ -9,9 +13,11 @@ class InvoiceScreen extends Layout {
         super(props);
         this.state = {
             isFocus: true,
-            visibleCalendar: false
+            visibleCalendar: false,
+            invoiceDetail: {}
         }
         this.scrollTabInvoiceRef = React.createRef();
+        this.listInvoiceRef = [];
     }
 
     componentDidMount() {
@@ -32,6 +38,12 @@ class InvoiceScreen extends Layout {
                 })
             }
         );
+    }
+
+    setListInvoiceRef = ref => {
+        if (ref) {
+            this.listInvoiceRef.push(ref);
+        }
     }
 
     gotoTabPaymentInfomation = () => {
@@ -72,6 +84,28 @@ class InvoiceScreen extends Layout {
         this.props.actions.app.handleLockScreen(true);
     }
 
+    convertBasket(basket){
+        const arrayProducts = getArrayProductsFromAppointment(basket.products);
+        const arryaServices = getArrayServicesFromAppointment(basket.services);
+        const arrayExtras = getArrayExtrasFromAppointment(basket.extras);
+        const temptBasket = arrayProducts.concat(arryaServices, arrayExtras);
+        console.log('temptBasket : ', JSON.stringify(temptBasket));
+        return temptBasket;
+    }
+
+    setInvoiceDetail = async (invoice) => {
+        this.setState({
+            invoiceDetail: invoice
+        });
+        for (let i = 0; i < this.listInvoiceRef.length; i++) {
+            if (this.listInvoiceRef[i].props.invoice.checkoutId === invoice.checkoutId) {
+                this.listInvoiceRef[i].setStateFromParent(true);
+            } else {
+                this.listInvoiceRef[i].setStateFromParent(false);
+            }
+        }
+
+    }
 
 
     componentWillUnmount() {
@@ -90,7 +124,7 @@ const mapStateToProps = state => ({
     isShowSearchCustomer: state.customer.isShowSearchCustomer,
     refreshListCustomer: state.customer.refreshListCustomer,
     stateCity: state.dataLocal.stateCity,
-    listInvoicesByMerchant:state.invoice.listInvoicesByMerchant
+    listInvoicesByMerchant: state.invoice.listInvoicesByMerchant
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);
