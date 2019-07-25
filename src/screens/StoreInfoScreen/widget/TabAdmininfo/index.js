@@ -100,6 +100,10 @@ class StoreInfoScreen extends Layout {
             }
         }
 
+        if(user.pin !== user.confirmPin){
+            keyError = 'pinnotmatch'
+        }
+
         if (keyError !== '') {
             Alert.alert(`${strings[keyError]}`);
         } else {

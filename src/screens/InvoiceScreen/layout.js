@@ -266,7 +266,7 @@ export default class Layout extends React.Component {
                 {/* ----------- Body --------- */}
                 <View style={{ flex: 1 }} >
                     <View style={{ height: scaleSzie(16) }} />
-                    <ItemInfo
+                    {/* <ItemInfo
                         title={localize('Payment method', language)}
                         value={'Credit Card'}
                     />
@@ -281,7 +281,7 @@ export default class Layout extends React.Component {
                     <ItemInfo
                         title={localize('CC exp', language)}
                         value={'01/22'}
-                    />
+                    /> */}
                 </View>
             </View>
         );
@@ -423,8 +423,8 @@ export default class Layout extends React.Component {
                 {/* ----------- Body --------- */}
                 <View style={{ flex: 1 }} >
                     <View style={{ height: scaleSzie(16) }} />
-                    <ItemHistory />
-                    <ItemHistory />
+                    {/* <ItemHistory />
+                    <ItemHistory /> */}
                 </View>
             </View>
         );

@@ -16,6 +16,7 @@ const strings = {
     professionalLicense: 'Missing info : professionalLicense',
     nameRole:'Missing info : nameRole',
     status:'Missing info : status',
+    pinnotmatch: 'Pin vs pin confirm not  match'
 
 }
 
