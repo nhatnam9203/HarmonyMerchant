@@ -46,17 +46,18 @@ class HomeScreen extends Layout {
     }
 
     setupSignalR() {
-        const { profile, token } = this.props;
+        const { profile, token, appointmentDetail } = this.props;
         const connection = new signalR.HubConnectionBuilder()
             .withUrl(`https://api2.levincidemo.com/notification/?merchantId=${profile.merchantId}&Title=Merchant&type=appointment_pay`, { accessTokenFactory: () => token })
             .build();
 
         connection.on("ListWaNotification", (data) => {
-             console.log('ListWaNotification : ',data);
-            // // const temptData = JSON.parse(data)
-            // // console.log('---- : ', temptData.json);
+            console.log('ListWaNotification : ', data);
             const temptData = JSON.parse(data);
-            if (!_.isEmpty(temptData.data)) {
+            console.log('temptData : ', data);
+            if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
+                // && temptData.data.appointmentId === appointmentDetail.appointmentId
+            ) {
                 this.props.actions.appointment.donePaymentHarmony();
             }
 
@@ -143,7 +144,9 @@ class HomeScreen extends Layout {
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     language: state.dataLocal.language,
-    token: state.dataLocal.token
+    token: state.dataLocal.token,
+    appointmentIdOffline: state.appointment.appointmentIdOffline,
+    appointmentDetail: state.appointment.appointmentDetail,
 })
 
 

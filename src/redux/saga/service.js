@@ -172,7 +172,7 @@ function* editService(action) {
                 method: 'GET',
                 token: true,
                 api: `${apiConfigs.BASE_API}service`,
-                isShowLoading: true
+                // isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
