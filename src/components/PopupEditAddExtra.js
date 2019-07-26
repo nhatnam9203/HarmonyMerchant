@@ -51,7 +51,8 @@ class PopupEditAddExtra extends React.Component {
     setExtraFromParent = (extra) => {
         this.setState({
             extraInfo: { ...extra, isDisable: extra.isDisabled === 0 ? 'Active' : 'Disable' },
-            imageUrl: extra.imageUrl
+            imageUrl: extra.imageUrl,
+            fileId: 0,
         })
     }
 
