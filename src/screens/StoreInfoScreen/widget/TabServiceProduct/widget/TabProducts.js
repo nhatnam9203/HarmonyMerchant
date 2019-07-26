@@ -62,27 +62,30 @@ class TabProducts extends React.Component {
         }))
     }
 
-    archirveServiceYess() {
+   async archirveServiceYess() {
+    await  this.setState({
+        visibleArchive: false
+    })
         const { serviceInfoHandle } = this.state;
         this.props.actions.product.archiveProduct(serviceInfoHandle.productId);
-        this.setState({
-            visibleArchive: false
-        })
+    
     }
 
-    restoreStaffYess() {
+  async  restoreStaffYess() {
+    await  this.setState({
+        visibleRestore: false
+    })
         const { serviceInfoHandle } = this.state;
         this.props.actions.product.restoreProduct(serviceInfoHandle.productId);
-        this.setState({
-            visibleRestore: false
-        })
+     
     }
 
     async editService(product) {
-        this.editProductRef.current.setProductInfoFromParent(product);
-        this.setState({
+        await   this.setState({
             visibleEdit: true
         })
+        this.editProductRef.current.setProductInfoFromParent(product);
+   
     }
 
     showModalAddProduct = () => {
@@ -95,14 +98,16 @@ class TabProducts extends React.Component {
         }
     }
 
-    addProduct = product => {
+    addProduct =async product => {
+        await this.setState({ visibleAdd: false })
         this.props.actions.product.addProductByMerchant(product);
-        this.setState({ visibleAdd: false })
+       
     }
 
-    editProduct = product => {
+    editProduct = async product => {
+        await this.setState({ visibleEdit: false })
         this.props.actions.product.editProduct(product, product.productId);
-        this.setState({ visibleEdit: false })
+      
     }
 
     renderTable() {

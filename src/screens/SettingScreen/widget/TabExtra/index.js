@@ -87,9 +87,10 @@ class TabExtra extends Layout {
         this.setState({ visibleAdd: true })
     }
 
-    submitAddExtra = (extra) => {
+    submitAddExtra = async (extra) => {
+        await this.setState({ visibleAdd: false })
         this.props.actions.extra.addExtraByMerchant(extra);
-        this.setState({ visibleAdd: false })
+
     }
 
     archiveExtra(extra) {
@@ -106,11 +107,12 @@ class TabExtra extends Layout {
         })
     }
 
-    submitEditExtra = (extra) => {
-        this.props.actions.extra.editExtra(extra, extra.extraId);
-        this.setState({
+    submitEditExtra = async (extra) => {
+        await this.setState({
             visibleEdit: false
         })
+        this.props.actions.extra.editExtra(extra, extra.extraId);
+
     }
 
     restoreExtra(extra) {
@@ -126,17 +128,17 @@ class TabExtra extends Layout {
         if (keySearch == '' & status == '') {
             this.props.actions.extra.clearSearchExtra();
         } else {
-            this.props.actions.extra.searchExtra(keySearch,status)
+            this.props.actions.extra.searchExtra(keySearch, status)
         }
 
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const { isShowSearchExtra,isGetListSearchExtra } = this.props;
-        if(isShowSearchExtra && isGetListSearchExtra){
+        const { isShowSearchExtra, isGetListSearchExtra } = this.props;
+        if (isShowSearchExtra && isGetListSearchExtra) {
             this.searchExtra();
         }
-        
+
     }
 
 

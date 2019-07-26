@@ -117,9 +117,10 @@ class TabService extends Layout {
         })
     }
 
-    submitEditService = (service) => {
+    submitEditService = async (service) => {
+        await this.setState({ visibleEdit: false })
         this.props.actions.service.editService(service, service.serviceId);
-        this.setState({ visibleEdit: false })
+
     }
 
     restoreService(service) {
@@ -130,11 +131,11 @@ class TabService extends Layout {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const { isShowSearchService,isGetListSearchService } = this.props;
-        if(isShowSearchService && isGetListSearchService){
+        const { isShowSearchService, isGetListSearchService } = this.props;
+        if (isShowSearchService && isGetListSearchService) {
             this.searchService();
         }
-        
+
     }
 
 }

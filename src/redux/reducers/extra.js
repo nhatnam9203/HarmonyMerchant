@@ -11,7 +11,7 @@ function appReducer(state = initialState, action) {
         case 'GET_EXTRA_BY_MERCHANT':
             return {
                 ...state,
-                refreshListExtras: !action.isShowLoading && !action.isRefresh
+                refreshListExtras: !action.isShowLoading 
             }
         case 'GET_EXTRA_BY_MERCHANT_SUCCESS':
             return {

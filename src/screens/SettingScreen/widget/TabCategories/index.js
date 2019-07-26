@@ -93,11 +93,12 @@ class TabCategories extends Layout {
         this.setState({ visibleAdd: true });
     }
 
-    submitAddCategory = (category) => {
-        this.props.actions.category.addCategory(category);
-        this.setState({
+    submitAddCategory =async (category) => {
+      await  this.setState({
             visibleAdd: false
         });
+        this.props.actions.category.addCategory(category);
+       
     }
 
     archiveCategory(category) {
@@ -114,14 +115,15 @@ class TabCategories extends Layout {
         })
     }
 
-    submitEditCategory = (category) => {
+    submitEditCategory = async (category) => {
+      await  this.setState({
+            visibleEdit: false
+        });
         this.props.actions.category.editCategory({
             CategoryType: category.categoryType,
             name: category.name
         }, category.categoryId);
-        this.setState({
-            visibleEdit: false
-        });
+       
     }
 
     restoreCategory(category) {

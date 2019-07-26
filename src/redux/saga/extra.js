@@ -172,8 +172,7 @@ function* editExtra(action) {
                 method: 'GET',
                 token: true,
                 api: `${apiConfigs.BASE_API}extra`,
-                // isShowLoading: true,
-                isRefresh: true
+                isShowLoading: true,
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({

@@ -181,9 +181,10 @@ class InventoryScreen extends Layout {
         })
     }
 
-    editProduct = (product) => {
+    editProduct =async (product) => {
+      await  this.setState({ visibleEdit: false })
         this.props.actions.product.editProduct(product, product.productId);
-        this.setState({ visibleEdit: false })
+        
     }
 
     showModaAddProduct = () => {
@@ -196,9 +197,10 @@ class InventoryScreen extends Layout {
         }
     }
 
-    addProduct = product => {
+    addProduct =async product => {
+        await this.setState({ visibleAdd: false })
         this.props.actions.product.addProductByMerchant(product);
-        this.setState({ visibleAdd: false })
+       
     }
 
     scanUKU = () => {

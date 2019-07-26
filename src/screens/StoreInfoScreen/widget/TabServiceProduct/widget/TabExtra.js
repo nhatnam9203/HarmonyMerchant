@@ -61,20 +61,22 @@ class TabExtra extends React.Component {
         }))
     }
 
-    archirveServiceYess() {
+  async  archirveServiceYess() {
+    await this.setState({
+        visibleArchive: false
+    })
         const { extraInfoHandle } = this.state;
         this.props.actions.extra.archiveExtra(extraInfoHandle.extraId);
-        this.setState({
-            visibleArchive: false
-        })
+      
     }
 
-    restoreStaffYess() {
+  async  restoreStaffYess() {
+    await this.setState({
+        visibleRestore: false
+    })
         const { extraInfoHandle } = this.state;
         this.props.actions.extra.restoreExtra(extraInfoHandle.extraId);
-        this.setState({
-            visibleRestore: false
-        })
+      
     }
 
     showModalAddExtra = () => {
@@ -82,23 +84,26 @@ class TabExtra extends React.Component {
         this.setState({ visibleAdd: true })
     }
 
-    addExtra = (extra) => {
+    addExtra =async (extra) => {
+       await this.setState({ visibleAdd: false })
         this.props.actions.extra.addExtraByMerchant(extra);
-        this.setState({ visibleAdd: false })
+       
     }
 
-    editExtra = extra => {
-        this.props.actions.extra.editExtra(extra, extra.extraId);
-        this.setState({
+    editExtra =async  extra => {
+        await this.setState({
             visibleEdit: false
         })
+        this.props.actions.extra.editExtra(extra, extra.extraId);
+      
     }
 
     async editService(extra) {
-        this.editExtraRef.current.setExtraFromParent(extra);
-        this.setState({
+        await this.setState({
             visibleEdit: true
         })
+        this.editExtraRef.current.setExtraFromParent(extra);
+       
     }
 
     renderTable() {

@@ -61,25 +61,28 @@ class TabServices extends React.Component {
         }))
     }
 
-    archirveServiceYess() {
-        const { serviceInfoHandle } = this.state;
-        this.props.actions.service.archiveService(serviceInfoHandle.serviceId);
-        this.setState({
+    async archirveServiceYess() {
+        await this.setState({
             visibleArchive: false
         })
+        const { serviceInfoHandle } = this.state;
+        this.props.actions.service.archiveService(serviceInfoHandle.serviceId);
+
     }
 
-    restoreStaffYess() {
+   async restoreStaffYess() {
+    await  this.setState({
+        visibleRestore: false
+    })
         const { serviceInfoHandle } = this.state;
         this.props.actions.service.restoreService(serviceInfoHandle.serviceId);
-        this.setState({
-            visibleRestore: false
-        })
+      
     }
 
-    addService = service => {
+    addService =async service => {
+        await   this.setState({ visibleAdd: false })
         this.props.actions.service.addServiceByMerchant(service);
-        this.setState({ visibleAdd: false })
+     
     }
 
     async showModalEditService(service) {
@@ -89,9 +92,10 @@ class TabServices extends React.Component {
         })
     }
 
-    editService = service => {
+    editService =async service => {
+        await this.setState({ visibleEdit: false })
         this.props.actions.service.editService(service, service.serviceId);
-        this.setState({ visibleEdit: false })
+       
     }
 
     getExtraName(extras) {
@@ -120,7 +124,7 @@ class TabServices extends React.Component {
     }
 
     renderTable() {
-        const { servicesByMerchant, categoriesByMerchant,refreshListServices } = this.props;
+        const { servicesByMerchant, categoriesByMerchant, refreshListServices } = this.props;
         return (
             <View style={{ flex: 1 }} >
                 <HeaderTableServices />
@@ -209,7 +213,7 @@ const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     servicesByMerchant: state.service.servicesByMerchant,
     categoriesByMerchant: state.category.categoriesByMerchant,
-    refreshListServices : state.service.refreshListServices
+    refreshListServices: state.service.refreshListServices
 });
 
 export default connectRedux(mapStateToProps, TabServices);

@@ -179,8 +179,7 @@ function* editService(action) {
                 method: 'GET',
                 token: true,
                 api: `${apiConfigs.BASE_API}service`,
-                // isShowLoading: true,
-                isRefresh: true
+                isShowLoading: true,
             })
             yield put({
                 type: 'GET_EXTRA_BY_MERCHANT',

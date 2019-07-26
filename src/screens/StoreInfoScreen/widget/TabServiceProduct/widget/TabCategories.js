@@ -61,20 +61,22 @@ class TabCategories extends React.Component {
         }))
     }
 
-    archirveServiceYess() {
-        const { categoryInfoHandle } = this.state;
-        this.props.actions.category.archiveCategory(categoryInfoHandle.categoryId);
-        this.setState({
+   async archirveServiceYess() {
+      await  this.setState({
             visibleArchive: false
         })
+        const { categoryInfoHandle } = this.state;
+        this.props.actions.category.archiveCategory(categoryInfoHandle.categoryId);
+       
     }
 
-    restoreStaffYess() {
-        const { categoryInfoHandle } = this.state;
-        this.props.actions.category.restoreCategory(categoryInfoHandle.categoryId);
-        this.setState({
+   async restoreStaffYess() {
+     await   this.setState({
             visibleRestore: false
         })
+        const { categoryInfoHandle } = this.state;
+        this.props.actions.category.restoreCategory(categoryInfoHandle.categoryId);
+        
     }
 
     async showModalEditcategory(category) {
@@ -84,22 +86,24 @@ class TabCategories extends React.Component {
         })
     }
 
-    addCategory = (category) => {
-        this.props.actions.category.addCategory(category);
-        this.setState({
+    addCategory = async (category) => {
+       await this.setState({
             visibleAdd: false
         });
+        this.props.actions.category.addCategory(category);
+       
     }
 
-    editCategory =  (category) => {
+    editCategory =async  (category) => {
         // ---- edit category ----
+       await this.setState({
+            visibleEdit: false
+        });
         this.props.actions.category.editCategory({
             CategoryType: category.categoryType,
             name: category.name
         }, category.categoryId);
-        this.setState({
-            visibleEdit: false
-        });
+       
     }
 
     // --------- Render ------
