@@ -173,10 +173,11 @@ class Layout extends React.Component {
                     {
                         Object.keys(temptDataSalary).map((tip, index) => {
                             const temptTitle = tip == 'perHour' ? 'Per hour' : 'Commission';
+                            const temptChar = tip == 'perHour' ?  '($)' : '(%)';
                             return <ItemScalary
                                 key={index}
                                 ref={this.setRefSalary}
-                                title={`${localize(temptTitle, language)} ($)`}
+                                title={`${localize(temptTitle, language)} ${temptChar}`}
                                 placeholder={'10'}
                                 dataInit={temptDataSalary[tip]}
                             />
@@ -190,10 +191,11 @@ class Layout extends React.Component {
                     {
                         Object.keys(temptDataTipFee).map((tip, index) => {
                             const temptTitle = tip == 'percent' ? 'Percent' : 'Fixed amount';
+                            const temptChar = tip == 'percent' ? '(%)' : '($)';
                             return <ItemScalary
                                 key={index}
                                 ref={this.setRefTip}
-                                title={`${localize(temptTitle, language)} ($)`}
+                                title={`${localize(temptTitle, language)} ${temptChar}`}
                                 placeholder={'10'}
                                 dataInit={temptDataTipFee[tip]}
                             />

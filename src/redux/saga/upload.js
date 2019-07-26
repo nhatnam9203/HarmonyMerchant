@@ -8,7 +8,7 @@ function* uploadAvatar(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield uploadFromData(action);
-        console.log('uploadAvatar : ', responses);
+        // console.log('uploadAvatar : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({

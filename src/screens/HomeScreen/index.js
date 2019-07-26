@@ -52,9 +52,9 @@ class HomeScreen extends Layout {
             .build();
 
         connection.on("ListWaNotification", (data) => {
-            console.log('ListWaNotification : ', data);
+            // console.log('ListWaNotification : ', data);
             const temptData = JSON.parse(data);
-            console.log('temptData : ', data);
+            // console.log('temptData : ', data);
             if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
                 // && temptData.data.appointmentId === appointmentDetail.appointmentId
             ) {
@@ -64,7 +64,7 @@ class HomeScreen extends Layout {
         });
 
         connection.start().catch(function (err) {
-            console.log("Error on Start : ", err);
+            // console.log("Error on Start : ", err);
         });
     }
 

@@ -186,7 +186,7 @@ class PopupAddEditService extends React.Component {
     }
 
     updateFileId = (fileId) => {
-        console.log('updateFileId : ' + fileId);
+        // console.log('updateFileId : ' + fileId);
         this.setState({
             fileId
         })

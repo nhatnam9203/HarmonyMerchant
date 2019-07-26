@@ -27,7 +27,7 @@ export default class PrintManager {
 
         try {
             var printResult = await StarPRNT.print('StarPRNT', commands, portName);
-            console.log(printResult); // Success!
+            // console.log(printResult); // Success!
         } catch (e) {
             console.error(e);
         }

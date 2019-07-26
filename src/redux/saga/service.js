@@ -18,11 +18,18 @@ function* addServiceByMerchant(action) {
                 api: `${apiConfigs.BASE_API}service`,
                 isShowLoading: true
             })
+            yield put({
+                type: 'GET_EXTRA_BY_MERCHANT',
+                method: 'GET',
+                token: true,
+                api: `${apiConfigs.BASE_API}extra`,
+                // isShowLoading
+            })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -86,7 +93,7 @@ function* archiveService(action) {
         const { codeNumber } = responses;
         // console.log('--- responses : ', responses);
         if (parseInt(codeNumber) == 200) {
-            yield put({type:'IS_GET_LIST_SEARCH_SERVICE'});
+            yield put({ type: 'IS_GET_LIST_SEARCH_SERVICE' });
             yield put({
                 type: 'GET_SERVICE_BY_MERCHANT',
                 method: 'GET',
@@ -98,7 +105,7 @@ function* archiveService(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -126,7 +133,7 @@ function* restoreService(action) {
         const { codeNumber } = responses;
         // console.log('--- restoreService : ', responses);
         if (parseInt(codeNumber) == 200) {
-            yield put({type:'IS_GET_LIST_SEARCH_SERVICE'});
+            yield put({ type: 'IS_GET_LIST_SEARCH_SERVICE' });
             yield put({
                 type: 'GET_SERVICE_BY_MERCHANT',
                 method: 'GET',
@@ -138,7 +145,7 @@ function* restoreService(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -163,22 +170,30 @@ function* editService(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('--- responses : ', responses);
+        // console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            yield put({type:'IS_GET_LIST_SEARCH_SERVICE'});
+            yield put({ type: 'IS_GET_LIST_SEARCH_SERVICE' });
             yield put({
                 type: 'GET_SERVICE_BY_MERCHANT',
                 method: 'GET',
                 token: true,
                 api: `${apiConfigs.BASE_API}service`,
-                // isShowLoading: true
+                // isShowLoading: true,
+                isRefresh: true
+            })
+            yield put({
+                type: 'GET_EXTRA_BY_MERCHANT',
+                method: 'GET',
+                token: true,
+                api: `${apiConfigs.BASE_API}extra`,
+                // isShowLoading
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -214,7 +229,7 @@ function* searchService(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message

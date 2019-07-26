@@ -8,7 +8,7 @@ function* addStaffByMerchant(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('--- responses : ', responses);
+        // console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -111,7 +111,7 @@ function* searchStaffByName(action) {
             })
         }
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         if (`${error}` == 'TypeError: Network request failed') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
@@ -210,7 +210,7 @@ function* createAdmin(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('createAdmin : ' + JSON.stringify(responses));
+        // console.log('createAdmin : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -254,7 +254,7 @@ function* editStaff(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('editStaff : ' + JSON.stringify(responses));
+        // console.log('editStaff : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({

@@ -8,7 +8,7 @@ function* getListInvoicesByMerchant(action) {
     try {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
-        console.log('responses : ', responses);
+        // console.log('responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({

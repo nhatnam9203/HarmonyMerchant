@@ -27,11 +27,11 @@ class AppComponent extends React.Component {
       const text = `Json: ${json} `;
       //- payload:  ${token}
       const messages = this.state.messages.concat([text]);
-      console.log(text);
+      // console.log(text);
     });
 
     connection.start().catch(function (err) {
-      console.log("Error on Start : ", err);
+      // console.log("Error on Start : ", err);
     });
   };
 

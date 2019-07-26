@@ -567,7 +567,7 @@ class TabCheckout extends Layout {
                 alert('Please connect to your print ! ')
             }
         } catch (error) {
-            console.log('scan error : ', error);
+            // console.log('scan error : ', error);
         }
 
     }

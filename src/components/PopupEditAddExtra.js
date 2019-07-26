@@ -88,7 +88,7 @@ class PopupEditAddExtra extends React.Component {
         }
 
         if (keyError != "") {
-            console.log('keyError:',keyError);
+            // console.log('keyError:',keyError);
             Alert.alert(`${strings[keyError]}`);
         } else {
             if (this.props.isEdit) {
