@@ -395,7 +395,7 @@ export const WorkingTime = [
         value: '06:00 PM',
     },
     {
-        value: '06:300 PM',
+        value: '06:30 PM',
     },
     {
         value: '07:00 PM',

@@ -14,8 +14,8 @@ class Layout extends React.Component {
 
     renderSetup() {
         const { language } = this.props;
-        const { languageApp, longitude, latitude, webLink, businessHour,
-            autoCloseAt, autoLockScreenAfter
+        const { languageApp, longitude, latitude, webLink,
+            autoCloseAt, autoLockScreenAfter,businessHourStart,businessHourEnd
         } = this.state;
         return (
             <View style={{ width: '100%', marginTop: scaleSzie(6) }} >
@@ -88,8 +88,8 @@ class Layout extends React.Component {
                             <Dropdown
                                 label={'08:00 AM'}
                                 data={WorkingTime}
-                                // value={value}
-                                // onChangeText={(value) => onChangeText(value)}
+                                value={businessHourStart}
+                                onChangeText={(value) => this.setState({businessHourStart:value})}
                                 containerStyle={{
                                     backgroundColor: '#F1F1F1',
                                     borderWidth: 1,
@@ -105,8 +105,8 @@ class Layout extends React.Component {
                             <Dropdown
                                 label={'08:00 AM'}
                                 data={WorkingTime}
-                                // value={value}
-                                // onChangeText={(value) => onChangeText(value)}
+                                value={businessHourEnd}
+                                onChangeText={(businessHourEnd) => this.setState({businessHourEnd})}
                                 containerStyle={{
                                     backgroundColor: '#F1F1F1',
                                     borderWidth: 1,

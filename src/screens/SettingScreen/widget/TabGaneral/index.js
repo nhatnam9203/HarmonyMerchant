@@ -17,22 +17,27 @@ class TabGaneral extends Layout {
             webLink: profile.webLink ? profile.webLink : '',
             businessHour: profile.businessHour ? profile.businessHour : '',
             autoCloseAt: autoCloseAt,
-            autoLockScreenAfter: autoLockScreenAfter
+            autoLockScreenAfter: autoLockScreenAfter,
+            businessHourStart: profile.businessHourStart ? profile.businessHourStart : '',
+            businessHourEnd: profile.businessHourEnd ? profile.businessHourEnd : '',
         };
     }
 
     saveSettngApp = () => {
         const { languageApp, longitude, latitude, webLink,
-            autoCloseAt, autoLockScreenAfter } = this.state;
+            autoCloseAt, autoLockScreenAfter,
+            businessHourStart, businessHourEnd
+        } = this.state;
         const { profile } = this.props;
         const temptLanguage = languageApp === 'English' ? 'en' : 'vi';
         this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoLockScreenAfter, autoCloseAt);
         this.props.actions.app.merchantSetting({
-            businessHour: "",
+            businessHourStart: businessHourStart,
+            businessHourEnd: businessHourEnd,
             webLink: webLink,
             latitude: latitude,
             longitude: longitude,
-        }, profile.merchantId);
+        });
     }
 
 }
