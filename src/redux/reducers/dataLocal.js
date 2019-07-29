@@ -4,7 +4,7 @@ const initialState = {
     stateCity: [],
     language: 'en',
     autoCloseAt: '',
-    autoLockScreenAfter: ''
+    autoLockScreenAfter: '15:00 min'
 }
 
 function dataLocal(state = initialState, action) {

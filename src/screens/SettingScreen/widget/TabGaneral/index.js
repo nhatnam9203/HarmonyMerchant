@@ -9,7 +9,7 @@ class TabGaneral extends Layout {
 
     constructor(props) {
         super(props);
-        const { profile ,autoCloseAt,autoLockScreenAfter} = this.props;
+        const { profile, autoCloseAt, autoLockScreenAfter } = this.props;
         this.state = {
             languageApp: getNameLanguage(this.props.language),
             longitude: profile.longitude ? profile.longitude : '',
@@ -23,10 +23,10 @@ class TabGaneral extends Layout {
 
     saveSettngApp = () => {
         const { languageApp, longitude, latitude, webLink,
-        autoCloseAt,autoLockScreenAfter } = this.state;
+            autoCloseAt, autoLockScreenAfter } = this.state;
         const { profile } = this.props;
         const temptLanguage = languageApp === 'English' ? 'en' : 'vi';
-        this.props.actions.dataLocal.changeSettingLocal(temptLanguage,autoLockScreenAfter,autoCloseAt);
+        this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoLockScreenAfter, autoCloseAt);
         this.props.actions.app.merchantSetting({
             businessHour: "",
             webLink: webLink,

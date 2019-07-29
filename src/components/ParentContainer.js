@@ -41,12 +41,35 @@ class ParentContainer extends Component {
 
         this.inactivityTimer = setInterval(() => {
             if (
-                new Date() - this.lastInteraction >= this.props.timeOutLockScreen
+                new Date() - this.lastInteraction >= this.getTimeOut(this.props.autoLockScreenAfter) 
             ) {
                 this.setIsInactive();
             }
         }, INACTIVITY_CHECK_INTERVAL_MS);
     };
+
+    getTimeOut(number) {
+        let timeout = 0;
+        switch (number) {
+            case '05:00 min':
+                timeout = 5 * 1000 * 60;
+                break;
+            case '10:00 min':
+                timeout = 10 * 1000 * 60;
+                break;
+            case '15:00 min':
+                timeout = 15 * 1000 * 60;
+                break;
+            case '30:00 min':
+                timeout = 30 * 1000 * 60;
+                break;
+            default:
+                timeout = 1 * 1000 * 60;
+        }
+        // console.log('number : ',number);
+        // console.log('getTimeOut : ',timeout);
+        return timeout
+    }
 
     setIsActive = () => {
         this.lastInteraction = new Date();
@@ -95,7 +118,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-    timeOutLockScreen: state.app.timeOutLockScreen
+    autoLockScreenAfter: state.dataLocal.autoLockScreenAfter
 })
 
 

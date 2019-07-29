@@ -36,7 +36,7 @@ class Layout extends React.Component {
                         title={`${localize('Auto close at', language)}:`}
                         data={[{ value: '05:00 min' }, { value: '10:00 min' }, { value: '15:00 min' }, { value: '30:00 min' }]}
                         value={autoCloseAt}
-                        onChangeText={value =>  this.setState({autoCloseAt:value})}
+                        onChangeText={value => this.setState({ autoCloseAt: value })}
                         placeHolder='08:00 AM'
                     />
                     {/* ------- Item Auto lock screen after:  ------ */}
