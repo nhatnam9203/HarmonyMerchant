@@ -89,3 +89,16 @@ export function resetFlagCreateAdmin() {
     }
 }
 
+export function loginStaff(merchantCode, staffPin) {
+    return {
+        type: 'LOGIN_STAFF',
+        body: {
+            merchantCode: merchantCode,
+            staffPin: staffPin
+        },
+        method: 'POST',
+        api: `${apiConfigs.BASE_API}staff/login`,
+
+    }
+}
+

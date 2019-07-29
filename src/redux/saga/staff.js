@@ -289,6 +289,45 @@ function* editStaff(action) {
     }
 }
 
+function* loginStaff(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log('loginStaff : ' + JSON.stringify(responses));
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            // yield put({
+            //     type: 'GET_STAFF_BY_MERCHANR_ID',
+            //     method: 'GET',
+            //     token: true,
+            //     api: `${apiConfigs.BASE_API}staff`,
+            //     isShowLoading: true
+            // });
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 export default function* saga() {
     yield all([
         takeLatest('ADD_STAFF_BY_MERCHANT', addStaffByMerchant),
@@ -298,5 +337,6 @@ export default function* saga() {
         takeLatest('RESTORE_STAFF', restoreStaff),
         takeLatest('CREATE_ADMIN', createAdmin),
         takeLatest('EDIT_STAFF_BY_MERCHANT', editStaff),
+        takeLatest('LOGIN_STAFF', loginStaff),
     ])
 }

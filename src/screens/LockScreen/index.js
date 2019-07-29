@@ -20,15 +20,16 @@ class LockScreen extends Layout {
         const password = this.passwordInputRef.current.state.value;
         const {profile}= this.props
         if (password.length === 4) {
-            const pin = profile.pin ? profile.pin : '1234';
-            if(password == pin){
-                 this.props.actions.app.handleLockScreen(false);
-                //  NavigatorServices.navigate('Drawer');
-            }else{
-                Alert.alert(`Pin not match !`);
-            }
+            // const pin = profile.pin ? profile.pin : '1234';
+            // if(password == pin){
+            //     //  this.props.actions.app.handleLockScreen(false);
+            //     //  NavigatorServices.navigate('Drawer');
+            // }else{
+            //     Alert.alert(`Pin not match !`);
+            // }
+            this.props.actions.staff.loginStaff(profile.merchantCode,password);
         } else {
-            Alert.alert(`Please enter pin`);
+            Alert.alert(`Pin must 4 numeric`);
         }
     }
 
