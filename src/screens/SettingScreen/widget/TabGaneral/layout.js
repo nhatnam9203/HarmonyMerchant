@@ -3,19 +3,20 @@ import {
     View,
     ScrollView,
     StyleSheet,
+    TextInput
 } from 'react-native';
 
 import { ButtonCustom, Text, Dropdown } from '@components';
-import { scaleSzie, localize, WorkingTime,getNameLanguage } from '@utils';
+import { scaleSzie, localize, WorkingTime, getNameLanguage } from '@utils';
 import IMAGE from '@resources';
 
 class Layout extends React.Component {
 
     renderSetup() {
         const { language } = this.props;
-        const {languageApp} = this.state;
+        const { languageApp } = this.state;
         return (
-            <View style={{ width: '100%', marginTop: scaleSzie(6), flexDirection: 'row' }} >
+            <View style={{ width: '100%', marginTop: scaleSzie(6) }} >
                 <View style={{ flex: 1 }} >
                     {/* ------- Item Change Language  ------ */}
                     <ItemSetupGeneral
@@ -24,7 +25,7 @@ class Layout extends React.Component {
                         value={languageApp}
                         onChangeText={value => {
                             // console.log(value);
-                            this.setState({languageApp :value})
+                            this.setState({ languageApp: value })
                         }}
                         placeHolder={localize('Language', language)}
                     />
@@ -32,32 +33,142 @@ class Layout extends React.Component {
                     <ItemSetupGeneral
                         title={`${localize('Auto close at', language)}:`}
                         data={WorkingTime}
-                        onChangeText={value => {}}
+                        onChangeText={value => { }}
                         placeHolder='08:00 AM'
                     />
                     {/* ------- Item Auto lock screen after:  ------ */}
                     <ItemSetupGeneral
                         title={`${localize('Auto lock screen after', language)}:`}
                         data={[{ value: '05:00 min' }, { value: '10:00 min' }, { value: '15:00 min' }, { value: '30:00 min' }]}
-                        onChangeText={value => {}}
+                        onChangeText={value => { }}
                         placeHolder='15:00 min'
                     />
-                </View>
-                {/* ------ Button Save --- */}
-                <View style={{ width: scaleSzie(140),justifyContent:'center' }} >
-                    <ButtonCustom
-                        width={scaleSzie(120)}
-                        height={50}
-                        backgroundColor="#F1F1F1"
-                        title={localize('SAVE', language)}
-                        textColor="#6A6A6A"
-                        onPress={this.saveSettngApp}
-                        style={{
-                            borderWidth: 1, borderColor: '#C5C5C5',
-                            backgroundColor: '#0764B0'
-                        }}
-                        styleText={{ fontSize: scaleSzie(18), fontWeight: '500', color: '#fff' }}
-                    />
+                    {/* -------- Link website --------- */}
+                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
+                        <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
+                            <Text style={{
+                                color: '#404040',
+                                fontSize: scaleSzie(16),
+                                fontWeight: '600',
+                            }}  >
+                                {`${localize('Website', language)}:`}
+                            </Text>
+                        </View>
+                        <View style={{
+                            height: scaleSzie(40), width: scaleSzie(400), borderWidth: 1, borderColor: '#C5C5C5',
+                            paddingHorizontal: scaleSzie(10)
+                        }} >
+                            <TextInput
+                                style={{ flex: 1, fontSize: scaleSzie(18) }}
+                                placeholder="yoursite.com"
+                            />
+                        </View>
+                    </View>
+                    {/* -------- Business Hour --------- */}
+                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
+                        <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
+                            <Text style={{
+                                color: '#404040',
+                                fontSize: scaleSzie(16),
+                                fontWeight: '600',
+                            }}  >
+                                {`${localize('Business Hour', language)}:`}
+                            </Text>
+                        </View>
+                        <View style={{
+                            height: scaleSzie(40), width: scaleSzie(400),
+                            flexDirection: 'row'
+                        }} >
+                            <Dropdown
+                                label={'08:00 AM'}
+                                data={WorkingTime}
+                                // value={value}
+                                // onChangeText={(value) => onChangeText(value)}
+                                containerStyle={{
+                                    backgroundColor: '#F1F1F1',
+                                    borderWidth: 1,
+                                    borderColor: '#C5C5C5',
+                                    width: scaleSzie(140)
+                                }}
+                            />
+                            <View style={{ marginHorizontal: scaleSzie(15), justifyContent: 'center' }} >
+                                <Text style={{ fontSize: scaleSzie(18), color: '#404040', }} >
+                                    To
+                                </Text>
+                            </View>
+                            <Dropdown
+                                label={'08:00 AM'}
+                                data={WorkingTime}
+                                // value={value}
+                                // onChangeText={(value) => onChangeText(value)}
+                                containerStyle={{
+                                    backgroundColor: '#F1F1F1',
+                                    borderWidth: 1,
+                                    borderColor: '#C5C5C5',
+                                    width: scaleSzie(140)
+                                }}
+                            />
+                        </View>
+                    </View>
+                    {/* -------- Longtitude --------- */}
+                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
+                        <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
+                            <Text style={{
+                                color: '#404040',
+                                fontSize: scaleSzie(16),
+                                fontWeight: '600',
+                            }}  >
+                                {`${localize('Longtitude', language)}:`}
+                            </Text>
+                        </View>
+                        <View style={{
+                            height: scaleSzie(40), width: scaleSzie(240), borderWidth: 1, borderColor: '#C5C5C5',
+                            paddingHorizontal: scaleSzie(10)
+                        }} >
+                            <TextInput
+                                style={{ flex: 1, fontSize: scaleSzie(18) }}
+                                placeholder=""
+                            />
+                        </View>
+                    </View>
+                    {/* -------- Lattitude --------- */}
+                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
+                        <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
+                            <Text style={{
+                                color: '#404040',
+                                fontSize: scaleSzie(16),
+                                fontWeight: '600',
+                            }}  >
+                                {`${localize('Lattitude', language)}:`}
+                            </Text>
+                        </View>
+                        <View style={{
+                            height: scaleSzie(40), width: scaleSzie(240), borderWidth: 1, borderColor: '#C5C5C5',
+                            paddingHorizontal: scaleSzie(10)
+                        }} >
+                            <TextInput
+                                style={{ flex: 1, fontSize: scaleSzie(18) }}
+                                placeholder=""
+                            />
+                        </View>
+                    </View>
+                    {/* ------ Button Save --- */}
+                    <View style={{ alignItems: 'flex-end', marginTop: scaleSzie(20) }} >
+                        <ButtonCustom
+                            width={scaleSzie(120)}
+                            height={50}
+                            backgroundColor="#F1F1F1"
+                            title={localize('SAVE', language)}
+                            textColor="#6A6A6A"
+                            onPress={this.saveSettngApp}
+                            style={{
+                                borderWidth: 1, borderColor: '#C5C5C5',
+                                backgroundColor: '#0764B0'
+                            }}
+                            styleText={{ fontSize: scaleSzie(18), fontWeight: '500', color: '#fff' }}
+                        />
+                    </View>
+                    {/* ----------- */}
                 </View>
             </View>
         );
@@ -132,7 +243,7 @@ class Layout extends React.Component {
     }
 }
 
-const ItemSetupGeneral = ({ title, data ,placeHolder,value = '',onChangeText}) => {
+const ItemSetupGeneral = ({ title, data, placeHolder, value = '', onChangeText }) => {
     return (
         <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
             <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
