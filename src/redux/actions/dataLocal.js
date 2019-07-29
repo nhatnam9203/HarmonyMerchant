@@ -19,10 +19,14 @@ export function saveTokenFCM(payload) {
     }
 }
 
-export function changeLanguageApp(lang){
-    return{
-        type:'CHANGE_LANGUAGE_APP',
-        payload:lang
+export function changeSettingLocal(language, autoLockScreenAfter, autoCloseAt) {
+    return {
+        type: 'CHANGE_SETTING_LOCAL_APP',
+        payload: {
+            language: language,
+            autoLockScreenAfter: autoLockScreenAfter,
+            autoCloseAt: autoCloseAt
+        }
     }
 }
 

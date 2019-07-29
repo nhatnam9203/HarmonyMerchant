@@ -14,7 +14,9 @@ class Layout extends React.Component {
 
     renderSetup() {
         const { language } = this.props;
-        const { languageApp } = this.state;
+        const { languageApp, longitude, latitude, webLink, businessHour,
+            autoCloseAt, autoLockScreenAfter
+        } = this.state;
         return (
             <View style={{ width: '100%', marginTop: scaleSzie(6) }} >
                 <View style={{ flex: 1 }} >
@@ -32,15 +34,17 @@ class Layout extends React.Component {
                     {/* ------- Item Auto close at:  ------ */}
                     <ItemSetupGeneral
                         title={`${localize('Auto close at', language)}:`}
-                        data={WorkingTime}
-                        onChangeText={value => { }}
+                        data={[{ value: '05:00 min' }, { value: '10:00 min' }, { value: '15:00 min' }, { value: '30:00 min' }]}
+                        value={autoCloseAt}
+                        onChangeText={value =>  this.setState({autoCloseAt:value})}
                         placeHolder='08:00 AM'
                     />
                     {/* ------- Item Auto lock screen after:  ------ */}
                     <ItemSetupGeneral
                         title={`${localize('Auto lock screen after', language)}:`}
                         data={[{ value: '05:00 min' }, { value: '10:00 min' }, { value: '15:00 min' }, { value: '30:00 min' }]}
-                        onChangeText={value => { }}
+                        value={autoLockScreenAfter}
+                        onChangeText={value => this.setState({ autoLockScreenAfter: value })}
                         placeHolder='15:00 min'
                     />
                     {/* -------- Link website --------- */}
@@ -61,6 +65,8 @@ class Layout extends React.Component {
                             <TextInput
                                 style={{ flex: 1, fontSize: scaleSzie(18) }}
                                 placeholder="yoursite.com"
+                                value={webLink}
+                                onChangeText={value => this.setState({ webLink: value })}
                             />
                         </View>
                     </View>
@@ -128,6 +134,8 @@ class Layout extends React.Component {
                             <TextInput
                                 style={{ flex: 1, fontSize: scaleSzie(18) }}
                                 placeholder=""
+                                value={longitude}
+                                onChangeText={value => this.setState({ longitude: value })}
                             />
                         </View>
                     </View>
@@ -149,6 +157,8 @@ class Layout extends React.Component {
                             <TextInput
                                 style={{ flex: 1, fontSize: scaleSzie(18) }}
                                 placeholder=""
+                                value={latitude}
+                                onChangeText={value => this.setState({ latitude: value })}
                             />
                         </View>
                     </View>

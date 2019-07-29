@@ -82,3 +82,12 @@ export function getQuestion() {
     }
 }
 
+export function merchantSetting(body, merchantId) {
+    return {
+        type: 'MERCHANT_SETTING',
+        method: 'PUT',
+        body,
+        token: true,
+        api: `${apiConfigs.BASE_API}merchant/setting/${merchantId}`
+    }
+}
