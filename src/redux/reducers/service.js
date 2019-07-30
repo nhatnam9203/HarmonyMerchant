@@ -11,7 +11,7 @@ function appReducer(state = initialState, action) {
         case 'GET_SERVICE_BY_MERCHANT':
             return {
                 ...state,
-                refreshListServices: !action.isShowLoading 
+                refreshListServices: !action.isShowLoading
             }
         case 'GET_SERVICE_BY_MERCHANT_SUCCESS':
             return {
@@ -29,7 +29,7 @@ function appReducer(state = initialState, action) {
                 ...state,
                 listServicesSearch: action.payload,
                 isShowSearchService: true,
-                isGetListSearchService:false
+                isGetListSearchService: false
             }
         case 'CLEAR_SEARCH_SERVICE':
             return {

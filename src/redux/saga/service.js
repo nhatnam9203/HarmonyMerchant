@@ -60,7 +60,15 @@ function* getServicesByMerchant(action) {
             yield put({
                 type: 'GET_SERVICE_BY_MERCHANT_SUCCESS',
                 payload: responses.data
-            })
+            });
+            if (action.isGetListExtra) {
+                yield put({
+                    type: 'GET_EXTRA_BY_MERCHANT',
+                    method: 'GET',
+                    token: true,
+                    api: `${apiConfigs.BASE_API}extra`,
+                })
+            }
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
@@ -180,13 +188,7 @@ function* editService(action) {
                 token: true,
                 api: `${apiConfigs.BASE_API}service`,
                 isShowLoading: true,
-            })
-            yield put({
-                type: 'GET_EXTRA_BY_MERCHANT',
-                method: 'GET',
-                token: true,
-                api: `${apiConfigs.BASE_API}extra`,
-                // isShowLoading
+                isGetListExtra: true
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({

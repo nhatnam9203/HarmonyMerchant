@@ -140,7 +140,7 @@ export default class Layout extends React.Component {
                         <Dropdown
                             label={localize('Statuses', language)}
                             data={[{ value: '' }, { value: 'Pending' }, { value: 'Paid' }, { value: 'Voided' },
-                            { value: 'Refunded' }
+                            { value: 'Refunded' },{ value: 'Fail' },{ value: 'Cancel' }
                             ]}
                             value={status}
                             onChangeText={(value) => this.updateSearchFilterInfo('status', value)}
@@ -432,7 +432,10 @@ export default class Layout extends React.Component {
     }
 
     renderInvoice() {
-        const { language, listInvoicesByMerchant, refreshListInvoice } = this.props;
+        const { language, listInvoicesByMerchant, refreshListInvoice ,
+            listInvoicesSearch,isShowSearchInvoice
+        } = this.props;
+        const tempData = isShowSearchInvoice ? listInvoicesSearch : listInvoicesByMerchant;
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
                 {/* ---------- Left ------ */}
@@ -448,7 +451,7 @@ export default class Layout extends React.Component {
                     <View style={{ flex: 1 }} >
                         {/* ----- Item Invoice ----- */}
                         <FlatList
-                            data={listInvoicesByMerchant}
+                            data={tempData}
                             renderItem={({ item, index }) => <ItemInvoice
                                 ref={this.setListInvoiceRef}
                                 invoice={item}
@@ -457,6 +460,11 @@ export default class Layout extends React.Component {
                             keyExtractor={(item, index) => `${item.checkoutId}`}
                             onRefresh={() => this.props.actions.invoice.getListInvoicesByMerchant(false)}
                             refreshing={refreshListInvoice}
+                            ListEmptyComponent={() =><View style={{width:'100%',alignItems:'center',paddingTop:scaleSzie(20)}} >
+                                <Text style={{color:'#404040',fontSize:scaleSzie(20)}} >
+                                    List Empty 
+                                </Text>
+                            </View>}
                         />
                     </View>
                 </View>
@@ -494,7 +502,7 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { language, stateCity } = this.props;
+        const { language } = this.props;
         const { visibleCalendar } = this.state;
         return (
             <ParentContainer
@@ -522,8 +530,10 @@ export default class Layout extends React.Component {
                     </Button>
                 </View>
                 <PopupCalendar
+                    ref={this.modalCalendarRef}
                     visible={visibleCalendar}
                     onRequestClose={() => this.setState({ visibleCalendar: false })}
+
                 />
             </ParentContainer>
         );

@@ -185,12 +185,11 @@ class PopupAddEditService extends React.Component {
         this.props.onRequestClose();
     }
 
-    updateFileId = (fileId) => {
-        // console.log('updateFileId : ' + fileId);
-        this.setState({
-            fileId
-        })
-    }
+    updateFileId = async (fileId) => {
+        await this.setState({
+             fileId
+         })
+     }
 
     // ------- Render -----
 

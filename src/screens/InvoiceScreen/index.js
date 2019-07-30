@@ -23,6 +23,7 @@ class InvoiceScreen extends Layout {
             },
         }
         this.scrollTabInvoiceRef = React.createRef();
+        this.modalCalendarRef = React.createRef();
         this.listInvoiceRef = [];
     }
 
@@ -91,13 +92,61 @@ class InvoiceScreen extends Layout {
         })
     }
 
+    getPaymentString(type) {
+        let method = '';
+        switch (type) {
+            case 'HP-Harmony Account':
+                method = 'harmony';
+                break;
+            case 'Cash':
+                method = 'cash';
+                break;
+            case 'Credit Card':
+                method = 'credit_card';
+                break;
+            case 'Cheque/Bank Transfer':
+                method = 'orther';
+                break;
+            default:
+                method = 'cash'
+        }
+        return method
+    }
+
+    getStatusString(type) {
+        let status = '';
+        switch (type) {
+            case 'Pending':
+                status = 'pending';
+                break;
+            case 'Paid':
+                status = 'paid';
+                break;
+            case 'Fail':
+                status = 'fail';
+                break;
+            case 'Cancel':
+                status = 'cancel';
+                break;
+            case 'Voided':
+                status = 'void';
+                break;
+            case 'Refunded':
+                status = 'refund';
+                break;
+            default:
+                status = 'pending'
+        }
+        return status
+    }
+
     searchInvoice = () => {
         const { searchFilter } = this.state;
         const { keySearch, paymentMethod, status } = searchFilter;
         if (keySearch == '' && paymentMethod == '' & status == '') {
             // this.props.actions.product.clearSearchProduct();
         } else {
-            this.props.actions.invoice.searchInvoice(keySearch, paymentMethod, status);
+            this.props.actions.invoice.searchInvoice(keySearch, this.getPaymentString(paymentMethod),this.getStatusString(status) );
         }
 
     }
@@ -153,13 +202,10 @@ class InvoiceScreen extends Layout {
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     language: state.dataLocal.language,
-    listCustomersByMerchant: state.customer.listCustomersByMerchant,
-    listCustomersSearch: state.customer.listCustomersSearch,
-    isShowSearchCustomer: state.customer.isShowSearchCustomer,
-    refreshListCustomer: state.customer.refreshListCustomer,
-    stateCity: state.dataLocal.stateCity,
     listInvoicesByMerchant: state.invoice.listInvoicesByMerchant,
-    refreshListInvoice: state.invoice.refreshListInvoice
+    refreshListInvoice: state.invoice.refreshListInvoice,
+    listInvoicesSearch: state.invoice.listInvoicesSearch,
+    isShowSearchInvoice: state.invoice.isShowSearchInvoice
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);

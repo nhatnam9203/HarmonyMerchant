@@ -640,10 +640,10 @@ class TabCheckout extends Layout {
 
         connection.on("ListWaNotification", (data) => {
             const temptData = JSON.parse(data);
-            console.log('temptData : ', data);
-            console.log('appointmentDetail : ', appointmentDetail);
-            console.log('profile : ', profile);
-            console.log('token : ', token);
+            // console.log('temptData : ', data);
+            // console.log('appointmentDetail : ', appointmentDetail);
+            // console.log('profile : ', profile);
+            // console.log('token : ', token);
 
             if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony && temptData.data.appointmentId == appointmentDetail.appointmentId) {
                 this.props.actions.appointment.donePaymentHarmony();

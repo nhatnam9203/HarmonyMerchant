@@ -48,8 +48,8 @@ class PopupEditAddExtra extends React.Component {
         })
     }
 
-    setExtraFromParent = (extra) => {
-        this.setState({
+    setExtraFromParent = async (extra) => {
+        await this.setState({
             extraInfo: { ...extra, isDisable: extra.isDisabled === 0 ? 'Active' : 'Disable' },
             imageUrl: extra.imageUrl,
             fileId: 0,
@@ -81,7 +81,7 @@ class PopupEditAddExtra extends React.Component {
         };
         const arrayKey = Object.keys(temptExtraInfo);
         let keyError = "";
-        for (let i = 0; i < arrayKey.length ; i++) {
+        for (let i = 0; i < arrayKey.length; i++) {
             if (temptExtraInfo[arrayKey[i]] === '' && arrayKey[i] !== 'imageUrl') {
                 keyError = arrayKey[i];
                 break;
@@ -107,8 +107,8 @@ class PopupEditAddExtra extends React.Component {
         }
     }
 
-    updateFileId = (fileId) => {
-        this.setState({
+    updateFileId = async (fileId) => {
+       await this.setState({
             fileId
         })
     }

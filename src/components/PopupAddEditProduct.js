@@ -89,7 +89,7 @@ class PopupAddEditProduct extends React.Component {
                 isDisabled: 'Active',
             },
             fileId: 0,
-            imageUrl:''
+            imageUrl: ''
         })
     }
 
@@ -125,8 +125,8 @@ class PopupAddEditProduct extends React.Component {
         }
     }
 
-    updateFileId = (fileId) => {
-        this.setState({
+    updateFileId = async (fileId) => {
+        await this.setState({
             fileId
         })
     }

@@ -19,25 +19,43 @@ class PopupCalendar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            startDate: moment().format('DD/MM/YYYY'),
-            endDate: moment().format('DD/MM/YYYY')
+            startDate: moment().format('YYYY-MM-DD'),
+            endDate: moment().format('YYYY-MM-DD'),
+            isCustomizeDate: false
         }
     }
 
     onDateStartChange = (date) => {
         const { day, month, year } = date._i;
         this.setState({
-            startDate: `${day}/${month}/${year}`
+            startDate: `${year}-${parseInt(month + 1)}-${day}`
         })
     }
 
     onDateEndChange = (date) => {
         const { day, month, year } = date._i;
         this.setState({
-            endDate: `${day}/${month}/${year}`
+            endDate: `${year}-${parseInt(month + 1)}-${day}`
         })
     }
 
+    applyCustomDay = async () => {
+        const { startDate, endDate } = this.state;
+        const temptDate = new Date(startDate).getTime();
+        const temptEndDate = new Date(endDate).getTime();
+        const isBefore = temptDate < temptEndDate ? true : false
+        console.log('isBefore : ', isBefore);
+        if (isBefore) {
+            await this.setState({
+                isCustomizeDate: true
+            });
+            this.props.onRequestClose();
+        } else {
+            alert('The end date must be greater than the start date')
+        }
+
+
+    }
 
     render() {
         const { visible, onRequestClose } = this.props;
@@ -129,7 +147,7 @@ class PopupCalendar extends React.Component {
                                             backgroundColor="#0764B0"
                                             title="Apply"
                                             textColor="#fff"
-                                            onPress={() => { }}
+                                            onPress={this.applyCustomDay}
                                             style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 4 }}
                                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                                         />

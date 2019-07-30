@@ -149,8 +149,8 @@ class AddStaff extends Layout {
         this.inputRefsTip.push(ref);
     };
 
-    updateFileId = (fileId) => {
-        this.setState({
+    updateFileId = async (fileId) => {
+       await this.setState({
             fileId
         })
     }

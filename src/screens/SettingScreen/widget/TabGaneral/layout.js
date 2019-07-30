@@ -147,7 +147,7 @@ class Layout extends React.Component {
                                 fontSize: scaleSzie(16),
                                 fontWeight: '600',
                             }}  >
-                                {`${localize('Lattitude', language)}:`}
+                                {`${localize('Latitude', language)}:`}
                             </Text>
                         </View>
                         <View style={{

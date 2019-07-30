@@ -52,16 +52,16 @@ class ParentContainer extends Component {
         let timeout = 0;
         switch (number) {
             case '05:00 min':
-                timeout = 5 * 1000 * 60;
+                timeout = 300000;
                 break;
             case '10:00 min':
-                timeout = 10 * 1000 * 60;
+                timeout = 600000;
                 break;
             case '15:00 min':
-                timeout = 15 * 1000 * 60;
+                timeout = 900000;
                 break;
             case '30:00 min':
-                timeout = 30 * 1000 * 60;
+                timeout = 1800000;
                 break;
             default:
                 timeout = 1 * 1000 * 60;
