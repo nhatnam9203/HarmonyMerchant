@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'ramda';
 import { StarPRNT } from 'react-native-star-prnt';
+const signalR = require('@aspnet/signalr');
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -106,6 +107,7 @@ class TabCheckout extends Layout {
 
     addAmount = async () => {
         const { categoryTypeSelected, basket, productSeleted, extraSelected, appointmentId } = this.state;
+        console.log('appointmentId : ', appointmentId);
         if (categoryTypeSelected === 'Product') {
             if (appointmentId !== -1) {
                 // ------- Buy With Appointment -----
@@ -331,28 +333,43 @@ class TabCheckout extends Layout {
 
     payBasket = async () => {
         const { appointmentId, paymentSelected, basket } = this.state;
+        const { profile, token, appointmentDetail } = this.props;
         let method = this.getPaymentString(paymentSelected);
-        this.setState({
-            changeButtonDone: true,
-            isPressDone: false,
-            methodPayment: method
-        })
 
         if (appointmentId !== -1) {
             // --------- Payment with appointment -----
+            if (method === 'harmony') {
+                this.setupSignalR(profile, token, appointmentDetail);
+            }
+            await this.setState({
+                changeButtonDone: true,
+                isPressDone: false,
+                methodPayment: method
+            });
             this.props.actions.appointment.paymentAppointment(appointmentId, method);
+
         } else {
             //-------Payment Anymous ------
-            const { profile } = this.props;
-            const arrayProductBuy = basket.map((product) => {
-                if (product.type === 'Product') {
-                    return {
-                        productId: product.data.productId,
-                        quantity: product.quanlitySet
+            if (method === 'harmony') {
+                alert('Does not support payment for anonymous customers');
+            } else {
+                const { profile } = this.props;
+               await this.setState({
+                    changeButtonDone: true,
+                    isPressDone: false,
+                    methodPayment: method
+                });
+                const arrayProductBuy = basket.map((product) => {
+                    if (product.type === 'Product') {
+                        return {
+                            productId: product.data.productId,
+                            quantity: product.quanlitySet
+                        }
                     }
-                }
-            })
-            this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, method)
+                })
+                this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, method)
+            }
+
         }
     }
 
@@ -592,14 +609,14 @@ class TabCheckout extends Layout {
             const portName = printer[0].portName;
             PrintManager.getInstance().openCashDrawer(portName);
         } else {
-            alert('Please connect to your print ! ')
+            // alert('Please connect to your print ! ')
         }
     }
 
     donePayment = () => {
         const { methodPayment } = this.state;
-        const { appointmentDetail ,appointmentIdOffline} = this.props;
-        const temptAppointmentId = _.isEmpty(appointmentDetail) ? appointmentIdOffline :appointmentDetail.appointmentId ;
+        const { appointmentDetail, appointmentIdOffline } = this.props;
+        const temptAppointmentId = _.isEmpty(appointmentDetail) ? appointmentIdOffline : appointmentDetail.appointmentId;
         if (methodPayment === 'cash') {
             this.openCashDrawer();
             this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
@@ -613,6 +630,50 @@ class TabCheckout extends Layout {
             this.props.actions.appointment.showModalPrintReceipt();
         }
     }
+
+    // ------------ Signal R -------
+
+    setupSignalR(profile, token, appointmentDetail) {
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl(`https://api2.levincidemo.com/notification/?merchantId=${profile.merchantId}&Title=Merchant&type=appointment_pay`, { accessTokenFactory: () => token })
+            .build();
+
+        connection.on("ListWaNotification", (data) => {
+            const temptData = JSON.parse(data);
+            console.log('temptData : ', data);
+            console.log('appointmentDetail : ', appointmentDetail);
+            console.log('profile : ', profile);
+            console.log('token : ', token);
+
+            if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony && temptData.data.appointmentId == appointmentDetail.appointmentId) {
+                this.props.actions.appointment.donePaymentHarmony();
+            }
+
+        });
+
+        connection.start().catch(function (err) {
+            console.log("Error on Start : ", err);
+        });
+
+        connection.onclose(async () => {
+            await this.start();
+        });
+
+    }
+
+    async  start() {
+        const { profile, token } = this.props;
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl(`https://api2.levincidemo.com/notification/?merchantId=${profile.merchantId}&Title=Merchant&type=appointment_pay`, { accessTokenFactory: () => token })
+            .build();
+        try {
+            await connection.start();
+            console.log("connected");
+        } catch (err) {
+            console.log(err);
+            setTimeout(() => start(), 5000);
+        }
+    };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         const { loading, isGetAppointmentSucces } = this.props;
@@ -628,6 +689,7 @@ class TabCheckout extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
+    token: state.dataLocal.token,
     categoriesByMerchant: state.category.categoriesByMerchant,
     productsByMerchantId: state.product.productsByMerchantId,
     servicesByMerchant: state.service.servicesByMerchant,

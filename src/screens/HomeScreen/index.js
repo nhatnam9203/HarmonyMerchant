@@ -1,7 +1,6 @@
 import React from 'react';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
-const signalR = require('@aspnet/signalr');
 import _ from 'ramda';
 
 import Layout from './layout';
@@ -24,8 +23,6 @@ class HomeScreen extends Layout {
     }
 
     componentDidMount() {
-        // this.props.actions.category.getCategoriesByMerchantId();
-        this.setupSignalR();
         this.initWatchVisible();
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
@@ -44,48 +41,6 @@ class HomeScreen extends Layout {
             }
         );
     }
-
-    setupSignalR() {
-        const { profile, token, appointmentDetail } = this.props;
-        const connection = new signalR.HubConnectionBuilder()
-            .withUrl(`https://api2.levincidemo.com/notification/?merchantId=${profile.merchantId}&Title=Merchant&type=appointment_pay`, { accessTokenFactory: () => token })
-            .build();
-
-        connection.on("ListWaNotification", (data) => {
-            // console.log('ListWaNotification : ', data);
-            const temptData = JSON.parse(data);
-            // console.log('temptData : ', data);
-            if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
-                // && temptData.data.appointmentId === appointmentDetail.appointmentId
-            ) {
-                this.props.actions.appointment.donePaymentHarmony();
-            }
-
-        });
-
-        connection.start().catch(function (err) {
-            console.log("Error on Start : ", err);
-        });
-
-        connection.onclose(async () => {
-            await this.start();
-        });
-
-    }
-
-    async  start() {
-        const { profile, token } = this.props;
-        const connection = new signalR.HubConnectionBuilder()
-            .withUrl(`https://api2.levincidemo.com/notification/?merchantId=${profile.merchantId}&Title=Merchant&type=appointment_pay`, { accessTokenFactory: () => token })
-            .build();
-        try {
-            await connection.start();
-            console.log("connected");
-        } catch (err) {
-            console.log(err);
-            setTimeout(() => start(), 5000);
-        }
-    };
 
 
     gotoAppoitmentScreen = () => {

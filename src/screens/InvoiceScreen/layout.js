@@ -319,12 +319,12 @@ export default class Layout extends React.Component {
                 {/* ----------- Body --------- */}
                 <View style={{ flex: 1 }} >
                     <View style={{ height: scaleSzie(16) }} />
-                    <View style={{ flex: 1}} >
+                    <View style={{ flex: 1 }} >
                         <ScrollView showsVerticalScrollIndicator={false} >
                             {
-                                basket.map((item,index) =><ItemBasket 
-                                key={index}
-                                item={item}
+                                basket.map((item, index) => <ItemBasket
+                                    key={index}
+                                    item={item}
                                 />)
                             }
                         </ScrollView>
@@ -431,7 +431,7 @@ export default class Layout extends React.Component {
     }
 
     renderInvoice() {
-        const { language, listInvoicesByMerchant } = this.props;
+        const { language, listInvoicesByMerchant,refreshListInvoice } = this.props;
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
                 {/* ---------- Left ------ */}
@@ -454,6 +454,8 @@ export default class Layout extends React.Component {
                                 onPress={() => this.setInvoiceDetail(item)}
                             />}
                             keyExtractor={(item, index) => `${item.checkoutId}`}
+                            onRefresh={() => this.props.actions.invoice.getListInvoicesByMerchant(false)}
+                            refreshing={refreshListInvoice}
                         />
                     </View>
                 </View>

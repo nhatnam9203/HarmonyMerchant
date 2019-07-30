@@ -124,7 +124,8 @@ const mapStateToProps = state => ({
     isShowSearchCustomer: state.customer.isShowSearchCustomer,
     refreshListCustomer: state.customer.refreshListCustomer,
     stateCity: state.dataLocal.stateCity,
-    listInvoicesByMerchant: state.invoice.listInvoicesByMerchant
+    listInvoicesByMerchant: state.invoice.listInvoicesByMerchant,
+    refreshListInvoice: state.invoice.refreshListInvoice
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);

@@ -293,16 +293,18 @@ function* loginStaff(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('loginStaff : ' + JSON.stringify(responses));
+        // console.log('loginStaff : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            // yield put({
-            //     type: 'GET_STAFF_BY_MERCHANR_ID',
-            //     method: 'GET',
-            //     token: true,
-            //     api: `${apiConfigs.BASE_API}staff`,
-            //     isShowLoading: true
-            // });
+            yield put({
+                type: 'UPDATE_PROFILE_STAFF_SUCCESS',
+                payload: responses.data
+            });
+            NavigationServices.navigate('Splash');
+            yield put({
+                type: 'HANDLE_LOCK_SCREEN',
+                payload: false
+            })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
