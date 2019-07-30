@@ -62,10 +62,14 @@ class InvoiceScreen extends Layout {
         this.scrollTabInvoiceRef.current.goToPage(0);
     }
 
-    searchCustomer = () => {
+    showCalendar =() =>{
         this.setState({
             visibleCalendar: true
         })
+    }
+
+    searchCustomer = () => {
+      
     }
 
 

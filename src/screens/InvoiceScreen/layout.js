@@ -43,7 +43,7 @@ export default class Layout extends React.Component {
                         <View style={{ flex: 1, borderColor: '#C5C5C5', borderWidth: 1, borderRadius: scaleSzie(4), flexDirection: 'row' }} >
                             <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
                                 <TextInput
-                                    style={{ flex: 1, fontSize: scaleSzie(14) }}
+                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
                                     placeholder={`${localize('Invoice No / SKU number/Phone number / Customer Name', language)}`}
                                     value={keySearch}
                                     onChangeText={(keySearch) => {
@@ -101,21 +101,19 @@ export default class Layout extends React.Component {
                         </Text>
                     </View>
                     {/* ------------- */}
-                    <View style={{ width: scaleSzie(180) }} >
-                        <Dropdown
-                            label={localize('Time Range', language)}
-                            data={[{ value: '' }, { value: 'Product' }, { value: 'Service' }]}
-                            // value={category}
-                            // onChangeText={(value) => this.updateSearchFilterInfo('category', value)}
-                            containerStyle={{
-                                backgroundColor: 'rgb(246,246,246)',
-                                borderWidth: 1,
-                                borderColor: '#C5C5C5',
-                                flex: 1,
-                                borderRadius: scaleSzie(4)
-                            }}
-                        />
-                    </View>
+                    <Button onPress={this.showCalendar} style={{ width: scaleSzie(180) }} >
+                        <View style={[{ height: scaleSzie(40), width: '90%', flexDirection: 'row' }, styles.borderStyle]} >
+                            <View style={{ alignItems: 'center', flexDirection: 'row' }} >
+                                <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(15),marginLeft:scaleSzie(10) }} >
+                                    {localize('Time Range', language)}
+                                </Text>
+                            </View>
+
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(6) }} >
+                                <Image source={IMAGE.dropdown} style={{ width: scaleSzie(6), height: scaleSzie(3) }} />
+                            </View>
+                        </View>
+                    </Button>
                     {/* ------------- */}
                     <View style={{ width: scaleSzie(170), marginLeft: scaleSzie(16) }} >
                         <Dropdown
@@ -431,7 +429,7 @@ export default class Layout extends React.Component {
     }
 
     renderInvoice() {
-        const { language, listInvoicesByMerchant,refreshListInvoice } = this.props;
+        const { language, listInvoicesByMerchant, refreshListInvoice } = this.props;
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
                 {/* ---------- Left ------ */}

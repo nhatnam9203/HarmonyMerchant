@@ -10,15 +10,14 @@ export function getListInvoicesByMerchant(isShowLoading = true) {
     }
 }
 
-
-// export function searchCustomer(key) {
-//     return {
-//         type: 'SEARCH_CUSTOMER',
-//         method: 'GET',
-//         api: `${apiConfigs.BASE_API}customer/search?key=${key}`,
-//         token: true
-//     }
-// }
+export function searchInvoice(key, method, status, timeStart, timeEnd) {
+    return {
+        type: 'SEARCH_INVOICE',
+        method: 'GET',
+        api: `${apiConfigs.BASE_API}checkout/search?method=${method}&status=${status}&timeStart=${timeStart}&timeEnd=${timeEnd}&key=${key}`,
+        token: true
+    }
+}
 
 // export function clearSearCustomer() {
 //     return {
