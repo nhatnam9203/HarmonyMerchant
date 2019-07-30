@@ -24,8 +24,8 @@ class PopupEditAddCategories extends React.Component {
         }
     }
 
-    setStateDefaultFromParent = () => {
-        this.setState({
+    setStateDefaultFromParent =async () => {
+       await this.setState({
             category: {
                 categoryType: '',
                 name: ''
@@ -33,8 +33,8 @@ class PopupEditAddCategories extends React.Component {
         })
     }
 
-    setCategoryFromParent = (category) => {
-        this.setState({
+    setCategoryFromParent =async (category) => {
+       await this.setState({
             category
         })
     }

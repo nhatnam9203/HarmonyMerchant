@@ -62,8 +62,8 @@ class PopupAddEditService extends React.Component {
     }
 
 
-    setDefaultStateFromParent = () => {
-        this.setState({
+    setDefaultStateFromParent = async() => {
+       await this.setState({
             serviceInfo: {
                 categoryId: '',
                 name: "",

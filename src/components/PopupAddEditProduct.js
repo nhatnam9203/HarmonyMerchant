@@ -56,9 +56,9 @@ class PopupAddEditProduct extends React.Component {
         }
     }
 
-    setProductInfoFromParent = (productInfo) => {
+    setProductInfoFromParent = async (productInfo) => {
         const { categoriesByMerchant } = this.props;
-        this.setState({
+       await this.setState({
             productInfo: {
                 productId: productInfo.productId,
                 categoryId: getCategoryName(categoriesByMerchant, productInfo.categoryId),
@@ -75,8 +75,8 @@ class PopupAddEditProduct extends React.Component {
         })
     }
 
-    setDefaultStateFromParent = () => {
-        this.setState({
+    setDefaultStateFromParent =async () => {
+      await  this.setState({
             productInfo: {
                 categoryId: '',
                 name: "",

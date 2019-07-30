@@ -34,8 +34,8 @@ class PopupEditAddExtra extends React.Component {
         this.durationRef = React.createRef();
     }
 
-    setStateDefaultFromParent = () => {
-        this.setState({
+    setStateDefaultFromParent = async () => {
+      await  this.setState({
             extraInfo: {
                 name: "",
                 description: "",

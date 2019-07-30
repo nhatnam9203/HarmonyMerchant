@@ -57,8 +57,8 @@ class PopupAddEditCustomer extends React.Component {
         }
     }
 
-    setStateFromParent = customer => {
-        this.setState({
+    setStateFromParent = async customer => {
+       await this.setState({
             customerInfo: {
                 firstName: customer.firstName,
                 lastName: customer.lastName,
@@ -76,8 +76,8 @@ class PopupAddEditCustomer extends React.Component {
         })
     }
 
-    setStateDefaultFromParent = () => {
-        this.setState({
+    setStateDefaultFromParent = async () => {
+      await  this.setState({
             customerInfo: {
                 firstName: '',
                 lastName: '',
