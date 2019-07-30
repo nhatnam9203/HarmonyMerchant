@@ -46,23 +46,23 @@ function* searchInvoice(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         console.log('searchInvoice : ', responses);
-        // const { codeNumber } = responses;
-        // if (parseInt(codeNumber) == 200) {
-        //     yield put({
-        //         type: 'GET_LIST_INVOICE_BY_MERCHANT_SUCCESS',
-        //         payload: responses.data
-        //     })
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: 'SEARCH_INVOICE_SUCCESS',
+                payload: responses.data
+            })
 
-        // } else if (parseInt(codeNumber) === 401) {
-        //     yield put({
-        //         type: 'UNAUTHORIZED'
-        //     })
-        // } else {
-        //     yield put({
-        //         type: 'SHOW_ERROR_MESSAGE',
-        //         message: responses.message
-        //     })
-        // }
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
     } catch (error) {
         if (`${error}` == 'TypeError: Network request failed') {
             yield put({

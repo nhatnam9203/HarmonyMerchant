@@ -14,7 +14,13 @@ class InvoiceScreen extends Layout {
         this.state = {
             isFocus: true,
             visibleCalendar: false,
-            invoiceDetail: {}
+            invoiceDetail: {},
+            searchFilter: {
+                keySearch: '',
+                paymentMethod: '',
+                status: '',
+
+            },
         }
         this.scrollTabInvoiceRef = React.createRef();
         this.listInvoiceRef = [];
@@ -40,6 +46,23 @@ class InvoiceScreen extends Layout {
         );
     }
 
+    updateSearchFilterInfo(key, value, keyParent = '') {
+        const { searchFilter } = this.state;
+        if (keyParent !== '') {
+            const temptParent = searchFilter[keyParent];
+            const temptChild = { ...temptParent, [key]: value };
+            const temptUpdate = { ...searchFilter, [keyParent]: temptChild };
+            this.setState({
+                searchFilter: temptUpdate
+            })
+        } else {
+            const temptUpdate = { ...searchFilter, [key]: value };
+            this.setState({
+                searchFilter: temptUpdate
+            })
+        }
+    }
+
     setListInvoiceRef = ref => {
         if (ref) {
             this.listInvoiceRef.push(ref);
@@ -62,14 +85,21 @@ class InvoiceScreen extends Layout {
         this.scrollTabInvoiceRef.current.goToPage(0);
     }
 
-    showCalendar =() =>{
+    showCalendar = () => {
         this.setState({
             visibleCalendar: true
         })
     }
 
-    searchCustomer = () => {
-      
+    searchInvoice = () => {
+        const { searchFilter } = this.state;
+        const { keySearch, paymentMethod, status } = searchFilter;
+        if (keySearch == '' && paymentMethod == '' & status == '') {
+            // this.props.actions.product.clearSearchProduct();
+        } else {
+            this.props.actions.invoice.searchInvoice(keySearch, paymentMethod, status);
+        }
+
     }
 
 
@@ -88,7 +118,7 @@ class InvoiceScreen extends Layout {
         this.props.actions.app.handleLockScreen(true);
     }
 
-    convertBasket(basket){
+    convertBasket(basket) {
         const arrayProducts = getArrayProductsFromAppointment(basket.products);
         const arryaServices = getArrayServicesFromAppointment(basket.services);
         const arrayExtras = getArrayExtrasFromAppointment(basket.extras);

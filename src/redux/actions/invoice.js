@@ -10,7 +10,7 @@ export function getListInvoicesByMerchant(isShowLoading = true) {
     }
 }
 
-export function searchInvoice(key, method, status, timeStart, timeEnd) {
+export function searchInvoice(key, method, status, timeStart='', timeEnd='') {
     return {
         type: 'SEARCH_INVOICE',
         method: 'GET',

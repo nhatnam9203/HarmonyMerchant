@@ -35,7 +35,8 @@ export default class Layout extends React.Component {
 
     renderSearch() {
         const { language } = this.props;
-        const { keySearch } = this.state;
+        const { searchFilter } = this.state;
+        const { keySearch } = searchFilter;
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
@@ -48,14 +49,14 @@ export default class Layout extends React.Component {
                                     value={keySearch}
                                     onChangeText={(keySearch) => {
                                         if (keySearch == '') {
-                                            this.props.actions.customer.clearSearCustomer();
+                                            // this.props.actions.customer.clearSearCustomer();
                                         }
-                                        this.setState({ keySearch })
+                                        this.updateSearchFilterInfo('keySearch', keySearch)
                                     }}
-                                    onSubmitEditing={this.searchCustomer}
+                                    onSubmitEditing={this.searchInvoice}
                                 />
                             </View>
-                            <Button onPress={this.searchCustomer} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
+                            <Button onPress={this.searchInvoice} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
                                 <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
                             </Button>
 
@@ -68,7 +69,7 @@ export default class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Search', language)}
                             textColor="#6A6A6A"
-                            onPress={this.searchCustomer}
+                            onPress={this.searchInvoice}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
@@ -80,7 +81,7 @@ export default class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Scan SKU', language)}
                             textColor="#6A6A6A"
-                            onPress={this.searchCustomer}
+                            onPress={this.searchInvoice}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
@@ -92,6 +93,8 @@ export default class Layout extends React.Component {
 
     renderFilter() {
         const { language } = this.props;
+        const { searchFilter } = this.state;
+        const {paymentMethod,status} = searchFilter;
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
@@ -104,7 +107,7 @@ export default class Layout extends React.Component {
                     <Button onPress={this.showCalendar} style={{ width: scaleSzie(180) }} >
                         <View style={[{ height: scaleSzie(40), width: '90%', flexDirection: 'row' }, styles.borderStyle]} >
                             <View style={{ alignItems: 'center', flexDirection: 'row' }} >
-                                <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(15),marginLeft:scaleSzie(10) }} >
+                                <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(15), marginLeft: scaleSzie(10) }} >
                                     {localize('Time Range', language)}
                                 </Text>
                             </View>
@@ -121,8 +124,8 @@ export default class Layout extends React.Component {
                             data={[{ value: '' }, { value: 'HP-Harmony Account' }, { value: 'HP-Credit Card' },
                             { value: 'Credit Card' }, { value: 'Cash' }, { value: 'Cheque/Bank Transfer' }
                             ]}
-                            // value={category}
-                            // onChangeText={(value) => this.updateSearchFilterInfo('category', value)}
+                            value={paymentMethod}
+                            onChangeText={(value) => this.updateSearchFilterInfo('paymentMethod', value)}
                             containerStyle={{
                                 backgroundColor: 'rgb(246,246,246)',
                                 borderWidth: 1,
@@ -139,8 +142,8 @@ export default class Layout extends React.Component {
                             data={[{ value: '' }, { value: 'Pending' }, { value: 'Paid' }, { value: 'Voided' },
                             { value: 'Refunded' }
                             ]}
-                            // value={category}
-                            // onChangeText={(value) => this.updateSearchFilterInfo('category', value)}
+                            value={status}
+                            onChangeText={(value) => this.updateSearchFilterInfo('status', value)}
                             containerStyle={{
                                 backgroundColor: 'rgb(246,246,246)',
                                 borderWidth: 1,
@@ -222,7 +225,7 @@ export default class Layout extends React.Component {
                         backgroundColor="#F1F1F1"
                         title={localize('VOID', language)}
                         textColor="#6A6A6A"
-                        onPress={this.searchCustomer}
+                        onPress={this.searchInvoice}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                         styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                     />
@@ -381,7 +384,7 @@ export default class Layout extends React.Component {
                         backgroundColor="#F1F1F1"
                         title={localize('REFUND', language)}
                         textColor="#6A6A6A"
-                        onPress={this.searchCustomer}
+                        onPress={this.searchInvoice}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                         styleText={{ fontSize: scaleSzie(16), fontWeight: 'bold' }}
                     />

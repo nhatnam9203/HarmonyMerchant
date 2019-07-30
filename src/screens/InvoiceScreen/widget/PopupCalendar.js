@@ -50,7 +50,7 @@ class PopupCalendar extends React.Component {
                     justifyContent: 'flex-start', alignItems: 'flex-start',
                     backgroundColor: "transparent",
                     paddingTop: scaleSzie(155),
-                    paddingLeft: scaleSzie(210)
+                    paddingLeft: scaleSzie(160)
                 }}
             >
                 <View style={styles.shadowP} >
@@ -59,7 +59,7 @@ class PopupCalendar extends React.Component {
                     </View>
 
                     <View style={styles.container} >
-                        <View style={{ width: scaleSzie(155), }} >
+                        <View style={{ width: scaleSzie(120), }} >
                             {
                                 DATE.map((day, index) => <ItemDay
                                     key={index}
@@ -74,8 +74,8 @@ class PopupCalendar extends React.Component {
                                     <View style={{ flex: 1, }} >
                                         <CalendarPicker
                                             onDateChange={this.onDateStartChange}
-                                            width={scaleSzie(200)}
-                                            height={scaleSzie(200)}
+                                            width={scaleSzie(250)}
+                                            height={scaleSzie(250)}
                                             dayShape="square"
                                             selectedDayColor="#317AE2"
                                             selectedDayTextColor="#FFFFFF"
@@ -85,8 +85,8 @@ class PopupCalendar extends React.Component {
                                     <View style={{ flex: 1, backgroundColor: '#FAFAFA' }} >
                                         <CalendarPicker
                                             onDateChange={this.onDateEndChange}
-                                            width={scaleSzie(200)}
-                                            height={scaleSzie(200)}
+                                            width={scaleSzie(250)}
+                                            height={scaleSzie(250)}
                                             dayShape="square"
                                             selectedDayColor="#317AE2"
                                             selectedDayTextColor="#FFFFFF"
@@ -154,7 +154,7 @@ const ItemDay = ({ title, index }) => {
             height: scaleSzie(320 / 7),
             justifyContent: 'center', paddingLeft: scaleSzie(12)
         }} >
-            <Text style={{ color: temptTextColor, fontSize: scaleSzie(18) }} >
+            <Text style={{ color: temptTextColor, fontSize: scaleSzie(13) }} >
                 {title}
             </Text>
         </Button>
@@ -164,7 +164,7 @@ const ItemDay = ({ title, index }) => {
 
 const styles = StyleSheet.create({
     container: {
-        width: scaleSzie(550),
+        width: scaleSzie(600),
         height: scaleSzie(320),
         backgroundColor: '#fff',
         borderRadius: 8,
