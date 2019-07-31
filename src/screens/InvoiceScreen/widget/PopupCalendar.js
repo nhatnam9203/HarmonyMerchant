@@ -19,46 +19,58 @@ class PopupCalendar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            startDate: moment().format('YYYY-MM-DD'),
-            endDate: moment().format('YYYY-MM-DD'),
-            isCustomizeDate: false
+            startDate: ``,
+            endDate: ``,
+            isCustomizeDate: false,
+            quickFilter: false
         }
     }
 
     onDateStartChange = (date) => {
         const { day, month, year } = date._i;
+        const temptMonth = parseInt(month + 1);
+        const addZeroToMonth = temptMonth < 10 ? `0${temptMonth}` : temptMonth;
         this.setState({
-            startDate: `${year}-${parseInt(month + 1)}-${day}`
+            startDate: `${year}-${addZeroToMonth}-${day}`
         })
     }
 
     onDateEndChange = (date) => {
         const { day, month, year } = date._i;
+        const temptMonth = parseInt(month + 1);
+        const addZeroToMonth = temptMonth < 10 ? `0${temptMonth}` : temptMonth;
         this.setState({
-            endDate: `${year}-${parseInt(month + 1)}-${day}`
+            endDate: `${year}-${addZeroToMonth}-${day}`
         })
     }
 
     applyCustomDay = async () => {
         const { startDate, endDate } = this.state;
-        const temptDate = new Date(startDate).getTime();
+        const temptstartDate = new Date(startDate).getTime();
         const temptEndDate = new Date(endDate).getTime();
-        const isBefore = temptDate < temptEndDate ? true : false
-        console.log('isBefore : ', isBefore);
+        const isBefore = parseInt(temptstartDate) < parseInt(temptEndDate) ? true : false
         if (isBefore) {
+            this.props.changeTitleTimeRange('Customize Date');
             await this.setState({
-                isCustomizeDate: true
+                isCustomizeDate: true,
+                quickFilter: 'Customize Date'
             });
-            this.props.onRequestClose();
         } else {
             alert('The end date must be greater than the start date')
         }
+    }
 
-
+    selectQuickFilter = (quickFilter) => {
+        this.props.changeTitleTimeRange(quickFilter);
+        this.setState({
+            quickFilter,
+            isCustomizeDate: false
+        });
     }
 
     render() {
         const { visible, onRequestClose } = this.props;
+        const { quickFilter,startDate,endDate } = this.state;
         return (
             <ModalCustom
                 transparent={true}
@@ -79,11 +91,16 @@ class PopupCalendar extends React.Component {
                     <View style={styles.container} >
                         <View style={{ width: scaleSzie(120), }} >
                             {
-                                DATE.map((day, index) => <ItemDay
-                                    key={index}
-                                    title={day}
-                                    index={index}
-                                />)
+                                DATE.map((day, index) => {
+                                    const temptColorText = day === quickFilter ? '#0764B0' : '#404040';
+                                    return <ItemDay
+                                        key={index}
+                                        title={day}
+                                        index={index}
+                                        onPress={this.selectQuickFilter}
+                                        colorText={temptColorText}
+                                    />
+                                })
                             }
                         </View>
                         <View style={{ flex: 1, paddingVertical: scaleSzie(8), }} >
@@ -95,8 +112,12 @@ class PopupCalendar extends React.Component {
                                             width={scaleSzie(250)}
                                             height={scaleSzie(250)}
                                             dayShape="square"
+                                            todayTextStyle={{ color: 'red',fontWeight:'bold' }}
+                                            todayBackgroundColor="transparent"
                                             selectedDayColor="#317AE2"
                                             selectedDayTextColor="#FFFFFF"
+                                            selectedStartDate={startDate}
+
                                         />
 
                                     </View>
@@ -106,8 +127,11 @@ class PopupCalendar extends React.Component {
                                             width={scaleSzie(250)}
                                             height={scaleSzie(250)}
                                             dayShape="square"
+                                            todayTextStyle={{ color: 'red',fontWeight:'bold' }}
+                                            todayBackgroundColor="transparent"
                                             selectedDayColor="#317AE2"
                                             selectedDayTextColor="#FFFFFF"
+                                            selectedStartDate={endDate}
                                         />
 
                                     </View>
@@ -165,14 +189,13 @@ class PopupCalendar extends React.Component {
     }
 }
 
-const ItemDay = ({ title, index }) => {
-    const temptTextColor = index !== 6 ? '#404040' : '#0764B0';
+const ItemDay = ({ title, index, onPress, colorText }) => {
     return (
-        <Button onPress={() => { }} style={{
+        <Button onPress={() => onPress(title)} style={{
             height: scaleSzie(320 / 7),
             justifyContent: 'center', paddingLeft: scaleSzie(12)
         }} >
-            <Text style={{ color: temptTextColor, fontSize: scaleSzie(13) }} >
+            <Text style={{ color: colorText, fontSize: scaleSzie(13) }} >
                 {title}
             </Text>
         </Button>

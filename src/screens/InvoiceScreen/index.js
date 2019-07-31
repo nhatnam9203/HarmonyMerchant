@@ -19,8 +19,8 @@ class InvoiceScreen extends Layout {
                 keySearch: '',
                 paymentMethod: '',
                 status: '',
-
             },
+            titleRangeTime:'Time Range'
         }
         this.scrollTabInvoiceRef = React.createRef();
         this.modalCalendarRef = React.createRef();
@@ -92,6 +92,13 @@ class InvoiceScreen extends Layout {
         })
     }
 
+    changeTitleTimeRange =(title) =>{
+        this.setState({
+            titleRangeTime: title,
+            visibleCalendar:false
+        })
+    }
+
     getPaymentString(type) {
         let method = '';
         switch (type) {
@@ -151,6 +158,7 @@ class InvoiceScreen extends Layout {
 
     }
 
+   
 
     handleLockScreen = () => {
         const { isFocus } = this.state;

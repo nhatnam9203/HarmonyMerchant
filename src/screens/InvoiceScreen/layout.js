@@ -93,8 +93,9 @@ export default class Layout extends React.Component {
 
     renderFilter() {
         const { language } = this.props;
-        const { searchFilter } = this.state;
-        const {paymentMethod,status} = searchFilter;
+        const { searchFilter,titleRangeTime } = this.state;
+        const { paymentMethod, status } = searchFilter;
+        const temptColorTextTimeRange  =  titleRangeTime === 'Time Range' ? 'rgb(155,155,155)' : 'rgb(38,38,38)';
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
@@ -107,8 +108,8 @@ export default class Layout extends React.Component {
                     <Button onPress={this.showCalendar} style={{ width: scaleSzie(180) }} >
                         <View style={[{ height: scaleSzie(40), width: '90%', flexDirection: 'row' }, styles.borderStyle]} >
                             <View style={{ alignItems: 'center', flexDirection: 'row' }} >
-                                <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(15), marginLeft: scaleSzie(10) }} >
-                                    {localize('Time Range', language)}
+                                <Text style={{ color: temptColorTextTimeRange, fontSize: scaleSzie(15), marginLeft: scaleSzie(10) }} >
+                                    {localize(titleRangeTime, language)}
                                 </Text>
                             </View>
 
@@ -140,7 +141,7 @@ export default class Layout extends React.Component {
                         <Dropdown
                             label={localize('Statuses', language)}
                             data={[{ value: '' }, { value: 'Pending' }, { value: 'Paid' }, { value: 'Voided' },
-                            { value: 'Refunded' },{ value: 'Fail' },{ value: 'Cancel' }
+                            { value: 'Refunded' }, { value: 'Fail' }, { value: 'Cancel' }
                             ]}
                             value={status}
                             onChangeText={(value) => this.updateSearchFilterInfo('status', value)}
@@ -432,8 +433,8 @@ export default class Layout extends React.Component {
     }
 
     renderInvoice() {
-        const { language, listInvoicesByMerchant, refreshListInvoice ,
-            listInvoicesSearch,isShowSearchInvoice
+        const { language, listInvoicesByMerchant, refreshListInvoice,
+            listInvoicesSearch, isShowSearchInvoice
         } = this.props;
         const tempData = isShowSearchInvoice ? listInvoicesSearch : listInvoicesByMerchant;
         return (
@@ -460,9 +461,9 @@ export default class Layout extends React.Component {
                             keyExtractor={(item, index) => `${item.checkoutId}`}
                             onRefresh={() => this.props.actions.invoice.getListInvoicesByMerchant(false)}
                             refreshing={refreshListInvoice}
-                            ListEmptyComponent={() =><View style={{width:'100%',alignItems:'center',paddingTop:scaleSzie(20)}} >
-                                <Text style={{color:'#404040',fontSize:scaleSzie(20)}} >
-                                    List Empty 
+                            ListEmptyComponent={() => <View style={{ width: '100%', alignItems: 'center', paddingTop: scaleSzie(20) }} >
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
+                                    List Empty
                                 </Text>
                             </View>}
                         />
@@ -533,6 +534,7 @@ export default class Layout extends React.Component {
                     ref={this.modalCalendarRef}
                     visible={visibleCalendar}
                     onRequestClose={() => this.setState({ visibleCalendar: false })}
+                    changeTitleTimeRange={this.changeTitleTimeRange}
 
                 />
             </ParentContainer>

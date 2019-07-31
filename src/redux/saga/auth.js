@@ -22,6 +22,7 @@ function* login(action) {
             yield put({
                 type: 'LOGIN_APP_SUCCESS'
             });
+            yield put({ type: 'STOP_LOADING_ROOT' });
             NavigationServices.navigate('Splash');
         } else {
             yield put({
