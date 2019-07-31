@@ -12,7 +12,7 @@ import { Button, ModalCustom, ButtonCustom, CalendarPicker } from '@components';
 import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 
-const DATE = ['Today', 'Yesterday', 'This Week', 'Last Week', 'This Month', 'Last Month', 'Customize Date'];
+const DATE = ['Select', 'Today', 'Yesterday', 'This Week', 'Last Week', 'This Month', 'Last Month', 'Customize Date'];
 
 class PopupCalendar extends React.Component {
 
@@ -61,16 +61,41 @@ class PopupCalendar extends React.Component {
     }
 
     selectQuickFilter = (quickFilter) => {
-        this.props.changeTitleTimeRange(quickFilter);
-        this.setState({
-            quickFilter,
-            isCustomizeDate: false
-        });
+        if (quickFilter === 'Customize Date') {
+            const { startDate, endDate } = this.state;
+            const temptstartDate = new Date(startDate).getTime();
+            const temptEndDate = new Date(endDate).getTime();
+            const isBefore = parseInt(temptstartDate) < parseInt(temptEndDate) ? true : false;
+            if (isBefore) {
+                this.props.changeTitleTimeRange(quickFilter);
+                this.setState({
+                    quickFilter,
+                    isCustomizeDate: true
+                });
+            } else {
+                alert('The end date must be greater than the start date')
+            }
+        } else if (quickFilter === 'Select') {
+            this.props.changeTitleTimeRange('Time Range');
+            this.setState({
+                quickFilter: false,
+                isCustomizeDate: false,
+                startDate: '',
+                endDate: ''
+            });
+        } else {
+            this.props.changeTitleTimeRange(quickFilter);
+            this.setState({
+                quickFilter,
+                isCustomizeDate: false
+            });
+        }
+
     }
 
     render() {
         const { visible, onRequestClose } = this.props;
-        const { quickFilter,startDate,endDate } = this.state;
+        const { quickFilter, startDate, endDate } = this.state;
         return (
             <ModalCustom
                 transparent={true}
@@ -112,7 +137,7 @@ class PopupCalendar extends React.Component {
                                             width={scaleSzie(250)}
                                             height={scaleSzie(250)}
                                             dayShape="square"
-                                            todayTextStyle={{ color: 'red',fontWeight:'bold' }}
+                                            todayTextStyle={{ color: 'red', fontWeight: 'bold' }}
                                             todayBackgroundColor="transparent"
                                             selectedDayColor="#317AE2"
                                             selectedDayTextColor="#FFFFFF"
@@ -127,7 +152,7 @@ class PopupCalendar extends React.Component {
                                             width={scaleSzie(250)}
                                             height={scaleSzie(250)}
                                             dayShape="square"
-                                            todayTextStyle={{ color: 'red',fontWeight:'bold' }}
+                                            todayTextStyle={{ color: 'red', fontWeight: 'bold' }}
                                             todayBackgroundColor="transparent"
                                             selectedDayColor="#317AE2"
                                             selectedDayTextColor="#FFFFFF"
@@ -192,7 +217,8 @@ class PopupCalendar extends React.Component {
 const ItemDay = ({ title, index, onPress, colorText }) => {
     return (
         <Button onPress={() => onPress(title)} style={{
-            height: scaleSzie(320 / 7),
+            // height: scaleSzie(320 / 7),
+            flex: 1,
             justifyContent: 'center', paddingLeft: scaleSzie(12)
         }} >
             <Text style={{ color: colorText, fontSize: scaleSzie(13) }} >

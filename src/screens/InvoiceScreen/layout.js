@@ -49,7 +49,7 @@ export default class Layout extends React.Component {
                                     value={keySearch}
                                     onChangeText={(keySearch) => {
                                         if (keySearch == '') {
-                                            // this.props.actions.customer.clearSearCustomer();
+                                            this.props.actions.invoice.clearSearInvoice();
                                         }
                                         this.updateSearchFilterInfo('keySearch', keySearch)
                                     }}

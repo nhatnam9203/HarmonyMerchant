@@ -20,7 +20,7 @@ class InvoiceScreen extends Layout {
                 paymentMethod: '',
                 status: '',
             },
-            titleRangeTime:'Time Range'
+            titleRangeTime: 'Time Range'
         }
         this.scrollTabInvoiceRef = React.createRef();
         this.modalCalendarRef = React.createRef();
@@ -92,10 +92,10 @@ class InvoiceScreen extends Layout {
         })
     }
 
-    changeTitleTimeRange =(title) =>{
+    changeTitleTimeRange = (title) => {
         this.setState({
             titleRangeTime: title,
-            visibleCalendar:false
+            visibleCalendar: false
         })
     }
 
@@ -147,18 +147,58 @@ class InvoiceScreen extends Layout {
         return status
     }
 
+    getQuickFilterString(type) {
+        let quickFilter = '';
+        switch (type) {
+            case 'Today':
+                quickFilter = 'today';
+                break;
+            case 'Yesterday':
+                quickFilter = 'yesterday';
+                break;
+            case 'This Week':
+                quickFilter = 'thisWeek';
+                break;
+            case 'Last Week':
+                quickFilter = 'lastWeek';
+                break;
+            case 'This Month':
+                quickFilter = 'thisMonth';
+                break;
+            case 'Last Month':
+                quickFilter = 'lastMonth';
+                break;
+            default:
+                quickFilter = 'today'
+        }
+        return quickFilter
+    }
+
     searchInvoice = () => {
         const { searchFilter } = this.state;
         const { keySearch, paymentMethod, status } = searchFilter;
-        if (keySearch == '' && paymentMethod == '' & status == '') {
-            // this.props.actions.product.clearSearchProduct();
+        const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
+        const isTimeRange = isCustomizeDate ? true : (quickFilter ? true : false);
+        if (keySearch == '' && paymentMethod == '' && status == '' && !isTimeRange) {
+            this.props.actions.invoice.clearSearInvoice();
         } else {
-            this.props.actions.invoice.searchInvoice(keySearch, this.getPaymentString(paymentMethod),this.getStatusString(status) );
+            if (isCustomizeDate) {
+                const url = `method=${paymentMethod}&status=${status}&timeStart=${startDate}&timeEnd=${endDate}&key=${keySearch}`
+                this.props.actions.invoice.searchInvoice(url);
+            } else if (quickFilter) {
+                const url = `method=${paymentMethod}&status=${status}&quickFilter=${this.getQuickFilterString(quickFilter)}&${endDate}&key=${keySearch}`
+                this.props.actions.invoice.searchInvoice(url);
+            } else {
+                const url = `method=${paymentMethod}&status=${status}&key=${keySearch}`
+                this.props.actions.invoice.searchInvoice(url);
+            }
+
+
         }
 
     }
 
-   
+
 
     handleLockScreen = () => {
         const { isFocus } = this.state;

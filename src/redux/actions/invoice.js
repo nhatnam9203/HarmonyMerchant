@@ -10,20 +10,20 @@ export function getListInvoicesByMerchant(isShowLoading = true) {
     }
 }
 
-export function searchInvoice(key, method, status, timeStart='', timeEnd='') {
+export function searchInvoice(urlSearch) {
     return {
         type: 'SEARCH_INVOICE',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}checkout/search?method=${method}&status=${status}&timeStart=${timeStart}&timeEnd=${timeEnd}&key=${key}`,
+        api: `${apiConfigs.BASE_API}checkout/search?${urlSearch}`,
         token: true
     }
 }
 
-// export function clearSearCustomer() {
-//     return {
-//         type: 'CLEAR_SEARCH_CUSTOMER'
-//     }
-// }
+export function clearSearInvoice() {
+    return {
+        type: 'CLEAR_SEARCH_SERVICE'
+    }
+}
 
 // export function addCustomer(body) {
 //     return {
