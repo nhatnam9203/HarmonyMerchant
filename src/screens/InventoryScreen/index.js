@@ -1,4 +1,6 @@
 import React from 'react';
+import { Platform } from 'react-native'
+import RNFetchBlob from 'rn-fetch-blob'
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -21,6 +23,7 @@ class InventoryScreen extends Layout {
                 status: ''
             },
             arrayProductRestock: [],
+            fileDownload: '',
         }
         this.scrollTabRef = React.createRef();
         this.productDetailRef = React.createRef();
@@ -49,6 +52,41 @@ class InventoryScreen extends Layout {
             }
         );
     }
+
+    scanUKU = () => {
+        if (Platform.OS === 'ios') {
+            RNFetchBlob.ios.previewDocument(this.state.fileDownload)
+        } else {
+            const android = RNFetchBlob.android;
+            android.actionViewIntent(this.state.fileDownload, 'application/vnd.android.package-archive')
+        }
+
+    }
+
+    exportFile = () => {
+        let dirs = RNFetchBlob.fs.dirs
+
+        RNFetchBlob
+            .config({
+                title: 'inventory.csv',
+                fileCache: true,
+                appendExt: 'csv',
+                useDownloadManager: true,
+                mediaScannable: true,
+                notification: true,
+                description: 'File downloaded by download manager.',
+                path: `${dirs.DocumentDir}/inventory.csv`,
+            })
+            .fetch('GET', 'http://image.levincitest.com/reports/products/3_20190731_055440.csv', {
+            })
+            .then((res) => {
+                console.log('The file saved to ', res.path());
+                this.setState({
+                    fileDownload: res.path()
+                })
+            })
+    }
+
 
     updateSearchFilterInfo(key, value, keyParent = '') {
         const { searchFilter } = this.state;
@@ -127,11 +165,11 @@ class InventoryScreen extends Layout {
         }
     }
 
-    submitRestock =(quantity) =>{
-        const {arrayProductRestock} = this.state;
-        this.props.actions.product.restockProduct(arrayProductRestock,parseInt(quantity));
+    submitRestock = (quantity) => {
+        const { arrayProductRestock } = this.state;
+        this.props.actions.product.restockProduct(arrayProductRestock, parseInt(quantity));
         this.setState({
-            visibleRestock:false
+            visibleRestock: false
         })
     }
 
@@ -181,10 +219,10 @@ class InventoryScreen extends Layout {
         })
     }
 
-    editProduct =async (product) => {
-      await  this.setState({ visibleEdit: false })
+    editProduct = async (product) => {
+        await this.setState({ visibleEdit: false })
         this.props.actions.product.editProduct(product, product.productId);
-        
+
     }
 
     showModaAddProduct = () => {
@@ -197,15 +235,12 @@ class InventoryScreen extends Layout {
         }
     }
 
-    addProduct =async product => {
+    addProduct = async product => {
         await this.setState({ visibleAdd: false })
         this.props.actions.product.addProductByMerchant(product);
-       
-    }
-
-    scanUKU = () => {
 
     }
+
 
     // ----- End Handle ---
     componentWillUnmount() {

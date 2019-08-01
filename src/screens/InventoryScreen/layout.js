@@ -3,7 +3,7 @@ import {
     View,
     Image,
     TextInput,
-    FlatList
+    FlatList,
 } from 'react-native';
 
 import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupAddEditProduct } from '@components';
@@ -127,7 +127,7 @@ export default class Layout extends React.Component {
 
                     </View>
                     <View style={[{ width: scaleSzie(120), alignItems: 'flex-end' }]} >
-                        <View style={[{ height: scaleSzie(40), width: '90%', flexDirection: 'row' }, styles.borderStyle]} >
+                        <Button onPress={this.exportFile} style={[{ height: scaleSzie(40), width: '90%', flexDirection: 'row' }, styles.borderStyle]} >
                             <View style={{ alignItems: 'center', flexDirection: 'row' }} >
                                 <Image source={IMAGE.export} style={{
                                     width: scaleSzie(18), height: scaleSzie(18),
@@ -142,7 +142,7 @@ export default class Layout extends React.Component {
                             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(6) }} >
                                 <Image source={IMAGE.dropdown} style={{ width: scaleSzie(6), height: scaleSzie(3) }} />
                             </View>
-                        </View>
+                        </Button>
 
                     </View>
                     <View style={{ width: scaleSzie(120), alignItems: 'flex-end' }} >

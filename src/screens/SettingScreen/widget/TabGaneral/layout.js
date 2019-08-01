@@ -187,7 +187,7 @@ class Layout extends React.Component {
     renderBody() {
         const { profile, language } = this.props;
         const { businessName, address, city, stateId, zip, taxId, phone, email,
-            bankName, accountNumber, routingNumber, ein
+            bankName, accountNumber, routingNumber, ein,merchantCode
         } = profile;
         return (
             <View style={styles.body} >
@@ -236,6 +236,10 @@ class Layout extends React.Component {
                     <ItemTextStoreInfo
                         title="EIN"
                         value={ein ? ein : ''}
+                    />
+                     <ItemTextStoreInfo
+                        title={localize('Merchant ID', language)}
+                        value={merchantCode}
                     />
                     <View style={{ height: scaleSzie(250) }} />
                 </ScrollView>
@@ -341,7 +345,7 @@ const ItemTextStoreInfo = ({ title, value }) => {
             <Text style={{
                 color: '#404040',
                 fontSize: scaleSzie(16),
-            }}  >
+            }} numberOfLines={1} >
                 {value}
             </Text>
         </View>
