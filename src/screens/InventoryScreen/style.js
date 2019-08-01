@@ -13,10 +13,27 @@ export default StyleSheet.create({
     container: {
         flex: 1,
     },
-    borderStyle:{
-        borderWidth:1,
-        borderColor:'#C5C5C5',
-        borderRadius:scaleSzie(4),
-        backgroundColor:'#F1F1F1',
+    borderStyle: {
+        borderWidth: 1,
+        borderColor: '#C5C5C5',
+        borderRadius: scaleSzie(4),
+        backgroundColor: '#F1F1F1',
+    },
+    containerDropdownExport: {
+        width: scaleSzie(110),
+         height: scaleSzie(70),
+        backgroundColor: '#fff', borderRadius: scaleSzie(4),
+        ...Platform.select({
+            ios: {
+                shadowColor: 'rgba(0, 0, 0,0.3)',
+                shadowOffset: { width: 1, height: 0 },
+                shadowOpacity: 1,
+
+            },
+
+            android: {
+                elevation: 2,
+            },
+        })
     }
 })

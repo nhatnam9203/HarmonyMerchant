@@ -15,7 +15,7 @@ import styles from './style';
 import IMAGE from '@resources';
 import {
     HeaderTableProducts, RowTableProducts, RowEmptyTableProducts, PopupDetailProduct,
-    PopupRestock
+    PopupRestock, PopupExport
 } from './widget';
 
 export default class Layout extends React.Component {
@@ -192,6 +192,36 @@ export default class Layout extends React.Component {
         );
     }
 
+    renderModalDropdownExport() {
+        return (
+            <ModalCustom
+                transparent={true}
+                visible={this.state.visibleDropdownExport}
+                onRequestClose={() => this.setState({ visibleDropdownExport: false })}
+                style={{
+                    backgroundColor: 'transparent',
+                    justifyContent: 'flex-start',
+                    alignItems: 'flex-end',
+                    paddingRight: scaleSzie(132),
+                    paddingTop: scaleSzie(155)
+                }}
+            >
+                <View style={styles.containerDropdownExport} >
+                    <Button onPress={this.exportPDF} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+                        <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
+                            Export to pdf
+                            </Text>
+                    </Button>
+                    <Button onPress={this.exportExcel} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+                        <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
+                            Export to excel
+                            </Text>
+                    </Button>
+                </View>
+            </ModalCustom>
+        );
+    }
+
     render() {
         const { language, categoriesByMerchant } = this.props;
         const { visiblePopupDetail } = this.state;
@@ -256,24 +286,13 @@ export default class Layout extends React.Component {
                     language={language}
                     submitRestock={this.submitRestock}
                 />
-                <ModalCustom
-                    transparent={true}
-                    visible={this.state.visibleDropdownExport}
-                    onRequestClose={() => this.setState({visibleDropdownExport:false})}
-                    style={{
-                        backgroundColor:'transparent',
-                        justifyContent: 'flex-start',
-                         alignItems: 'flex-end',
-                        paddingRight:scaleSzie(132),
-                        paddingTop:scaleSzie(155)
-                    }}
-                >
-                    <View style={{width:scaleSzie(110),height:scaleSzie(85),
-                        backgroundColor:'red',borderRadius:scaleSzie(6)
-                    }} >
-
-                    </View>
-                </ModalCustom>
+                 <PopupExport
+                    title={'Export'}
+                    visible={this.state.visiblePopupExport}
+                    onRequestClose={() => this.setState({ visiblePopupExport: false })}
+                    language={language}
+                />
+                {this.renderModalDropdownExport()}
             </ParentContainer>
         );
     }

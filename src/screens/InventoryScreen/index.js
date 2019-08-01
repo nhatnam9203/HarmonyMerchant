@@ -24,7 +24,8 @@ class InventoryScreen extends Layout {
             },
             arrayProductRestock: [],
             fileDownload: '',
-            visibleDropdownExport: false
+            visibleDropdownExport: false,
+             visiblePopupExport: false
         }
         this.scrollTabRef = React.createRef();
         this.productDetailRef = React.createRef();
@@ -61,7 +62,18 @@ class InventoryScreen extends Layout {
             const android = RNFetchBlob.android;
             android.actionViewIntent(this.state.fileDownload, 'application/vnd.android.package-archive')
         }
+    }
 
+    exportPDF =() =>{
+        
+    }
+
+    exportExcel =() =>{
+        this.setState({
+            visibleDropdownExport:false,
+            visiblePopupExport:true
+        });
+        this.exportFile1();
     }
 
     exportFile = () => {
