@@ -138,6 +138,7 @@ android {
 }
 
 dependencies {
+    implementation project(':rn-fetch-blob')
     implementation project(':react-native-star-prnt')
     implementation project(':react-native-fast-image')
     implementation project(':react-native-svg')
