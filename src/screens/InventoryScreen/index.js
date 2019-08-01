@@ -24,6 +24,7 @@ class InventoryScreen extends Layout {
             },
             arrayProductRestock: [],
             fileDownload: '',
+            visibleDropdownExport: false
         }
         this.scrollTabRef = React.createRef();
         this.productDetailRef = React.createRef();
@@ -64,6 +65,12 @@ class InventoryScreen extends Layout {
     }
 
     exportFile = () => {
+       this.setState({
+           visibleDropdownExport: true
+       })
+    }
+
+    exportFile1 = () => {
         let dirs = RNFetchBlob.fs.dirs
 
         RNFetchBlob

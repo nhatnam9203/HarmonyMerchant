@@ -6,7 +6,10 @@ import {
     FlatList,
 } from 'react-native';
 
-import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupAddEditProduct } from '@components';
+import {
+    Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupAddEditProduct,
+    ModalCustom
+} from '@components';
 import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
@@ -62,7 +65,7 @@ export default class Layout extends React.Component {
                     </View>
                     <View style={{ width: scaleSzie(120), alignItems: 'flex-end' }} >
                         <ButtonCustom
-                            width={'90%'}
+                            width={scaleSzie(110)}
                             height={40}
                             backgroundColor="#F1F1F1"
                             title={localize('Search', language)}
@@ -74,7 +77,7 @@ export default class Layout extends React.Component {
                     </View>
                     <View style={{ width: scaleSzie(120), alignItems: 'flex-end' }} >
                         <ButtonCustom
-                            width={'90%'}
+                            width={scaleSzie(110)}
                             height={40}
                             backgroundColor="#F1F1F1"
                             title={localize('Scan SKU', language)}
@@ -100,20 +103,20 @@ export default class Layout extends React.Component {
                 <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={{ flex: 1, flexDirection: 'row' }} >
                         <View style={[{ width: scaleSzie(160) }]} >
-                                <Dropdown
-                                    label={localize('Categories', language)}
-                                    data={dataProductCategory}
-                                    value={category}
-                                    onChangeText={(value) => this.updateSearchFilterInfo('category', value)}
-                                    containerStyle={{
-                                        borderWidth: 1,
-                                        flex: 1,
-                                        borderRadius: scaleSzie(4),
-                                        borderColor: '#C5C5C5',
-                                        backgroundColor: '#F1F1F1',
-                                    }}
-                                />
-                            </View>
+                            <Dropdown
+                                label={localize('Categories', language)}
+                                data={dataProductCategory}
+                                value={category}
+                                onChangeText={(value) => this.updateSearchFilterInfo('category', value)}
+                                containerStyle={{
+                                    borderWidth: 1,
+                                    flex: 1,
+                                    borderRadius: scaleSzie(4),
+                                    borderColor: '#C5C5C5',
+                                    backgroundColor: '#F1F1F1',
+                                }}
+                            />
+                        </View>
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: 'flex-end' }} >
                             <Button onPress={this.restock} style={[{
                                 width: scaleSzie(120), justifyContent: 'center', alignItems: 'center',
@@ -127,7 +130,7 @@ export default class Layout extends React.Component {
 
                     </View>
                     <View style={[{ width: scaleSzie(120), alignItems: 'flex-end' }]} >
-                        <Button onPress={this.exportFile} style={[{ height: scaleSzie(40), width: '90%', flexDirection: 'row' }, styles.borderStyle]} >
+                        <Button onPress={this.exportFile} style={[{ height: scaleSzie(40), width: scaleSzie(110), flexDirection: 'row' }, styles.borderStyle]} >
                             <View style={{ alignItems: 'center', flexDirection: 'row' }} >
                                 <Image source={IMAGE.export} style={{
                                     width: scaleSzie(18), height: scaleSzie(18),
@@ -164,7 +167,7 @@ export default class Layout extends React.Component {
 
     renderTable() {
         const { productsByMerchantId, categoriesByMerchant,
-            listProductsSearch, isShowSearchProduct,refreshListProducts
+            listProductsSearch, isShowSearchProduct, refreshListProducts
         } = this.props;
         const tempData = isShowSearchProduct ? listProductsSearch : productsByMerchantId;
         return (
@@ -253,6 +256,24 @@ export default class Layout extends React.Component {
                     language={language}
                     submitRestock={this.submitRestock}
                 />
+                <ModalCustom
+                    transparent={true}
+                    visible={this.state.visibleDropdownExport}
+                    onRequestClose={() => this.setState({visibleDropdownExport:false})}
+                    style={{
+                        backgroundColor:'transparent',
+                        justifyContent: 'flex-start',
+                         alignItems: 'flex-end',
+                        paddingRight:scaleSzie(132),
+                        paddingTop:scaleSzie(155)
+                    }}
+                >
+                    <View style={{width:scaleSzie(110),height:scaleSzie(85),
+                        backgroundColor:'red',borderRadius:scaleSzie(6)
+                    }} >
+
+                    </View>
+                </ModalCustom>
             </ParentContainer>
         );
     }
