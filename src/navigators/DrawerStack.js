@@ -19,9 +19,9 @@ const DrawerStack = createDrawerNavigator({
     Setting: SettingScreen,
     Inventory: InventoryScreen,
     Customer: CustomerScreen,
-    Invoice:InvoiceScreen
+    Invoice: InvoiceScreen
 }, {
-        initialRouteName: "Inventory",
+        initialRouteName: "Home",
         contentComponent: SlideDrawer,
         drawerWidth: scaleSzie(220)
 

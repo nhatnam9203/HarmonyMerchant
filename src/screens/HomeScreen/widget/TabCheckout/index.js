@@ -652,7 +652,7 @@ class TabCheckout extends Layout {
         });
 
         connection.start().catch(function (err) {
-            console.log("Error on Start : ", err);
+            // console.log("Error on Start : ", err);
         });
 
         connection.onclose(async () => {
@@ -668,9 +668,9 @@ class TabCheckout extends Layout {
             .build();
         try {
             await connection.start();
-            console.log("connected");
+            // console.log("connected");
         } catch (err) {
-            console.log(err);
+            // console.log(err);
             setTimeout(() => start(), 5000);
         }
     };

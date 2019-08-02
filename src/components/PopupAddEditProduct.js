@@ -131,10 +131,17 @@ class PopupAddEditProduct extends React.Component {
         })
     }
 
+    onRequestClose =async () =>{
+        await this.setState({
+            fileId:0
+        });
+        this.props.onRequestClose();
+    }
+
     // --------- Render -----
 
     render() {
-        const { title, visible, onRequestClose, isSave,
+        const { title, visible, isSave,
             categoriesByMerchant
         } = this.props;
         const temptTitleButton = isSave ? 'Save' : 'Done';
@@ -145,7 +152,7 @@ class PopupAddEditProduct extends React.Component {
             <PopupParent
                 title={title}
                 visible={visible}
-                onRequestClose={() => onRequestClose()}
+                onRequestClose={this.onRequestClose}
                 style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
             >
                 <View style={{

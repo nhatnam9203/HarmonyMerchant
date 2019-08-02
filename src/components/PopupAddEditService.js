@@ -62,8 +62,8 @@ class PopupAddEditService extends React.Component {
     }
 
 
-    setDefaultStateFromParent = async() => {
-       await this.setState({
+    setDefaultStateFromParent = async () => {
+        await this.setState({
             serviceInfo: {
                 categoryId: '',
                 name: "",
@@ -180,16 +180,20 @@ class PopupAddEditService extends React.Component {
         })
     }
 
-    resetRefPopup = () => {
+    resetRefPopup = async () => {
         this.arrayExtraRef = [];
+        await this.setState({
+            fileId: 0
+        });
         this.props.onRequestClose();
     }
 
     updateFileId = async (fileId) => {
         await this.setState({
-             fileId
-         })
-     }
+            fileId
+        })
+    }
+
 
     // ------- Render -----
 

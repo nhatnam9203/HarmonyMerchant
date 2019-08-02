@@ -26,12 +26,11 @@ class BrowserFile extends React.PureComponent {
     }
 
     componentDidMount() {
-
         setTimeout(() => {
             this.setState({
                 uriUpload: this.props.imageUrl,
             })
-        }, 200)
+        }, 500)
 
 
     }
@@ -55,7 +54,7 @@ class BrowserFile extends React.PureComponent {
 
                 this.props.actions.upload.uploadAvatar([{
                     uri: response.uri,
-                    fileName: fileName ? fileName :'',
+                    fileName: fileName ? fileName : '',
                     type: response.type
                 }]);
             }
@@ -94,17 +93,18 @@ class BrowserFile extends React.PureComponent {
         );
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    async  componentDidUpdate(prevProps, prevState, snapshot) {
         const { loading, isUpload, dataUpload } = this.props;
         const { isProcessingUpload } = this.state;
         if (!loading && isUpload && isProcessingUpload) {
             // console.log('fileId : ' + dataUpload.fileId);
-            this.setState({
-                isProcessingUpload: false,
-                fileId: dataUpload.fileId
-            });
+            const temptDataUpload = { ...dataUpload };
             this.props.actions.upload.resetStateUpload();
-            this.props.updateFileId(dataUpload.fileId);
+            await this.setState({
+                isProcessingUpload: false,
+                fileId: temptDataUpload.fileId
+            });
+            this.props.updateFileId(temptDataUpload.fileId);
         }
     }
 }
