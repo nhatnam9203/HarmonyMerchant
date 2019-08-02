@@ -1,4 +1,5 @@
 import { put, takeLatest, all, join } from "redux-saga/effects";
+import RNFetchBlob from 'rn-fetch-blob';
 
 import NavigationServices from "../../navigators/NavigatorServices";
 import { requestAPI } from '../../utils';
@@ -22,7 +23,7 @@ function* addProductByMerchant(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -97,7 +98,7 @@ function* archiveProduct(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -136,7 +137,7 @@ function* restoreProduct(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -175,7 +176,7 @@ function* editProduct(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -211,7 +212,7 @@ function* searchProduct(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -250,7 +251,54 @@ function* restockProduct(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+function* exportInventory(action) {
+    try {
+        // yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        // console.log('--- exportInventory : ', responses);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            const dirs = RNFetchBlob.fs.dirs;
+            const fileDownload = yield RNFetchBlob.config({
+                title: `${action.fileName}.csv`,
+                fileCache: true,
+                appendExt: 'csv',
+                useDownloadManager: true,
+                mediaScannable: true,
+                notification: true,
+                description: 'File downloaded by download manager.',
+                path: `${dirs.DocumentDir}/${action.fileName}.csv`,
+            }).fetch('GET', responses.data.path, {});
+            yield put({
+                type: 'DOWNLOAD_INVENTORY_SUCCESS',
+                payload: fileDownload.path()
+            })
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -279,6 +327,8 @@ export default function* saga() {
         takeLatest('RESTORE_PRODUCT', restoreProduct),
         takeLatest('EDIT_PRODUCT', editProduct),
         takeLatest('SEARCH_PRODUCT', searchProduct),
-        takeLatest('RESTOCK_PRODUCT',restockProduct)
+        takeLatest('RESTOCK_PRODUCT', restockProduct),
+        takeLatest('EXPORT_INVENTORY', exportInventory),
+
     ])
-}
+} 

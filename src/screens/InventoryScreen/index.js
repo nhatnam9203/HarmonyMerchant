@@ -1,6 +1,6 @@
 import React from 'react';
-import { Platform } from 'react-native'
-import RNFetchBlob from 'rn-fetch-blob'
+import { Platform } from 'react-native';
+import RNFetchBlob from 'rn-fetch-blob';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -34,6 +34,7 @@ class InventoryScreen extends Layout {
         this.editProductRef = React.createRef();
         this.addProductRef = React.createRef();
         this.restockRef = React.createRef();
+        this.modalExportRef = React.createRef();
     }
 
     componentDidMount() {
@@ -57,16 +58,27 @@ class InventoryScreen extends Layout {
     }
 
     scanUKU = () => {
+       
+    }
+
+    handleTheDownloadedFile = () =>{
+        const {pathFileInventory} = this.props;
         if (Platform.OS === 'ios') {
-            RNFetchBlob.ios.previewDocument(this.state.fileDownload)
+            RNFetchBlob.ios.previewDocument(pathFileInventory)
         } else {
             const android = RNFetchBlob.android;
-            android.actionViewIntent(this.state.fileDownload, 'application/vnd.android.package-archive')
+            android.actionViewIntent(pathFileInventory, 'application/vnd.android.package-archive')
         }
     }
 
-    requestExportFileToServer = () => {
-        
+    requestExportFileToServer = async () => {
+        const { profile } = this.props;
+        const fileName = this.modalExportRef.current.state.value ?  this.modalExportRef.current.state.value :'Inventory';
+        await this.setState({
+            visiblePopupExport: false,
+            visiblePopupLoadingExport: true
+        })
+        this.props.actions.product.exportInventory(profile.merchantId,fileName);
     }
 
     exportPDF = () => {
@@ -267,6 +279,16 @@ class InventoryScreen extends Layout {
 
     }
 
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        const { isDownloadInventory } = this.props;
+        if (prevProps.isDownloadInventory !== isDownloadInventory && isDownloadInventory) {
+            this.props.actions.product.resetDownloadFinleInventory();
+            await this.setState({
+                visiblePopupLoadingExport: false
+            })
+        }
+
+    }
 
     // ----- End Handle ---
     componentWillUnmount() {
@@ -282,7 +304,9 @@ const mapStateToProps = state => ({
     categoriesByMerchant: state.category.categoriesByMerchant,
     listProductsSearch: state.product.listProductsSearch,
     isShowSearchProduct: state.product.isShowSearchProduct,
-    refreshListProducts: state.product.refreshListProducts
+    refreshListProducts: state.product.refreshListProducts,
+    isDownloadInventory: state.product.isDownloadInventory,
+    pathFileInventory: state.product.pathFileInventory
 })
 
 

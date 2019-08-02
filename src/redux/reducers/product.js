@@ -2,7 +2,9 @@ const initialState = {
     productsByMerchantId: [],
     listProductsSearch: [],
     isShowSearchProduct: false,
-    refreshListProducts: false
+    refreshListProducts: false,
+    isDownloadInventory: false,
+    pathFileInventory: ''
 }
 
 function appReducer(state = initialState, action) {
@@ -35,16 +37,27 @@ function appReducer(state = initialState, action) {
                 listProductsSearch: [],
                 isShowSearchProduct: false
             }
-            case 'NET_WORK_REQUEST_FAIL':
-                return {
-                    ...state,
-                    refreshListProducts: false
-                }
-            case 'TIME_OUT':
-                return {
-                    ...state,
-                    refreshListProducts: false
-                }
+        case 'NET_WORK_REQUEST_FAIL':
+            return {
+                ...state,
+                refreshListProducts: false
+            }
+        case 'TIME_OUT':
+            return {
+                ...state,
+                refreshListProducts: false
+            }
+        case 'DOWNLOAD_INVENTORY_SUCCESS':
+            return {
+                ...state,
+                pathFileInventory: action.payload,
+                isDownloadInventory: true
+            }
+        case 'RESET_DOWNLOAD_FILE_INVENTORY':
+            return {
+                ...state,
+                isDownloadInventory: false
+            }
         default:
             return state
     }

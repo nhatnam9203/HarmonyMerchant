@@ -93,7 +93,7 @@ export default class Layout extends React.Component {
     }
 
     renderFilter() {
-        const { language, categoriesByMerchant } = this.props;
+        const { language, categoriesByMerchant ,pathFileInventory} = this.props;
         const { isSelectAll, searchFilter } = this.state;
         const { category, status } = searchFilter;
         const dataProductCategory = getArrayNameCategories(categoriesByMerchant, 'Product');
@@ -118,11 +118,22 @@ export default class Layout extends React.Component {
                             />
                         </View>
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: 'flex-end' }} >
+                            {/* -------- Review File Download ------- */}
+                            {
+                                pathFileInventory === '' ? <View /> :  <Button onPress={this.handleTheDownloadedFile} style={[{
+                                    width: scaleSzie(200), justifyContent: 'center', alignItems: 'center',marginRight:scaleSzie(8)
+                                }, styles.borderStyle,{backgroundColor:'rgb(235,93,57)'}]} >
+                                    <Text style={{ color: '#fff', fontSize: scaleSzie(15) }} >
+                                        {localize('Hanlde the downloaded file ', language)}
+                                    </Text>
+                                </Button>
+                            }
+                           
+                            {/* --------- Restock ------ */}
                             <Button onPress={this.restock} style={[{
                                 width: scaleSzie(120), justifyContent: 'center', alignItems: 'center',
                             }, styles.borderStyle]} >
                                 <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(15) }} >
-
                                     {localize('Restock', language)}
                                 </Text>
                             </Button>
@@ -287,6 +298,7 @@ export default class Layout extends React.Component {
                     submitRestock={this.submitRestock}
                 />
                 <PopupExport
+                    ref={this.modalExportRef}
                     title={'Export'}
                     visible={this.state.visiblePopupExport}
                     onRequestClose={() => this.setState({ visiblePopupExport: false })}

@@ -79,3 +79,19 @@ export function restockProduct(ids, quantity) {
         api: `${apiConfigs.BASE_API}product/restock`,
     }
 }
+
+export function exportInventory(merchantId,fileName) {
+    return {
+        type: 'EXPORT_INVENTORY',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}product/export?merchantId=${merchantId}`,
+        fileName
+    }
+}
+
+export function resetDownloadFinleInventory(){
+    return{
+        type:'RESET_DOWNLOAD_FILE_INVENTORY',
+    }
+}
