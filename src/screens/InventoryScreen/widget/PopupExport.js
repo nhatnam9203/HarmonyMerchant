@@ -27,7 +27,7 @@ class PopupExport extends React.Component {
     }
 
     exportFile = () => {
-
+        this.props.exportFile();
     }
 
     render() {

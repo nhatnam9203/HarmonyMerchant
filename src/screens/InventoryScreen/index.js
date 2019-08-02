@@ -25,7 +25,8 @@ class InventoryScreen extends Layout {
             arrayProductRestock: [],
             fileDownload: '',
             visibleDropdownExport: false,
-             visiblePopupExport: false
+            visiblePopupExport: false,
+            visiblePopupLoadingExport: false
         }
         this.scrollTabRef = React.createRef();
         this.productDetailRef = React.createRef();
@@ -64,22 +65,28 @@ class InventoryScreen extends Layout {
         }
     }
 
-    exportPDF =() =>{
+    requestExportFileToServer = () => {
         
     }
 
-    exportExcel =() =>{
+    exportPDF = () => {
         this.setState({
-            visibleDropdownExport:false,
-            visiblePopupExport:true
+            visibleDropdownExport: false,
+            visiblePopupLoadingExport: true
+        })
+    }
+
+    exportExcel = () => {
+        this.setState({
+            visibleDropdownExport: false,
+            visiblePopupExport: true
         });
-        this.exportFile1();
     }
 
     exportFile = () => {
-       this.setState({
-           visibleDropdownExport: true
-       })
+        this.setState({
+            visibleDropdownExport: true
+        })
     }
 
     exportFile1 = () => {

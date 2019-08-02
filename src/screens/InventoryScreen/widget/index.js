@@ -4,6 +4,7 @@ import RowEmptyTableProducts from './RowEmptyTableProducts';
 import PopupDetailProduct from './PopupDetailProduct';
 import PopupRestock from './PopupRestock';
 import PopupExport from './PopupExport';
+import PopupLoadingExport from './PopupLoadingExport';
 
 module.exports ={
     HeaderTableProducts,
@@ -11,5 +12,6 @@ module.exports ={
     RowEmptyTableProducts,
     PopupDetailProduct,
     PopupRestock,
-    PopupExport
+    PopupExport,
+    PopupLoadingExport
 }

@@ -15,7 +15,7 @@ import styles from './style';
 import IMAGE from '@resources';
 import {
     HeaderTableProducts, RowTableProducts, RowEmptyTableProducts, PopupDetailProduct,
-    PopupRestock, PopupExport
+    PopupRestock, PopupExport, PopupLoadingExport
 } from './widget';
 
 export default class Layout extends React.Component {
@@ -286,10 +286,16 @@ export default class Layout extends React.Component {
                     language={language}
                     submitRestock={this.submitRestock}
                 />
-                 <PopupExport
+                <PopupExport
                     title={'Export'}
                     visible={this.state.visiblePopupExport}
                     onRequestClose={() => this.setState({ visiblePopupExport: false })}
+                    language={language}
+                    exportFile={this.requestExportFileToServer}
+                />
+                <PopupLoadingExport
+                    visible={this.state.visiblePopupLoadingExport}
+                    onRequestClose={() => this.setState({ visiblePopupLoadingExport: false })}
                     language={language}
                 />
                 {this.renderModalDropdownExport()}
