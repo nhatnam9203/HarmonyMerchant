@@ -73,7 +73,7 @@ class InventoryScreen extends Layout {
 
     requestExportFileToServer = async () => {
         const { profile } = this.props;
-        const fileName = this.modalExportRef.current.state.value ?  this.modalExportRef.current.state.value :'Inventory';
+        const fileName = this.modalExportRef.current.state.value ?  this.modalExportRef.current.state.value : 'Inventory';
         await this.setState({
             visiblePopupExport: false,
             visiblePopupLoadingExport: true
@@ -82,10 +82,6 @@ class InventoryScreen extends Layout {
     }
 
     exportPDF = () => {
-        this.setState({
-            visibleDropdownExport: false,
-            visiblePopupLoadingExport: true
-        })
     }
 
     exportExcel = () => {
