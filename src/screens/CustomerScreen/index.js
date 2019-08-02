@@ -90,18 +90,19 @@ class CustomerScreen extends Layout {
         })
     }
 
-    addCustomer = (customer) => {
-        this.props.actions.customer.addCustomer(customer);
-        this.setState({
+    addCustomer = async (customer) => {
+        await this.setState({
             visibleAdd: false
         })
+        this.props.actions.customer.addCustomer(customer);
     }
 
-    editCustomer  =(customerId,customer) =>{
-        this.props.actions.customer.editCustomer(customerId,customer);
-        this.setState({
-            visibleEdit:false
+    editCustomer = async (customerId, customer) => {
+        await this.setState({
+            visibleEdit: false
         })
+        this.props.actions.customer.editCustomer(customerId, customer);
+
     }
 
     handleLockScreen = () => {
