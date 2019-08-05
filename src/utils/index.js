@@ -114,6 +114,12 @@ createFormData = (media) => {
     return data;
 };
 
+export const getPosotion = (options = {}) => {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject, options);
+    });
+  };
+
 export const isIphoneX = () => {
     const { height, width } = Dimensions.get('window');
     return (Platform.OS === 'ios' && (height === 812 || width === 812)

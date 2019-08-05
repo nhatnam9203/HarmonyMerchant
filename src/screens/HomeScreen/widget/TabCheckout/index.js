@@ -640,40 +640,17 @@ class TabCheckout extends Layout {
 
         connection.on("ListWaNotification", (data) => {
             const temptData = JSON.parse(data);
-            // console.log('temptData : ', data);
-            // console.log('appointmentDetail : ', appointmentDetail);
-            // console.log('profile : ', profile);
-            // console.log('token : ', token);
-
             if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony && temptData.data.appointmentId == appointmentDetail.appointmentId) {
                 this.props.actions.appointment.donePaymentHarmony();
             }
-
         });
 
         connection.start().catch(function (err) {
             // console.log("Error on Start : ", err);
         });
 
-        connection.onclose(async () => {
-            await this.start();
-        });
-
     }
 
-    async  start() {
-        const { profile, token } = this.props;
-        const connection = new signalR.HubConnectionBuilder()
-            .withUrl(`https://api2.levincidemo.com/notification/?merchantId=${profile.merchantId}&Title=Merchant&type=appointment_pay`, { accessTokenFactory: () => token })
-            .build();
-        try {
-            await connection.start();
-            // console.log("connected");
-        } catch (err) {
-            // console.log(err);
-            setTimeout(() => start(), 5000);
-        }
-    };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         const { loading, isGetAppointmentSucces } = this.props;

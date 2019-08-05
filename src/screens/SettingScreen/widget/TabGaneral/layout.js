@@ -15,7 +15,7 @@ class Layout extends React.Component {
     renderSetup() {
         const { language } = this.props;
         const { languageApp, longitude, latitude, webLink,
-            autoCloseAt, autoLockScreenAfter,businessHourStart,businessHourEnd
+            autoCloseAt, autoLockScreenAfter, businessHourStart, businessHourEnd
         } = this.state;
         return (
             <View style={{ width: '100%', marginTop: scaleSzie(6) }} >
@@ -89,7 +89,7 @@ class Layout extends React.Component {
                                 label={'08:00 AM'}
                                 data={WorkingTime}
                                 value={businessHourStart}
-                                onChangeText={(value) => this.setState({businessHourStart:value})}
+                                onChangeText={(value) => this.setState({ businessHourStart: value })}
                                 containerStyle={{
                                     backgroundColor: '#F1F1F1',
                                     borderWidth: 1,
@@ -106,7 +106,7 @@ class Layout extends React.Component {
                                 label={'08:00 AM'}
                                 data={WorkingTime}
                                 value={businessHourEnd}
-                                onChangeText={(businessHourEnd) => this.setState({businessHourEnd})}
+                                onChangeText={(businessHourEnd) => this.setState({ businessHourEnd })}
                                 containerStyle={{
                                     backgroundColor: '#F1F1F1',
                                     borderWidth: 1,
@@ -163,7 +163,21 @@ class Layout extends React.Component {
                         </View>
                     </View>
                     {/* ------ Button Save --- */}
-                    <View style={{ alignItems: 'flex-end', marginTop: scaleSzie(20) }} >
+                    <View style={{ justifyContent: 'flex-end', marginTop: scaleSzie(20), flexDirection: 'row' }} >
+                        <ButtonCustom
+                            width={scaleSzie(250)}
+                            height={50}
+                            backgroundColor="#F1F1F1"
+                            title={localize('Get current your position', language)}
+                            textColor="#6A6A6A"
+                            onPress={this.getCurrentPosition}
+                            style={{
+                                borderWidth: 1, borderColor: '#C5C5C5',
+                                backgroundColor: '#0764B0'
+                            }}
+                            styleText={{ fontSize: scaleSzie(18), fontWeight: '500', color: '#fff' }}
+                        />
+                        <View style={{ width: scaleSzie(20) }} />
                         <ButtonCustom
                             width={scaleSzie(120)}
                             height={50}
@@ -187,7 +201,7 @@ class Layout extends React.Component {
     renderBody() {
         const { profile, language } = this.props;
         const { businessName, address, city, stateId, zip, taxId, phone, email,
-            bankName, accountNumber, routingNumber, ein,merchantCode
+            bankName, accountNumber, routingNumber, ein, merchantCode
         } = profile;
         return (
             <View style={styles.body} >
@@ -237,7 +251,7 @@ class Layout extends React.Component {
                         title="EIN"
                         value={ein ? ein : ''}
                     />
-                     <ItemTextStoreInfo
+                    <ItemTextStoreInfo
                         title={localize('Merchant ID', language)}
                         value={merchantCode}
                     />

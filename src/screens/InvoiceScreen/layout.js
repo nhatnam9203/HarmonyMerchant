@@ -93,9 +93,9 @@ export default class Layout extends React.Component {
 
     renderFilter() {
         const { language } = this.props;
-        const { searchFilter,titleRangeTime } = this.state;
+        const { searchFilter, titleRangeTime } = this.state;
         const { paymentMethod, status } = searchFilter;
-        const temptColorTextTimeRange  =  titleRangeTime === 'Time Range' ? 'rgb(155,155,155)' : 'rgb(38,38,38)';
+        const temptColorTextTimeRange = titleRangeTime === 'Time Range' ? 'rgb(155,155,155)' : 'rgb(38,38,38)';
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >

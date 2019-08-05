@@ -2,7 +2,7 @@ import React from 'react';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { getNameLanguage } from '@utils';
+import { getNameLanguage,getPosotion } from '@utils';
 
 
 class TabGaneral extends Layout {
@@ -21,6 +21,16 @@ class TabGaneral extends Layout {
             businessHourStart: profile.businessHourStart ? profile.businessHourStart : '',
             businessHourEnd: profile.businessHourEnd ? profile.businessHourEnd : '',
         };
+    }
+
+    getCurrentPosition = async () =>{
+        const position = await getPosotion();
+        const {latitude,longitude} = position.coords;
+        await this.setState({
+            latitude: `${latitude}`,
+            longitude: `${longitude}`,
+        })
+       
     }
 
     saveSettngApp = () => {
