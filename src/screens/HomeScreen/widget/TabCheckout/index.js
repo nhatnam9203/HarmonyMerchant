@@ -303,11 +303,16 @@ class TabCheckout extends Layout {
     }
 
     clearDataCofrim = () => {
+        const { connectionSignalR } = this.props;
+        if (!_.isEmpty(connectionSignalR)) {
+            connectionSignalR.stop();
+        }
         this.props.gotoPageCurent();
         this.setState(initState);
         this.props.actions.appointment.resetBasketEmpty();
         this.scrollTabRef.current.goToPage(0);
         this.props.actions.appointment.resetPayment();
+
     }
 
     getPaymentString(type) {
@@ -354,7 +359,7 @@ class TabCheckout extends Layout {
                 alert('Does not support payment for anonymous customers');
             } else {
                 const { profile } = this.props;
-               await this.setState({
+                await this.setState({
                     changeButtonDone: true,
                     isPressDone: false,
                     methodPayment: method
@@ -637,20 +642,30 @@ class TabCheckout extends Layout {
         const connection = new signalR.HubConnectionBuilder()
             .withUrl(`https://api2.levincidemo.com/notification/?merchantId=${profile.merchantId}&Title=Merchant&type=appointment_pay`, { accessTokenFactory: () => token })
             .build();
-
+        connection.start();
+        this.props.actions.appointment.referenceConnectionSignalR(connection);
         connection.on("ListWaNotification", (data) => {
             const temptData = JSON.parse(data);
-            if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony && temptData.data.appointmentId == appointmentDetail.appointmentId) {
+            // console.log('temptData : ' + JSON.stringify(temptData));
+            if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
+                 && temptData.data.appointmentId == appointmentDetail.appointmentId
+            ) {
                 this.props.actions.appointment.donePaymentHarmony();
+                connection.stop();
             }
         });
 
-        connection.start().catch(function (err) {
-            // console.log("Error on Start : ", err);
+
+        connection.onclose(async () => {
+            this.props.actions.appointment.resetConnectSignalR();
         });
 
     }
 
+
+    disconnectSignalR = () => {
+
+    }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         const { loading, isGetAppointmentSucces } = this.props;
@@ -676,7 +691,8 @@ const mapStateToProps = state => ({
     visiblePaymentCompleted: state.appointment.visiblePaymentCompleted,
     profile: state.dataLocal.profile,
     isDonePayment: state.appointment.isDonePayment,
-    appointmentIdOffline: state.appointment.appointmentIdOffline
+    appointmentIdOffline: state.appointment.appointmentIdOffline,
+    connectionSignalR: state.appointment.connectionSignalR
 })
 
 

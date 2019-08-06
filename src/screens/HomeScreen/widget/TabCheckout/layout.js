@@ -328,7 +328,7 @@ class Layout extends React.Component {
                         backgroundColor="#F1F1F1"
                         title={localize('DONE', language)}
                         textColor="#6A6A6A"
-                        onPress={() => { }}
+                        onPress={this.disconnectSignalR}
                         style={{
                             borderWidth: 1, borderColor: '#C5C5C5',
                             flex: 1

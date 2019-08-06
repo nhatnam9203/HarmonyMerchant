@@ -119,3 +119,18 @@ export function checkoutSubmit(appointmentId) {
         api: `${apiConfigs.BASE_API}checkout/submit/${appointmentId}`,
     }
 }
+
+export function referenceConnectionSignalR(connection){
+    return{
+        type:'REFERENCE_CONNECTION_SIGNALR',
+        payload:connection
+    }
+}
+
+export function resetConnectSignalR(){
+    return{
+        type:'RESET_CONNECT_SIGNALR',
+        payload:{}
+    }
+}
+

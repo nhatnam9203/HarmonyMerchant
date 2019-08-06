@@ -3,7 +3,8 @@ const initialState = {
     isGetAppointmentSucces: false,
     visiblePaymentCompleted: false,
     isDonePayment: false,
-    appointmentIdOffline:''
+    appointmentIdOffline: '',
+    connectionSignalR: {}
 }
 
 function appReducer(state = initialState, action) {
@@ -55,6 +56,18 @@ function appReducer(state = initialState, action) {
                 ...state,
                 appointmentIdOffline: action.payload
             }
+        case 'REFERENCE_CONNECTION_SIGNALR':
+            return {
+                ...state,
+                connectionSignalR: action.payload
+            }
+        case 'RESET_CONNECT_SIGNALR':
+            return {
+                ...state,
+                connectionSignalR: {}
+            }
+
+
 
 
         default:
