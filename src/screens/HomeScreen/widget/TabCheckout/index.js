@@ -659,13 +659,14 @@ class TabCheckout extends Layout {
                  && temptData.data.appointmentId == appointmentDetail.appointmentId
             ) {
                 this.props.actions.appointment.donePaymentHarmony();
-                connection.stop();
+                // connection.stop();
             }
         });
 
 
-        connection.onclose(async () => {
+        connection.onclose(async (error) => {
             this.props.actions.appointment.resetConnectSignalR();
+            console.log('error ' , error);
         });
 
     }

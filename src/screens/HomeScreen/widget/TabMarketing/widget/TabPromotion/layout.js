@@ -297,7 +297,7 @@ class Layout extends React.Component {
                         backgroundColor="#0764B0"
                         title={localize('APPLY', language)}
                         textColor="#fff"
-                        onPress={() =>this.props.addPromotion()}
+                        onPress={this.applyPromorion}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                     />
                 </View>

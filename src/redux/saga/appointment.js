@@ -250,7 +250,7 @@ function* createAnymousAppointment(action) {
 
 function* checkoutSubmit(action) {
     try {
-        yield put({ type: 'LOADING_ROOT' });
+        // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         // console.log('checkoutSubmit : ', responses.data);
         const { codeNumber } = responses;

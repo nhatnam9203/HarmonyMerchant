@@ -1,7 +1,10 @@
+import {NativeModules} from 'react-native';
+
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import NavigationServices from "@navigators/NavigatorServices";
 
+const PosLink = NativeModules.PosLink;
 
 class TabPromotion extends Layout {
 
@@ -9,6 +12,9 @@ class TabPromotion extends Layout {
         super(props);
     }
 
+    applyPromorion =() =>{
+        PosLink.getSomething(message => alert(message));
+    }
 
 }
 
