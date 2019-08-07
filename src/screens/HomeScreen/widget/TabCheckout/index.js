@@ -595,6 +595,10 @@ class TabCheckout extends Layout {
     }
 
     donotPrintBill = () => {
+        const { connectionSignalR } = this.props;
+        if (!_.isEmpty(connectionSignalR)) {
+            connectionSignalR.stop();
+        }
         this.scrollTabRef.current.goToPage(0);
         this.props.actions.appointment.closeModalPaymentCompleted();
         this.props.gotoAppoitmentScreen();
@@ -605,6 +609,10 @@ class TabCheckout extends Layout {
 
 
     printBill = () => {
+        const { connectionSignalR } = this.props;
+        if (!_.isEmpty(connectionSignalR)) {
+            connectionSignalR.stop();
+        }
         this.printInvoice();
     }
 
@@ -646,7 +654,7 @@ class TabCheckout extends Layout {
         this.props.actions.appointment.referenceConnectionSignalR(connection);
         connection.on("ListWaNotification", (data) => {
             const temptData = JSON.parse(data);
-            // console.log('temptData : ' + JSON.stringify(temptData));
+            console.log('temptData : ' + JSON.stringify(temptData));
             if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
                  && temptData.data.appointmentId == appointmentDetail.appointmentId
             ) {

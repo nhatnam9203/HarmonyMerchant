@@ -29,18 +29,22 @@ class PopupCalendar extends React.Component {
     onDateStartChange = (date) => {
         const { day, month, year } = date._i;
         const temptMonth = parseInt(month + 1);
+        const temptDay = parseInt(day);
         const addZeroToMonth = temptMonth < 10 ? `0${temptMonth}` : temptMonth;
+        const addZeroToDay = temptDay < 10 ? `0${temptDay}` :temptDay
         this.setState({
-            startDate: `${year}-${addZeroToMonth}-${day}`
+            startDate: `${year}-${addZeroToMonth}-${addZeroToDay}`
         })
     }
 
     onDateEndChange = (date) => {
         const { day, month, year } = date._i;
         const temptMonth = parseInt(month + 1);
+        const temptDay = parseInt(day);
         const addZeroToMonth = temptMonth < 10 ? `0${temptMonth}` : temptMonth;
+        const addZeroToDay = temptDay < 10 ? `0${temptDay}` :temptDay
         this.setState({
-            endDate: `${year}-${addZeroToMonth}-${day}`
+            endDate: `${year}-${addZeroToMonth}-${addZeroToDay}`
         })
     }
 
@@ -90,8 +94,8 @@ class PopupCalendar extends React.Component {
                 isCustomizeDate: false
             });
         }
-
     }
+
 
     render() {
         const { visible, onRequestClose } = this.props;
