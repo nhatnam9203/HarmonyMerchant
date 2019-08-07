@@ -26,4 +26,6 @@
 
 - (void)clearPaymentReqExtData;
 
+- (void)save;
+
 @end

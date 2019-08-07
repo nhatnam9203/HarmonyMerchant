@@ -10,6 +10,13 @@
 #import "CommSetting.h"
 #import "PosLink.h"
 
+#define keyCommType @"commType"
+#define keyTimeout @"timeout"
+#define keySerialPort @"serialPort"
+#define keyDestIP @"destIP"
+#define keyDestPort @"destPort"
+#define keyBluetoothAddr @"bluetoothAddr"
+
 @implementation MyApp
 
 {
@@ -30,16 +37,6 @@
     }
     
     return myapp;
-  }
-}
-
-
-
-- (void)clearPaymentReqExtData
-{
-  for(ExtDataPaymentReq* extData in self.PaymentReqExtData)
-  {
-    [extData clearValues];
   }
 }
 
@@ -98,13 +95,45 @@
   return self;
 }
 
+- (void)clearPaymentReqExtData
+{
+  for(ExtDataPaymentReq* extData in self.PaymentReqExtData)
+  {
+    [extData clearValues];
+  }
+}
+
+- (void)save {
+  
+NSLog(@"Something To Print");
+  
+  NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+  MyApp *myapp = [MyApp sharedSigleton];
+  [settings setObject:myapp.poslink.commSetting.commType forKey:keyCommType];
+  [settings setObject:myapp.poslink.commSetting.timeout forKey:keyTimeout];
+  [settings setObject:myapp.poslink.commSetting.serialPort forKey:keySerialPort];
+  [settings setObject:myapp.poslink.commSetting.destIP forKey:keyDestIP];
+  [settings setObject:myapp.poslink.commSetting.destPort forKey:keyDestPort];
+  [settings setObject:myapp.poslink.commSetting.bluetoothAddr forKey:keyBluetoothAddr];
+  
+  [settings synchronize];
+}
 
 //--------- Test Javascript ---------
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(getSomething:(NSString *)destIp portDevice:(NSString *)portDevice callback:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(getSomething:(NSString *)destIp portDevice:(NSString *)portDevice timeoutConnect:(NSString *)timeoutConnect callback:(RCTResponseSenderBlock)callback)
 {
-//  NSString* someString = @"Hello Phi";
+  MyApp *myapp = [MyApp sharedSigleton];
+  myapp.poslink.commSetting.commType = @"TCP";
+  myapp.poslink.commSetting.destIP = destIp;
+  myapp.poslink.commSetting.destPort = portDevice;
+  myapp.poslink.commSetting.timeout = timeoutConnect;
+  
+   [self save];
+
+// ----- Alert ------
+  NSLog(@"%@-%@-%@", destIp,portDevice,timeoutConnect);
   callback(@[destIp]);
   
 }

@@ -13,7 +13,7 @@ class TabPromotion extends Layout {
     }
 
     applyPromorion =() =>{
-        PosLink.getSomething('192.168.0.112','10009',message => alert(message));
+        PosLink.getSomething('192.168.0.112','10009','60000',message => alert(message));
     }
 
 }
