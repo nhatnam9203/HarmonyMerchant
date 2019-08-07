@@ -24,8 +24,9 @@
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		190B834FB4BB4246962A3E7E /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87F14B6172B346F0950939FF /* libRNGestureHandler.a */; };
-		232011EE22FAB38C0002C14B /* PosLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 232011ED22FAB38C0002C14B /* PosLink.m */; };
-		2320121A22FAB7A50002C14B /* inc in Resources */ = {isa = PBXBuildFile; fileRef = 2320121922FAB7A50002C14B /* inc */; };
+		232011EE22FAB38C0002C14B /* MyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 232011ED22FAB38C0002C14B /* MyApp.m */; };
+		23207BB522FAD00F0002C14B /* ExtDataPaymentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */; };
+		23207BB622FAD5BE0002C14B /* libPosLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23207BAF22FAC4730002C14B /* libPosLink.a */; };
 		2342066122DD7C1800E0EA35 /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342065F22DD7C1700E0EA35 /* StarIO.framework */; };
 		2342066222DD7C1800E0EA35 /* StarIO_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */; };
 		2342066422DD7C2600E0EA35 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */; };
@@ -357,9 +358,26 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Hpmerchant/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		1FB86781048A01B903905809 /* libPods-Hpmerchant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		232011EC22FAB38C0002C14B /* PosLink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PosLink.h; path = Hpmerchant/PosLink.h; sourceTree = "<group>"; };
-		232011ED22FAB38C0002C14B /* PosLink.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = PosLink.m; path = Hpmerchant/PosLink.m; sourceTree = "<group>"; };
-		2320121922FAB7A50002C14B /* inc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = inc; sourceTree = "<group>"; };
+		232011EC22FAB38C0002C14B /* MyApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MyApp.h; path = Hpmerchant/MyApp.h; sourceTree = "<group>"; };
+		232011ED22FAB38C0002C14B /* MyApp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MyApp.m; path = Hpmerchant/MyApp.m; sourceTree = "<group>"; };
+		23207B9E22FAC40F0002C14B /* PosLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PosLink.h; sourceTree = "<group>"; };
+		23207B9F22FAC40F0002C14B /* PaymentResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentResponse.h; sourceTree = "<group>"; };
+		23207BA022FAC40F0002C14B /* ProcessTransResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessTransResult.h; sourceTree = "<group>"; };
+		23207BA122FAC4100002C14B /* ManageResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageResponse.h; sourceTree = "<group>"; };
+		23207BA222FAC4100002C14B /* CommSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommSetting.h; sourceTree = "<group>"; };
+		23207BA322FAC4100002C14B /* ManageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageRequest.h; sourceTree = "<group>"; };
+		23207BA422FAC4100002C14B /* MposBluetoothScan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MposBluetoothScan.h; sourceTree = "<group>"; };
+		23207BA522FAC4100002C14B /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		23207BA622FAC4100002C14B /* POSLinkLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POSLinkLog.h; sourceTree = "<group>"; };
+		23207BA722FAC4100002C14B /* PaymentRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentRequest.h; sourceTree = "<group>"; };
+		23207BA822FAC4100002C14B /* BatchResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchResponse.h; sourceTree = "<group>"; };
+		23207BA922FAC4100002C14B /* BatchRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchRequest.h; sourceTree = "<group>"; };
+		23207BAA22FAC4100002C14B /* ReportResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportResponse.h; sourceTree = "<group>"; };
+		23207BAB22FAC4100002C14B /* LogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogManager.h; sourceTree = "<group>"; };
+		23207BAC22FAC4100002C14B /* ReportRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportRequest.h; sourceTree = "<group>"; };
+		23207BAF22FAC4730002C14B /* libPosLink.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPosLink.a; sourceTree = "<group>"; };
+		23207BB322FAD00F0002C14B /* ExtDataPaymentReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExtDataPaymentReq.h; sourceTree = "<group>"; };
+		23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExtDataPaymentReq.m; sourceTree = "<group>"; };
 		2342065F22DD7C1700E0EA35 /* StarIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StarIO.framework; path = "../node_modules/react-native-star-prnt/ios/Frameworks/StarIO.framework"; sourceTree = "<group>"; };
 		2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StarIO_Extension.framework; path = "../node_modules/react-native-star-prnt/ios/Frameworks/StarIO_Extension.framework"; sourceTree = "<group>"; };
 		2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
@@ -393,6 +411,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23207BB622FAD5BE0002C14B /* libPosLink.a in Frameworks */,
 				2399DEC122F1A9CF00DBCCFE /* libRNFetchBlob.a in Frameworks */,
 				2342066622DD7C3100E0EA35 /* ExternalAccessory.framework in Frameworks */,
 				2342066422DD7C2600E0EA35 /* CoreBluetooth.framework in Frameworks */,
@@ -502,6 +521,7 @@
 		13B07FAE1A68108700A75B9A /* Hpmerchant */ = {
 			isa = PBXGroup;
 			children = (
+				23207BB222FACFD70002C14B /* ExtData */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -509,8 +529,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				232011EC22FAB38C0002C14B /* PosLink.h */,
-				232011ED22FAB38C0002C14B /* PosLink.m */,
+				232011EC22FAB38C0002C14B /* MyApp.h */,
+				232011ED22FAB38C0002C14B /* MyApp.m */,
 			);
 			name = Hpmerchant;
 			sourceTree = "<group>";
@@ -557,12 +577,44 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2320121822FAB7720002C14B /* sdk */ = {
+		23207B9C22FAC3BC0002C14B /* sdk */ = {
 			isa = PBXGroup;
 			children = (
-				2320121922FAB7A50002C14B /* inc */,
+				23207B9D22FAC3F40002C14B /* inc */,
+				23207BAF22FAC4730002C14B /* libPosLink.a */,
 			);
-			name = sdk;
+			path = sdk;
+			sourceTree = "<group>";
+		};
+		23207B9D22FAC3F40002C14B /* inc */ = {
+			isa = PBXGroup;
+			children = (
+				23207BA922FAC4100002C14B /* BatchRequest.h */,
+				23207BA822FAC4100002C14B /* BatchResponse.h */,
+				23207BA522FAC4100002C14B /* Common.h */,
+				23207BA222FAC4100002C14B /* CommSetting.h */,
+				23207BAB22FAC4100002C14B /* LogManager.h */,
+				23207BA322FAC4100002C14B /* ManageRequest.h */,
+				23207BA122FAC4100002C14B /* ManageResponse.h */,
+				23207BA422FAC4100002C14B /* MposBluetoothScan.h */,
+				23207BA722FAC4100002C14B /* PaymentRequest.h */,
+				23207B9F22FAC40F0002C14B /* PaymentResponse.h */,
+				23207B9E22FAC40F0002C14B /* PosLink.h */,
+				23207BA622FAC4100002C14B /* POSLinkLog.h */,
+				23207BA022FAC40F0002C14B /* ProcessTransResult.h */,
+				23207BAC22FAC4100002C14B /* ReportRequest.h */,
+				23207BAA22FAC4100002C14B /* ReportResponse.h */,
+			);
+			path = inc;
+			sourceTree = "<group>";
+		};
+		23207BB222FACFD70002C14B /* ExtData */ = {
+			isa = PBXGroup;
+			children = (
+				23207BB322FAD00F0002C14B /* ExtDataPaymentReq.h */,
+				23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */,
+			);
+			name = ExtData;
 			sourceTree = "<group>";
 		};
 		2399DE9422F1A9C100DBCCFE /* Products */ = {
@@ -657,7 +709,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				2320121822FAB7720002C14B /* sdk */,
+				23207B9C22FAC3BC0002C14B /* sdk */,
 				13B07FAE1A68108700A75B9A /* Hpmerchant */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* HpmerchantTests */,
@@ -1135,7 +1187,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2320121A22FAB7A50002C14B /* inc in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
@@ -1212,9 +1263,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				232011EE22FAB38C0002C14B /* PosLink.m in Sources */,
+				232011EE22FAB38C0002C14B /* MyApp.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				23207BB522FAD00F0002C14B /* ExtDataPaymentReq.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1328,6 +1380,12 @@
 				);
 				INFOPLIST_FILE = Hpmerchant/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/sdk/**",
+					"$(PROJECT_DIR)/sdk/inc/**",
+					"$(PROJECT_DIR)/sdk",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1335,7 +1393,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.hpmerchant;
 				PRODUCT_NAME = Hpmerchant;
-				PROVISIONING_PROFILE_SPECIFIER = hpmerchant;
+				PROVISIONING_PROFILE_SPECIFIER = Hpmerchant;
 				TARGETED_DEVICE_FAMILY = 2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1358,6 +1416,12 @@
 				);
 				INFOPLIST_FILE = Hpmerchant/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/sdk/**",
+					"$(PROJECT_DIR)/sdk/inc/**",
+					"$(PROJECT_DIR)/sdk",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1365,7 +1429,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.hpmerchant;
 				PRODUCT_NAME = Hpmerchant;
-				PROVISIONING_PROFILE_SPECIFIER = hpmerchant;
+				PROVISIONING_PROFILE_SPECIFIER = Hpmerchant;
 				TARGETED_DEVICE_FAMILY = 2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

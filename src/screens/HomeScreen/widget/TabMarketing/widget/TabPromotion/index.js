@@ -4,7 +4,7 @@ import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import NavigationServices from "@navigators/NavigatorServices";
 
-const PosLink = NativeModules.PosLink;
+const PosLink = NativeModules.MyApp;
 
 class TabPromotion extends Layout {
 
@@ -13,7 +13,7 @@ class TabPromotion extends Layout {
     }
 
     applyPromorion =() =>{
-        PosLink.getSomething(message => alert(message));
+        PosLink.getSomething('192.168.0.112','10009',message => alert(message));
     }
 
 }
