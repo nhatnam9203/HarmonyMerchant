@@ -1317,7 +1317,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.hpmerchant;
 				PRODUCT_NAME = Hpmerchant;
-				PROVISIONING_PROFILE_SPECIFIER = hpmerchant;
+				PROVISIONING_PROFILE_SPECIFIER = Hpmerchant;
 				TARGETED_DEVICE_FAMILY = 2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1347,7 +1347,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.hpmerchant;
 				PRODUCT_NAME = Hpmerchant;
-				PROVISIONING_PROFILE_SPECIFIER = hpmerchant;
+				PROVISIONING_PROFILE_SPECIFIER = Hpmerchant;
 				TARGETED_DEVICE_FAMILY = 2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
