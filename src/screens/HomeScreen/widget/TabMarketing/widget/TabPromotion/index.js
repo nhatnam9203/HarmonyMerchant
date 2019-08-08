@@ -1,4 +1,4 @@
-import {NativeModules} from 'react-native';
+import {Alert,NativeModules} from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -17,7 +17,20 @@ class TabPromotion extends Layout {
     }
 
     paymentCredit =() =>{
-        PosLink.sendTransaction(message => alert(message));
+        PosLink.sendTransaction(message => {
+            Alert.alert(
+                `Alert Title`,
+                `${message}`,
+                [
+                  {
+                    text: 'Cancel',
+                    onPress: () => PosLink.cancelTransaction(),
+                    style: 'cancel',
+                  },
+                ],
+                {cancelable: false},
+              );
+        });
     }
 
 }
