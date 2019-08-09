@@ -10,13 +10,41 @@ class TabPromotion extends Layout {
 
     constructor(props) {
         super(props);
+        this.state = {
+            name:'Phi'
+        }
     }
 
     applyPromorion =() =>{
         PosLink.setupPax('192.168.0.112','10009','60000',message => alert(message));
     }
 
-    paymentCredit =() =>{
+    paymentCredit = () =>{
+        Alert.alert(
+            `Alert Title`,
+            `Transaction is processing,please wait...`,
+            [
+              {
+                text: 'Cancel',
+                onPress: () => PosLink.cancelTransaction(),
+                style: 'cancel',
+              },
+            ],
+            {cancelable: false},
+          );
+        PosLink.sendTransaction(this.callback)
+    }
+
+    callback(message){
+        alert(message)
+    }
+    
+    callback1(message){
+        alert(message)
+    }
+    
+
+    paymentCredit1 =() =>{
         PosLink.sendTransaction(message => {
             Alert.alert(
                 `Alert Title`,
@@ -30,7 +58,7 @@ class TabPromotion extends Layout {
                 ],
                 {cancelable: false},
               );
-        });
+        }, messageEnd => alert(messageEnd));
     }
 
 }

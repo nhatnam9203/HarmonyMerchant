@@ -151,12 +151,11 @@ static int statusCode;
 }
 
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)cancelTransactionInternal
 {
-  if (buttonIndex == 0){
+
    MyApp *myapp = [MyApp sharedSigleton];
     [myapp.poslink cancelTrans];
-  }
 }
 
 
@@ -170,13 +169,8 @@ RCT_EXPORT_METHOD(cancelTransaction){
   [myapp.poslink cancelTrans];
 }
 
-//RCT_EXPORT_METHOD(sendTransaction:(RCTResponseSenderBlock)callback){
-//   NSString *sigFileName = @"Transaction is processing,please wait...";
-//  callback(@[sigFileName]);
-//
-//}
 
-RCT_EXPORT_METHOD(sendTransaction:(RCTResponseSenderBlock)startTransaction)
+RCT_EXPORT_METHOD(sendTransaction:(RCTResponseSenderBlock)callback)
 {
   MyApp *myapp = [MyApp sharedSigleton];
   PaymentRequest *paymentRequest = [[PaymentRequest alloc] init];
@@ -207,10 +201,6 @@ RCT_EXPORT_METHOD(sendTransaction:(RCTResponseSenderBlock)startTransaction)
   paymentRequest.AuthCode = @"";
   paymentRequest.ExtData = @"";
   
-//
-  
-  NSString *sigFileName = @"Transaction is processing,please wait...";
-  startTransaction(@[sigFileName]);
   
   //  --------- Scan TCP ------
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -226,7 +216,6 @@ RCT_EXPORT_METHOD(sendTransaction:(RCTResponseSenderBlock)startTransaction)
     
     dispatch_async(dispatch_get_main_queue(), ^{
       if (ret.code == OK) {
-//          [alert1 dismissWithClickedButtonIndex:0 animated:NO];
           signData = myapp.poslink.paymentResponse.signData;
         
         if (signData != nil) {
@@ -234,24 +223,20 @@ RCT_EXPORT_METHOD(sendTransaction:(RCTResponseSenderBlock)startTransaction)
           [myapp.poslink.paymentRequest saveSigData:signData fileName:str];
           [myapp.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
           
+//           NSString *messageTranSuccess = @"Transaction is success";
+          callback(@[myapp.poslink.paymentResponse]);
         }else{
-          UIAlertView *alert1 = [[UIAlertView alloc] initWithTitle:nil message:@"Fail..." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil];
-          [alert1 show];
+//          NSString *messageFail = @"Transaction is fail";
+          callback(@[myapp.poslink.paymentResponse]);
         }
         
       }else if (ret.code == ERROR){
-//                [alert1 dismissWithClickedButtonIndex:0 animated:NO];
-        
-                alert = [[UIAlertView alloc] initWithTitle:@"ERROR" message:ret.msg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [alert show];
-        
-//         callback(@[@"ERROR"]);
+//        NSString *messageTranError = @"Transaction is messageTranError";
+        callback(@[ret.msg]);
+
       }else if(ret.code == TIMEOUT){
-//                [alert1 dismissWithClickedButtonIndex:0 animated:NO];
-                alert = [[UIAlertView alloc] initWithTitle:@"ERROR" message:ret.msg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [alert show];
-        
-//       callback(@[@"TIMEOUT"]);
+//        NSString *messageTranTimeOut = @"Transaction is TIMEOUT";
+        callback(@[ret.msg]);
        
       }
     });
