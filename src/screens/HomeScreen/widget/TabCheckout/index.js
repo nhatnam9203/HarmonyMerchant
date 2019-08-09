@@ -654,7 +654,7 @@ class TabCheckout extends Layout {
         this.props.actions.appointment.referenceConnectionSignalR(connection);
         connection.on("ListWaNotification", (data) => {
             const temptData = JSON.parse(data);
-            console.log('temptData : ' + JSON.stringify(temptData));
+            // console.log('temptData : ' + JSON.stringify(temptData));
             if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
                  && temptData.data.appointmentId == appointmentDetail.appointmentId
             ) {

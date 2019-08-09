@@ -7,7 +7,7 @@ import { WebView } from 'react-native-webview';
 
 import styles from './style';
 
-const url = 'https://hpcalendar.levincidemo.com/?token=';
+const url = 'http://api.harmonypayment.com/calendar/index.html?token=';
 
 class Layout extends React.Component {
 
