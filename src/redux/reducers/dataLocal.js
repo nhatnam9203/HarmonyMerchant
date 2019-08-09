@@ -19,8 +19,8 @@ function dataLocal(state = initialState, action) {
             return {
                 ...state,
                 language: action.payload.language,
-                autoCloseAt:action.payload.autoCloseAt,
-                autoLockScreenAfter:action.payload.autoLockScreenAfter,
+                autoCloseAt: action.payload.autoCloseAt,
+                autoLockScreenAfter: action.payload.autoLockScreenAfter,
             }
         case 'GET_STATE_CITY_SUCCESS':
             return {
@@ -29,8 +29,13 @@ function dataLocal(state = initialState, action) {
             }
         case 'UPDATE_MERCHANT_PROFILE':
             return {
-                 ...state,
+                ...state,
                 profile: action.payload
+            }
+        case 'UPDATE_PROFILE_STAFF_SUCCESS':
+            return {
+                ...state,
+                profile: { ...state.profile, needSetting: false }
             }
         case 'LOGOUT_APP':
             return {

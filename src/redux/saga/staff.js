@@ -325,6 +325,7 @@ function* loginStaff(action) {
                 type: 'TIME_OUT',
             });
         }
+        // console.log('error : ',error);
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
