@@ -231,8 +231,9 @@ class Layout extends React.Component {
     }
 
     renderBasket() {
-        const { language } = this.props;
+        const { language ,appointmentDetail} = this.props;
         const { basket, total } = this.state;
+        const tempTipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
         return (
             <View style={{ flex: 1 }} >
                 {/* -------- Header Basket -------- */}
@@ -267,6 +268,15 @@ class Layout extends React.Component {
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
                                     {`$${total}`}
+                                </Text>
+                            </View>
+                             {/* ---------- Tip ------ */}
+                             <View style={styles.payNumberTextContainer} >
+                                <Text style={styles.textPay} >
+                                    {`${localize('Tip', language)}:`}
+                                </Text>
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                    {`$${tempTipAmount}`}
                                 </Text>
                             </View>
                             {/* ---------- Tax ------ */}
