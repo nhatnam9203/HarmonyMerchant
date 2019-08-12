@@ -291,7 +291,7 @@ class Layout extends React.Component {
                     position: 'absolute', bottom: 0,
                     width: width, height: scaleSzie(70), flexDirection:'row',justifyContent:'center'
                 }} >
-                    <ButtonCustom
+                    {/* <ButtonCustom
                         width={scaleSzie(290)}
                         height={60}
                         backgroundColor="#0764B0"
@@ -299,7 +299,7 @@ class Layout extends React.Component {
                         textColor="#fff"
                         onPress={this.applyPromorion}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                    />
+                    /> */}
                     <View style={{width:scaleSzie(20)}} />
                       <ButtonCustom
                         width={scaleSzie(290)}
@@ -307,7 +307,8 @@ class Layout extends React.Component {
                         backgroundColor="#0764B0"
                         title={localize('APPLY', language)}
                         textColor="#fff"
-                        onPress={this.paymentCredit}
+                        // onPress={this.paymentCredit}
+                        onPress={() =>{}}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                     />
                 </View>

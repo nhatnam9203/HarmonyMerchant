@@ -3,6 +3,7 @@ import {
     View,
     ScrollView,
     StyleSheet,
+    Image
 } from 'react-native';
 
 import { ButtonCustom, Text } from '@components';
@@ -13,8 +14,8 @@ class TabAdminInfo extends React.Component {
 
     renderBody() {
         const { profile, language } = this.props;
-        const { businessName, address, city, stateId, zip, taxId, phone, email,
-            bankName, accountNumber, routingNumber, ein
+        const { businessName, address, city, zip, taxId, phone, email,
+            bankName, accountNumber, routingNumber, ein,state,businessBank
         } = profile;
         return (
             <View style={styles.body} >
@@ -25,7 +26,7 @@ class TabAdminInfo extends React.Component {
                     />
                     <ItemTextStoreInfoNotTilte
                         city={city}
-                        state={stateId}
+                        state={state.name}
                         zipcode={zip}
                     />
                     <ItemTextStoreInfo
@@ -46,7 +47,7 @@ class TabAdminInfo extends React.Component {
                     />
                     <ItemTextStoreInfo
                         title={localize('Bank Name', language)}
-                        value={bankName}
+                        value={businessBank.name}
                     />
                     <ItemTextStoreInfo
                         title={localize('Account Number', language)}
@@ -60,6 +61,17 @@ class TabAdminInfo extends React.Component {
                         title="EIN"
                         value={ein ? ein : ''}
                     />
+                    <View style={{height:scaleSzie(20)}} />
+                    <View style={{height:scaleSzie(200),alignItems:'center'}} >
+                        <View style={{height:scaleSzie(200),width:scaleSzie(200)}} >
+                            <Image
+                             source={{uri:businessBank.imageUrl}}
+                             resizeMode="stretch"
+                            style={{height:scaleSzie(200),width:scaleSzie(200)}}
+                            />
+                        </View>
+                    </View>
+                    <View style={{height:scaleSzie(200)}} />
                 </ScrollView>
             </View>
         );
