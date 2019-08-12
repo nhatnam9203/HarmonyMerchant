@@ -15,7 +15,7 @@ class TabAdminInfo extends React.Component {
     renderBody() {
         const { profile, language } = this.props;
         const { businessName, address, city, zip, taxId, phone, email,
-            bankName, accountNumber, routingNumber, ein,state,businessBank
+             accountNumber, routingNumber, ein, state, businessBank
         } = profile;
         return (
             <View style={styles.body} >
@@ -61,17 +61,17 @@ class TabAdminInfo extends React.Component {
                         title="EIN"
                         value={ein ? ein : ''}
                     />
-                    <View style={{height:scaleSzie(20)}} />
-                    <View style={{height:scaleSzie(200),alignItems:'center'}} >
-                        <View style={{height:scaleSzie(200),width:scaleSzie(200)}} >
+                    <View style={{ height: scaleSzie(20) }} />
+                    <View style={{ height: scaleSzie(200), alignItems: 'center' }} >
+                        <View style={{ height: scaleSzie(200), width: scaleSzie(200) }} >
                             <Image
-                             source={{uri:businessBank.imageUrl}}
-                             resizeMode="stretch"
-                            style={{height:scaleSzie(200),width:scaleSzie(200)}}
+                                source={{ uri: businessBank.imageUrl }}
+                                resizeMode="stretch"
+                                style={{ height: scaleSzie(200), width: scaleSzie(200) }}
                             />
                         </View>
                     </View>
-                    <View style={{height:scaleSzie(200)}} />
+                    <View style={{ height: scaleSzie(200) }} />
                 </ScrollView>
             </View>
         );
