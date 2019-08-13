@@ -16,7 +16,7 @@ class TabAdminInfo extends React.Component {
         const { profile, language } = this.props;
         const { businessName, address, city, zip, taxId, phone, email,
             accountNumber, routingNumber, ein, state, businessBank,
-            businessHourEnd,businessHourStart
+            businessHourEnd, businessHourStart
         } = profile;
         return (
             <View style={styles.body} >
@@ -27,7 +27,7 @@ class TabAdminInfo extends React.Component {
                     />
                     <ItemTextStoreInfoNotTilte
                         city={city}
-                        state={state.name}
+                        state={state && state.name ? state.name : ''}
                         zipcode={zip}
                     />
                     <ItemTextStoreInfo
@@ -54,30 +54,33 @@ class TabAdminInfo extends React.Component {
                     />
                     <ItemTextStoreInfo
                         title={localize('Bank Name', language)}
-                        value={businessBank.name}
+                        value={businessBank && businessBank.name ? businessBank.name : ''}
                     />
                     <ItemTextStoreInfo
                         title={localize('Account Number', language)}
-                        value={accountNumber}
+                        value={businessBank && businessBank.accountNumber ? businessBank.accountNumber : ''}
                     />
                     <ItemTextStoreInfo
                         title={localize('Routing Number', language)}
-                        value={routingNumber}
+                        value={businessBank && businessBank.routingNumber ? businessBank.routingNumber : ''}
                     />
                     <ItemTextStoreInfo
                         title="EIN"
                         value={ein ? ein : ''}
                     />
                     <View style={{ height: scaleSzie(20) }} />
-                    <View style={{ height: scaleSzie(200), alignItems: 'center' }} >
-                        <View style={{ height: scaleSzie(200), width: scaleSzie(200) }} >
-                            <Image
-                                source={{ uri: businessBank.imageUrl }}
-                                resizeMode="stretch"
-                                style={{ height: scaleSzie(200), width: scaleSzie(200) }}
-                            />
-                        </View>
-                    </View>
+                    {
+                        businessBank && businessBank.imageUrl ? <View style={{ height: scaleSzie(200), alignItems: 'center' }} >
+                            <View style={{ height: scaleSzie(200), width: scaleSzie(200) }} >
+                                <Image
+                                    source={{ uri: businessBank.imageUrl }}
+                                    resizeMode="stretch"
+                                    style={{ height: scaleSzie(200), width: scaleSzie(200) }}
+                                />
+                            </View>
+                        </View> : <View />
+                    }
+
                     <View style={{ height: scaleSzie(200) }} />
                 </ScrollView>
             </View>

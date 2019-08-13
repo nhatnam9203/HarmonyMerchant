@@ -120,17 +120,24 @@ export function checkoutSubmit(appointmentId) {
     }
 }
 
-export function referenceConnectionSignalR(connection){
-    return{
-        type:'REFERENCE_CONNECTION_SIGNALR',
-        payload:connection
+export function referenceConnectionSignalR(connection) {
+    return {
+        type: 'REFERENCE_CONNECTION_SIGNALR',
+        payload: connection
     }
 }
 
-export function resetConnectSignalR(){
-    return{
-        type:'RESET_CONNECT_SIGNALR',
-        payload:{}
+export function resetConnectSignalR() {
+    return {
+        type: 'RESET_CONNECT_SIGNALR',
+        payload: {}
+    }
+}
+
+export function changeFlagSigninAppointment(flag = false) {
+    return {
+        type: 'CHANGE_FLAG_APPOINTMENT',
+        payload: flag
     }
 }
 

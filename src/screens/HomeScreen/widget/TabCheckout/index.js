@@ -313,6 +313,7 @@ class TabCheckout extends Layout {
         this.props.actions.appointment.resetBasketEmpty();
         this.scrollTabRef.current.goToPage(0);
         this.props.actions.appointment.resetPayment();
+        this.props.actions.appointment.changeFlagSigninAppointment(false);
 
     }
 
@@ -657,19 +658,33 @@ class TabCheckout extends Layout {
             const temptData = JSON.parse(data);
             // console.log('temptData : ' + JSON.stringify(temptData));
             if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
-                 && temptData.data.appointmentId == appointmentDetail.appointmentId
+                && temptData.data.appointmentId == appointmentDetail.appointmentId
             ) {
                 this.props.actions.appointment.donePaymentHarmony();
-                // connection.stop();
+                this.props.actions.appointment.getAppointmentById(appointmentDetail.appointmentId);
+                connection.stop();
             }
         });
 
 
         connection.onclose(async (error) => {
             this.props.actions.appointment.resetConnectSignalR();
-            console.log('error ' , error);
+            console.log('error ', error);
         });
 
+    }
+
+    doneAddBasketSignInAppointment =() =>{
+        this.scrollTabRef.current.goToPage(0);
+        const { connectionSignalR } = this.props;
+        if (!_.isEmpty(connectionSignalR)) {
+            connectionSignalR.stop();
+        }
+        this.props.gotoPageCurent();
+        this.setState(initState);
+        this.props.actions.appointment.resetBasketEmpty();
+        this.props.actions.appointment.resetPayment();
+        this.props.actions.appointment.changeFlagSigninAppointment(false);
     }
 
 
@@ -702,7 +717,8 @@ const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     isDonePayment: state.appointment.isDonePayment,
     appointmentIdOffline: state.appointment.appointmentIdOffline,
-    connectionSignalR: state.appointment.connectionSignalR
+    connectionSignalR: state.appointment.connectionSignalR,
+    flagSignInAppointment: state.appointment.flagSignInAppointment
 })
 
 

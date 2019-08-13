@@ -231,7 +231,7 @@ class Layout extends React.Component {
     }
 
     renderBasket() {
-        const { language ,appointmentDetail} = this.props;
+        const { language, appointmentDetail, flagSignInAppointment } = this.props;
         const { basket, total } = this.state;
         const tempTipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
         return (
@@ -270,8 +270,8 @@ class Layout extends React.Component {
                                     {`$${total}`}
                                 </Text>
                             </View>
-                             {/* ---------- Tip ------ */}
-                             <View style={styles.payNumberTextContainer} >
+                            {/* ---------- Tip ------ */}
+                            <View style={styles.payNumberTextContainer} >
                                 <Text style={styles.textPay} >
                                     {`${localize('Tip', language)}:`}
                                 </Text>
@@ -319,9 +319,44 @@ class Layout extends React.Component {
                 </View>
                 {/* -------- Footer Basket -------- */}
                 <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
-                    {this.renderButtonChekout()}
+                    {flagSignInAppointment ? this.renderButtonSignInAppointment() : this.renderButtonChekout()}
                 </View>
             </View>
+        );
+    }
+
+    renderButtonSignInAppointment() {
+        const { basket } = this.state;
+        const { language } = this.props;
+        if (basket.length > 0) {
+            return (
+                <ButtonCustom
+                    width={`100%`}
+                    backgroundColor="#0764B0"
+                    title={localize('DONE', language)}
+                    textColor="#fff"
+                    onPress={this.doneAddBasketSignInAppointment}
+                    style={{
+                        borderWidth: 1, borderColor: '#C5C5C5',
+                        flex: 1
+                    }}
+                    styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                />
+            );
+        }
+        return (
+            <ButtonCustom
+                width={`100%`}
+                backgroundColor="#F1F1F1"
+                title={localize('DONE', language)}
+                textColor="#6A6A6A"
+                onPress={() => { }}
+                style={{
+                    borderWidth: 1, borderColor: '#C5C5C5',
+                    flex: 1
+                }}
+                styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+            />
         );
     }
 
@@ -329,7 +364,7 @@ class Layout extends React.Component {
         const { tabCurrent, basket, paymentSelected, changeButtonDone,
             isPressDone
         } = this.state;
-        const { language ,isDonePayment} = this.props;
+        const { language, isDonePayment } = this.props;
         if (tabCurrent === 1) {
             if (changeButtonDone && !isDonePayment) {
                 return (

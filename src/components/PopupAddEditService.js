@@ -17,6 +17,7 @@ import Button from './Button';
 
 import { scaleSzie, getCategoryName, getArrayNameCategories, getCategoryIdByName } from '@utils';
 
+
 class PopupAddEditService extends React.Component {
 
     constructor(props) {
@@ -202,11 +203,11 @@ class PopupAddEditService extends React.Component {
         })
     }
 
-    removeExtra = (indexRemove) => {
+    removeExtra = async (indexRemove) => {
         const { arrayExtra } = this.state;
         const temptExtra = arrayExtra.filter((extra, index) => index != indexRemove);
         this.arrayExtraRef = this.arrayExtraRef.filter((extra,index) => index != indexRemove);
-        this.setState({
+      await  this.setState({
             arrayExtra: temptExtra
         })
     }

@@ -28,7 +28,7 @@ class TabAppointment extends Layout {
 
     onMessageFromWebview = (event) => {
         const data = JSON.parse(event.nativeEvent.data);
-        // console.log('data : ', JSON.stringify(data));
+        console.log('data : ', JSON.stringify(data));
         if (validateIsNumber(data) && data < -150) {
             this.onLoadStartWebview();
         } else {
@@ -37,6 +37,12 @@ class TabAppointment extends Layout {
                 this.props.actions.appointment.getAppointmentById(appointmentId);
                 this.props.actions.appointment.checkoutAppointment(appointmentId);
                 this.props.gotoCheckoutScreen();
+            } else if (action == 'signinAppointment') {
+                this.props.actions.appointment.getAppointmentById(appointmentId);
+                this.props.actions.appointment.checkoutAppointment(appointmentId);
+                this.props.actions.appointment.changeFlagSigninAppointment(true);
+                this.props.gotoCheckoutScreen();
+
             }
         }
     }

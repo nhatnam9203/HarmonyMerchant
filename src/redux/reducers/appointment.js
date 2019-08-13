@@ -4,7 +4,8 @@ const initialState = {
     visiblePaymentCompleted: false,
     isDonePayment: false,
     appointmentIdOffline: '',
-    connectionSignalR: {}
+    connectionSignalR: {},
+    flagSignInAppointment: false
 }
 
 function appReducer(state = initialState, action) {
@@ -65,6 +66,11 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 connectionSignalR: {}
+            }
+        case 'CHANGE_FLAG_APPOINTMENT' :
+            return {
+                ...state,
+                flagSignInAppointment:action.payload
             }
 
 

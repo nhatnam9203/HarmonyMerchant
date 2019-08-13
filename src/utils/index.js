@@ -29,7 +29,7 @@ export const scaleSzie = size => {
     return width * size / Configs.DEFAULT_WIDTH;
 }
 
-function fetchWithTimeout(url, options, timeout = 7000) {
+function fetchWithTimeout(url, options, timeout = 10000) {
     return Promise.race([
         fetch(url, options),
         new Promise((_, reject) =>
@@ -54,7 +54,7 @@ export const requestAPI = async (action, headers = {}) => {
         request['body'] = JSON.stringify(action.body);
     }
     try {
-        let response = await fetchWithTimeout(action.api, request, 7000);
+        let response = await fetchWithTimeout(action.api, request, 10000);
         // let response = await fetch(action.api, request);
         // console.log('requestAPI : ',response); 
         const codeNumber = response.status;

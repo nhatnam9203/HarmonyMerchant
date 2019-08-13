@@ -161,19 +161,20 @@ class AddStaff extends Layout {
         let keyError = '';
         for (let i = 0; i < arrayKey.length; i++) {
             if (arrayKey[i] == 'address') {
-                if (user.address.street == '') {
-                    keyError = 'street';
-                    break;
-                }
-                if (user.address.city == '') {
+                continue;
+                // if (user.address.street == '') {
+                //     keyError = 'street';
+                //     break;
+                // }
+                // if (user.address.city == '') {
 
-                    keyError = 'city';
-                    break;
-                }
-                if (user.address.state == '') {
-                    keyError = 'state';
-                    break;
-                }
+                //     keyError = 'city';
+                //     break;
+                // }
+                // if (user.address.state == '') {
+                //     keyError = 'state';
+                //     break;
+                // }
             } else if (arrayKey[i] == 'roles') {
                 if (user.roles.nameRole == '') {
                     keyError = 'nameRole';

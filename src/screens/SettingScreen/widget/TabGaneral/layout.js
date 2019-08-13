@@ -201,7 +201,7 @@ class Layout extends React.Component {
     renderBody() {
         const { profile, language } = this.props;
         const { businessName, address, city, stateId, zip, taxId, phone, email,
-            bankName, accountNumber, routingNumber, ein, merchantCode,businessBank
+            bankName, accountNumber, routingNumber, ein, merchantCode, businessBank
         } = profile;
         return (
             <View style={styles.body} >
@@ -237,15 +237,15 @@ class Layout extends React.Component {
                     />
                     <ItemTextStoreInfo
                         title={localize('Bank Name', language)}
-                        value={businessBank.name}
+                        value={businessBank && businessBank.name ? businessBank.name : ''}
                     />
                     <ItemTextStoreInfo
                         title={localize('Account Number', language)}
-                        value={accountNumber}
+                        value={businessBank && businessBank.accountNumber ? businessBank.accountNumber : ''}
                     />
                     <ItemTextStoreInfo
                         title={localize('Routing Number', language)}
-                        value={routingNumber}
+                        value={businessBank && businessBank.routingNumber ? businessBank.routingNumber : ''}
                     />
                     <ItemTextStoreInfo
                         title="EIN"
