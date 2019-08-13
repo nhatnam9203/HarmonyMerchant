@@ -13,6 +13,7 @@ import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import BrowserFile from './BrowserFile';
 import { Dropdown } from './react-native-material-dropdown';
+import Button from './Button';
 
 import { scaleSzie, getCategoryName, getArrayNameCategories, getCategoryIdByName } from '@utils';
 
@@ -103,6 +104,10 @@ class PopupAddEditService extends React.Component {
         }
     }
 
+    done1 = () =>{
+        console.log('------ : ', this.arrayExtraRef);
+    }
+
     done = () => {
         const { serviceInfo } = this.state;
         const duration = this.durationRef.current.state.value;
@@ -133,14 +138,17 @@ class PopupAddEditService extends React.Component {
             let checkValidateExtra = true;
             let errorCheckExtra = '';
             this.arrayExtraRef.forEach(extra => {
-                if (extra.getInfoExtraFromParent().isValid) {
-                    const data = extra.getInfoExtraFromParent().data;
-                    const temptData = { ...data, isDisabled: data.isDisabled === 'Active' ? 0 : 1 };
-                    arrayExtra.push(temptData);
-                } else {
-                    checkValidateExtra = false;
-                    errorCheckExtra = extra.getInfoExtraFromParent().errorMessage;
+                if (extra != null) {
+                    if (extra.getInfoExtraFromParent().isValid) {
+                        const data = extra.getInfoExtraFromParent().data;
+                        const temptData = { ...data, isDisabled: data.isDisabled === 'Active' ? 0 : 1 };
+                        arrayExtra.push(temptData);
+                    } else {
+                        checkValidateExtra = false;
+                        errorCheckExtra = extra.getInfoExtraFromParent().errorMessage;
+                    }
                 }
+
 
             });
             if (checkValidateExtra) {
@@ -191,6 +199,15 @@ class PopupAddEditService extends React.Component {
     updateFileId = async (fileId) => {
         await this.setState({
             fileId
+        })
+    }
+
+    removeExtra = (indexRemove) => {
+        const { arrayExtra } = this.state;
+        const temptExtra = arrayExtra.filter((extra, index) => index != indexRemove);
+        this.arrayExtraRef = this.arrayExtraRef.filter((extra,index) => index != indexRemove);
+        this.setState({
+            arrayExtra: temptExtra
         })
     }
 
@@ -340,6 +357,7 @@ class PopupAddEditService extends React.Component {
                                         ref={this.addExtraRef}
                                         key={index}
                                         extraInfo={extra}
+                                        removeExtra={() => this.removeExtra(index)}
                                     />)
                                 }
 
@@ -468,13 +486,25 @@ class ItemExtra extends React.Component {
 
     render() {
         const { name, description, duration, price, isDisabled } = this.state.extraInfo;
+        const { removeExtra } = this.props;
         return (
             <View>
                 <View style={{ height: 3, backgroundColor: '#0764B0', marginTop: scaleSzie(8), marginBottom: scaleSzie(20) }} />
                 {/* ------ Extra ---- */}
-                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                    Extra name
-                            </Text>
+                <View style={{ flexDirection: 'row', justifyContent: "space-between" }} >
+                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                        Extra name
+                    </Text>
+                    {/* --------------- */}
+
+                    <Button onPress={() => removeExtra()} >
+                        <Text style={{ color: 'red', fontSize: scaleSzie(12), fontWeight: 'bold', marginBottom: scaleSzie(10), marginTop: scaleSzie(7), textDecorationLine: "underline" }}
+                        >
+                            Remove Extra
+                    </Text>
+                    </Button>
+                </View>
+
                 <View style={{
                     height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
                     paddingLeft: scaleSzie(10),

@@ -57,7 +57,7 @@ class StoreInfoScreen extends Layout {
     };
 
     updateFileId = async (fileId) => {
-      await  this.setState({
+        await this.setState({
             fileId
         })
     }
@@ -68,19 +68,22 @@ class StoreInfoScreen extends Layout {
         let keyError = '';
         for (let i = 0; i < arrayKey.length; i++) {
             if (arrayKey[i] == 'address') {
-                if (user.address.street == '') {
-                    keyError = 'street';
-                    break;
-                }
-                if (user.address.city == '') {
-
-                    keyError = 'city';
-                    break;
-                }
-                if (user.address.state == '') {
-                    keyError = 'state';
-                    break;
-                }
+                continue;
+                // if (user.address.street == '') {
+                //     keyError = 'street';
+                //     break;
+                //     continue;
+                // }
+                // if (user.address.city == '') {
+                //     keyError = 'city';
+                //     break;
+                //     continue
+                // }
+                // if (user.address.state == '') {
+                //     keyError = 'state';
+                //     break;
+                //     continue
+                // }
             } else if (arrayKey[i] == 'roles') {
                 if (user.roles.nameRole == '') {
                     keyError = 'nameRole';
@@ -100,7 +103,7 @@ class StoreInfoScreen extends Layout {
             }
         }
 
-        if(user.pin !== user.confirmPin){
+        if (user.pin !== user.confirmPin) {
             keyError = 'pinnotmatch'
         }
 

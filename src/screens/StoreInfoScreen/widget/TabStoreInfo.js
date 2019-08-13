@@ -15,7 +15,8 @@ class TabAdminInfo extends React.Component {
     renderBody() {
         const { profile, language } = this.props;
         const { businessName, address, city, zip, taxId, phone, email,
-             accountNumber, routingNumber, ein, state, businessBank
+            accountNumber, routingNumber, ein, state, businessBank,
+            businessHourEnd,businessHourStart
         } = profile;
         return (
             <View style={styles.body} >
@@ -33,6 +34,12 @@ class TabAdminInfo extends React.Component {
                         title={localize('Business Address', language)}
                         value={address}
                     />
+
+                    <ItemTextStoreInfo
+                        title={localize('Business Hour', language)}
+                        value={`${businessHourStart} - ${businessHourEnd}`}
+                    />
+
                     <ItemTextStoreInfo
                         title={localize('Federal Tax Id', language)}
                         value={taxId}
