@@ -6,6 +6,8 @@ import {
 import { WebView } from 'react-native-webview';
 
 import styles from './style';
+import apiConfigs from '@configs/api';
+
 
 const url = 'http://api.harmonypayment.com/calendar/index.html?token=';
 
@@ -25,7 +27,7 @@ class Layout extends React.Component {
             <View style={styles.container} >
                 <WebView
                     ref={this.webviewRef}
-                    source={{ uri: `${url}${token}&merchantid=${profile.merchantId}` }}
+                    source={{ uri: `${apiConfigs.CALENDAR_URL}?token=${token}&merchantid=${profile.merchantId}` }}
                     startInLoadingState={true}
                     shouldStartLoad={true}
                     onLoadStart={this.onLoadStartWebview}

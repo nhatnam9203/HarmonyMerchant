@@ -10,6 +10,7 @@ import {
     getArrayExtrasFromAppointment
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
+import apiConfigs from '@configs/api';
 
 const initState = {
     isShowColProduct: false,
@@ -648,7 +649,7 @@ class TabCheckout extends Layout {
 
     setupSignalR(profile, token, appointmentDetail) {
         const connection = new signalR.HubConnectionBuilder()
-            .withUrl(`https://api2.levincidemo.com/notification/?merchantId=${profile.merchantId}&Title=Merchant&type=appointment_pay`, { accessTokenFactory: () => token })
+            .withUrl(`${apiConfigs.BASE_URL}notification/?merchantId=${profile.merchantId}&Title=Merchant&type=appointment_pay`, { accessTokenFactory: () => token })
             .build();
         connection.start();
         this.props.actions.appointment.referenceConnectionSignalR(connection);
