@@ -16,7 +16,7 @@ class TabPromotion extends Layout {
   }
 
   applyPromorion = () => {
-    PosLink.setupPax('192.168.0.112', '10009', '60000', message => alert(message));
+    PosLink.setupPax('192.168.0.112', '10009', '9000', message => alert(message));
   }
 
   paymentCredit = () => {
@@ -32,17 +32,17 @@ class TabPromotion extends Layout {
       ],
       { cancelable: false },
     );
-    PosLink.sendTransaction('20',this.callback)
+    PosLink.sendTransaction('20', this.callback)
   }
 
   callback(message) {
     try {
       // const p = JSON.parse(message);
-      console.log('message : ',message);
+      console.log('message : ', message);
     } catch (error) {
-      console.log('error : ',error)
+      console.log('error : ', error)
     }
-   
+
   }
 
   callback1(message) {
