@@ -73,6 +73,10 @@ class HomeScreen extends Layout {
         })
     }
 
+    gotoTabAppointment =() =>{
+        this.scrollTabParentRef.current.goToPage(1);
+    }
+
     onPressHandlerChangeTab = (index) => {
         const { currentTab, checkVisibleConfirm } = this.state;
         if (currentTab === 2 && checkVisibleConfirm) {

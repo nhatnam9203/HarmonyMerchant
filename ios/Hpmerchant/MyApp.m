@@ -158,6 +158,16 @@ static int statusCode;
     [myapp.poslink cancelTrans];
 }
 
+- (NSString*) convertObjectToJson:(NSObject*) object
+{
+  NSError *writeError = nil;
+  
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:object options:NSJSONWritingPrettyPrinted error:&writeError];
+  NSString *result = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+  
+  return result;
+}
+
 
 
 //--------- Test Javascript ---------
@@ -170,16 +180,16 @@ RCT_EXPORT_METHOD(cancelTransaction){
 }
 
 
-RCT_EXPORT_METHOD(sendTransaction:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(sendTransaction:(NSString *)amount callback:(RCTResponseSenderBlock)callback)
 {
   MyApp *myapp = [MyApp sharedSigleton];
   PaymentRequest *paymentRequest = [[PaymentRequest alloc] init];
   myapp.poslink.paymentRequest = paymentRequest;
   
  paymentRequest.TenderType = [PaymentRequest ParseTenderType:@"CREDIT"];
-   paymentRequest.TransType = [PaymentRequest ParseTransType:@"SALE"];
+paymentRequest.TransType = [PaymentRequest ParseTransType:@"SALE"];
   
-  paymentRequest.Amount = @"200";
+  paymentRequest.Amount = amount;
   paymentRequest.CashBackAmt = @"";
   paymentRequest.ClerkID = @"";
    [self load];
@@ -216,7 +226,56 @@ RCT_EXPORT_METHOD(sendTransaction:(RCTResponseSenderBlock)callback)
     
     dispatch_async(dispatch_get_main_queue(), ^{
       if (ret.code == OK) {
+        
           signData = myapp.poslink.paymentResponse.signData;
+        
+//        ResultCode.text = self.myapp.poslink.paymentResponse.ResultCode;
+//        _ResultText.text = self.myapp.poslink.paymentResponse.ResultTxt;
+//        _RetAuthCode.text = self.myapp.poslink.paymentResponse.AuthCode;
+//        _ApprovedAmt.text = self.myapp.poslink.paymentResponse.ApprovedAmount;
+//        _AvsResponse.text = self.myapp.poslink.paymentResponse.AvsResponse;
+//        _BogusAccountNum.text = self.myapp.poslink.paymentResponse.BogusAccountNum;
+//        _CardType.text = self.myapp.poslink.paymentResponse.CardType;
+//        _CvResponse.text = self.myapp.poslink.paymentResponse.CvResponse;
+//        _HostCode.text = self.myapp.poslink.paymentResponse.HostCode;
+//        _HostResponse.text = self.myapp.poslink.paymentResponse.HostResponse;
+//        _Message.text = self.myapp.poslink.paymentResponse.Message;
+//        _RefNum.text = self.myapp.poslink.paymentResponse.RefNum;
+//        _RemainingBalance.text = self.myapp.poslink.paymentResponse.RemainingBalance;
+//        _ExtraBalance.text = self.myapp.poslink.paymentResponse.ExtraBalance;
+//        _RequestedAmt.text = self.myapp.poslink.paymentResponse.RequestedAmount;
+//        _Timestamp.text = self.myapp.poslink.paymentResponse.Timestamp;
+//        _ResInvNum.text = self.myapp.poslink.paymentResponse.InvNum;
+//        _RetExtData.text = self.myapp.poslink.paymentResponse.ExtData;
+        
+        NSLog(@"------- Phi ------");
+        NSDictionary *dict = @{@"ResultCode" : myapp.poslink.paymentResponse.ResultCode,
+                               @"ResultTxt" : myapp.poslink.paymentResponse.ResultTxt,
+                               @"AuthCode" : myapp.poslink.paymentResponse.AuthCode,
+                               @"ApprovedAmount" : myapp.poslink.paymentResponse.ApprovedAmount,
+                               @"AvsResponse" : myapp.poslink.paymentResponse.AvsResponse,
+                               @"BogusAccountNum" : myapp.poslink.paymentResponse.BogusAccountNum,
+                               @"CardType" : myapp.poslink.paymentResponse.CardType,
+                               @"CvResponse" : myapp.poslink.paymentResponse.CvResponse,
+                               @"HostCode" : myapp.poslink.paymentResponse.HostCode,
+                               @"HostResponse" : myapp.poslink.paymentResponse.HostResponse,
+                               @"Message" : myapp.poslink.paymentResponse.Message,
+                               @"RefNum" : myapp.poslink.paymentResponse.RefNum,
+                               @"RemainingBalance" : myapp.poslink.paymentResponse.RemainingBalance,
+                               @"ExtraBalance" : myapp.poslink.paymentResponse.ExtraBalance,
+//                               @"RequestedAmount" : myapp.poslink.paymentResponse.RequestedAmount,
+                               @"Timestamp" : myapp.poslink.paymentResponse.Timestamp,
+                               @"InvNum" : myapp.poslink.paymentResponse.InvNum,
+                               @"ExtData" : myapp.poslink.paymentResponse.ExtData
+       };
+        
+        NSError *writeError = nil;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&writeError];
+        NSString *result = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        
+//        NSLog(result);
+        
+        callback(@[result]);
         
         if (signData != nil) {
           NSString *str = [myapp.poslink.paymentResponse.Timestamp stringByAppendingFormat:@"_%@",myapp.poslink.paymentResponse.RefNum];
@@ -224,10 +283,6 @@ RCT_EXPORT_METHOD(sendTransaction:(RCTResponseSenderBlock)callback)
           [myapp.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
           
 //           NSString *messageTranSuccess = @"Transaction is success";
-          callback(@[myapp.poslink.paymentResponse]);
-        }else{
-//          NSString *messageFail = @"Transaction is fail";
-          callback(@[myapp.poslink.paymentResponse]);
         }
         
       }else if (ret.code == ERROR){

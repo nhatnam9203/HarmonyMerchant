@@ -53,6 +53,7 @@ export default class Layout extends React.Component {
                             visibleConfirm={visibleConfirm}
                             closePopupConfirm={() => this.setState({visibleConfirm:false})}
                             gotoPageCurent={this.gotoPageCurent}
+                            gotoTabAppointment={this.gotoTabAppointment}
                             checkVisibleConfirm={this.checkVisibleConfirm}
                             gotoAppoitmentScreen={this.gotoAppoitmentScreen}
                         />

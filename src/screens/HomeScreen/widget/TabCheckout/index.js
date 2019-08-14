@@ -680,7 +680,7 @@ class TabCheckout extends Layout {
         if (!_.isEmpty(connectionSignalR)) {
             connectionSignalR.stop();
         }
-        this.props.gotoPageCurent();
+        this.props.gotoTabAppointment();
         this.setState(initState);
         this.props.actions.appointment.resetBasketEmpty();
         this.props.actions.appointment.resetPayment();

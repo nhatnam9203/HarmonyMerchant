@@ -32,11 +32,17 @@ class TabPromotion extends Layout {
       ],
       { cancelable: false },
     );
-    PosLink.sendTransaction(this.callback)
+    PosLink.sendTransaction('20',this.callback)
   }
 
   callback(message) {
-    alert(message)
+    try {
+      // const p = JSON.parse(message);
+      console.log('message : ',message);
+    } catch (error) {
+      console.log('error : ',error)
+    }
+   
   }
 
   callback1(message) {
@@ -71,3 +77,5 @@ const mapStateToProps = state => ({
 
 
 export default connectRedux(mapStateToProps, TabPromotion);
+
+
