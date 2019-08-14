@@ -229,37 +229,36 @@ paymentRequest.TransType = [PaymentRequest ParseTransType:@"SALE"];
         
         signData = myapp.poslink.paymentResponse.signData;
         
-        NSDictionary *dataSuccess = @{@"status":@true,
-                                      @"ResultCode" : myapp.poslink.paymentResponse.ResultCode,
-                                      @"ResultTxt" : myapp.poslink.paymentResponse.ResultTxt,
-                                      @"AuthCode" : myapp.poslink.paymentResponse.AuthCode,
-                                      @"ApprovedAmount" : myapp.poslink.paymentResponse.ApprovedAmount,
-                                      @"AvsResponse" : myapp.poslink.paymentResponse.AvsResponse,
-                                      @"BogusAccountNum" : myapp.poslink.paymentResponse.BogusAccountNum,
-                                      @"CardType" : myapp.poslink.paymentResponse.CardType,
-                                      @"CvResponse" : myapp.poslink.paymentResponse.CvResponse,
-                                      @"HostCode" : myapp.poslink.paymentResponse.HostCode,
-                                      @"HostResponse" : myapp.poslink.paymentResponse.HostResponse,
-                                      @"Message" : myapp.poslink.paymentResponse.Message,
-                                      @"RefNum" : myapp.poslink.paymentResponse.RefNum,
-                                      @"RemainingBalance" : myapp.poslink.paymentResponse.RemainingBalance,
-                                      @"ExtraBalance" : myapp.poslink.paymentResponse.ExtraBalance,
-//                               @"RequestedAmount" : myapp.poslink.paymentResponse.RequestedAmount,
-                                      @"Timestamp" : myapp.poslink.paymentResponse.Timestamp,
-                                      @"InvNum" : myapp.poslink.paymentResponse.InvNum,
-                                      @"ExtData" : myapp.poslink.paymentResponse.ExtData
-       };
+        if (myapp.poslink.paymentResponse.Message && myapp.poslink.paymentResponse.HostResponse ) {
+          NSDictionary *dataSuccess = @{@"status":@true,
+                                        @"ResultCode" : myapp.poslink.paymentResponse.ResultCode,
+                                        @"ResultTxt" : myapp.poslink.paymentResponse.ResultTxt,
+                                        @"AuthCode" : myapp.poslink.paymentResponse.AuthCode,
+                                        @"ApprovedAmount" : myapp.poslink.paymentResponse.ApprovedAmount,
+                                        @"AvsResponse" : myapp.poslink.paymentResponse.AvsResponse,
+                                        @"BogusAccountNum" : myapp.poslink.paymentResponse.BogusAccountNum,
+                                        @"CardType" : myapp.poslink.paymentResponse.CardType,
+                                        @"CvResponse" : myapp.poslink.paymentResponse.CvResponse,
+                                        @"HostCode" : myapp.poslink.paymentResponse.HostCode,
+                                        @"HostResponse" : myapp.poslink.paymentResponse.HostResponse,
+                                        @"Message" : myapp.poslink.paymentResponse.Message,
+                                        @"RefNum" : myapp.poslink.paymentResponse.RefNum,
+                                        @"RemainingBalance" : myapp.poslink.paymentResponse.RemainingBalance,
+                                        @"ExtraBalance" : myapp.poslink.paymentResponse.ExtraBalance,
+                                        @"Timestamp" : myapp.poslink.paymentResponse.Timestamp,
+                                        @"InvNum" : myapp.poslink.paymentResponse.InvNum,
+                                        @"ExtData" : myapp.poslink.paymentResponse.ExtData,
+//                                        @"RequestedAmount" : myapp.poslink.paymentResponse.RequestedAmount,
+                                        };
+          NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
+          callback(@[result]);
+        }
         
-        
-        NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
-        callback(@[result]);
         
         if (signData != nil) {
           NSString *str = [myapp.poslink.paymentResponse.Timestamp stringByAppendingFormat:@"_%@",myapp.poslink.paymentResponse.RefNum];
           [myapp.poslink.paymentRequest saveSigData:signData fileName:str];
           [myapp.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
-          
-//           NSString *messageTranSuccess = @"Transaction is success";
         }
         
       }else if (ret.code == ERROR){
@@ -273,7 +272,7 @@ paymentRequest.TransType = [PaymentRequest ParseTransType:@"SALE"];
         NSDictionary *dataTimeout = @{@"status":@false,
                                     @"message":ret.msg
                                     };
-      NSString  *resultTimeout =  [self convertObjectToJson:dataTimeout ] ;
+      NSString  *resultTimeout  =  [self convertObjectToJson:dataTimeout ] ;
         callback(@[resultTimeout]);
        
       }
