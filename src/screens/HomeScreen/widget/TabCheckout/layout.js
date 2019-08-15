@@ -14,7 +14,7 @@ import styles from './style';
 import IMAGE from '@resources';
 import {
     ItemCategory, ColPlaceHolder, ItemBasket, ItemProductService, ItemAmount,
-    ItemExtra, PopupDiscount
+    ItemExtra, PopupDiscount,PopupProcessingCredit
 } from './widget';
 
 class Layout extends React.Component {
@@ -600,7 +600,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { visibleConfirm, checkVisibleConfirm } = this.props;
+        const { visibleConfirm, checkVisibleConfirm,language } = this.props;
         const { basket } = this.state;
         const temptVisibleConfirm = basket.length > 0 ? true : false;
         checkVisibleConfirm(temptVisibleConfirm);
@@ -625,6 +625,11 @@ class Layout extends React.Component {
                     onRequestClose={() => { }}
                     printBill={this.printBill}
                     donotPrintBill={this.donotPrintBill}
+                />
+                <PopupProcessingCredit 
+                     visible={this.state.visibleProcessingCredit}
+                     onRequestClose={this.cancelTransaction}
+                     language={language}
                 />
             </View>
         );

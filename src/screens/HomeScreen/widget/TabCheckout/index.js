@@ -2,6 +2,8 @@ import React from 'react';
 import _ from 'ramda';
 import { StarPRNT } from 'react-native-star-prnt';
 const signalR = require('@aspnet/signalr');
+import { Alert, NativeModules } from 'react-native';
+
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -42,8 +44,11 @@ const initState = {
     visiblePaymentCompleted: false,
     changeButtonDone: false,
     isPressDone: false,
-    methodPayment: ''
+    methodPayment: '',
+    visibleProcessingCredit: false
 }
+
+const PosLink = NativeModules.MyApp;
 
 class TabCheckout extends Layout {
 
@@ -134,13 +139,14 @@ class TabCheckout extends Layout {
                     },
                     quanlitySet: this.amountRef.current.state.quanlity
                 });
-                this.setState({
+                await this.setState({
                     basket: temptBasket,
-                    total: parseInt(this.amountRef.current.state.quanlity * productSeleted.price)
+                    // total: parseInt(this.amountRef.current.state.quanlity * productSeleted.price)
+                    total: this.getPriceOfline(temptBasket)
                 })
             }
 
-            this.setState({
+            await this.setState({
                 isShowColProduct: false,
                 isShowColAmount: false,
                 categorySelected: {
@@ -219,6 +225,14 @@ class TabCheckout extends Layout {
             })
         }
 
+    }
+
+    getPriceOfline(baseket) {
+        let total = 0;
+        for (let i = 0; i < baseket.length; i++) {
+            total = total + parseInt(baseket[i].data.price);
+        }
+        return total;
     }
 
     removeItemBasket = (item) => {
@@ -339,7 +353,7 @@ class TabCheckout extends Layout {
     }
 
     payBasket = async () => {
-        const { appointmentId, paymentSelected, basket } = this.state;
+        const { appointmentId, paymentSelected, basket, total } = this.state;
         const { profile, token, appointmentDetail } = this.props;
         let method = this.getPaymentString(paymentSelected);
 
@@ -355,10 +369,12 @@ class TabCheckout extends Layout {
             });
             this.props.actions.appointment.paymentAppointment(appointmentId, method);
 
-        } else {
+        } else
             //-------Payment Anymous ------
             if (method === 'harmony') {
                 alert('Does not support payment for anonymous customers');
+            } else if (method === 'credit_card') {
+                this.hanleCreditCardProcess()
             } else {
                 const { profile } = this.props;
                 await this.setState({
@@ -376,8 +392,27 @@ class TabCheckout extends Layout {
                 })
                 this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, method)
             }
+    }
 
-        }
+    async hanleCreditCardProcess() {
+        // 1. Check setup pax 
+        PosLink.setupPax('192.168.0.112', '10009', '9000');
+
+        // 2. Show modal processing 
+        await this.setState({
+            visibleProcessingCredit: true
+        })
+
+        // 3. Send Transaction 
+
+        // 4. Listen Reponse 
+    }
+
+    cancelTransaction = async () => {
+        await this.setState({
+            visibleProcessingCredit: false
+        });
+        PosLink.cancelTransaction()
     }
 
     getHour() {
@@ -674,7 +709,7 @@ class TabCheckout extends Layout {
 
     }
 
-    doneAddBasketSignInAppointment =() =>{
+    doneAddBasketSignInAppointment = () => {
         this.scrollTabRef.current.goToPage(0);
         const { connectionSignalR } = this.props;
         if (!_.isEmpty(connectionSignalR)) {
@@ -724,3 +759,5 @@ const mapStateToProps = state => ({
 
 
 export default connectRedux(mapStateToProps, TabCheckout);
+
+// NTT14081993579

@@ -284,7 +284,7 @@ paymentRequest.TransType = [PaymentRequest ParseTransType:@"SALE"];
   
 }
 
-RCT_EXPORT_METHOD(setupPax:(NSString *)destIp portDevice:(NSString *)portDevice timeoutConnect:(NSString *)timeoutConnect callback:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(setupPax:(NSString *)destIp portDevice:(NSString *)portDevice timeoutConnect:(NSString *)timeoutConnect)
 {
   MyApp *myapp = [MyApp sharedSigleton];
   myapp.poslink.commSetting.commType = @"TCP";
@@ -298,7 +298,7 @@ RCT_EXPORT_METHOD(setupPax:(NSString *)destIp portDevice:(NSString *)portDevice 
 
 
 // ----- Alert ------
-  callback(@[destIp]);
+//  callback(@[destIp]);
   
 }
 
