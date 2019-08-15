@@ -36,12 +36,12 @@ export default {
     plusAmount: require('./img/plusAmount.png'),
     productBasket: require('./img/productBasket.png'),
     removeItemBasket: require('./img/removeItemBasket.png'),
-    arrowRightButton:require('./img/arrowRightButton.png'),
-    back:require('./img/back.png'),
+    arrowRightButton: require('./img/arrowRightButton.png'),
+    back: require('./img/back.png'),
     basketInvoice: require('./img/basketInvoice.png'),
     radioExport: require('./img/radioExport.png'),
     radioExportSe: require('./img/radioExportSe.png'),
-    
+
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),
@@ -72,6 +72,9 @@ export default {
     Extra_in: require('./setting/Extra_in.png'),
     Categories: require('./setting/Categories.png'),
     Categories_in: require('./setting/Categories_in.png'),
+    Pax: require('./setting/pax.png'),
+    Barcode: require('./setting/barcode.png'),
+    Print: require('./setting/print.png'),
 
     // --- Place holder --
     extra_holder: require('./placeholder/extra_holder.png'),
