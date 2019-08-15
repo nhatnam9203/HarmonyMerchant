@@ -42,7 +42,6 @@ class TabPromotion extends Layout {
     } catch (error) {
       console.log('error : ', error)
     }
-
   }
 
   callback1(message) {

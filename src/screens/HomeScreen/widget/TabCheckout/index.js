@@ -395,8 +395,9 @@ class TabCheckout extends Layout {
     }
 
     async hanleCreditCardProcess() {
+        const { total } = this.state;
         // 1. Check setup pax 
-        PosLink.setupPax('192.168.0.112', '10009', '9000');
+        PosLink.setupPax('192.168.0.112', '10009', '20000');
 
         // 2. Show modal processing 
         await this.setState({
@@ -405,7 +406,31 @@ class TabCheckout extends Layout {
 
         // 3. Send Transaction 
 
-        // 4. Listen Reponse 
+        PosLink.sendTransaction(total, (message) => this.handleResponseCreditCard(message));
+
+    }
+
+    async handleResponseCreditCard(message) {
+        await this.setState({
+            visibleProcessingCredit: false
+        })
+        try {
+            const result = JSON.parse(message);
+            if (result.status == 0) {
+                setTimeout(() => {
+                    alert(result.message);
+                }, 200)
+
+            } else {
+                setTimeout(() => {
+                    alert('Payment success');
+                }, 200)
+
+            }
+            console.log('message : ', message);
+        } catch (error) {
+            console.log('error : ', error)
+        }
     }
 
     cancelTransaction = async () => {
