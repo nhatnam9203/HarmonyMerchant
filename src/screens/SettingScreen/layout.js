@@ -9,7 +9,7 @@ import { StatusBarHeader, Button, ParentContainer, Text, PopupLogout } from '@co
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { TabStaff, TabService, TabExtra, TabCategories, TabGaneral } from './widget';
+import { TabStaff, TabService, TabExtra, TabCategories, TabGaneral, TabHardware } from './widget';
 
 const MENU = ["General", "Staff", "Categories", "Services", "Extra", "Payment", "Hardware", "About", "Logout"];
 
@@ -74,7 +74,7 @@ export default class Layout extends React.Component {
                             <ScrollableTabView
                                 ref={this.scrollTabRef}
                                 style={{}}
-                                initialPage={0}
+                                initialPage={6}
                                 tabBarPosition="bottom"
                                 locked={true}
                                 springTension={1}
@@ -87,7 +87,7 @@ export default class Layout extends React.Component {
                                 <TabService />
                                 <TabExtra />
                                 <View style={{ flex: 1 }} />
-                                <View style={{ flex: 1, }} />
+                                <TabHardware />
                                 <View style={{ flex: 1, }} />
                             </ScrollableTabView>
                         </View>
