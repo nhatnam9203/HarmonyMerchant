@@ -43,7 +43,6 @@ const initState = {
     },
     visiblePaymentCompleted: false,
     changeButtonDone: false,
-    isPressDone: false,
     methodPayment: '',
     visibleProcessingCredit: false
 }
@@ -361,10 +360,11 @@ class TabCheckout extends Layout {
             // --------- Payment with appointment -----
             if (method === 'harmony') {
                 this.setupSignalR(profile, token, appointmentDetail);
+            }else if(method === 'credit_card'){
+                this.hanleCreditCardProcess();
             }
             await this.setState({
                 changeButtonDone: true,
-                isPressDone: false,
                 methodPayment: method
             });
             this.props.actions.appointment.paymentAppointment(appointmentId, method);
@@ -380,7 +380,6 @@ class TabCheckout extends Layout {
                 const { profile } = this.props;
                 await this.setState({
                     changeButtonDone: true,
-                    isPressDone: false,
                     methodPayment: method
                 });
                 const arrayProductBuy = basket.map((product) => {
@@ -425,7 +424,6 @@ class TabCheckout extends Layout {
             if (result.status == 0) {
                 await this.setState({
                     changeButtonDone: false,
-                    isPressDone: false,
                 });
                 setTimeout(() => {
                     alert(result.message);
@@ -447,7 +445,6 @@ class TabCheckout extends Layout {
         await this.setState({
             visibleProcessingCredit: false,
             changeButtonDone: false,
-            isPressDone: false,
         });
         PosLink.cancelTransaction()
     }

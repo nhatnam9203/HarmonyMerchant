@@ -362,7 +362,6 @@ class Layout extends React.Component {
 
     renderButtonChekout() {
         const { tabCurrent, basket, paymentSelected, changeButtonDone,
-            isPressDone
         } = this.state;
         const { language, isDonePayment } = this.props;
         if (tabCurrent === 1) {

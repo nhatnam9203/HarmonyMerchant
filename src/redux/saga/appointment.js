@@ -162,7 +162,7 @@ function* checkoutAppointment(action) {
 
 function* paymentAppointment(action) {
     try {
-        yield put({ type: 'LOADING_ROOT' });
+        action.paymentMethod != 'credit_card' ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
         // console.log('responses : ', responses);
         const { codeNumber } = responses;

@@ -64,6 +64,7 @@ export function paymentAppointment(appointmentId, method) {
         method: 'PUT',
         token: true,
         api: `${apiConfigs.BASE_API}appointment/pay/${appointmentId}`,
+        paymentMethod:method
     }
 }
 
