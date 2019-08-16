@@ -13,6 +13,10 @@ class TabHardware extends Layout {
         this.scrollTabHardwareRef = React.createRef();
     }
 
+    gotoListDevices = (type) => {
+        alert(type)
+    }
+
 
 
 }

@@ -12,6 +12,7 @@ import { ButtonCustom, Text, Dropdown } from '@components';
 import { scaleSzie, localize, WorkingTime, getNameLanguage } from '@utils';
 import IMAGE from '@resources';
 import styles from './style';
+import { HomeHardware, AddDeviceHardware } from './widget';
 
 class Layout extends React.Component {
 
@@ -21,72 +22,84 @@ class Layout extends React.Component {
                 <ScrollableTabView
                     ref={this.scrollTabHardwareRef}
                     style={{}}
-                    initialPage={0}
+                    initialPage={2}
                     locked={true}
                     renderTabBar={() => <View />}
                     onChangeTab={(index) => {
                         this.setState({ tabCurrent: index.i })
                     }}
                 >
-                    <View style={{ flex: 1 }} >
-
-                        <View style={{
-                            width: '100%', flexDirection: 'row', marginTop: scaleSzie(20), justifyContent: 'space-around',
-                            paddingHorizontal: scaleSzie(10)
+                    <HomeHardware
+                        gotoListDevices={this.gotoListDevices}
+                    />
+                    <AddDeviceHardware />
+                    <View style={{ flex: 1, paddingHorizontal: scaleSzie(14), paddingTop: scaleSzie(20) }} >
+                        <Text style={{
+                            fontSize: scaleSzie(16),
+                            fontWeight: '600',
+                            color: '#0764B0'
                         }} >
-                             {/* ------------- Box 1 ----------- */}
-                            <View style={styles.box} >
-                                <View style={styles.containerIconBox} >
-                                    <Image source={IMAGE.Barcode} style={{
-                                        width: scaleSzie(33),
-                                        height: scaleSzie(35)
-                                    }} />
-                                </View>
-                                <View style={styles.containerTextBox} >
-                                    <Text style={styles.textBox} >
-                                        Barcode scanner
-                                    </Text>
-                                    <Text style={[styles.textBox, { fontWeight: 'normal', fontSize: scaleSzie(11), marginTop: scaleSzie(10) }]} >
-                                        No device
-                                    </Text>
-                                </View>
+                            Payment Terminal
+                        </Text>
+                        <Text style={{
+                            fontSize: scaleSzie(16),
+                            fontWeight: '600',
+                            color: 'rgb(81,81,81)',
+                            marginTop: scaleSzie(26),
+                            marginBottom: scaleSzie(10)
+                        }} >
+                            Terminal configuration
+                        </Text>
+
+                        {/* ----------- Line ------------ */}
+                        <View style={{ height: scaleSzie(1), backgroundColor: 'rgb(227,227,227)', }} />
+
+                        {/* ------- Item ------ */}
+                        <View style={{ flexDirection: 'row', marginTop: scaleSzie(20), }} >
+                            <View style={{ marginRight: scaleSzie(60), justifyContent: 'center', }} >
+                                <Text style={{ fontSize: scaleSzie(14), color: 'rgb(42,42,42)' }} >
+                                    Name
+                                </Text>
                             </View>
-                            {/* ------------- Box 2 ----------- */}
-                            <View style={styles.box} >
-                                <View style={styles.containerIconBox} >
-                                    <Image source={IMAGE.Pax} style={{
-                                        width: scaleSzie(25),
-                                        height: scaleSzie(35)
-                                    }} />
-                                </View>
-                                <View style={styles.containerTextBox} >
-                                    <Text style={styles.textBox} >
-                                        Payment terminal
-                                    </Text>
-                                    <Text style={[styles.textBox, { fontWeight: 'normal', fontSize: scaleSzie(11), marginTop: scaleSzie(10) }]} >
-                                        No device
-                                    </Text>
-                                </View>
-                            </View>
-                             {/* ------------- Box 3 ----------- */}
-                            <View style={styles.box} >
-                                <View style={styles.containerIconBox} >
-                                    <Image source={IMAGE.Print} style={{
-                                        width: scaleSzie(28),
-                                        height: scaleSzie(35)
-                                    }} />
-                                </View>
-                                <View style={styles.containerTextBox} >
-                                    <Text style={styles.textBox} >
-                                        Receipt printer
-                                    </Text>
-                                    <Text style={[styles.textBox, { fontWeight: 'normal', fontSize: scaleSzie(11), marginTop: scaleSzie(10) }]} >
-                                        No device
-                                    </Text>
+                            <View style={{ flex: 1, }} >
+                                <View style={{
+                                    height: scaleSzie(35), width: '85%', borderColor: 'rgb(227,227,227)',
+                                    borderWidth: scaleSzie(1), paddingHorizontal: scaleSzie(10)
+                                }} >
+                                    <TextInput
+                                        style={{ flex: 1, fontSize: scaleSzie(14) }}
+                                        placeholder="Device name"
+                                    />
                                 </View>
                             </View>
                         </View>
 
+                        {/* ------- Footer -------- */}
+                        <View style={{ flex: 1, justifyContent: 'flex-end',paddingBottom:scaleSzie(30)}} >
+                            <View style={{ flexDirection: 'row',justifyContent:'center' }} >
+                                <ButtonCustom
+                                    width={scaleSzie(130)}
+                                    height={50}
+                                    backgroundColor="#F1F1F1"
+                                    title="CANCEL"
+                                    textColor="#6A6A6A"
+                                    onPress={this.searchService}
+                                    style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}
+                                    styleText={{ fontSize: scaleSzie(20), fontWeight: '500' }}
+                                />
+                                <View style={{width:scaleSzie(100)}} />
+                                <ButtonCustom
+                                    width={scaleSzie(130)}
+                                    height={50}
+                                    backgroundColor="#0764B0"
+                                    title="SAVE"
+                                    textColor="#fff"
+                                    onPress={this.searchService}
+                                    style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}
+                                    styleText={{ fontSize: scaleSzie(20), fontWeight: '500' }}
+                                />
+                            </View>
+                        </View>
                     </View>
 
                 </ScrollableTabView>
