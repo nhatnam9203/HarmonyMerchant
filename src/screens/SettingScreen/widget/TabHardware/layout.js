@@ -22,7 +22,7 @@ class Layout extends React.Component {
                 <ScrollableTabView
                     ref={this.scrollTabHardwareRef}
                     style={{}}
-                    initialPage={2}
+                    initialPage={0}
                     locked={true}
                     renderTabBar={() => <View />}
                     onChangeTab={(index) => {
@@ -32,8 +32,13 @@ class Layout extends React.Component {
                     <HomeHardware
                         gotoListDevices={this.gotoListDevices}
                     />
-                    <AddDeviceHardware />
-                    <SetupHardware />
+                    <AddDeviceHardware 
+                    gotoSetupDevice={this.gotoSetupDevice}
+                    backHomeHardware={this.backHomeHardware}
+                    />
+                    <SetupHardware 
+                    backListDevices={this.backListDevices}
+                    />
 
                 </ScrollableTabView>
             </View>

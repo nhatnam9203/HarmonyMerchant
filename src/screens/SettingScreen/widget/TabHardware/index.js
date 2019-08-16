@@ -14,9 +14,20 @@ class TabHardware extends Layout {
     }
 
     gotoListDevices = (type) => {
-        alert(type)
+        this.scrollTabHardwareRef.current.goToPage(1);
     }
 
+    backHomeHardware =() =>{
+        this.scrollTabHardwareRef.current.goToPage(0);
+    }
+
+    gotoSetupDevice =() =>{
+        this.scrollTabHardwareRef.current.goToPage(2);
+    }
+
+    backListDevices =() =>{
+        this.scrollTabHardwareRef.current.goToPage(1);
+    }
 
 
 }

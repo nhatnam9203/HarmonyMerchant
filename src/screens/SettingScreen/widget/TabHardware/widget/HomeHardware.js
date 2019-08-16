@@ -9,6 +9,7 @@ import {
 import { Button, Text } from '@components';
 import { scaleSzie, localize} from '@utils';
 import IMAGE from '@resources';
+import connectRedux from '@redux/ConnectRedux';
 
 class HomeHardware extends React.Component {
 
@@ -24,6 +25,8 @@ class HomeHardware extends React.Component {
     // -------- Render ------
 
     render() {
+        const {paxMachineInfo} = this.props;
+        const temptTitle = !paxMachineInfo.isSetup  ? 'No device' : paxMachineInfo.name;
         return (
             <View style={{ flex: 1 }} >
                 <View style={{
@@ -60,7 +63,7 @@ class HomeHardware extends React.Component {
                                 Payment terminal
                         </Text>
                             <Text style={[styles.textBox, { fontWeight: 'normal', fontSize: scaleSzie(11), marginTop: scaleSzie(10) }]} >
-                                No device
+                                {temptTitle}
                         </Text>
                         </View>
                     </Button>
@@ -124,7 +127,10 @@ const styles = StyleSheet.create({
     }
 })
 
+const mapStateToProps = state => ({
+    paxMachineInfo: state.dataLocal.paxMachineInfo,
+    language: state.dataLocal.language,
+})
 
-
-export default HomeHardware;
+export default connectRedux(mapStateToProps, HomeHardware);
 

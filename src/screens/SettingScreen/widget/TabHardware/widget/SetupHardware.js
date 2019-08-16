@@ -4,22 +4,57 @@ import {
     StyleSheet,
     Image,
     Platform,
-    TextInput
+    TextInput,
+    ScrollView
 } from 'react-native';
 
 import { ButtonCustom, Text } from '@components';
 import { scaleSzie, localize } from '@utils';
 import IMAGE from '@resources';
+import connectRedux from '@redux/ConnectRedux';
 
 class SetupHardware extends React.Component {
 
-    onPressBox = (type) => {
+    constructor(props) {
+        super(props);
+        const { paxMachineInfo } = this.props;
+        const { name, ip, port, timeout } = paxMachineInfo;
+        this.state = {
+            name,
+            ip,
+            port,
+            timeout
+        }
+    }
 
+    setupPax = () => {
+        const { name, ip, port, timeout } = this.state;
+        if (name == '' || ip == '' || port == '' || timeout == '') {
+            alert('Please enter full infomation !');
+        } else {
+            this.props.actions.dataLocal.setupPaxMachine({ name, ip, port, timeout ,isSetup: true});
+        };
+
+        this.props.backListDevices();
+    }
+
+    cancelSetupPax = async () => {
+        const { paxMachineInfo } = this.props;
+        const { name, ip, port, timeout } = paxMachineInfo;
+        await this.setState({
+            name,
+            ip,
+            port,
+            timeout,
+        });
+
+        this.props.backListDevices();
     }
 
     // -------- Render ------
 
     render() {
+        const { name, ip, port, timeout } = this.state;
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(14), paddingTop: scaleSzie(20) }} >
                 <Text style={{
@@ -41,31 +76,38 @@ class SetupHardware extends React.Component {
 
                 {/* ----------- Line ------------ */}
                 <View style={{ height: scaleSzie(1), backgroundColor: 'rgb(227,227,227)', }} />
+                <ScrollView  >
+                    <ItemSetup
+                        title={"Name"}
+                        placeholder={"Device name"}
+                        value={name}
+                        onChangeText={name => this.setState({ name })}
+                    />
 
-                {/* ------- Item ------ */}
-                <ItemSetup
-                    title={"Name"}
-                    placeholder={"Device name"}
-                />
+                    <ItemSetup
+                        title={"IP Address"}
+                        placeholder={"192.168.1.1"}
+                        value={ip}
+                        onChangeText={ip => this.setState({ ip })}
+                    />
 
-                <ItemSetup
-                    title={"IP Address"}
-                    placeholder={"192.168.1.1"}
-                />
+                    <ItemSetup
+                        title={"Port"}
+                        placeholder={"10009"}
+                        value={port}
+                        onChangeText={port => this.setState({ port })}
+                    />
 
-                <ItemSetup
-                    title={"Port"}
-                    placeholder={"10009"}
-                />
-
-                <ItemSetup
-                    title={"Timeout"}
-                    placeholder={"20000"}
-                />
-
-
+                    <ItemSetup
+                        title={"Timeout"}
+                        placeholder={"20000"}
+                        value={timeout}
+                        onChangeText={timeout => this.setState({ timeout })}
+                    />
+                    <View style={{ height: scaleSzie(300) }} />
+                </ScrollView>
                 {/* ------- Footer -------- */}
-                <View style={{ flex: 1, justifyContent: 'flex-end', paddingBottom: scaleSzie(30) }} >
+                <View style={{ position: 'absolute', bottom: 0, width: '100%', justifyContent: 'flex-end', paddingBottom: scaleSzie(30) }} >
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }} >
                         <ButtonCustom
                             width={scaleSzie(130)}
@@ -73,7 +115,7 @@ class SetupHardware extends React.Component {
                             backgroundColor="#F1F1F1"
                             title="CANCEL"
                             textColor="#6A6A6A"
-                            onPress={this.searchService}
+                            onPress={this.cancelSetupPax}
                             style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}
                             styleText={{ fontSize: scaleSzie(20), fontWeight: '500' }}
                         />
@@ -84,7 +126,7 @@ class SetupHardware extends React.Component {
                             backgroundColor="#0764B0"
                             title="SAVE"
                             textColor="#fff"
-                            onPress={this.searchService}
+                            onPress={this.setupPax}
                             style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}
                             styleText={{ fontSize: scaleSzie(20), fontWeight: '500' }}
                         />
@@ -98,7 +140,7 @@ class SetupHardware extends React.Component {
 }
 
 
-const ItemSetup = ({ title, placeholder }) => {
+const ItemSetup = ({ title, value, placeholder, onChangeText }) => {
     return (
         <View style={{ flexDirection: 'row', marginTop: scaleSzie(20), }} >
             <View style={{ width: scaleSzie(140), justifyContent: 'center', }} >
@@ -114,6 +156,8 @@ const ItemSetup = ({ title, placeholder }) => {
                     <TextInput
                         style={{ flex: 1, fontSize: scaleSzie(14) }}
                         placeholder={placeholder}
+                        value={value}
+                        onChangeText={(value) => onChangeText(value)}
                     />
                 </View>
             </View>
@@ -122,5 +166,10 @@ const ItemSetup = ({ title, placeholder }) => {
 }
 
 
-export default SetupHardware;
+const mapStateToProps = state => ({
+    paxMachineInfo: state.dataLocal.paxMachineInfo,
+    language: state.dataLocal.language,
+})
+
+export default connectRedux(mapStateToProps, SetupHardware);
 

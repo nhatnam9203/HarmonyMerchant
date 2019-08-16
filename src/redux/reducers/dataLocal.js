@@ -4,7 +4,15 @@ const initialState = {
     stateCity: [],
     language: 'en',
     autoCloseAt: '',
-    autoLockScreenAfter: '15:00 min'
+    autoLockScreenAfter: '15:00 min',
+    paxMachineInfo: {
+        name: '',
+        ip: '',
+        port: '',
+        timeout: '',
+        isSetup:false
+    }
+
 }
 
 function dataLocal(state = initialState, action) {
@@ -36,6 +44,11 @@ function dataLocal(state = initialState, action) {
             return {
                 ...state,
                 profile: { ...state.profile, needSetting: false }
+            }
+        case 'SETUP_PAX_MACHINE':
+            return {
+                ...state,
+                paxMachineInfo: action.payload
             }
         case 'LOGOUT_APP':
             return {
