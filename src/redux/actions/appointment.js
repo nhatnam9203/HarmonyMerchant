@@ -141,3 +141,18 @@ export function changeFlagSigninAppointment(flag = false) {
     }
 }
 
+
+export function submitPaymentWithCreditCard(merchantId, userId, responseData) {
+    return {
+        type: 'SUBMIT_PAYMENT_WITH_CREDIT_CARD',
+        body: {
+            MerchantId: merchantId,
+            UserId: userId,
+            Title: 'Pax',
+            ResponseData: responseData
+        },
+        method: 'POST',
+        token: true,
+        api: `${apiConfigs.BASE_API}paymentTransaction`,
+    }
+}

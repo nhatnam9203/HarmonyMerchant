@@ -281,6 +281,39 @@ function* checkoutSubmit(action) {
     }
 }
 
+function* submitPaymentWithCreditCard(action) {
+    try {
+        // yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log('checkoutSubmit : ', responses);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 export default function* saga() {
     yield all([
         takeLatest('GET_APPOINTMENT_BY_ID', getAppointmentById),
@@ -290,5 +323,6 @@ export default function* saga() {
         takeLatest('PAY_APPOINTMENT', paymentAppointment),
         takeLatest('CREATE_ANYMOUS_APPOINTMENT', createAnymousAppointment),
         takeLatest('CHECKOUT_SUBMIT', checkoutSubmit),
+        takeLatest('SUBMIT_PAYMENT_WITH_CREDIT_CARD', submitPaymentWithCreditCard),
     ])
 }

@@ -396,18 +396,23 @@ class TabCheckout extends Layout {
 
     async hanleCreditCardProcess() {
         const { total } = this.state;
-        // 1. Check setup pax 
-        PosLink.setupPax('192.168.0.112', '10009', '20000');
+        const { paxMachineInfo } = this.props;
+        const { ip, port, timeout, isSetup } = paxMachineInfo;
+        if (isSetup) {
+            // 1. Check setup pax 
+            PosLink.setupPax(ip, port, timeout);
 
-        // 2. Show modal processing 
-        await this.setState({
-            visibleProcessingCredit: true
-        })
+            // 2. Show modal processing 
+            await this.setState({
+                visibleProcessingCredit: true
+            })
 
-        // 3. Send Transaction 
+            // 3. Send Transaction 
 
-        PosLink.sendTransaction(total, (message) => this.handleResponseCreditCard(message));
-
+            PosLink.sendTransaction(total, (message) => this.handleResponseCreditCard(message));
+        } else {
+            alert('Please setup your pax machine in setting')
+        }
     }
 
     async handleResponseCreditCard(message) {
@@ -422,9 +427,9 @@ class TabCheckout extends Layout {
                 }, 200)
 
             } else {
-                setTimeout(() => {
-                    alert('Payment success');
-                }, 200)
+                const { profile } = this.props;
+                // ------ Payment with credit card success ----
+                this.props.actions.appointment.submitPaymentWithCreditCard(profile.merchantId, '13', result);
 
             }
             console.log('message : ', message);
@@ -778,7 +783,8 @@ const mapStateToProps = state => ({
     isDonePayment: state.appointment.isDonePayment,
     appointmentIdOffline: state.appointment.appointmentIdOffline,
     connectionSignalR: state.appointment.connectionSignalR,
-    flagSignInAppointment: state.appointment.flagSignInAppointment
+    flagSignInAppointment: state.appointment.flagSignInAppointment,
+    paxMachineInfo: state.dataLocal.paxMachineInfo,
 })
 
 
