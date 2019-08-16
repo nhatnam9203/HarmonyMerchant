@@ -200,7 +200,7 @@ function* paymentAppointment(action) {
 
 function* createAnymousAppointment(action) {
     try {
-        yield put({ type: 'LOADING_ROOT' });
+        action.paymentMethod != 'credit_card' ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
         // console.log('appointmentId : ', responses.data);
         const { codeNumber } = responses;
@@ -208,8 +208,8 @@ function* createAnymousAppointment(action) {
             // ------- Call checkout -----
             const appointmentId = responses.data;
             yield put({
-                type:'CHECK_OUT_APPOINTMENT_OFFLINE_SUCCESS',
-                payload:appointmentId
+                type: 'CHECK_OUT_APPOINTMENT_OFFLINE_SUCCESS',
+                payload: appointmentId
             });
             yield put({
                 type: 'CHECK_OUT_APPOINTMENT',

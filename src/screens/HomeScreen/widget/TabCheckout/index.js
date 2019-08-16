@@ -373,9 +373,10 @@ class TabCheckout extends Layout {
             //-------Payment Anymous ------
             if (method === 'harmony') {
                 alert('Does not support payment for anonymous customers');
-            } else if (method === 'credit_card') {
-                this.hanleCreditCardProcess()
             } else {
+                if (method === 'credit_card') {
+                    this.hanleCreditCardProcess();
+                }
                 const { profile } = this.props;
                 await this.setState({
                     changeButtonDone: true,
@@ -390,7 +391,7 @@ class TabCheckout extends Layout {
                         }
                     }
                 })
-                this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, method)
+                this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, method);
             }
     }
 
@@ -422,6 +423,10 @@ class TabCheckout extends Layout {
         try {
             const result = JSON.parse(message);
             if (result.status == 0) {
+                await this.setState({
+                    changeButtonDone: false,
+                    isPressDone: false,
+                });
                 setTimeout(() => {
                     alert(result.message);
                 }, 200)
@@ -429,7 +434,7 @@ class TabCheckout extends Layout {
             } else {
                 const { profile } = this.props;
                 // ------ Payment with credit card success ----
-                this.props.actions.appointment.submitPaymentWithCreditCard(profile.merchantId, '13', result);
+                this.props.actions.appointment.submitPaymentWithCreditCard(profile.merchantId, '0', message);
 
             }
             console.log('message : ', message);
@@ -440,7 +445,9 @@ class TabCheckout extends Layout {
 
     cancelTransaction = async () => {
         await this.setState({
-            visibleProcessingCredit: false
+            visibleProcessingCredit: false,
+            changeButtonDone: false,
+            isPressDone: false,
         });
         PosLink.cancelTransaction()
     }
