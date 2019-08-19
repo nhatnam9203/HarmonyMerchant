@@ -5,7 +5,7 @@ import { Alert, Platform } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateIsNumber, getIdStateByName } from '@utils';
+import { validateIsNumber, getIdStateByName, validYear } from '@utils';
 
 class PrincipalScreen extends Layout {
 
@@ -118,6 +118,9 @@ class PrincipalScreen extends Layout {
                     keyError = 'year';
                     break;
                 }
+            } else if (arrayKey[i] == 'yearAtThisAddress' && !validYear(principalInfo[arrayKey[i]])) {
+                keyError = 'yearInvalid';
+                break;
             }
 
             else {
@@ -151,6 +154,9 @@ class PrincipalScreen extends Layout {
                             keyError = 'driverLicenseInvalid';
                             break;
                         }
+                    }else if(this.state.fileId === -1){
+                        keyError="missAvatar";
+                        break;
                     }
                 }
             }
@@ -215,7 +221,7 @@ class PrincipalScreen extends Layout {
         this.props.actions.upload.uploadAvatar([value]);
     }
 
-   async componentDidUpdate(prevProps, prevState, snapshot) {
+    async componentDidUpdate(prevProps, prevState, snapshot) {
         const { isUpload, dataUpload } = this.props;
         const { isActiveScreen } = this.state;
         if (isUpload && isActiveScreen && isUpload !== prevProps.isUpload) {

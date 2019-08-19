@@ -286,7 +286,7 @@ export default class Layout extends React.Component {
                     {/* ------ Take Photo ---- */}
 
                     <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginTop: scaleSzie(10) }} >
-                        {localize('Please take or upload photos of Driver License', language)}
+                        {`${localize('Please take or upload photos of Driver License', language)} *`}
                     </Text>
 
                     <View style={{

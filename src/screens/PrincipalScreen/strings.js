@@ -22,7 +22,9 @@ const strings = {
     mobilePhoneNotNumber: 'Mobile Phone Invalid',
     yearAtThisAddressInvalid: 'Year At This Address Invalid',
     ssnInvalid: 'Social Security Number (SSN) Invalid',
-    driverLicenseInvalid: 'Driver License Invalid'
+    driverLicenseInvalid: 'Driver License Invalid',
+    yearInvalid: 'Year Invalid',
+    missAvatar: 'Please Upload Driver License'
 }
 
 export default strings;
