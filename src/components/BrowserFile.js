@@ -94,7 +94,7 @@ class BrowserFile extends React.PureComponent {
     }
 
     async  componentDidUpdate(prevProps, prevState, snapshot) {
-        const { loading, isUpload, dataUpload } = this.props;
+        const { loading, isUpload, dataUpload, isResetInfoAdmin } = this.props;
         const { isProcessingUpload } = this.state;
         if (!loading && isUpload && isProcessingUpload) {
             // console.log('fileId : ' + dataUpload.fileId);
@@ -105,6 +105,11 @@ class BrowserFile extends React.PureComponent {
                 fileId: temptDataUpload.fileId
             });
             this.props.updateFileId(temptDataUpload.fileId);
+        }
+        if (!loading && isResetInfoAdmin) {
+            await this.setState({
+                uriUpload: ''
+            })
         }
     }
 }
@@ -130,7 +135,8 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     loading: state.app.loading,
     isUpload: state.upload.isUpload,
-    dataUpload: state.upload.dataUpload
+    dataUpload: state.upload.dataUpload,
+    isResetInfoAdmin: state.staff.isResetInfoAdmin
 })
 
 

@@ -154,9 +154,6 @@ class PrincipalScreen extends Layout {
                             keyError = 'driverLicenseInvalid';
                             break;
                         }
-                    }else if(this.state.fileId === -1){
-                        keyError="missAvatar";
-                        break;
                     }
                 }
             }
