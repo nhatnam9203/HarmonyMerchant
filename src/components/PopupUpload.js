@@ -3,7 +3,8 @@ import {
     View,
     Image,
     Text,
-    StyleSheet
+    StyleSheet,
+    ActivityIndicator
 } from 'react-native';
 import * as Progress from 'react-native-progress';
 
@@ -17,12 +18,40 @@ class PopupUpload extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            progress: 0
+            progress: 0,
+            loadingUpload: false,
+            voidCheck: {
+                uri: '',
+                fileName: '',
+                type: ''
+            }
         }
     }
 
+    loadVoidCheckSuccess = async (value) => {
+        await this.setState({ progress: 100 });
+    }
+
+    setStateFromparent = async (value) => {
+        await this.setState({
+            voidCheck: value,
+            progress: 0,
+            loadingUpload: false
+        })
+    }
+
+    saveVoidCheck = async () => {
+        await this.setState({
+            loadingUpload: true
+        })
+        this.props.saveVoidCheck({ ...this.state.voidCheck });
+    }
+
     render() {
-        const { title, visible, onRequestClose, uri, save } = this.props;
+        const { title, visible, onRequestClose, save } = this.props;
+        const { progress, voidCheck, loadingUpload } = this.state;
+        const temtpColorBtnSave = progress == 100 ? '#4CD964' : '#F1F1F1';
+        const temtpColorTextSave = progress == 100 ? '#ffff' : '#C5C5C5';
         return (
             <PopupParent
                 title={title}
@@ -44,11 +73,9 @@ class PopupUpload extends React.Component {
                             borderWidth: 1, borderColor: '#C5C5C5'
                         }} >
                             <Image
-                                source={{ uri: uri }}
+                                source={{ uri: voidCheck.uri }}
                                 style={{ width: null, height: null, flex: 1 }}
-                                onLoadEnd={value => {
-                                    this.setState({ progress: 100 })
-                                }}
+                                onLoadEnd={this.loadVoidCheckSuccess}
                             />
                         </View>
                     </View>
@@ -77,27 +104,28 @@ class PopupUpload extends React.Component {
                             flex: 1, alignItems: 'center', justifyContent: 'flex-end',
                             paddingBottom: scaleSzie(10)
                         }} >
-                            <ButtonCustom
-                                width={scaleSzie(100)}
-                                height={35}
-                                backgroundColor="#F1F1F1"
-                                title="Save"
-                                textColor="#C5C5C5"
-                                onPress={() => {
-                                    save();
-                                    // this.setState({
-                                    //     progress:0
-                                    // })
-                                }}
-                                style={{
-                                    borderWidth: 1, borderColor: '#C5C5C5',
-                                    borderRadius: scaleSzie(4)
-                                }}
-                                styleText={{
-                                    fontSize: scaleSzie(14),
-                                    fontWeight: '500'
-                                }}
-                            />
+                            {
+                                loadingUpload ? <ActivityIndicator
+                                    color="#4CD964"
+                                    size="large"
+                                /> : <ButtonCustom
+                                        width={scaleSzie(100)}
+                                        height={35}
+                                        backgroundColor={temtpColorBtnSave}
+                                        title="Save"
+                                        textColor={temtpColorTextSave}
+                                        onPress={this.saveVoidCheck}
+                                        style={{
+                                            borderWidth: 1, borderColor: '#C5C5C5',
+                                            borderRadius: scaleSzie(4)
+                                        }}
+                                        styleText={{
+                                            fontSize: scaleSzie(14),
+                                            fontWeight: '500'
+                                        }}
+                                    />
+                            }
+
                         </View>
                     </View>
                 </View>
