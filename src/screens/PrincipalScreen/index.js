@@ -1,5 +1,6 @@
+import React from 'react';
 import ImagePicker from 'react-native-image-picker';
-import { Alert } from 'react-native';
+import { Alert, Platform } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -41,7 +42,8 @@ class PrincipalScreen extends Layout {
                 driverLicense: '',
                 stateIssued: ''
             },
-        }
+        };
+        this.uploadVoidCheckRef = React.createRef();
     }
 
     componentDidMount() {
@@ -175,18 +177,28 @@ class PrincipalScreen extends Layout {
         }
     }
 
+    handleVoidCheck = async (response) => {
+        let fileName = response.fileName;
+        if (fileName) {
+            if (Platform.OS === 'ios' && (fileName.endsWith('.heic') || fileName.endsWith('.HEIC'))) {
+                fileName = `${fileName.split(".")[0]}.JPG`;
+            }
+        }
+
+        this.uploadVoidCheckRef.current.setStateFromparent({
+            uri: response.uri,
+            fileName: fileName,
+            type: response.type
+        })
+        await this.setState({
+            visibleUpload: true
+        })
+    }
+
     takePhoto = () => {
         ImagePicker.launchCamera({}, (response) => {
             if (response.uri) {
-                this.setState({
-                    uriUpload: response.uri,
-                    fileUpload: {
-                        uri: response.uri,
-                        fileName: response.fileName,
-                        type: response.type
-                    },
-                    visibleUpload: true
-                })
+                this.handleVoidCheck(response);
             }
         });
     }
@@ -194,33 +206,26 @@ class PrincipalScreen extends Layout {
     openImageLibrary = () => {
         ImagePicker.launchImageLibrary({}, (response) => {
             if (response.uri) {
-                this.setState({
-                    uriUpload: response.uri,
-                    fileUpload: {
-                        uri: response.uri,
-                        fileName: response.fileName,
-                        type: response.type
-                    },
-                    visibleUpload: true
-                })
+                this.handleVoidCheck(response);
             }
         });
     }
 
-    saveFileUpload = () => {
-        const { fileUpload } = this.state;
-        this.props.actions.upload.uploadAvatar([fileUpload]);
+    saveVoidCheck = (value) => {
+        this.props.actions.upload.uploadAvatar([value]);
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        const { loading, isUpload, dataUpload } = this.props;
-        const { isActiveScreen, visibleUpload } = this.state;
-        if (!loading && isUpload && isActiveScreen && visibleUpload) {
-            this.setState({
+   async componentDidUpdate(prevProps, prevState, snapshot) {
+        const { isUpload, dataUpload } = this.props;
+        const { isActiveScreen } = this.state;
+        if (isUpload && isActiveScreen && isUpload !== prevProps.isUpload) {
+            await this.setState({
                 savaFileUpload: true,
                 visibleUpload: false,
+                uriUpload: dataUpload.url,
                 fileId: dataUpload.fileId
-            })
+            });
+            this.props.actions.upload.resetStateUpload();
         }
     }
 
