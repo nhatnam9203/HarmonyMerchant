@@ -28,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2347D06322FD305700AD2F09"
-               BuildableName = "Hpmerchant_Dev.app"
-               BlueprintName = "Hpmerchant_Dev"
+               BlueprintIdentifier = "37D3E717230A94A400F6A700"
+               BuildableName = "HpmerchantDev.app"
+               BlueprintName = "HpmerchantDev"
                ReferencedContainer = "container:Hpmerchant.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,9 +46,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2347D06322FD305700AD2F09"
-            BuildableName = "Hpmerchant_Dev.app"
-            BlueprintName = "Hpmerchant_Dev"
+            BlueprintIdentifier = "37D3E717230A94A400F6A700"
+            BuildableName = "HpmerchantDev.app"
+            BlueprintName = "HpmerchantDev"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -69,9 +69,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2347D06322FD305700AD2F09"
-            BuildableName = "Hpmerchant_Dev.app"
-            BlueprintName = "Hpmerchant_Dev"
+            BlueprintIdentifier = "37D3E717230A94A400F6A700"
+            BuildableName = "HpmerchantDev.app"
+            BlueprintName = "HpmerchantDev"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -84,16 +84,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2347D06322FD305700AD2F09"
-            BuildableName = "Hpmerchant_Dev.app"
-            BlueprintName = "Hpmerchant_Dev"
-            ReferencedContainer = "container:Hpmerchant.xcodeproj">
+            BlueprintIdentifier = "83CBBA2D1A601D0E00E9B192"
+            BuildableName = "libReact.a"
+            BlueprintName = "React"
+            ReferencedContainer = "container:../node_modules/react-native/React/React.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
