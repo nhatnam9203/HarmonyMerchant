@@ -35,17 +35,17 @@ class ParentContainer extends Component {
     }
 
     maybeStartWatchingForInactivity = () => {
+
         if (this.inactivityTimer) {
             return;
         }
 
         this.inactivityTimer = setInterval(() => {
-            if (
-                new Date() - this.lastInteraction >= this.getTimeOut(this.props.autoLockScreenAfter) 
-            ) {
+            if (this.props.activeScreen && new Date() - this.lastInteraction >= this.getTimeOut(this.props.autoLockScreenAfter)) {
                 this.setIsInactive();
             }
         }, INACTIVITY_CHECK_INTERVAL_MS);
+
     };
 
     getTimeOut(number) {
@@ -66,8 +66,8 @@ class ParentContainer extends Component {
             default:
                 timeout = 1 * 1000 * 60;
         }
-        // console.log('number : ',number);
-        // console.log('getTimeOut : ',timeout);
+        // console.log('number : ', this.props.activeScreen);
+        // console.log('getTimeOut : ', timeout);
         return timeout
     }
 
