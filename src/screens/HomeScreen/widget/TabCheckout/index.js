@@ -44,7 +44,8 @@ const initState = {
     visiblePaymentCompleted: false,
     changeButtonDone: false,
     methodPayment: '',
-    visibleProcessingCredit: false
+    visibleProcessingCredit: false,
+    visibleBillOfPayment: false
 }
 
 const PosLink = NativeModules.MyApp;
@@ -56,6 +57,7 @@ class TabCheckout extends Layout {
         this.state = initState;
         this.amountRef = React.createRef();
         this.scrollTabRef = React.createRef();
+        this.modalBillRef = React.createRef();
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -360,7 +362,7 @@ class TabCheckout extends Layout {
             // --------- Payment with appointment -----
             if (method === 'harmony') {
                 this.setupSignalR(profile, token, appointmentDetail);
-            }else if(method === 'credit_card'){
+            } else if (method === 'credit_card') {
                 this.hanleCreditCardProcess();
             }
             await this.setState({
@@ -759,6 +761,12 @@ class TabCheckout extends Layout {
 
     disconnectSignalR = () => {
 
+    }
+
+    showModalBill = async () => {
+       await this.setState({
+        visibleBillOfPayment: true
+       })
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

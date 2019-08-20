@@ -14,7 +14,7 @@ import styles from './style';
 import IMAGE from '@resources';
 import {
     ItemCategory, ColPlaceHolder, ItemBasket, ItemProductService, ItemAmount,
-    ItemExtra, PopupDiscount,PopupProcessingCredit
+    ItemExtra, PopupDiscount, PopupProcessingCredit,PopupBill
 } from './widget';
 
 class Layout extends React.Component {
@@ -445,7 +445,7 @@ class Layout extends React.Component {
                         backgroundColor="#0764B0"
                         title={localize('SELECT PAYMENT', language)}
                         textColor="#fff"
-                        onPress={this.selectPayment}
+                        onPress={() => { }}
                         style={{
                             borderWidth: 1, borderColor: '#C5C5C5',
                             flex: 1
@@ -460,7 +460,7 @@ class Layout extends React.Component {
                     backgroundColor="#F1F1F1"
                     title={localize('SELECT PAYMENT', language)}
                     textColor="#6A6A6A"
-                    onPress={() => { }}
+                    onPress={this.showModalBill}
                     style={{
                         borderWidth: 1, borderColor: '#C5C5C5',
                         flex: 1
@@ -599,7 +599,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { visibleConfirm, checkVisibleConfirm,language } = this.props;
+        const { visibleConfirm, checkVisibleConfirm, language } = this.props;
         const { basket } = this.state;
         const temptVisibleConfirm = basket.length > 0 ? true : false;
         checkVisibleConfirm(temptVisibleConfirm);
@@ -625,10 +625,18 @@ class Layout extends React.Component {
                     printBill={this.printBill}
                     donotPrintBill={this.donotPrintBill}
                 />
-                <PopupProcessingCredit 
-                     visible={this.state.visibleProcessingCredit}
-                     onRequestClose={this.cancelTransaction}
-                     language={language}
+                <PopupProcessingCredit
+                    visible={this.state.visibleProcessingCredit}
+                    onRequestClose={this.cancelTransaction}
+                    language={language}
+                />
+                <PopupBill
+                    ref={this.modalBillRef}
+                    title={'Bill of payment'}
+                    visible={this.state.visibleBillOfPayment}
+                    onRequestClose={() => this.setState({ visibleBillOfPayment: false })}
+                    language={language}
+                    // submitRestock={this.submitRestock}
                 />
             </View>
         );
