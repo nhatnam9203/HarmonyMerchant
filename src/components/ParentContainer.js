@@ -83,8 +83,6 @@ class ParentContainer extends Component {
         this.setState({ timeWentInactive: new Date() });
         clearInterval(this.inactivityTimer);
         this.inactivityTimer = null;
-        // alert('Inactive');
-        // this.props.actions.app.handleLockScreen(true);
         this.props.handleLockScreen();
     };
 

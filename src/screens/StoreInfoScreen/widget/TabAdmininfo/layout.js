@@ -24,7 +24,7 @@ class Layout extends React.Component {
             driverlicense, socialSecurityNumber, professionalLicense,
             isDisabled
         } = this.state.user;
-        const { street, city, state } = address;
+        const { street, city, state,zip } = address;
         const { nameRole } = roles;
         const { language, stateCity } = this.props;
         return (
@@ -85,6 +85,13 @@ class Layout extends React.Component {
                             />
                         </View>
                     </ItemAdminInfoDoubleItem>
+
+                    <ItemAdminInfoDoubleItem
+                        title={``}
+                        placeholder={localize('Zip', language)}
+                        value={zip}
+                        onChangeText={(value) => this.updateUserInfo('zip', value,'address')}
+                    />
 
                     <ItemAdminInfo
                         title={`${localize('Cell phone', language)} *`}

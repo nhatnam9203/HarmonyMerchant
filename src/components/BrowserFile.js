@@ -96,17 +96,15 @@ class BrowserFile extends React.PureComponent {
     async  componentDidUpdate(prevProps, prevState, snapshot) {
         const { loading, isUpload, dataUpload, isResetInfoAdmin } = this.props;
         const { isProcessingUpload } = this.state;
-        if (!loading && isUpload && isProcessingUpload) {
-            // console.log('fileId : ' + dataUpload.fileId);
-            const temptDataUpload = { ...dataUpload };
-            this.props.actions.upload.resetStateUpload();
+        if (!loading && isUpload && isUpload !== prevProps.isUpload && isProcessingUpload) {
             await this.setState({
                 isProcessingUpload: false,
-                fileId: temptDataUpload.fileId
             });
-            this.props.updateFileId(temptDataUpload.fileId);
+            this.props.updateFileId(dataUpload.fileId);
+            this.props.actions.upload.resetStateUpload();
+
         }
-        if (!loading && isResetInfoAdmin) {
+        if (isResetInfoAdmin && isResetInfoAdmin !== prevProps.isResetInfoAdmin) {
             await this.setState({
                 uriUpload: ''
             })

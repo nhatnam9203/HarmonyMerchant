@@ -14,7 +14,8 @@ const initState = {
         address: {
             street: '',
             city: '',
-            state: ''
+            state: '',
+            zip: ''
         },
         cellphone: '',
         email: '',
