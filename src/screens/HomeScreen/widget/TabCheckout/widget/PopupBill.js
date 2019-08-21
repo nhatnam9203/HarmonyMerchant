@@ -20,7 +20,7 @@ class PopupBill extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            quality: 0
+            quality: '0'
         }
     }
 
@@ -31,21 +31,34 @@ class PopupBill extends React.Component {
     }
 
     onPressNumber = (number) => {
+        console.log('---- p : ', this.state.quality);
         this.setState(prevState => ({
-            quality: prevState.quality == 0 ? `${number}` : `${prevState.quality}${number}`
+            quality: prevState.quality === '0' ? `${number}` : `${prevState.quality}${number}`
         }))
     }
 
-    convertNagativeNumber = () => {
-        this.setState({
-            quality: 0
-        })
+    addDotInNumber = () => {
+        if (!`${this.state.quality}`.includes('.')) {
+            this.setState(prevState => ({
+                quality: `${prevState.quality}.`
+            }))
+        }
     }
 
-    clearNumber = () => {
-        this.setState(prevState => ({
-            quality: `${prevState.quality}`.slice(0, (`${prevState.quality}`.length) - 1)
-        }))
+    clearNumber = async () => {
+        if (this.state.quality !== 0) {
+            if (this.state.quality.length == 1) {
+                await this.setState({
+                    quality: `${0}`
+                })
+            } else {
+                await this.setState(prevState => ({
+                    quality: `${prevState.quality}`.slice(0, (`${prevState.quality}`.length) - 1)
+                }))
+            }
+        }
+
+
     }
 
     submitStock = () => {
@@ -89,7 +102,7 @@ class PopupBill extends React.Component {
                             <View style={{
                                 width: scaleSzie(318), backgroundColor: '#FAFAFA', borderWidth: 3,
                                 borderColor: 'rgb(235,235,235)',
-                                justifyContent: 'center', paddingLeft: scaleSzie(20),borderRadius:4
+                                justifyContent: 'center', paddingLeft: scaleSzie(20), borderRadius: 4
                             }} >
                                 <Text style={{ fontSize: scaleSzie(60), color: '#8BC53F' }} >
                                     {`$ ${this.state.quality}`}
@@ -99,17 +112,19 @@ class PopupBill extends React.Component {
                                 <View style={{ height: '100%', width: 2, backgroundColor: '#D0D2D3' }} />
                             </View>
                             {/* ------ Box Right --- */}
-                            <View style={{ flex: 1, borderWidth: 3,borderColor: 'rgb(235,235,235)',borderRadius:4,
-                        backgroundColor:'rgb(243,243,243)',paddingHorizontal:scaleSzie(10),paddingTop:scaleSzie(14)
-                        }} >
-                            <Text style={{color:'rgb(29,110,178)',fontWeight:'600',fontSize:scaleSzie(20),
-                        marginBottom:scaleSzie(8)
-                        }} >
-                                Change
+                            <View style={{
+                                flex: 1, borderWidth: 3, borderColor: 'rgb(235,235,235)', borderRadius: 4,
+                                backgroundColor: 'rgb(243,243,243)', paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(14)
+                            }} >
+                                <Text style={{
+                                    color: 'rgb(29,110,178)', fontWeight: '600', fontSize: scaleSzie(20),
+                                    marginBottom: scaleSzie(8)
+                                }} >
+                                    Change
                             </Text>
-                            <Text style={{color:'rgb(65,65,65)',fontWeight:'600',fontSize:scaleSzie(18)}} >
-                                {`$ ${0}`}
-                            </Text>
+                                <Text style={{ color: 'rgb(65,65,65)', fontWeight: '600', fontSize: scaleSzie(18) }} >
+                                    {`$ ${0}`}
+                                </Text>
                             </View>
                         </View>
 
@@ -150,9 +165,9 @@ class PopupBill extends React.Component {
                                 </View>
                                 {/* ---- Row 4 ----- */}
                                 <View style={styles.rowKeyboard} >
-                                    <Button onPress={this.convertNagativeNumber} style={styles.keyContainer} >
+                                    <Button onPress={this.addDotInNumber} style={styles.keyContainer} >
                                         <Text style={{ fontSize: scaleSzie(26), color: '#404040', fontWeight: '500' }} >
-                                            {`AC`}
+                                            {`.`}
                                         </Text>
                                     </Button>
 

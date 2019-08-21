@@ -276,9 +276,9 @@ class TabCheckout extends Layout {
     }
 
     selectedPayment = (payment) => {
-        this.setState({
-            paymentSelected: payment
-        })
+        this.setState(prevState => ({
+            paymentSelected : payment === prevState.paymentSelected ? '' : payment
+        }))
     }
 
     showColAmount = (item) => {
