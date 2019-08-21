@@ -35,6 +35,7 @@ class Layout extends React.Component {
                     onLoadEnd={this.onLoadEndWebview}
                     injectedJavaScript={injectedJavascript}
                     onMessage={this.onMessageFromWebview}
+                    onShouldStartLoadWithRequest={() => true}
                 />
             </View>
         );

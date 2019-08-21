@@ -379,7 +379,6 @@ class TabCheckout extends Layout {
                 if (method === 'credit_card') {
                     this.hanleCreditCardProcess();
                 }
-                const { profile } = this.props;
                 await this.setState({
                     changeButtonDone: true,
                     methodPayment: method
@@ -413,6 +412,10 @@ class TabCheckout extends Layout {
 
             PosLink.sendTransaction(total, (message) => this.handleResponseCreditCard(message));
         } else {
+            await this.setState({
+                changeButtonDone: true,
+                isDonePayment: false
+            });
             alert('Please setup your pax machine in setting')
         }
     }
@@ -764,9 +767,9 @@ class TabCheckout extends Layout {
     }
 
     showModalBill = async () => {
-       await this.setState({
-        visibleBillOfPayment: true
-       })
+        await this.setState({
+            visibleBillOfPayment: true
+        })
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

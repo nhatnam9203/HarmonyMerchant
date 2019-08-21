@@ -14,7 +14,7 @@ import styles from './style';
 import IMAGE from '@resources';
 import {
     ItemCategory, ColPlaceHolder, ItemBasket, ItemProductService, ItemAmount,
-    ItemExtra, PopupDiscount, PopupProcessingCredit,PopupBill
+    ItemExtra, PopupDiscount, PopupProcessingCredit, PopupBill
 } from './widget';
 
 class Layout extends React.Component {
@@ -445,7 +445,7 @@ class Layout extends React.Component {
                         backgroundColor="#0764B0"
                         title={localize('SELECT PAYMENT', language)}
                         textColor="#fff"
-                        onPress={() => { }}
+                        onPress={this.selectPayment}
                         style={{
                             borderWidth: 1, borderColor: '#C5C5C5',
                             flex: 1
@@ -636,7 +636,7 @@ class Layout extends React.Component {
                     visible={this.state.visibleBillOfPayment}
                     onRequestClose={() => this.setState({ visibleBillOfPayment: false })}
                     language={language}
-                    // submitRestock={this.submitRestock}
+                // submitRestock={this.submitRestock}
                 />
             </View>
         );
