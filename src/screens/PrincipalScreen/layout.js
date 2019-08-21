@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { InputForm, FormInfoParent, Text, Dropdown, Button, PopupUpload } from '@components';
-import { scaleSzie, localize,getArrayNameStateCity } from '@utils';
+import { scaleSzie, localize, getArrayNameStateCity } from '@utils';
 import IMAGE from '@resources';
 
 let data = [{
@@ -31,7 +31,7 @@ export default class Layout extends React.Component {
             address, city, state, zip
         } = addressPrincipal;
         const { day, month, year } = dateOfBirth;
-        const { language,stateCity } = this.props;
+        const { language, stateCity } = this.props;
         return (
             <FormInfoParent
                 title={localize('Principal Information', language)}
@@ -286,7 +286,7 @@ export default class Layout extends React.Component {
                     {/* ------ Take Photo ---- */}
 
                     <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginTop: scaleSzie(10) }} >
-                        {localize('Please take or upload photos of Driver License', language)}
+                        {`${localize('Please take or upload photos of Driver License', language)} *`}
                     </Text>
 
                     <View style={{
@@ -294,70 +294,71 @@ export default class Layout extends React.Component {
                         padding: scaleSzie(10), marginTop: scaleSzie(18)
                     }} >
                         {
-                            this.state.savaFileUpload ?
+                            this.state.uriUpload ?
                                 <View style={{
-                                    width: scaleSzie(400), height: scaleSzie(200),
-                                    overflow: 'hidden'
+                                    width: scaleSzie(400), height: scaleSzie(300),
+                                    overflow: 'hidden', marginBottom: scaleSzie(10)
                                 }} >
                                     <Image
                                         source={{ uri: this.state.uriUpload }}
                                         style={{ width: null, height: null, flex: 1 }}
                                     />
-                                </View> :
-
-                                <View style={{
-                                    width: scaleSzie(400), height: scaleSzie(200),
-                                    borderWidth: 2, borderColor: '#C5C5C5', borderStyle: "dashed",
-                                    borderRadius: scaleSzie(14),
-                                    alignItems: 'center',
-                                    paddingTop: scaleSzie(5)
-
-                                }} >
-                                    <Button onPress={this.takePhoto} >
-                                        <Image
-                                            source={IMAGE.camera}
-                                        />
-                                    </Button>
-
-                                    <View style={{ flex: 1, justifyContent: 'space-around', alignItems: 'center' }} >
-                                        <Text style={{
-                                            color: '#C5C5C5', fontSize: scaleSzie(20), fontWeight: 'bold',
-                                        }} >
-                                            {localize('Take a Photo', language)}
-                                        </Text>
-
-                                        <Text style={{
-                                            color: '#C5C5C5', fontSize: scaleSzie(20),
-                                        }} >
-                                            {localize('Or', language)}
-                                        </Text>
-                                        <Button
-                                            onPress={this.openImageLibrary}
-                                            style={{
-                                                width: scaleSzie(180), height: scaleSzie(40), backgroundColor: '#F1F1F1',
-                                                borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 4, justifyContent: "center", alignItems: 'center'
-                                            }} >
-                                            <Text style={{
-                                                color: '#C5C5C5', fontSize: scaleSzie(20),
-                                            }} >
-                                                {localize('Browse File', language)}
-                                            </Text>
-                                        </Button>
-                                    </View>
-
-                                </View>
+                                </View> : <View />
                         }
+
+                        <View style={{
+                            width: scaleSzie(400), height: scaleSzie(200),
+                            borderWidth: 2, borderColor: '#C5C5C5', borderStyle: "dashed",
+                            borderRadius: scaleSzie(14),
+                            alignItems: 'center',
+                            paddingTop: scaleSzie(5)
+
+                        }} >
+                            <Button onPress={this.takePhoto} >
+                                <Image
+                                    source={IMAGE.camera}
+                                />
+                            </Button>
+
+                            <View style={{ flex: 1, justifyContent: 'space-around', alignItems: 'center' }} >
+                                <Text style={{
+                                    color: '#C5C5C5', fontSize: scaleSzie(20), fontWeight: 'bold',
+                                }} >
+                                    {localize('Take a Photo', language)}
+                                </Text>
+
+                                <Text style={{
+                                    color: '#C5C5C5', fontSize: scaleSzie(20),
+                                }} >
+                                    {localize('Or', language)}
+                                </Text>
+                                <Button
+                                    onPress={this.openImageLibrary}
+                                    style={{
+                                        width: scaleSzie(180), height: scaleSzie(40), backgroundColor: '#F1F1F1',
+                                        borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 4, justifyContent: "center", alignItems: 'center'
+                                    }} >
+                                    <Text style={{
+                                        color: '#C5C5C5', fontSize: scaleSzie(20),
+                                    }} >
+                                        {localize('Browse File', language)}
+                                    </Text>
+                                </Button>
+                            </View>
+
+                        </View>
                     </View>
 
                     {/* ---------------------- */}
                 </View>
                 <PopupUpload
+                    ref={this.uploadVoidCheckRef}
                     visible={this.state.visibleUpload}
                     title={localize('File Upload', language)}
                     message="Do you want to Archive this Category ?"
-                    onRequestClose={() => this.setState({ visibleUpload: false, uriUpload: '' })}
+                    onRequestClose={() => this.setState({ visibleUpload: false })}
                     uri={this.state.uriUpload}
-                    save={this.saveFileUpload}
+                    saveVoidCheck={this.saveVoidCheck}
                 />
             </FormInfoParent>
 

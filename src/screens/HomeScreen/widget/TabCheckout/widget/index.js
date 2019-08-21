@@ -6,6 +6,7 @@ import ItemAmount from './ItemAmount';
 import ItemExtra from './ItemExtra';
 import PopupDiscount from './PopupDiscount';
 import PopupProcessingCredit from './PopupProcessingCredit';
+import PopupBill from './PopupBill';
 
 module.exports = {
     ItemCategory,
@@ -15,5 +16,6 @@ module.exports = {
     ItemAmount,
     ItemExtra,
     PopupDiscount,
-    PopupProcessingCredit
+    PopupProcessingCredit,
+    PopupBill
 }

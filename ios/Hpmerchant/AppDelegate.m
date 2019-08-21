@@ -5,13 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 #import "AppDelegate.h"
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
+
 
 @implementation AppDelegate
 

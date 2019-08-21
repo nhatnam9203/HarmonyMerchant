@@ -65,7 +65,7 @@ export const requestAPI = async (action, headers = {}) => {
         const data = await response.json();
         return { ...data };
     } catch (error) {
-        throw(error);
+        throw (error);
     }
 
 }
@@ -117,9 +117,9 @@ createFormData = (media) => {
 
 export const getPosotion = (options = {}) => {
     return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, reject, options);
+        navigator.geolocation.getCurrentPosition(resolve, reject, options);
     });
-  };
+};
 
 export const isIphoneX = () => {
     const { height, width } = Dimensions.get('window');
@@ -128,8 +128,13 @@ export const isIphoneX = () => {
 }
 
 export const validateEmail = (email) => {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
+}
+
+export const validYear = (year) => {
+    let rex = /^[12][0-9]{3}$/;
+    return rex.test(year);
 }
 
 export const openBrowser = (urlSocial) => {
@@ -209,6 +214,9 @@ export const getIdStateByName = (stateCity = [], name = '') => {
             stateId = stateCity[i].stateId;
             break;
         }
+    }
+    if (stateId == '') {
+        return 0;
     }
     return stateId;
 }

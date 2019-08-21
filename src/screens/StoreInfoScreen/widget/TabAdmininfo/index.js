@@ -14,7 +14,8 @@ const initState = {
         address: {
             street: '',
             city: '',
-            state: ''
+            state: '',
+            zip: ''
         },
         cellphone: '',
         email: '',
@@ -199,7 +200,6 @@ class StoreInfoScreen extends Layout {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         const { loading, isResetInfoAdmin } = this.props;
-        const { isProcessingUpload } = this.state;
         if (!loading && isResetInfoAdmin) {
             this.setState(initState);
             this.props.actions.staff.resetFlagCreateAdmin();

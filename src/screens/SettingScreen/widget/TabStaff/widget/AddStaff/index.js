@@ -18,7 +18,8 @@ class AddStaff extends Layout {
                 address: {
                     street: '',
                     city: '',
-                    state: ''
+                    state: '',
+                    zip:''
                 },
                 cellphone: '',
                 email: '',
@@ -112,6 +113,7 @@ class AddStaff extends Layout {
                         street: infoStaffHandle.address,
                         city: infoStaffHandle.city,
                         state: getNameStateById(stateCity,infoStaffHandle.stateId) ,
+                        zip:infoStaffHandle.zip
                     },
                     cellphone: infoStaffHandle.phone,
                     email: infoStaffHandle.email,

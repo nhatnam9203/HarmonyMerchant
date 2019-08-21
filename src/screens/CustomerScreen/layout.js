@@ -135,10 +135,11 @@ export default class Layout extends React.Component {
 
     render() {
         const { language,stateCity } = this.props;
-        const { visibleAdd, visibleDetail,visibleEdit } = this.state;
+        const { visibleAdd, visibleDetail,visibleEdit,isFocus } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
+                activeScreen={isFocus}
             >
                 <View style={styles.container} >
                     <StatusBarHeader />

@@ -6,7 +6,7 @@ import { requestAPI, uploadFromData } from '../../utils';
 
 function* uploadAvatar(action) {
     try {
-        yield put({ type: 'LOADING_ROOT' });
+        // yield put({ type: 'LOADING_ROOT' });
         const responses = yield uploadFromData(action);
         // console.log('uploadAvatar : ', responses);
         const { codeNumber } = responses;
