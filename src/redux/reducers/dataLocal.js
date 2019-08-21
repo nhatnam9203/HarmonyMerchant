@@ -10,8 +10,9 @@ const initialState = {
         ip: '',
         port: '',
         timeout: '',
-        isSetup:false
-    }
+        isSetup: false
+    },
+    profileStaffLogin: {},
 
 }
 
@@ -43,7 +44,8 @@ function dataLocal(state = initialState, action) {
         case 'UPDATE_PROFILE_STAFF_SUCCESS':
             return {
                 ...state,
-                profile: { ...state.profile, needSetting: false }
+                profile: { ...state.profile, needSetting: false },
+                profileStaffLogin: action.payload
             }
         case 'SETUP_PAX_MACHINE':
             return {

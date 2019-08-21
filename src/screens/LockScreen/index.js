@@ -20,30 +20,12 @@ class LockScreen extends Layout {
         const password = this.passwordInputRef.current.state.value;
         const {profile}= this.props
         if (password.length === 4) {
-            // const pin = profile.pin ? profile.pin : '1234';
-            // if(password == pin){
-            //     //  this.props.actions.app.handleLockScreen(false);
-            //     //  NavigatorServices.navigate('Drawer');
-            // }else{
-            //     Alert.alert(`Pin not match !`);
-            // }
             this.props.actions.staff.loginStaff(profile.merchantCode,password);
         } else {
             Alert.alert(`Pin must 4 numeric`);
         }
     }
 
-    signIn = () => {
-        // email":"tu.tran@levincigroup.com", "Password":"123456"
-        const email = this.idInputRef.current.state.value;
-        const password = this.passwordInputRef.current.state.value;
-        if (email === '' || password === '') {
-            alert('Please enter full information !');
-        } else {
-            this.props.actions.auth.login(email, password);
-        }
-
-    }
 
     support = () => {
     }
@@ -66,7 +48,8 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     errorLogin: state.auth.errorLogin,
     visibleModalLock: state.app.visibleModalLock,
-    profile:state.dataLocal.profile
+    profile:state.dataLocal.profile,
+    loading: state.app.loading
 })
 
 

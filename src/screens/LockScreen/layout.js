@@ -3,7 +3,8 @@ import {
     View,
     Image,
     ImageBackground,
-    Modal
+    Modal,
+    ActivityIndicator
 } from 'react-native';
 
 import { Text, InputAuth, ButtonCustom, Button } from '@components';
@@ -53,13 +54,19 @@ export default class Layout extends React.Component {
                             </Text>
                         </Button>
                     </View>
-                    <ButtonCustom
+                    {
+                        this.props.loading ? <ActivityIndicator 
+                            size="large"
+                            color="#fff"
+                        /> :   <ButtonCustom
                         width={scaleSzie(400)}
                         backgroundColor="#4CD964"
                         title={localize('START', language)}
                         textColor="#fff"
                         onPress={this.submitPincode}
                     />
+                    } 
+                  
                     <Button onPress={this.support} style={{ marginTop: scaleSzie(18) }} >
                         <Text style={{
                             color: '#fff', fontSize: scaleSzie(16), fontWeight: 'bold',
