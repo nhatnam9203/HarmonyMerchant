@@ -1,33 +1,73 @@
-# More documentation about how to customize your build
-# can be found here:
-# https://docs.fastlane.tools
-fastlane_version "2.68.0"
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
 
-# This value helps us track success metrics for Fastfiles
-# we automatically generate. Feel free to remove this line
-# once you get things running smoothly!
-generated_fastfile_id "6c319ad5-b571-4559-a2f3-84ef728e06eb"
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
 
 default_platform :ios
 
-# Fastfile actions accept additional configuration, but
-# don't worry, fastlane will prompt you for required
-# info which you can add here later
-lane :beta do
-increment_build_number
-  # build your iOS app
-  gym(
-    # scheme: "YourScheme",
-    export_method: "ad-hoc",
-     scheme: "Hpmerchant",
-      workspace:"Hpmerchant.xcworkspace",
-    include_bitcode: true,
-  )
+platform :ios do
+  before_all do
+    # ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
+    cocoapods(use_bundle_exec: false)
+    # carthage
+  end
 
-  # upload to Beta by Crashlytics
-  crashlytics(
-    api_token: "0f0084a0d929105cf47a24b38dd81f81901f8898",
+  desc "Runs all the tests"
+  lane :test do
+    scan
+  end
+
+  desc "Submit a new Beta Build to Crashlytics"
+  desc "This will also make sure the profile is up to date"
+  lane :beta do
+    gym(
+     export_method: "ad-hoc",
+      scheme: "Hpmerchant",
+      workspace:"Hpmerchant.xcworkspace",
+      clean: false,
+      include_bitcode: true,
+      export_options: {
+        provisioningProfiles: { 
+          "com.app.hpmerchant" => "Hpmerchant"
+        }
+      }
+    )
+    crashlytics(
+      api_token: "0f0084a0d929105cf47a24b38dd81f81901f8898",
     build_secret: "a429bc1d026280dc76172be9fa9b8d4c7afbdf2b261dc836bc1e3b6f8b32c7c3",
-    crashlytics_path: "Pods/Crashlytics",
-  )
+      notifications: "true"
+    )
+  end
+
+  desc "Deploy a new version to the App Store"
+  lane :release do
+    # match(type: "appstore")
+    # snapshot
+    gym # Build your app - more options available
+    deliver(force: true)
+    # frameit
+  end
+
+  # You can define as many lanes as you want
+
+  after_all do |lane|
+    # This block is called, only if the executed lane was successful
+
+    # slack(
+    #   message: "Successfully deployed new App Update."
+    # )
+  end
+
+  error do |lane, exception|
+    # slack(
+    #   message: exception.message,
+    #   success: false
+    # )
+  end
 end

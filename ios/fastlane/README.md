@@ -15,11 +15,24 @@ Install _fastlane_ using
 or alternatively using `brew cask install fastlane`
 
 # Available Actions
-### beta
+## iOS
+### ios test
 ```
-fastlane beta
+fastlane ios test
 ```
+Runs all the tests
+### ios beta
+```
+fastlane ios beta
+```
+Submit a new Beta Build to Crashlytics
 
+This will also make sure the profile is up to date
+### ios release
+```
+fastlane ios release
+```
+Deploy a new version to the App Store
 
 ----
 
