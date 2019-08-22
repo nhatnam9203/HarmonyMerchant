@@ -355,13 +355,23 @@ class TabCheckout extends Layout {
 
     payBasket = async () => {
         const { appointmentId, paymentSelected, basket, total } = this.state;
-        const { profile, token, appointmentDetail } = this.props;
+        const { profile, token, appointmentDetail, paxMachineInfo } = this.props;
         let method = this.getPaymentString(paymentSelected);
 
         if (appointmentId !== -1) {
             // --------- Payment with appointment -----
             if (method === 'credit_card') {
-                this.hanleCreditCardProcess();
+                if (paxMachineInfo.isSetup) {
+                    this.hanleCreditCardProcess();
+                    await this.setState({
+                        changeButtonDone: true,
+                        methodPayment: method
+                    });
+                    this.props.actions.appointment.paymentAppointment(appointmentId, method);
+                } else {
+                    alert('Please setup your pax machine in setting');
+                }
+
             } else {
                 if (method === 'harmony') {
                     this.setupSignalR(profile, token, appointmentDetail);
@@ -372,18 +382,6 @@ class TabCheckout extends Layout {
                 });
                 this.props.actions.appointment.paymentAppointment(appointmentId, method);
             }
-
-            // if (method === 'harmony') {
-            //     this.setupSignalR(profile, token, appointmentDetail);
-            // } else if (method === 'credit_card') {
-            //     this.hanleCreditCardProcess();
-            // }
-            // await this.setState({
-            //     changeButtonDone: true,
-            //     methodPayment: method
-            // });
-            // this.props.actions.appointment.paymentAppointment(appointmentId, method);
-
         } else
             //-------Payment Anymous ------
             if (method === 'harmony') {
@@ -413,23 +411,19 @@ class TabCheckout extends Layout {
     async hanleCreditCardProcess() {
         const { total } = this.state;
         const { paxMachineInfo } = this.props;
-        const { ip, port, timeout, isSetup } = paxMachineInfo;
+        const { ip, port, timeout } = paxMachineInfo;
 
-        if (isSetup) {
-            // 1. Check setup pax 
-            PosLink.setupPax(ip, port, timeout);
+        // 1. Check setup pax 
+        PosLink.setupPax(ip, port, timeout);
 
-            // 2. Show modal processing 
-            await this.setState({
-                visibleProcessingCredit: true
-            })
+        // 2. Show modal processing 
+        await this.setState({
+            visibleProcessingCredit: true
+        })
 
-            // 3. Send Transaction 
+        // 3. Send Transaction 
 
-            PosLink.sendTransaction(total, (message) => this.handleResponseCreditCard(message));
-        } else {
-            alert('Please setup your pax machine in setting');
-        }
+        PosLink.sendTransaction(total, (message) => this.handleResponseCreditCard(message));
     }
 
     async handleResponseCreditCard(message) {
