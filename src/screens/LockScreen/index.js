@@ -27,7 +27,6 @@ class LockScreen extends Layout {
     }
 
     gotoDrawer() {
-        console.log('----- L ------');
         Promise.all([
             this.props.actions.category.getCategoriesByMerchantId(),
             this.props.actions.extra.getExtraByMerchant(),
@@ -35,8 +34,13 @@ class LockScreen extends Layout {
             this.props.actions.product.getProductsByMerchant(),
             this.props.actions.staff.getStaffByMerchantId()
         ]).then((data) => {
-            NavigatorServices.navigate('Drawer');
-            this.props.actions.app.handleLockScreen(false);
+            console.log('----- data : ',data)
+            if(data.length === 5){
+                this.props.actions.app.stopLoadingApp();
+                this.props.actions.app.handleLockScreen(false);
+                NavigatorServices.navigate('Drawer');
+            }
+           
         });
     }
 
