@@ -388,7 +388,25 @@ class TabCheckout extends Layout {
                 alert('Does not support payment for anonymous customers');
             } else {
                 if (method === 'credit_card') {
-                    this.hanleCreditCardProcess();
+                    if (paxMachineInfo.isSetup) {
+                        this.hanleCreditCardProcess();
+                        await this.setState({
+                            changeButtonDone: true,
+                            methodPayment: method
+                        });
+                        const arrayProductBuy = basket.map((product) => {
+                            if (product.type === 'Product') {
+                                return {
+                                    productId: product.data.productId,
+                                    quantity: product.quanlitySet
+                                }
+                            }
+                        })
+                        this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, method);
+                    } else {
+                        alert('Please setup your pax machine in setting');
+                    }
+
                 } else {
                     await this.setState({
                         changeButtonDone: true,
