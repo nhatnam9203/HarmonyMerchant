@@ -18,7 +18,7 @@ export default class Layout extends React.Component {
         const { errorLogin, language,visibleModalLock } = this.props;
         return (
             <Modal
-                animationType="slide"
+                animationType="fade"
                 transparent={false}
                 visible={visibleModalLock}
                 onRequestClose={() => { }}>

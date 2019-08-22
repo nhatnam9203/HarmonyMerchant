@@ -15,10 +15,10 @@ class TabAppointment extends Layout {
     }
 
     onLoadStartWebview = () => {
-        this.props.actions.app.loadingApp();
-        setTimeout(() => {
-            this.props.actions.app.stopLoadingApp();
-        }, 4000)
+        // this.props.actions.app.loadingApp();
+        // setTimeout(() => {
+        //     this.props.actions.app.stopLoadingApp();
+        // }, 4000)
 
     }
 

@@ -300,11 +300,6 @@ function* loginStaff(action) {
                 type: 'UPDATE_PROFILE_STAFF_SUCCESS',
                 payload: responses.data
             });
-            NavigationServices.navigate('Splash');
-            yield put({
-                type: 'HANDLE_LOCK_SCREEN',
-                payload: false
-            })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

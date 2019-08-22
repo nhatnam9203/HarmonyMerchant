@@ -26,7 +26,7 @@ class App extends React.Component {
         return (
             <Provider store={this.state.store}>
                 <PersistGate
-                    loading={<View />}
+                    loading={<View style={{flex:1,backgroundColor:'transparent'}} />}
                     persistor={this.state.persistor}>
                     <AppNavigators
                         ref={navigatorRef => {

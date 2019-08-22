@@ -13,6 +13,7 @@ const initialState = {
         isSetup: false
     },
     profileStaffLogin: {},
+    isLoginStaff: false
 
 }
 
@@ -45,7 +46,13 @@ function dataLocal(state = initialState, action) {
             return {
                 ...state,
                 profile: { ...state.profile, needSetting: false },
-                profileStaffLogin: action.payload
+                profileStaffLogin: action.payload,
+                isLoginStaff: true
+            }
+        case 'RESET_STATE_LOGIN_STAFF':
+            return {
+                ...state,
+                isLoginStaff: false
             }
         case 'SETUP_PAX_MACHINE':
             return {

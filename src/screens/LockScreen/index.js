@@ -18,17 +18,30 @@ class LockScreen extends Layout {
 
     submitPincode = () => {
         const password = this.passwordInputRef.current.state.value;
-        const {profile}= this.props
+        const { profile } = this.props
         if (password.length === 4) {
-            this.props.actions.staff.loginStaff(profile.merchantCode,password);
+            this.props.actions.staff.loginStaff(profile.merchantCode, password);
         } else {
             Alert.alert(`Pin must 4 numeric`);
         }
     }
 
-
-    support = () => {
+    gotoDrawer() {
+        console.log('----- L ------');
+        Promise.all([
+            this.props.actions.category.getCategoriesByMerchantId(),
+            this.props.actions.extra.getExtraByMerchant(),
+            this.props.actions.service.getServicesByMerchant(),
+            this.props.actions.product.getProductsByMerchant(),
+            this.props.actions.staff.getStaffByMerchantId()
+        ]).then((data) => {
+            NavigatorServices.navigate('Drawer');
+            this.props.actions.app.handleLockScreen(false);
+        });
     }
+
+
+    support = () => { }
 
     forgotPincode = () => {
         // this.props.navigation.navigate('ForgotPassword');
@@ -40,6 +53,15 @@ class LockScreen extends Layout {
         });
     }
 
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        const { loading, visibleModalLock, isLoginStaff } = this.props;
+        if (!loading && loading !== prevProps.loading && visibleModalLock && isLoginStaff) {
+            this.props.actions.dataLocal.resetStateLoginStaff();
+            this.gotoDrawer();
+        }
+
+    }
+
 
 
 }
@@ -48,10 +70,9 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     errorLogin: state.auth.errorLogin,
     visibleModalLock: state.app.visibleModalLock,
-    profile:state.dataLocal.profile,
-    loading: state.app.loading
-})
-
-
+    profile: state.dataLocal.profile,
+    loading: state.app.loading,
+    isLoginStaff: state.dataLocal.isLoginStaff
+});
 
 export default connectRedux(mapStateToProps, LockScreen);

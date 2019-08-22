@@ -5,7 +5,6 @@ import apiConfigs from '../../configs/api';
 import { requestAPI } from '../../utils';
 
 function* login(action) {
-    // console.log('action : ', action);
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);

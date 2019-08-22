@@ -37,3 +37,10 @@ export function setupPaxMachine(paxInfo) {
         payload: paxInfo
     }
 }
+
+export function resetStateLoginStaff(flag = false){
+    return{
+        type :'RESET_STATE_LOGIN_STAFF',
+        payload :flag
+    }
+}

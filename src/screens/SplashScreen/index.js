@@ -11,30 +11,30 @@ class SplashScreen extends Layout {
         }
     }
 
-     componentDidMount() {
-        const { profile, token } = this.props;
+    componentDidMount() {
+        const { profile, token, profileStaffLogin } = this.props;
         this.props.actions.app.getStateCity();
-        setTimeout(() => {
-            if (!token) {
-                this.props.navigation.navigate('Auth');
-            } else if (token && !profile.needSetting) {
-              Promise.all([
-                    this.props.actions.category.getCategoriesByMerchantId(),
-                    this.props.actions.extra.getExtraByMerchant(),
-                    this.props.actions.service.getServicesByMerchant(),
-                    this.props.actions.product.getProductsByMerchant(),
-                    this.props.actions.staff.getStaffByMerchantId()
-                ]).then((data) => {
-                    
-                    this.props.navigation.navigate('Drawer');
-                });
+        if (!token) {
+            this.props.navigation.navigate('Auth');
+        } else if (token && profile.needSetting) {
+            this.props.navigation.navigate('SetupStore');
+        } else {
+            this.props.actions.app.handleLockScreen(true);
+        }
 
-                
-            } else {
-                this.props.navigation.navigate('SetupStore');
-            }
-        }, 1000)
 
+        // else if (token && !profile.needSetting) {
+        //   Promise.all([
+        //         this.props.actions.category.getCategoriesByMerchantId(),
+        //         this.props.actions.extra.getExtraByMerchant(),
+        //         this.props.actions.service.getServicesByMerchant(),
+        //         this.props.actions.product.getProductsByMerchant(),
+        //         this.props.actions.staff.getStaffByMerchantId()
+        //     ]).then((data) => {
+
+        //         this.props.navigation.navigate('Drawer');
+        //     });
+        // } 
     }
 
 
@@ -42,7 +42,8 @@ class SplashScreen extends Layout {
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
-    token: state.dataLocal.token
+    token: state.dataLocal.token,
+    profileStaffLogin: state.dataLocal.profileStaffLogin
 })
 
 
