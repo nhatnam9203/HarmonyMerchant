@@ -277,7 +277,7 @@ class TabCheckout extends Layout {
 
     selectedPayment = (payment) => {
         this.setState(prevState => ({
-            paymentSelected : payment === prevState.paymentSelected ? '' : payment
+            paymentSelected: payment === prevState.paymentSelected ? '' : payment
         }))
     }
 
@@ -360,16 +360,29 @@ class TabCheckout extends Layout {
 
         if (appointmentId !== -1) {
             // --------- Payment with appointment -----
-            if (method === 'harmony') {
-                this.setupSignalR(profile, token, appointmentDetail);
-            } else if (method === 'credit_card') {
+            if (method === 'credit_card') {
                 this.hanleCreditCardProcess();
+            } else {
+                if (method === 'harmony') {
+                    this.setupSignalR(profile, token, appointmentDetail);
+                }
+                await this.setState({
+                    changeButtonDone: true,
+                    methodPayment: method
+                });
+                this.props.actions.appointment.paymentAppointment(appointmentId, method);
             }
-            await this.setState({
-                changeButtonDone: true,
-                methodPayment: method
-            });
-            this.props.actions.appointment.paymentAppointment(appointmentId, method);
+
+            // if (method === 'harmony') {
+            //     this.setupSignalR(profile, token, appointmentDetail);
+            // } else if (method === 'credit_card') {
+            //     this.hanleCreditCardProcess();
+            // }
+            // await this.setState({
+            //     changeButtonDone: true,
+            //     methodPayment: method
+            // });
+            // this.props.actions.appointment.paymentAppointment(appointmentId, method);
 
         } else
             //-------Payment Anymous ------
@@ -378,20 +391,22 @@ class TabCheckout extends Layout {
             } else {
                 if (method === 'credit_card') {
                     this.hanleCreditCardProcess();
-                }
-                await this.setState({
-                    changeButtonDone: true,
-                    methodPayment: method
-                });
-                const arrayProductBuy = basket.map((product) => {
-                    if (product.type === 'Product') {
-                        return {
-                            productId: product.data.productId,
-                            quantity: product.quanlitySet
+                } else {
+                    await this.setState({
+                        changeButtonDone: true,
+                        methodPayment: method
+                    });
+                    const arrayProductBuy = basket.map((product) => {
+                        if (product.type === 'Product') {
+                            return {
+                                productId: product.data.productId,
+                                quantity: product.quanlitySet
+                            }
                         }
-                    }
-                })
-                this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, method);
+                    })
+                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, method);
+                }
+
             }
     }
 
@@ -399,6 +414,7 @@ class TabCheckout extends Layout {
         const { total } = this.state;
         const { paxMachineInfo } = this.props;
         const { ip, port, timeout, isSetup } = paxMachineInfo;
+
         if (isSetup) {
             // 1. Check setup pax 
             PosLink.setupPax(ip, port, timeout);
@@ -412,11 +428,7 @@ class TabCheckout extends Layout {
 
             PosLink.sendTransaction(total, (message) => this.handleResponseCreditCard(message));
         } else {
-            await this.setState({
-                changeButtonDone: true,
-                isDonePayment: false
-            });
-            alert('Please setup your pax machine in setting')
+            alert('Please setup your pax machine in setting');
         }
     }
 
