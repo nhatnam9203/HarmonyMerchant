@@ -6,17 +6,19 @@ import _ from 'ramda';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 
+const initialState = {
+    isFocus: true,
+    currentTab: 0,
+    visibleConfirm: false,
+    temptCurrentTap: -1,
+    checkVisibleConfirm: false
+}
+
 class HomeScreen extends Layout {
 
     constructor(props) {
         super(props);
-        this.state = {
-            isFocus: true,
-            currentTab: 0,
-            visibleConfirm: false,
-            temptCurrentTap: -1,
-            checkVisibleConfirm: false
-        }
+        this.state = initialState;
         this.scrollTabParentRef = React.createRef();
         this.checkoutRef = React.createRef();
         this.watchVisibleConfrim = new Subject();
@@ -73,7 +75,7 @@ class HomeScreen extends Layout {
         })
     }
 
-    gotoTabAppointment =() =>{
+    gotoTabAppointment = () => {
         this.scrollTabParentRef.current.goToPage(1);
     }
 
@@ -112,6 +114,7 @@ class HomeScreen extends Layout {
         this.props.actions.app.handleLockScreen(true);
     }
 
+
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();
@@ -126,6 +129,8 @@ const mapStateToProps = state => ({
     token: state.dataLocal.token,
     appointmentIdOffline: state.appointment.appointmentIdOffline,
     appointmentDetail: state.appointment.appointmentDetail,
+    visibleModalLock: state.app.visibleModalLock,
+    loading: state.app.loading,
 })
 
 

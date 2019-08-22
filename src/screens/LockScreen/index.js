@@ -34,13 +34,13 @@ class LockScreen extends Layout {
             this.props.actions.product.getProductsByMerchant(),
             this.props.actions.staff.getStaffByMerchantId()
         ]).then((data) => {
-            console.log('----- data : ',data)
-            if(data.length === 5){
+            // console.log('----- data : ', data)
+            if (data.length === 5) {
                 this.props.actions.app.stopLoadingApp();
                 this.props.actions.app.handleLockScreen(false);
                 NavigatorServices.navigate('Drawer');
             }
-           
+
         });
     }
 
@@ -63,10 +63,7 @@ class LockScreen extends Layout {
             this.props.actions.dataLocal.resetStateLoginStaff();
             this.gotoDrawer();
         }
-
     }
-
-
 
 }
 

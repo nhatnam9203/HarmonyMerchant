@@ -1,4 +1,4 @@
-import { NavigationActions } from "react-navigation";
+import { NavigationActions ,StackActions} from "react-navigation";
 import type { NavigationParams, NavigationRoute } from "react-navigation";
 
 let _container; // eslint-disable-line
@@ -9,14 +9,11 @@ function setContainer(container: Object) {
 
 function reset(routeName: string, params?: NavigationParams) {
   _container.dispatch(
-    NavigationActions.reset({
+    StackActions.reset({
       index: 0,
+      key: null,
       actions: [
-        NavigationActions.navigate({
-          type: "Navigation/NAVIGATE",
-          routeName,
-          params
-        })
+        NavigationActions.navigate({routeName})
       ]
     })
   );
@@ -50,6 +47,10 @@ function navigateDeep(
   );
 }
 
+function popToTop() {
+  _container.dispatch(StackActions.popToTop());
+}
+
 function back() {
   _container.dispatch(NavigationActions.back());
 }
@@ -68,5 +69,6 @@ export default {
   navigate,
   reset,
   getCurrentRoute,
-  back
+  back,
+  popToTop
 };
