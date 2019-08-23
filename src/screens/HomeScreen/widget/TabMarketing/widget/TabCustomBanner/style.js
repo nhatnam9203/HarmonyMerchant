@@ -13,8 +13,8 @@ export default StyleSheet.create({
         flex: 1,
     },
     header:{
-        height:scaleSzie(60),
-        flexDirection:'row'
+        height:scaleSzie(50),
+        flexDirection:'row',
     },
     content:{ 
         flex: 1 ,

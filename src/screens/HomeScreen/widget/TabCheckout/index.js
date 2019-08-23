@@ -802,9 +802,9 @@ class TabCheckout extends Layout {
     }
 
     showModalBill = async () => {
-        await this.setState({
-            visibleBillOfPayment: true
-        })
+        // await this.setState({
+        //     visibleBillOfPayment: true
+        // })
     }
 
     extractBill = () => {

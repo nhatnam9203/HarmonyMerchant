@@ -4,18 +4,21 @@ import {
     Image,
     ScrollView,
     FlatList,
+    TextInput,
+    Platform
 } from 'react-native';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { scaleSzie ,localize} from '@utils';
+import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { Text, Button, ButtonCustom ,PopupConfirm} from '@components';
-import {ItemBanner} from './widget';
+import { Text, Button, ButtonCustom, PopupConfirm } from '@components';
+import { ItemBanner } from './widget';
 
 class Layout extends React.Component {
 
     renderHeader() {
-        const {language} = this.props;
+        const { language } = this.props;
         return (
             <View style={styles.header} >
                 <View style={{
@@ -23,7 +26,7 @@ class Layout extends React.Component {
                     paddingLeft: scaleSzie(15), paddingBottom: scaleSzie(10)
                 }} >
                     <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
-                        {localize('Media List',language)}
+                        {localize('Media List', language)}
                     </Text>
                 </View>
                 <View style={{
@@ -31,34 +34,34 @@ class Layout extends React.Component {
                     paddingBottom: scaleSzie(10), justifyContent: 'flex-end'
                 }} >
                     <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
-                        {localize('Create new media',language)}
-                        </Text>
+                        {localize('Create new media', language)}
+                    </Text>
                 </View>
             </View>
         );
     }
 
     renderLeftContent() {
-        const {listBanners} = this.props;
+        const { listBanners } = this.props;
         return (
             <View style={styles.leftContent} >
-                <FlatList 
-                data={listBanners}
-                renderItem={({item,index}) => <ItemBanner 
-                banner={item}
-                deleteBanner={this.deleteBanner}
-                />}
-                keyExtractor={(item,index) => `${index}`}
-                showsVerticalScrollIndicator={false}
+                <FlatList
+                    data={listBanners}
+                    renderItem={({ item, index }) => <ItemBanner
+                        banner={item}
+                        deleteBanner={this.deleteBanner}
+                    />}
+                    keyExtractor={(item, index) => `${index}`}
+                    showsVerticalScrollIndicator={false}
                 />
             </View>
         );
     }
 
-    renderRightContent() {
-        const {language} = this.props;
+    renderUploadBannerLocal() {
+        const { language } = this.props;
         return (
-            <View style={styles.rightContent} >
+            <View style={{ flex: 1 }} >
                 <View style={{ flex: 1, paddingTop: scaleSzie(40) }} >
                     <View style={{
                         width: scaleSzie(300), height: scaleSzie(240),
@@ -79,20 +82,20 @@ class Layout extends React.Component {
                             <Text style={{
                                 color: '#C5C5C5', fontSize: scaleSzie(20), fontWeight: 'bold',
                             }} >
-                                {localize('Take a Photo',language)}
+                                {localize('Take a Photo', language)}
                             </Text>
                             <Text style={{
                                 color: '#C5C5C5', fontSize: scaleSzie(20),
                                 marginVertical: scaleSzie(15)
                             }} >
-                                
-                                {localize('Or',language)}
+
+                                {localize('Or', language)}
                             </Text>
                             <ButtonCustom
                                 width={scaleSzie(140)}
                                 height={40}
                                 backgroundColor="#F1F1F1"
-                                title={localize('Browse File',language)}
+                                title={localize('Browse File', language)}
                                 textColor="#C5C5C5"
                                 onPress={this.openImageLibrary}
                                 style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
@@ -106,7 +109,7 @@ class Layout extends React.Component {
                         width={scaleSzie(290)}
                         height={60}
                         backgroundColor="#0764B0"
-                        title={localize('NEXT',language)}
+                        title={localize('NEXT', language)}
                         textColor="#fff"
                         onPress={() => { }}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
@@ -117,8 +120,104 @@ class Layout extends React.Component {
         );
     }
 
+    renderUploadServer() {
+        const { language } = this.props;
+        return (
+            <View style={{ flex: 1 }} >
+                <View style={{ flex: 1 }} >
+                    <View style={{
+                        height: scaleSzie(140), width: scaleSzie(220), backgroundColor: 'red',
+                        marginLeft: scaleSzie(40), marginTop: scaleSzie(12)
+                    }} >
+
+                    </View>
+                    {/* ------- title ----- */}
+                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(20), paddingRight: scaleSzie(20) }} >
+                        <View style={{ width: scaleSzie(100), justifyContent: 'center' }} >
+                            <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
+                                Title:
+                    </Text>
+                        </View>
+
+                        <View style={{
+                            flex: 1, height: scaleSzie(40), borderColor: '#58595B', borderWidth: 2,
+                            borderRadius: 4, paddingHorizontal: scaleSzie(10)
+                        }} >
+                            <TextInput
+                                style={{ flex: 1, fontSize: scaleSzie(16) }}
+                            />
+                        </View>
+                    </View>
+                    {/* ------- Description ----- */}
+                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(20), paddingRight: scaleSzie(20) }} >
+                        <View style={{ width: scaleSzie(100), paddingTop:scaleSzie(14) }} >
+                            <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
+                                Description:
+                    </Text>
+                        </View>
+
+                        <View style={{
+                            flex: 1, height: scaleSzie(90), borderColor: '#58595B', borderWidth: 2,
+                            borderRadius: 4, paddingHorizontal: scaleSzie(10),paddingVertical:scaleSzie(10)
+                        }} >
+                            <TextInput
+                                style={{
+                                    flex: 1,
+                                    fontSize: scaleSzie(16),
+                                    ...Platform.select({
+                                        android: {
+                                            textAlignVertical: "top"
+                                        }
+                                    })
+                                }}
+                                multiline={true}
+                                underlineColorAndroid='transparent'
+                            />
+                        </View>
+                    </View>
+                </View >
+                {/* ----------- Button  ------ */}
+                <View style={{ height: scaleSzie(70), }} >
+                    <ButtonCustom
+                        width={scaleSzie(290)}
+                        height={60}
+                        backgroundColor="#0764B0"
+                        title={localize('NEXT', language)}
+                        textColor="#fff"
+                        onPress={() => { }}
+                        style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                        styleText={{ fontSize: scaleSzie(24), fontWeight: 'bold' }}
+                    />
+                </View>
+            </View>
+
+        );
+    }
+
+    renderRightContent() {
+        const { language } = this.props;
+        return (
+            <View style={styles.rightContent} >
+                <ScrollableTabView
+                    ref={this.scrollTabRef}
+                    style={{}}
+                    initialPage={1}
+                    // locked={true}
+                    renderTabBar={() => <View />}
+                    onChangeTab={(index) => {
+                        this.setState({ tabCurrent: index.i })
+                    }}
+                >
+                    {this.renderUploadBannerLocal()}
+                    {this.renderUploadServer()}
+                </ScrollableTabView>
+
+            </View>
+        );
+    }
+
     render() {
-        const {visibleDeleteBanner} = this.state;
+        const { visibleDeleteBanner } = this.state;
         return (
             <View style={styles.container} >
                 {this.renderHeader()}
@@ -130,7 +229,7 @@ class Layout extends React.Component {
                     visible={visibleDeleteBanner}
                     title="Confirmation"
                     message="Do you want to Delete this Banner ?"
-                    onRequestClose={() => this.setState({visibleDeleteBanner:false})}
+                    onRequestClose={() => this.setState({ visibleDeleteBanner: false })}
                     confimYes={this.submitDeleteBanner}
                 />
             </View>

@@ -13,9 +13,12 @@ import { Button, Text } from '@components';
 const ItemBanner = ({ banner,deleteBanner }) => {
     const { createdDate, description, imageUrl, title,merchantBannerId } = banner;
     return (
-        <View style={{ height: scaleSzie(100), paddingLeft: scaleSzie(15), marginBottom: scaleSzie(10) }} >
+        <View style={{ height: scaleSzie(100), paddingLeft: scaleSzie(15), marginBottom: scaleSzie(10),
+        }} >
             <View style={{
-                width: scaleSzie(350), backgroundColor: '#F1F1F1', height: scaleSzie(100),
+                width: scaleSzie(360),
+                 backgroundColor: '#F1F1F1',
+                  height: scaleSzie(100),
                 flexDirection: 'row'
             }} >
                 <View style={{
