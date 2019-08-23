@@ -28,7 +28,7 @@ class TabAppointment extends Layout {
 
     onMessageFromWebview = (event) => {
         const data = JSON.parse(event.nativeEvent.data);
-        console.log('data : ', JSON.stringify(data));
+        // console.log('data : ', JSON.stringify(data));
         if (validateIsNumber(data) && data < -150) {
             this.onLoadStartWebview();
         } else {
@@ -53,8 +53,8 @@ class TabAppointment extends Layout {
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     profile: state.dataLocal.profile,
-    token: state.dataLocal.token
-
+    token: state.dataLocal.token,
+    profileStaffLogin: state.dataLocal.profileStaffLogin
 })
 
 

@@ -737,9 +737,10 @@ class TabCheckout extends Layout {
         } else if (methodPayment === 'harmony') {
             this.props.actions.appointment.showModalPrintReceipt();
         } else if (methodPayment === 'credit_card') {
+            this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
             this.props.actions.appointment.showModalPrintReceipt();
         } else {
-            // this.openCashDrawer();
+            this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
             this.props.actions.appointment.showModalPrintReceipt();
         }
     }

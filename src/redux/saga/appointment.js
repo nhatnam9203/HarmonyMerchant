@@ -162,7 +162,11 @@ function* checkoutAppointment(action) {
 
 function* paymentAppointment(action) {
     try {
-        action.paymentMethod != 'credit_card' ? yield put({ type: 'LOADING_ROOT' }) : '';
+        let isShowLoading  = `${action.paymentMethod}` !== 'credit_card'  ? true : false;
+        isShowLoading = `${action.paymentMethod}` !== 'cash'  ? true : false;
+        if (isShowLoading) {
+            yield put({ type: 'LOADING_ROOT' });
+        } 
         const responses = yield requestAPI(action);
         // console.log('responses : ', responses);
         const { codeNumber } = responses;
@@ -200,7 +204,11 @@ function* paymentAppointment(action) {
 
 function* createAnymousAppointment(action) {
     try {
-        action.paymentMethod != 'credit_card' ? yield put({ type: 'LOADING_ROOT' }) : '';
+        let isShowLoading  = `${action.paymentMethod}` !== 'credit_card'  ? true : false;
+        isShowLoading = `${action.paymentMethod}` !== 'cash'  ? true : false;
+        if (isShowLoading) {
+            yield put({ type: 'LOADING_ROOT' });
+        } 
         const responses = yield requestAPI(action);
         // console.log('appointmentId : ', responses.data);
         const { codeNumber } = responses;
