@@ -9,13 +9,15 @@ class TabCustomBanner extends Layout {
 
     constructor(props) {
         super(props);
-        this.state ={
-            uriUpload:''
+        this.state = {
+            uriUpload: '',
+            visibleDeleteBanner: false,
+            merchantBannerIdDelete: -1
         }
     }
 
-    componentDidMount(){
-        const {profile} = this.props;
+    componentDidMount() {
+        const { profile } = this.props;
         this.props.actions.marketing.getBannerMerchant(profile.merchantId);
     }
 
@@ -37,6 +39,22 @@ class TabCustomBanner extends Layout {
                 })
             }
         });
+    }
+
+    deleteBanner = async (merchantBannerId) => {
+        await this.setState({
+            visibleDeleteBanner: true,
+            merchantBannerIdDelete: merchantBannerId
+        })
+    }
+
+    submitDeleteBanner = async () => {
+        const { profile } = this.props;
+        const { merchantBannerIdDelete } = this.state;
+        await this.setState({
+            visibleDeleteBanner:false
+        })
+        this.props.actions.marketing.deleteBannerMerchant(merchantBannerIdDelete, profile.merchantId);
     }
 
 

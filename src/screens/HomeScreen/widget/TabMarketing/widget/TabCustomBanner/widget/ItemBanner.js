@@ -4,13 +4,14 @@ import {
     Image,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import moment from 'moment';
 
 import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 import { Button, Text } from '@components';
 
-const ItemBanner = ({ banner }) => {
-    const { createdDate, description, imageUrl, title } = banner;
+const ItemBanner = ({ banner,deleteBanner }) => {
+    const { createdDate, description, imageUrl, title,merchantBannerId } = banner;
     return (
         <View style={{ height: scaleSzie(100), paddingLeft: scaleSzie(15), marginBottom: scaleSzie(10) }} >
             <View style={{
@@ -29,10 +30,6 @@ const ItemBanner = ({ banner }) => {
                 </View>
                 <View style={{ justifyContent: 'center' }} >
                     <View style={{ width: scaleSzie(130), height: scaleSzie(85) }} >
-                        {/* <Image source={{ uri: 'https://www.superdrug.com/medias/custom-content/microsites/2015/event01/nails/images/landing/newdesign/nail-makeup-main-banner-mob.jpg' }}
-                            style={{ width: null, height: null, flex: 1 }}
-                            resizeMode="stretch"
-                        /> */}
                           <FastImage
                         style={{ width: scaleSzie(130), height: scaleSzie(85) }} 
                         source={{
@@ -47,13 +44,13 @@ const ItemBanner = ({ banner }) => {
                         {title}
                     </Text>
                     <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginVertical: scaleSzie(2) }} >
-                        Date: 07/08/2019
-                                </Text>
+                        {`Date: ${moment(createdDate).format('DD/MM/YYYY')}`}
+                    </Text>
                     <Text style={{ color: '#404040', fontSize: scaleSzie(12) }} numberOfLines={2} >
                         {description}
                     </Text>
                 </View>
-                <Button onPress={() => { }} style={{
+                <Button onPress={() => deleteBanner(merchantBannerId)} style={{
                     width: scaleSzie(28), height: scaleSzie(28), backgroundColor: '#fff',
                     position: 'absolute', top: 2, right: 2, justifyContent: 'center', alignItems: 'center'
                 }} >

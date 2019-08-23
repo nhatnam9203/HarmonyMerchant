@@ -9,7 +9,7 @@ import {
 import { scaleSzie ,localize} from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { Text, Button, ButtonCustom } from '@components';
+import { Text, Button, ButtonCustom ,PopupConfirm} from '@components';
 import {ItemBanner} from './widget';
 
 class Layout extends React.Component {
@@ -46,6 +46,7 @@ class Layout extends React.Component {
                 data={listBanners}
                 renderItem={({item,index}) => <ItemBanner 
                 banner={item}
+                deleteBanner={this.deleteBanner}
                 />}
                 keyExtractor={(item,index) => `${index}`}
                 showsVerticalScrollIndicator={false}
@@ -117,6 +118,7 @@ class Layout extends React.Component {
     }
 
     render() {
+        const {visibleDeleteBanner} = this.state;
         return (
             <View style={styles.container} >
                 {this.renderHeader()}
@@ -124,6 +126,13 @@ class Layout extends React.Component {
                     {this.renderLeftContent()}
                     {this.renderRightContent()}
                 </View>
+                <PopupConfirm
+                    visible={visibleDeleteBanner}
+                    title="Confirmation"
+                    message="Do you want to Delete this Banner ?"
+                    onRequestClose={() => this.setState({visibleDeleteBanner:false})}
+                    confimYes={this.submitDeleteBanner}
+                />
             </View>
         );
     }
