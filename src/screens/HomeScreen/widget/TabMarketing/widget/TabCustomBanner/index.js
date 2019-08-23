@@ -1,4 +1,8 @@
+import React from 'react';
 import ImagePicker from 'react-native-image-picker';
+import {
+    Platform
+} from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -12,8 +16,16 @@ class TabCustomBanner extends Layout {
         this.state = {
             uriUpload: '',
             visibleDeleteBanner: false,
-            merchantBannerIdDelete: -1
+            merchantBannerIdDelete: -1,
+            bannerUpload: {
+                uri: '',
+                fileName: '',
+                type: ''
+            },
+            titleBanner: '',
+            descriptionBanner: ''
         }
+        this.scrollTabRef = React.createRef();
     }
 
     componentDidMount() {
@@ -21,12 +33,30 @@ class TabCustomBanner extends Layout {
         this.props.actions.marketing.getBannerMerchant(profile.merchantId);
     }
 
+    handleUploadBannerLocal = async (response) => {
+        let fileName = response.fileName;
+        if (fileName) {
+            if (Platform.OS === 'ios' && (fileName.endsWith('.heic') || fileName.endsWith('.HEIC'))) {
+                fileName = `${fileName.split(".")[0]}.JPG`;
+            }
+        }
+
+        const bannerUpload = {
+            uri: response.uri,
+            fileName: fileName,
+            type: response.type
+        }
+
+        await this.setState({
+            bannerUpload
+        });
+
+    }
+
     takePhoto = () => {
         ImagePicker.launchCamera({}, (response) => {
             if (response.uri) {
-                this.setState({
-                    uriUpload: response.uri,
-                })
+                this.handleUploadBannerLocal(response);
             }
         });
     }
@@ -34,9 +64,7 @@ class TabCustomBanner extends Layout {
     openImageLibrary = () => {
         ImagePicker.launchImageLibrary({}, (response) => {
             if (response.uri) {
-                this.setState({
-                    uriUpload: response.uri,
-                })
+                this.handleUploadBannerLocal(response);
             }
         });
     }
@@ -52,9 +80,41 @@ class TabCustomBanner extends Layout {
         const { profile } = this.props;
         const { merchantBannerIdDelete } = this.state;
         await this.setState({
-            visibleDeleteBanner:false
+            visibleDeleteBanner: false
         })
         this.props.actions.marketing.deleteBannerMerchant(merchantBannerIdDelete, profile.merchantId);
+    }
+
+    cancelUploadBannerLocal = async () => {
+        await this.setState({
+            bannerUpload: {
+                uri: '',
+                fileName: '',
+                type: ''
+            }
+        })
+    }
+
+    gotoPageUploadToServer = () => {
+        const { bannerUpload } = this.state;
+        if (bannerUpload.uri) {
+            this.scrollTabRef.current.goToPage(1);
+        } else {
+            alert('Please upload a photo')
+        }
+    }
+
+    uploadBannerToServer = () => {
+        const { profile } = this.props;
+        const { titleBanner, descriptionBanner, bannerUpload } = this.state;
+        if (titleBanner && descriptionBanner) {
+            this.props.actions.upload.uploadBanner([bannerUpload], {
+                title: titleBanner,
+                description: descriptionBanner
+            },profile.merchantId)
+        } else {
+            alert('Please enter full infomation')
+        }
     }
 
 

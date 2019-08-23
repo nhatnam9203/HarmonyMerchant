@@ -14,3 +14,14 @@ export function resetStateUpload(){
         type:'RESET_STATE_UPLOAD'
     }
 }
+
+export function uploadBanner(files,infoBanner,merchantId) {
+    return {
+        type: 'UPLOAD_BANNER',
+        method: 'POST',
+        media: files,
+        api: `${apiConfigs.BASE_API}file?category=avatar`,
+        infoBanner,
+        merchantId
+    }
+}
