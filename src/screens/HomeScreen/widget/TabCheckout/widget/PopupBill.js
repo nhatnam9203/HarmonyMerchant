@@ -31,7 +31,7 @@ class PopupBill extends React.Component {
     }
 
     onPressNumber = (number) => {
-        console.log('---- p : ', this.state.quality);
+        // console.log('---- p : ', this.state.quality);
         this.setState(prevState => ({
             quality: prevState.quality === '0' ? `${number}` : `${prevState.quality}${number}`
         }))
@@ -67,7 +67,7 @@ class PopupBill extends React.Component {
 
 
     extract = () => {
-
+        this.props.extractBill();
     }
 
     cancel = () => {
@@ -100,30 +100,16 @@ class PopupBill extends React.Component {
                         <View style={{ flexDirection: 'row', height: scaleSzie(85), marginTop: scaleSzie(14) }} >
                             {/* ------ Box Left --- */}
                             <View style={{
-                                width: scaleSzie(318), backgroundColor: '#FAFAFA', borderWidth: 3,
-                                borderColor: 'rgb(235,235,235)',
-                                justifyContent: 'center', paddingLeft: scaleSzie(20), borderRadius: 4
+                               flex:1, backgroundColor: '#FAFAFA', borderWidth: 3,
+                                borderColor: '#6A6A6A',
+                                justifyContent:'space-between', paddingHorizontal: scaleSzie(8), borderRadius: 4,
+                                flexDirection:'row',alignItems:'center'
                             }} >
                                 <Text style={{ fontSize: scaleSzie(60), color: '#8BC53F' }} >
-                                    {`$ ${this.state.quality}`}
+                                    {`$`}
                                 </Text>
-                            </View>
-                            <View style={{ width: scaleSzie(18), alignItems: 'center' }} >
-                                <View style={{ height: '100%', width: 2, backgroundColor: '#D0D2D3' }} />
-                            </View>
-                            {/* ------ Box Right --- */}
-                            <View style={{
-                                flex: 1, borderWidth: 3, borderColor: 'rgb(235,235,235)', borderRadius: 4,
-                                backgroundColor: 'rgb(243,243,243)', paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(14)
-                            }} >
-                                <Text style={{
-                                    color: 'rgb(29,110,178)', fontWeight: '600', fontSize: scaleSzie(20),
-                                    marginBottom: scaleSzie(8)
-                                }} >
-                                    Change
-                            </Text>
-                                <Text style={{ color: 'rgb(65,65,65)', fontWeight: '600', fontSize: scaleSzie(18) }} >
-                                    {`$ ${0}`}
+                                <Text style={{ fontSize: scaleSzie(60), color: '#8BC53F' }} >
+                                    {`${this.state.quality}`}
                                 </Text>
                             </View>
                         </View>
@@ -182,8 +168,8 @@ class PopupBill extends React.Component {
 
                             </View>
                             {/* ---- Line ----- */}
-                            <View style={{ width: scaleSzie(18), paddingBottom: scaleSzie(25), paddingTop: scaleSzie(9), alignItems: 'center' }} >
-                                <View style={{ height: '100%', width: 2, backgroundColor: '#D0D2D3' }} />
+                            <View style={{ width: scaleSzie(18), paddingBottom: scaleSzie(23), paddingTop: scaleSzie(9), alignItems: 'center' }} >
+                                <View style={{ height: '100%', width: 4, backgroundColor: '#D0D2D3' }} />
                             </View>
                             {/* -------------- */}
                             <View style={{ width: scaleSzie(70) }} >
@@ -197,8 +183,8 @@ class PopupBill extends React.Component {
                                 }
                             </View>
                             {/* ---- Line ----- */}
-                            <View style={{ width: scaleSzie(18), paddingBottom: scaleSzie(25), alignItems: 'center' }} >
-                                <View style={{ height: '100%', width: 2, backgroundColor: '#D0D2D3' }} />
+                            <View style={{ width: scaleSzie(18), paddingBottom: scaleSzie(23), alignItems: 'center',paddingTop: scaleSzie(9) }} >
+                                <View style={{ height: '100%', width: 4, backgroundColor: '#D0D2D3' }} />
                             </View>
                             {/* ------- Extract  ------- */}
                             <View style={{ width: scaleSzie(110), marginTop: scaleSzie(9) }} >
