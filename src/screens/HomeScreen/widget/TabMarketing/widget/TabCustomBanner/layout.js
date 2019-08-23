@@ -39,11 +39,14 @@ class Layout extends React.Component {
     }
 
     renderLeftContent() {
+        const {listBanners} = this.props;
         return (
             <View style={styles.leftContent} >
                 <FlatList 
-                data={[1,2,3,4]}
-                renderItem={({item,index}) => <ItemBanner />}
+                data={listBanners}
+                renderItem={({item,index}) => <ItemBanner 
+                banner={item}
+                />}
                 keyExtractor={(item,index) => `${index}`}
                 showsVerticalScrollIndicator={false}
                 />

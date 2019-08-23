@@ -10,6 +10,7 @@ import * as upload from './upload';
 import * as appointment from './appointment';
 import * as customer from './customer';
 import * as invoice from './invoice';
+import * as marketing from './marketing';
 
 export default {
     app,
@@ -23,5 +24,6 @@ export default {
     upload,
     appointment,
     customer,
-    invoice
+    invoice,
+    marketing
 }

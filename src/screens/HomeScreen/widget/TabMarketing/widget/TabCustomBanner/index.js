@@ -14,6 +14,11 @@ class TabCustomBanner extends Layout {
         }
     }
 
+    componentDidMount(){
+        const {profile} = this.props;
+        this.props.actions.marketing.getBannerMerchant(profile.merchantId);
+    }
+
     takePhoto = () => {
         ImagePicker.launchCamera({}, (response) => {
             if (response.uri) {
@@ -39,6 +44,8 @@ class TabCustomBanner extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
+    profile: state.dataLocal.profile,
+    listBanners: state.marketing.listBanners
 })
 
 

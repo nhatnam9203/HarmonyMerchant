@@ -11,6 +11,7 @@ import upload from './upload';
 import appointment from './appointment';
 import customer from './customer';
 import invoice from './invoice';
+import marketing from './marketing';
 
 export default function* sagaRoot() {
     yield all([
@@ -25,5 +26,6 @@ export default function* sagaRoot() {
         appointment(),
         customer(),
         invoice(),
+        marketing()
     ])
 }
