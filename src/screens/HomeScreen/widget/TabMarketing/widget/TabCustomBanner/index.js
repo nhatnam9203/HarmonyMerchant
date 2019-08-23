@@ -117,13 +117,30 @@ class TabCustomBanner extends Layout {
         }
     }
 
+   async componentDidUpdate(prevprops,prevState){
+        const{isUploadBanner,loading} = this.props;
+        if(!loading && loading !== prevprops.loading && isUploadBanner){
+            await this.setState({
+                bannerUpload:{
+                    uri: '',
+                    fileName: '',
+                    type: ''
+                }
+            });
+            this.scrollTabRef.current.goToPage(0);
+            this.props.actions.marketing.resetStateUploadBanner();
+        }
+    }
+
 
 }
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     profile: state.dataLocal.profile,
-    listBanners: state.marketing.listBanners
+    listBanners: state.marketing.listBanners,
+    isUploadBanner: state.marketing.isUploadBanner,
+    loading: state.app.loading
 })
 
 

@@ -19,3 +19,9 @@ export function deleteBannerMerchant(merchantBannerId,merchantId) {
         merchantId
     }
 }
+
+export function resetStateUploadBanner(){
+    return{
+        type:'RESET_STATE_UPLOAD_BANNER'
+    }
+}

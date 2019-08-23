@@ -79,8 +79,8 @@ class Layout extends React.Component {
                                     />
                                 </View>
                                 {/* -------- Btn Cancel ------ */}
-                                <View style={{paddingLeft:scaleSzie(80),marginTop:scaleSzie(20)}} >
-                                <ButtonCustom
+                                <View style={{ paddingLeft: scaleSzie(80), marginTop: scaleSzie(20) }} >
+                                    <ButtonCustom
                                         width={scaleSzie(140)}
                                         height={40}
                                         backgroundColor="#F1F1F1"
@@ -91,7 +91,7 @@ class Layout extends React.Component {
                                         styleText={{ fontSize: scaleSzie(16), fontWeight: '500' }}
                                     />
                                 </View>
-                                
+
                             </View>
 
                             :
@@ -155,68 +155,73 @@ class Layout extends React.Component {
 
     renderUploadServer() {
         const { language } = this.props;
-        const { bannerUpload,titleBanner,descriptionBanner } = this.state;
+        const { bannerUpload, titleBanner, descriptionBanner } = this.state;
         return (
             <View style={{ flex: 1 }} >
                 <View style={{ flex: 1 }} >
-                    <View style={{
-                        height: scaleSzie(140), width: scaleSzie(220),
-                        marginLeft: scaleSzie(40), marginTop: scaleSzie(12)
-                    }} >
-                        <Image
-                            source={{ uri: bannerUpload.uri }}
-                            style={{ height: scaleSzie(140), width: scaleSzie(220), }}
-                            resizeMode="stretch"
-                        />
-                    </View>
-                    {/* ------- title ----- */}
-                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(20), paddingRight: scaleSzie(20) }} >
-                        <View style={{ width: scaleSzie(100), justifyContent: 'center' }} >
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
-                                Title:
-                    </Text>
-                        </View>
+                    <ScrollView>
+
 
                         <View style={{
-                            flex: 1, height: scaleSzie(40), borderColor: '#58595B', borderWidth: 2,
-                            borderRadius: 4, paddingHorizontal: scaleSzie(10)
+                            height: scaleSzie(140), width: scaleSzie(220),
+                            marginLeft: scaleSzie(40), marginTop: scaleSzie(12)
                         }} >
-                            <TextInput
-                                style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                value={titleBanner}
-                                onChangeText={titleBanner => this.setState({titleBanner})}
+                            <Image
+                                source={{ uri: bannerUpload.uri }}
+                                style={{ height: scaleSzie(140), width: scaleSzie(220), }}
+                                resizeMode="stretch"
                             />
                         </View>
-                    </View>
-                    {/* ------- Description ----- */}
-                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(20), paddingRight: scaleSzie(20) }} >
-                        <View style={{ width: scaleSzie(100), paddingTop: scaleSzie(14) }} >
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
-                                Description:
+                        {/* ------- title ----- */}
+                        <View style={{ flexDirection: 'row', marginTop: scaleSzie(20), paddingRight: scaleSzie(20) }} >
+                            <View style={{ width: scaleSzie(100), justifyContent: 'center' }} >
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
+                                    Title:
                     </Text>
-                        </View>
+                            </View>
 
-                        <View style={{
-                            flex: 1, height: scaleSzie(90), borderColor: '#58595B', borderWidth: 2,
-                            borderRadius: 4, paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10)
-                        }} >
-                            <TextInput
-                                style={{
-                                    flex: 1,
-                                    fontSize: scaleSzie(16),
-                                    ...Platform.select({
-                                        android: {
-                                            textAlignVertical: "top"
-                                        }
-                                    })
-                                }}
-                                multiline={true}
-                                underlineColorAndroid='transparent'
-                                value={descriptionBanner}
-                                onChangeText={descriptionBanner => this.setState({descriptionBanner})}
-                            />
+                            <View style={{
+                                flex: 1, height: scaleSzie(40), borderColor: '#58595B', borderWidth: 2,
+                                borderRadius: 4, paddingHorizontal: scaleSzie(10)
+                            }} >
+                                <TextInput
+                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                    value={titleBanner}
+                                    onChangeText={titleBanner => this.setState({ titleBanner })}
+                                />
+                            </View>
                         </View>
-                    </View>
+                        {/* ------- Description ----- */}
+                        <View style={{ flexDirection: 'row', marginTop: scaleSzie(20), paddingRight: scaleSzie(20) }} >
+                            <View style={{ width: scaleSzie(100), paddingTop: scaleSzie(14) }} >
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
+                                    Description:
+                    </Text>
+                            </View>
+
+                            <View style={{
+                                flex: 1, height: scaleSzie(90), borderColor: '#58595B', borderWidth: 2,
+                                borderRadius: 4, paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10)
+                            }} >
+                                <TextInput
+                                    style={{
+                                        flex: 1,
+                                        fontSize: scaleSzie(16),
+                                        ...Platform.select({
+                                            android: {
+                                                textAlignVertical: "top"
+                                            }
+                                        })
+                                    }}
+                                    multiline={true}
+                                    underlineColorAndroid='transparent'
+                                    value={descriptionBanner}
+                                    onChangeText={descriptionBanner => this.setState({ descriptionBanner })}
+                                />
+                            </View>
+                        </View>
+                        <View style={{height:scaleSzie(300)}} />
+                    </ScrollView>
                 </View >
                 {/* ----------- Button  ------ */}
                 <View style={{ height: scaleSzie(70), }} >
