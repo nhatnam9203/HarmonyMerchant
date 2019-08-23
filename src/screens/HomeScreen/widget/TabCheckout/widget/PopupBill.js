@@ -71,7 +71,7 @@ class PopupBill extends React.Component {
     }
 
     cancel = () => {
-
+        this.props.onRequestClose();
     }
 
     done = () => {

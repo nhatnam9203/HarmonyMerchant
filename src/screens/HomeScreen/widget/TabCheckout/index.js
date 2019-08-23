@@ -376,6 +376,11 @@ class TabCheckout extends Layout {
                 if (method === 'harmony') {
                     this.setupSignalR(profile, token, appointmentDetail);
                 }
+                if (method === 'cash') {
+                    await this.setState({
+                        visibleBillOfPayment: true
+                    })
+                }
                 await this.setState({
                     changeButtonDone: true,
                     methodPayment: method
@@ -408,6 +413,11 @@ class TabCheckout extends Layout {
                     }
 
                 } else {
+                    if (method === 'cash') {
+                        await this.setState({
+                            visibleBillOfPayment: true
+                        })
+                    }
                     await this.setState({
                         changeButtonDone: true,
                         methodPayment: method
@@ -830,5 +840,3 @@ const mapStateToProps = state => ({
 
 
 export default connectRedux(mapStateToProps, TabCheckout);
-
-// NTT14081993579
