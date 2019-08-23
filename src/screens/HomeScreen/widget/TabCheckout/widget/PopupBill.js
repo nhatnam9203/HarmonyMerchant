@@ -75,7 +75,7 @@ class PopupBill extends React.Component {
     }
 
     done = () => {
-
+        this.props.doneBill();
     }
 
     // ---------- Render --------

@@ -807,6 +807,34 @@ class TabCheckout extends Layout {
         })
     }
 
+    extractBill = () => {
+        const { total } = this.state;
+        this.modalBillRef.current.setStateFromParent(`${total}`);
+    }
+
+    doneBill = async () => {
+        await this.setState({
+            visibleBillOfPayment: false,
+        });
+
+        const moneyUserGiveForStaff = this.modalBillRef.current.state.quality;
+        const { total } = this.state;
+        const moneyChange = parseFloat(moneyUserGiveForStaff) - parseFloat(total);
+        if (moneyChange === 0) {
+        //    this.props.actions.appointment.showModalPrintReceipt();
+        } else {
+            Alert.alert(
+                `Change : $ ${moneyChange}`,
+                ``,
+                [
+                    { text: 'OK', onPress:  () => {}},
+                ],
+                { cancelable: false },
+            );
+        }
+
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         const { loading, isGetAppointmentSucces } = this.props;
         if (!loading && isGetAppointmentSucces) {

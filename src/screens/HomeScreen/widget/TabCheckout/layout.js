@@ -636,7 +636,8 @@ class Layout extends React.Component {
                     visible={this.state.visibleBillOfPayment}
                     onRequestClose={() => this.setState({ visibleBillOfPayment: false })}
                     language={language}
-                // submitRestock={this.submitRestock}
+                    extractBill={this.extractBill}
+                    doneBill={this.doneBill}
                 />
             </View>
         );
