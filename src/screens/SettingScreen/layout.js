@@ -76,7 +76,7 @@ export default class Layout extends React.Component {
                             <ScrollableTabView
                                 ref={this.scrollTabRef}
                                 style={{}}
-                                initialPage={0}
+                                initialPage={7}
                                 tabBarPosition="bottom"
                                 locked={true}
                                 springTension={1}
@@ -90,7 +90,58 @@ export default class Layout extends React.Component {
                                 <TabExtra />
                                 <View style={{ flex: 1 }} />
                                 <TabHardware />
-                                <View style={{ flex: 1, }} />
+                                {/* -------- Tab About ----- */}
+                                <View style={styles.containerAbout} >
+                                    <View style={{flex:1}} >
+                                        <Text style={styles.textTitle} >
+                                            About
+                                        </Text>
+                                        {/* ------- Logo -------- */}
+                                        <View style={styles.logo} >
+
+                                        </View>
+                                        {/* ----------- */}
+                                        <Text style={styles.text2} >
+                                            HarmonyPay Application
+                                        </Text>
+                                         {/* ----------- */}
+                                         <Text style={styles.textVersion} >
+                                           Version 1.0
+                                        </Text>
+                                        {/* ----------- */}
+                                        <Text style={styles.textCopy} >
+                                          Copyright ©  2019 Hamory Inc.
+                                        </Text>
+                                        {/* -------- Text decription ------ */}
+                                        <View style={{paddingRight:scaleSzie(20),
+                                       marginTop:scaleSzie(20)
+                                        }} >
+                                        <Text style={styles.textDesc} >
+                                        Lorem Ipsum is simply dummy text of the 
+                                        printing and typesetting industry.
+                                         Lorem Ipsum has been the industry's
+                                          standard dummy text ever since the 1 500s,
+                                           when an unknown printer took a galley of type 
+                                           and scrambled it to make a type specimen book. 
+                                           It has survived not only five centuries,
+                                            but also the leap into electronic typesetting,
+                                             remaining essentially unchanged.
+                                        </Text>
+                                        </View>
+                                       {/* ------- Footer ----- */}
+                                       <View style={{flex:1,flexDirection:'row',
+                                    alignItems:'flex-end',justifyContent:'space-between',
+                                    paddingBottom:scaleSzie(20)
+                                    }} >
+                                            <Text style={[styles.textFooter,{textDecorationLine:"underline"}]} >
+                                                www.harmonypay.com
+                                            </Text>
+                                            <Text style={styles.textFooter} >
+                                                Created by Levin Team
+                                            </Text>
+                                       </View>
+                                    </View>
+                                </View>
                             </ScrollableTabView>
                         </View>
                     </View>
