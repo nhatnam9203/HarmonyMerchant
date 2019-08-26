@@ -2,6 +2,8 @@ import React from 'react';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
+import { validateEmail} from '@utils';
+
 
 class ForgotPasswordScreen extends Layout {
 
@@ -15,6 +17,12 @@ class ForgotPasswordScreen extends Layout {
     }
 
     forgotPass = () => {
+        const email = this.idInputRef.current.state.value;
+        if(validateEmail(email)){
+            this.props.actions.auth.forgotPassword(email);
+        }else{
+            alert('Email Invalid');
+        }
     }
 
 }

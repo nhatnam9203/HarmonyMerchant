@@ -19,3 +19,13 @@ export function logout() {
 }
 
 
+export function forgotPassword(email) {
+    return {
+        type: 'FORGOT_PASSWORD',
+        body: {
+        },
+        method: 'POST',
+        api: `${apiConfigs.BASE_API}merchant/forgotpassword/?email=${email}`,
+        email
+    }
+}

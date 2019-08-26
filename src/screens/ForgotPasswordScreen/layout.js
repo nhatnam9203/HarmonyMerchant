@@ -38,6 +38,7 @@ export default class Layout extends React.Component {
                 <InputAuth
                     ref={this.idInputRef}
                     placeholder="Email"
+                    onSubmitEditing={this.forgotPass}
                 />
                 <View style={{ height: scaleSzie(40) }} />
                 <ButtonCustom
