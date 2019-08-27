@@ -107,7 +107,7 @@ export function forgotPin(merchantCode, email) {
         type: 'FORGOT_PIN',
         body: {
             merchantcode: merchantCode,
-            email: staffPin
+            email: email
         },
         method: 'POST',
         api: `${apiConfigs.BASE_API}staff/forgotpin`,

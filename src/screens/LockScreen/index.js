@@ -11,6 +11,7 @@ class LockScreen extends Layout {
         super(props);
         this.state = {
             active: true,
+            visibleForotPin: false
         }
         this.idInputRef = React.createRef();
         this.passwordInputRef = React.createRef();
@@ -47,8 +48,10 @@ class LockScreen extends Layout {
 
     support = () => { }
 
-    forgotPincode = () => {
-        // this.props.navigation.navigate('ForgotPassword');
+    forgotPincode = async () => {
+        await this.setState({
+            visibleForotPin: true
+        })
     }
 
     onAction = (active) => {

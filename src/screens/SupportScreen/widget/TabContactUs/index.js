@@ -1,4 +1,4 @@
-import {Linking} from 'react-native'
+import { Linking } from 'react-native'
 import React from 'react';
 
 import Layout from './layout';
@@ -19,7 +19,7 @@ class TabContactUs extends Layout {
 
     sendEmail = () => {
         Linking.openURL('mailto:support@harmonypay.com')
-        
+
     }
 
 }

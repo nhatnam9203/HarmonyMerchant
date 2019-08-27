@@ -20,6 +20,7 @@ class SplashScreen extends Layout {
             this.props.navigation.navigate('SetupStore');
         } else {
             this.props.actions.app.handleLockScreen(true);
+            // this.props.navigation.navigate('Drawer');
         }
     }
 

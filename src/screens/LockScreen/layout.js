@@ -11,11 +11,12 @@ import { Text, InputAuth, ButtonCustom, Button } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
+import ForgotPin from '../ForgotPasswordScreen';
 
 export default class Layout extends React.Component {
 
     render() {
-        const { errorLogin, language,visibleModalLock } = this.props;
+        const { errorLogin, language, visibleModalLock } = this.props;
         return (
             <Modal
                 animationType="fade"
@@ -55,18 +56,18 @@ export default class Layout extends React.Component {
                         </Button>
                     </View>
                     {
-                        this.props.loading ? <ActivityIndicator 
+                        this.props.loading ? <ActivityIndicator
                             size="large"
                             color="#fff"
-                        /> :   <ButtonCustom
-                        width={scaleSzie(400)}
-                        backgroundColor="#4CD964"
-                        title={localize('START', language)}
-                        textColor="#fff"
-                        onPress={this.submitPincode}
-                    />
-                    } 
-                  
+                        /> : <ButtonCustom
+                                width={scaleSzie(400)}
+                                backgroundColor="#4CD964"
+                                title={localize('START', language)}
+                                textColor="#fff"
+                                onPress={this.submitPincode}
+                            />
+                    }
+
                     <Button onPress={this.support} style={{ marginTop: scaleSzie(18) }} >
                         <Text style={{
                             color: '#fff', fontSize: scaleSzie(16), fontWeight: 'bold',
@@ -76,6 +77,18 @@ export default class Layout extends React.Component {
                             }} > {localize('Support')}</Text>
                         </Text>
                     </Button>
+
+                    {/* --------------- FORGOT PIN ----------- */}
+                    <Modal
+                        animationType="slide"
+                        transparent={false}
+                        visible={this.state.visibleForotPin}
+                        onRequestClose={() => { }}>
+                        <ForgotPin 
+                            isForgotPin={true}
+                            closePopup={() => this.setState({visibleForotPin:false})}
+                        />
+                    </Modal>
                 </ImageBackground>
             </Modal>
         );

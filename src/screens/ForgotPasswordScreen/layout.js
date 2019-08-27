@@ -5,7 +5,7 @@ import {
     ImageBackground,
 } from 'react-native';
 
-import { Text, InputAuth, ButtonCustom } from '@components';
+import { Text, InputAuth, ButtonCustom, Button } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
@@ -13,7 +13,7 @@ import IMAGE from '@resources';
 export default class Layout extends React.Component {
 
     render() {
-        const { language } = this.props;
+        const { language, isForgotPin } = this.props;
         return (
             <ImageBackground
                 style={styles.container}
@@ -48,6 +48,22 @@ export default class Layout extends React.Component {
                     textColor="#fff"
                     onPress={this.forgotPass}
                 />
+                {
+                    isForgotPin ? <Button onPress={() => this.props.closePopup()} style={{
+                        width: scaleSzie(50), height: scaleSzie(50),
+                        justifyContent: 'center', alignItems: 'center',
+                        position: 'absolute', top: scaleSzie(30),
+                        left: scaleSzie(20)
+
+                    }} >
+                        <Text style={{
+                            color: 'rgb(128,150,180)', fontSize: scaleSzie(18), fontWeight: 'bold',
+                            textDecorationLine: 'underline'
+                        }} >
+                            Back
+                        </Text>
+                    </Button> : <View />
+                }
             </ImageBackground>
 
         );
