@@ -84,4 +84,19 @@ export default {
     service_holder: require('./placeholder/service_holder.png'),
     staff_holder: require('./placeholder/staff_holder.png'),
 
+    // --- Support ---
+    ContactUs_in: require('./support/ContactUs_in.png'),
+    ContactUs: require('./support/ContactUs.png'),
+    Documents_in: require('./support/Documents_in.png'),
+    Documents: require('./support/Documents.png'),
+    LiveChat_in: require('./support/LiveChat_in.png'),
+    LiveChat: require('./support/LiveChat.png'),
+    TextMessage_in: require('./support/TextMessage_in.png'),
+    TextMessage: require('./support/TextMessage.png'),
+    Videos_in: require('./support/Videos_in.png'),
+    Videos: require('./support/Videos.png'),
+
+
+
+
 }

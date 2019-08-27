@@ -32,10 +32,20 @@ export default class Layout extends React.Component {
     renderMenu() {
         const { indexTab } = this.state;
         return (
-            <View style={{ width: scaleSzie(140), backgroundColor: 'rgb(250,250,250)' }} >
+            <View style={{ width: scaleSzie(150), backgroundColor: 'rgb(250,250,250)' }} >
                 {
                     MENU.map((title, index) => {
-                        const temptIcon = index === indexTab ? title : `${title}_in`;
+                        let temptIcon;
+                        if (title === 'Text message') {
+                            temptIcon = index === indexTab ? 'TextMessage' : `TextMessage_in`;
+                        } else if (title === 'Contact us') {
+                            temptIcon = index === indexTab ? 'ContactUs' : `ContactUs_in`;
+                        } else if (title === 'Live chat') {
+                            temptIcon = index === indexTab ? 'LiveChat' : `LiveChat_in`;
+                        } else {
+                            temptIcon = index === indexTab ? title : `${title}_in`;
+                        }
+
                         const temptBackground = index === indexTab ? { backgroundColor: '#fff', borderLeftColor: '#0764B0', borderLeftWidth: 7 } : {};
                         const temptTextColorSelect = index === indexTab ? { color: '#0764B0' } : {}
                         return (
