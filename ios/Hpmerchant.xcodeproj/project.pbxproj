@@ -25,39 +25,42 @@
 		232011EE22FAB38C0002C14B /* MyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 232011ED22FAB38C0002C14B /* MyApp.m */; };
 		23207BB522FAD00F0002C14B /* ExtDataPaymentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */; };
 		23207BB622FAD5BE0002C14B /* libPosLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23207BAF22FAC4730002C14B /* libPosLink.a */; };
+		2337BC0923154B6A00D4A5BE /* MyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 232011ED22FAB38C0002C14B /* MyApp.m */; };
+		2337BC0A23154B6A00D4A5BE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
+		2337BC0B23154B6A00D4A5BE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		2337BC0C23154B6A00D4A5BE /* ExtDataPaymentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */; };
+		2337BC0E23154B6A00D4A5BE /* libPosLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23207BAF22FAC4730002C14B /* libPosLink.a */; };
+		2337BC0F23154B6A00D4A5BE /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2399DEBD22F1A9C100DBCCFE /* libRNFetchBlob.a */; };
+		2337BC1023154B6A00D4A5BE /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */; };
+		2337BC1123154B6A00D4A5BE /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */; };
+		2337BC1223154B6A00D4A5BE /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342065F22DD7C1700E0EA35 /* StarIO.framework */; };
+		2337BC1323154B6A00D4A5BE /* StarIO_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */; };
+		2337BC1423154B6A00D4A5BE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
+		2337BC1523154B6A00D4A5BE /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		2337BC1623154B6A00D4A5BE /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		2337BC1723154B6A00D4A5BE /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		2337BC1823154B6A00D4A5BE /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
+		2337BC1923154B6A00D4A5BE /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
+		2337BC1A23154B6A00D4A5BE /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
+		2337BC1B23154B6A00D4A5BE /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
+		2337BC1C23154B6A00D4A5BE /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
+		2337BC1D23154B6A00D4A5BE /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
+		2337BC1E23154B6A00D4A5BE /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		2337BC1F23154B6A00D4A5BE /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
+		2337BC2023154B6A00D4A5BE /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
+		2337BC2123154B6A00D4A5BE /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87F14B6172B346F0950939FF /* libRNGestureHandler.a */; };
+		2337BC2223154B6A00D4A5BE /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */; };
+		2337BC2323154B6A00D4A5BE /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FB86781048A01B903905809 /* libPods-Hpmerchant.a */; };
+		2337BC2423154B6A00D4A5BE /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FB86781048A01B903905809 /* libPods-Hpmerchant.a */; };
+		2337BC2523154B6A00D4A5BE /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FB86781048A01B903905809 /* libPods-Hpmerchant.a */; };
+		2337BC2723154B6A00D4A5BE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		2337BC2823154B6A00D4A5BE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		2342066122DD7C1800E0EA35 /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342065F22DD7C1700E0EA35 /* StarIO.framework */; };
 		2342066222DD7C1800E0EA35 /* StarIO_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */; };
 		2342066422DD7C2600E0EA35 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */; };
 		2342066622DD7C3100E0EA35 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */; };
 		2399DEC122F1A9CF00DBCCFE /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2399DEBD22F1A9C100DBCCFE /* libRNFetchBlob.a */; };
 		338713495FCDB765E1B67E95 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FB86781048A01B903905809 /* libPods-Hpmerchant.a */; };
-		37D3E71A230A94A400F6A700 /* MyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 232011ED22FAB38C0002C14B /* MyApp.m */; };
-		37D3E71B230A94A400F6A700 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		37D3E71C230A94A400F6A700 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		37D3E71D230A94A400F6A700 /* ExtDataPaymentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */; };
-		37D3E71F230A94A400F6A700 /* libPosLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23207BAF22FAC4730002C14B /* libPosLink.a */; };
-		37D3E720230A94A400F6A700 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2399DEBD22F1A9C100DBCCFE /* libRNFetchBlob.a */; };
-		37D3E721230A94A400F6A700 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */; };
-		37D3E722230A94A400F6A700 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */; };
-		37D3E723230A94A400F6A700 /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342065F22DD7C1700E0EA35 /* StarIO.framework */; };
-		37D3E724230A94A400F6A700 /* StarIO_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */; };
-		37D3E725230A94A400F6A700 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
-		37D3E726230A94A400F6A700 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
-		37D3E727230A94A400F6A700 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
-		37D3E728230A94A400F6A700 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		37D3E729230A94A400F6A700 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
-		37D3E72A230A94A400F6A700 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
-		37D3E72B230A94A400F6A700 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
-		37D3E72C230A94A400F6A700 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
-		37D3E72D230A94A400F6A700 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
-		37D3E72E230A94A400F6A700 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
-		37D3E72F230A94A400F6A700 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		37D3E730230A94A400F6A700 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
-		37D3E731230A94A400F6A700 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
-		37D3E732230A94A400F6A700 /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87F14B6172B346F0950939FF /* libRNGestureHandler.a */; };
-		37D3E733230A94A400F6A700 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */; };
-		37D3E737230A94A400F6A700 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		37D3E738230A94A400F6A700 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		3C0CF62BBC42EF8E431BFF3F /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FB86781048A01B903905809 /* libPods-Hpmerchant.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
@@ -396,14 +399,14 @@
 		23207BAF22FAC4730002C14B /* libPosLink.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPosLink.a; sourceTree = "<group>"; };
 		23207BB322FAD00F0002C14B /* ExtDataPaymentReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExtDataPaymentReq.h; sourceTree = "<group>"; };
 		23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExtDataPaymentReq.m; sourceTree = "<group>"; };
+		2337BC2E23154B6A00D4A5BE /* HpmerchantDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HpmerchantDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2337BC2F23154B6A00D4A5BE /* Hpmerchant copy3-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Hpmerchant copy3-Info.plist"; path = "/Users/phinhn/Desktop/OutSource/Hpmerchant/ios/Hpmerchant copy3-Info.plist"; sourceTree = "<absolute>"; };
 		2342065F22DD7C1700E0EA35 /* StarIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StarIO.framework; path = "../node_modules/react-native-star-prnt/ios/Frameworks/StarIO.framework"; sourceTree = "<group>"; };
 		2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StarIO_Extension.framework; path = "../node_modules/react-native-star-prnt/ios/Frameworks/StarIO_Extension.framework"; sourceTree = "<group>"; };
 		2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		2399DE9322F1A9C100DBCCFE /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/rn-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		37D3E73E230A94A400F6A700 /* HpmerchantDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HpmerchantDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		37D3E768230A94A500F6A700 /* Hpmerchant copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Hpmerchant copy2-Info.plist"; path = "/Users/phinguyenhoangnhat/Desktop/PHI/Hpmerchant/ios/Hpmerchant copy2-Info.plist"; sourceTree = "<absolute>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7EF40DF61A484AEE927C5392 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
@@ -451,31 +454,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		37D3E71E230A94A400F6A700 /* Frameworks */ = {
+		2337BC0D23154B6A00D4A5BE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37D3E71F230A94A400F6A700 /* libPosLink.a in Frameworks */,
-				37D3E720230A94A400F6A700 /* libRNFetchBlob.a in Frameworks */,
-				37D3E721230A94A400F6A700 /* ExternalAccessory.framework in Frameworks */,
-				37D3E722230A94A400F6A700 /* CoreBluetooth.framework in Frameworks */,
-				37D3E723230A94A400F6A700 /* StarIO.framework in Frameworks */,
-				37D3E724230A94A400F6A700 /* StarIO_Extension.framework in Frameworks */,
-				37D3E725230A94A400F6A700 /* JavaScriptCore.framework in Frameworks */,
-				37D3E726230A94A400F6A700 /* libRCTBlob.a in Frameworks */,
-				37D3E727230A94A400F6A700 /* libRCTAnimation.a in Frameworks */,
-				37D3E728230A94A400F6A700 /* libReact.a in Frameworks */,
-				37D3E729230A94A400F6A700 /* libRCTActionSheet.a in Frameworks */,
-				37D3E72A230A94A400F6A700 /* libRCTGeolocation.a in Frameworks */,
-				37D3E72B230A94A400F6A700 /* libRCTImage.a in Frameworks */,
-				37D3E72C230A94A400F6A700 /* libRCTLinking.a in Frameworks */,
-				37D3E72D230A94A400F6A700 /* libRCTNetwork.a in Frameworks */,
-				37D3E72E230A94A400F6A700 /* libRCTSettings.a in Frameworks */,
-				37D3E72F230A94A400F6A700 /* libRCTText.a in Frameworks */,
-				37D3E730230A94A400F6A700 /* libRCTVibration.a in Frameworks */,
-				37D3E731230A94A400F6A700 /* libRCTWebSocket.a in Frameworks */,
-				37D3E732230A94A400F6A700 /* libRNGestureHandler.a in Frameworks */,
-				37D3E733230A94A400F6A700 /* libRNImagePicker.a in Frameworks */,
+				2337BC0E23154B6A00D4A5BE /* libPosLink.a in Frameworks */,
+				2337BC0F23154B6A00D4A5BE /* libRNFetchBlob.a in Frameworks */,
+				2337BC1023154B6A00D4A5BE /* ExternalAccessory.framework in Frameworks */,
+				2337BC1123154B6A00D4A5BE /* CoreBluetooth.framework in Frameworks */,
+				2337BC1223154B6A00D4A5BE /* StarIO.framework in Frameworks */,
+				2337BC1323154B6A00D4A5BE /* StarIO_Extension.framework in Frameworks */,
+				2337BC1423154B6A00D4A5BE /* JavaScriptCore.framework in Frameworks */,
+				2337BC1523154B6A00D4A5BE /* libRCTBlob.a in Frameworks */,
+				2337BC1623154B6A00D4A5BE /* libRCTAnimation.a in Frameworks */,
+				2337BC1723154B6A00D4A5BE /* libReact.a in Frameworks */,
+				2337BC1823154B6A00D4A5BE /* libRCTActionSheet.a in Frameworks */,
+				2337BC1923154B6A00D4A5BE /* libRCTGeolocation.a in Frameworks */,
+				2337BC1A23154B6A00D4A5BE /* libRCTImage.a in Frameworks */,
+				2337BC1B23154B6A00D4A5BE /* libRCTLinking.a in Frameworks */,
+				2337BC1C23154B6A00D4A5BE /* libRCTNetwork.a in Frameworks */,
+				2337BC1D23154B6A00D4A5BE /* libRCTSettings.a in Frameworks */,
+				2337BC1E23154B6A00D4A5BE /* libRCTText.a in Frameworks */,
+				2337BC1F23154B6A00D4A5BE /* libRCTVibration.a in Frameworks */,
+				2337BC2023154B6A00D4A5BE /* libRCTWebSocket.a in Frameworks */,
+				2337BC2123154B6A00D4A5BE /* libRNGestureHandler.a in Frameworks */,
+				2337BC2223154B6A00D4A5BE /* libRNImagePicker.a in Frameworks */,
+				2337BC2323154B6A00D4A5BE /* libPods-Hpmerchant.a in Frameworks */,
+				2337BC2423154B6A00D4A5BE /* libPods-Hpmerchant.a in Frameworks */,
+				2337BC2523154B6A00D4A5BE /* libPods-Hpmerchant.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -760,7 +766,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				230E40A1228D2CF900E114D6 /* Recovered References */,
 				51A61F587B2C0002B60C1005 /* Pods */,
-				37D3E768230A94A500F6A700 /* Hpmerchant copy2-Info.plist */,
+				2337BC2F23154B6A00D4A5BE /* Hpmerchant copy3-Info.plist */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -771,7 +777,7 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* Hpmerchant.app */,
-				37D3E73E230A94A400F6A700 /* HpmerchantDev.app */,
+				2337BC2E23154B6A00D4A5BE /* HpmerchantDev.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -808,15 +814,16 @@
 			productReference = 13B07F961A680F5B00A75B9A /* Hpmerchant.app */;
 			productType = "com.apple.product-type.application";
 		};
-		37D3E717230A94A400F6A700 /* HpmerchantDev */ = {
+		2337BC0623154B6A00D4A5BE /* HpmerchantDev */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 37D3E73B230A94A400F6A700 /* Build configuration list for PBXNativeTarget "HpmerchantDev" */;
+			buildConfigurationList = 2337BC2B23154B6A00D4A5BE /* Build configuration list for PBXNativeTarget "HpmerchantDev" */;
 			buildPhases = (
-				37D3E719230A94A400F6A700 /* Sources */,
-				37D3E71E230A94A400F6A700 /* Frameworks */,
-				37D3E736230A94A400F6A700 /* Resources */,
-				37D3E739230A94A400F6A700 /* Bundle React Native code and images */,
-				37D3E73A230A94A400F6A700 /* ShellScript */,
+				2337BC0723154B6A00D4A5BE /* [CP] Check Pods Manifest.lock */,
+				2337BC0823154B6A00D4A5BE /* Sources */,
+				2337BC0D23154B6A00D4A5BE /* Frameworks */,
+				2337BC2623154B6A00D4A5BE /* Resources */,
+				2337BC2923154B6A00D4A5BE /* Bundle React Native code and images */,
+				2337BC2A23154B6A00D4A5BE /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -824,7 +831,7 @@
 			);
 			name = HpmerchantDev;
 			productName = "Hello World";
-			productReference = 37D3E73E230A94A400F6A700 /* HpmerchantDev.app */;
+			productReference = 2337BC2E23154B6A00D4A5BE /* HpmerchantDev.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -840,7 +847,7 @@
 						DevelopmentTeam = AP95TBLGP3;
 						ProvisioningStyle = Manual;
 					};
-					37D3E717230A94A400F6A700 = {
+					2337BC0623154B6A00D4A5BE = {
 						DevelopmentTeam = AP95TBLGP3;
 						ProvisioningStyle = Manual;
 					};
@@ -923,7 +930,7 @@
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* Hpmerchant */,
-				37D3E717230A94A400F6A700 /* HpmerchantDev */,
+				2337BC0623154B6A00D4A5BE /* HpmerchantDev */,
 			);
 		};
 /* End PBXProject section */
@@ -1228,12 +1235,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		37D3E736230A94A400F6A700 /* Resources */ = {
+		2337BC2623154B6A00D4A5BE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37D3E737230A94A400F6A700 /* Images.xcassets in Resources */,
-				37D3E738230A94A400F6A700 /* LaunchScreen.xib in Resources */,
+				2337BC2723154B6A00D4A5BE /* Images.xcassets in Resources */,
+				2337BC2823154B6A00D4A5BE /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1254,7 +1261,43 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		23A6A60C22ACDBDF00739B1A /* ShellScript */ = {
+		2337BC0723154B6A00D4A5BE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2337BC2923154B6A00D4A5BE /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native code and images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+		};
+		2337BC2A23154B6A00D4A5BE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1271,21 +1314,7 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 0f0084a0d929105cf47a24b38dd81f81901f8898 a429bc1d026280dc76172be9fa9b8d4c7afbdf2b261dc836bc1e3b6f8b32c7c3\n";
 		};
-		37D3E739230A94A400F6A700 /* Bundle React Native code and images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native code and images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
-		};
-		37D3E73A230A94A400F6A700 /* ShellScript */ = {
+		23A6A60C22ACDBDF00739B1A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1338,14 +1367,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		37D3E719230A94A400F6A700 /* Sources */ = {
+		2337BC0823154B6A00D4A5BE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37D3E71A230A94A400F6A700 /* MyApp.m in Sources */,
-				37D3E71B230A94A400F6A700 /* AppDelegate.m in Sources */,
-				37D3E71C230A94A400F6A700 /* main.m in Sources */,
-				37D3E71D230A94A400F6A700 /* ExtDataPaymentReq.m in Sources */,
+				2337BC0923154B6A00D4A5BE /* MyApp.m in Sources */,
+				2337BC0A23154B6A00D4A5BE /* AppDelegate.m in Sources */,
+				2337BC0B23154B6A00D4A5BE /* main.m in Sources */,
+				2337BC0C23154B6A00D4A5BE /* ExtDataPaymentReq.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1441,8 +1470,9 @@
 			};
 			name = Release;
 		};
-		37D3E73C230A94A400F6A700 /* Debug */ = {
+		2337BC2C23154B6A00D4A5BE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F3FAE62895B2396E24D78531 /* Pods-Hpmerchant.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1457,7 +1487,7 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-star-prnt/ios/Frameworks/**",
 				);
-				INFOPLIST_FILE = "Hpmerchant copy2-Info.plist";
+				INFOPLIST_FILE = "Hpmerchant copy3-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1479,8 +1509,9 @@
 			};
 			name = Debug;
 		};
-		37D3E73D230A94A400F6A700 /* Release */ = {
+		2337BC2D23154B6A00D4A5BE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 915CAA81DF04FCF25659DE20 /* Pods-Hpmerchant.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1494,7 +1525,7 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-star-prnt/ios/Frameworks/**",
 				);
-				INFOPLIST_FILE = "Hpmerchant copy2-Info.plist";
+				INFOPLIST_FILE = "Hpmerchant copy3-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1627,11 +1658,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		37D3E73B230A94A400F6A700 /* Build configuration list for PBXNativeTarget "HpmerchantDev" */ = {
+		2337BC2B23154B6A00D4A5BE /* Build configuration list for PBXNativeTarget "HpmerchantDev" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				37D3E73C230A94A400F6A700 /* Debug */,
-				37D3E73D230A94A400F6A700 /* Release */,
+				2337BC2C23154B6A00D4A5BE /* Debug */,
+				2337BC2D23154B6A00D4A5BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
