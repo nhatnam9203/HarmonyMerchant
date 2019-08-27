@@ -5,6 +5,8 @@ import _ from 'ramda';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
+import { getPosotion } from '@utils';
+
 
 const initialState = {
     isFocus: true,
@@ -26,6 +28,7 @@ class HomeScreen extends Layout {
 
     componentDidMount() {
         this.initWatchVisible();
+        this.getCurrentLocation();
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {
@@ -42,6 +45,21 @@ class HomeScreen extends Layout {
                 })
             }
         );
+    }
+
+    async getCurrentLocation() {
+        const { profile } = this.props;
+        if (!profile.longitude || !profile.latitude) {
+            const position = await getPosotion();
+            const { latitude, longitude } = position.coords;
+            this.props.actions.app.merchantSetting({
+                businessHourStart: profile.businessHourStart,
+                businessHourEnd: profile.businessHourEnd,
+                webLink: profile.webLink,
+                latitude: latitude,
+                longitude: longitude,
+            });
+        }
     }
 
 

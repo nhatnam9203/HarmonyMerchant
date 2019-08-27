@@ -1,3 +1,4 @@
+import {Linking} from 'react-native'
 import React from 'react';
 
 import Layout from './layout';
@@ -13,11 +14,12 @@ class TabContactUs extends Layout {
     }
 
     callPhone = () => {
-        // alert('alert phi')
+        Linking.openURL(`tel:1-810-594-6322`)
     }
 
     sendEmail = () => {
-
+        Linking.openURL('mailto:support@harmonypay.com')
+        
     }
 
 }
