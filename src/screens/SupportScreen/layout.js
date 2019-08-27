@@ -9,7 +9,7 @@ import { StatusBarHeader, Button, ParentContainer, Text, PopupLogout } from '@co
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { } from './widget';
+import { TabContactUs} from './widget';
 
 const MENU = ["Videos", "Documents", "Text message", "Contact us", "Live chat"];
 
@@ -86,7 +86,7 @@ export default class Layout extends React.Component {
                             <ScrollableTabView
                                 ref={this.scrollTabRef}
                                 style={{}}
-                                initialPage={7}
+                                initialPage={3}
                                 tabBarPosition="bottom"
                                 locked={true}
                                 springTension={1}
@@ -96,7 +96,7 @@ export default class Layout extends React.Component {
                                 <View style={{ flex: 1 }} />
                                 <View style={{ flex: 1 }} />
                                 <View style={{ flex: 1 }} />
-                                <View style={{ flex: 1 }} />
+                                <TabContactUs />
                                 <View style={{ flex: 1 }} />
 
                             </ScrollableTabView>

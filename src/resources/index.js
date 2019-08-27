@@ -41,6 +41,8 @@ export default {
     basketInvoice: require('./img/basketInvoice.png'),
     radioExport: require('./img/radioExport.png'),
     radioExportSe: require('./img/radioExportSe.png'),
+    phoneContact : require('./img/phoneContact.png'),
+    emailContact : require('./img/emailContact.png'),
 
 
     // --- drawer --

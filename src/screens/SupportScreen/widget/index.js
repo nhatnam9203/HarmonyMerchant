@@ -1,5 +1,5 @@
-import TabHardware from './TabHardware';
+import TabContactUs from './TabContactUs';
 
 module.exports = {
-    TabHardware
+    TabContactUs
 }

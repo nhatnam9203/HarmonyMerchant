@@ -10,7 +10,7 @@ class SupportScreen extends Layout {
         super(props);
         this.state = {
             isFocus: true,
-            indexTab: 0,
+            indexTab: 3,
             visibleLogout: false
         }
         this.scrollTabRef = React.createRef();
