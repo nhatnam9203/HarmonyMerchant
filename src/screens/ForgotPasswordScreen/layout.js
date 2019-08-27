@@ -49,7 +49,7 @@ export default class Layout extends React.Component {
                     onPress={this.forgotPass}
                 />
                 {
-                    isForgotPin ? <Button onPress={() => this.props.closePopup()} style={{
+                    isForgotPin ? <Button onPress={() => this.props.actions.staff.setVisibleForgotPin(false)} style={{
                         width: scaleSzie(50), height: scaleSzie(50),
                         justifyContent: 'center', alignItems: 'center',
                         position: 'absolute', top: scaleSzie(30),

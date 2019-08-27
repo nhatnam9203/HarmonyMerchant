@@ -5,7 +5,8 @@ const initialState = {
     isShowSearch: false,
     refreshListStaffs: false,
     isResetInfoAdmin: false,
-    isGetListSearchStaff: false
+    isGetListSearchStaff: false,
+    visibleForotPin: false
 
 }
 
@@ -70,6 +71,11 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 isGetListSearchStaff: true
+            }
+        case 'RESET_VISIBLE_FORGOT_PIN':
+            return {
+                ...state,
+                visibleForotPin: action.payload
             }
 
 

@@ -49,9 +49,10 @@ class LockScreen extends Layout {
     support = () => { }
 
     forgotPincode = async () => {
-        await this.setState({
-            visibleForotPin: true
-        })
+        // await this.setState({
+        //     visibleForotPin: true
+        // })
+        this.props.actions.staff.setVisibleForgotPin(true);
     }
 
     onAction = (active) => {
@@ -76,7 +77,8 @@ const mapStateToProps = state => ({
     visibleModalLock: state.app.visibleModalLock,
     profile: state.dataLocal.profile,
     loading: state.app.loading,
-    isLoginStaff: state.dataLocal.isLoginStaff
+    isLoginStaff: state.dataLocal.isLoginStaff,
+    visibleForotPin: state.staff.visibleForotPin
 });
 
 export default connectRedux(mapStateToProps, LockScreen);

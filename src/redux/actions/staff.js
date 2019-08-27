@@ -114,3 +114,10 @@ export function forgotPin(merchantCode, email) {
 
     }
 }
+
+export function setVisibleForgotPin(flag){
+    return {
+        type:'RESET_VISIBLE_FORGOT_PIN',
+        payload:flag
+    }
+}

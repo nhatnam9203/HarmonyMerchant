@@ -82,11 +82,11 @@ export default class Layout extends React.Component {
                     <Modal
                         animationType="slide"
                         transparent={false}
-                        visible={this.state.visibleForotPin}
+                        visible={this.props.visibleForotPin}
                         onRequestClose={() => { }}>
                         <ForgotPin 
                             isForgotPin={true}
-                            closePopup={() => this.setState({visibleForotPin:false})}
+                            // closePopup={() => this.setState({visibleForotPin:false})}
                         />
                     </Modal>
                 </ImageBackground>
