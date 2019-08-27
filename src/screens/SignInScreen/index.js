@@ -15,7 +15,6 @@ class SignInScreen extends Layout {
     }
 
     signIn = () => {
-        // email":"tu.tran@levincigroup.com", "Password":"123456"
         const email = this.idInputRef.current.state.value;
         const password = this.passwordInputRef.current.state.value;
         if (email === '' || password === '') {

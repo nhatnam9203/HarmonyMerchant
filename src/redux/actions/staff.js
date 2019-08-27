@@ -102,3 +102,15 @@ export function loginStaff(merchantCode, staffPin) {
     }
 }
 
+export function forgotPin(merchantCode, email) {
+    return {
+        type: 'FORGOT_PIN',
+        body: {
+            merchantcode: merchantCode,
+            email: staffPin
+        },
+        method: 'POST',
+        api: `${apiConfigs.BASE_API}staff/forgotpin`,
+
+    }
+}
