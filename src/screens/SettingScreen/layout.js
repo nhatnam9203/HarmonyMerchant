@@ -98,7 +98,7 @@ export default class Layout extends React.Component {
                                         </Text>
                                         {/* ------- Logo -------- */}
                                         <View style={styles.logo} >
-
+                                            <Image source={IMAGE.logoAbout} />
                                         </View>
                                         {/* ----------- */}
                                         <Text style={styles.text2} >

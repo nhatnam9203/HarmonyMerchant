@@ -75,6 +75,8 @@ export default {
     Pax: require('./setting/pax.png'),
     Barcode: require('./setting/barcode.png'),
     Print: require('./setting/print.png'),
+    logoAbout: require('./setting/logoAbout.png'),
+
 
     // --- Place holder --
     extra_holder: require('./placeholder/extra_holder.png'),

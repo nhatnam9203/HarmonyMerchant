@@ -20,9 +20,6 @@ export default StyleSheet.create({
     },
     textTitle:{color:'rgb(64,64,64)',fontSize:scaleSzie(26),fontWeight:'bold'},
     logo:{
-        width:scaleSzie(300),
-        height:scaleSzie(90),
-        backgroundColor:'red',
         marginVertical:scaleSzie(20)
     },
     text2:{
