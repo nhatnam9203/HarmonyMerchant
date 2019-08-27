@@ -18,6 +18,7 @@ import SettingScreen from './SettingScreen';
 import InventoryScreen from './InventoryScreen';
 import CustomerScreen from './CustomerScreen';
 import InvoiceScreen from './InvoiceScreen';
+import SupportScreen from './SupportScreen';
 
 
 module.exports = {
@@ -40,5 +41,6 @@ module.exports = {
     SettingScreen,
     InventoryScreen,
     CustomerScreen,
-    InvoiceScreen
+    InvoiceScreen,
+    SupportScreen
 }

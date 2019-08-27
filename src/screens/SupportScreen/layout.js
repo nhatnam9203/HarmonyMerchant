@@ -9,9 +9,9 @@ import { StatusBarHeader, Button, ParentContainer, Text, PopupLogout } from '@co
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { TabStaff, TabService, TabExtra, TabCategories, TabGaneral, TabHardware } from './widget';
+import {  } from './widget';
 
-const MENU = ["General", "Staff", "Categories", "Services", "Extra", "Payment", "Hardware", "About", "Logout"];
+const MENU = ["Videos", "Documents", "Text message", "Contact us", "Live chat"];
 
 export default class Layout extends React.Component {
 
@@ -23,7 +23,7 @@ export default class Layout extends React.Component {
                 justifyContent: 'center'
             }} >
                 <Text style={{ fontSize: scaleSzie(16), color: '#0764B0' }} >
-                    {localize('Settings', language)}
+                    {localize('Support', language)}
                 </Text>
             </View>
         );
@@ -83,67 +83,12 @@ export default class Layout extends React.Component {
                                 springFriction={1}
                                 renderTabBar={() => <View />}
                             >
-                                <TabGaneral />
-                                <TabStaff />
-                                <TabCategories />
-                                <TabService />
-                                <TabExtra />
                                 <View style={{ flex: 1 }} />
-                                <TabHardware />
-                                {/* -------- Tab About ----- */}
-                                <View style={styles.containerAbout} >
-                                    <View style={{ flex: 1 }} >
-                                        <Text style={styles.textTitle} >
-                                            About
-                                        </Text>
-                                        {/* ------- Logo -------- */}
-                                        <View style={styles.logo} >
-                                            <Image source={IMAGE.logoAbout} />
-                                        </View>
-                                        {/* ----------- */}
-                                        <Text style={styles.text2} >
-                                            HarmonyPay Application
-                                        </Text>
-                                        {/* ----------- */}
-                                        <Text style={styles.textVersion} >
-                                            Version 1.0
-                                        </Text>
-                                        {/* ----------- */}
-                                        <Text style={styles.textCopy} >
-                                            Copyright ©  2019 Hamory Inc.
-                                        </Text>
-                                        {/* -------- Text decription ------ */}
-                                        <View style={{
-                                            paddingRight: scaleSzie(20),
-                                            marginTop: scaleSzie(20)
-                                        }} >
-                                            <Text style={styles.textDesc} >
-                                                Lorem Ipsum is simply dummy text of the
-                                                printing and typesetting industry.
-                                                 Lorem Ipsum has been the industry's
-                                                  standard dummy text ever since the 1 500s,
-                                                   when an unknown printer took a galley of type
-                                                   and scrambled it to make a type specimen book.
-                                                   It has survived not only five centuries,
-                                                    but also the leap into electronic typesetting,
-                                                     remaining essentially unchanged.
-                                        </Text>
-                                        </View>
-                                        {/* ------- Footer ----- */}
-                                        <View style={{
-                                            flex: 1, flexDirection: 'row',
-                                            alignItems: 'flex-end', justifyContent: 'space-between',
-                                            paddingBottom: scaleSzie(20)
-                                        }} >
-                                            <Text style={[styles.textFooter, { textDecorationLine: "underline" }]} >
-                                                www.harmonypay.com
-                                            </Text>
-                                            <Text style={styles.textFooter} >
-                                                Created by Levin Team
-                                            </Text>
-                                        </View>
-                                    </View>
-                                </View>
+                                <View style={{ flex: 1 }} />
+                                <View style={{ flex: 1 }} />
+                                <View style={{ flex: 1 }} />
+                                <View style={{ flex: 1 }} />
+
                             </ScrollableTabView>
                         </View>
                     </View>
