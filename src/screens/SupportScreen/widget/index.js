@@ -1,5 +1,5 @@
 import TabHardware from './TabHardware';
 
-module.exports ={
+module.exports = {
     TabHardware
 }

@@ -9,7 +9,7 @@ import { StatusBarHeader, Button, ParentContainer, Text, PopupLogout } from '@co
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import {  } from './widget';
+import { } from './widget';
 
 const MENU = ["Videos", "Documents", "Text message", "Contact us", "Live chat"];
 
