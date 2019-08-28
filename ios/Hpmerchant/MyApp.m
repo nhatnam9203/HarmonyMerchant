@@ -330,45 +330,56 @@ RCT_EXPORT_METHOD(batchTransaction:(NSString *)amount callback:(RCTResponseSende
          NSDictionary *dataSuccess = @{@"status":@true,
                                        @"ResultCode" : myapp.poslink.batchResponse.ResultCode,
                                        @"ResultTxt" : myapp.poslink.batchResponse.ResultTxt,
-                                       @"AuthCode" :myapp.poslink.batchResponse.CreditCount,
-                                       @"ApprovedAmount" :  myapp.poslink.batchResponse.CreditAmount,
-                                       @"AvsResponse" : myapp.poslink.batchResponse.DebitCount,
-                                       @"BogusAccountNum" : myapp.poslink.batchResponse.DebitAmount,
-                                       @"CardType" : myapp.poslink.batchResponse.EBTCount,
-                                       @"CvResponse" : myapp.poslink.batchResponse.EBTAmount,
-                                       @"HostCode" : myapp.poslink.batchResponse.GiftCount,
-                                       @"HostResponse" : myapp.poslink.batchResponse.GiftAmount,
-                                       @"Message" : myapp.poslink.batchResponse.LoyaltyCount,
-                                       @"RefNum" :myapp.poslink.batchResponse.LoyaltyAmount,
-                                       @"RemainingBalance" : myapp.poslink.batchResponse.CashCount,
-                                       @"ExtraBalance" : myapp.poslink.batchResponse.CashAmount,
-                                       @"Timestamp" : myapp.poslink.batchResponse.CHECKCount,
-                                       @"InvNum" : myapp.poslink.batchResponse.CHECKAmount,
-                                       @"ExtData" : myapp.poslink.batchResponse.Timestamp,
-                                       @"ExtData" :myapp.poslink.batchResponse.TID,
-                                       @"ExtData" : myapp.poslink.batchResponse.MID,
-                                       @"ExtData" : myapp.poslink.batchResponse.HostTraceNum,
-                                       @"ExtData" : myapp.poslink.batchResponse.BatchNum,
-                                       @"ExtData" : myapp.poslink.batchResponse.AuthCode,
-                                       @"ExtData" : myapp.poslink.batchResponse.HostCode,
-                                       @"ExtData" : myapp.poslink.batchResponse.HostResponse,
-                                       @"ExtData" : myapp.poslink.batchResponse.Message,
+                                       @"CreditCount" :myapp.poslink.batchResponse.CreditCount,
+                                       @"CreditAmount" :  myapp.poslink.batchResponse.CreditAmount,
+                                       @"DebitCount" : myapp.poslink.batchResponse.DebitCount,
+                                       @"DebitAmount" : myapp.poslink.batchResponse.DebitAmount,
+                                       @"EBTCount" : myapp.poslink.batchResponse.EBTCount,
+                                       @"EBTAmount" : myapp.poslink.batchResponse.EBTAmount,
+                                       @"GiftCount" : myapp.poslink.batchResponse.GiftCount,
+                                       @"GiftAmount" : myapp.poslink.batchResponse.GiftAmount,
+                                       @"LoyaltyCount" : myapp.poslink.batchResponse.LoyaltyCount,
+                                       @"LoyaltyAmount" :myapp.poslink.batchResponse.LoyaltyAmount,
+                                       @"CashCount" : myapp.poslink.batchResponse.CashCount,
+                                       @"CashAmount" : myapp.poslink.batchResponse.CashAmount,
+                                       @"CHECKCount" : myapp.poslink.batchResponse.CHECKCount,
+                                       @"CHECKAmount" : myapp.poslink.batchResponse.CHECKAmount,
+                                       @"Timestamp" : myapp.poslink.batchResponse.Timestamp,
+                                       @"TID" :myapp.poslink.batchResponse.TID,
+                                       @"MID" : myapp.poslink.batchResponse.MID,
+                                       @"HostTraceNum" : myapp.poslink.batchResponse.HostTraceNum,
+                                       @"BatchNum" : myapp.poslink.batchResponse.BatchNum,
+                                       @"AuthCode" : myapp.poslink.batchResponse.AuthCode,
+                                       @"HostCode" : myapp.poslink.batchResponse.HostCode,
+                                       @"HostResponse" : myapp.poslink.batchResponse.HostResponse,
+                                       @"Message" : myapp.poslink.batchResponse.Message,
                                        @"ExtData" : myapp.poslink.batchResponse.ExtData,
-                                       @"ExtData" : myapp.poslink.batchResponse.BatchFailedRefNum,
-                                       @"ExtData" : myapp.poslink.batchResponse.BatchFailedCount,
-                                       @"ExtData" : myapp.poslink.batchResponse.SAFTotalCount,
-                                       @"ExtData" : myapp.poslink.batchResponse.SAFTotalAmount,
-                                       @"ExtData" : myapp.poslink.batchResponse.SAFUploadedCount,
-                                       @"ExtData" : myapp.poslink.batchResponse.SAFUploadedAmount,
-                                       @"ExtData" : myapp.poslink.batchResponse.SAFFailedCount,
-                                       @"ExtData" : myapp.poslink.batchResponse.SAFFailedTotal,
-                                       @"ExtData" : myapp.poslink.batchResponse.SAFDeletedCount,
+                                       @"BatchFailedRefNum" : myapp.poslink.batchResponse.BatchFailedRefNum,
+                                       @"BatchFailedCount" : myapp.poslink.batchResponse.BatchFailedCount,
+                                       @"SAFTotalCount" : myapp.poslink.batchResponse.SAFTotalCount,
+                                       @"SAFTotalAmount" : myapp.poslink.batchResponse.SAFTotalAmount,
+                                       @"SAFUploadedCount" : myapp.poslink.batchResponse.SAFUploadedCount,
+                                       @"SAFUploadedAmount" : myapp.poslink.batchResponse.SAFUploadedAmount,
+                                       @"SAFFailedCount" : myapp.poslink.batchResponse.SAFFailedCount,
+                                       @"SAFFailedTotal" : myapp.poslink.batchResponse.SAFFailedTotal,
+                                       @"SAFDeletedCount" : myapp.poslink.batchResponse.SAFDeletedCount,
                                        };
          
+         NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
+         callback(@[result]);
+         
        }else if (ret.code == ERROR){
-         
+         NSDictionary *dataError = @{@"status":@false,
+                                     @"message":ret.msg
+                                     };
+         NSString  *resultError =  [self convertObjectToJson:dataError ] ;
+         callback(@[resultError]);
        }else if (ret.code == TIMEOUT){
-         
+         NSDictionary *dataTimeout = @{@"status":@false,
+                                       @"message":ret.msg
+                                       };
+         NSString  *resultTimeout  =  [self convertObjectToJson:dataTimeout ] ;
+         callback(@[resultTimeout]);
        }
        
      });
