@@ -55,7 +55,7 @@ export function checkoutAppointment(id) {
     }
 }
 
-export function paymentAppointment(appointmentId, method) {
+export function paymentAppointment(appointmentId, method,isLoading = true) {
     return {
         type: 'PAY_APPOINTMENT',
         body: {
@@ -64,7 +64,8 @@ export function paymentAppointment(appointmentId, method) {
         method: 'PUT',
         token: true,
         api: `${apiConfigs.BASE_API}appointment/pay/${appointmentId}`,
-        paymentMethod:method
+        paymentMethod:method,
+        isLoading
     }
 }
 
@@ -74,7 +75,7 @@ export function closeModalPaymentCompleted() {
     }
 }
 
-export function createAnymousAppointment(merchantId, products, paymentMethod) {
+export function createAnymousAppointment(merchantId, products, paymentMethod,isLoading = true) {
     return {
         type: 'CREATE_ANYMOUS_APPOINTMENT',
         body: {
@@ -88,7 +89,8 @@ export function createAnymousAppointment(merchantId, products, paymentMethod) {
         method: 'POST',
         token: true,
         api: `${apiConfigs.BASE_API}appointment`,
-        paymentMethod
+        paymentMethod,
+        isLoading
     }
 }
 
