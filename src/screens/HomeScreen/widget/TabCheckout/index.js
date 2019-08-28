@@ -367,7 +367,7 @@ class TabCheckout extends Layout {
                         changeButtonDone: true,
                         methodPayment: method
                     });
-                    this.props.actions.appointment.paymentAppointment(appointmentId, method ,false);
+                    this.props.actions.appointment.paymentAppointment(appointmentId, method, false);
                 } else {
                     alert('Please setup your pax machine in setting');
                 }
@@ -385,8 +385,8 @@ class TabCheckout extends Layout {
                     changeButtonDone: true,
                     methodPayment: method
                 });
-                const isLoading  = method === 'cash' ? false :true;
-                this.props.actions.appointment.paymentAppointment(appointmentId, method,isLoading);
+                const isLoading = method === 'cash' ? false : true;
+                this.props.actions.appointment.paymentAppointment(appointmentId, method, isLoading);
             }
         } else
             //-------Payment Anymous ------
@@ -408,7 +408,7 @@ class TabCheckout extends Layout {
                                 }
                             }
                         })
-                        this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, method,false);
+                        this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, method, false);
                     } else {
                         alert('Please setup your pax machine in setting');
                     }
@@ -431,8 +431,8 @@ class TabCheckout extends Layout {
                             }
                         }
                     })
-                    const isLoadingOffline  = method === 'cash' ? false :true;
-                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, method,isLoadingOffline);
+                    const isLoadingOffline = method === 'cash' ? false : true;
+                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, method, isLoadingOffline);
                 }
 
             }
@@ -823,13 +823,13 @@ class TabCheckout extends Layout {
         const { total } = this.state;
         const moneyChange = parseFloat(moneyUserGiveForStaff) - parseFloat(total);
         if (moneyChange === 0) {
-        //    this.props.actions.appointment.showModalPrintReceipt();
+            //    this.props.actions.appointment.showModalPrintReceipt();
         } else {
             Alert.alert(
                 `Change : $ ${moneyChange}`,
                 ``,
                 [
-                    { text: 'OK', onPress:  () => {}},
+                    { text: 'OK', onPress: () => { } },
                 ],
                 { cancelable: false },
             );

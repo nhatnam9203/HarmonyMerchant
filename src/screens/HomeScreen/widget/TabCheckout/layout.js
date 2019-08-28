@@ -234,6 +234,7 @@ class Layout extends React.Component {
         const { language, appointmentDetail, flagSignInAppointment } = this.props;
         const { basket, total } = this.state;
         const tempTipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
+        const subTotal = appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
         return (
             <View style={{ flex: 1 }} >
                 {/* -------- Header Basket -------- */}
@@ -267,7 +268,7 @@ class Layout extends React.Component {
                                     {`${localize('Subtotal', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$${total}`}
+                                    {`$${subTotal}`}
                                 </Text>
                             </View>
                             {/* ---------- Tip ------ */}
