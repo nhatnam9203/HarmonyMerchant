@@ -1,13 +1,10 @@
-import HeaderTableCustomer from './HeaderTableCustomer';
-import RowTableCustomer from './RowTableCustomer';
-import RowEmptyTableCustomer from './RowEmptyTableCustomer';
-import PopupAddEditCustomer from './PopupAddEditCustomer';
-import PopupCustomerDetail from './PopupCustomerDetail';
+import TabSettle from './TabSettle';
+import TabTransaction from './TabTransaction';
+import TabBatchHistory from './TabBatchHistory';
+
 
 module.exports = {
-    HeaderTableCustomer,
-    RowTableCustomer,
-    RowEmptyTableCustomer,
-    PopupAddEditCustomer,
-    PopupCustomerDetail
+    TabSettle,
+    TabTransaction,
+    TabBatchHistory
 }

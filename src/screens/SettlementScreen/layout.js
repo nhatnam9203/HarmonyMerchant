@@ -5,14 +5,16 @@ import {
     TextInput,
     FlatList
 } from 'react-native';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom } from '@components';
+import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom,DefaultTabBar } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import {
-    HeaderTableCustomer, RowTableCustomer, RowEmptyTableCustomer,
-    PopupAddEditCustomer, PopupCustomerDetail
+    TabSettle,
+    TabTransaction,
+    TabBatchHistory
 } from './widget';
 
 export default class Layout extends React.Component {
@@ -25,117 +27,41 @@ export default class Layout extends React.Component {
                 justifyContent: 'center'
             }} >
                 <Text style={{ fontSize: scaleSzie(16), color: '#0764B0' }} >
-                    {localize('Customer', language)}
+                    {localize('Batch Settlements', language)}
                 </Text>
             </View>
         );
     }
 
-    renderSearch() {
-        const { language } = this.props;
-        const { keySearch } = this.state;
-        return (
-            <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
-                <View style={{ flex: 1, flexDirection: 'row' }} >
-                    <View style={{ flex: 1, flexDirection: 'row' }} >
-                        <View style={{ width: scaleSzie(70), justifyContent: 'center' }} >
-                            <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A' }} >
-                                {localize('Search', language)}
-                            </Text>
-                        </View>
-                        <View style={{ flex: 1, borderColor: '#C5C5C5', borderWidth: 1, borderRadius: scaleSzie(4), flexDirection: 'row' }} >
-                            <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
-                                <TextInput
-                                    style={{ flex: 1, fontSize: scaleSzie(18) }}
-                                    placeholder={`${localize('Phone number', language)}/ ${localize('Customer Name', language)}`}
-                                    value={keySearch}
-                                    onChangeText={(keySearch) => {
-                                        if (keySearch == '') {
-                                            this.props.actions.customer.clearSearCustomer();
-                                        }
-                                        this.setState({ keySearch })
-                                    }}
-                                    onSubmitEditing={this.searchCustomer}
-                                />
-                            </View>
-                            <Button onPress={this.searchCustomer} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
-                                <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
-                            </Button>
-
-                        </View>
-                    </View>
-                    <View style={{ width: scaleSzie(170), alignItems: 'flex-end' }} >
-                        <ButtonCustom
-                            width={'90%'}
-                            height={40}
-                            backgroundColor="#F1F1F1"
-                            title={localize('Search', language)}
-                            textColor="#6A6A6A"
-                            onPress={this.searchCustomer}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                            styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
-                        />
-                    </View>
-                </View>
-            </View>
-        );
-    }
-
-    renderFilter() {
-        const { language } = this.props;
-        return (
-            <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
-                <View style={{ flex: 1, flexDirection: 'row' }} >
-                    <View style={{ flex: 1, justifyContent: 'flex-end' }} >
-                        <Text style={{ color: '#0764B0', fontSize: scaleSzie(18), fontWeight: 'bold' }} >
-                            {localize('Customer list', language)}
-                        </Text>
-                    </View>
-                    <View style={{ width: scaleSzie(170), alignItems: 'flex-end' }} >
-                        <ButtonCustom
-                            width={'90%'}
-                            height={40}
-                            backgroundColor="#0764B0"
-                            title={localize('Add New', language)}
-                            textColor="#fff"
-                            onPress={this.showModalAddCustomer}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                            styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
-                        />
-                    </View>
-                </View>
-            </View>
-        );
-    }
-
-    renderTable() {
-        const { listCustomersByMerchant, listCustomersSearch, isShowSearchCustomer,
-            refreshListCustomer
-        } = this.props;
-        const temptData = isShowSearchCustomer ? listCustomersSearch : listCustomersByMerchant;
-        return (
-            <View style={{ flex: 1 }} >
-                <HeaderTableCustomer />
-                <FlatList
-                    data={temptData}
-                    renderItem={({ item, index }) => <RowTableCustomer
-                        key={index}
-                        customer={item}
-                        unSelectAll={this.unSelectAll}
-                        showModalDetail={this.showModalDetail}
+    renderTabContainer(){
+        return(
+            <View style={{flex:1}} >
+                <ScrollableTabView
+                    ref={this.scrollTabRef}
+                    style={{}}
+                    initialPage={0}
+                    locked={true}
+                    renderTabBar={() => <DefaultTabBar
+                        activeTextColor="#fff"
+                        inactiveTextColor="#6A6A6A"
+                        backgroundTabActive="#0764B0"
+                        textStyle={{
+                            fontSize: scaleSzie(16)
+                        }}
                     />}
-                    keyExtractor={(item, index) => `${item.customerId}`}
-                    ListEmptyComponent={<RowEmptyTableCustomer />}
-                    refreshing={refreshListCustomer}
-                    onRefresh={() => this.props.actions.customer.getListCustomersByMerchant(false)}
-                />
+                >
+                    <TabSettle tabLabel="Settle" style={{flex:1}} />
+                    <TabTransaction tabLabel="Transactions" style={{flex:1}} />
+                    <TabBatchHistory tabLabel="Batch history" style={{flex:1}} />
+
+                </ScrollableTabView>
             </View>
         );
     }
 
     render() {
-        const { language,stateCity } = this.props;
-        const { visibleAdd, visibleDetail,visibleEdit,isFocus } = this.state;
+        const { language } = this.props;
+        const { isFocus } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -144,13 +70,7 @@ export default class Layout extends React.Component {
                 <View style={styles.container} >
                     <StatusBarHeader />
                     {this.renderHeader()}
-                    <View style={{ height: scaleSzie(18) }} />
-                    {this.renderSearch()}
-                    <View style={{ height: scaleSzie(16) }} />
-                    {this.renderFilter()}
-                    <View style={{ height: scaleSzie(18) }} />
-                    {this.renderTable()}
-
+                    {this.renderTabContainer()}
                     <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
@@ -162,33 +82,6 @@ export default class Layout extends React.Component {
                         <Image source={IMAGE.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
                     </Button>
                 </View>
-                <PopupAddEditCustomer
-                    ref={this.modalAddRef}
-                    language={language}
-                    visible={visibleAdd}
-                    title="New Customer"
-                    onRequestClose={this.closeModalAddCustomer}
-                    addCustomer={this.addCustomer}
-                    stateCity={stateCity}
-                />
-                <PopupAddEditCustomer
-                    ref={this.modalEditRef}
-                    language={language}
-                    visible={visibleEdit}
-                    title="Edit Customer"
-                    onRequestClose={this.closeModalEditCustomer}
-                    editCustomer={this.editCustomer}
-                    stateCity={stateCity}
-                    isSave={true}
-                />
-                <PopupCustomerDetail
-                    ref={this.modalDetailRef}
-                    language={language}
-                    visible={visibleDetail}
-                    title="Customer Details"
-                    onRequestClose={this.closeModalDetail}
-                    showModalEditCustomer={this.showModalEditCustomer}
-                />
             </ParentContainer>
         );
     }
