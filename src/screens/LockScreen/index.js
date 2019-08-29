@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert,NativeModules } from 'react-native';
+import { Alert, NativeModules } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -49,14 +49,14 @@ class LockScreen extends Layout {
 
 
     support = () => {
-        // const { paxMachineInfo } = this.props;
-        // const { ip, port, timeout } = paxMachineInfo;
+        const { paxMachineInfo } = this.props;
+        const { ip, port, timeout } = paxMachineInfo;
 
-        // PosLink.setupPax(ip, port, timeout);
+        PosLink.setupPax(ip, port, timeout);
 
-        // PosLink.batchTransaction(100, (message) => {
-        //     console.log('response  : ', message);
-        // });
+        PosLink.batchTransaction(100, (message) => {
+            console.log('response  : ', message);
+        });
     }
 
     forgotPincode = async () => {
@@ -90,7 +90,7 @@ const mapStateToProps = state => ({
     loading: state.app.loading,
     isLoginStaff: state.dataLocal.isLoginStaff,
     visibleForotPin: state.staff.visibleForotPin,
-    paxMachineInfo:  state.dataLocal.paxMachineInfo,
+    paxMachineInfo: state.dataLocal.paxMachineInfo,
 });
 
 export default connectRedux(mapStateToProps, LockScreen);

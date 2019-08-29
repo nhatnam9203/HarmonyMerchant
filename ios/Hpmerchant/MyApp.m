@@ -247,7 +247,7 @@ paymentRequest.TransType = [PaymentRequest ParseTransType:@"SALE"];
                                         @"RefNum" : myapp.poslink.paymentResponse.RefNum ? myapp.poslink.paymentResponse.RefNum : @"",
                                         @"RemainingBalance" : myapp.poslink.paymentResponse.RemainingBalance ? myapp.poslink.paymentResponse.RemainingBalance : @"",
                                         @"ExtraBalance" : myapp.poslink.paymentResponse.ExtraBalance ? myapp.poslink.paymentResponse.ExtraBalance : @"",
-                                        @"Timestamp" : myapp.poslink.paymentResponse.Timestamp ?  myapp.poslink.paymentResponse.Timestamp ? @"",
+                                        @"Timestamp" : myapp.poslink.paymentResponse.Timestamp ?  myapp.poslink.paymentResponse.Timestamp : @"",
                                         @"InvNum" : myapp.poslink.paymentResponse.InvNum ? myapp.poslink.paymentResponse.InvNum : @"",
                                         @"ExtData" : myapp.poslink.paymentResponse.ExtData ? myapp.poslink.paymentResponse.ExtData : @"",
                                         @"RequestedAmount" : myapp.poslink.paymentResponse.RequestedAmount ? myapp.poslink.paymentResponse.RequestedAmount : @"",
@@ -309,13 +309,13 @@ RCT_EXPORT_METHOD(batchTransaction:(NSString *)amount callback:(RCTResponseSende
   batchRequest.EDCType = [BatchRequest ParseEDCType:@"CREDIT"];
   batchRequest.PaymentType = [BatchRequest ParseTransType:@"SALE"];
   batchRequest.CardType = [BatchRequest ParseEDCType:@"MASTERCARD"];
-  batchRequest.Timestamp = @"";
+  batchRequest.Timestamp = @"20190828061059";
   batchRequest.SAFIndicator = @"";
   batchRequest.RecordNum = @"";
-  batchRequest.RefNum = @"";
-  batchRequest.AuthCode = @"";
+  batchRequest.RefNum = @"2";
+  batchRequest.AuthCode = @"000000";
   batchRequest.ECRRefNum = @"";
-  batchRequest.ExtData = @"";
+  batchRequest.ExtData = @"<AmountDue>0</AmountDue>\n<TipAmount>0</TipAmount>\n<CashBackAmount>0</CashBackAmount>\n<MechantFee>0</MechantFee>\n<TaxAmount>0</TaxAmount>\n<PLEntryMode>4</PLEntryMode>\n<ExpDate>1121</ExpDate>\n<PLNameOnCard>NGUYEN NGOC HUYEN         </PLNameOnCard>\n<PLCardPresent>0</PLCardPresent>\n<ECRRefNum>1</ECRRefNum>\n<EDCTYPE>CREDIT</EDCTYPE>\n<CARDBIN>539146</CARDBIN>\n<PROGRAMTYPE>0</PROGRAMTYPE>\n<SN>53310319</SN>\n<GLOBALUID>53310319201908280550330151</GLOBALUID>\n<TC>3404B071C0946654</TC>\n<TVR>8000008000</TVR>\n<AID>A0000000041010</AID>\n<TSI>6800</TSI>\n<ATC>00A9</ATC>\n<APPLAB>Mastercard</APPLAB>\n<APPPN>FE CREDIT</APPPN>\n<IAD>0114600003240000000000000000000000FF</IAD>\n<ARC>00</ARC>\n<CID>40</CID>\n<CVM>6</CVM>\n";
   
   myapp.poslink.batchRequest = batchRequest;
   
