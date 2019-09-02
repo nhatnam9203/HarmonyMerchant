@@ -9,15 +9,14 @@ class TabBatchHistory extends Layout {
     constructor(props) {
         super(props);
         this.state = {
-           
+            searchFilter: {
+                keySearch: '',
+                category: '',
+                status: ''
+            }
         };
     }
 
-    componentDidMount() {
-    }
-
-
-    
 
 }
 

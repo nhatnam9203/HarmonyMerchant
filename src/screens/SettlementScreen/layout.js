@@ -39,7 +39,7 @@ export default class Layout extends React.Component {
                 <ScrollableTabView
                     ref={this.scrollTabRef}
                     style={{}}
-                    initialPage={0}
+                    initialPage={2}
                     locked={true}
                     renderTabBar={() => <DefaultTabBar
                         activeTextColor="#fff"
