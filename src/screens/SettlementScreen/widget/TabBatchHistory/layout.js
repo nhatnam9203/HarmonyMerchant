@@ -97,6 +97,86 @@ class Layout extends React.Component {
         );
     }
 
+    renderLeftContent() {
+        return (
+            <View style={{ flex: 1, paddingRight: scaleSzie(10) }} >
+                <View style={{ flex: 1 }} >
+                    {/* ---------- Header ------- */}
+                    <View style={{ flexDirection: 'row', height: scaleSzie(30) }} >
+                        <View style={{ flex: 0.7, justifyContent: 'flex-end' }} >
+                            <Text style={styles.textTitleLefConten} >
+                                Batch ID
+                            </Text>
+                        </View>
+                        <View style={{ flex: 1, justifyContent: 'flex-end', }} >
+                            <Text style={[styles.textTitleLefConten, { marginLeft: scaleSzie(10) }]} >
+                                Datetime
+                            </Text>
+                        </View>
+                        <View style={{ flex: 0.8, justifyContent: 'flex-end' }} >
+                            <Text style={styles.textTitleLefConten} >
+                                Amount
+                            </Text>
+                        </View>
+                    </View>
+                    {/* ----------- Line -------- */}
+                    <View style={{ height: scaleSzie(5) }} />
+                    {/* ----------- Table -------- */}
+                    <View style={styles.tableLeft} >
+                        {/* ----------- Item Left -------- */}
+                        <View style={{ height: scaleSzie(58), borderBottomColor: '#C5C5C5', borderBottomWidth: 1 }} >
+                            <View style={{ flex: 1, flexDirection: 'row', paddingTop: scaleSzie(8) }} >
+                                <View style={{ flex: 0.7, }} >
+                                    <Text style={[styles.textTitleLefConten, { marginLeft: scaleSzie(12) }]} >
+                                        #1234
+                                    </Text>
+                                </View>
+                                <View style={{ flex: 1, }} >
+                                    <Text style={styles.textTitleLefConten} >
+                                        02/20/2019
+                                    </Text>
+                                    <View style={{ height: 2 }} />
+                                    <Text style={styles.textTitleLefConten} >
+                                        10:00:07 AM
+                                    </Text>
+                                </View>
+                                <View style={{ flex: 0.8, }} >
+                                    <Text style={styles.textTitleLefConten} >
+                                        10.00$
+                                    </Text>
+                                </View>
+                            </View>
+
+                        </View>
+                    </View>
+                    {/* ----------- Footrr -------- */}
+                    <View style={{ height: scaleSzie(6) }} />
+                </View>
+            </View>
+        );
+    }
+
+    renderRightContent() {
+        return (
+            <View style={{ flex: 1, paddingLeft: scaleSzie(10) }} >
+                <View style={{ flex: 1, backgroundColor: 'red' }} >
+
+                </View>
+            </View>
+        );
+    }
+
+    renderContent() {
+        return (
+            <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
+                <View style={{ flex: 1, flexDirection: 'row' }} >
+                    {this.renderLeftContent()}
+                    {this.renderRightContent()}
+                </View>
+            </View>
+        );
+    }
+
 
     render() {
         return (
@@ -104,6 +184,8 @@ class Layout extends React.Component {
                 {this.renderSearch()}
                 <View style={{ height: scaleSzie(10) }} />
                 {this.renderFilter()}
+                <View style={{ height: scaleSzie(6) }} />
+                {this.renderContent()}
             </View>
         );
     }
