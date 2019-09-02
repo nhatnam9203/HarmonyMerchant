@@ -10,7 +10,7 @@ import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@u
 import { Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
-import { } from './widget';
+import { ItemSettle, HeaderTableSettle } from './widget';
 
 class Layout extends React.Component {
 
@@ -101,55 +101,16 @@ class Layout extends React.Component {
         return (
             <View style={{ flex: 1, paddingRight: scaleSzie(10) }} >
                 <View style={{ flex: 1 }} >
-                    {/* ---------- Header ------- */}
-                    <View style={{ flexDirection: 'row', height: scaleSzie(30) }} >
-                        <View style={{ flex: 0.7, justifyContent: 'flex-end' }} >
-                            <Text style={styles.textTitleLefConten} >
-                                Batch ID
-                            </Text>
-                        </View>
-                        <View style={{ flex: 1, justifyContent: 'flex-end', }} >
-                            <Text style={[styles.textTitleLefConten, { marginLeft: scaleSzie(10) }]} >
-                                Datetime
-                            </Text>
-                        </View>
-                        <View style={{ flex: 0.8, justifyContent: 'flex-end' }} >
-                            <Text style={styles.textTitleLefConten} >
-                                Amount
-                            </Text>
-                        </View>
-                    </View>
-                    {/* ----------- Line -------- */}
+                    <HeaderTableSettle />
                     <View style={{ height: scaleSzie(5) }} />
-                    {/* ----------- Table -------- */}
                     <View style={styles.tableLeft} >
-                        {/* ----------- Item Left -------- */}
-                        <View style={{ height: scaleSzie(58), borderBottomColor: '#C5C5C5', borderBottomWidth: 1 }} >
-                            <View style={{ flex: 1, flexDirection: 'row', paddingTop: scaleSzie(8) }} >
-                                <View style={{ flex: 0.7, }} >
-                                    <Text style={[styles.textTitleLefConten, { marginLeft: scaleSzie(12) }]} >
-                                        #1234
-                                    </Text>
-                                </View>
-                                <View style={{ flex: 1, }} >
-                                    <Text style={styles.textTitleLefConten} >
-                                        02/20/2019
-                                    </Text>
-                                    <View style={{ height: 2 }} />
-                                    <Text style={styles.textTitleLefConten} >
-                                        10:00:07 AM
-                                    </Text>
-                                </View>
-                                <View style={{ flex: 0.8, }} >
-                                    <Text style={styles.textTitleLefConten} >
-                                        10.00$
-                                    </Text>
-                                </View>
-                            </View>
+                        <FlatList
+                            showsVerticalScrollIndicator={false}
+                            data={[0, 1, 2, 3, 4, 5]}
+                            renderItem={({ item, index }) => <ItemSettle />}
+                        />
 
-                        </View>
                     </View>
-                    {/* ----------- Footrr -------- */}
                     <View style={{ height: scaleSzie(6) }} />
                 </View>
             </View>
@@ -159,9 +120,28 @@ class Layout extends React.Component {
     renderRightContent() {
         return (
             <View style={{ flex: 1, paddingLeft: scaleSzie(10) }} >
-                <View style={{ flex: 1, backgroundColor: 'red' }} >
+                {/* ---------- Header -------- */}
+                <View style={{ flexDirection: 'row', height: scaleSzie(30) }} >
+                    <View style={{ flex: 0.7, justifyContent: 'flex-end' }} >
+                        <Text style={[styles.textTitleLefConten, { marginLeft: scaleSzie(10) }]} >
+                            Settlement
+                        </Text>
+                    </View>
+                </View>
+                {/* ---------- Line -------- */}
+                <View style={{ height: scaleSzie(5) }} />
+                {/* ---------- Table -------- */}
+                <View style={styles.tableLeft} >
 
                 </View>
+                {/* ---------- Table -------- */}
+                <View style={{ height: scaleSzie(6) }} />
+                <View style={styles.btnLogDetail} >
+                    <Text>
+                    View Log Detail
+                    </Text>
+                </View>
+                <View style={{ height: scaleSzie(6) }} />
             </View>
         );
     }

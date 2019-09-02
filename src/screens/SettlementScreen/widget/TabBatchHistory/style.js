@@ -24,5 +24,14 @@ export default StyleSheet.create({
         flex:1,
         borderWidth:1,
         borderColor:'#C5C5C5'
+    },
+    btnLogDetail:{
+        height:scaleSzie(35),
+        borderColor:'#C5C5C5',
+        borderWidth:1,
+        borderRadius:4,
+        backgroundColor:'#F1F1F1',
+        justifyContent:'center',
+        paddingLeft:scaleSzie(10)
     }
 })
