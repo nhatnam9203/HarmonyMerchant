@@ -136,10 +136,11 @@ class Layout extends React.Component {
                 </View>
                 {/* ---------- Table -------- */}
                 <View style={{ height: scaleSzie(6) }} />
-                <View style={styles.btnLogDetail} >
-                    <Text>
+                <View style={[styles.btnLogDetail,{flexDirection:'row'}]} >
+                    <Text style={{color:'#6A6A6A',fontSize:scaleSzie(14)}} >
                     View Log Detail
                     </Text>
+                    <Image source={IMAGE.arrowLogDetail} />
                 </View>
                 <View style={{ height: scaleSzie(6) }} />
             </View>

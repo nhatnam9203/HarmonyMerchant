@@ -31,7 +31,9 @@ export default StyleSheet.create({
         borderWidth:1,
         borderRadius:4,
         backgroundColor:'#F1F1F1',
-        justifyContent:'center',
-        paddingLeft:scaleSzie(10)
+        alignItems:'center',
+        paddingHorizontal:scaleSzie(10),
+        justifyContent:'space-between',
+        
     }
 })
