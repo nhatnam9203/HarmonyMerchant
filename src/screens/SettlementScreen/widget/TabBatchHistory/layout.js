@@ -210,12 +210,12 @@ class Layout extends React.Component {
                 </View>
                 {/* ---------- Btn Log Detail -------- */}
                 <View style={{ height: scaleSzie(6) }} />
-                <View style={[styles.btnLogDetail, { flexDirection: 'row' }]} >
+                <Button onPress={this.gotoTabDetail} style={[styles.btnLogDetail, { flexDirection: 'row' }]} >
                     <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
                         View Log Detail
                     </Text>
                     <Image source={IMAGE.arrowLogDetail} />
-                </View>
+                </Button>
                 <View style={{ height: scaleSzie(6) }} />
             </View>
         );
@@ -227,12 +227,12 @@ class Layout extends React.Component {
                 <View style={[styles.tableLeft, { padding: scaleSzie(10) }]} >
                     {/* -------- Header ------ */}
                     <View style={{ flexDirection: 'row' }} >
-                        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }} >
+                        <Button onPress={this.backReport} style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }} >
                             <Image source={IMAGE.arrowReport} style={{ width: scaleSzie(6), height: scaleSzie(12) }} />
                             <Text style={{ color: '#0764B0', fontSize: scaleSzie(12), marginLeft: scaleSzie(7) }} >
                                 Report
                             </Text>
-                        </View>
+                        </Button>
                         <View>
                             <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
                                 Log Detail
@@ -280,8 +280,8 @@ class Layout extends React.Component {
                     <ScrollableTabView
                         ref={this.scrollTabRef}
                         style={{}}
-                        initialPage={1}
-                        // locked={true}
+                        initialPage={0}
+                        locked={true}
                         renderTabBar={() => <View />}
                     >
                         {this.renderTabReport()}

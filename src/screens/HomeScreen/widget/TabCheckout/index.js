@@ -457,7 +457,7 @@ class TabCheckout extends Layout {
     }
 
     async handleResponseCreditCard(message) {
-        console.log('---- Response : ',message);
+        // console.log('---- Response : ',message);
         await this.setState({
             visibleProcessingCredit: false
         })

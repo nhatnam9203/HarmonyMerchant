@@ -15,8 +15,16 @@ class TabBatchHistory extends Layout {
                 status: ''
             }
         };
+        this.scrollTabRef = React.createRef();
     }
 
+    gotoTabDetail =() =>{
+       this.scrollTabRef.current.goToPage(1);
+    }
+
+    backReport =() =>{
+        this.scrollTabRef.current.goToPage(0);
+    }
 
 }
 
