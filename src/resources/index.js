@@ -51,7 +51,7 @@ export default {
     hpLogo: require('./img/hpLogo.png'),
     paxLogo: require('./img/paxLogo.png'),
     merchantLogo: require('./img/merchantLogo.png'),
-
+    arrowDownAmount :  require('./img/arrowDownAmount.png'),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),

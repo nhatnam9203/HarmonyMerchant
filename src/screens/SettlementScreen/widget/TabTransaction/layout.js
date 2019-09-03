@@ -119,8 +119,12 @@ class Layout extends React.Component {
                 <View style={{ height: scaleSzie(6) }} />
                 {/* ---------- Table ------- */}
                 <View style={styles.tableContainer} >
-                    {/* -------- Item -------- */}
-                    <ItemTransaction />
+                    <FlatList 
+                        data={[0,1,2,3]}
+                        renderItem={({item,index}) => <ItemTransaction />}
+                        keyExtractor={(item,index) => `${item}`}
+                    />
+                   
                 </View>
                 <View style={{ height: scaleSzie(6) }} />
             </View>
