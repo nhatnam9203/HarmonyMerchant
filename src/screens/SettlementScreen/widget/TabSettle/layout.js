@@ -94,8 +94,8 @@ class Layout extends React.Component {
         );
     }
 
-    renderItemInvoice(){
-        return(
+    renderItemInvoice() {
+        return (
             <View style={{
                 height: scaleSzie(62), paddingHorizontal: scaleSzie(10),
                 borderColor: '#C5C5C5', borderWidth: 1,
@@ -150,14 +150,40 @@ class Layout extends React.Component {
                                 renderItem={({ item, index }) => this.renderItemStaff(item, index)}
                                 keyExtractor={(item, index) => `${item}`}
                             />
-
+                        </View>
+                        {/* -------- Total ------- */}
+                        <View style={{
+                            height: scaleSzie(38), backgroundColor: '#FAFAFA', marginTop: scaleSzie(10),
+                            borderColor: '#4CD964', borderWidth: 1, flexDirection: 'row', paddingHorizontal: scaleSzie(10), alignItems: 'center',
+                            justifyContent:'space-between'
+                        }} >
+                            <Text style={{ fontSize: scaleSzie(20), color: '#0764B0' }} >
+                                Total:
+                            </Text>
+                            <Text style={{ fontSize: scaleSzie(20), color: '#4CD964' ,fontWeight:'bold'}} >
+                            $ 3900
+                            </Text>
                         </View>
                     </View>
                 </View>
                 <View style={{ width: scaleSzie(2) }} />
                 <View style={{ flex: 1.2 }} >
-                    {/*-------- renderItem ------ */}
+                    {/* -------- Item ------- */}
                     {this.renderItemInvoice()}
+                    {this.renderItemInvoice()}
+                    {/* -------- Total ------- */}
+                    <View style={{ alignItems: 'flex-end', paddingRight: scaleSzie(10), paddingTop: scaleSzie(10) }} >
+                        <Text style={{ fontSize: scaleSzie(12), color: '#404040', marginBottom: scaleSzie(10) }} >
+                            Tip Amount: <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginLeft: scaleSzie(5) }} >
+                                {`  $  25`}
+                            </Text>
+                        </Text>
+                        <Text style={{ fontSize: scaleSzie(12), color: '#404040', }} >
+                            Total Amount: <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginLeft: scaleSzie(5) }} >
+                                {`  $  200`}
+                            </Text>
+                        </Text>
+                    </View>
                 </View>
             </View>
         );
