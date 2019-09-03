@@ -25,7 +25,7 @@ const DrawerStack = createDrawerNavigator({
     Support: SupportScreen,
     Settlement:SettlementScreen
 }, {
-        initialRouteName: "Settlement",
+        initialRouteName: "Home",
         contentComponent: SlideDrawer,
         drawerWidth: scaleSzie(220)
 
