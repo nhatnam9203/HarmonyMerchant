@@ -34,6 +34,40 @@ export default StyleSheet.create({
         alignItems:'center',
         paddingHorizontal:scaleSzie(10),
         justifyContent:'space-between',
-        
+    },
+    rowBox:{
+        flexDirection: 'row',
+        justifyContent:'space-between',
+        marginBottom:scaleSzie(4),
+        // paddingRight:scaleSzie(10)
+    },
+    textLeftBox:{
+        color: '#404040',
+         fontSize: scaleSzie(14) 
+    },
+    textRightBox:{
+        color: '#404040',
+        fontSize: scaleSzie(14) ,
+        fontWeight:'bold'
+    },
+    boxChild:{
+        flex:1,
+        backgroundColor:'#E5E5E5',
+        marginBottom:scaleSzie(3),
+        paddingHorizontal:scaleSzie(8),
+        justifyContent:'space-evenly'
+    },
+    boxChildLogo:{
+        width:scaleSzie(22),
+        height:scaleSzie(15)
+    },
+    rowBoxChild:{
+        flexDirection: 'row',
+        justifyContent:'space-between',
+        // marginBottom:scaleSzie(4) 
+    },
+    textBoxChild:{
+        color: '#404040',
+        fontSize: scaleSzie(12) 
     }
 })

@@ -131,14 +131,97 @@ class Layout extends React.Component {
                 {/* ---------- Line -------- */}
                 <View style={{ height: scaleSzie(5) }} />
                 {/* ---------- Table -------- */}
-                <View style={styles.tableLeft} >
-
+                <View style={[styles.tableLeft, { paddingHorizontal: scaleSzie(18) }]} >
+                    <View style={{ height: scaleSzie(45), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
+                            Transactions:
+                        </Text>
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(22), fontWeight: 'bold' }} >
+                            24
+                        </Text>
+                    </View>
+                    {/* ------------ BOX ------------ */}
+                    <View style={[styles.tableLeft, { padding: scaleSzie(10) }]} >
+                        {/* ---------- Row 1 -------- */}
+                        <View style={styles.rowBox} >
+                            <Text style={styles.textLeftBox} >
+                                Payment by Harmony account
+                            </Text>
+                            <Text style={styles.textRightBox} >
+                                $ 1000
+                            </Text>
+                        </View>
+                        {/* ---------- Row 2 -------- */}
+                        <View style={styles.rowBox} >
+                            <Text style={styles.textLeftBox} >
+                                Payment by Credit card
+                            </Text>
+                            <Text style={styles.textRightBox} >
+                                $ 1300
+                            </Text>
+                        </View>
+                        {/* -------- Box Child ------- */}
+                        <View style={styles.boxChild} >
+                            {/* ---------- Row child 1 -------- */}
+                            <View style={styles.rowBoxChild} >
+                                <Image source={IMAGE.visaLogo} style={styles.boxChildLogo} />
+                                <Text style={styles.textBoxChild} >
+                                    $ 1300
+                                </Text>
+                            </View>
+                            {/* ---------- Row child 2 -------- */}
+                            <View style={styles.rowBoxChild} >
+                                <Image source={IMAGE.masterCardLogo} style={styles.boxChildLogo} />
+                                <Text style={styles.textBoxChild} >
+                                    $ 1300
+                                </Text>
+                            </View>
+                            {/* ---------- Row child 3 -------- */}
+                            <View style={styles.rowBoxChild} >
+                                <Image source={IMAGE.discoverLogo} style={styles.boxChildLogo} />
+                                <Text style={styles.textBoxChild} >
+                                    $ 1300
+                                </Text>
+                            </View>
+                        </View>
+                        {/* ---------- Row 3 -------- */}
+                        <View style={styles.rowBox} >
+                            <Text style={styles.textLeftBox} >
+                                Payment by Credit card
+                            </Text>
+                            <Text style={styles.textRightBox} >
+                                $ 1300
+                            </Text>
+                        </View>
+                        {/* ---------- Row 4 -------- */}
+                        <View style={styles.rowBox} >
+                            <Text style={styles.textLeftBox} >
+                                Payment by Credit card
+                            </Text>
+                            <Text style={styles.textRightBox} >
+                                $ 1300
+                            </Text>
+                        </View>
+                    </View>
+                    <View style={{ height: scaleSzie(70), justifyContent: 'center' }} >
+                        <View style={{
+                            height: scaleSzie(40), backgroundColor: '#307FBF', flexDirection: 'row',
+                            alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: scaleSzie(10)
+                        }} >
+                            <Text style={{ color: '#fff', fontSize: scaleSzie(14) }} >
+                                Payment by Credit card
+                        </Text>
+                            <Text style={{ color: '#fff', fontSize: scaleSzie(20), fontWeight: 'bold' }} >
+                                $ 1300
+                        </Text>
+                        </View>
+                    </View>
                 </View>
-                {/* ---------- Table -------- */}
+                {/* ---------- Btn Log Detail -------- */}
                 <View style={{ height: scaleSzie(6) }} />
-                <View style={[styles.btnLogDetail,{flexDirection:'row'}]} >
-                    <Text style={{color:'#6A6A6A',fontSize:scaleSzie(14)}} >
-                    View Log Detail
+                <View style={[styles.btnLogDetail, { flexDirection: 'row' }]} >
+                    <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
+                        View Log Detail
                     </Text>
                     <Image source={IMAGE.arrowLogDetail} />
                 </View>

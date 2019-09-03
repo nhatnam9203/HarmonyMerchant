@@ -44,6 +44,10 @@ export default {
     phoneContact: require('./img/phoneContact.png'),
     emailContact: require('./img/emailContact.png'),
     arrowLogDetail: require('./img/arrowLogDetail.png'),
+    visaLogo: require('./img/visaLogo.png'),
+    masterCardLogo: require('./img/masterCardLogo.png'),
+    discoverLogo: require('./img/discoverLogo.png'),
+
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),
