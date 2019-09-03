@@ -47,7 +47,7 @@ export default {
     visaLogo: require('./img/visaLogo.png'),
     masterCardLogo: require('./img/masterCardLogo.png'),
     discoverLogo: require('./img/discoverLogo.png'),
-
+    arrowReport : require('./img/arrowReport.png'),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),

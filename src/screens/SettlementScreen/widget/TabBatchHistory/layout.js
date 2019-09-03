@@ -5,6 +5,7 @@ import {
     TextInput,
     FlatList,
 } from 'react-native';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
 import { Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService } from '@components';
@@ -108,6 +109,7 @@ class Layout extends React.Component {
                             showsVerticalScrollIndicator={false}
                             data={[0, 1, 2, 3, 4, 5]}
                             renderItem={({ item, index }) => <ItemSettle />}
+                            keyExtractor={(item, index) => `${item}`}
                         />
 
                     </View>
@@ -117,20 +119,9 @@ class Layout extends React.Component {
         );
     }
 
-    renderRightContent() {
+    renderTabReport() {
         return (
-            <View style={{ flex: 1, paddingLeft: scaleSzie(10) }} >
-                {/* ---------- Header -------- */}
-                <View style={{ flexDirection: 'row', height: scaleSzie(30) }} >
-                    <View style={{ flex: 0.7, justifyContent: 'flex-end' }} >
-                        <Text style={[styles.textTitleLefConten, { marginLeft: scaleSzie(10) }]} >
-                            Settlement
-                        </Text>
-                    </View>
-                </View>
-                {/* ---------- Line -------- */}
-                <View style={{ height: scaleSzie(5) }} />
-                {/* ---------- Table -------- */}
+            <View style={{ flex: 1 }} >
                 <View style={[styles.tableLeft, { paddingHorizontal: scaleSzie(18) }]} >
                     <View style={{ height: scaleSzie(45), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
@@ -226,6 +217,78 @@ class Layout extends React.Component {
                     <Image source={IMAGE.arrowLogDetail} />
                 </View>
                 <View style={{ height: scaleSzie(6) }} />
+            </View>
+        );
+    }
+
+    renderTabDetail() {
+        return (
+            <View style={{ flex: 1 }} >
+                <View style={[styles.tableLeft, { padding: scaleSzie(10) }]} >
+                    {/* -------- Header ------ */}
+                    <View style={{ flexDirection: 'row' }} >
+                        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }} >
+                            <Image source={IMAGE.arrowReport} style={{ width: scaleSzie(6), height: scaleSzie(12) }} />
+                            <Text style={{ color: '#0764B0', fontSize: scaleSzie(12), marginLeft: scaleSzie(7) }} >
+                                Report
+                            </Text>
+                        </View>
+                        <View>
+                            <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
+                                Log Detail
+                             </Text>
+                        </View>
+                        <View style={{ flex: 1 }} />
+                    </View>
+                    {/* -------- Content ------ */}
+                    <View style={{ flex: 1, paddingHorizontal: scaleSzie(14), marginTop: scaleSzie(20) }} >
+                        {/* ------- Item ------ */}
+                        <View>
+                            <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
+                                {` 11-Jan-2019 4:27 pm`}
+                            </Text>
+                            <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
+                                Lorem Ipsum is simply dummy text of the
+                                printing and typesetting industry. Lorem
+                                 Ipsum has been the industry's standard
+                                 dummy text ever since the 1500s, when an
+                            </Text>
+                        </View>
+
+                    </View>
+                </View>
+                <View style={{ height: scaleSzie(6) }} />
+            </View>
+        );
+    }
+
+    renderRightContent() {
+        return (
+            <View style={{ flex: 1, paddingLeft: scaleSzie(10) }} >
+                {/* ---------- Header -------- */}
+                <View style={{ flexDirection: 'row', height: scaleSzie(30) }} >
+                    <View style={{ flex: 0.7, justifyContent: 'flex-end' }} >
+                        <Text style={[styles.textTitleLefConten, { marginLeft: scaleSzie(10) }]} >
+                            Settlement
+                        </Text>
+                    </View>
+                </View>
+                {/* ---------- Line -------- */}
+                <View style={{ height: scaleSzie(5) }} />
+                {/* ---------- Table -------- */}
+                <View style={{ flex: 1 }} >
+                    <ScrollableTabView
+                        ref={this.scrollTabRef}
+                        style={{}}
+                        initialPage={1}
+                        // locked={true}
+                        renderTabBar={() => <View />}
+                    >
+                        {this.renderTabReport()}
+                        {this.renderTabDetail()}
+                    </ScrollableTabView>
+                </View>
+
             </View>
         );
     }
