@@ -8,7 +8,6 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         paddingTop:scaleSzie(16),
-        // paddingHorizontal:scaleSzie(12)
     },
     borderStyle:{
         borderWidth:1,
