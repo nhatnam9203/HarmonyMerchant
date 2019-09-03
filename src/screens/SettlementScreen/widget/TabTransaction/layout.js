@@ -111,10 +111,105 @@ class Layout extends React.Component {
         );
     }
 
-    renderContent(){
-        return(
-            <View style={{flex:1}} >
+    renderHeaderTable() {
+        return (
+            <View style={styles.headerContent} >
+                {/* --------- Col 1 --------- */}
+                <View style={{ width: scaleSzie(150), justifyContent: 'flex-end' }} >
+                    <Text style={styles.textHeaderContent} >
+                        Transactions ID
+                        </Text>
+                </View>
+                {/* --------- Col 2 --------- */}
+                <View style={{ width: scaleSzie(130), justifyContent: 'flex-end' }} >
+                    <Text style={styles.textHeaderContent} >
+                        Datetime
+                        </Text>
+                </View>
+                {/* --------- Col 3 --------- */}
+                <View style={{ width: scaleSzie(150), justifyContent: 'flex-end' }} >
+                    <Text style={styles.textHeaderContent} >
+                        Invoice Number
+                        </Text>
+                </View>
+                {/* --------- Col 4 --------- */}
+                <View style={{ width: scaleSzie(110), justifyContent: 'flex-end' }} >
+                    <Text style={styles.textHeaderContent} >
+                        Status
+                        </Text>
+                </View>
+                {/* --------- Col 5 --------- */}
+                <View style={{ width: scaleSzie(130), justifyContent: 'flex-end' }} >
+                    <Text style={styles.textHeaderContent} >
+                        Payment
+                        </Text>
+                </View>
+                {/* --------- Col 5 --------- */}
+                <View style={{ flex: 1, justifyContent: 'flex-end' }} >
+                    <Text style={styles.textHeaderContent} >
+                        Total
+                        </Text>
+                </View>
+            </View>
+        );
+    }
 
+    renderContent() {
+        return (
+            <View style={styles.contentContainer} >
+                {this.renderHeaderTable()}
+                <View style={{ height: scaleSzie(6) }} />
+                {/* ---------- Table ------- */}
+                <View style={styles.tableContainer} >
+                    {/* -------- Item -------- */}
+                    <View style={{
+                        height: scaleSzie(60), backgroundColor: '#FAFAFA',
+                        borderBottomColor: '#C5C5C5', borderBottomWidth: 1, flexDirection: 'row'
+                    }} >
+                        {/* --------- Col 1 --------- */}
+                        <View style={{ width: scaleSzie(150), justifyContent: 'center' }} >
+                            <Text style={[styles.textHeaderContent, { marginLeft: scaleSzie(10) }]} >
+                                #1234
+                        </Text>
+                        </View>
+                        {/* --------- Col 2 --------- */}
+                        <View style={{ width: scaleSzie(130), justifyContent: 'center' }} >
+                            <Text style={styles.textHeaderContent} >
+                                02/20/2019
+                            </Text>
+                            <Text style={styles.textHeaderContent} >
+                                10:00:07 AM
+                            </Text>
+
+                        </View>
+                        {/* --------- Col 3 --------- */}
+                        <View style={{ width: scaleSzie(150), justifyContent: 'center' }} >
+                            <Text style={styles.textHeaderContent} >
+                                #23456
+                            </Text>
+                        </View>
+                        {/* --------- Col 4 --------- */}
+                        <View style={{ width: scaleSzie(110), justifyContent: 'center' }} >
+                            <Text style={styles.textHeaderContent} >
+                                Open
+                        </Text>
+                        </View>
+                        {/* --------- Col 5 --------- */}
+                        <View style={{ width: scaleSzie(130), justifyContent: 'center' }} >
+                            <Text style={styles.textHeaderContent} >
+                                Payment
+                        </Text>
+                        </View>
+                        {/* --------- Col 5 --------- */}
+                        <View style={{ flex: 1, justifyContent: 'center' }} >
+                            <Text style={styles.textHeaderContent} >
+                                10.00$
+                        </Text>
+                        </View>
+                    </View>
+
+                </View>
+                <View style={{ height: scaleSzie(6) }} />
             </View>
         );
     }
@@ -122,11 +217,11 @@ class Layout extends React.Component {
     render() {
         return (
             <View style={styles.container} >
-                   {this.renderSearch()}
-                   <View style={{ height: scaleSzie(10) }} />
-                   {this.renderFilter()}
-                   <View style={{ height: scaleSzie(6) }} />
-                   {this.renderContent()}
+                {this.renderSearch()}
+                <View style={{ height: scaleSzie(10) }} />
+                {this.renderFilter()}
+                <View style={{ height: scaleSzie(6) }} />
+                {this.renderContent()}
             </View>
         );
     }
