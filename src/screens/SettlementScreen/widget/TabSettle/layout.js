@@ -153,14 +153,14 @@ class Layout extends React.Component {
                         </View>
                         {/* -------- Total ------- */}
                         <View style={{
-                            height: scaleSzie(38), backgroundColor: '#FAFAFA', marginTop: scaleSzie(10),
+                            height: scaleSzie(45), backgroundColor: '#FAFAFA', marginTop: scaleSzie(10),
                             borderColor: '#4CD964', borderWidth: 1, flexDirection: 'row', paddingHorizontal: scaleSzie(10), alignItems: 'center',
                             justifyContent: 'space-between'
                         }} >
                             <Text style={{ fontSize: scaleSzie(20), color: '#0764B0' }} >
                                 Total:
                             </Text>
-                            <Text style={{ fontSize: scaleSzie(20), color: '#4CD964', fontWeight: 'bold' }} >
+                            <Text style={{ fontSize: scaleSzie(26), color: '#4CD964', fontWeight: 'bold' }} >
                                 $ 3900
                             </Text>
                         </View>
@@ -193,20 +193,158 @@ class Layout extends React.Component {
         return (
             <View style={{ paddingHorizontal: scaleSzie(10), flexDirection: 'row' }} >
                 {/* --------- Left --------- */}
-                <View style={{ flex: 1.2, paddingRight: scaleSzie(20) }} >
+                <View style={{ flex: 1.2, paddingRight: scaleSzie(30) }} >
                     <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
                         Report Amount
                     </Text>
                     {/* ------------ Row 1 ------------ */}
-                    <View style={{ height: scaleSzie }} >
-
+                    <View style={{
+                        height: scaleSzie(45), backgroundColor: '#80C6FF', marginTop: scaleSzie(8), marginBottom: scaleSzie(2),
+                        paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+                    }} >
+                        <Text style={{ fontSize: scaleSzie(15), color: '#fff' }} >
+                            Payment by Harmony account
+                        </Text>
+                        <Text style={{ fontSize: scaleSzie(26), color: '#fff' }} >
+                            $ 1000
+                        </Text>
+                    </View>
+                    {/* ------------ Row 2 ------------ */}
+                    <View style={{
+                        height: scaleSzie(45), backgroundColor: '#307FBF', marginBottom: scaleSzie(2),
+                        paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+                    }} >
+                        <Text style={{ fontSize: scaleSzie(15), color: '#fff' }} >
+                            Payment by Credit card
+                        </Text>
+                        <Text style={{ fontSize: scaleSzie(26), color: '#fff' }} >
+                            $ 1000
+                        </Text>
+                    </View>
+                    {/* ------------ Row 3 ------------ */}
+                    <View style={{
+                        height: scaleSzie(45), backgroundColor: '#205580', marginBottom: scaleSzie(2),
+                        paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+                    }} >
+                        <Text style={{ fontSize: scaleSzie(15), color: '#fff' }} >
+                            Payment by Cash
+                        </Text>
+                        <Text style={{ fontSize: scaleSzie(26), color: '#fff' }} >
+                            $ 1000
+                        </Text>
+                    </View>
+                    {/* ------------ Row 4 ------------ */}
+                    <View style={{
+                        height: scaleSzie(45), backgroundColor: '#BBEBFA', marginBottom: scaleSzie(2),
+                        paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+                    }} >
+                        <Text style={{ fontSize: scaleSzie(15), color: '#6A6A6A' }} >
+                            Other payment
+                        </Text>
+                        <Text style={{ fontSize: scaleSzie(26), color: '#6A6A6A' }} >
+                            $ 1000
+                        </Text>
+                    </View>
+                    {/* -------- Total ------- */}
+                    <View style={{
+                        height: scaleSzie(45), backgroundColor: '#FAFAFA', marginTop: scaleSzie(10),
+                        borderColor: '#4CD964', borderWidth: 1, flexDirection: 'row', paddingHorizontal: scaleSzie(10), alignItems: 'center',
+                        justifyContent: 'space-between'
+                    }} >
+                        <Text style={{ fontSize: scaleSzie(20), color: '#0764B0' }} >
+                            Total:
+                            </Text>
+                        <Text style={{ fontSize: scaleSzie(26), color: '#4CD964', fontWeight: 'bold' }} >
+                            $ 3900
+                            </Text>
                     </View>
                 </View>
                 {/* --------- Right --------- */}
-                <View style={{ flex: 1 }} >
+                <View style={{ flex: 1.1 }} >
                     <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
                         Editable Actual Amount
                     </Text>
+                    {/* ------------ Row 1 ------------ */}
+                    <View style={{
+                        height: scaleSzie(45), marginTop: scaleSzie(8), marginBottom: scaleSzie(2),
+                        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+                    }} >
+                        <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
+                            Payment by Harmony account
+                        </Text>
+                        <View style={{
+                            height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
+                            paddingHorizontal: scaleSzie(10), justifyContent: 'center', alignItems: 'flex-end'
+                        }} >
+                            <Text style={{ fontSize: scaleSzie(26), color: '#404040', }} >
+                                $ 1000
+                            </Text>
+                        </View>
+                    </View>
+                    {/* ------------ Row 2 ------------ */}
+                    <View style={{
+                        height: scaleSzie(45), marginBottom: scaleSzie(2),
+                        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+                    }} >
+                        <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
+                            Payment by Credit card
+                        </Text>
+                        <View style={{
+                            height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
+                            paddingHorizontal: scaleSzie(10), justifyContent: 'center', alignItems: 'flex-end'
+                        }} >
+                            <Text style={{ fontSize: scaleSzie(26), color: '#404040', }} >
+                                $ 1000
+                            </Text>
+                        </View>
+                    </View>
+                    {/* ------------ Row 3 ------------ */}
+                    <View style={{
+                        height: scaleSzie(45), marginBottom: scaleSzie(2),
+                        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+                    }} >
+                        <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
+                            Payment by Credit card
+                        </Text>
+                        <View style={{
+                            height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
+                            paddingHorizontal: scaleSzie(10), justifyContent: 'center', alignItems: 'flex-end'
+                        }} >
+                            <Text style={{ fontSize: scaleSzie(26), color: '#404040', }} >
+                                $ 1000
+                            </Text>
+                        </View>
+                    </View>
+                    {/* ------------ Row 4 ------------ */}
+                    <View style={{
+                        height: scaleSzie(45), marginBottom: scaleSzie(2),
+                        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+                    }} >
+                        <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
+                            Other payment
+                        </Text>
+                        <View style={{
+                            height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
+                            paddingHorizontal: scaleSzie(10), justifyContent: 'center', alignItems: 'flex-end'
+                        }} >
+                            <Text style={{ fontSize: scaleSzie(26), color: '#404040', }} >
+                                $ 1000
+                            </Text>
+                        </View>
+                    </View>
+                    {/* -------- Total ------- */}
+                    <View style={{
+                        height: scaleSzie(45),marginTop: scaleSzie(10),
+                       flexDirection: 'row', paddingHorizontal: scaleSzie(10), alignItems: 'center',
+                        justifyContent: 'space-between'
+                    }} >
+                        <Text style={{ fontSize: scaleSzie(20), color: '#0764B0' }} >
+                            Total:
+                            </Text>
+                        <Text style={{ fontSize: scaleSzie(26), color: '#4CD964', fontWeight: 'bold' }} >
+                            $ 3900
+                            </Text>
+                    </View>
                 </View>
             </View>
         );
@@ -232,6 +370,7 @@ class Layout extends React.Component {
     }
 
 }
-
 export default Layout;
+
+// C02VL08THTDH
 
