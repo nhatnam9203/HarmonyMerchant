@@ -139,7 +139,7 @@ class Layout extends React.Component {
         );
     }
 
-    renderHeaderTableStaff() {
+    renderTableStaff() {
         return (
             <View style={{ flexDirection: 'row' }} >
                 <View style={{ flex: 1 }} >
@@ -155,13 +155,13 @@ class Layout extends React.Component {
                         <View style={{
                             height: scaleSzie(38), backgroundColor: '#FAFAFA', marginTop: scaleSzie(10),
                             borderColor: '#4CD964', borderWidth: 1, flexDirection: 'row', paddingHorizontal: scaleSzie(10), alignItems: 'center',
-                            justifyContent:'space-between'
+                            justifyContent: 'space-between'
                         }} >
                             <Text style={{ fontSize: scaleSzie(20), color: '#0764B0' }} >
                                 Total:
                             </Text>
-                            <Text style={{ fontSize: scaleSzie(20), color: '#4CD964' ,fontWeight:'bold'}} >
-                            $ 3900
+                            <Text style={{ fontSize: scaleSzie(20), color: '#4CD964', fontWeight: 'bold' }} >
+                                $ 3900
                             </Text>
                         </View>
                     </View>
@@ -189,6 +189,29 @@ class Layout extends React.Component {
         );
     }
 
+    renderReportAmount() {
+        return (
+            <View style={{ paddingHorizontal: scaleSzie(10), flexDirection: 'row' }} >
+                {/* --------- Left --------- */}
+                <View style={{ flex: 1.2, paddingRight: scaleSzie(20) }} >
+                    <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
+                        Report Amount
+                    </Text>
+                    {/* ------------ Row 1 ------------ */}
+                    <View style={{ height: scaleSzie }} >
+
+                    </View>
+                </View>
+                {/* --------- Right --------- */}
+                <View style={{ flex: 1 }} >
+                    <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
+                        Editable Actual Amount
+                    </Text>
+                </View>
+            </View>
+        );
+    }
+
     render() {
         return (
             <View style={styles.container} >
@@ -197,7 +220,9 @@ class Layout extends React.Component {
                         {this.renderLastSettlement()}
                         {this.renderHeaderStaffList()}
                         {this.renderHeaderTableStaffList()}
-                        {this.renderHeaderTableStaff()}
+                        {this.renderTableStaff()}
+                        <View style={{ height: scaleSzie(30) }} />
+                        {this.renderReportAmount()}
                         <View style={{ height: scaleSzie(250) }} />
                     </ScrollView>
                 </View>
