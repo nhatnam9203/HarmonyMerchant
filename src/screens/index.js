@@ -20,6 +20,7 @@ import CustomerScreen from './CustomerScreen';
 import InvoiceScreen from './InvoiceScreen';
 import SupportScreen from './SupportScreen';
 import SettlementScreen from './SettlementScreen';
+import ReportScreen from './ReportScreen';
 
 
 module.exports = {
@@ -44,5 +45,6 @@ module.exports = {
     CustomerScreen,
     InvoiceScreen,
     SupportScreen,
-    SettlementScreen
+    SettlementScreen,
+    ReportScreen
 }

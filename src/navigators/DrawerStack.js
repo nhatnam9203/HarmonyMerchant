@@ -13,7 +13,8 @@ import {
     CustomerScreen,
     InvoiceScreen,
     SupportScreen,
-    SettlementScreen
+    SettlementScreen,
+    ReportScreen
 } from '../screens';
 
 const DrawerStack = createDrawerNavigator({
@@ -23,9 +24,10 @@ const DrawerStack = createDrawerNavigator({
     Customer: CustomerScreen,
     Invoice: InvoiceScreen,
     Support: SupportScreen,
-    Settlement:SettlementScreen
+    Settlement:SettlementScreen,
+    Report:ReportScreen
 }, {
-        initialRouteName: "Settlement",
+        initialRouteName: "Home",
         contentComponent: SlideDrawer,
         drawerWidth: scaleSzie(220)
 
