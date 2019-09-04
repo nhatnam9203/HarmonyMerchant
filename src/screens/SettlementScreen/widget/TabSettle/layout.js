@@ -529,6 +529,39 @@ class Layout extends React.Component {
                         </View>
                     </View>
                 </View>
+                {/* ------------ Footer -------- */}
+                <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(10) }} >
+                    <View style={{ flex: 1 ,backgroundColor:'red'}} >
+
+                    </View>
+                    <View style={{ flexDirection: 'row', height: scaleSzie(55) }} >
+                        <View style={{ flex: 1 }} >
+                            <ButtonCustom
+                                width={'100%'}
+                                height={55}
+                                backgroundColor="#F1F1F1"
+                                title="BACK"
+                                textColor="#6A6A6A"
+                                onPress={this.searchCategories}
+                                style={{ borderWidth: 0.5, borderColor: '#707070' }}
+                                styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
+                            />
+                        </View>
+                        <View style={{ width: scaleSzie(25) }} />
+                        <View style={{ flex: 1, }} >
+                            <ButtonCustom
+                                width={'100%'}
+                                height={55}
+                                backgroundColor="#4CD964"
+                                title="SETTLE"
+                                textColor="#fff"
+                                onPress={this.searchCategories}
+                                style={{ borderWidth: 0.5, borderColor: '#C5C5C5' }}
+                                styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
+                            />
+                        </View>
+                    </View>
+                </View>
             </View>
         );
     }
