@@ -534,7 +534,7 @@ class Layout extends React.Component {
                     </View>
                 </View>
                 {/* ------------ Footer -------- */}
-                {this.renderFooter3()}
+                {this.renderFooter1()}
             </View>
         );
     }
@@ -646,7 +646,7 @@ class Layout extends React.Component {
                             backgroundColor="#4CD964"
                             title="SETTLE"
                             textColor="#fff"
-                            onPress={this.searchCategories}
+                            onPress={this.settle}
                             style={{ borderWidth: 0.5, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
                         />
