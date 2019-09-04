@@ -191,7 +191,7 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)amount callback:(RCTResponseSender
   myapp.poslink.paymentRequest = paymentRequest;
   
  paymentRequest.TenderType = [PaymentRequest ParseTenderType:@"CREDIT"];
-paymentRequest.TransType = [PaymentRequest ParseTransType:@"SALE"];
+  paymentRequest.TransType = [PaymentRequest ParseTransType:@"SALE"];
   
   paymentRequest.Amount = amount;
   paymentRequest.CashBackAmt = @"";
@@ -309,7 +309,7 @@ RCT_EXPORT_METHOD(batchTransaction:(RCTResponseSenderBlock)callback)
   
   batchRequest.TransType = [BatchRequest ParseTransType:@"BATCHCLOSE"];
   batchRequest.EDCType = [BatchRequest ParseEDCType:@"CREDIT"];
-  batchRequest.PaymentType = [BatchRequest ParseTransType:@"SALE"];
+  batchRequest.PaymentType = [BatchRequest ParseTransType:@"ALL"];
   batchRequest.CardType = [BatchRequest ParseEDCType:@"MASTERCARD"];
   batchRequest.Timestamp = @"20190828061059";
   batchRequest.SAFIndicator = @"";

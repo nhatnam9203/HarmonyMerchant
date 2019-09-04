@@ -23,6 +23,7 @@ class TabSettle extends Layout {
         PosLink.setupPax(ip, port, timeout);
 
         PosLink.reportTransaction((message) => console.log('message : ', message));
+        // PosLink.batchTransaction(message => console.log('message : ', message))
 
         // {
         //     CreditCount:3
