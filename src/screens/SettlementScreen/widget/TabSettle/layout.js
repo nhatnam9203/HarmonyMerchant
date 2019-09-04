@@ -334,8 +334,8 @@ class Layout extends React.Component {
                     </View>
                     {/* -------- Total ------- */}
                     <View style={{
-                        height: scaleSzie(45),marginTop: scaleSzie(10),
-                       flexDirection: 'row', paddingHorizontal: scaleSzie(10), alignItems: 'center',
+                        height: scaleSzie(45), marginTop: scaleSzie(10),
+                        flexDirection: 'row', paddingHorizontal: scaleSzie(10), alignItems: 'center',
                         justifyContent: 'space-between'
                     }} >
                         <Text style={{ fontSize: scaleSzie(20), color: '#0764B0' }} >
@@ -346,6 +346,61 @@ class Layout extends React.Component {
                             </Text>
                     </View>
                 </View>
+            </View>
+        );
+    }
+
+    renderNote() {
+        return (
+            <View style={{ height: scaleSzie(130), paddingHorizontal: scaleSzie(10) }} >
+                <View style={{
+                    flex: 1, backgroundColor: '#F1F1F1', borderColor: '#C5C5C5', borderWidth: 1, paddingHorizontal: scaleSzie(16),
+                    paddingTop: scaleSzie(20)
+                }} >
+                    <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
+                        Lorem Ipsum is simply dummy text of
+                        the printing and typesetting industry.
+                         Lorem Ipsum has been the industry's standard dummy
+                         text ever since
+                   </Text>
+                    <View style={{ flex: 1, justifyContent: 'flex-end', paddingBottom: scaleSzie(10) }} >
+                        <View style={{ height: scaleSzie(40), flexDirection: 'row' }} >
+                            <View style={{
+                                flex: 1, backgroundColor: '#fff', borderBottomLeftRadius: 4, borderTopLeftRadius: 4,
+                                paddingHorizontal: scaleSzie(10)
+                            }} >
+                                <TextInput 
+                                    style={{flex:1,fontSize:scaleSzie(16)}}
+                                />
+                            </View>
+                            <View style={{ width: scaleSzie(45), backgroundColor: '#0764B0', borderBottomRightRadius: 4, borderTopRightRadius: 4,
+                            justifyContent:'center',alignItems:'center'
+                        }} >
+                                <Image source={IMAGE.arrowNote}
+                                 style={{width:30,height:30}}
+                                  />
+                            </View>
+                        </View>
+                    </View>
+                </View>
+            </View>
+        );
+    }
+
+    renderButtonConfirm(){
+        const {language} =this.props;
+        return(
+            <View style={{width:'100%',alignItems:'center'}} >
+                   <ButtonCustom
+                            width={scaleSzie(300)}
+                            height={50}
+                            backgroundColor="#0764B0"
+                            title={localize('CONFIRM ', language)}
+                            textColor="#fff"
+                            onPress={this.searchCategories}
+                            style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                            styleText={{ fontSize: scaleSzie(18), fontWeight: 'bold' }}
+                        />
             </View>
         );
     }
@@ -361,7 +416,11 @@ class Layout extends React.Component {
                         {this.renderTableStaff()}
                         <View style={{ height: scaleSzie(30) }} />
                         {this.renderReportAmount()}
-                        <View style={{ height: scaleSzie(250) }} />
+                        <View style={{ height: scaleSzie(20) }} />
+                        {this.renderNote()}
+                        <View style={{ height: scaleSzie(30) }} />
+                        {this.renderButtonConfirm()}
+                        <View style={{ height: scaleSzie(300) }} />
                     </ScrollView>
                 </View>
 
