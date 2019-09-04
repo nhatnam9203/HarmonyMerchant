@@ -4,14 +4,18 @@ import {
     Image,
     TextInput,
     FlatList,
-    ScrollView
+    ScrollView,
+    Dimensions
 } from 'react-native';
+import * as Progress from 'react-native-progress';
 
 import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
 import { Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import { } from './widget';
+
+const { width } = Dimensions.get('window');
 
 class Layout extends React.Component {
 
@@ -530,36 +534,122 @@ class Layout extends React.Component {
                     </View>
                 </View>
                 {/* ------------ Footer -------- */}
-                <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(10) }} >
-                    <View style={{ flex: 1 ,backgroundColor:'red'}} >
+                {this.renderFooter3()}
+            </View>
+        );
+    }
 
+    // ---------- Footer 3 ------
+    renderFooter3() {
+        return (
+            <View style={{ flex: 1, padding: scaleSzie(10) }} >
+                <View style={{ alignItems: 'center' }} >
+                    <Text style={{ color: '#DB7D2A', fontSize: scaleSzie(16) }} >
+                        Batch Settlement Successful
+                    </Text>
+                </View>
+                <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginTop: scaleSzie(10), marginBottom: scaleSzie(4) }} >
+                    Open Batch
+                </Text>
+                <Progress.Bar
+                    progress={0.5}
+                    width={width - scaleSzie(20)}
+                    height={38}
+                    color="#4CD964"
+                    borderRadius={10}
+                    showsText={true}
+                />
+                <View style={{ flex: 1, marginTop: scaleSzie(12), flexDirection: 'row' }} >
+                    <View style={{ width: scaleSzie(140) }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(14), }} >
+                            Log message
+                        </Text>
                     </View>
-                    <View style={{ flexDirection: 'row', height: scaleSzie(55) }} >
-                        <View style={{ flex: 1 }} >
-                            <ButtonCustom
-                                width={'100%'}
-                                height={55}
-                                backgroundColor="#F1F1F1"
-                                title="BACK"
-                                textColor="#6A6A6A"
-                                onPress={this.searchCategories}
-                                style={{ borderWidth: 0.5, borderColor: '#707070' }}
-                                styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
-                            />
-                        </View>
-                        <View style={{ width: scaleSzie(25) }} />
-                        <View style={{ flex: 1, }} >
-                            <ButtonCustom
-                                width={'100%'}
-                                height={55}
-                                backgroundColor="#4CD964"
-                                title="SETTLE"
-                                textColor="#fff"
-                                onPress={this.searchCategories}
-                                style={{ borderWidth: 0.5, borderColor: '#C5C5C5' }}
-                                styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
-                            />
-                        </View>
+                    <View style={{ flex: 1 }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(14), }} >
+                            - Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                        </Text>
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(14), }} >
+                            - Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                        </Text>
+                    </View>
+                </View>
+
+            </View>
+        );
+    }
+
+    // ---------- Footer 2 ------
+    renderFooter2() {
+        return (
+            <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(10) }} >
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+                    <Text style={{ color: '#4CD964', fontSize: scaleSzie(16) }} >
+                        Batch Settlement Successful
+                    </Text>
+                </View>
+                <View style={{ flexDirection: 'row', height: scaleSzie(55) }} >
+                    <View style={{ flex: 1 }} >
+                        <ButtonCustom
+                            width={'100%'}
+                            height={55}
+                            backgroundColor="#0764B0"
+                            title="REVIEW BATCH HISTORY"
+                            textColor="#fff"
+                            onPress={this.searchCategories}
+                            style={{ borderWidth: 0.5, borderColor: '#C5C5C5' }}
+                            styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
+                        />
+                    </View>
+                    <View style={{ width: scaleSzie(25) }} />
+                    <View style={{ flex: 1, }} >
+                        <ButtonCustom
+                            width={'100%'}
+                            height={55}
+                            backgroundColor="#4CD964"
+                            title="FINISH"
+                            textColor="#fff"
+                            onPress={this.searchCategories}
+                            style={{ borderWidth: 0.5, borderColor: '#C5C5C5' }}
+                            styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
+                        />
+                    </View>
+                </View>
+            </View>
+        );
+    }
+
+    // ---------- Footer 1 ------
+    renderFooter1() {
+        return (
+            <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(10) }} >
+                <View style={{ flex: 1 }} >
+                </View>
+                <View style={{ flexDirection: 'row', height: scaleSzie(55) }} >
+                    <View style={{ flex: 1 }} >
+                        <ButtonCustom
+                            width={'100%'}
+                            height={55}
+                            backgroundColor="#F1F1F1"
+                            title="BACK"
+                            textColor="#6A6A6A"
+                            onPress={this.searchCategories}
+                            style={{ borderWidth: 0.5, borderColor: '#707070' }}
+                            styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
+                        />
+                    </View>
+                    <View style={{ width: scaleSzie(25) }} />
+                    <View style={{ flex: 1, }} >
+                        <ButtonCustom
+                            width={'100%'}
+                            height={55}
+                            backgroundColor="#4CD964"
+                            title="SETTLE"
+                            textColor="#fff"
+                            onPress={this.searchCategories}
+                            style={{ borderWidth: 0.5, borderColor: '#C5C5C5' }}
+                            styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
+                        />
                     </View>
                 </View>
             </View>
