@@ -77,7 +77,7 @@ class Layout extends React.Component {
                             backgroundColor="#0764B0"
                             title="REVIEW BATCH HISTORY"
                             textColor="#fff"
-                            onPress={this.searchCategories}
+                            onPress={this.reviewBatchHistory}
                             style={{ borderWidth: 0.5, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
                         />

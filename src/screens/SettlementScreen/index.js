@@ -32,6 +32,10 @@ class SettlementScreen extends Layout {
         );
     }
 
+    reviewBatchHistory = () => {
+        this.scrollTabRef.current.goToPage(2);
+    }
+
 
     handleLockScreen = () => {
         const { isFocus } = this.state;

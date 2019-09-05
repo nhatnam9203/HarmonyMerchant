@@ -57,6 +57,10 @@ class TabSecondSettle extends Layout {
         this.props.backTabFirstSettle();
     }
 
+    reviewBatchHistory = () =>{
+        this.props.reviewBatchHistory();
+    }
+
     settle = async () => {
         const { paxMachineInfo } = this.props;
         const { ip, port, timeout, isSetup } = paxMachineInfo;

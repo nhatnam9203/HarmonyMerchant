@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom,DefaultTabBar } from '@components';
+import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, DefaultTabBar } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
@@ -33,9 +33,9 @@ export default class Layout extends React.Component {
         );
     }
 
-    renderTabContainer(){
-        return(
-            <View style={{flex:1}} >
+    renderTabContainer() {
+        return (
+            <View style={{ flex: 1 }} >
                 <ScrollableTabView
                     ref={this.scrollTabRef}
                     style={{}}
@@ -50,9 +50,16 @@ export default class Layout extends React.Component {
                         }}
                     />}
                 >
-                    <TabSettle tabLabel="Settle" style={{flex:1}} />
-                    <TabTransaction tabLabel="Transactions" style={{flex:1}} />
-                    <TabBatchHistory tabLabel="Batch history" style={{flex:1}} />
+                    <TabSettle
+                        tabLabel="Settle"
+                        reviewBatchHistory={this.reviewBatchHistory}
+                    />
+                    <TabTransaction
+                        tabLabel="Transactions"
+                    />
+                    <TabBatchHistory 
+                    tabLabel="Batch history" 
+                    />
 
                 </ScrollableTabView>
             </View>

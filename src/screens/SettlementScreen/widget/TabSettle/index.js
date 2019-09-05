@@ -22,9 +22,6 @@ class TabSettle extends Layout {
         this.scrollTabRef.current.goToPage(0);
     }
 
-    
-
-
 }
 
 const mapStateToProps = state => ({
