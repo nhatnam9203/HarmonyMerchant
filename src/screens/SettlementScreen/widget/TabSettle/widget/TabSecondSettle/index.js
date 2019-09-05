@@ -16,39 +16,60 @@ class TabSecondSettle extends Layout {
         };
     }
 
+    componentDidMount() {
+        alert('dddd')
+    }
+
+    onDidFocus = (payload) => {
+        alert('dd')
+    }
+
     backTabFirstSettle = () => {
         this.props.backTabFirstSettle();
     }
 
     settle = async () => {
-        await this.setState({
-            numberFooter: 2,
-        });
-        setTimeout(() => {
-            this.setState({
-                progress: 0.5,
-            });
-        }, 100);
-        //  ----- Hanle -----
         const { paxMachineInfo } = this.props;
-        const { ip, port, timeout } = paxMachineInfo;
-
-        PosLink.setupPax(ip, port, timeout);
-        PosLink.batchTransaction(message => alert(message))
+        const { ip, port, timeout, isSetup } = paxMachineInfo;
+        if (isSetup) {
+            await this.setState({
+                numberFooter: 2,
+            });
+            setTimeout(() => {
+                this.setState({
+                    progress: 0.5,
+                });
+            }, 100);
+            PosLink.setupPax(ip, port, timeout);
+            PosLink.batchTransaction(message => this.handleResponseBatchTransactions(message));
+        } else {
+            alert('Please setup your pax machine in setting');
+        }
     }
 
-    settle1 = () => {
-        const { paxMachineInfo } = this.props;
-        const { ip, port, timeout } = paxMachineInfo;
-
-        PosLink.setupPax(ip, port, timeout);
-        PosLink.reportTransaction((message) => console.log('message : ', message));
-        PosLink.batchTransaction(message => console.log('message : ', message))
-
-        // {
-        //     CreditCount:3
-        //     CreditAmount: 7726
-        // }
+    async handleResponseBatchTransactions(message) {
+        try {
+            const result = JSON.parse(message);
+            if (result.status == 0) {
+                this.setState({
+                    numberFooter: 1,
+                    progress: 0,
+                })
+                alert(result.message);
+            } else {
+                this.setState({
+                    numberFooter: 3,
+                });
+                setTimeout(() => {
+                    this.setState({
+                        progress: 0,
+                    });
+                }, 200)
+            }
+            console.log('message : ', result);
+        } catch (error) {
+            console.log('error : ', error)
+        }
     }
 
 }

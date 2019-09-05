@@ -7,10 +7,11 @@ import {
     ScrollView,
     Dimensions
 } from 'react-native';
+import { NavigationEvents } from 'react-navigation';
 
 import { scaleSzie, localize } from '@utils';
 import {
-    Text, Button, ButtonCustom, 
+    Text, Button, ButtonCustom,
 } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
@@ -306,7 +307,7 @@ class Layout extends React.Component {
                         flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
                     }} >
                         <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
-                            Payment by Credit card
+                        Payment by Cash
                         </Text>
                         <View style={{
                             height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
@@ -396,13 +397,13 @@ class Layout extends React.Component {
             <View style={{ width: '100%', alignItems: 'center' }} >
                 <ButtonCustom
                     width={scaleSzie(300)}
-                    height={50}
+                    height={55}
                     backgroundColor="#0764B0"
                     title={localize('CONFIRM ', language)}
                     textColor="#fff"
                     onPress={this.gotoTabSecondSettle}
                     style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                    styleText={{ fontSize: scaleSzie(18), fontWeight: 'bold' }}
+                    styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
                 />
             </View>
         );
@@ -412,6 +413,9 @@ class Layout extends React.Component {
     render() {
         return (
             <View style={{ flex: 1 }} >
+                <NavigationEvents
+                    onDidFocus={this.onDidFocus}
+                />
                 <ScrollView>
                     {this.renderLastSettlement()}
                     {this.renderHeaderStaffList()}

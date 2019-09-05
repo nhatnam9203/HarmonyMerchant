@@ -7,6 +7,7 @@ import {
     Dimensions
 } from 'react-native';
 import * as Progress from 'react-native-progress';
+import { NavigationEvents } from 'react-navigation';
 
 import { scaleSzie, localize, } from '@utils';
 import {
@@ -196,7 +197,7 @@ class Layout extends React.Component {
                         {/* ---------- Row 3 -------- */}
                         <View style={styles.rowBox} >
                             <Text style={styles.textLeftBox} >
-                            Payment by Cash
+                                Payment by Cash
                             </Text>
                             <Text style={styles.textRightBox} >
                                 $ 1300
@@ -205,7 +206,7 @@ class Layout extends React.Component {
                         {/* ---------- Row 4 -------- */}
                         <View style={styles.rowBox} >
                             <Text style={styles.textLeftBox} >
-                            Other Payment
+                                Other Payment
                             </Text>
                             <Text style={styles.textRightBox} >
                                 $ 1300
@@ -230,13 +231,13 @@ class Layout extends React.Component {
         );
     }
 
-    renderFooter(){
-        const {numberFooter} = this.state;
-        if(numberFooter ==1){
+    renderFooter() {
+        const { numberFooter } = this.state;
+        if (numberFooter == 1) {
             return this.renderFooter1();
-        }else if(numberFooter == 2){
+        } else if (numberFooter == 2) {
             return this.renderFooter2();
-        }else{
+        } else {
             return this.renderFooter3();
         }
     }
@@ -244,6 +245,9 @@ class Layout extends React.Component {
     render() {
         return (
             <View style={[styles.container, { backgroundColor: '#F6F6F6' }]} >
+                <NavigationEvents
+                    onDidFocus={this.onDidFocus}
+                />
                 <View style={{ height: scaleSzie(20) }} />
                 <View style={{ paddingHorizontal: scaleSzie(10), flexDirection: 'row' }} >
                     {/* --------- Left --------- */}

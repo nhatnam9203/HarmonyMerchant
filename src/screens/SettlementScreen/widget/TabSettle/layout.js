@@ -29,11 +29,12 @@ class Layout extends React.Component {
                     locked={true}
                     renderTabBar={() => <View />}
                 >
-                    <TabFirstSettle 
-                    gotoTabSecondSettle={this.gotoTabSecondSettle}
+                    <TabFirstSettle
+                        gotoTabSecondSettle={this.gotoTabSecondSettle}
+                        navigation={this.props.navigation}
                     />
-                    <TabSecondSettle 
-                    backTabFirstSettle={this.backTabFirstSettle}
+                    <TabSecondSettle
+                        backTabFirstSettle={this.backTabFirstSettle}
                     />
                 </ScrollableTabView>
 
