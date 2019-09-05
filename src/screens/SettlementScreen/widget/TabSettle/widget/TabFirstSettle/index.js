@@ -11,7 +11,9 @@ class TabFirstSettle extends Layout {
         };
     }
 
-
+    gotoTabSecondSettle = () =>{
+      this.props.gotoTabSecondSettle();
+    }
 
 }
 

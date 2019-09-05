@@ -8,15 +8,12 @@ import {
     Dimensions
 } from 'react-native';
 
-import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import {
-    Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService,
-    PopupEditAddExtra
+    Text, Button, ButtonCustom, 
 } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
-
-const { width } = Dimensions.get('window');
 
 class Layout extends React.Component {
 
@@ -403,7 +400,7 @@ class Layout extends React.Component {
                     backgroundColor="#0764B0"
                     title={localize('CONFIRM ', language)}
                     textColor="#fff"
-                    onPress={this.searchCategories}
+                    onPress={this.gotoTabSecondSettle}
                     style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                     styleText={{ fontSize: scaleSzie(18), fontWeight: 'bold' }}
                 />

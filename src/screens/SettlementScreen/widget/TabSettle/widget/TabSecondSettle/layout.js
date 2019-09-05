@@ -4,20 +4,23 @@ import {
     Image,
     TextInput,
     FlatList,
+    Dimensions
 } from 'react-native';
+import * as Progress from 'react-native-progress';
 
-import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
+import { scaleSzie, localize, } from '@utils';
 import {
-    Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService,
-    PopupEditAddExtra
+    Text, Button, ButtonCustom,
 } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 
+const { width } = Dimensions.get('window');
+
 class Layout extends React.Component {
 
-    // ---------- Footer 3 ------
-    renderFooter3() {
+    // ---------- Footer 2 ------
+    renderFooter2() {
         return (
             <View style={{ flex: 1, padding: scaleSzie(10) }} >
                 <View style={{ alignItems: 'center' }} >
@@ -29,7 +32,7 @@ class Layout extends React.Component {
                     Open Batch
                 </Text>
                 <Progress.Bar
-                    progress={0.5}
+                    progress={this.state.progress}
                     width={width - scaleSzie(20)}
                     height={38}
                     color="#4CD964"
@@ -56,8 +59,8 @@ class Layout extends React.Component {
         );
     }
 
-    // ---------- Footer 2 ------
-    renderFooter2() {
+    // ---------- Footer 3 ------
+    renderFooter3() {
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(10) }} >
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
@@ -110,7 +113,7 @@ class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title="BACK"
                             textColor="#6A6A6A"
-                            onPress={this.searchCategories}
+                            onPress={this.backTabFirstSettle}
                             style={{ borderWidth: 0.5, borderColor: '#707070' }}
                             styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
                         />
@@ -193,7 +196,7 @@ class Layout extends React.Component {
                         {/* ---------- Row 3 -------- */}
                         <View style={styles.rowBox} >
                             <Text style={styles.textLeftBox} >
-                                Payment by Credit card
+                            Payment by Cash
                             </Text>
                             <Text style={styles.textRightBox} >
                                 $ 1300
@@ -202,7 +205,7 @@ class Layout extends React.Component {
                         {/* ---------- Row 4 -------- */}
                         <View style={styles.rowBox} >
                             <Text style={styles.textLeftBox} >
-                                Payment by Credit card
+                            Other Payment
                             </Text>
                             <Text style={styles.textRightBox} >
                                 $ 1300
@@ -227,108 +230,118 @@ class Layout extends React.Component {
         );
     }
 
+    renderFooter(){
+        const {numberFooter} = this.state;
+        if(numberFooter ==1){
+            return this.renderFooter1();
+        }else if(numberFooter == 2){
+            return this.renderFooter2();
+        }else{
+            return this.renderFooter3();
+        }
+    }
 
     render() {
         return (
             <View style={[styles.container, { backgroundColor: '#F6F6F6' }]} >
-            <View style={{ height: scaleSzie(20) }} />
-            <View style={{ paddingHorizontal: scaleSzie(10), flexDirection: 'row' }} >
-                {/* --------- Left --------- */}
-                <View style={{ flex: 1, paddingRight: scaleSzie(30) }} >
-                    <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
-                        Actual Amount
+                <View style={{ height: scaleSzie(20) }} />
+                <View style={{ paddingHorizontal: scaleSzie(10), flexDirection: 'row' }} >
+                    {/* --------- Left --------- */}
+                    <View style={{ flex: 1, paddingRight: scaleSzie(30) }} >
+                        <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
+                            Actual Amount
                 </Text>
-                    {/* ------------ Row 1 ------------ */}
-                    <View style={{
-                        height: scaleSzie(35), backgroundColor: '#80C6FF', marginTop: scaleSzie(8), marginBottom: scaleSzie(2),
-                        paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
-                    }} >
-                        <Text style={{ fontSize: scaleSzie(13), color: '#fff' }} >
-                            Payment by Harmony account
+                        {/* ------------ Row 1 ------------ */}
+                        <View style={{
+                            height: scaleSzie(35), backgroundColor: '#80C6FF', marginTop: scaleSzie(8), marginBottom: scaleSzie(2),
+                            paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+                        }} >
+                            <Text style={{ fontSize: scaleSzie(13), color: '#fff' }} >
+                                Payment by Harmony account
                     </Text>
-                        <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
-                            $ 1000
+                            <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
+                                $ 1000
                     </Text>
-                    </View>
-                    {/* ------------ Row 2 ------------ */}
-                    <View style={{
-                        height: scaleSzie(35), backgroundColor: '#307FBF', marginBottom: scaleSzie(2),
-                        paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
-                    }} >
-                        <Text style={{ fontSize: scaleSzie(13), color: '#fff' }} >
-                            Payment by Credit card
+                        </View>
+                        {/* ------------ Row 2 ------------ */}
+                        <View style={{
+                            height: scaleSzie(35), backgroundColor: '#307FBF', marginBottom: scaleSzie(2),
+                            paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+                        }} >
+                            <Text style={{ fontSize: scaleSzie(13), color: '#fff' }} >
+                                Payment by Credit card
                     </Text>
-                        <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
-                            $ 1000
+                            <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
+                                $ 1000
                     </Text>
-                    </View>
-                    {/* ------------ Row 3 ------------ */}
-                    <View style={{
-                        height: scaleSzie(35), backgroundColor: '#205580', marginBottom: scaleSzie(2),
-                        paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
-                    }} >
-                        <Text style={{ fontSize: scaleSzie(13), color: '#fff' }} >
-                            Payment by Cash
+                        </View>
+                        {/* ------------ Row 3 ------------ */}
+                        <View style={{
+                            height: scaleSzie(35), backgroundColor: '#205580', marginBottom: scaleSzie(2),
+                            paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+                        }} >
+                            <Text style={{ fontSize: scaleSzie(13), color: '#fff' }} >
+                                Payment by Cash
                     </Text>
-                        <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
-                            $ 1000
+                            <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
+                                $ 1000
                     </Text>
-                    </View>
-                    {/* ------------ Row 4 ------------ */}
-                    <View style={{
-                        height: scaleSzie(35), backgroundColor: '#BBEBFA', marginBottom: scaleSzie(2),
-                        paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
-                    }} >
-                        <Text style={{ fontSize: scaleSzie(13), color: '#6A6A6A' }} >
-                            Other payment
+                        </View>
+                        {/* ------------ Row 4 ------------ */}
+                        <View style={{
+                            height: scaleSzie(35), backgroundColor: '#BBEBFA', marginBottom: scaleSzie(2),
+                            paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+                        }} >
+                            <Text style={{ fontSize: scaleSzie(13), color: '#6A6A6A' }} >
+                                Other payment
                     </Text>
-                        <Text style={{ fontSize: scaleSzie(20), color: '#6A6A6A' }} >
-                            $ 1000
+                            <Text style={{ fontSize: scaleSzie(20), color: '#6A6A6A' }} >
+                                $ 1000
                     </Text>
-                    </View>
-                    {/* -------- Total ------- */}
-                    <View style={{
-                        height: scaleSzie(35), backgroundColor: '#FAFAFA', marginTop: scaleSzie(10),
-                        borderColor: '#4CD964', borderWidth: 1, flexDirection: 'row', paddingHorizontal: scaleSzie(10), alignItems: 'center',
-                        justifyContent: 'space-between'
-                    }} >
-                        <Text style={{ fontSize: scaleSzie(20), color: '#0764B0' }} >
-                            Total:
+                        </View>
+                        {/* -------- Total ------- */}
+                        <View style={{
+                            height: scaleSzie(35), backgroundColor: '#FAFAFA', marginTop: scaleSzie(10),
+                            borderColor: '#4CD964', borderWidth: 1, flexDirection: 'row', paddingHorizontal: scaleSzie(10), alignItems: 'center',
+                            justifyContent: 'space-between'
+                        }} >
+                            <Text style={{ fontSize: scaleSzie(20), color: '#0764B0' }} >
+                                Total:
                         </Text>
-                        <Text style={{ fontSize: scaleSzie(20), color: '#4CD964', fontWeight: 'bold' }} >
-                            $ 3900
+                            <Text style={{ fontSize: scaleSzie(20), color: '#4CD964', fontWeight: 'bold' }} >
+                                $ 3900
                         </Text>
-                    </View>
-                    {/* -------- Note ------- */}
-                    <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginTop: scaleSzie(20), marginBottom: scaleSzie(10) }} >
-                        Note:
+                        </View>
+                        {/* -------- Note ------- */}
+                        <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginTop: scaleSzie(20), marginBottom: scaleSzie(10) }} >
+                            Note:
                     </Text>
-                    <View style={{
-                        height: scaleSzie(60), backgroundColor: '#F1F1F1', borderColor: '#C5C5C5', borderWidth: 1,
-                        padding: scaleSzie(10)
-                    }} >
-                        <Text style={{ fontSize: scaleSzie(12), color: '#404040' }} >
-                            Lorem Ipsum is simply dummy text of the printing and typesetting
-                            industry. Lorem Ipsum has been the industry's
+                        <View style={{
+                            height: scaleSzie(60), backgroundColor: '#F1F1F1', borderColor: '#C5C5C5', borderWidth: 1,
+                            padding: scaleSzie(10)
+                        }} >
+                            <Text style={{ fontSize: scaleSzie(12), color: '#404040' }} >
+                                Lorem Ipsum is simply dummy text of the printing and typesetting
+                                industry. Lorem Ipsum has been the industry's
                         </Text>
+                        </View>
+                    </View>
+                    {/* --------- Right --------- */}
+                    <View style={{ flex: 1 }} >
+                        <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
+                            Open Batch
+                </Text>
+                        <View style={{
+                            flex: 1, backgroundColor: '#fff', marginTop: scaleSzie(8),
+                            borderWidth: 1, borderColor: '#C5C5C5'
+                        }} >
+                            {this.renderOpenBatch()}
+                        </View>
                     </View>
                 </View>
-                {/* --------- Right --------- */}
-                <View style={{ flex: 1 }} >
-                    <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
-                        Open Batch
-                </Text>
-                    <View style={{
-                        flex: 1, backgroundColor: '#fff', marginTop: scaleSzie(8),
-                        borderWidth: 1, borderColor: '#C5C5C5'
-                    }} >
-                        {this.renderOpenBatch()}
-                    </View>
-                </View>
+                {/* ------------ Footer -------- */}
+                {this.renderFooter()}
             </View>
-            {/* ------------ Footer -------- */}
-            {this.renderFooter1()}
-        </View>
         );
     }
 
