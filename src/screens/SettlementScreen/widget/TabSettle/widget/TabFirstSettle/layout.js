@@ -193,6 +193,7 @@ class Layout extends React.Component {
     }
 
     renderReportAmount() {
+        const {creditAmount} = this.state;
         return (
             <View style={{ paddingHorizontal: scaleSzie(10), flexDirection: 'row' }} >
                 {/* --------- Left --------- */}
@@ -221,7 +222,7 @@ class Layout extends React.Component {
                             Payment by Credit card
                         </Text>
                         <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
-                            $ 1000
+                            {`$ ${creditAmount}`}
                         </Text>
                     </View>
                     {/* ------------ Row 3 ------------ */}

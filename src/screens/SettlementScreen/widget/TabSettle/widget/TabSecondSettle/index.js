@@ -12,16 +12,45 @@ class TabSecondSettle extends Layout {
         super(props);
         this.state = {
             numberFooter: 1,
-            progress: 0
+            progress: 0,
+            creditCount: 0,
+            creditAmount: 0
         };
     }
 
     componentDidMount() {
-        alert('dddd')
+        this.handleReport();
     }
 
     onDidFocus = (payload) => {
-        alert('dd')
+        this.handleReport();
+    }
+
+    handleReport() {
+        const { paxMachineInfo } = this.props;
+        const { ip, port, timeout, isSetup } = paxMachineInfo;
+        if (isSetup) {
+            PosLink.setupPax(ip, port, timeout);
+            PosLink.reportTransaction(message => this.handleResponseReportTransactions(message));
+        } else {
+            alert('Please setup your pax machine in setting');
+        }
+    }
+
+    async handleResponseReportTransactions(message) {
+        try {
+            const result = JSON.parse(message);
+            if (result.status == 0) {
+                alert(result.message);
+            } else {
+                this.setState({
+                    creditCount: result.CreditCount,
+                    creditAmount: result.CreditAmount
+                })
+            }
+        } catch (error) {
+            console.log('error : ', error)
+        }
     }
 
     backTabFirstSettle = () => {
@@ -57,14 +86,19 @@ class TabSecondSettle extends Layout {
                 })
                 alert(result.message);
             } else {
-                this.setState({
-                    numberFooter: 3,
-                });
+                await this.setState({
+                    progress: 1
+                })
+                setTimeout(() => {
+                    this.setState({
+                        numberFooter: 3,
+                    });
+                }, 400)
                 setTimeout(() => {
                     this.setState({
                         progress: 0,
                     });
-                }, 200)
+                }, 700)
             }
             console.log('message : ', result);
         } catch (error) {

@@ -11,6 +11,8 @@ class TabFirstSettle extends Layout {
     constructor(props) {
         super(props);
         this.state = {
+            creditCount: 0,
+            creditAmount: 0
         };
     }
 
@@ -35,7 +37,10 @@ class TabFirstSettle extends Layout {
             if (result.status == 0) {
                 alert(result.message);
             } else {
-                alert(`${result.CreditCount}-${result.CreditAmount}`)
+                this.setState({
+                    creditCount: result.CreditCount,
+                    creditAmount: result.CreditAmount
+                })
             }
         } catch (error) {
             console.log('error : ', error)

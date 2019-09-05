@@ -139,6 +139,7 @@ class Layout extends React.Component {
 
 
     renderOpenBatch() {
+        const { creditCount } = this.state;
         return (
             <View style={{ flex: 1 }} >
                 <View style={[styles.tableLeft, { paddingHorizontal: scaleSzie(18) }]} >
@@ -147,7 +148,7 @@ class Layout extends React.Component {
                             Transactions:
                         </Text>
                         <Text style={{ color: '#404040', fontSize: scaleSzie(22), fontWeight: 'bold' }} >
-                            24
+                            {creditCount}
                         </Text>
                     </View>
                     {/* ------------ BOX ------------ */}
@@ -243,6 +244,7 @@ class Layout extends React.Component {
     }
 
     render() {
+        const { creditAmount } = this.state;
         return (
             <View style={[styles.container, { backgroundColor: '#F6F6F6' }]} >
                 <NavigationEvents
@@ -276,8 +278,8 @@ class Layout extends React.Component {
                                 Payment by Credit card
                     </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
-                                $ 1000
-                    </Text>
+                                {`$ ${creditAmount}`}
+                            </Text>
                         </View>
                         {/* ------------ Row 3 ------------ */}
                         <View style={{
