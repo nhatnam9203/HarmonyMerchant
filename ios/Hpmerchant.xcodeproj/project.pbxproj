@@ -50,9 +50,6 @@
 		2337BC2023154B6A00D4A5BE /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		2337BC2123154B6A00D4A5BE /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87F14B6172B346F0950939FF /* libRNGestureHandler.a */; };
 		2337BC2223154B6A00D4A5BE /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */; };
-		2337BC2323154B6A00D4A5BE /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FB86781048A01B903905809 /* libPods-Hpmerchant.a */; };
-		2337BC2423154B6A00D4A5BE /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FB86781048A01B903905809 /* libPods-Hpmerchant.a */; };
-		2337BC2523154B6A00D4A5BE /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FB86781048A01B903905809 /* libPods-Hpmerchant.a */; };
 		2337BC2723154B6A00D4A5BE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2337BC2823154B6A00D4A5BE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		2342066122DD7C1800E0EA35 /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342065F22DD7C1700E0EA35 /* StarIO.framework */; };
@@ -65,6 +62,7 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		C757D92E4E5E404DAE4671BF /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */; };
+		D689DBF19C7C346612CBE3CB /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FB86781048A01B903905809 /* libPods-Hpmerchant.a */; };
 		E65A8476C97753A5154298B1 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FB86781048A01B903905809 /* libPods-Hpmerchant.a */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 /* End PBXBuildFile section */
@@ -413,12 +411,12 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		87F14B6172B346F0950939FF /* libRNGestureHandler.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGestureHandler.a; sourceTree = "<group>"; };
 		8C3DC6D58CE9413BA1484D22 /* libRNGestureHandler-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNGestureHandler-tvOS.a"; sourceTree = "<group>"; };
-		915CAA81DF04FCF25659DE20 /* Pods-Hpmerchant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant.release.xcconfig"; sourceTree = "<group>"; };
+		931BFE21A8D456D3B06D4480 /* Pods-Hpmerchant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant.debug.xcconfig"; sourceTree = "<group>"; };
+		A7026C3B426E0A43D8372099 /* Pods-Hpmerchant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant.release.xcconfig"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		C28B99EF8822419DB3A40583 /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGestureHandler.xcodeproj; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		F3FAE62895B2396E24D78531 /* Pods-Hpmerchant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant.debug.xcconfig"; sourceTree = "<group>"; };
 		F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImagePicker.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -451,6 +449,7 @@
 				3C0CF62BBC42EF8E431BFF3F /* libPods-Hpmerchant.a in Frameworks */,
 				338713495FCDB765E1B67E95 /* libPods-Hpmerchant.a in Frameworks */,
 				E65A8476C97753A5154298B1 /* libPods-Hpmerchant.a in Frameworks */,
+				D689DBF19C7C346612CBE3CB /* libPods-Hpmerchant.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -479,9 +478,6 @@
 				2337BC2023154B6A00D4A5BE /* libRCTWebSocket.a in Frameworks */,
 				2337BC2123154B6A00D4A5BE /* libRNGestureHandler.a in Frameworks */,
 				2337BC2223154B6A00D4A5BE /* libRNImagePicker.a in Frameworks */,
-				2337BC2323154B6A00D4A5BE /* libPods-Hpmerchant.a in Frameworks */,
-				2337BC2423154B6A00D4A5BE /* libPods-Hpmerchant.a in Frameworks */,
-				2337BC2523154B6A00D4A5BE /* libPods-Hpmerchant.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -700,8 +696,8 @@
 		51A61F587B2C0002B60C1005 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F3FAE62895B2396E24D78531 /* Pods-Hpmerchant.debug.xcconfig */,
-				915CAA81DF04FCF25659DE20 /* Pods-Hpmerchant.release.xcconfig */,
+				931BFE21A8D456D3B06D4480 /* Pods-Hpmerchant.debug.xcconfig */,
+				A7026C3B426E0A43D8372099 /* Pods-Hpmerchant.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -818,7 +814,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2337BC2B23154B6A00D4A5BE /* Build configuration list for PBXNativeTarget "HpmerchantDev" */;
 			buildPhases = (
-				2337BC0723154B6A00D4A5BE /* [CP] Check Pods Manifest.lock */,
 				2337BC0823154B6A00D4A5BE /* Sources */,
 				2337BC0D23154B6A00D4A5BE /* Frameworks */,
 				2337BC2623154B6A00D4A5BE /* Resources */,
@@ -1261,28 +1256,6 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		2337BC0723154B6A00D4A5BE /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		2337BC2923154B6A00D4A5BE /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1395,7 +1368,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F3FAE62895B2396E24D78531 /* Pods-Hpmerchant.debug.xcconfig */;
+			baseConfigurationReference = 931BFE21A8D456D3B06D4480 /* Pods-Hpmerchant.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1434,7 +1407,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 915CAA81DF04FCF25659DE20 /* Pods-Hpmerchant.release.xcconfig */;
+			baseConfigurationReference = A7026C3B426E0A43D8372099 /* Pods-Hpmerchant.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1472,7 +1445,6 @@
 		};
 		2337BC2C23154B6A00D4A5BE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F3FAE62895B2396E24D78531 /* Pods-Hpmerchant.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1511,7 +1483,6 @@
 		};
 		2337BC2D23154B6A00D4A5BE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 915CAA81DF04FCF25659DE20 /* Pods-Hpmerchant.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
