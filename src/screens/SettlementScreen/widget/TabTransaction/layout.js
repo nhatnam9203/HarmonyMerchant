@@ -6,11 +6,11 @@ import {
     FlatList,
 } from 'react-native';
 
-import { scaleSzie, localize,  } from '@utils';
+import { scaleSzie, localize, } from '@utils';
 import { Text, Button, ButtonCustom, Dropdown, } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
-import { ItemTransaction,HeaderTableTransaction} from './widget';
+import { ItemTransaction, HeaderTableTransaction } from './widget';
 
 class Layout extends React.Component {
 
@@ -39,10 +39,10 @@ class Layout extends React.Component {
                                         }
                                         this.updateSearchFilterInfo('keySearch', value)
                                     }}
-                                    onSubmitEditing={this.searchExtra}
+                                    onSubmitEditing={this.searchTransactions}
                                 />
                             </View>
-                            <Button onPress={this.searchExtra} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
+                            <Button onPress={this.searchTransactions} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
                                 <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
                             </Button>
 
@@ -55,7 +55,7 @@ class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Search', language)}
                             textColor="#6A6A6A"
-                            onPress={this.searchExtra}
+                            onPress={this.searchTransactions}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
@@ -115,16 +115,16 @@ class Layout extends React.Component {
     renderContent() {
         return (
             <View style={styles.contentContainer} >
-               <HeaderTableTransaction />
+                <HeaderTableTransaction />
                 <View style={{ height: scaleSzie(6) }} />
                 {/* ---------- Table ------- */}
                 <View style={styles.tableContainer} >
-                    <FlatList 
-                        data={[0,1,2,3]}
-                        renderItem={({item,index}) => <ItemTransaction />}
-                        keyExtractor={(item,index) => `${item}`}
+                    <FlatList
+                        data={[0, 1, 2, 3]}
+                        renderItem={({ item, index }) => <ItemTransaction />}
+                        keyExtractor={(item, index) => `${item}`}
                     />
-                   
+
                 </View>
                 <View style={{ height: scaleSzie(6) }} />
             </View>

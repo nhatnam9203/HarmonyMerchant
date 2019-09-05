@@ -17,10 +17,13 @@ class TabTransaction extends Layout {
         };
     }
 
-    componentDidMount() {
-        
+    searchTransactions =() =>{
+
     }
 
+    showCalendar = () =>{
+        
+    }
 
     
 

@@ -26,6 +26,14 @@ class TabBatchHistory extends Layout {
         this.scrollTabRef.current.goToPage(0);
     }
 
+    searchBatchHistory = () => {
+
+    }
+
+    showCalendar =() =>{
+        
+    }
+
 }
 
 const mapStateToProps = state => ({

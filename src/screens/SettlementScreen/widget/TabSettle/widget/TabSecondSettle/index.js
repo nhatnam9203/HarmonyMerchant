@@ -57,8 +57,18 @@ class TabSecondSettle extends Layout {
         this.props.backTabFirstSettle();
     }
 
-    reviewBatchHistory = () =>{
+    reviewBatchHistory = () => {
         this.props.reviewBatchHistory();
+    }
+
+    finishBatch = () => {
+        this.props.backTabFirstSettle();
+        this.setState({
+            numberFooter: 1,
+            progress: 0,
+            creditCount: 0,
+            creditAmount: 0
+        })
     }
 
     settle = async () => {

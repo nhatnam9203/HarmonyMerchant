@@ -35,15 +35,15 @@ class Layout extends React.Component {
                                     placeholder={localize('Invoice No / SKU number/customer phone number', language)}
                                     value={keySearch}
                                     onChangeText={(value) => {
-                                        if (value === '') {
-                                            this.props.actions.extra.clearSearchExtra();
-                                        }
-                                        this.updateSearchFilterInfo('keySearch', value)
+                                        // if (value === '') {
+                                        //     this.props.actions.extra.clearSearchExtra();
+                                        // }
+                                        // this.updateSearchFilterInfo('keySearch', value)
                                     }}
-                                    onSubmitEditing={this.searchExtra}
+                                    onSubmitEditing={this.searchBatchHistory}
                                 />
                             </View>
-                            <Button onPress={this.searchExtra} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
+                            <Button onPress={this.searchBatchHistory} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
                                 <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
                             </Button>
 
@@ -56,7 +56,7 @@ class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Search', language)}
                             textColor="#6A6A6A"
-                            onPress={this.searchExtra}
+                            onPress={this.searchBatchHistory}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
