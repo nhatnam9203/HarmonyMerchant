@@ -158,7 +158,7 @@ class Layout extends React.Component {
                     />
                     {
                         ['Monday', 'Tuesday', 'Wednesday', 'Thursday',
-                            'Friday', 'Sarturday', 'Sunday'
+                            'Friday', 'Sartuday', 'Sunday'
                         ].map((day, index) => {
                             return <ItemWorkingTime
                                 key={index}

@@ -60,7 +60,7 @@ class AddStaff extends Layout {
                     timeEnd: "08:00 PM",
                     isCheck: true
                 },
-                Sarturday: {
+                Saturday: {
                     timeStart: "08:00 AM",
                     timeEnd: "08:00 PM",
                     isCheck: true

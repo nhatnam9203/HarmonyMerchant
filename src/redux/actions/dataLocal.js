@@ -44,3 +44,10 @@ export function resetStateLoginStaff(flag = false){
         payload :flag
     }
 }
+
+
+export function resetNeddSettingStore(){
+    return{
+        type :'RESET_NEED_SETTING_STORE',
+    }
+}
