@@ -6,14 +6,14 @@ import {
 import Swiper from 'react-native-swiper';
 
 import { Text, ButtonCustom, Button } from '@components';
-import { scaleSzie,localize } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 
 export default class Layout extends React.Component {
 
     renderHeader() {
-        const {language} = this.props;
+        const { language } = this.props;
         return (
             <View style={styles.header} >
                 <View style={styles.headerLeft} >
@@ -27,7 +27,7 @@ export default class Layout extends React.Component {
                 <View style={styles.headerRigth} >
                     <Button onPress={this.skip} >
                         <Text style={styles.textSkip} >
-                            {localize('Skip',language)}
+                            {localize('Skip', language)}
                         </Text>
                     </Button>
                 </View>
@@ -36,7 +36,7 @@ export default class Layout extends React.Component {
     }
 
     renderBody() {
-        const {language} = this.props;
+        const { language } = this.props;
         return (
             <View style={styles.body} >
                 <Swiper style={{}}
@@ -49,29 +49,29 @@ export default class Layout extends React.Component {
                 >
                     <View style={{ flex: 1 }} >
                         <ItemSlide
-                            title={localize('Booking Management',language)}
-                            desc={localize('BookingDes',language)}
+                            title={localize('Booking Management', language)}
+                            desc={localize('BookingDes', language)}
                             icon={IMAGE.slider1}
                         />
                     </View>
                     <View style={{ flex: 1 }} >
                         <ItemSlide
-                            title={localize('POS System',language)}
-                            desc={localize('PosDes',language)}
+                            title={localize('POS System', language)}
+                            desc={localize('PosDes', language)}
                             icon={IMAGE.slider2}
                         />
                     </View>
                     <View style={{ flex: 1 }} >
                         <ItemSlide
-                            title={localize('Marketing',language)}
-                            desc={localize('MarketingDes',language)}
+                            title={localize('Marketing', language)}
+                            desc={localize('MarketingDes', language)}
                             icon={IMAGE.slider3}
                         />
                     </View>
                     <View style={{ flex: 1 }} >
                         <ItemSlide
-                            title={localize('Report And Management',language)}
-                            desc={localize('ReportDes',language)}
+                            title={localize('Report And Management', language)}
+                            desc={localize('ReportDes', language)}
                             icon={IMAGE.slider4}
                         />
                     </View>
@@ -85,14 +85,14 @@ export default class Layout extends React.Component {
     }
 
     renderFooter() {
-        const {language} = this.props;
+        const { language } = this.props;
         return (
             <View style={styles.footer} >
                 <View style={styles.footerLeft} >
                     <ButtonCustom
                         width="80%"
                         backgroundColor="#4CD964"
-                        title={localize('APPLICATION',language)}
+                        title={localize('APPLICATION', language)}
                         textColor="#fff"
                         onPress={this.gotoApplication}
                     />
@@ -101,7 +101,7 @@ export default class Layout extends React.Component {
                     <ButtonCustom
                         width="80%"
                         backgroundColor="#0764B0"
-                        title={localize('DEMO',language)}
+                        title={localize('DEMO', language)}
                         textColor="#fff"
                         onPress={this.gotoDemo}
                     />

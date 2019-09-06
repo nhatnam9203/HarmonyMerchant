@@ -1,11 +1,10 @@
 import React from 'react';
-import { Alert, NativeModules } from 'react-native';
+import { Alert } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import NavigatorServices from '@navigators/NavigatorServices';
-
-const PosLink = NativeModules.MyApp;
+import { openBrowser } from '@utils';
 
 class LockScreen extends Layout {
 
@@ -30,39 +29,35 @@ class LockScreen extends Layout {
     }
 
     gotoDrawer() {
-        Promise.all([
-            this.props.actions.category.getCategoriesByMerchantId(),
-            this.props.actions.extra.getExtraByMerchant(),
-            this.props.actions.service.getServicesByMerchant(),
-            this.props.actions.product.getProductsByMerchant(),
-            this.props.actions.staff.getStaffByMerchantId()
-        ]).then((data) => {
-            // console.log('----- data : ', data)
-            if (data.length === 5) {
-                this.props.actions.app.stopLoadingApp();
-                this.props.actions.app.handleLockScreen(false);
-                NavigatorServices.navigate('Drawer');
-            }
+        const { profile } = this.props;
+        if (profile.needSetting) {
+            this.props.actions.app.handleLockScreen(false);
+            this.props.navigation.navigate('SetupStore');
+        } else {
+            Promise.all([
+                this.props.actions.category.getCategoriesByMerchantId(),
+                this.props.actions.extra.getExtraByMerchant(),
+                this.props.actions.service.getServicesByMerchant(),
+                this.props.actions.product.getProductsByMerchant(),
+                this.props.actions.staff.getStaffByMerchantId()
+            ]).then((data) => {
+                if (data.length === 5) {
+                    this.props.actions.app.stopLoadingApp();
+                    this.props.actions.app.handleLockScreen(false);
+                    NavigatorServices.navigate('Drawer');
+                }
 
-        });
+            });
+        }
+
     }
 
 
     support = () => {
-        const { paxMachineInfo } = this.props;
-        const { ip, port, timeout } = paxMachineInfo;
-
-        PosLink.setupPax(ip, port, timeout);
-
-        PosLink.batchTransaction(100, (message) => {
-            console.log('response  : ', message);
-        });
+        openBrowser('https://www.harmonypayment.com/');
     }
 
     forgotPincode = async () => {
-        // await this.setState({
-        //     visibleForotPin: true
-        // })
         this.props.actions.staff.setVisibleForgotPin(true);
     }
 
@@ -87,10 +82,11 @@ const mapStateToProps = state => ({
     errorLogin: state.auth.errorLogin,
     visibleModalLock: state.app.visibleModalLock,
     profile: state.dataLocal.profile,
+    token: state.dataLocal.token,
     loading: state.app.loading,
     isLoginStaff: state.dataLocal.isLoginStaff,
     visibleForotPin: state.staff.visibleForotPin,
-    paxMachineInfo: state.dataLocal.paxMachineInfo,
+    profileStaffLogin: state.dataLocal.profileStaffLogin
 });
 
 export default connectRedux(mapStateToProps, LockScreen);

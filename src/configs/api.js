@@ -12,9 +12,3 @@ const apiConfigs = {
 
 export default apiConfigs;
 
-tu.tran@levincigroup.com,
- william@levincigroup.com,
-  djnguyen@harmonypayment.com,
-   vinh.tran@harmonypayment.com, 
-   robert.orama@harmonypayment.com, 
-   mdtran@harmonypayment.com

@@ -49,6 +49,12 @@ function dataLocal(state = initialState, action) {
                 profileStaffLogin: action.payload,
                 isLoginStaff: true
             }
+        // -------- TEST ------- LOGIN_STAFF
+        case 'LOGIN_STAFF':
+            return {
+                ...state,
+                profile: { ...state.profile, needSetting: true },
+            }
         case 'RESET_STATE_LOGIN_STAFF':
             return {
                 ...state,
@@ -63,8 +69,10 @@ function dataLocal(state = initialState, action) {
             return {
                 ...state,
                 profile: {},
+                profileStaffLogin: {},
                 token: false,
             }
+
         default:
             return state
     }

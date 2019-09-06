@@ -1,7 +1,7 @@
 import {
     Platform,
     Dimensions,
-    Linking
+    Linking,
 } from 'react-native';
 
 import Configs from '../configs';
