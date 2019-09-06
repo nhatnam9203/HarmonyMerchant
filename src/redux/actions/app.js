@@ -91,3 +91,9 @@ export function merchantSetting(body) {
         api: `${apiConfigs.BASE_API}merchant/setting`
     }
 }
+
+export function resetIsFlashScreen(){
+    return{
+        type :'RESET_IS_FLASH_SCREEN'
+    }
+}

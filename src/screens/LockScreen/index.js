@@ -29,26 +29,20 @@ class LockScreen extends Layout {
     }
 
     gotoDrawer() {
-        const { profile } = this.props;
-        if (profile.needSetting) {
-            this.props.actions.app.handleLockScreen(false);
-            this.props.navigation.navigate('SetupStore');
-        } else {
-            Promise.all([
-                this.props.actions.category.getCategoriesByMerchantId(),
-                this.props.actions.extra.getExtraByMerchant(),
-                this.props.actions.service.getServicesByMerchant(),
-                this.props.actions.product.getProductsByMerchant(),
-                this.props.actions.staff.getStaffByMerchantId()
-            ]).then((data) => {
-                if (data.length === 5) {
-                    this.props.actions.app.stopLoadingApp();
-                    this.props.actions.app.handleLockScreen(false);
-                    NavigatorServices.navigate('Drawer');
-                }
+        Promise.all([
+            this.props.actions.category.getCategoriesByMerchantId(),
+            this.props.actions.extra.getExtraByMerchant(),
+            this.props.actions.service.getServicesByMerchant(),
+            this.props.actions.product.getProductsByMerchant(),
+            this.props.actions.staff.getStaffByMerchantId()
+        ]).then((data) => {
+            if (data.length === 5) {
+                this.props.actions.app.stopLoadingApp();
+                this.props.actions.app.handleLockScreen(false);
+                // NavigatorServices.navigate('Drawer');
+            }
 
-            });
-        }
+        });
 
     }
 
@@ -68,8 +62,8 @@ class LockScreen extends Layout {
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        const { loading, visibleModalLock, isLoginStaff } = this.props;
-        if (!loading && loading !== prevProps.loading && visibleModalLock && isLoginStaff) {
+        const { isFlashScreen, loading, visibleModalLock, isLoginStaff } = this.props;
+        if (!isFlashScreen && !loading && loading !== prevProps.loading && visibleModalLock && isLoginStaff) {
             this.props.actions.dataLocal.resetStateLoginStaff();
             this.gotoDrawer();
         }
@@ -86,7 +80,8 @@ const mapStateToProps = state => ({
     loading: state.app.loading,
     isLoginStaff: state.dataLocal.isLoginStaff,
     visibleForotPin: state.staff.visibleForotPin,
-    profileStaffLogin: state.dataLocal.profileStaffLogin
+    profileStaffLogin: state.dataLocal.profileStaffLogin,
+    isFlashScreen: state.app.isFlashScreen
 });
 
 export default connectRedux(mapStateToProps, LockScreen);

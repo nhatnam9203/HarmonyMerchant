@@ -12,7 +12,7 @@ class SplashScreen extends Layout {
     }
 
     componentDidMount() {
-        const { profile, token, profileStaffLogin } = this.props;
+        const { token } = this.props;
         this.props.actions.app.getStateCity();
         if (!token) {
             this.props.navigation.navigate('Auth');
@@ -21,7 +21,7 @@ class SplashScreen extends Layout {
         }
     }
 
-    componentDidMountA() {
+    componentDidMountAAAA() {
         const { profile, token, profileStaffLogin } = this.props;
         this.props.actions.app.getStateCity();
         if (!token) {
@@ -34,13 +34,51 @@ class SplashScreen extends Layout {
         }
     }
 
+    gotoDrawer() {
+        const { profile } = this.props;
+        if (profile.needSetting) {
+            this.props.actions.app.handleLockScreen(false);
+            this.props.navigation.navigate('SetupStore');
+        } else {
+            Promise.all([
+                this.props.actions.category.getCategoriesByMerchantId(),
+                this.props.actions.extra.getExtraByMerchant(),
+                this.props.actions.service.getServicesByMerchant(),
+                this.props.actions.product.getProductsByMerchant(),
+                this.props.actions.staff.getStaffByMerchantId()
+            ]).then((data) => {
+                if (data.length === 5) {
+                    this.props.actions.app.stopLoadingApp();
+                    this.props.actions.app.handleLockScreen(false);
+                    this.props.navigation.navigate('Drawer');
+                }
+
+            });
+        }
+
+    }
+
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        const { loading, visibleModalLock, isLoginStaff } = this.props;
+        if (!loading && loading !== prevProps.loading && visibleModalLock && isLoginStaff) {
+            this.props.actions.dataLocal.resetStateLoginStaff();
+            this.gotoDrawer();
+        }
+    }
+
+    componentWillUnmount() {
+        this.props.actions.app.resetIsFlashScreen();
+    }
 
 }
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     token: state.dataLocal.token,
-    profileStaffLogin: state.dataLocal.profileStaffLogin
+    profileStaffLogin: state.dataLocal.profileStaffLogin,
+    visibleModalLock: state.app.visibleModalLock,
+    isLoginStaff: state.dataLocal.isLoginStaff,
+    loading: state.app.loading,
 })
 
 

@@ -6,7 +6,8 @@ const initialState = {
     principalInfo: '',
     visibleModalLock: false,
     timeOutLockScreen: 15 * 1000 * 60,
-    question: []
+    question: [],
+    isFlashScreen: true
 }
 
 function appReducer(state = initialState, action) {
@@ -62,6 +63,14 @@ function appReducer(state = initialState, action) {
                 ...state,
                 loading: false
             }
+
+        case 'RESET_IS_FLASH_SCREEN':
+            return {
+                ...state,
+                isFlashScreen: false
+            }
+
+
         default:
             return state
     }

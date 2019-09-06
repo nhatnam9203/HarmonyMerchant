@@ -45,7 +45,7 @@ function dataLocal(state = initialState, action) {
         case 'UPDATE_PROFILE_STAFF_SUCCESS':
             return {
                 ...state,
-                profile: { ...state.profile, needSetting: false },
+                // profile: { ...state.profile, needSetting: false },
                 profileStaffLogin: action.payload,
                 isLoginStaff: true
             }
@@ -53,7 +53,7 @@ function dataLocal(state = initialState, action) {
         case 'LOGIN_STAFF':
             return {
                 ...state,
-                profile: { ...state.profile, needSetting: true },
+                profile: { ...state.profile, needSetting: false },
             }
         case 'RESET_STATE_LOGIN_STAFF':
             return {
