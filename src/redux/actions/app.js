@@ -97,3 +97,4 @@ export function resetIsFlashScreen(){
         type :'RESET_IS_FLASH_SCREEN'
     }
 }
+

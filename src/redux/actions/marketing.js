@@ -25,3 +25,14 @@ export function resetStateUploadBanner(){
         type:'RESET_STATE_UPLOAD_BANNER'
     }
 }
+
+// ------------ promotion -------------
+
+export function getPromotionByMerchant() {
+    return {
+        type: 'GET_PROMOTION_BY_MERCHANT',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}merchantpromotion`
+    }
+}

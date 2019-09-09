@@ -15,7 +15,11 @@ function* getBannerMerchant(action) {
                 type: 'GET_BANNER_MERCHANT_SUCCESS',
                 payload: responses.data
             })
-        } else {
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        }else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -41,7 +45,6 @@ function* deleteBannerMerchant(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         // console.log('deleteBannerMerchant : ', responses);
-        const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'GET_BANNER_MERCHANT',
@@ -49,7 +52,11 @@ function* deleteBannerMerchant(action) {
                 token: true,
                 api: `${apiConfigs.BASE_API}merchantbanner/getbymerchant/${action.merchantId}`
             })
-        } else {
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        }else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -85,7 +92,48 @@ function* addBannerWithInfo(action) {
                 token: true,
                 api: `${apiConfigs.BASE_API}merchantbanner/getbymerchant/${action.merchantId}`
             })
-        } else {
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        }else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+// ---------- Handle Promotion -----
+
+function* getPromotionByMerchant(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log('getPromotionByMerchant : ', responses);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: 'GET_PROMOTION_BY_MERCHANT_SUCCESS',
+                payload: responses.data
+            })
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        }else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -112,5 +160,6 @@ export default function* saga() {
         takeLatest('GET_BANNER_MERCHANT', getBannerMerchant),
         takeLatest('DELETE_BANNER_MERCHANT', deleteBannerMerchant),
         takeLatest('ADD_BANNER_WITH_INFO', addBannerWithInfo),
+        takeLatest('GET_PROMOTION_BY_MERCHANT', getPromotionByMerchant),
     ])
 }

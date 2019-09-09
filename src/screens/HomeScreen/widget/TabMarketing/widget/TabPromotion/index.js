@@ -15,6 +15,10 @@ class TabPromotion extends Layout {
     }
   }
 
+  componentDidMount() {
+    this.props.actions.marketing.getPromotionByMerchant();
+  }
+
   applyPromorion = () => {
     PosLink.setupPax('192.168.0.112', '10009', '9000', message => alert(message));
   }

@@ -1,6 +1,7 @@
 const initialState = {
     listBanners: [],
-    isUploadBanner: false
+    isUploadBanner: false,
+    promotions: []
 }
 
 function appReducer(state = initialState, action) {
@@ -16,6 +17,12 @@ function appReducer(state = initialState, action) {
                 ...state,
                 isUploadBanner: false
             }
+        case 'GET_PROMOTION_BY_MERCHANT_SUCCESS':
+            return {
+                ...state,
+                promotions: action.payload,
+            }
+
         default:
             return state
     }
