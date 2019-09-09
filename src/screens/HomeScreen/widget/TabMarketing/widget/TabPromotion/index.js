@@ -52,6 +52,10 @@ class TabPromotion extends Layout {
     alert(message)
   }
 
+  getDataItemPromotion = (index,promotions) => {
+    const data = promotions.filter(item => item.promotionId === index);
+    return data[0];
+  }
 
   paymentCredit1 = () => {
     PosLink.sendTransaction(message => {
@@ -74,7 +78,8 @@ class TabPromotion extends Layout {
 
 const mapStateToProps = state => ({
   profile: state.dataLocal.profile,
-  language: state.dataLocal.language
+  language: state.dataLocal.language,
+  promotions: state.marketing.promotions
 })
 
 

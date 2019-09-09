@@ -300,6 +300,10 @@ export const getArrayExtrasFromAppointment = (extras = []) => {
     return temptArrayExtras;
 }
 
+export const updateStateChildren = (key, value, parent) => {
+    return { ...parent, [key]: value };
+}
+
 export const WorkingTime = [
     {
         value: '00:00 AM',

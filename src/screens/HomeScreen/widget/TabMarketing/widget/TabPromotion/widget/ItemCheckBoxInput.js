@@ -14,19 +14,15 @@ class ItemCheckBoxInput extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isSelectCheckBox: false
         }
     }
 
-    selectCheckbox =() =>{
-        this.setState(prevState =>({
-            isSelectCheckBox: !prevState.isSelectCheckBox
-        }))
+    selectCheckbox = () => {
+        this.props.selectCheckbox();
     }
 
     render() {
-        const { title, placeholder } = this.props;
-        const { isSelectCheckBox } = this.state;
+        const { title, placeholder, isSelectCheckBox, value, onChangeText } = this.props;
         const temptIconCheckbox = isSelectCheckBox ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
             <View style={{ height: scaleSzie(55), flexDirection: 'row', marginTop: scaleSzie(8) }} >
@@ -45,9 +41,11 @@ class ItemCheckBoxInput extends React.Component {
                         title={title}
                         subTitle=""
                         placeholder={placeholder}
-                        // value={bankName}
-                        onChangeText={(value) => { }}
+                        value={value}
+                        onChangeText={(value) => onChangeText(value)}
                         style={{ marginBottom: scaleSzie(10) }}
+                        isOnlyNumber={true}
+                        editable={isSelectCheckBox}
                     />
                 </View>
             </View>

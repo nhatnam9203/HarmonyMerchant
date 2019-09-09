@@ -17,7 +17,7 @@ class ItemPromo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isSelected: false,
+            isSelected: this.props.isSelected,
             isShowContent: false
         }
 
@@ -37,10 +37,10 @@ class ItemPromo extends React.Component {
 
     render() {
         const { isSelected, isShowContent } = this.state;
-        const { title,style} = this.props;
+        const { title, style } = this.props;
         const temptIconCheckBox = isSelected ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
-            <View style={[{ width: width, paddingHorizontal: scaleSzie(15) },style]} >
+            <View style={[{ width: width, paddingHorizontal: scaleSzie(15) }, style]} >
                 <View style={{
                     paddingTop: scaleSzie(10), backgroundColor: '#fff',
                     borderRadius: scaleSzie(2)
@@ -59,7 +59,7 @@ class ItemPromo extends React.Component {
                             </Button>
                             <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
                                 {title}
-                        </Text>
+                            </Text>
                         </View>
                         <Button onPress={this.showContent} style={{
                             width: scaleSzie(50), justifyContent: 'center',
