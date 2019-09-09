@@ -39,6 +39,7 @@ pod 'RNSVG', :path => '../node_modules/react-native-svg'
 pod 'RNFastImage', :path => '../node_modules/react-native-fast-image'
 
 pod 'RNStarPrnt', :path => '../node_modules/react-native-star-prnt'
+  pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker/RNDateTimePicker.podspec'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

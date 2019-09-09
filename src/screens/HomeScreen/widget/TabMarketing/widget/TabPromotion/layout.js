@@ -6,6 +6,7 @@ import {
     Dimensions,
     ActivityIndicator
 } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 import { scaleSzie, localize, updateStateChildren } from '@utils';
 import styles from './style';
@@ -226,6 +227,7 @@ class Layout extends React.Component {
 
     render() {
         const { language, promotions } = this.props;
+        const { show, date, mode } = this.state;
         if (promotions.length == 0) {
             return this.renderLoadingPromotion();
         }
@@ -234,8 +236,9 @@ class Layout extends React.Component {
                 <View style={{ flex: 1 }} >
                     <ScrollView>
                         <PromotionFirst
-                            data={this.getDataItemPromotion(1, promotions)}
                             language={language}
+                            data={this.getDataItemPromotion(1, promotions)}
+                            showCalendar={this.showCalendar}
                         />
                         {this.renderDiscountServices()}
                         {this.renderDiscountOnBirthday()}
@@ -244,7 +247,15 @@ class Layout extends React.Component {
                         <View style={{ height: scaleSzie(300) }} />
                     </ScrollView>
                 </View>
-                <View style={{
+                {
+                    show && <DateTimePicker
+                        value={date}
+                        mode={mode}
+                        display="default"
+                    // onChange={this.setDate} 
+                    />
+                }
+                {/* <View style={{
                     position: 'absolute', bottom: 0,
                     width: width, height: scaleSzie(70), flexDirection: 'row', justifyContent: 'center'
                 }} >
@@ -258,7 +269,7 @@ class Layout extends React.Component {
                         onPress={() => { }}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                     />
-                </View>
+                </View> */}
 
             </View>
         );
@@ -276,13 +287,14 @@ class PromotionFirst extends React.Component {
     }
 
     render() {
-        const { language } = this.props;
+        const { language, showCalendar } = this.props;
         const { data } = this.state;
         const { campaignName } = data;
         return (
             <ItemPromo
                 title={data.defaultName}
                 isSelected={data.isDisabled}
+                isShowContent={true}
             >
                 <View style={{ paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10) }} >
                     <InputForm
@@ -305,11 +317,13 @@ class PromotionFirst extends React.Component {
                         <ItemCalendar
                             title={localize('Start Date', language)}
                             placeholder="01/01/19"
+                            onPress={() => showCalendar()}
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemCalendar
                             title={localize('End Date', language)}
                             placeholder="01/01/19"
+                            onPress={() => alert('dd')}
 
                         />
                     </View>
@@ -351,12 +365,12 @@ class PromotionFirst extends React.Component {
                                 if (data.discountType === 'discount_percent') {
                                     const tempData = updateStateChildren('discountType', '', data);
                                     this.setState({
-                                        data: {...tempData,discount:0}
+                                        data: { ...tempData, discount: 0 }
                                     })
                                 } else {
                                     const tempData = updateStateChildren('discountType', 'discount_percent', data)
                                     this.setState({
-                                        data: {...tempData,discount:0}
+                                        data: { ...tempData, discount: 0 }
                                     })
                                 }
                             }}
@@ -376,12 +390,12 @@ class PromotionFirst extends React.Component {
                                 if (data.discountType === 'discount_fixtom') {
                                     const tempData = updateStateChildren('discountType', '', data);
                                     this.setState({
-                                        data: {...tempData,discount:0}
+                                        data: { ...tempData, discount: 0 }
                                     })
                                 } else {
                                     const tempData = updateStateChildren('discountType', 'discount_fixtom', data);
                                     this.setState({
-                                        data: {...tempData,discount:0}
+                                        data: { ...tempData, discount: 0 }
                                     })
                                 }
                             }}

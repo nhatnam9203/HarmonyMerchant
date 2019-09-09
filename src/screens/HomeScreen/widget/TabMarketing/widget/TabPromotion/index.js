@@ -11,7 +11,9 @@ class TabPromotion extends Layout {
   constructor(props) {
     super(props);
     this.state = {
-      name: 'Phi'
+      date: new Date(),
+      mode: 'date',
+      show: false,
     }
   }
 
@@ -19,60 +21,18 @@ class TabPromotion extends Layout {
     this.props.actions.marketing.getPromotionByMerchant();
   }
 
-  applyPromorion = () => {
-    PosLink.setupPax('192.168.0.112', '10009', '9000', message => alert(message));
-  }
 
-  paymentCredit = () => {
-    Alert.alert(
-      `Alert Title`,
-      `Transaction is processing,please wait...`,
-      [
-        {
-          text: 'Cancel',
-          onPress: () => PosLink.cancelTransaction(),
-          style: 'cancel',
-        },
-      ],
-      { cancelable: false },
-    );
-    PosLink.sendTransaction('20', this.callback)
-  }
-
-  callback(message) {
-    try {
-      // const p = JSON.parse(message);
-      console.log('message : ', message);
-    } catch (error) {
-      console.log('error : ', error)
-    }
-  }
-
-  callback1(message) {
-    alert(message)
-  }
-
-  getDataItemPromotion = (index,promotions) => {
+  getDataItemPromotion = (index, promotions) => {
     const data = promotions.filter(item => item.promotionId === index);
     return data[0];
   }
 
-  paymentCredit1 = () => {
-    PosLink.sendTransaction(message => {
-      Alert.alert(
-        `Alert Title`,
-        `${message}`,
-        [
-          {
-            text: 'Cancel',
-            onPress: () => PosLink.cancelTransaction(),
-            style: 'cancel',
-          },
-        ],
-        { cancelable: false },
-      );
-    }, messageEnd => alert(messageEnd));
+  showCalendar = () => {
+    this.setState({
+      show:true
+    })
   }
+
 
 }
 

@@ -9,9 +9,9 @@ import styles from '../style';
 import IMAGE from '@resources';
 import { Button, Text } from '@components';
 
-const ItemCalendar = ({title,placeholder}) => {
+const ItemCalendar = ({title,placeholder,onPress}) => {
     return (
-        <View style={{ height: scaleSzie(30), flexDirection: 'row', marginTop: scaleSzie(8) }} >
+        <Button onPress={() => onPress()} style={{ height: scaleSzie(30), flexDirection: 'row', marginTop: scaleSzie(8) }} >
             <View style={{
                 justifyContent: 'center', width: scaleSzie(70), paddingRight: scaleSzie(10),
                 alignItems: 'flex-end'
@@ -37,7 +37,7 @@ const ItemCalendar = ({title,placeholder}) => {
                     <Image source={IMAGE.calendar} style={{ height: scaleSzie(20), width: scaleSzie(20) }} />
                 </View>
             </View>
-        </View>
+        </Button>
     );
 }
 

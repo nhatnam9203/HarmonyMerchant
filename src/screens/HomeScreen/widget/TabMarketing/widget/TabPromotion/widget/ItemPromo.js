@@ -18,7 +18,7 @@ class ItemPromo extends React.Component {
         super(props);
         this.state = {
             isSelected: this.props.isSelected,
-            isShowContent: false
+            isShowContent: this.props.isShowContent 
         }
 
     }
