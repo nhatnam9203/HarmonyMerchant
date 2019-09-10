@@ -16,7 +16,7 @@ import ItemPromo from './ItemPromo';
 import ItemDropdown from './ItemDropdown';
 import ItemCheckBoxInput from './ItemCheckBoxInput';
 
-export default class PromotionFirst extends React.Component {
+export default class PromotionSecond extends React.Component {
 
     constructor(props) {
         super(props);
@@ -39,17 +39,24 @@ export default class PromotionFirst extends React.Component {
         })
     }
 
+    getDataPromotion = () => {
+        const fromTime = this.dropdownFromRef.current.state.value;
+        const toTime = this.dropdownToRef.current.state.value;
+
+        return { ...this.state.data, fromTime, toTime };
+    }
+
     // ----------- RENDER ----------
 
     render() {
-        const { language, showCalendar } = this.props;
+        const { language, showCalendar, dataDropdown } = this.props;
         const { data } = this.state;
         const { campaignName } = data;
         return (
             <ItemPromo
                 title={data.defaultName}
                 isSelected={data.isDisabled === 0 ? false : true}
-                isShowContent={false}
+                isShowContent={true}
                 checkSelectPromotion={this.checkSelectPromotion}
             >
                 <View style={{ paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10) }} >
@@ -76,42 +83,50 @@ export default class PromotionFirst extends React.Component {
                         <ItemCalendar
                             title={localize('Start Date', language)}
                             value={`${moment(data.fromDate).format('DD/MM/YYYY')}`}
-                            onPress={() => showCalendar('fromDate', data.fromDate, 1)}
+                            onPress={() => showCalendar('fromDate', data.fromDate, 2)}
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemCalendar
                             title={localize('End Date', language)}
                             value={`${moment(data.toDate).format('DD/MM/YYYY')}`}
-                            onPress={() => showCalendar('toDate', data.toDate, 1)}
+                            onPress={() => showCalendar('toDate', data.toDate, 2)}
 
                         />
                     </View>
+                    {/* ---- Row ---- */}
+                    <Text style={{
+                        color: '#404040',
+                        fontSize: scaleSzie(14),
+                        marginTop: scaleSzie(14)
+                    }} >
+                        {localize('Promotional Services:', language)}
+                    </Text>
                     {/* ---- Row ---- */}
                     <View style={{
                         flexDirection: 'row', marginTop: scaleSzie(2), marginBottom: scaleSzie(20),
                     }} >
                         <ItemDropdown
-                            ref={this.dropdownFromRef}
-                            title={localize('From', language)}
-                            width={100}
-                            placeholder="08:00 AM"
-                            value={data.fromTime}
+                            title={localize('Using', language)}
+                            width={180}
+                            placeholder="Services/Products"
+                            value={data.serviceUsing}
+                            dataDropdown={dataDropdown}
                             onChangeText={value => {
                                 this.setState({
-                                    data: updateStateChildren('fromTime', value, data)
+                                    data: updateStateChildren('serviceUsing', value, data)
                                 })
                             }}
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemDropdown
-                            ref={this.dropdownToRef}
-                            title={localize('To', language)}
-                            width={100}
-                            placeholder="08:00 AM"
-                            value={data.toTime}
+                            title={localize('Apply to', language)}
+                            width={180}
+                            placeholder="Services/Products"
+                            value={data.serviceApply}
+                            dataDropdown={dataDropdown}
                             onChangeText={value => {
                                 this.setState({
-                                    data: updateStateChildren('toTime', value, data)
+                                    data: updateStateChildren('serviceApply', value, data)
                                 })
                             }}
                         />

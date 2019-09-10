@@ -14,14 +14,13 @@ class ItemDropdown extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            value : this.props.value
         }
 
     }
 
     render(){
-        const { title, width ,placeholder} = this.props;
-        const {value } = this.state;
+        const { title, width ,placeholder,value,onChangeText,dataDropdown} = this.props;
+        const temptData = dataDropdown ? dataDropdown : WorkingTime;
         return(
             <View style={{ height: scaleSzie(30), flexDirection: 'row', marginTop: scaleSzie(8) }} >
             <View style={{
@@ -33,13 +32,13 @@ class ItemDropdown extends React.Component {
                 </Text>
             </View>
 
-            <View style={{ width: scaleSzie(180), }} >
+            <View style={{ width: scaleSzie(180)}} >
                 <View style={{ height: scaleSzie(30), width: scaleSzie(width) }} >
                     <Dropdown
                         label={placeholder}
-                        data={WorkingTime}
+                        data={temptData}
                         value={value}
-                        onChangeText={(value) => this.setState({value})}
+                        onChangeText={(value) => onChangeText(value)}
                         containerStyle={{
                             backgroundColor: '#F1F1F1',
                             borderWidth: 1,

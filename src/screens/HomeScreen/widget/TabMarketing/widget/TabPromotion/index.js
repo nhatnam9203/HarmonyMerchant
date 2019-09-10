@@ -13,11 +13,12 @@ class TabPromotion extends Layout {
     super(props);
     this.state = {
       dateCalendar: new Date(),
-      keyCalendarUpdate:'',
+      keyCalendarUpdate: '',
+      promotionIdCalendar: -1,
       show: false,
     }
     this.promotionFirstRef = React.createRef();
-
+    this.promotionSecondRef = React.createRef();
   }
 
   componentDidMount() {
@@ -25,7 +26,12 @@ class TabPromotion extends Layout {
   }
 
   setDateSelected = (date) => {
-    this.promotionFirstRef.current.setDateFromParent(this.state.keyCalendarUpdate,date);
+    const { promotionIdCalendar } = this.state;
+    if (promotionIdCalendar === 1) {
+      this.promotionFirstRef.current.setDateFromParent(this.state.keyCalendarUpdate, date);
+    } else {
+      this.promotionSecondRef.current.setDateFromParent(this.state.keyCalendarUpdate, date);
+    }
   }
 
   getDataItemPromotion = (index, promotions) => {
@@ -33,23 +39,36 @@ class TabPromotion extends Layout {
     return data[0];
   }
 
-  showCalendar = async (keyCalendarUpdate,date) => {
+  getDataDropdownService(){
+    const {servicesByMerchant} = this.props;
+    return servicesByMerchant.map(item =>{
+      return {value: item.name}
+    });
+  }
+
+  showCalendar = async (keyCalendarUpdate, date, promotionId) => {
     await this.setState({
       dateCalendar: date,
-      keyCalendarUpdate:keyCalendarUpdate
+      keyCalendarUpdate: keyCalendarUpdate,
+      promotionIdCalendar: promotionId
     })
     await this.setState({
       show: true
     })
   }
 
+  applyPromotion = () => {
+    const promotionFirst = this.promotionFirstRef.current.state;
+    console.log('promotionFirst : ', JSON.stringify(promotionFirst));
+  }
 
 }
 
 const mapStateToProps = state => ({
   profile: state.dataLocal.profile,
   language: state.dataLocal.language,
-  promotions: state.marketing.promotions
+  promotions: state.marketing.promotions,
+  servicesByMerchant: state.service.servicesByMerchant
 })
 
 
