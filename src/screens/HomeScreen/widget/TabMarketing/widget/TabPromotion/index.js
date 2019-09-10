@@ -19,6 +19,9 @@ class TabPromotion extends Layout {
     }
     this.promotionFirstRef = React.createRef();
     this.promotionSecondRef = React.createRef();
+    this.promotionThirdRef = React.createRef();
+    this.promotionFourRef = React.createRef();
+    this.promotionFiveRef = React.createRef();
   }
 
   componentDidMount() {
@@ -59,7 +62,14 @@ class TabPromotion extends Layout {
 
   applyPromotion = () => {
     const promotionFirst = this.promotionFirstRef.current.state;
-    console.log('promotionFirst : ', JSON.stringify(promotionFirst));
+    const promotionSeconde = this.promotionSecondRef.current.state;
+    const promotionThird = this.promotionThirdRef.current.state;
+    const promotionFour = this.promotionFourRef.current.state;
+    const promotionFive = this.promotionFiveRef.current.state;
+
+    const dataUpdate = [promotionFirst,promotionSeconde,promotionThird,promotionFour,promotionFive];
+    
+    console.log('promotionFirst : ', JSON.stringify(dataUpdate));
   }
 
 }

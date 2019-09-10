@@ -61,17 +61,17 @@ class Layout extends React.Component {
                             dataDropdown={this.getDataDropdownService()}
                         />
                         <PromotionThird
-                            ref={this.promotionSecondRef}
+                            ref={this.promotionThirdRef}
                             language={language}
                             data={this.getDataItemPromotion(3, promotions)}
                         />
                         < PromotionFour 
-                             ref={this.promotionSecondRef}
+                             ref={this.promotionFourRef}
                              language={language}
                              data={this.getDataItemPromotion(4, promotions)}
                         />
                         <PromotionFive
-                            ref={this.promotionSecondRef}
+                            ref={this.promotionFiveRef}
                             language={language}
                             data={this.getDataItemPromotion(5, promotions)}
                         />

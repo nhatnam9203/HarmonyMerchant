@@ -43,10 +43,10 @@ export default class PromotionFive extends React.Component {
         const { campaignName } = data;
         return (
             <ItemPromo
-                title={localize(campaignName, language)}
+                title={data.defaultName}
                 style={{ marginTop: scaleSzie(15) }}
                 isSelected={data.isDisabled === 0 ? false : true}
-                isShowContent={true}
+                isShowContent={false}
                 checkSelectPromotion={this.checkSelectPromotion}
             >
                 <View style={{ paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10) }} >
@@ -54,8 +54,12 @@ export default class PromotionFive extends React.Component {
                         title={localize('Campaign Name:', language)}
                         subTitle=""
                         placeholder=""
-                        // value={bankName}
-                        onChangeText={(value) => { }}
+                        value={campaignName}
+                        onChangeText={(value) => {
+                            this.setState({
+                                data: updateStateChildren('campaignName', value, data)
+                            })
+                        }}
                         style={{ marginBottom: scaleSzie(10) }}
                     />
                     {/* ---- Row ---- */}
