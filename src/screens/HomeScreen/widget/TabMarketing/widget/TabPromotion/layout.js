@@ -6,13 +6,12 @@ import {
     Dimensions,
     ActivityIndicator
 } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
 
 import { scaleSzie, localize, updateStateChildren } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { ButtonCustom, Text, InputForm, Dropdown } from '@components';
-import { ItemCalendar, ItemPromo, ItemDropdown, ItemCheckBoxInput } from './widget';
+import { ButtonCustom, Text, InputForm, DatePicker } from '@components';
+import { ItemCalendar, ItemPromo, ItemDropdown, ItemCheckBoxInput, PromotionFirst } from './widget';
 
 const { width } = Dimensions.get('window');
 
@@ -227,7 +226,7 @@ class Layout extends React.Component {
 
     render() {
         const { language, promotions } = this.props;
-        const { show, date, mode } = this.state;
+        const { show, dateCalendar } = this.state;
         if (promotions.length == 0) {
             return this.renderLoadingPromotion();
         }
@@ -236,6 +235,7 @@ class Layout extends React.Component {
                 <View style={{ flex: 1 }} >
                     <ScrollView>
                         <PromotionFirst
+                            ref={this.promotionFirstRef}
                             language={language}
                             data={this.getDataItemPromotion(1, promotions)}
                             showCalendar={this.showCalendar}
@@ -247,15 +247,18 @@ class Layout extends React.Component {
                         <View style={{ height: scaleSzie(300) }} />
                     </ScrollView>
                 </View>
-                {
-                    show && <DateTimePicker
-                        value={date}
-                        mode={mode}
-                        display="default"
-                    // onChange={this.setDate} 
-                    />
-                }
-                {/* <View style={{
+
+                {/* ------- Date -------- */}
+                <DatePicker
+                    visible={show}
+                    onRequestClose={() => this.setState({ show: false })}
+                    title="Select From Date"
+                    dateCalendar={dateCalendar}
+                    setDateSelected={this.setDateSelected}
+                />
+
+                {/* -------- Button ------------ */}
+                <View style={{
                     position: 'absolute', bottom: 0,
                     width: width, height: scaleSzie(70), flexDirection: 'row', justifyContent: 'center'
                 }} >
@@ -269,7 +272,7 @@ class Layout extends React.Component {
                         onPress={() => { }}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                     />
-                </View> */}
+                </View>
 
             </View>
         );
@@ -277,136 +280,6 @@ class Layout extends React.Component {
 }
 
 
-class PromotionFirst extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: this.props.data,
-        }
-    }
-
-    render() {
-        const { language, showCalendar } = this.props;
-        const { data } = this.state;
-        const { campaignName } = data;
-        return (
-            <ItemPromo
-                title={data.defaultName}
-                isSelected={data.isDisabled}
-                isShowContent={true}
-            >
-                <View style={{ paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10) }} >
-                    <InputForm
-                        title={localize('Campaign Name:', language)}
-                        subTitle=""
-                        placeholder=""
-                        value={campaignName}
-                        onChangeText={(value) => {
-                            this.setState({
-                                data: updateStateChildren('campaignName', value, data)
-                            })
-                        }}
-                        style={{ marginBottom: scaleSzie(10) }}
-                    />
-                    <Text style={styles.textNormal} >
-                        {localize('Campaign Time:', language)}
-                    </Text>
-                    {/* ---- Row ---- */}
-                    <View style={{ flexDirection: 'row' }} >
-                        <ItemCalendar
-                            title={localize('Start Date', language)}
-                            placeholder="01/01/19"
-                            onPress={() => showCalendar()}
-                        />
-                        <View style={{ width: scaleSzie(50) }} />
-                        <ItemCalendar
-                            title={localize('End Date', language)}
-                            placeholder="01/01/19"
-                            onPress={() => alert('dd')}
-
-                        />
-                    </View>
-                    {/* ---- Row ---- */}
-                    <View style={{
-                        flexDirection: 'row', marginTop: scaleSzie(2), marginBottom: scaleSzie(20),
-                    }} >
-                        <ItemDropdown
-                            title={localize('From', language)}
-                            width={100}
-                            placeholder="08:00 AM"
-                            value={data.fromTime}
-                        />
-                        <View style={{ width: scaleSzie(50) }} />
-                        <ItemDropdown
-                            title={localize('To', language)}
-                            width={100}
-                            placeholder="08:00 AM"
-                            value={data.toTime}
-                        />
-                    </View>
-                    {/* ---- Row ---- */}
-                    <Text style={styles.textNormal} >
-                        {localize('Promotion form:', language)}
-                    </Text>
-                    {/* ---- Row ---- */}
-                    <View style={{ flexDirection: 'row' }} >
-                        <ItemCheckBoxInput
-                            title={localize('Discount by percent (%)', language)}
-                            placeholder="15"
-                            isSelectCheckBox={data.discountType === 'discount_percent' ? true : false}
-                            value={data.discountType === 'discount_percent' ? data.discount : ''}
-                            onChangeText={(value) => {
-                                this.setState({
-                                    data: updateStateChildren('discount', value, data)
-                                })
-                            }}
-                            selectCheckbox={() => {
-                                if (data.discountType === 'discount_percent') {
-                                    const tempData = updateStateChildren('discountType', '', data);
-                                    this.setState({
-                                        data: { ...tempData, discount: 0 }
-                                    })
-                                } else {
-                                    const tempData = updateStateChildren('discountType', 'discount_percent', data)
-                                    this.setState({
-                                        data: { ...tempData, discount: 0 }
-                                    })
-                                }
-                            }}
-                        />
-                        <View style={{ width: scaleSzie(50) }} />
-                        <ItemCheckBoxInput
-                            title={localize('Discount fixtom amount ($)', language)}
-                            placeholder="100"
-                            isSelectCheckBox={data.discountType === 'discount_fixtom' ? true : false}
-                            value={data.discountType === 'discount_fixtom' ? data.discount : ''}
-                            onChangeText={(value) => {
-                                this.setState({
-                                    data: updateStateChildren('discount', value, data)
-                                })
-                            }}
-                            selectCheckbox={() => {
-                                if (data.discountType === 'discount_fixtom') {
-                                    const tempData = updateStateChildren('discountType', '', data);
-                                    this.setState({
-                                        data: { ...tempData, discount: 0 }
-                                    })
-                                } else {
-                                    const tempData = updateStateChildren('discountType', 'discount_fixtom', data);
-                                    this.setState({
-                                        data: { ...tempData, discount: 0 }
-                                    })
-                                }
-                            }}
-                        />
-                    </View>
-                </View>
-            </ItemPromo>
-        );
-    }
-
-}
 
 
 export default Layout;

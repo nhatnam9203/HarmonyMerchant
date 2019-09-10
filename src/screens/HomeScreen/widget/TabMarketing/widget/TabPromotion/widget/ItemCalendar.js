@@ -9,7 +9,7 @@ import styles from '../style';
 import IMAGE from '@resources';
 import { Button, Text } from '@components';
 
-const ItemCalendar = ({title,placeholder,onPress}) => {
+const ItemCalendar = ({title,value,onPress}) => {
     return (
         <Button onPress={() => onPress()} style={{ height: scaleSzie(30), flexDirection: 'row', marginTop: scaleSzie(8) }} >
             <View style={{
@@ -27,8 +27,8 @@ const ItemCalendar = ({title,placeholder,onPress}) => {
             }} >
                 <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(8) }} >
                     <Text style={styles.textNormal} >
-                        {placeholder}
-                                    </Text>
+                        {value}
+                    </Text>
                 </View>
                 <View style={{ width: 1, paddingVertical: scaleSzie(2) }} >
                     <View style={{ flex: 1, backgroundColor: '#C5C5C5' }} />

@@ -17,16 +17,13 @@ class ItemPromo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isSelected: this.props.isSelected,
             isShowContent: this.props.isShowContent 
         }
 
     }
 
     selectCheckBox = () => {
-        this.setState(prevState => ({
-            isSelected: !prevState.isSelected
-        }))
+       this.props.checkSelectPromotion();
     }
 
     showContent = () => {
@@ -36,8 +33,8 @@ class ItemPromo extends React.Component {
     }
 
     render() {
-        const { isSelected, isShowContent } = this.state;
-        const { title, style } = this.props;
+        const {  isShowContent } = this.state;
+        const { title, style ,isSelected} = this.props;
         const temptIconCheckBox = isSelected ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
             <View style={[{ width: width, paddingHorizontal: scaleSzie(15) }, style]} >

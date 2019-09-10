@@ -27,6 +27,7 @@ import PopupEditAddCategories from './PopupEditAddCategories';
 import BrowserFile from './BrowserFile';
 import PopupPayCompleted from './PopupPayCompleted';
 import CalendarPicker from './react-native-calendar-picker';
+import DatePicker from './DatePicker';
 
 module.exports = {
     Button,
@@ -57,5 +58,6 @@ module.exports = {
     PopupEditAddCategories,
     BrowserFile,
     PopupPayCompleted,
-    CalendarPicker
+    CalendarPicker,
+    DatePicker
 }
