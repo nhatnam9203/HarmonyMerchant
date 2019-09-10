@@ -12,99 +12,12 @@ import styles from './style';
 import IMAGE from '@resources';
 import { ButtonCustom, Text, InputForm, DatePicker } from '@components';
 import {
-    ItemCalendar, ItemPromo, ItemDropdown, ItemCheckBoxInput, PromotionFirst,
-    PromotionSecond, PromotionThird
+    PromotionFirst,PromotionSecond, PromotionThird,  PromotionFour,PromotionFive
 } from './widget';
 
 const { width } = Dimensions.get('window');
 
 class Layout extends React.Component {
-
-
-    renderDiscountLoyalCustomer() {
-        const { language } = this.props;
-        return (
-            <ItemPromo
-                title={localize('Discount for loyal customers', language)}
-                style={{ marginTop: scaleSzie(15) }}
-            >
-                <View style={{ paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10) }} >
-                    <InputForm
-                        title={localize('Campaign Name:', language)}
-                        subTitle=""
-                        placeholder=""
-                        // value={bankName}
-                        onChangeText={(value) => { }}
-                        style={{ marginBottom: scaleSzie(10) }}
-                    />
-                    {/* ---- Row ---- */}
-                    <View style={{ width: scaleSzie(200) }}  >
-                        <InputForm
-                            title={localize('Promotion applied on (times)', language)}
-                            subTitle=""
-                            placeholder="6"
-                            // value={bankName}
-                            onChangeText={(value) => { }}
-                            style={{ marginBottom: scaleSzie(10) }}
-                        />
-                    </View>
-                    {/* ---- Row ---- */}
-                    <Text style={styles.textNormal} >
-                        {localize('Promotion form:', language)}
-                    </Text>
-                    {/* ---- Row ---- */}
-                    <View style={{ flexDirection: 'row' }} >
-                        <ItemCheckBoxInput
-                            title={localize('Discount by percent (%)', language)}
-                            placeholder="15"
-                        />
-                        <View style={{ width: scaleSzie(50) }} />
-                        <ItemCheckBoxInput
-                            title={localize('Discount fixtom amount ($)', language)}
-                            placeholder="100"
-                        />
-                    </View>
-                </View>
-            </ItemPromo>
-        );
-    }
-
-    renderDiscountForReferrals() {
-        const { language } = this.props;
-        return (
-            <ItemPromo
-                title={localize('Discount for referrals', language)}
-                style={{ marginTop: scaleSzie(15) }}
-            >
-                <View style={{ paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10) }} >
-                    <InputForm
-                        title={localize('Campaign Name:', language)}
-                        subTitle=""
-                        placeholder=""
-                        // value={bankName}
-                        onChangeText={(value) => { }}
-                        style={{ marginBottom: scaleSzie(10) }}
-                    />
-                    {/* ---- Row ---- */}
-                    <Text style={styles.textNormal} >
-                        {localize('Promotion form:', language)}
-                    </Text>
-                    {/* ---- Row ---- */}
-                    <View style={{ flexDirection: 'row' }} >
-                        <ItemCheckBoxInput
-                            title={localize('Discount by percent (%)', language)}
-                            placeholder="15"
-                        />
-                        <View style={{ width: scaleSzie(50) }} />
-                        <ItemCheckBoxInput
-                            title={localize('Discount fixtom amount ($)', language)}
-                            placeholder="100"
-                        />
-                    </View>
-                </View>
-            </ItemPromo>
-        );
-    }
 
     renderLoadingPromotion() {
         return (
@@ -152,21 +65,19 @@ class Layout extends React.Component {
                             language={language}
                             data={this.getDataItemPromotion(3, promotions)}
                         />
-                        {/* {this.renderDiscountOnBirthday()} */}
-                        {this.renderDiscountLoyalCustomer()}
-                        {this.renderDiscountForReferrals()}
+                        < PromotionFour 
+                             ref={this.promotionSecondRef}
+                             language={language}
+                             data={this.getDataItemPromotion(4, promotions)}
+                        />
+                        <PromotionFive
+                            ref={this.promotionSecondRef}
+                            language={language}
+                            data={this.getDataItemPromotion(5, promotions)}
+                        />
                         <View style={{ height: scaleSzie(300) }} />
                     </ScrollView>
                 </View>
-
-                {/* ------- Date -------- */}
-                <DatePicker
-                    visible={show}
-                    onRequestClose={() => this.setState({ show: false })}
-                    title="Select From Date"
-                    dateCalendar={dateCalendar}
-                    setDateSelected={this.setDateSelected}
-                />
 
                 {/* -------- Button ------------ */}
                 <View style={{
@@ -184,6 +95,15 @@ class Layout extends React.Component {
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                     />
                 </View>
+
+                {/* ------- Date -------- */}
+                <DatePicker
+                    visible={show}
+                    onRequestClose={() => this.setState({ show: false })}
+                    title="Select From Date"
+                    dateCalendar={dateCalendar}
+                    setDateSelected={this.setDateSelected}
+                />
 
             </View>
         );

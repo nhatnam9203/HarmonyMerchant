@@ -5,6 +5,8 @@ import ItemCheckBoxInput from './ItemCheckBoxInput';
 import PromotionFirst from './PromotionFirst';
 import PromotionSecond from './PromotionSecond';
 import PromotionThird from './PromotionThird';
+import PromotionFive from './PromotionFive';
+import PromotionFour from './PromotionFour';
 
 module.exports = {
     ItemCalendar,
@@ -13,5 +15,8 @@ module.exports = {
     ItemCheckBoxInput,
     PromotionFirst,
     PromotionSecond,
-    PromotionThird
+    PromotionThird,
+    PromotionFour,
+    PromotionFive,
+   
 }
