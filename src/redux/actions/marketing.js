@@ -36,3 +36,13 @@ export function getPromotionByMerchant() {
         api: `${apiConfigs.BASE_API}merchantpromotion`
     }
 }
+
+export function updatePromotionByMerchant(body) {
+    return {
+        type: 'UPDATE_PROMOTION_BY_MERCHANT',
+        method: 'POST',
+        token: true,
+        body,
+        api: `${apiConfigs.BASE_API}merchantPromotion`
+    }
+}

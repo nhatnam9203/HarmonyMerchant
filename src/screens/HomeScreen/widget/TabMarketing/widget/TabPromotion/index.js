@@ -61,15 +61,16 @@ class TabPromotion extends Layout {
   }
 
   applyPromotion = () => {
-    const promotionFirst = this.promotionFirstRef.current.state;
-    const promotionSeconde = this.promotionSecondRef.current.state;
-    const promotionThird = this.promotionThirdRef.current.state;
-    const promotionFour = this.promotionFourRef.current.state;
-    const promotionFive = this.promotionFiveRef.current.state;
+    const promotionFirst = this.promotionFirstRef.current.state.data;
+    const promotionSeconde = this.promotionSecondRef.current.state.data;
+    const promotionThird = this.promotionThirdRef.current.state.data;
+    const promotionFour = this.promotionFourRef.current.state.data;
+    const promotionFive = this.promotionFiveRef.current.state.data;
 
     const dataUpdate = [promotionFirst,promotionSeconde,promotionThird,promotionFour,promotionFive];
     
-    console.log('promotionFirst : ', JSON.stringify(dataUpdate));
+    // console.log('promotionFirst : ', JSON.stringify(dataUpdate));
+    this.props.actions.marketing.updatePromotionByMerchant(dataUpdate);
   }
 
 }
