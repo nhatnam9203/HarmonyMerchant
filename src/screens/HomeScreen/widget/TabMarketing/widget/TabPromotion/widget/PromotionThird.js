@@ -16,7 +16,7 @@ import ItemPromo from './ItemPromo';
 import ItemDropdown from './ItemDropdown';
 import ItemCheckBoxInput from './ItemCheckBoxInput';
 
-export default class PromotionSecond extends React.Component {
+export default class PromotionThird extends React.Component {
 
     constructor(props) {
         super(props);
@@ -25,11 +25,6 @@ export default class PromotionSecond extends React.Component {
         };
     }
 
-    setDateFromParent = (key, value) => {
-        this.setState({
-            data: updateStateChildren(key, value, this.state.data)
-        })
-    }
 
     checkSelectPromotion = () => {
         const { data } = this.state;
@@ -43,14 +38,15 @@ export default class PromotionSecond extends React.Component {
     // ----------- RENDER ----------
 
     render() {
-        const { language, showCalendar, dataDropdown } = this.props;
+        const { language } = this.props;
         const { data } = this.state;
         const { campaignName } = data;
         return (
             <ItemPromo
-                title={data.defaultName}
+                title={localize(campaignName, language)}
+                style={{ marginTop: scaleSzie(15) }}
                 isSelected={data.isDisabled === 0 ? false : true}
-                isShowContent={false}
+                isShowContent={true}
                 checkSelectPromotion={this.checkSelectPromotion}
             >
                 <View style={{ paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10) }} >
@@ -58,73 +54,10 @@ export default class PromotionSecond extends React.Component {
                         title={localize('Campaign Name:', language)}
                         subTitle=""
                         placeholder=""
-                        value={campaignName}
-                        onChangeText={(value) => {
-                            this.setState({
-                                data: updateStateChildren('campaignName', value, data)
-                            })
-                        }}
+                        // value={bankName}
+                        onChangeText={(value) => { }}
                         style={{ marginBottom: scaleSzie(10) }}
                     />
-                    <Text style={{
-                        color: '#404040',
-                        fontSize: scaleSzie(14)
-                    }} >
-                        {localize('Campaign Time:', language)}
-                    </Text>
-                    {/* ---- Row ---- */}
-                    <View style={{ flexDirection: 'row' }} >
-                        <ItemCalendar
-                            title={localize('Start Date', language)}
-                            value={`${moment(data.fromDate).format('DD/MM/YYYY')}`}
-                            onPress={() => showCalendar('fromDate', data.fromDate, 2)}
-                        />
-                        <View style={{ width: scaleSzie(50) }} />
-                        <ItemCalendar
-                            title={localize('End Date', language)}
-                            value={`${moment(data.toDate).format('DD/MM/YYYY')}`}
-                            onPress={() => showCalendar('toDate', data.toDate, 2)}
-
-                        />
-                    </View>
-                    {/* ---- Row ---- */}
-                    <Text style={{
-                        color: '#404040',
-                        fontSize: scaleSzie(14),
-                        marginTop: scaleSzie(14)
-                    }} >
-                        {localize('Promotional Services:', language)}
-                    </Text>
-                    {/* ---- Row ---- */}
-                    <View style={{
-                        flexDirection: 'row', marginTop: scaleSzie(2), marginBottom: scaleSzie(20),
-                    }} >
-                        <ItemDropdown
-                            title={localize('Using', language)}
-                            width={180}
-                            placeholder="Services/Products"
-                            value={data.serviceUsing}
-                            dataDropdown={dataDropdown}
-                            onChangeText={value => {
-                                this.setState({
-                                    data: updateStateChildren('serviceUsing', value, data)
-                                })
-                            }}
-                        />
-                        <View style={{ width: scaleSzie(50) }} />
-                        <ItemDropdown
-                            title={localize('Apply to', language)}
-                            width={180}
-                            placeholder="Services/Products"
-                            value={data.serviceApply}
-                            dataDropdown={dataDropdown}
-                            onChangeText={value => {
-                                this.setState({
-                                    data: updateStateChildren('serviceApply', value, data)
-                                })
-                            }}
-                        />
-                    </View>
                     {/* ---- Row ---- */}
                     <Text style={{
                         color: '#404040',
