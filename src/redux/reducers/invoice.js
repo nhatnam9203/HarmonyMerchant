@@ -3,7 +3,8 @@ const initialState = {
     refreshListInvoice: false,
     listInvoicesSearch: [],
     isShowSearchInvoice: false,
-    settleWaiting: {}
+    settleWaiting: {},
+    invoicesOfStaff: []
 }
 
 function appReducer(state = initialState, action) {
@@ -35,6 +36,11 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 settleWaiting: action.payload,
+            }
+        case 'INVOICE_OFF_STAFF_SUCCESS':
+            return {
+                ...state,
+                invoicesOfStaff: action.payload,
             }
         default:
             return state

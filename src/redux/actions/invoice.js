@@ -35,3 +35,12 @@ export function getSettlementWating() {
         token: true
     }
 }
+
+export function invoicesOfStaff(staffId) {
+    return {
+        type: 'INVOICE_OFF_STAFF',
+        method: 'GET',
+        api: `${apiConfigs.BASE_API}settlement/checkoutbystaff/${staffId}`,
+        token: true
+    }
+}
