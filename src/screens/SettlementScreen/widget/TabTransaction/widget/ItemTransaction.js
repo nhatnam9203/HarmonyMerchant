@@ -6,30 +6,34 @@ import {
     FlatList,
     StyleSheet
 } from 'react-native';
+import moment from 'moment';
 
 import { scaleSzie } from '@utils';
-import { Text} from '@components';
+import { Text } from '@components';
 import IMAGE from '@resources';
 
-const ItemTransaction = ({ }) => {
+const ItemTransaction = (props) => {
+    const { data } = props;
     return (
         <View style={{
             height: scaleSzie(60), backgroundColor: '#FAFAFA',
             borderBottomColor: '#C5C5C5', borderBottomWidth: 1, flexDirection: 'row'
         }} >
             {/* --------- Col 1 --------- */}
-            <View style={{ width: scaleSzie(150), justifyContent: 'center' }} >
-                <Text style={[styles.textHeaderContent, { marginLeft: scaleSzie(10) }]} >
-                    #1234
+            <View style={{ width: scaleSzie(150), justifyContent: 'center',paddingRight:scaleSzie(10) }} >
+                <Text style={[styles.textHeaderContent, { marginLeft: scaleSzie(10) }]}
+                numberOfLines={1}
+                >
+                   {`#${data.paymentData.transaction_id}`}
             </Text>
             </View>
             {/* --------- Col 2 --------- */}
             <View style={{ width: scaleSzie(130), justifyContent: 'center' }} >
                 <Text style={styles.textHeaderContent} >
-                    02/20/2019
+                    {moment(data.createdDate).format('DD/MM/YYYY')}
                 </Text>
                 <Text style={styles.textHeaderContent} >
-                    10:00:07 AM
+                    ${moment(data.createdDate).format('h:mm A')}
                 </Text>
 
             </View>
@@ -46,13 +50,13 @@ const ItemTransaction = ({ }) => {
             </Text>
             </View>
             {/* --------- Col 5 --------- */}
-            <View style={{ width: scaleSzie(130), alignItems: 'center',flexDirection:'row' }} >
+            <View style={{ width: scaleSzie(130), alignItems: 'center', flexDirection: 'row' }} >
                 <Image source={IMAGE.hpLogo} />
-                <View style={{width:5}} />
+                <View style={{ width: 5 }} />
                 <Image source={IMAGE.discoverLogo} />
-                <View style={{width:5}} />
+                <View style={{ width: 5 }} />
                 <Text style={styles.textHeaderContent} >
-                3527
+                    3527
                 </Text>
             </View>
             {/* --------- Col 5 --------- */}
@@ -66,9 +70,9 @@ const ItemTransaction = ({ }) => {
 }
 
 const styles = StyleSheet.create({
-    textHeaderContent:{
-        color:'#404040',
-        fontSize:scaleSzie(14)
+    textHeaderContent: {
+        color: '#404040',
+        fontSize: scaleSzie(14)
     },
 });
 

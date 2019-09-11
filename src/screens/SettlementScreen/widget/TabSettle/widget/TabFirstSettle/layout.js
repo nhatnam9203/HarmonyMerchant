@@ -31,7 +31,7 @@ class Layout extends React.Component {
                     {moment(settlementDate).format('DD/MM/YYYY')}
                 </Text>
                 <Text style={{ color: '#0764B0', fontSize: scaleSzie(16), fontWeight: 'bold', marginRight: scaleSzie(20) }} >
-                    ${moment(settlementDate).format('h:mm a')}
+                    ${moment(settlementDate).format('h:mm A')}
                 </Text>
             </View>
         );
@@ -148,11 +148,10 @@ class Layout extends React.Component {
     renderTableStaff() {
         const { settleWaiting, invoicesOfStaff } = this.props;
         const { settlementStaff, total } = settleWaiting;
-        let tipAmount = 0 ;
+        let tipAmount = 0;
         let totalAmount = 0;
-        if(invoicesOfStaff.length > 0){
+        if (invoicesOfStaff.length > 0) {
             invoicesOfStaff.forEach(invoice => {
-                console.log('--- p : ',invoice.tipAmount);
                 tipAmount = tipAmount + invoice.tipAmount;
                 totalAmount = totalAmount + invoice.amount;
             });
@@ -228,7 +227,7 @@ class Layout extends React.Component {
                             Payment by Harmony account
                         </Text>
                         <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
-                            $ 1000
+                            {`$ ${settleWaiting.paymentByHarmony}`}
                         </Text>
                     </View>
                     {/* ------------ Row 2 ------------ */}
@@ -252,7 +251,7 @@ class Layout extends React.Component {
                             Payment by Cash
                         </Text>
                         <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
-                            $ 1000
+                            {`$ ${settleWaiting.paymentByCash}`}
                         </Text>
                     </View>
                     {/* ------------ Row 4 ------------ */}
@@ -264,7 +263,7 @@ class Layout extends React.Component {
                             Other payment
                         </Text>
                         <Text style={{ fontSize: scaleSzie(20), color: '#6A6A6A' }} >
-                            $ 1000
+                            {`$ ${settleWaiting.otherPayment}`}
                         </Text>
                     </View>
                     {/* -------- Total ------- */}
@@ -277,8 +276,8 @@ class Layout extends React.Component {
                             Total:
                             </Text>
                         <Text style={{ fontSize: scaleSzie(20), color: '#4CD964', fontWeight: 'bold' }} >
-                            $ 3900
-                            </Text>
+                            {`$ ${settleWaiting.total}`}
+                        </Text>
                     </View>
                 </View>
                 {/* --------- Right --------- */}
@@ -296,11 +295,11 @@ class Layout extends React.Component {
                         </Text>
                         <View style={{
                             height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
-                            paddingHorizontal: scaleSzie(10), justifyContent: 'center', alignItems: 'flex-end'
+                            paddingHorizontal: scaleSzie(10)
                         }} >
-                            <Text style={{ fontSize: scaleSzie(20), color: '#404040', }} >
-                                $ 1000
-                            </Text>
+                            <TextInput
+                                style={{ flex: 1, fontSize: scaleSzie(20), color: '#404040', alignSelf: 'flex-end' }}
+                            />
                         </View>
                     </View>
                     {/* ------------ Row 2 ------------ */}
@@ -313,11 +312,11 @@ class Layout extends React.Component {
                         </Text>
                         <View style={{
                             height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
-                            paddingHorizontal: scaleSzie(10), justifyContent: 'center', alignItems: 'flex-end'
+                            paddingHorizontal: scaleSzie(10),
                         }} >
-                            <Text style={{ fontSize: scaleSzie(20), color: '#404040', }} >
-                                $ 1000
-                            </Text>
+                            <TextInput
+                                style={{ flex: 1, fontSize: scaleSzie(20), color: '#404040', alignSelf: 'flex-end' }}
+                            />
                         </View>
                     </View>
                     {/* ------------ Row 3 ------------ */}
@@ -330,11 +329,11 @@ class Layout extends React.Component {
                         </Text>
                         <View style={{
                             height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
-                            paddingHorizontal: scaleSzie(10), justifyContent: 'center', alignItems: 'flex-end'
+                            paddingHorizontal: scaleSzie(10)
                         }} >
-                            <Text style={{ fontSize: scaleSzie(20), color: '#404040', }} >
-                                $ 1000
-                            </Text>
+                             <TextInput
+                                style={{ flex: 1, fontSize: scaleSzie(20), color: '#404040', alignSelf: 'flex-end' }}
+                            />
                         </View>
                     </View>
                     {/* ------------ Row 4 ------------ */}
@@ -347,11 +346,11 @@ class Layout extends React.Component {
                         </Text>
                         <View style={{
                             height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
-                            paddingHorizontal: scaleSzie(10), justifyContent: 'center', alignItems: 'flex-end'
+                            paddingHorizontal: scaleSzie(10), 
                         }} >
-                            <Text style={{ fontSize: scaleSzie(20), color: '#404040', }} >
-                                $ 1000
-                            </Text>
+                             <TextInput
+                                style={{ flex: 1, fontSize: scaleSzie(20), color: '#404040', alignSelf: 'flex-end' }}
+                            />
                         </View>
                     </View>
                     {/* -------- Total ------- */}

@@ -184,7 +184,7 @@ export default class Layout extends React.Component {
                     />
                     <ItemInfo
                         title={localize('Time', language)}
-                        value={invoiceDetail.createdDate ? `${moment(invoiceDetail.createdDate).format('h:mm a')}` : ''}
+                        value={invoiceDetail.createdDate ? `${moment(invoiceDetail.createdDate).format('h:mm A')}` : ''}
                     />
                     <ItemInfo
                         title={localize('Status', language)}

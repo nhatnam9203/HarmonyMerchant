@@ -44,3 +44,12 @@ export function invoicesOfStaff(staffId) {
         token: true
     }
 }
+
+export function getTransactionSettlement() {
+    return {
+        type: 'GET_TRANSACTION_SETTLEMENT',
+        method: 'GET',
+        api: `${apiConfigs.BASE_API}settlement/transaction`,
+        token: true
+    }
+}

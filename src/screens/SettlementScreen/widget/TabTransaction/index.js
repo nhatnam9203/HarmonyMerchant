@@ -17,6 +17,10 @@ class TabTransaction extends Layout {
         };
     }
 
+    componentDidMount(){
+       this.props.actions.invoice.getTransactionSettlement();
+    }
+
     searchTransactions =() =>{
 
     }
@@ -31,12 +35,7 @@ class TabTransaction extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    servicesByMerchant: state.service.servicesByMerchant,
-    categoriesByMerchant: state.category.categoriesByMerchant,
-    listServicesSearch: state.service.listServicesSearch,
-    isShowSearchService: state.service.isShowSearchService,
-    refreshListServices: state.service.refreshListServices,
-    isGetListSearchService: state.service.isGetListSearchService
+    transactionsSettlement: state.invoice.transactionsSettlement
 })
 
 

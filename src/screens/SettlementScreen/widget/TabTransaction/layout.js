@@ -113,6 +113,7 @@ class Layout extends React.Component {
 
 
     renderContent() {
+        const {transactionsSettlement} = this.props;
         return (
             <View style={styles.contentContainer} >
                 <HeaderTableTransaction />
@@ -120,9 +121,9 @@ class Layout extends React.Component {
                 {/* ---------- Table ------- */}
                 <View style={styles.tableContainer} >
                     <FlatList
-                        data={[0, 1, 2, 3]}
-                        renderItem={({ item, index }) => <ItemTransaction />}
-                        keyExtractor={(item, index) => `${item}`}
+                        data={transactionsSettlement}
+                        renderItem={({ item, index }) => <ItemTransaction data={item} />}
+                        keyExtractor={(item, index) => `${index}`}
                     />
 
                 </View>
