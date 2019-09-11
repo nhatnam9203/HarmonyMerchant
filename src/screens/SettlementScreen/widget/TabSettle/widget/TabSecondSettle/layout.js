@@ -244,6 +244,7 @@ class Layout extends React.Component {
     }
 
     render() {
+        const {settleWaiting} = this.props;
         const { creditAmount } = this.state;
         return (
             <View style={[styles.container, { backgroundColor: '#F6F6F6' }]} >
@@ -266,7 +267,7 @@ class Layout extends React.Component {
                                 Payment by Harmony account
                     </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
-                                $ 1000
+                               {`$ ${settleWaiting.paymentByHarmony}`}
                     </Text>
                         </View>
                         {/* ------------ Row 2 ------------ */}
@@ -290,7 +291,7 @@ class Layout extends React.Component {
                                 Payment by Cash
                     </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
-                                $ 1000
+                            {`$ ${settleWaiting.paymentByCash}`}
                     </Text>
                         </View>
                         {/* ------------ Row 4 ------------ */}
@@ -302,7 +303,7 @@ class Layout extends React.Component {
                                 Other payment
                     </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: '#6A6A6A' }} >
-                                $ 1000
+                            {`$ ${settleWaiting.otherPayment}`}
                     </Text>
                         </View>
                         {/* -------- Total ------- */}
@@ -315,7 +316,7 @@ class Layout extends React.Component {
                                 Total:
                         </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: '#4CD964', fontWeight: 'bold' }} >
-                                $ 3900
+                            {`$ ${settleWaiting.total}`}
                         </Text>
                         </View>
                         {/* -------- Note ------- */}
