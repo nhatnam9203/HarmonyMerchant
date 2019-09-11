@@ -27,7 +27,7 @@ class TabFirstSettle extends Layout {
             PosLink.setupPax(ip, port, timeout);
             PosLink.reportTransaction(message => this.handleResponseReportTransactions(message));
         } else {
-            alert('Please setup your pax machine in setting');
+            // alert('Please setup your pax machine in setting');
         }
     }
 
@@ -55,6 +55,7 @@ class TabFirstSettle extends Layout {
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     paxMachineInfo: state.dataLocal.paxMachineInfo,
+    settleWaiting: state.invoice.settleWaiting
 })
 
 

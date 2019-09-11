@@ -25,25 +25,13 @@ export function clearSearInvoice() {
     }
 }
 
-// export function addCustomer(body) {
-//     return {
-//         type: 'ADD_CUSTOMER',
-//         method: 'POST',
-//         body,
-//         api: `${apiConfigs.BASE_API}customer`,
-//         token: true
-//     }
-// }
+// ----------- Settle ------------
 
-// export function editCustomer(id, body) {
-//     return {
-//         type: 'EDIT_CUSTOMER',
-//         method: 'PUT',
-//         body,
-//         api: `${apiConfigs.BASE_API}customer/${id}`,
-//         token: true
-//     }
-// }
-
-
-
+export function getSettlementWating() {
+    return {
+        type: 'GET_SETTLEMENT_WAITING',
+        method: 'GET',
+        api: `${apiConfigs.BASE_API}settlement/waiting`,
+        token: true
+    }
+}

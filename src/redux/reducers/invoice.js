@@ -2,7 +2,8 @@ const initialState = {
     listInvoicesByMerchant: [],
     refreshListInvoice: false,
     listInvoicesSearch: [],
-    isShowSearchInvoice: false
+    isShowSearchInvoice: false,
+    settleWaiting: {}
 }
 
 function appReducer(state = initialState, action) {
@@ -29,6 +30,11 @@ function appReducer(state = initialState, action) {
                 ...state,
                 listInvoicesSearch: [],
                 isShowSearchInvoice: false
+            }
+        case 'GET_SETTLEMENT_WAITING_SUCCESS':
+            return {
+                ...state,
+                settleWaiting: action.payload,
             }
         default:
             return state

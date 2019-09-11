@@ -14,6 +14,11 @@ class TabSettle extends Layout {
         this.scrollTabRef = React.createRef();
     }
 
+    componentDidMount(){
+        // alert('ddd')
+        this.props.actions.invoice.getSettlementWating();
+    }
+
     gotoTabSecondSettle = () => {
         this.scrollTabRef.current.goToPage(1);
     }
