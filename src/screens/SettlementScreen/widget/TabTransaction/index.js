@@ -13,8 +13,10 @@ class TabTransaction extends Layout {
                 keySearch: '',
                 category: '',
                 status: ''
-            }
+            },
+            visibleCalendar: false
         };
+        this.modalCalendarRef = React.createRef();
     }
 
     componentDidMount(){
@@ -26,7 +28,9 @@ class TabTransaction extends Layout {
     }
 
     showCalendar = () =>{
-        
+        this.setState({
+            visibleCalendar: true
+        })
     }
 
     

@@ -9,12 +9,12 @@ import {
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import moment from 'moment';
 
-import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown } from '@components';
+import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown ,PopupCalendar} from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import {
-    ItemInvoice, ItemInfo, ItemButton, ItemBasket, ItemHistory, PopupCalendar
+    ItemInvoice, ItemInfo, ItemButton, ItemBasket
 } from './widget';
 
 export default class Layout extends React.Component {
@@ -536,7 +536,6 @@ export default class Layout extends React.Component {
                     visible={visibleCalendar}
                     onRequestClose={() => this.setState({ visibleCalendar: false })}
                     changeTitleTimeRange={this.changeTitleTimeRange}
-
                 />
             </ParentContainer>
         );

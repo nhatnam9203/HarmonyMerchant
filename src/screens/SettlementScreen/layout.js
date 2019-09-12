@@ -39,7 +39,7 @@ export default class Layout extends React.Component {
                 <ScrollableTabView
                     ref={this.scrollTabRef}
                     style={{}}
-                    initialPage={0}
+                    initialPage={1}
                     locked={true}
                     renderTabBar={() => <DefaultTabBar
                         activeTextColor="#fff"
@@ -57,8 +57,8 @@ export default class Layout extends React.Component {
                     <TabTransaction
                         tabLabel="Transactions"
                     />
-                    <TabBatchHistory 
-                    tabLabel="Batch history" 
+                    <TabBatchHistory
+                        tabLabel="Batch history"
                     />
 
                 </ScrollableTabView>

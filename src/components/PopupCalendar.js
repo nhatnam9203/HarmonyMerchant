@@ -8,9 +8,11 @@ import {
 } from 'react-native';
 import moment from 'moment';
 
-import { Button, ModalCustom, ButtonCustom, CalendarPicker } from '@components';
+import Button from './Button';
+import ModalCustom from './ModalCustom';
+import ButtonCustom from './ButtonCustom';
+import CalendarPicker from './react-native-calendar-picker';
 import { scaleSzie } from '@utils';
-import IMAGE from '@resources';
 
 const DATE = ['Select', 'Today', 'Yesterday', 'This Week', 'Last Week', 'This Month', 'Last Month', 'Customize Date'];
 
@@ -100,6 +102,7 @@ class PopupCalendar extends React.Component {
     render() {
         const { visible, onRequestClose } = this.props;
         const { quickFilter, startDate, endDate } = this.state;
+        const temptPaddingTop = this.props.paddingTop ? this.props.paddingTop : 155;
         return (
             <ModalCustom
                 transparent={true}
@@ -108,7 +111,7 @@ class PopupCalendar extends React.Component {
                 style={{
                     justifyContent: 'flex-start', alignItems: 'flex-start',
                     backgroundColor: "transparent",
-                    paddingTop: scaleSzie(155),
+                    paddingTop: scaleSzie(temptPaddingTop),
                     paddingLeft: scaleSzie(160)
                 }}
             >

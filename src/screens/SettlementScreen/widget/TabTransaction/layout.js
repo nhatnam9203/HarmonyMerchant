@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { scaleSzie, localize, } from '@utils';
-import { Text, Button, ButtonCustom, Dropdown, } from '@components';
+import { Text, Button, ButtonCustom, Dropdown, PopupCalendar } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import { ItemTransaction, HeaderTableTransaction } from './widget';
@@ -113,7 +113,7 @@ class Layout extends React.Component {
 
 
     renderContent() {
-        const {transactionsSettlement} = this.props;
+        const { transactionsSettlement } = this.props;
         return (
             <View style={styles.contentContainer} >
                 <HeaderTableTransaction />
@@ -133,6 +133,7 @@ class Layout extends React.Component {
     }
 
     render() {
+        const {visibleCalendar} = this.state;
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
@@ -140,6 +141,13 @@ class Layout extends React.Component {
                 {this.renderFilter()}
                 <View style={{ height: scaleSzie(6) }} />
                 {this.renderContent()}
+                <PopupCalendar
+                    ref={this.modalCalendarRef}
+                    visible={visibleCalendar}
+                    onRequestClose={() => this.setState({ visibleCalendar: false })}
+                    changeTitleTimeRange={this.changeTitleTimeRange}
+                    paddingTop={182}
+                />
             </View>
         );
     }
