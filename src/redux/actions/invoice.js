@@ -53,3 +53,21 @@ export function getTransactionSettlement() {
         token: true
     }
 }
+
+export function searchTransactionSettlement(urlSearch) {
+    return {
+        type: 'SEARCH_TRANSACTION_SETTLEMENT',
+        method: 'GET',
+        api: `${apiConfigs.BASE_API}settlement/transaction?${urlSearch}`,
+        token: true
+    }
+}
+
+export function clearSearTransaction() {
+    return {
+        type: 'CLEAR_SEARCH_TRANSACTION'
+    }
+}
+
+
+

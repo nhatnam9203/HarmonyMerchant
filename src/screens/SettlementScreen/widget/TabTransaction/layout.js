@@ -35,9 +35,9 @@ class Layout extends React.Component {
                                     value={keySearch}
                                     onChangeText={(value) => {
                                         if (value === '') {
-                                            this.props.actions.extra.clearSearchExtra();
+                                            this.props.actions.invoice.clearSearTransaction();
                                         }
-                                        this.updateSearchFilterInfo('keySearch', value)
+                                        this.updateSearchFilterInfo('keySearch', value);
                                     }}
                                     onSubmitEditing={this.searchTransactions}
                                 />
@@ -68,7 +68,7 @@ class Layout extends React.Component {
     renderFilter() {
         const { language } = this.props;
         const { searchFilter, titleRangeTime } = this.state;
-        const { paymentMethod, status } = searchFilter;
+        const {  status } = searchFilter;
         const temptColorTextTimeRange = titleRangeTime === 'Time Range' ? 'rgb(155,155,155)' : 'rgb(38,38,38)';
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
@@ -83,7 +83,7 @@ class Layout extends React.Component {
                         <View style={[{ height: scaleSzie(40), width: '90%', flexDirection: 'row' }, styles.borderStyle]} >
                             <View style={{ alignItems: 'center', flexDirection: 'row' }} >
                                 <Text style={{ color: temptColorTextTimeRange, fontSize: scaleSzie(15), marginLeft: scaleSzie(10) }} >
-                                    {localize('Time range', language)}
+                                    {localize(titleRangeTime, language)}
                                 </Text>
                             </View>
 
@@ -93,19 +93,23 @@ class Layout extends React.Component {
                         </View>
                     </Button>
                     {/* ------------- */}
-                    <Button onPress={this.showCalendar} style={{ width: scaleSzie(190) }} >
-                        <View style={[{ height: scaleSzie(40), width: '90%', flexDirection: 'row' }, styles.borderStyle]} >
-                            <View style={{ alignItems: 'center', flexDirection: 'row' }} >
-                                <Text style={{ color: temptColorTextTimeRange, fontSize: scaleSzie(15), marginLeft: scaleSzie(10) }} >
-                                    {localize('Status', language)}
-                                </Text>
-                            </View>
-
-                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(6) }} >
-                                <Image source={IMAGE.dropdown} style={{ width: scaleSzie(6), height: scaleSzie(3) }} />
-                            </View>
-                        </View>
-                    </Button>
+                    <View style={{ width: scaleSzie(170) }} >
+                        <Dropdown
+                            label={localize('Statuses', language)}
+                            data={[{ value: '' }, { value: 'Pending' }, { value: 'Paid' }, { value: 'Voided' },
+                            { value: 'Refunded' }, { value: 'Fail' }, { value: 'Cancel' }
+                            ]}
+                            value={status}
+                            onChangeText={(value) => this.updateSearchFilterInfo('status', value)}
+                            containerStyle={{
+                                backgroundColor: 'rgb(246,246,246)',
+                                borderWidth: 1,
+                                borderColor: '#C5C5C5',
+                                flex: 1,
+                                borderRadius: scaleSzie(4)
+                            }}
+                        />
+                    </View>
                 </View>
             </View>
         );
@@ -113,7 +117,8 @@ class Layout extends React.Component {
 
 
     renderContent() {
-        const { transactionsSettlement } = this.props;
+        const { transactionsSettlement ,listTransactionSearch,isShowSearchTransaction} = this.props;
+        const tempData = isShowSearchTransaction ? listTransactionSearch  : transactionsSettlement;
         return (
             <View style={styles.contentContainer} >
                 <HeaderTableTransaction />
@@ -121,7 +126,7 @@ class Layout extends React.Component {
                 {/* ---------- Table ------- */}
                 <View style={styles.tableContainer} >
                     <FlatList
-                        data={transactionsSettlement}
+                        data={tempData}
                         renderItem={({ item, index }) => <ItemTransaction data={item} />}
                         keyExtractor={(item, index) => `${index}`}
                     />
@@ -133,7 +138,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const {visibleCalendar} = this.state;
+        const { visibleCalendar } = this.state;
         return (
             <View style={styles.container} >
                 {this.renderSearch()}

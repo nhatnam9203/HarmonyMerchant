@@ -192,8 +192,6 @@ class InvoiceScreen extends Layout {
                 const url = `method=${this.getPaymentString(paymentMethod)}&status=${status}&key=${keySearch}`
                 this.props.actions.invoice.searchInvoice(url);
             }
-
-
         }
 
     }

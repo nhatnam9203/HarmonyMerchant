@@ -9,7 +9,7 @@ import {
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import moment from 'moment';
 
-import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown ,PopupCalendar} from '@components';
+import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupCalendar } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
@@ -504,7 +504,7 @@ export default class Layout extends React.Component {
 
     render() {
         const { language } = this.props;
-        const { visibleCalendar,isFocus } = this.state;
+        const { visibleCalendar, isFocus } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}

@@ -6,6 +6,9 @@ const initialState = {
     settleWaiting: {},
     invoicesOfStaff: [],
     transactionsSettlement: [],
+    // ----- Search transaction ------
+    listTransactionSearch: [],
+    isShowSearchTransaction: false,
 }
 
 function appReducer(state = initialState, action) {
@@ -48,6 +51,19 @@ function appReducer(state = initialState, action) {
                 ...state,
                 transactionsSettlement: action.payload,
             }
+        case 'SEARCH_TRANSACTION_SETTLEMENT_SUCCESS':
+            return {
+                ...state,
+                listTransactionSearch: action.payload,
+                isShowSearchTransaction: true,
+            }
+        case 'CLEAR_SEARCH_TRANSACTION':
+            return {
+                ...state,
+                listTransactionSearch: [],
+                isShowSearchTransaction: false
+            }
+
         default:
             return state
     }
