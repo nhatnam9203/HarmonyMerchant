@@ -9,6 +9,10 @@ const initialState = {
     // ----- Search transaction ------
     listTransactionSearch: [],
     isShowSearchTransaction: false,
+
+    listBatchHistory: [],
+    listBatchHistorySearch: [],
+    isShowSearchBatchHistory: false,
 }
 
 function appReducer(state = initialState, action) {
@@ -62,6 +66,23 @@ function appReducer(state = initialState, action) {
                 ...state,
                 listTransactionSearch: [],
                 isShowSearchTransaction: false
+            }
+        case 'GET_BATCH_HISTORY_SUCCESS':
+            return {
+                ...state,
+                listBatchHistory: action.payload,
+            }
+        case 'SEARCH_BATCH_HISTORY_SUCCESS':
+            return {
+                ...state,
+                listBatchHistorySearch: action.payload,
+                isShowSearchBatchHistory: true
+            }
+        case 'CLEAR_SEARCH_BATCH_HISTORRY':
+            return {
+                ...state,
+                listBatchHistorySearch: [],
+                isShowSearchBatchHistory: false
             }
 
         default:

@@ -8,7 +8,7 @@ import {
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
-import { Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService } from '@components';
+import { Text, Button, ButtonCustom, Dropdown, PopupCalendar } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import { ItemSettle, HeaderTableSettle } from './widget';
@@ -35,10 +35,10 @@ class Layout extends React.Component {
                                     placeholder={localize('Invoice No / SKU number/customer phone number', language)}
                                     value={keySearch}
                                     onChangeText={(value) => {
-                                        // if (value === '') {
-                                        //     this.props.actions.extra.clearSearchExtra();
-                                        // }
-                                        // this.updateSearchFilterInfo('keySearch', value)
+                                        if (value === '') {
+                                            this.props.actions.invoice.clearSearchBatchHistory();
+                                        }
+                                        this.updateSearchFilterInfo('keySearch', value)
                                     }}
                                     onSubmitEditing={this.searchBatchHistory}
                                 />
@@ -84,7 +84,7 @@ class Layout extends React.Component {
                         <View style={[{ height: scaleSzie(40), width: '90%', flexDirection: 'row' }, styles.borderStyle]} >
                             <View style={{ alignItems: 'center', flexDirection: 'row' }} >
                                 <Text style={{ color: temptColorTextTimeRange, fontSize: scaleSzie(15), marginLeft: scaleSzie(10) }} >
-                                    {localize('Time range', language)}
+                                    {localize(titleRangeTime, language)}
                                 </Text>
                             </View>
 
@@ -99,6 +99,8 @@ class Layout extends React.Component {
     }
 
     renderLeftContent() {
+        const {listBatchHistory,isShowSearchBatchHistory,listBatchHistorySearch} = this.props;
+        const temptData = isShowSearchBatchHistory ? listBatchHistorySearch : listBatchHistory;
         return (
             <View style={{ flex: 1, paddingRight: scaleSzie(10) }} >
                 <View style={{ flex: 1 }} >
@@ -107,7 +109,7 @@ class Layout extends React.Component {
                     <View style={styles.tableLeft} >
                         <FlatList
                             showsVerticalScrollIndicator={false}
-                            data={[0, 1, 2, 3, 4, 5]}
+                            data={temptData}
                             renderItem={({ item, index }) => <ItemSettle />}
                             keyExtractor={(item, index) => `${item}`}
                         />
@@ -306,6 +308,7 @@ class Layout extends React.Component {
 
 
     render() {
+        const { visibleCalendar } = this.state;
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
@@ -313,6 +316,13 @@ class Layout extends React.Component {
                 {this.renderFilter()}
                 <View style={{ height: scaleSzie(6) }} />
                 {this.renderContent()}
+                <PopupCalendar
+                    ref={this.modalCalendarRef}
+                    visible={visibleCalendar}
+                    onRequestClose={() => this.setState({ visibleCalendar: false })}
+                    changeTitleTimeRange={this.changeTitleTimeRange}
+                    paddingTop={182}
+                />
             </View>
         );
     }
