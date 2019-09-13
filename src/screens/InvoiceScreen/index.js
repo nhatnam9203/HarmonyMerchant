@@ -115,7 +115,7 @@ class InvoiceScreen extends Layout {
                 method = 'orther';
                 break;
             default:
-                method = 'cash'
+                method = ''
         }
         return method
     }

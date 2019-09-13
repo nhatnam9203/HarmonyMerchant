@@ -10,7 +10,7 @@ class CongratulationScreen extends Layout {
     }
 
     gotoDrawerStack= () =>{
-        this.props.actions.app.handleLockScreen(true);
+        // this.props.actions.app.handleLockScreen(true);
         this.props.navigation.navigate('Drawer');
         this.props.actions.dataLocal.resetNeddSettingStore();
     }

@@ -93,7 +93,7 @@ export default class PromotionFirst extends React.Component {
                         <ItemDropdown
                             ref={this.dropdownFromRef}
                             title={localize('From', language)}
-                            width={100}
+                            width={120}
                             placeholder="08:00 AM"
                             value={data.fromTime}
                             onChangeText={value => {
@@ -106,7 +106,7 @@ export default class PromotionFirst extends React.Component {
                         <ItemDropdown
                             ref={this.dropdownToRef}
                             title={localize('To', language)}
-                            width={100}
+                            width={120}
                             placeholder="08:00 AM"
                             value={data.toTime}
                             onChangeText={value => {

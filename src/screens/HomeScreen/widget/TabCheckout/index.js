@@ -88,7 +88,7 @@ class TabCheckout extends Layout {
         const { productsByMerchantId, servicesByMerchant } = this.props;
         const data = categoryTypeSelected === 'Service' ? servicesByMerchant : productsByMerchantId;
         const temptData = data.filter(item => {
-            return item.categoryId === categorySelected.categoryId
+            return item.categoryId === categorySelected.categoryId && item.isDisabled === 0;
         });
         return temptData;
     }
@@ -114,7 +114,7 @@ class TabCheckout extends Layout {
 
     addAmount = async () => {
         const { categoryTypeSelected, basket, productSeleted, extraSelected, appointmentId } = this.state;
-        console.log('appointmentId : ', appointmentId);
+        // console.log('appointmentId : ', appointmentId);
         if (categoryTypeSelected === 'Product') {
             if (appointmentId !== -1) {
                 // ------- Buy With Appointment -----
