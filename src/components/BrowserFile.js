@@ -35,30 +35,32 @@ class BrowserFile extends React.PureComponent {
 
     }
 
+    handleImagePicker = async (response) => {
+        if (response.uri) {
+            await this.setState({
+                uriUpload: response.uri,
+                isProcessingUpload: true
+            });
+
+            let fileName = response.fileName;
+            if (fileName) {
+                if (Platform.OS === 'ios' && (fileName.endsWith('.heic') || fileName.endsWith('.HEIC'))) {
+                    fileName = `${fileName.split(".")[0]}.JPG`;
+                }
+            }
+
+            this.props.actions.upload.uploadAvatar([{
+                uri: response.uri,
+                fileName: fileName ? fileName : '',
+                type: response.type
+            }]);
+        }
+    }
+
     showPicker = () => {
         ImagePicker.showImagePicker({
             quality: 0.2
-        }, (response) => {
-            if (response.uri) {
-                this.setState({
-                    uriUpload: response.uri,
-                    isProcessingUpload: true
-                });
-
-                let fileName = response.fileName;
-                if (fileName) {
-                    if (Platform.OS === 'ios' && (fileName.endsWith('.heic') || fileName.endsWith('.HEIC'))) {
-                        fileName = `${fileName.split(".")[0]}.JPG`;
-                    }
-                }
-
-                this.props.actions.upload.uploadAvatar([{
-                    uri: response.uri,
-                    fileName: fileName ? fileName : '',
-                    type: response.type
-                }]);
-            }
-        });
+        }, (response) => this.handleImagePicker(response));
     }
 
 
@@ -100,7 +102,7 @@ class BrowserFile extends React.PureComponent {
             await this.setState({
                 isProcessingUpload: false,
             });
-            this.props.updateFileId(dataUpload.fileId);
+            this.props.updateFileId(updateFileId.fileId);
             this.props.actions.upload.resetStateUpload();
 
         }
@@ -110,6 +112,7 @@ class BrowserFile extends React.PureComponent {
             })
         }
     }
+
 }
 
 const styles = StyleSheet.create({
