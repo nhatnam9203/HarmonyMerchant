@@ -55,7 +55,7 @@ class RowTableCategories extends React.Component {
                     width: scaleSzie(180), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
-                        <Text style={styles.textTableHeader} >
+                        <Text style={styles.textTableHeader}  numberOfLines={1} >
                             {category.name}
                         </Text>
                     </View>

@@ -65,7 +65,7 @@ class RowTableExtra extends React.Component {
                         <Image source={IMAGE.indicate}
                             style={{ width: scaleSzie(12), height: scaleSzie(29), marginRight: scaleSzie(12) }}
                         />
-                        <Text style={styles.textTableHeader} >
+                        <Text style={styles.textTableHeader}  numberOfLines={1} >
                             {extra.name}
                         </Text>
                     </View>
@@ -79,7 +79,7 @@ class RowTableExtra extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            {extra.price}
+                            {`${extra.price}.00`}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >

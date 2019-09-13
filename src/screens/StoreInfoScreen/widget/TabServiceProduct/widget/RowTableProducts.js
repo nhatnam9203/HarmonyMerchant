@@ -61,7 +61,7 @@ class RowTableExtra extends React.Component {
                             /> : <Image source={IMAGE.product_holder} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
                         }
                         </View>
-                        <Text style={styles.textTableHeader} >
+                        <Text style={styles.textTableHeader}  numberOfLines={1} >
                             {product.name}
                         </Text>
                     </View>

@@ -196,7 +196,7 @@ export default class Layout extends React.Component {
                     />
                     <ItemInfo
                         title={localize('Total amount', language)}
-                        value={invoiceDetail.total ? `$ ${invoiceDetail.total}` : ''}
+                        value={invoiceDetail.total ? `$ ${invoiceDetail.total}.00` : ''}
                     />
                     <ItemInfo
                         title={localize('Created by', language)}
@@ -344,7 +344,7 @@ export default class Layout extends React.Component {
                                     {`${localize('Subtotal', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$ ${invoiceDetail.total ? invoiceDetail.total : 0}`}
+                                    {`$ ${invoiceDetail.total ? `${invoiceDetail.total}.00` : 0}`}
                                 </Text>
                             </View>
                             {/* ---------- Tax ------ */}
@@ -372,7 +372,7 @@ export default class Layout extends React.Component {
                                     {`${localize('Total', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(16) }]} >
-                                    {`$ ${invoiceDetail.total ? invoiceDetail.total : 0}`}
+                                    {`$ ${invoiceDetail.total ? `${invoiceDetail.total}.00` : 0}`}
                                 </Text>
                             </View>
                         </View>

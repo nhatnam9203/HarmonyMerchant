@@ -64,7 +64,7 @@ class RowTableServices extends React.Component {
                                 marginLeft: scaleSzie(8)
                             }}
                         />
-                        <Text style={styles.textTableHeader} >
+                        <Text style={styles.textTableHeader}  numberOfLines={1} >
                             {service.name}
                         </Text>
                     </View>

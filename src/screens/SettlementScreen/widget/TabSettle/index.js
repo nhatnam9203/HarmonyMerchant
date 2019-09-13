@@ -15,7 +15,6 @@ class TabSettle extends Layout {
     }
 
     componentDidMount(){
-        // alert('ddd')
         this.props.actions.invoice.getSettlementWating();
     }
 

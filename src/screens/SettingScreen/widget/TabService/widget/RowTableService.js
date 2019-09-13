@@ -70,7 +70,7 @@ class RowTableService extends React.Component {
                     </View>
 
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
-                        <Text style={styles.textTableHeader} >
+                        <Text style={styles.textTableHeader}  numberOfLines={1} >
                             {service.name}
                         </Text>
                     </View>
