@@ -4,7 +4,7 @@ import _ from 'ramda';
 
 import Layout from './layout';
 import strings from './strings';
-import { validateEmail, getIdStateByName,getNameStateById } from '@utils';
+import { validateEmail, getIdStateByName, getNameStateById } from '@utils';
 
 class AddStaff extends Layout {
 
@@ -19,7 +19,7 @@ class AddStaff extends Layout {
                     street: '',
                     city: '',
                     state: '',
-                    zip:''
+                    zip: ''
                 },
                 cellphone: '',
                 email: '',
@@ -92,7 +92,7 @@ class AddStaff extends Layout {
                 }
             },
             fileId: 0,
-            imageUrl:''
+            imageUrl: ''
         }
         // ---- Refs ----
         this.inputRefsTime = [];
@@ -103,7 +103,7 @@ class AddStaff extends Layout {
 
     async componentDidMount() {
         if (this.props.isEditStaff) {
-            const { infoStaffHandle ,stateCity} = this.props;
+            const { infoStaffHandle, stateCity } = this.props;
             await this.setState({
                 user: {
                     firstName: infoStaffHandle.firstName,
@@ -112,8 +112,8 @@ class AddStaff extends Layout {
                     address: {
                         street: infoStaffHandle.address,
                         city: infoStaffHandle.city,
-                        state: getNameStateById(stateCity,infoStaffHandle.stateId) ,
-                        zip:infoStaffHandle.zip
+                        state: getNameStateById(stateCity, infoStaffHandle.stateId),
+                        zip: infoStaffHandle.zip
                     },
                     cellphone: infoStaffHandle.phone,
                     email: infoStaffHandle.email,
@@ -129,7 +129,7 @@ class AddStaff extends Layout {
                 },
                 staffId: infoStaffHandle.staffId,
                 fileId: infoStaffHandle.fileId,
-                imageUrl:infoStaffHandle.imageUrl
+                imageUrl: infoStaffHandle.imageUrl
             })
         }
 
@@ -152,7 +152,7 @@ class AddStaff extends Layout {
     };
 
     updateFileId = async (fileId) => {
-       await this.setState({
+        await this.setState({
             fileId
         })
     }
@@ -196,7 +196,7 @@ class AddStaff extends Layout {
             }
         }
 
-        if(user.pin !== user.confirmPin){
+        if (user.pin !== user.confirmPin) {
             keyError = 'pinnotmatch'
         }
 
@@ -244,7 +244,7 @@ class AddStaff extends Layout {
                 workingTime: objWorkingTime,
                 salary: objSalary,
                 tipFee: objTipFee,
-                fileId:this.state.fileId
+                fileId: this.state.fileId
             };
             if (this.props.isEditStaff) {
                 this.props.editStaff(temptStaff, this.state.staffId)

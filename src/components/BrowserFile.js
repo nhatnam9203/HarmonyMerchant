@@ -102,7 +102,7 @@ class BrowserFile extends React.PureComponent {
             await this.setState({
                 isProcessingUpload: false,
             });
-            this.props.updateFileId(updateFileId.fileId);
+            this.props.updateFileId(dataUpload.fileId);
             this.props.actions.upload.resetStateUpload();
 
         }

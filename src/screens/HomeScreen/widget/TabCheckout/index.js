@@ -762,13 +762,12 @@ class TabCheckout extends Layout {
 
     setupSignalR(profile, token, appointmentDetail) {
         const connection = new signalR.HubConnectionBuilder()
-            .withUrl(`${apiConfigs.BASE_URL}notification/?merchantId=${profile.merchantId}&Title=Merchant&type=appointment_pay`, { accessTokenFactory: () => token })
+            .withUrl(`${apiConfigs.BASE_URL}notification/?merchantId=${profile.merchantId}&Title=Merchant&kind=app`, { accessTokenFactory: () => token })
             .build();
-        connection.start();
-        this.props.actions.appointment.referenceConnectionSignalR(connection);
+
         connection.on("ListWaNotification", (data) => {
             const temptData = JSON.parse(data);
-            // console.log('temptData : ' + JSON.stringify(temptData));
+            console.log('temptData : ' + JSON.stringify(temptData));
             if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
                 && temptData.data.appointmentId == appointmentDetail.appointmentId
             ) {
@@ -778,12 +777,13 @@ class TabCheckout extends Layout {
             }
         });
 
-
         connection.onclose(async (error) => {
             this.props.actions.appointment.resetConnectSignalR();
-            console.log('error ', error);
+            // console.log('error ', error);
         });
 
+        connection.start()
+            .then(() => this.props.actions.appointment.referenceConnectionSignalR(connection))
     }
 
     doneAddBasketSignInAppointment = () => {
