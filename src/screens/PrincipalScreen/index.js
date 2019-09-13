@@ -1,6 +1,7 @@
 import React from 'react';
 import ImagePicker from 'react-native-image-picker';
 import { Alert, Platform } from 'react-native';
+import moment from 'moment';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -33,15 +34,12 @@ class PrincipalScreen extends Layout {
                 },
                 yearAtThisAddress: "",
                 ssn: '',
-                dateOfBirth: {
-                    day: '',
-                    month: '',
-                    year: ''
-                },
                 email: '',
                 driverLicense: '',
                 stateIssued: ''
             },
+            showCalendar: false,
+            dateOfBirth: new Date()
         };
         this.uploadVoidCheckRef = React.createRef();
     }
@@ -105,19 +103,6 @@ class PrincipalScreen extends Layout {
                     break;
                 }
 
-            } else if (arrayKey[i] == 'dateOfBirth') {
-                if (principalInfo.dateOfBirth.day == '') {
-                    keyError = 'day';
-                    break;
-                }
-                if (principalInfo.dateOfBirth.month == '') {
-                    keyError = 'month';
-                    break;
-                }
-                if (principalInfo.dateOfBirth.year == '') {
-                    keyError = 'year';
-                    break;
-                }
             } else if (arrayKey[i] == 'yearAtThisAddress' && !validYear(principalInfo[arrayKey[i]])) {
                 keyError = 'yearInvalid';
                 break;
@@ -162,11 +147,11 @@ class PrincipalScreen extends Layout {
             Alert.alert(`${strings[keyError]}`);
         } else {
             if (uriUpload != '') {
-                const { dateOfBirth, addressPrincipal } = principalInfo;
+                const {  addressPrincipal } = principalInfo;
                 const temptAddressPrincipal = { ...addressPrincipal, state: getIdStateByName(this.props.stateCity, addressPrincipal.state) };
                 const temptPrincipalInfo = {
                     ...principalInfo,
-                    dateOfBirth: `${dateOfBirth.day}/${dateOfBirth.month}/${dateOfBirth.year}`,
+                    dateOfBirth: `${moment(this.state.dateOfBirth).format('DD/MM/YYYY')}`,
                     fileId: this.state.fileId,
                     addressPrincipal: temptAddressPrincipal
                 };
@@ -178,6 +163,19 @@ class PrincipalScreen extends Layout {
 
 
         }
+    }
+
+    setDateSelected = (date) => {
+        this.setState({
+            dateOfBirth : date
+        })
+    }
+
+
+    showCalendar =() =>{
+        this.setState({
+            showCalendar: true
+        })
     }
 
     handleVoidCheck = async (response) => {

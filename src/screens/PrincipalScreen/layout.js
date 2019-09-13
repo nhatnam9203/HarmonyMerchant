@@ -5,10 +5,13 @@ import {
     ScrollView,
     TextInput
 } from 'react-native';
+import moment from 'moment';
 
-import { InputForm, FormInfoParent, Text, Dropdown, Button, PopupUpload } from '@components';
+import { InputForm, FormInfoParent, Text, Dropdown, Button, PopupUpload, DatePicker ,
+} from '@components';
 import { scaleSzie, localize, getArrayNameStateCity } from '@utils';
 import IMAGE from '@resources';
+import styles from './style';
 
 let data = [{
     value: 'Banana',
@@ -25,12 +28,11 @@ export default class Layout extends React.Component {
         const { principalInfo } = this.state;
         const {
             firstName, lastName, position, ownership, homePhone, mobilePhone, addressPrincipal,
-            yearAtThisAddress, ssn, dateOfBirth, email, driverLicense, stateIssued
+            yearAtThisAddress, ssn, email, driverLicense, stateIssued
         } = principalInfo;
         const {
             address, city, state, zip
         } = addressPrincipal;
-        const { day, month, year } = dateOfBirth;
         const { language, stateCity } = this.props;
         return (
             <FormInfoParent
@@ -190,57 +192,29 @@ export default class Layout extends React.Component {
                         onChangeText={(value) => this.updatePrincipalInfo('ssn', value)}
                         keyboardType="numeric"
                     />
-                    {/* ------ thieu ----- */}
+                    {/* ------ Date of Birth ----- */}
                     <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(6) }} >
                         {localize('Date of Birth (dd/mm/yy) *', language)}
                     </Text>
-                    <View style={{
-                        height: scaleSzie(30), marginBottom: scaleSzie(24),
-                        flexDirection: 'row', alignItems: 'flex-end'
-                    }} >
-                        <View style={{ width: scaleSzie(120) }} >
-                            <Dropdown
-                                label={localize('day', language)}
-                                data={[{ value: '1' }, { value: '2' }, { value: '3' }]}
-                                value={day}
-                                onChangeText={(value) => this.updatePrincipalInfo('day', value, 'dateOfBirth')}
-                                containerStyle={{
-                                    backgroundColor: '#F1F1F1',
-                                    borderWidth: 1,
-                                    borderColor: '#C5C5C5',
-                                    flex: 1
-                                }}
-                            />
+
+                    <Button onPress={this.showCalendar} style={{ height: scaleSzie(30), flexDirection: 'row', marginTop: scaleSzie(8),marginBottom:scaleSzie(20) }} >
+                        <View style={{
+                            width: scaleSzie(180), backgroundColor: '#F1F1F1', borderWidth: 1, borderColor: '#C5C5C5',
+                            flexDirection: 'row'
+                        }} >
+                            <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(8) }} >
+                                <Text style={styles.textNormal} >
+                                    {`${moment(this.state.dateOfBirth).format('DD/MM/YYYY')}`}
+                                </Text>
+                            </View>
+                            <View style={{ width: 1, paddingVertical: scaleSzie(2) }} >
+                                <View style={{ flex: 1, backgroundColor: '#C5C5C5' }} />
+                            </View>
+                            <View style={{ width: scaleSzie(40), justifyContent: 'center', alignItems: 'center' }} >
+                                <Image source={IMAGE.calendar} style={{ height: scaleSzie(20), width: scaleSzie(20) }} />
+                            </View>
                         </View>
-                        <View style={{ width: scaleSzie(120), marginHorizontal: scaleSzie(20) }} >
-                            <Dropdown
-                                label={localize('Month', language)}
-                                data={[{ value: '1' }, { value: '2' }, { value: '3' }]}
-                                value={month}
-                                onChangeText={(value) => this.updatePrincipalInfo('month', value, 'dateOfBirth')}
-                                containerStyle={{
-                                    backgroundColor: '#F1F1F1',
-                                    borderWidth: 1,
-                                    borderColor: '#C5C5C5',
-                                    flex: 1
-                                }}
-                            />
-                        </View>
-                        <View style={{ width: scaleSzie(120) }} >
-                            <Dropdown
-                                label={localize('Year', language)}
-                                data={[{ value: '1990' }, { value: '1991' }, { value: '1992' }]}
-                                value={year}
-                                onChangeText={(value) => this.updatePrincipalInfo('year', value, 'dateOfBirth')}
-                                containerStyle={{
-                                    backgroundColor: '#F1F1F1',
-                                    borderWidth: 1,
-                                    borderColor: '#C5C5C5',
-                                    flex: 1
-                                }}
-                            />
-                        </View>
-                    </View>
+                    </Button>
 
                     {/* ------------- */}
                     <InputForm
@@ -263,8 +237,8 @@ export default class Layout extends React.Component {
                                 keyboardType="numeric"
                             />
                         </View>
-                        <View style={{ width: scaleSzie(180), }} >
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(5) }} >
+                        <View style={{ width: scaleSzie(180)}} >
+                            {/* <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(5) }} >
                                 {localize('State Issued *', language)}
                             </Text>
                             <Dropdown
@@ -279,6 +253,15 @@ export default class Layout extends React.Component {
                                     width: scaleSzie(180),
                                     height: scaleSzie(30)
                                 }}
+                            /> */}
+                             <InputForm
+                                // isOnlyNumber={true}
+                                title={localize('State Issued *', language)}
+                                subTitle=""
+                                placeholder=""
+                                value={stateIssued}
+                                onChangeText={(value) => this.updatePrincipalInfo('stateIssued', value)}
+                                // keyboardType="numeric"
                             />
                         </View>
                     </View>
@@ -359,6 +342,14 @@ export default class Layout extends React.Component {
                     onRequestClose={() => this.setState({ visibleUpload: false })}
                     uri={this.state.uriUpload}
                     saveVoidCheck={this.saveVoidCheck}
+                />
+                {/* ------------- Date Picker ------ */}
+                <DatePicker
+                    visible={this.state.showCalendar}
+                    onRequestClose={() => this.setState({ showCalendar: false })}
+                    title="Day Of Birth"
+                    dateCalendar={this.state.dateOfBirth}
+                    setDateSelected={this.setDateSelected}
                 />
             </FormInfoParent>
 

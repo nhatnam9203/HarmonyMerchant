@@ -13,5 +13,8 @@ export default StyleSheet.create({
     container: {
         flex: 1,
     },
-
+    textNormal:{
+        color: '#404040', 
+        fontSize: scaleSzie(14)
+    }
 })
