@@ -125,7 +125,9 @@ class TabCustomBanner extends Layout {
                     uri: '',
                     fileName: '',
                     type: ''
-                }
+                },
+                titleBanner: '',
+                descriptionBanner: ''
             });
             this.scrollTabRef.current.goToPage(0);
             this.props.actions.marketing.resetStateUploadBanner();

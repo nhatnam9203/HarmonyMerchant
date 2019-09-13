@@ -201,6 +201,7 @@ class Layout extends React.Component {
     renderBody() {
         const { profile, language } = this.props;
         const { businessName, address, city, stateId, zip, taxId, phone, email,
+            state,
             bankName, accountNumber, routingNumber, ein, merchantCode, businessBank
         } = profile;
         return (
@@ -216,7 +217,7 @@ class Layout extends React.Component {
                     />
                     <ItemTextStoreInfoNotTilte
                         city={city}
-                        state={stateId}
+                        state={state.name}
                         zipcode={zip}
                     />
                     <ItemTextStoreInfo
