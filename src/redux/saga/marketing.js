@@ -159,7 +159,7 @@ function* updatePromotionByMerchant(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('updatePromotionByMerchant : ', JSON.stringify(responses));
+        console.log('updatePromotionByMerchant : ', JSON.stringify(action.body));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             // yield put({

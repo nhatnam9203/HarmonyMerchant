@@ -199,7 +199,7 @@ class Layout extends React.Component {
                         </Text>
                         <Text style={{ fontSize: scaleSzie(12), color: '#404040', }} >
                             Total Amount: <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginLeft: scaleSzie(5) }} >
-                                {`  $  ${parseInt(totalAmount) }.00`}
+                                {`  $  ${parseInt(totalAmount)}.00`}
                             </Text>
                         </Text>
                     </View>
@@ -295,10 +295,14 @@ class Layout extends React.Component {
                         </Text>
                         <View style={{
                             height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
-                            paddingHorizontal: scaleSzie(10)
+                            paddingHorizontal: scaleSzie(6),
                         }} >
                             <TextInput
-                                style={{ flex: 1, fontSize: scaleSzie(20), color: '#404040', alignSelf: 'flex-end' }}
+                                style={{
+                                    fontSize: scaleSzie(20), color: '#404040',
+                                    flex: 1,
+                                }}
+                                value={`$ ${settleWaiting.paymentByHarmony}`}
                             />
                         </View>
                     </View>
@@ -315,7 +319,11 @@ class Layout extends React.Component {
                             paddingHorizontal: scaleSzie(10),
                         }} >
                             <TextInput
-                                style={{ flex: 1, fontSize: scaleSzie(20), color: '#404040', alignSelf: 'flex-end' }}
+                                style={{
+                                    flex: 1, fontSize: scaleSzie(20), color: '#404040',
+                                    // alignSelf: 'flex-end' 
+                                }}
+                                value={`$ ${creditAmount}`}
                             />
                         </View>
                     </View>
@@ -331,8 +339,9 @@ class Layout extends React.Component {
                             height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
                             paddingHorizontal: scaleSzie(10)
                         }} >
-                             <TextInput
-                                style={{ flex: 1, fontSize: scaleSzie(20), color: '#404040', alignSelf: 'flex-end' }}
+                            <TextInput
+                                style={{ flex: 1, fontSize: scaleSzie(20), color: '#404040', }}
+                                value={`$ ${settleWaiting.paymentByCash}`}
                             />
                         </View>
                     </View>
@@ -346,10 +355,13 @@ class Layout extends React.Component {
                         </Text>
                         <View style={{
                             height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
-                            paddingHorizontal: scaleSzie(10), 
+                            paddingHorizontal: scaleSzie(10),
                         }} >
-                             <TextInput
-                                style={{ flex: 1, fontSize: scaleSzie(20), color: '#404040', alignSelf: 'flex-end' }}
+                            <TextInput
+                                style={{
+                                    flex: 1, fontSize: scaleSzie(20), color: '#404040',
+                                }}
+                                value= {`$ ${settleWaiting.otherPayment}`}
                             />
                         </View>
                     </View>
