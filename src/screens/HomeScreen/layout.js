@@ -47,6 +47,8 @@ export default class Layout extends React.Component {
                         <TabAppointment
                             tabLabel={`${localize('APPOINTMENT', language)}`}
                             gotoCheckoutScreen={this.gotoCheckoutScreen}
+                            visibleConfirm={visibleConfirm}
+                            checkVisibleConfirm={this.checkVisibleConfirm}
                         />
                         <TabCheckout
                             tabLabel={`${localize('CHECKOUT', language)}`}

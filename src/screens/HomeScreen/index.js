@@ -99,16 +99,16 @@ class HomeScreen extends Layout {
 
     onPressHandlerChangeTab = (index) => {
         const { currentTab, checkVisibleConfirm } = this.state;
-        if (currentTab === 2 && checkVisibleConfirm) {
+        if (currentTab === 2  && checkVisibleConfirm) {
             this.setState({
                 visibleConfirm: true,
                 temptCurrentTap: index
             })
         }
-        else if (currentTab === 2 && !checkVisibleConfirm) {
+        else if (currentTab === 2  && !checkVisibleConfirm) {
             this.props.actions.appointment.resetBasketEmpty();
             this.scrollTabParentRef.current.goToPage(index);
-        } else {
+        }  else {
             this.scrollTabParentRef.current.goToPage(index);
         }
     }

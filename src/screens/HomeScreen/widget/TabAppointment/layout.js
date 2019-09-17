@@ -386,7 +386,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { token, profile, profileStaffLogin } = this.props;
+        const { token, profile, profileStaffLogin, visibleConfirm, checkVisibleConfirm, } = this.props;
         const injectedJavascript = `(function() {
             window.postMessage = function(data) {
               window.ReactNativeWebView.postMessage(data);
@@ -395,7 +395,9 @@ class Layout extends React.Component {
           window.onscroll = function() { window.postMessage(document.documentElement.scrollTop||document.body.scrollTop)}
           true
           `;
-        //   console.log(`----phi : ${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}` )
+          const { basket } = this.state;
+          const temptVisibleConfirm = basket.length > 0 ? true : false;
+          checkVisibleConfirm(temptVisibleConfirm);
         return (
             <View style={styles.container} >
                  <NavigationEvents
@@ -413,6 +415,13 @@ class Layout extends React.Component {
                     onShouldStartLoadWithRequest={() => true}
                 />
                 {this.state.isShowAddAppointment ? this.renderModalBookAppointment() : <View />}
+                <PopupConfirm
+                    visible={visibleConfirm}
+                    title="Confirmation"
+                    message="If you exit Checkout Screen , Basket will Reset ?"
+                    onRequestClose={() => this.props.closePopupConfirm()}
+                    confimYes={this.clearDataCofrim}
+                />
             </View>
         );
     }
