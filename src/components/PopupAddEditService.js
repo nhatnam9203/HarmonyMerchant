@@ -105,7 +105,7 @@ class PopupAddEditService extends React.Component {
         }
     }
 
-    done1 = () =>{
+    done1 = () => {
         console.log('------ : ', this.arrayExtraRef);
     }
 
@@ -124,11 +124,14 @@ class PopupAddEditService extends React.Component {
         const arrayKey = Object.keys(temptServiceInfo);
         let keyError = "";
         for (let i = 0; i <= arrayKey.length - 1; i++) {
-            if (temptServiceInfo[arrayKey[i]] === "") {
+            if (arrayKey[i] === 'description') {
+                continue;
+            } else if (temptServiceInfo[arrayKey[i]] === "") {
                 // console.log(arrayKey[i] + '-' + temptServiceInfo[arrayKey[i]]);
                 keyError = arrayKey[i];
                 break;
             }
+
         }
         if (keyError != '') {
             Alert.alert(`${strings[keyError]}`);
@@ -206,8 +209,8 @@ class PopupAddEditService extends React.Component {
     removeExtra = async (indexRemove) => {
         const { arrayExtra } = this.state;
         const temptExtra = arrayExtra.filter((extra, index) => index != indexRemove);
-        this.arrayExtraRef = this.arrayExtraRef.filter((extra,index) => index != indexRemove);
-      await  this.setState({
+        this.arrayExtraRef = this.arrayExtraRef.filter((extra, index) => index != indexRemove);
+        await this.setState({
             arrayExtra: temptExtra
         })
     }
@@ -238,7 +241,7 @@ class PopupAddEditService extends React.Component {
                         >
                             <TouchableOpacity activeOpacity={1}>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginTop: scaleSzie(10), marginBottom: scaleSzie(10) }} >
-                                    Category
+                                    Category *
                             </Text>
                                 <View style={{ width: scaleSzie(200), height: scaleSzie(30), }} >
                                     <Dropdown
@@ -255,7 +258,7 @@ class PopupAddEditService extends React.Component {
                                     />
                                 </View>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                    Service
+                                    Service *
                             </Text>
                                 <View style={{
                                     height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
@@ -313,7 +316,7 @@ class PopupAddEditService extends React.Component {
                                 <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
                                     <View style={{ flex: 1, paddingRight: scaleSzie(50) }}  >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                            Price
+                                            Price *
                                     </Text>
                                         <View style={{
                                             height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
@@ -331,7 +334,7 @@ class PopupAddEditService extends React.Component {
                                     {/* ------ */}
                                     <View>
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                            Status
+                                            Status *
                                     </Text>
                                         <View style={{
                                             height: scaleSzie(30), width: scaleSzie(90),

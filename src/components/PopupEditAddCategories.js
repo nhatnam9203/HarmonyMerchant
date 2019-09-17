@@ -86,7 +86,7 @@ class PopupEditAddCategories extends React.Component {
                     }} >
                         <View style={{ flex: 1 }} >
                             <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                Category Type
+                                Category Type *
                         </Text>
                             <View style={{ width: scaleSzie(200), height: scaleSzie(30), }} >
                                 <Dropdown
@@ -103,7 +103,7 @@ class PopupEditAddCategories extends React.Component {
                                 />
                             </View>
                             <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                Category Name
+                                Category Name *
                             </Text>
                             <View style={{
                                 height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',

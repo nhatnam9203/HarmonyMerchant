@@ -21,19 +21,6 @@ class SplashScreen extends Layout {
         }
     }
 
-    componentDidMountAAAA() {
-        const { profile, token, profileStaffLogin } = this.props;
-        this.props.actions.app.getStateCity();
-        if (!token) {
-            this.props.navigation.navigate('Auth');
-        } else if (token && profile.needSetting) {
-            this.props.navigation.navigate('SetupStore');
-        } else {
-            this.props.actions.app.handleLockScreen(true);
-            // this.props.navigation.navigate('Drawer');
-        }
-    }
-
     gotoDrawer() {
         const { profile } = this.props;
         if (profile.needSetting) {
@@ -59,8 +46,8 @@ class SplashScreen extends Layout {
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        const { loading, visibleModalLock, isLoginStaff } = this.props;
-        if (!loading && loading !== prevProps.loading && visibleModalLock && isLoginStaff) {
+        const { loading, visibleModalLock, isLoginStaff,isFlashScreen } = this.props;
+        if (isFlashScreen && !loading && loading !== prevProps.loading && visibleModalLock && isLoginStaff) {
             this.props.actions.dataLocal.resetStateLoginStaff();
             this.gotoDrawer();
         }
@@ -79,6 +66,7 @@ const mapStateToProps = state => ({
     visibleModalLock: state.app.visibleModalLock,
     isLoginStaff: state.dataLocal.isLoginStaff,
     loading: state.app.loading,
+    isFlashScreen: state.app.isFlashScreen
 })
 
 

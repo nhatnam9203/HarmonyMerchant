@@ -82,7 +82,9 @@ class PopupEditAddExtra extends React.Component {
         const arrayKey = Object.keys(temptExtraInfo);
         let keyError = "";
         for (let i = 0; i < arrayKey.length; i++) {
-            if (temptExtraInfo[arrayKey[i]] === '' && arrayKey[i] !== 'imageUrl') {
+            if (arrayKey[i] === 'description') {
+                continue;
+            } else if (temptExtraInfo[arrayKey[i]] === '' && arrayKey[i] !== 'imageUrl') {
                 keyError = arrayKey[i];
                 break;
             }
@@ -145,7 +147,7 @@ class PopupEditAddExtra extends React.Component {
                             <TouchableOpacity activeOpacity={1}>
                                 {/* ------ Extra ---- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(20) }} >
-                                    Extra name
+                                    Extra name *
                             </Text>
                                 <View style={{
                                     height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
@@ -191,7 +193,7 @@ class PopupEditAddExtra extends React.Component {
                                 <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
                                     <View style={{ flex: 1, paddingRight: scaleSzie(50) }}  >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                            Price
+                                            Price *
                                     </Text>
                                         <View style={{
                                             height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
@@ -209,7 +211,7 @@ class PopupEditAddExtra extends React.Component {
                                     {/* ------ */}
                                     <View>
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                            Status
+                                            Status *
                                     </Text>
                                         <View style={{
                                             height: scaleSzie(30), width: scaleSzie(90),

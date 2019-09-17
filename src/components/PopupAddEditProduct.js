@@ -102,7 +102,9 @@ class PopupAddEditProduct extends React.Component {
         const arrayKey = Object.keys(temptProductInfo);
         let keyError = "";
         for (let i = 0; i <= arrayKey.length - 1; i++) {
-            if (temptProductInfo[arrayKey[i]] == "") {
+            if (arrayKey[i] === 'description') {
+                continue;
+            }else  if (temptProductInfo[arrayKey[i]] == "") {
                 keyError = arrayKey[i];
                 break;
             }
@@ -166,7 +168,7 @@ class PopupAddEditProduct extends React.Component {
                         >
                             <TouchableOpacity activeOpacity={1}>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginTop: scaleSzie(10), marginBottom: scaleSzie(10) }} >
-                                    Category
+                                    Category *
                             </Text>
                                 <View style={{ width: scaleSzie(200), height: scaleSzie(30), }} >
                                     <Dropdown
@@ -183,7 +185,7 @@ class PopupAddEditProduct extends React.Component {
                                     />
                                 </View>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                    Product
+                                    Product *
                             </Text>
                                 <View style={{
                                     height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
@@ -220,7 +222,7 @@ class PopupAddEditProduct extends React.Component {
                                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                            SKU number
+                                            SKU number *
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
@@ -254,7 +256,7 @@ class PopupAddEditProduct extends React.Component {
                                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                            Items in stock
+                                            Items in stock *
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
@@ -276,7 +278,7 @@ class PopupAddEditProduct extends React.Component {
                                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                            Low theshold
+                                            Low theshold *
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
@@ -292,7 +294,7 @@ class PopupAddEditProduct extends React.Component {
                                     </View>
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                            Max theshold
+                                            Max theshold *
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
@@ -311,7 +313,7 @@ class PopupAddEditProduct extends React.Component {
                                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                            Price
+                                            Price *
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
@@ -327,7 +329,7 @@ class PopupAddEditProduct extends React.Component {
                                     </View>
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                            Status
+                                            Status *
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ width: scaleSzie(100), height: scaleSzie(30) }} >
