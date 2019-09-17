@@ -15,12 +15,13 @@ export default StyleSheet.create({
     },
     containerAddAppoitment: {
         width: width,
-        height: height - scaleSzie(34),
+        height: height -scaleSzie(45),
         position: 'absolute',
-        bottom: 0,
+        // bottom: 0,
         left: 0,
         right: 0,
-        top: scaleSzie(1)
+        // top:scaleSzie(1),
+        backgroundColor:'#fff'
     },
     headerContainer: {
         height: scaleSzie(45),

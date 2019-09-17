@@ -1,8 +1,10 @@
 import React from 'react';
+import _ from 'ramda';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { validateIsNumber } from '@utils';
+import { validateIsNumber , getArrayProductsFromAppointment, getArrayServicesFromAppointment,
+    getArrayExtrasFromAppointment} from '@utils';
 
 class TabAppointment extends Layout {
 
@@ -25,13 +27,49 @@ class TabAppointment extends Layout {
             },
             basket: [],
             total: 0,
+            isInitBasket: true,
+            appointmentId: -1,
+            infoUser: {
+                firstName: '',
+                lastName: '',
+                phoneNumber: ''
+            },
+            isShowAddAppointment: false
         }
         this.webviewRef = React.createRef();
         this.amountRef = React.createRef();
     }
 
-    componentDidMount() {
+    static getDerivedStateFromProps(nextProps, prevState) {
+        const { appointmentDetail } = nextProps;
+        if (!_.isEmpty(nextProps.appointmentDetail) && !prevState.isInitBasket) {
+            const { services, products, extras } = appointmentDetail;
+            const arrayProducts = getArrayProductsFromAppointment(products);
+            const arryaServices = getArrayServicesFromAppointment(services);
+            const arrayExtras = getArrayExtrasFromAppointment(extras);
+            const temptBasket = arrayProducts.concat(arryaServices, arrayExtras);
+            return {
+                total: appointmentDetail.total,
+                basket: temptBasket,
+                isInitBasket: true,
+                appointmentId: appointmentDetail.appointmentId,
+                infoUser: {
+                    firstName: appointmentDetail.firstName,
+                    lastName: appointmentDetail.lastName,
+                    phoneNumber: appointmentDetail.phoneNumber,
+                },
+                isShowAddAppointment: true
+            }
+        }
+        return null
     }
+
+    // onDidFocus = (payload) => {
+    //    this.setState({
+    //        is
+    //    })
+    // }
+
 
     onLoadStartWebview = () => {
 
@@ -53,9 +91,15 @@ class TabAppointment extends Layout {
                 this.props.actions.appointment.checkoutAppointment(appointmentId);
                 this.props.gotoCheckoutScreen();
             } else if (action == 'signinAppointment') {
-                alert('ddd')
-                // this.props.actions.appointment.getAppointmentById(appointmentId);
-                // this.props.actions.appointment.checkoutAppointment(appointmentId);
+                // alert('ddd')
+                this.props.actions.appointment.getAppointmentById(appointmentId);
+                this.props.actions.appointment.checkoutAppointment(appointmentId);
+
+                this.setState({
+                    // isShowAddAppointment: true,
+                    isInitBasket: false
+                })
+
                 // this.props.actions.appointment.changeFlagSigninAppointment(true);
                 // this.props.gotoCheckoutScreen();
 
@@ -244,6 +288,16 @@ class TabAppointment extends Layout {
 
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const { loading, isGetAppointmentSucces } = this.props;
+        if (!loading && isGetAppointmentSucces) {
+            this.props.actions.appointment.resetKeyUpdateAppointment();
+            this.setState({
+                isInitBasket: false,
+            })
+        }
+    }
+
 }
 
 const mapStateToProps = state => ({
@@ -255,6 +309,7 @@ const mapStateToProps = state => ({
     productsByMerchantId: state.product.productsByMerchantId,
     servicesByMerchant: state.service.servicesByMerchant,
     appointmentDetail: state.appointment.appointmentDetail,
+    isGetAppointmentSucces: state.appointment.isGetAppointmentSucces,
 })
 
 

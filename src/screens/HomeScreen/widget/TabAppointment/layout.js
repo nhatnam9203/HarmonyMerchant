@@ -5,6 +5,7 @@ import {
     Image
 } from 'react-native';
 import { WebView } from 'react-native-webview';
+import { NavigationEvents } from 'react-navigation';
 
 import { Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted } from '@components';
 import styles from './style';
@@ -20,20 +21,20 @@ class Layout extends React.Component {
 
     renderHeader() {
         const { language } = this.props;
-        // const { firstName, lastName, phoneNumber } = this.state.infoUser;
+        const { firstName, lastName, phoneNumber } = this.state.infoUser;
         return (
             <View style={styles.headerContainer} >
                 <Text style={styles.textHeader} >
                     {`${localize('Customer', language)}:`}
                 </Text>
                 <Text style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(90) }]} >
-                    {/* {`${firstName} ${lastName}`} */}
+                    {`${firstName} ${lastName}`}
                 </Text>
                 <Text style={styles.textHeader} >
                     {`${localize('Phone', language)}:`}
                 </Text>
                 <Text style={[styles.textHeader, { marginLeft: scaleSzie(12) }]} >
-                    {/* {phoneNumber} */}
+                    {phoneNumber}
                 </Text>
             </View>
         );
@@ -319,11 +320,47 @@ class Layout extends React.Component {
 
                 </View>
                 {/* -------- Footer Basket -------- */}
-                <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
-                    {/* {flagSignInAppointment ? this.renderButtonSignInAppointment() : this.renderButtonChekout()} */}
+                <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8),
+            }} >
+                    {this.renderButtonBookAppointment()}
                 </View>
             </View>
         )
+    }
+
+    renderButtonBookAppointment() {
+        const { basket } = this.state;
+        const { language } = this.props;
+        if (basket.length > 0) {
+            return (
+                <ButtonCustom
+                    width={`100%`}
+                    backgroundColor="#0764B0"
+                    title={localize('BOOK', language)}
+                    textColor="#fff"
+                    onPress={() =>{}} 
+                    style={{
+                        borderWidth: 1, borderColor: '#C5C5C5',
+                       flex:1
+                    }}
+                    styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                />
+            );
+        }
+        return (
+            <ButtonCustom
+                width={`100%`}
+                backgroundColor="#F1F1F1"
+                title={localize('BOOK', language)}
+                textColor="#6A6A6A"
+                onPress={() => { }}
+                style={{
+                    borderWidth: 1, borderColor: '#C5C5C5',
+                    flex: 1
+                }}
+                styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+            />
+        );
     }
 
     renderModalBookAppointment() {
@@ -361,7 +398,10 @@ class Layout extends React.Component {
         //   console.log(`----phi : ${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}` )
         return (
             <View style={styles.container} >
-                {/* <WebView
+                 <NavigationEvents
+                    onDidFocus={this.onDidFocus}
+                />
+                <WebView
                     ref={this.webviewRef}
                     source={{ uri: `${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}` }}
                     startInLoadingState={true}
@@ -371,8 +411,8 @@ class Layout extends React.Component {
                     injectedJavaScript={injectedJavascript}
                     onMessage={this.onMessageFromWebview}
                     onShouldStartLoadWithRequest={() => true}
-                /> */}
-                {this.renderModalBookAppointment()}
+                />
+                {this.state.isShowAddAppointment ? this.renderModalBookAppointment() : <View />}
             </View>
         );
     }
