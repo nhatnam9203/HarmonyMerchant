@@ -1,7 +1,8 @@
 import React from 'react';
 import {
     View,
-    ScrollView
+    ScrollView,
+    Image
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 
@@ -10,9 +11,9 @@ import styles from './style';
 import apiConfigs from '@configs/api';
 import { scaleSzie, localize } from '@utils';
 import {
-    ItemCategory, ItemProductService, ColPlaceHolder,ItemAmount,ItemExtra
+    ItemCategory, ItemProductService, ColPlaceHolder,ItemAmount,ItemExtra,ItemBasket
 } from '../TabCheckout/widget';
-
+import IMAGE from '@resources';
 
 class Layout extends React.Component {
 
@@ -229,6 +230,102 @@ class Layout extends React.Component {
 
     }
 
+    renderBasket(){
+        const { language, appointmentDetail, flagSignInAppointment } = this.props;
+        const { basket, total } = this.state;
+        const tempTipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
+        const subTotal = appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
+        return (
+            <View style={{ flex: 1 }} >
+                {/* -------- Header Basket -------- */}
+                <View style={styles.headerBasket} >
+                    <Text style={styles.textHeader} >
+                        {localize('Basket', language)}
+                    </Text>
+                </View>
+                {/* -------- Content Basket -------- */}
+                <View style={{ flex: 1 }} >
+                    <View style={{ flex: 1 }} >
+                        {/* ------ Items Basket ------- */}
+                        <ScrollView showsVerticalScrollIndicator={false} >
+                            {
+                                basket.map((item, index) => <ItemBasket
+                                    key={index}
+                                    item={item}
+                                    removeItemBasket={this.removeItemBasket}
+                                />)
+                            }
+                        </ScrollView>
+                    </View>
+                    {/* ----------- Payment Number --------- */}
+                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                        <View style={{ flex: 1 }} />
+
+                        <View style={{ flex: 1.3, paddingRight: scaleSzie(12) }} >
+                            {/* ---------- Price ------ */}
+                            <View style={styles.payNumberTextContainer} >
+                                <Text style={styles.textPay} >
+                                    {`${localize('Subtotal', language)}:`}
+                                </Text>
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                    {`$${subTotal}.00`}
+                                </Text>
+                            </View>
+                            {/* ---------- Tip ------ */}
+                            <View style={styles.payNumberTextContainer} >
+                                <Text style={styles.textPay} >
+                                    {`${localize('Tip', language)}:`}
+                                </Text>
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                    {`$${tempTipAmount}.00`}
+                                </Text>
+                            </View>
+                            {/* ---------- Tax ------ */}
+                            <View style={styles.payNumberTextContainer} >
+                                <Text style={styles.textPay} >
+                                    {`${localize('Tax', language)}:`}
+                                </Text>
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                    $0
+                            </Text>
+                            </View>
+                            {/* ---------- Discount ------ */}
+                            <View style={styles.payNumberTextContainer} >
+                                <Button onPress={this.showModalDiscount} >
+                                    <Text style={styles.textPay} >
+                                        {`${localize('Discount', language)}:`}
+
+                                        <Image source={IMAGE.discountBtn}
+                                            style={{ width: scaleSzie(20), height: scaleSzie(20) }}
+                                        />
+
+                                    </Text>
+                                </Button>
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                    $0
+                            </Text>
+                            </View>
+                            {/* ---------- Total ------ */}
+                            <View style={styles.payNumberTextContainer} >
+                                <Text style={styles.textPay} >
+                                    {`${localize('Total', language)}:`}
+                                </Text>
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(20) }]} >
+                                    {`$${total}.00`}
+                                </Text>
+                            </View>
+                        </View>
+                    </View>
+
+                </View>
+                {/* -------- Footer Basket -------- */}
+                <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
+                    {/* {flagSignInAppointment ? this.renderButtonSignInAppointment() : this.renderButtonChekout()} */}
+                </View>
+            </View>
+        )
+    }
+
     renderModalBookAppointment() {
         const { isShowColProduct, isShowColAmount, } = this.state;
         return (
@@ -245,9 +342,7 @@ class Layout extends React.Component {
                         {isShowColAmount ? <View style={{ width: scaleSzie(1) }} /> : <View />}
                     </View>
                     {/* --------- Basket--------- */}
-                    <View style={{ flex: 1 }} >
-
-                    </View>
+                    {this.renderBasket()}
                 </View>
             </View>
         );

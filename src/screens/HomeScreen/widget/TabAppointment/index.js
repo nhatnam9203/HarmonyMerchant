@@ -24,8 +24,10 @@ class TabAppointment extends Layout {
                 name: ''
             },
             basket: [],
+            total: 0,
         }
         this.webviewRef = React.createRef();
+        this.amountRef = React.createRef();
     }
 
     componentDidMount() {
@@ -203,6 +205,45 @@ class TabAppointment extends Layout {
 
     }
 
+    removeItemBasket = (item) => {
+        const { appointmentId, basket } = this.state;
+        if (appointmentId !== -1) {
+            // ----- Remove With Appointmnet 
+            let dataRemove = {};
+            switch (item.type) {
+                case 'Product':
+                    dataRemove = {
+                        services: [],
+                        extras: [],
+                        products: [{ bookingProductId: item.data.bookingProductId }]
+                    }
+                    break;
+                case 'Service':
+                    dataRemove = {
+                        services: [{ bookingServiceId: item.data.bookingServiceId }],
+                        extras: [],
+                        products: []
+                    }
+                    break;
+                case 'Extra':
+                    dataRemove = {
+                        services: [],
+                        extras: [{ bookingExtraId: item.data.bookingExtraId }],
+                        products: []
+                    }
+                    break;
+            }
+            this.props.actions.appointment.removeItemIntoAppointment(dataRemove, appointmentId);
+        } else {
+            // -------- Remove Offline --------
+            const temptBasket = basket.filter((itemBasket) => itemBasket.id !== item.id);
+            this.setState({
+                basket: temptBasket
+            })
+        }
+
+    }
+
 }
 
 const mapStateToProps = state => ({
@@ -213,6 +254,7 @@ const mapStateToProps = state => ({
     categoriesByMerchant: state.category.categoriesByMerchant,
     productsByMerchantId: state.product.productsByMerchantId,
     servicesByMerchant: state.service.servicesByMerchant,
+    appointmentDetail: state.appointment.appointmentDetail,
 })
 
 

@@ -66,4 +66,24 @@ export default StyleSheet.create({
     shadowLineRight: {
         shadowOffset: { width: 3.5, height: 2 },
     },
+    headerBasket: {
+        height: scaleSzie(46),
+        borderWidth: 1,
+        borderColor: 'rgb(197,197,197)',
+        borderRightColor: 'rgb(223,223,223)',
+        borderRightWidth: 3,
+        borderLeftWidth: 0,
+        borderTopWidth: 0,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    payNumberTextContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: scaleSzie(6)
+    },  
+    textPay: {
+        fontSize: scaleSzie(16),
+        color: '#404040'
+    },
 })
