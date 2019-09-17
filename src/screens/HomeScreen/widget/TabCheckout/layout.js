@@ -593,7 +593,6 @@ class Layout extends React.Component {
                         {this.renderOfflineMode()}
                     </ScrollableTabView>
                 </View>
-
                 {this.renderBasket()}
             </View>
         );

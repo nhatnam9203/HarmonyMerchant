@@ -8,6 +8,23 @@ class TabAppointment extends Layout {
 
     constructor(props) {
         super(props);
+        this.state = {
+            isShowColProduct: false,
+            isShowColAmount: false,
+            categorySelected: {
+                categoryId: -1,
+                categoryType: ''
+            },
+            productSeleted: {
+                name: ''
+            },
+            categoryTypeSelected: '',
+            extraSelected: {
+                extraId: -1,
+                name: ''
+            },
+            basket: [],
+        }
         this.webviewRef = React.createRef();
     }
 
@@ -15,10 +32,6 @@ class TabAppointment extends Layout {
     }
 
     onLoadStartWebview = () => {
-        // this.props.actions.app.loadingApp();
-        // setTimeout(() => {
-        //     this.props.actions.app.stopLoadingApp();
-        // }, 4000)
 
     }
 
@@ -38,15 +51,157 @@ class TabAppointment extends Layout {
                 this.props.actions.appointment.checkoutAppointment(appointmentId);
                 this.props.gotoCheckoutScreen();
             } else if (action == 'signinAppointment') {
-                this.props.actions.appointment.getAppointmentById(appointmentId);
-                this.props.actions.appointment.checkoutAppointment(appointmentId);
-                this.props.actions.appointment.changeFlagSigninAppointment(true);
-                this.props.gotoCheckoutScreen();
+                alert('ddd')
+                // this.props.actions.appointment.getAppointmentById(appointmentId);
+                // this.props.actions.appointment.checkoutAppointment(appointmentId);
+                // this.props.actions.appointment.changeFlagSigninAppointment(true);
+                // this.props.gotoCheckoutScreen();
 
             }
         }
     }
 
+    // -------- Add Appointment --------
+    onPressSelectCategory = (category) => {
+        const { categorySelected } = this.state;
+        if (categorySelected.categoryId !== category.categoryId) {
+            this.setState({
+                categorySelected: category,
+                categoryTypeSelected: category.categoryType,
+                isShowColProduct: true,
+                isShowColAmount: false,
+                productSeleted: {
+                    name: ''
+                },
+                extraSelected: {
+                    extraId: -1,
+                    name: ''
+                },
+            })
+        }
+    }
+
+    getDataColProduct() {
+        const { categorySelected, categoryTypeSelected } = this.state;
+        const { productsByMerchantId, servicesByMerchant } = this.props;
+        const data = categoryTypeSelected === 'Service' ? servicesByMerchant : productsByMerchantId;
+        const temptData = data.filter(item => {
+            return item.categoryId === categorySelected.categoryId && item.isDisabled === 0;
+        });
+        return temptData;
+    }
+
+    showColAmount = (item) => {
+        this.setState({
+            productSeleted: item,
+            isShowColAmount: true,
+            extraSelected: {
+                extraId: -1,
+                name: ''
+            },
+        })
+    }
+
+    onPressSelectExtra = (extra) => {
+        this.setState({
+            extraSelected: extra
+        })
+    }
+
+    getPriceOfline(baseket) {
+        let total = 0;
+        for (let i = 0; i < baseket.length; i++) {
+            total = total + parseInt(baseket[i].data.price);
+        }
+        return total;
+    }
+
+    addAmount = async () => {
+        const { categoryTypeSelected, basket, productSeleted, extraSelected, appointmentId } = this.state;
+        if (categoryTypeSelected === 'Product') {
+            if (appointmentId !== -1) {
+                // ------- Buy With Appointment -----
+                this.props.actions.appointment.addItemIntoAppointment(
+                    {
+                        services: [],
+                        extras: [],
+                        products: [{
+                            productId: productSeleted.productId,
+                            quantity: this.amountRef.current.state.quanlity
+                        }]
+                    }, appointmentId)
+            } else {
+                // ------ Buy Ofline -----------
+                const temptBasket = basket.filter((item) => item.id !== `${productSeleted.productId}_pro`);
+                temptBasket.unshift({
+                    type: 'Product',
+                    id: `${productSeleted.productId}_pro`,
+                    data: {
+                        name: productSeleted.name,
+                        productId: productSeleted.productId,
+                        price: productSeleted.price
+                    },
+                    quanlitySet: this.amountRef.current.state.quanlity
+                });
+                await this.setState({
+                    basket: temptBasket,
+                    // total: parseInt(this.amountRef.current.state.quanlity * productSeleted.price)
+                    total: this.getPriceOfline(temptBasket)
+                })
+            }
+
+            await this.setState({
+                isShowColProduct: false,
+                isShowColAmount: false,
+                categorySelected: {
+                    categoryId: -1,
+                    categoryType: ''
+                },
+                productSeleted: {
+                    name: ''
+                },
+                categoryTypeSelected: '',
+                extraSelected: {
+                    extraId: -1,
+                    name: ''
+                },
+            })
+
+        } else {
+            if (appointmentId !== -1) {
+                // ------- Buy with appointment ------
+                const temptExtra = extraSelected.extraId !== -1 ? [{ extraId: extraSelected.extraId }] : [];
+                this.props.actions.appointment.addItemIntoAppointment(
+                    {
+                        services: [{
+                            serviceId: productSeleted.serviceId
+                        }],
+                        extras: temptExtra,
+                        products: []
+                    }, appointmentId)
+            } else {
+                // ------ Buy Offline ------
+                alert('You can only sell products to visitors');
+            }
+            this.setState({
+                isShowColProduct: false,
+                isShowColAmount: false,
+                categorySelected: {
+                    categoryId: -1,
+                    categoryType: ''
+                },
+                productSeleted: {
+                    name: ''
+                },
+                categoryTypeSelected: '',
+                extraSelected: {
+                    extraId: -1,
+                    name: ''
+                },
+            })
+        }
+
+    }
 
 }
 
@@ -54,7 +209,10 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     profile: state.dataLocal.profile,
     token: state.dataLocal.token,
-    profileStaffLogin: state.dataLocal.profileStaffLogin
+    profileStaffLogin: state.dataLocal.profileStaffLogin,
+    categoriesByMerchant: state.category.categoriesByMerchant,
+    productsByMerchantId: state.product.productsByMerchantId,
+    servicesByMerchant: state.service.servicesByMerchant,
 })
 
 
