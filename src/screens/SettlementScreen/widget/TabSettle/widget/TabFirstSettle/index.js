@@ -51,8 +51,16 @@ class TabFirstSettle extends Layout {
         this.props.gotoTabSecondSettle();
     }
 
-    getInvoicesOfStaff =(staffId) =>{
+    getInvoicesOfStaff = (staffId) => {
         this.props.actions.invoice.invoicesOfStaff(staffId);
+    }
+
+    componentDidUpdate(prevProps,prevState){
+        const {loading,isGetSettleWaiting} = this.props;
+        if(!loading && loading !== prevProps.loading && isGetSettleWaiting ){
+            
+        }
+
     }
 
 }
@@ -61,7 +69,9 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     paxMachineInfo: state.dataLocal.paxMachineInfo,
     settleWaiting: state.invoice.settleWaiting,
-    invoicesOfStaff : state.invoice.invoicesOfStaff
+    invoicesOfStaff: state.invoice.invoicesOfStaff,
+    isGetSettleWaiting: state.invoice.isGetSettleWaiting,
+    loading : state.app.loading
 })
 
 

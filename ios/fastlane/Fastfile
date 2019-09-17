@@ -28,13 +28,13 @@ platform :ios do
   lane :beta do
     gym(
      export_method: "ad-hoc",
-      scheme: "Hpmerchant",
+      scheme: "HpmerchantDev",
       workspace:"Hpmerchant.xcworkspace",
       clean: false,
       include_bitcode: true,
       export_options: {
         provisioningProfiles: { 
-          "com.app.hpmerchant" => "Hpmerchant"
+          "com.app.hpmerchant.dev" => "HpmerchantDev"
         }
       }
     )

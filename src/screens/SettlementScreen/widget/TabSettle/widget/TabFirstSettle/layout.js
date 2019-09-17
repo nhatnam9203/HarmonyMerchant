@@ -16,6 +16,7 @@ import {
 } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
+import TextInputAmount from './widget/TextInputAmount';
 
 class Layout extends React.Component {
 
@@ -297,12 +298,9 @@ class Layout extends React.Component {
                             height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
                             paddingHorizontal: scaleSzie(6),
                         }} >
-                            <TextInput
-                                style={{
-                                    fontSize: scaleSzie(20), color: '#404040',
-                                    flex: 1,
-                                }}
-                                value={`$ ${settleWaiting.paymentByHarmony}`}
+                            {/* ------------ Text Input ---- */}
+                            <TextInputAmount
+                                value={settleWaiting.paymentByHarmony}
                             />
                         </View>
                     </View>
@@ -361,7 +359,7 @@ class Layout extends React.Component {
                                 style={{
                                     flex: 1, fontSize: scaleSzie(20), color: '#404040',
                                 }}
-                                value= {`$ ${settleWaiting.otherPayment}`}
+                                value={`$ ${settleWaiting.otherPayment}`}
                             />
                         </View>
                     </View>

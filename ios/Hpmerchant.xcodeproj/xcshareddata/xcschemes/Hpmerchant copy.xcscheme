@@ -28,8 +28,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "23223685232A552E0086779D"
-               BuildableName = "Hpmerchant copy.app"
+               BlueprintIdentifier = "23D48DC62330974800EC4331"
+               BuildableName = "Hpmerchant.app"
                BlueprintName = "Hpmerchant copy"
                ReferencedContainer = "container:Hpmerchant.xcodeproj">
             </BuildableReference>
@@ -46,8 +46,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "23223685232A552E0086779D"
-            BuildableName = "Hpmerchant copy.app"
+            BlueprintIdentifier = "23D48DC62330974800EC4331"
+            BuildableName = "Hpmerchant.app"
             BlueprintName = "Hpmerchant copy"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
          </BuildableReference>
@@ -69,8 +69,8 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "23223685232A552E0086779D"
-            BuildableName = "Hpmerchant copy.app"
+            BlueprintIdentifier = "23D48DC62330974800EC4331"
+            BuildableName = "Hpmerchant.app"
             BlueprintName = "Hpmerchant copy"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
          </BuildableReference>
@@ -88,8 +88,8 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "23223685232A552E0086779D"
-            BuildableName = "Hpmerchant copy.app"
+            BlueprintIdentifier = "23D48DC62330974800EC4331"
+            BuildableName = "Hpmerchant.app"
             BlueprintName = "Hpmerchant copy"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
          </BuildableReference>

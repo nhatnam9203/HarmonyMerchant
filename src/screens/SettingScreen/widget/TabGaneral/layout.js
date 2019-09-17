@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, Text, Dropdown } from '@components';
-import { scaleSzie, localize, WorkingTime, getNameLanguage } from '@utils';
+import { scaleSzie, localize, WorkingTime, getNameStateById } from '@utils';
 import IMAGE from '@resources';
 
 class Layout extends React.Component {
@@ -199,7 +199,7 @@ class Layout extends React.Component {
     }
 
     renderBody() {
-        const { profile, language } = this.props;
+        const { profile, language ,stateCity} = this.props;
         const { businessName, address, city, stateId, zip, taxId, phone, email,
             state,
             bankName, accountNumber, routingNumber, ein, merchantCode, businessBank
@@ -217,7 +217,7 @@ class Layout extends React.Component {
                     />
                     <ItemTextStoreInfoNotTilte
                         city={city}
-                        state={state.name}
+                        state={getNameStateById(stateCity,stateId)}
                         zipcode={zip}
                     />
                     <ItemTextStoreInfo

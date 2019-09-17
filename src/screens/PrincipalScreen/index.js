@@ -151,7 +151,7 @@ class PrincipalScreen extends Layout {
                 const temptAddressPrincipal = { ...addressPrincipal, state: getIdStateByName(this.props.stateCity, addressPrincipal.state) };
                 const temptPrincipalInfo = {
                     ...principalInfo,
-                    dateOfBirth: `${moment(this.state.dateOfBirth).format('DD/MM/YYYY')}`,
+                    dateOfBirth: `${moment(this.state.dateOfBirth).format('MM/DD/YYYY')}`,
                     fileId: this.state.fileId,
                     addressPrincipal: temptAddressPrincipal
                 };

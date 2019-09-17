@@ -13,6 +13,7 @@ const initialState = {
     listBatchHistory: [],
     listBatchHistorySearch: [],
     isShowSearchBatchHistory: false,
+
 }
 
 function appReducer(state = initialState, action) {

@@ -15,7 +15,7 @@ export default class Layout extends React.Component {
 
     render() {
         const { language } = this.props;
-        const { visibleConfirm ,isFocus} = this.state;
+        const { visibleConfirm, isFocus } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -26,7 +26,7 @@ export default class Layout extends React.Component {
                     <ScrollableTabView
                         ref={this.scrollTabParentRef}
                         style={{}}
-                        initialPage={0}
+                        initialPage={1}
                         locked={true}
                         renderTabBar={() => <HomeTabBar
                             activeTextColor="#fff"
@@ -52,7 +52,7 @@ export default class Layout extends React.Component {
                             tabLabel={`${localize('CHECKOUT', language)}`}
                             navigation={this.props.navigation}
                             visibleConfirm={visibleConfirm}
-                            closePopupConfirm={() => this.setState({visibleConfirm:false})}
+                            closePopupConfirm={() => this.setState({ visibleConfirm: false })}
                             gotoPageCurent={this.gotoPageCurent}
                             gotoTabAppointment={this.gotoTabAppointment}
                             checkVisibleConfirm={this.checkVisibleConfirm}

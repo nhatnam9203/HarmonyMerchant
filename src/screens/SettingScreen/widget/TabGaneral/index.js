@@ -55,7 +55,8 @@ const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     language: state.dataLocal.language,
     autoCloseAt: state.dataLocal.autoCloseAt,
-    autoLockScreenAfter: state.dataLocal.autoLockScreenAfter
+    autoLockScreenAfter: state.dataLocal.autoLockScreenAfter,
+    stateCity : state.dataLocal.stateCity
 })
 
 
