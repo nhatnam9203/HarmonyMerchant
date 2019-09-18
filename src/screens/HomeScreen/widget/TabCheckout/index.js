@@ -46,7 +46,7 @@ const initState = {
     methodPayment: '',
     visibleProcessingCredit: false,
     visibleBillOfPayment: false,
-    visibleConfirm:false
+    visibleConfirm: false
 }
 
 const PosLink = NativeModules.MyApp;
@@ -63,7 +63,7 @@ class TabCheckout extends Layout {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         const { appointmentDetail } = nextProps;
-        if (!_.isEmpty(nextProps.appointmentDetail) && !prevState.isInitBasket) {
+        if (!_.isEmpty(nextProps.appointmentDetail) && !prevState.isInitBasket && nextProps.currentTabParent === 2) {
             const { services, products, extras } = appointmentDetail;
             const arrayProducts = getArrayProductsFromAppointment(products);
             const arryaServices = getArrayServicesFromAppointment(services);
@@ -324,16 +324,16 @@ class TabCheckout extends Layout {
         if (!_.isEmpty(connectionSignalR)) {
             connectionSignalR.stop();
         }
-        // this.props.gotoPageCurent();
-       await this.setState({...initState,isInitBasket: true});
-       this.scrollTabRef.current.goToPage(0);
+        this.props.gotoPageCurentParent();
+        await this.setState({ ...initState, isInitBasket: true });
+        this.scrollTabRef.current.goToPage(0);
         this.props.actions.appointment.resetBasketEmpty();
         this.props.actions.appointment.resetPayment();
         this.props.actions.appointment.changeFlagSigninAppointment(false);
 
     }
 
-    setStateFromParent = () =>{ 
+    setStateFromParent = () => {
         this.setState(initState);
     }
 

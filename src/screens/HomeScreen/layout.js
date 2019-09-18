@@ -48,14 +48,17 @@ export default class Layout extends React.Component {
                             ref={this.tabAppointmentRef}
                             tabLabel={`${localize('APPOINTMENT', language)}`}
                             gotoCheckoutScreen={this.gotoCheckoutScreen}
+                            currentTabParent={this.state.currentTab}
+                            clearDataTabCheckout={this.clearDataTabCheckout}
                         />
                         <TabCheckout
                             ref={this.tabCheckoutRef}
                             tabLabel={`${localize('CHECKOUT', language)}`}
                             navigation={this.props.navigation}
-                            gotoPageCurent={this.gotoPageCurent}
+                            gotoPageCurentParent={this.gotoPageCurentParent}
                             gotoTabAppointment={this.gotoTabAppointment}
                             gotoAppoitmentScreen={this.gotoAppoitmentScreen}
+                            currentTabParent={this.state.currentTab}
                         />
                     </ScrollableTabView>
                     <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >

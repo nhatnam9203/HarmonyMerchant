@@ -5,7 +5,6 @@ import {
     Image
 } from 'react-native';
 import { WebView } from 'react-native-webview';
-import { NavigationEvents } from 'react-navigation';
 
 import { Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted } from '@components';
 import styles from './style';
@@ -338,7 +337,7 @@ class Layout extends React.Component {
                     backgroundColor="#0764B0"
                     title={localize('BOOK', language)}
                     textColor="#fff"
-                    onPress={() =>{}} 
+                    onPress={this.bookAppointment} 
                     style={{
                         borderWidth: 1, borderColor: '#C5C5C5',
                        flex:1
@@ -399,10 +398,6 @@ class Layout extends React.Component {
           const { basket } = this.state;
         return (
             <View style={styles.container} >
-                 <NavigationEvents
-                    onDidFocus={this.onDidFocus}
-                    onDidBlur={this.onDidBlur}
-                />
                 <WebView
                     ref={this.webviewRef}
                     source={{ uri: `${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}` }}

@@ -33,7 +33,8 @@ const initState = {
         phoneNumber: ''
     },
     isShowAddAppointment: false,
-    visibleConfirm: false
+    visibleConfirm: false,
+    isBooking: false
 }
 
 class TabAppointment extends Layout {
@@ -47,7 +48,7 @@ class TabAppointment extends Layout {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         const { appointmentDetail } = nextProps;
-        if (!_.isEmpty(nextProps.appointmentDetail) && !prevState.isInitBasket) {
+        if (!_.isEmpty(nextProps.appointmentDetail) && !prevState.isInitBasket && nextProps.currentTabParent === 1) {
             const { services, products, extras } = appointmentDetail;
             const arrayProducts = getArrayProductsFromAppointment(products);
             const arryaServices = getArrayServicesFromAppointment(services);
@@ -63,25 +64,18 @@ class TabAppointment extends Layout {
                     lastName: appointmentDetail.lastName,
                     phoneNumber: appointmentDetail.phoneNumber,
                 },
-                isShowAddAppointment: true
+                isShowAddAppointment: true,
+                isBooking: false
             }
         }
         return null
-    }
-
-    onDidFocus = (payload) =>{
-        console.log('onDidFocus ');
-    }
-
-    onDidBlur = (payload) =>{
-        console.log('onDidBlur ');
     }
 
     onLoadEndWebview = () => {
         this.props.actions.app.stopLoadingApp();
     }
 
-    onMessageFromWebview = (event) => {
+    onMessageFromWebview = async (event) => {
         const data = JSON.parse(event.nativeEvent.data);
         // console.log('data : ', JSON.stringify(data));
         if (validateIsNumber(data) && data < -150) {
@@ -93,18 +87,12 @@ class TabAppointment extends Layout {
                 this.props.actions.appointment.checkoutAppointment(appointmentId);
                 this.props.gotoCheckoutScreen();
             } else if (action == 'signinAppointment') {
-                // alert('ddd')
+                await this.setState({
+                    isInitBasket: false,
+                    isBooking: true
+                })
                 this.props.actions.appointment.getAppointmentById(appointmentId);
                 this.props.actions.appointment.checkoutAppointment(appointmentId);
-
-                this.setState({
-                    // isShowAddAppointment: true,
-                    isInitBasket: false
-                })
-
-                // this.props.actions.appointment.changeFlagSigninAppointment(true);
-                // this.props.gotoCheckoutScreen();
-
             }
         }
     }
@@ -290,16 +278,11 @@ class TabAppointment extends Layout {
     }
 
     clearDataCofrim = () => {
-        // const { connectionSignalR } = this.props;
-        // if (!_.isEmpty(connectionSignalR)) {
-        //     connectionSignalR.stop();
-        // }
-        // this.props.gotoPageCurent();
         this.setState(initState);
         this.props.actions.appointment.resetBasketEmpty();
-        // this.scrollTabRef.current.goToPage(0);
         this.props.actions.appointment.resetPayment();
         this.props.actions.appointment.changeFlagSigninAppointment(false);
+        this.props.clearDataTabCheckout();
     }
 
     setStateVisibleFromParent = async (visibleConfirm) => {
@@ -308,11 +291,18 @@ class TabAppointment extends Layout {
         })
     }
 
-    
+    bookAppointment = () => {
+        this.setState(initState);
+        this.props.actions.appointment.resetBasketEmpty();
+        this.props.actions.appointment.resetPayment();
+        this.props.actions.appointment.changeFlagSigninAppointment(false);
+    }
+
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         const { loading, isGetAppointmentSucces } = this.props;
-        if (!loading && isGetAppointmentSucces) {
+        const {isBooking } = this.state;
+        if (!loading && isGetAppointmentSucces && isBooking) {
             this.props.actions.appointment.resetKeyUpdateAppointment();
             this.setState({
                 isInitBasket: false,

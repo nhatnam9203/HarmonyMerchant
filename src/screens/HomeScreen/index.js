@@ -68,23 +68,29 @@ class HomeScreen extends Layout {
     }
 
 
-    gotoPageCurent = () => {
+    gotoPageCurentParent = () => {
         const { temptCurrentTap } = this.state;
         this.scrollTabParentRef.current.goToPage(temptCurrentTap);
-        this.setState({
-            visibleConfirm: false
-        })
+        // this.setState({
+        //     visibleConfirm: false
+        // })
     }
 
     gotoTabAppointment = () => {
         this.scrollTabParentRef.current.goToPage(1);
     }
 
-    onPressHandlerChangeTab = (index) => {
+    onPressHandlerChangeTab = async (index) => {
         const { currentTab } = this.state;
         if (currentTab === 1 && this.tabAppointmentRef.current.state.isShowAddAppointment ) {
+            await this.setState({
+                temptCurrentTap: index
+            })
             this.tabAppointmentRef.current.setStateVisibleFromParent(true);
         } else if(currentTab === 2 && this.tabCheckoutRef.current.state.basket.length > 0 ){
+            await this.setState({
+                temptCurrentTap: index
+            })
             this.tabCheckoutRef.current.setStateVisibleFromParent();
         } 
         else {
@@ -124,6 +130,10 @@ class HomeScreen extends Layout {
 
     showLockScreen = () => {
         this.props.actions.app.handleLockScreen(true);
+    }
+
+    clearDataTabCheckout =() =>{
+        this.tabCheckoutRef.current.setStateFromParent();
     }
 
 
