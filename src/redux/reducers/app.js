@@ -67,7 +67,7 @@ function appReducer(state = initialState, action) {
         case 'RESET_IS_FLASH_SCREEN':
             return {
                 ...state,
-                isFlashScreen: false
+                isFlashScreen: action.payload
             }
 
 

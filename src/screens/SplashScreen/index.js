@@ -14,6 +14,7 @@ class SplashScreen extends Layout {
     componentDidMount() {
         const { token } = this.props;
         this.props.actions.app.getStateCity();
+        this.props.actions.app.resetIsFlashScreen(true);
         if (!token) {
             this.props.navigation.navigate('Auth');
         } else {

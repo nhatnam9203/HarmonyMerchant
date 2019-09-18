@@ -92,9 +92,10 @@ export function merchantSetting(body) {
     }
 }
 
-export function resetIsFlashScreen(){
+export function resetIsFlashScreen(isFocus  = false){
     return{
-        type :'RESET_IS_FLASH_SCREEN'
+        type :'RESET_IS_FLASH_SCREEN',
+        payload: isFocus
     }
 }
 

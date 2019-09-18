@@ -69,9 +69,12 @@ class TabAppointment extends Layout {
         return null
     }
 
+    onDidFocus = (payload) =>{
+        console.log('onDidFocus ');
+    }
 
-    onLoadStartWebview = () => {
-
+    onDidBlur = (payload) =>{
+        console.log('onDidBlur ');
     }
 
     onLoadEndWebview = () => {
@@ -304,6 +307,8 @@ class TabAppointment extends Layout {
             visibleConfirm
         })
     }
+
+    
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         const { loading, isGetAppointmentSucces } = this.props;

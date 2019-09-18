@@ -401,13 +401,13 @@ class Layout extends React.Component {
             <View style={styles.container} >
                  <NavigationEvents
                     onDidFocus={this.onDidFocus}
+                    onDidBlur={this.onDidBlur}
                 />
                 <WebView
                     ref={this.webviewRef}
                     source={{ uri: `${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}` }}
                     startInLoadingState={true}
                     shouldStartLoad={true}
-                    onLoadStart={this.onLoadStartWebview}
                     onLoadEnd={this.onLoadEndWebview}
                     injectedJavaScript={injectedJavascript}
                     onMessage={this.onMessageFromWebview}

@@ -326,10 +326,10 @@ class TabCheckout extends Layout {
         }
         // this.props.gotoPageCurent();
        await this.setState({...initState,isInitBasket: true});
-        // this.props.actions.appointment.resetBasketEmpty();
-        // this.scrollTabRef.current.goToPage(0);
-        // this.props.actions.appointment.resetPayment();
-        // this.props.actions.appointment.changeFlagSigninAppointment(false);
+       this.scrollTabRef.current.goToPage(0);
+        this.props.actions.appointment.resetBasketEmpty();
+        this.props.actions.appointment.resetPayment();
+        this.props.actions.appointment.changeFlagSigninAppointment(false);
 
     }
 
