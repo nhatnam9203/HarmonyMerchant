@@ -1,6 +1,4 @@
 import React from 'react';
-import { Subject } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
 import _ from 'ramda';
 
 import Layout from './layout';
@@ -21,10 +19,8 @@ class HomeScreen extends Layout {
         super(props);
         this.state = initialState;
         this.scrollTabParentRef = React.createRef();
-        this.checkoutRef = React.createRef();
         this.tabAppointmentRef = React.createRef();
         this.tabCheckoutRef = React.createRef();
-        this.watchVisibleConfrim = new Subject();
     }
 
     componentDidMount() {
@@ -71,9 +67,6 @@ class HomeScreen extends Layout {
     gotoPageCurentParent = () => {
         const { temptCurrentTap } = this.state;
         this.scrollTabParentRef.current.goToPage(temptCurrentTap);
-        // this.setState({
-        //     visibleConfirm: false
-        // })
     }
 
     gotoTabAppointment = () => {
@@ -82,40 +75,25 @@ class HomeScreen extends Layout {
 
     onPressHandlerChangeTab = async (index) => {
         const { currentTab } = this.state;
-        if (currentTab === 1 && this.tabAppointmentRef.current.state.isShowAddAppointment ) {
-            await this.setState({
-                temptCurrentTap: index
-            })
-            this.tabAppointmentRef.current.setStateVisibleFromParent(true);
-        } else if(currentTab === 2 && this.tabCheckoutRef.current.state.basket.length > 0 ){
-            await this.setState({
-                temptCurrentTap: index
-            })
-            this.tabCheckoutRef.current.setStateVisibleFromParent();
-        } 
-        else {
-            this.scrollTabParentRef.current.goToPage(index);
+        if (currentTab !== index) {
+            if (currentTab === 1 && this.tabAppointmentRef.current.state.isShowAddAppointment) {
+                await this.setState({
+                    temptCurrentTap: index
+                })
+                this.tabAppointmentRef.current.setStateVisibleFromParent(true);
+            } else if (currentTab === 2 && this.tabCheckoutRef.current.state.basket.length > 0) {
+                await this.setState({
+                    temptCurrentTap: index
+                })
+                this.tabCheckoutRef.current.setStateVisibleFromParent();
+            }
+            else {
+                this.scrollTabParentRef.current.goToPage(index);
+            }
         }
 
-
-        // const { currentTab, checkVisibleConfirm } = this.state;
-        // if (currentTab === 2  && checkVisibleConfirm) {
-        //     this.setState({
-        //         visibleConfirm: true,
-        //         temptCurrentTap: index
-        //     })
-        // }
-        // else if (currentTab === 2  && !checkVisibleConfirm) {
-        //     this.props.actions.appointment.resetBasketEmpty();
-        //     this.scrollTabParentRef.current.goToPage(index);
-        // }  else {
-        //     this.scrollTabParentRef.current.goToPage(index);
-        // }
     }
 
-    gotoCheckoutScreen = () => {
-        this.scrollTabParentRef.current.goToPage(2);
-    }
 
     handleLockScreen = () => {
         const { isFocus } = this.state;
@@ -132,10 +110,25 @@ class HomeScreen extends Layout {
         this.props.actions.app.handleLockScreen(true);
     }
 
-    clearDataTabCheckout =() =>{
-        this.tabCheckoutRef.current.setStateFromParent();
+    clearDataTabCheckout = () => {
+        // if (this.tabCheckoutRef.current) {
+        //     this.tabCheckoutRef.current.setStateFromParent();
+        // }
     }
 
+    checkoutAppointment = async (appointmentId) => {
+        await this.setState({
+            currentTab: 2
+        })
+        this.props.actions.appointment.getAppointmentById(appointmentId);
+        this.props.actions.appointment.checkoutAppointment(appointmentId);
+        this.scrollTabParentRef.current.goToPage(2);
+    }
+
+    bookAppointment = async (appointmentId) => {
+        this.props.actions.appointment.getAppointmentById(appointmentId);
+        this.props.actions.appointment.checkoutAppointment(appointmentId);
+    }
 
     componentWillUnmount() {
         this.didBlurSubscription.remove();

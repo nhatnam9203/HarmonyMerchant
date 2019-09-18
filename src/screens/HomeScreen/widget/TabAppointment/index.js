@@ -34,7 +34,6 @@ const initState = {
     },
     isShowAddAppointment: false,
     visibleConfirm: false,
-    isBooking: false
 }
 
 class TabAppointment extends Layout {
@@ -46,29 +45,9 @@ class TabAppointment extends Layout {
         this.amountRef = React.createRef();
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        const { appointmentDetail } = nextProps;
-        if (!_.isEmpty(nextProps.appointmentDetail) && !prevState.isInitBasket && nextProps.currentTabParent === 1) {
-            const { services, products, extras } = appointmentDetail;
-            const arrayProducts = getArrayProductsFromAppointment(products);
-            const arryaServices = getArrayServicesFromAppointment(services);
-            const arrayExtras = getArrayExtrasFromAppointment(extras);
-            const temptBasket = arrayProducts.concat(arryaServices, arrayExtras);
-            return {
-                total: appointmentDetail.total,
-                basket: temptBasket,
-                isInitBasket: true,
-                appointmentId: appointmentDetail.appointmentId,
-                infoUser: {
-                    firstName: appointmentDetail.firstName,
-                    lastName: appointmentDetail.lastName,
-                    phoneNumber: appointmentDetail.phoneNumber,
-                },
-                isShowAddAppointment: true,
-                isBooking: false
-            }
-        }
-        return null
+
+    setStateFromParent = async () => {
+        await this.setState(initState);
     }
 
     onLoadEndWebview = () => {
@@ -83,16 +62,9 @@ class TabAppointment extends Layout {
         } else {
             const { action, appointmentId } = data;
             if (action === 'checkout') {
-                this.props.actions.appointment.getAppointmentById(appointmentId);
-                this.props.actions.appointment.checkoutAppointment(appointmentId);
-                this.props.gotoCheckoutScreen();
+                this.props.checkoutAppointment(appointmentId);
             } else if (action == 'signinAppointment') {
-                await this.setState({
-                    isInitBasket: false,
-                    isBooking: true
-                })
-                this.props.actions.appointment.getAppointmentById(appointmentId);
-                this.props.actions.appointment.checkoutAppointment(appointmentId);
+                this.props.bookAppointment(appointmentId);
             }
         }
     }
@@ -151,6 +123,7 @@ class TabAppointment extends Layout {
         }
         return total;
     }
+
 
     addAmount = async () => {
         const { categoryTypeSelected, basket, productSeleted, extraSelected, appointmentId } = this.state;
@@ -219,7 +192,7 @@ class TabAppointment extends Layout {
                 // ------ Buy Offline ------
                 alert('You can only sell products to visitors');
             }
-            this.setState({
+            await this.setState({
                 isShowColProduct: false,
                 isShowColAmount: false,
                 categorySelected: {
@@ -296,17 +269,31 @@ class TabAppointment extends Layout {
         this.props.actions.appointment.resetBasketEmpty();
         this.props.actions.appointment.resetPayment();
         this.props.actions.appointment.changeFlagSigninAppointment(false);
+        this.props.clearDataTabCheckout();
     }
 
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        const { loading, isGetAppointmentSucces } = this.props;
-        const {isBooking } = this.state;
-        if (!loading && isGetAppointmentSucces && isBooking) {
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        const { currentTabParent, appointmentDetail, loading, isGetAppointmentSucces } = this.props;
+        if (!loading && isGetAppointmentSucces && currentTabParent === 1) {
+            const { services, products, extras } = appointmentDetail;
+            const arrayProducts = getArrayProductsFromAppointment(products);
+            const arryaServices = getArrayServicesFromAppointment(services);
+            const arrayExtras = getArrayExtrasFromAppointment(extras);
+            const temptBasket = arrayProducts.concat(arryaServices, arrayExtras);
             this.props.actions.appointment.resetKeyUpdateAppointment();
-            this.setState({
-                isInitBasket: false,
-            })
+
+            await this.setState({
+                total: appointmentDetail.total,
+                basket: temptBasket,
+                appointmentId: appointmentDetail.appointmentId,
+                infoUser: {
+                    firstName: appointmentDetail.firstName,
+                    lastName: appointmentDetail.lastName,
+                    phoneNumber: appointmentDetail.phoneNumber,
+                },
+                isShowAddAppointment: true,
+            });
         }
     }
 
