@@ -3,39 +3,44 @@ import _ from 'ramda';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { validateIsNumber , getArrayProductsFromAppointment, getArrayServicesFromAppointment,
-    getArrayExtrasFromAppointment} from '@utils';
+import {
+    validateIsNumber, getArrayProductsFromAppointment, getArrayServicesFromAppointment,
+    getArrayExtrasFromAppointment
+} from '@utils';
+
+const initState = {
+    isShowColProduct: false,
+    isShowColAmount: false,
+    categorySelected: {
+        categoryId: -1,
+        categoryType: ''
+    },
+    productSeleted: {
+        name: ''
+    },
+    categoryTypeSelected: '',
+    extraSelected: {
+        extraId: -1,
+        name: ''
+    },
+    basket: [],
+    total: 0,
+    isInitBasket: true,
+    appointmentId: -1,
+    infoUser: {
+        firstName: '',
+        lastName: '',
+        phoneNumber: ''
+    },
+    isShowAddAppointment: false,
+    visibleConfirm: false
+}
 
 class TabAppointment extends Layout {
 
     constructor(props) {
         super(props);
-        this.state = {
-            isShowColProduct: false,
-            isShowColAmount: false,
-            categorySelected: {
-                categoryId: -1,
-                categoryType: ''
-            },
-            productSeleted: {
-                name: ''
-            },
-            categoryTypeSelected: '',
-            extraSelected: {
-                extraId: -1,
-                name: ''
-            },
-            basket: [],
-            total: 0,
-            isInitBasket: true,
-            appointmentId: -1,
-            infoUser: {
-                firstName: '',
-                lastName: '',
-                phoneNumber: ''
-            },
-            isShowAddAppointment: false
-        }
+        this.state = initState;
         this.webviewRef = React.createRef();
         this.amountRef = React.createRef();
     }
@@ -63,12 +68,6 @@ class TabAppointment extends Layout {
         }
         return null
     }
-
-    // onDidFocus = (payload) => {
-    //    this.setState({
-    //        is
-    //    })
-    // }
 
 
     onLoadStartWebview = () => {
@@ -285,7 +284,25 @@ class TabAppointment extends Layout {
                 basket: temptBasket
             })
         }
+    }
 
+    clearDataCofrim = () => {
+        // const { connectionSignalR } = this.props;
+        // if (!_.isEmpty(connectionSignalR)) {
+        //     connectionSignalR.stop();
+        // }
+        // this.props.gotoPageCurent();
+        this.setState(initState);
+        this.props.actions.appointment.resetBasketEmpty();
+        // this.scrollTabRef.current.goToPage(0);
+        this.props.actions.appointment.resetPayment();
+        this.props.actions.appointment.changeFlagSigninAppointment(false);
+    }
+
+    setStateVisibleFromParent = async (visibleConfirm) => {
+        await this.setState({
+            visibleConfirm
+        })
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

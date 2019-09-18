@@ -15,6 +15,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 function connectRedux(mapStateToProps, Screen) {
-    return connect(mapStateToProps, mapDispatchToProps)(Screen);
+    return connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(Screen);
 }
 export default connectRedux;

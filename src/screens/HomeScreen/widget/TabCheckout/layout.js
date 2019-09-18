@@ -599,10 +599,8 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { visibleConfirm, checkVisibleConfirm, language } = this.props;
-        const { basket } = this.state;
-        const temptVisibleConfirm = basket.length > 0 ? true : false;
-        checkVisibleConfirm(temptVisibleConfirm);
+        const { language } = this.props;
+        const { basket ,visibleConfirm} = this.state;
         return (
             <View style={styles.container} >
                 {this.renderHeader()}
@@ -616,7 +614,7 @@ class Layout extends React.Component {
                     visible={visibleConfirm}
                     title="Confirmation"
                     message="If you exit Checkout Screen , Basket will Reset ?"
-                    onRequestClose={() => this.props.closePopupConfirm()}
+                    onRequestClose={() =>{this.setState({visibleConfirm : false})}}
                     confimYes={this.clearDataCofrim}
                 />
                 <PopupPayCompleted

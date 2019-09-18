@@ -10,10 +10,9 @@ import { getPosotion } from '@utils';
 
 const initialState = {
     isFocus: true,
-    currentTab: 0,
+    currentTab: 1,
     visibleConfirm: false,
     temptCurrentTap: -1,
-    checkVisibleConfirm: false
 }
 
 class HomeScreen extends Layout {
@@ -23,11 +22,12 @@ class HomeScreen extends Layout {
         this.state = initialState;
         this.scrollTabParentRef = React.createRef();
         this.checkoutRef = React.createRef();
+        this.tabAppointmentRef = React.createRef();
+        this.tabCheckoutRef = React.createRef();
         this.watchVisibleConfrim = new Subject();
     }
 
     componentDidMount() {
-        this.initWatchVisible();
         this.getCurrentLocation();
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
@@ -67,23 +67,6 @@ class HomeScreen extends Layout {
         this.scrollTabParentRef.current.goToPage(1);
     }
 
-    initWatchVisible = () => {
-        this.watchVisibleConfrim.pipe(
-            distinctUntilChanged(),
-        ).subscribe(val => {
-            if (this.state.checkVisibleConfirm !== val) {
-                this.setState({
-                    checkVisibleConfirm: val
-                })
-            }
-
-
-        })
-    }
-
-    checkVisibleConfirm = (visible) => {
-        this.watchVisibleConfrim.next(visible)
-    }
 
     gotoPageCurent = () => {
         const { temptCurrentTap } = this.state;
@@ -98,19 +81,30 @@ class HomeScreen extends Layout {
     }
 
     onPressHandlerChangeTab = (index) => {
-        const { currentTab, checkVisibleConfirm } = this.state;
-        if (currentTab === 2  && checkVisibleConfirm) {
-            this.setState({
-                visibleConfirm: true,
-                temptCurrentTap: index
-            })
-        }
-        else if (currentTab === 2  && !checkVisibleConfirm) {
-            this.props.actions.appointment.resetBasketEmpty();
-            this.scrollTabParentRef.current.goToPage(index);
-        }  else {
+        const { currentTab } = this.state;
+        if (currentTab === 1 && this.tabAppointmentRef.current.state.isShowAddAppointment ) {
+            this.tabAppointmentRef.current.setStateVisibleFromParent(true);
+        } else if(currentTab === 2 && this.tabCheckoutRef.current.state.basket.length > 0 ){
+            this.tabCheckoutRef.current.setStateVisibleFromParent();
+        } 
+        else {
             this.scrollTabParentRef.current.goToPage(index);
         }
+
+
+        // const { currentTab, checkVisibleConfirm } = this.state;
+        // if (currentTab === 2  && checkVisibleConfirm) {
+        //     this.setState({
+        //         visibleConfirm: true,
+        //         temptCurrentTap: index
+        //     })
+        // }
+        // else if (currentTab === 2  && !checkVisibleConfirm) {
+        //     this.props.actions.appointment.resetBasketEmpty();
+        //     this.scrollTabParentRef.current.goToPage(index);
+        // }  else {
+        //     this.scrollTabParentRef.current.goToPage(index);
+        // }
     }
 
     gotoCheckoutScreen = () => {

@@ -45,7 +45,8 @@ const initState = {
     changeButtonDone: false,
     methodPayment: '',
     visibleProcessingCredit: false,
-    visibleBillOfPayment: false
+    visibleBillOfPayment: false,
+    visibleConfirm:false
 }
 
 const PosLink = NativeModules.MyApp;
@@ -318,18 +319,22 @@ class TabCheckout extends Layout {
         })
     }
 
-    clearDataCofrim = () => {
+    clearDataCofrim = async () => {
         const { connectionSignalR } = this.props;
         if (!_.isEmpty(connectionSignalR)) {
             connectionSignalR.stop();
         }
-        this.props.gotoPageCurent();
-        this.setState(initState);
-        this.props.actions.appointment.resetBasketEmpty();
-        this.scrollTabRef.current.goToPage(0);
-        this.props.actions.appointment.resetPayment();
-        this.props.actions.appointment.changeFlagSigninAppointment(false);
+        // this.props.gotoPageCurent();
+       await this.setState({...initState,isInitBasket: true});
+        // this.props.actions.appointment.resetBasketEmpty();
+        // this.scrollTabRef.current.goToPage(0);
+        // this.props.actions.appointment.resetPayment();
+        // this.props.actions.appointment.changeFlagSigninAppointment(false);
 
+    }
+
+    setStateFromParent = () =>{ 
+        this.setState(initState);
     }
 
     getPaymentString(type) {
@@ -836,6 +841,12 @@ class TabCheckout extends Layout {
             );
         }
 
+    }
+
+    setStateVisibleFromParent = async (visibleConfirm) => {
+        await this.setState({
+            visibleConfirm
+        })
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

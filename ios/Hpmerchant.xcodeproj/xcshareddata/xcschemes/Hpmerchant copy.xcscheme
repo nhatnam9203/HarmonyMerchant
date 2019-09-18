@@ -29,7 +29,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "23D48DC62330974800EC4331"
-               BuildableName = "Hpmerchant.app"
+               BuildableName = "Hpmerchant copy.app"
                BlueprintName = "Hpmerchant copy"
                ReferencedContainer = "container:Hpmerchant.xcodeproj">
             </BuildableReference>
@@ -47,7 +47,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "23D48DC62330974800EC4331"
-            BuildableName = "Hpmerchant.app"
+            BuildableName = "Hpmerchant copy.app"
             BlueprintName = "Hpmerchant copy"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
          </BuildableReference>
@@ -70,7 +70,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "23D48DC62330974800EC4331"
-            BuildableName = "Hpmerchant.app"
+            BuildableName = "Hpmerchant copy.app"
             BlueprintName = "Hpmerchant copy"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
          </BuildableReference>
@@ -89,7 +89,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "23D48DC62330974800EC4331"
-            BuildableName = "Hpmerchant.app"
+            BuildableName = "Hpmerchant copy.app"
             BlueprintName = "Hpmerchant copy"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
          </BuildableReference>

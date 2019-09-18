@@ -386,7 +386,8 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { token, profile, profileStaffLogin, visibleConfirm, checkVisibleConfirm, } = this.props;
+        const { token, profile, profileStaffLogin, } = this.props;
+        const {visibleConfirm} = this.state;
         const injectedJavascript = `(function() {
             window.postMessage = function(data) {
               window.ReactNativeWebView.postMessage(data);
@@ -396,8 +397,6 @@ class Layout extends React.Component {
           true
           `;
           const { basket } = this.state;
-          const temptVisibleConfirm = basket.length > 0 ? true : false;
-          checkVisibleConfirm(temptVisibleConfirm);
         return (
             <View style={styles.container} >
                  <NavigationEvents
@@ -419,7 +418,7 @@ class Layout extends React.Component {
                     visible={visibleConfirm}
                     title="Confirmation"
                     message="If you exit Checkout Screen , Basket will Reset ?"
-                    onRequestClose={() => this.props.closePopupConfirm()}
+                    onRequestClose={() => this.setState({visibleConfirm: false})}
                     confimYes={this.clearDataCofrim}
                 />
             </View>

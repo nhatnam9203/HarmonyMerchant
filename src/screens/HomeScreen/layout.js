@@ -45,19 +45,16 @@ export default class Layout extends React.Component {
                             tabLabel={`${localize('MARKETING', language)}`}
                         />
                         <TabAppointment
+                            ref={this.tabAppointmentRef}
                             tabLabel={`${localize('APPOINTMENT', language)}`}
                             gotoCheckoutScreen={this.gotoCheckoutScreen}
-                            visibleConfirm={visibleConfirm}
-                            checkVisibleConfirm={this.checkVisibleConfirm}
                         />
                         <TabCheckout
+                            ref={this.tabCheckoutRef}
                             tabLabel={`${localize('CHECKOUT', language)}`}
                             navigation={this.props.navigation}
-                            visibleConfirm={visibleConfirm}
-                            closePopupConfirm={() => this.setState({ visibleConfirm: false })}
                             gotoPageCurent={this.gotoPageCurent}
                             gotoTabAppointment={this.gotoTabAppointment}
-                            checkVisibleConfirm={this.checkVisibleConfirm}
                             gotoAppoitmentScreen={this.gotoAppoitmentScreen}
                         />
                     </ScrollableTabView>
