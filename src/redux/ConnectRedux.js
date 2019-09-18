@@ -18,3 +18,4 @@ function connectRedux(mapStateToProps, Screen) {
     return connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(Screen);
 }
 export default connectRedux;
+

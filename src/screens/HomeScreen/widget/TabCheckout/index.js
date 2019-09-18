@@ -809,16 +809,19 @@ class TabCheckout extends Layout {
         if (moneyChange === 0) {
             //    this.props.actions.appointment.showModalPrintReceipt();
         } else {
-            Alert.alert(
-                `Change : $ ${moneyChange}`,
-                ``,
-                [
-                    { text: 'OK', onPress: () => { } },
-                ],
-                { cancelable: false },
-            );
+            setTimeout(() =>{
+                Alert.alert(
+                    `Change : $ ${moneyChange}`,
+                    ``,
+                    [
+                        { text: 'OK', onPress: () => { } },
+                    ],
+                    { cancelable: false },
+                );
+            },300)
+            
         }
-
+        this.modalBillRef.current.setStateFromParent(`0`);
     }
 
     setStateVisibleFromParent = async (visibleConfirm) => {
