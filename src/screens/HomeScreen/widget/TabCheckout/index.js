@@ -515,7 +515,7 @@ class TabCheckout extends Layout {
 
                 commands.push({
                     appendAlignment: StarPRNT.AlignmentPosition.Center,
-                    data: `https://www.google.com/\n`
+                    data: `${profile.webLink}\n`
                 });
 
                 commands.push({ appendLineFeed: 2 });
