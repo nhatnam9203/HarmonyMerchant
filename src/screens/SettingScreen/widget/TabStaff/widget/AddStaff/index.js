@@ -98,6 +98,7 @@ class AddStaff extends Layout {
         this.inputRefsTime = [];
         this.inputRefsSalary = [];
         this.inputRefsTip = [];
+        this.browserFileRef = React.createRef();
 
     }
 
@@ -130,7 +131,8 @@ class AddStaff extends Layout {
                 staffId: infoStaffHandle.staffId,
                 fileId: infoStaffHandle.fileId,
                 imageUrl: infoStaffHandle.imageUrl
-            })
+            });
+            this.browserFileRef.current.setImageUrlFromParent(infoStaffHandle.imageUrl);
         }
 
     }

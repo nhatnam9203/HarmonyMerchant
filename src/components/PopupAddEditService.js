@@ -40,6 +40,7 @@ class PopupAddEditService extends React.Component {
         this.durationRef = React.createRef();
         this.openTimeRef = React.createRef();
         this.secondTimeRef = React.createRef();
+        this.brwoserFileRef = React.createRef();
         this.arrayExtraRef = [];
     }
 
@@ -288,6 +289,7 @@ class PopupAddEditService extends React.Component {
                                 </View>
                                 {/* ------- Upload Image ----- */}
                                 <BrowserFile
+                                    ref={this.brwoserFileRef}
                                     updateFileId={this.updateFileId}
                                     imageUrl={this.state.imageUrl}
 

@@ -25,14 +25,10 @@ class BrowserFile extends React.PureComponent {
 
     }
 
-    componentDidMount() {
-        setTimeout(() => {
-            this.setState({
-                uriUpload: this.props.imageUrl,
-            })
-        }, 500)
-
-
+    setImageUrlFromParent = async (url) => {
+        await this.setState({
+            uriUpload: url
+        })
     }
 
     handleImagePicker = async (response) => {
@@ -99,11 +95,11 @@ class BrowserFile extends React.PureComponent {
         const { loading, isUpload, dataUpload, isResetInfoAdmin } = this.props;
         const { isProcessingUpload } = this.state;
         if (!loading && isUpload && isUpload !== prevProps.isUpload && isProcessingUpload) {
+            this.props.actions.upload.resetStateUpload();
             await this.setState({
                 isProcessingUpload: false,
             });
             this.props.updateFileId(dataUpload.fileId);
-            this.props.actions.upload.resetStateUpload();
 
         }
         if (isResetInfoAdmin && isResetInfoAdmin !== prevProps.isResetInfoAdmin) {
