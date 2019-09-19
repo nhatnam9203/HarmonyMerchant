@@ -24,7 +24,7 @@ class ItemDropdown extends React.Component {
         return(
             <View style={{ height: scaleSzie(30), flexDirection: 'row', marginTop: scaleSzie(8) }} >
             <View style={{
-                justifyContent: 'center', width: scaleSzie(70), paddingRight: scaleSzie(10),
+                justifyContent: 'center', width: scaleSzie(80), paddingRight: scaleSzie(10),
                 alignItems: 'flex-end'
             }} >
                 <Text style={styles.textNormal} >

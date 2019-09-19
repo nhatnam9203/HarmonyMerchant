@@ -72,7 +72,7 @@ export default class PromotionFirst extends React.Component {
                         {localize('Campaign Time:', language)}
                     </Text>
                     {/* ---- Row ---- */}
-                    <View style={{ flexDirection: 'row' }} >
+                    <View style={{ flexDirection: 'row'}} >
                         <ItemCalendar
                             title={localize('Start Date', language)}
                             value={`${moment(data.fromDate).format('DD/MM/YYYY')}`}

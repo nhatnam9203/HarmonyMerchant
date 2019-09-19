@@ -27,7 +27,7 @@ class ItemCheckBoxInput extends React.Component {
         return (
             <View style={{ height: scaleSzie(55), flexDirection: 'row', marginTop: scaleSzie(8) }} >
                 <View style={{
-                    justifyContent: 'flex-start', width: scaleSzie(70), paddingRight: scaleSzie(10),
+                    justifyContent: 'flex-start', width: scaleSzie(80), paddingRight: scaleSzie(10),
                     alignItems: 'flex-end'
                 }} >
                     <Button onPress={this.selectCheckbox} >
