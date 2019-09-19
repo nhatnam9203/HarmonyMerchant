@@ -6,6 +6,7 @@ import {
     ScrollView,
     Alert,
     TouchableOpacity,
+    ActivityIndicator
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
@@ -35,7 +36,8 @@ class PopupAddEditService extends React.Component {
             },
             arrayExtra: [],
             fileId: 0,
-            imageUrl: ''
+            imageUrl: '',
+            isSubmitButton: true
         }
         this.durationRef = React.createRef();
         this.openTimeRef = React.createRef();
@@ -216,14 +218,54 @@ class PopupAddEditService extends React.Component {
         })
     }
 
+    editButtonSubmit = async (isSubmit) => {
+        await this.setState({
+            isSubmitButton: isSubmit
+        })
+    }
 
     // ------- Render -----
 
+    renderButtonSubmit() {
+        const { isSave } = this.props;
+        const { isSubmitButton } = this.state;
+        const temptTitleButton = isSave ? 'Save' : 'Done';
+        if (isSubmitButton) {
+            return (
+                <ButtonCustom
+                    width={150}
+                    height={35}
+                    backgroundColor="#0764B0"
+                    title={temptTitleButton}
+                    textColor="#fff"
+                    onPress={this.done}
+                    style={{ borderRadius: scaleSzie(2) }}
+                    styleText={{
+                        fontSize: scaleSzie(14)
+                    }}
+                />
+            );
+        } else {
+            return (
+                <View style={{
+                    width: 150, height: scaleSzie(35), backgroundColor: '#0764B0',
+                    borderRadius: scaleSzie(2), justifyContent: 'center', alignItems: 'center'
+                }} >
+                    < ActivityIndicator
+                        size="large"
+                        color="#fff"
+                    />
+                </View>
+            );
+        }
+
+    }
+
     render() {
-        const { title, visible, isSave, categoriesByMerchant } = this.props;
+        const { title, visible, categoriesByMerchant } = this.props;
         const { categoryId, name, duration, description, price, isDisabled
         } = this.state.serviceInfo;
-        const temptTitleButton = isSave ? 'Save' : 'Done';
+        // const temptTitleButton = isSave ? 'Save' : 'Done';
         return (
             <PopupParent
                 title={title}
@@ -292,7 +334,7 @@ class PopupAddEditService extends React.Component {
                                     ref={this.brwoserFileRef}
                                     updateFileId={this.updateFileId}
                                     imageUrl={this.state.imageUrl}
-
+                                    editButtonSubmit={this.editButtonSubmit}
                                 />
                                 {/* -------------------------- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
@@ -391,18 +433,7 @@ class PopupAddEditService extends React.Component {
                     </View>
                     {/* ---- Footer ---- */}
                     <View style={{ height: scaleSzie(50), alignItems: 'center' }} >
-                        <ButtonCustom
-                            width={150}
-                            height={35}
-                            backgroundColor="#0764B0"
-                            title={temptTitleButton}
-                            textColor="#fff"
-                            onPress={this.done}
-                            style={{ borderRadius: scaleSzie(2) }}
-                            styleText={{
-                                fontSize: scaleSzie(14)
-                            }}
-                        />
+                        {this.renderButtonSubmit()}
                     </View>
                 </View>
             </PopupParent>

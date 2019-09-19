@@ -42,6 +42,7 @@ class StoreInfoScreen extends Layout {
         this.inputRefsTime = [];
         this.inputRefsSalary = [];
         this.inputRefsTip = [];
+        this.browserFileRef = React.createRef();
 
     }
 
@@ -203,6 +204,7 @@ class StoreInfoScreen extends Layout {
         if (!loading && isResetInfoAdmin) {
             this.setState(initState);
             this.props.actions.staff.resetFlagCreateAdmin();
+            this.browserFileRef.current.setImageUrlFromParent('');
         }
     }
 

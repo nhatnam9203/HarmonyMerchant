@@ -6,7 +6,8 @@ import {
     Alert,
     Dimensions,
     ScrollView,
-    TouchableOpacity
+    TouchableOpacity,
+    ActivityIndicator
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
@@ -35,7 +36,8 @@ class PopupAddEditProduct extends React.Component {
                 isDisabled: 'Active',
             },
             fileId: 0,
-            imageUrl: ''
+            imageUrl: '',
+            isSubmitButton: true
         }
     }
 
@@ -58,7 +60,7 @@ class PopupAddEditProduct extends React.Component {
 
     setProductInfoFromParent = async (productInfo) => {
         const { categoriesByMerchant } = this.props;
-       await this.setState({
+        await this.setState({
             productInfo: {
                 productId: productInfo.productId,
                 categoryId: getCategoryName(categoriesByMerchant, productInfo.categoryId),
@@ -75,8 +77,8 @@ class PopupAddEditProduct extends React.Component {
         })
     }
 
-    setDefaultStateFromParent =async () => {
-      await  this.setState({
+    setDefaultStateFromParent = async () => {
+        await this.setState({
             productInfo: {
                 categoryId: '',
                 name: "",
@@ -104,7 +106,7 @@ class PopupAddEditProduct extends React.Component {
         for (let i = 0; i <= arrayKey.length - 1; i++) {
             if (arrayKey[i] === 'description') {
                 continue;
-            }else  if (temptProductInfo[arrayKey[i]] == "") {
+            } else if (temptProductInfo[arrayKey[i]] == "") {
                 keyError = arrayKey[i];
                 break;
             }
@@ -133,20 +135,60 @@ class PopupAddEditProduct extends React.Component {
         })
     }
 
-    onRequestClose =async () =>{
+    onRequestClose = async () => {
         await this.setState({
-            fileId:0
+            fileId: 0
         });
         this.props.onRequestClose();
     }
 
+    editButtonSubmit = async (isSubmit) => {
+        await this.setState({
+            isSubmitButton: isSubmit
+        })
+    }
+
+
     // --------- Render -----
 
+    renderButtonSubmit() {
+        const { isSave } = this.props;
+        const { isSubmitButton } = this.state;
+        const temptTitleButton = isSave ? 'Save' : 'Done';
+        if (isSubmitButton) {
+            return (
+                <ButtonCustom
+                    width={150}
+                    height={35}
+                    backgroundColor="#0764B0"
+                    title={temptTitleButton}
+                    textColor="#fff"
+                    onPress={this.doneAddProduct}
+                    style={{ borderRadius: scaleSzie(2) }}
+                    styleText={{
+                        fontSize: scaleSzie(14)
+                    }}
+                />
+            );
+        } else {
+            return (
+                <View style={{
+                    width: 150, height: scaleSzie(35), backgroundColor: '#0764B0',
+                    borderRadius: scaleSzie(2), justifyContent: 'center', alignItems: 'center'
+                }} >
+                    < ActivityIndicator
+                        size="large"
+                        color="#fff"
+                    />
+                </View>
+            );
+        }
+    }
+
     render() {
-        const { title, visible, isSave,
+        const { title, visible,
             categoriesByMerchant
         } = this.props;
-        const temptTitleButton = isSave ? 'Save' : 'Done';
         const { categoryId, name, description, sku, quantity, minThreshold,
             maxThreshold, price, isDisabled
         } = this.state.productInfo
@@ -217,6 +259,7 @@ class PopupAddEditProduct extends React.Component {
                                 <BrowserFile
                                     updateFileId={this.updateFileId}
                                     imageUrl={this.state.imageUrl}
+                                    editButtonSubmit={this.editButtonSubmit}
                                 />
                                 {/* -------------------------- */}
                                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
@@ -356,18 +399,7 @@ class PopupAddEditProduct extends React.Component {
                     </View>
                     {/* ---- Footer ---- */}
                     <View style={{ height: scaleSzie(50), alignItems: 'center' }} >
-                        <ButtonCustom
-                            width={150}
-                            height={35}
-                            backgroundColor="#0764B0"
-                            title={temptTitleButton}
-                            textColor="#fff"
-                            onPress={this.doneAddProduct}
-                            style={{ borderRadius: scaleSzie(2) }}
-                            styleText={{
-                                fontSize: scaleSzie(14)
-                            }}
-                        />
+                        {this.renderButtonSubmit()}
                     </View>
                 </View>
             </PopupParent>

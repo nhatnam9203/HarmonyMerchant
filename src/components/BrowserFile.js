@@ -33,6 +33,7 @@ class BrowserFile extends React.PureComponent {
 
     handleImagePicker = async (response) => {
         if (response.uri) {
+            this.props.editButtonSubmit(false);
             await this.setState({
                 uriUpload: response.uri,
                 isProcessingUpload: true
@@ -100,12 +101,8 @@ class BrowserFile extends React.PureComponent {
                 isProcessingUpload: false,
             });
             this.props.updateFileId(dataUpload.fileId);
+            this.props.editButtonSubmit(true);
 
-        }
-        if (isResetInfoAdmin && isResetInfoAdmin !== prevProps.isResetInfoAdmin) {
-            await this.setState({
-                uriUpload: ''
-            })
         }
     }
 

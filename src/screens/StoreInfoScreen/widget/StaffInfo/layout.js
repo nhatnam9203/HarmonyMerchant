@@ -149,6 +149,7 @@ class Layout extends React.Component {
                     {/* ------- Upload Image ----- */}
                     <View style={{ paddingHorizontal: scaleSzie(90) }} >
                         <BrowserFile
+                            ref={this.browserFileRef}
                             updateFileId={this.updateFileId}
                             imageUrl={this.state.imageUrl}
                             styleText={{

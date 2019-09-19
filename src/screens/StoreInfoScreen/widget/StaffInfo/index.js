@@ -18,7 +18,7 @@ class StaffInfo extends Layout {
                     street: '',
                     city: '',
                     state: '',
-                    zip:''
+                    zip: ''
                 },
                 cellphone: '',
                 email: '',
@@ -91,19 +91,19 @@ class StaffInfo extends Layout {
                 }
             },
             fileId: 0,
-            imageUrl:''
+            imageUrl: ''
         }
         // ---- Refs ----
         this.inputRefsTime = [];
         this.inputRefsSalary = [];
         this.inputRefsTip = [];
-
+        this.browserFileRef = React.createRef();
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         if (this.props.isEditStaff) {
             const { infoStaffHandle, stateCity } = this.props;
-            this.setState({
+            await this.setState({
                 user: {
                     firstName: infoStaffHandle.firstName,
                     lastName: infoStaffHandle.lastName,
@@ -113,7 +113,7 @@ class StaffInfo extends Layout {
                         city: infoStaffHandle.city,
                         // state: infoStaffHandle.stateId,
                         state: getNameStateById(stateCity, infoStaffHandle.stateId),
-                        zip:infoStaffHandle.zip,
+                        zip: infoStaffHandle.zip,
                     },
                     cellphone: infoStaffHandle.phone,
                     email: infoStaffHandle.email,
@@ -132,8 +132,9 @@ class StaffInfo extends Layout {
                 tipFee: infoStaffHandle.tipFees,
                 salary: infoStaffHandle.salaries,
                 fileId: infoStaffHandle.fileId,
-                imageUrl:infoStaffHandle.imageUrl
-            })
+                imageUrl: infoStaffHandle.imageUrl
+            });
+            this.browserFileRef.current.setImageUrlFromParent(infoStaffHandle.imageUrl);
         }
 
     }
@@ -154,8 +155,8 @@ class StaffInfo extends Layout {
         this.inputRefsTip.push(ref);
     };
 
-    updateFileId =async (fileId) => {
-      await  this.setState({
+    updateFileId = async (fileId) => {
+        await this.setState({
             fileId
         })
     }
@@ -199,7 +200,7 @@ class StaffInfo extends Layout {
             }
         }
 
-        if(user.pin !== user.confirmPin){
+        if (user.pin !== user.confirmPin) {
             keyError = 'pinnotmatch'
         }
 
@@ -247,7 +248,7 @@ class StaffInfo extends Layout {
                 workingTime: objWorkingTime,
                 salary: objSalary,
                 tipFee: objTipFee,
-                fileId:this.state.fileId
+                fileId: this.state.fileId
             };
             if (this.props.isEditStaff) {
                 this.props.editStaff(temptStaff, this.state.staffId)
