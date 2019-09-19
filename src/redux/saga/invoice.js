@@ -122,7 +122,7 @@ function* invoicesOfStaff(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('getSettlementWating  : ', responses);
+        // console.log('getSettlementWating  : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -197,7 +197,7 @@ function* searchTransactionSettlement(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('searchTransactionSettlement  : ' + JSON.stringify(responses));
+        // console.log('searchTransactionSettlement  : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -234,7 +234,7 @@ function* getBatchHistory(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('getBatchHistory  : ' + JSON.stringify(responses));
+        // console.log('getBatchHistory  : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -271,7 +271,7 @@ function* searchBatchHistory(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('searchBatchHistory  : ' + JSON.stringify(responses));
+        // console.log('searchBatchHistory  : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({

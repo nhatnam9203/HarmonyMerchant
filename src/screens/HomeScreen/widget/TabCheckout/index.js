@@ -460,9 +460,9 @@ class TabCheckout extends Layout {
                 this.props.actions.appointment.submitPaymentWithCreditCard(profile.merchantId, '0', message);
 
             }
-            console.log('message : ', message);
+            // console.log('message : ', message);
         } catch (error) {
-            console.log('error : ', error)
+            // console.log('error : ', error)
         }
     }
 
@@ -750,7 +750,7 @@ class TabCheckout extends Layout {
 
         connection.on("ListWaNotification", (data) => {
             const temptData = JSON.parse(data);
-            console.log('temptData : ' + JSON.stringify(temptData));
+            // console.log('temptData : ' + JSON.stringify(temptData));
             if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
                 && temptData.data.appointmentId == appointmentDetail.appointmentId
             ) {

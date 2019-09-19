@@ -54,6 +54,11 @@ class TabAppointment extends Layout {
         this.props.actions.app.stopLoadingApp();
     }
 
+    onLoadStartWebview = () => {
+       this.webviewRef.current.reload();
+
+    }
+
     onMessageFromWebview = async (event) => {
         const data = JSON.parse(event.nativeEvent.data);
         // console.log('data : ', JSON.stringify(data));

@@ -8,7 +8,7 @@ function* getBannerMerchant(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('getBannerMerchant : ', responses);
+        // console.log('getBannerMerchant : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -159,7 +159,7 @@ function* updatePromotionByMerchant(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('updatePromotionByMerchant : ', JSON.stringify(action.body));
+        // console.log('updatePromotionByMerchant : ', JSON.stringify(action.body));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             // yield put({

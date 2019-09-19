@@ -92,7 +92,8 @@ class AddStaff extends Layout {
                 }
             },
             fileId: 0,
-            imageUrl: ''
+            imageUrl: '',
+            isSubmitButton: true
         }
         // ---- Refs ----
         this.inputRefsTime = [];
@@ -137,6 +138,12 @@ class AddStaff extends Layout {
 
     }
 
+    editButtonSubmit = async (isSubmit) => {
+        await this.setState({
+            isSubmitButton: isSubmit
+        })
+    }
+
     setStaffInfoFromParent = staff => {
         // console.log('setStaffInfoFromParent : ', staff);
     }
@@ -154,6 +161,7 @@ class AddStaff extends Layout {
     };
 
     updateFileId = async (fileId) => {
+        // console.log('---- fileId : ', fileId);
         await this.setState({
             fileId
         })

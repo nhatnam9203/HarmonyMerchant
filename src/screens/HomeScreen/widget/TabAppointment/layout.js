@@ -402,11 +402,8 @@ class Layout extends React.Component {
                     ref={this.webviewRef}
                     source={{ uri: `${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}` }}
                     startInLoadingState={true}
-                    shouldStartLoad={true}
-                    onLoadEnd={this.onLoadEndWebview}
                     injectedJavaScript={injectedJavascript}
                     onMessage={this.onMessageFromWebview}
-                    onShouldStartLoadWithRequest={() => true}
                 />
                 {this.state.isShowAddAppointment ? this.renderModalBookAppointment() : <View />}
                 <PopupConfirm

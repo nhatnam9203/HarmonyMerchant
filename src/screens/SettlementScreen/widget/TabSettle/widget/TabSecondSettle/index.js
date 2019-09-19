@@ -49,7 +49,7 @@ class TabSecondSettle extends Layout {
                 })
             }
         } catch (error) {
-            console.log('error : ', error)
+            // console.log('error : ', error)
         }
     }
 
@@ -114,9 +114,9 @@ class TabSecondSettle extends Layout {
                     });
                 }, 700)
             }
-            console.log('message : ', result);
+            // console.log('message : ', result);
         } catch (error) {
-            console.log('error : ', error)
+            // console.log('error : ', error)
         }
     }
 
