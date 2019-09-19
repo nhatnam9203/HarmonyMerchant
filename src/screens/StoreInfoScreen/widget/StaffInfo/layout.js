@@ -4,13 +4,14 @@ import {
     ScrollView,
     StyleSheet,
     TextInput,
+    ActivityIndicator
 } from 'react-native';
 
 import {
     Dropdown,
-    ButtonCustom, Text,BrowserFile
+    ButtonCustom, Text, BrowserFile
 } from '@components';
-import { scaleSzie, localize,getArrayNameStateCity } from '@utils';
+import { scaleSzie, localize, getArrayNameStateCity } from '@utils';
 import { ItemAdminInfo, } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
@@ -24,9 +25,9 @@ class Layout extends React.Component {
             driverlicense, socialSecurityNumber, professionalLicense,
             isDisabled
         } = this.state.user;
-        const { street, city, state,zip } = address;
+        const { street, city, state, zip } = address;
         const { nameRole } = roles;
-        const { language, isEditStaff, infoStaffHandle,stateCity } = this.props;
+        const { language, isEditStaff, infoStaffHandle, stateCity } = this.props;
 
         const titleButton = this.props.isEditStaff ? 'SAVE' : 'ADD';
         const temptDataWorkingTime = isEditStaff ? infoStaffHandle.workingTimes : this.state.workingTime;
@@ -95,7 +96,7 @@ class Layout extends React.Component {
                         title={``}
                         placeholder={localize('Zip', language)}
                         value={zip}
-                        onChangeText={(value) => this.updateUserInfo('zip', value,'address')}
+                        onChangeText={(value) => this.updateUserInfo('zip', value, 'address')}
                     />
 
                     <ItemAdminInfo
@@ -157,6 +158,7 @@ class Layout extends React.Component {
                                 fontSize: scaleSzie(14),
                                 fontWeight: '600',
                             }}
+                            editButtonSubmit={this.editButtonSubmit}
                         />
                     </View>
                     <TitleTabAdminInfo
@@ -234,24 +236,48 @@ class Layout extends React.Component {
                         height: scaleSzie(70), paddingHorizontal: scaleSzie(90),
                         justifyContent: 'center', alignItems: 'flex-end'
                     }} >
-                        <ButtonCustom
-                            width={scaleSzie(120)}
-                            height={40}
-                            backgroundColor="#F1F1F1"
-                            title={localize(titleButton, language)}
-                            textColor="#C5C5C5"
-                            onPress={this.addAdmin}
-                            style={{
-                                borderWidth: 1, borderColor: '#C5C5C5',
-                                backgroundColor: '#0764B0'
-                            }}
-                            styleText={{ fontSize: scaleSzie(15), fontWeight: '500', color: '#fff' }}
-                        />
+                       {this.renderButtonSubmit()}
                     </View>
                     <View style={{ height: scaleSzie(300) }} />
                 </ScrollView>
             </View>
         );
+    }
+
+    renderButtonSubmit() {
+        const { language } = this.props;
+        const { isSubmitButton } = this.state;
+        const titleButton = this.props.isEditStaff ? 'SAVE' : 'ADD';
+        if (isSubmitButton) {
+            return (
+                <ButtonCustom
+                    width={scaleSzie(120)}
+                    height={40}
+                    backgroundColor="#F1F1F1"
+                    title={localize(titleButton, language)}
+                    textColor="#C5C5C5"
+                    onPress={this.addAdmin}
+                    style={{
+                        borderWidth: 1, borderColor: '#C5C5C5',
+                        backgroundColor: '#0764B0'
+                    }}
+                    styleText={{ fontSize: scaleSzie(15), fontWeight: '500', color: '#fff' }}
+                />
+            );
+        } else {
+            return (
+                <View style={{
+                    width: scaleSzie(120), height: scaleSzie(40), backgroundColor: '#0764B0',
+                    borderRadius: scaleSzie(2), justifyContent: 'center', alignItems: 'center'
+                }} >
+                    < ActivityIndicator
+                        size="large"
+                        color="#fff"
+                    />
+                </View>
+            );
+        }
+
     }
 
     renderFooter() {

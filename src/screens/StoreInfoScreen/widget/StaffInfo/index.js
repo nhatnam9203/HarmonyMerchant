@@ -91,7 +91,8 @@ class StaffInfo extends Layout {
                 }
             },
             fileId: 0,
-            imageUrl: ''
+            imageUrl: '',
+            isSubmitButton: true
         }
         // ---- Refs ----
         this.inputRefsTime = [];
@@ -137,6 +138,12 @@ class StaffInfo extends Layout {
             this.browserFileRef.current.setImageUrlFromParent(infoStaffHandle.imageUrl);
         }
 
+    }
+
+    editButtonSubmit = async (isSubmit) => {
+        await this.setState({
+            isSubmitButton: isSubmit
+        })
     }
 
     setStaffInfoFromParent = staff => {

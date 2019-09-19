@@ -30,7 +30,8 @@ const initState = {
         professionalLicense: '',
     },
     fileId: 0,
-    imageUrl: ''
+    imageUrl: '',
+    isSubmitButton: true
 }
 
 class StoreInfoScreen extends Layout {
@@ -44,6 +45,12 @@ class StoreInfoScreen extends Layout {
         this.inputRefsTip = [];
         this.browserFileRef = React.createRef();
 
+    }
+
+    editButtonSubmit = async (isSubmit) => {
+        await this.setState({
+            isSubmitButton: isSubmit
+        })
     }
 
     setRefTimeWorking = (ref) => {
