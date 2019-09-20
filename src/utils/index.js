@@ -276,7 +276,8 @@ export const getArrayServicesFromAppointment = (services = []) => {
                 price: service.price,
                 bookingServiceId: service.bookingServiceId
             },
-            serviceName: 'Service'
+            serviceName: 'Service',
+            staff: service.staff
         }
     });
     return temptArrayServices
