@@ -56,3 +56,10 @@ export function getPromotionByAppointment(appointmentId) {
         // https://api2.levincidemo.com/api/appointment/promotion/3357
     }
 }
+
+export function closeModalDiscount() {
+    return {
+        type: 'CLOSE_MODAL_DISCOUNT',
+    }
+}
+

@@ -24,12 +24,16 @@ class PopupDiscount extends React.Component {
     }
 
     render() {
-        const { title, visible, onRequestClose, discount } = this.props;
+        const { title, visible, onRequestClose, discount, visibleModalDiscount } = this.props;
+        let total  = 0;
+        for(let i = 0 ; i< discount.length ; i ++){
+            total = total + discount[i].discount;
+        }
         return (
             <PopupParent
                 title={title}
-                visible={visible}
-                onRequestClose={() => onRequestClose()}
+                visible={visibleModalDiscount}
+                onRequestClose={() => this.props.actions.marketing.closeModalDiscount()}
                 width={600}
                 style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
             >
@@ -39,7 +43,7 @@ class PopupDiscount extends React.Component {
                 }} >
                     <View style={{ height: scaleSzie(260) }} >
                         <ScrollView >
-                            <TouchableOpacity activeOpacity={1} style={{  paddingHorizontal: scaleSzie(25)}} >
+                            <TouchableOpacity activeOpacity={1} style={{ paddingHorizontal: scaleSzie(25) }} >
                                 {
                                     discount.map((promo, index) => <ItemCampaign
                                         key={index}
@@ -140,7 +144,7 @@ class PopupDiscount extends React.Component {
                         </View>
                         <View style={{ justifyContent: 'center' }} >
                             <Text style={{ color: '#4CD964', fontSize: scaleSzie(30), fontWeight: 'bold' }} >
-                                - 32$
+                               {`- ${total}$`}
                             </Text>
                         </View>
                     </View>
@@ -199,9 +203,9 @@ const styles = StyleSheet.create({
     },
 })
 
-// export default PopupDiscount;
 const mapStateToProps = state => ({
-    discount: state.marketing.discount
+    discount: state.marketing.discount,
+    visibleModalDiscount: state.marketing.visibleModalDiscount
 })
 
 

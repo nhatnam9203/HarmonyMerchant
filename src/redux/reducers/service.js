@@ -3,7 +3,8 @@ const initialState = {
     listServicesSearch: [],
     isShowSearchService: false,
     refreshListServices: false,
-    isGetListSearchService: false
+    isGetListSearchService: false,
+    
 }
 
 function appReducer(state = initialState, action) {

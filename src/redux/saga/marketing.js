@@ -194,11 +194,12 @@ function* updatePromotionByMerchant(action) {
 
 function* getPromotionByAppointment(action) {
     try {
-        // yield put({ type: 'LOADING_ROOT' });
+        yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         // console.log('responses : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            yield put({ type: 'STOP_LOADING_ROOT' });
             yield put({
                 type: 'GET_PROMOTION_BY_APPOINTMENT_SUCCESS',
                 payload: responses.data
