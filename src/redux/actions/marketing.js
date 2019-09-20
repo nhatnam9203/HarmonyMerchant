@@ -46,3 +46,13 @@ export function updatePromotionByMerchant(body) {
         api: `${apiConfigs.BASE_API}merchantPromotion`
     }
 }
+
+export function getPromotionByAppointment(appointmentId) {
+    return {
+        type: 'GET_PROMOTION_BY_APPOINTMENT',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}appointment/promotion/3357`
+        // https://api2.levincidemo.com/api/appointment/promotion/3357
+    }
+}
