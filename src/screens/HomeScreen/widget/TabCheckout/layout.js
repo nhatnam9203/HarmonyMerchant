@@ -9,7 +9,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import QRCode from 'react-native-qrcode-svg';
 
 import { scaleSzie, localize } from '@utils';
-import { Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted } from '@components';
+import { Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted,PopupChangeStylist } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import {
@@ -235,6 +235,10 @@ class Layout extends React.Component {
         const { basket, total } = this.state;
         const tempTipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
         const subTotal = appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
+
+        const discount = appointmentDetail.discount ? appointmentDetail.discount : 0;
+        const tax = appointmentDetail.tax ? appointmentDetail.tax : 0;
+
         return (
             <View style={{ flex: 1 }} >
                 {/* -------- Header Basket -------- */}
@@ -286,8 +290,8 @@ class Layout extends React.Component {
                                     {`${localize('Tax', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    $0
-                            </Text>
+                                    {`$ ${tax}.00`}
+                                </Text>
                             </View>
                             {/* ---------- Discount ------ */}
                             <View style={styles.payNumberTextContainer} >
@@ -302,8 +306,8 @@ class Layout extends React.Component {
                                     </Text>
                                 </Button>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    $0
-                            </Text>
+                                    {`$ ${discount}.00`}
+                                </Text>
                             </View>
                             {/* ---------- Total ------ */}
                             <View style={styles.payNumberTextContainer} >
@@ -600,7 +604,7 @@ class Layout extends React.Component {
 
     render() {
         const { language } = this.props;
-        const { basket ,visibleConfirm} = this.state;
+        const { basket, visibleConfirm } = this.state;
         return (
             <View style={styles.container} >
                 {this.renderHeader()}
@@ -614,8 +618,15 @@ class Layout extends React.Component {
                     visible={visibleConfirm}
                     title="Confirmation"
                     message="If you exit Checkout Screen , Basket will Reset ?"
-                    onRequestClose={() =>{this.setState({visibleConfirm : false})}}
+                    onRequestClose={() => { this.setState({ visibleConfirm: false }) }}
                     confimYes={this.clearDataCofrim}
+                />
+                <PopupChangeStylist 
+                     visible={true}
+                     title="Change Stylist"
+                    //  message="Change Stylist"
+                     onRequestClose={() => { this.setState({ visibleConfirm: false }) }}
+                     confimYes={this.clearDataCofrim}
                 />
                 <PopupPayCompleted
                     visible={this.props.visiblePaymentCompleted}
