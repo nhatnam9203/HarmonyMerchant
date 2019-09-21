@@ -10,9 +10,9 @@ import { scaleSzie, localize } from '@utils';
 import { Text, Button } from '@components';
 import IMAGE from '@resources';
 
-const ItemBasket = ({ item, removeItemBasket }) => {
+const ItemBasket = ({ item, removeItemBasket,onPress }) => {
     const { data } = item;
-    console.log('---- item : ', item);
+    // console.log('---- item : ', item);
     const swipeoutBtns = [
         {
             backgroundColor: '#fff',
@@ -28,7 +28,11 @@ const ItemBasket = ({ item, removeItemBasket }) => {
             // disabled={true}
             close={true}
         >
-            <View style={{
+            <Button onPress={() => {
+                if( item.type === 'Service'){
+                    onPress(item);
+                }
+            }} style={{
                 height: scaleSzie(40), backgroundColor: '#0764B0', borderBottomColor: '#fff', borderBottomWidth: 2,
                 flexDirection: 'row'
             }} >
@@ -75,7 +79,7 @@ const ItemBasket = ({ item, removeItemBasket }) => {
                         </Text>
                     </View>
                 </View>
-            </View>
+            </Button>
         </Swipeout>
     );
 }

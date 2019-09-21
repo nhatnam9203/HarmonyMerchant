@@ -46,7 +46,8 @@ const initState = {
     methodPayment: '',
     visibleProcessingCredit: false,
     visibleBillOfPayment: false,
-    visibleConfirm: false
+    visibleConfirm: false,
+    visibleChangeStylist: false
 }
 
 const PosLink = NativeModules.MyApp;
@@ -59,6 +60,7 @@ class TabCheckout extends Layout {
         this.amountRef = React.createRef();
         this.scrollTabRef = React.createRef();
         this.modalBillRef = React.createRef();
+        this.changeStylistRef = React.createRef();
     }
 
 
@@ -830,6 +832,15 @@ class TabCheckout extends Layout {
     setStateVisibleFromParent = async (visibleConfirm) => {
         await this.setState({
             visibleConfirm
+        })
+    }
+
+    changeStylist = async (service) =>{
+        // console.log('service : ' + JSON.stringify(service));
+        this.changeStylistRef.current.setStateFromParent(service.staff);
+
+      await  this.setState({
+            visibleChangeStylist: true
         })
     }
 

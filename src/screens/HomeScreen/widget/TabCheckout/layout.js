@@ -257,6 +257,7 @@ class Layout extends React.Component {
                                     key={index}
                                     item={item}
                                     removeItemBasket={this.removeItemBasket}
+                                    onPress={this.changeStylist}
                                 />)
                             }
                         </ScrollView>
@@ -604,7 +605,7 @@ class Layout extends React.Component {
 
     render() {
         const { language } = this.props;
-        const { basket, visibleConfirm } = this.state;
+        const { basket, visibleConfirm ,visibleChangeStylist} = this.state;
         return (
             <View style={styles.container} >
                 {this.renderHeader()}
@@ -622,10 +623,11 @@ class Layout extends React.Component {
                     confimYes={this.clearDataCofrim}
                 />
                 <PopupChangeStylist 
-                     visible={true}
+                    ref={this.changeStylistRef}
+                     visible={visibleChangeStylist}
                      title="Change Stylist"
                     //  message="Change Stylist"
-                     onRequestClose={() => { this.setState({ visibleConfirm: false }) }}
+                     onRequestClose={() => { this.setState({ visibleChangeStylist: false }) }}
                      confimYes={this.clearDataCofrim}
                 />
                 <PopupPayCompleted

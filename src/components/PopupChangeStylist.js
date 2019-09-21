@@ -3,7 +3,8 @@ import {
     View,
     Image,
     Text,
-    StyleSheet
+    StyleSheet,
+    TextInput
 } from 'react-native';
 
 import ButtonCustom from './ButtonCustom';
@@ -15,18 +16,57 @@ import { scaleSzie } from '../utils';
 
 class PopupChangeStylist extends React.Component {
 
-    getStaffDataDropdown(staffs) {
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            staffId: '',
+            name: '',
+            tip: ''
+        }
     }
+
+    setStateFromParent = async (staff) => {
+        await this.setState({
+            staffId: staff.staffId,
+            name: staff.displayName,
+        })
+    }
+
+    getStaffDataDropdown(staffs) {
+        const data = [];
+        for (let i = 0; i < staffs.length; i++) {
+            data.push({
+                staffId: staffs[i].staffId,
+                value: `${staffs[i].firstName} ${staffs[i].lastName}`
+            })
+        };
+        return data;
+    }
+
+    changeStylist = async (name, id) => {
+        await this.setState({
+            staffId: id,
+            name
+        })
+    }
+
+    submitChangeStylist = () =>{
+        alert('dd')
+    }
+
+    // --------------- Render -----------
 
     render() {
         const { title, visible, listStaffByMerchant, onRequestClose, confimYes } = this.props;
+        const {name } = this.state;
+        const dataDropdown = this.getStaffDataDropdown(listStaffByMerchant)
         return (
             <PopupParent
                 title={title}
                 visible={visible}
                 onRequestClose={() => onRequestClose()}
                 width={scaleSzie(200)}
+                style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(50) }}
             >
                 <View style={{
                     height: scaleSzie(250), backgroundColor: '#FAFAFA',
@@ -42,9 +82,9 @@ class PopupChangeStylist extends React.Component {
                         <View style={{ height: scaleSzie(40), marginBottom: scaleSzie(10) }} >
                             <Dropdown
                                 label='Facial'
-                                data={[{ value: 'Phi' }, { value: 'Tam' }]}
-                                value={'Phi'}
-                                // onChangeText={(value) => this.updateProductInfo('categoryId', value)}
+                                data={dataDropdown}
+                                value={name}
+                                onChangeText={(value, index) => this.changeStylist(value, dataDropdown[index].staffId)}
                                 containerStyle={{
                                     backgroundColor: '#fff',
                                     borderWidth: 1,
@@ -58,21 +98,28 @@ class PopupChangeStylist extends React.Component {
                             Price ($)
                         </Text>
                         {/* ------- Box -------- */}
-                        <View style={{ height: scaleSzie(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5', }} >
+                        <View style={{
+                            height: scaleSzie(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
+                            paddingHorizontal: scaleSzie(10)
+                        }} >
+                            <TextInput
+                                style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
 
+                            />
                         </View>
-                         {/* ------- Button -------- */}
-                        <View style={{ flex: 1, alignItems: 'center' ,justifyContent:'flex-end'}} >
+                        {/* ------- Button -------- */}
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end' }} >
                             <ButtonCustom
                                 width={scaleSzie(120)}
                                 height={45}
                                 backgroundColor="#0764B0"
                                 title="Submit"
                                 textColor="#fff"
-                                onPress={() => this.props.backTab()}
-                                style={{ borderWidth: 1, borderColor: '#C5C5C5',
-                                borderRadius: 4
-                            }}
+                                onPress={this.submitChangeStylist}
+                                style={{
+                                    borderWidth: 1, borderColor: '#C5C5C5',
+                                    borderRadius: 4
+                                }}
                             />
                         </View>
                     </View>
