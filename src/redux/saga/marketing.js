@@ -19,7 +19,7 @@ function* getBannerMerchant(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -57,7 +57,7 @@ function* deleteBannerMerchant(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -97,7 +97,7 @@ function* addBannerWithInfo(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -134,7 +134,7 @@ function* getPromotionByMerchant(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -171,7 +171,7 @@ function* updatePromotionByMerchant(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -208,13 +208,53 @@ function* getPromotionByAppointment(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
             })
         }
     } catch (error) {
+        if (`${error}` == 'TypeError: Network request failed') {
+            yield put({
+                type: 'NET_WORK_REQUEST_FAIL',
+            });
+        } else if (`${error}` == 'timeout') {
+            yield put({
+                type: 'TIME_OUT',
+            });
+        }
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+
+function* changeStylist(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        console.log('responses : ', JSON.stringify(action.body));
+        const responses = yield requestAPI(action);
+        console.log('responses : ', JSON.stringify(responses));
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            // yield put({ type: 'STOP_LOADING_ROOT' });
+            // yield put({
+            //     type: 'GET_PROMOTION_BY_APPOINTMENT_SUCCESS',
+            //     payload: responses.data
+            // })
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        console.log('error : ',error );
         if (`${error}` == 'TypeError: Network request failed') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
@@ -238,5 +278,6 @@ export default function* saga() {
         takeLatest('GET_PROMOTION_BY_MERCHANT', getPromotionByMerchant),
         takeLatest('UPDATE_PROMOTION_BY_MERCHANT', updatePromotionByMerchant),
         takeLatest('GET_PROMOTION_BY_APPOINTMENT', getPromotionByAppointment),
+        takeLatest('CHANGE_STYLIST', changeStylist),
     ])
 }

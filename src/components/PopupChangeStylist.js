@@ -21,15 +21,21 @@ class PopupChangeStylist extends React.Component {
         this.state = {
             staffId: '',
             name: '',
-            tip: ''
+            tip: '',
+            bookingServiceId: ''
         }
     }
 
-    setStateFromParent = async (staff) => {
-        await this.setState({
-            staffId: staff.staffId,
-            name: staff.displayName,
-        })
+    setStateFromParent = async (service) => {
+        if (service.staff) {
+            const { staff } = service;
+            await this.setState({
+                staffId: staff.staffId,
+                name: staff.displayName,
+                bookingServiceId: service.data.bookingServiceId
+            })
+        }
+
     }
 
     getStaffDataDropdown(staffs) {
@@ -50,15 +56,17 @@ class PopupChangeStylist extends React.Component {
         })
     }
 
-    submitChangeStylist = () =>{
-        alert('dd')
+    submitChangeStylist = () => {
+        const { staffId, bookingServiceId, tip } = this.state;
+        const {appointmentDetail} = this.props;
+        this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentDetail.appointmentId);
     }
 
     // --------------- Render -----------
 
     render() {
         const { title, visible, listStaffByMerchant, onRequestClose, confimYes } = this.props;
-        const {name } = this.state;
+        const { name } = this.state;
         const dataDropdown = this.getStaffDataDropdown(listStaffByMerchant)
         return (
             <PopupParent
@@ -133,7 +141,8 @@ class PopupChangeStylist extends React.Component {
 
 
 const mapStateToProps = state => ({
-    listStaffByMerchant: state.staff.listStaffByMerchant
+    listStaffByMerchant: state.staff.listStaffByMerchant,
+    appointmentDetail: state.appointment.appointmentDetail,
 })
 
 

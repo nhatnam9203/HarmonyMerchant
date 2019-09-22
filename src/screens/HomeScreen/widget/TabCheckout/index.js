@@ -837,7 +837,7 @@ class TabCheckout extends Layout {
 
     changeStylist = async (service) =>{
         // console.log('service : ' + JSON.stringify(service));
-        this.changeStylistRef.current.setStateFromParent(service.staff);
+        this.changeStylistRef.current.setStateFromParent(service);
 
       await  this.setState({
             visibleChangeStylist: true

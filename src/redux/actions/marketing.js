@@ -9,20 +9,20 @@ export function getBannerMerchant(merchantId) {
     }
 }
 
-export function deleteBannerMerchant(merchantBannerId,merchantId) {
+export function deleteBannerMerchant(merchantBannerId, merchantId) {
     return {
         type: 'DELETE_BANNER_MERCHANT',
         method: 'DELETE',
-        body:{},
+        body: {},
         token: true,
         api: `${apiConfigs.BASE_API}merchantbanner/${merchantBannerId}`,
         merchantId
     }
 }
 
-export function resetStateUploadBanner(){
-    return{
-        type:'RESET_STATE_UPLOAD_BANNER'
+export function resetStateUploadBanner() {
+    return {
+        type: 'RESET_STATE_UPLOAD_BANNER'
     }
 }
 
@@ -63,3 +63,18 @@ export function closeModalDiscount() {
     }
 }
 
+
+export function changeStylist(staffId, bookingServiceId, tipAmount, appointmentId) {
+    console.log('----------');
+    return {
+        type: 'CHANGE_STYLIST',
+        method: 'PUT',
+        token: true,
+        body: {
+            staffId,
+            bookingServiceId,
+            tipAmount:10
+        },
+        api: `${apiConfigs.BASE_API}appointment/tip/${appointmentId}`
+    }
+}
