@@ -95,7 +95,7 @@ class Layout extends React.Component {
                     {`${index + 1}. ${item.name}`}
                 </Text>
                 <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
-                    {`$ ${item.totalAmount}.00`}
+                    {`$ ${item.totalAmount}`}
                 </Text>
             </Button>
         );
@@ -138,7 +138,7 @@ class Layout extends React.Component {
                     </View>
                     <View style={{}} >
                         <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
-                            {`$ ${item.amount}.00`}
+                            {`$ ${item.amount}`}
                         </Text>
                     </View>
                 </View>
@@ -178,7 +178,7 @@ class Layout extends React.Component {
                                 Total:
                             </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: '#4CD964', fontWeight: 'bold' }} >
-                                {`$ ${total ? `${total}.00` : 0}`}
+                                {`$ ${total ? `${total}` : 0}`}
                             </Text>
                         </View>
                     </View>
@@ -195,12 +195,12 @@ class Layout extends React.Component {
                     <View style={{ alignItems: 'flex-end', paddingRight: scaleSzie(10), paddingTop: scaleSzie(10) }} >
                         <Text style={{ fontSize: scaleSzie(12), color: '#404040', marginBottom: scaleSzie(10) }} >
                             Tip Amount: <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginLeft: scaleSzie(5) }} >
-                                {`  $  ${parseInt(tipAmount)}.00`}
+                                {`  $  ${parseInt(tipAmount)}`}
                             </Text>
                         </Text>
                         <Text style={{ fontSize: scaleSzie(12), color: '#404040', }} >
                             Total Amount: <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginLeft: scaleSzie(5) }} >
-                                {`  $  ${parseInt(totalAmount)}.00`}
+                                {`  $  ${parseInt(totalAmount)}`}
                             </Text>
                         </Text>
                     </View>
@@ -228,7 +228,7 @@ class Layout extends React.Component {
                             Payment by Harmony account
                         </Text>
                         <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
-                            {`$ ${settleWaiting.paymentByHarmony}.00`}
+                            {`$ ${settleWaiting.paymentByHarmony}`}
                         </Text>
                     </View>
                     {/* ------------ Row 2 ------------ */}
@@ -252,7 +252,7 @@ class Layout extends React.Component {
                             Payment by Cash
                         </Text>
                         <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
-                            {`$ ${settleWaiting.paymentByCash}.00`}
+                            {`$ ${settleWaiting.paymentByCash}`}
                         </Text>
                     </View>
                     {/* ------------ Row 4 ------------ */}
@@ -264,7 +264,7 @@ class Layout extends React.Component {
                             Other payment
                         </Text>
                         <Text style={{ fontSize: scaleSzie(20), color: '#6A6A6A' }} >
-                            {`$ ${settleWaiting.otherPayment}.00`}
+                            {`$ ${settleWaiting.otherPayment}`}
                         </Text>
                     </View>
                     {/* -------- Total ------- */}
@@ -277,7 +277,7 @@ class Layout extends React.Component {
                             Total:
                             </Text>
                         <Text style={{ fontSize: scaleSzie(20), color: '#4CD964', fontWeight: 'bold' }} >
-                            {`$ ${settleWaiting.total}.00`}
+                            {`$ ${settleWaiting.total}`}
                         </Text>
                     </View>
                 </View>

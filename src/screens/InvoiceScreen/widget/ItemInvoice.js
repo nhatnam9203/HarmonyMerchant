@@ -86,7 +86,7 @@ class ItemInvoice extends React.Component {
                     </View>
                     <View style={{}} >
                         <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
-                            {`$ ${invoice.total}.00`}
+                            {`$ ${invoice.total}`}
                         </Text>
                     </View>
                 </View>

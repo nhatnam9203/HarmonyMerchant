@@ -141,7 +141,7 @@ class PopupDetailProduct extends React.Component {
                                 />
                                 <ItemDetail
                                     title={`${localize('Price', language)} ($)`}
-                                    value={`${price}.00`}
+                                    value={`${price}`}
                                 />
                                 <ItemDetail
                                     title={localize('Status', language)}
