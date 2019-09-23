@@ -7,16 +7,21 @@ import apiConfigs from '../../configs/api';
 
 function* uploadAvatar(action) {
     try {
-        // yield put({ type: 'LOADING_ROOT' });
+        yield put({ type: 'LOADING_ROOT' });
         const responses = yield uploadFromData(action);
         // console.log('uploadAvatar : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            yield put({ type: 'LOADING_ROOT' });
             yield put({
                 type: 'UPLOAD_AVATAR_SUCCESS',
                 payload: responses.data
-            })
+            });
+            yield put({ type: 'LOADING_ROOT' });
         } else {
+            yield put({
+                type: 'UPLOAD_AVATAR_FAIL',
+            })
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -53,7 +58,7 @@ function* uploadBanner(action) {
                     ...action.infoBanner,
                     fileId: responses.data.fileId
                 },
-                merchantId:action.merchantId
+                merchantId: action.merchantId
             })
         } else {
             yield put({

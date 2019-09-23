@@ -14,7 +14,8 @@ function appReducer(state = initialState, action) {
         case 'UPLOAD_AVATAR_FAIL':
             return {
                 ...state,
-                isUpload: false
+                isUpload: false,
+                dataUpload: false
             }
         case 'RESET_STATE_UPLOAD':
             return {

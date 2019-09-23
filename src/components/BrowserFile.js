@@ -35,7 +35,7 @@ class BrowserFile extends React.PureComponent {
         if (response.uri) {
             this.props.editButtonSubmit(false);
             await this.setState({
-                uriUpload: response.uri,
+                // uriUpload: response.uri,
                 isProcessingUpload: true
             });
 
@@ -95,14 +95,21 @@ class BrowserFile extends React.PureComponent {
     async  componentDidUpdate(prevProps, prevState, snapshot) {
         const { loading, isUpload, dataUpload, isResetInfoAdmin } = this.props;
         const { isProcessingUpload } = this.state;
-        if (!loading && isUpload && isUpload !== prevProps.isUpload && isProcessingUpload) {
+        if (isUpload && isUpload !== prevProps.isUpload && isProcessingUpload) {
+            this.props.actions.upload.resetStateUpload();
+            this.props.editButtonSubmit(true);
+            await this.setState({
+                isProcessingUpload: false,
+                uriUpload: dataUpload.url
+            });
+            this.props.updateFileId(dataUpload.fileId);
+
+        } else if (!loading && dataUpload === false && isProcessingUpload) {
             this.props.actions.upload.resetStateUpload();
             this.props.editButtonSubmit(true);
             await this.setState({
                 isProcessingUpload: false,
             });
-            this.props.updateFileId(dataUpload.fileId);
-
         }
     }
 

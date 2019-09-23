@@ -108,7 +108,7 @@ export default class Layout extends React.Component {
                         <View style={{ flex: 1, paddingLeft: scaleSzie(20) }} >
                             <InputForm
                                 isOnlyNumber={true}
-                                title={localize('Mobile Phone', language)}
+                                title={`${localize('Mobile Phone', language)} *`}
                                 subTitle=""
                                 placeholder=""
                                 value={mobilePhone}

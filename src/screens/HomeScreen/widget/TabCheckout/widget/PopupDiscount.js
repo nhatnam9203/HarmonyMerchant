@@ -5,7 +5,8 @@ import {
     Text,
     ScrollView,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity,
+    TextInput
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
@@ -71,9 +72,11 @@ class PopupDiscount extends React.Component {
                                 <CustomDiscount
                                     ref={this.customDiscountRef}
                                     customDiscountPercent={appointmentDetail.customDiscountPercent}
+                                    total={appointmentDetail.total}
+
                                 />
                                 {/* ----------- Row 2 ----------- */}
-                                <CustomDiscountFixed 
+                                <CustomDiscountFixed
                                     ref={this.customFixedAmountRef}
                                     customDiscountFixed={appointmentDetail.customDiscountFixed}
                                 />
@@ -149,6 +152,9 @@ class CustomDiscount extends React.Component {
     }
 
     render() {
+        const { percent } = this.state;
+        const { total } = this.props;
+        const discount = parseFloat(Math.round((total * percent / 100) * 100) / 100).toFixed(2);
         return (
             <View style={{
                 flexDirection: 'row', height: scaleSzie(55),
@@ -164,10 +170,10 @@ class CustomDiscount extends React.Component {
                         flexDirection: 'row', marginLeft: scaleSzie(20)
                     }} >
                         <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
-                            <TextInputMask
-                                type="only-numbers"
+                            <TextInput
+                                // type="only-numbers"
                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                value={this.state.percent}
+                                value={`${this.state.percent}`}
                                 onChangeText={percent => this.setState({ percent })}
                                 keyboardType="numeric"
                                 placeholderTextColor="#A9A9A9"
@@ -184,7 +190,7 @@ class CustomDiscount extends React.Component {
                 </View>
                 <View style={{ justifyContent: 'center' }} >
                     <Text style={{ color: '#4CD964', fontSize: scaleSzie(20) }} >
-                        0$
+                        {`${discount}$`}
                      </Text>
                 </View>
             </View>
@@ -195,15 +201,15 @@ class CustomDiscount extends React.Component {
 
 class CustomDiscountFixed extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            discount : this.props.customDiscountFixed
+            discount: this.props.customDiscountFixed
         }
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <View style={{
                 flexDirection: 'row', height: scaleSzie(55), borderBottomColor: '#707070', borderBottomWidth: 1
             }} >
@@ -220,10 +226,11 @@ class CustomDiscountFixed extends React.Component {
                         flexDirection: 'row',
                     }} >
                         <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
-                            <TextInputMask
-                                type="only-numbers"
+                            {/* <TextInputMask */}
+                            <TextInput
+                                // type="only-numbers"
                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                value={this.state.discount}
+                                value={`${this.state.discount}`}
                                 onChangeText={discount => this.setState({ discount })}
                                 keyboardType="numeric"
                                 placeholderTextColor="#A9A9A9"
