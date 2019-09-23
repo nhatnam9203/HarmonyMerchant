@@ -6,6 +6,7 @@ import {
     StyleSheet,
     TextInput
 } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
@@ -27,12 +28,14 @@ class PopupChangeStylist extends React.Component {
     }
 
     setStateFromParent = async (service) => {
+        // console.log('--- service : ',service);
         if (service.staff) {
             const { staff } = service;
             await this.setState({
                 staffId: staff.staffId,
                 name: staff.displayName,
-                bookingServiceId: service.data.bookingServiceId
+                bookingServiceId: service.data.bookingServiceId,
+                tip: staff.tip
             })
         }
 
@@ -43,7 +46,7 @@ class PopupChangeStylist extends React.Component {
         for (let i = 0; i < staffs.length; i++) {
             data.push({
                 staffId: staffs[i].staffId,
-                value: `${staffs[i].firstName} ${staffs[i].lastName}`
+                value: `${staffs[i].displayName}`
             })
         };
         return data;
@@ -58,7 +61,8 @@ class PopupChangeStylist extends React.Component {
 
     submitChangeStylist = () => {
         const { staffId, bookingServiceId, tip } = this.state;
-        const {appointmentDetail} = this.props;
+        const { appointmentDetail } = this.props;
+        this.props.onRequestClose();
         this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentDetail.appointmentId);
     }
 
@@ -66,7 +70,7 @@ class PopupChangeStylist extends React.Component {
 
     render() {
         const { title, visible, listStaffByMerchant, onRequestClose, confimYes } = this.props;
-        const { name } = this.state;
+        const { name, tip } = this.state;
         const dataDropdown = this.getStaffDataDropdown(listStaffByMerchant)
         return (
             <PopupParent
@@ -110,9 +114,11 @@ class PopupChangeStylist extends React.Component {
                             height: scaleSzie(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
                             paddingHorizontal: scaleSzie(10)
                         }} >
-                            <TextInput
+                            <TextInputMask
+                                type="only-numbers"
                                 style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
-
+                                value={tip}
+                                onChangeText={(tip) => this.setState({ tip })}
                             />
                         </View>
                         {/* ------- Button -------- */}

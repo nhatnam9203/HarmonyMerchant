@@ -233,16 +233,17 @@ function* getPromotionByAppointment(action) {
 function* changeStylist(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
-        console.log('responses : ', JSON.stringify(action.body));
+        // console.log('responses : ', JSON.stringify(action.body));
         const responses = yield requestAPI(action);
-        console.log('responses : ', JSON.stringify(responses));
+        // console.log('responses : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            // yield put({ type: 'STOP_LOADING_ROOT' });
-            // yield put({
-            //     type: 'GET_PROMOTION_BY_APPOINTMENT_SUCCESS',
-            //     payload: responses.data
-            // })
+            yield put({
+                type: 'GET_APPOINTMENT_BY_ID',
+                method: 'GET',
+                api: `${apiConfigs.BASE_API}appointment/${action.appointmentId}`,
+                token: true
+            })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

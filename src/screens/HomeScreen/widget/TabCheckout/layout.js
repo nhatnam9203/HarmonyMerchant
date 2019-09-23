@@ -9,7 +9,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import QRCode from 'react-native-qrcode-svg';
 
 import { scaleSzie, localize } from '@utils';
-import { Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted,PopupChangeStylist } from '@components';
+import { Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import {
@@ -605,7 +605,7 @@ class Layout extends React.Component {
 
     render() {
         const { language } = this.props;
-        const { basket, visibleConfirm ,visibleChangeStylist} = this.state;
+        const { basket, visibleConfirm, visibleChangeStylist } = this.state;
         return (
             <View style={styles.container} >
                 {this.renderHeader()}
@@ -622,13 +622,13 @@ class Layout extends React.Component {
                     onRequestClose={() => { this.setState({ visibleConfirm: false }) }}
                     confimYes={this.clearDataCofrim}
                 />
-                <PopupChangeStylist 
+                <PopupChangeStylist
                     ref={this.changeStylistRef}
-                     visible={visibleChangeStylist}
-                     title="Change Stylist"
+                    visible={visibleChangeStylist}
+                    title="Change Stylist"
                     //  message="Change Stylist"
-                     onRequestClose={() => { this.setState({ visibleChangeStylist: false }) }}
-                     confimYes={this.clearDataCofrim}
+                    onRequestClose={() => { this.setState({ visibleChangeStylist: false }) }}
+                    confimYes={this.clearDataCofrim}
                 />
                 <PopupPayCompleted
                     visible={this.props.visiblePaymentCompleted}
