@@ -626,7 +626,6 @@ class Layout extends React.Component {
                     ref={this.changeStylistRef}
                     visible={visibleChangeStylist}
                     title="Change Stylist"
-                    //  message="Change Stylist"
                     onRequestClose={() => { this.setState({ visibleChangeStylist: false }) }}
                     confimYes={this.clearDataCofrim}
                 />

@@ -52,7 +52,7 @@ export function getPromotionByAppointment(appointmentId) {
         type: 'GET_PROMOTION_BY_APPOINTMENT',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/promotion/3357`
+        api: `${apiConfigs.BASE_API}appointment/promotion/${appointmentId}`
         // https://api2.levincidemo.com/api/appointment/promotion/3357
     }
 }
@@ -88,7 +88,8 @@ export function customPromotion(discountPercent, discountFixtom, appointmentid) 
             discountPercent,
             discountFixtom
         },
-        api: `${apiConfigs.BASE_API}appointment/custompromotion/${appointmentid}`
+        api: `${apiConfigs.BASE_API}appointment/custompromotion/${appointmentid}`,
+        appointmentid
     }
 }
 

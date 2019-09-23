@@ -277,12 +277,12 @@ function* customPromotion(action) {
         console.log('responses : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            // yield put({
-            //     type: 'GET_APPOINTMENT_BY_ID',
-            //     method: 'GET',
-            //     api: `${apiConfigs.BASE_API}appointment/${action.appointmentId}`,
-            //     token: true
-            // })
+            yield put({
+                type: 'GET_APPOINTMENT_BY_ID',
+                method: 'GET',
+                api: `${apiConfigs.BASE_API}appointment/${action.appointmentid}`,
+                token: true
+            })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

@@ -294,11 +294,15 @@ class TabCheckout extends Layout {
     }
 
     showModalDiscount = () => {
-        const { appointmentId } = this.state;
-        this.props.actions.marketing.getPromotionByAppointment(appointmentId);
-        this.setState({
-            visibleDiscount: true
-        })
+        const {appointmentDetail} = this.props;
+        const discount = appointmentDetail.discount ? appointmentDetail.discount : 0;
+        if (discount !== 0) {
+            const { appointmentId } = this.state;
+            this.props.actions.marketing.getPromotionByAppointment(appointmentId);
+            this.setState({
+                visibleDiscount: true
+            })
+        }
     }
 
     clearDataCofrim = async () => {
@@ -497,7 +501,7 @@ class TabCheckout extends Layout {
                 // PrintManager.getInstance().openCashDrawer(portName);
                 // -------- GET INFO BILL --------
                 const { profile } = this.props;
-                const { basket,infoUser } = this.state;
+                const { basket, infoUser } = this.state;
                 const { firstName, lastName, phoneNumber } = this.state.infoUser;
                 const commands = [];
                 const temptDate = `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
@@ -814,7 +818,7 @@ class TabCheckout extends Layout {
         if (moneyChange === 0) {
             //    this.props.actions.appointment.showModalPrintReceipt();
         } else {
-            setTimeout(() =>{
+            setTimeout(() => {
                 Alert.alert(
                     `Change : $ ${moneyChange}`,
                     ``,
@@ -823,8 +827,8 @@ class TabCheckout extends Layout {
                     ],
                     { cancelable: false },
                 );
-            },300)
-            
+            }, 300)
+
         }
         this.modalBillRef.current.setStateFromParent(`0`);
     }
@@ -835,11 +839,11 @@ class TabCheckout extends Layout {
         })
     }
 
-    changeStylist = async (service) =>{
+    changeStylist = async (service) => {
         // console.log('service : ' + JSON.stringify(service));
         this.changeStylistRef.current.setStateFromParent(service);
 
-      await  this.setState({
+        await this.setState({
             visibleChangeStylist: true
         })
     }
