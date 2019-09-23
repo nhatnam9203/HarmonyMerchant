@@ -34,6 +34,8 @@ const initState = {
     },
     isShowAddAppointment: false,
     visibleConfirm: false,
+    visibleChangeStylist: false,
+    visibleDiscount: false
 }
 
 class TabAppointment extends Layout {
@@ -43,6 +45,7 @@ class TabAppointment extends Layout {
         this.state = initState;
         this.webviewRef = React.createRef();
         this.amountRef = React.createRef();
+        this.changeStylistRef = React.createRef();
     }
 
 
@@ -277,6 +280,30 @@ class TabAppointment extends Layout {
         this.props.clearDataTabCheckout();
     }
 
+    changeStylist = async (service) => {
+        this.changeStylistRef.current.setStateFromParent(service);
+        await this.setState({
+            visibleChangeStylist: true
+        })
+    }
+
+    showModalDiscount = () => {
+        const {appointmentDetail} = this.props;
+        const discount = appointmentDetail.discount ? appointmentDetail.discount : 0;
+        if (discount !== 0) {
+            const { appointmentId } = this.state;
+            this.props.actions.marketing.getPromotionByAppointment(appointmentId);
+            this.setState({
+                visibleDiscount: true
+            })
+        }
+    }
+
+    closeModalDiscount = () => {
+        this.setState({
+            visibleDiscount: false
+        })
+    }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { currentTabParent, appointmentDetail, loading, isGetAppointmentSucces } = this.props;

@@ -6,14 +6,15 @@ import {
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 
-import { Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted } from '@components';
+import { Text, ButtonCustom, Button, PopupConfirm, PopupChangeStylist } from '@components';
 import styles from './style';
 import apiConfigs from '@configs/api';
 import { scaleSzie, localize } from '@utils';
 import {
-    ItemCategory, ItemProductService, ColPlaceHolder,ItemAmount,ItemExtra,ItemBasket
+    ItemCategory, ItemProductService, ColPlaceHolder,ItemAmount,ItemExtra,ItemBasket,PopupDiscount
 } from '../TabCheckout/widget';
 import IMAGE from '@resources';
+
 
 class Layout extends React.Component {
 
@@ -231,10 +232,13 @@ class Layout extends React.Component {
     }
 
     renderBasket(){
-        const { language, appointmentDetail, flagSignInAppointment } = this.props;
+        const { language, appointmentDetail } = this.props;
         const { basket, total } = this.state;
         const tempTipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
         const subTotal = appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
+
+        const discount = appointmentDetail.discount ? appointmentDetail.discount : 0;
+        const tax = appointmentDetail.tax ? appointmentDetail.tax : 0;
         return (
             <View style={{ flex: 1 }} >
                 {/* -------- Header Basket -------- */}
@@ -253,6 +257,7 @@ class Layout extends React.Component {
                                     key={index}
                                     item={item}
                                     removeItemBasket={this.removeItemBasket}
+                                    onPress={this.changeStylist}
                                 />)
                             }
                         </ScrollView>
@@ -286,7 +291,7 @@ class Layout extends React.Component {
                                     {`${localize('Tax', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    $0
+                                {`$ ${tax}.00`}
                             </Text>
                             </View>
                             {/* ---------- Discount ------ */}
@@ -302,7 +307,7 @@ class Layout extends React.Component {
                                     </Text>
                                 </Button>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    $0
+                                {`$ ${discount}.00`}
                             </Text>
                             </View>
                             {/* ---------- Total ------ */}
@@ -386,7 +391,7 @@ class Layout extends React.Component {
 
     render() {
         const { token, profile, profileStaffLogin, } = this.props;
-        const {visibleConfirm} = this.state;
+        const {visibleConfirm,visibleChangeStylist} = this.state;
         const injectedJavascript = `(function() {
             window.postMessage = function(data) {
               window.ReactNativeWebView.postMessage(data);
@@ -412,6 +417,17 @@ class Layout extends React.Component {
                     message="If you exit Checkout Screen , Basket will Reset ?"
                     onRequestClose={() => this.setState({visibleConfirm: false})}
                     confimYes={this.clearDataCofrim}
+                />
+                 <PopupChangeStylist
+                    ref={this.changeStylistRef}
+                    visible={visibleChangeStylist}
+                    title="Change Stylist"
+                    onRequestClose={() => { this.setState({ visibleChangeStylist: false }) }}
+                />
+                 <PopupDiscount
+                    title={'Discount'}
+                    visible={this.state.visibleDiscount}
+                    onRequestClose={this.closeModalDiscount}
                 />
             </View>
         );

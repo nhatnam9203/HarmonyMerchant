@@ -627,7 +627,6 @@ class Layout extends React.Component {
                     visible={visibleChangeStylist}
                     title="Change Stylist"
                     onRequestClose={() => { this.setState({ visibleChangeStylist: false }) }}
-                    confimYes={this.clearDataCofrim}
                 />
                 <PopupPayCompleted
                     visible={this.props.visiblePaymentCompleted}
