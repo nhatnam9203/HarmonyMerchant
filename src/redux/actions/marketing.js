@@ -78,3 +78,19 @@ export function changeStylist(staffId, bookingServiceId, tipAmount, appointmentI
         appointmentId
     }
 }
+
+export function customPromotion(discountPercent, discountFixtom, appointmentid) {
+    return {
+        type: 'CUSTOM_PROMOTION',
+        method: 'PUT',
+        token: true,
+        body: {
+            discountPercent,
+            discountFixtom
+        },
+        api: `${apiConfigs.BASE_API}appointment/custompromotion/${appointmentid}`
+    }
+}
+
+
+
