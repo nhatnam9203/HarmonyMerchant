@@ -37,7 +37,8 @@ class PopupAddEditService extends React.Component {
             arrayExtra: [],
             fileId: 0,
             imageUrl: '',
-            isSubmitButton: true
+            isSubmitButton: true,
+            isEditSecondTime: false
         }
         this.durationRef = React.createRef();
         this.openTimeRef = React.createRef();
@@ -62,7 +63,8 @@ class PopupAddEditService extends React.Component {
             },
             arrayExtra: service.extras.length > 0 ? service.extras : [],
             fileId: 0,
-            imageUrl: service.imageUrl
+            imageUrl: service.imageUrl,
+            isEditSecondTime: service.openTime == '' ? false : true
         });
     }
 
@@ -113,7 +115,7 @@ class PopupAddEditService extends React.Component {
     }
 
     done = () => {
-        const { serviceInfo } = this.state;
+        const { serviceInfo, isEditSecondTime } = this.state;
         const duration = this.durationRef.current.state.value;
         const openTime = this.openTimeRef.current.state.value;
         const secondTime = this.secondTimeRef.current.state.value;
@@ -127,7 +129,7 @@ class PopupAddEditService extends React.Component {
         const arrayKey = Object.keys(temptServiceInfo);
         let keyError = "";
         for (let i = 0; i <= arrayKey.length - 1; i++) {
-            if (arrayKey[i] === 'description') {
+            if (arrayKey[i] === 'description' || arrayKey[i] === 'openTime' || arrayKey[i] === 'secondTime') {
                 continue;
             } else if (temptServiceInfo[arrayKey[i]] === "") {
                 // console.log(arrayKey[i] + '-' + temptServiceInfo[arrayKey[i]]);
@@ -135,6 +137,9 @@ class PopupAddEditService extends React.Component {
                 break;
             }
 
+        }
+        if (isEditSecondTime && secondTime == '') {
+            keyError = 'secondTime'
         }
         if (keyError != '') {
             Alert.alert(`${strings[keyError]}`);
@@ -164,12 +169,16 @@ class PopupAddEditService extends React.Component {
                 if (this.props.isSave) {
                     this.props.editService({
                         ...dataServiceAdd, isDisabled: dataServiceAdd.isDisabled === 'Active' ? 0 : 1,
-                        fileId: this.state.fileId
+                        fileId: this.state.fileId,
+                        openTime: openTime === '' ? 0 : openTime,
+                        secondTime : secondTime === '' ? 0 : secondTime
                     });
                 } else {
                     this.props.doneAddService({
                         ...dataServiceAdd, isDisabled: dataServiceAdd.isDisabled === 'Active' ? 0 : 1,
-                        fileId: this.state.fileId
+                        fileId: this.state.fileId,
+                        openTime: openTime === '' ? 0 : openTime,
+                        secondTime : secondTime === '' ? 0 : secondTime
                     });
                 }
 
@@ -222,6 +231,19 @@ class PopupAddEditService extends React.Component {
         await this.setState({
             isSubmitButton: isSubmit
         })
+    }
+
+    handleInputSecondTime = async value =>{
+        if(value === ''){
+            await this.setState({
+                isEditSecondTime : false
+            })
+            this.secondTimeRef.current.setStateFromParent('');
+        }else{
+            await this.setState({
+                isEditSecondTime : true
+            })
+        }
     }
 
     // ------- Render -----
@@ -343,18 +365,22 @@ class PopupAddEditService extends React.Component {
                                 <View style={{ height: scaleSzie(70), flexDirection: 'row', justifyContent: 'space-between' }} >
                                     <ItemTime
                                         ref={this.durationRef}
-                                        title="Minutes"
+                                        title="Minutes *"
                                         value={this.state.serviceInfo.duration}
+                                        editable={true}
                                     />
                                     <ItemTime
                                         ref={this.openTimeRef}
                                         title="Open Time"
+                                        editable={true}
                                         value={this.state.serviceInfo.openTime}
+                                        onChangeText={this.handleInputSecondTime}
                                     />
                                     <ItemTime
                                         ref={this.secondTimeRef}
                                         title="Second Time"
                                         value={this.state.serviceInfo.secondTime}
+                                        editable={this.state.isEditSecondTime}
                                     />
                                 </View>
                                 <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
@@ -367,7 +393,15 @@ class PopupAddEditService extends React.Component {
                                             borderWidth: 1, borderColor: '#C5C5C5', flexDirection: 'row'
                                         }} >
                                             <TextInputMask
-                                                type="only-numbers"
+                                                // type="only-numbers"
+                                                type={'money'}
+                                                options={{
+                                                    precision: 2,
+                                                    separator: '.',
+                                                    delimiter: ',',
+                                                    unit: '',
+                                                    suffixUnit: ''
+                                                }}
                                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
                                                 placeholder="$ 100"
                                                 value={price}
@@ -485,7 +519,9 @@ class ItemExtra extends React.Component {
         const arrayKey = Object.keys(temptExtra);
         let keyError = "";
         for (let i = 0; i <= arrayKey.length - 1; i++) {
-            if (temptExtra[arrayKey[i]] == "") {
+            if (arrayKey[i] === 'description') {
+                continue;
+            } else if (temptExtra[arrayKey[i]] == "") {
                 keyError = `${arrayKey[i]}_extra`;
                 break;
             }
@@ -573,20 +609,28 @@ class ItemExtra extends React.Component {
                 </Text>
                 <ItemTime
                     ref={this.durationExtraRef}
-                    title="Minutes"
+                    title="Minutes *"
                     value={duration}
                 />
                 <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
                     <View style={{ flex: 1, paddingRight: scaleSzie(50) }}  >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                            Price
+                            Price *
                         </Text>
                         <View style={{
                             height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
                             borderWidth: 1, borderColor: '#C5C5C5', flexDirection: 'row'
                         }} >
                             <TextInputMask
-                                type="only-numbers"
+                                // type="only-numbers"
+                                type={'money'}
+                                options={{
+                                    precision: 2,
+                                    separator: '.',
+                                    delimiter: ',',
+                                    unit: '',
+                                    suffixUnit: ''
+                                }}
                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
                                 placeholder="$ 100"
                                 value={price}
@@ -597,7 +641,7 @@ class ItemExtra extends React.Component {
                     {/* ------ */}
                     <View>
                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                            Status
+                            Status *
                                     </Text>
                         <View style={{
                             height: scaleSzie(30), width: scaleSzie(90),
@@ -639,8 +683,15 @@ class ItemTime extends React.Component {
         })
     }
 
+    onChangeText = (value) => {
+        this.setState({ value });
+        if (this.props.title === 'Open Time') {
+            this.props.onChangeText(value)
+        }
+    }
+
     render() {
-        const { title } = this.props;
+        const { title, editable } = this.props;
         const { value } = this.state;
         return (
             <View>
@@ -657,7 +708,8 @@ class ItemTime extends React.Component {
                             placeholder='10'
                             style={{ flex: 1, fontSize: scaleSzie(16) }}
                             value={value}
-                            onChangeText={(value) => this.setState({ value })}
+                            onChangeText={this.onChangeText}
+                            editable={editable}
                         />
                     </View>
                     <View style={{ justifyContent: 'flex-end', paddingRight: 4 }} >

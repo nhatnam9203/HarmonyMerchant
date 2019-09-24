@@ -443,13 +443,7 @@ export const WorkingTime = [
     },
     {
         value: '11:30 PM',
-    },
-    {
-        value: '12:00 PM',
-    },
-    {
-        value: '12:30 PM',
-    },
+    }
 ]
 
 export const Roles = [

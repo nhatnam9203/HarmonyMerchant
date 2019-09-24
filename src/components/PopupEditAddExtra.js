@@ -37,7 +37,7 @@ class PopupEditAddExtra extends React.Component {
     }
 
     setStateDefaultFromParent = async () => {
-      await  this.setState({
+        await this.setState({
             extraInfo: {
                 name: "",
                 description: "",
@@ -112,14 +112,14 @@ class PopupEditAddExtra extends React.Component {
     }
 
     updateFileId = async (fileId) => {
-       await this.setState({
+        await this.setState({
             fileId
         })
     }
 
-    onRequestClose =async () =>{
+    onRequestClose = async () => {
         await this.setState({
-            fileId:0
+            fileId: 0
         });
         this.props.onRequestClose();
     }
@@ -139,17 +139,17 @@ class PopupEditAddExtra extends React.Component {
         if (isSubmitButton) {
             return (
                 <ButtonCustom
-                width={150}
-                height={35}
-                backgroundColor="#0764B0"
-                title={temptTitleButton}
-                textColor="#fff"
-                onPress={this.doneAddExtra}
-                style={{ borderRadius: scaleSzie(2) }}
-                styleText={{
-                    fontSize: scaleSzie(14)
-                }}
-            />
+                    width={150}
+                    height={35}
+                    backgroundColor="#0764B0"
+                    title={temptTitleButton}
+                    textColor="#fff"
+                    onPress={this.doneAddExtra}
+                    style={{ borderRadius: scaleSzie(2) }}
+                    styleText={{
+                        fontSize: scaleSzie(14)
+                    }}
+                />
             );
         } else {
             return (
@@ -229,7 +229,7 @@ class PopupEditAddExtra extends React.Component {
                             </Text>
                                 <ItemTime
                                     ref={this.durationRef}
-                                    title="Minutes"
+                                    title="Minutes *"
                                     value={this.state.extraInfo.duration}
 
                                 />
@@ -243,7 +243,15 @@ class PopupEditAddExtra extends React.Component {
                                             borderWidth: 1, borderColor: '#C5C5C5', flexDirection: 'row'
                                         }} >
                                             <TextInputMask
-                                                type="only-numbers"
+                                                // type="only-numbers"
+                                                type={'money'}
+                                                options={{
+                                                    precision: 2,
+                                                    separator: '.',
+                                                    delimiter: ',',
+                                                    unit: '',
+                                                    suffixUnit: ''
+                                                }}
                                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
                                                 placeholder="$ 100"
                                                 value={price}

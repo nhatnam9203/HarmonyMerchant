@@ -360,8 +360,16 @@ class PopupAddEditProduct extends React.Component {
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
-                                                <TextInputMask
-                                                    type="only-numbers"
+                                            <TextInputMask
+                                                // type="only-numbers"
+                                                type={'money'}
+                                                options={{
+                                                    precision: 2,
+                                                    separator: '.',
+                                                    delimiter: ',',
+                                                    unit: '',
+                                                    suffixUnit: ''
+                                                }}
                                                     placeholder="10$"
                                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
                                                     value={price}
