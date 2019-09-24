@@ -100,7 +100,7 @@ class SetupHardware extends React.Component {
 
                     <ItemSetup
                         title={"Timeout"}
-                        placeholder={"20000"}
+                        placeholder={"20000 ms"}
                         value={timeout}
                         onChangeText={timeout => this.setState({ timeout })}
                     />

@@ -30,11 +30,12 @@ class HomeHardware extends React.Component {
         return (
             <View style={{ flex: 1 }} >
                 <View style={{
-                    width: '100%', flexDirection: 'row', marginTop: scaleSzie(20), justifyContent: 'space-around',
+                    width: '100%', flexDirection: 'row', marginTop: scaleSzie(20), 
+                    // justifyContent: 'space-around',
                     paddingHorizontal: scaleSzie(10)
                 }} >
                     {/* ------------- Box 1 ----------- */}
-                    <Button onPress={() => this.onPressBox('Barcode')} style={styles.box} >
+                    {/* <Button onPress={() => this.onPressBox('Barcode')} style={styles.box} >
                         <View style={styles.containerIconBox} >
                             <Image source={IMAGE.Barcode} style={{
                                 width: scaleSzie(33),
@@ -49,7 +50,7 @@ class HomeHardware extends React.Component {
                                 No device
                         </Text>
                         </View>
-                    </Button>
+                    </Button> */}
                     {/* ------------- Box 2 ----------- */}
                     <Button onPress={() => this.onPressBox('Pax')} style={styles.box} >
                         <View style={styles.containerIconBox} >
@@ -68,7 +69,7 @@ class HomeHardware extends React.Component {
                         </View>
                     </Button>
                     {/* ------------- Box 3 ----------- */}
-                    <Button onPress={() => this.onPressBox('Print')} style={styles.box} >
+                    {/* <Button onPress={() => this.onPressBox('Print')} style={styles.box} >
                         <View style={styles.containerIconBox} >
                             <Image source={IMAGE.Print} style={{
                                 width: scaleSzie(28),
@@ -83,7 +84,7 @@ class HomeHardware extends React.Component {
                                 No device
                         </Text>
                         </View>
-                    </Button>
+                    </Button> */}
                 </View>
 
             </View>
