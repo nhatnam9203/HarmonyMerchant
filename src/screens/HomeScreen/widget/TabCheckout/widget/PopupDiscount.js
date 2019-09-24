@@ -20,7 +20,9 @@ class PopupDiscount extends React.Component {
         super(props);
         this.state = {
             percent: '',
-            discount: ''
+            discount: '',
+            moneyDiscountCuston: 0,
+            moneyDiscountFixedAmout: 0
         };
         this.customDiscountRef = React.createRef();
         this.customFixedAmountRef = React.createRef();
@@ -35,16 +37,40 @@ class PopupDiscount extends React.Component {
         this.props.actions.marketing.closeModalDiscount();
     }
 
+    sumTotalDiscount(num) {
+        return parseFloat(Math.round(num * 100) / 100).toFixed(2);
+    }
+
+
     // ------ Render -----
 
     render() {
         const { title, visible, onRequestClose, discount, visibleModalDiscount,
             appointmentDetail
         } = this.props;
+        const { customDiscountPercent, customDiscountFixed } = appointmentDetail;
+        const { moneyDiscountCuston,moneyDiscountFixedAmout } = this.state;
         let total = 0;
         for (let i = 0; i < discount.length; i++) {
-            total = total + discount[i].discount;
+            total = parseFloat(total) + parseFloat(discount[i].discount);
         }
+        if (visibleModalDiscount && !this.customDiscountRef.current) {
+            total = parseFloat(total) + (parseFloat(customDiscountPercent) * parseFloat(appointmentDetail.total) / 100);
+        }
+        if (visibleModalDiscount && !this.customFixedAmountRef.current) {
+            total = parseFloat(total) + parseFloat(customDiscountFixed);
+        }
+        if (visibleModalDiscount && this.customDiscountRef.current) {
+            total = parseFloat(total) + parseFloat(moneyDiscountCuston);
+        } 
+        if (visibleModalDiscount && this.customFixedAmountRef.current) {
+            total = parseFloat(total) + parseFloat(moneyDiscountFixedAmout);
+        }
+
+
+        total = parseFloat(total).toFixed(2);
+
+
         return (
             <PopupParent
                 title={title}
@@ -71,14 +97,19 @@ class PopupDiscount extends React.Component {
                                 {/* ----------- Row 1 ----------- */}
                                 <CustomDiscount
                                     ref={this.customDiscountRef}
-                                    customDiscountPercent={appointmentDetail.customDiscountPercent}
+                                    customDiscountPercent={customDiscountPercent}
                                     total={appointmentDetail.total}
-
+                                    onChangeText={(discount) => {
+                                        this.setState({ moneyDiscountCuston: discount })
+                                    }}
                                 />
                                 {/* ----------- Row 2 ----------- */}
                                 <CustomDiscountFixed
                                     ref={this.customFixedAmountRef}
-                                    customDiscountFixed={appointmentDetail.customDiscountFixed}
+                                    customDiscountFixed={customDiscountFixed}
+                                    onChangeText={(value) =>{
+                                        this.setState({moneyDiscountFixedAmout: value})
+                                    }}
                                 />
                                 <View style={{ height: scaleSzie(100) }} />
                             </TouchableOpacity>
@@ -153,8 +184,9 @@ class CustomDiscount extends React.Component {
 
     render() {
         const { percent } = this.state;
-        const { total } = this.props;
-        const discount = parseFloat(Math.round((total * percent / 100) * 100) / 100).toFixed(2);
+        const { total, onChangeText } = this.props;
+        // const discount = parseFloat(Math.round((total * percent / 100) * 100) / 100).toFixed(2);
+        const discount = parseFloat(parseFloat(percent) * parseFloat(total) / 100).toFixed(2);
         return (
             <View style={{
                 flexDirection: 'row', height: scaleSzie(55),
@@ -170,14 +202,25 @@ class CustomDiscount extends React.Component {
                         flexDirection: 'row', marginLeft: scaleSzie(20)
                     }} >
                         <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
-                            <TextInput
-                                // type="only-numbers"
+                            <TextInputMask
+                                type={'money'}
+                                options={{
+                                    precision: 2,
+                                    separator: '.',
+                                    delimiter: ',',
+                                    unit: '',
+                                    suffixUnit: ''
+                                }}
                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
                                 value={`${this.state.percent}`}
-                                onChangeText={percent => this.setState({ percent })}
+                                onChangeText={percent => {
+                                    this.setState({ percent });
+                                    onChangeText(parseFloat(percent) * parseFloat(total) / 100);
+                                }}
                                 keyboardType="numeric"
                                 placeholderTextColor="#A9A9A9"
-                                maxLength={3}
+                                maxLength={6}
+
                             />
                         </View>
                         <View style={{ justifyContent: 'center', paddingRight: scaleSzie(5) }} >
@@ -191,7 +234,7 @@ class CustomDiscount extends React.Component {
                 <View style={{ justifyContent: 'center' }} >
                     <Text style={{ color: '#4CD964', fontSize: scaleSzie(20) }} >
                         {`${discount}$`}
-                     </Text>
+                    </Text>
                 </View>
             </View>
         );
@@ -209,6 +252,7 @@ class CustomDiscountFixed extends React.Component {
     }
 
     render() {
+        const {onChangeText} = this.props;
         return (
             <View style={{
                 flexDirection: 'row', height: scaleSzie(55), borderBottomColor: '#707070', borderBottomWidth: 1
@@ -226,12 +270,21 @@ class CustomDiscountFixed extends React.Component {
                         flexDirection: 'row',
                     }} >
                         <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
-                            {/* <TextInputMask */}
-                            <TextInput
-                                // type="only-numbers"
+                            <TextInputMask
+                                type={'money'}
+                                options={{
+                                    precision: 2,
+                                    separator: '.',
+                                    delimiter: ',',
+                                    unit: '',
+                                    suffixUnit: ''
+                                }}
                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
                                 value={`${this.state.discount}`}
-                                onChangeText={discount => this.setState({ discount })}
+                                onChangeText={discount =>{
+                                    this.setState({ discount });
+                                    onChangeText(discount);
+                                }}
                                 keyboardType="numeric"
                                 placeholderTextColor="#A9A9A9"
                                 maxLength={3}

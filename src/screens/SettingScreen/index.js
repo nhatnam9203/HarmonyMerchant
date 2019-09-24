@@ -47,7 +47,7 @@ class SettingScreen extends Layout {
     }
 
     selectMenu(index) {
-        if (index === 8) {
+        if (index === 7) {
             this.setState({
                 visibleLogout: true
             })

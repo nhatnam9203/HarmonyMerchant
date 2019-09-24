@@ -201,8 +201,7 @@ class Layout extends React.Component {
     renderBody() {
         const { profile, language ,stateCity} = this.props;
         const { businessName, address, city, stateId, zip, taxId, phone, email,
-            state,
-            bankName, accountNumber, routingNumber, ein, merchantCode, businessBank
+            ein, merchantCode, businessBank,merchantId
         } = profile;
         return (
             <View style={styles.body} >

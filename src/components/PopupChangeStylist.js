@@ -115,7 +115,15 @@ class PopupChangeStylist extends React.Component {
                             paddingHorizontal: scaleSzie(10)
                         }} >
                             <TextInputMask
-                                type="only-numbers"
+                                // type="only-numbers"
+                                type={'money'}
+                                options={{
+                                    precision: 2,
+                                    separator: '.',
+                                    delimiter: ',',
+                                    unit: '',
+                                    suffixUnit: ''
+                                }}
                                 style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
                                 value={tip}
                                 onChangeText={(tip) => this.setState({ tip })}

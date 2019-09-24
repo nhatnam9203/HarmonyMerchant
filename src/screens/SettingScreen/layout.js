@@ -11,7 +11,7 @@ import styles from './style';
 import IMAGE from '@resources';
 import { TabStaff, TabService, TabExtra, TabCategories, TabGaneral, TabHardware } from './widget';
 
-const MENU = ["General", "Staff", "Categories", "Services", "Extra", "Payment", "Hardware", "About", "Logout"];
+const MENU = ["General", "Staff", "Categories", "Services", "Extra", "Hardware", "About", "Logout"];
 
 export default class Layout extends React.Component {
 
@@ -88,7 +88,7 @@ export default class Layout extends React.Component {
                                 <TabCategories />
                                 <TabService />
                                 <TabExtra />
-                                <View style={{ flex: 1 }} />
+                                {/* <View style={{ flex: 1 }} /> */}
                                 <TabHardware />
                                 {/* -------- Tab About ----- */}
                                 <View style={styles.containerAbout} >
