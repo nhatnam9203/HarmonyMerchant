@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
-import { InputForm, FormInfoParent, Text, Dropdown } from '@components';
+import { InputForm, FormInfoParent, Text, Dropdown ,InputFormPhone} from '@components';
 import { scaleSzie, localize,getArrayNameStateCity } from '@utils';
 
 export default class Layout extends React.Component {
@@ -124,8 +124,8 @@ export default class Layout extends React.Component {
                     </View>
                     <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                         <View style={{ flex: 1 }} >
-                            <InputForm
-                                isOnlyNumber={true}
+                            <InputFormPhone
+                                ref={this.businessPhoneRef}
                                 title={localize('Business Phone Number *', language)}
                                 subTitle=""
                                 placeholder=""
@@ -175,8 +175,17 @@ export default class Layout extends React.Component {
 
                     <View style={{ flexDirection: 'row' }} >
                         <View style={{ flex: 1 }} >
-                            <InputForm
+                            {/* <InputForm
                                 isOnlyNumber={true}
+                                title={localize('Contact is Phone Number *', language)}
+                                subTitle=""
+                                placeholder=""
+                                value={contactPhone}
+                                onChangeText={(value) => this.updateGeneralInfo('contactPhone', value)}
+                                keyboardType="numeric"
+                            /> */}
+                             <InputFormPhone
+                                ref={this.contactPhoneRef}
                                 title={localize('Contact is Phone Number *', language)}
                                 subTitle=""
                                 placeholder=""

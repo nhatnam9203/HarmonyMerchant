@@ -1,3 +1,4 @@
+import React from 'react';
 import { Alert } from 'react-native';
 
 import Layout from './layout';
@@ -30,7 +31,9 @@ class GeneralInfoScreen extends Layout {
                 position: '',
                 contactPhone: ''
             }
-        }
+        };
+        this.businessPhoneRef = React.createRef();
+        this.contactPhoneRef = React.createRef();
     }
 
     updateGeneralInfo(key, value, keyParent = '') {
@@ -119,7 +122,10 @@ class GeneralInfoScreen extends Layout {
             const { businessAddress } = generalInfo;
             const temptBusinessAddress = { ...businessAddress, state: getIdStateByName(this.props.stateCity, businessAddress.state) };
             const temptGeneralInfo = {
-                ...generalInfo, tax: `${generalInfo.tax.prefix}-${generalInfo.tax.suffix}`,
+                ...generalInfo, 
+                tax: `${generalInfo.tax.prefix}-${generalInfo.tax.suffix}`,
+                businessPhone: `${this.businessPhoneRef.current.state.codeAreaPhone}${generalInfo.businessPhone}`,
+                contactPhone :`${this.contactPhoneRef.current.state.codeAreaPhone}${generalInfo.contactPhone}`,
                 businessAddress: temptBusinessAddress
             };
             this.props.actions.app.setGeneralInfo(temptGeneralInfo);

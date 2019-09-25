@@ -30,6 +30,7 @@ import CalendarPicker from './react-native-calendar-picker';
 import DatePicker from './DatePicker';
 import PopupCalendar from './PopupCalendar';
 import PopupChangeStylist from "./PopupChangeStylist";
+import InputFormPhone from './InputFormPhone';
 
 module.exports = {
     Button,
@@ -63,5 +64,6 @@ module.exports = {
     CalendarPicker,
     DatePicker,
     PopupCalendar,
-    PopupChangeStylist
+    PopupChangeStylist,
+    InputFormPhone
 }

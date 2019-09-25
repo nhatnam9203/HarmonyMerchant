@@ -12,7 +12,9 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent, Dropdown } from '@components';
-import { scaleSzie, localize, getArrayNameStateCity, getIdStateByName,getNameStateById } from '@utils';
+import { scaleSzie, localize, getArrayNameStateCity, getIdStateByName, getNameStateById,ListCodeAreaPhone ,
+    getCodeAreaPhone
+} from '@utils';
 import IMAGE from '@resources';
 
 const { width } = Dimensions.get('window');
@@ -35,7 +37,8 @@ class PopupAddEditCustomer extends React.Component {
                 referrerPhone: '',
                 favourite: ''
             },
-            customerId: ''
+            customerId: '',
+            codeAreaPhone:'+1'
         }
     }
 
@@ -58,26 +61,28 @@ class PopupAddEditCustomer extends React.Component {
     }
 
     setStateFromParent = async customer => {
-       await this.setState({
+        await this.setState({
             customerInfo: {
                 firstName: customer.firstName,
                 lastName: customer.lastName,
-                phone: customer.phone,
+                // phone: customer.phone,
+                phone: getCodeAreaPhone(customer.phone).phone,
                 email: customer.email,
                 addressPost: {
                     street: customer.addressPost.street,
                     city: customer.addressPost.city,
-                    state: customer.addressPost.state === 0 ? '' :  getNameStateById(this.props.stateCity,customer.addressPost.state)
+                    state: customer.addressPost.state === 0 ? '' : getNameStateById(this.props.stateCity, customer.addressPost.state)
                 },
                 referrerPhone: customer.referrerPhone,
                 favourite: customer.favourite
             },
-            customerId: customer.customerId
+            customerId: customer.customerId,
+            codeAreaPhone: getCodeAreaPhone(customer.phone).areaCode
         })
     }
 
     setStateDefaultFromParent = async () => {
-      await  this.setState({
+        await this.setState({
             customerInfo: {
                 firstName: '',
                 lastName: '',
@@ -114,10 +119,11 @@ class PopupAddEditCustomer extends React.Component {
             };
             const temptCustomerInfo = {
                 ...customerInfo,
+                phone: `${this.state.codeAreaPhone}${customerInfo.phone}`,
                 addressPost: temptAddress
             };
             if (this.props.isSave) {
-                this.props.editCustomer(this.state.customerId,temptCustomerInfo);
+                this.props.editCustomer(this.state.customerId, temptCustomerInfo);
             } else {
                 this.props.addCustomer(temptCustomerInfo);
                 // console.log('temptCustomerInfo : ', temptCustomerInfo);
@@ -143,7 +149,7 @@ class PopupAddEditCustomer extends React.Component {
                 style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
             >
                 <View style={{
-                    height:  scaleSzie(480),
+                    height: scaleSzie(480),
                     backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15),
                     borderBottomRightRadius: scaleSzie(15),
@@ -191,17 +197,32 @@ class PopupAddEditCustomer extends React.Component {
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
                                     {localize('Phone Number *', language)}
                                 </Text>
-                                <View style={{
-                                    height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
-                                    paddingLeft: scaleSzie(10),
-                                }} >
-                                    <TextInputMask
-                                        type="only-numbers"
-                                        placeholder="0123 456 456"
-                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                        value={phone}
-                                        onChangeText={value => this.updateCustomerInfo('phone', value)}
-                                    />
+                                <View style={{ height: scaleSzie(30), flexDirection: 'row' }} >
+                                    <View style={{ width: scaleSzie(55) }} >
+                                        <Dropdown
+                                            label={'+1'}
+                                            data={ListCodeAreaPhone}
+                                            value={this.state.codeAreaPhone}
+                                            onChangeText={(codeAreaPhone) => this.setState({ codeAreaPhone })}
+                                            containerStyle={{
+                                                backgroundColor: '#fff',
+                                                borderWidth: 1,
+                                                borderColor: '#C5C5C5',
+                                                flex: 1
+                                            }}
+                                        />
+                                    </View>
+                                    <View style={{ width: scaleSzie(8) }} />
+                                    <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(10) }} >
+                                        <TextInputMask
+                                            type="only-numbers"
+                                            placeholder="0123 456 456"
+                                            style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                            value={phone}
+                                            onChangeText={value => this.updateCustomerInfo('phone', value)}
+                                        />
+                                    </View>
+
                                 </View>
                                 {/* ---- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
