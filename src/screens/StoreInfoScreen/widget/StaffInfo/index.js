@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 
 import Layout from './layout';
 import strings from './strings';
-import { validateEmail, getIdStateByName, getNameStateById } from '@utils';
+import { validateEmail, getIdStateByName, getNameStateById, getCodeAreaPhone } from '@utils';
 
 class StaffInfo extends Layout {
 
@@ -92,18 +92,20 @@ class StaffInfo extends Layout {
             },
             fileId: 0,
             imageUrl: '',
-            isSubmitButton: true
+            isSubmitButton: true,
         }
         // ---- Refs ----
         this.inputRefsTime = [];
         this.inputRefsSalary = [];
         this.inputRefsTip = [];
         this.browserFileRef = React.createRef();
+        this.cellphoneRef = React.createRef();
     }
 
     async componentDidMount() {
         if (this.props.isEditStaff) {
             const { infoStaffHandle, stateCity } = this.props;
+            // console.log('------ Phi : ',getCodeAreaPhone(infoStaffHandle.phone));
             await this.setState({
                 user: {
                     firstName: infoStaffHandle.firstName,
@@ -116,7 +118,7 @@ class StaffInfo extends Layout {
                         state: getNameStateById(stateCity, infoStaffHandle.stateId),
                         zip: infoStaffHandle.zip,
                     },
-                    cellphone: infoStaffHandle.phone,
+                    cellphone: getCodeAreaPhone(infoStaffHandle.phone).phone,
                     email: infoStaffHandle.email,
                     pin: infoStaffHandle.pin,
                     confirmPin: infoStaffHandle.pin,
@@ -133,9 +135,10 @@ class StaffInfo extends Layout {
                 tipFee: infoStaffHandle.tipFees,
                 salary: infoStaffHandle.salaries,
                 fileId: infoStaffHandle.fileId,
-                imageUrl: infoStaffHandle.imageUrl
+                imageUrl: infoStaffHandle.imageUrl,
             });
             this.browserFileRef.current.setImageUrlFromParent(infoStaffHandle.imageUrl);
+            this.cellphoneRef.current.setcodeAreaPhoneFromParent(getCodeAreaPhone(infoStaffHandle.phone).areaCode);
         }
 
     }
@@ -250,6 +253,7 @@ class StaffInfo extends Layout {
             const temptAddress = { ...address, state: getIdStateByName(this.props.stateCity, address.state) };
             const temptStaff = {
                 ...user,
+                cellphone: `${this.cellphoneRef.current.state.codeAreaPhone}${user.cellphone}`,
                 isDisabled: (user.isDisabled === 'Active' ? 0 : 1),
                 address: temptAddress,
                 workingTime: objWorkingTime,

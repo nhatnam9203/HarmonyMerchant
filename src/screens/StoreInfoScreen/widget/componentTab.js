@@ -60,9 +60,15 @@ class ItemAdminCellPhone extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            codeAreaPhone: '+1'
+            codeAreaPhone:  '+1'
         }
     }
+
+    setcodeAreaPhoneFromParent = async (code) =>{
+        await this.setState({
+            codeAreaPhone: code
+        })
+    }   
 
     render() {
         const { title, placeholder, value, onChangeText, secureTextEntry, maxLength } = this.props;

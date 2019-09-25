@@ -4,7 +4,7 @@ import _ from 'ramda';
 
 import Layout from './layout';
 import strings from './strings';
-import { validateEmail, getIdStateByName, getNameStateById } from '@utils';
+import { validateEmail, getIdStateByName, getNameStateById,getCodeAreaPhone } from '@utils';
 
 class AddStaff extends Layout {
 
@@ -100,6 +100,7 @@ class AddStaff extends Layout {
         this.inputRefsSalary = [];
         this.inputRefsTip = [];
         this.browserFileRef = React.createRef();
+        this.cellphoneRef = React.createRef();
 
     }
 
@@ -117,7 +118,7 @@ class AddStaff extends Layout {
                         state: getNameStateById(stateCity, infoStaffHandle.stateId),
                         zip: infoStaffHandle.zip
                     },
-                    cellphone: infoStaffHandle.phone,
+                    cellphone: getCodeAreaPhone(infoStaffHandle.phone).phone,
                     email: infoStaffHandle.email,
                     pin: infoStaffHandle.pin,
                     confirmPin: infoStaffHandle.pin,
@@ -134,6 +135,7 @@ class AddStaff extends Layout {
                 imageUrl: infoStaffHandle.imageUrl
             });
             this.browserFileRef.current.setImageUrlFromParent(infoStaffHandle.imageUrl);
+            this.cellphoneRef.current.setcodeAreaPhoneFromParent(getCodeAreaPhone(infoStaffHandle.phone).areaCode);
         }
 
     }
@@ -249,6 +251,7 @@ class AddStaff extends Layout {
             const temptAddress = { ...address, state: getIdStateByName(this.props.stateCity, address.state) };
             const temptStaff = {
                 ...user,
+                cellphone: `${this.cellphoneRef.current.state.codeAreaPhone}${user.cellphone}`,
                 address: temptAddress,
                 isDisabled: (user.isDisabled === 'Active' ? 0 : 1),
                 workingTime: objWorkingTime,

@@ -307,12 +307,32 @@ export const updateStateChildren = (key, value, parent) => {
 
 export const ListCodeAreaPhone = [
     {
-        value:'+1'
+        value: '+1'
     },
     {
-        value:'+84'
+        value: '+84'
     }
 ]
+
+export const getCodeAreaPhone = (phone) => {
+    if (`${phone}`.includes('+1')) {
+        const temptPhone = phone.split('+1');
+        return {
+            phone: temptPhone[1],
+            areaCode: '+1'
+        }
+    } else if (`${phone}`.includes('+84')) {
+        const temptPhone = phone.split('+84');
+        return {
+            phone: temptPhone[1],
+            areaCode: '+84'
+        }
+    }
+    return {
+        phone: phone,
+        areaCode: '+1'
+    }
+}
 
 export const WorkingTime = [
     {
