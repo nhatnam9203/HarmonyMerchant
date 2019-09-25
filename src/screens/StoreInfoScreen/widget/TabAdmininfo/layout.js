@@ -12,7 +12,7 @@ import {
     ButtonCustom, Text, BrowserFile
 } from '@components';
 import { scaleSzie, localize, getArrayNameStateCity } from '@utils';
-import { ItemAdminInfo, } from '../componentTab';
+import { ItemAdminInfo,ItemAdminCellPhone } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
 
@@ -94,14 +94,14 @@ class Layout extends React.Component {
                         onChangeText={(value) => this.updateUserInfo('zip', value, 'address')}
                     />
 
-                    <ItemAdminInfo
+                    <ItemAdminCellPhone
+                        ref={this.cellphoneRef}
                         title={`${localize('Cell phone', language)} *`}
                         placeholder={localize('Phone number', language)}
                         value={cellphone}
                         onChangeText={(value) => this.updateUserInfo('cellphone', value)}
-                        type={true}
-
                     />
+
                     <ItemAdminInfo
                         title={`${localize('Contact email', language)} *`}
                         placeholder={localize('Email')}
@@ -245,7 +245,7 @@ class Layout extends React.Component {
                         height: scaleSzie(70), paddingHorizontal: scaleSzie(90),
                         justifyContent: 'center', alignItems: 'flex-end'
                     }} >
-                       {this.renderButtonSubmit()}
+                        {this.renderButtonSubmit()}
                     </View>
                     <View style={{ height: scaleSzie(300) }} />
                 </ScrollView>

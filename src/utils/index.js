@@ -305,6 +305,15 @@ export const updateStateChildren = (key, value, parent) => {
     return { ...parent, [key]: value };
 }
 
+export const ListCodeAreaPhone = [
+    {
+        value:'+1'
+    },
+    {
+        value:'+84'
+    }
+]
+
 export const WorkingTime = [
     {
         value: '00:00 AM',

@@ -44,7 +44,7 @@ class StoreInfoScreen extends Layout {
         this.inputRefsSalary = [];
         this.inputRefsTip = [];
         this.browserFileRef = React.createRef();
-
+        this.cellphoneRef = React.createRef();
     }
 
     editButtonSubmit = async (isSubmit) => {
@@ -155,6 +155,7 @@ class StoreInfoScreen extends Layout {
             const temptAddress = { ...address, state: getIdStateByName(this.props.stateCity, address.state) };
             const temptStaff = {
                 ...user,
+                cellphone: `${this.cellphoneRef.current.state.codeAreaPhone}${user.cellphone}`,
                 isDisabled: (user.isDisabled === 'Active' ? 0 : 1),
                 address: temptAddress,
                 workingTime: objWorkingTime,
@@ -162,6 +163,7 @@ class StoreInfoScreen extends Layout {
                 tipFee: objTipFee,
                 fileId: this.state.fileId
             };
+            
             this.props.actions.staff.createAdmin(temptStaff);
         }
     }
