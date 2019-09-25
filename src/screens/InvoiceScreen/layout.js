@@ -180,11 +180,11 @@ export default class Layout extends React.Component {
                     />
                     <ItemInfo
                         title={localize('Date', language)}
-                        value={invoiceDetail.createdDate ? `${moment(invoiceDetail.createdDate).format('DD/MM/YYYY')}` : ''}
+                        value={invoiceDetail.createdDate ? `${moment.parseZone(invoiceDetail.createdDate).local().format('DD/MM/YYYY')}` : ''}
                     />
                     <ItemInfo
                         title={localize('Time', language)}
-                        value={invoiceDetail.createdDate ? `${moment(invoiceDetail.createdDate).format('h:mm A')}` : ''}
+                        value={invoiceDetail.createdDate ? `${moment.parseZone(invoiceDetail.createdDate).local().format('h:mm A')}` : ''}
                     />
                     <ItemInfo
                         title={localize('Status', language)}
@@ -200,12 +200,13 @@ export default class Layout extends React.Component {
                     />
                     <ItemInfo
                         title={localize('Created by', language)}
-                        value={''}
+                        value={invoiceDetail.createdBy ? invoiceDetail.createdBy : ''}
                     />
                     <ItemInfo
                         title={localize('Modified by', language)}
-                        value={''}
+                        value={invoiceDetail.modifiedBy ? invoiceDetail.modifiedBy : ''}
                     />
+                    <View style={{height:scaleSzie(2)}} />
                     {/* ------- button ------ */}
                     <ItemButton
                         title={'Payment information'}
@@ -268,7 +269,7 @@ export default class Layout extends React.Component {
                 {/* ----------- Body --------- */}
                 <View style={{ flex: 1 }} >
                     <View style={{ height: scaleSzie(16) }} />
-                    {/* <ItemInfo
+                    <ItemInfo
                         title={localize('Payment method', language)}
                         value={'Credit Card'}
                     />
@@ -283,7 +284,7 @@ export default class Layout extends React.Component {
                     <ItemInfo
                         title={localize('CC exp', language)}
                         value={'01/22'}
-                    /> */}
+                    />
                 </View>
             </View>
         );

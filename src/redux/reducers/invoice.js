@@ -26,7 +26,6 @@ function appReducer(state = initialState, action) {
                 refreshListInvoice: !action.isShowLoading
             }
         case 'GET_LIST_INVOICE_BY_MERCHANT_SUCCESS':
-            console.log('state  ' +  JSON.stringify(state.listInvoicesByMerchant));
             return {
                 ...state,
                 listInvoicesByMerchant: action.currentPage === 1 ? action.payload :state.listInvoicesByMerchant.concat(action.payload),

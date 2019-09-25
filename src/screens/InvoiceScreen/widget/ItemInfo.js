@@ -23,12 +23,12 @@ class ItemInfo extends React.Component {
         return (
             <View style={{ flexDirection: 'row' ,marginBottom:scaleSzie(4)}} >
                 <View style={{ flex: 1 }} >
-                    <Text style={{ fontSize: scaleSzie(14), color: '#404040', }} >
+                    <Text style={{ fontSize: scaleSzie(12), color: '#404040', }} >
                        {`${title}:`}
                 </Text>
                 </View>
                 <View style={{ flex: 1 }} >
-                    <Text style={{ fontSize: scaleSzie(14), color: '#404040', }} >
+                    <Text style={{ fontSize: scaleSzie(12), color: '#404040', }} >
                        {value}
                 </Text>
                 </View>

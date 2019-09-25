@@ -8,7 +8,7 @@ function* getListInvoicesByMerchant(action) {
     try {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
-        console.log('responses : ', responses);
+        // console.log('responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -29,7 +29,7 @@ function* getListInvoicesByMerchant(action) {
             })
         }
     } catch (error) {
-        console.log('error : ',error);
+        // console.log('error : ',error);
         if (`${error}` == 'TypeError: Network request failed') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',

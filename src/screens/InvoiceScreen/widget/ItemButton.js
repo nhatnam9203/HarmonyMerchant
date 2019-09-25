@@ -24,7 +24,7 @@ class ItemButton extends React.Component {
             <Button onPress={() =>onPress() } style={{
                 height: scaleSzie(34), backgroundColor: '#F1F1F1',
                 borderColor: '#C5C5C5', borderWidth: 1, borderRadius: 6,
-                flexDirection: 'row',marginBottom:5
+                flexDirection: 'row',marginBottom:scaleSzie(3)
             }} >
                 <View style={{ flex: 1 ,justifyContent:'center',paddingLeft:scaleSzie(10)}} >
                     <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A', }} >

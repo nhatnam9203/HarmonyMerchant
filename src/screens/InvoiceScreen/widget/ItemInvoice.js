@@ -44,7 +44,7 @@ class ItemInvoice extends React.Component {
     render() {
         const { invoice, onPress } = this.props;
         const { user } = invoice;
-        const tempDate = `${moment(invoice.createdDate).format('DD/MM/YYYY')}` === `${moment().format('DD/MM/YYYY')}` ? 'Today' : moment(invoice.createdDate).format('DD/MM/YYYY');
+        const tempDate = `${moment.parseZone(invoice.createdDate).local().format('DD/MM/YYYY')}` === `${moment.parseZone().local().format('DD/MM/YYYY')}` ? 'Today' : moment.parseZone(invoice.createdDate).local().format('DD/MM/YYYY');
         const temptFirstName = user ? user.firstName : '';
         const temptLastName = user ? user.lastName : '';
         const colorStaus = this.getColorStatus(invoice.status);
@@ -69,7 +69,7 @@ class ItemInvoice extends React.Component {
                     </View>
                     <View style={{ width: scaleSzie(80), justifyContent: 'center', alignItems: 'flex-end' }} >
                         <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A' }} >
-                            {`${moment(invoice.createdDate).format('h:mm A')}`}
+                            {`${moment.parseZone(invoice.createdDate).local().format('h:mm A')}`}
                         </Text>
                     </View>
                 </View>
