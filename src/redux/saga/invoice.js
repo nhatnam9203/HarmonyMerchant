@@ -8,12 +8,14 @@ function* getListInvoicesByMerchant(action) {
     try {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
-        // console.log('responses : ', responses);
+        console.log('responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'GET_LIST_INVOICE_BY_MERCHANT_SUCCESS',
-                payload: responses.data
+                payload: responses.data,
+                totalPages : responses.pages,
+                currentPage: action.currentPage
             })
 
         } else if (parseInt(codeNumber) === 401) {
@@ -27,6 +29,7 @@ function* getListInvoicesByMerchant(action) {
             })
         }
     } catch (error) {
+        console.log('error : ',error);
         if (`${error}` == 'TypeError: Network request failed') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
@@ -315,6 +318,6 @@ export default function* saga() {
         takeLatest('SEARCH_TRANSACTION_SETTLEMENT', searchTransactionSettlement),
         takeLatest('GET_BATCH_HISTORY', getBatchHistory),
         takeLatest('SEARCH_BATCH_HISTORY', searchBatchHistory),
-        
+
     ])
 }

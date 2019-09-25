@@ -33,9 +33,8 @@ class SetupHardware extends React.Component {
             alert('Please enter full infomation !');
         } else {
             this.props.actions.dataLocal.setupPaxMachine({ name, ip, port, timeout ,isSetup: true});
+            this.props.backListDevices();
         };
-
-        this.props.backListDevices();
     }
 
     cancelSetupPax = async () => {

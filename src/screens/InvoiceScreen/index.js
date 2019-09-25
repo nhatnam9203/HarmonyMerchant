@@ -25,10 +25,11 @@ class InvoiceScreen extends Layout {
         this.scrollTabInvoiceRef = React.createRef();
         this.modalCalendarRef = React.createRef();
         this.listInvoiceRef = [];
+        this.onEndReachedCalledDuringMomentum = true;
     }
 
     componentDidMount() {
-        this.props.actions.invoice.getListInvoicesByMerchant();
+        this.props.actions.invoice.getListInvoicesByMerchant(true,2);
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {
@@ -236,6 +237,17 @@ class InvoiceScreen extends Layout {
 
     }
 
+    loadMoreInvoiceList = ({ distanceFromEnd }) => {
+        if (!this.onEndReachedCalledDuringMomentum) {
+            const { totalPages, currentPage } = this.props;
+            if (currentPage < totalPages) {
+                this.props.actions.invoice.getListInvoicesByMerchant(false, parseInt(currentPage + 1));
+                this.onEndReachedCalledDuringMomentum = true;
+            }
+           
+        }
+    }
+
 
     componentWillUnmount() {
         this.didBlurSubscription.remove();
@@ -251,7 +263,10 @@ const mapStateToProps = state => ({
     listInvoicesByMerchant: state.invoice.listInvoicesByMerchant,
     refreshListInvoice: state.invoice.refreshListInvoice,
     listInvoicesSearch: state.invoice.listInvoicesSearch,
-    isShowSearchInvoice: state.invoice.isShowSearchInvoice
+    isShowSearchInvoice: state.invoice.isShowSearchInvoice,
+
+    totalPages: state.invoice.totalPages,
+    currentPage: state.invoice.currentPage
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);

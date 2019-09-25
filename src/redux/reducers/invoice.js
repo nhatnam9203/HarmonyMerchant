@@ -1,5 +1,7 @@
 const initialState = {
     listInvoicesByMerchant: [],
+    totalPages: 0,
+    currentPage: 0,
     refreshListInvoice: false,
     listInvoicesSearch: [],
     isShowSearchInvoice: false,
@@ -24,9 +26,13 @@ function appReducer(state = initialState, action) {
                 refreshListInvoice: !action.isShowLoading
             }
         case 'GET_LIST_INVOICE_BY_MERCHANT_SUCCESS':
+            console.log('state  ' +  JSON.stringify(state.listInvoicesByMerchant));
             return {
                 ...state,
-                listInvoicesByMerchant: action.payload,
+                listInvoicesByMerchant: action.currentPage === 1 ? action.payload :state.listInvoicesByMerchant.concat(action.payload),
+                // listInvoicesByMerchant: action.payload ,
+                totalPages: action.totalPages,
+                currentPage: action.currentPage,
                 refreshListInvoice: false
             }
         case 'SEARCH_INVOICE_SUCCESS':

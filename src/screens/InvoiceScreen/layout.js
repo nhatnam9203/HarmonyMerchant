@@ -459,13 +459,16 @@ export default class Layout extends React.Component {
                                 onPress={() => this.setInvoiceDetail(item)}
                             />}
                             keyExtractor={(item, index) => `${item.checkoutId}`}
-                            onRefresh={() => this.props.actions.invoice.getListInvoicesByMerchant(false)}
+                            onRefresh={() => this.props.actions.invoice.getListInvoicesByMerchant(false,1)}
                             refreshing={refreshListInvoice}
                             ListEmptyComponent={() => <View style={{ width: '100%', alignItems: 'center', paddingTop: scaleSzie(20) }} >
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
                                     List Empty
                                 </Text>
                             </View>}
+                              onEndReached={this.loadMoreInvoiceList}
+                              onEndReachedThreshold={0.5}
+                              onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
                         />
                     </View>
                 </View>
