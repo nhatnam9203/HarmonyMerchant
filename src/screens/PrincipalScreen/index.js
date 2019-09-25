@@ -42,6 +42,8 @@ class PrincipalScreen extends Layout {
             dateOfBirth: new Date()
         };
         this.uploadVoidCheckRef = React.createRef();
+        this.homePhoneRef = React.createRef();
+        this.mobilePhoneRef = React.createRef();
     }
 
     componentDidMount() {
@@ -147,10 +149,12 @@ class PrincipalScreen extends Layout {
             Alert.alert(`${strings[keyError]}`);
         } else {
             if (uriUpload != '') {
-                const {  addressPrincipal } = principalInfo;
+                const { addressPrincipal } = principalInfo;
                 const temptAddressPrincipal = { ...addressPrincipal, state: getIdStateByName(this.props.stateCity, addressPrincipal.state) };
                 const temptPrincipalInfo = {
                     ...principalInfo,
+                    homePhone: `${this.homePhoneRef.current.state.codeAreaPhone}${principalInfo.homePhone}`,
+                     mobilePhone: `${this.mobilePhoneRef.current.state.codeAreaPhone}${principalInfo.mobilePhone}`,
                     dateOfBirth: `${moment(this.state.dateOfBirth).format('MM/DD/YYYY')}`,
                     fileId: this.state.fileId,
                     addressPrincipal: temptAddressPrincipal
@@ -167,12 +171,12 @@ class PrincipalScreen extends Layout {
 
     setDateSelected = (date) => {
         this.setState({
-            dateOfBirth : date
+            dateOfBirth: date
         })
     }
 
 
-    showCalendar =() =>{
+    showCalendar = () => {
         this.setState({
             showCalendar: true
         })

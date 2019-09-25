@@ -8,6 +8,7 @@ import {
 import moment from 'moment';
 
 import { InputForm, FormInfoParent, Text, Dropdown, Button, PopupUpload, DatePicker ,
+    InputFormPhone
 } from '@components';
 import { scaleSzie, localize, getArrayNameStateCity } from '@utils';
 import IMAGE from '@resources';
@@ -95,8 +96,8 @@ export default class Layout extends React.Component {
 
                     <View style={{ flexDirection: 'row' }} >
                         <View style={{ flex: 1 }} >
-                            <InputForm
-                                isOnlyNumber={true}
+                            <InputFormPhone
+                                ref={this.homePhoneRef}
                                 title={localize('Home Phone *', language)}
                                 subTitle=""
                                 placeholder=""
@@ -106,8 +107,8 @@ export default class Layout extends React.Component {
                             />
                         </View>
                         <View style={{ flex: 1, paddingLeft: scaleSzie(20) }} >
-                            <InputForm
-                                isOnlyNumber={true}
+                            <InputFormPhone
+                                ref={this.mobilePhoneRef}
                                 title={`${localize('Mobile Phone', language)} *`}
                                 subTitle=""
                                 placeholder=""
