@@ -1,6 +1,6 @@
 import apiConfigs from '../../configs/api';
 
-export function getListInvoicesByMerchant(isShowLoading = true,page = 1) {
+export function getListInvoicesByMerchant(isShowLoading = true, page = 1) {
     return {
         type: 'GET_LIST_INVOICE_BY_MERCHANT',
         method: 'GET',
@@ -94,4 +94,11 @@ export function clearSearchBatchHistory() {
     }
 }
 
-
+export function getBasketOfInvoice(checkoutId) {
+    return {
+        type: 'GET_BASKET_OF_INVOICE',
+        method: 'GET',
+        api: `${apiConfigs.BASE_API}appointment/${checkoutId}`,
+        token: true
+    }
+}

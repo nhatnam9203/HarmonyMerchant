@@ -15,6 +15,7 @@ const initialState = {
     listBatchHistory: [],
     listBatchHistorySearch: [],
     isShowSearchBatchHistory: false,
+    basketOfInvoice : {},
 
 }
 
@@ -28,7 +29,7 @@ function appReducer(state = initialState, action) {
         case 'GET_LIST_INVOICE_BY_MERCHANT_SUCCESS':
             return {
                 ...state,
-                listInvoicesByMerchant: action.currentPage === 1 ? action.payload :state.listInvoicesByMerchant.concat(action.payload),
+                listInvoicesByMerchant: action.currentPage === 1 ? action.payload : state.listInvoicesByMerchant.concat(action.payload),
                 // listInvoicesByMerchant: action.payload ,
                 totalPages: action.totalPages,
                 currentPage: action.currentPage,
@@ -90,6 +91,12 @@ function appReducer(state = initialState, action) {
                 listBatchHistorySearch: [],
                 isShowSearchBatchHistory: false
             }
+        case 'GET_BASKET_OF_INVOICE_SUCCESS':
+            return {
+                ...state,
+                basketOfInvoice: action.payload,
+            }
+
 
         default:
             return state

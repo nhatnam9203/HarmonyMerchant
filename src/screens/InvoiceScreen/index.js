@@ -29,7 +29,7 @@ class InvoiceScreen extends Layout {
     }
 
     componentDidMount() {
-        this.props.actions.invoice.getListInvoicesByMerchant(true,1);
+        this.props.actions.invoice.getListInvoicesByMerchant(true, 1);
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {
@@ -224,7 +224,8 @@ class InvoiceScreen extends Layout {
     }
 
     setInvoiceDetail = async (invoice) => {
-        this.setState({
+        // this.props.actions.invoice.getBasketOfInvoice(invoice.checkoutId);
+        await this.setState({
             invoiceDetail: invoice
         });
         for (let i = 0; i < this.listInvoiceRef.length; i++) {
@@ -244,7 +245,7 @@ class InvoiceScreen extends Layout {
                 this.props.actions.invoice.getListInvoicesByMerchant(false, parseInt(currentPage + 1));
                 this.onEndReachedCalledDuringMomentum = true;
             }
-           
+
         }
     }
 
@@ -266,7 +267,8 @@ const mapStateToProps = state => ({
     isShowSearchInvoice: state.invoice.isShowSearchInvoice,
 
     totalPages: state.invoice.totalPages,
-    currentPage: state.invoice.currentPage
+    currentPage: state.invoice.currentPage,
+    basketOfInvoice: state.invoice.basketOfInvoice
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);

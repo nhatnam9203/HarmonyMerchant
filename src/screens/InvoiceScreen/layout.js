@@ -206,7 +206,7 @@ export default class Layout extends React.Component {
                         title={localize('Modified by', language)}
                         value={invoiceDetail.modifiedBy ? invoiceDetail.modifiedBy : ''}
                     />
-                    <View style={{height:scaleSzie(2)}} />
+                    <View style={{ height: scaleSzie(2) }} />
                     {/* ------- button ------ */}
                     <ItemButton
                         title={'Payment information'}
@@ -291,7 +291,7 @@ export default class Layout extends React.Component {
     }
 
     renderBasket() {
-        const { language } = this.props;
+        const { language, basketOfInvoice } = this.props;
         const { invoiceDetail } = this.state;
         const basket = invoiceDetail.basket ? this.convertBasket(invoiceDetail.basket) : [];
         return (
@@ -345,7 +345,7 @@ export default class Layout extends React.Component {
                                     {`${localize('Subtotal', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$ ${invoiceDetail.total ? `${invoiceDetail.total}` : 0}`}
+                                    {`$ ${invoiceDetail.subTotal ? `${invoiceDetail.subTotal}` : '0.00'}`}
                                 </Text>
                             </View>
                             {/* ---------- Tax ------ */}
@@ -354,8 +354,8 @@ export default class Layout extends React.Component {
                                     {`${localize('Tax', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    $0
-                            </Text>
+                                    {`$ ${invoiceDetail.tax ? `${invoiceDetail.tax}` : '0.00'}`}
+                                </Text>
                             </View>
                             {/* ---------- Discount ------ */}
                             <View style={styles.payNumberTextContainer} >
@@ -364,8 +364,8 @@ export default class Layout extends React.Component {
 
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    $0
-                            </Text>
+                                    {`$ ${invoiceDetail.discount ? `${invoiceDetail.discount}` : '0.00'}`}
+                                </Text>
                             </View>
                             {/* ---------- Total ------ */}
                             <View style={styles.payNumberTextContainer} >
@@ -373,7 +373,7 @@ export default class Layout extends React.Component {
                                     {`${localize('Total', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(16) }]} >
-                                    {`$ ${invoiceDetail.total ? `${invoiceDetail.total}` : 0}`}
+                                    {`$ ${invoiceDetail.total ? `${invoiceDetail.total}` : '0.00'}`}
                                 </Text>
                             </View>
                         </View>
@@ -460,16 +460,16 @@ export default class Layout extends React.Component {
                                 onPress={() => this.setInvoiceDetail(item)}
                             />}
                             keyExtractor={(item, index) => `${item.checkoutId}`}
-                            onRefresh={() => this.props.actions.invoice.getListInvoicesByMerchant(false,1)}
+                            onRefresh={() => this.props.actions.invoice.getListInvoicesByMerchant(false, 1)}
                             refreshing={refreshListInvoice}
                             ListEmptyComponent={() => <View style={{ width: '100%', alignItems: 'center', paddingTop: scaleSzie(20) }} >
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
                                     List Empty
                                 </Text>
                             </View>}
-                              onEndReached={this.loadMoreInvoiceList}
-                              onEndReachedThreshold={0.5}
-                              onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
+                            onEndReached={this.loadMoreInvoiceList}
+                            onEndReachedThreshold={0.5}
+                            onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
                         />
                     </View>
                 </View>

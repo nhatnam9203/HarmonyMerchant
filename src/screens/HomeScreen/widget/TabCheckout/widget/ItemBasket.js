@@ -4,7 +4,7 @@ import {
     Image,
 
 } from 'react-native';
-import Swipeout from 'react-native-swipeout';
+import Swipeout from 'react-native-swipeout'
 
 import { scaleSzie, localize } from '@utils';
 import { Text, Button } from '@components';
