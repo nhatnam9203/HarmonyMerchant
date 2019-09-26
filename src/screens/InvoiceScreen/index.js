@@ -224,10 +224,6 @@ class InvoiceScreen extends Layout {
     }
 
     setInvoiceDetail = async (invoice) => {
-        // this.props.actions.invoice.getBasketOfInvoice(invoice.checkoutId);
-        await this.setState({
-            invoiceDetail: invoice
-        });
         for (let i = 0; i < this.listInvoiceRef.length; i++) {
             if (this.listInvoiceRef[i].props.invoice.checkoutId === invoice.checkoutId) {
                 this.listInvoiceRef[i].setStateFromParent(true);
@@ -235,6 +231,10 @@ class InvoiceScreen extends Layout {
                 this.listInvoiceRef[i].setStateFromParent(false);
             }
         }
+        await this.setState({
+            invoiceDetail: invoice
+        });
+
 
     }
 
@@ -249,6 +249,10 @@ class InvoiceScreen extends Layout {
         }
     }
 
+    changeStatustransaction = () => {
+        const { invoiceDetail } = this.state;
+        this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId);
+    }
 
     componentWillUnmount() {
         this.didBlurSubscription.remove();

@@ -14,7 +14,7 @@ function* getListInvoicesByMerchant(action) {
             yield put({
                 type: 'GET_LIST_INVOICE_BY_MERCHANT_SUCCESS',
                 payload: responses.data,
-                totalPages : responses.pages,
+                totalPages: responses.pages,
                 currentPage: action.currentPage
             })
 
@@ -204,8 +204,12 @@ function* searchTransactionSettlement(action) {
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
-                type: 'SEARCH_TRANSACTION_SETTLEMENT_SUCCESS',
-                payload: responses.data
+                type: 'GET_LIST_INVOICE_BY_MERCHANT',
+                method: 'GET',
+                api: `${apiConfigs.BASE_API}checkout?page=${1}`,
+                token: true,
+                isShowLoading: true,
+                currentPage: 1
             })
 
         } else if (parseInt(codeNumber) === 401) {
@@ -307,17 +311,18 @@ function* searchBatchHistory(action) {
     }
 }
 
-function* getBasketOfInvoice(action) {
+
+function* changeStatustransaction(action) {
     try {
-        // yield put({ type: 'LOADING_ROOT' });
+        yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('getBasketOfInvoice  : ' + JSON.stringify(responses));
+        console.log('changeStatustransaction  : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            yield put({
-                type: 'GET_BASKET_OF_INVOICE_SUCCESS',
-                payload: responses.data
-            })
+            // yield put({
+            //     type: 'SEARCH_BATCH_HISTORY_SUCCESS',
+            //     payload: responses.data
+            // })
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -330,6 +335,7 @@ function* getBasketOfInvoice(action) {
             })
         }
     } catch (error) {
+        console.log('error : ',error);
         if (`${error}` == 'TypeError: Network request failed') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
@@ -340,9 +346,11 @@ function* getBasketOfInvoice(action) {
             });
         }
     } finally {
+       
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
 }
+
 
 
 export default function* saga() {
@@ -355,7 +363,7 @@ export default function* saga() {
         takeLatest('SEARCH_TRANSACTION_SETTLEMENT', searchTransactionSettlement),
         takeLatest('GET_BATCH_HISTORY', getBatchHistory),
         takeLatest('SEARCH_BATCH_HISTORY', searchBatchHistory),
-        takeLatest('GET_BASKET_OF_INVOICE', getBasketOfInvoice),
-        
+        takeLatest('CHANGE_STATUS_TRANSACTION', changeStatustransaction),
+
     ])
 }

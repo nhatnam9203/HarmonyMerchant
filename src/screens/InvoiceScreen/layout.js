@@ -159,6 +159,42 @@ export default class Layout extends React.Component {
         );
     }
 
+    renderButtonVoid() {
+        const { language } = this.props;
+        const { invoiceDetail } = this.state;
+        const status = invoiceDetail.status ? invoiceDetail.status : '';
+        if (status === 'paid') {
+            return (
+                <ButtonCustom
+                    width={'100%'}
+                    height={50}
+                    backgroundColor="#F1F1F1"
+                    title={localize('Refund', language)}
+                    textColor="#6A6A6A"
+                    onPress={this.changeStatustransaction}
+                    style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                    styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
+                />
+            );
+        } else if (status === 'pending') {
+            return (
+                <ButtonCustom
+                    width={'100%'}
+                    height={50}
+                    backgroundColor="#F1F1F1"
+                    title={localize('VOID', language)}
+                    textColor="#6A6A6A"
+                    onPress={this.changeStatustransaction}
+                    style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                    styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
+                />
+            );
+        } else {
+            return <View />
+        }
+
+    }
+
     renderDetailInvoice() {
         const { language } = this.props;
         const { invoiceDetail } = this.state;
@@ -221,16 +257,8 @@ export default class Layout extends React.Component {
                         onPress={this.gotoHistory}
                     />
 
-                    <ButtonCustom
-                        width={'100%'}
-                        height={50}
-                        backgroundColor="#F1F1F1"
-                        title={localize('VOID', language)}
-                        textColor="#6A6A6A"
-                        onPress={this.searchInvoice}
-                        style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                        styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
-                    />
+                    {/* ------- button void  ------ */}
+                    {this.renderButtonVoid()}
                     <View style={{ height: scaleSzie(70) }} />
                 </ScrollView>
 
@@ -242,8 +270,8 @@ export default class Layout extends React.Component {
     renderCardInfo() {
         const { language } = this.props;
         const { invoiceDetail } = this.state;
-        if(invoiceDetail.paymentMethod && invoiceDetail.paymentMethod ==='credit_card'){
-            const {paymentInformation} = invoiceDetail;
+        if (invoiceDetail.paymentMethod && invoiceDetail.paymentMethod === 'credit_card') {
+            const { paymentInformation } = invoiceDetail;
             return (
                 <View style={{ flex: 1 }} >
                     <View style={{ height: scaleSzie(16) }} />
@@ -253,22 +281,21 @@ export default class Layout extends React.Component {
                     />
                     <ItemInfo
                         title={localize('CC type', language)}
-                        value={paymentInformation.type ? paymentInformation.type : '' }
+                        value={paymentInformation.type ? paymentInformation.type : ''}
                     />
                     <ItemInfo
                         title={localize('CC number', language)}
-                        // value={'xxxx xxxx xxxx 0001'}
-                        value={paymentInformation.number ? paymentInformation.number : '' }
+                        value={paymentInformation.number ? `xxxx xxxx xxxx ${paymentInformation.number}` : ''}
                     />
                     <ItemInfo
                         title={localize('CC exp', language)}
-                        value={paymentInformation.exp ? paymentInformation.exp : '' }
+                        value={paymentInformation.exp ? paymentInformation.exp : ''}
                     />
                 </View>
             );
         }
         return <View />;
-       
+
     }
 
     renderPaymentInfomation() {

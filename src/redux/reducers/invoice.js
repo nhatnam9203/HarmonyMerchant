@@ -15,7 +15,6 @@ const initialState = {
     listBatchHistory: [],
     listBatchHistorySearch: [],
     isShowSearchBatchHistory: false,
-    basketOfInvoice : {},
 
 }
 
@@ -91,13 +90,6 @@ function appReducer(state = initialState, action) {
                 listBatchHistorySearch: [],
                 isShowSearchBatchHistory: false
             }
-        case 'GET_BASKET_OF_INVOICE_SUCCESS':
-            return {
-                ...state,
-                basketOfInvoice: action.payload,
-            }
-
-
         default:
             return state
     }

@@ -94,11 +94,13 @@ export function clearSearchBatchHistory() {
     }
 }
 
-export function getBasketOfInvoice(checkoutId) {
+export function changeStatustransaction(checkoutId) {
     return {
-        type: 'GET_BASKET_OF_INVOICE',
-        method: 'GET',
-        api: `${apiConfigs.BASE_API}appointment/${checkoutId}`,
+        type: 'CHANGE_STATUS_TRANSACTION',
+        method: 'PUT',
+        body:{},
+        api: `${apiConfigs.BASE_API}checkout/paymentvoidrefundtransaction/${checkoutId}`,
         token: true
     }
 }
+
