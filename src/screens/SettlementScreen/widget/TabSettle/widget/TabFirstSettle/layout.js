@@ -10,13 +10,14 @@ import {
 import { NavigationEvents } from 'react-navigation';
 import moment from 'moment';
 
-import { scaleSzie, localize ,formatNumberFromCurrency,formatMoney} from '@utils';
+import { scaleSzie, localize, formatNumberFromCurrency, formatMoney } from '@utils';
 import {
     Text, Button, ButtonCustom,
 } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import TextInputAmount from './widget/TextInputAmount';
+import ItemStaff from './widget/ItemStaff';
 
 class Layout extends React.Component {
 
@@ -86,11 +87,15 @@ class Layout extends React.Component {
     }
 
     renderItemStaff(item, index) {
+        const { indexStaffList } = this.state;
+        console.log('indexStaffList : ', indexStaffList);
+        const temptColorSelected = index != indexStaffList ? {} : { backgroundColor: '#F1F1F1' };
         return (
-            <Button onPress={() => this.getInvoicesOfStaff(item.staffId)} style={{
+            <Button onPress={() => this.getInvoicesOfStaff(item.staffId, index)} style={[{
                 height: scaleSzie(40), borderBottomColor: '#C5C5C5', borderBottomWidth: 1,
-                paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
-            }} >
+                paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center',
+                justifyContent: 'space-between'
+            }, temptColorSelected]} >
                 <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
                     {`${index + 1}. ${item.name}`}
                 </Text>
@@ -154,7 +159,7 @@ class Layout extends React.Component {
         if (invoicesOfStaff.length > 0) {
             invoicesOfStaff.forEach(invoice => {
                 tipAmount = parseFloat(tipAmount) + parseFloat(formatNumberFromCurrency(invoice.tipAmount));
-                totalAmount = parseFloat(totalAmount) +  parseFloat(formatNumberFromCurrency(invoice.amount));
+                totalAmount = parseFloat(totalAmount) + parseFloat(formatNumberFromCurrency(invoice.amount));
             });
         }
         return (
@@ -164,7 +169,14 @@ class Layout extends React.Component {
                         <View style={{ flex: 1, borderColor: '#C5C5C5', borderWidth: 1 }} >
                             <FlatList
                                 data={settlementStaff}
-                                renderItem={({ item, index }) => this.renderItemStaff(item, index)}
+                                // renderItem={({ item, index }) => this.renderItemStaff(item, index)}
+                                renderItem={({ item, index }) => <ItemStaff
+                                    ref={this.pushStaffIntoArrayStaff}
+                                    item={item}
+                                    index={index}
+                                    getInvoicesOfStaff={this.getInvoicesOfStaff}
+                                    staffId={item.staffId}
+                                />}
                                 keyExtractor={(item, index) => `${item.staffId}`}
                             />
                         </View>

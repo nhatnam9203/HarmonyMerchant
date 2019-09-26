@@ -12,12 +12,19 @@ class TabFirstSettle extends Layout {
         super(props);
         this.state = {
             creditCount: 0,
-            creditAmount: 0
+            creditAmount: 0,
         };
+        this.arrayStaffRef = [];
     }
 
     onDidFocus = (payload) => {
         this.handleReport();
+    }
+
+    pushStaffIntoArrayStaff = ref => {
+        if (ref) {
+            this.arrayStaffRef.push(ref);
+        }
     }
 
     handleReport() {
@@ -51,14 +58,21 @@ class TabFirstSettle extends Layout {
         this.props.gotoTabSecondSettle();
     }
 
-    getInvoicesOfStaff = (staffId) => {
+    getInvoicesOfStaff = async (staffId) => {
         this.props.actions.invoice.invoicesOfStaff(staffId);
+        for (let i = 0; i < this.arrayStaffRef.length; i++) {
+            if (this.arrayStaffRef[i].props.staffId === staffId) {
+                this.arrayStaffRef[i].setStateFromParent(true);
+            } else {
+                this.arrayStaffRef[i].setStateFromParent(false);
+            }
+        }
     }
 
-    componentDidUpdate(prevProps,prevState){
-        const {loading,isGetSettleWaiting} = this.props;
-        if(!loading && loading !== prevProps.loading && isGetSettleWaiting ){
-            
+    componentDidUpdate(prevProps, prevState) {
+        const { loading, isGetSettleWaiting } = this.props;
+        if (!loading && loading !== prevProps.loading && isGetSettleWaiting) {
+
         }
 
     }
@@ -71,7 +85,7 @@ const mapStateToProps = state => ({
     settleWaiting: state.invoice.settleWaiting,
     invoicesOfStaff: state.invoice.invoicesOfStaff,
     isGetSettleWaiting: state.invoice.isGetSettleWaiting,
-    loading : state.app.loading
+    loading: state.app.loading
 })
 
 
