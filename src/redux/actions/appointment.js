@@ -145,14 +145,15 @@ export function changeFlagSigninAppointment(flag = false) {
 }
 
 
-export function submitPaymentWithCreditCard(merchantId, userId, responseData) {
+export function submitPaymentWithCreditCard(merchantId, userId, responseData,appointmentId) {
     return {
         type: 'SUBMIT_PAYMENT_WITH_CREDIT_CARD',
         body: {
             merchantId,
             userId,
             title: 'pax',
-            responseData
+            responseData,
+            appointmentId
         },
         method: 'POST',
         token: true,

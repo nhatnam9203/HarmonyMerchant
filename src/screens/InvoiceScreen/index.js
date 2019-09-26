@@ -268,7 +268,6 @@ const mapStateToProps = state => ({
 
     totalPages: state.invoice.totalPages,
     currentPage: state.invoice.currentPage,
-    basketOfInvoice: state.invoice.basketOfInvoice
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);

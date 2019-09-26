@@ -239,8 +239,39 @@ export default class Layout extends React.Component {
         );
     }
 
-    renderPaymentInfomation() {
+    renderCardInfo() {
         const { language } = this.props;
+        const { invoiceDetail } = this.state;
+        if(invoiceDetail.paymentMethod && invoiceDetail.paymentMethod ==='credit_card'){
+            const {paymentInformation} = invoiceDetail;
+            return (
+                <View style={{ flex: 1 }} >
+                    <View style={{ height: scaleSzie(16) }} />
+                    <ItemInfo
+                        title={localize('Payment method', language)}
+                        value={'Credit Card'}
+                    />
+                    <ItemInfo
+                        title={localize('CC type', language)}
+                        value={paymentInformation.type ? paymentInformation.type : '' }
+                    />
+                    <ItemInfo
+                        title={localize('CC number', language)}
+                        // value={'xxxx xxxx xxxx 0001'}
+                        value={paymentInformation.number ? paymentInformation.number : '' }
+                    />
+                    <ItemInfo
+                        title={localize('CC exp', language)}
+                        value={paymentInformation.exp ? paymentInformation.exp : '' }
+                    />
+                </View>
+            );
+        }
+        return <View />;
+       
+    }
+
+    renderPaymentInfomation() {
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(8) }} >
                 {/* ---------------- Header ---------------- */}
@@ -267,31 +298,14 @@ export default class Layout extends React.Component {
                     </View>
                 </View>
                 {/* ----------- Body --------- */}
-                <View style={{ flex: 1 }} >
-                    <View style={{ height: scaleSzie(16) }} />
-                    <ItemInfo
-                        title={localize('Payment method', language)}
-                        value={'Credit Card'}
-                    />
-                    <ItemInfo
-                        title={localize('CC type', language)}
-                        value={'Visa/Master'}
-                    />
-                    <ItemInfo
-                        title={localize('CC number', language)}
-                        value={'xxxx xxxx xxxx 0001'}
-                    />
-                    <ItemInfo
-                        title={localize('CC exp', language)}
-                        value={'01/22'}
-                    />
-                </View>
+                {this.renderCardInfo()}
+
             </View>
         );
     }
 
     renderBasket() {
-        const { language, basketOfInvoice } = this.props;
+        const { language } = this.props;
         const { invoiceDetail } = this.state;
         const basket = invoiceDetail.basket ? this.convertBasket(invoiceDetail.basket) : [];
         return (

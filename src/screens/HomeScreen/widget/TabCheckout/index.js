@@ -14,6 +14,8 @@ import {
 import PrintManager from '@lib/PrintManager';
 import apiConfigs from '@configs/api';
 
+const PosLink = NativeModules.MyApp;
+
 const initState = {
     isShowColProduct: false,
     isShowColAmount: false,
@@ -49,8 +51,6 @@ const initState = {
     visibleConfirm: false,
     visibleChangeStylist: false
 }
-
-const PosLink = NativeModules.MyApp;
 
 class TabCheckout extends Layout {
 
@@ -444,11 +444,12 @@ class TabCheckout extends Layout {
 
         // 3. Send Transaction 
 
-        PosLink.sendTransaction(total, (message) => this.handleResponseCreditCard(message));
+        PosLink.sendTransaction(100, (message) => this.handleResponseCreditCard(message));
     }
 
     async handleResponseCreditCard(message) {
         // console.log('---- Response : ',message);
+        const { appointmentId } = this.state;
         await this.setState({
             visibleProcessingCredit: false
         })
@@ -465,7 +466,7 @@ class TabCheckout extends Layout {
             } else {
                 const { profile } = this.props;
                 // ------ Payment with credit card success ----
-                this.props.actions.appointment.submitPaymentWithCreditCard(profile.merchantId, '0', message);
+                this.props.actions.appointment.submitPaymentWithCreditCard(profile.merchantId, '0', message,appointmentId);
 
             }
             // console.log('message : ', message);

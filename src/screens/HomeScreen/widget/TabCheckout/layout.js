@@ -316,7 +316,7 @@ class Layout extends React.Component {
                                     {`${localize('Total', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(20) }]} >
-                                    {`$${parseFloat(Math.round(total * 100) / 100).toFixed(2)}`}
+                                    {`$${total}`}
                                 </Text>
                             </View>
                         </View>
