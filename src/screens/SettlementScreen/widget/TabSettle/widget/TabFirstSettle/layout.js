@@ -10,7 +10,7 @@ import {
 import { NavigationEvents } from 'react-navigation';
 import moment from 'moment';
 
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize ,formatNumberFromCurrency,formatMoney} from '@utils';
 import {
     Text, Button, ButtonCustom,
 } from '@components';
@@ -153,8 +153,8 @@ class Layout extends React.Component {
         let totalAmount = 0;
         if (invoicesOfStaff.length > 0) {
             invoicesOfStaff.forEach(invoice => {
-                tipAmount = tipAmount + invoice.tipAmount;
-                totalAmount = totalAmount + invoice.amount;
+                tipAmount = parseFloat(tipAmount) + parseFloat(formatNumberFromCurrency(invoice.tipAmount));
+                totalAmount = parseFloat(totalAmount) +  parseFloat(formatNumberFromCurrency(invoice.amount));
             });
         }
         return (
@@ -195,12 +195,12 @@ class Layout extends React.Component {
                     <View style={{ alignItems: 'flex-end', paddingRight: scaleSzie(10), paddingTop: scaleSzie(10) }} >
                         <Text style={{ fontSize: scaleSzie(12), color: '#404040', marginBottom: scaleSzie(10) }} >
                             Tip Amount: <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginLeft: scaleSzie(5) }} >
-                                {`  $  ${parseInt(tipAmount)}`}
+                                {`  $  ${formatMoney(tipAmount)}`}
                             </Text>
                         </Text>
                         <Text style={{ fontSize: scaleSzie(12), color: '#404040', }} >
                             Total Amount: <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginLeft: scaleSzie(5) }} >
-                                {`  $  ${parseInt(totalAmount)}`}
+                                {`  $  ${formatMoney(totalAmount)}`}
                             </Text>
                         </Text>
                     </View>

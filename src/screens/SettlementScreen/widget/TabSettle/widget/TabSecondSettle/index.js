@@ -74,19 +74,40 @@ class TabSecondSettle extends Layout {
     settle = async () => {
         const { paxMachineInfo } = this.props;
         const { ip, port, timeout, isSetup } = paxMachineInfo;
-        if (isSetup) {
-            await this.setState({
-                numberFooter: 2,
-            });
-            setTimeout(() => {
-                this.setState({
-                    progress: 0.5,
-                });
-            }, 100);
-            PosLink.setupPax(ip, port, timeout);
-            PosLink.batchTransaction(message => this.handleResponseBatchTransactions(message));
-        } else {
-            alert('Please setup your pax machine in setting');
+        // if (isSetup) {
+        //     await this.setState({
+        //         numberFooter: 2,
+        //     });
+        //     setTimeout(() => {
+        //         this.setState({
+        //             progress: 0.5,
+        //         });
+        //     }, 100);
+        //     PosLink.setupPax(ip, port, timeout);
+        //     PosLink.batchTransaction(message => this.handleResponseBatchTransactions(message));
+        // } else {
+        //     alert('Please setup your pax machine in setting');
+        // }
+
+        const body = {
+            paymentByHarmony: 47528.0,
+            paymentByCreditCard: 0.0,
+            paymentByCash: 3162.0,
+            otherPayment: 0.0,
+            total: 50690.0,
+            note: "test thu thoi",
+            checkout: [
+                633,
+                632,
+                612,
+                544,
+                432,
+                412,
+                411,
+                410,
+                405,
+                383
+            ]
         }
     }
 
