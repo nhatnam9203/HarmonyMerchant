@@ -335,6 +335,10 @@ export const getCodeAreaPhone = (phone) => {
     }
 }
 
+export const formatNumberFromCurrency = currency => {
+    return Number(currency.replace(/[^0-9.-]+/g, ""));
+}
+
 export const WorkingTime = [
     {
         value: '00:00 AM',

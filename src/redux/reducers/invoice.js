@@ -96,3 +96,4 @@ function appReducer(state = initialState, action) {
 }
 
 module.exports = appReducer;
+

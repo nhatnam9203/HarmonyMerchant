@@ -9,7 +9,7 @@ import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment,
-    getArrayExtrasFromAppointment
+    getArrayExtrasFromAppointment,formatNumberFromCurrency
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 import apiConfigs from '@configs/api';
@@ -444,7 +444,7 @@ class TabCheckout extends Layout {
 
         // 3. Send Transaction 
 
-        PosLink.sendTransaction(100, (message) => this.handleResponseCreditCard(message));
+        PosLink.sendTransaction(formatNumberFromCurrency(total)*100, (message) => this.handleResponseCreditCard(message));
     }
 
     async handleResponseCreditCard(message) {

@@ -204,12 +204,8 @@ function* searchTransactionSettlement(action) {
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
-                type: 'GET_LIST_INVOICE_BY_MERCHANT',
-                method: 'GET',
-                api: `${apiConfigs.BASE_API}checkout?page=${1}`,
-                token: true,
-                isShowLoading: true,
-                currentPage: 1
+                type: 'SEARCH_TRANSACTION_SETTLEMENT_SUCCESS',
+                payload: responses.data
             })
 
         } else if (parseInt(codeNumber) === 401) {
@@ -314,15 +310,19 @@ function* searchBatchHistory(action) {
 
 function* changeStatustransaction(action) {
     try {
-        yield put({ type: 'LOADING_ROOT' });
+        // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         console.log('changeStatustransaction  : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            // yield put({
-            //     type: 'SEARCH_BATCH_HISTORY_SUCCESS',
-            //     payload: responses.data
-            // })
+            yield put({
+                type: 'GET_LIST_INVOICE_BY_MERCHANT',
+                method: 'GET',
+                api: `${apiConfigs.BASE_API}checkout?page=1`,
+                token: true,
+                isShowLoading: true,
+                currentPage: 1
+            })
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -335,7 +335,6 @@ function* changeStatustransaction(action) {
             })
         }
     } catch (error) {
-        console.log('error : ',error);
         if (`${error}` == 'TypeError: Network request failed') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
@@ -346,7 +345,6 @@ function* changeStatustransaction(action) {
             });
         }
     } finally {
-       
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
 }
