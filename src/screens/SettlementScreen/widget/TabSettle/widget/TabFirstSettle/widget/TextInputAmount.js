@@ -7,8 +7,7 @@ import {
     ScrollView,
     Dimensions
 } from 'react-native';
-import { NavigationEvents } from 'react-navigation';
-import moment from 'moment';
+import { TextInputMask } from 'react-native-masked-text';
 
 import { scaleSzie, localize } from '@utils';
 import {
@@ -26,22 +25,39 @@ export default class TextInputAmount extends React.Component {
         }
     }
 
-    static getDerivedStateFromProps(props, state){
-        if(props.value && state.initState ){
-            return { value : props.value , initState: false};
+    static getDerivedStateFromProps(props, state) {
+        if (props.value && state.initState) {
+            return { value: props.value, initState: false };
         }
         return null
     }
 
     render() {
         return (
-            <TextInput
+            // <TextInput
+            //     style={{
+            //         fontSize: scaleSzie(20), color: '#404040',
+            //         flex: 1,
+            //     }}
+            //     value={`${this.state.value}`}
+            //     onChangeText={(value) => this.setState({ value })}
+            // />
+            <TextInputMask
+                type={'money'}
+                options={{
+                    precision: 2,
+                    separator: '.',
+                    delimiter: ',',
+                    unit: '$ ',
+                    suffixUnit: ''
+                }}
                 style={{
                     fontSize: scaleSzie(20), color: '#404040',
                     flex: 1,
                 }}
                 value={`${this.state.value}`}
                 onChangeText={(value) => this.setState({ value })}
+            // onChangeText={value => this.updateProductInfo('price', value)}
             />
         );
     }

@@ -9,7 +9,7 @@ import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment,
-    getArrayExtrasFromAppointment,formatNumberFromCurrency
+    getArrayExtrasFromAppointment, formatNumberFromCurrency
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 import apiConfigs from '@configs/api';
@@ -294,9 +294,9 @@ class TabCheckout extends Layout {
     }
 
     showModalDiscount = () => {
-        const {appointmentDetail} = this.props;
+        const { appointmentDetail } = this.props;
         const discount = appointmentDetail.discount ? appointmentDetail.discount : 0;
-        if (discount !== 0) {
+        if (discount !== 0 && discount !== '0.00') {
             const { appointmentId } = this.state;
             this.props.actions.marketing.getPromotionByAppointment(appointmentId);
             this.setState({
@@ -444,7 +444,7 @@ class TabCheckout extends Layout {
 
         // 3. Send Transaction 
 
-        PosLink.sendTransaction(formatNumberFromCurrency(total)*100, (message) => this.handleResponseCreditCard(message));
+        PosLink.sendTransaction(formatNumberFromCurrency(total) * 100, (message) => this.handleResponseCreditCard(message));
     }
 
     async handleResponseCreditCard(message) {
@@ -466,7 +466,7 @@ class TabCheckout extends Layout {
             } else {
                 const { profile } = this.props;
                 // ------ Payment with credit card success ----
-                this.props.actions.appointment.submitPaymentWithCreditCard(profile.merchantId, '0', message,appointmentId);
+                this.props.actions.appointment.submitPaymentWithCreditCard(profile.merchantId, '0', message, appointmentId);
 
             }
             // console.log('message : ', message);

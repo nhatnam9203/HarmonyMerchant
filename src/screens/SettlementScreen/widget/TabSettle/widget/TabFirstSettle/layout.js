@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import moment from 'moment';
+import { TextInputMask } from 'react-native-masked-text';
 
 import { scaleSzie, localize, formatNumberFromCurrency, formatMoney } from '@utils';
 import {
@@ -86,26 +87,6 @@ class Layout extends React.Component {
         );
     }
 
-    renderItemStaff(item, index) {
-        const { indexStaffList } = this.state;
-        console.log('indexStaffList : ', indexStaffList);
-        const temptColorSelected = index != indexStaffList ? {} : { backgroundColor: '#F1F1F1' };
-        return (
-            <Button onPress={() => this.getInvoicesOfStaff(item.staffId, index)} style={[{
-                height: scaleSzie(40), borderBottomColor: '#C5C5C5', borderBottomWidth: 1,
-                paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center',
-                justifyContent: 'space-between'
-            }, temptColorSelected]} >
-                <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
-                    {`${index + 1}. ${item.name}`}
-                </Text>
-                <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
-                    {`$ ${item.totalAmount}`}
-                </Text>
-            </Button>
-        );
-    }
-
     renderItemInvoice(item) {
         return (
             <View style={{
@@ -169,7 +150,6 @@ class Layout extends React.Component {
                         <View style={{ flex: 1, borderColor: '#C5C5C5', borderWidth: 1 }} >
                             <FlatList
                                 data={settlementStaff}
-                                // renderItem={({ item, index }) => this.renderItemStaff(item, index)}
                                 renderItem={({ item, index }) => <ItemStaff
                                     ref={this.pushStaffIntoArrayStaff}
                                     item={item}
@@ -224,6 +204,7 @@ class Layout extends React.Component {
     renderReportAmount() {
         const { creditAmount } = this.state;
         const { settleWaiting } = this.props;
+        // const temptCreditAmount = creditAmount === 0 ? '0.00' : creditAmount;
         return (
             <View style={{ paddingHorizontal: scaleSzie(10), flexDirection: 'row' }} >
                 {/* --------- Left --------- */}
@@ -252,7 +233,7 @@ class Layout extends React.Component {
                             Payment by Credit card
                         </Text>
                         <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
-                            {`$ ${creditAmount}`}
+                            {`$ ${formatNumberFromCurrency(`${creditAmount}`)}`}
                         </Text>
                     </View>
                     {/* ------------ Row 3 ------------ */}
@@ -312,6 +293,7 @@ class Layout extends React.Component {
                         }} >
                             {/* ------------ Text Input ---- */}
                             <TextInputAmount
+                                ref={this.inputHarmonyPaymentRef}
                                 value={settleWaiting.paymentByHarmony}
                             />
                         </View>
@@ -328,12 +310,10 @@ class Layout extends React.Component {
                             height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
                             paddingHorizontal: scaleSzie(10),
                         }} >
-                            <TextInput
-                                style={{
-                                    flex: 1, fontSize: scaleSzie(20), color: '#404040',
-                                    // alignSelf: 'flex-end' 
-                                }}
-                                value={`$ ${creditAmount}`}
+
+                            <TextInputAmount
+                                ref={this.inputCreditPaymentRef}
+                                value={creditAmount}
                             />
                         </View>
                     </View>
@@ -349,9 +329,9 @@ class Layout extends React.Component {
                             height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
                             paddingHorizontal: scaleSzie(10)
                         }} >
-                            <TextInput
-                                style={{ flex: 1, fontSize: scaleSzie(20), color: '#404040', }}
-                                value={`$ ${settleWaiting.paymentByCash}`}
+                              <TextInputAmount
+                                ref={this.inputCashPaymentRef}
+                                value={settleWaiting.paymentByCash}
                             />
                         </View>
                     </View>
@@ -367,11 +347,15 @@ class Layout extends React.Component {
                             height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
                             paddingHorizontal: scaleSzie(10),
                         }} >
-                            <TextInput
+                            {/* <TextInput
                                 style={{
                                     flex: 1, fontSize: scaleSzie(20), color: '#404040',
                                 }}
                                 value={`$ ${settleWaiting.otherPayment}`}
+                            /> */}
+                             <TextInputAmount
+                                ref={this.inputOtherPaymentRef}
+                                value={settleWaiting.otherPayment}
                             />
                         </View>
                     </View>

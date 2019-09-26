@@ -13,8 +13,16 @@ class TabFirstSettle extends Layout {
         this.state = {
             creditCount: 0,
             creditAmount: 0,
+            // totalCustom : 
         };
         this.arrayStaffRef = [];
+        this.inputHarmonyPaymentRef = React.createRef();
+        this.inputCreditPaymentRef= React.createRef();
+        this.inputCashPaymentRef = React.createRef();
+        this.inputOtherPaymentRef = React.createRef();
+    }
+
+    componentDidMount() {
     }
 
     onDidFocus = (payload) => {
@@ -72,7 +80,7 @@ class TabFirstSettle extends Layout {
     componentDidUpdate(prevProps, prevState) {
         const { loading, isGetSettleWaiting } = this.props;
         if (!loading && loading !== prevProps.loading && isGetSettleWaiting) {
-
+            console.log('ddddd');
         }
 
     }
