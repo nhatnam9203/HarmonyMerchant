@@ -10,7 +10,7 @@ import { scaleSzie, localize } from '@utils';
 import { Text, Button } from '@components';
 import IMAGE from '@resources';
 
-const ItemBasket = ({ item, removeItemBasket,onPress }) => {
+const ItemBasket = ({ item, removeItemBasket, onPress }) => {
     const { data } = item;
     // console.log('---- item : ', item);
     const swipeoutBtns = [
@@ -29,7 +29,7 @@ const ItemBasket = ({ item, removeItemBasket,onPress }) => {
             close={true}
         >
             <Button onPress={() => {
-                if( item.type === 'Service'){
+                if (item.type === 'Service') {
                     onPress(item);
                 }
             }} style={{
@@ -40,12 +40,13 @@ const ItemBasket = ({ item, removeItemBasket,onPress }) => {
                 <View style={{ width: scaleSzie(45), justifyContent: 'center', alignItems: 'center' }} >
                     {
                         item.type === 'Service' ? <View style={{ width: scaleSzie(30), height: scaleSzie(30), borderRadius: scaleSzie(20), overflow: 'hidden' }} >
-                            {item.staff && item.staff.imageUrl ? <Image source={{ uri: item.staff.imageUrl  }} 
-                            style={{width: scaleSzie(30), height: scaleSzie(30)}}
+                            {item.staff && item.staff.imageUrl ? <Image source={{ uri: item.staff.imageUrl }}
+                                style={{ width: scaleSzie(30), height: scaleSzie(30) }}
                             /> : <View />}
                         </View> :
-                            item.type === 'Extra' ? <View style={{ width: scaleSzie(30), height: scaleSzie(30),  borderRadius: scaleSzie(20) ,justifyContent:'center',
-                            alignItems:'center',overflow: 'hidden' 
+                            item.type === 'Extra' ? <View style={{
+                                width: scaleSzie(30), height: scaleSzie(30), borderRadius: scaleSzie(20), justifyContent: 'center',
+                                alignItems: 'center', overflow: 'hidden'
                             }} >
                                 <Image source={IMAGE.extra_holder} style={{ width: scaleSzie(22), height: scaleSzie(20) }} />
                             </View> :
@@ -58,7 +59,7 @@ const ItemBasket = ({ item, removeItemBasket,onPress }) => {
                     <View style={{ flex: 1, justifyContent: 'center' }} >
                         <Text style={{ color: '#fff', fontSize: scaleSzie(13), }} >
                             {
-                                 item.type === 'Service' ? (item.staff && item.staff.displayName ? item.staff.displayName : '' ) : data.name
+                                item.type === 'Service' ? (item.staff && item.staff.displayName ? item.staff.displayName : '') : data.name
                             }
                         </Text>
                     </View>

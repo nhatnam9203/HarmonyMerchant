@@ -21,14 +21,31 @@ class ItemBasket extends React.Component {
     render() {
         const { item } = this.props;
         const { data } = item;
+        // console.log('----- item : '+ JSON.stringify(item));
+        // console.log('----- data : ',data);
+
         return (
-            <View style={{ height: scaleSzie(35), borderColor: '#C5C5C5', borderWidth: 1, flexDirection: 'row' ,
-            backgroundColor:'#FAFAFA'
+            <View style={{
+                height: scaleSzie(35), borderColor: '#C5C5C5', borderWidth: 1, flexDirection: 'row',
+                backgroundColor: '#FAFAFA'
             }} >
                 <View style={{ width: scaleSzie(45), justifyContent: 'center', alignItems: 'center' }} >
                     {
-                        item.type === 'Service' ? <View style={{ width: scaleSzie(30), height: scaleSzie(30), backgroundColor: 'red', borderRadius: scaleSzie(20) }} ></View> :
-                            item.type === 'Extra' ? <View style={{ width: scaleSzie(30), height: scaleSzie(30), backgroundColor: 'green', borderRadius: scaleSzie(20) }} ></View> :
+                        item.type === 'Service' ?
+                            <View style={{ width: scaleSzie(30), height: scaleSzie(30), borderRadius: scaleSzie(20), overflow: 'hidden' }} >
+                                {item.staff && item.staff.imageUrl ? <Image source={{ uri: item.staff.imageUrl }}
+                                    style={{ width: scaleSzie(30), height: scaleSzie(30) }}
+                                /> : <View />}
+                            </View>
+                            :
+                            item.type === 'Extra' ?
+                                <View style={{
+                                    width: scaleSzie(30), height: scaleSzie(30), borderRadius: scaleSzie(20), justifyContent: 'center',
+                                    alignItems: 'center', overflow: 'hidden'
+                                }} >
+                                    <Image source={IMAGE.extra_holder} style={{ width: scaleSzie(22), height: scaleSzie(20) }} />
+                                </View>
+                                :
                                 <Image source={IMAGE.basketInvoice} style={{ width: scaleSzie(22), height: scaleSzie(20) }} />
                     }
                 </View>
@@ -37,14 +54,17 @@ class ItemBasket extends React.Component {
                     {/* ------------ */}
                     <View style={{ flex: 1, justifyContent: 'center' }} >
                         <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(13), }} >
-                        {data.name}
+                            {/* {data.name} */}
+                            {
+                                item.type === 'Service' ? (item.staff && item.staff.displayName ? item.staff.displayName : '') : data.name
+                            }
                         </Text>
                     </View>
 
                     {/* ------------ */}
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                         <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(13), }} >
-                        {item.type === 'Product' ? item.quanlitySet : item.serviceName}
+                            {item.type === 'Product' ? item.quanlitySet : item.data.name}
                         </Text>
                     </View>
                     {/* ------------ */}
@@ -52,7 +72,7 @@ class ItemBasket extends React.Component {
                         flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(10),
                     }} >
                         <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14), }} >
-                        {`$ ${data.price}`}
+                            {`$ ${data.price}`}
                         </Text>
                     </View>
                 </View>

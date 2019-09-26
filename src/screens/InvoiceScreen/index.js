@@ -29,7 +29,7 @@ class InvoiceScreen extends Layout {
     }
 
     componentDidMount() {
-        this.props.actions.invoice.getListInvoicesByMerchant(true,2);
+        this.props.actions.invoice.getListInvoicesByMerchant(true,1);
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {
