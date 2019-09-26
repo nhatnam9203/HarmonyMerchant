@@ -98,8 +98,19 @@ export function changeStatustransaction(checkoutId) {
     return {
         type: 'CHANGE_STATUS_TRANSACTION',
         method: 'PUT',
-        body:{},
+        body: {},
         api: `${apiConfigs.BASE_API}checkout/paymentvoidrefundtransaction/${checkoutId}`,
+        token: true
+    }
+}
+
+
+export function settleBatch(body) {
+    return {
+        type: 'SETTLE_BATCH',
+        method: 'POST',
+        body,
+        api: `${apiConfigs.BASE_API}settlement`,
         token: true
     }
 }

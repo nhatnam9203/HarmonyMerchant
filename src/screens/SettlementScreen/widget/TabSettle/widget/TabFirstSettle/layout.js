@@ -26,13 +26,13 @@ class Layout extends React.Component {
         return (
             <View style={{ height: scaleSzie(50), backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }} >
                 <Text style={{ color: '#0764B0', fontSize: scaleSzie(14), marginLeft: scaleSzie(10), marginRight: scaleSzie(20) }} >
-                    Last Settlemetn:
+                    Last Settlement:
                 </Text>
                 <Text style={{ color: '#0764B0', fontSize: scaleSzie(16), fontWeight: 'bold', marginRight: scaleSzie(20) }} >
-                    {moment(settlementDate).format('DD/MM/YYYY')}
+                    {moment.parseZone(settlementDate).local().format('MM/DD/YYYY')}
                 </Text>
                 <Text style={{ color: '#0764B0', fontSize: scaleSzie(16), fontWeight: 'bold', marginRight: scaleSzie(20) }} >
-                    ${moment(settlementDate).format('h:mm A')}
+                    ${moment.parseZone(settlementDate).local().format('h:mm A')}
                 </Text>
             </View>
         );

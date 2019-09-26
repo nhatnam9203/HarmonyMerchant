@@ -24,8 +24,8 @@ class TabFirstSettle extends Layout {
         const { paxMachineInfo } = this.props;
         const { ip, port, timeout, isSetup } = paxMachineInfo;
         if (isSetup) {
-            PosLink.setupPax(ip, port, timeout);
-            PosLink.reportTransaction(message => this.handleResponseReportTransactions(message));
+            // PosLink.setupPax(ip, port, timeout);
+            // PosLink.reportTransaction(message => this.handleResponseReportTransactions(message));
         } else {
             // alert('Please setup your pax machine in setting');
         }
