@@ -392,6 +392,8 @@ class Layout extends React.Component {
                             }} >
                                 <TextInput
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                    value={this.state.note}
+                                    onChangeText={(note) => this.setState({note})}
                                 />
                             </View>
                             <View style={{

@@ -15,6 +15,14 @@ class TabFirstSettle extends Layout {
         this.state = {
             creditCount: 0,
             creditAmount: 0,
+            settleTotal: {
+                paymentByHarmony: 0.00,
+                paymentByCreditCard: 0.00,
+                paymentByCash: 0.00,
+                otherPayment: 0.00,
+                total: 0.00,
+            },
+            note:''
         };
         this.arrayStaffRef = [];
         this.inputHarmonyPaymentRef = React.createRef();
@@ -39,10 +47,10 @@ class TabFirstSettle extends Layout {
         const { paxMachineInfo } = this.props;
         const { ip, port, timeout, isSetup } = paxMachineInfo;
         if (isSetup) {
-            // PosLink.setupPax(ip, port, timeout);
-            // PosLink.reportTransaction(message => this.handleResponseReportTransactions(message));
+            PosLink.setupPax(ip, port, timeout);
+            PosLink.reportTransaction(message => this.handleResponseReportTransactions(message));
         } else {
-            // alert('Please setup your pax machine in setting');
+            alert('Please setup your pax machine in setting');
         }
     }
 
@@ -62,7 +70,22 @@ class TabFirstSettle extends Layout {
         }
     }
 
-    gotoTabSecondSettle = () => {
+    gotoTabSecondSettle = async () => {
+        const harmonyPayment = formatNumberFromCurrency(this.inputHarmonyPaymentRef.current.state.value);
+        const creditPayment = formatNumberFromCurrency(this.inputCreditPaymentRef.current.state.value);
+        const cashPayment = formatNumberFromCurrency(this.inputCashPaymentRef.current.state.value);
+        const otherPayment = formatNumberFromCurrency(this.inputOtherPaymentRef.current.state.value);
+        const total = formatMoney(parseFloat(harmonyPayment) + parseFloat(creditPayment) + parseFloat(cashPayment) + parseFloat(otherPayment));
+        await this.setState({
+            settleTotal: {
+                paymentByHarmony: this.inputHarmonyPaymentRef.current.state.value,
+                paymentByCreditCard: this.inputCreditPaymentRef.current.state.value,
+                paymentByCash: this.inputCashPaymentRef.current.state.value,
+                otherPayment: this.inputOtherPaymentRef.current.state.value,
+                total: total,
+                note:this.state.note
+            }
+        });
         this.props.gotoTabSecondSettle();
     }
 
@@ -77,19 +100,14 @@ class TabFirstSettle extends Layout {
         }
     }
 
-    updateTotalCustom = () =>{
-      const harmonyPayment = formatNumberFromCurrency(this.inputHarmonyPaymentRef.current.state.value);
-      const creditPayment = formatNumberFromCurrency(this.inputCreditPaymentRef.current.state.value ); 
-      const cashPayment =formatNumberFromCurrency(this.inputCashPaymentRef.current.state.value) ; 
-      const otherPayment =formatNumberFromCurrency(this.inputOtherPaymentRef.current.state.value) ;
+    updateTotalCustom = () => {
+        const harmonyPayment = formatNumberFromCurrency(this.inputHarmonyPaymentRef.current.state.value);
+        const creditPayment = formatNumberFromCurrency(this.inputCreditPaymentRef.current.state.value);
+        const cashPayment = formatNumberFromCurrency(this.inputCashPaymentRef.current.state.value);
+        const otherPayment = formatNumberFromCurrency(this.inputOtherPaymentRef.current.state.value);
+        const total = formatMoney(parseFloat(harmonyPayment) + parseFloat(creditPayment) + parseFloat(cashPayment) + parseFloat(otherPayment));
+        this.totalCustomRef.current.setStateFromParent(total);
 
-    //   console.log(`${harmonyPayment}`);
-    //   console.log(`${creditPayment}`);
-    //   console.log(`${cashPayment}`);
-    //   console.log(`${otherPayment}`);
-      const total = formatMoney( parseFloat(harmonyPayment) + parseFloat(creditPayment) + parseFloat(cashPayment)+ parseFloat(otherPayment));
-    //   console.log(`total : ${total}`); 
-      this.totalCustomRef.current.setStateFromParent(total);
     }
 
 }

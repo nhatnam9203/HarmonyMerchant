@@ -25,15 +25,17 @@ class Layout extends React.Component {
                 <ScrollableTabView
                     ref={this.scrollTabRef}
                     style={{}}
-                    initialPage={0}
+                    initialPage={1}
                     locked={true}
                     renderTabBar={() => <View />}
                 >
                     <TabFirstSettle
+                        ref={this.tabFirstSettleRef}
                         gotoTabSecondSettle={this.gotoTabSecondSettle}
                         navigation={this.props.navigation}
                     />
                     <TabSecondSettle
+                       ref={this.tabsecondSettleRef}
                         backTabFirstSettle={this.backTabFirstSettle}
                         reviewBatchHistory={() => this.props.reviewBatchHistory()}
                     />

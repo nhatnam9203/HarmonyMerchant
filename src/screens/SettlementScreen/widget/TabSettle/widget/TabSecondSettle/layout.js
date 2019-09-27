@@ -139,7 +139,8 @@ class Layout extends React.Component {
 
 
     renderOpenBatch() {
-        const { creditCount } = this.state;
+        const { creditCount, settleTotal } = this.state;
+        const { paymentByHarmony, paymentByCreditCard, paymentByCash, otherPayment, total, note } = settleTotal;
         return (
             <View style={{ flex: 1 }} >
                 <View style={[styles.tableLeft, { paddingHorizontal: scaleSzie(18) }]} >
@@ -159,7 +160,7 @@ class Layout extends React.Component {
                                 Payment by Harmony account
                             </Text>
                             <Text style={styles.textRightBox} >
-                                $ 1000
+                                {`$ ${paymentByHarmony}`}
                             </Text>
                         </View>
                         {/* ---------- Row 2 -------- */}
@@ -168,32 +169,32 @@ class Layout extends React.Component {
                                 Payment by Credit card
                             </Text>
                             <Text style={styles.textRightBox} >
-                                $ 1300
+                                {`$ ${paymentByCreditCard}`}
                             </Text>
                         </View>
                         {/* -------- Box Child ------- */}
                         <View style={styles.boxChild} >
                             {/* ---------- Row child 1 -------- */}
-                            <View style={styles.rowBoxChild} >
+                            {/* <View style={styles.rowBoxChild} >
                                 <Image source={IMAGE.visaLogo} style={styles.boxChildLogo} />
                                 <Text style={styles.textBoxChild} >
                                     $ 1300
                                 </Text>
-                            </View>
+                            </View> */}
                             {/* ---------- Row child 2 -------- */}
-                            <View style={styles.rowBoxChild} >
+                            {/* <View style={styles.rowBoxChild} >
                                 <Image source={IMAGE.masterCardLogo} style={styles.boxChildLogo} />
                                 <Text style={styles.textBoxChild} >
                                     $ 1300
                                 </Text>
-                            </View>
+                            </View> */}
                             {/* ---------- Row child 3 -------- */}
-                            <View style={styles.rowBoxChild} >
+                            {/* <View style={styles.rowBoxChild} >
                                 <Image source={IMAGE.discoverLogo} style={styles.boxChildLogo} />
                                 <Text style={styles.textBoxChild} >
                                     $ 1300
                                 </Text>
-                            </View>
+                            </View> */}
                         </View>
                         {/* ---------- Row 3 -------- */}
                         <View style={styles.rowBox} >
@@ -201,7 +202,7 @@ class Layout extends React.Component {
                                 Payment by Cash
                             </Text>
                             <Text style={styles.textRightBox} >
-                                $ 1300
+                                {`$ ${paymentByCash}`}
                             </Text>
                         </View>
                         {/* ---------- Row 4 -------- */}
@@ -210,7 +211,7 @@ class Layout extends React.Component {
                                 Other Payment
                             </Text>
                             <Text style={styles.textRightBox} >
-                                $ 1300
+                                {`$ ${otherPayment}`}
                             </Text>
                         </View>
                     </View>
@@ -223,8 +224,8 @@ class Layout extends React.Component {
                                 Payment by Credit card
                         </Text>
                             <Text style={{ color: '#fff', fontSize: scaleSzie(20), fontWeight: 'bold' }} >
-                                $ 1300
-                        </Text>
+                                {`$ ${total}`}
+                            </Text>
                         </View>
                     </View>
                 </View>
@@ -244,8 +245,9 @@ class Layout extends React.Component {
     }
 
     render() {
-        const {settleWaiting} = this.props;
-        const { creditAmount } = this.state;
+        const { settleWaiting } = this.props;
+        const { creditAmount, settleTotal } = this.state;
+        const { paymentByHarmony, paymentByCreditCard, paymentByCash, otherPayment, total, note } = settleTotal;
         return (
             <View style={[styles.container, { backgroundColor: '#F6F6F6' }]} >
                 <NavigationEvents
@@ -267,8 +269,8 @@ class Layout extends React.Component {
                                 Payment by Harmony account
                     </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
-                               {`$ ${settleWaiting.paymentByHarmony}`}
-                    </Text>
+                                {`$ ${paymentByHarmony}`}
+                            </Text>
                         </View>
                         {/* ------------ Row 2 ------------ */}
                         <View style={{
@@ -279,7 +281,7 @@ class Layout extends React.Component {
                                 Payment by Credit card
                     </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
-                                {`$ ${creditAmount}`}
+                                {`$ ${paymentByCreditCard}`}
                             </Text>
                         </View>
                         {/* ------------ Row 3 ------------ */}
@@ -291,8 +293,8 @@ class Layout extends React.Component {
                                 Payment by Cash
                     </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
-                            {`$ ${settleWaiting.paymentByCash}`}
-                    </Text>
+                                {`$ ${paymentByCash}`}
+                            </Text>
                         </View>
                         {/* ------------ Row 4 ------------ */}
                         <View style={{
@@ -303,8 +305,8 @@ class Layout extends React.Component {
                                 Other payment
                     </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: '#6A6A6A' }} >
-                            {`$ ${settleWaiting.otherPayment}`}
-                    </Text>
+                                {`$ ${otherPayment}`}
+                            </Text>
                         </View>
                         {/* -------- Total ------- */}
                         <View style={{
@@ -316,8 +318,8 @@ class Layout extends React.Component {
                                 Total:
                         </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: '#4CD964', fontWeight: 'bold' }} >
-                            {`$ ${settleWaiting.total}`}
-                        </Text>
+                                {`$ ${total}`}
+                            </Text>
                         </View>
                         {/* -------- Note ------- */}
                         <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginTop: scaleSzie(20), marginBottom: scaleSzie(10) }} >
@@ -328,9 +330,8 @@ class Layout extends React.Component {
                             padding: scaleSzie(10)
                         }} >
                             <Text style={{ fontSize: scaleSzie(12), color: '#404040' }} >
-                                Lorem Ipsum is simply dummy text of the printing and typesetting
-                                industry. Lorem Ipsum has been the industry's
-                        </Text>
+                                {note}
+                            </Text>
                         </View>
                     </View>
                     {/* --------- Right --------- */}

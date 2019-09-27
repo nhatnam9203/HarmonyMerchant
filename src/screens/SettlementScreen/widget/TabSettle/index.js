@@ -10,20 +10,21 @@ class TabSettle extends Layout {
         this.state = {
 
         };
-
         this.scrollTabRef = React.createRef();
+        this.tabFirstSettleRef = React.createRef();
+        this.tabsecondSettleRef = React.createRef();
     }
 
-    componentDidMount(){
+    componentDidMount() {
+        this.scrollTabRef.current.goToPage(0);
         this.props.actions.invoice.getSettlementWating();
     }
 
     gotoTabSecondSettle = () => {
+        const settleTotal = this.tabFirstSettleRef.current.state.settleTotal;
+        this.tabsecondSettleRef.current.setStateFromParent(settleTotal);
         this.scrollTabRef.current.goToPage(1);
-    }
-
-    backTabFirstSettle = () => {
-        this.scrollTabRef.current.goToPage(0);
+        // console.log('tabsecondSettleRef : ', this.tabsecondSettleRef);
     }
 
     backTabFirstSettle = () => {
