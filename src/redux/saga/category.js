@@ -29,11 +29,11 @@ function* addCategory(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -65,11 +65,11 @@ function* getCategoriesByMerchantId(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -137,11 +137,11 @@ function* restoreCategory(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -177,11 +177,11 @@ function* editCategory(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -213,11 +213,11 @@ function* searchCategories(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });

@@ -29,12 +29,11 @@ function* getListInvoicesByMerchant(action) {
             })
         }
     } catch (error) {
-        // console.log('error : ',error);
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -67,11 +66,11 @@ function* searchInvoice(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -106,11 +105,11 @@ function* getSettlementWating(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -144,11 +143,11 @@ function* invoicesOfStaff(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -182,11 +181,11 @@ function* getTransactionSettlement(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -219,11 +218,11 @@ function* searchTransactionSettlement(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -256,11 +255,11 @@ function* getBatchHistory(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -293,11 +292,11 @@ function* searchBatchHistory(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -335,11 +334,11 @@ function* changeStatustransaction(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -377,11 +376,11 @@ function* settleBatch(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });

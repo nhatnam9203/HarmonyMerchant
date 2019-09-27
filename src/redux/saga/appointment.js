@@ -26,11 +26,11 @@ function* getAppointmentById(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -64,11 +64,11 @@ function* addItemIntoAppointment(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -102,11 +102,11 @@ function* removeItemIntoAppointment(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -146,11 +146,11 @@ function* checkoutAppointment(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -162,11 +162,6 @@ function* checkoutAppointment(action) {
 
 function* paymentAppointment(action) {
     try {
-        // let isShowLoading  = `${action.paymentMethod}` !== 'credit_card'  ? true : false;
-        // isShowLoading = `${action.paymentMethod}` !== 'cash'  ? true : false;
-        // if (isShowLoading) {
-        //     yield put({ type: 'LOADING_ROOT' });
-        // } 
         action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
         // console.log('responses : ', responses);
@@ -189,11 +184,11 @@ function* paymentAppointment(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -205,11 +200,6 @@ function* paymentAppointment(action) {
 
 function* createAnymousAppointment(action) {
     try {
-        // let isShowLoading = `${action.paymentMethod}` !== 'credit_card' ? true : false;
-        // isShowLoading = `${action.paymentMethod}` !== 'cash' ? true : false;
-        // if (isShowLoading) {
-        //     yield put({ type: 'LOADING_ROOT' });
-        // }
         action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
         // console.log('appointmentId : ', responses.data);
@@ -244,11 +234,11 @@ function* createAnymousAppointment(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -277,11 +267,11 @@ function* checkoutSubmit(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -310,11 +300,11 @@ function* submitPaymentWithCreditCard(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });

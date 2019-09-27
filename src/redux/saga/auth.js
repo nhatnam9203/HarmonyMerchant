@@ -30,16 +30,15 @@ function* login(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
         }
-        // console.log('error : ',error)
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -67,11 +66,11 @@ function* forgotPassword(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });

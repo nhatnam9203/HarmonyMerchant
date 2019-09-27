@@ -26,11 +26,11 @@ function* getBannerMerchant(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -64,11 +64,11 @@ function* deleteBannerMerchant(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -104,11 +104,11 @@ function* addBannerWithInfo(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -141,11 +141,11 @@ function* getPromotionByMerchant(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -178,11 +178,11 @@ function* updatePromotionByMerchant(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -215,11 +215,11 @@ function* getPromotionByAppointment(action) {
             })
         }
     } catch (error) {
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -255,12 +255,11 @@ function* changeStylist(action) {
             })
         }
     } catch (error) {
-        console.log('error : ',error );
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });
@@ -294,12 +293,11 @@ function* customPromotion(action) {
             })
         }
     } catch (error) {
-        console.log('error : ',error );
-        if (`${error}` == 'TypeError: Network request failed') {
+        if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
             });
-        } else if (`${error}` == 'timeout') {
+        } else if (`${error}` == 'TIMEOUT') {
             yield put({
                 type: 'TIME_OUT',
             });

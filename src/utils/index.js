@@ -3,6 +3,7 @@ import {
     Dimensions,
     Linking,
 } from 'react-native';
+import axios from 'axios';
 
 import Configs from '../configs';
 import Localization from '../localization';
@@ -38,7 +39,43 @@ function fetchWithTimeout(url, options, timeout = 10000) {
     ]);
 }
 
-export const requestAPI = async (action, headers = {}) => {
+export const requestAPI = async (action, header = {}) => {
+    let method = action.method || "GET";
+    let baseURL = action.api;
+    let headers = Object.assign({ "Accept": "application/json", "Content-Type": "application/json" }, header);
+    if (action.token) {
+        headers['Authorization'] = `Bearer ${action.token}`
+    }
+    const configs = {
+        method: `${method}`.toLowerCase(),
+        baseURL: baseURL,
+        url: '',
+        headers: headers,
+        timeout: 5,
+    };
+    if ((method == "POST" || method == "DELETE" || method == "PUT") && action.body) {
+        configs['data'] = JSON.stringify(action.body);
+    }
+    try {
+        let response = await axios(configs);
+        const codeNumber = response.status;
+        if (codeNumber === 401) {
+            return { codeNumber: codeNumber }
+        }
+        return response.data;
+    } catch (error) {
+        // console.log('error message : ' + error.message);
+        if (error.message.includes('timeout')) {
+            throw 'TIMEOUT'
+        } else if (error.message.includes('Network Error')) {
+            throw 'NETWORK_ERROR'
+        } else {
+            throw error
+        }
+    }
+}
+
+export const requestAPI1 = async (action, headers = {}) => {
     let method = action.method || 'GET';
     let request = {
         method: method,
@@ -55,9 +92,6 @@ export const requestAPI = async (action, headers = {}) => {
     }
     try {
         let response = await fetchWithTimeout(action.api, request, 10000);
-        // let response = await fetch(action.api, request);
-        // console.log('requestAPI : ',response); 
-        // console.log('---- Body : ',JSON.stringify(action.body))
         const codeNumber = response.status;
         if (codeNumber === 401) {
             return { codeNumber: codeNumber }
