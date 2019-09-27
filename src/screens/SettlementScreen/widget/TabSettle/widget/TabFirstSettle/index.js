@@ -3,6 +3,8 @@ import { NativeModules } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
+import { formatNumberFromCurrency, formatMoney } from '@utils';
+
 
 const PosLink = NativeModules.MyApp;
 
@@ -13,17 +15,15 @@ class TabFirstSettle extends Layout {
         this.state = {
             creditCount: 0,
             creditAmount: 0,
-            // totalCustom : 
         };
         this.arrayStaffRef = [];
         this.inputHarmonyPaymentRef = React.createRef();
-        this.inputCreditPaymentRef= React.createRef();
+        this.inputCreditPaymentRef = React.createRef();
         this.inputCashPaymentRef = React.createRef();
         this.inputOtherPaymentRef = React.createRef();
+        this.totalCustomRef = React.createRef();
     }
 
-    componentDidMount() {
-    }
 
     onDidFocus = (payload) => {
         this.handleReport();
@@ -77,12 +77,19 @@ class TabFirstSettle extends Layout {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        const { loading, isGetSettleWaiting } = this.props;
-        if (!loading && loading !== prevProps.loading && isGetSettleWaiting) {
-            console.log('ddddd');
-        }
+    updateTotalCustom = () =>{
+      const harmonyPayment = formatNumberFromCurrency(this.inputHarmonyPaymentRef.current.state.value);
+      const creditPayment = formatNumberFromCurrency(this.inputCreditPaymentRef.current.state.value ); 
+      const cashPayment =formatNumberFromCurrency(this.inputCashPaymentRef.current.state.value) ; 
+      const otherPayment =formatNumberFromCurrency(this.inputOtherPaymentRef.current.state.value) ;
 
+    //   console.log(`${harmonyPayment}`);
+    //   console.log(`${creditPayment}`);
+    //   console.log(`${cashPayment}`);
+    //   console.log(`${otherPayment}`);
+      const total = formatMoney( parseFloat(harmonyPayment) + parseFloat(creditPayment) + parseFloat(cashPayment)+ parseFloat(otherPayment));
+    //   console.log(`total : ${total}`); 
+      this.totalCustomRef.current.setStateFromParent(total);
     }
 
 }

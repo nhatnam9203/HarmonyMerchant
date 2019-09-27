@@ -32,33 +32,39 @@ export default class TextInputAmount extends React.Component {
         return null
     }
 
+    onChangeText = async (value) => {
+        await this.setState({ value });
+        this.props.onChangeText();
+    }
+
     render() {
         return (
-            // <TextInput
-            //     style={{
-            //         fontSize: scaleSzie(20), color: '#404040',
-            //         flex: 1,
-            //     }}
-            //     value={`${this.state.value}`}
-            //     onChangeText={(value) => this.setState({ value })}
-            // />
-            <TextInputMask
-                type={'money'}
-                options={{
-                    precision: 2,
-                    separator: '.',
-                    delimiter: ',',
-                    unit: '$ ',
-                    suffixUnit: ''
-                }}
-                style={{
-                    fontSize: scaleSzie(20), color: '#404040',
-                    flex: 1,
-                }}
-                value={`${this.state.value}`}
-                onChangeText={(value) => this.setState({ value })}
-            // onChangeText={value => this.updateProductInfo('price', value)}
-            />
+            <View style={{ flex: 1, flexDirection: 'row' }} >
+                <View style={{justifyContent:'center',width:scaleSzie(13)}} >
+                    <Text style={{ fontSize: scaleSzie(20), color: '#404040', }} >
+                        {'$ '}
+                    </Text>
+                </View>
+                <View style={{ flex: 1 }} >
+                    <TextInputMask
+                        type={'money'}
+                        options={{
+                            precision: 2,
+                            separator: '.',
+                            delimiter: ',',
+                            unit: '',
+                            suffixUnit: ''
+                        }}
+                        style={{
+                            fontSize: scaleSzie(20), color: '#404040',
+                            flex: 1,
+                        }}
+                        value={`${this.state.value}`}
+                        onChangeText={this.onChangeText}
+                    />
+                </View>
+            </View>
+
         );
     }
 

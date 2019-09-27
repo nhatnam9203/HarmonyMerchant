@@ -51,7 +51,7 @@ export const requestAPI = async (action, header = {}) => {
         baseURL: baseURL,
         url: '',
         headers: headers,
-        timeout: 10000,
+        timeout: 7000,
     };
     if ((method == "POST" || method == "DELETE" || method == "PUT") && action.body) {
         configs['data'] = JSON.stringify(action.body);
@@ -116,7 +116,7 @@ export const uploadFromData = async (action, header = {}) => {
         baseURL: baseURL,
         url: '',
         headers: headers,
-        timeout: 10000,
+        timeout: 7000,
     };
     configs['data'] = this.createFormData(action.media);
     try {

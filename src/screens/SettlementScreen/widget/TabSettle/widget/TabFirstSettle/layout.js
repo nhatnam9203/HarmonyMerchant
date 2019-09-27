@@ -19,6 +19,7 @@ import styles from './style';
 import IMAGE from '@resources';
 import TextInputAmount from './widget/TextInputAmount';
 import ItemStaff from './widget/ItemStaff';
+import TotalCustom from './widget/TotalCustom';
 
 class Layout extends React.Component {
 
@@ -233,7 +234,8 @@ class Layout extends React.Component {
                             Payment by Credit card
                         </Text>
                         <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
-                            {`$ ${formatNumberFromCurrency(`${creditAmount}`)}`}
+                            {/* {`$ ${formatMoney(`${creditAmount}`)}`} */}
+                            {`$ ${settleWaiting.paymentByCreditCard}`}
                         </Text>
                     </View>
                     {/* ------------ Row 3 ------------ */}
@@ -295,6 +297,7 @@ class Layout extends React.Component {
                             <TextInputAmount
                                 ref={this.inputHarmonyPaymentRef}
                                 value={settleWaiting.paymentByHarmony}
+                                onChangeText={this.updateTotalCustom}
                             />
                         </View>
                     </View>
@@ -308,12 +311,15 @@ class Layout extends React.Component {
                         </Text>
                         <View style={{
                             height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
-                            paddingHorizontal: scaleSzie(10),
+                            paddingHorizontal: scaleSzie(6),
                         }} >
 
                             <TextInputAmount
                                 ref={this.inputCreditPaymentRef}
-                                value={creditAmount}
+                                // value={formatMoney(creditAmount)}
+                                value={settleWaiting.paymentByCreditCard}
+
+                                onChangeText={this.updateTotalCustom}
                             />
                         </View>
                     </View>
@@ -327,11 +333,12 @@ class Layout extends React.Component {
                         </Text>
                         <View style={{
                             height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
-                            paddingHorizontal: scaleSzie(10)
+                            paddingHorizontal: scaleSzie(6)
                         }} >
-                              <TextInputAmount
+                            <TextInputAmount
                                 ref={this.inputCashPaymentRef}
                                 value={settleWaiting.paymentByCash}
+                                onChangeText={this.updateTotalCustom}
                             />
                         </View>
                     </View>
@@ -345,33 +352,20 @@ class Layout extends React.Component {
                         </Text>
                         <View style={{
                             height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
-                            paddingHorizontal: scaleSzie(10),
+                            paddingHorizontal: scaleSzie(6),
                         }} >
-                            {/* <TextInput
-                                style={{
-                                    flex: 1, fontSize: scaleSzie(20), color: '#404040',
-                                }}
-                                value={`$ ${settleWaiting.otherPayment}`}
-                            /> */}
-                             <TextInputAmount
+                            <TextInputAmount
                                 ref={this.inputOtherPaymentRef}
                                 value={settleWaiting.otherPayment}
+                                onChangeText={this.updateTotalCustom}
                             />
                         </View>
                     </View>
-                    {/* -------- Total ------- */}
-                    <View style={{
-                        height: scaleSzie(45), marginTop: scaleSzie(10),
-                        flexDirection: 'row', paddingHorizontal: scaleSzie(10), alignItems: 'center',
-                        justifyContent: 'space-between'
-                    }} >
-                        <Text style={{ fontSize: scaleSzie(20), color: '#0764B0' }} >
-                            Total:
-                            </Text>
-                        <Text style={{ fontSize: scaleSzie(20), color: '#4CD964', fontWeight: 'bold' }} >
-                            $ 3900
-                            </Text>
-                    </View>
+                    {/* -------- Total Custom ------- */}
+                    <TotalCustom
+                        ref={this.totalCustomRef}
+                        total={settleWaiting.total}
+                    />
                 </View>
             </View>
         );
