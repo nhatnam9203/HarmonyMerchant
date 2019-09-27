@@ -6,6 +6,7 @@ import {
     FlatList,
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
+import moment from 'moment';
 
 import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
 import { Text, Button, ButtonCustom, Dropdown, PopupCalendar } from '@components';
@@ -99,7 +100,7 @@ class Layout extends React.Component {
     }
 
     renderLeftContent() {
-        const {listBatchHistory,isShowSearchBatchHistory,listBatchHistorySearch} = this.props;
+        const { listBatchHistory, isShowSearchBatchHistory, listBatchHistorySearch } = this.props;
         const temptData = isShowSearchBatchHistory ? listBatchHistorySearch : listBatchHistory;
         return (
             <View style={{ flex: 1, paddingRight: scaleSzie(10) }} >
@@ -110,8 +111,12 @@ class Layout extends React.Component {
                         <FlatList
                             showsVerticalScrollIndicator={false}
                             data={temptData}
-                            renderItem={({ item, index }) => <ItemSettle />}
-                            keyExtractor={(item, index) => `${item}`}
+                            renderItem={({ item, index }) => <ItemSettle
+                                ref={this.pushSettleIntoArray}
+                                batchHistory={item}
+                                onPress={this.selectSette}
+                            />}
+                            keyExtractor={(item, index) => `${index}`}
                         />
 
                     </View>
@@ -122,6 +127,7 @@ class Layout extends React.Component {
     }
 
     renderTabReport() {
+        const { settleSelected } = this.state;
         return (
             <View style={{ flex: 1 }} >
                 <View style={[styles.tableLeft, { paddingHorizontal: scaleSzie(18) }]} >
@@ -130,7 +136,7 @@ class Layout extends React.Component {
                             Transactions:
                         </Text>
                         <Text style={{ color: '#404040', fontSize: scaleSzie(22), fontWeight: 'bold' }} >
-                            24
+                            {settleSelected.settlementId ? settleSelected.settlementId : ''}
                         </Text>
                     </View>
                     {/* ------------ BOX ------------ */}
@@ -141,7 +147,7 @@ class Layout extends React.Component {
                                 Payment by Harmony account
                             </Text>
                             <Text style={styles.textRightBox} >
-                                $ 1000
+                                {`$ ${settleSelected.paymentByHarmony ? settleSelected.paymentByHarmony : ''}`}
                             </Text>
                         </View>
                         {/* ---------- Row 2 -------- */}
@@ -150,49 +156,49 @@ class Layout extends React.Component {
                                 Payment by Credit card
                             </Text>
                             <Text style={styles.textRightBox} >
-                                $ 1300
+                            {`$ ${settleSelected.paymentByCreditCard ? settleSelected.paymentByCreditCard : ''}`}
                             </Text>
                         </View>
                         {/* -------- Box Child ------- */}
                         <View style={styles.boxChild} >
                             {/* ---------- Row child 1 -------- */}
-                            <View style={styles.rowBoxChild} >
+                            {/* <View style={styles.rowBoxChild} >
                                 <Image source={IMAGE.visaLogo} style={styles.boxChildLogo} />
                                 <Text style={styles.textBoxChild} >
                                     $ 1300
                                 </Text>
-                            </View>
+                            </View> */}
                             {/* ---------- Row child 2 -------- */}
-                            <View style={styles.rowBoxChild} >
+                            {/* <View style={styles.rowBoxChild} >
                                 <Image source={IMAGE.masterCardLogo} style={styles.boxChildLogo} />
                                 <Text style={styles.textBoxChild} >
                                     $ 1300
                                 </Text>
-                            </View>
+                            </View> */}
                             {/* ---------- Row child 3 -------- */}
-                            <View style={styles.rowBoxChild} >
+                            {/* <View style={styles.rowBoxChild} >
                                 <Image source={IMAGE.discoverLogo} style={styles.boxChildLogo} />
                                 <Text style={styles.textBoxChild} >
                                     $ 1300
                                 </Text>
-                            </View>
+                            </View> */}
                         </View>
                         {/* ---------- Row 3 -------- */}
                         <View style={styles.rowBox} >
                             <Text style={styles.textLeftBox} >
-                                Payment by Credit card
+                                Payment by Cash
                             </Text>
                             <Text style={styles.textRightBox} >
-                                $ 1300
+                            {`$ ${settleSelected.paymentByCash ? settleSelected.paymentByCash : ''}`}
                             </Text>
                         </View>
                         {/* ---------- Row 4 -------- */}
                         <View style={styles.rowBox} >
                             <Text style={styles.textLeftBox} >
-                                Payment by Credit card
+                                Other payment
                             </Text>
                             <Text style={styles.textRightBox} >
-                                $ 1300
+                            {`$ ${settleSelected.otherPayment ? settleSelected.otherPayment : ''}`}
                             </Text>
                         </View>
                     </View>
@@ -205,7 +211,7 @@ class Layout extends React.Component {
                                 Payment by Credit card
                         </Text>
                             <Text style={{ color: '#fff', fontSize: scaleSzie(20), fontWeight: 'bold' }} >
-                                $ 1300
+                            {`$ ${settleSelected.paymentByCreditCard ? settleSelected.paymentByCreditCard : ''}`}
                         </Text>
                         </View>
                     </View>
@@ -224,6 +230,9 @@ class Layout extends React.Component {
     }
 
     renderTabDetail() {
+        const { settleSelected } = this.state;
+        const dateDetail = settleSelected.settlementDate ?  `${moment.parseZone(settleSelected.settlementDate).local().format('MM/DD/YYYY h:mm A')}` : '' ;
+       
         return (
             <View style={{ flex: 1 }} >
                 <View style={[styles.tableLeft, { padding: scaleSzie(10) }]} >
@@ -247,13 +256,10 @@ class Layout extends React.Component {
                         {/* ------- Item ------ */}
                         <View>
                             <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
-                                {` 11-Jan-2019 4:27 pm`}
+                               {dateDetail}
                             </Text>
                             <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
-                                Lorem Ipsum is simply dummy text of the
-                                printing and typesetting industry. Lorem
-                                 Ipsum has been the industry's standard
-                                 dummy text ever since the 1500s, when an
+                              {settleSelected.note ? settleSelected.note : ''}
                             </Text>
                         </View>
 

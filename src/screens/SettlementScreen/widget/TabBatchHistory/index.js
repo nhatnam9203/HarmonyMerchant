@@ -13,14 +13,22 @@ class TabBatchHistory extends Layout {
                 keySearch: '',
             },
             titleRangeTime: 'Time Range',
-            visibleCalendar: false
+            visibleCalendar: false,
+            settleSelected: {}
         };
         this.scrollTabRef = React.createRef();
         this.modalCalendarRef = React.createRef();
+        this.arraySettleRef = [];
     }
 
     componentDidMount() {
         this.props.actions.invoice.getBatchHistory();
+    }
+
+    pushSettleIntoArray = (ref) => {
+        if (ref) {
+            this.arraySettleRef.push(ref);
+        }
     }
 
     gotoTabDetail = () => {
@@ -97,6 +105,19 @@ class TabBatchHistory extends Layout {
         this.setState({
             searchFilter: temptState
         })
+    }
+
+    selectSette = async (settle) => {
+        for (let i = 0; i < this.arraySettleRef.length; i++) {
+            if (this.arraySettleRef[i].props.batchHistory.settlementId === settle.settlementId) {
+                this.arraySettleRef[i].setStateFromParent(true);
+            } else {
+                this.arraySettleRef[i].setStateFromParent(false);
+            }
+        };
+        await this.setState({
+            settleSelected: settle
+        });
     }
 
 
