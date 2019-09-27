@@ -51,7 +51,7 @@ export const requestAPI = async (action, header = {}) => {
         baseURL: baseURL,
         url: '',
         headers: headers,
-        timeout: 5,
+        timeout: 10000,
     };
     if ((method == "POST" || method == "DELETE" || method == "PUT") && action.body) {
         configs['data'] = JSON.stringify(action.body);
@@ -104,7 +104,37 @@ export const requestAPI1 = async (action, headers = {}) => {
 
 }
 
-export const uploadFromData = async (action, headers = {}) => {
+export const uploadFromData = async (action, header = {}) => {
+    let method = action.method || "GET";
+    let baseURL = action.api;
+    let headers = Object.assign({ "Accept": "application/json", "Content-Type": "application/json" }, header);
+    if (action.token) {
+        headers['Authorization'] = `Bearer ${action.token}`
+    }
+    const configs = {
+        method: `${method}`.toLowerCase(),
+        baseURL: baseURL,
+        url: '',
+        headers: headers,
+        timeout: 10000,
+    };
+    configs['data'] = this.createFormData(action.media);
+    try {
+        let response = await axios(configs);
+        return response.data;
+    } catch (error) {
+        if (error.message.includes('timeout')) {
+            throw 'TIMEOUT'
+        } else if (error.message.includes('Network Error')) {
+            throw 'NETWORK_ERROR'
+        } else {
+            throw error
+        }
+    }
+};
+
+
+export const uploadFromData1 = async (action, headers = {}) => {
     let method = action.method || 'GET';
     let request = {
         method: method,
