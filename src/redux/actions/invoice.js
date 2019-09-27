@@ -28,12 +28,13 @@ export function clearSearInvoice() {
 
 // ----------- Settle ------------
 
-export function getSettlementWating() {
+export function getSettlementWating(isShowLoading = true) {
     return {
         type: 'GET_SETTLEMENT_WAITING',
         method: 'GET',
         api: `${apiConfigs.BASE_API}settlement/waiting`,
-        token: true
+        token: true,
+        isShowLoading 
     }
 }
 

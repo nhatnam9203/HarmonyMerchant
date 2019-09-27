@@ -22,7 +22,7 @@ function appReducer(state = initialState, action) {
         case 'GET_CATEGORIES_BY_MERCHANR_ID_FAIL':
             return {
                 ...state,
-                categoriesByMerchant: action.payload,
+                // categoriesByMerchant: action.payload,
                 refreshListCategories: false
             }
         case 'SEARCH_CATEGORIES_SUCCESS':

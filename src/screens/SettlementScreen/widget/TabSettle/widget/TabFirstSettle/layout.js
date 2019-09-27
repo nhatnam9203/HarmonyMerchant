@@ -5,11 +5,12 @@ import {
     TextInput,
     FlatList,
     ScrollView,
-    Dimensions
+    Dimensions,
+    RefreshControl,
 } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import moment from 'moment';
-import { TextInputMask } from 'react-native-masked-text';
+import _ from 'ramda';
 
 import { scaleSzie, localize, formatNumberFromCurrency, formatMoney } from '@utils';
 import {
@@ -20,6 +21,8 @@ import IMAGE from '@resources';
 import TextInputAmount from './widget/TextInputAmount';
 import ItemStaff from './widget/ItemStaff';
 import TotalCustom from './widget/TotalCustom';
+
+const { width, height } = Dimensions.get('window');
 
 class Layout extends React.Component {
 
@@ -393,7 +396,7 @@ class Layout extends React.Component {
                                 <TextInput
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
                                     value={this.state.note}
-                                    onChangeText={(note) => this.setState({note})}
+                                    onChangeText={(note) => this.setState({ note })}
                                 />
                             </View>
                             <View style={{
@@ -431,24 +434,56 @@ class Layout extends React.Component {
 
 
     render() {
+        const { settleWaiting } = this.props
         return (
             <View style={{ flex: 1 }} >
                 <NavigationEvents
                     onDidFocus={this.onDidFocus}
                 />
-                <ScrollView>
-                    {this.renderLastSettlement()}
-                    {this.renderHeaderStaffList()}
-                    {this.renderHeaderTableStaffList()}
-                    {this.renderTableStaff()}
-                    <View style={{ height: scaleSzie(30) }} />
-                    {this.renderReportAmount()}
-                    <View style={{ height: scaleSzie(20) }} />
-                    {this.renderNote()}
-                    <View style={{ height: scaleSzie(30) }} />
-                    {this.renderButtonConfirm()}
-                    <View style={{ height: scaleSzie(300) }} />
-                </ScrollView>
+                {
+                    _.isEmpty(settleWaiting) || settleWaiting.checkout.length === 0 ?
+                        <ScrollView
+                            refreshControl={
+                                <RefreshControl 
+                                refreshing={this.props.refreshingSettle} 
+                                onRefresh={this.onRefreshSettle} 
+                                />
+                            }
+                        >
+                            <View style={{
+                                flex: 1,
+                                alignItems: 'center'
+                            }} >
+                                <Text style={{
+                                    color: '#6A6A6A', fontSize: scaleSzie(40),
+                                    marginTop: height / 2.8
+                                }} >
+                                    Empty Batch
+                            </Text>
+                                <Text style={{
+                                    color: '#6A6A6A', fontSize: scaleSzie(18),
+                                    marginTop: 10
+                                }} >
+                                    (Pull to refresh )
+                            </Text>
+                            </View>
+                        </ScrollView>
+                        :
+                        <ScrollView >
+                            {this.renderLastSettlement()}
+                            {this.renderHeaderStaffList()}
+                            {this.renderHeaderTableStaffList()}
+                            {this.renderTableStaff()}
+                            <View style={{ height: scaleSzie(30) }} />
+                            {this.renderReportAmount()}
+                            <View style={{ height: scaleSzie(20) }} />
+                            {this.renderNote()}
+                            <View style={{ height: scaleSzie(30) }} />
+                            {this.renderButtonConfirm()}
+                            <View style={{ height: scaleSzie(300) }} />
+                        </ScrollView>
+                }
+
             </View>
         );
     }

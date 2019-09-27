@@ -74,12 +74,14 @@ function* getServicesByMerchant(action) {
                 type: 'UNAUTHORIZED'
             })
         } else {
+            yield put({ type : 'GET_SERVICE_BY_MERCHANT_FAIL'});
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
             })
         }
     } catch (error) {
+        yield put({ type : 'GET_SERVICE_BY_MERCHANT_FAIL'});
         if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',

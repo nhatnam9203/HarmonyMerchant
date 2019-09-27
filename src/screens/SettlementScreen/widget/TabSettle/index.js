@@ -24,7 +24,6 @@ class TabSettle extends Layout {
         const settleTotal = this.tabFirstSettleRef.current.state.settleTotal;
         this.tabsecondSettleRef.current.setStateFromParent(settleTotal);
         this.scrollTabRef.current.goToPage(1);
-        // console.log('tabsecondSettleRef : ', this.tabsecondSettleRef);
     }
 
     backTabFirstSettle = () => {

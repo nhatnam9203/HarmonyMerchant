@@ -22,7 +22,7 @@ class TabFirstSettle extends Layout {
                 otherPayment: 0.00,
                 total: 0.00,
             },
-            note:''
+            note: ''
         };
         this.arrayStaffRef = [];
         this.inputHarmonyPaymentRef = React.createRef();
@@ -83,7 +83,7 @@ class TabFirstSettle extends Layout {
                 paymentByCash: this.inputCashPaymentRef.current.state.value,
                 otherPayment: this.inputOtherPaymentRef.current.state.value,
                 total: total,
-                note:this.state.note
+                note: this.state.note
             }
         });
         this.props.gotoTabSecondSettle();
@@ -107,8 +107,11 @@ class TabFirstSettle extends Layout {
         const otherPayment = formatNumberFromCurrency(this.inputOtherPaymentRef.current.state.value);
         const total = formatMoney(parseFloat(harmonyPayment) + parseFloat(creditPayment) + parseFloat(cashPayment) + parseFloat(otherPayment));
         this.totalCustomRef.current.setStateFromParent(total);
-
     }
+
+   onRefreshSettle = () =>{
+    this.props.actions.invoice.getSettlementWating(false);
+   }
 
 }
 
@@ -118,7 +121,8 @@ const mapStateToProps = state => ({
     settleWaiting: state.invoice.settleWaiting,
     invoicesOfStaff: state.invoice.invoicesOfStaff,
     isGetSettleWaiting: state.invoice.isGetSettleWaiting,
-    loading: state.app.loading
+    loading: state.app.loading,
+    refreshingSettle: state.invoice.refreshingSettle
 })
 
 

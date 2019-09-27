@@ -29,11 +29,15 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 listInvoicesByMerchant: action.currentPage === 1 ? action.payload : state.listInvoicesByMerchant.concat(action.payload),
-                // listInvoicesByMerchant: action.payload ,
                 totalPages: action.totalPages,
                 currentPage: action.currentPage,
                 refreshListInvoice: false
             }
+            case 'GET_LIST_INVOICE_BY_MERCHANT_FAIL':
+                return {
+                    ...state,
+                    refreshListInvoice: false
+                }
         case 'SEARCH_INVOICE_SUCCESS':
             return {
                 ...state,

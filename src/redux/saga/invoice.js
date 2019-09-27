@@ -23,12 +23,14 @@ function* getListInvoicesByMerchant(action) {
                 type: 'UNAUTHORIZED'
             })
         } else {
+            yield put({type :'GET_LIST_INVOICE_BY_MERCHANT_FAIL'});
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
             })
         }
     } catch (error) {
+        yield put({type :'GET_LIST_INVOICE_BY_MERCHANT_FAIL'});
         if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
@@ -84,7 +86,7 @@ function* searchInvoice(action) {
 
 function* getSettlementWating(action) {
     try {
-        yield put({ type: 'LOADING_ROOT' });
+        action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
         // console.log('getSettlementWating  : ', responses);
         const { codeNumber } = responses;

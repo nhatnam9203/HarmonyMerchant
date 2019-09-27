@@ -18,6 +18,11 @@ function appReducer(state = initialState, action) {
                 listCustomersByMerchant: action.payload,
                 refreshListCustomer: false
             }
+            case 'GET_LIST_CUSTOMER_BY_MERCHANT_FAIL':
+                return {
+                    ...state,
+                    refreshListCustomer: false
+                }
         case 'SEARCH_CUSTOMER_SUCCESS':
             return {
                 ...state,

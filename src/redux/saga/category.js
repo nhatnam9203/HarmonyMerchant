@@ -22,7 +22,7 @@ function* addCategory(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -58,13 +58,15 @@ function* getCategoriesByMerchantId(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
+            yield put({ type: 'GET_CATEGORIES_BY_MERCHANR_ID_FAIL' });
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
             })
         }
     } catch (error) {
+        yield put({ type: 'GET_CATEGORIES_BY_MERCHANR_ID_FAIL' });
         if (`${error}` === 'NETWORK_ERROR') {
             yield put({
                 type: 'NET_WORK_REQUEST_FAIL',
@@ -86,7 +88,7 @@ function* archiveCategory(action) {
         const { codeNumber } = responses;
         // console.log('--- responses : ', responses);
         if (parseInt(codeNumber) == 200) {
-            yield put({type:'IS_GET_LIST_SEARCH_CATEGORIES'});
+            yield put({ type: 'IS_GET_LIST_SEARCH_CATEGORIES' });
             yield put({
                 type: 'GET_CATEGORIES_BY_MERCHANR_ID',
                 method: 'GET',
@@ -98,7 +100,7 @@ function* archiveCategory(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -118,7 +120,7 @@ function* restoreCategory(action) {
         const { codeNumber } = responses;
         // console.log('--- restoreCategory : ', responses);
         if (parseInt(codeNumber) == 200) {
-            yield put({type:'IS_GET_LIST_SEARCH_CATEGORIES'});
+            yield put({ type: 'IS_GET_LIST_SEARCH_CATEGORIES' });
             yield put({
                 type: 'GET_CATEGORIES_BY_MERCHANR_ID',
                 method: 'GET',
@@ -130,7 +132,7 @@ function* restoreCategory(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -158,7 +160,7 @@ function* editCategory(action) {
         // console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            yield put({type:'IS_GET_LIST_SEARCH_CATEGORIES'});
+            yield put({ type: 'IS_GET_LIST_SEARCH_CATEGORIES' });
             yield put({
                 type: 'GET_CATEGORIES_BY_MERCHANR_ID',
                 method: 'GET',
@@ -170,7 +172,7 @@ function* editCategory(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -206,7 +208,7 @@ function* searchCategories(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
