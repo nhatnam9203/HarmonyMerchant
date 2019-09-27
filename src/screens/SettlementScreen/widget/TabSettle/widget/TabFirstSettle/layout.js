@@ -469,7 +469,14 @@ class Layout extends React.Component {
                             </View>
                         </ScrollView>
                         :
-                        <ScrollView >
+                        <ScrollView 
+                        refreshControl={
+                            <RefreshControl 
+                            refreshing={this.props.refreshingSettle} 
+                            onRefresh={this.onRefreshSettle} 
+                            />
+                        }
+                        >
                             {this.renderLastSettlement()}
                             {this.renderHeaderStaffList()}
                             {this.renderHeaderTableStaffList()}

@@ -32,6 +32,12 @@ export default class TextInputAmount extends React.Component {
         return null
     }
 
+    resetStateFromParent = async () =>{
+     await  this.setState({
+            initState: true
+        })
+    }
+
     onChangeText = async (value) => {
         await this.setState({ value });
         this.props.onChangeText();

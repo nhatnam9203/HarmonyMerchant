@@ -38,6 +38,12 @@ export function getSettlementWating(isShowLoading = true) {
     }
 }
 
+export function resetSettle() {
+    return {
+        type: 'RESET_SETTLE',
+    }
+}
+
 export function invoicesOfStaff(staffId) {
     return {
         type: 'INVOICE_OFF_STAFF',

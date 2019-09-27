@@ -76,6 +76,7 @@ class TabSecondSettle extends Layout {
     }
 
     finishBatch = () => {
+        this.props.actions.invoice.resetSettle();
         this.props.backTabFirstSettle();
         this.setState({
             numberFooter: 1,

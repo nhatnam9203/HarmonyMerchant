@@ -16,6 +16,9 @@ const initialState = {
     listBatchHistorySearch: [],
     isShowSearchBatchHistory: false,
 
+
+    refreshingSettle: false
+
 }
 
 function appReducer(state = initialState, action) {
@@ -23,7 +26,7 @@ function appReducer(state = initialState, action) {
         case 'GET_LIST_INVOICE_BY_MERCHANT':
             return {
                 ...state,
-                refreshListInvoice: !action.isShowLoading
+                refreshListInvoice: !action.isShowLoading,
             }
         case 'GET_LIST_INVOICE_BY_MERCHANT_SUCCESS':
             return {
@@ -33,11 +36,11 @@ function appReducer(state = initialState, action) {
                 currentPage: action.currentPage,
                 refreshListInvoice: false
             }
-            case 'GET_LIST_INVOICE_BY_MERCHANT_FAIL':
-                return {
-                    ...state,
-                    refreshListInvoice: false
-                }
+        case 'GET_LIST_INVOICE_BY_MERCHANT_FAIL':
+            return {
+                ...state,
+                refreshListInvoice: false
+            }
         case 'SEARCH_INVOICE_SUCCESS':
             return {
                 ...state,
@@ -50,10 +53,27 @@ function appReducer(state = initialState, action) {
                 listInvoicesSearch: [],
                 isShowSearchInvoice: false
             }
+        case 'GET_SETTLEMENT_WAITING':
+            return {
+                ...state,
+                refreshingSettle: !action.isShowLoading,
+            }
         case 'GET_SETTLEMENT_WAITING_SUCCESS':
             return {
                 ...state,
                 settleWaiting: action.payload,
+                refreshingSettle: false,
+            }
+        case 'GET_SETTLEMENT_WAITING_FAIL':
+            return {
+                ...state,
+                refreshingSettle: false,
+            }
+        case 'RESET_SETTLE':
+            return {
+                ...state,
+                refreshingSettle: false,
+                settleWaiting:{}
             }
         case 'INVOICE_OFF_STAFF_SUCCESS':
             return {

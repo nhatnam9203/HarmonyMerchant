@@ -37,6 +37,12 @@ export default class TotalCustom extends React.Component {
         })
     }
 
+    resetStateFromParent = async () =>{
+        await  this.setState({
+               initState: true
+           })
+       }
+
     render() {
         const { total } = this.state;
         return (
