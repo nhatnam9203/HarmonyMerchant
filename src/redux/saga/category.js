@@ -193,7 +193,7 @@ function* updatePositionCategories(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('--- updatePositionCategories : ', responses);
+        // console.log('--- updatePositionCategories : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             // yield put({

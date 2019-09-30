@@ -8,7 +8,7 @@ import {
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import QRCode from 'react-native-qrcode-svg';
 
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize,formatNumberFromCurrency,formatMoney } from '@utils';
 import { Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
@@ -46,6 +46,8 @@ class Layout extends React.Component {
         const temptWidth = isShowColProduct ? 140 : 190;
         const temptColorHeader = isShowColProduct ? { color: '#6A6A6A' } : {};
         const temptBorderColor = isShowColProduct ? { borderColor: rgb(197, 197, 197) } : {};
+
+        const categoriesFilter = categoriesByMerchant.filter((category, index) => category.isDisabled === 0);
         return (
             <View style={{ width: scaleSzie(temptWidth), flexDirection: 'row' }} >
                 <View style={{ flex: 1 }} >
@@ -59,7 +61,7 @@ class Layout extends React.Component {
                     <View style={styles.categoriesBody} >
                         <ScrollView showsVerticalScrollIndicator={false} >
                             {
-                                categoriesByMerchant.map((category, index) => <ItemCategory
+                                categoriesFilter.map((category, index) => <ItemCategory
                                     key={index}
                                     category={category}
                                     onPressSelectCategory={this.onPressSelectCategory}
@@ -273,7 +275,7 @@ class Layout extends React.Component {
                                     {`${localize('Subtotal', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$${subTotal}`}
+                                    {`$${formatMoney(subTotal)}`}
                                 </Text>
                             </View>
                             {/* ---------- Tip ------ */}
@@ -282,7 +284,7 @@ class Layout extends React.Component {
                                     {`${localize('Tip', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$${tempTipAmount}`}
+                                    {`$${formatMoney(tempTipAmount)}`}
                                 </Text>
                             </View>
                             {/* ---------- Tax ------ */}
@@ -291,7 +293,7 @@ class Layout extends React.Component {
                                     {`${localize('Tax', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$ ${tax}`}
+                                    {`$ ${formatMoney(tax)}`}
                                 </Text>
                             </View>
                             {/* ---------- Discount ------ */}
@@ -307,7 +309,7 @@ class Layout extends React.Component {
                                     </Text>
                                 </Button>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$ ${discount}`}
+                                    {`$ ${formatMoney(discount)}`}
                                 </Text>
                             </View>
                             {/* ---------- Total ------ */}
@@ -316,7 +318,7 @@ class Layout extends React.Component {
                                     {`${localize('Total', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(20) }]} >
-                                    {`$${total}`}
+                                    {`$${formatMoney(total)}`}
                                 </Text>
                             </View>
                         </View>

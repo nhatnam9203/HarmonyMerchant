@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, PopupParent, Button } from '@components';
-import { scaleSzie, localize, getCategoryName } from '@utils';
+import { scaleSzie, localize, getCategoryName,formatMoney } from '@utils';
 import IMAGE from '@resources';
 
 const { width } = Dimensions.get('window');
@@ -71,7 +71,10 @@ class PopupBill extends React.Component {
     }
 
     cancel = () => {
-        this.props.onRequestClose();
+        // this.props.onRequestClose();
+        this.setState({
+            quality: '0'
+        })
     }
 
     done = () => {
@@ -109,7 +112,7 @@ class PopupBill extends React.Component {
                                     {`$`}
                                 </Text>
                                 <Text style={{ fontSize: scaleSzie(60), color: '#8BC53F' }} >
-                                    {`${this.state.quality}`}
+                                    {`${formatMoney(this.state.quality)}`}
                                 </Text>
                             </View>
                         </View>

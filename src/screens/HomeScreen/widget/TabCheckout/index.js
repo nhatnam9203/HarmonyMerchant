@@ -9,7 +9,7 @@ import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment,
-    getArrayExtrasFromAppointment, formatNumberFromCurrency
+    getArrayExtrasFromAppointment, formatNumberFromCurrency,formatMoney 
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 import apiConfigs from '@configs/api';
@@ -123,7 +123,6 @@ class TabCheckout extends Layout {
                 });
                 await this.setState({
                     basket: temptBasket,
-                    // total: parseInt(this.amountRef.current.state.quanlity * productSeleted.price)
                     total: this.getPriceOfline(temptBasket)
                 })
             }
@@ -212,7 +211,9 @@ class TabCheckout extends Layout {
     getPriceOfline(baseket) {
         let total = 0;
         for (let i = 0; i < baseket.length; i++) {
-            total = total + parseInt(baseket[i].data.price);
+            // total = total + parseInt(baseket[i].data.price) 
+            total = total +  formatNumberFromCurrency(baseket[i].data.price);
+
         }
         return total;
     }
@@ -821,7 +822,7 @@ class TabCheckout extends Layout {
         } else {
             setTimeout(() => {
                 Alert.alert(
-                    `Change : $ ${moneyChange}`,
+                    `Change : $ ${formatMoney(moneyChange)}`,
                     ``,
                     [
                         { text: 'OK', onPress: () => { } },

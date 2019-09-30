@@ -68,7 +68,7 @@ function* addBannerWithInfo(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('addBannerWithInfo : ', responses);
+        // console.log('addBannerWithInfo : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -127,7 +127,7 @@ function* updatePromotionByMerchant(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('responses : ', JSON.stringify(responses));
+        // console.log('responses : ', JSON.stringify(responses));
         // console.log('updatePromotionByMerchant : ', JSON.stringify(action.body));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -217,7 +217,7 @@ function* customPromotion(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('responses : ', JSON.stringify(responses));
+        // console.log('responses : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({

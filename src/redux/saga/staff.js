@@ -267,7 +267,7 @@ function* forgotPin(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('forgotPin : ' + JSON.stringify(responses));
+        // console.log('forgotPin : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
