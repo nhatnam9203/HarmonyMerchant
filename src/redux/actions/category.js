@@ -67,3 +67,20 @@ export function clearSearchCategories() {
     }
 }
 
+export function updatePositionCategoriesLocal(data) {
+    return {
+        type: 'UPDATE_POSITION_CATEGORIES_LOCAL',
+        payload: data
+    }
+}
+
+export function updatePositionCategories(body) {
+    return {
+        type: 'UPDATE_POSITION_CATEGORIES',
+        body,
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}category/update/position`,
+    }
+}
+

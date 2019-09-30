@@ -3,7 +3,7 @@ const initialState = {
     refreshListCategories: false,
     listCategoriesSearch: [],
     isShowSearchCategories: false,
-    isGetListSearchCategories:false
+    isGetListSearchCategories: false
 }
 
 function appReducer(state = initialState, action) {
@@ -22,15 +22,20 @@ function appReducer(state = initialState, action) {
         case 'GET_CATEGORIES_BY_MERCHANR_ID_FAIL':
             return {
                 ...state,
-                // categoriesByMerchant: action.payload,
                 refreshListCategories: false
             }
+        case 'UPDATE_POSITION_CATEGORIES_LOCAL':
+            return {
+                ...state,
+                categoriesByMerchant: action.payload,
+            }
+
         case 'SEARCH_CATEGORIES_SUCCESS':
             return {
                 ...state,
                 listCategoriesSearch: action.payload,
                 isShowSearchCategories: true,
-                isGetListSearchCategories:false
+                isGetListSearchCategories: false
             }
         case 'CLEAR_SEARCH_CATEGORIES':
             return {

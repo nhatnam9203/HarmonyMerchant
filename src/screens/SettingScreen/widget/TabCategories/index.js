@@ -93,12 +93,12 @@ class TabCategories extends Layout {
         this.setState({ visibleAdd: true });
     }
 
-    submitAddCategory =async (category) => {
-      await  this.setState({
+    submitAddCategory = async (category) => {
+        await this.setState({
             visibleAdd: false
         });
         this.props.actions.category.addCategory(category);
-       
+
     }
 
     archiveCategory(category) {
@@ -116,14 +116,14 @@ class TabCategories extends Layout {
     }
 
     submitEditCategory = async (category) => {
-      await  this.setState({
+        await this.setState({
             visibleEdit: false
         });
         this.props.actions.category.editCategory({
             CategoryType: category.categoryType,
             name: category.name
         }, category.categoryId);
-       
+
     }
 
     restoreCategory(category) {
@@ -133,12 +133,31 @@ class TabCategories extends Layout {
         })
     }
 
+    updatePositionCategories = data => {
+        const categoriresUpdate = data.map((category, index) => {
+            return {
+                ...category,
+                position: index
+            }
+        });
+        const body = data.map((category, index) => {
+            return {
+                categoryId: category.categoryId,
+                position: index
+            }
+        });
+        // console.log('--- categoriresUpdate : ', JSON.stringify(categoriresUpdate));
+        this.props.actions.category.updatePositionCategoriesLocal(categoriresUpdate);
+        this.props.actions.category.updatePositionCategories(body);
+
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const { isShowSearchCategories,isGetListSearchCategories } = this.props;
-        if(isShowSearchCategories && isGetListSearchCategories){
+        const { isShowSearchCategories, isGetListSearchCategories } = this.props;
+        if (isShowSearchCategories && isGetListSearchCategories) {
             this.searchCategories();
         }
-        
+
     }
 
 }

@@ -5,6 +5,7 @@ import {
     TextInput,
     FlatList,
 } from 'react-native';
+import DraggableFlatList from 'react-native-draggable-flatlist';
 
 import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
 import {
@@ -143,7 +144,13 @@ class Layout extends React.Component {
             isShowSearchCategories, listCategoriesSearch
         } = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
-        const temptData = isShowSearchCategories ? listCategoriesSearch : categoriesByMerchant
+        const temptData = isShowSearchCategories ? listCategoriesSearch : categoriesByMerchant;
+        const data = temptData.map((item,index) => {
+            return {
+                ...item,
+                key: `item-${index}`,
+            }
+        })
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
@@ -152,19 +159,23 @@ class Layout extends React.Component {
                 <View style={{ height: scaleSzie(10) }} />
                 <View style={{ flex: 1 }} >
                     <HeaderTableCategories />
-                    <FlatList
-                        data={temptData}
-                        renderItem={({ item, index }) => <RowTableCategories
+                    <DraggableFlatList
+                        data={data}
+                        renderItem={({ item, index , move, moveEnd, isActive}) => <RowTableCategories
                             index={index}
                             category={item}
                             archiveCategory={() => this.archiveCategory(item)}
                             editCategory={() => this.showModalEditcategory(item)}
                             restoreCategory={() => this.restoreCategory(item)}
+                            move={move}
+                            moveEnd={moveEnd}
                         />}
                         keyExtractor={(item, index) => `${index}`}
                         ListEmptyComponent={<RowTableEmptyCategories />}
                         refreshing={refreshListCategories}
                         onRefresh={() => this.props.actions.category.getCategoriesByMerchantId(false)}
+                        scrollPercent={5}
+                        onMoveEnd={({ data }) =>this.updatePositionCategories(data)}
                     />
                 </View>
                 <PopupEditAddCategories

@@ -3,7 +3,8 @@ import {
     View,
     Image,
     Text,
-    StyleSheet
+    StyleSheet,
+    TouchableOpacity
 } from 'react-native';
 
 import { ButtonCustom } from '@components';
@@ -33,9 +34,13 @@ class RowTableCategories extends React.Component {
 
     render() {
         const { category, index, archiveCategory, editCategory, restoreCategory,
+            move, moveEnd
         } = this.props;
         return (
-            <View style={styles.tableHeader} >
+            <TouchableOpacity
+                onLongPress={move}
+                onPressOut={moveEnd}
+                style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
                 <View style={[{
                     width: scaleSzie(50),
@@ -47,7 +52,7 @@ class RowTableCategories extends React.Component {
                         style={{ width: scaleSzie(12), height: scaleSzie(29) }}
                     />
                     <Text style={styles.textTableHeader} >
-                        {`${parseInt(index)+1}.`}
+                        {`${parseInt(index) + 1}.`}
                     </Text>
                 </View>
                 {/* ----- 2 ------ */}
@@ -55,7 +60,7 @@ class RowTableCategories extends React.Component {
                     width: scaleSzie(180), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
-                        <Text style={styles.textTableHeader}  numberOfLines={1} >
+                        <Text style={styles.textTableHeader} numberOfLines={1} >
                             {category.name}
                         </Text>
                     </View>
@@ -125,7 +130,7 @@ class RowTableCategories extends React.Component {
 
                     </View>
                 </View>
-            </View>
+            </TouchableOpacity>
 
         );
     }
