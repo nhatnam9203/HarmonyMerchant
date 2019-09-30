@@ -36,15 +36,7 @@ function* addServiceByMerchant(action) {
             })
         }
     } catch (error) {
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -82,15 +74,7 @@ function* getServicesByMerchant(action) {
         }
     } catch (error) {
         yield put({ type : 'GET_SERVICE_BY_MERCHANT_FAIL'});
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -122,15 +106,7 @@ function* archiveService(action) {
             })
         }
     } catch (error) {
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -162,15 +138,7 @@ function* restoreService(action) {
             })
         }
     } catch (error) {
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -203,15 +171,7 @@ function* editService(action) {
             })
         }
     } catch (error) {
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -239,15 +199,7 @@ function* searchService(action) {
             })
         }
     } catch (error) {
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }

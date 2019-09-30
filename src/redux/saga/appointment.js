@@ -26,15 +26,7 @@ function* getAppointmentById(action) {
             })
         }
     } catch (error) {
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -64,15 +56,7 @@ function* addItemIntoAppointment(action) {
             })
         }
     } catch (error) {
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -102,15 +86,7 @@ function* removeItemIntoAppointment(action) {
             })
         }
     } catch (error) {
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -146,15 +122,7 @@ function* checkoutAppointment(action) {
             })
         }
     } catch (error) {
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         // yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -184,15 +152,7 @@ function* paymentAppointment(action) {
             })
         }
     } catch (error) {
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -234,15 +194,7 @@ function* createAnymousAppointment(action) {
             })
         }
     } catch (error) {
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -267,15 +219,7 @@ function* checkoutSubmit(action) {
             })
         }
     } catch (error) {
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -300,15 +244,7 @@ function* submitPaymentWithCreditCard(action) {
             })
         }
     } catch (error) {
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }

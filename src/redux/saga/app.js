@@ -29,15 +29,7 @@ function* registerUser(action) {
             NavigationServices.navigate('GeneralInfo');
         }
     } catch (error) {
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -54,15 +46,7 @@ function* getStateCity(action) {
 
         });
     } catch (error) {
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         // yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -79,15 +63,7 @@ function* getQuestion(action) {
 
         });
     } catch (error) {
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         // yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -115,40 +91,48 @@ function* merchantSetting(action) {
             })
         }
     } catch (error) {
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
 }
 
 function* requestNetworkTimeout(action) {
-    setTimeout(() => {
-        alert('Please check your internet !');
-    }, 300)
+    yield put({ type: 'STOP_LOADING_ROOT' });
+    alert('Please check your internet !');
+    // setTimeout(() => {
+    //     alert('Please check your internet !');
+    // }, 300)
 
 }
 
 function* timeout(action) {
-    setTimeout(() => {
-        alert('Server not response');
-    }, 300)
+    yield put({ type: 'STOP_LOADING_ROOT' });
+    alert('Server not response');
+    // setTimeout(() => {
+    //     alert('Server not response');
+    // }, 100)
 
 }
 
 function* showErrorMessage(action) {
-    setTimeout(() => {
-        alert(action.message);
-    }, 300)
+    yield put({ type: 'STOP_LOADING_ROOT' });
+    alert(action.message);
+    // setTimeout(() => {
+    //     alert(action.message);
+    // }, 300)
 
 }
+
+function* handleSomethingWentWrong(action) {
+    try {
+        yield put({ ...action, type: 'STOP_LOADING_ROOT' });
+        alert('Something went wrong!');
+    } catch (error) {
+        yield put({type : error});
+    }
+}
+
 
 
 export default function* saga() {
@@ -161,5 +145,6 @@ export default function* saga() {
         takeLatest('TIME_OUT', timeout),
         takeLatest('SHOW_ERROR_MESSAGE', showErrorMessage),
         takeLatest('MERCHANT_SETTING', merchantSetting),
+        takeLatest('SOMETHING_WENT_WRONG', handleSomethingWentWrong),
     ])
 }

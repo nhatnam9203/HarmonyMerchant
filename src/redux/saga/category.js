@@ -29,15 +29,7 @@ function* addCategory(action) {
             })
         }
     } catch (error) {
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -67,15 +59,7 @@ function* getCategoriesByMerchantId(action) {
         }
     } catch (error) {
         yield put({ type: 'GET_CATEGORIES_BY_MERCHANR_ID_FAIL' });
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -107,7 +91,7 @@ function* archiveCategory(action) {
             })
         }
     } catch (error) {
-        // console.log('error : ', error);
+        yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -139,15 +123,7 @@ function* restoreCategory(action) {
             })
         }
     } catch (error) {
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -179,15 +155,7 @@ function* editCategory(action) {
             })
         }
     } catch (error) {
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -215,15 +183,7 @@ function* searchCategories(action) {
             })
         }
     } catch (error) {
-        if (`${error}` === 'NETWORK_ERROR') {
-            yield put({
-                type: 'NET_WORK_REQUEST_FAIL',
-            });
-        } else if (`${error}` == 'TIMEOUT') {
-            yield put({
-                type: 'TIME_OUT',
-            });
-        }
+        yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }

@@ -68,9 +68,10 @@ export const requestAPI = async (action, header = {}) => {
         if (error.message.includes('timeout')) {
             throw 'TIMEOUT'
         } else if (error.message.includes('Network Error')) {
-            throw 'NETWORK_ERROR'
+            throw 'NET_WORK_REQUEST_FAIL'
         } else {
-            throw error
+              console.log('error message : ' + error.message);
+            throw 'SOMETHING_WENT_WRONG';
         }
     }
 }
@@ -126,9 +127,10 @@ export const uploadFromData = async (action, header = {}) => {
         if (error.message.includes('timeout')) {
             throw 'TIMEOUT'
         } else if (error.message.includes('Network Error')) {
-            throw 'NETWORK_ERROR'
+            throw 'NET_WORK_REQUEST_FAIL'
         } else {
-            throw error
+              console.log('error message : ' + error.message);
+            throw 'SOMETHING_WENT_WRONG';
         }
     }
 };
