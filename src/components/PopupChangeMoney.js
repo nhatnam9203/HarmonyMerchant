@@ -10,10 +10,24 @@ import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import { scaleSzie } from '../utils';
 
-class PopupBill extends React.Component {
+class PopupChangeMoney extends React.Component {
+
+    constructor(props){
+        super(props);
+        this.state ={
+            cashBack : '0.00'
+        }
+    }
+
+    setStateFromParent =async (cashBack) =>{
+        await this.setState({
+            cashBack
+        })
+    }
 
     render() {
-        const { title, visible, money, onRequestClose, confimOK } = this.props;
+        const { title, visible, onRequestClose, confimOK } = this.props;
+        const {cashBack} = this.state;
         return (
             <PopupParent
                 title={title}
@@ -26,14 +40,14 @@ class PopupBill extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
-                            {`Change : $ ${money}`}
+                            {`Change : $ ${cashBack}`}
                         </Text>
                     </View>
                     <View style={{
                         height: scaleSzie(45), alignItems: 'center'
                     }} >
                         <ButtonCustom
-                            width={'60%'}
+                            width={'30%'}
                             height={35}
                             backgroundColor="#0764B0"
                             title="OK"
@@ -65,5 +79,5 @@ const styles = StyleSheet.create({
     },
 })
 
-export default PopupBill;
+export default PopupChangeMoney;
 

@@ -8,8 +8,8 @@ import {
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import QRCode from 'react-native-qrcode-svg';
 
-import { scaleSzie, localize,formatNumberFromCurrency,formatMoney } from '@utils';
-import { Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist } from '@components';
+import { scaleSzie, localize, formatNumberFromCurrency, formatMoney } from '@utils';
+import { Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist,PopupChangeMoney } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import {
@@ -607,7 +607,7 @@ class Layout extends React.Component {
 
     render() {
         const { language } = this.props;
-        const { basket, visibleConfirm, visibleChangeStylist } = this.state;
+        const { basket, visibleConfirm, visibleChangeStylist,visibleChangeMoney } = this.state;
         return (
             <View style={styles.container} >
                 {this.renderHeader()}
@@ -623,6 +623,14 @@ class Layout extends React.Component {
                     message="If you exit Checkout Screen , Basket will Reset ?"
                     onRequestClose={() => { this.setState({ visibleConfirm: false }) }}
                     confimYes={this.clearDataCofrim}
+                />
+                <PopupChangeMoney
+                    ref={this.cashBackRef}
+                    visible={visibleChangeMoney}
+                    title="Confirmation"
+                    // message="If you exit Checkout Screen , Basket will Reset ?"
+                    onRequestClose={() => { this.setState({ visibleChangeMoney: false }) }}
+                    confimOK={() =>{}}
                 />
                 <PopupChangeStylist
                     ref={this.changeStylistRef}

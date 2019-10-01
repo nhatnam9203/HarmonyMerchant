@@ -9,7 +9,7 @@ import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment,
-    getArrayExtrasFromAppointment, formatNumberFromCurrency,formatMoney 
+    getArrayExtrasFromAppointment, formatNumberFromCurrency, formatMoney
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 import apiConfigs from '@configs/api';
@@ -49,7 +49,8 @@ const initState = {
     visibleProcessingCredit: false,
     visibleBillOfPayment: false,
     visibleConfirm: false,
-    visibleChangeStylist: false
+    visibleChangeStylist: false,
+    visibleChangeMoney: false
 }
 
 class TabCheckout extends Layout {
@@ -61,6 +62,7 @@ class TabCheckout extends Layout {
         this.scrollTabRef = React.createRef();
         this.modalBillRef = React.createRef();
         this.changeStylistRef = React.createRef();
+        this.cashBackRef = React.createRef();
     }
 
 
@@ -212,7 +214,7 @@ class TabCheckout extends Layout {
         let total = 0;
         for (let i = 0; i < baseket.length; i++) {
             // total = total + parseInt(baseket[i].data.price) 
-            total = total +  formatNumberFromCurrency(baseket[i].data.price);
+            total = total + formatNumberFromCurrency(baseket[i].data.price);
 
         }
         return total;
@@ -815,22 +817,26 @@ class TabCheckout extends Layout {
         });
 
         const moneyUserGiveForStaff = this.modalBillRef.current.state.quality;
-        console.log('moneyUserGiveForStaff : ',moneyUserGiveForStaff);
+        // console.log('moneyUserGiveForStaff : ',moneyUserGiveForStaff);
         const { total } = this.state;
         const moneyChange = parseFloat(formatNumberFromCurrency(moneyUserGiveForStaff)) - parseFloat(formatNumberFromCurrency(total));
         if (moneyChange === 0) {
             //    this.props.actions.appointment.showModalPrintReceipt();
         } else {
-            setTimeout(() => {
-                Alert.alert(
-                    `Change : $ ${formatMoney(moneyChange)}`,
-                    ``,
-                    [
-                        { text: 'OK', onPress: () => { } },
-                    ],
-                    { cancelable: false },
-                );
-            }, 300)
+            this.cashBackRef.current.setStateFromParent(`${formatMoney(moneyChange)}`);
+            await this.setState({
+                visibleChangeMoney: true
+            })
+            // setTimeout(() => {
+            //     Alert.alert(
+            //         `Change : $ ${formatMoney(moneyChange)}`,
+            //         ``,
+            //         [
+            //             { text: 'OK', onPress: () => { } },
+            //         ],
+            //         { cancelable: false },
+            //     );
+            // }, 300)
 
         }
         this.modalBillRef.current.setStateFromParent(`0`);

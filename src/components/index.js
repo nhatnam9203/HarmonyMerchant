@@ -31,6 +31,7 @@ import DatePicker from './DatePicker';
 import PopupCalendar from './PopupCalendar';
 import PopupChangeStylist from "./PopupChangeStylist";
 import InputFormPhone from './InputFormPhone';
+import PopupChangeMoney from './PopupChangeMoney';
 
 module.exports = {
     Button,
@@ -65,5 +66,6 @@ module.exports = {
     DatePicker,
     PopupCalendar,
     PopupChangeStylist,
-    InputFormPhone
+    InputFormPhone,
+    PopupChangeMoney
 }
