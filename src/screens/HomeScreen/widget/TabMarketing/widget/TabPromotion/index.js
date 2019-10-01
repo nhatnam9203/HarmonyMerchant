@@ -77,6 +77,11 @@ class TabPromotion extends Layout {
     this.props.actions.marketing.setStatusApplyButton(true);
   }
 
+  sendNotification =(promotionId) =>{
+    // alert(promotionId);
+    this.props.actions.marketing.sendNotificationByPromotionId(promotionId);
+  }
+
 }
 
 const mapStateToProps = state => ({

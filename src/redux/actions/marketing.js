@@ -53,7 +53,6 @@ export function getPromotionByAppointment(appointmentId) {
         method: 'GET',
         token: true,
         api: `${apiConfigs.BASE_API}appointment/promotion/${appointmentId}`
-        // https://api2.levincidemo.com/api/appointment/promotion/3357
     }
 }
 
@@ -99,5 +98,15 @@ export function setStatusApplyButton(isApply) {
         payload: isApply
     }
 }
+
+export function sendNotificationByPromotionId(promotionId) {
+    return {
+        type: 'SEND_NOTI_BY_PROMOTION_ID',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}merchantpromotion/promotion/${promotionId}`
+    }
+}
+
 
 

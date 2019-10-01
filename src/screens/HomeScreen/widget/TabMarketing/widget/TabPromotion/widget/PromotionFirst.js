@@ -10,7 +10,7 @@ import moment from 'moment';
 
 import { scaleSzie, localize, updateStateChildren } from '@utils';
 import IMAGE from '@resources';
-import { Text, InputForm ,ButtonCustom} from '@components';
+import { Text, InputForm, ButtonCustom } from '@components';
 import ItemCalendar from './ItemCalendar';
 import ItemPromo from './ItemPromo';
 import ItemDropdown from './ItemDropdown';
@@ -38,6 +38,11 @@ export default class PromotionFirst extends React.Component {
             data: updateStateChildren('isDisabled', isCheck, data)
         });
         this.props.checkSelectPromotion();
+    }
+
+    sendNotification = () => {
+        const { data } = this.state;
+        this.props.sendNotification(data.promotionId)
     }
 
     // ----------- RENDER ----------
@@ -176,16 +181,16 @@ export default class PromotionFirst extends React.Component {
                             }}
                         />
                     </View>
-                    <View style={{alignItems:'center',marginTop:scaleSzie(20)}} >
+                    <View style={{ alignItems: 'center', marginTop: scaleSzie(20) }} >
                         <ButtonCustom
                             width={scaleSzie(160)}
                             height={40}
                             backgroundColor="#4CD964"
                             title={localize('Send Notification', language)}
                             textColor="#fff"
-                            onPress={() =>{}}
-                            styleText={{fontSize:scaleSzie(14),fontWeight:'600'}}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5' ,borderRadius:scaleSzie(4)}}
+                            onPress={this.sendNotification}
+                            styleText={{ fontSize: scaleSzie(14), fontWeight: '600' }}
+                            style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(4) }}
                         />
                     </View>
                 </View>

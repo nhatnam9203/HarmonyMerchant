@@ -52,6 +52,7 @@ class Layout extends React.Component {
                             data={this.getDataItemPromotion(1, promotions)}
                             showCalendar={this.showCalendar}
                             checkSelectPromotion={this.checkSelectPromotion}
+                            sendNotification={this.sendNotification}
                         />
                         <View style={{ height: scaleSzie(16) }} />
                         <PromotionSecond
@@ -61,24 +62,28 @@ class Layout extends React.Component {
                             showCalendar={this.showCalendar}
                             dataDropdown={this.getDataDropdownService()}
                             checkSelectPromotion={this.checkSelectPromotion}
+                            sendNotification={this.sendNotification}
                         />
                         <PromotionThird
                             ref={this.promotionThirdRef}
                             language={language}
                             data={this.getDataItemPromotion(3, promotions)}
                             checkSelectPromotion={this.checkSelectPromotion}
+                            sendNotification={this.sendNotification}
                         />
                         < PromotionFour
                             ref={this.promotionFourRef}
                             language={language}
                             data={this.getDataItemPromotion(4, promotions)}
                             checkSelectPromotion={this.checkSelectPromotion}
+                            sendNotification={this.sendNotification}
                         />
                         <PromotionFive
                             ref={this.promotionFiveRef}
                             language={language}
                             data={this.getDataItemPromotion(5, promotions)}
                             checkSelectPromotion={this.checkSelectPromotion}
+                            sendNotification={this.sendNotification}
                         />
                         <View style={{ height: scaleSzie(300) }} />
                     </ScrollView>
