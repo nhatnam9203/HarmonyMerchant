@@ -42,10 +42,10 @@ class TabPromotion extends Layout {
     return data[0];
   }
 
-  getDataDropdownService(){
-    const {servicesByMerchant} = this.props;
-    return servicesByMerchant.map(item =>{
-      return {value: item.name}
+  getDataDropdownService() {
+    const { servicesByMerchant } = this.props;
+    return servicesByMerchant.map(item => {
+      return { value: item.name }
     });
   }
 
@@ -67,10 +67,14 @@ class TabPromotion extends Layout {
     const promotionFour = this.promotionFourRef.current.state.data;
     const promotionFive = this.promotionFiveRef.current.state.data;
 
-    const dataUpdate = [promotionFirst,promotionSeconde,promotionThird,promotionFour,promotionFive];
-    
+    const dataUpdate = [promotionFirst, promotionSeconde, promotionThird, promotionFour, promotionFive];
+
     // console.log('promotionFirst : ', JSON.stringify(dataUpdate));
     this.props.actions.marketing.updatePromotionByMerchant(dataUpdate);
+  }
+
+  checkSelectPromotion = () => {
+    this.props.actions.marketing.setStatusApplyButton(true);
   }
 
 }
@@ -79,7 +83,8 @@ const mapStateToProps = state => ({
   profile: state.dataLocal.profile,
   language: state.dataLocal.language,
   promotions: state.marketing.promotions,
-  servicesByMerchant: state.service.servicesByMerchant
+  servicesByMerchant: state.service.servicesByMerchant,
+  isApplyPromotion: state.marketing.isApplyPromotion
 })
 
 

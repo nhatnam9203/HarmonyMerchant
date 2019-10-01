@@ -364,6 +364,7 @@ class Layout extends React.Component {
                     flex: 1
                 }}
                 styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                activeOpacity={1}
             />
         );
     }
@@ -414,6 +415,7 @@ class Layout extends React.Component {
                             flex: 1
                         }}
                         styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                        activeOpacity={1}
                     />
                 );
             }
@@ -443,6 +445,7 @@ class Layout extends React.Component {
                         flex: 1
                     }}
                     styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                    activeOpacity={1}
                 />
             );
         } else {
@@ -468,12 +471,13 @@ class Layout extends React.Component {
                     backgroundColor="#F1F1F1"
                     title={localize('SELECT PAYMENT', language)}
                     textColor="#6A6A6A"
-                    onPress={this.showModalBill}
+                    onPress={() =>{}}
                     style={{
                         borderWidth: 1, borderColor: '#C5C5C5',
                         flex: 1
                     }}
                     styleText={{ fontSize: scaleSzie(22), fontWeight: 'bold', }}
+                    activeOpacity={1}
                 />
             );
         }

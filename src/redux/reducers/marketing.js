@@ -3,7 +3,8 @@ const initialState = {
     isUploadBanner: false,
     promotions: [],
     discount: [],
-    visibleModalDiscount: false
+    visibleModalDiscount: false,
+    isApplyPromotion: false
 }
 
 function appReducer(state = initialState, action) {
@@ -34,6 +35,11 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 visibleModalDiscount: false
+            }
+        case 'SET_STATUS_APPLY_BUTTON':
+            return {
+                ...state,
+                isApplyPromotion: action.payload,
             }
         default:
             return state

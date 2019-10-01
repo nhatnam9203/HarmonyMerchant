@@ -23,7 +23,9 @@ export default class Button extends React.PureComponent {
 
     render() {
         return (
-            <TouchableOpacity {...this.props} onPress={this.onPress} >
+            <TouchableOpacity {...this.props} onPress={this.onPress} 
+            activeOpacity={this.props.activeOpacity}
+            >
                 {this.props.children}
             </TouchableOpacity>
         );

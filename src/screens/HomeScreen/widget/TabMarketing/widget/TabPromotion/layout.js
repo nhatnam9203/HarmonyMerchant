@@ -12,7 +12,7 @@ import styles from './style';
 import IMAGE from '@resources';
 import { ButtonCustom, Text, InputForm, DatePicker } from '@components';
 import {
-    PromotionFirst,PromotionSecond, PromotionThird,  PromotionFour,PromotionFive
+    PromotionFirst, PromotionSecond, PromotionThird, PromotionFour, PromotionFive
 } from './widget';
 
 const { width } = Dimensions.get('window');
@@ -37,7 +37,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { language, promotions } = this.props;
+        const { language, promotions, isApplyPromotion } = this.props;
         const { show, dateCalendar } = this.state;
         if (promotions.length == 0) {
             return this.renderLoadingPromotion();
@@ -51,6 +51,7 @@ class Layout extends React.Component {
                             language={language}
                             data={this.getDataItemPromotion(1, promotions)}
                             showCalendar={this.showCalendar}
+                            checkSelectPromotion={this.checkSelectPromotion}
                         />
                         <View style={{ height: scaleSzie(16) }} />
                         <PromotionSecond
@@ -59,21 +60,25 @@ class Layout extends React.Component {
                             data={this.getDataItemPromotion(2, promotions)}
                             showCalendar={this.showCalendar}
                             dataDropdown={this.getDataDropdownService()}
+                            checkSelectPromotion={this.checkSelectPromotion}
                         />
                         <PromotionThird
                             ref={this.promotionThirdRef}
                             language={language}
                             data={this.getDataItemPromotion(3, promotions)}
+                            checkSelectPromotion={this.checkSelectPromotion}
                         />
-                        < PromotionFour 
-                             ref={this.promotionFourRef}
-                             language={language}
-                             data={this.getDataItemPromotion(4, promotions)}
+                        < PromotionFour
+                            ref={this.promotionFourRef}
+                            language={language}
+                            data={this.getDataItemPromotion(4, promotions)}
+                            checkSelectPromotion={this.checkSelectPromotion}
                         />
                         <PromotionFive
                             ref={this.promotionFiveRef}
                             language={language}
                             data={this.getDataItemPromotion(5, promotions)}
+                            checkSelectPromotion={this.checkSelectPromotion}
                         />
                         <View style={{ height: scaleSzie(300) }} />
                     </ScrollView>
@@ -85,15 +90,29 @@ class Layout extends React.Component {
                     width: width, height: scaleSzie(70), flexDirection: 'row', justifyContent: 'center'
                 }} >
                     <View style={{ width: scaleSzie(20) }} />
-                    <ButtonCustom
-                        width={scaleSzie(290)}
-                        height={60}
-                        backgroundColor="#0764B0"
-                        title={localize('APPLY', language)}
-                        textColor="#fff"
-                        onPress={this.applyPromotion}
-                        style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                    />
+                    {
+                        isApplyPromotion ? <ButtonCustom
+                            width={scaleSzie(290)}
+                            height={60}
+                            backgroundColor="#0764B0"
+                            title={localize('APPLY', language)}
+                            textColor="#fff"
+                            onPress={this.applyPromotion}
+                            style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                        />
+                            :
+                            <ButtonCustom
+                                width={scaleSzie(290)}
+                                height={60}
+                                backgroundColor="#E5E5E5"
+                                title={localize('APPLY', language)}
+                                textColor="#404040"
+                                onPress={() => { }}
+                                style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                                activeOpacity={1}
+                            />
+                    }
+
                 </View>
 
                 {/* ------- Date -------- */}

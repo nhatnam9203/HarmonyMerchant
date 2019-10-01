@@ -800,11 +800,7 @@ class TabCheckout extends Layout {
 
     }
 
-    showModalBill = async () => {
-        // await this.setState({
-        //     visibleBillOfPayment: true
-        // })
-    }
+    
 
     extractBill = () => {
         const { total } = this.state;
@@ -817,27 +813,16 @@ class TabCheckout extends Layout {
         });
 
         const moneyUserGiveForStaff = this.modalBillRef.current.state.quality;
-        // console.log('moneyUserGiveForStaff : ',moneyUserGiveForStaff);
         const { total } = this.state;
         const moneyChange = parseFloat(formatNumberFromCurrency(moneyUserGiveForStaff)) - parseFloat(formatNumberFromCurrency(total));
+
         if (moneyChange === 0) {
             //    this.props.actions.appointment.showModalPrintReceipt();
         } else {
-            this.cashBackRef.current.setStateFromParent(`${formatMoney(moneyChange)}`);
+            this.cashBackRef.current.setStateFromParent(`${formatMoney(parseFloat(moneyChange)).toFixed(2)}`);
             await this.setState({
                 visibleChangeMoney: true
             })
-            // setTimeout(() => {
-            //     Alert.alert(
-            //         `Change : $ ${formatMoney(moneyChange)}`,
-            //         ``,
-            //         [
-            //             { text: 'OK', onPress: () => { } },
-            //         ],
-            //         { cancelable: false },
-            //     );
-            // }, 300)
-
         }
         this.modalBillRef.current.setStateFromParent(`0`);
     }

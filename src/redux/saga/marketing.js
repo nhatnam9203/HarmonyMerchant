@@ -127,14 +127,13 @@ function* updatePromotionByMerchant(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('responses : ', JSON.stringify(responses));
-        // console.log('updatePromotionByMerchant : ', JSON.stringify(action.body));
+        console.log('responses : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            // yield put({
-            //     type: 'GET_PROMOTION_BY_MERCHANT_SUCCESS',
-            //     payload: responses.data
-            // })
+            yield put({
+                type: 'SET_STATUS_APPLY_BUTTON',
+                payload: false
+            })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

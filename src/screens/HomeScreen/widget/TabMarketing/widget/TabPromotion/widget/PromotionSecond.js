@@ -36,7 +36,8 @@ export default class PromotionSecond extends React.Component {
         const isCheck = data.isDisabled === 0 ? 1 : 0;
         this.setState({
             data: updateStateChildren('isDisabled', isCheck, data)
-        })
+        });
+        this.props.checkSelectPromotion();
     }
 
 
