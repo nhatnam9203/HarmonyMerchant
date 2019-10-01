@@ -37,5 +37,3 @@ const AuthStack = createStackNavigator(
 
 export default AuthStack;
 
-
-// https://i.diawi.com/2LcbJA

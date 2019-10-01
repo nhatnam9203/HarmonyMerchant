@@ -10,7 +10,7 @@ import moment from 'moment';
 
 import { scaleSzie, localize, updateStateChildren } from '@utils';
 import IMAGE from '@resources';
-import { Text, InputForm } from '@components';
+import { Text, InputForm ,ButtonCustom} from '@components';
 import ItemCalendar from './ItemCalendar';
 import ItemPromo from './ItemPromo';
 import ItemDropdown from './ItemDropdown';
@@ -67,7 +67,7 @@ export default class PromotionFive extends React.Component {
                         color: '#404040',
                         fontSize: scaleSzie(14)
                     }} >
-                        {localize('Promotion form:', language)}
+                        {localize('Promotion:', language)}
                     </Text>
                     {/* ---- Row ---- */}
                     <View style={{ flexDirection: 'row' }} >
@@ -97,7 +97,7 @@ export default class PromotionFive extends React.Component {
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemCheckBoxInput
-                            title={localize('Discount fixtom amount ($)', language)}
+                            title={localize('Discount fix amount ($)', language)}
                             placeholder="100"
                             isSelectCheckBox={data.discountType === 'discount_fixtom' ? true : false}
                             value={data.discountType === 'discount_fixtom' ? data.discount : ''}
@@ -119,6 +119,18 @@ export default class PromotionFive extends React.Component {
                                     })
                                 }
                             }}
+                        />
+                    </View>
+                    <View style={{alignItems:'center',marginTop:scaleSzie(20)}} >
+                        <ButtonCustom
+                            width={scaleSzie(160)}
+                            height={40}
+                            backgroundColor="#4CD964"
+                            title={localize('Send Notification', language)}
+                            textColor="#fff"
+                            onPress={() =>{}}
+                            styleText={{fontSize:scaleSzie(14),fontWeight:'600'}}
+                            style={{ borderWidth: 1, borderColor: '#C5C5C5' ,borderRadius:scaleSzie(4)}}
                         />
                     </View>
                 </View>
