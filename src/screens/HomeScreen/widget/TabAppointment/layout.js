@@ -46,6 +46,8 @@ class Layout extends React.Component {
         const temptWidth = isShowColProduct ? 140 : 190;
         const temptColorHeader = isShowColProduct ? { color: '#6A6A6A' } : {};
         const temptBorderColor = isShowColProduct ? { borderColor: rgb(197, 197, 197) } : {};
+
+        const categoriesFilter = categoriesByMerchant.filter((category, index) => category.isDisabled === 0);
         return (
             <View style={{ width: scaleSzie(temptWidth), flexDirection: 'row' }} >
                 <View style={{ flex: 1 }} >
@@ -59,7 +61,7 @@ class Layout extends React.Component {
                     <View style={styles.categoriesBody} >
                         <ScrollView showsVerticalScrollIndicator={false} >
                             {
-                                categoriesByMerchant.map((category, index) => <ItemCategory
+                                categoriesFilter.map((category, index) => <ItemCategory
                                     key={index}
                                     category={category}
                                     onPressSelectCategory={this.onPressSelectCategory}
