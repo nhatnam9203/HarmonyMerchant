@@ -381,12 +381,13 @@ class Layout extends React.Component {
                         backgroundColor="#F1F1F1"
                         title={localize('DONE', language)}
                         textColor="#6A6A6A"
-                        onPress={this.disconnectSignalR}
+                        onPress={()=>{}}
                         style={{
                             borderWidth: 1, borderColor: '#C5C5C5',
                             flex: 1
                         }}
                         styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                        activeOpacity={1}
                     />
                 );
             } else if (changeButtonDone && isDonePayment) {
@@ -634,7 +635,7 @@ class Layout extends React.Component {
                     title="Confirmation"
                     // message="If you exit Checkout Screen , Basket will Reset ?"
                     onRequestClose={() => { this.setState({ visibleChangeMoney: false }) }}
-                    confimOK={() =>{}}
+                    confimOK={this.doneBillByCash}
                 />
                 <PopupChangeStylist
                     ref={this.changeStylistRef}

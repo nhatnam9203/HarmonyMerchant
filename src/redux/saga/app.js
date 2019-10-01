@@ -116,7 +116,7 @@ function* timeout(action) {
 }
 
 function* showErrorMessage(action) {
-    yield put({ type: 'STOP_LOADING_ROOT' });
+    yield put({ ...action, type: 'STOP_LOADING_ROOT' });
     alert(action.message);
     // setTimeout(() => {
     //     alert(action.message);

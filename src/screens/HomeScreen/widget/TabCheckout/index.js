@@ -796,35 +796,44 @@ class TabCheckout extends Layout {
     }
 
 
-    disconnectSignalR = () => {
-
-    }
-
-    
-
     extractBill = () => {
         const { total } = this.state;
         this.modalBillRef.current.setStateFromParent(`${total}`);
     }
 
     doneBill = async () => {
-        await this.setState({
-            visibleBillOfPayment: false,
-        });
-
         const moneyUserGiveForStaff = this.modalBillRef.current.state.quality;
         const { total } = this.state;
         const moneyChange = parseFloat(formatNumberFromCurrency(moneyUserGiveForStaff)) - parseFloat(formatNumberFromCurrency(total));
-
-        if (moneyChange === 0) {
-            //    this.props.actions.appointment.showModalPrintReceipt();
+        if (moneyChange < 0) {
+            alert('Cashback not negative number')
         } else {
-            this.cashBackRef.current.setStateFromParent(`${formatMoney(parseFloat(moneyChange)).toFixed(2)}`);
             await this.setState({
-                visibleChangeMoney: true
-            })
+                visibleBillOfPayment: false,
+            });
+            if (moneyChange === 0) {
+                this.doneBillByCash();
+            } else {
+                this.cashBackRef.current.setStateFromParent(`${formatMoney(parseFloat(moneyChange))}`);
+                await this.setState({
+                    visibleChangeMoney: true
+                })
+            }
+
+            this.modalBillRef.current.setStateFromParent(`0`);
         }
-        this.modalBillRef.current.setStateFromParent(`0`);
+
+    }
+
+    doneBillByCash = async () =>{
+        await this.setState({
+            visibleChangeMoney: false
+        })
+        const { appointmentDetail, appointmentIdOffline } = this.props;
+        const temptAppointmentId = _.isEmpty(appointmentDetail) ? appointmentIdOffline : appointmentDetail.appointmentId;
+        this.openCashDrawer();
+        this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
+        this.props.actions.appointment.showModalPrintReceipt();
     }
 
     setStateVisibleFromParent = async (visibleConfirm) => {
@@ -862,9 +871,6 @@ class TabCheckout extends Layout {
 
         }
     }
-
-
-
 }
 
 const mapStateToProps = state => ({

@@ -23,7 +23,7 @@ class SetupHardware extends React.Component {
             name,
             ip,
             port,
-            timeout
+            timeout:60000
         }
     }
 
@@ -97,12 +97,12 @@ class SetupHardware extends React.Component {
                         onChangeText={port => this.setState({ port })}
                     />
 
-                    <ItemSetup
+                    {/* <ItemSetup
                         title={"Timeout"}
                         placeholder={"20000 ms"}
                         value={timeout}
                         onChangeText={timeout => this.setState({ timeout })}
-                    />
+                    /> */}
                     <View style={{ height: scaleSzie(300) }} />
                 </ScrollView>
                 {/* ------- Footer -------- */}
