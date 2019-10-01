@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, PopupParent, Button } from '@components';
-import { scaleSzie, localize, getCategoryName,formatMoney } from '@utils';
+import { scaleSzie, localize, getCategoryName, formatMoney } from '@utils';
 import IMAGE from '@resources';
 
 const { width } = Dimensions.get('window');
@@ -35,6 +35,13 @@ class PopupBill extends React.Component {
         this.setState(prevState => ({
             quality: prevState.quality === '0' ? `${number}` : `${prevState.quality}${number}`
         }))
+    }
+
+    onPressAddNumber =(number) =>{
+        const temptData = parseFloat(this.state.quality) + number;
+        this.setState({
+            quality: temptData,
+        })
     }
 
     addDotInNumber = () => {
@@ -88,7 +95,12 @@ class PopupBill extends React.Component {
             <PopupParent
                 title={title}
                 visible={visible}
-                onRequestClose={() => onRequestClose()}
+                onRequestClose={() => {
+                    this.setState({
+                        quality: '0'
+                    })
+                    onRequestClose();
+                }}
                 style={{}}
                 width={470}
             >
@@ -103,10 +115,10 @@ class PopupBill extends React.Component {
                         <View style={{ flexDirection: 'row', height: scaleSzie(85), marginTop: scaleSzie(14) }} >
                             {/* ------ Box Left --- */}
                             <View style={{
-                               flex:1, backgroundColor: '#FAFAFA', borderWidth: 3,
+                                flex: 1, backgroundColor: '#FAFAFA', borderWidth: 3,
                                 borderColor: '#6A6A6A',
-                                justifyContent:'space-between', paddingHorizontal: scaleSzie(8), borderRadius: 4,
-                                flexDirection:'row',alignItems:'center'
+                                justifyContent: 'space-between', paddingHorizontal: scaleSzie(8), borderRadius: 4,
+                                flexDirection: 'row', alignItems: 'center'
                             }} >
                                 <Text style={{ fontSize: scaleSzie(60), color: '#8BC53F' }} >
                                     {`$`}
@@ -180,13 +192,13 @@ class PopupBill extends React.Component {
                                     [10, 20, 50, 100].map((number, index) => <Key
                                         key={number}
                                         number={number}
-                                        onPressNumber={this.onPressNumber}
+                                        onPressNumber={this.onPressAddNumber}
                                         style={{ marginTop: scaleSzie(9) }}
                                     />)
                                 }
                             </View>
                             {/* ---- Line ----- */}
-                            <View style={{ width: scaleSzie(18), paddingBottom: scaleSzie(23), alignItems: 'center',paddingTop: scaleSzie(9) }} >
+                            <View style={{ width: scaleSzie(18), paddingBottom: scaleSzie(23), alignItems: 'center', paddingTop: scaleSzie(9) }} >
                                 <View style={{ height: '100%', width: 4, backgroundColor: '#D0D2D3' }} />
                             </View>
                             {/* ------- Extract  ------- */}

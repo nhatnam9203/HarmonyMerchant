@@ -815,8 +815,9 @@ class TabCheckout extends Layout {
         });
 
         const moneyUserGiveForStaff = this.modalBillRef.current.state.quality;
+        console.log('moneyUserGiveForStaff : ',moneyUserGiveForStaff);
         const { total } = this.state;
-        const moneyChange = parseFloat(moneyUserGiveForStaff) - parseFloat(total);
+        const moneyChange = parseFloat(formatNumberFromCurrency(moneyUserGiveForStaff)) - parseFloat(formatNumberFromCurrency(total));
         if (moneyChange === 0) {
             //    this.props.actions.appointment.showModalPrintReceipt();
         } else {

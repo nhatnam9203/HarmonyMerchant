@@ -1,6 +1,6 @@
 /** @format */
 import React from 'react'
-import { AppRegistry, View, Modal } from 'react-native';
+import { AppRegistry, View, Modal, ActivityIndicator } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 
@@ -26,7 +26,12 @@ class App extends React.Component {
         return (
             <Provider store={this.state.store}>
                 <PersistGate
-                    loading={<View style={{flex:1,backgroundColor:'transparent'}} />}
+                    loading={<View style={{ flex: 1, backgroundColor: 'rgb(95,179,223)' }} >
+                        <ActivityIndicator
+                            size="large"
+                            color="#fff"
+                        />
+                    </View>}
                     persistor={this.state.persistor}>
                     <AppNavigators
                         ref={navigatorRef => {

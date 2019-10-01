@@ -408,6 +408,9 @@ export const formatNumberFromCurrency = currency => {
 }
 
 export const formatMoney = (number, decPlaces, decSep, thouSep) => {
+    if(`${number}`.includes(',') || `${number}`.includes('.')){
+        return number
+    }
     decPlaces = isNaN(decPlaces = Math.abs(decPlaces)) ? 2 : decPlaces,
         decSep = typeof decSep === "undefined" ? "." : decSep;
     thouSep = typeof thouSep === "undefined" ? "," : thouSep;
