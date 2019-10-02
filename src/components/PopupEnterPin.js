@@ -4,7 +4,9 @@ import {
     Image,
     Text,
     StyleSheet,
-    TextInput
+    TextInput,
+    Keyboard,
+    ActivityIndicator
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
@@ -18,23 +20,49 @@ class PopupEnterPin extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: ''
+            value: '',
+            customStyle: {},
+            loading: false
         }
+    }
+
+    componentDidMount() {
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this.keyboardDidShow);
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+    }
+
+    setStateFromParent = async (loading) => {
+        this.setState({
+            loading
+        })
+    }
+
+    keyboardDidShow = async () => {
+        await this.setState({
+            customStyle: {
+                justifyContent: 'flex-start',
+                paddingTop: scaleSzie(80)
+            }
+        });
+    }
+
+    keyboardDidHide = async () => {
+        await this.setState({
+            customStyle: {}
+        });
+
     }
 
     render() {
         const { title, visible, message, onRequestClose, confimYes, hideCloseButton } = this.props;
-        const { value } = this.state;
+        const { value, customStyle, loading } = this.state;
         return (
             <PopupParent
                 title={title}
                 visible={visible}
                 onRequestClose={() => onRequestClose()}
                 hideCloseButton={hideCloseButton}
-                style={{
-                    justifyContent: 'flex-start',
-                    paddingTop: scaleSzie(80)
-                }}
+                style={customStyle}
             >
                 <View style={{
                     height: scaleSzie(130), backgroundColor: '#fff',
@@ -48,40 +76,57 @@ class PopupEnterPin extends React.Component {
                             <TextInputMask
                                 type="only-numbers"
                                 style={{
-                                    flex: 1, fontSize: scaleSzie(16), textAlign: 'center',
+                                    flex: 1, fontSize: scaleSzie(18), textAlign: 'center',
                                     padding: 0, margin: 0
                                 }}
-                                autoFocus={true}
+                                placeholder="Your pin code"
                                 keyboardType="numeric"
                                 maxLength={4}
                                 value={value}
                                 onChangeText={(value) => this.setState({ value })}
-                                onSubmitEditing={() => confimYes()}
+                                onSubmitEditing={() => {
+                                    confimYes();
+                                }}
                             />
                         </View>
                     </View>
                     <View style={{
                         height: scaleSzie(45), alignItems: 'center'
                     }} >
-                        <ButtonCustom
-                            width={'30%'}
-                            height={35}
-                            backgroundColor="#0764B0"
-                            title="Enter"
-                            textColor="#fff"
-                            onPress={() => confimYes()}
-                            styleText={{
-                                fontSize: scaleSzie(14)
-                            }}
-                            style={{
-                                borderRadius: scaleSzie(4)
-                            }}
-                        />
+                        {
+                            loading ? <View style={{
+                                width: '30%', height: scaleSzie(35), backgroundColor: '#0764B0',
+                                justifyContent: 'center', alignItems: 'center'
+                            }} >
+                                <ActivityIndicator
+                                    size="large"
+                                    color="#fff"
+                                />
+                            </View> : <ButtonCustom
+                                    width={'30%'}
+                                    height={35}
+                                    backgroundColor="#0764B0"
+                                    title="Enter"
+                                    textColor="#fff"
+                                    onPress={() => confimYes()}
+                                    styleText={{
+                                        fontSize: scaleSzie(14)
+                                    }}
+                                    style={{
+                                        borderRadius: scaleSzie(4)
+                                    }}
+                                />
+                        }
 
                     </View>
                 </View>
             </PopupParent>
         );
+    }
+
+    componentWillUnmount() {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
     }
 
 }

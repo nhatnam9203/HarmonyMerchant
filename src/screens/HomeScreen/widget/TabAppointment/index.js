@@ -35,7 +35,8 @@ const initState = {
     isShowAddAppointment: false,
     visibleConfirm: false,
     visibleChangeStylist: false,
-    visibleDiscount: false
+    visibleDiscount: false,
+    visibleEnterPin: true
 }
 
 class TabAppointment extends Layout {
@@ -46,6 +47,7 @@ class TabAppointment extends Layout {
         this.webviewRef = React.createRef();
         this.amountRef = React.createRef();
         this.changeStylistRef = React.createRef();
+        this.popupEnterPinRef = React.createRef();
     }
 
 
@@ -58,7 +60,7 @@ class TabAppointment extends Layout {
     }
 
     onLoadStartWebview = () => {
-       this.webviewRef.current.reload();
+        this.webviewRef.current.reload();
 
     }
 
@@ -288,9 +290,9 @@ class TabAppointment extends Layout {
     }
 
     showModalDiscount = () => {
-        const {appointmentDetail} = this.props;
+        const { appointmentDetail } = this.props;
         const discount = appointmentDetail.discount ? appointmentDetail.discount : 0;
-        if (discount !== 0 && discount !== '0.00'){
+        if (discount !== 0 && discount !== '0.00') {
             const { appointmentId } = this.state;
             this.props.actions.marketing.getPromotionByAppointment(appointmentId);
             this.setState({
@@ -306,17 +308,41 @@ class TabAppointment extends Layout {
     }
 
     submitPincode = () => {
-        const password = this.passwordInputRef.current.state.value;
-        const { profile } = this.props
+        const password = this.popupEnterPinRef.current.state.value;
+        const { profile } = this.props;
         if (password.length === 4) {
+            this.popupEnterPinRef.current.setStateFromParent(true);
             this.props.actions.staff.loginStaff(profile.merchantCode, password);
         } else {
             Alert.alert(`Pin must 4 numeric`);
         }
     }
 
+    loginStaffSuccess = () => {
+        Promise.all([
+            this.props.actions.category.getCategoriesByMerchantId(),
+            this.props.actions.extra.getExtraByMerchant(),
+            this.props.actions.service.getServicesByMerchant(),
+            this.props.actions.product.getProductsByMerchant(),
+            this.props.actions.staff.getStaffByMerchantId()
+        ]).then((data) => {
+            if (data.length === 5) {
+                this.setState({
+                    visibleEnterPin : false
+                })
+            }
+
+        });
+    }
+
+    loginStaffFail = () => {
+        this.popupEnterPinRef.current.setStateFromParent(false);
+    }
+
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        const { currentTabParent, appointmentDetail, loading, isGetAppointmentSucces } = this.props;
+        const { currentTabParent, appointmentDetail, loading, isGetAppointmentSucces,
+            isLoginStaff
+        } = this.props;
         if (!loading && isGetAppointmentSucces && currentTabParent === 1) {
             const { services, products, extras } = appointmentDetail;
             const arrayProducts = getArrayProductsFromAppointment(products);
@@ -337,6 +363,16 @@ class TabAppointment extends Layout {
                 isShowAddAppointment: true,
             });
         }
+
+        if (!loading && loading !== prevProps.loading && isLoginStaff) {
+            this.props.actions.dataLocal.resetStateLoginStaff();
+            this.loginStaffSuccess();
+        }
+        if (!loading && loading !== prevProps.loading && !isLoginStaff) {
+            this.props.actions.dataLocal.resetStateLoginStaff();
+            this.loginStaffFail();
+        }
+
     }
 
 }
@@ -351,6 +387,9 @@ const mapStateToProps = state => ({
     servicesByMerchant: state.service.servicesByMerchant,
     appointmentDetail: state.appointment.appointmentDetail,
     isGetAppointmentSucces: state.appointment.isGetAppointmentSucces,
+
+    isLoginStaff: state.dataLocal.isLoginStaff,
+    loading: state.app.loading,
 })
 
 

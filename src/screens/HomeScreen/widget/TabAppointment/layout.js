@@ -433,7 +433,8 @@ class Layout extends React.Component {
                     onRequestClose={this.closeModalDiscount}
                 />
                 <PopupEnterPin
-                    visible={true}
+                    ref={this.popupEnterPinRef}
+                    visible={this.state.visibleEnterPin}
                     title="Pin code"
                     message="If you exit Checkout Screen , Basket will Reset ?"
                     onRequestClose={() => {}}
