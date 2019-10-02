@@ -55,7 +55,7 @@ export function checkoutAppointment(id) {
     }
 }
 
-export function paymentAppointment(appointmentId, method,isLoading = true) {
+export function paymentAppointment(appointmentId, method, isLoading = true) {
     return {
         type: 'PAY_APPOINTMENT',
         body: {
@@ -64,7 +64,7 @@ export function paymentAppointment(appointmentId, method,isLoading = true) {
         method: 'PUT',
         token: true,
         api: `${apiConfigs.BASE_API}appointment/pay/${appointmentId}`,
-        paymentMethod:method,
+        paymentMethod: method,
         isLoading
     }
 }
@@ -75,15 +75,15 @@ export function closeModalPaymentCompleted() {
     }
 }
 
-export function createAnymousAppointment(merchantId, products, paymentMethod,isLoading = true) {
+export function createAnymousAppointment(merchantId, products, services = [], extras = [], paymentMethod, isLoading = true) {
     return {
         type: 'CREATE_ANYMOUS_APPOINTMENT',
         body: {
             merchantId,
             userId: 0,
             status: 'unconfirm',
-            services: [],
-            extras: [],
+            services: services,
+            extras: extras,
             products: products
         },
         method: 'POST',
@@ -145,7 +145,7 @@ export function changeFlagSigninAppointment(flag = false) {
 }
 
 
-export function submitPaymentWithCreditCard(merchantId, userId, responseData,appointmentId) {
+export function submitPaymentWithCreditCard(merchantId, userId, responseData, appointmentId) {
     return {
         type: 'SUBMIT_PAYMENT_WITH_CREDIT_CARD',
         body: {

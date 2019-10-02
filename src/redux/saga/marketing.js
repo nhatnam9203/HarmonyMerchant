@@ -232,7 +232,7 @@ function* customPromotion(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: `${responses.message}-${codeNumber}`
             })
         }
     } catch (error) {

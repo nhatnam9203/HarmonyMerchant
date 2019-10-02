@@ -160,36 +160,41 @@ class TabCheckout extends Layout {
                     }, appointmentId)
             } else {
                 // ------ Buy Offline ------
-                alert('You can only sell products to visitors');
-                // const temptBasket = basket.filter((item) => item.id !== `${productSeleted.serviceId}_ser`);
-                // temptBasket.unshift({
-                //     type: 'Service',
-                //     id: `${productSeleted.serviceId}_ser`,
-                //     data: {
-                //         name: productSeleted.name,
-                //         serviceId: productSeleted.serviceId,
-                //         price: productSeleted.price
-                //     },
-                //     serviceName: productSeleted.name
-                // });
-                // const temptBasketExtra = temptBasket.filter((item) => item.id !== `${extraSelected.extraId}_extra`);
-                // if (extraSelected.extraId !== -1) {
-                //     temptBasketExtra.unshift({
-                //         type: 'Extra',
-                //         id: `${extraSelected.extraId}_extra`,
-                //         data: {
-                //             name: extraSelected.name,
-                //             extraId: extraSelected.extraId,
-                //             price: extraSelected.price
-                //         },
-                //         serviceName: productSeleted.name
-                //     });
-                // }
+                // alert('You can only sell products to visitors');
 
-                // this.setState({
-                //     basket: temptBasketExtra
-                // })
+                const temptBasket = basket.filter((item) => item.id !== `${productSeleted.serviceId}_ser`);
+                temptBasket.unshift({
+                    type: 'Service',
+                    id: `${productSeleted.serviceId}_ser`,
+                    data: {
+                        name: productSeleted.name,
+                        serviceId: productSeleted.serviceId,
+                        price: productSeleted.price
+                    },
+                    serviceName: productSeleted.name,
+                    staff: null
+                });
+
+                const temptBasketExtra = temptBasket.filter((item) => item.id !== `${extraSelected.extraId}_extra`);
+                if (extraSelected.extraId !== -1) {
+                    temptBasketExtra.unshift({
+                        type: 'Extra',
+                        id: `${extraSelected.extraId}_extra`,
+                        data: {
+                            name: extraSelected.name,
+                            extraId: extraSelected.extraId,
+                            price: extraSelected.price
+                        },
+                        serviceName: productSeleted.name
+                    });
+                }
+
+                this.setState({
+                    basket: temptBasketExtra,
+                    total: this.getPriceOfline(temptBasket)
+                });
             }
+            // ---------------- Handle -----------------
             this.setState({
                 isShowColProduct: false,
                 isShowColAmount: false,
@@ -402,7 +407,7 @@ class TabCheckout extends Layout {
                                 }
                             }
                         })
-                        this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, method, false);
+                        this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, [], [], method, false);
                     } else {
                         alert('Please setup your pax machine in setting');
                     }
@@ -424,13 +429,18 @@ class TabCheckout extends Layout {
                                 quantity: product.quanlitySet
                             }
                         }
-                    })
+                    });
+                    console.log('----- arrayProductBuy : ', arrayProductBuy);
                     const isLoadingOffline = method === 'cash' ? false : true;
-                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, method, isLoadingOffline);
+                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, [], [], method, isLoadingOffline);
                 }
 
             }
     }
+
+    //     staffId(pin): 207
+    // bookingServiceId(pin): 6166
+    // tipAmount(pin): "0.00"
 
     async hanleCreditCardProcess() {
         const { total } = this.state;
@@ -836,14 +846,14 @@ class TabCheckout extends Layout {
         const temptAppointmentId = _.isEmpty(appointmentDetail) ? appointmentIdOffline : appointmentDetail.appointmentId;
         if (methodPayment !== 'cash') {
             if (methodPayment === 'harmony') {
-                setTimeout(() =>{
+                setTimeout(() => {
                     this.props.actions.appointment.showModalPrintReceipt();
-                },500);
+                }, 500);
             } else if (methodPayment === 'credit_card') {
                 this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
-                setTimeout(() =>{
+                setTimeout(() => {
                     this.props.actions.appointment.showModalPrintReceipt();
-                },500);
+                }, 500);
             } else {
                 this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
                 this.props.actions.appointment.showModalPrintReceipt();
@@ -873,7 +883,7 @@ class TabCheckout extends Layout {
                 }
             });
         }
-        if (isDonePayment ) {
+        if (isDonePayment) {
             // console.log('------ Phi ------');
             this.donePayment();
         }

@@ -99,28 +99,27 @@ function* merchantSetting(action) {
 
 function* requestNetworkTimeout(action) {
     yield put({ type: 'STOP_LOADING_ROOT' });
-    alert('Please check your internet !');
-    // setTimeout(() => {
-    //     alert('Please check your internet !');
-    // }, 300)
-
+    // alert('Please check your internet !');
+    setTimeout(() => {
+        alert('Please check your internet !');
+    }, 300)
 }
 
 function* timeout(action) {
     yield put({ type: 'STOP_LOADING_ROOT' });
-    alert('Server not response');
-    // setTimeout(() => {
-    //     alert('Server not response');
-    // }, 100)
+    // alert('Server not response');
+    setTimeout(() => {
+        alert('Server not response');
+    }, 100)
 
 }
 
 function* showErrorMessage(action) {
     yield put({ ...action, type: 'STOP_LOADING_ROOT' });
-    alert(action.message);
-    // setTimeout(() => {
-    //     alert(action.message);
-    // }, 300)
+    // alert(action.message);
+    setTimeout(() => {
+        alert(action.message);
+    }, 300)
 
 }
 
@@ -129,7 +128,7 @@ function* handleSomethingWentWrong(action) {
         yield put({ ...action, type: 'STOP_LOADING_ROOT' });
         alert('Something went wrong!');
     } catch (error) {
-        yield put({type : error});
+        yield put({ type: error });
     }
 }
 
