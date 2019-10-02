@@ -218,9 +218,12 @@ class TabCheckout extends Layout {
     getPriceOfline(baseket) {
         let total = 0;
         for (let i = 0; i < baseket.length; i++) {
-            // total = total + parseInt(baseket[i].data.price) 
-            total = total + formatNumberFromCurrency(baseket[i].data.price);
-
+            if (baseket[i].type === "Product") {
+                total = total + parseFloat(baseket[i].data.price) * baseket[i].quanlitySet;
+                console.log('total : ', total);
+            } else {
+                total = total + formatNumberFromCurrency(baseket[i].data.price);
+            }
         }
         return total;
     }
@@ -399,15 +402,9 @@ class TabCheckout extends Layout {
                             changeButtonDone: true,
                             methodPayment: method
                         });
-                        const arrayProductBuy = basket.map((product) => {
-                            if (product.type === 'Product') {
-                                return {
-                                    productId: product.data.productId,
-                                    quantity: product.quanlitySet
-                                }
-                            }
-                        })
-                        this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, [], [], method, false);
+                        const dataAnymousAppoitment = this.getBasketOffline();
+                        const {arrayProductBuy,arryaServicesBuy,arrayExtrasBuy} = dataAnymousAppoitment;
+                        this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, false);
                     } else {
                         alert('Please setup your pax machine in setting');
                     }
@@ -422,25 +419,45 @@ class TabCheckout extends Layout {
                         changeButtonDone: true,
                         methodPayment: method
                     });
-                    const arrayProductBuy = basket.map((product) => {
-                        if (product.type === 'Product') {
-                            return {
-                                productId: product.data.productId,
-                                quantity: product.quanlitySet
-                            }
-                        }
-                    });
-                    console.log('----- arrayProductBuy : ', arrayProductBuy);
+                    const dataAnymousAppoitment = this.getBasketOffline();
+                    const {arrayProductBuy,arryaServicesBuy,arrayExtrasBuy} = dataAnymousAppoitment;
                     const isLoadingOffline = method === 'cash' ? false : true;
-                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, [], [], method, isLoadingOffline);
+                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, isLoadingOffline);
                 }
 
             }
     }
 
-    //     staffId(pin): 207
-    // bookingServiceId(pin): 6166
-    // tipAmount(pin): "0.00"
+
+    getBasketOffline = () => {
+        const { basket } = this.state;
+        const arrayProductBuy = [];
+        const arryaServicesBuy = [];
+        const arrayExtrasBuy = [];
+        for (let i = 0; i < basket.length; i++) {
+            if (basket[i].type === 'Product') {
+                arrayProductBuy.push({
+                    productId: basket[i].data.productId,
+                    quantity: basket[i].quanlitySet
+                });
+            } else if (basket[i].type === 'Service') {
+                arryaServicesBuy.push({
+                    serviceId: basket[i].data.serviceId,
+                    staffId: null,
+                    tipAmount: null,
+                });
+            } else if (basket[i].type === 'Extra') {
+                arrayExtrasBuy.push({
+                    extraId: basket[i].data.extraId,
+                })
+            }
+        }
+        return {
+            arrayProductBuy,
+            arryaServicesBuy,
+            arrayExtrasBuy
+        }
+    }
 
     async hanleCreditCardProcess() {
         const { total } = this.state;
