@@ -35,7 +35,7 @@ class Layout extends React.Component {
                     addPromotion={this.addPromotion}
                     />
                     <TabCustomBanner tabLabel={`${localize('Custom Banner',language)}`} />
-                    <TabCustomMarketing tabLabel={`${localize('Custom Marketing',language)}`} />
+                    {/* <TabCustomMarketing tabLabel={`${localize('Custom Marketing',language)}`} /> */}
 
                 </ScrollableTabView>
             </View>

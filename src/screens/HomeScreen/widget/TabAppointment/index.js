@@ -305,6 +305,16 @@ class TabAppointment extends Layout {
         })
     }
 
+    submitPincode = () => {
+        const password = this.passwordInputRef.current.state.value;
+        const { profile } = this.props
+        if (password.length === 4) {
+            this.props.actions.staff.loginStaff(profile.merchantCode, password);
+        } else {
+            Alert.alert(`Pin must 4 numeric`);
+        }
+    }
+
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { currentTabParent, appointmentDetail, loading, isGetAppointmentSucces } = this.props;
         if (!loading && isGetAppointmentSucces && currentTabParent === 1) {

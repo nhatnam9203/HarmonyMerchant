@@ -162,7 +162,7 @@ function* createAnymousAppointment(action) {
     try {
         action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
-        console.log('createAnymousAppointment : ' + JSON.stringify(action.body));
+        console.log('createAnymousAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             // ------- Call checkout -----

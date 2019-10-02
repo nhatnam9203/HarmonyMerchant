@@ -443,8 +443,8 @@ class TabCheckout extends Layout {
             } else if (basket[i].type === 'Service') {
                 arryaServicesBuy.push({
                     serviceId: basket[i].data.serviceId,
-                    staffId: null,
-                    tipAmount: null,
+                    staffId: 0,
+                    tipAmount: 0,
                 });
             } else if (basket[i].type === 'Extra') {
                 arrayExtrasBuy.push({

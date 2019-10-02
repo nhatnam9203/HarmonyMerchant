@@ -13,12 +13,13 @@ import { scaleSzie } from '../utils';
 class PopupConfirm extends React.Component {
 
     render() {
-        const { title, visible, message,onRequestClose,confimYes } = this.props;
+        const { title, visible, message,onRequestClose,confimYes ,hideCloseButton} = this.props;
         return (
             <PopupParent
                 title={title}
                 visible={visible}
                 onRequestClose={() => onRequestClose()}
+                hideCloseButton={hideCloseButton}
             >
                 <View style={{
                     height: scaleSzie(130), backgroundColor: '#fff',

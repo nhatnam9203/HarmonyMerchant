@@ -81,7 +81,7 @@ export function createAnymousAppointment(merchantId, products, services = [], ex
         body: {
             merchantId,
             userId: 0,
-            status: 'unconfirm',
+            status: 'checkout',
             services: services,
             extras: extras,
             products: products

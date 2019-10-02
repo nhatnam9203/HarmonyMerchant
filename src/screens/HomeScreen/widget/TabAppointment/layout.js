@@ -6,12 +6,12 @@ import {
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 
-import { Text, ButtonCustom, Button, PopupConfirm, PopupChangeStylist } from '@components';
+import { Text, ButtonCustom, Button, PopupConfirm, PopupChangeStylist,PopupEnterPin } from '@components';
 import styles from './style';
 import apiConfigs from '@configs/api';
 import { scaleSzie, localize } from '@utils';
 import {
-    ItemCategory, ItemProductService, ColPlaceHolder,ItemAmount,ItemExtra,ItemBasket,PopupDiscount
+    ItemCategory, ItemProductService, ColPlaceHolder, ItemAmount, ItemExtra, ItemBasket, PopupDiscount
 } from '../TabCheckout/widget';
 import IMAGE from '@resources';
 
@@ -233,7 +233,7 @@ class Layout extends React.Component {
 
     }
 
-    renderBasket(){
+    renderBasket() {
         const { language, appointmentDetail } = this.props;
         const { basket, total } = this.state;
         const tempTipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
@@ -293,8 +293,8 @@ class Layout extends React.Component {
                                     {`${localize('Tax', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                {`$ ${tax}`}
-                            </Text>
+                                    {`$ ${tax}`}
+                                </Text>
                             </View>
                             {/* ---------- Discount ------ */}
                             <View style={styles.payNumberTextContainer} >
@@ -309,8 +309,8 @@ class Layout extends React.Component {
                                     </Text>
                                 </Button>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                {`$ ${discount}`}
-                            </Text>
+                                    {`$ ${discount}`}
+                                </Text>
                             </View>
                             {/* ---------- Total ------ */}
                             <View style={styles.payNumberTextContainer} >
@@ -318,7 +318,7 @@ class Layout extends React.Component {
                                     {`${localize('Total', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(20) }]} >
-                                {`$${parseFloat(Math.round(total * 100) / 100).toFixed(2)}`}
+                                    {`$${parseFloat(Math.round(total * 100) / 100).toFixed(2)}`}
                                 </Text>
                             </View>
                         </View>
@@ -326,8 +326,9 @@ class Layout extends React.Component {
 
                 </View>
                 {/* -------- Footer Basket -------- */}
-                <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8),
-            }} >
+                <View style={{
+                    height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8),
+                }} >
                     {this.renderButtonBookAppointment()}
                 </View>
             </View>
@@ -344,10 +345,10 @@ class Layout extends React.Component {
                     backgroundColor="#0764B0"
                     title={localize('BOOK', language)}
                     textColor="#fff"
-                    onPress={this.bookAppointment} 
+                    onPress={this.bookAppointment}
                     style={{
                         borderWidth: 1, borderColor: '#C5C5C5',
-                       flex:1
+                        flex: 1
                     }}
                     styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
                 />
@@ -393,7 +394,7 @@ class Layout extends React.Component {
 
     render() {
         const { token, profile, profileStaffLogin, } = this.props;
-        const {visibleConfirm,visibleChangeStylist} = this.state;
+        const { visibleConfirm, visibleChangeStylist } = this.state;
         const injectedJavascript = `(function() {
             window.postMessage = function(data) {
               window.ReactNativeWebView.postMessage(data);
@@ -402,7 +403,7 @@ class Layout extends React.Component {
           window.onscroll = function() { window.postMessage(document.documentElement.scrollTop||document.body.scrollTop)}
           true
           `;
-          const { basket } = this.state;
+        const { basket } = this.state;
         return (
             <View style={styles.container} >
                 <WebView
@@ -417,19 +418,27 @@ class Layout extends React.Component {
                     visible={visibleConfirm}
                     title="Confirmation"
                     message="If you exit Checkout Screen , Basket will Reset ?"
-                    onRequestClose={() => this.setState({visibleConfirm: false})}
+                    onRequestClose={() => this.setState({ visibleConfirm: false })}
                     confimYes={this.clearDataCofrim}
                 />
-                 <PopupChangeStylist
+                <PopupChangeStylist
                     ref={this.changeStylistRef}
                     visible={visibleChangeStylist}
                     title="Change Stylist"
                     onRequestClose={() => { this.setState({ visibleChangeStylist: false }) }}
                 />
-                 <PopupDiscount
+                <PopupDiscount
                     title={'Discount'}
                     visible={this.state.visibleDiscount}
                     onRequestClose={this.closeModalDiscount}
+                />
+                <PopupEnterPin
+                    visible={true}
+                    title="Pin code"
+                    message="If you exit Checkout Screen , Basket will Reset ?"
+                    onRequestClose={() => {}}
+                    confimYes={this.submitPincode}
+                    hideCloseButton={true}
                 />
             </View>
         );

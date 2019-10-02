@@ -32,6 +32,7 @@ import PopupCalendar from './PopupCalendar';
 import PopupChangeStylist from "./PopupChangeStylist";
 import InputFormPhone from './InputFormPhone';
 import PopupChangeMoney from './PopupChangeMoney';
+import PopupEnterPin from './PopupEnterPin';
 
 module.exports = {
     Button,
@@ -67,5 +68,6 @@ module.exports = {
     PopupCalendar,
     PopupChangeStylist,
     InputFormPhone,
-    PopupChangeMoney
+    PopupChangeMoney,
+    PopupEnterPin
 }

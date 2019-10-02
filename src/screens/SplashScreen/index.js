@@ -18,7 +18,8 @@ class SplashScreen extends Layout {
         if (!token) {
             this.props.navigation.navigate('Auth');
         } else {
-            this.props.actions.app.handleLockScreen(true);
+            // this.props.actions.app.handleLockScreen(true);
+            this.props.navigation.navigate('Drawer');
         }
     }
 

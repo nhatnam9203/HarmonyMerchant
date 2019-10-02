@@ -19,7 +19,7 @@ class PopupParent extends React.Component {
     }
 
     render() {
-        const { title, visible, style, width } = this.props;
+        const { title, visible, style, width, hideCloseButton } = this.props;
         const temptWidth = width ? width : 400;
         return (
             <ModalCustom
@@ -43,12 +43,15 @@ class PopupParent extends React.Component {
                             width: scaleSzie(70), justifyContent: 'center', alignItems: 'flex-end',
                             paddingRight: scaleSzie(12)
                         }} >
-                            <Button onPress={this.onPress} style={{
-                                width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#fff',
-                                borderRadius: scaleSzie(17), justifyContent: 'center', alignItems: 'center'
-                            }} >
-                                <Image source={IMAGE.closePopup} style={{ width: scaleSzie(16), height: scaleSzie(16) }} />
-                            </Button>
+                            {
+                                hideCloseButton ? <View /> : <Button onPress={this.onPress} style={{
+                                    width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#fff',
+                                    borderRadius: scaleSzie(17), justifyContent: 'center', alignItems: 'center'
+                                }} >
+                                    <Image source={IMAGE.closePopup} style={{ width: scaleSzie(16), height: scaleSzie(16) }} />
+                                </Button>
+                            }
+
                         </View>
                     </View>
                     {this.props.children}

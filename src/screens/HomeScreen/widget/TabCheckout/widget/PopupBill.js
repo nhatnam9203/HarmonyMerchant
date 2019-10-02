@@ -103,6 +103,7 @@ class PopupBill extends React.Component {
                 }}
                 style={{}}
                 width={470}
+                hideCloseButton={true}
             >
                 <View style={{
                     height: scaleSzie(297), backgroundColor: '#fff',
