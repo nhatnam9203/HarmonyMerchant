@@ -65,7 +65,7 @@ export const requestAPI = async (action, header = {}) => {
         }
         return response.data;
     } catch (error) {
-        // console.log('error message : ' + error.message);
+        console.log('error message : ' + error.message);
         if (error.message.includes('timeout')) {
             throw 'TIMEOUT'
         } else if (error.message.includes('Network Error')) {

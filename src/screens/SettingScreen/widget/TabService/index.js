@@ -130,6 +130,22 @@ class TabService extends Layout {
         })
     }
 
+    updateServicePosition = (data) => {
+        const servicesUpdate = data.map((service, index) => {
+            return {
+                ...service,
+                position: index
+            }
+        });
+        const body = data.map((service, index) => {
+            return {
+                serviceId: service.serviceId,
+                position: index
+            }
+        });
+        this.props.actions.service.updateServicePositionLocal(servicesUpdate);
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         const { isShowSearchService, isGetListSearchService } = this.props;
         if (isShowSearchService && isGetListSearchService) {

@@ -328,10 +328,9 @@ class TabAppointment extends Layout {
         ]).then((data) => {
             if (data.length === 5) {
                 this.setState({
-                    visibleEnterPin : false
+                    visibleEnterPin: false
                 })
             }
-
         });
     }
 
@@ -366,10 +365,12 @@ class TabAppointment extends Layout {
 
         if (!loading && loading !== prevProps.loading && isLoginStaff) {
             this.props.actions.dataLocal.resetStateLoginStaff();
+            console.log('---Success ---');
             this.loginStaffSuccess();
         }
         if (!loading && loading !== prevProps.loading && !isLoginStaff) {
             this.props.actions.dataLocal.resetStateLoginStaff();
+            console.log('---Fail ---');
             this.loginStaffFail();
         }
 

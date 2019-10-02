@@ -10,7 +10,7 @@ export function addServiceByMerchant(body) {
     }
 }
 
-export function getServicesByMerchant(isShowLoading= true) {
+export function getServicesByMerchant(isShowLoading = true) {
     return {
         type: 'GET_SERVICE_BY_MERCHANT',
         method: 'GET',
@@ -65,3 +65,22 @@ export function clearSearchService() {
         payload: true
     }
 }
+
+export function updateSerivePosition(body) {
+    return {
+        type: 'UPDATE_SERVICE_POSITION',
+        body,
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}service/update/position`,
+    }
+}
+
+export function updateServicePositionLocal(services) {
+    return {
+        type: 'UPDATE_SERVICE_POSITION_LOCAL',
+        payload: services
+    }
+}
+
+

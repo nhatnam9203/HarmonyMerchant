@@ -238,8 +238,9 @@ function* loginStaff(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('loginStaff : ' + JSON.stringify(responses));
+        console.log('loginStaff : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
+        yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'UPDATE_PROFILE_STAFF_SUCCESS',
@@ -257,6 +258,7 @@ function* loginStaff(action) {
         }
         yield put({ type: 'STOP_LOADING_ROOT' });
     } catch (error) {
+        yield put({ type: 'STOP_LOADING_ROOT' });
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });

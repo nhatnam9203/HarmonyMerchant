@@ -4,7 +4,7 @@ const initialState = {
     isShowSearchService: false,
     refreshListServices: false,
     isGetListSearchService: false,
-    
+
 }
 
 function appReducer(state = initialState, action) {
@@ -52,6 +52,11 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 isGetListSearchService: true
+            }
+        case 'UPDATE_SERVICE_POSITION_LOCAL':
+            return {
+                ...state,
+                servicesByMerchant: action.payload
             }
 
 

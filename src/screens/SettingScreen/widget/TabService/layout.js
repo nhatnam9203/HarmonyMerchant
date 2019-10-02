@@ -5,6 +5,7 @@ import {
     TextInput,
     FlatList,
 } from 'react-native';
+import DraggableFlatList from 'react-native-draggable-flatlist';
 
 import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
 import { Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService } from '@components';
@@ -140,7 +141,13 @@ class Layout extends React.Component {
             isShowSearchService, listServicesSearch,refreshListServices
         } = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
-        const temptData = isShowSearchService ? listServicesSearch : servicesByMerchant
+        const temptData = isShowSearchService ? listServicesSearch : servicesByMerchant;
+        const data = temptData.map((item,index) => {
+            return {
+                ...item,
+                key: `item-${index}`,
+            }
+        })
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
@@ -149,20 +156,24 @@ class Layout extends React.Component {
                 <View style={{ height: scaleSzie(10) }} />
                 <View style={{ flex: 1 }} >
                     <HeaderTableService />
-                    <FlatList
-                        data={temptData}
-                        renderItem={({ item, index }) => <RowTableService
+                    <DraggableFlatList
+                        data={data}
+                        renderItem={({ item, index , move, moveEnd, isActive}) => <RowTableService
                             index={index}
                             service={item}
                             archiveService={() => this.archiveService(item)}
                             editService={() => this.showModalEditService(item)}
                             restoreService={() => this.restoreService(item)}
                             categoryName={getCategoryName(categoriesByMerchant, item.categoryId)}
+                            move={move}
+                            moveEnd={moveEnd}
                         />}
                         keyExtractor={(item, index) => `${index}`}
                         ListEmptyComponent={<RowTableEmptyService />}
                         refreshing={refreshListServices}
                         onRefresh={() => this.props.actions.service.getServicesByMerchant(false)}
+                        scrollPercent={5}
+                        onMoveEnd={({ data }) =>this.updateServicePosition(data)}
                     />
                 </View>
                 <PopupAddEditService

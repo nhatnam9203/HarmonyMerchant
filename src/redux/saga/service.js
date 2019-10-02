@@ -205,6 +205,34 @@ function* searchService(action) {
     }
 }
 
+function* updateSerivePosition(action) {
+    try {
+        // yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log('--- updateSerivePosition : ', responses);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            // yield put({
+            //     type: 'SEARCH_SERVICE_SUCCESS',
+            //     payload: responses.data
+            // });
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 
 export default function* saga() {
     yield all([
@@ -214,5 +242,6 @@ export default function* saga() {
         takeLatest('RESTORE_SERVICE', restoreService),
         takeLatest('EDIT_SERVICE', editService),
         takeLatest('SEARCH_SERVICE', searchService),
+        takeLatest('UPDATE_SERVICE_POSITION', updateSerivePosition),
     ])
 }
