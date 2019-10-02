@@ -204,7 +204,7 @@ function* checkoutSubmit(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('checkoutSubmit : ', responses.data);
+        console.log('checkoutSubmit : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
 

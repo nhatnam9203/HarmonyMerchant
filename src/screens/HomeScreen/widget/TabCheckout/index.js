@@ -735,25 +735,6 @@ class TabCheckout extends Layout {
         }
     }
 
-    donePayment = () => {
-        const { methodPayment } = this.state;
-        const { appointmentDetail, appointmentIdOffline } = this.props;
-        const temptAppointmentId = _.isEmpty(appointmentDetail) ? appointmentIdOffline : appointmentDetail.appointmentId;
-        if (methodPayment === 'cash') {
-            this.openCashDrawer();
-            this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
-            this.props.actions.appointment.showModalPrintReceipt();
-        } else if (methodPayment === 'harmony') {
-            this.props.actions.appointment.showModalPrintReceipt();
-        } else if (methodPayment === 'credit_card') {
-            this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
-            this.props.actions.appointment.showModalPrintReceipt();
-        } else {
-            this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
-            this.props.actions.appointment.showModalPrintReceipt();
-        }
-    }
-
     // ------------ Signal R -------
 
     setupSignalR(profile, token, appointmentDetail) {
@@ -825,7 +806,7 @@ class TabCheckout extends Layout {
 
     }
 
-    doneBillByCash = async () =>{
+    doneBillByCash = async () => {
         await this.setState({
             visibleChangeMoney: false
         })
@@ -849,8 +830,31 @@ class TabCheckout extends Layout {
         })
     }
 
+    donePayment = () => {
+        const { methodPayment } = this.state;
+        const { appointmentDetail, appointmentIdOffline } = this.props;
+        const temptAppointmentId = _.isEmpty(appointmentDetail) ? appointmentIdOffline : appointmentDetail.appointmentId;
+        if (methodPayment !== 'cash') {
+            if (methodPayment === 'harmony') {
+                setTimeout(() =>{
+                    this.props.actions.appointment.showModalPrintReceipt();
+                },500);
+            } else if (methodPayment === 'credit_card') {
+                this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
+                setTimeout(() =>{
+                    this.props.actions.appointment.showModalPrintReceipt();
+                },500);
+            } else {
+                this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
+                this.props.actions.appointment.showModalPrintReceipt();
+            }
+        }
+    }
+
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        const { currentTabParent, appointmentDetail, loading, isGetAppointmentSucces } = this.props;
+        const { currentTabParent, appointmentDetail, loading, isGetAppointmentSucces,
+            isDonePayment
+        } = this.props;
         if (!loading && isGetAppointmentSucces && currentTabParent === 2) {
             const { services, products, extras } = appointmentDetail;
             const arrayProducts = getArrayProductsFromAppointment(products);
@@ -868,7 +872,10 @@ class TabCheckout extends Layout {
                     phoneNumber: appointmentDetail.phoneNumber,
                 }
             });
-
+        }
+        if (isDonePayment ) {
+            // console.log('------ Phi ------');
+            this.donePayment();
         }
     }
 }

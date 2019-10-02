@@ -26,7 +26,7 @@ class App extends React.Component {
         return (
             <Provider store={this.state.store}>
                 <PersistGate
-                    loading={<View style={{ flex: 1, backgroundColor: 'rgb(95,179,223)' }} >
+                    loading={<View style={{ flex: 1, backgroundColor: 'rgb(95,179,223)',justifyContent:'center',alignItems:'center' }} >
                         <ActivityIndicator
                             size="large"
                             color="#fff"
