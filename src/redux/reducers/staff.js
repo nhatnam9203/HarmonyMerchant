@@ -6,12 +6,28 @@ const initialState = {
     refreshListStaffs: false,
     isResetInfoAdmin: false,
     isGetListSearchStaff: false,
-    visibleForotPin: false
+    visibleForotPin: false,
 
+    isShowButtonEnterPinCode: false
 }
 
 function appReducer(state = initialState, action) {
     switch (action.type) {
+        case 'LOGIN_STAFF':
+            return {
+                ...state,
+                isShowButtonEnterPinCode: true
+            }
+        case 'LOGIN_STAFF_SUCCESS':
+            return {
+                ...state,
+                // isShowButtonEnterPinCode: false
+            }
+        case 'LOGIN_STAFF_FAIL':
+            return {
+                ...state,
+                isShowButtonEnterPinCode: false
+            }
         case 'GET_STAFF_BY_MERCHANR_ID':
             return {
                 ...state,

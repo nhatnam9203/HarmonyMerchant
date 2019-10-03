@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'ramda';
+import { Alert} from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -334,10 +335,6 @@ class TabAppointment extends Layout {
         });
     }
 
-    loginStaffFail = () => {
-        this.popupEnterPinRef.current.setStateFromParent(false);
-    }
-
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { currentTabParent, appointmentDetail, loading, isGetAppointmentSucces,
             isLoginStaff
@@ -363,17 +360,10 @@ class TabAppointment extends Layout {
             });
         }
 
-        if (!loading && loading !== prevProps.loading && isLoginStaff) {
+        if (isLoginStaff) {
             this.props.actions.dataLocal.resetStateLoginStaff();
-            console.log('---Success ---');
             this.loginStaffSuccess();
         }
-        if (!loading && loading !== prevProps.loading && !isLoginStaff) {
-            this.props.actions.dataLocal.resetStateLoginStaff();
-            console.log('---Fail ---');
-            this.loginStaffFail();
-        }
-
     }
 
 }

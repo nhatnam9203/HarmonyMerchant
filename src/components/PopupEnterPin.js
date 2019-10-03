@@ -10,10 +10,10 @@ import {
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
-
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import { scaleSzie } from '../utils';
+import connectRedux from '@redux/ConnectRedux';
 
 class PopupEnterPin extends React.Component {
 
@@ -54,7 +54,7 @@ class PopupEnterPin extends React.Component {
     }
 
     render() {
-        const { title, visible, message, onRequestClose, confimYes, hideCloseButton } = this.props;
+        const { title, visible, isShowButtonEnterPinCode, onRequestClose, confimYes, hideCloseButton } = this.props;
         const { value, customStyle, loading } = this.state;
         return (
             <PopupParent
@@ -94,7 +94,7 @@ class PopupEnterPin extends React.Component {
                         height: scaleSzie(45), alignItems: 'center'
                     }} >
                         {
-                            loading ? <View style={{
+                            isShowButtonEnterPinCode ? <View style={{
                                 width: '30%', height: scaleSzie(35), backgroundColor: '#0764B0',
                                 justifyContent: 'center', alignItems: 'center'
                             }} >
@@ -131,19 +131,11 @@ class PopupEnterPin extends React.Component {
 
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    footer: {
-        height: scaleSzie(50),
-        flexDirection: 'row',
-    },
-    buttonContainer: {
-        flex: 1,
-        alignItems: 'center'
-    },
-})
 
-export default PopupEnterPin;
+const mapStateToProps = state => ({
+    language: state.dataLocal.language,
+    isShowButtonEnterPinCode : state.staff.isShowButtonEnterPinCode
+});
+
+export default connectRedux(mapStateToProps, PopupEnterPin);
 

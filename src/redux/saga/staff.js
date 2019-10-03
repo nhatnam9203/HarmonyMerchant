@@ -55,7 +55,7 @@ function* getStaffByMerchantId(action) {
                 type: 'UNAUTHORIZED'
             })
         } else {
-            yield put({type :'GET_STAFF_BY_MERCHANR_ID_FAIL'});
+            yield put({ type: 'GET_STAFF_BY_MERCHANR_ID_FAIL' });
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -238,26 +238,30 @@ function* loginStaff(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('loginStaff : ' + JSON.stringify(responses));
+        // console.log('loginStaff : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
+            yield put({type:'LOGIN_STAFF_SUCCESS'});
             yield put({
                 type: 'UPDATE_PROFILE_STAFF_SUCCESS',
                 payload: responses.data
             });
         } else if (parseInt(codeNumber) === 401) {
+            yield put({ type: 'LOGIN_STAFF_FAIL' });
             yield put({
                 type: 'UNAUTHORIZED'
-            })
+            });
         } else {
+            yield put({ type: 'LOGIN_STAFF_FAIL' });
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
-            })
+            });
         }
         yield put({ type: 'STOP_LOADING_ROOT' });
     } catch (error) {
+        yield put({ type: 'LOGIN_STAFF_FAIL' });
         yield put({ type: 'STOP_LOADING_ROOT' });
         yield put({ type: error });
     } finally {

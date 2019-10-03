@@ -144,6 +144,7 @@ class TabService extends Layout {
             }
         });
         this.props.actions.service.updateServicePositionLocal(servicesUpdate);
+        this.props.actions.service.updateSerivePosition(body);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
