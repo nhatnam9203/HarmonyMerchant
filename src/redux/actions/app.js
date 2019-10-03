@@ -92,10 +92,17 @@ export function merchantSetting(body) {
     }
 }
 
-export function resetIsFlashScreen(isFocus  = false){
-    return{
-        type :'RESET_IS_FLASH_SCREEN',
+export function resetIsFlashScreen(isFocus = false) {
+    return {
+        type: 'RESET_IS_FLASH_SCREEN',
         payload: isFocus
+    }
+}
+
+export function changeFlagVisibleEnteerPinCode(visible = true) {
+    return {
+        type: 'CHANGE_FLAG_VISIBLE_ENTER_PIN_CODE',
+        payload: visible
     }
 }
 

@@ -72,7 +72,7 @@ export default class Layout extends React.Component {
 
                     <PopupEnterPin
                         ref={this.popupEnterPinRef}
-                        visible={this.state.visibleEnterPin}
+                        // visible={this.state.visibleEnterPin}
                         title="Pin code"
                         message="If you exit Checkout Screen , Basket will Reset ?"
                         onRequestClose={() => { }}

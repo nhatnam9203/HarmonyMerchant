@@ -109,8 +109,8 @@ class CustomerScreen extends Layout {
     handleLockScreen = () => {
         const { isFocus } = this.state;
         if (isFocus) {
-            // this.props.actions.app.handleLockScreen(true);
             this.props.navigation.navigate('Home');
+            this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
         }
     }
 

@@ -35,6 +35,7 @@ class HomeScreen extends Layout {
                     isFocus: false
                 });
                 this.scrollTabParentRef.current.goToPage(1);
+                this.popupEnterPinRef.current.setStateFromParent('');
             }
         );
         this.didFocusSubscription = this.props.navigation.addListener(
@@ -104,9 +105,7 @@ class HomeScreen extends Layout {
         if (isFocus) {
             this.scrollTabParentRef.current.goToPage(1);
             this.popupEnterPinRef.current.setStateFromParent('');
-            await this.setState({
-                visibleEnterPin: true
-            })
+            this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
         }
     }
 
@@ -115,11 +114,8 @@ class HomeScreen extends Layout {
     }
 
     showLockScreen = () => {
-        // this.props.actions.app.handleLockScreen(true);
         this.popupEnterPinRef.current.setStateFromParent('');
-        this.setState({
-            visibleEnterPin: true
-        })
+        this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
     }
 
     clearDataTabCheckout = () => {
@@ -163,9 +159,7 @@ class HomeScreen extends Layout {
         ]).then((data) => {
             this.props.actions.staff.reloadButtonEnterPincode();
             if (data.length === 5) {
-                this.setState({
-                    visibleEnterPin: false
-                })
+               this.props.actions.app.changeFlagVisibleEnteerPinCode(false);
             }
         }).catch(error => {
             this.props.actions.staff.reloadButtonEnterPincode();

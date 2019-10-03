@@ -41,7 +41,7 @@ class SettlementScreen extends Layout {
         const { isFocus } = this.state;
         if (isFocus) {
             this.props.navigation.navigate('Home');
-            // this.props.actions.app.handleLockScreen(true);
+            this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
         }
     }
 

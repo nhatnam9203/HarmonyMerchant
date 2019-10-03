@@ -54,12 +54,12 @@ class PopupEnterPin extends React.Component {
     }
 
     render() {
-        const { title, visible, isShowButtonEnterPinCode, onRequestClose, confimYes, hideCloseButton } = this.props;
+        const { title, visibleEnterPin, isShowButtonEnterPinCode, onRequestClose, confimYes, hideCloseButton } = this.props;
         const { value, customStyle, loading } = this.state;
         return (
             <PopupParent
                 title={title}
-                visible={visible}
+                visible={visibleEnterPin}
                 onRequestClose={() => onRequestClose()}
                 hideCloseButton={hideCloseButton}
                 style={customStyle}
@@ -136,7 +136,8 @@ class PopupEnterPin extends React.Component {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    isShowButtonEnterPinCode: state.staff.isShowButtonEnterPinCode
+    isShowButtonEnterPinCode: state.staff.isShowButtonEnterPinCode,
+    visibleEnterPin: state.app.visibleEnterPin
 });
 
 export default connectRedux(mapStateToProps, PopupEnterPin);

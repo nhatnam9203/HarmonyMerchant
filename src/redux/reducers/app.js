@@ -7,7 +7,9 @@ const initialState = {
     visibleModalLock: false,
     timeOutLockScreen: 15 * 1000 * 60,
     question: [],
-    isFlashScreen: true
+    isFlashScreen: true,
+
+    visibleEnterPin: true
 }
 
 function appReducer(state = initialState, action) {
@@ -68,6 +70,11 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 isFlashScreen: action.payload
+            }
+        case 'CHANGE_FLAG_VISIBLE_ENTER_PIN_CODE':
+            return {
+                ...state,
+                visibleEnterPin: action.payload
             }
 
 
