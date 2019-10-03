@@ -173,7 +173,7 @@ class Layout extends React.Component {
                         refreshing={refreshListServices}
                         onRefresh={() => this.props.actions.service.getServicesByMerchant(false)}
                         scrollPercent={5}
-                        onMoveEnd={({ data }) =>this.updateServicePosition(data)}
+                        onMoveEnd={({ data }) =>this.updateServicePosition(data,isShowSearchService)}
                     />
                 </View>
                 <PopupAddEditService

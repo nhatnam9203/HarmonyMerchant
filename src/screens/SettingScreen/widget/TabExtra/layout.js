@@ -5,6 +5,7 @@ import {
     TextInput,
     FlatList,
 } from 'react-native';
+import DraggableFlatList from 'react-native-draggable-flatlist';
 
 import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
 import {
@@ -127,7 +128,13 @@ class Layout extends React.Component {
             listExtrasSearch, isShowSearchExtra
         } = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
-        const temptData = isShowSearchExtra ? listExtrasSearch : extrasByMerchant
+        const temptData = isShowSearchExtra ? listExtrasSearch : extrasByMerchant;
+        const data = temptData.map((item,index) => {
+            return {
+                ...item,
+                key: `item-${index}`,
+            }
+        });
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
@@ -138,20 +145,24 @@ class Layout extends React.Component {
                     <HeaderTableExtra
                         language={language}
                     />
-                    <FlatList
-                        data={temptData}
-                        renderItem={({ item, index }) => <RowTableExtra
+                    <DraggableFlatList
+                        data={data}
+                        renderItem={({ item, index, move, moveEnd, isActive }) => <RowTableExtra
                             index={index}
                             extra={item}
                             archiveExtra={() => this.archiveExtra(item)}
                             editService={() => this.showModalEditExtra(item)}
                             restoreExtra={() => this.restoreExtra(item)}
                             categoryName={getCategoryName(categoriesByMerchant, item.categoryId)}
+                            move={move}
+                            moveEnd={moveEnd}
                         />}
                         keyExtractor={(item, index) => `${item.extraId}`}
                         ListEmptyComponent={<RowTableEmptyExtra />}
                         refreshing={refreshListExtras}
                         onRefresh={() => this.props.actions.extra.getExtraByMerchant(false)}
+                        scrollPercent={5}
+                        onMoveEnd={({ data }) =>this.updateExtrasPosition(data,isShowSearchExtra)}
                     />
                 </View>
                 <PopupEditAddExtra

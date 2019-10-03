@@ -130,21 +130,24 @@ class TabService extends Layout {
         })
     }
 
-    updateServicePosition = (data) => {
-        const servicesUpdate = data.map((service, index) => {
-            return {
-                ...service,
-                position: index
-            }
-        });
-        const body = data.map((service, index) => {
-            return {
-                serviceId: service.serviceId,
-                position: index
-            }
-        });
-        this.props.actions.service.updateServicePositionLocal(servicesUpdate);
-        this.props.actions.service.updateSerivePosition(body);
+    updateServicePosition = (data, isShowSearchService) => {
+        if (!isShowSearchService) {
+            const servicesUpdate = data.map((service, index) => {
+                return {
+                    ...service,
+                    position: index
+                }
+            });
+            const body = data.map((service, index) => {
+                return {
+                    serviceId: service.serviceId,
+                    position: index
+                }
+            });
+            this.props.actions.service.updateServicePositionLocal(servicesUpdate);
+            this.props.actions.service.updateSerivePosition(body);
+        }
+
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

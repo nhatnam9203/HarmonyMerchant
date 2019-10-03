@@ -133,23 +133,23 @@ class TabCategories extends Layout {
         })
     }
 
-    updatePositionCategories = data => {
-        const categoriresUpdate = data.map((category, index) => {
-            return {
-                ...category,
-                position: index
-            }
-        });
-        const body = data.map((category, index) => {
-            return {
-                categoryId: category.categoryId,
-                position: index
-            }
-        });
-        // console.log('--- categoriresUpdate : ', JSON.stringify(categoriresUpdate));
-        this.props.actions.category.updatePositionCategoriesLocal(categoriresUpdate);
-        this.props.actions.category.updatePositionCategories(body);
-
+    updatePositionCategories = (data, isShowSearchCategories) => {
+        if (!isShowSearchCategories) {
+            const categoriresUpdate = data.map((category, index) => {
+                return {
+                    ...category,
+                    position: index
+                }
+            });
+            const body = data.map((category, index) => {
+                return {
+                    categoryId: category.categoryId,
+                    position: index
+                }
+            });
+            this.props.actions.category.updatePositionCategoriesLocal(categoriresUpdate);
+            this.props.actions.category.updatePositionCategories(body);
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

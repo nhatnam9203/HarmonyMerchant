@@ -209,7 +209,7 @@ function* updateSerivePosition(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('--- updateSerivePosition : ', responses);
+        // console.log('--- updateSerivePosition : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             // yield put({

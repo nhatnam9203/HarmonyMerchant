@@ -65,3 +65,20 @@ export function clearSearchExtra() {
         payload: true
     }
 }
+
+export function updatePositionExtrasLocal(data){
+    return {
+        type : 'UPDATE_POSITION_EXTRAS_LOCAL',
+        payload:data
+    }
+}
+
+export function updatePositionExtras(body) {
+    return {
+        type: 'UPDATE_POSITION_EXTRAS',
+        method: 'PUT',
+        body,
+        token: true,
+        api: `${apiConfigs.BASE_API}extra/update/position`
+    }
+}

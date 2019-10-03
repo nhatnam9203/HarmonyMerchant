@@ -133,6 +133,25 @@ class TabExtra extends Layout {
 
     }
 
+    updateExtrasPosition = (data, isShowSearchExtra) => {
+        if (!isShowSearchExtra) {
+            const extrasUpdate = data.map((extra, index) => {
+                return {
+                    ...extra,
+                    position: index
+                }
+            });
+            const body = data.map((extra, index) => {
+                return {
+                    extraId: extra.extraId,
+                    position: index
+                }
+            });
+            this.props.actions.extra.updatePositionExtrasLocal(extrasUpdate);
+            this.props.actions.extra.updatePositionExtras(body);
+        }
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         const { isShowSearchExtra, isGetListSearchExtra } = this.props;
         if (isShowSearchExtra && isGetListSearchExtra) {

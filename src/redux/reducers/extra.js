@@ -11,7 +11,7 @@ function appReducer(state = initialState, action) {
         case 'GET_EXTRA_BY_MERCHANT':
             return {
                 ...state,
-                refreshListExtras: !action.isShowLoading 
+                refreshListExtras: !action.isShowLoading
             }
         case 'GET_EXTRA_BY_MERCHANT_SUCCESS':
             return {
@@ -29,7 +29,7 @@ function appReducer(state = initialState, action) {
                 ...state,
                 listExtrasSearch: action.payload,
                 isShowSearchExtra: true,
-                isGetListSearchExtra:false
+                isGetListSearchExtra: false
             }
         case 'CLEAR_SEARCH_EXTRA':
             return {
@@ -52,6 +52,12 @@ function appReducer(state = initialState, action) {
                 ...state,
                 isGetListSearchExtra: true
             }
+        case 'UPDATE_POSITION_EXTRAS_LOCAL':
+            return {
+                ...state,
+                extrasByMerchant: action.payload,
+            }
+
         default:
             return state
     }

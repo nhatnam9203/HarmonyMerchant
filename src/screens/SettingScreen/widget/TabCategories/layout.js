@@ -150,7 +150,7 @@ class Layout extends React.Component {
                 ...item,
                 key: `item-${index}`,
             }
-        })
+        });
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
@@ -175,7 +175,7 @@ class Layout extends React.Component {
                         refreshing={refreshListCategories}
                         onRefresh={() => this.props.actions.category.getCategoriesByMerchantId(false)}
                         scrollPercent={5}
-                        onMoveEnd={({ data }) =>this.updatePositionCategories(data)}
+                        onMoveEnd={({ data }) =>this.updatePositionCategories(data,isShowSearchCategories)}
                     />
                 </View>
                 <PopupEditAddCategories

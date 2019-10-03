@@ -189,6 +189,34 @@ function* searchExtra(action) {
     }
 }
 
+function* updatePositionExtras(action) {
+    try {
+        // yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log('--- updateSerivePosition : ', responses);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            // yield put({
+            //     type: 'SEARCH_SERVICE_SUCCESS',
+            //     payload: responses.data
+            // });
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 export default function* saga() {
     yield all([
         takeLatest('ADD_EXTRA_BY_MERCHANT', addExtraByMerchant),
@@ -197,5 +225,6 @@ export default function* saga() {
         takeLatest('RESTORE_EXTRA', restoreExtra),
         takeLatest('EDIT_EXTRA', editExtra),
         takeLatest('SEARCH_EXTRA', searchExtra),
+        takeLatest('UPDATE_POSITION_EXTRAS', updatePositionExtras),
     ])
 }

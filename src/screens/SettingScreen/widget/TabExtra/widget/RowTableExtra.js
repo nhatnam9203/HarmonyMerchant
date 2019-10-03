@@ -3,7 +3,8 @@ import {
     View,
     Image,
     Text,
-    StyleSheet
+    StyleSheet,
+    TouchableOpacity
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
@@ -33,11 +34,13 @@ class RowTableExtra extends React.Component {
     }
 
     render() {
-        const { extra, index, archiveExtra, editService, restoreExtra,
-            categoryName
+        const { extra, index, archiveExtra, editService, restoreExtra, move, moveEnd
         } = this.props;
         return (
-            <View style={styles.tableHeader} >
+            <TouchableOpacity 
+            onLongPress={move}
+            onPressOut={moveEnd}
+            style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
                 <View style={[{
                     width: scaleSzie(50),
@@ -155,7 +158,7 @@ class RowTableExtra extends React.Component {
 
                     </View>
                 </View>
-            </View>
+            </TouchableOpacity>
 
         );
     }
