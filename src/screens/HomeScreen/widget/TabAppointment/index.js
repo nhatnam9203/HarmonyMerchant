@@ -37,7 +37,6 @@ const initState = {
     visibleConfirm: false,
     visibleChangeStylist: false,
     visibleDiscount: false,
-    visibleEnterPin: true
 }
 
 class TabAppointment extends Layout {
@@ -319,21 +318,6 @@ class TabAppointment extends Layout {
         }
     }
 
-    loginStaffSuccess = () => {
-        Promise.all([
-            this.props.actions.category.getCategoriesByMerchantId(),
-            this.props.actions.extra.getExtraByMerchant(),
-            this.props.actions.service.getServicesByMerchant(),
-            this.props.actions.product.getProductsByMerchant(),
-            this.props.actions.staff.getStaffByMerchantId()
-        ]).then((data) => {
-            if (data.length === 5) {
-                this.setState({
-                    visibleEnterPin: false
-                })
-            }
-        });
-    }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { currentTabParent, appointmentDetail, loading, isGetAppointmentSucces,
@@ -360,10 +344,6 @@ class TabAppointment extends Layout {
             });
         }
 
-        if (isLoginStaff) {
-            this.props.actions.dataLocal.resetStateLoginStaff();
-            this.loginStaffSuccess();
-        }
     }
 
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'ramda';
+import { Alert} from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -11,6 +12,7 @@ const initialState = {
     currentTab: 1,
     visibleConfirm: false,
     temptCurrentTap: -1,
+    visibleEnterPin: true
 }
 
 class HomeScreen extends Layout {
@@ -21,6 +23,7 @@ class HomeScreen extends Layout {
         this.scrollTabParentRef = React.createRef();
         this.tabAppointmentRef = React.createRef();
         this.tabCheckoutRef = React.createRef();
+        this.popupEnterPinRef = React.createRef();
     }
 
     componentDidMount() {
@@ -130,6 +133,44 @@ class HomeScreen extends Layout {
         this.props.actions.appointment.checkoutAppointment(appointmentId);
     }
 
+    submitPincode = () => {
+        const password = this.popupEnterPinRef.current.state.value;
+        const { profile } = this.props;
+        if (password.length === 4) {
+            this.popupEnterPinRef.current.setStateFromParent(true);
+            this.props.actions.staff.loginStaff(profile.merchantCode, password);
+        } else {
+            Alert.alert(`Pin must 4 numeric`);
+        }
+    }
+
+
+    loginStaffSuccess = () => {
+        Promise.all([
+            this.props.actions.category.getCategoriesByMerchantId(),
+            this.props.actions.extra.getExtraByMerchant(),
+            this.props.actions.service.getServicesByMerchant(),
+            this.props.actions.product.getProductsByMerchant(),
+            this.props.actions.staff.getStaffByMerchantId()
+        ]).then((data) => {
+            if (data.length === 5) {
+                this.setState({
+                    visibleEnterPin: false
+                })
+            }
+        }).catch(error =>{
+           this.props.actions.staff.reloadButtonEnterPincode();
+        } )
+    }
+
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        const {isLoginStaff} = this.props;
+        if (isLoginStaff) {
+            this.props.actions.dataLocal.resetStateLoginStaff();
+            this.loginStaffSuccess();
+        }
+    }
+
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();
@@ -146,6 +187,7 @@ const mapStateToProps = state => ({
     appointmentDetail: state.appointment.appointmentDetail,
     visibleModalLock: state.app.visibleModalLock,
     loading: state.app.loading,
+    isLoginStaff: state.dataLocal.isLoginStaff,
 })
 
 

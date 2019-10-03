@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 
-import { Text, ButtonCustom, Button, PopupConfirm, PopupChangeStylist,PopupEnterPin } from '@components';
+import { Text, ButtonCustom, Button, PopupConfirm, PopupChangeStylist } from '@components';
 import styles from './style';
 import apiConfigs from '@configs/api';
 import { scaleSzie, localize } from '@utils';
@@ -432,15 +432,7 @@ class Layout extends React.Component {
                     visible={this.state.visibleDiscount}
                     onRequestClose={this.closeModalDiscount}
                 />
-                <PopupEnterPin
-                    ref={this.popupEnterPinRef}
-                    visible={this.state.visibleEnterPin}
-                    title="Pin code"
-                    message="If you exit Checkout Screen , Basket will Reset ?"
-                    onRequestClose={() => {}}
-                    confimYes={this.submitPincode}
-                    hideCloseButton={true}
-                />
+                
             </View>
         );
     }

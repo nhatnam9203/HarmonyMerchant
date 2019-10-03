@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { HomeTabBar, StatusBarHeader, Button, ParentContainer } from '@components';
+import { HomeTabBar, StatusBarHeader, Button, ParentContainer, PopupEnterPin } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
@@ -69,6 +69,16 @@ export default class Layout extends React.Component {
                     <Button onPress={this.showLockScreen} style={{ position: 'absolute', top: 20, right: 0 }} >
                         <Image source={IMAGE.signOut} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
+
+                    <PopupEnterPin
+                        ref={this.popupEnterPinRef}
+                        visible={this.state.visibleEnterPin}
+                        title="Pin code"
+                        message="If you exit Checkout Screen , Basket will Reset ?"
+                        onRequestClose={() => { }}
+                        confimYes={this.submitPincode}
+                        hideCloseButton={true}
+                    />
                 </View>
             </ParentContainer>
         );

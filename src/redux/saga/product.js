@@ -261,7 +261,7 @@ function* updateProductsPosition(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('--- updateProductsPosition : ', responses);
+        // console.log('--- updateProductsPosition : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
         } else if (parseInt(codeNumber) === 401) {

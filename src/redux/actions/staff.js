@@ -139,3 +139,10 @@ export function updateStaffsPosition(body) {
         api: `${apiConfigs.BASE_API}staff/update/position`,
     }
 }
+
+
+export function reloadButtonEnterPincode(){
+    return {
+        type: 'LOGIN_STAFF_FAIL',
+    }
+}
