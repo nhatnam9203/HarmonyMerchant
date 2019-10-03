@@ -116,6 +116,7 @@ class HomeScreen extends Layout {
     showLockScreen = () => {
         this.popupEnterPinRef.current.setStateFromParent('');
         this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
+        this.scrollTabParentRef.current.goToPage(1);
     }
 
     clearDataTabCheckout = () => {

@@ -9,7 +9,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import QRCode from 'react-native-qrcode-svg';
 
 import { scaleSzie, localize, formatNumberFromCurrency, formatMoney } from '@utils';
-import { Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist,PopupChangeMoney } from '@components';
+import { Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import {
@@ -24,18 +24,36 @@ class Layout extends React.Component {
         const { firstName, lastName, phoneNumber } = this.state.infoUser;
         return (
             <View style={styles.headerContainer} >
-                <Text style={styles.textHeader} >
-                    {`${localize('Customer', language)}:`}
-                </Text>
-                <Text style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(90) }]} >
-                    {`${firstName} ${lastName}`}
-                </Text>
-                <Text style={styles.textHeader} >
-                    {`${localize('Phone', language)}:`}
-                </Text>
-                <Text style={[styles.textHeader, { marginLeft: scaleSzie(12) }]} >
-                    {phoneNumber}
-                </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+                    <Text style={styles.textHeader} >
+                        {`${localize('Customer', language)}:`}
+                    </Text>
+                    <Text style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(90) }]} >
+                        {`${firstName} ${lastName}`}
+                    </Text>
+                    <Text style={styles.textHeader} >
+                        {`${localize('Phone', language)}:`}
+                    </Text>
+                    <Text style={[styles.textHeader, { marginLeft: scaleSzie(12) }]} >
+                        {phoneNumber}
+                    </Text>
+                </View>
+                {/* -------- Button open cash -------- */}
+                <View style={{ flex: 1, justifyContent:'center',alignItems:'flex-end' }} >
+                    <ButtonCustom
+                        width={scaleSzie(120)}
+                        height={35}
+                        backgroundColor="#0764B0"
+                        title={localize('Open Cashier', language)}
+                        textColor="#fff"
+                        onPress={this.openCashDrawer}
+                        style={{
+                            borderWidth: 1, borderColor: '#C5C5C5',
+                            borderRadius:scaleSzie(3)
+                        }}
+                        styleText={{ fontSize: scaleSzie(14), fontWeight: 'bold', }}
+                    />
+                </View>
             </View>
         );
     }
@@ -381,7 +399,7 @@ class Layout extends React.Component {
                         backgroundColor="#F1F1F1"
                         title={localize('DONE', language)}
                         textColor="#6A6A6A"
-                        onPress={()=>{}}
+                        onPress={() => { }}
                         style={{
                             borderWidth: 1, borderColor: '#C5C5C5',
                             flex: 1
@@ -472,7 +490,7 @@ class Layout extends React.Component {
                     backgroundColor="#F1F1F1"
                     title={localize('SELECT PAYMENT', language)}
                     textColor="#6A6A6A"
-                    onPress={() =>{}}
+                    onPress={() => { }}
                     style={{
                         borderWidth: 1, borderColor: '#C5C5C5',
                         flex: 1
@@ -612,7 +630,7 @@ class Layout extends React.Component {
 
     render() {
         const { language } = this.props;
-        const { basket, visibleConfirm, visibleChangeStylist,visibleChangeMoney } = this.state;
+        const { basket, visibleConfirm, visibleChangeStylist, visibleChangeMoney } = this.state;
         return (
             <View style={styles.container} >
                 {this.renderHeader()}

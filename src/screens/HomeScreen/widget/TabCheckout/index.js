@@ -752,13 +752,13 @@ class TabCheckout extends Layout {
         this.printInvoice();
     }
 
-    async  openCashDrawer() {
+      openCashDrawer = async () => {
         const printer = await PrintManager.getInstance().portDiscovery();
         if (printer.length > 0) {
             const portName = printer[0].portName;
             PrintManager.getInstance().openCashDrawer(portName);
         } else {
-            // alert('Please connect to your print ! ')
+            alert('Please connect to your print ! ')
         }
     }
 

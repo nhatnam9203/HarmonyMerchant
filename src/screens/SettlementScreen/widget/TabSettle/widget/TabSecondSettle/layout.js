@@ -322,17 +322,29 @@ class Layout extends React.Component {
                             </Text>
                         </View>
                         {/* -------- Note ------- */}
-                        <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginTop: scaleSzie(20), marginBottom: scaleSzie(10) }} >
-                            Note:
-                    </Text>
-                        <View style={{
-                            height: scaleSzie(60), backgroundColor: '#F1F1F1', borderColor: '#C5C5C5', borderWidth: 1,
-                            padding: scaleSzie(10)
-                        }} >
-                            <Text style={{ fontSize: scaleSzie(12), color: '#404040' }} >
-                                {note}
-                            </Text>
-                        </View>
+                        {
+                            note === '' ?
+                                <View >
+                                     <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginTop: scaleSzie(20), marginBottom: scaleSzie(10) }} >
+                                     </Text>
+                                    <View style={{height: scaleSzie(60) }} />
+                                </View>
+                                :
+                                <View>
+                                    <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginTop: scaleSzie(20), marginBottom: scaleSzie(10) }} >
+                                        Note:
+                                     </Text>
+                                    <View style={{
+                                        height: scaleSzie(60), backgroundColor: '#F1F1F1', borderColor: '#C5C5C5', borderWidth: 1,
+                                        padding: scaleSzie(10)
+                                    }} >
+                                        <Text style={{ fontSize: scaleSzie(12), color: '#404040' }} >
+                                            {note}
+                                        </Text>
+                                    </View>
+                                </View>
+                        }
+
                     </View>
                     {/* --------- Right --------- */}
                     <View style={{ flex: 1 }} >

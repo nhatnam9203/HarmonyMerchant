@@ -376,17 +376,17 @@ class Layout extends React.Component {
 
     renderNote() {
         return (
-            <View style={{ height: scaleSzie(130), paddingHorizontal: scaleSzie(10) }} >
+            <View style={{ height: scaleSzie(60), paddingHorizontal: scaleSzie(10) }} >
                 <View style={{
                     flex: 1, backgroundColor: '#F1F1F1', borderColor: '#C5C5C5', borderWidth: 1, paddingHorizontal: scaleSzie(16),
                     paddingTop: scaleSzie(20)
                 }} >
-                    <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
+                    {/* <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
                         Lorem Ipsum is simply dummy text of
                         the printing and typesetting industry.
                          Lorem Ipsum has been the industry's standard dummy
                          text ever since
-                   </Text>
+                   </Text> */}
                     <View style={{ flex: 1, justifyContent: 'flex-end', paddingBottom: scaleSzie(10) }} >
                         <View style={{ height: scaleSzie(40), flexDirection: 'row' }} >
                             <View style={{

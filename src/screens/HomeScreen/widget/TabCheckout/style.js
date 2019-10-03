@@ -19,7 +19,6 @@ export default StyleSheet.create({
         borderColor: 'rgb(197,197,197)',
         borderWidth: 1,
         paddingHorizontal: scaleSzie(14),
-        alignItems: 'center'
     },
     textHeader: {
         fontSize: scaleSzie(20),

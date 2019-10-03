@@ -26,7 +26,6 @@ class ParentContainer extends Component {
             onPanResponderTerminationRequest: () => true,
             onShouldBlockNativeResponder: () => false,
         });
-
         this.maybeStartWatchingForInactivity();
     }
 
@@ -36,21 +35,16 @@ class ParentContainer extends Component {
 
     maybeStartWatchingForInactivity = () => {
         const { activeScreen } = this.props;
-        if (this.inactivityTimer) {
-            return;
-        }
-
-        this.inactivityTimer = setInterval(() => {
-            // if (this.props.activeScreen && new Date() - this.lastInteraction >= this.getTimeOut(this.props.autoLockScreenAfter)) {
-            //     this.setIsInactive();
-            // }
-            if (activeScreen && new Date() - this.lastInteraction >= 3000) {
-                console.log('---- inactivityTimer -----');
-                this.setIsInactive();
+        if (activeScreen) {
+            if (this.inactivityTimer) {
+                return;
             }
-        }, INACTIVITY_CHECK_INTERVAL_MS);
-
-        if (!activeScreen) {
+            this.inactivityTimer = setInterval(() => {
+                if (this.props.activeScreen && new Date() - this.lastInteraction >= this.getTimeOut(this.props.autoLockScreenAfter)) {
+                    this.setIsInactive();
+                }
+            }, INACTIVITY_CHECK_INTERVAL_MS);
+        } else {
             clearInterval(this.inactivityTimer);
             this.inactivityTimer = null;
         }
@@ -60,6 +54,9 @@ class ParentContainer extends Component {
     getTimeOut(number) {
         let timeout = 0;
         switch (number) {
+            case '00:30 ss':
+                timeout = 30000;
+                break;
             case '05:00 min':
                 timeout = 300000;
                 break;
