@@ -35,20 +35,25 @@ class ParentContainer extends Component {
     }
 
     maybeStartWatchingForInactivity = () => {
-
+        const { activeScreen } = this.props;
         if (this.inactivityTimer) {
             return;
         }
 
         this.inactivityTimer = setInterval(() => {
-            if (this.props.activeScreen && new Date() - this.lastInteraction >= this.getTimeOut(this.props.autoLockScreenAfter)) {
-                this.setIsInactive();
-            }
-            // if (this.props.activeScreen && new Date() - this.lastInteraction >= 3000) {
-            //     console.log('---- inactivityTimer -----');
+            // if (this.props.activeScreen && new Date() - this.lastInteraction >= this.getTimeOut(this.props.autoLockScreenAfter)) {
             //     this.setIsInactive();
             // }
+            if (activeScreen && new Date() - this.lastInteraction >= 3000) {
+                console.log('---- inactivityTimer -----');
+                this.setIsInactive();
+            }
         }, INACTIVITY_CHECK_INTERVAL_MS);
+
+        if (!activeScreen) {
+            clearInterval(this.inactivityTimer);
+            this.inactivityTimer = null;
+        }
 
     };
 
@@ -88,6 +93,9 @@ class ParentContainer extends Component {
         clearInterval(this.inactivityTimer);
         this.inactivityTimer = null;
         this.props.handleLockScreen();
+
+        // ----- Countinue Listen -----
+        // this.setIsActive();
     };
 
     handleStartShouldSetPanResponder = () => {

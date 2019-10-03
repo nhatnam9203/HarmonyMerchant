@@ -33,7 +33,8 @@ class HomeScreen extends Layout {
             payload => {
                 this.setState({
                     isFocus: false
-                })
+                });
+                this.scrollTabParentRef.current.goToPage(1);
             }
         );
         this.didFocusSubscription = this.props.navigation.addListener(
@@ -98,10 +99,14 @@ class HomeScreen extends Layout {
     }
 
 
-    handleLockScreen = () => {
+    handleLockScreen = async () => {
         const { isFocus } = this.state;
         if (isFocus) {
-            this.props.actions.app.handleLockScreen(true);
+            this.scrollTabParentRef.current.goToPage(1);
+            this.popupEnterPinRef.current.setStateFromParent('');
+            await this.setState({
+                visibleEnterPin: true
+            })
         }
     }
 
