@@ -269,8 +269,9 @@ class AddStaff extends Layout {
 
     convertKeyToName(key) {
         let name = '';
+        // console.log('convertKeyToName : ',key);
         switch (key) {
-            case 'Percent ($)':
+            case 'Percent (%)':
                 name = 'percent';
                 break;
             case 'Fixed amount ($)':
@@ -283,7 +284,7 @@ class AddStaff extends Layout {
                 name = 'commission';
                 break;
             default:
-                name = 'commission';
+                name = 'commission1';
         }
         return name;
     }

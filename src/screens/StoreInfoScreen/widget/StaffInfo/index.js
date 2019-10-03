@@ -273,7 +273,7 @@ class StaffInfo extends Layout {
         // console.log('key : ', key);
         let name = '';
         switch (key) {
-            case 'Percent ($)':
+            case 'Percent (%)':
                 name = 'percent';
                 break;
             case 'Fixed amount ($)':

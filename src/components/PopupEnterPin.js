@@ -31,9 +31,9 @@ class PopupEnterPin extends React.Component {
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
     }
 
-    setStateFromParent = async (loading) => {
+    setStateFromParent = async (value) => {
         this.setState({
-            loading
+            value 
         })
     }
 
@@ -124,6 +124,8 @@ class PopupEnterPin extends React.Component {
         );
     }
 
+   
+
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
@@ -134,7 +136,7 @@ class PopupEnterPin extends React.Component {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    isShowButtonEnterPinCode : state.staff.isShowButtonEnterPinCode
+    isShowButtonEnterPinCode: state.staff.isShowButtonEnterPinCode
 });
 
 export default connectRedux(mapStateToProps, PopupEnterPin);

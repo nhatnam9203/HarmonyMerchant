@@ -432,7 +432,6 @@ class Layout extends React.Component {
                     visible={this.state.visibleDiscount}
                     onRequestClose={this.closeModalDiscount}
                 />
-                
             </View>
         );
     }

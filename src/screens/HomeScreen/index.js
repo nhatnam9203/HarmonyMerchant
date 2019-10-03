@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'ramda';
-import { Alert} from 'react-native';
+import { Alert } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -110,7 +110,11 @@ class HomeScreen extends Layout {
     }
 
     showLockScreen = () => {
-        this.props.actions.app.handleLockScreen(true);
+        // this.props.actions.app.handleLockScreen(true);
+        this.popupEnterPinRef.current.setStateFromParent('');
+        this.setState({
+            visibleEnterPin: true
+        })
     }
 
     clearDataTabCheckout = () => {
@@ -137,7 +141,6 @@ class HomeScreen extends Layout {
         const password = this.popupEnterPinRef.current.state.value;
         const { profile } = this.props;
         if (password.length === 4) {
-            this.popupEnterPinRef.current.setStateFromParent(true);
             this.props.actions.staff.loginStaff(profile.merchantCode, password);
         } else {
             Alert.alert(`Pin must 4 numeric`);
@@ -153,18 +156,19 @@ class HomeScreen extends Layout {
             this.props.actions.product.getProductsByMerchant(),
             this.props.actions.staff.getStaffByMerchantId()
         ]).then((data) => {
+            this.props.actions.staff.reloadButtonEnterPincode();
             if (data.length === 5) {
                 this.setState({
                     visibleEnterPin: false
                 })
             }
-        }).catch(error =>{
-           this.props.actions.staff.reloadButtonEnterPincode();
-        } )
+        }).catch(error => {
+            this.props.actions.staff.reloadButtonEnterPincode();
+        })
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        const {isLoginStaff} = this.props;
+        const { isLoginStaff } = this.props;
         if (isLoginStaff) {
             this.props.actions.dataLocal.resetStateLoginStaff();
             this.loginStaffSuccess();

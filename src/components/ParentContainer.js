@@ -44,6 +44,10 @@ class ParentContainer extends Component {
             if (this.props.activeScreen && new Date() - this.lastInteraction >= this.getTimeOut(this.props.autoLockScreenAfter)) {
                 this.setIsInactive();
             }
+            // if (this.props.activeScreen && new Date() - this.lastInteraction >= 3000) {
+            //     console.log('---- inactivityTimer -----');
+            //     this.setIsInactive();
+            // }
         }, INACTIVITY_CHECK_INTERVAL_MS);
 
     };

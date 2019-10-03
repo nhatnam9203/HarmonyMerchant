@@ -8,7 +8,7 @@ function* addStaffByMerchant(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('--- addStaffByMerchant : ', responses);
+        console.log('--- addStaffByMerchant : ' + JSON.stringify(action.body));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -207,7 +207,7 @@ function* editStaff(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         // console.log('editStaff : ' + JSON.stringify(responses));
-        // console.log('body : ' + JSON.stringify(action.body));
+        console.log('--- editStaff : ' + JSON.stringify(action.body));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
