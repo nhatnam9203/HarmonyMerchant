@@ -3,7 +3,8 @@ import {
     View,
     Image,
     Text,
-    StyleSheet
+    StyleSheet,
+    TouchableOpacity
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
@@ -46,13 +47,16 @@ class RowTableProducts extends React.Component {
     }
 
     render() {
-        const { product, nameCategory, showDetailProduct } = this.props;
+        const { product, nameCategory, showDetailProduct , move, moveEnd} = this.props;
         const { isCheck } = this.state;
         const temptIconCheckbox = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         const { minThreshold, quantity, needToorDer } = product;
         const temptTextColor = quantity < needToorDer || quantity < minThreshold ? { color: '#FF3B30' } : { color: '#6A6A6A' };
         return (
-            <Button onPress={() => showDetailProduct(product)} style={styles.tableHeader} >
+            <TouchableOpacity
+                onLongPress={move}
+                onPressOut={moveEnd}
+                onPress={() => showDetailProduct(product)} style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
                 <View style={{
                     flex: 1, flexDirection: 'row',
@@ -67,16 +71,16 @@ class RowTableProducts extends React.Component {
                             <Image source={temptIconCheckbox}
                             />
                         </Button>
-                        <View style={{justifyContent:'center',marginRight:scaleSzie(8)}} >
-                        {
-                            product.imageUrl ? <FastImage
-                                style={{ width: scaleSzie(30), height: scaleSzie(30) }}
-                                source={{
-                                    uri: product.imageUrl,
-                                    priority: FastImage.priority.low,
-                                }}
-                            /> : <Image source={IMAGE.product_holder} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
-                        }
+                        <View style={{ justifyContent: 'center', marginRight: scaleSzie(8) }} >
+                            {
+                                product.imageUrl ? <FastImage
+                                    style={{ width: scaleSzie(30), height: scaleSzie(30) }}
+                                    source={{
+                                        uri: product.imageUrl,
+                                        priority: FastImage.priority.low,
+                                    }}
+                                /> : <Image source={IMAGE.product_holder} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
+                            }
                         </View>
                         <Text style={[styles.textTableHeader, temptTextColor]} >
                             {product.name}
@@ -90,7 +94,7 @@ class RowTableProducts extends React.Component {
                 <View style={{
                     width: scaleSzie(140), flexDirection: 'row',
                 }} >
-                    
+
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={[styles.textTableHeader, temptTextColor]} >
                             {product.sku}
@@ -141,7 +145,7 @@ class RowTableProducts extends React.Component {
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
-            </Button>
+            </TouchableOpacity>
 
         );
     }

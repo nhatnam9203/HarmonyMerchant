@@ -71,7 +71,6 @@ export const requestAPI = async (action, header = {}) => {
         } else if (error.message.includes('Network Error')) {
             throw 'NET_WORK_REQUEST_FAIL'
         } else {
-              console.log('error message : ' + error.message);
             throw 'SOMETHING_WENT_WRONG';
         }
     }
@@ -131,7 +130,7 @@ export const uploadFromData = async (action, header = {}) => {
         } else if (error.message.includes('Network Error')) {
             throw 'NET_WORK_REQUEST_FAIL'
         } else {
-              console.log('error message : ' + error.message);
+            console.log('error message : ' + error.message);
             throw 'SOMETHING_WENT_WRONG';
         }
     }
@@ -408,7 +407,7 @@ export const formatNumberFromCurrency = currency => {
 }
 
 export const formatMoney = (number, decPlaces, decSep, thouSep) => {
-    if(`${number}`.includes(',') || `${number}`.includes('.')){
+    if (`${number}`.includes(',') || `${number}`.includes('.')) {
         return number
     }
     decPlaces = isNaN(decPlaces = Math.abs(decPlaces)) ? 2 : decPlaces,

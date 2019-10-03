@@ -58,11 +58,11 @@ class InventoryScreen extends Layout {
     }
 
     scanUKU = () => {
-       
+
     }
 
-    handleTheDownloadedFile = () =>{
-        const {pathFileInventory} = this.props;
+    handleTheDownloadedFile = () => {
+        const { pathFileInventory } = this.props;
         if (Platform.OS === 'ios') {
             RNFetchBlob.ios.previewDocument(pathFileInventory)
         } else {
@@ -73,12 +73,12 @@ class InventoryScreen extends Layout {
 
     requestExportFileToServer = async () => {
         const { profile } = this.props;
-        const fileName = this.modalExportRef.current.state.value ?  this.modalExportRef.current.state.value : 'Inventory';
+        const fileName = this.modalExportRef.current.state.value ? this.modalExportRef.current.state.value : 'Inventory';
         await this.setState({
             visiblePopupExport: false,
             visiblePopupLoadingExport: true
         })
-        this.props.actions.product.exportInventory(profile.merchantId,fileName);
+        this.props.actions.product.exportInventory(profile.merchantId, fileName);
     }
 
     exportPDF = () => {
@@ -273,6 +273,25 @@ class InventoryScreen extends Layout {
         await this.setState({ visibleAdd: false })
         this.props.actions.product.addProductByMerchant(product);
 
+    }
+
+    updateProductsPosition = (data, isShowSearchProduct) => {
+        if (!isShowSearchProduct) {
+            const productsUpdate = data.map((product, index) => {
+                return {
+                    ...product,
+                    position: index
+                }
+            });
+            const body = data.map((product, index) => {
+                return {
+                    productId: product.productId,
+                    position: index
+                }
+            });
+            this.props.actions.product.updateProductsPositionLocal(productsUpdate);
+            this.props.actions.product.updateProductsPosition(body);
+        }
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {

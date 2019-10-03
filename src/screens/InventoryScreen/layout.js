@@ -5,6 +5,7 @@ import {
     TextInput,
     FlatList,
 } from 'react-native';
+import DraggableFlatList from 'react-native-draggable-flatlist';
 
 import {
     Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupAddEditProduct,
@@ -180,24 +181,34 @@ export default class Layout extends React.Component {
         const { productsByMerchantId, categoriesByMerchant,
             listProductsSearch, isShowSearchProduct, refreshListProducts
         } = this.props;
-        const tempData = isShowSearchProduct ? listProductsSearch : productsByMerchantId;
+        const temptData = isShowSearchProduct ? listProductsSearch : productsByMerchantId;
+        const data = temptData.map((item,index) => {
+            return {
+                ...item,
+                key: `item-${index}`,
+            }
+        });
         return (
             <View style={{ flex: 1, paddingTop: scaleSzie(20) }} >
                 <HeaderTableProducts />
-                <FlatList
-                    data={tempData}
-                    renderItem={({ item, index }) => <RowTableProducts
+                <DraggableFlatList
+                    data={data}
+                    renderItem={({ item, index , move, moveEnd, isActive}) => <RowTableProducts
                         ref={this.setProductRef}
                         key={index}
                         product={item}
                         unSelectAll={this.unSelectAll}
                         nameCategory={getCategoryName(categoriesByMerchant, item.categoryId)}
                         showDetailProduct={this.showDetailProduct}
+                        move={move}
+                        moveEnd={moveEnd}
                     />}
                     keyExtractor={(item, index) => `${item.productId}`}
                     ListEmptyComponent={<RowEmptyTableProducts />}
                     refreshing={refreshListProducts}
                     onRefresh={() => this.props.actions.product.getProductsByMerchant(false)}
+                    scrollPercent={5}
+                    onMoveEnd={({ data }) =>this.updateProductsPosition(data,isShowSearchProduct)}
                 />
             </View>
         );

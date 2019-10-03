@@ -58,6 +58,13 @@ function appReducer(state = initialState, action) {
                 ...state,
                 isDownloadInventory: false
             }
+        case 'UPDATE_PRODUCTS_POSITION_LOCAL':
+            return {
+                ...state,
+                productsByMerchantId: action.payload,
+            }
+
+
         default:
             return state
     }

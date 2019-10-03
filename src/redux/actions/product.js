@@ -95,3 +95,21 @@ export function resetDownloadFinleInventory(){
         type:'RESET_DOWNLOAD_FILE_INVENTORY',
     }
 }
+
+export function updateProductsPositionLocal(data){
+    return{
+        type:'UPDATE_PRODUCTS_POSITION_LOCAL',
+        payload:data
+    }
+}
+
+export function updateProductsPosition(body) {
+    return {
+        type: 'UPDATE_PRODUCTS_POSITION',
+        method: 'PUT',
+        body,
+        token: true,
+        api: `${apiConfigs.BASE_API}product/update/position`,
+    }
+}
+
