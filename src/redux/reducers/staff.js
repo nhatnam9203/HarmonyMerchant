@@ -93,6 +93,11 @@ function appReducer(state = initialState, action) {
                 ...state,
                 visibleForotPin: action.payload
             }
+        case 'UPDATE_STAFFS_POSITION_LOCAL':
+            return {
+                ...state,
+                listStaffByMerchant: action.payload
+            }
 
 
         default:

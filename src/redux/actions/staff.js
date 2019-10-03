@@ -115,9 +115,27 @@ export function forgotPin(merchantCode, email) {
     }
 }
 
-export function setVisibleForgotPin(flag){
+export function setVisibleForgotPin(flag) {
     return {
-        type:'RESET_VISIBLE_FORGOT_PIN',
-        payload:flag
+        type: 'RESET_VISIBLE_FORGOT_PIN',
+        payload: flag
+    }
+}
+
+
+export function updateStaffsPositionLocal(data) {
+    return {
+        type: 'UPDATE_STAFFS_POSITION_LOCAL',
+        payload: data
+    }
+}
+
+export function updateStaffsPosition(body) {
+    return {
+        type: 'UPDATE_STAFFS_POSITION',
+        body,
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}staff/update/position`,
     }
 }

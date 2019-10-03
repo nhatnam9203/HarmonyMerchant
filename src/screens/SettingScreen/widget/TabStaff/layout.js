@@ -5,6 +5,7 @@ import {
     TextInput,
     FlatList
 } from 'react-native';
+import DraggableFlatList from 'react-native-draggable-flatlist';
 
 import { scaleSzie, localize } from '@utils';
 import { Text, Button, ButtonCustom, Dropdown, PopupConfirm } from '@components';
@@ -136,7 +137,13 @@ class Layout extends React.Component {
     renderTableStaff() {
         const { listStaffByMerchant, isShowSearch, listSearchStaff, refreshListStaffs } = this.props;
         const { visibleArchive, visibleRestore } = this.state;
-        const temptData = isShowSearch ? listSearchStaff : listStaffByMerchant
+        const temptData = isShowSearch ? listSearchStaff : listStaffByMerchant;
+        const data = temptData.map((item,index) => {
+            return {
+                ...item,
+                key: `item-${index}`,
+            }
+        });
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
@@ -145,19 +152,23 @@ class Layout extends React.Component {
                 <View style={{ height: scaleSzie(10) }} />
                 <View style={{ flex: 1 }} >
                     <HeaderTableStaff />
-                    <FlatList
-                        data={temptData}
-                        renderItem={({ item, index }) => <RowTableStaff
+                    <DraggableFlatList
+                         data={data}
+                        renderItem={({ item, index, move, moveEnd, isActive }) => <RowTableStaff
                             index={index}
                             staff={item}
                             archiveStaff={() => this.archiveStaff(item)}
                             editStaff={() => this.editStaff(item)}
                             restoreStaff={() => this.restoreStaff(item)}
+                            move={move}
+                            moveEnd={moveEnd}
                         />}
                         keyExtractor={(item, index) => `${index}`}
                         ListEmptyComponent={<RowTableEmptyStaff />}
                         onRefresh={() => this.props.actions.staff.getStaffByMerchantId(false)}
                         refreshing={refreshListStaffs}
+                        scrollPercent={5}
+                        onMoveEnd={({ data }) =>this.updateStaffsPosition(data,isShowSearch)}
                     />
                 </View>
                 <PopupConfirm

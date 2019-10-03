@@ -120,6 +120,25 @@ class TabStaff extends Layout {
         this.props.actions.staff.editStaff(staff, id)
     }
 
+    updateStaffsPosition =(data ,isShowSearch) =>{
+        if(!isShowSearch){
+            const staffsUpdate = data.map((staff, index) => {
+                return {
+                    ...staff,
+                    position: index
+                }
+            });
+            const body = data.map((staff, index) => {
+                return {
+                    staffId: staff.staffId,
+                    position: index
+                }
+            });
+            this.props.actions.staff.updateStaffsPositionLocal(staffsUpdate);
+            this.props.actions.staff.updateStaffsPosition(body);
+        }
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         const { isShowSearch,isGetListSearchStaff } = this.props;
         if(isShowSearch && isGetListSearchStaff){
