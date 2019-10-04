@@ -39,7 +39,7 @@ class Layout extends React.Component {
                     </Text>
                 </View>
                 {/* -------- Button open cash -------- */}
-                <View style={{ flex: 1, justifyContent:'center',alignItems:'flex-end' }} >
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end' }} >
                     <ButtonCustom
                         width={scaleSzie(120)}
                         height={35}
@@ -49,7 +49,7 @@ class Layout extends React.Component {
                         onPress={this.openCashDrawer}
                         style={{
                             borderWidth: 1, borderColor: '#C5C5C5',
-                            borderRadius:scaleSzie(3)
+                            borderRadius: scaleSzie(3)
                         }}
                         styleText={{ fontSize: scaleSzie(14), fontWeight: 'bold', }}
                     />
@@ -87,6 +87,16 @@ class Layout extends React.Component {
                                     categorySelected={this.state.categorySelected}
                                 />)
                             }
+                            {/* --------- Button Extra --------- */}
+                            <Button onPress={() => onPressSelectCategory(category)} style={{
+                                height: scaleSzie(85), justifyContent: 'center',
+                                alignItems: 'center', borderBottomWidth: 3, borderBottomColor: '#fff',
+                                backgroundColor: '#F1F1F1'
+                            }} >
+                                <Text style={[{ fontSize: scaleSzie(20), color: '#404040' }]} >
+                                   {'Extra'}
+                                </Text>
+                            </Button>
                         </ScrollView>
                     </View>
                 </View>

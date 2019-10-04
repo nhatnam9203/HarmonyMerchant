@@ -56,7 +56,7 @@ const ItemTransaction = (props) => {
                     {moment(data.createdDate).format('DD/MM/YYYY')}
                 </Text>
                 <Text style={styles.textHeaderContent} >
-                    ${moment(data.createdDate).format('h:mm A')}
+                    {moment(data.createdDate).format('h:mm A')}
                 </Text>
 
             </View>

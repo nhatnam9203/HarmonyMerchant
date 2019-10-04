@@ -110,7 +110,7 @@ function* timeout(action) {
     // alert('Server not response');
     setTimeout(() => {
         alert('Server not response');
-    }, 100)
+    }, 300)
 
 }
 

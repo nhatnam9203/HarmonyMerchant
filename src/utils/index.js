@@ -66,14 +66,21 @@ export const requestAPI = async (action, header = {}) => {
         }
         return response.data;
     } catch (error) {
-        console.log('error message : ' + error.message);
-        if (error.message.includes('timeout')) {
-            throw 'TIMEOUT'
-        } else if (error.message.includes('Network Error')) {
-            throw 'NET_WORK_REQUEST_FAIL'
+        console.log('error message : ' + JSON.stringify(error));
+        if (error.response) {
+            if (error.message.includes('timeout')) {
+                throw 'TIMEOUT'
+            } else if (error.message.includes('Network Error')) {
+                throw 'NET_WORK_REQUEST_FAIL'
+            } else {
+                throw 'SOMETHING_WENT_WRONG';
+            }
+        } else if (error.request) {
+            console.log(error.request);
         } else {
-            throw 'SOMETHING_WENT_WRONG';
+            console.log('Error', error.message);
         }
+
     }
 }
 
@@ -126,13 +133,19 @@ export const uploadFromData = async (action, header = {}) => {
         let response = await axios(configs);
         return response.data;
     } catch (error) {
-        if (error.message.includes('timeout')) {
-            throw 'TIMEOUT'
-        } else if (error.message.includes('Network Error')) {
-            throw 'NET_WORK_REQUEST_FAIL'
+        console.log('error message : ' + JSON.stringify(error));
+        if (error.response) {
+            if (error.message.includes('timeout')) {
+                throw 'TIMEOUT'
+            } else if (error.message.includes('Network Error')) {
+                throw 'NET_WORK_REQUEST_FAIL'
+            } else {
+                throw 'SOMETHING_WENT_WRONG';
+            }
+        } else if (error.request) {
+            console.log(error.request);
         } else {
-            console.log('error message : ' + error.message);
-            throw 'SOMETHING_WENT_WRONG';
+            console.log('Error', error.message);
         }
     }
 };
