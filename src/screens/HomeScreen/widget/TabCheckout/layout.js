@@ -46,7 +46,7 @@ class Layout extends React.Component {
                         backgroundColor="#0764B0"
                         title={localize('Open Cashier', language)}
                         textColor="#fff"
-                        onPress={this.openCashDrawer}
+                        onPress={() =>this.openCashDrawer(true)}
                         style={{
                             borderWidth: 1, borderColor: '#C5C5C5',
                             borderRadius: scaleSzie(3)

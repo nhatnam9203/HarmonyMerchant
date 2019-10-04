@@ -84,7 +84,11 @@ export function createAnymousAppointment(merchantId, products, services = [], ex
             status: 'checkin',
             services: services,
             extras: extras,
-            products: products
+            products: products,
+            fromTime: new Date(),
+            staffId :0,
+            customDiscountFixed : 0,
+            customDiscountPercent: 0,
         },
         method: 'POST',
         token: true,

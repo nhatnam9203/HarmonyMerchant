@@ -263,7 +263,7 @@ class TabCheckout extends Layout {
     }
 
     showColAmount = (item) => {
-        const {categoryTypeSelected} = this.state;
+        const { categoryTypeSelected } = this.state;
         this.setState({
             productSeleted: item,
             isShowColAmount: true,
@@ -354,7 +354,7 @@ class TabCheckout extends Layout {
             // --------- Payment with appointment -----
             if (method === 'credit_card') {
                 if (paxMachineInfo.isSetup) {
-                    this.hanleCreditCardProcess();
+                    this.hanleCreditCardProcess(true);
                     await this.setState({
                         changeButtonDone: true,
                         methodPayment: method
@@ -387,14 +387,14 @@ class TabCheckout extends Layout {
             } else {
                 if (method === 'credit_card') {
                     if (paxMachineInfo.isSetup) {
-                        this.hanleCreditCardProcess();
+                        this.hanleCreditCardProcess(false);
                         await this.setState({
                             changeButtonDone: true,
                             methodPayment: method
                         });
-                        const dataAnymousAppoitment = this.getBasketOffline();
-                        const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } = dataAnymousAppoitment;
-                        this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, false);
+                        // const dataAnymousAppoitment = this.getBasketOffline();
+                        // const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } = dataAnymousAppoitment;
+                        // this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, false);
                     } else {
                         alert('Please setup your pax machine in setting');
                     }
@@ -449,7 +449,7 @@ class TabCheckout extends Layout {
         }
     }
 
-    async hanleCreditCardProcess() {
+    async hanleCreditCardProcess(online) {
         const { total } = this.state;
         const { paxMachineInfo } = this.props;
         const { ip, port, timeout } = paxMachineInfo;
@@ -464,10 +464,10 @@ class TabCheckout extends Layout {
 
         // 3. Send Transaction 
 
-        PosLink.sendTransaction(formatNumberFromCurrency(total) * 100, (message) => this.handleResponseCreditCard(message));
+        PosLink.sendTransaction(formatNumberFromCurrency(total) * 100, (message) => this.handleResponseCreditCard(message, online));
     }
 
-    async handleResponseCreditCard(message) {
+    async handleResponseCreditCard(message, online) {
         // console.log('---- Response : ',message);
         const { appointmentId } = this.state;
         await this.setState({
@@ -485,11 +485,19 @@ class TabCheckout extends Layout {
 
             } else {
                 const { profile } = this.props;
-                const { appointmentId, paymentSelected} = this.state;
+                const { appointmentId, paymentSelected } = this.state;
                 let method = this.getPaymentString(paymentSelected);
-                // ------ Payment with credit card success ----
-                this.props.actions.appointment.paymentAppointment(appointmentId, method, false);
-                this.props.actions.appointment.submitPaymentWithCreditCard(profile.merchantId, '0', message, appointmentId);
+
+                if (online) {
+                    // ------ Payment with credit online card success ----
+                    this.props.actions.appointment.paymentAppointment(appointmentId, method, false);
+                    this.props.actions.appointment.submitPaymentWithCreditCard(profile.merchantId, '0', message, appointmentId);
+                } else {
+                    // ------ Payment with credit offline card success ----
+                    const dataAnymousAppoitment = this.getBasketOffline();
+                    const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } = dataAnymousAppoitment;
+                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, false);
+                }
             }
             // console.log('message : ', message);
         } catch (error) {
@@ -727,6 +735,7 @@ class TabCheckout extends Layout {
         if (!_.isEmpty(connectionSignalR)) {
             connectionSignalR.stop();
         }
+        this.openCashDrawer();
         this.scrollTabRef.current.goToPage(0);
         this.props.actions.appointment.closeModalPaymentCompleted();
         this.props.gotoAppoitmentScreen();
@@ -742,15 +751,23 @@ class TabCheckout extends Layout {
             connectionSignalR.stop();
         }
         this.printInvoice();
+        this.openCashDrawer();
     }
 
-    openCashDrawer = async () => {
+    openCashDrawer = async (isDelay = false) => {
         const printer = await PrintManager.getInstance().portDiscovery();
         if (printer.length > 0) {
             const portName = printer[0].portName;
             PrintManager.getInstance().openCashDrawer(portName);
         } else {
-            // alert('Please connect to your print ! ')
+            if(isDelay){
+                alert('Please connect to your print ! ');
+            }else{
+                setTimeout(() =>{
+                    alert('Please connect to your print ! ');
+                },500)
+            }
+            
         }
     }
 
@@ -831,7 +848,6 @@ class TabCheckout extends Layout {
         })
         const { appointmentDetail, appointmentIdOffline } = this.props;
         const temptAppointmentId = _.isEmpty(appointmentDetail) ? appointmentIdOffline : appointmentDetail.appointmentId;
-        // this.openCashDrawer();
         this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
         this.props.actions.appointment.showModalPrintReceipt();
     }
