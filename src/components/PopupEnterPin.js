@@ -87,6 +87,7 @@ class PopupEnterPin extends React.Component {
                                 onSubmitEditing={() => {
                                     confimYes();
                                 }}
+                                secureTextEntry={true}
                             />
                         </View>
                     </View>

@@ -68,31 +68,20 @@ class TabCheckout extends Layout {
 
     getDataColProduct() {
         const { categorySelected, categoryTypeSelected } = this.state;
-        const { productsByMerchantId, servicesByMerchant } = this.props;
-        const data = categoryTypeSelected === 'Service' ? servicesByMerchant : productsByMerchantId;
-        const temptData = data.filter(item => {
-            return item.categoryId === categorySelected.categoryId && item.isDisabled === 0;
-        });
-        return temptData;
-    }
-
-    onPressSelectCategory = (category) => {
-        const { categorySelected } = this.state;
-        if (categorySelected.categoryId !== category.categoryId) {
-            this.setState({
-                categorySelected: category,
-                categoryTypeSelected: category.categoryType,
-                isShowColProduct: true,
-                isShowColAmount: false,
-                productSeleted: {
-                    name: ''
-                },
-                extraSelected: {
-                    extraId: -1,
-                    name: ''
-                },
-            })
+        const { productsByMerchantId, servicesByMerchant, extrasByMerchant } = this.props;
+        if (categoryTypeSelected === 'Extra') {
+            const dataExtra = extrasByMerchant.filter((extra, index) => {
+                return extra.isDisabled === 0;
+            });
+            return dataExtra;
+        } else {
+            const data = categoryTypeSelected === 'Service' ? servicesByMerchant : productsByMerchantId;
+            const temptData = data.filter(item => {
+                return item.categoryId === categorySelected.categoryId && item.isDisabled === 0;
+            });
+            return temptData;
         }
+
     }
 
     addAmount = async () => {
@@ -403,7 +392,7 @@ class TabCheckout extends Layout {
                             methodPayment: method
                         });
                         const dataAnymousAppoitment = this.getBasketOffline();
-                        const {arrayProductBuy,arryaServicesBuy,arrayExtrasBuy} = dataAnymousAppoitment;
+                        const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } = dataAnymousAppoitment;
                         this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, false);
                     } else {
                         alert('Please setup your pax machine in setting');
@@ -420,7 +409,7 @@ class TabCheckout extends Layout {
                         methodPayment: method
                     });
                     const dataAnymousAppoitment = this.getBasketOffline();
-                    const {arrayProductBuy,arryaServicesBuy,arrayExtrasBuy} = dataAnymousAppoitment;
+                    const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } = dataAnymousAppoitment;
                     const isLoadingOffline = method === 'cash' ? false : true;
                     this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, isLoadingOffline);
                 }
@@ -752,13 +741,13 @@ class TabCheckout extends Layout {
         this.printInvoice();
     }
 
-      openCashDrawer = async () => {
+    openCashDrawer = async () => {
         const printer = await PrintManager.getInstance().portDiscovery();
         if (printer.length > 0) {
             const portName = printer[0].portName;
             PrintManager.getInstance().openCashDrawer(portName);
         } else {
-            alert('Please connect to your print ! ')
+            // alert('Please connect to your print ! ')
         }
     }
 
@@ -839,7 +828,7 @@ class TabCheckout extends Layout {
         })
         const { appointmentDetail, appointmentIdOffline } = this.props;
         const temptAppointmentId = _.isEmpty(appointmentDetail) ? appointmentIdOffline : appointmentDetail.appointmentId;
-        this.openCashDrawer();
+        // this.openCashDrawer();
         this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
         this.props.actions.appointment.showModalPrintReceipt();
     }
@@ -868,13 +857,89 @@ class TabCheckout extends Layout {
                 }, 500);
             } else if (methodPayment === 'credit_card') {
                 this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
-                setTimeout(() => {
-                    this.props.actions.appointment.showModalPrintReceipt();
-                }, 500);
+                this.props.actions.appointment.showModalPrintReceipt();
+                // setTimeout(() => {
+                //     this.props.actions.appointment.showModalPrintReceipt();
+                // }, 500);
             } else {
                 this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
                 this.props.actions.appointment.showModalPrintReceipt();
             }
+        }
+    }
+
+    onPressSelectCategory = async (category) => {
+        const { categorySelected } = this.state;
+        if (categorySelected.categoryId !== category.categoryId) {
+            await this.setState({
+                categorySelected: category,
+                categoryTypeSelected: category.categoryType,
+                isShowColProduct: true,
+                isShowColAmount: false,
+                productSeleted: {
+                    name: ''
+                },
+                extraSelected: {
+                    extraId: -1,
+                    name: ''
+                },
+            })
+        } else {
+            await this.setState({
+                isShowColProduct: false,
+                isShowColAmount: false,
+                categorySelected: {
+                    categoryId: -1,
+                    categoryType: ''
+                },
+                productSeleted: {
+                    name: ''
+                },
+                categoryTypeSelected: '',
+                extraSelected: {
+                    extraId: -1,
+                    name: ''
+                },
+            })
+        }
+    }
+
+    showExtraList = async () => {
+        const { categorySelected } = this.state;
+        if (categorySelected.categoryType === 'Extra' && categorySelected.categoryId === -1) {
+            await this.setState({
+                isShowColProduct: false,
+                isShowColAmount: false,
+                categorySelected: {
+                    categoryId: -1,
+                    categoryType: ''
+                },
+                productSeleted: {
+                    name: ''
+                },
+                categoryTypeSelected: '',
+                extraSelected: {
+                    extraId: -1,
+                    name: ''
+                },
+            })
+        } else {
+            await this.setState({
+                categorySelected: {
+                    categoryId: -1,
+                    categoryType: 'Extra'
+                },
+                categoryTypeSelected: 'Extra',
+                isShowColProduct: true,
+                isShowColAmount: false,
+                productSeleted: {
+                    name: ''
+                },
+                extraSelected: {
+                    extraId: -1,
+                    name: ''
+                },
+            })
         }
     }
 
@@ -923,6 +988,7 @@ const mapStateToProps = state => ({
     connectionSignalR: state.appointment.connectionSignalR,
     flagSignInAppointment: state.appointment.flagSignInAppointment,
     paxMachineInfo: state.dataLocal.paxMachineInfo,
+    extrasByMerchant: state.extra.extrasByMerchant
 })
 
 

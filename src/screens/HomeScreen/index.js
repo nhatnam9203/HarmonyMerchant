@@ -28,6 +28,7 @@ class HomeScreen extends Layout {
 
     componentDidMount() {
         this.getCurrentLocation();
+        this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {
