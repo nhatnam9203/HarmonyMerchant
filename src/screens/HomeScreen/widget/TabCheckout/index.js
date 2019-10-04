@@ -263,6 +263,7 @@ class TabCheckout extends Layout {
     }
 
     showColAmount = (item) => {
+        const {categoryTypeSelected} = this.state;
         this.setState({
             productSeleted: item,
             isShowColAmount: true,
@@ -358,7 +359,7 @@ class TabCheckout extends Layout {
                         changeButtonDone: true,
                         methodPayment: method
                     });
-                    this.props.actions.appointment.paymentAppointment(appointmentId, method, false);
+                    // this.props.actions.appointment.paymentAppointment(appointmentId, method, false);
                 } else {
                     alert('Please setup your pax machine in setting');
                 }
@@ -484,9 +485,11 @@ class TabCheckout extends Layout {
 
             } else {
                 const { profile } = this.props;
+                const { appointmentId, paymentSelected} = this.state;
+                let method = this.getPaymentString(paymentSelected);
                 // ------ Payment with credit card success ----
+                this.props.actions.appointment.paymentAppointment(appointmentId, method, false);
                 this.props.actions.appointment.submitPaymentWithCreditCard(profile.merchantId, '0', message, appointmentId);
-
             }
             // console.log('message : ', message);
         } catch (error) {
@@ -857,10 +860,9 @@ class TabCheckout extends Layout {
                 }, 500);
             } else if (methodPayment === 'credit_card') {
                 this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
-                this.props.actions.appointment.showModalPrintReceipt();
-                // setTimeout(() => {
-                //     this.props.actions.appointment.showModalPrintReceipt();
-                // }, 500);
+                setTimeout(() => {
+                    this.props.actions.appointment.showModalPrintReceipt();
+                }, 500);
             } else {
                 this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
                 this.props.actions.appointment.showModalPrintReceipt();
@@ -896,45 +898,6 @@ class TabCheckout extends Layout {
                     name: ''
                 },
                 categoryTypeSelected: '',
-                extraSelected: {
-                    extraId: -1,
-                    name: ''
-                },
-            })
-        }
-    }
-
-    showExtraList = async () => {
-        const { categorySelected } = this.state;
-        if (categorySelected.categoryType === 'Extra' && categorySelected.categoryId === -1) {
-            await this.setState({
-                isShowColProduct: false,
-                isShowColAmount: false,
-                categorySelected: {
-                    categoryId: -1,
-                    categoryType: ''
-                },
-                productSeleted: {
-                    name: ''
-                },
-                categoryTypeSelected: '',
-                extraSelected: {
-                    extraId: -1,
-                    name: ''
-                },
-            })
-        } else {
-            await this.setState({
-                categorySelected: {
-                    categoryId: -1,
-                    categoryType: 'Extra'
-                },
-                categoryTypeSelected: 'Extra',
-                isShowColProduct: true,
-                isShowColAmount: false,
-                productSeleted: {
-                    name: ''
-                },
                 extraSelected: {
                     extraId: -1,
                     name: ''

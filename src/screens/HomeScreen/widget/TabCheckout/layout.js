@@ -60,13 +60,10 @@ class Layout extends React.Component {
 
     renderCategoriesCheckout() {
         const { language, categoriesByMerchant } = this.props;
-        const { isShowColProduct, categorySelected } = this.state;
+        const { isShowColProduct } = this.state;
         const temptWidth = isShowColProduct ? 140 : 190;
         const temptColorHeader = isShowColProduct ? { color: '#6A6A6A' } : {};
         const temptBorderColor = isShowColProduct ? { borderColor: rgb(197, 197, 197) } : {};
-
-        const temptBackgrounColor = categorySelected.categoryId === -1 && categorySelected.categoryType === 'Extra' ? '#0764B0' : '#F1F1F1';
-        const temptTextColor = categorySelected.categoryId === -1 && categorySelected.categoryType === 'Extra' ? { color: '#fff' } : {};
 
         const categoriesFilter = categoriesByMerchant.filter((category, index) => category.isDisabled === 0);
         return (
@@ -90,20 +87,9 @@ class Layout extends React.Component {
                                     categorySelected={this.state.categorySelected}
                                 />)
                             }
-                            {/* --------- Button Extra --------- */}
-                            <Button onPress={this.showExtraList} style={{
-                                 height: scaleSzie(85), justifyContent: 'center',
-                                 alignItems: 'center', borderBottomWidth: 3, borderBottomColor: '#fff',
-                                 backgroundColor: temptBackgrounColor
-                            }} >
-                                <Text style={[{ fontSize: scaleSzie(20), color: '#404040' }, temptColorHeader,temptTextColor]} >
-                                    {'Extra'}
-                                </Text>
-                            </Button>
                         </ScrollView>
                     </View>
                 </View>
-
                 {/* ------- Line ----- */}
                 {
                     isShowColProduct ? <View /> : <ShadowLine

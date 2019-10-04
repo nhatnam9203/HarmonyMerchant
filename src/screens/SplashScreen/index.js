@@ -13,9 +13,9 @@ class SplashScreen extends Layout {
 
     componentDidMount() {
         const { token } = this.props;
-        this.props.actions.app.getStateCity();
         this.props.actions.app.resetIsFlashScreen(true);
         if (!token) {
+            this.props.actions.app.getStateCity();
             this.props.navigation.navigate('Auth');
         } else {
             // this.props.actions.app.handleLockScreen(true);
@@ -34,9 +34,10 @@ class SplashScreen extends Layout {
                 this.props.actions.extra.getExtraByMerchant(),
                 this.props.actions.service.getServicesByMerchant(),
                 this.props.actions.product.getProductsByMerchant(),
-                this.props.actions.staff.getStaffByMerchantId()
+                this.props.actions.staff.getStaffByMerchantId(),
+                this.props.actions.app.getStateCity()
             ]).then((data) => {
-                if (data.length === 5) {
+                if (data.length === 6) {
                     this.props.actions.app.stopLoadingApp();
                     this.props.actions.app.handleLockScreen(false);
                     this.props.navigation.navigate('Drawer');
@@ -48,7 +49,7 @@ class SplashScreen extends Layout {
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        const { loading, visibleModalLock, isLoginStaff,isFlashScreen } = this.props;
+        const { loading, visibleModalLock, isLoginStaff, isFlashScreen } = this.props;
         if (isFlashScreen && !loading && loading !== prevProps.loading && visibleModalLock && isLoginStaff) {
             this.props.actions.dataLocal.resetStateLoginStaff();
             this.gotoDrawer();
