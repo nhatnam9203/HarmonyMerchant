@@ -9,7 +9,7 @@ import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment,
-    getArrayExtrasFromAppointment, formatNumberFromCurrency, formatMoney
+    getArrayExtrasFromAppointment, formatNumberFromCurrency, formatMoney, getStaffInfoById
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 import apiConfigs from '@configs/api';
@@ -65,8 +65,8 @@ class TabCheckout extends Layout {
         this.cashBackRef = React.createRef();
     }
 
-    resetStateFromParent =async () =>{
-       await this.setState(initState);
+    resetStateFromParent = async () => {
+        await this.setState(initState);
     }
 
 
@@ -764,14 +764,14 @@ class TabCheckout extends Layout {
             const portName = printer[0].portName;
             PrintManager.getInstance().openCashDrawer(portName);
         } else {
-            if(isDelay){
+            if (isDelay) {
                 alert('Please connect to your print ! ');
-            }else{
-                setTimeout(() =>{
+            } else {
+                setTimeout(() => {
                     alert('Please connect to your print ! ');
-                },500)
+                }, 500)
             }
-            
+
         }
     }
 
@@ -926,8 +926,35 @@ class TabCheckout extends Layout {
         }
     }
 
-    changeStylistBasketLocal =(serviceId,staffId,tip) =>{
-        console.log(staffId+ '-'+ serviceId+'-'+ tip);
+    changeStylistBasketLocal = async (serviceId, staffId, tip) => {
+        const { basket } = this.state;
+        const { listStaffByMerchant } = this.props;
+        if (staffId) {
+            const temptStaff = getStaffInfoById(listStaffByMerchant, staffId);
+            const temptBasket = basket.map((item, index) => {
+                if (item.type === 'Service' && item.data.serviceId === serviceId) {
+                    return {
+                        ...item,
+                        staff: {
+                            staffId: staffId,
+                            imageUrl: temptStaff ? temptStaff.imageUrl : '',
+                            displayName: temptStaff ? temptStaff.displayName : '',
+                            tip: tip
+                        }
+                    }
+                }
+                return item
+            });
+            // console.log('temptStaff : ', temptBasket);
+           await  this.setState({
+                basket: temptBasket
+            })
+        }
+
+        // console.log('serviceId : ', serviceId);
+        // console.log('staffId : ', staffId);
+        // console.log('tip : ', tip);
+        // console.log('baseket: ' + JSON.stringify(basket));
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
@@ -975,7 +1002,8 @@ const mapStateToProps = state => ({
     connectionSignalR: state.appointment.connectionSignalR,
     flagSignInAppointment: state.appointment.flagSignInAppointment,
     paxMachineInfo: state.dataLocal.paxMachineInfo,
-    extrasByMerchant: state.extra.extrasByMerchant
+    extrasByMerchant: state.extra.extrasByMerchant,
+    listStaffByMerchant: state.staff.listStaffByMerchant,
 })
 
 

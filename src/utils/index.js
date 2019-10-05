@@ -60,7 +60,7 @@ export const requestAPI = async (action, header = {}) => {
     try {
         let response = await axios(configs);
         // console.log('response : ' + JSON.stringify(response));
-        const codeNumber = response.status ?  response.status : 0 ;
+        const codeNumber = response.status ? response.status : 0;
         if (codeNumber === 401) {
             return { codeNumber: codeNumber }
         }
@@ -435,6 +435,14 @@ export const formatMoney = (number, decPlaces, decSep, thouSep) => {
         (j ? i.substr(0, j) + thouSep : "") +
         i.substr(j).replace(/(\decSep{3})(?=\decSep)/g, "$1" + thouSep) +
         (decPlaces ? decSep + Math.abs(number - i).toFixed(decPlaces).slice(2) : "");
+}
+
+export const getStaffInfoById = (staffs, staffId) => {
+    const temptData = staffs.filter((staff, index) => staff.staffId == staffId);
+    if (temptData.length > 0) {
+        return { ...temptData[0] };
+    }
+    return false
 }
 
 export const WorkingTime = [

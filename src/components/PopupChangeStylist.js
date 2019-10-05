@@ -23,7 +23,7 @@ class PopupChangeStylist extends React.Component {
         this.state = {
             staffId: '',
             name: '',
-            tip: '',
+            tip: 0.00,
             bookingServiceId: '',
             serviceIdLocal: ''
         }
@@ -36,7 +36,7 @@ class PopupChangeStylist extends React.Component {
             staffId: staff && staff.staffId ? staff.staffId : '',
             name: staff && staff.displayName ? staff.displayName : '',
             bookingServiceId: service.data.bookingServiceId ? service.data.bookingServiceId : '',
-            tip: staff && staff.tip ? staff.tip : '',
+            tip: staff && staff.tip ? staff.tip : 0.00,
             serviceIdLocal: service.data.serviceId ? service.data.serviceId : ''
         })
     }
@@ -63,7 +63,6 @@ class PopupChangeStylist extends React.Component {
         const { staffId, bookingServiceId, tip, serviceIdLocal } = this.state;
         const { appointmentDetail } = this.props;
         if (_.isEmpty(appointmentDetail)) {
-            // console.log('change stylist : ',staffId);
             this.props.changeStylistBasketLocal(serviceIdLocal,staffId,tip);
         } else {
             this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentDetail.appointmentId);
