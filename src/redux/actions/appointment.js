@@ -86,8 +86,8 @@ export function createAnymousAppointment(merchantId, products, services = [], ex
             extras: extras,
             products: products,
             fromTime: new Date(),
-            staffId :0,
-            customDiscountFixed : 0,
+            staffId: 0,
+            customDiscountFixed: 0,
             customDiscountPercent: 0,
         },
         method: 'POST',
@@ -164,3 +164,14 @@ export function submitPaymentWithCreditCard(merchantId, userId, responseData, ap
         api: `${apiConfigs.BASE_API}paymentTransaction`,
     }
 }
+
+export function cancelHarmonyPayment(appointmentId) {
+    return {
+        type: 'CANCEL_HARMONY_PAYMENT',
+        body: {},
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}appointment/cancelmethod/${appointmentId}`,
+    }
+}
+

@@ -65,6 +65,10 @@ class TabCheckout extends Layout {
         this.cashBackRef = React.createRef();
     }
 
+    resetStateFromParent =async () =>{
+       await this.setState(initState);
+    }
+
 
     getDataColProduct() {
         const { categorySelected, categoryTypeSelected } = this.state;
@@ -920,6 +924,10 @@ class TabCheckout extends Layout {
                 },
             })
         }
+    }
+
+    changeStylistBasketLocal =(serviceId,staffId,tip) =>{
+        console.log(staffId+ '-'+ serviceId+'-'+ tip);
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {

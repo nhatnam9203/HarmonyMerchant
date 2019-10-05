@@ -94,6 +94,10 @@ class HomeScreen extends Layout {
                 this.tabCheckoutRef.current.setStateVisibleFromParent();
             }
             else {
+                if (currentTab === 2 && this.tabCheckoutRef.current.state.basket.length === 0){
+                    console.log('----dd');
+                    this.tabCheckoutRef.current.resetStateFromParent();
+                }
                 this.scrollTabParentRef.current.goToPage(index);
             }
         }

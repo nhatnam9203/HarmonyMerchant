@@ -7,6 +7,7 @@ import {
     TextInput
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
+import _ from 'ramda';
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
@@ -23,22 +24,21 @@ class PopupChangeStylist extends React.Component {
             staffId: '',
             name: '',
             tip: '',
-            bookingServiceId: ''
+            bookingServiceId: '',
+            serviceIdLocal: ''
         }
     }
 
     setStateFromParent = async (service) => {
-        // console.log('--- service : ',service);
-        if (service.staff) {
-            const { staff } = service;
-            await this.setState({
-                staffId: staff.staffId,
-                name: staff.displayName,
-                bookingServiceId: service.data.bookingServiceId,
-                tip: staff.tip
-            })
-        }
-
+        console.log('serviec : '+ JSON.stringify(service));
+        const { staff } = service;
+        await this.setState({
+            staffId: staff && staff.staffId ? staff.staffId : '',
+            name: staff && staff.displayName ? staff.displayName : '',
+            bookingServiceId: service.data.bookingServiceId ? service.data.bookingServiceId : '',
+            tip: staff && staff.tip ? staff.tip : '',
+            serviceIdLocal: service.data.serviceId ? service.data.serviceId : ''
+        })
     }
 
     getStaffDataDropdown(staffs) {
@@ -60,10 +60,16 @@ class PopupChangeStylist extends React.Component {
     }
 
     submitChangeStylist = () => {
-        const { staffId, bookingServiceId, tip } = this.state;
+        const { staffId, bookingServiceId, tip, serviceIdLocal } = this.state;
         const { appointmentDetail } = this.props;
+        if (_.isEmpty(appointmentDetail)) {
+            // console.log('change stylist : ',staffId);
+            this.props.changeStylistBasketLocal(serviceIdLocal,staffId,tip);
+        } else {
+            this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentDetail.appointmentId);
+        }
         this.props.onRequestClose();
-        this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentDetail.appointmentId);
+
     }
 
     // --------------- Render -----------
@@ -93,7 +99,7 @@ class PopupChangeStylist extends React.Component {
                         {/* ------- Dropdown -------- */}
                         <View style={{ height: scaleSzie(40), marginBottom: scaleSzie(10) }} >
                             <Dropdown
-                                label='Facial'
+                                label='Name'
                                 data={dataDropdown}
                                 value={name}
                                 onChangeText={(value, index) => this.changeStylist(value, dataDropdown[index].staffId)}

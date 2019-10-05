@@ -659,6 +659,7 @@ class Layout extends React.Component {
                     visible={visibleChangeStylist}
                     title="Change Stylist"
                     onRequestClose={() => { this.setState({ visibleChangeStylist: false }) }}
+                    changeStylistBasketLocal={this.changeStylistBasketLocal}
                 />
                 <PopupPayCompleted
                     visible={this.props.visiblePaymentCompleted}
