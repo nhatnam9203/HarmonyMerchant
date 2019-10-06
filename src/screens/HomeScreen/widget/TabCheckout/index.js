@@ -67,6 +67,7 @@ class TabCheckout extends Layout {
         this.modalBillRef = React.createRef();
         this.changeStylistRef = React.createRef();
         this.cashBackRef = React.createRef();
+        this.popupDiscountRef = React.createRef();
     }
 
     resetStateFromParent = async () => {
@@ -93,7 +94,7 @@ class TabCheckout extends Layout {
     }
 
     addAmount = async () => {
-        const {appointmentDetail} = this.props;
+        const { appointmentDetail } = this.props;
         const { categoryTypeSelected, basket, productSeleted, extraSelected, appointmentId } = this.state;
         // console.log('appointmentId : ', appointmentId);
         if (categoryTypeSelected === 'Product') {
@@ -309,12 +310,16 @@ class TabCheckout extends Layout {
 
     showModalDiscount = () => {
         const { basket } = this.state;
+        const { appointmentDetail } = this.props;
         if (basket.length > 0) {
-            const { appointmentId } = this.state;
-            this.props.actions.marketing.getPromotionByAppointment(appointmentId);
-            this.setState({
-                visibleDiscount: true
-            })
+            if (!_.isEmpty(appointmentDetail)) {
+                const { appointmentId } = this.state;
+                this.props.actions.marketing.getPromotionByAppointment(appointmentId);
+            } else {
+                const {  subTotalLocal, tipLocal, discountTotal } = this.state;
+                const temptTotal = subTotalLocal + tipLocal - discountTotal;
+                this.popupDiscountRef.current.setStateFromParent(formatMoney(temptTotal));
+            }
         }
     }
 

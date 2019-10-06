@@ -34,7 +34,13 @@ function appReducer(state = initialState, action) {
         case 'CLOSE_MODAL_DISCOUNT':
             return {
                 ...state,
-                visibleModalDiscount: false
+                visibleModalDiscount: false,
+                discount: [],
+            }
+        case 'OPEN_MODAL_DISCOUNT':
+            return {
+                ...state,
+                visibleModalDiscount: true,
             }
         case 'SET_STATUS_APPLY_BUTTON':
             return {

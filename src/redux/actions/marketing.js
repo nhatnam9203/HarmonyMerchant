@@ -108,5 +108,8 @@ export function sendNotificationByPromotionId(promotionId) {
     }
 }
 
-
-
+export function openPopupDiscount () {
+    return {
+        type: 'OPEN_MODAL_DISCOUNT',
+    }
+}

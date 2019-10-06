@@ -19,8 +19,8 @@ class PopupDiscount extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            percent: '',
-            discount: '',
+            totalLocal: 0,
+            isHandleDiscountTotal: false,
             moneyDiscountCuston: 0,
             moneyDiscountFixedAmout: 0
         };
@@ -28,28 +28,47 @@ class PopupDiscount extends React.Component {
         this.customFixedAmountRef = React.createRef();
     }
 
+    setStateFromParent = async (totalLocal) => {
+        await this.setState({
+            totalLocal,
+            isHandleDiscountTotal: true,
+        });
+        this.props.actions.marketing.openPopupDiscount();
+    }
 
-    submitCustomPromotion = () => {
+    submitCustomPromotion = async () => {
         const { appointmentDetail } = this.props;
         const customDiscountPercent = this.customDiscountRef.current.state.percent;
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
         this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentDetail.appointmentId);
         this.props.actions.marketing.closeModalDiscount();
+        await this.setState({
+            totalLocal: 0,
+            isHandleDiscountTotal: false,
+        });
     }
 
     sumTotalDiscount(num) {
         return parseFloat(Math.round(num * 100) / 100).toFixed(2);
     }
 
+    onRequestClose = async () => {
+        this.props.actions.marketing.closeModalDiscount();
+        await this.setState({
+            totalLocal: 0,
+            isHandleDiscountTotal: false,
+        });
+    }
+
 
     // ------ Render -----
 
     render() {
-        const { title, visible, onRequestClose, discount, visibleModalDiscount,
+        const { title, discount, visibleModalDiscount,
             appointmentDetail
         } = this.props;
         const { customDiscountPercent, customDiscountFixed } = appointmentDetail;
-        const { moneyDiscountCuston,moneyDiscountFixedAmout } = this.state;
+        const { moneyDiscountCuston, moneyDiscountFixedAmout,totalLocal,isHandleDiscountTotal } = this.state;
         let total = 0;
         for (let i = 0; i < discount.length; i++) {
             total = parseFloat(total) + parseFloat(discount[i].discount);
@@ -62,20 +81,20 @@ class PopupDiscount extends React.Component {
         }
         if (visibleModalDiscount && this.customDiscountRef.current) {
             total = parseFloat(total) + parseFloat(moneyDiscountCuston);
-        } 
+        }
         if (visibleModalDiscount && this.customFixedAmountRef.current) {
             total = parseFloat(total) + parseFloat(moneyDiscountFixedAmout);
         }
 
-
         total = parseFloat(total).toFixed(2);
 
-
+        const temptTotal = isHandleDiscountTotal ? totalLocal : total;
+        // const initStateTotalCustomDiscount = isHandleDiscountTotal : 
         return (
             <PopupParent
                 title={title}
                 visible={visibleModalDiscount}
-                onRequestClose={() => this.props.actions.marketing.closeModalDiscount()}
+                onRequestClose={this.onRequestClose}
                 width={600}
                 style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
             >
@@ -98,7 +117,9 @@ class PopupDiscount extends React.Component {
                                 <CustomDiscount
                                     ref={this.customDiscountRef}
                                     customDiscountPercent={customDiscountPercent}
-                                    total={appointmentDetail.total}
+                                    // total={appointmentDetail.total}
+                                    total={tempt}
+
                                     onChangeText={(discount) => {
                                         this.setState({ moneyDiscountCuston: discount })
                                     }}
@@ -107,8 +128,8 @@ class PopupDiscount extends React.Component {
                                 <CustomDiscountFixed
                                     ref={this.customFixedAmountRef}
                                     customDiscountFixed={customDiscountFixed}
-                                    onChangeText={(value) =>{
-                                        this.setState({moneyDiscountFixedAmout: value})
+                                    onChangeText={(value) => {
+                                        this.setState({ moneyDiscountFixedAmout: value })
                                     }}
                                 />
                                 <View style={{ height: scaleSzie(100) }} />
@@ -128,7 +149,7 @@ class PopupDiscount extends React.Component {
                         </View>
                         <View style={{ justifyContent: 'center' }} >
                             <Text style={{ color: '#4CD964', fontSize: scaleSzie(30), fontWeight: 'bold' }} >
-                                {`- ${total}$`}
+                                {`- ${temptTotal}$`}
                             </Text>
                         </View>
                     </View>
@@ -185,7 +206,6 @@ class CustomDiscount extends React.Component {
     render() {
         const { percent } = this.state;
         const { total, onChangeText } = this.props;
-        // const discount = parseFloat(Math.round((total * percent / 100) * 100) / 100).toFixed(2);
         const discount = parseFloat(parseFloat(percent) * parseFloat(total) / 100).toFixed(2);
         return (
             <View style={{
@@ -252,7 +272,7 @@ class CustomDiscountFixed extends React.Component {
     }
 
     render() {
-        const {onChangeText} = this.props;
+        const { onChangeText } = this.props;
         return (
             <View style={{
                 flexDirection: 'row', height: scaleSzie(55), borderBottomColor: '#707070', borderBottomWidth: 1
@@ -281,7 +301,7 @@ class CustomDiscountFixed extends React.Component {
                                 }}
                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
                                 value={`${this.state.discount}`}
-                                onChangeText={discount =>{
+                                onChangeText={discount => {
                                     this.setState({ discount });
                                     onChangeText(discount);
                                 }}

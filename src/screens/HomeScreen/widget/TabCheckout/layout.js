@@ -47,7 +47,7 @@ class Layout extends React.Component {
                         backgroundColor="#0764B0"
                         title={localize('Open Cashier', language)}
                         textColor="#fff"
-                        onPress={() =>this.openCashDrawer(true)}
+                        onPress={() => this.openCashDrawer(true)}
                         style={{
                             borderWidth: 1, borderColor: '#C5C5C5',
                             borderRadius: scaleSzie(3)
@@ -252,7 +252,7 @@ class Layout extends React.Component {
 
     renderBasket() {
         const { language, appointmentDetail, flagSignInAppointment } = this.props;
-        const { basket,subTotalLocal,tipLocal,discountTotal } = this.state;
+        const { basket, subTotalLocal, tipLocal, discountTotal } = this.state;
 
         const tipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
         const subTotal = appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
@@ -261,7 +261,7 @@ class Layout extends React.Component {
         const total = appointmentDetail.total ? appointmentDetail.total : 0;
 
         const temptSubTotal = _.isEmpty(appointmentDetail) ? subTotalLocal : subTotal;
-        const temptTotal =  _.isEmpty(appointmentDetail) ? (subTotalLocal + tipLocal - discountTotal) : total;
+        const temptTotal = _.isEmpty(appointmentDetail) ? (subTotalLocal + tipLocal - discountTotal) : total;
 
         return (
             <View style={{ flex: 1 }} >
@@ -640,9 +640,10 @@ class Layout extends React.Component {
                 {this.renderHeader()}
                 {this.renderBodyCheckout()}
                 <PopupDiscount
+                    ref={this.popupDiscountRef}
                     title={'Discount'}
-                    visible={this.state.visibleDiscount}
-                    onRequestClose={this.closeModalDiscount}
+                    // visible={this.state.visibleDiscount}
+                    // onRequestClose={this.closeModalDiscount}
                 />
                 <PopupConfirm
                     visible={visibleConfirm}
