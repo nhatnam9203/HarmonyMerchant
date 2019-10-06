@@ -35,6 +35,10 @@ const initState = {
     visibleDiscount: false,
     paymentSelected: '',
     tabCurrent: 0,
+    subTotalLocal: 0,
+    tipLocal: 0,
+    discountTotal: 0,
+    totalLocal: 0,
     total: 0,
     isInitBasket: false,
     appointmentId: -1,
@@ -89,10 +93,11 @@ class TabCheckout extends Layout {
     }
 
     addAmount = async () => {
+        const {appointmentDetail} = this.props;
         const { categoryTypeSelected, basket, productSeleted, extraSelected, appointmentId } = this.state;
         // console.log('appointmentId : ', appointmentId);
         if (categoryTypeSelected === 'Product') {
-            if (appointmentId !== -1) {
+            if (!_.isEmpty(appointmentDetail)) {
                 // ------- Buy With Appointment -----
                 this.props.actions.appointment.addItemIntoAppointment(
                     {
@@ -118,7 +123,8 @@ class TabCheckout extends Layout {
                 });
                 await this.setState({
                     basket: temptBasket,
-                    total: this.getPriceOfline(temptBasket)
+                    // total: this.getPriceOfline(temptBasket),
+                    subTotalLocal: this.getPriceOfline(temptBasket),
                 })
             }
 
@@ -140,7 +146,7 @@ class TabCheckout extends Layout {
             })
 
         } else {
-            if (appointmentId !== -1) {
+            if (!_.isEmpty(appointmentDetail)) {
                 // ------- Buy with appointment ------
                 const temptExtra = extraSelected.extraId !== -1 ? [{ extraId: extraSelected.extraId }] : [];
                 this.props.actions.appointment.addItemIntoAppointment(
@@ -153,7 +159,7 @@ class TabCheckout extends Layout {
                     }, appointmentId)
             } else {
                 // ------ Buy Offline ------
-                // alert('You can only sell products to visitors');
+                // console.log('productSeleted : ',JSON.stringify());
 
                 const temptBasket = basket.filter((item) => item.id !== `${productSeleted.serviceId}_ser`);
                 temptBasket.unshift({
@@ -184,7 +190,8 @@ class TabCheckout extends Layout {
 
                 this.setState({
                     basket: temptBasketExtra,
-                    total: this.getPriceOfline(temptBasket)
+                    // total: this.getPriceOfline(temptBasket),
+                    subTotalLocal: this.getPriceOfline(temptBasketExtra),
                 });
             }
             // ---------------- Handle -----------------
@@ -208,14 +215,14 @@ class TabCheckout extends Layout {
 
     }
 
-    getPriceOfline(baseket) {
+    getPriceOfline(basket) {
         let total = 0;
-        for (let i = 0; i < baseket.length; i++) {
-            if (baseket[i].type === "Product") {
-                total = total + parseFloat(baseket[i].data.price) * baseket[i].quanlitySet;
-                console.log('total : ', total);
+        for (let i = 0; i < basket.length; i++) {
+            if (basket[i].type === "Product") {
+                total = total + parseFloat(basket[i].data.price) * basket[i].quanlitySet;
+                // console.log('total : ', total);
             } else {
-                total = total + formatNumberFromCurrency(baseket[i].data.price);
+                total = total + formatNumberFromCurrency(basket[i].data.price);
             }
         }
         return total;
@@ -254,7 +261,9 @@ class TabCheckout extends Layout {
             // -------- Remove Offline --------
             const temptBasket = basket.filter((itemBasket) => itemBasket.id !== item.id);
             this.setState({
-                basket: temptBasket
+                basket: temptBasket,
+                // total: this.getPriceOfline(temptBasket),
+                subTotalLocal: this.getPriceOfline(temptBasket),
             })
         }
 
@@ -299,9 +308,8 @@ class TabCheckout extends Layout {
     }
 
     showModalDiscount = () => {
-        const { appointmentDetail } = this.props;
-        const discount = appointmentDetail.discount ? appointmentDetail.discount : 0;
-        if (discount !== 0 && discount !== '0.00') {
+        const { basket } = this.state;
+        if (basket.length > 0) {
             const { appointmentId } = this.state;
             this.props.actions.marketing.getPromotionByAppointment(appointmentId);
             this.setState({
@@ -946,7 +954,7 @@ class TabCheckout extends Layout {
                 return item
             });
             // console.log('temptStaff : ', temptBasket);
-           await  this.setState({
+            await this.setState({
                 basket: temptBasket
             })
         }
@@ -954,7 +962,7 @@ class TabCheckout extends Layout {
         // console.log('serviceId : ', serviceId);
         // console.log('staffId : ', staffId);
         // console.log('tip : ', tip);
-        // console.log('baseket: ' + JSON.stringify(basket));
+        // console.log('basket: ' + JSON.stringify(basket));
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {

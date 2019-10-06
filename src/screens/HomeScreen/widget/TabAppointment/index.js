@@ -290,9 +290,8 @@ class TabAppointment extends Layout {
     }
 
     showModalDiscount = () => {
-        const { appointmentDetail } = this.props;
-        const discount = appointmentDetail.discount ? appointmentDetail.discount : 0;
-        if (discount !== 0 && discount !== '0.00') {
+        const { basket } = this.state;
+        if (basket.length > 0) {
             const { appointmentId } = this.state;
             this.props.actions.marketing.getPromotionByAppointment(appointmentId);
             this.setState({

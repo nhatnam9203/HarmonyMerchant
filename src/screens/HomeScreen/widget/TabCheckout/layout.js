@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import QRCode from 'react-native-qrcode-svg';
+import _ from 'ramda';
 
 import { scaleSzie, localize, formatNumberFromCurrency, formatMoney } from '@utils';
 import { Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney } from '@components';
@@ -251,12 +252,16 @@ class Layout extends React.Component {
 
     renderBasket() {
         const { language, appointmentDetail, flagSignInAppointment } = this.props;
-        const { basket, total } = this.state;
-        const tempTipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
-        const subTotal = appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
+        const { basket,subTotalLocal,tipLocal,discountTotal } = this.state;
 
+        const tipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
+        const subTotal = appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
         const discount = appointmentDetail.discount ? appointmentDetail.discount : 0;
         const tax = appointmentDetail.tax ? appointmentDetail.tax : 0;
+        const total = appointmentDetail.total ? appointmentDetail.total : 0;
+
+        const temptSubTotal = _.isEmpty(appointmentDetail) ? subTotalLocal : subTotal;
+        const temptTotal =  _.isEmpty(appointmentDetail) ? (subTotalLocal + tipLocal - discountTotal) : total;
 
         return (
             <View style={{ flex: 1 }} >
@@ -292,7 +297,7 @@ class Layout extends React.Component {
                                     {`${localize('Subtotal', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$${formatMoney(subTotal)}`}
+                                    {`$${formatMoney(temptSubTotal)}`}
                                 </Text>
                             </View>
                             {/* ---------- Tip ------ */}
@@ -301,7 +306,7 @@ class Layout extends React.Component {
                                     {`${localize('Tip', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$${formatMoney(tempTipAmount)}`}
+                                    {`$${formatMoney(tipAmount)}`}
                                 </Text>
                             </View>
                             {/* ---------- Tax ------ */}
@@ -335,7 +340,7 @@ class Layout extends React.Component {
                                     {`${localize('Total', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(20) }]} >
-                                    {`$${formatMoney(`${total}`)}`}
+                                    {`$${formatMoney(`${temptTotal}`)}`}
                                 </Text>
                             </View>
                         </View>

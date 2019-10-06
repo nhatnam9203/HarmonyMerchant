@@ -124,9 +124,9 @@ class HomeScreen extends Layout {
     }
 
     clearDataTabCheckout = () => {
-        // if (this.tabCheckoutRef.current) {
-        //     this.tabCheckoutRef.current.setStateFromParent();
-        // }
+        if( this.tabCheckoutRef.current){
+            this.tabCheckoutRef.current.resetStateFromParent();
+        }
     }
 
     checkoutAppointment = async (appointmentId) => {
