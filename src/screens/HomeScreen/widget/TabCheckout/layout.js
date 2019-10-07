@@ -642,6 +642,7 @@ class Layout extends React.Component {
                 <PopupDiscount
                     ref={this.popupDiscountRef}
                     title={'Discount'}
+                    callbackDiscountToParent={this.callbackDiscountToParent}
                     // visible={this.state.visibleDiscount}
                     // onRequestClose={this.closeModalDiscount}
                 />

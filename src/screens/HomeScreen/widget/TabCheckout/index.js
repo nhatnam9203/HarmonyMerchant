@@ -54,7 +54,9 @@ const initState = {
     visibleBillOfPayment: false,
     visibleConfirm: false,
     visibleChangeStylist: false,
-    visibleChangeMoney: false
+    visibleChangeMoney: false,
+
+    customDiscountPercent : 0
 }
 
 class TabCheckout extends Layout {
@@ -316,9 +318,9 @@ class TabCheckout extends Layout {
                 const { appointmentId } = this.state;
                 this.props.actions.marketing.getPromotionByAppointment(appointmentId);
             } else {
-                const {  subTotalLocal, tipLocal, discountTotal } = this.state;
+                const {  subTotalLocal, tipLocal, discountTotal,customDiscountPercent } = this.state;
                 const temptTotal = subTotalLocal + tipLocal - discountTotal;
-                this.popupDiscountRef.current.setStateFromParent(formatMoney(temptTotal));
+                this.popupDiscountRef.current.setStateFromParent(temptTotal,discountTotal,customDiscountPercent);
             }
         }
     }
@@ -968,6 +970,12 @@ class TabCheckout extends Layout {
         // console.log('staffId : ', staffId);
         // console.log('tip : ', tip);
         // console.log('basket: ' + JSON.stringify(basket));
+    }
+
+    callbackDiscountToParent = async (customDiscountPercent) =>{
+        await this.setState({
+            customDiscountPercent
+        })
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {

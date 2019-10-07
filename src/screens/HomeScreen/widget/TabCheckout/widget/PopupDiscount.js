@@ -11,7 +11,7 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie, formatNumberFromCurrency, formatMoney } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupDiscount extends React.Component {
@@ -19,47 +19,75 @@ class PopupDiscount extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            discountTotal: 0,
             totalLocal: 0,
+            temptTotalLocal: 0,
             isHandleDiscountTotal: false,
             moneyDiscountCuston: 0,
-            moneyDiscountFixedAmout: 0
+            moneyDiscountFixedAmout: 0,
+
+            customDiscountPercentLocal:0
         };
         this.customDiscountRef = React.createRef();
         this.customFixedAmountRef = React.createRef();
     }
 
-    setStateFromParent = async (totalLocal) => {
+    setStateFromParent = async (totalLocal, discountTotal,customDiscountPercent) => {
         await this.setState({
             totalLocal,
+            discountTotal :Number((parseFloat(customDiscountPercent) * parseFloat(totalLocal) / 100).toFixed(2)) ,
+            temptTotalLocal: discountTotal,
             isHandleDiscountTotal: true,
+            customDiscountPercentLocal:customDiscountPercent
         });
         this.props.actions.marketing.openPopupDiscount();
     }
 
     submitCustomPromotion = async () => {
-        const { appointmentDetail } = this.props;
+        const { isHandleDiscountTotal } = this.state;
         const customDiscountPercent = this.customDiscountRef.current.state.percent;
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
-        this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentDetail.appointmentId);
-        this.props.actions.marketing.closeModalDiscount();
+        if (isHandleDiscountTotal) {
+            // alert(customDiscountPercent);
+            this.props.callbackDiscountToParent(customDiscountPercent);
+            this.props.actions.marketing.closeModalDiscount();
+        } else {
+            const { appointmentDetail } = this.props;
+            this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentDetail.appointmentId);
+            this.props.actions.marketing.closeModalDiscount();
+        }
         await this.setState({
             totalLocal: 0,
+            temptTotalLocal: 0,
             isHandleDiscountTotal: false,
+            customDiscountPercentLocal:0
         });
-    }
 
-    sumTotalDiscount(num) {
-        return parseFloat(Math.round(num * 100) / 100).toFixed(2);
     }
 
     onRequestClose = async () => {
         this.props.actions.marketing.closeModalDiscount();
         await this.setState({
             totalLocal: 0,
+            temptTotalLocal: 0,
             isHandleDiscountTotal: false,
+            customDiscountPercentLocal:0
         });
     }
 
+    onChangeTextCustomDiscount = async (discount) => {
+        const { isHandleDiscountTotal, temptTotalLocal } = this.state;
+        if (isHandleDiscountTotal) {
+            await this.setState(prevState => ({
+                // moneyDiscountCuston: discount,
+                discountTotal: temptTotalLocal + discount
+            }));
+        } else {
+            await this.setState({
+                moneyDiscountCuston: discount
+            });
+        }
+    }
 
     // ------ Render -----
 
@@ -68,7 +96,9 @@ class PopupDiscount extends React.Component {
             appointmentDetail
         } = this.props;
         const { customDiscountPercent, customDiscountFixed } = appointmentDetail;
-        const { moneyDiscountCuston, moneyDiscountFixedAmout,totalLocal,isHandleDiscountTotal } = this.state;
+        const { moneyDiscountCuston, moneyDiscountFixedAmout, totalLocal, discountTotal, isHandleDiscountTotal,
+            customDiscountPercentLocal
+        } = this.state;
         let total = 0;
         for (let i = 0; i < discount.length; i++) {
             total = parseFloat(total) + parseFloat(discount[i].discount);
@@ -88,8 +118,10 @@ class PopupDiscount extends React.Component {
 
         total = parseFloat(total).toFixed(2);
 
-        const temptTotal = isHandleDiscountTotal ? totalLocal : total;
-        // const initStateTotalCustomDiscount = isHandleDiscountTotal : 
+        const temptTotalDiscount = isHandleDiscountTotal ? discountTotal : total;
+        const temptTotal = isHandleDiscountTotal ? totalLocal : appointmentDetail.total;
+        const temptCustomDiscountPercent  = isHandleDiscountTotal ? customDiscountPercentLocal :customDiscountPercent;
+
         return (
             <PopupParent
                 title={title}
@@ -116,13 +148,9 @@ class PopupDiscount extends React.Component {
                                 {/* ----------- Row 1 ----------- */}
                                 <CustomDiscount
                                     ref={this.customDiscountRef}
-                                    customDiscountPercent={customDiscountPercent}
-                                    // total={appointmentDetail.total}
-                                    total={tempt}
-
-                                    onChangeText={(discount) => {
-                                        this.setState({ moneyDiscountCuston: discount })
-                                    }}
+                                    customDiscountPercent={temptCustomDiscountPercent}
+                                    total={temptTotal}
+                                    onChangeText={this.onChangeTextCustomDiscount}
                                 />
                                 {/* ----------- Row 2 ----------- */}
                                 <CustomDiscountFixed
@@ -149,7 +177,7 @@ class PopupDiscount extends React.Component {
                         </View>
                         <View style={{ justifyContent: 'center' }} >
                             <Text style={{ color: '#4CD964', fontSize: scaleSzie(30), fontWeight: 'bold' }} >
-                                {`- ${temptTotal}$`}
+                                {`- ${formatMoney(temptTotalDiscount)}$`}
                             </Text>
                         </View>
                     </View>
@@ -199,14 +227,15 @@ class CustomDiscount extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            percent: this.props.customDiscountPercent
+            percent: this.props.customDiscountPercent ? this.props.customDiscountPercent : 0,
         }
     }
 
     render() {
         const { percent } = this.state;
         const { total, onChangeText } = this.props;
-        const discount = parseFloat(parseFloat(percent) * parseFloat(total) / 100).toFixed(2);
+        const discount = Number((parseFloat(percent) * parseFloat(total) / 100).toFixed(2));
+
         return (
             <View style={{
                 flexDirection: 'row', height: scaleSzie(55),
@@ -235,7 +264,8 @@ class CustomDiscount extends React.Component {
                                 value={`${this.state.percent}`}
                                 onChangeText={percent => {
                                     this.setState({ percent });
-                                    onChangeText(parseFloat(percent) * parseFloat(total) / 100);
+                                    // onChangeText(parseFloat(percent) * parseFloat(total) / 100);
+                                    onChangeText(Number((parseFloat(percent) * parseFloat(total) / 100).toFixed(2)))
                                 }}
                                 keyboardType="numeric"
                                 placeholderTextColor="#A9A9A9"
@@ -253,7 +283,7 @@ class CustomDiscount extends React.Component {
                 </View>
                 <View style={{ justifyContent: 'center' }} >
                     <Text style={{ color: '#4CD964', fontSize: scaleSzie(20) }} >
-                        {`${discount}$`}
+                        {`${formatMoney(discount)}$`}
                     </Text>
                 </View>
             </View>
