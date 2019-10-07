@@ -351,7 +351,7 @@ class TabCheckout extends Layout {
     }
 
     payBasket = async () => {
-        const { appointmentId, paymentSelected, basket, total } = this.state;
+        const { appointmentId, paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal } = this.state;
         const { profile, token, appointmentDetail, paxMachineInfo } = this.props;
         let method = this.getPaymentString(paymentSelected);
 
@@ -397,9 +397,6 @@ class TabCheckout extends Layout {
                             changeButtonDone: true,
                             methodPayment: method
                         });
-                        // const dataAnymousAppoitment = this.getBasketOffline();
-                        // const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } = dataAnymousAppoitment;
-                        // this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, false);
                     } else {
                         alert('Please setup your pax machine in setting');
                     }
@@ -415,9 +412,11 @@ class TabCheckout extends Layout {
                         methodPayment: method
                     });
                     const dataAnymousAppoitment = this.getBasketOffline();
-                    const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } = dataAnymousAppoitment;
+                    const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
                     const isLoadingOffline = method === 'cash' ? false : true;
-                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, isLoadingOffline);
+                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, isLoadingOffline,
+                        customDiscountPercentLocal, customDiscountFixedLocal, staffId
+                    );
                 }
 
             }
@@ -429,6 +428,7 @@ class TabCheckout extends Layout {
         const arrayProductBuy = [];
         const arryaServicesBuy = [];
         const arrayExtrasBuy = [];
+        let staffId = 0;
         for (let i = 0; i < basket.length; i++) {
             if (basket[i].type === 'Product') {
                 arrayProductBuy.push({
@@ -436,10 +436,11 @@ class TabCheckout extends Layout {
                     quantity: basket[i].quanlitySet
                 });
             } else if (basket[i].type === 'Service') {
+                staffId = basket[i].staff && basket[i].staff.staffId ? basket[i].staff.staffId : 0;
                 arryaServicesBuy.push({
                     serviceId: basket[i].data.serviceId,
-                    staffId: 0,
-                    tipAmount: 0,
+                    staffId: basket[i].staff && basket[i].staff.staffId ? basket[i].staff.staffId : 0,
+                    tipAmount: basket[i].staff && basket[i].staff.tip ? basket[i].staff.tip : 0,
                 });
             } else if (basket[i].type === 'Extra') {
                 arrayExtrasBuy.push({
@@ -450,7 +451,8 @@ class TabCheckout extends Layout {
         return {
             arrayProductBuy,
             arryaServicesBuy,
-            arrayExtrasBuy
+            arrayExtrasBuy,
+            staffId
         }
     }
 
@@ -490,7 +492,7 @@ class TabCheckout extends Layout {
 
             } else {
                 const { profile } = this.props;
-                const { appointmentId, paymentSelected } = this.state;
+                const { appointmentId, paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal } = this.state;
                 let method = this.getPaymentString(paymentSelected);
 
                 if (online) {
@@ -500,8 +502,10 @@ class TabCheckout extends Layout {
                 } else {
                     // ------ Payment with credit offline card success ----
                     const dataAnymousAppoitment = this.getBasketOffline();
-                    const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } = dataAnymousAppoitment;
-                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, false);
+                    const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
+
+                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, false,
+                        customDiscountPercentLocal, customDiscountFixedLocal, staffId);
                 }
             }
             // console.log('message : ', message);
@@ -946,11 +950,11 @@ class TabCheckout extends Layout {
                 }
                 return item
             });
-            console.log('---temptStaff : ' + JSON.stringify(temptBasket));
+            // console.log('---temptStaff : ' + JSON.stringify(temptBasket));
             let temptTip = 0;
             for (let i = 0; i < temptBasket.length; i++) {
-                if(temptBasket[i].type === 'Service'){
-                    if(temptBasket[i].staff && temptBasket[i].staff.tip){
+                if (temptBasket[i].type === 'Service') {
+                    if (temptBasket[i].staff && temptBasket[i].staff.tip) {
                         temptTip = temptTip + formatNumberFromCurrency(temptBasket[i].staff.tip);
                     }
                 }
@@ -960,7 +964,6 @@ class TabCheckout extends Layout {
                 tipLocal: temptTip
             })
         }
-
         // console.log('serviceId : ', serviceId);
         // console.log('staffId : ', staffId);
         // console.log('tip : ', tip);
@@ -992,6 +995,20 @@ class TabCheckout extends Layout {
             customDiscountFixedLocal,
             discountTotalLocal
         })
+    }
+
+    cancelHarmonyPayment = async () => {
+        await this.setState({
+            changeButtonDone: false,
+            paymentSelected: '',
+        })
+        this.props.actions.appointment.resetPayment();
+        const { connectionSignalR } = this.props;
+        if (!_.isEmpty(connectionSignalR)) {
+            connectionSignalR.stop();
+        }
+
+
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {

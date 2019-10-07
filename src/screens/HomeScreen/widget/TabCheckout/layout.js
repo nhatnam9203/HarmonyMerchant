@@ -261,9 +261,9 @@ class Layout extends React.Component {
         const total = appointmentDetail.total ? appointmentDetail.total : 0;
 
         const temptSubTotal = _.isEmpty(appointmentDetail) ? subTotalLocal : subTotal;
-        const temptTotal = _.isEmpty(appointmentDetail) ?  Number(subTotalLocal + tipLocal - discountTotalLocal).toFixed(2) : total;
+        const temptTotal = _.isEmpty(appointmentDetail) ? Number(subTotalLocal + tipLocal - discountTotalLocal).toFixed(2) : total;
         const temptDiscount = _.isEmpty(appointmentDetail) ? discountTotalLocal : discount;
-        const temptTip =  _.isEmpty(appointmentDetail) ? tipLocal : tipAmount;
+        const temptTip = _.isEmpty(appointmentDetail) ? tipLocal : tipAmount;
 
         return (
             <View style={{ flex: 1 }} >
@@ -351,59 +351,40 @@ class Layout extends React.Component {
                 </View>
                 {/* -------- Footer Basket -------- */}
                 <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
-                    {flagSignInAppointment ? this.renderButtonSignInAppointment() : this.renderButtonChekout()}
+                    {this.renderButtonChekout()}
                 </View>
             </View>
         );
     }
 
-    renderButtonSignInAppointment() {
-        const { basket } = this.state;
-        const { language } = this.props;
-        if (basket.length > 0) {
-            return (
-                <ButtonCustom
-                    width={`100%`}
-                    backgroundColor="#0764B0"
-                    title={localize('DONE', language)}
-                    textColor="#fff"
-                    onPress={this.doneAddBasketSignInAppointment}
-                    style={{
-                        borderWidth: 1, borderColor: '#C5C5C5',
-                        flex: 1
-                    }}
-                    styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
-                />
-            );
-        }
-        return (
-            <ButtonCustom
-                width={`100%`}
-                backgroundColor="#F1F1F1"
-                title={localize('DONE', language)}
-                textColor="#6A6A6A"
-                onPress={() => { }}
-                style={{
-                    borderWidth: 1, borderColor: '#C5C5C5',
-                    flex: 1
-                }}
-                styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
-                activeOpacity={1}
-            />
-        );
-    }
 
     renderButtonChekout() {
-        const { tabCurrent, basket, paymentSelected, changeButtonDone,
+        const { tabCurrent, basket, paymentSelected, changeButtonDone
         } = this.state;
         const { language, isDonePayment } = this.props;
         if (tabCurrent === 1) {
             if (changeButtonDone && !isDonePayment) {
+                if (paymentSelected === 'Harmony Pay') {
+                    return (
+                        <ButtonCustom
+                            width={`100%`}
+                            backgroundColor="#0764B0"
+                            title={localize('CANCEL', language)}
+                            textColor="#fff"
+                            onPress={this.cancelHarmonyPayment}
+                            style={{
+                                borderWidth: 1, borderColor: '#C5C5C5',
+                                flex: 1
+                            }}
+                            styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                        />
+                    );
+                }
                 return (
                     <ButtonCustom
                         width={`100%`}
                         backgroundColor="#F1F1F1"
-                        title={localize('DONE', language)}
+                        title={localize('DONE 000', language)}
                         textColor="#6A6A6A"
                         onPress={() => { }}
                         style={{

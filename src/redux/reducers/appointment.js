@@ -34,7 +34,6 @@ function appReducer(state = initialState, action) {
         case 'PAY_APPOINTMENT_SUCCESS':
             return {
                 ...state,
-                // visiblePaymentCompleted: true,
                 isDonePayment: true
             }
         case 'CLOSE_MODAL_PAYMENT_COMPLETED':
