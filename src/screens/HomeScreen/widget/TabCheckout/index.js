@@ -72,7 +72,7 @@ class TabCheckout extends Layout {
         this.changeStylistRef = React.createRef();
         this.cashBackRef = React.createRef();
         this.popupDiscountRef = React.createRef();
-        this.popupSendLinkInstallRef =  React.createRef();
+        this.popupSendLinkInstallRef = React.createRef();
     }
 
     resetStateFromParent = async () => {
@@ -391,8 +391,9 @@ class TabCheckout extends Layout {
             //-------Payment Anymous ------
             if (method === 'harmony') {
                 // alert('Does not support payment for anonymous customers');
+                this.visibleSendLinkPopup.current.setStateFromParent('');
                 this.setState({
-                    visibleSendLinkPopup : true
+                    visibleSendLinkPopup: true
                 })
             } else {
                 if (method === 'credit_card') {
@@ -1014,12 +1015,17 @@ class TabCheckout extends Layout {
         }
     }
 
-    sendLinkInstallApp = async () =>{
+    sendLinkInstallApp = async () => {
         const phone = this.popupSendLinkInstallRef.current.state.value;
-       await this.setState({
-           visibleSendLinkPopup:false
-       });
-        this.props.actions.app.sendLinkInstallApp(phone);
+        if (phone.length > 6) {
+            await this.setState({
+                visibleSendLinkPopup: false
+            });
+            this.props.actions.app.sendLinkInstallApp(phone);
+        }else{
+            alert('Phone is invalid !')
+        }
+
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {

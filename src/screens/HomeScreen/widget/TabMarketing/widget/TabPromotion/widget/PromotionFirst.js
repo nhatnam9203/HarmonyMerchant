@@ -81,13 +81,13 @@ export default class PromotionFirst extends React.Component {
                     <View style={{ flexDirection: 'row' }} >
                         <ItemCalendar
                             title={localize('Start Date', language)}
-                            value={`${moment(data.fromDate).format('DD/MM/YYYY')}`}
+                            value={`${moment(data.fromDate).format('MM/DD/YYYY')}`}
                             onPress={() => showCalendar('fromDate', data.fromDate, 1)}
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemCalendar
                             title={localize('End Date', language)}
-                            value={`${moment(data.toDate).format('DD/MM/YYYY')}`}
+                            value={`${moment(data.toDate).format('MM/DD/YYYY')}`}
                             onPress={() => showCalendar('toDate', data.toDate, 1)}
 
                         />

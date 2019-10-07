@@ -104,10 +104,11 @@ function* sendLinkInstallApp(action) {
         console.log('--- sendLinkInstallApp : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            // yield put({
-            //     type: 'UPDATE_MERCHANT_PROFILE',
-            //     payload: responses.data
-            // })
+            yield put({ type: 'STOP_LOADING_ROOT' });
+            setTimeout(() =>{
+                alert('Sent !')
+            },500)
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

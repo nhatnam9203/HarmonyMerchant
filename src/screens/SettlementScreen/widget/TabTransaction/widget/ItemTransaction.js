@@ -53,7 +53,7 @@ const ItemTransaction = (props) => {
             {/* --------- Col 2 --------- */}
             <View style={{ width: scaleSzie(130), justifyContent: 'center' }} >
                 <Text style={styles.textHeaderContent} >
-                    {moment(data.createdDate).format('DD/MM/YYYY')}
+                    {moment(data.createdDate).format('MM/DD/YYYY')}
                 </Text>
                 <Text style={styles.textHeaderContent} >
                     {moment(data.createdDate).format('h:mm A')}

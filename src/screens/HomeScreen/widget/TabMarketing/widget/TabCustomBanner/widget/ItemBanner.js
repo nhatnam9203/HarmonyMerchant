@@ -47,7 +47,7 @@ const ItemBanner = ({ banner,deleteBanner }) => {
                         {title}
                     </Text>
                     <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginVertical: scaleSzie(2) }} >
-                        {`Date: ${moment(createdDate).format('DD/MM/YYYY')}`}
+                        {`Date: ${moment(createdDate).format('MM/DD/YYYY')}`}
                     </Text>
                     <Text style={{ color: '#404040', fontSize: scaleSzie(12) }} numberOfLines={2} >
                         {description}

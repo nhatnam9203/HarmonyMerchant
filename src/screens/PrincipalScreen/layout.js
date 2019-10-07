@@ -205,7 +205,7 @@ export default class Layout extends React.Component {
                         }} >
                             <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(8) }} >
                                 <Text style={styles.textNormal} >
-                                    {`${moment(this.state.dateOfBirth).format('DD/MM/YYYY')}`}
+                                    {`${moment(this.state.dateOfBirth).format('MM/DD/YYYY')}`}
                                 </Text>
                             </View>
                             <View style={{ width: 1, paddingVertical: scaleSzie(2) }} >
