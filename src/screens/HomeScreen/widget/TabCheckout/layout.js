@@ -10,7 +10,10 @@ import QRCode from 'react-native-qrcode-svg';
 import _ from 'ramda';
 
 import { scaleSzie, localize, formatNumberFromCurrency, formatMoney } from '@utils';
-import { Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney } from '@components';
+import {
+    Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
+    PopupSendLinkInstall
+} from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import {
@@ -668,6 +671,12 @@ class Layout extends React.Component {
                     language={language}
                     extractBill={this.extractBill}
                     doneBill={this.doneBill}
+                />
+                <PopupSendLinkInstall
+                    visible={this.state.visibleSendLinkPopup}
+                    title="Confirmation"
+                    onRequestClose={() => this.setState({visibleSendLinkPopup : false})}
+                    confimYes={this.sendLinkInstallApp}
                 />
             </View>
         );

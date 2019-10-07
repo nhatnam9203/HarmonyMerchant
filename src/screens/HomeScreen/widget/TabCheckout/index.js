@@ -57,7 +57,8 @@ const initState = {
     visibleChangeMoney: false,
 
     customDiscountPercentLocal: 0,
-    customDiscountFixedLocal: 0
+    customDiscountFixedLocal: 0,
+    visibleSendLinkPopup: false
 }
 
 class TabCheckout extends Layout {
@@ -388,7 +389,10 @@ class TabCheckout extends Layout {
         } else
             //-------Payment Anymous ------
             if (method === 'harmony') {
-                alert('Does not support payment for anonymous customers');
+                // alert('Does not support payment for anonymous customers');
+                this.setState({
+                    visibleSendLinkPopup : true
+                })
             } else {
                 if (method === 'credit_card') {
                     if (paxMachineInfo.isSetup) {
@@ -1007,8 +1011,10 @@ class TabCheckout extends Layout {
         if (!_.isEmpty(connectionSignalR)) {
             connectionSignalR.stop();
         }
+    }
 
-
+    sendLinkInstallApp = () =>{
+        
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {

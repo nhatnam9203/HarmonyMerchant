@@ -33,6 +33,7 @@ import PopupChangeStylist from "./PopupChangeStylist";
 import InputFormPhone from './InputFormPhone';
 import PopupChangeMoney from './PopupChangeMoney';
 import PopupEnterPin from './PopupEnterPin';
+import PopupSendLinkInstall from './PopupSendLinkInstall';
 
 module.exports = {
     Button,
@@ -69,5 +70,6 @@ module.exports = {
     PopupChangeStylist,
     InputFormPhone,
     PopupChangeMoney,
-    PopupEnterPin
+    PopupEnterPin,
+    PopupSendLinkInstall
 }
