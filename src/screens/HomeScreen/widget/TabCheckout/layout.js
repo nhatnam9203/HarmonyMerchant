@@ -673,6 +673,7 @@ class Layout extends React.Component {
                     doneBill={this.doneBill}
                 />
                 <PopupSendLinkInstall
+                    ref={this.popupSendLinkInstallRef}
                     visible={this.state.visibleSendLinkPopup}
                     title="Confirmation"
                     onRequestClose={() => this.setState({visibleSendLinkPopup : false})}

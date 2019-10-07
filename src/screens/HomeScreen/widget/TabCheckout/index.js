@@ -72,6 +72,7 @@ class TabCheckout extends Layout {
         this.changeStylistRef = React.createRef();
         this.cashBackRef = React.createRef();
         this.popupDiscountRef = React.createRef();
+        this.popupSendLinkInstallRef =  React.createRef();
     }
 
     resetStateFromParent = async () => {
@@ -1013,8 +1014,12 @@ class TabCheckout extends Layout {
         }
     }
 
-    sendLinkInstallApp = () =>{
-        
+    sendLinkInstallApp = async () =>{
+        const phone = this.popupSendLinkInstallRef.current.state.value;
+       await this.setState({
+           visibleSendLinkPopup:false
+       });
+        this.props.actions.app.sendLinkInstallApp(phone);
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {

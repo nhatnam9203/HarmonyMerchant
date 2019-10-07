@@ -106,3 +106,11 @@ export function changeFlagVisibleEnteerPinCode(visible = true) {
     }
 }
 
+export function sendLinkInstallApp(phone) {
+    return {
+        type: 'SEND_LINK_INSTALL_APP',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}user/sendlink?phone=${phone}`
+    }
+}
