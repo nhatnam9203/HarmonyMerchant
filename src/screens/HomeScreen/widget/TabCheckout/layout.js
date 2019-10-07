@@ -252,7 +252,7 @@ class Layout extends React.Component {
 
     renderBasket() {
         const { language, appointmentDetail, flagSignInAppointment } = this.props;
-        const { basket, subTotalLocal, tipLocal, discountTotal } = this.state;
+        const { basket, subTotalLocal, tipLocal, discountTotalLocal } = this.state;
 
         const tipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
         const subTotal = appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
@@ -261,7 +261,9 @@ class Layout extends React.Component {
         const total = appointmentDetail.total ? appointmentDetail.total : 0;
 
         const temptSubTotal = _.isEmpty(appointmentDetail) ? subTotalLocal : subTotal;
-        const temptTotal = _.isEmpty(appointmentDetail) ? (subTotalLocal + tipLocal - discountTotal) : total;
+        const temptTotal = _.isEmpty(appointmentDetail) ?  Number(subTotalLocal + tipLocal - discountTotalLocal).toFixed(2) : total;
+        const temptDiscount = _.isEmpty(appointmentDetail) ? discountTotalLocal : discount;
+        const temptTip =  _.isEmpty(appointmentDetail) ? tipLocal : tipAmount;
 
         return (
             <View style={{ flex: 1 }} >
@@ -306,7 +308,7 @@ class Layout extends React.Component {
                                     {`${localize('Tip', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$${formatMoney(tipAmount)}`}
+                                    {`$${formatMoney(temptTip)}`}
                                 </Text>
                             </View>
                             {/* ---------- Tax ------ */}
@@ -331,7 +333,7 @@ class Layout extends React.Component {
                                     </Text>
                                 </Button>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$ ${formatMoney(discount)}`}
+                                    {`$ ${formatMoney(temptDiscount)}`}
                                 </Text>
                             </View>
                             {/* ---------- Total ------ */}
@@ -643,8 +645,6 @@ class Layout extends React.Component {
                     ref={this.popupDiscountRef}
                     title={'Discount'}
                     callbackDiscountToParent={this.callbackDiscountToParent}
-                    // visible={this.state.visibleDiscount}
-                    // onRequestClose={this.closeModalDiscount}
                 />
                 <PopupConfirm
                     visible={visibleConfirm}

@@ -37,7 +37,7 @@ const initState = {
     tabCurrent: 0,
     subTotalLocal: 0,
     tipLocal: 0,
-    discountTotal: 0,
+    discountTotalLocal: 0,
     totalLocal: 0,
     total: 0,
     isInitBasket: false,
@@ -56,7 +56,8 @@ const initState = {
     visibleChangeStylist: false,
     visibleChangeMoney: false,
 
-    customDiscountPercent : 0
+    customDiscountPercentLocal: 0,
+    customDiscountFixedLocal: 0
 }
 
 class TabCheckout extends Layout {
@@ -308,21 +309,6 @@ class TabCheckout extends Layout {
         this.setState({
             visibleDiscount: false
         })
-    }
-
-    showModalDiscount = () => {
-        const { basket } = this.state;
-        const { appointmentDetail } = this.props;
-        if (basket.length > 0) {
-            if (!_.isEmpty(appointmentDetail)) {
-                const { appointmentId } = this.state;
-                this.props.actions.marketing.getPromotionByAppointment(appointmentId);
-            } else {
-                const {  subTotalLocal, tipLocal, discountTotal,customDiscountPercent } = this.state;
-                const temptTotal = subTotalLocal + tipLocal - discountTotal;
-                this.popupDiscountRef.current.setStateFromParent(temptTotal,discountTotal,customDiscountPercent);
-            }
-        }
     }
 
     clearDataCofrim = async () => {
@@ -960,9 +946,18 @@ class TabCheckout extends Layout {
                 }
                 return item
             });
-            // console.log('temptStaff : ', temptBasket);
+            console.log('---temptStaff : ' + JSON.stringify(temptBasket));
+            let temptTip = 0;
+            for (let i = 0; i < temptBasket.length; i++) {
+                if(temptBasket[i].type === 'Service'){
+                    if(temptBasket[i].staff && temptBasket[i].staff.tip){
+                        temptTip = temptTip + formatNumberFromCurrency(temptBasket[i].staff.tip);
+                    }
+                }
+            }
             await this.setState({
-                basket: temptBasket
+                basket: temptBasket,
+                tipLocal: temptTip
             })
         }
 
@@ -972,9 +967,30 @@ class TabCheckout extends Layout {
         // console.log('basket: ' + JSON.stringify(basket));
     }
 
-    callbackDiscountToParent = async (customDiscountPercent) =>{
+    showModalDiscount = () => {
+        const { basket, subTotalLocal, tipLocal, discountTotalLocal, customDiscountPercentLocal,
+            customDiscountFixedLocal
+        } = this.state;
+        if (basket.length > 0) {
+            const { appointmentDetail } = this.props;
+            if (!_.isEmpty(appointmentDetail)) {
+                const { appointmentId } = this.state;
+                this.props.actions.marketing.getPromotionByAppointment(appointmentId);
+            } else {
+                console.log('subTotalLocal : ', subTotalLocal);
+                this.popupDiscountRef.current.setStateFromParent(subTotalLocal, discountTotalLocal, customDiscountPercentLocal, customDiscountFixedLocal);
+            }
+        }
+    }
+
+    callbackDiscountToParent = async (customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal) => {
+        console.log('customDiscountPercentLocal : ', customDiscountPercentLocal);
+        console.log('customDiscountFixedLocal : ', customDiscountFixedLocal);
+        console.log('discountTotalLocal : ', discountTotalLocal);
         await this.setState({
-            customDiscountPercent
+            customDiscountPercentLocal,
+            customDiscountFixedLocal,
+            discountTotalLocal
         })
     }
 
