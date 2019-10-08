@@ -96,7 +96,7 @@ function* checkoutAppointment(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('checkoutAppointment : ', responses);
+        // console.log('checkoutAppointment : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             if (action.isPayment) {
@@ -132,7 +132,7 @@ function* paymentAppointment(action) {
     try {
         action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
-        console.log('paymentAppointment : ', responses);
+        // console.log('paymentAppointment : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             if (action.body.method !== 'harmony') {
@@ -162,7 +162,7 @@ function* createAnymousAppointment(action) {
     try {
         action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
-        console.log('createAnymousAppointment : ' + JSON.stringify(responses));
+        // console.log('createAnymousAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             // ------- Call checkout -----
@@ -204,7 +204,7 @@ function* checkoutSubmit(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('checkoutSubmit : ', responses);
+        // console.log('checkoutSubmit : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
 
@@ -229,7 +229,7 @@ function* submitPaymentWithCreditCard(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('submitPaymentWithCreditCard : ', responses);
+        // console.log('submitPaymentWithCreditCard : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
 

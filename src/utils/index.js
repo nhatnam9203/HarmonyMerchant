@@ -66,7 +66,7 @@ export const requestAPI = async (action, header = {}) => {
         }
         return response.data;
     } catch (error) {
-        console.log('error message : ' + JSON.stringify(error));
+        // console.log('error message : ' + JSON.stringify(error));
         if (error.response) {
             if (error.message.includes('timeout')) {
                 throw 'TIMEOUT'
@@ -76,9 +76,9 @@ export const requestAPI = async (action, header = {}) => {
                 throw 'SOMETHING_WENT_WRONG';
             }
         } else if (error.request) {
-            console.log(error.request);
+            // console.log(error.request);
         } else {
-            console.log('Error', error.message);
+            // console.log('Error', error.message);
         }
 
     }
@@ -133,7 +133,7 @@ export const uploadFromData = async (action, header = {}) => {
         let response = await axios(configs);
         return response.data;
     } catch (error) {
-        console.log('error message : ' + JSON.stringify(error));
+        // console.log('error message : ' + JSON.stringify(error));
         if (error.response) {
             if (error.message.includes('timeout')) {
                 throw 'TIMEOUT'
@@ -143,9 +143,9 @@ export const uploadFromData = async (action, header = {}) => {
                 throw 'SOMETHING_WENT_WRONG';
             }
         } else if (error.request) {
-            console.log(error.request);
+            // console.log(error.request);
         } else {
-            console.log('Error', error.message);
+            // console.log('Error', error.message);
         }
     }
 };

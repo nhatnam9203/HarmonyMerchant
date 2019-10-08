@@ -73,7 +73,7 @@ function* merchantSetting(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('--- responses 2222 : ', responses);
+        // console.log('--- responses 2222 : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -101,7 +101,7 @@ function* sendLinkInstallApp(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('--- sendLinkInstallApp : ', responses);
+        // console.log('--- sendLinkInstallApp : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({ type: 'STOP_LOADING_ROOT' });

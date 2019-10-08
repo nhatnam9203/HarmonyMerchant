@@ -986,13 +986,14 @@ class TabCheckout extends Layout {
                 const { appointmentId } = this.state;
                 this.props.actions.marketing.getPromotionByAppointment(appointmentId);
             } else {
-                console.log('subTotalLocal : ', subTotalLocal);
+                // console.log('subTotalLocal : ', subTotalLocal);
+                this.props.actions.marketing.openPopupDiscount();
                 this.popupDiscountRef.current.setStateFromParent(subTotalLocal, discountTotalLocal, customDiscountPercentLocal, customDiscountFixedLocal);
             }
         }
     }
 
-    callbackDiscountToParent = async (customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal) => {
+   async callbackDiscountToParent(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal){
         console.log('customDiscountPercentLocal : ', customDiscountPercentLocal);
         console.log('customDiscountFixedLocal : ', customDiscountFixedLocal);
         console.log('discountTotalLocal : ', discountTotalLocal);

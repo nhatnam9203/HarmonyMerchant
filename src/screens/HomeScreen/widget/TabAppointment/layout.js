@@ -404,7 +404,7 @@ class Layout extends React.Component {
           true
           `;
         const { basket } = this.state;
-        console.log(`${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}`);
+        // console.log(`${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}`);
         return (
             <View style={styles.container} >
                 <WebView

@@ -33,38 +33,35 @@ class PopupDiscount extends React.Component {
         this.customFixedAmountRef = React.createRef();
     }
 
-    setStateFromParent = (totalLocal, discountTotal, customDiscountPercent, customDiscountFixedLocal) => {
+    setStateFromParent = async (totalLocal, discountTotal, customDiscountPercent, customDiscountFixedLocal) => {
         // console.log('totalLocal : ', totalLocal);
         // console.log('discountTotal : ', discountTotal);
         // console.log('customDiscountPercent : ', customDiscountPercent);
         // console.log('customDiscountFixedLocal : ', customDiscountFixedLocal);
 
-        this.setState({
+        await this.setState({
             totalLocal,
             discountTotal: discountTotal,
             temptTotalLocal: discountTotal,
             customDiscountPercentLocal: customDiscountPercent,
             customDiscountFixedLocal
-        }, () => this.props.actions.marketing.openPopupDiscount());
+        });
     }
 
     submitCustomPromotion() {
-        const { appointmentDetail, callbackDiscountToParent } = this.props;
+        const { appointmentDetail } = this.props;
         const customDiscountPercent = this.customDiscountRef.current.state.percent;
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
         if (_.isEmpty(appointmentDetail)) {
             const { discountTotal } = this.state;
-            callbackDiscountToParent(customDiscountPercent, customFixedAmount, Number(discountTotal).toFixed(2));
+            this.props.callbackDiscountToParent(customDiscountPercent, customFixedAmount, Number(discountTotal).toFixed(2));
             this.props.actions.marketing.closeModalDiscount();
-            this.resetState();
         } else {
             const { appointmentDetail } = this.props;
             this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentDetail.appointmentId);
             this.props.actions.marketing.closeModalDiscount();
-            this.resetState();
         }
-
-
+        this.resetState();
     }
 
     onRequestClose = async () => {
@@ -81,7 +78,7 @@ class PopupDiscount extends React.Component {
         });
     }
 
-    onChangeTextCustomDiscount = async (discount) => {
+    onChangeTextCustomDiscount = async (discount) => { 
         const { temptTotalLocal, customDiscountFixedLocal } = this.state;
         const { appointmentDetail } = this.props;
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
@@ -271,8 +268,8 @@ class CustomDiscount extends React.Component {
         await this.setState({ percent });
         const { total } = this.props;
         const discount = Number(formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100).toFixed(2);
-        // console.log('---- total : ', total);
-        // console.log('---- discount : ', discount);
+        console.log('---- total : ', total);
+        console.log('---- discount : ', discount);
         this.props.onChangeText(discount);
     }
 

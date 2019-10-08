@@ -628,7 +628,7 @@ class Layout extends React.Component {
                 <PopupDiscount
                     ref={this.popupDiscountRef}
                     title={'Discount'}
-                    callbackDiscountToParent={this.callbackDiscountToParent}
+                    callbackDiscountToParent={(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal) => this.callbackDiscountToParent(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal)}
                 />
                 <PopupConfirm
                     visible={visibleConfirm}
@@ -676,7 +676,7 @@ class Layout extends React.Component {
                     ref={this.popupSendLinkInstallRef}
                     visible={this.state.visibleSendLinkPopup}
                     title="Confirmation"
-                    onRequestClose={() => this.setState({visibleSendLinkPopup : false})}
+                    onRequestClose={() => this.setState({ visibleSendLinkPopup: false })}
                     confimYes={this.sendLinkInstallApp}
                 />
             </View>
