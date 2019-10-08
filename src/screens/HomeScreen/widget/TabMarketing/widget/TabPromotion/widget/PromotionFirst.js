@@ -69,7 +69,7 @@ class PromotionFirst extends React.Component {
                             this.setState({
                                 data: updateStateChildren('campaignName', value, data)
                             });
-                            // this.props.actions.marketing.setStatusApplyButton(true);
+                            this.props.actions.marketing.setStatusApplyButton(true);
                         }}
                         style={{ marginBottom: scaleSzie(10) }}
                     />
@@ -107,7 +107,8 @@ class PromotionFirst extends React.Component {
                             onChangeText={value => {
                                 this.setState({
                                     data: updateStateChildren('fromTime', value, data)
-                                })
+                                });
+                                this.props.actions.marketing.setStatusApplyButton(true);
                             }}
                         />
                         <View style={{ width: scaleSzie(50) }} />
@@ -120,7 +121,8 @@ class PromotionFirst extends React.Component {
                             onChangeText={value => {
                                 this.setState({
                                     data: updateStateChildren('toTime', value, data)
-                                })
+                                });
+                                this.props.actions.marketing.setStatusApplyButton(true);
                             }}
                         />
                     </View>
@@ -141,19 +143,22 @@ class PromotionFirst extends React.Component {
                             onChangeText={(value) => {
                                 this.setState({
                                     data: updateStateChildren('discount', value, data)
-                                })
+                                });
+                                this.props.actions.marketing.setStatusApplyButton(true);
                             }}
                             selectCheckbox={() => {
                                 if (data.discountType === 'discount_percent') {
                                     const tempData = updateStateChildren('discountType', '', data);
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
-                                    })
+                                    });
+                                    this.props.actions.marketing.setStatusApplyButton(true);
                                 } else {
                                     const tempData = updateStateChildren('discountType', 'discount_percent', data)
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
-                                    })
+                                    });
+                                    this.props.actions.marketing.setStatusApplyButton(true);
                                 }
                             }}
                         />
@@ -166,19 +171,22 @@ class PromotionFirst extends React.Component {
                             onChangeText={(value) => {
                                 this.setState({
                                     data: updateStateChildren('discount', value, data)
-                                })
+                                });
+                                this.props.actions.marketing.setStatusApplyButton(true);
                             }}
                             selectCheckbox={() => {
                                 if (data.discountType === 'discount_fixtom') {
                                     const tempData = updateStateChildren('discountType', '', data);
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
-                                    })
+                                    });
+                                    this.props.actions.marketing.setStatusApplyButton(true);
                                 } else {
                                     const tempData = updateStateChildren('discountType', 'discount_fixtom', data);
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
-                                    })
+                                    });
+                                   c
                                 }
                             }}
                         />

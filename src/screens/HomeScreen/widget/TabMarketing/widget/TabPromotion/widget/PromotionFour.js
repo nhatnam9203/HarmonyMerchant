@@ -15,8 +15,9 @@ import ItemCalendar from './ItemCalendar';
 import ItemPromo from './ItemPromo';
 import ItemDropdown from './ItemDropdown';
 import ItemCheckBoxInput from './ItemCheckBoxInput';
+import connectRedux from '@redux/ConnectRedux';
 
-export default class PromotionFour extends React.Component {
+ class PromotionFour extends React.Component {
 
     constructor(props) {
         super(props);
@@ -63,7 +64,8 @@ export default class PromotionFour extends React.Component {
                         onChangeText={(value) => {
                             this.setState({
                                 data: updateStateChildren('campaignName', value, data)
-                            })
+                            });
+                            this.props.actions.marketing.setStatusApplyButton(true);
                         }}
                         style={{ marginBottom: scaleSzie(10) }}
                     />
@@ -77,9 +79,10 @@ export default class PromotionFour extends React.Component {
                             onChangeText={(value) => {
                                 this.setState({
                                     data: updateStateChildren('promotionApplyOn', value, data)
-                                })
+                                });
+                                this.props.actions.marketing.setStatusApplyButton(true);
                             }}
-                            onChangeText={(value) => { }}
+                            // onChangeText={(value) => { }}
                             style={{ marginBottom: scaleSzie(10) }}
                         />
                     </View>
@@ -100,19 +103,22 @@ export default class PromotionFour extends React.Component {
                             onChangeText={(value) => {
                                 this.setState({
                                     data: updateStateChildren('discount', value, data)
-                                })
+                                });
+                                this.props.actions.marketing.setStatusApplyButton(true);
                             }}
                             selectCheckbox={() => {
                                 if (data.discountType === 'discount_percent') {
                                     const tempData = updateStateChildren('discountType', '', data);
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
-                                    })
+                                    });
+                                    this.props.actions.marketing.setStatusApplyButton(true);
                                 } else {
                                     const tempData = updateStateChildren('discountType', 'discount_percent', data)
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
-                                    })
+                                    });
+                                    this.props.actions.marketing.setStatusApplyButton(true);
                                 }
                             }}
                         />
@@ -125,19 +131,22 @@ export default class PromotionFour extends React.Component {
                             onChangeText={(value) => {
                                 this.setState({
                                     data: updateStateChildren('discount', value, data)
-                                })
+                                });
+                                this.props.actions.marketing.setStatusApplyButton(true);
                             }}
                             selectCheckbox={() => {
                                 if (data.discountType === 'discount_fixtom') {
                                     const tempData = updateStateChildren('discountType', '', data);
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
-                                    })
+                                    });
+                                    this.props.actions.marketing.setStatusApplyButton(true);
                                 } else {
                                     const tempData = updateStateChildren('discountType', 'discount_fixtom', data);
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
-                                    })
+                                    });
+                                    this.props.actions.marketing.setStatusApplyButton(true);
                                 }
                             }}
                         />
@@ -160,3 +169,8 @@ export default class PromotionFour extends React.Component {
     }
 
 }
+
+const mapStateToProps = state => ({
+})
+
+export default connectRedux(mapStateToProps, PromotionFour);

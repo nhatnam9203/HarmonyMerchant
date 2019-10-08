@@ -68,7 +68,8 @@ import connectRedux from '@redux/ConnectRedux';
                         onChangeText={(value) => {
                             this.setState({
                                 data: updateStateChildren('campaignName', value, data)
-                            })
+                            });
+                            this.props.actions.marketing.setStatusApplyButton(true);
                         }}
                         style={{ marginBottom: scaleSzie(10) }}
                     />
@@ -114,7 +115,8 @@ import connectRedux from '@redux/ConnectRedux';
                             onChangeText={value => {
                                 this.setState({
                                     data: updateStateChildren('serviceUsing', value, data)
-                                })
+                                });
+                                this.props.actions.marketing.setStatusApplyButton(true);
                             }}
                         />
                         <View style={{ width: scaleSzie(50) }} />
@@ -127,7 +129,8 @@ import connectRedux from '@redux/ConnectRedux';
                             onChangeText={value => {
                                 this.setState({
                                     data: updateStateChildren('serviceApply', value, data)
-                                })
+                                });
+                                this.props.actions.marketing.setStatusApplyButton(true);
                             }}
                         />
                     </View>
@@ -148,19 +151,22 @@ import connectRedux from '@redux/ConnectRedux';
                             onChangeText={(value) => {
                                 this.setState({
                                     data: updateStateChildren('discount', value, data)
-                                })
+                                });
+                                this.props.actions.marketing.setStatusApplyButton(true);
                             }}
                             selectCheckbox={() => {
                                 if (data.discountType === 'discount_percent') {
                                     const tempData = updateStateChildren('discountType', '', data);
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
-                                    })
+                                    });
+                                    this.props.actions.marketing.setStatusApplyButton(true);
                                 } else {
                                     const tempData = updateStateChildren('discountType', 'discount_percent', data)
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
-                                    })
+                                    });
+                                    this.props.actions.marketing.setStatusApplyButton(true);
                                 }
                             }}
                         />
@@ -173,19 +179,22 @@ import connectRedux from '@redux/ConnectRedux';
                             onChangeText={(value) => {
                                 this.setState({
                                     data: updateStateChildren('discount', value, data)
-                                })
+                                });
+                                this.props.actions.marketing.setStatusApplyButton(true);
                             }}
                             selectCheckbox={() => {
                                 if (data.discountType === 'discount_fixtom') {
                                     const tempData = updateStateChildren('discountType', '', data);
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
-                                    })
+                                    });
+                                    this.props.actions.marketing.setStatusApplyButton(true);
                                 } else {
                                     const tempData = updateStateChildren('discountType', 'discount_fixtom', data);
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
-                                    })
+                                    });
+                                    this.props.actions.marketing.setStatusApplyButton(true);
                                 }
                             }}
                         />

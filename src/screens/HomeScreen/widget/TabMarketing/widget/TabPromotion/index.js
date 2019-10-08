@@ -35,6 +35,7 @@ class TabPromotion extends Layout {
     } else {
       this.promotionSecondRef.current.setDateFromParent(this.state.keyCalendarUpdate, date);
     }
+    this.props.actions.marketing.setStatusApplyButton(true);
   }
 
   getDataItemPromotion = (index, promotions) => {
@@ -57,7 +58,7 @@ class TabPromotion extends Layout {
     })
     await this.setState({
       show: true
-    })
+    });
   }
 
   applyPromotion = () => {
@@ -74,7 +75,6 @@ class TabPromotion extends Layout {
       serviceUsing: getServiceIdByName(servicesByMerchant, promotionSeconde.serviceUsing ? promotionSeconde.serviceUsing : '' ),
       serviceApply: getServiceIdByName(servicesByMerchant, promotionSeconde.serviceApply ?   promotionSeconde.serviceApply : ''),
     };
-    // console.log('temptPromotionSecond : ' + JSON.stringify(promotionSeconde));
 
     const dataUpdate = [promotionFirst, temptPromotionSecond, promotionThird, promotionFour, promotionFive];
     this.props.actions.marketing.updatePromotionByMerchant(dataUpdate);
