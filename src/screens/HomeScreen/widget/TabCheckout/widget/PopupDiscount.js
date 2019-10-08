@@ -23,7 +23,7 @@ class PopupDiscount extends React.Component {
             discountTotal: 0,
             totalLocal: 0,
             temptTotalLocal: 0,
-            moneyDiscountCuston: 0,
+            moneyDiscountCustom: 0,
             moneyDiscountFixedAmout: 0,
 
             customDiscountPercentLocal: 0,
@@ -78,7 +78,7 @@ class PopupDiscount extends React.Component {
         });
     }
 
-    onChangeTextCustomDiscount = async (discount) => { 
+    onChangeTextCustomDiscount = async (discount) => {
         const { temptTotalLocal, customDiscountFixedLocal } = this.state;
         const { appointmentDetail } = this.props;
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
@@ -95,8 +95,9 @@ class PopupDiscount extends React.Component {
                 discountTotal: temptDiscount
             }));
         } else {
+            console.log('moneyDiscountCuston : ',discount);
             await this.setState({
-                moneyDiscountCuston: discount
+                moneyDiscountCustom: discount
             });
         }
     }
@@ -126,30 +127,30 @@ class PopupDiscount extends React.Component {
             appointmentDetail
         } = this.props;
         const { customDiscountPercent, customDiscountFixed } = appointmentDetail;
-        const { moneyDiscountCuston, moneyDiscountFixedAmout, totalLocal, discountTotal,
+        const { moneyDiscountCustom, moneyDiscountFixedAmout, totalLocal, discountTotal,
             customDiscountPercentLocal, customDiscountFixedLocal
         } = this.state;
         let total = 0;
         for (let i = 0; i < discount.length; i++) {
-            total = parseFloat(total) + parseFloat(discount[i].discount);
+            total = formatNumberFromCurrency(total) + formatNumberFromCurrency(discount[i].discount);
         }
         if (visibleModalDiscount && !this.customDiscountRef.current) {
-            total = parseFloat(total) + (parseFloat(customDiscountPercent) * parseFloat(appointmentDetail.total) / 100);
+            total = formatNumberFromCurrency(total) + (formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(appointmentDetail.subTotal) / 100);
         }
         if (visibleModalDiscount && !this.customFixedAmountRef.current) {
-            total = parseFloat(total) + parseFloat(customDiscountFixed);
+            total = formatNumberFromCurrency(total) + formatNumberFromCurrency(customDiscountFixed);
         }
         if (visibleModalDiscount && this.customDiscountRef.current) {
-            total = parseFloat(total) + parseFloat(moneyDiscountCuston);
+            total = formatNumberFromCurrency(total) + (formatNumberFromCurrency(this.customDiscountRef.current.state.percent) * formatNumberFromCurrency(appointmentDetail.subTotal) / 100);
         }
         if (visibleModalDiscount && this.customFixedAmountRef.current) {
-            total = parseFloat(total) + parseFloat(moneyDiscountFixedAmout);
+            total = formatNumberFromCurrency(total) + formatNumberFromCurrency(this.customFixedAmountRef.current.state.discount);
         }
 
-        total = parseFloat(total).toFixed(2);
+        total = Number(total).toFixed(2);
 
         const temptTotalDiscount = _.isEmpty(appointmentDetail) ? Number(discountTotal).toFixed(2) : Number(total).toFixed(2);
-        const temptTotal = _.isEmpty(appointmentDetail) ? totalLocal : appointmentDetail.total;
+        const temptTotal = _.isEmpty(appointmentDetail) ? totalLocal : appointmentDetail.subTotal;
         const temptCustomDiscountPercent = _.isEmpty(appointmentDetail) ? customDiscountPercentLocal : customDiscountPercent;
         const temptCustomDiscountFixed = _.isEmpty(appointmentDetail) ? customDiscountFixedLocal : customDiscountFixed;
 

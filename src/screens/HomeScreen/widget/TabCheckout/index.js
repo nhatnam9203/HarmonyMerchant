@@ -1008,7 +1008,8 @@ class TabCheckout extends Layout {
         await this.setState({
             changeButtonDone: false,
             paymentSelected: '',
-        })
+        });
+        this.props.actions.appointment.cancelHarmonyPayment(this.props.appointmentDetail.appointmentId);
         this.props.actions.appointment.resetPayment();
         const { connectionSignalR } = this.props;
         if (!_.isEmpty(connectionSignalR)) {
