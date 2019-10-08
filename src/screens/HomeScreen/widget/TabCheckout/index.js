@@ -1096,9 +1096,6 @@ const mapStateToProps = state => ({
     extrasByMerchant: state.extra.extrasByMerchant,
     listStaffByMerchant: state.staff.listStaffByMerchant,
     profileStaffLogin : state.dataLocal.profileStaffLogin
-
 })
-
-
 
 export default connectRedux(mapStateToProps, TabCheckout);

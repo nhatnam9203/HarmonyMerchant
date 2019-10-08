@@ -862,7 +862,7 @@
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = AP95TBLGP3;
+						DevelopmentTeam = 69WQLJ9K8N;
 						ProvisioningStyle = Manual;
 					};
 					238D857A2343680200DE8C0A = {
@@ -1420,7 +1420,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 10;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = AP95TBLGP3;
+				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1442,9 +1442,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.hpmerchant;
+				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony;
 				PRODUCT_NAME = Hpmerchant;
-				PROVISIONING_PROFILE_SPECIFIER = Hpmerchant;
+				PROVISIONING_PROFILE_SPECIFIER = HpmerchantStore;
 				TARGETED_DEVICE_FAMILY = 2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1458,7 +1458,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 10;
-				DEVELOPMENT_TEAM = AP95TBLGP3;
+				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1480,9 +1480,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.hpmerchant;
+				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony;
 				PRODUCT_NAME = Hpmerchant;
-				PROVISIONING_PROFILE_SPECIFIER = Hpmerchant;
+				PROVISIONING_PROFILE_SPECIFIER = HpmerchantStore;
 				TARGETED_DEVICE_FAMILY = 2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

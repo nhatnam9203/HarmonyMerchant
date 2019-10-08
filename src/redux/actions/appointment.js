@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import apiConfigs from '../../configs/api';
 
 export function getAppointmentById(id) {
@@ -85,7 +87,7 @@ export function createAnymousAppointment(merchantId, products, services = [], ex
             services: services,
             extras: extras,
             products: products,
-            fromTime: new Date(),
+            fromTime:moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
             staffId,
             customDiscountFixed,
             customDiscountPercent,
