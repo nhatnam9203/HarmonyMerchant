@@ -8,15 +8,16 @@ import {
 } from 'react-native';
 import moment from 'moment';
 
-import { scaleSzie, localize, updateStateChildren } from '@utils';
+import { scaleSzie, localize, updateStateChildren,getServiceNameById } from '@utils';
 import IMAGE from '@resources';
 import { Text, InputForm, ButtonCustom } from '@components';
 import ItemCalendar from './ItemCalendar';
 import ItemPromo from './ItemPromo';
 import ItemDropdown from './ItemDropdown';
 import ItemCheckBoxInput from './ItemCheckBoxInput';
+import connectRedux from '@redux/ConnectRedux';
 
-export default class PromotionSecond extends React.Component {
+ class PromotionSecond extends React.Component {
 
     constructor(props) {
         super(props);
@@ -48,7 +49,7 @@ export default class PromotionSecond extends React.Component {
     // ----------- RENDER ----------
 
     render() {
-        const { language, showCalendar, dataDropdown } = this.props;
+        const { language, showCalendar, dataDropdown,servicesByMerchant } = this.props;
         const { data } = this.state;
         const { campaignName } = data;
         return (
@@ -107,8 +108,8 @@ export default class PromotionSecond extends React.Component {
                         <ItemDropdown
                             title={localize('Using', language)}
                             width={180}
-                            placeholder="Services/Products"
-                            value={data.serviceUsing}
+                            placeholder="Services"
+                            value={getServiceNameById(servicesByMerchant,data.serviceUsing)}
                             dataDropdown={dataDropdown}
                             onChangeText={value => {
                                 this.setState({
@@ -120,8 +121,8 @@ export default class PromotionSecond extends React.Component {
                         <ItemDropdown
                             title={localize('Apply to', language)}
                             width={180}
-                            placeholder="Services/Products"
-                            value={data.serviceApply}
+                            placeholder="Services"
+                            value={getServiceNameById(servicesByMerchant,data.serviceApply)}
                             dataDropdown={dataDropdown}
                             onChangeText={value => {
                                 this.setState({
@@ -207,3 +208,11 @@ export default class PromotionSecond extends React.Component {
     }
 
 }
+
+const mapStateToProps = state => ({
+    servicesByMerchant: state.service.servicesByMerchant,
+  })
+  
+  
+  
+  export default connectRedux(mapStateToProps, PromotionSecond);

@@ -445,6 +445,28 @@ export const getStaffInfoById = (staffs, staffId) => {
     return false
 }
 
+export const getServiceNameById = (services, serviceId = 0) => {
+    let serviceName = '';
+    for (let i = 0; i< services.length; i++) {
+        if(services[i].serviceId === serviceId){
+            serviceName = services[i].name;
+            break;
+        }
+    }
+    return serviceName;
+}
+
+export const getServiceIdByName = (services, name) => {
+    let serviceId = 0;
+    for (let i = 0; services.length; i++) {
+        if(services[i].name === name){
+            serviceId = services[i].serviceId;
+            break;
+        }
+    }
+    return serviceId;
+}
+
 export const WorkingTime = [
     {
         value: '00:00 AM',

@@ -84,6 +84,7 @@ class PopupChangeStylist extends React.Component {
                 onRequestClose={() => onRequestClose()}
                 width={scaleSzie(200)}
                 style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(50) }}
+                styleTitle={{fontSize:scaleSzie(18)}}
             >
                 <View style={{
                     height: scaleSzie(250), backgroundColor: '#FAFAFA',

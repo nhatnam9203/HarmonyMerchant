@@ -3,7 +3,7 @@ import { Alert, NativeModules } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import NavigationServices from "@navigators/NavigatorServices";
+import {getServiceIdByName } from '@utils';
 
 const PosLink = NativeModules.MyApp;
 
@@ -61,13 +61,24 @@ class TabPromotion extends Layout {
   }
 
   applyPromotion = () => {
+    const {servicesByMerchant} = this.props;
+
     const promotionFirst = this.promotionFirstRef.current.state.data;
     const promotionSeconde = this.promotionSecondRef.current.state.data;
     const promotionThird = this.promotionThirdRef.current.state.data;
     const promotionFour = this.promotionFourRef.current.state.data;
     const promotionFive = this.promotionFiveRef.current.state.data;
 
-    const dataUpdate = [promotionFirst, promotionSeconde, promotionThird, promotionFour, promotionFive];
+
+    // console.log('promotionSeconde  : ', JSON.stringify(promotionSeconde));
+    const temptPromotionSecond = {
+      ...this.promotionSecondRef.current.state.data,
+      serviceUsing: getServiceIdByName(servicesByMerchant,promotionSeconde.serviceUsing),
+      serviceApply: getServiceIdByName(servicesByMerchant,promotionSeconde.serviceApply),
+
+    }
+
+    const dataUpdate = [promotionFirst, temptPromotionSecond, promotionThird, promotionFour, promotionFive];
 
     // console.log('promotionFirst : ', JSON.stringify(dataUpdate));
     this.props.actions.marketing.updatePromotionByMerchant(dataUpdate);

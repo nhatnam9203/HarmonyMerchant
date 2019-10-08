@@ -393,10 +393,11 @@ class TabCheckout extends Layout {
             //-------Payment Anymous ------
             if (method === 'harmony') {
                 // alert('Does not support payment for anonymous customers');
-                this.visibleSendLinkPopup.current.setStateFromParent('');
+                this.popupSendLinkInstallRef.current.setStateFromParent('');
                 this.setState({
                     visibleSendLinkPopup: true
-                })
+                });
+                
             } else {
                 if (method === 'credit_card') {
                     if (paxMachineInfo.isSetup) {

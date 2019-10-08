@@ -19,7 +19,7 @@ class PopupParent extends React.Component {
     }
 
     render() {
-        const { title, visible, style, width, hideCloseButton } = this.props;
+        const { title, visible, style, width, hideCloseButton ,styleTitle} = this.props;
         const temptWidth = width ? width : 400;
         return (
             <ModalCustom
@@ -34,8 +34,8 @@ class PopupParent extends React.Component {
                         borderTopRightRadius: scaleSzie(15), borderTopLeftRadius: scaleSzie(15), flexDirection: 'row'
                     }} >
                         <View style={{ width: scaleSzie(70) }} />
-                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
-                            <Text style={{ color: '#fff', fontSize: scaleSzie(22), fontWeight: 'bold' }} >
+                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}} >
+                            <Text style={[{ color: '#fff', fontSize: scaleSzie(22), fontWeight: 'bold' },styleTitle]} >
                                 {title}
                             </Text>
                         </View>
