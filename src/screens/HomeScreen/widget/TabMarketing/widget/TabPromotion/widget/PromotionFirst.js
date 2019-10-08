@@ -15,8 +15,9 @@ import ItemCalendar from './ItemCalendar';
 import ItemPromo from './ItemPromo';
 import ItemDropdown from './ItemDropdown';
 import ItemCheckBoxInput from './ItemCheckBoxInput';
+import connectRedux from '@redux/ConnectRedux';
 
-export default class PromotionFirst extends React.Component {
+class PromotionFirst extends React.Component {
 
     constructor(props) {
         super(props);
@@ -67,7 +68,8 @@ export default class PromotionFirst extends React.Component {
                         onChangeText={(value) => {
                             this.setState({
                                 data: updateStateChildren('campaignName', value, data)
-                            })
+                            });
+                            // this.props.actions.marketing.setStatusApplyButton(true);
                         }}
                         style={{ marginBottom: scaleSzie(10) }}
                     />
@@ -199,3 +201,10 @@ export default class PromotionFirst extends React.Component {
     }
 
 }
+
+const mapStateToProps = state => ({
+  })
+  
+  
+  
+  export default connectRedux(mapStateToProps, PromotionFirst);

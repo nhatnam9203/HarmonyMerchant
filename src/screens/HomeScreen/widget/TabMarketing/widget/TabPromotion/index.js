@@ -3,7 +3,7 @@ import { Alert, NativeModules } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import {getServiceIdByName } from '@utils';
+import { getServiceIdByName } from '@utils';
 
 const PosLink = NativeModules.MyApp;
 
@@ -61,7 +61,7 @@ class TabPromotion extends Layout {
   }
 
   applyPromotion = () => {
-    const {servicesByMerchant} = this.props;
+    const { servicesByMerchant } = this.props;
 
     const promotionFirst = this.promotionFirstRef.current.state.data;
     const promotionSeconde = this.promotionSecondRef.current.state.data;
@@ -69,18 +69,14 @@ class TabPromotion extends Layout {
     const promotionFour = this.promotionFourRef.current.state.data;
     const promotionFive = this.promotionFiveRef.current.state.data;
 
-
-    // console.log('promotionSeconde  : ', JSON.stringify(promotionSeconde));
     const temptPromotionSecond = {
       ...this.promotionSecondRef.current.state.data,
-      serviceUsing: getServiceIdByName(servicesByMerchant,promotionSeconde.serviceUsing),
-      serviceApply: getServiceIdByName(servicesByMerchant,promotionSeconde.serviceApply),
-
-    }
+      serviceUsing: getServiceIdByName(servicesByMerchant, promotionSeconde.serviceUsing ? promotionSeconde.serviceUsing : '' ),
+      serviceApply: getServiceIdByName(servicesByMerchant, promotionSeconde.serviceApply ?   promotionSeconde.serviceApply : ''),
+    };
+    // console.log('temptPromotionSecond : ' + JSON.stringify(promotionSeconde));
 
     const dataUpdate = [promotionFirst, temptPromotionSecond, promotionThird, promotionFour, promotionFive];
-
-    // console.log('promotionFirst : ', JSON.stringify(dataUpdate));
     this.props.actions.marketing.updatePromotionByMerchant(dataUpdate);
   }
 
@@ -88,7 +84,7 @@ class TabPromotion extends Layout {
     this.props.actions.marketing.setStatusApplyButton(true);
   }
 
-  sendNotification =(promotionId) =>{
+  sendNotification = (promotionId) => {
     // alert(promotionId);
     this.props.actions.marketing.sendNotificationByPromotionId(promotionId);
   }

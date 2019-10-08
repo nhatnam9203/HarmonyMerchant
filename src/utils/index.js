@@ -447,8 +447,8 @@ export const getStaffInfoById = (staffs, staffId) => {
 
 export const getServiceNameById = (services, serviceId = 0) => {
     let serviceName = '';
-    for (let i = 0; i< services.length; i++) {
-        if(services[i].serviceId === serviceId){
+    for (let i = 0; i < services.length; i++) {
+        if (services[i].serviceId === serviceId) {
             serviceName = services[i].name;
             break;
         }
@@ -456,15 +456,26 @@ export const getServiceNameById = (services, serviceId = 0) => {
     return serviceName;
 }
 
-export const getServiceIdByName = (services, name) => {
+function isNotANumber(value) {
+    return typeof value === "number" && !isNaN(value);
+}
+
+
+export const getServiceIdByName = (services, name ) => {
     let serviceId = 0;
-    for (let i = 0; services.length; i++) {
-        if(services[i].name === name){
+    for (let i = 0; i <  services.length; i++) {
+        if (services[i].name === name) {
             serviceId = services[i].serviceId;
             break;
         }
     }
+
+    if(serviceId === 0){
+        return name;
+    }
     return serviceId;
+
+
 }
 
 export const WorkingTime = [
