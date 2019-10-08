@@ -254,7 +254,7 @@ function* cancelHarmonyPayment(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('cancelHarmonyPayment : ', responses);
+        // console.log('cancelHarmonyPayment : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
 

@@ -465,9 +465,10 @@ class TabCheckout extends Layout {
     }
 
     async hanleCreditCardProcess(online) {
-        const { total } = this.state;
-        const { paxMachineInfo } = this.props;
+        const { total,subTotalLocal,tipLocal,discountTotalLocal  } = this.state;
+        const { paxMachineInfo,appointmentDetail } = this.props;
         const { ip, port, timeout } = paxMachineInfo;
+        const temptTotal = _.isEmpty(appointmentDetail) ? Number(subTotalLocal + tipLocal - discountTotalLocal).toFixed(2) : total;
 
         // 1. Check setup pax 
         PosLink.setupPax(ip, port, timeout);
@@ -479,7 +480,7 @@ class TabCheckout extends Layout {
 
         // 3. Send Transaction 
 
-        PosLink.sendTransaction(formatNumberFromCurrency(total) * 100, (message) => this.handleResponseCreditCard(message, online));
+        PosLink.sendTransaction(formatNumberFromCurrency(temptTotal) * 100, (message) => this.handleResponseCreditCard(message, online));
     }
 
     async handleResponseCreditCard(message, online) {
@@ -831,14 +832,19 @@ class TabCheckout extends Layout {
 
 
     extractBill = () => {
-        const { total } = this.state;
-        this.modalBillRef.current.setStateFromParent(`${total}`);
+        const {appointmentDetail} = this.props;
+        const { total,subTotalLocal,tipLocal,discountTotalLocal } = this.state;
+        const temptTotal = _.isEmpty(appointmentDetail) ? Number(subTotalLocal + tipLocal - discountTotalLocal).toFixed(2) : total;
+        this.modalBillRef.current.setStateFromParent(`${temptTotal}`);
     }
 
     doneBill = async () => {
+        const {appointmentDetail} = this.props;
+        const { total,subTotalLocal,tipLocal,discountTotalLocal } = this.state;
+        const temptTotal = _.isEmpty(appointmentDetail) ? Number(subTotalLocal + tipLocal - discountTotalLocal).toFixed(2) : total;
         const moneyUserGiveForStaff = this.modalBillRef.current.state.quality;
-        const { total } = this.state;
-        const moneyChange = parseFloat(formatNumberFromCurrency(moneyUserGiveForStaff)) - parseFloat(formatNumberFromCurrency(total));
+
+        const moneyChange = parseFloat(formatNumberFromCurrency(moneyUserGiveForStaff)) - parseFloat(formatNumberFromCurrency(temptTotal));
         if (moneyChange < 0) {
             alert('Cashback not negative number')
         } else {
@@ -853,10 +859,8 @@ class TabCheckout extends Layout {
                     visibleChangeMoney: true
                 })
             }
-
             this.modalBillRef.current.setStateFromParent(`0`);
         }
-
     }
 
     doneBillByCash = async () => {
@@ -988,11 +992,10 @@ class TabCheckout extends Layout {
                 const { appointmentId } = this.state;
                 this.props.actions.marketing.getPromotionByAppointment(appointmentId);
             } else {
-                // this.props.actions.marketing.openPopupDiscount();
+                this.popupDiscountLocalRef.current.setStateFromParent(subTotalLocal, discountTotalLocal, customDiscountPercentLocal, customDiscountFixedLocal);
                 await this.setState({
                     visiblePopupDiscountLocal: true
                 })
-                this.popupDiscountLocalRef.current.setStateFromParent(subTotalLocal, discountTotalLocal, customDiscountPercentLocal, customDiscountFixedLocal);
             }
         }
     }
