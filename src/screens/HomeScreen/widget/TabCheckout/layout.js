@@ -18,7 +18,7 @@ import styles from './style';
 import IMAGE from '@resources';
 import {
     ItemCategory, ColPlaceHolder, ItemBasket, ItemProductService, ItemAmount,
-    ItemExtra, PopupDiscount, PopupProcessingCredit, PopupBill
+    ItemExtra, PopupDiscount, PopupProcessingCredit, PopupBill,PopupDiscountLocal
 } from './widget';
 
 class Layout extends React.Component {
@@ -620,7 +620,9 @@ class Layout extends React.Component {
 
     render() {
         const { language } = this.props;
-        const { basket, visibleConfirm, visibleChangeStylist, visibleChangeMoney } = this.state;
+        const { basket, visibleConfirm, visibleChangeStylist, visibleChangeMoney,
+        visiblePopupDiscountLocal 
+        } = this.state;
         return (
             <View style={styles.container} >
                 {this.renderHeader()}
@@ -629,6 +631,13 @@ class Layout extends React.Component {
                     ref={this.popupDiscountRef}
                     title={'Discount'}
                     callbackDiscountToParent={(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal) => this.callbackDiscountToParent(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal)}
+                />
+                <PopupDiscountLocal 
+                     ref={this.popupDiscountLocalRef}
+                     visible={visiblePopupDiscountLocal}
+                     title={'Discount'}
+                     onRequestClose={this.onRequestClosePopupDiscountLocal}
+                     callbackDiscountToParent={(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal) => this.callbackDiscountToParent(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal)}
                 />
                 <PopupConfirm
                     visible={visibleConfirm}

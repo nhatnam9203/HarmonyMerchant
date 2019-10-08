@@ -58,7 +58,8 @@ const initState = {
 
     customDiscountPercentLocal: 0,
     customDiscountFixedLocal: 0,
-    visibleSendLinkPopup: false
+    visibleSendLinkPopup: false,
+    visiblePopupDiscountLocal: false
 }
 
 class TabCheckout extends Layout {
@@ -73,6 +74,7 @@ class TabCheckout extends Layout {
         this.cashBackRef = React.createRef();
         this.popupDiscountRef = React.createRef();
         this.popupSendLinkInstallRef = React.createRef();
+        this.popupDiscountLocalRef = React.createRef();
     }
 
     resetStateFromParent = async () => {
@@ -976,7 +978,7 @@ class TabCheckout extends Layout {
         // console.log('basket: ' + JSON.stringify(basket));
     }
 
-    showModalDiscount = () => {
+    showModalDiscount = async () => {
         const { basket, subTotalLocal, tipLocal, discountTotalLocal, customDiscountPercentLocal,
             customDiscountFixedLocal
         } = this.state;
@@ -986,14 +988,16 @@ class TabCheckout extends Layout {
                 const { appointmentId } = this.state;
                 this.props.actions.marketing.getPromotionByAppointment(appointmentId);
             } else {
-                // console.log('subTotalLocal : ', subTotalLocal);
-                this.props.actions.marketing.openPopupDiscount();
-                this.popupDiscountRef.current.setStateFromParent(subTotalLocal, discountTotalLocal, customDiscountPercentLocal, customDiscountFixedLocal);
+                // this.props.actions.marketing.openPopupDiscount();
+                await this.setState({
+                    visiblePopupDiscountLocal: true
+                })
+                this.popupDiscountLocalRef.current.setStateFromParent(subTotalLocal, discountTotalLocal, customDiscountPercentLocal, customDiscountFixedLocal);
             }
         }
     }
 
-   async callbackDiscountToParent(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal){
+    async callbackDiscountToParent(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal) {
         console.log('customDiscountPercentLocal : ', customDiscountPercentLocal);
         console.log('customDiscountFixedLocal : ', customDiscountFixedLocal);
         console.log('discountTotalLocal : ', discountTotalLocal);
@@ -1024,10 +1028,15 @@ class TabCheckout extends Layout {
                 visibleSendLinkPopup: false
             });
             this.props.actions.app.sendLinkInstallApp(phone);
-        }else{
+        } else {
             alert('Phone is invalid !')
         }
+    }
 
+    onRequestClosePopupDiscountLocal = async () =>{
+        await this.setState({
+            visiblePopupDiscountLocal: false
+        })
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
