@@ -168,7 +168,7 @@ class TabCheckout extends Layout {
             } else {
                 // ------ Buy Offline ------
                 // console.log('productSeleted : ',JSON.stringify());
-
+                const {profileStaffLogin} = this.props;
                 const temptBasket = basket.filter((item) => item.id !== `${productSeleted.serviceId}_ser`);
                 temptBasket.unshift({
                     type: 'Service',
@@ -179,7 +179,12 @@ class TabCheckout extends Layout {
                         price: productSeleted.price
                     },
                     serviceName: productSeleted.name,
-                    staff: null
+                    staff: {
+                        staffId:profileStaffLogin.staffId,
+                        imageUrl:profileStaffLogin.imageUrl,
+                        displayName:profileStaffLogin.displayName,
+                        tip:0.00
+                    }
                 });
 
                 const temptBasketExtra = temptBasket.filter((item) => item.id !== `${extraSelected.extraId}_extra`);
@@ -1090,6 +1095,8 @@ const mapStateToProps = state => ({
     paxMachineInfo: state.dataLocal.paxMachineInfo,
     extrasByMerchant: state.extra.extrasByMerchant,
     listStaffByMerchant: state.staff.listStaffByMerchant,
+    profileStaffLogin : state.dataLocal.profileStaffLogin
+
 })
 
 
