@@ -283,9 +283,16 @@ class TabCheckout extends Layout {
     }
 
     selectedPayment = (payment) => {
-        this.setState(prevState => ({
-            paymentSelected: payment === prevState.paymentSelected ? '' : payment
-        }))
+        const { paymentSelected, changeButtonDone } = this.state;
+        const { isDonePayment } = this.props;
+        if (changeButtonDone && !isDonePayment && paymentSelected === 'Harmony Pay') {
+        } else {
+            this.setState(prevState => ({
+                paymentSelected: payment === prevState.paymentSelected ? '' : payment
+            }))
+        }
+
+
     }
 
     showColAmount = (item) => {

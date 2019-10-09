@@ -387,7 +387,7 @@ class Layout extends React.Component {
                     <ButtonCustom
                         width={`100%`}
                         backgroundColor="#F1F1F1"
-                        title={localize('DONE 000', language)}
+                        title={localize('DONE', language)}
                         textColor="#6A6A6A"
                         onPress={() => { }}
                         style={{
