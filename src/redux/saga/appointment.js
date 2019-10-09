@@ -134,12 +134,12 @@ function* paymentAppointment(action) {
         const responses = yield requestAPI(action);
         // console.log('paymentAppointment : ', responses);
         const { codeNumber } = responses;
+        yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
             if (action.body.method !== 'harmony') {
                 yield put({
                     type: 'PAY_APPOINTMENT_SUCCESS',
                 });
-                yield put({ type: 'STOP_LOADING_ROOT' });
             }
         } else if (parseInt(codeNumber) === 401) {
             yield put({

@@ -9,6 +9,7 @@ class ReportScreen extends Layout {
         super(props);
         this.state = {
             isFocus: true,
+            valueSwitch: true
         }
     }
 
@@ -43,6 +44,12 @@ class ReportScreen extends Layout {
         this.props.navigation.openDrawer();
     }
 
+    onValueChangeSwich = (value) =>{
+      this.setState({
+          valueSwitch: value
+      })
+    }
+ 
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();

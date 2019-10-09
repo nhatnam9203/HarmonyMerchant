@@ -456,9 +456,6 @@ export const getServiceNameById = (services, serviceId = 0) => {
     return serviceName;
 }
 
-function isNotANumber(value) {
-    return typeof value === "number" && !isNaN(value);
-}
 
 
 export const getServiceIdByName = (services, name ) => {

@@ -3,7 +3,8 @@ import {
     View,
     Image,
     TextInput,
-    FlatList
+    FlatList,
+    Switch
 } from 'react-native';
 
 import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom } from '@components';
@@ -29,7 +30,7 @@ export default class Layout extends React.Component {
 
     renderFilter() {
         return (
-            <View style={{ paddingHorizontal: scaleSzie(20), marginTop: scaleSzie(20) }} >
+            <View style={{ paddingHorizontal: scaleSzie(20), marginTop: scaleSzie(20),marginBottom:scaleSzie(10) }} >
                 {/* ---------- Row 1 ---------- */}
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Image source={IMAGE.sale} style={{ width: scaleSzie(26), height: scaleSzie(32) }} />
@@ -38,12 +39,56 @@ export default class Layout extends React.Component {
                     </Text>
                 </View>
                 {/* ---------- Row 2 ---------- */}
-                <View style={{ flexDirection: 'row',marginTop:scaleSzie(16) }}>
-                    <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A' }} >
+                <View style={{ flexDirection: 'row', marginTop: scaleSzie(16), alignItems: 'center' }}>
+                    <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A', marginRight: scaleSzie(10) }} >
                         Filters
                     </Text>
+
+                    <Button onPress={() => { }} style={{ width: scaleSzie(200) }} >
+                        <View style={[{ height: scaleSzie(40), width: '90%', flexDirection: 'row' }, styles.borderStyle]} >
+                            <View style={{ alignItems: 'center', flexDirection: 'row' }} >
+                                <Text style={{ color: 'rgb(155,155,155)', fontSize: scaleSzie(15), marginLeft: scaleSzie(10) }} >
+                                    All time
+                                </Text>
+                            </View>
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(6) }} >
+                                <Image source={IMAGE.dropdown} style={{ width: scaleSzie(6), height: scaleSzie(3) }} />
+                            </View>
+                        </View>
+                    </Button>
                 </View>
                 {/* ---------- Row 3 ---------- */}
+                <View style={{ flexDirection: 'row', marginTop: scaleSzie(22),alignItems:'center' }}>
+                    <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A', marginRight: scaleSzie(16) }} >
+                        Graph Chart
+                    </Text>
+                    <Switch
+                        ios_backgroundColor="#0764B0"
+                        trackColor={{false: '', true: '#0764B0'}}
+                        style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}
+                        value={this.state.valueSwitch}
+                        onValueChange={this.onValueChangeSwich}
+                    />
+                    <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A', marginLeft: scaleSzie(16) }} >
+                        Grid View
+                    </Text>
+                </View>
+            </View>
+        );
+    }
+
+    renderTable(){
+        return(
+            <View style={{flex:1}} >
+
+            </View>
+        );
+    }
+
+    renderFooterTable(){
+        return(
+            <View style={{height:scaleSzie(45),backgroundColor:'#E5E5E5'}} >
+
             </View>
         );
     }
@@ -59,6 +104,8 @@ export default class Layout extends React.Component {
                     <StatusBarHeader />
                     {this.renderHeader()}
                     {this.renderFilter()}
+                    {this.renderTable()}
+                    {this.renderFooterTable()}
                     <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>

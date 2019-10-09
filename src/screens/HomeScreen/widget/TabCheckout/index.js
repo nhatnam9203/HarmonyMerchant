@@ -168,7 +168,7 @@ class TabCheckout extends Layout {
             } else {
                 // ------ Buy Offline ------
                 // console.log('productSeleted : ',JSON.stringify());
-                const {profileStaffLogin} = this.props;
+                const { profileStaffLogin } = this.props;
                 const temptBasket = basket.filter((item) => item.id !== `${productSeleted.serviceId}_ser`);
                 temptBasket.unshift({
                     type: 'Service',
@@ -180,10 +180,10 @@ class TabCheckout extends Layout {
                     },
                     serviceName: productSeleted.name,
                     staff: {
-                        staffId:profileStaffLogin.staffId,
-                        imageUrl:profileStaffLogin.imageUrl,
-                        displayName:profileStaffLogin.displayName,
-                        tip:0.00
+                        staffId: profileStaffLogin.staffId,
+                        imageUrl: profileStaffLogin.imageUrl,
+                        displayName: profileStaffLogin.displayName,
+                        tip: 0.00
                     }
                 });
 
@@ -402,7 +402,7 @@ class TabCheckout extends Layout {
                 this.setState({
                     visibleSendLinkPopup: true
                 });
-                
+
             } else {
                 if (method === 'credit_card') {
                     if (paxMachineInfo.isSetup) {
@@ -471,8 +471,8 @@ class TabCheckout extends Layout {
     }
 
     async hanleCreditCardProcess(online) {
-        const { total,subTotalLocal,tipLocal,discountTotalLocal  } = this.state;
-        const { paxMachineInfo,appointmentDetail } = this.props;
+        const { total, subTotalLocal, tipLocal, discountTotalLocal } = this.state;
+        const { paxMachineInfo, appointmentDetail } = this.props;
         const { ip, port, timeout } = paxMachineInfo;
         const temptTotal = _.isEmpty(appointmentDetail) ? Number(subTotalLocal + tipLocal - discountTotalLocal).toFixed(2) : total;
 
@@ -838,15 +838,15 @@ class TabCheckout extends Layout {
 
 
     extractBill = () => {
-        const {appointmentDetail} = this.props;
-        const { total,subTotalLocal,tipLocal,discountTotalLocal } = this.state;
+        const { appointmentDetail } = this.props;
+        const { total, subTotalLocal, tipLocal, discountTotalLocal } = this.state;
         const temptTotal = _.isEmpty(appointmentDetail) ? Number(subTotalLocal + tipLocal - discountTotalLocal).toFixed(2) : total;
         this.modalBillRef.current.setStateFromParent(`${temptTotal}`);
     }
 
     doneBill = async () => {
-        const {appointmentDetail} = this.props;
-        const { total,subTotalLocal,tipLocal,discountTotalLocal } = this.state;
+        const { appointmentDetail } = this.props;
+        const { total, subTotalLocal, tipLocal, discountTotalLocal } = this.state;
         const temptTotal = _.isEmpty(appointmentDetail) ? Number(subTotalLocal + tipLocal - discountTotalLocal).toFixed(2) : total;
         const moneyUserGiveForStaff = this.modalBillRef.current.state.quality;
 
@@ -1042,7 +1042,7 @@ class TabCheckout extends Layout {
         }
     }
 
-    onRequestClosePopupDiscountLocal = async () =>{
+    onRequestClosePopupDiscountLocal = async () => {
         await this.setState({
             visiblePopupDiscountLocal: false
         })
@@ -1095,7 +1095,7 @@ const mapStateToProps = state => ({
     paxMachineInfo: state.dataLocal.paxMachineInfo,
     extrasByMerchant: state.extra.extrasByMerchant,
     listStaffByMerchant: state.staff.listStaffByMerchant,
-    profileStaffLogin : state.dataLocal.profileStaffLogin
+    profileStaffLogin: state.dataLocal.profileStaffLogin
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);
