@@ -14,6 +14,7 @@ class ReportScreen extends Layout {
     }
 
     componentDidMount() {
+        this.props.actions.staff.getListStaffsSalaryTop();
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {

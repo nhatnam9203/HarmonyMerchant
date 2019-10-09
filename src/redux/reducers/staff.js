@@ -7,8 +7,8 @@ const initialState = {
     isResetInfoAdmin: false,
     isGetListSearchStaff: false,
     visibleForotPin: false,
-
-    isShowButtonEnterPinCode: false
+    isShowButtonEnterPinCode: false,
+    listStaffsSalary: []
 }
 
 function appReducer(state = initialState, action) {
@@ -97,7 +97,11 @@ function appReducer(state = initialState, action) {
                 ...state,
                 listStaffByMerchant: action.payload
             }
-
+        case 'GET_LIST_STAFFS_SALARY_TOP_SUCCESS':
+            return {
+                ...state,
+                listStaffsSalary: action.payload
+            }
 
         default:
             return state

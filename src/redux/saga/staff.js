@@ -242,7 +242,7 @@ function* loginStaff(action) {
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
-            yield put({type:'LOGIN_STAFF_SUCCESS'});
+            yield put({ type: 'LOGIN_STAFF_SUCCESS' });
             yield put({
                 type: 'UPDATE_PROFILE_STAFF_SUCCESS',
                 payload: responses.data
@@ -326,6 +326,34 @@ function* updateStaffsPosition(action) {
     }
 }
 
+function* getListStaffsSalaryTop(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log('getListStaffsSalaryTop : ' + JSON.stringify(responses));
+        const { codeNumber } = responses;
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: 'GET_LIST_STAFFS_SALARY_TOP_SUCCESS',
+                payload:responses.data
+            });
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
 
 export default function* saga() {
     yield all([
@@ -339,6 +367,6 @@ export default function* saga() {
         takeLatest('LOGIN_STAFF', loginStaff),
         takeLatest('FORGOT_PIN', forgotPin),
         takeLatest('UPDATE_STAFFS_POSITION', updateStaffsPosition),
-
+        takeLatest('GET_LIST_STAFFS_SALARY_TOP', getListStaffsSalaryTop),
     ])
 }

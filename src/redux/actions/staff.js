@@ -146,3 +146,12 @@ export function reloadButtonEnterPincode(){
         type: 'LOGIN_STAFF_FAIL',
     }
 }
+
+export function getListStaffsSalaryTop() {
+    return {
+        type: 'GET_LIST_STAFFS_SALARY_TOP',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}staff/salary/top`
+    }
+}
