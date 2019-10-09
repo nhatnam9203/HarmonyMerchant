@@ -52,13 +52,14 @@ export default {
     paxLogo: require('./img/paxLogo.png'),
     merchantLogo: require('./img/merchantLogo.png'),
     arrowDownAmount :  require('./img/arrowDownAmount.png'),
+    sale :  require('./img/sale.png'),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),
     Home: require('./drawer/home.png'),
     Inventory: require('./drawer/inventory.png'),
     Invoice: require('./drawer/invoice.png'),
-    Report: require('./drawer/report.png'),
+    Reports: require('./drawer/report.png'),
     Setting: require('./drawer/setting.png'),
     Settlement: require('./drawer/settlement.png'),
     Support: require('./drawer/support.png'),

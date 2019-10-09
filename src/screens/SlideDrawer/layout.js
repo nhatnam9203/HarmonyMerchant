@@ -9,7 +9,7 @@ import { scaleSzie,localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 
-const dataDrawer = ['Home','Invoice','Settlement','Customer','Inventory','Setting','Support'];
+const dataDrawer = ['Home','Invoice','Settlement','Customer','Inventory','Reports','Setting','Support'];
 
 export default class Layout extends React.Component {
 
