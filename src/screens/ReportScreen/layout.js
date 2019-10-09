@@ -11,6 +11,7 @@ import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom } from '@c
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
+import {HeaderTableStaffSalary,RowTableStaffSalary,RowEmptyTableStaffSalary,RowFooterStaffSalary} from './widget';
 
 export default class Layout extends React.Component {
 
@@ -80,7 +81,15 @@ export default class Layout extends React.Component {
     renderTable(){
         return(
             <View style={{flex:1}} >
-
+                <HeaderTableStaffSalary />
+                <FlatList 
+                    data={[0,1,2,3,4]}
+                    // data={[]}
+                    renderItem={({item,index}) => <RowTableStaffSalary />}
+                    keyExtractor={(item,index) => `${index}`}
+                    ListEmptyComponent={<RowEmptyTableStaffSalary />}
+                />
+                <RowFooterStaffSalary />
             </View>
         );
     }
@@ -105,7 +114,7 @@ export default class Layout extends React.Component {
                     {this.renderHeader()}
                     {this.renderFilter()}
                     {this.renderTable()}
-                    {this.renderFooterTable()}
+                    {/* {this.renderFooterTable()} */}
                     <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
