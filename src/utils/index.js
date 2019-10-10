@@ -490,9 +490,9 @@ export const getQuickFilterTimeRange = (type) => {
             quickFilter = 'lastMonth';
             break;
         default:
-            quickFilter = 'All time'
+            quickFilter = ''
     }
-    return quickFilter
+    return quickFilter;
 }
 
 export const WorkingTime = [

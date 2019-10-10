@@ -50,10 +50,10 @@ class ReportScreen extends Layout {
         this.props.navigation.openDrawer();
     }
 
-    onValueChangeSwich = (value) =>{
-      this.setState({
-          valueSwitch: value
-      })
+    onValueChangeSwich = (value) => {
+        this.setState({
+            valueSwitch: value
+        })
     }
 
     showCalendar = () => {
@@ -69,16 +69,17 @@ class ReportScreen extends Layout {
         })
     }
 
-    searchStaff =() =>{
-      const {titleRangeTime} = this.state;
-      const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
-      if(isCustomizeDate){
-        alert('00')
-      }else{
-          alert('dd')
-      }
+    searchStaff = () => {
+        const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
+        let url;
+        if (isCustomizeDate) {
+            url = `timeStart=${startDate}&timeEnd=${endDate}`;
+        } else {
+            url = `quickFilter=${getQuickFilterTimeRange(quickFilter)}`;
+        }
+        this.props.actions.staff.filterListStaffsSalaryTop(url);
     }
- 
+
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();

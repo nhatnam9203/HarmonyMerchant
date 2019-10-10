@@ -152,7 +152,7 @@ export function getListStaffsSalaryTop(isShowLoading = true) {
         type: 'GET_LIST_STAFFS_SALARY_TOP',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}staff/salary/top`,
+        api: `${apiConfigs.BASE_API}staff/salary/top?`,
         isShowLoading
     }
 }
