@@ -8,7 +8,8 @@ const initialState = {
     isGetListSearchStaff: false,
     visibleForotPin: false,
     isShowButtonEnterPinCode: false,
-    listStaffsSalary: []
+    listStaffsSalary: [],
+    refreshListStaffsSalary: false
 }
 
 function appReducer(state = initialState, action) {
@@ -97,11 +98,22 @@ function appReducer(state = initialState, action) {
                 ...state,
                 listStaffByMerchant: action.payload
             }
+        case 'GET_LIST_STAFFS_SALARY_TOP':
+            return {
+                ...state,
+                refreshListStaffsSalary: !action.isShowLoading
+            }
         case 'GET_LIST_STAFFS_SALARY_TOP_SUCCESS':
             return {
                 ...state,
-                listStaffsSalary: action.payload
+                listStaffsSalary: action.payload,
+                refreshListStaffsSalary: false
             }
+            case 'GET_LIST_STAFFS_SALARY_TOP_FAIL':
+                return {
+                    ...state,
+                    refreshListStaffsSalary: false
+                }
 
         default:
             return state

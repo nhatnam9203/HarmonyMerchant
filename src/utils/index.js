@@ -52,7 +52,7 @@ export const requestAPI = async (action, header = {}) => {
         url: '',
         headers: headers,
         timeout: 7000,
-        validateStatus: (status) => status >= 200 && status < 600,
+        // validateStatus: (status) => status >= 200 && status < 600,
     };
     if ((method == "POST" || method == "DELETE" || method == "PUT") && action.body) {
         configs['data'] = JSON.stringify(action.body);
@@ -66,21 +66,16 @@ export const requestAPI = async (action, header = {}) => {
         }
         return response.data;
     } catch (error) {
-        // console.log('error message : ' + JSON.stringify(error));
-        if (error.response) {
+        // console.log('error message : ', error);
+        if (error.request) {
             if (error.message.includes('timeout')) {
-                throw 'TIMEOUT'
+                throw 'TIME_OUT'
             } else if (error.message.includes('Network Error')) {
                 throw 'NET_WORK_REQUEST_FAIL'
             } else {
-                throw 'SOMETHING_WENT_WRONG';
+                throw error.message;
             }
-        } else if (error.request) {
-            // console.log(error.request);
-        } else {
-            // console.log('Error', error.message);
         }
-
     }
 }
 
@@ -134,18 +129,14 @@ export const uploadFromData = async (action, header = {}) => {
         return response.data;
     } catch (error) {
         // console.log('error message : ' + JSON.stringify(error));
-        if (error.response) {
+        if (error.request) {
             if (error.message.includes('timeout')) {
-                throw 'TIMEOUT'
+                throw 'TIME_OUT'
             } else if (error.message.includes('Network Error')) {
                 throw 'NET_WORK_REQUEST_FAIL'
             } else {
-                throw 'SOMETHING_WENT_WRONG';
+                throw  error.message;;
             }
-        } else if (error.request) {
-            // console.log(error.request);
-        } else {
-            // console.log('Error', error.message);
         }
     }
 };
@@ -458,16 +449,16 @@ export const getServiceNameById = (services, serviceId = 0) => {
 
 
 
-export const getServiceIdByName = (services, name ) => {
+export const getServiceIdByName = (services, name) => {
     let serviceId = 0;
-    for (let i = 0; i <  services.length; i++) {
+    for (let i = 0; i < services.length; i++) {
         if (services[i].name === name) {
             serviceId = services[i].serviceId;
             break;
         }
     }
 
-    if(serviceId === 0){
+    if (serviceId === 0) {
         return name;
     }
     return serviceId;

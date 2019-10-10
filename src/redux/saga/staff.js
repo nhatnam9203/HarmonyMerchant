@@ -62,6 +62,7 @@ function* getStaffByMerchantId(action) {
             })
         }
     } catch (error) {
+        yield put({ type: 'GET_STAFF_BY_MERCHANR_ID_FAIL' });
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -328,7 +329,7 @@ function* updateStaffsPosition(action) {
 
 function* getListStaffsSalaryTop(action) {
     try {
-        yield put({ type: 'LOADING_ROOT' });
+        action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
         // console.log('getListStaffsSalaryTop : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
@@ -336,7 +337,7 @@ function* getListStaffsSalaryTop(action) {
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'GET_LIST_STAFFS_SALARY_TOP_SUCCESS',
-                payload:responses.data
+                payload: responses.data
             });
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -344,11 +345,17 @@ function* getListStaffsSalaryTop(action) {
             })
         } else {
             yield put({
+                type: 'GET_LIST_STAFFS_SALARY_TOP_FAIL',
+            });
+            yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
             })
         }
     } catch (error) {
+        yield put({
+            type: 'GET_LIST_STAFFS_SALARY_TOP_FAIL',
+        });
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });

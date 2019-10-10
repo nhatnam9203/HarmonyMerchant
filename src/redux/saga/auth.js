@@ -30,6 +30,10 @@ function* login(action) {
             })
         }
     } catch (error) {
+        yield put({
+            type: 'LOGIN_APP_FAIL',
+            payload: responses
+        })
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });

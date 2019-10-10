@@ -79,7 +79,7 @@ export default class Layout extends React.Component {
     }
 
     renderTable() {
-        const { listStaffsSalary } = this.props;
+        const { listStaffsSalary,refreshListStaffsSalary } = this.props;
         return (
             <View style={{ flex: 1 }} >
                 <HeaderTableStaffSalary />
@@ -91,6 +91,8 @@ export default class Layout extends React.Component {
                     />}
                     keyExtractor={(item, index) => `${item.staffId}`}
                     ListEmptyComponent={<RowEmptyTableStaffSalary />}
+                    refreshing={refreshListStaffsSalary}
+                    onRefresh={() =>  this.props.actions.staff.getListStaffsSalaryTop(false)}
                 />
                 <RowFooterStaffSalary />
             </View>

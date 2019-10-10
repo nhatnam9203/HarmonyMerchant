@@ -105,9 +105,9 @@ function* sendLinkInstallApp(action) {
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({ type: 'STOP_LOADING_ROOT' });
-            setTimeout(() =>{
+            setTimeout(() => {
                 alert('Sent !')
-            },500)
+            }, 500)
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -136,7 +136,6 @@ function* requestNetworkTimeout(action) {
 
 function* timeout(action) {
     yield put({ type: 'STOP_LOADING_ROOT' });
-    // alert('Server not response');
     setTimeout(() => {
         alert('Server not response');
     }, 300)
