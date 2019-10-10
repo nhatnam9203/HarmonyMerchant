@@ -73,7 +73,7 @@ export const requestAPI = async (action, header = {}) => {
             } else if (error.message.includes('Network Error')) {
                 throw 'NET_WORK_REQUEST_FAIL'
             } else {
-                throw error.message;
+                throw  error;
             }
         }
     }
@@ -135,7 +135,7 @@ export const uploadFromData = async (action, header = {}) => {
             } else if (error.message.includes('Network Error')) {
                 throw 'NET_WORK_REQUEST_FAIL'
             } else {
-                throw  error.message;;
+                throw  error;
             }
         }
     }
@@ -409,6 +409,10 @@ export const getCodeAreaPhone = (phone) => {
 
 export const formatNumberFromCurrency = currency => {
     return Number(`${currency}`.replace(/[^0-9.-]+/g, ""));
+}
+
+export const roundFloatNumber = number => {
+    return Number(number).toFixed(2);
 }
 
 export const formatMoney = (number, decPlaces, decSep, thouSep) => {

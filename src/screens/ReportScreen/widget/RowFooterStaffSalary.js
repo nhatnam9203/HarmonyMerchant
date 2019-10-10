@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { Button } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie, formatNumberFromCurrency, formatMoney, roundFloatNumber } from '@utils';
 import IMAGE from '@resources';
 
 class RowFooterStaffSalary extends React.Component {
@@ -46,10 +46,22 @@ class RowFooterStaffSalary extends React.Component {
         }))
     }
 
+    handleTotal = keyTotal => (accumulator, currentValue) => ({
+        [keyTotal]: formatNumberFromCurrency(accumulator[keyTotal]) + formatNumberFromCurrency(currentValue[keyTotal])
+    });
+
+
+    handleTotal1 = (accumulator, currentValue) => accumulator + currentValue;
+
     render() {
-        const { sortUpStaffName, sortUpId, sortUpRole, sortUpStatus } = this.state;
-        const iconSortStaffName = sortUpStaffName ? IMAGE.sortUp : IMAGE.sortDown;
-       
+        const { data } = this.props;
+        const workingHour = roundFloatNumber((data.reduce(this.handleTotal('workingHour'), 0)).workingHour);
+        const hourlyWage = roundFloatNumber((data.reduce(this.handleTotal('hourlyWage'), 0)).hourlyWage);
+        const serviceWage = roundFloatNumber((data.reduce(this.handleTotal('serviceWage'), 0)).serviceWage);
+        const tipAmount = roundFloatNumber((data.reduce(this.handleTotal('tipAmount'), 0)).tipAmount);
+        const totalAmount = roundFloatNumber((data.reduce(this.handleTotal('totalAmount'), 0)).totalAmount);
+
+
         return (
             <View style={styles.tableHeader} >
                 {/* ----- 0 ------ */}
@@ -57,29 +69,17 @@ class RowFooterStaffSalary extends React.Component {
                     width: scaleSzie(40), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        {/* <Text style={styles.textTableHeader} >
-                       1.
-                        </Text> */}
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
                 </View>
                 {/* ----- 1 ------ */}
                 <View style={{
-                    flex:1, flexDirection: 'row'
+                    flex: 1, flexDirection: 'row'
                 }} >
-                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
                     <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(10) }} >
-                        <Text style={[styles.textTableHeader,{fontWeight:'bold'}]} numberOfLines={1} >
-                        Total
+                        <Text style={[styles.textTableHeader, { fontWeight: 'bold' }]} numberOfLines={1} >
+                            Total
                         </Text>
                     </View>
-                    {/* <Button onPress={this.sortStaffName} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
-                        <Image source={iconSortStaffName} style={styles.iconSort} />
-                    </Button> */}
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
@@ -90,7 +90,7 @@ class RowFooterStaffSalary extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        51
+                            {workingHour}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -103,7 +103,7 @@ class RowFooterStaffSalary extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        $ 50
+                            {`$ ${formatMoney(hourlyWage)}`}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -116,33 +116,33 @@ class RowFooterStaffSalary extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        $ 50
+                            {`$ ${formatMoney(serviceWage)}`}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
-                 {/* ----- 5 ------ */}
-                 <View style={{
+                {/* ----- 5 ------ */}
+                <View style={{
                     width: scaleSzie(110), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        $ 200
+                            {`$ ${formatMoney(tipAmount)}`}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
-                 {/* ----- 6 ------ */}
-                 <View style={{
+                {/* ----- 6 ------ */}
+                <View style={{
                     width: scaleSzie(110), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        $ 4205
+                            {`$ ${formatMoney(totalAmount)}`}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >

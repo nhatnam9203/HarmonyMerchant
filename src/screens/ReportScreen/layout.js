@@ -79,7 +79,7 @@ export default class Layout extends React.Component {
     }
 
     renderTable() {
-        const { listStaffsSalary,refreshListStaffsSalary } = this.props;
+        const { listStaffsSalary, refreshListStaffsSalary } = this.props;
         return (
             <View style={{ flex: 1 }} >
                 <HeaderTableStaffSalary />
@@ -87,14 +87,16 @@ export default class Layout extends React.Component {
                     data={listStaffsSalary}
                     renderItem={({ item, index }) => <RowTableStaffSalary
                         staff={item}
-                        index={index+1}
+                        index={index + 1}
                     />}
                     keyExtractor={(item, index) => `${item.staffId}`}
                     ListEmptyComponent={<RowEmptyTableStaffSalary />}
                     refreshing={refreshListStaffsSalary}
-                    onRefresh={() =>  this.props.actions.staff.getListStaffsSalaryTop(false)}
+                    onRefresh={() => this.props.actions.staff.getListStaffsSalaryTop(false)}
                 />
-                <RowFooterStaffSalary />
+                <RowFooterStaffSalary
+                    data={listStaffsSalary}
+                />
             </View>
         );
     }
