@@ -9,6 +9,7 @@ function* getListCustomersByMerchant(action) {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
         // console.log('responses : ', responses);
+        yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -41,6 +42,7 @@ function* searchCustomer(action) {
         const responses = yield requestAPI(action);
         // console.log('responses : ', responses);
         const { codeNumber } = responses;
+        yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'SEARCH_CUSTOMER_SUCCESS',
@@ -68,6 +70,7 @@ function* addCustomer(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
+        yield put({ type: 'STOP_LOADING_ROOT' });
         // console.log('responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {

@@ -9,6 +9,7 @@ function* getAppointmentById(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         // console.log('responses : ', responses);
+        yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -37,6 +38,7 @@ function* addItemIntoAppointment(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         // console.log('responses : ', responses);
+        yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -67,6 +69,7 @@ function* removeItemIntoAppointment(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         // console.log('responses : ', responses);
+        yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -164,6 +167,7 @@ function* createAnymousAppointment(action) {
         const responses = yield requestAPI(action);
         // console.log('createAnymousAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
+        yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
             // ------- Call checkout -----
             const appointmentId = responses.data;

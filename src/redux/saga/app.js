@@ -19,6 +19,7 @@ function* registerUser(action) {
         // console.log('--- registerUser : ', responses);
         // console.log('----- body register : ' + JSON.stringify(action.body));
         const { codeNumber } = responses;
+        yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
             NavigationServices.navigate('SignIn');
         } else {
@@ -75,6 +76,7 @@ function* merchantSetting(action) {
         const responses = yield requestAPI(action);
         // console.log('--- responses 2222 : ', responses);
         const { codeNumber } = responses;
+        yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'UPDATE_MERCHANT_PROFILE',
@@ -102,6 +104,7 @@ function* sendLinkInstallApp(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         // console.log('--- sendLinkInstallApp : ', responses);
+        yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({ type: 'STOP_LOADING_ROOT' });

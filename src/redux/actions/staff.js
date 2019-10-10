@@ -141,7 +141,7 @@ export function updateStaffsPosition(body) {
 }
 
 
-export function reloadButtonEnterPincode(){
+export function reloadButtonEnterPincode() {
     return {
         type: 'LOGIN_STAFF_FAIL',
     }
@@ -154,5 +154,14 @@ export function getListStaffsSalaryTop(isShowLoading = true) {
         token: true,
         api: `${apiConfigs.BASE_API}staff/salary/top`,
         isShowLoading
+    }
+}
+
+export function filterListStaffsSalaryTop(params) {
+    return {
+        type: 'FILTER_LIST_STAFFS_SALARY_TOP',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}staff/salary/top?${params}`,
     }
 }

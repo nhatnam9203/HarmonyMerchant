@@ -9,6 +9,7 @@ function* login(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         // console.log('responses : ', responses);
+        yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -45,6 +46,7 @@ function* forgotPassword(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         // console.log('responses : ', responses);
+        yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             NavigationServices.navigate('SignIn');

@@ -466,8 +466,33 @@ export const getServiceIdByName = (services, name) => {
         return name;
     }
     return serviceId;
+}
 
-
+export const getQuickFilterTimeRange = (type) => {
+    let quickFilter = '';
+    switch (type) {
+        case 'Today':
+            quickFilter = 'today';
+            break;
+        case 'Yesterday':
+            quickFilter = 'yesterday';
+            break;
+        case 'This Week':
+            quickFilter = 'thisWeek';
+            break;
+        case 'Last Week':
+            quickFilter = 'lastWeek';
+            break;
+        case 'This Month':
+            quickFilter = 'thisMonth';
+            break;
+        case 'Last Month':
+            quickFilter = 'lastMonth';
+            break;
+        default:
+            quickFilter = 'All time'
+    }
+    return quickFilter
 }
 
 export const WorkingTime = [

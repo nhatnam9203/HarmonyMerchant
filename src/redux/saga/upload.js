@@ -10,9 +10,9 @@ function* uploadAvatar(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield uploadFromData(action);
         // console.log('uploadAvatar : ', responses);
+        yield put({ type: 'LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            yield put({ type: 'LOADING_ROOT' });
             yield put({
                 type: 'UPLOAD_AVATAR_SUCCESS',
                 payload: responses.data
@@ -39,6 +39,7 @@ function* uploadBanner(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield uploadFromData(action);
         // console.log('deleteBannerMerchant : ', responses);
+        yield put({ type: 'LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({

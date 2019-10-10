@@ -9,6 +9,7 @@ function* addCategory(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         // console.log('--- responses : ', responses);
+        yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -40,6 +41,7 @@ function* getCategoriesByMerchantId(action) {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
         // console.log('getCategoriesByMerchantId : ', responses);
+        yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -165,6 +167,7 @@ function* searchCategories(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
+        yield put({ type: 'STOP_LOADING_ROOT' });
         // console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {

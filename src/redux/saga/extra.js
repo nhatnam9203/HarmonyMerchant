@@ -8,6 +8,7 @@ function* addExtraByMerchant(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
+        yield put({ type: 'STOP_LOADING_ROOT' });
         // console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -39,6 +40,7 @@ function* getExtraByMerchant(action) {
     try {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
+        yield put({ type: 'STOP_LOADING_ROOT' });
         // console.log('getExtraByMerchant : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -166,6 +168,7 @@ function* searchExtra(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         // console.log('--- responses : ', responses);
+        yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({

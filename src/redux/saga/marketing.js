@@ -9,6 +9,7 @@ function* getBannerMerchant(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         // console.log('getBannerMerchant : ', responses);
+        yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -99,6 +100,7 @@ function* getPromotionByMerchant(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
+        yield put({ type: 'STOP_LOADING_ROOT' });
         // console.log('getPromotionByMerchant : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -127,6 +129,7 @@ function* updatePromotionByMerchant(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
+        yield put({ type: 'STOP_LOADING_ROOT' });
         // console.log('responses : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -156,6 +159,7 @@ function* getPromotionByAppointment(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         // console.log('responses : ', JSON.stringify(responses));
+        yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({ type: 'STOP_LOADING_ROOT' });
@@ -186,6 +190,7 @@ function* changeStylist(action) {
         yield put({ type: 'LOADING_ROOT' });
         // console.log('responses : ', JSON.stringify(action.body));
         const responses = yield requestAPI(action);
+        yield put({ type: 'STOP_LOADING_ROOT' });
         // console.log('responses : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -246,6 +251,7 @@ function* sendNotificationByPromotionId(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
+        yield put({ type: 'STOP_LOADING_ROOT' });
         // console.log('sendNotificationByPromotionId : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {

@@ -1,6 +1,8 @@
+import React from 'react';
 import _ from 'ramda';
 
 import Layout from './layout';
+import { getQuickFilterTimeRange } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class ReportScreen extends Layout {
@@ -9,8 +11,11 @@ class ReportScreen extends Layout {
         super(props);
         this.state = {
             isFocus: true,
-            valueSwitch: true
-        }
+            valueSwitch: true,
+            visibleCalendar: false,
+            titleRangeTime: 'All time'
+        };
+        this.modalCalendarRef = React.createRef();
     }
 
     componentDidMount() {
@@ -49,6 +54,29 @@ class ReportScreen extends Layout {
       this.setState({
           valueSwitch: value
       })
+    }
+
+    showCalendar = () => {
+        this.setState({
+            visibleCalendar: true
+        })
+    }
+
+    changeTitleTimeRange = (title) => {
+        this.setState({
+            titleRangeTime: title !== 'Time Range' ? title : 'All time',
+            visibleCalendar: false
+        })
+    }
+
+    searchStaff =() =>{
+      const {titleRangeTime} = this.state;
+      const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
+      if(isCustomizeDate){
+        alert('00')
+      }else{
+          alert('dd')
+      }
     }
  
     componentWillUnmount() {
