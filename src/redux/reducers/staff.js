@@ -9,7 +9,8 @@ const initialState = {
     visibleForotPin: false,
     isShowButtonEnterPinCode: false,
     listStaffsSalary: [],
-    refreshListStaffsSalary: false
+    refreshListStaffsSalary: false,
+
 }
 
 function appReducer(state = initialState, action) {
@@ -109,11 +110,11 @@ function appReducer(state = initialState, action) {
                 listStaffsSalary: action.payload,
                 refreshListStaffsSalary: false
             }
-            case 'GET_LIST_STAFFS_SALARY_TOP_FAIL':
-                return {
-                    ...state,
-                    refreshListStaffsSalary: false
-                }
+        case 'GET_LIST_STAFFS_SALARY_TOP_FAIL':
+            return {
+                ...state,
+                refreshListStaffsSalary: false
+            }
 
         default:
             return state

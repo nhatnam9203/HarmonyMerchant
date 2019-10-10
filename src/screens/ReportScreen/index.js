@@ -77,7 +77,8 @@ class ReportScreen extends Layout {
         } else {
             url = `quickFilter=${getQuickFilterTimeRange(quickFilter)}`;
         }
-        this.props.actions.staff.filterListStaffsSalaryTop(url);
+        // this.props.actions.staff.filterListStaffsSalaryTop(url);
+        this.props.actions.staff.getListStaffsSalaryTop(url,true);
     }
 
     componentWillUnmount() {
@@ -90,7 +91,7 @@ class ReportScreen extends Layout {
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     listStaffsSalary: state.staff.listStaffsSalary,
-    refreshListStaffsSalary: state.staff.refreshListStaffsSalary
+    refreshListStaffsSalary: state.staff.refreshListStaffsSalary,
 })
 
 

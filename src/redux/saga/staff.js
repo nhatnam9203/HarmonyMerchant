@@ -365,31 +365,6 @@ function* getListStaffsSalaryTop(action) {
     }
 }
 
-function* filterListStaffsSalaryTop(action) {
-    try {
-        yield put({ type: 'LOADING_ROOT' });
-        const responses = yield requestAPI(action);
-        console.log('filterListStaffsSalaryTop : ' + JSON.stringify(responses));
-        const { codeNumber } = responses;
-        yield put({ type: 'STOP_LOADING_ROOT' });
-        if (parseInt(codeNumber) == 200) {
-
-        } else if (parseInt(codeNumber) === 401) {
-            yield put({
-                type: 'UNAUTHORIZED'
-            })
-        } else {
-            yield put({
-                type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
-            })
-        }
-    } catch (error) {
-        yield put({ type: error });
-    } finally {
-        yield put({ type: 'STOP_LOADING_ROOT' });
-    }
-}
 
 export default function* saga() {
     yield all([
@@ -404,7 +379,6 @@ export default function* saga() {
         takeLatest('FORGOT_PIN', forgotPin),
         takeLatest('UPDATE_STAFFS_POSITION', updateStaffsPosition),
         takeLatest('GET_LIST_STAFFS_SALARY_TOP', getListStaffsSalaryTop),
-        takeLatest('FILTER_LIST_STAFFS_SALARY_TOP', filterListStaffsSalaryTop),
 
     ])
 }
