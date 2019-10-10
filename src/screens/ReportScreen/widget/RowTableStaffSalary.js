@@ -47,9 +47,7 @@ class RowTableStaffSalary extends React.Component {
     }
 
     render() {
-        const { sortUpStaffName, sortUpId, sortUpRole, sortUpStatus } = this.state;
-        const iconSortStaffName = sortUpStaffName ? IMAGE.sortUp : IMAGE.sortDown;
-       
+        const {staff,index} = this.props;
         return (
             <View style={styles.tableHeader} >
                 {/* ----- 0 ------ */}
@@ -58,28 +56,19 @@ class RowTableStaffSalary extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                       1.
+                        {`${index}.`}
                         </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
                 </View>
                 {/* ----- 1 ------ */}
                 <View style={{
                     flex:1, flexDirection: 'row'
                 }} >
-                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
                     <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} numberOfLines={1} >
-                        Adrienne Miller
+                        {staff.staff.displayName}
                         </Text>
                     </View>
-                    {/* <Button onPress={this.sortStaffName} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
-                        <Image source={iconSortStaffName} style={styles.iconSort} />
-                    </Button> */}
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
@@ -90,7 +79,7 @@ class RowTableStaffSalary extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        51
+                        {staff.workingHour}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -103,7 +92,7 @@ class RowTableStaffSalary extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        $ 50
+                        {`$ ${staff.hourlyWage}`}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -116,7 +105,7 @@ class RowTableStaffSalary extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        $ 50
+                        {`$ ${staff.serviceWage}`}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -129,7 +118,7 @@ class RowTableStaffSalary extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        $ 200
+                        {`$ ${staff.tipAmount}`}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -142,7 +131,7 @@ class RowTableStaffSalary extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        $ 4205
+                        {`$ ${staff.totalAmount}`}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >

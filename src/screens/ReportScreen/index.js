@@ -60,6 +60,7 @@ class ReportScreen extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
+    listStaffsSalary: state.staff.listStaffsSalary
 })
 
 

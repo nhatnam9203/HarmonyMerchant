@@ -330,7 +330,7 @@ function* getListStaffsSalaryTop(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('getListStaffsSalaryTop : ' + JSON.stringify(responses));
+        // console.log('getListStaffsSalaryTop : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {

@@ -11,7 +11,7 @@ import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom } from '@c
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import {HeaderTableStaffSalary,RowTableStaffSalary,RowEmptyTableStaffSalary,RowFooterStaffSalary} from './widget';
+import { HeaderTableStaffSalary, RowTableStaffSalary, RowEmptyTableStaffSalary, RowFooterStaffSalary } from './widget';
 
 export default class Layout extends React.Component {
 
@@ -31,7 +31,7 @@ export default class Layout extends React.Component {
 
     renderFilter() {
         return (
-            <View style={{ paddingHorizontal: scaleSzie(20), marginTop: scaleSzie(20),marginBottom:scaleSzie(10) }} >
+            <View style={{ paddingHorizontal: scaleSzie(20), marginTop: scaleSzie(20), marginBottom: scaleSzie(10) }} >
                 {/* ---------- Row 1 ---------- */}
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Image source={IMAGE.sale} style={{ width: scaleSzie(26), height: scaleSzie(32) }} />
@@ -59,13 +59,13 @@ export default class Layout extends React.Component {
                     </Button>
                 </View>
                 {/* ---------- Row 3 ---------- */}
-                <View style={{ flexDirection: 'row', marginTop: scaleSzie(22),alignItems:'center' }}>
+                <View style={{ flexDirection: 'row', marginTop: scaleSzie(22), alignItems: 'center' }}>
                     <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A', marginRight: scaleSzie(16) }} >
                         Graph Chart
                     </Text>
                     <Switch
                         ios_backgroundColor="#0764B0"
-                        trackColor={{false: '', true: '#0764B0'}}
+                        trackColor={{ false: '', true: '#0764B0' }}
                         style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}
                         value={this.state.valueSwitch}
                         onValueChange={this.onValueChangeSwich}
@@ -78,15 +78,18 @@ export default class Layout extends React.Component {
         );
     }
 
-    renderTable(){
-        return(
-            <View style={{flex:1}} >
+    renderTable() {
+        const { listStaffsSalary } = this.props;
+        return (
+            <View style={{ flex: 1 }} >
                 <HeaderTableStaffSalary />
-                <FlatList 
-                    data={[0,1,2,3,4]}
-                    // data={[]}
-                    renderItem={({item,index}) => <RowTableStaffSalary />}
-                    keyExtractor={(item,index) => `${index}`}
+                <FlatList
+                    data={listStaffsSalary}
+                    renderItem={({ item, index }) => <RowTableStaffSalary
+                        staff={item}
+                        index={index+1}
+                    />}
+                    keyExtractor={(item, index) => `${item.staffId}`}
                     ListEmptyComponent={<RowEmptyTableStaffSalary />}
                 />
                 <RowFooterStaffSalary />
@@ -94,9 +97,9 @@ export default class Layout extends React.Component {
         );
     }
 
-    renderFooterTable(){
-        return(
-            <View style={{height:scaleSzie(45),backgroundColor:'#E5E5E5'}} >
+    renderFooterTable() {
+        return (
+            <View style={{ height: scaleSzie(45), backgroundColor: '#E5E5E5' }} >
 
             </View>
         );
@@ -114,7 +117,6 @@ export default class Layout extends React.Component {
                     {this.renderHeader()}
                     {this.renderFilter()}
                     {this.renderTable()}
-                    {/* {this.renderFooterTable()} */}
                     <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
