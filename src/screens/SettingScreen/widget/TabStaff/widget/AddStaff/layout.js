@@ -32,8 +32,8 @@ class Layout extends React.Component {
         const temptDataWorkingTime = isEditStaff ? infoStaffHandle.workingTimes : this.state.workingTime;
         const temptDataTipFee = isEditStaff ? infoStaffHandle.tipFees : this.state.tipFee;
         const temptDataSalary = isEditStaff ? infoStaffHandle.salaries : this.state.salary;
-        const temptDataProductScalary = isEditStaff ? infoStaffHandle.productSalaries : this.state.salary;
-
+        const temptDataProductScalary = isEditStaff ? infoStaffHandle.productSalaries : this.state.productSalary;
+        // console.log('infoStaffHandle : '+ JSON.stringify(infoStaffHandle));
         return (
             <View style={styles.body} >
                 <ScrollView

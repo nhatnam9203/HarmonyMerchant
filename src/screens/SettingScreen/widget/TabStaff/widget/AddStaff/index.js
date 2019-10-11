@@ -91,7 +91,7 @@ class AddStaff extends Layout {
                     isCheck: false
                 }
             },
-            productSalaries: {
+            productSalary: {
                 commission: {
                     value: 0,
                     isCheck: false
@@ -239,6 +239,7 @@ class AddStaff extends Layout {
         } else {
             let objWorkingTime = [];
             let objSalary = {};
+            let objProjectSalary = {};
             let objTipFee = {};
             this.inputRefsTime.forEach(ref => {
                 objWorkingTime = {
@@ -259,7 +260,15 @@ class AddStaff extends Layout {
                     }
                 }
             });
-
+            this.inputProductSalaryRef.forEach(ref => {
+                objProjectSalary = {
+                    ...objProjectSalary,
+                    [this.convertKeyToName(ref.props.title)]: {
+                        value: parseInt(ref.state.value ? ref.state.value : 0),
+                        isCheck: ref.state.isCheck
+                    }
+                }
+            });
             this.inputRefsTip.forEach(ref => {
                 objTipFee = {
                     ...objTipFee,
@@ -280,12 +289,7 @@ class AddStaff extends Layout {
                 salary: objSalary,
                 tipFee: objTipFee,
                 fileId: this.state.fileId,
-                productSalary: {
-                    commission: {
-                        value: 0,
-                        isCheck: false
-                    }
-                },
+                productSalary: objProjectSalary
             };
             if (this.props.isEditStaff) {
                 this.props.editStaff(temptStaff, this.state.staffId)
