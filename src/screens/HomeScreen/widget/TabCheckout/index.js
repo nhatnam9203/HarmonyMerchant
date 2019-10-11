@@ -752,7 +752,9 @@ class TabCheckout extends Layout {
                 const result = await PrintManager.getInstance().print(portName, commands);
                 this.donotPrintBill();
             } else {
-                alert('Please connect to your print ! ')
+                setTimeout(() => {
+                    alert('Please connect to your print ! ')
+                }, 500)
             }
         } catch (error) {
             // console.log('scan error : ', error);
@@ -762,10 +764,13 @@ class TabCheckout extends Layout {
 
     donotPrintBill = () => {
         const { connectionSignalR } = this.props;
+        const { paymentSelected } = this.state;
         if (!_.isEmpty(connectionSignalR)) {
             connectionSignalR.stop();
         }
-        this.openCashDrawer();
+        if (paymentSelected === 'Harmony Pay' && paymentSelected === 'Others - Check') {
+            this.openCashDrawer();
+        }
         this.scrollTabRef.current.goToPage(0);
         this.props.actions.appointment.closeModalPaymentCompleted();
         this.props.gotoAppoitmentScreen();
@@ -777,12 +782,8 @@ class TabCheckout extends Layout {
 
     printBill = () => {
         const { connectionSignalR } = this.props;
-        const { paymentSelected } = this.state;
         if (!_.isEmpty(connectionSignalR)) {
             connectionSignalR.stop();
-        }
-        if (paymentSelected === 'Harmony Pay' && paymentSelected === 'Others - Check') {
-            this.openCashDrawer();
         }
         this.printInvoice();
     }
@@ -1048,6 +1049,17 @@ class TabCheckout extends Layout {
             visiblePopupDiscountLocal: false
         })
     }
+
+    onRequestCloseBillModal = async () => {
+        await this.setState({ 
+            changeButtonDone: false,
+            paymentSelected: '',
+        visibleBillOfPayment: false
+           
+        });
+        this.props.actions.appointment.resetPayment();
+    }
+
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { currentTabParent, appointmentDetail, loading, isGetAppointmentSucces,

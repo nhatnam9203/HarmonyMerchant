@@ -198,7 +198,7 @@ class Layout extends React.Component {
                     />
                     {
                         Object.keys(temptDataProductScalary).map((tip, index) => {
-                            console.log('tip : ',temptDataProductScalary[tip]);
+                            // console.log('tip : ',temptDataProductScalary[tip]);
                             const temptTitle = tip == 'perHour' ? 'Per hour' : 'Commission';
                             const temptChar = tip == 'perHour' ? '($)' : '(%)';
 

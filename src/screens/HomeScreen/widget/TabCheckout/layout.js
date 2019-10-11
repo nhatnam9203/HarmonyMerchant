@@ -676,7 +676,7 @@ class Layout extends React.Component {
                     ref={this.modalBillRef}
                     title={'Bill of payment'}
                     visible={this.state.visibleBillOfPayment}
-                    onRequestClose={() => this.setState({ visibleBillOfPayment: false })}
+                    onRequestClose={this.onRequestCloseBillModal}
                     language={language}
                     extractBill={this.extractBill}
                     doneBill={this.doneBill}

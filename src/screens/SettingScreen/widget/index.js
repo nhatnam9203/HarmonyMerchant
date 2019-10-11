@@ -4,6 +4,7 @@ import TabExtra from './TabExtra';
 import TabCategories from './TabCategories';
 import TabGaneral from './TabGaneral';
 import TabHardware from './TabHardware';
+import TabTAX from './TabTAX';
 
 module.exports ={
     TabStaff,
@@ -11,5 +12,6 @@ module.exports ={
     TabExtra,
     TabCategories,
     TabGaneral,
-    TabHardware
+    TabHardware,
+    TabTAX
 }

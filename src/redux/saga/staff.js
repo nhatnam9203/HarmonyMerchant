@@ -211,7 +211,7 @@ function* editStaff(action) {
         const responses = yield requestAPI(action);
         
         // console.log('editStaff : ' + JSON.stringify(responses));
-        console.log('--- editStaff : ' + JSON.stringify(action.body));
+        // console.log('--- editStaff : ' + JSON.stringify(action.body));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({

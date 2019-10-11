@@ -51,8 +51,8 @@ export default {
     hpLogo: require('./img/hpLogo.png'),
     paxLogo: require('./img/paxLogo.png'),
     merchantLogo: require('./img/merchantLogo.png'),
-    arrowDownAmount :  require('./img/arrowDownAmount.png'),
-    sale :  require('./img/sale.png'),
+    arrowDownAmount: require('./img/arrowDownAmount.png'),
+    sale: require('./img/sale.png'),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),
@@ -87,6 +87,8 @@ export default {
     Barcode: require('./setting/barcode.png'),
     Print: require('./setting/print.png'),
     logoAbout: require('./setting/logoAbout.png'),
+    TAX: require('./setting/TAX.png'),
+    TAX_in: require('./setting/TAX_in.png'),
 
 
     // --- Place holder --

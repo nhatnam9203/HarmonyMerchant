@@ -9,9 +9,9 @@ import { StatusBarHeader, Button, ParentContainer, Text, PopupLogout } from '@co
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { TabStaff, TabService, TabExtra, TabCategories, TabGaneral, TabHardware } from './widget';
+import { TabStaff, TabService, TabExtra, TabCategories, TabGaneral, TabHardware ,TabTAX} from './widget';
 
-const MENU = ["General", "Staff", "Categories", "Services", "Extra", "Hardware", "About", "Logout"];
+const MENU = ["General", "Staff", "Categories", "Services", "Extra", "TAX", "Hardware", "About", "Logout"];
 
 export default class Layout extends React.Component {
 
@@ -88,7 +88,7 @@ export default class Layout extends React.Component {
                                 <TabCategories />
                                 <TabService />
                                 <TabExtra />
-                                {/* <View style={{ flex: 1 }} /> */}
+                                <TabTAX />
                                 <TabHardware />
                                 {/* -------- Tab About ----- */}
                                 <View style={styles.containerAbout} >
