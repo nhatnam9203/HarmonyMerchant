@@ -32,10 +32,13 @@ class Layout extends React.Component {
         const temptDataWorkingTime = isEditStaff ? infoStaffHandle.workingTimes : this.state.workingTime;
         const temptDataTipFee = isEditStaff ? infoStaffHandle.tipFees : this.state.tipFee;
         const temptDataSalary = isEditStaff ? infoStaffHandle.salaries : this.state.salary;
+        const temptDataProductScalary = isEditStaff ? infoStaffHandle.productSalaries : this.state.salary;
+
         return (
             <View style={styles.body} >
                 <ScrollView
                     showsVerticalScrollIndicator={false}
+                    automaticallyAdjustContentInsets={true}
                 >
                     <View style={{ height: scaleSzie(30) }} />
                     <ItemAdminInfoDoubleItem
@@ -176,9 +179,9 @@ class Layout extends React.Component {
                         })
                     }
 
-                    {/* ----- Salary ---- */}
+                    {/* ----- Service Salary ---- */}
                     <TitleTabAdminInfo
-                        title={localize('Salary', language)}
+                        title={localize('Service Salary', language)}
                     />
                     {
                         Object.keys(temptDataSalary).map((tip, index) => {
@@ -190,6 +193,26 @@ class Layout extends React.Component {
                                 title={`${localize(temptTitle, language)} ${temptChar}`}
                                 placeholder={'10'}
                                 dataInit={temptDataSalary[tip]}
+                            />
+                        })
+                    }
+
+                     {/* ----- Product Salary ---- */}
+                     <TitleTabAdminInfo
+                        title={localize('Product Salary', language)}
+                    />
+                    {
+                        Object.keys(temptDataProductScalary).map((tip, index) => {
+                            console.log('tip : ',temptDataProductScalary[tip]);
+                            const temptTitle = tip == 'perHour' ? 'Per hour' : 'Commission';
+                            const temptChar = tip == 'perHour' ? '($)' : '(%)';
+
+                            return <ItemScalary
+                                key={index}
+                                ref={this.setRefProductSalary}
+                                title={`${localize(temptTitle, language)} ${temptChar}`}
+                                placeholder={'10'}
+                                dataInit={temptDataProductScalary[tip]}
                             />
                         })
                     }

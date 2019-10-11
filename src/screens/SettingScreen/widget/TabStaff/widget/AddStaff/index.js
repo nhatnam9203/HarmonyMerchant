@@ -4,7 +4,7 @@ import _ from 'ramda';
 
 import Layout from './layout';
 import strings from './strings';
-import { validateEmail, getIdStateByName, getNameStateById,getCodeAreaPhone } from '@utils';
+import { validateEmail, getIdStateByName, getNameStateById, getCodeAreaPhone } from '@utils';
 
 class AddStaff extends Layout {
 
@@ -91,6 +91,12 @@ class AddStaff extends Layout {
                     isCheck: false
                 }
             },
+            productSalaries: {
+                commission: {
+                    value: 0,
+                    isCheck: false
+                }
+            },
             fileId: 0,
             imageUrl: '',
             isSubmitButton: true
@@ -99,6 +105,7 @@ class AddStaff extends Layout {
         this.inputRefsTime = [];
         this.inputRefsSalary = [];
         this.inputRefsTip = [];
+        this.inputProductSalaryRef = [];
         this.browserFileRef = React.createRef();
         this.cellphoneRef = React.createRef();
 
@@ -151,15 +158,30 @@ class AddStaff extends Layout {
     }
 
     setRefTimeWorking = (ref) => {
-        this.inputRefsTime.push(ref);
+        if (ref) {
+            this.inputRefsTime.push(ref);
+        }
+
     };
 
     setRefSalary = (ref) => {
-        this.inputRefsSalary.push(ref);
+        if (ref) {
+            this.inputRefsSalary.push(ref);
+        }
+
     };
 
+    setRefProductSalary = (ref) => {
+        if (ref) {
+            this.inputProductSalaryRef.push(ref);
+        }
+    }
+
     setRefTip = (ref) => {
-        this.inputRefsTip.push(ref);
+        if (ref) {
+            this.inputRefsTip.push(ref);
+        }
+
     };
 
     updateFileId = async (fileId) => {
@@ -257,7 +279,13 @@ class AddStaff extends Layout {
                 workingTime: objWorkingTime,
                 salary: objSalary,
                 tipFee: objTipFee,
-                fileId: this.state.fileId
+                fileId: this.state.fileId,
+                productSalary: {
+                    commission: {
+                        value: 0,
+                        isCheck: false
+                    }
+                },
             };
             if (this.props.isEditStaff) {
                 this.props.editStaff(temptStaff, this.state.staffId)
@@ -305,6 +333,13 @@ class AddStaff extends Layout {
                 user: temptUpdate
             })
         }
+    }
+
+    componentWillUnmount() {
+        this.inputRefsTime = [];
+        this.inputRefsSalary = [];
+        this.inputRefsTip = [];
+        this.inputProductSalaryRef = [];
     }
 
 

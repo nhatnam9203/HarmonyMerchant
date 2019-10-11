@@ -560,7 +560,6 @@ class TabCheckout extends Layout {
             const printer = await PrintManager.getInstance().portDiscovery();
             if (printer.length > 0) {
                 const portName = printer[0].portName;
-                // PrintManager.getInstance().openCashDrawer(portName);
                 // -------- GET INFO BILL --------
                 const { profile } = this.props;
                 const { basket, infoUser } = this.state;
@@ -778,11 +777,14 @@ class TabCheckout extends Layout {
 
     printBill = () => {
         const { connectionSignalR } = this.props;
+        const { paymentSelected } = this.state;
         if (!_.isEmpty(connectionSignalR)) {
             connectionSignalR.stop();
         }
+        if (paymentSelected === 'Harmony Pay' && paymentSelected === 'Others - Check') {
+            this.openCashDrawer();
+        }
         this.printInvoice();
-        this.openCashDrawer();
     }
 
     openCashDrawer = async (isDelay = false) => {
@@ -975,7 +977,6 @@ class TabCheckout extends Layout {
                 }
                 return item
             });
-            // console.log('---temptStaff : ' + JSON.stringify(temptBasket));
             let temptTip = 0;
             for (let i = 0; i < temptBasket.length; i++) {
                 if (temptBasket[i].type === 'Service') {
@@ -989,10 +990,6 @@ class TabCheckout extends Layout {
                 tipLocal: temptTip
             })
         }
-        // console.log('serviceId : ', serviceId);
-        // console.log('staffId : ', staffId);
-        // console.log('tip : ', tip);
-        // console.log('basket: ' + JSON.stringify(basket));
     }
 
     showModalDiscount = async () => {
@@ -1014,9 +1011,6 @@ class TabCheckout extends Layout {
     }
 
     async callbackDiscountToParent(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal) {
-        console.log('customDiscountPercentLocal : ', customDiscountPercentLocal);
-        console.log('customDiscountFixedLocal : ', customDiscountFixedLocal);
-        console.log('discountTotalLocal : ', discountTotalLocal);
         await this.setState({
             customDiscountPercentLocal,
             customDiscountFixedLocal,
@@ -1078,7 +1072,6 @@ class TabCheckout extends Layout {
             });
         }
         if (isDonePayment) {
-            // console.log('------ Phi ------');
             this.donePayment();
         }
     }
