@@ -7,6 +7,7 @@ import {
     TextInput,
     ScrollView
 } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, Text } from '@components';
 import { scaleSzie, localize } from '@utils';
@@ -17,43 +18,25 @@ class SetupHardware extends React.Component {
 
     constructor(props) {
         super(props);
-        const { paxMachineInfo } = this.props;
-        const { name, ip, port, timeout } = paxMachineInfo;
         this.state = {
-            name,
-            ip,
-            port,
-            timeout:60000
+            serviceTAX: '',
+            productTAX: ''
         }
     }
 
-    setupPax = () => {
-        const { name, ip, port, timeout } = this.state;
-        if (name == '' || ip == '' || port == '' || timeout == '') {
-            alert('Please enter full infomation !');
-        } else {
-            this.props.actions.dataLocal.setupPaxMachine({ name, ip, port, timeout ,isSetup: true});
-            this.props.backListDevices();
-        };
-    }
-
-    cancelSetupPax = async () => {
-        const { paxMachineInfo } = this.props;
-        const { name, ip, port, timeout } = paxMachineInfo;
-        await this.setState({
-            name,
-            ip,
-            port,
-            timeout,
+    setupTAX = () => {
+        const { serviceTAX, productTAX } = this.state;
+        this.props.actions.app.setupMerchantTAX({
+            TaxService: serviceTAX,
+            TaxProduct: productTAX
         });
-
-        this.props.backListDevices();
     }
+
 
     // -------- Render ------
 
     render() {
-        const { name, ip, port, timeout } = this.state;
+        const { serviceTAX, productTAX } = this.state;
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(14), paddingTop: scaleSzie(20) }} >
                 <Text style={{
@@ -61,65 +44,45 @@ class SetupHardware extends React.Component {
                     fontWeight: '600',
                     color: '#0764B0'
                 }} >
-                    Payment Terminal
+                    TAX Settings
                         </Text>
-                <Text style={{
-                    fontSize: scaleSzie(16),
-                    fontWeight: '600',
-                    color: 'rgb(81,81,81)',
-                    marginTop: scaleSzie(26),
-                    marginBottom: scaleSzie(10)
-                }} >
-                    Terminal configuration
-                        </Text>
-
-                {/* ----------- Line ------------ */}
-                <View style={{ height: scaleSzie(1), backgroundColor: 'rgb(227,227,227)', }} />
                 <ScrollView  >
                     <ItemSetup
-                        title={"Name"}
-                        placeholder={"Device name"}
-                        value={name}
-                        onChangeText={name => this.setState({ name })}
+                        title={"Service Tax (%) :"}
+                        placeholder={"10"}
+                        value={serviceTAX}
+                        onChangeText={serviceTAX => this.setState({ serviceTAX })}
                     />
 
                     <ItemSetup
-                        title={"IP Address"}
-                        placeholder={"192.168.1.1"}
-                        value={ip}
-                        onChangeText={ip => this.setState({ ip })}
+                        title={"Product Tax (%) :"}
+                        placeholder={"10"}
+                        value={productTAX}
+                        onChangeText={productTAX => this.setState({ productTAX })}
                     />
-
-                    <ItemSetup
-                        title={"Port"}
-                        placeholder={"10009"}
-                        value={port}
-                        onChangeText={port => this.setState({ port })}
-                    />
-
                     <View style={{ height: scaleSzie(300) }} />
                 </ScrollView>
                 {/* ------- Footer -------- */}
                 <View style={{ position: 'absolute', bottom: 0, width: '100%', justifyContent: 'flex-end', paddingBottom: scaleSzie(30) }} >
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }} >
-                        <ButtonCustom
+                        {/* <ButtonCustom
                             width={scaleSzie(130)}
                             height={50}
                             backgroundColor="#F1F1F1"
                             title="CANCEL"
                             textColor="#6A6A6A"
-                            onPress={this.cancelSetupPax}
+                            onPress={this.cancelsetupTAX}
                             style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}
                             styleText={{ fontSize: scaleSzie(20), fontWeight: '500' }}
                         />
-                        <View style={{ width: scaleSzie(100) }} />
+                        <View style={{ width: scaleSzie(100) }} /> */}
                         <ButtonCustom
                             width={scaleSzie(130)}
                             height={50}
                             backgroundColor="#0764B0"
                             title="SAVE"
                             textColor="#fff"
-                            onPress={this.setupPax}
+                            onPress={this.setupTAX}
                             style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}
                             styleText={{ fontSize: scaleSzie(20), fontWeight: '500' }}
                         />
@@ -143,14 +106,16 @@ const ItemSetup = ({ title, value, placeholder, onChangeText }) => {
             </View>
             <View style={{ flex: 1, }} >
                 <View style={{
-                    height: scaleSzie(35), width: '85%', borderColor: 'rgb(227,227,227)',
+                    height: scaleSzie(35), width: '50%', borderColor: 'rgb(227,227,227)',
                     borderWidth: scaleSzie(1), paddingHorizontal: scaleSzie(10)
                 }} >
-                    <TextInput
+                    <TextInputMask
                         style={{ flex: 1, fontSize: scaleSzie(14) }}
                         placeholder={placeholder}
                         value={value}
                         onChangeText={(value) => onChangeText(value)}
+                        keyboardType="numeric"
+                        type="only-numbers"
                     />
                 </View>
             </View>
@@ -160,7 +125,6 @@ const ItemSetup = ({ title, value, placeholder, onChangeText }) => {
 
 
 const mapStateToProps = state => ({
-    paxMachineInfo: state.dataLocal.paxMachineInfo,
     language: state.dataLocal.language,
 })
 

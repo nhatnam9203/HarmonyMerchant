@@ -114,3 +114,14 @@ export function sendLinkInstallApp(phone) {
         api: `${apiConfigs.BASE_API}user/sendlink?phone=${phone}`
     }
 }
+
+
+export function setupMerchantTAX(body) {
+    return {
+        type: 'SETUP_MERCHANT_TAX',
+        method: 'PUT',
+        body,
+        token: true,
+        api: `${apiConfigs.BASE_API}merchant/setting`
+    }
+}

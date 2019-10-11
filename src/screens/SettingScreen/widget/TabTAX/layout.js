@@ -18,9 +18,9 @@ class Layout extends React.Component {
     render() {
         return (
             <View style={styles.container} >
-                    <SetupHardware 
+                <SetupHardware
                     backListDevices={this.backListDevices}
-                    />
+                />
             </View>
 
         );

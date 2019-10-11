@@ -129,6 +129,37 @@ function* sendLinkInstallApp(action) {
     }
 }
 
+function* setupMerchantTAX(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        // console.log('--- sendLinkInstallApp : ', responses);
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: 'UPDATE_MERCHANT_TAX_LOCAL',
+                payload: action.body
+            })
+
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+
 function* requestNetworkTimeout(action) {
     yield put({ type: 'STOP_LOADING_ROOT' });
     // alert('Please check your internet !');
@@ -172,6 +203,7 @@ export default function* saga() {
         takeLatest('GET_STATE_CITY', getStateCity),
         takeLatest('GET_QUESTION', getQuestion),
         takeLatest('SEND_LINK_INSTALL_APP', sendLinkInstallApp),
+        takeLatest('SETUP_MERCHANT_TAX', setupMerchantTAX),
 
         takeLatest('NET_WORK_REQUEST_FAIL', requestNetworkTimeout),
         takeLatest('TIME_OUT', timeout),
