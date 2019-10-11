@@ -176,9 +176,9 @@ class Layout extends React.Component {
                         })
                     }
 
-                    {/* ----- Salary ---- */}
+                    {/* -----Service Salary ---- */}
                     <TitleTabAdminInfo
-                        title={localize('Salary', language)}
+                        title={localize('Service Salary', language)}
                     />
                     {
                         [{ title: `${localize('Per hour', language)} ($)`, placeholder: '100' },
@@ -187,6 +187,25 @@ class Layout extends React.Component {
                             return <ItemScalary
                                 key={index}
                                 ref={this.setRefSalary}
+                                title={salary.title}
+                                placeholder={salary.placeholder}
+                                dataInit={{
+                                    value: '',
+                                    isCheck: false
+                                }}
+                            />
+                        })
+                    }
+
+                     {/* ----- Product Salary ---- */}
+                     <TitleTabAdminInfo
+                        title={localize('Product Salary', language)}
+                    />
+                    {
+                        [ { title: `${localize('Commission')} (%)`, placeholder: '10' }].map((salary, index) => {
+                            return <ItemScalary
+                                key={index}
+                                ref={this.setProductSalary}
                                 title={salary.title}
                                 placeholder={salary.placeholder}
                                 dataInit={{

@@ -42,6 +42,7 @@ class StoreInfoScreen extends Layout {
         // ---- Refs ----
         this.inputRefsTime = [];
         this.inputRefsSalary = [];
+        this.inputRefproductSalary = [];
         this.inputRefsTip = [];
         this.browserFileRef = React.createRef();
         this.cellphoneRef = React.createRef();
@@ -58,11 +59,21 @@ class StoreInfoScreen extends Layout {
     };
 
     setRefSalary = (ref) => {
-        this.inputRefsSalary.push(ref);
+        if (ref) {
+            this.inputRefsSalary.push(ref);
+        }
     };
 
+    setProductSalary = (ref) => {
+        if (ref) {
+            this.inputRefproductSalary.push(ref);
+        }
+    }
+
     setRefTip = (ref) => {
-        this.inputRefsTip.push(ref);
+        if (ref) {
+            this.inputRefsTip.push(ref);
+        }
     };
 
     updateFileId = async (fileId) => {
@@ -121,6 +132,7 @@ class StoreInfoScreen extends Layout {
         } else {
             let objWorkingTime = [];
             let objSalary = {};
+            let objProjectSalary = {};
             let objTipFee = {};
             this.inputRefsTime.forEach(ref => {
                 objWorkingTime = {
@@ -141,7 +153,15 @@ class StoreInfoScreen extends Layout {
                     }
                 }
             });
-
+            this.inputRefproductSalary.forEach(ref => {
+                objProjectSalary = {
+                    ...objProjectSalary,
+                    [this.convertKeyToName(ref.props.title)]: {
+                        value: parseInt(ref.state.value ? ref.state.value : 0),
+                        isCheck: ref.state.isCheck
+                    }
+                }
+            });
             this.inputRefsTip.forEach(ref => {
                 objTipFee = {
                     ...objTipFee,
@@ -160,10 +180,11 @@ class StoreInfoScreen extends Layout {
                 address: temptAddress,
                 workingTime: objWorkingTime,
                 salary: objSalary,
+                productSalary: objProjectSalary,
                 tipFee: objTipFee,
                 fileId: this.state.fileId
             };
-            
+            console.log('productSalary : ' + JSON.stringify(objProjectSalary));
             this.props.actions.staff.createAdmin(temptStaff);
         }
     }

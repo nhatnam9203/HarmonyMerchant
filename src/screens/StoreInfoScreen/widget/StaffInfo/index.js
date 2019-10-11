@@ -90,6 +90,12 @@ class StaffInfo extends Layout {
                     isCheck: false
                 }
             },
+            productSalary: {
+                commission: {
+                    value: 0,
+                    isCheck: false
+                }
+            },
             fileId: 0,
             imageUrl: '',
             isSubmitButton: true,
@@ -97,6 +103,7 @@ class StaffInfo extends Layout {
         // ---- Refs ----
         this.inputRefsTime = [];
         this.inputRefsSalary = [];
+        this.inputProductSalaryRef = [];
         this.inputRefsTip = [];
         this.browserFileRef = React.createRef();
         this.cellphoneRef = React.createRef();
@@ -132,8 +139,8 @@ class StaffInfo extends Layout {
                 },
                 staffId: infoStaffHandle.staffId,
                 // workingTime: infoStaffHandle.workingTimes,
-                tipFee: infoStaffHandle.tipFees,
-                salary: infoStaffHandle.salaries,
+                // tipFee: infoStaffHandle.tipFees,
+                // salary: infoStaffHandle.salaries,
                 fileId: infoStaffHandle.fileId,
                 imageUrl: infoStaffHandle.imageUrl,
             });
@@ -160,6 +167,12 @@ class StaffInfo extends Layout {
     setRefSalary = (ref) => {
         this.inputRefsSalary.push(ref);
     };
+
+    setRefProductSalary = (ref) => {
+        if (ref) {
+            this.inputProductSalaryRef.push(ref);
+        }
+    }
 
     setRefTip = (ref) => {
         this.inputRefsTip.push(ref);
@@ -219,6 +232,7 @@ class StaffInfo extends Layout {
         } else {
             let objWorkingTime = [];
             let objSalary = {};
+            let objProjectSalary = {};
             let objTipFee = {};
             this.inputRefsTime.forEach(ref => {
                 objWorkingTime = {
@@ -233,6 +247,16 @@ class StaffInfo extends Layout {
             this.inputRefsSalary.forEach(ref => {
                 objSalary = {
                     ...objSalary,
+                    [this.convertKeyToName(ref.props.title)]: {
+                        value: parseInt(ref.state.value ? ref.state.value : 0),
+                        isCheck: ref.state.isCheck
+                    }
+                }
+            });
+
+            this.inputProductSalaryRef.forEach(ref => {
+                objProjectSalary = {
+                    ...objProjectSalary,
                     [this.convertKeyToName(ref.props.title)]: {
                         value: parseInt(ref.state.value ? ref.state.value : 0),
                         isCheck: ref.state.isCheck
@@ -259,7 +283,8 @@ class StaffInfo extends Layout {
                 workingTime: objWorkingTime,
                 salary: objSalary,
                 tipFee: objTipFee,
-                fileId: this.state.fileId
+                fileId: this.state.fileId,
+                productSalary: objProjectSalary
             };
             if (this.props.isEditStaff) {
                 this.props.editStaff(temptStaff, this.state.staffId)

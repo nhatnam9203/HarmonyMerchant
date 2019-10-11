@@ -33,6 +33,7 @@ class Layout extends React.Component {
         const temptDataWorkingTime = isEditStaff ? infoStaffHandle.workingTimes : this.state.workingTime;
         const temptDataTipFee = isEditStaff ? infoStaffHandle.tipFees : this.state.tipFee;
         const temptDataSalary = isEditStaff ? infoStaffHandle.salaries : this.state.salary;
+        const temptDataProductScalary = isEditStaff ? infoStaffHandle.productSalaries : this.state.productSalary;
         return (
             <View style={styles.body} >
                 <ScrollView
@@ -190,6 +191,27 @@ class Layout extends React.Component {
                             />
                         })
                     }
+
+                     {/* ----- Product Salary ---- */}
+                     <TitleTabAdminInfo
+                        title={localize('Product Salary', language)}
+                    />
+                    {
+                        Object.keys(temptDataProductScalary).map((tip, index) => {
+                            console.log('tip : ',temptDataProductScalary[tip]);
+                            const temptTitle = tip == 'perHour' ? 'Per hour' : 'Commission';
+                            const temptChar = tip == 'perHour' ? '($)' : '(%)';
+
+                            return <ItemScalary
+                                key={index}
+                                ref={this.setRefProductSalary}
+                                title={`${localize(temptTitle, language)} ${temptChar}`}
+                                placeholder={'10'}
+                                dataInit={temptDataProductScalary[tip]}
+                            />
+                        })
+                    }
+
 
                     {/* ----- Tip fee ---- */}
                     <TitleTabAdminInfo
