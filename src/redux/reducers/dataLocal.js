@@ -23,7 +23,7 @@ function dataLocal(state = initialState, action) {
             return {
                 ...state,
                 profile: action.payload.profile,
-                token: action.payload.token,
+                token: action.payload.token ? action.payload.token : state.token,
             }
         case 'CHANGE_SETTING_LOCAL_APP':
             return {

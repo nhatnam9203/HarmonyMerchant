@@ -133,14 +133,14 @@ function* setupMerchantTAX(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('--- sendLinkInstallApp : ', responses);
+        console.log('--- setupMerchantTAX : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
-                type: 'UPDATE_MERCHANT_TAX_LOCAL',
-                payload: action.body
-            })
+                type: 'SAVE_PROFILE_LOCAL',
+                payload:{profile: responses.data}
+            });
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({

@@ -10,7 +10,7 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, Text } from '@components';
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize, formatNumberFromCurrency } from '@utils';
 import IMAGE from '@resources';
 import connectRedux from '@redux/ConnectRedux';
 
@@ -18,17 +18,19 @@ class SetupHardware extends React.Component {
 
     constructor(props) {
         super(props);
+        const { profile } = this.props;
         this.state = {
-            serviceTAX: '',
-            productTAX: ''
+            serviceTAX: profile.taxService ? profile.taxService : '',
+            productTAX: profile.taxProduct ? profile.taxProduct : '',
+            isSubmitTax: false
         }
     }
 
     setupTAX = () => {
         const { serviceTAX, productTAX } = this.state;
         this.props.actions.app.setupMerchantTAX({
-            TaxService: serviceTAX,
-            TaxProduct: productTAX
+            TaxService: formatNumberFromCurrency(serviceTAX),
+            TaxProduct: formatNumberFromCurrency(productTAX)
         });
     }
 
@@ -36,7 +38,7 @@ class SetupHardware extends React.Component {
     // -------- Render ------
 
     render() {
-        const { serviceTAX, productTAX } = this.state;
+        const { serviceTAX, productTAX, isSubmitTax } = this.state;
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(14), paddingTop: scaleSzie(20) }} >
                 <Text style={{
@@ -51,41 +53,43 @@ class SetupHardware extends React.Component {
                         title={"Service Tax (%) :"}
                         placeholder={"10"}
                         value={serviceTAX}
-                        onChangeText={serviceTAX => this.setState({ serviceTAX })}
+                        onChangeText={serviceTAX => this.setState({ serviceTAX, isSubmitTax: true })}
                     />
 
                     <ItemSetup
                         title={"Product Tax (%) :"}
                         placeholder={"10"}
                         value={productTAX}
-                        onChangeText={productTAX => this.setState({ productTAX })}
+                        onChangeText={productTAX => this.setState({ productTAX, isSubmitTax: true })}
                     />
                     <View style={{ height: scaleSzie(300) }} />
                 </ScrollView>
                 {/* ------- Footer -------- */}
                 <View style={{ position: 'absolute', bottom: 0, width: '100%', justifyContent: 'flex-end', paddingBottom: scaleSzie(30) }} >
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }} >
-                        {/* <ButtonCustom
-                            width={scaleSzie(130)}
-                            height={50}
-                            backgroundColor="#F1F1F1"
-                            title="CANCEL"
-                            textColor="#6A6A6A"
-                            onPress={this.cancelsetupTAX}
-                            style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}
-                            styleText={{ fontSize: scaleSzie(20), fontWeight: '500' }}
-                        />
-                        <View style={{ width: scaleSzie(100) }} /> */}
-                        <ButtonCustom
-                            width={scaleSzie(130)}
-                            height={50}
-                            backgroundColor="#0764B0"
-                            title="SAVE"
-                            textColor="#fff"
-                            onPress={this.setupTAX}
-                            style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}
-                            styleText={{ fontSize: scaleSzie(20), fontWeight: '500' }}
-                        />
+                        {
+                            isSubmitTax ? <ButtonCustom
+                                width={scaleSzie(130)}
+                                height={50}
+                                backgroundColor="#0764B0"
+                                title="SAVE"
+                                textColor="#fff"
+                                onPress={this.setupTAX}
+                                style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}
+                                styleText={{ fontSize: scaleSzie(20), fontWeight: '500' }}
+                            /> :
+                                <ButtonCustom
+                                    width={scaleSzie(130)}
+                                    height={50}
+                                    backgroundColor="#F1F1F1"
+                                    title="SAVE"
+                                    textColor="#6A6A6A"
+                                    onPress={()=>{}}
+                                    style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}
+                                    styleText={{ fontSize: scaleSzie(20), fontWeight: '500' }}
+                                    activeOpacity={1}
+                                />
+                        }
                     </View>
                 </View>
             </View>
@@ -110,12 +114,20 @@ const ItemSetup = ({ title, value, placeholder, onChangeText }) => {
                     borderWidth: scaleSzie(1), paddingHorizontal: scaleSzie(10)
                 }} >
                     <TextInputMask
+                        type={'money'}
+                        options={{
+                            precision: 2,
+                            separator: '.',
+                            delimiter: ',',
+                            unit: '',
+                            suffixUnit: ''
+                        }}
                         style={{ flex: 1, fontSize: scaleSzie(14) }}
                         placeholder={placeholder}
                         value={value}
                         onChangeText={(value) => onChangeText(value)}
                         keyboardType="numeric"
-                        type="only-numbers"
+                    // type="only-numbers"
                     />
                 </View>
             </View>
@@ -126,6 +138,7 @@ const ItemSetup = ({ title, value, placeholder, onChangeText }) => {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
+    profile: state.dataLocal.profile
 })
 
 export default connectRedux(mapStateToProps, SetupHardware);
