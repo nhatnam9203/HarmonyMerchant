@@ -97,7 +97,8 @@ class PopupDiscount extends React.Component {
         } else {
             // console.log('moneyDiscountCuston : ',discount);
             await this.setState({
-                moneyDiscountCustom: discount
+                moneyDiscountCustom: discount,
+                moneyDiscountFixedAmout: this.customFixedAmountRef.current.state.discount
             });
         }
     }
@@ -115,7 +116,8 @@ class PopupDiscount extends React.Component {
             }));
         } else {
             await this.setState({
-                moneyDiscountFixedAmout: discountFixed
+                moneyDiscountFixedAmout: discountFixed,
+                moneyDiscountCustom: (formatNumberFromCurrency(this.customDiscountRef.current.state.percent) * formatNumberFromCurrency(appointmentDetail.subTotal) / 100)
             })
         }
     }
@@ -127,7 +129,8 @@ class PopupDiscount extends React.Component {
             appointmentDetail
         } = this.props;
         const { customDiscountPercent, customDiscountFixed } = appointmentDetail;
-        const { moneyDiscountCustom, moneyDiscountFixedAmout, totalLocal, discountTotal,
+        const { 
+            moneyDiscountCustom, moneyDiscountFixedAmout, totalLocal, discountTotal,
             customDiscountPercentLocal, customDiscountFixedLocal
         } = this.state;
         let total = 0;
@@ -141,10 +144,11 @@ class PopupDiscount extends React.Component {
             total = formatNumberFromCurrency(total) + formatNumberFromCurrency(customDiscountFixed);
         }
         if (visibleModalDiscount && this.customDiscountRef.current) {
-            total = formatNumberFromCurrency(total) + (formatNumberFromCurrency(this.customDiscountRef.current.state.percent) * formatNumberFromCurrency(appointmentDetail.subTotal) / 100);
+            total = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountCustom);
         }
         if (visibleModalDiscount && this.customFixedAmountRef.current) {
-            total = formatNumberFromCurrency(total) + formatNumberFromCurrency(this.customFixedAmountRef.current.state.discount);
+            // console.log('---- : ',this.customFixedAmountRef.current.state.discount);
+            total = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountFixedAmout);
         }
 
         total = Number(total).toFixed(2);
