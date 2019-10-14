@@ -251,9 +251,15 @@ class InvoiceScreen extends Layout {
         }
     }
 
-    changeStatustransaction = () => {
+    changeStatustransaction = async () => {
         const { invoiceDetail } = this.state;
         this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId);
+        await this.setState({
+            invoiceDetail : {}
+        });
+        for (let i = 0; i < this.listInvoiceRef.length; i++) {
+            this.listInvoiceRef[i].setStateFromParent(false);
+        }
     }
 
     componentWillUnmount() {

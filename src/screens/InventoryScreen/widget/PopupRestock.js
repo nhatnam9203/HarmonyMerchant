@@ -32,8 +32,15 @@ class PopupRestock extends React.Component {
 
     onPressNumber = (number) => {
         this.setState(prevState => ({
-            quality: prevState.quality == 0 ? `${number}` : `${prevState.quality}${number}`
+            quality: prevState.quality == 10 ? `${number}` : `${prevState.quality}${number}`
         }))
+    }
+
+    onPressAddNumber = (number) => {
+        const temptData = parseInt(this.state.quality) + number;
+        this.setState({
+            quality: temptData,
+        })
     }
 
     convertNagativeNumber = () => {
@@ -147,7 +154,7 @@ class PopupRestock extends React.Component {
                                     [10, 20, 50, 100].map((number, index) => <Key
                                         key={number}
                                         number={number}
-                                        onPressNumber={this.onPressNumber}
+                                        onPressNumber={this.onPressAddNumber}
                                         style={{ marginTop: scaleSzie(9) }}
                                     />)
                                 }

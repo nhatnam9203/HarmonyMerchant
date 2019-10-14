@@ -6,7 +6,7 @@ import moment from 'moment';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateIsNumber, getIdStateByName, validYear } from '@utils';
+import { validateIsNumber, getIdStateByName, validYear ,validateEmail} from '@utils';
 
 class PrincipalScreen extends Layout {
 
@@ -108,6 +108,11 @@ class PrincipalScreen extends Layout {
             } else if (arrayKey[i] == 'yearAtThisAddress' && !validYear(principalInfo[arrayKey[i]])) {
                 keyError = 'yearInvalid';
                 break;
+            } else if (arrayKey[i] == 'email') {
+                if (!validateEmail(generalInfo[arrayKey[i]])) {
+                    keyError = 'emailInvalid';
+                    break;
+                }
             }
 
             else {

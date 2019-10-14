@@ -42,7 +42,7 @@ class Layout extends React.Component {
                     {/* ------- Item Auto lock screen after:  ------ */}
                     <ItemSetupGeneral
                         title={`${localize('Auto lock screen after', language)}:`}
-                        data={[{ value: '00:30 ss' },{ value: '05:00 min' }, { value: '10:00 min' }, { value: '15:00 min' }, { value: '30:00 min' }]}
+                        data={[{ value: '00:30 s' },{ value: '05:00 min' }, { value: '10:00 min' }, { value: '15:00 min' }, { value: '30:00 min' }]}
                         value={autoLockScreenAfter}
                         onChangeText={value => this.setState({ autoLockScreenAfter: value })}
                         placeHolder='15:00 min'

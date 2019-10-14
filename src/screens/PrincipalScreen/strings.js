@@ -24,7 +24,8 @@ const strings = {
     ssnInvalid: 'Social Security Number (SSN) Invalid',
     driverLicenseInvalid: 'Driver License Invalid',
     yearInvalid: 'Year Invalid',
-    missAvatar: 'Please Upload Driver License'
+    missAvatar: 'Please Upload Driver License',
+    emailInvalid : 'Email Invalid'
 }
 
 export default strings;

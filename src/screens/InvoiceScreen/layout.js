@@ -421,7 +421,7 @@ export default class Layout extends React.Component {
                     </View>
                     {/* -------- */}
                     {/* ----------- Button Reefund --------- */}
-                    <ButtonCustom
+                    {/* <ButtonCustom
                         width={'100%'}
                         height={55}
                         backgroundColor="#F1F1F1"
@@ -430,7 +430,7 @@ export default class Layout extends React.Component {
                         onPress={this.searchInvoice}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                         styleText={{ fontSize: scaleSzie(16), fontWeight: 'bold' }}
-                    />
+                    /> */}
                     <View style={{ height: scaleSzie(10) }} />
                 </View>
             </View>

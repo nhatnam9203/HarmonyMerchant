@@ -14,15 +14,6 @@ import { scaleSzie, localize, getArrayNameStateCity } from '@utils';
 import IMAGE from '@resources';
 import styles from './style';
 
-let data = [{
-    value: 'Banana',
-}, {
-    value: 'Mango',
-}, {
-    value: 'Pear',
-}
-];
-
 export default class Layout extends React.Component {
 
     render() {
@@ -198,10 +189,13 @@ export default class Layout extends React.Component {
                         {localize('Date of Birth (dd/mm/yy) *', language)}
                     </Text>
 
-                    <Button onPress={this.showCalendar} style={{ height: scaleSzie(30), flexDirection: 'row', marginTop: scaleSzie(8),marginBottom:scaleSzie(20) }} >
-                        <View style={{
+                    <View  style={{ height: scaleSzie(30), flexDirection: 'row', marginTop: scaleSzie(8),marginBottom:scaleSzie(20),
+                }} >
+                        <Button 
+                        onPress={this.showCalendar}
+                        style={{
                             width: scaleSzie(180), backgroundColor: '#F1F1F1', borderWidth: 1, borderColor: '#C5C5C5',
-                            flexDirection: 'row'
+                            flexDirection: 'row' 
                         }} >
                             <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(8) }} >
                                 <Text style={styles.textNormal} >
@@ -214,8 +208,8 @@ export default class Layout extends React.Component {
                             <View style={{ width: scaleSzie(40), justifyContent: 'center', alignItems: 'center' }} >
                                 <Image source={IMAGE.calendar} style={{ height: scaleSzie(20), width: scaleSzie(20) }} />
                             </View>
-                        </View>
-                    </Button>
+                        </Button>
+                    </View>
 
                     {/* ------------- */}
                     <InputForm
