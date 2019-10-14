@@ -46,6 +46,8 @@ class TabGaneral extends Layout {
             webLink: webLink,
             latitude: latitude,
             longitude: longitude,
+            taxService: profile.taxService,
+            taxProduct: profile.taxProduct,
         });
     }
 

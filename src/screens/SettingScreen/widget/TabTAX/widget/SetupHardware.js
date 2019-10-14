@@ -22,23 +22,42 @@ class SetupHardware extends React.Component {
         this.state = {
             serviceTAX: profile.taxService ? profile.taxService : '',
             productTAX: profile.taxProduct ? profile.taxProduct : '',
-            isSubmitTax: false
         }
     }
 
     setupTAX = () => {
+        const {profile} = this.props;
         const { serviceTAX, productTAX } = this.state;
         this.props.actions.app.setupMerchantTAX({
-            TaxService: formatNumberFromCurrency(serviceTAX),
-            TaxProduct: formatNumberFromCurrency(productTAX)
+            taxService: formatNumberFromCurrency(serviceTAX),
+            taxProduct: formatNumberFromCurrency(productTAX),
+            businessHourStart: profile.businessHourStart,
+            businessHourEnd: profile.businessHourEnd,
+            webLink: profile.webLink,
+            latitude: profile.latitude,
+            longitude: profile.longitude,
         });
     }
 
+    onChangeServiceTax = serviceTAX => {
+        this.setState({
+            serviceTAX
+        });
+        this.props.actions.app.changeFlagSubmitTAX();
+    }
+
+    onChangeProductTax = productTAX => {
+        this.setState({
+            productTAX
+        });
+        this.props.actions.app.changeFlagSubmitTAX();
+    }
 
     // -------- Render ------
 
     render() {
-        const { serviceTAX, productTAX, isSubmitTax } = this.state;
+        const { isSubmitTax } = this.props;
+        const { serviceTAX, productTAX } = this.state;
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(14), paddingTop: scaleSzie(20) }} >
                 <Text style={{
@@ -53,14 +72,14 @@ class SetupHardware extends React.Component {
                         title={"Service Tax (%) :"}
                         placeholder={"10"}
                         value={serviceTAX}
-                        onChangeText={serviceTAX => this.setState({ serviceTAX, isSubmitTax: true })}
+                        onChangeText={this.onChangeServiceTax}
                     />
 
                     <ItemSetup
                         title={"Product Tax (%) :"}
                         placeholder={"10"}
                         value={productTAX}
-                        onChangeText={productTAX => this.setState({ productTAX, isSubmitTax: true })}
+                        onChangeText={this.onChangeProductTax}
                     />
                     <View style={{ height: scaleSzie(300) }} />
                 </ScrollView>
@@ -84,7 +103,7 @@ class SetupHardware extends React.Component {
                                     backgroundColor="#F1F1F1"
                                     title="SAVE"
                                     textColor="#6A6A6A"
-                                    onPress={()=>{}}
+                                    onPress={() => { }}
                                     style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}
                                     styleText={{ fontSize: scaleSzie(20), fontWeight: '500' }}
                                     activeOpacity={1}
@@ -138,7 +157,8 @@ const ItemSetup = ({ title, value, placeholder, onChangeText }) => {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    profile: state.dataLocal.profile
+    profile: state.dataLocal.profile,
+    isSubmitTax: state.app.isSubmitTax
 })
 
 export default connectRedux(mapStateToProps, SetupHardware);

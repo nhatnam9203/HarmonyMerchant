@@ -38,6 +38,7 @@ const initState = {
     subTotalLocal: 0,
     tipLocal: 0,
     discountTotalLocal: 0,
+    taxLocal: 0,
     totalLocal: 0,
     total: 0,
     isInitBasket: false,
@@ -131,8 +132,8 @@ class TabCheckout extends Layout {
                 });
                 await this.setState({
                     basket: temptBasket,
-                    // total: this.getPriceOfline(temptBasket),
                     subTotalLocal: this.getPriceOfline(temptBasket),
+                    taxLocal : this.calculateTotalTaxLocal(temptBasket)
                 })
             }
 
@@ -203,8 +204,8 @@ class TabCheckout extends Layout {
 
                 this.setState({
                     basket: temptBasketExtra,
-                    // total: this.getPriceOfline(temptBasket),
                     subTotalLocal: this.getPriceOfline(temptBasketExtra),
+                    taxLocal : this.calculateTotalTaxLocal(temptBasketExtra)
                 });
             }
             // ---------------- Handle -----------------
@@ -229,6 +230,7 @@ class TabCheckout extends Layout {
     }
 
     getPriceOfline(basket) {
+        // console.log('basket : ' + JSON.stringify(basket));
         let total = 0;
         for (let i = 0; i < basket.length; i++) {
             if (basket[i].type === "Product") {
@@ -239,6 +241,23 @@ class TabCheckout extends Layout {
             }
         }
         return total;
+    }
+
+    calculateTotalTaxLocal(basket) {
+        const { profile } = this.props;
+        const taxService = profile.taxService ? formatNumberFromCurrency(profile.taxService) : 0;
+        const taxProduct = profile.taxProduct ? formatNumberFromCurrency(profile.taxProduct) : 0;
+        let taxTotal = 0;
+        for (let i = 0; i < basket.length; i++) {
+            if (basket[i].type === "Product") {
+                taxTotal = taxTotal + (parseFloat(basket[i].data.price) * basket[i].quanlitySet * taxProduct) / 100;
+
+            } else if (basket[i].type === "Service") {
+                taxTotal = taxTotal + (formatNumberFromCurrency(basket[i].data.price) * taxService) / 100;
+            }
+        }
+        return Number(taxTotal).toFixed(2);
+
     }
 
     removeItemBasket = (item) => {
@@ -275,8 +294,8 @@ class TabCheckout extends Layout {
             const temptBasket = basket.filter((itemBasket) => itemBasket.id !== item.id);
             this.setState({
                 basket: temptBasket,
-                // total: this.getPriceOfline(temptBasket),
                 subTotalLocal: this.getPriceOfline(temptBasket),
+                taxLocal : this.calculateTotalTaxLocal(temptBasket)
             })
         }
 
@@ -1051,11 +1070,11 @@ class TabCheckout extends Layout {
     }
 
     onRequestCloseBillModal = async () => {
-        await this.setState({ 
+        await this.setState({
             changeButtonDone: false,
             paymentSelected: '',
-        visibleBillOfPayment: false
-           
+            visibleBillOfPayment: false
+
         });
         this.props.actions.appointment.resetPayment();
     }

@@ -255,7 +255,7 @@ class Layout extends React.Component {
 
     renderBasket() {
         const { language, appointmentDetail, flagSignInAppointment } = this.props;
-        const { basket, subTotalLocal, tipLocal, discountTotalLocal } = this.state;
+        const { basket, subTotalLocal, tipLocal, discountTotalLocal,taxLocal } = this.state;
 
         const tipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
         const subTotal = appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
@@ -264,9 +264,10 @@ class Layout extends React.Component {
         const total = appointmentDetail.total ? appointmentDetail.total : 0;
 
         const temptSubTotal = _.isEmpty(appointmentDetail) ? subTotalLocal : subTotal;
-        const temptTotal = _.isEmpty(appointmentDetail) ? Number(subTotalLocal + tipLocal - discountTotalLocal).toFixed(2) : total;
+        const temptTotal = _.isEmpty(appointmentDetail) ? Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2) : total;
         const temptDiscount = _.isEmpty(appointmentDetail) ? discountTotalLocal : discount;
         const temptTip = _.isEmpty(appointmentDetail) ? tipLocal : tipAmount;
+        const temptTax =  _.isEmpty(appointmentDetail) ? taxLocal : tax;
 
         return (
             <View style={{ flex: 1 }} >
@@ -320,7 +321,7 @@ class Layout extends React.Component {
                                     {`${localize('Tax', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$ ${formatMoney(tax)}`}
+                                    {`$ ${formatMoney(temptTax)}`}
                                 </Text>
                             </View>
                             {/* ---------- Discount ------ */}

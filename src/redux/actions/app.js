@@ -125,3 +125,10 @@ export function setupMerchantTAX(body) {
         api: `${apiConfigs.BASE_API}merchant/setting`
     }
 }
+
+export function changeFlagSubmitTAX(visible = true){
+    return {
+        type:'CHANGE_FLAG_SUBMIT_TAX',
+        payload:visible
+    }
+}

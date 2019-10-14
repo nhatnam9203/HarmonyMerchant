@@ -74,7 +74,7 @@ function* merchantSetting(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('--- responses 2222 : ', responses);
+        console.log('--- merchantSetting : ', responses);
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
@@ -140,6 +140,10 @@ function* setupMerchantTAX(action) {
             yield put({
                 type: 'SAVE_PROFILE_LOCAL',
                 payload:{profile: responses.data}
+            });
+            yield put({
+                type: 'CHANGE_FLAG_SUBMIT_TAX',
+                payload:false
             });
 
         } else if (parseInt(codeNumber) === 401) {

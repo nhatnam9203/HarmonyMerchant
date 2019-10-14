@@ -60,6 +60,8 @@ class HomeScreen extends Layout {
                 webLink: profile.webLink,
                 latitude: latitude,
                 longitude: longitude,
+                taxService: profile.taxService,
+                taxProduct: profile.taxProduct,
             });
         }
     }

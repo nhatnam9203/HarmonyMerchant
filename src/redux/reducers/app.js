@@ -9,7 +9,8 @@ const initialState = {
     question: [],
     isFlashScreen: true,
 
-    visibleEnterPin: true
+    visibleEnterPin: true,
+    isSubmitTax: false
 }
 
 function appReducer(state = initialState, action) {
@@ -76,8 +77,11 @@ function appReducer(state = initialState, action) {
                 ...state,
                 visibleEnterPin: action.payload
             }
-
-
+        case 'CHANGE_FLAG_SUBMIT_TAX':
+            return {
+                ...state,
+                isSubmitTax: action.payload
+            }
         default:
             return state
     }
