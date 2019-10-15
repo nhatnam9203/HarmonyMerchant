@@ -49,7 +49,7 @@ class ItemInvoice extends React.Component {
         const temptLastName = user ? user.lastName : '';
         const colorStaus = this.getColorStatus(invoice.status);
 
-        const temptBackground = this.state.isSelected ? { backgroundColor: '#fff' } : {}
+        const temptBackground = this.state.isSelected ? { backgroundColor: 'rgb(225,246,254)' } : {}
         return (
             <Button onPress={() => onPress()} style={[{
                 height: scaleSzie(62), paddingHorizontal: scaleSzie(10),
@@ -76,7 +76,7 @@ class ItemInvoice extends React.Component {
                 <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }} >
                         <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A', marginRight: scaleSzie(20) }} >
-                            {`# ${invoice.appointmentId}`}
+                            {`# ${invoice.code}`}
                         </Text>
                         <View style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: colorStaus }} />
                         <Text style={{ fontSize: scaleSzie(14), color: colorStaus, marginLeft: scaleSzie(5) }} >

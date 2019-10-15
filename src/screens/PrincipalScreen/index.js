@@ -109,7 +109,7 @@ class PrincipalScreen extends Layout {
                 keyError = 'yearInvalid';
                 break;
             } else if (arrayKey[i] == 'email') {
-                if (!validateEmail(generalInfo[arrayKey[i]])) {
+                if (!validateEmail(principalInfo[arrayKey[i]])) {
                     keyError = 'emailInvalid';
                     break;
                 }

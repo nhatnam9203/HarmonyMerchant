@@ -74,7 +74,7 @@ function* merchantSetting(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('--- merchantSetting : ', responses);
+        // console.log('--- merchantSetting : ', responses);
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
@@ -133,7 +133,7 @@ function* setupMerchantTAX(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('--- setupMerchantTAX : ', responses);
+        // console.log('--- setupMerchantTAX : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {

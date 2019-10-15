@@ -11,14 +11,14 @@ import {
     SlideDrawer,
 } from '../screens';
 
-const SigninStack = createDrawerNavigator({
+const SigninStack = createStackNavigator({
     SignIn: SignInScreen,
     ForgotPassword: ForgotPasswordScreen,
 }, {
-        initialRouteName: "SignIn",
-        contentComponent: SlideDrawer,
-        drawerWidth: scaleSzie(220)
+    initialRouteName: 'SignIn',
+    headerMode: 'none',
+    transitionConfig: getSlideFromRightTransition
 
-    });
+});
 
 export default SigninStack;

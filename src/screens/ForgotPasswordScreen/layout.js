@@ -20,7 +20,7 @@ export default class Layout extends React.Component {
                 source={IMAGE.backgroundLogin}
             >
                 <Image source={IMAGE.logo} style={styles.logo} />
-                <View style={{ height: scaleSzie(40) }} />
+                <View style={{ height: scaleSzie(30) }} />
                 <Text style={{
                     color: '#fff', fontSize: scaleSzie(30), fontWeight: 'bold',
                     marginBottom: scaleSzie(10)
@@ -48,7 +48,22 @@ export default class Layout extends React.Component {
                     textColor="#fff"
                     onPress={this.forgotPass}
                 />
-                {
+
+                <Button onPress={() => this.props.navigation.goBack()} style={{
+                    width: scaleSzie(50), height: scaleSzie(50),
+                    justifyContent: 'center', alignItems: 'center',
+                    position: 'absolute', top: scaleSzie(30),
+                    left: scaleSzie(20)
+
+                }} >
+                    <Text style={{
+                        color: 'rgb(128,150,180)', fontSize: scaleSzie(18), fontWeight: 'bold',
+                        textDecorationLine: 'underline'
+                    }} >
+                        Back
+                        </Text>
+                </Button>
+                {/* {
                     isForgotPin ? <Button onPress={() => this.props.actions.staff.setVisibleForgotPin(false)} style={{
                         width: scaleSzie(50), height: scaleSzie(50),
                         justifyContent: 'center', alignItems: 'center',
@@ -63,7 +78,7 @@ export default class Layout extends React.Component {
                             Back
                         </Text>
                     </Button> : <View />
-                }
+                } */}
             </ImageBackground>
 
         );
