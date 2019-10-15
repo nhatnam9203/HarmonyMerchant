@@ -14,7 +14,9 @@ class InvoiceScreen extends Layout {
         this.state = {
             isFocus: true,
             visibleCalendar: false,
-            invoiceDetail: {},
+            invoiceDetail: {
+                history: []
+            },
             searchFilter: {
                 keySearch: '',
                 paymentMethod: '',

@@ -14,7 +14,7 @@ import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import {
-    ItemInvoice, ItemInfo, ItemButton, ItemBasket
+    ItemInvoice, ItemInfo, ItemButton, ItemBasket, ItemHistory
 } from './widget';
 
 export default class Layout extends React.Component {
@@ -439,6 +439,7 @@ export default class Layout extends React.Component {
 
     renderHistoryInvoice() {
         const { language } = this.props;
+        const { invoiceDetail } = this.state;
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(8) }} >
                 {/* ---------------- Header ---------------- */}
@@ -467,8 +468,12 @@ export default class Layout extends React.Component {
                 {/* ----------- Body --------- */}
                 <View style={{ flex: 1 }} >
                     <View style={{ height: scaleSzie(16) }} />
-                    {/* <ItemHistory />
-                    <ItemHistory /> */}
+                    {
+                        invoiceDetail.history.map((item, index) => <ItemHistory
+                            key={index}
+                            data={item}
+                        />)
+                    }
                 </View>
             </View>
         );
