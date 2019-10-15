@@ -105,10 +105,12 @@ class PrincipalScreen extends Layout {
                     break;
                 }
 
-            } else if (arrayKey[i] == 'yearAtThisAddress' && !validYear(principalInfo[arrayKey[i]])) {
-                keyError = 'yearInvalid';
-                break;
-            } else if (arrayKey[i] == 'email') {
+            } 
+            // else if (arrayKey[i] == 'yearAtThisAddress' && !validYear(principalInfo[arrayKey[i]])) {
+            //     keyError = 'yearInvalid';
+            //     break;
+            // } 
+            else if (arrayKey[i] == 'email') {
                 if (!validateEmail(principalInfo[arrayKey[i]])) {
                     keyError = 'emailInvalid';
                     break;
@@ -131,7 +133,7 @@ class PrincipalScreen extends Layout {
                             break;
                         }
                     } else if (arrayKey[i] === 'yearAtThisAddress') {
-                        if (!validateIsNumber(principalInfo[arrayKey[i]]) || (principalInfo[arrayKey[i]]).length !== 4) {
+                        if (!validateIsNumber(principalInfo[arrayKey[i]])) {
                             keyError = 'yearAtThisAddressInvalid';
                             break;
                         }

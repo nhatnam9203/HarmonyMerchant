@@ -186,7 +186,7 @@ export default class Layout extends React.Component {
                     />
                     {/* ------ Date of Birth ----- */}
                     <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(6) }} >
-                        {localize('Date of Birth (dd/mm/yy) *', language)}
+                        {localize('Date of Birth (dd/mm/yyyy) *', language)}
                     </Text>
 
                     <View  style={{ height: scaleSzie(30), flexDirection: 'row', marginTop: scaleSzie(8),marginBottom:scaleSzie(20),

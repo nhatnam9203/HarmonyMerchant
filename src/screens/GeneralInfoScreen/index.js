@@ -53,11 +53,11 @@ class GeneralInfoScreen extends Layout {
         }
     }
 
-    nextTab1 = () => {
-        this.props.navigation.navigate('BusinessInfo');
+    nextTab = () => {
+        this.props.actions.app.checkEmailSignup('abc@gmail.com');
     }
 
-    nextTab = () => {
+    nextTab1 = () => {
         const { generalInfo } = this.state;
         const arrayKey = Object.keys(generalInfo);
         let keyError = '';

@@ -126,9 +126,18 @@ export function setupMerchantTAX(body) {
     }
 }
 
-export function changeFlagSubmitTAX(visible = true){
+export function changeFlagSubmitTAX(visible = true) {
     return {
-        type:'CHANGE_FLAG_SUBMIT_TAX',
-        payload:visible
+        type: 'CHANGE_FLAG_SUBMIT_TAX',
+        payload: visible
+    }
+}
+
+export function checkEmailSignup(email) {
+    return {
+        type: 'CHECK_EMAIL_SIGN_UP',
+        method: 'GET',
+        // token: true,
+        api: `${apiConfigs.BASE_API}merchant/checkEmail?email=${email}`
     }
 }
