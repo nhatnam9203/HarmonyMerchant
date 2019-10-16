@@ -9,7 +9,7 @@ import {
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import moment from 'moment';
 
-import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupCalendar } from '@components';
+import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupCalendar,PopupEnterPinInvoice } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
@@ -141,7 +141,8 @@ export default class Layout extends React.Component {
                         <Dropdown
                             label={localize('Statuses', language)}
                             data={[{ value: '' }, { value: 'Pending' }, { value: 'Paid' }, { value: 'Voided' },
-                            { value: 'Refunded' }, { value: 'Fail' }, { value: 'Cancel' }
+                            { value: 'Refunded' }
+                            // , { value: 'Fail' }, { value: 'Cancel' }
                             ]}
                             value={status}
                             onChangeText={(value) => this.updateSearchFilterInfo('status', value)}
@@ -586,6 +587,13 @@ export default class Layout extends React.Component {
                     visible={visibleCalendar}
                     onRequestClose={() => this.setState({ visibleCalendar: false })}
                     changeTitleTimeRange={this.changeTitleTimeRange}
+                />
+                <PopupEnterPinInvoice 
+                //   ref={this.popupSendLinkInstallRef}
+                  visible={this.state.visibleEnterPin}
+                  title="Input PIN Number"
+                  onRequestClose={() => this.setState({ visibleEnterPin: false })}
+                //   confimYes={this.sendLinkInstallApp}
                 />
             </ParentContainer>
         );

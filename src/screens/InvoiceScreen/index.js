@@ -22,7 +22,8 @@ class InvoiceScreen extends Layout {
                 paymentMethod: '',
                 status: '',
             },
-            titleRangeTime: 'Time Range'
+            titleRangeTime: 'Time Range',
+            visibleEnterPin: false
         }
         this.scrollTabInvoiceRef = React.createRef();
         this.modalCalendarRef = React.createRef();
@@ -178,6 +179,12 @@ class InvoiceScreen extends Layout {
     }
 
     searchInvoice = () => {
+       this.setState({
+           visibleEnterPin: true
+       })
+    }
+
+    searchInvoice1 = () => {
         const { searchFilter } = this.state;
         const { keySearch, paymentMethod, status } = searchFilter;
         const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
