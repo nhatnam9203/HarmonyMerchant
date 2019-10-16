@@ -23,13 +23,15 @@ class InvoiceScreen extends Layout {
                 status: '',
             },
             titleRangeTime: 'Time Range',
-            visibleEnterPin: true
+            visibleEnterPin: true,
+            visibleConfirmInvoiceStatus: false
         }
         this.scrollTabInvoiceRef = React.createRef();
         this.modalCalendarRef = React.createRef();
         this.listInvoiceRef = [];
         this.onEndReachedCalledDuringMomentum = true;
         this.visibleEnterPinRef = React.createRef();
+        this.confirmInvoiceStatusRef = React.createRef();
     }
 
     componentDidMount() {
@@ -181,8 +183,11 @@ class InvoiceScreen extends Layout {
         return quickFilter
     }
 
+    searchInvoice =() =>{
+        alert('ff')
+    }
 
-    searchInvoice = () => {
+    searchInvoice1 = () => {
         const { searchFilter } = this.state;
         const { keySearch, paymentMethod, status } = searchFilter;
         const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
@@ -260,6 +265,19 @@ class InvoiceScreen extends Layout {
 
     changeStatustransaction = async () => {
         const { invoiceDetail } = this.state;
+        this.confirmInvoiceStatusRef.current.setStateFromParent(invoiceDetail)
+        await this.setState({
+            visibleConfirmInvoiceStatus: true
+        })
+        
+
+    }
+
+    confirmChangeInvoiceStatus =async () =>{
+        const { invoiceDetail } = this.state;
+        await this.setState({
+            visibleConfirmInvoiceStatus: false
+        })
         this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId);
         await this.setState({
             invoiceDetail: {

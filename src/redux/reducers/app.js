@@ -11,7 +11,7 @@ const initialState = {
 
     visibleEnterPin: true,
     isSubmitTax: false,
-    visibleEnterPinInvoice: true
+    visibleEnterPinInvoice: false
 }
 
 function appReducer(state = initialState, action) {
