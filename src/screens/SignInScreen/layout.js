@@ -14,6 +14,8 @@ export default class Layout extends React.Component {
 
     render() {
         const { errorLogin ,language} = this.props;
+        const {isSecureTextEntry} = this.state;
+        const iconShowPass = isSecureTextEntry ?  IMAGE.notShowPass :  IMAGE.showPass;
         return (
             <ImageBackground
                 style={styles.container}
@@ -34,9 +36,11 @@ export default class Layout extends React.Component {
                 <InputAuth
                     ref={this.passwordInputRef}
                     placeholder={localize('password',language)}
-                    secureTextEntry={true}
+                    secureTextEntry={isSecureTextEntry}
                     onSubmitEditing={this.signIn}
-
+                    isShowPass={true}
+                    changeShowPass={this.changeShowPass}
+                    iconShowPass={iconShowPass}
                 />
                 <View style={{
                     width: scaleSzie(400), height: scaleSzie(60),

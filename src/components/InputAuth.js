@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, TextInput } from 'react-native';
+import { View, TextInput, Image } from 'react-native';
 
 import { scaleSzie } from '../utils';
+import IMAGE from '@resources';
+import Button from './Button';
 
 export default class InputAuth extends React.PureComponent {
 
@@ -18,7 +20,9 @@ export default class InputAuth extends React.PureComponent {
     }
 
     render() {
-        const { placeholder, secureTextEntry, onSubmitEditing, style, keyboardType, maxLength } = this.props;
+        const { placeholder, secureTextEntry, onSubmitEditing, style, keyboardType, maxLength,
+            isShowPass,changeShowPass,iconShowPass
+        } = this.props;
         return (
             <View style={{
                 width: scaleSzie(400), height: scaleSzie(45),
@@ -38,6 +42,20 @@ export default class InputAuth extends React.PureComponent {
                     keyboardType={keyboardType ? keyboardType : "default"}
                     maxLength={maxLength ? maxLength : null}
                 />
+                {
+                    isShowPass ? <Button 
+                    onPress={() =>changeShowPass()}
+                    style={{
+                        position: 'absolute', right: 0, width: scaleSzie(30), height: scaleSzie(45),
+                     justifyContent: 'center'
+                    }} >
+                        <Image
+                            source={iconShowPass}
+                            style={{ width: scaleSzie(25), height: scaleSzie(15) }}
+                        />
+                    </Button> : <View />
+                }
+
             </View>
         );
     }

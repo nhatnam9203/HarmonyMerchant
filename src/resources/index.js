@@ -53,6 +53,8 @@ export default {
     merchantLogo: require('./img/merchantLogo.png'),
     arrowDownAmount: require('./img/arrowDownAmount.png'),
     sale: require('./img/sale.png'),
+    showPass: require('./img/showPass.png'),
+    notShowPass: require('./img/notShowPass.png'),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),

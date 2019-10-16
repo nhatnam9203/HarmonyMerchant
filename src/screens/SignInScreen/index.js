@@ -8,6 +8,7 @@ class SignInScreen extends Layout {
     constructor(props) {
         super(props);
         this.state = {
+            isSecureTextEntry: true
         }
         this.idInputRef = React.createRef();
         this.passwordInputRef = React.createRef();
@@ -25,15 +26,17 @@ class SignInScreen extends Layout {
 
     }
 
-    signUp =() =>{
-       this.props.navigation.navigate('Terms');
+    signUp = () => {
+        this.props.navigation.navigate('Terms');
     }
 
     forgotPassword = () => {
         this.props.navigation.navigate('ForgotPassword');
     }
 
-
+    changeShowPass = () => {
+        this.setState(prevState => ({ isSecureTextEntry: !prevState.isSecureTextEntry }))
+    }
 
 }
 

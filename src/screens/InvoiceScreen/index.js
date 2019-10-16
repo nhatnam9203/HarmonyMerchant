@@ -269,8 +269,6 @@ class InvoiceScreen extends Layout {
         await this.setState({
             visibleConfirmInvoiceStatus: true
         })
-        
-
     }
 
     confirmChangeInvoiceStatus =async () =>{
