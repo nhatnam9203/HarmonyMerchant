@@ -209,7 +209,7 @@ function* editStaff(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        
+
         // console.log('editStaff : ' + JSON.stringify(responses));
         // console.log('--- editStaff : ' + JSON.stringify(action.body));
         const { codeNumber } = responses;
@@ -246,11 +246,19 @@ function* loginStaff(action) {
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
-            yield put({ type: 'LOGIN_STAFF_SUCCESS' });
-            yield put({
+            yield put({ ...action, type: 'LOGIN_STAFF_SUCCESS' });
+            action.isPincodeInvoice ? yield put({
+                type: 'GET_LIST_INVOICE_BY_MERCHANT',
+                method: 'GET',
+                api: `${apiConfigs.BASE_API}checkout?page=1`,
+                token: true,
+                isShowLoading: true,
+                currentPage: 1
+            }) : yield put({
                 type: 'UPDATE_PROFILE_STAFF_SUCCESS',
                 payload: responses.data
-            });
+            });;
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({ type: 'LOGIN_STAFF_FAIL' });
             yield put({

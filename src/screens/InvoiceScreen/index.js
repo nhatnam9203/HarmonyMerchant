@@ -23,22 +23,23 @@ class InvoiceScreen extends Layout {
                 status: '',
             },
             titleRangeTime: 'Time Range',
-            visibleEnterPin: false
+            visibleEnterPin: true
         }
         this.scrollTabInvoiceRef = React.createRef();
         this.modalCalendarRef = React.createRef();
         this.listInvoiceRef = [];
         this.onEndReachedCalledDuringMomentum = true;
+        this.visibleEnterPinRef = React.createRef();
     }
 
     componentDidMount() {
-        this.props.actions.invoice.getListInvoicesByMerchant(true, 1);
+        // this.props.actions.invoice.getListInvoicesByMerchant(true, 1);
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {
                 this.setState({
                     isFocus: false
-                })
+                });
             }
         );
         this.didFocusSubscription = this.props.navigation.addListener(
@@ -46,7 +47,9 @@ class InvoiceScreen extends Layout {
             payload => {
                 this.setState({
                     isFocus: true
-                })
+                });
+                this.props.actions.app.setVisibleEnterPincodeInvoice();
+                this.visibleEnterPinRef.current.setStateFromParent('');
             }
         );
     }
@@ -178,13 +181,8 @@ class InvoiceScreen extends Layout {
         return quickFilter
     }
 
-    searchInvoice = () => {
-       this.setState({
-           visibleEnterPin: true
-       })
-    }
 
-    searchInvoice1 = () => {
+    searchInvoice = () => {
         const { searchFilter } = this.state;
         const { keySearch, paymentMethod, status } = searchFilter;
         const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;

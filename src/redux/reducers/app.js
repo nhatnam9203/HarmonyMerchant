@@ -10,7 +10,8 @@ const initialState = {
     isFlashScreen: true,
 
     visibleEnterPin: true,
-    isSubmitTax: false
+    isSubmitTax: false,
+    visibleEnterPinInvoice: true
 }
 
 function appReducer(state = initialState, action) {
@@ -82,6 +83,18 @@ function appReducer(state = initialState, action) {
                 ...state,
                 isSubmitTax: action.payload
             }
+        case 'LOGIN_STAFF_SUCCESS':
+            return {
+                ...state,
+                visibleEnterPinInvoice: action.isPincodeInvoice ? false : state.visibleEnterPinInvoice
+            }
+        case 'SET_VISIBLE_ENTER_CODE_INVOICE':
+            return {
+                ...state,
+                visibleEnterPinInvoice: true
+            }
+
+
         default:
             return state
     }

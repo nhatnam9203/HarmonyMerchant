@@ -23,6 +23,7 @@ function appReducer(state = initialState, action) {
         case 'LOGIN_STAFF_SUCCESS':
             return {
                 ...state,
+                isShowButtonEnterPinCode: false
             }
         case 'LOGIN_STAFF_FAIL':
             return {

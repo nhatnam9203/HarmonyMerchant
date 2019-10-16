@@ -154,3 +154,10 @@ export function catchError(type) {
         type: type,
     }
 }
+
+export function setVisibleEnterPincodeInvoice(visible = true) {
+    return {
+        type: 'SET_VISIBLE_ENTER_CODE_INVOICE',
+        payload: visible
+    }
+}

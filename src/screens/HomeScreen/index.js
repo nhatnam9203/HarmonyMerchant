@@ -176,6 +176,7 @@ class HomeScreen extends Layout {
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { isLoginStaff } = this.props;
         if (isLoginStaff) {
+            console.log('--------------------');
             this.props.actions.dataLocal.resetStateLoginStaff();
             this.loginStaffSuccess();
         }

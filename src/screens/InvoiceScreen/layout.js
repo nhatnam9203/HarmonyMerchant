@@ -589,10 +589,10 @@ export default class Layout extends React.Component {
                     changeTitleTimeRange={this.changeTitleTimeRange}
                 />
                 <PopupEnterPinInvoice 
-                //   ref={this.popupSendLinkInstallRef}
-                  visible={this.state.visibleEnterPin}
+                  ref={this.visibleEnterPinRef}
+                //   visible={this.state.visibleEnterPin}
                   title="Input PIN Number"
-                  onRequestClose={() => this.setState({ visibleEnterPin: false })}
+                  onRequestClose={() =>{}}
                 //   confimYes={this.sendLinkInstallApp}
                 />
             </ParentContainer>

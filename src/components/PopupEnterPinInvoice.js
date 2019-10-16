@@ -6,7 +6,8 @@ import {
     StyleSheet,
     TextInput,
     Keyboard,
-    ActivityIndicator
+    ActivityIndicator,
+    Alert
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
@@ -53,13 +54,25 @@ class PopupEnterPinInvoice extends React.Component {
 
     }
 
+    submitPin = () => {
+        const { value } = this.state;
+        const { profile } = this.props;
+        if (value.length === 4) {
+            this.props.actions.staff.loginStaff(profile.merchantCode, value,true);
+        } else {
+            Alert.alert(`Pin must 4 numeric`);
+        }
+    }
+
     render() {
-        const { title, visible, isShowButtonEnterPinCode, onRequestClose, confimYes, hideCloseButton } = this.props;
+        const { title, isShowButtonEnterPinCode, onRequestClose, hideCloseButton,
+            visibleEnterPinInvoice
+        } = this.props;
         const { value, customStyle } = this.state;
         return (
             <PopupParent
                 title={title}
-                visible={visible}
+                visible={visibleEnterPinInvoice}
                 onRequestClose={() => onRequestClose()}
                 hideCloseButton={hideCloseButton}
                 style={customStyle}
@@ -87,13 +100,11 @@ class PopupEnterPinInvoice extends React.Component {
                                 }}
                                 placeholder="Your PIN"
                                 keyboardType="numeric"
-                                // maxLength={4}
+                                maxLength={4}
                                 value={value}
                                 onChangeText={(value) => this.setState({ value })}
-                                onSubmitEditing={() => {
-                                    confimYes();
-                                }}
-                                // secureTextEntry={true}
+                                onSubmitEditing={this.submitPin}
+                                secureTextEntry={true}
                             />
                         </View>
                     </View>
@@ -115,7 +126,7 @@ class PopupEnterPinInvoice extends React.Component {
                                     backgroundColor="#0764B0"
                                     title="NEXT"
                                     textColor="#fff"
-                                    onPress={() => confimYes()}
+                                    onPress={this.submitPin}
                                     styleText={{
                                         fontSize: scaleSzie(14)
                                     }}
@@ -144,6 +155,8 @@ class PopupEnterPinInvoice extends React.Component {
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     isShowButtonEnterPinCode: state.staff.isShowButtonEnterPinCode,
+    visibleEnterPinInvoice: state.app.visibleEnterPinInvoice,
+    profile: state.dataLocal.profile
 });
 
 export default connectRedux(mapStateToProps, PopupEnterPinInvoice);
