@@ -257,7 +257,9 @@ class InvoiceScreen extends Layout {
         const { invoiceDetail } = this.state;
         this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId);
         await this.setState({
-            invoiceDetail : {}
+            invoiceDetail: {
+                history: []
+            },
         });
         for (let i = 0; i < this.listInvoiceRef.length; i++) {
             this.listInvoiceRef[i].setStateFromParent(false);

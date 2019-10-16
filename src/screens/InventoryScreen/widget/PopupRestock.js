@@ -32,7 +32,7 @@ class PopupRestock extends React.Component {
 
     onPressNumber = (number) => {
         this.setState(prevState => ({
-            quality: prevState.quality == 10 ? `${number}` : `${prevState.quality}${number}`
+            quality: prevState.quality == 0 ? `${number}` : `${prevState.quality}${number}`
         }))
     }
 
@@ -49,10 +49,21 @@ class PopupRestock extends React.Component {
         })
     }
 
-    clearNumber = () => {
-        this.setState(prevState => ({
-            quality: `${prevState.quality}`.slice(0, (`${prevState.quality}`.length) - 1)
-        }))
+    clearNumber = async () => {
+        // this.setState(prevState => ({
+        //     quality: `${prevState.quality}`.slice(0, (`${prevState.quality}`.length) - 1)
+        // }))
+        if (this.state.quality !== 0) {
+            if (this.state.quality.length == 1) {
+                await this.setState({
+                    quality: 0
+                })
+            } else {
+                await this.setState(prevState => ({
+                    quality: `${prevState.quality}`.slice(0, (`${prevState.quality}`.length) - 1)
+                }))
+            }
+        }
     }
 
     submitStock = () => {

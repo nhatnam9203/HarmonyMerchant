@@ -866,8 +866,8 @@
 						ProvisioningStyle = Manual;
 					};
 					238D857A2343680200DE8C0A = {
-						DevelopmentTeam = 69WQLJ9K8N;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = AP95TBLGP3;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -1493,11 +1493,11 @@
 			baseConfigurationReference = 8F1E89C9800F3504FDCA9436 /* Pods-Hpmerchant.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 10;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 69WQLJ9K8N;
+				DEVELOPMENT_TEAM = AP95TBLGP3;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1519,9 +1519,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.hpmerchant.dev.9;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.hpmerchant.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = HpmerchantDev;
 				TARGETED_DEVICE_FAMILY = 2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1532,10 +1532,10 @@
 			baseConfigurationReference = B2D4BE336D714055C389D237 /* Pods-Hpmerchant.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 10;
-				DEVELOPMENT_TEAM = 69WQLJ9K8N;
+				DEVELOPMENT_TEAM = AP95TBLGP3;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1557,9 +1557,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.hpmerchant.dev.9;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.hpmerchant.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = HpmerchantDev;
 				TARGETED_DEVICE_FAMILY = 2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

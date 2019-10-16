@@ -141,3 +141,16 @@ export function checkEmailSignup(email) {
         api: `${apiConfigs.BASE_API}merchant/checkEmail?email=${email}`
     }
 }
+
+export function showMessageError(message) {
+    return {
+        type: 'SHOW_ERROR_MESSAGE',
+        message: message
+    }
+}
+
+export function catchError(type) {
+    return {
+        type: type,
+    }
+}

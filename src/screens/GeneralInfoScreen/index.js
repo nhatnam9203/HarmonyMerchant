@@ -4,7 +4,9 @@ import { Alert } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateEmail, validateIsNumber, getIdStateByName } from '@utils';
+import { validateEmail, validateIsNumber, getIdStateByName, requestAPI } from '@utils';
+import apiConfigs from '@configs/api';
+
 
 class GeneralInfoScreen extends Layout {
 
@@ -53,11 +55,26 @@ class GeneralInfoScreen extends Layout {
         }
     }
 
-    nextTab = () => {
-        this.props.actions.app.checkEmailSignup('abc@gmail.com');
+    nextTab1 = async () => {
+        try {
+            const responses = await requestAPI({
+                method: 'GET',
+                api: `${apiConfigs.BASE_API}merchant/checkEmail?email=abc@gmail.com`
+            });
+            this.props.actions.app.stopLoadingApp();
+            const { codeNumber } = responses;
+            if (parseInt(codeNumber) == 200) {
+                this.props.actions.app.setGeneralInfo(temptGeneralInfo);
+                this.props.navigation.navigate('BusinessInfo');
+            } else {
+                this.props.actions.app.showMessageError(responses.message);
+            }
+        } catch (error) {
+            this.props.actions.app.catchError(error);
+        }
     }
 
-    nextTab1 = () => {
+    nextTab = async () => {
         const { generalInfo } = this.state;
         const arrayKey = Object.keys(generalInfo);
         let keyError = '';
@@ -122,17 +139,35 @@ class GeneralInfoScreen extends Layout {
             const { businessAddress } = generalInfo;
             const temptBusinessAddress = { ...businessAddress, state: getIdStateByName(this.props.stateCity, businessAddress.state) };
             const temptGeneralInfo = {
-                ...generalInfo, 
+                ...generalInfo,
                 tax: `${generalInfo.tax.prefix}-${generalInfo.tax.suffix}`,
                 businessPhone: `${this.businessPhoneRef.current.state.codeAreaPhone}${generalInfo.businessPhone}`,
-                contactPhone :`${this.contactPhoneRef.current.state.codeAreaPhone}${generalInfo.contactPhone}`,
+                contactPhone: `${this.contactPhoneRef.current.state.codeAreaPhone}${generalInfo.contactPhone}`,
                 businessAddress: temptBusinessAddress
             };
-            this.props.actions.app.setGeneralInfo(temptGeneralInfo);
-            this.props.navigation.navigate('BusinessInfo');
-        }
 
+            //  ---- Check Email Exist ----
+            this.props.actions.app.loadingApp();
+            try {
+                const responses = await requestAPI({
+                    method: 'GET',
+                    api: `${apiConfigs.BASE_API}merchant/checkEmail?email=${generalInfo.email}`
+                });
+                this.props.actions.app.stopLoadingApp();
+                const { codeNumber } = responses;
+                if (parseInt(codeNumber) == 200) {
+                    this.props.actions.app.setGeneralInfo(temptGeneralInfo);
+                    this.props.navigation.navigate('BusinessInfo');
+                } else {
+                    this.props.actions.app.showMessageError(responses.message);
+                }
+            } catch (error) {
+                this.props.actions.app.loadingApp();
+                this.props.actions.app.catchError(error);
+            }
+        }
     }
+
 }
 
 const mapStateToProps = state => ({
