@@ -133,7 +133,7 @@ class TabCheckout extends Layout {
                 await this.setState({
                     basket: temptBasket,
                     subTotalLocal: this.getPriceOfline(temptBasket),
-                    taxLocal : this.calculateTotalTaxLocal(temptBasket)
+                    taxLocal: this.calculateTotalTaxLocal(temptBasket)
                 })
             }
 
@@ -205,7 +205,7 @@ class TabCheckout extends Layout {
                 this.setState({
                     basket: temptBasketExtra,
                     subTotalLocal: this.getPriceOfline(temptBasketExtra),
-                    taxLocal : this.calculateTotalTaxLocal(temptBasketExtra)
+                    taxLocal: this.calculateTotalTaxLocal(temptBasketExtra)
                 });
             }
             // ---------------- Handle -----------------
@@ -295,7 +295,7 @@ class TabCheckout extends Layout {
             this.setState({
                 basket: temptBasket,
                 subTotalLocal: this.getPriceOfline(temptBasket),
-                taxLocal : this.calculateTotalTaxLocal(temptBasket)
+                taxLocal: this.calculateTotalTaxLocal(temptBasket)
             })
         }
 
@@ -769,7 +769,7 @@ class TabCheckout extends Layout {
 
                 commands.push({ appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed });
                 const result = await PrintManager.getInstance().print(portName, commands);
-                this.donotPrintBill();
+                // this.donotPrintBill();
             } else {
                 setTimeout(() => {
                     alert('Please connect to your print ! ')
@@ -787,7 +787,7 @@ class TabCheckout extends Layout {
         if (!_.isEmpty(connectionSignalR)) {
             connectionSignalR.stop();
         }
-        if (paymentSelected === 'Harmony Pay' && paymentSelected === 'Others - Check') {
+        if (paymentSelected === 'Cash' || paymentSelected === 'Others - Check') {
             this.openCashDrawer();
         }
         this.scrollTabRef.current.goToPage(0);
@@ -799,12 +799,29 @@ class TabCheckout extends Layout {
     }
 
 
-    printBill = () => {
-        const { connectionSignalR } = this.props;
-        if (!_.isEmpty(connectionSignalR)) {
-            connectionSignalR.stop();
+    printBill = async () => {
+
+        const printer = await PrintManager.getInstance().portDiscovery();
+        if (printer.length > 0) {
+            const { paymentSelected } = this.state;
+            const { connectionSignalR } = this.props;
+            if (!_.isEmpty(connectionSignalR)) {
+                connectionSignalR.stop();
+            }
+            if (paymentSelected === 'Cash' || paymentSelected === 'Others - Check') {
+                this.openCashDrawer();
+            }
+            this.printInvoice();
+            this.scrollTabRef.current.goToPage(0);
+            this.props.actions.appointment.closeModalPaymentCompleted();
+            this.props.gotoAppoitmentScreen();
+            this.props.actions.appointment.resetBasketEmpty();
+            this.setState(initState);
+            this.props.actions.appointment.resetPayment();
+        } else {
+            alert('Please connect to your print ! ');
         }
-        this.printInvoice();
+
     }
 
     openCashDrawer = async (isDelay = false) => {
@@ -1103,6 +1120,7 @@ class TabCheckout extends Layout {
             });
         }
         if (isDonePayment) {
+            this.props.actions.appointment.resetPayment();
             this.donePayment();
         }
     }
