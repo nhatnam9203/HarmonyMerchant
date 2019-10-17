@@ -38,7 +38,8 @@ class PopupAddEditProduct extends React.Component {
             fileId: 0,
             imageUrl: '',
             isSubmitButton: true
-        }
+        };
+        this.scrollProductRef = React.createRef();
     }
 
     updateProductInfo(key, value, keyParent = '') {
@@ -148,6 +149,10 @@ class PopupAddEditProduct extends React.Component {
         })
     }
 
+    scrollProductTo(position){
+        this.scrollProductRef.current.scrollTo({x: 0, y: scaleSzie(position), animated: true})
+    }
+
 
     // --------- Render -----
 
@@ -206,6 +211,7 @@ class PopupAddEditProduct extends React.Component {
                 }} >
                     <View style={{ flex: 1, }} >
                         <ScrollView
+                            ref={this.scrollProductRef}
                             showsVerticalScrollIndicator={false}
                         >
                             <TouchableOpacity activeOpacity={1}>
@@ -238,6 +244,7 @@ class PopupAddEditProduct extends React.Component {
                                         style={{ flex: 1, fontSize: scaleSzie(16) }}
                                         value={name}
                                         onChangeText={(value) => this.updateProductInfo('name', value)}
+                                        onFocus={() =>this.scrollProductTo(70)}
                                     />
                                 </View>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
@@ -253,14 +260,9 @@ class PopupAddEditProduct extends React.Component {
                                         multiline={true}
                                         value={description}
                                         onChangeText={value => this.updateProductInfo('description', value)}
+                                        onFocus={() =>this.scrollProductTo(130)}
                                     />
                                 </View>
-                                {/* ------- Upload Image ----- */}
-                                <BrowserFile
-                                    updateFileId={this.updateFileId}
-                                    imageUrl={this.state.imageUrl}
-                                    editButtonSubmit={this.editButtonSubmit}
-                                />
                                 {/* -------------------------- */}
                                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                                     <View style={{ flex: 1 }} >
@@ -274,6 +276,7 @@ class PopupAddEditProduct extends React.Component {
                                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
                                                     value={sku}
                                                     onChangeText={value => this.updateProductInfo('sku', value)}
+                                                    onFocus={() =>this.scrollProductTo(230)}
                                                 />
                                             </View>
                                         </View>
@@ -309,6 +312,7 @@ class PopupAddEditProduct extends React.Component {
                                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
                                                     value={quantity}
                                                     onChangeText={value => this.updateProductInfo('quantity', value)}
+                                                    onFocus={() =>this.scrollProductTo(300)}
                                                 />
                                             </View>
                                         </View>
@@ -331,6 +335,7 @@ class PopupAddEditProduct extends React.Component {
                                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
                                                     value={minThreshold}
                                                     onChangeText={value => this.updateProductInfo('minThreshold', value)}
+                                                    onFocus={() =>this.scrollProductTo(360)}
                                                 />
                                             </View>
                                         </View>
@@ -347,6 +352,7 @@ class PopupAddEditProduct extends React.Component {
                                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
                                                     value={maxThreshold}
                                                     onChangeText={value => this.updateProductInfo('maxThreshold', value)}
+                                                    onFocus={() =>this.scrollProductTo(360)}
                                                 />
                                             </View>
                                         </View>
@@ -374,6 +380,7 @@ class PopupAddEditProduct extends React.Component {
                                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
                                                     value={price}
                                                     onChangeText={value => this.updateProductInfo('price', value)}
+                                                    onFocus={() =>this.scrollProductTo(450)}
                                                 />
                                             </View>
                                         </View>
@@ -400,6 +407,12 @@ class PopupAddEditProduct extends React.Component {
                                         </View>
                                     </View>
                                 </View>
+                                  {/* ------- Upload Image ----- */}
+                                  <BrowserFile
+                                    updateFileId={this.updateFileId}
+                                    imageUrl={this.state.imageUrl}
+                                    editButtonSubmit={this.editButtonSubmit}
+                                />
                                 {/* -----  */}
                                 <View style={{ height: scaleSzie(250) }} />
                             </TouchableOpacity>

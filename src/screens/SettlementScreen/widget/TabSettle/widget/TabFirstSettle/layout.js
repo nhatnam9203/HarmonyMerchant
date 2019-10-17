@@ -38,7 +38,7 @@ class Layout extends React.Component {
                     {moment.parseZone(settlementDate).local().format('MM/DD/YYYY')}
                 </Text>
                 <Text style={{ color: '#0764B0', fontSize: scaleSzie(16), fontWeight: 'bold', marginRight: scaleSzie(20) }} >
-                    ${moment.parseZone(settlementDate).local().format('h:mm A')}
+                    {moment.parseZone(settlementDate).local().format('h:mm A')}
                 </Text>
             </View>
         );
