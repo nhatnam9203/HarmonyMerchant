@@ -27,7 +27,7 @@ class ItemButton extends React.Component {
                 flexDirection: 'row',marginBottom:scaleSzie(3)
             }} >
                 <View style={{ flex: 1 ,justifyContent:'center',paddingLeft:scaleSzie(10)}} >
-                    <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A', }} >
+                    <Text style={{ fontSize: scaleSzie(14), color: '#0764B0', }} >
                    {title}
                     </Text>
                 </View>

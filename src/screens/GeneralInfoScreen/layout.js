@@ -186,7 +186,7 @@ export default class Layout extends React.Component {
                             /> */}
                              <InputFormPhone
                                 ref={this.contactPhoneRef}
-                                title={localize('Contact is Phone Number *', language)}
+                                title={localize('Contact Phone Number *', language)}
                                 subTitle=""
                                 placeholder=""
                                 value={contactPhone}

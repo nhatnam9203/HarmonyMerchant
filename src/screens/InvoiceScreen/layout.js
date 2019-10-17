@@ -171,12 +171,12 @@ export default class Layout extends React.Component {
                 <ButtonCustom
                     width={'100%'}
                     height={50}
-                    backgroundColor="#F1F1F1"
+                    backgroundColor="#0764B0"
                     title={localize('Refund', language)}
-                    textColor="#6A6A6A"
+                    textColor="#fff"
                     onPress={this.changeStatustransaction}
                     style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                    styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
+                    styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
                 />
             );
         } else if (status === 'pending') {
@@ -184,12 +184,12 @@ export default class Layout extends React.Component {
                 <ButtonCustom
                     width={'100%'}
                     height={50}
-                    backgroundColor="#F1F1F1"
+                    backgroundColor="#0764B0"
                     title={localize('VOID', language)}
-                    textColor="#6A6A6A"
+                    textColor="#fff"
                     onPress={this.changeStatustransaction}
                     style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                    styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
+                    styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
                 />
             );
         } else {

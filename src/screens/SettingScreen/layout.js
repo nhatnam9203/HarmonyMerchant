@@ -136,7 +136,7 @@ export default class Layout extends React.Component {
                                             paddingBottom: scaleSzie(20)
                                         }} >
                                             <Text style={[styles.textFooter, { textDecorationLine: "underline" }]} >
-                                                www.harmonypay.com
+                                                www.harmonypayment.com
                                             </Text>
                                             <Text style={styles.textFooter} >
                                                 Created by Levin Team

@@ -183,11 +183,7 @@ class InvoiceScreen extends Layout {
         return quickFilter
     }
 
-    searchInvoice =() =>{
-        alert('ff')
-    }
-
-    searchInvoice1 = () => {
+    searchInvoice = () => {
         const { searchFilter } = this.state;
         const { keySearch, paymentMethod, status } = searchFilter;
         const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
@@ -225,7 +221,7 @@ class InvoiceScreen extends Layout {
 
     showLockScreen = () => {
         // this.props.actions.app.handleLockScreen(true);
-        alert('ddd')
+        // alert('ddd')
     }
 
     convertBasket(basket) {
