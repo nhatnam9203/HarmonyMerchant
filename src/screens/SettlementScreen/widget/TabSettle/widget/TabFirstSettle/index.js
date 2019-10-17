@@ -111,12 +111,21 @@ class TabFirstSettle extends Layout {
 
    onRefreshSettle = () =>{
     this.props.actions.invoice.getSettlementWating(false);
-    this.inputHarmonyPaymentRef.current.resetStateFromParent();
-    this.inputCreditPaymentRef.current.resetStateFromParent();
-    this.inputCashPaymentRef.current.resetStateFromParent();
-    this.inputOtherPaymentRef.current.resetStateFromParent();
-    this.totalCustomRef.current.resetStateFromParent();
-
+    if(this.inputHarmonyPaymentRef.current){
+        this.inputHarmonyPaymentRef.current.resetStateFromParent();
+    }
+    if( this.inputCreditPaymentRef.current){
+        this.inputCreditPaymentRef.current.resetStateFromParent();
+    }
+    if(this.inputCashPaymentRef.current){
+        this.inputCashPaymentRef.current.resetStateFromParent();
+    }
+    if( this.inputOtherPaymentRef.current){
+        this.inputOtherPaymentRef.current.resetStateFromParent();
+    }
+    if(this.totalCustomRef.current){
+        this.totalCustomRef.current.resetStateFromParent();
+    }
    }
 
 }

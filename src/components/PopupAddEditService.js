@@ -45,6 +45,11 @@ class PopupAddEditService extends React.Component {
         this.secondTimeRef = React.createRef();
         this.brwoserFileRef = React.createRef();
         this.arrayExtraRef = [];
+
+        this.nameServiceRef = React.createRef();
+        this.scrollServiceRef = React.createRef();
+        this.descripRef = React.createRef();
+        this.priceRef = React.createRef();
     }
 
     setServiceFromParent = async (service) => {
@@ -246,6 +251,10 @@ class PopupAddEditService extends React.Component {
         }
     }
 
+    scrollServiceTo(position){
+        this.scrollServiceRef.current.scrollTo({x: 0, y: scaleSzie(position), animated: true})
+    }
+
     // ------- Render -----
 
     renderButtonSubmit() {
@@ -302,6 +311,7 @@ class PopupAddEditService extends React.Component {
                 }} >
                     <View style={{ flex: 1, }} >
                         <ScrollView
+                            ref={this.scrollServiceRef}
                             showsVerticalScrollIndicator={false}
                         >
                             <TouchableOpacity activeOpacity={1}>
@@ -330,25 +340,29 @@ class PopupAddEditService extends React.Component {
                                     paddingLeft: scaleSzie(10),
                                 }} >
                                     <TextInput
+                                        ref={this.nameServiceRef}
                                         placeholder="Gel Nails"
                                         style={{ flex: 1, fontSize: scaleSzie(16) }}
                                         value={name}
                                         onChangeText={value => this.updateServiceInfo('name', value)}
+                                        onFocus={() =>this.scrollServiceTo(70)}
                                     />
                                 </View>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                     Description
-                            </Text>
+                                </Text>
                                 <View style={{
                                     height: scaleSzie(60), borderWidth: 1, borderColor: '#C5C5C5',
                                     paddingLeft: scaleSzie(10), backgroundColor: '#FAFAFA', paddingTop: scaleSzie(5)
                                 }} >
                                     <TextInput
+                                        ref={this.descripRef}
                                         placeholder=""
                                         style={{ flex: 1, fontSize: scaleSzie(16) }}
                                         multiline={true}
                                         value={description}
                                         onChangeText={value => this.updateServiceInfo('description', value)}
+                                        onFocus={() =>this.scrollServiceTo(130)}
                                     />
                                 </View>
                                 {/* ------- Upload Image ----- */}
@@ -368,6 +382,7 @@ class PopupAddEditService extends React.Component {
                                         title="Minutes *"
                                         value={this.state.serviceInfo.duration}
                                         editable={true}
+                                        onFocus={() =>this.scrollServiceTo(370)}
                                     />
                                     <ItemTime
                                         ref={this.openTimeRef}
@@ -375,12 +390,14 @@ class PopupAddEditService extends React.Component {
                                         editable={true}
                                         value={this.state.serviceInfo.openTime}
                                         onChangeText={this.handleInputSecondTime}
+                                        onFocus={() =>this.scrollServiceTo(370)}
                                     />
                                     <ItemTime
                                         ref={this.secondTimeRef}
                                         title="Second Time"
                                         value={this.state.serviceInfo.secondTime}
                                         editable={this.state.isEditSecondTime}
+                                        onFocus={() =>this.scrollServiceTo(370)}
                                     />
                                 </View>
                                 <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
@@ -394,6 +411,7 @@ class PopupAddEditService extends React.Component {
                                         }} >
                                             <TextInputMask
                                                 // type="only-numbers"
+                                                ref={this.priceRef}
                                                 type={'money'}
                                                 options={{
                                                     precision: 2,
@@ -406,6 +424,7 @@ class PopupAddEditService extends React.Component {
                                                 placeholder="$ 100"
                                                 value={price}
                                                 onChangeText={value => this.updateServiceInfo('price', value)}
+                                                onFocus={() =>this.scrollServiceTo(370)}
                                             />
                                         </View>
                                     </View>
@@ -691,7 +710,7 @@ class ItemTime extends React.Component {
     }
 
     render() {
-        const { title, editable } = this.props;
+        const { title, editable,onFocus } = this.props;
         const { value } = this.state;
         return (
             <View>
@@ -710,6 +729,7 @@ class ItemTime extends React.Component {
                             value={value}
                             onChangeText={this.onChangeText}
                             editable={editable}
+                            onFocus={() => onFocus()}
                         />
                     </View>
                     <View style={{ justifyContent: 'flex-end', paddingRight: 4 }} >
