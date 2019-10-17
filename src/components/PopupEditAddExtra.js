@@ -34,6 +34,7 @@ class PopupEditAddExtra extends React.Component {
         }
 
         this.durationRef = React.createRef();
+        this.scrollExtraRef = React.createRef();
     }
 
     setStateDefaultFromParent = async () => {
@@ -130,6 +131,11 @@ class PopupEditAddExtra extends React.Component {
         })
     }
 
+    scrollExtraTo(position){
+        this.scrollExtraRef.current.scrollTo({x: 0, y: scaleSzie(position), animated: true})
+    }
+
+
     // -------- Render -------
 
     renderButtonSubmit() {
@@ -184,6 +190,7 @@ class PopupEditAddExtra extends React.Component {
                 }} >
                     <View style={{ flex: 1, }} >
                         <ScrollView
+                            ref={this.scrollExtraRef}
                             showsVerticalScrollIndicator={false}
                         >
                             <TouchableOpacity activeOpacity={1}>
@@ -215,14 +222,9 @@ class PopupEditAddExtra extends React.Component {
                                         multiline={true}
                                         value={description}
                                         onChangeText={value => this.updateExtraInfo('description', value)}
+                                        onFocus={() =>this.scrollExtraTo(80)}
                                     />
                                 </View>
-                                {/* ------- Upload Image ----- */}
-                                <BrowserFile
-                                    updateFileId={this.updateFileId}
-                                    imageUrl={this.state.imageUrl}
-                                    editButtonSubmit={this.editButtonSubmit}
-                                />
                                 {/* -------------------------- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                     Duration
@@ -231,9 +233,9 @@ class PopupEditAddExtra extends React.Component {
                                     ref={this.durationRef}
                                     title="Minutes *"
                                     value={this.state.extraInfo.duration}
-
+                                    onFocus={() =>this.scrollExtraTo(200)}
                                 />
-                                <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
+                                <View style={{ height: scaleSzie(70), flexDirection: 'row',marginTop:scaleSzie(6) }} >
                                     <View style={{ flex: 1, paddingRight: scaleSzie(50) }}  >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                             Price *
@@ -256,6 +258,7 @@ class PopupEditAddExtra extends React.Component {
                                                 placeholder="$ 100"
                                                 value={price}
                                                 onChangeText={value => this.updateExtraInfo('price', value)}
+                                                onFocus={() =>this.scrollExtraTo(265)}
                                             />
                                         </View>
                                     </View>
@@ -283,6 +286,12 @@ class PopupEditAddExtra extends React.Component {
                                         </View>
                                     </View>
                                 </View>
+                                {/* ------- Upload Image ----- */}
+                                <BrowserFile
+                                    updateFileId={this.updateFileId}
+                                    imageUrl={this.state.imageUrl}
+                                    editButtonSubmit={this.editButtonSubmit}
+                                />
                                 <View style={{ height: scaleSzie(250) }} />
                             </TouchableOpacity>
                         </ScrollView>
@@ -308,7 +317,7 @@ class ItemTime extends React.Component {
     }
 
     render() {
-        const { title } = this.props;
+        const { title ,onFocus} = this.props;
         const { value } = this.state;
         return (
             <View>
@@ -326,6 +335,7 @@ class ItemTime extends React.Component {
                             style={{ flex: 1, fontSize: scaleSzie(16) }}
                             value={value}
                             onChangeText={(value) => this.setState({ value })}
+                            onFocus={() => onFocus()}
                         />
                     </View>
                     <View style={{ justifyContent: 'flex-end', paddingRight: 4 }} >

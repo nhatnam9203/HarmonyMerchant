@@ -365,24 +365,17 @@ class PopupAddEditService extends React.Component {
                                         onFocus={() =>this.scrollServiceTo(130)}
                                     />
                                 </View>
-                                {/* ------- Upload Image ----- */}
-                                <BrowserFile
-                                    ref={this.brwoserFileRef}
-                                    updateFileId={this.updateFileId}
-                                    imageUrl={this.state.imageUrl}
-                                    editButtonSubmit={this.editButtonSubmit}
-                                />
                                 {/* -------------------------- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                     Duration
-                            </Text>
+                                </Text>
                                 <View style={{ height: scaleSzie(70), flexDirection: 'row', justifyContent: 'space-between' }} >
                                     <ItemTime
                                         ref={this.durationRef}
                                         title="Minutes *"
                                         value={this.state.serviceInfo.duration}
                                         editable={true}
-                                        onFocus={() =>this.scrollServiceTo(370)}
+                                        onFocus={() =>this.scrollServiceTo(250)}
                                     />
                                     <ItemTime
                                         ref={this.openTimeRef}
@@ -390,14 +383,14 @@ class PopupAddEditService extends React.Component {
                                         editable={true}
                                         value={this.state.serviceInfo.openTime}
                                         onChangeText={this.handleInputSecondTime}
-                                        onFocus={() =>this.scrollServiceTo(370)}
+                                        onFocus={() =>this.scrollServiceTo(250)}
                                     />
                                     <ItemTime
                                         ref={this.secondTimeRef}
                                         title="Second Time"
                                         value={this.state.serviceInfo.secondTime}
                                         editable={this.state.isEditSecondTime}
-                                        onFocus={() =>this.scrollServiceTo(370)}
+                                        onFocus={() =>this.scrollServiceTo(250)}
                                     />
                                 </View>
                                 <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
@@ -424,7 +417,7 @@ class PopupAddEditService extends React.Component {
                                                 placeholder="$ 100"
                                                 value={price}
                                                 onChangeText={value => this.updateServiceInfo('price', value)}
-                                                onFocus={() =>this.scrollServiceTo(370)}
+                                                onFocus={() =>this.scrollServiceTo(320)}
                                             />
                                         </View>
                                     </View>
@@ -452,6 +445,14 @@ class PopupAddEditService extends React.Component {
                                         </View>
                                     </View>
                                 </View>
+
+                                 {/* ------- Upload Image ----- */}
+                                 <BrowserFile
+                                    ref={this.brwoserFileRef}
+                                    updateFileId={this.updateFileId}
+                                    imageUrl={this.state.imageUrl}
+                                    editButtonSubmit={this.editButtonSubmit}
+                                />
                                 {/* ------ Line ------ */}
                                 {
                                     this.state.arrayExtra.map((extra, index) => <ItemExtra
