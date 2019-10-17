@@ -31,7 +31,7 @@ export default class ItemScalary extends React.Component {
     }
 
     render() {
-        const { title, placeholder } = this.props;
+        const { title, placeholder ,onFocus} = this.props;
         const { isCheck, value } = this.state;
         const temptIconCheck = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
@@ -62,6 +62,7 @@ export default class ItemScalary extends React.Component {
                         placeholder={placeholder}
                         value={value}
                         onChangeText={(value) => this.setState({ value })}
+                        onFocus={() =>onFocus()}
                     />
                 </View>
             </View>

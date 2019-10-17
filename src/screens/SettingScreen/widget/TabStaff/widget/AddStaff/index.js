@@ -4,7 +4,7 @@ import _ from 'ramda';
 
 import Layout from './layout';
 import strings from './strings';
-import { validateEmail, getIdStateByName, getNameStateById, getCodeAreaPhone } from '@utils';
+import { validateEmail, getIdStateByName, getNameStateById, getCodeAreaPhone ,scaleSzie} from '@utils';
 
 class AddStaff extends Layout {
 
@@ -108,7 +108,11 @@ class AddStaff extends Layout {
         this.inputProductSalaryRef = [];
         this.browserFileRef = React.createRef();
         this.cellphoneRef = React.createRef();
+        this.scrollStaffRef = React.createRef();
+    }
 
+    scrollStaffTo(position){
+        this.scrollStaffRef.current.scrollTo({x: 0, y: scaleSzie(position), animated: true})
     }
 
     async componentDidMount() {
