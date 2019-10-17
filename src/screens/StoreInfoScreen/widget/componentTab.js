@@ -10,7 +10,7 @@ import {
 } from '@components';
 import { scaleSzie, ListCodeAreaPhone } from '@utils';
 
-const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntry, type,
+const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntry, type,onFocus,
     maxLength }) => {
     return (
         <View style={{
@@ -41,6 +41,7 @@ const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntr
                         onChangeText={(value => onChangeText(value))}
                         secureTextEntry={secureTextEntry}
                         maxLength={maxLength ? maxLength : null}
+                        onFocus={() => onFocus()}
                     /> : <TextInput
                             style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
                             placeholder={placeholder}
@@ -48,6 +49,7 @@ const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntr
                             onChangeText={(value => onChangeText(value))}
                             secureTextEntry={secureTextEntry}
                             maxLength={maxLength ? maxLength : null}
+                            onFocus={() => onFocus()}
                         />
                 }
             </View>
@@ -71,7 +73,7 @@ class ItemAdminCellPhone extends React.Component {
     }   
 
     render() {
-        const { title, placeholder, value, onChangeText, secureTextEntry, maxLength } = this.props;
+        const { title, placeholder, value, onChangeText, secureTextEntry, maxLength,onFocus } = this.props;
         const {codeAreaPhone} = this.state;
         return (
             <View style={{
@@ -119,6 +121,7 @@ class ItemAdminCellPhone extends React.Component {
                             onChangeText={(value => onChangeText(value))}
                             secureTextEntry={secureTextEntry}
                             maxLength={maxLength ? maxLength : null}
+                            onFocus={() => onFocus()}
                         />
                     </View>
 

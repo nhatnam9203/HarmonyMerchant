@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateEmail, getIdStateByName } from '@utils';
+import { validateEmail, getIdStateByName ,scaleSzie} from '@utils';
 
 const initState = {
     user: {
@@ -46,6 +46,11 @@ class StoreInfoScreen extends Layout {
         this.inputRefsTip = [];
         this.browserFileRef = React.createRef();
         this.cellphoneRef = React.createRef();
+        this.scrollStaffRef = React.createRef();
+    }
+
+    scrollStaffTo(position){
+        this.scrollStaffRef.current.scrollTo({x: 0, y: scaleSzie(position), animated: true})
     }
 
     editButtonSubmit = async (isSubmit) => {

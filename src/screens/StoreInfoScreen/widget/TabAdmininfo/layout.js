@@ -31,6 +31,7 @@ class Layout extends React.Component {
         return (
             <View style={styles.body} >
                 <ScrollView
+                 ref={this.scrollStaffRef}
                     showsVerticalScrollIndicator={false}
                 >
                     <View style={{ height: scaleSzie(30) }} />
@@ -65,6 +66,7 @@ class Layout extends React.Component {
                         placeholder={localize('Street', language)}
                         value={street}
                         onChangeText={(value) => this.updateUserInfo('street', value, 'address')}
+                        onFocus={() => this.scrollStaffTo(150)}
                     />
 
                     <ItemAdminInfoDoubleItem
@@ -100,6 +102,7 @@ class Layout extends React.Component {
                         placeholder={localize('Phone number', language)}
                         value={cellphone}
                         onChangeText={(value) => this.updateUserInfo('cellphone', value)}
+                        onFocus={() => this.scrollStaffTo(310)}
                     />
 
                     <ItemAdminInfo
@@ -107,6 +110,7 @@ class Layout extends React.Component {
                         placeholder={localize('Email')}
                         value={email}
                         onChangeText={(value) => this.updateUserInfo('email', value)}
+                        onFocus={() => this.scrollStaffTo(370)}
                     />
                     <ItemAdminInfo
                         title={`${localize('Create PIN', language)} *`}
@@ -116,6 +120,7 @@ class Layout extends React.Component {
                         secureTextEntry={true}
                         maxLength={4}
                         type={true}
+                        onFocus={() => this.scrollStaffTo(430)}
                     />
                     <ItemAdminInfo
                         title={`${localize('Confirm PIN', language)} *`}
@@ -125,6 +130,7 @@ class Layout extends React.Component {
                         secureTextEntry={true}
                         maxLength={4}
                         type={true}
+                        onFocus={() => this.scrollStaffTo(490)}
                     />
                     <ItemAdminInfoRole
                         DropdowAdmin={() => <Dropdown
@@ -193,6 +199,7 @@ class Layout extends React.Component {
                                     value: '',
                                     isCheck: false
                                 }}
+                                onFocus={() => this.scrollStaffTo(1100)}
                             />
                         })
                     }
@@ -212,6 +219,7 @@ class Layout extends React.Component {
                                     value: '',
                                     isCheck: false
                                 }}
+                                onFocus={() => this.scrollStaffTo(1230)}
                             />
                         })
                     }
@@ -233,6 +241,7 @@ class Layout extends React.Component {
                                     value: '',
                                     isCheck: false
                                 }}
+                                onFocus={() => this.scrollStaffTo(1300)}
                             />
                         })
                     }
@@ -245,6 +254,7 @@ class Layout extends React.Component {
                         value={driverlicense}
                         onChangeText={(value) => this.updateUserInfo('driverlicense', value)}
                         type={true}
+                        onFocus={() => this.scrollStaffTo(1450)}
                     />
                     <ItemAdminInfo
                         title={localize('Social security number', language)}
@@ -252,6 +262,7 @@ class Layout extends React.Component {
                         value={socialSecurityNumber}
                         onChangeText={(value) => this.updateUserInfo('socialSecurityNumber', value)}
                         type={true}
+                        onFocus={() => this.scrollStaffTo(1450)}
                     />
                     <ItemAdminInfo
                         title={localize('Professional license', language)}
@@ -259,6 +270,7 @@ class Layout extends React.Component {
                         value={professionalLicense}
                         onChangeText={(value) => this.updateUserInfo('professionalLicense', value)}
                         type={true}
+                        onFocus={() => this.scrollStaffTo(1450)}
                     />
                     <View style={{
                         height: scaleSzie(70), paddingHorizontal: scaleSzie(90),
