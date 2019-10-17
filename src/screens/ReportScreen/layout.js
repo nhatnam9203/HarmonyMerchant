@@ -107,7 +107,7 @@ export default class Layout extends React.Component {
                         staff={item}
                         index={index + 1}
                     />}
-                    keyExtractor={(item, index) => `${item.staffId}`}
+                    keyExtractor={(item, index) => `${item.staffId}_${index}`}
                     ListEmptyComponent={<RowEmptyTableStaffSalary />}
                     refreshing={refreshListStaffsSalary}
                     onRefresh={() => this.props.actions.staff.getListStaffsSalaryTop('', false)}

@@ -844,29 +844,42 @@ class TabCheckout extends Layout {
     // ------------ Signal R -------
 
     setupSignalR(profile, token, appointmentDetail) {
-        const connection = new signalR.HubConnectionBuilder()
-            .withUrl(`${apiConfigs.BASE_URL}notification/?merchantId=${profile.merchantId}&Title=Merchant&kind=app`, { accessTokenFactory: () => token })
-            .build();
 
-        connection.on("ListWaNotification", (data) => {
-            const temptData = JSON.parse(data);
-            // console.log('temptData : ' + JSON.stringify(temptData));
-            if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
-                && temptData.data.appointmentId == appointmentDetail.appointmentId
-            ) {
-                this.props.actions.appointment.donePaymentHarmony();
-                this.props.actions.appointment.getAppointmentById(appointmentDetail.appointmentId);
-                connection.stop();
-            }
-        });
+        try {
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl(`${apiConfigs.BASE_URL}notification/?merchantId=${profile.merchantId}&Title=Merchant&kind=app`, { accessTokenFactory: () => token })
+                .configureLogging({
+                    log: function (logLevel, message) {
+                        // console.log(new Date().toISOString() + ": " + message);
+                    }
+                })
+                .build();
 
-        connection.onclose(async (error) => {
-            this.props.actions.appointment.resetConnectSignalR();
-            // console.log('error ', error);
-        });
+            connection.on("ListWaNotification", (data) => {
+                const temptData = JSON.parse(data);
+                // console.log('temptData : ' + JSON.stringify(temptData));
+                if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
+                    && temptData.data.appointmentId == appointmentDetail.appointmentId
+                ) {
+                    this.props.actions.appointment.donePaymentHarmony();
+                    this.props.actions.appointment.getAppointmentById(appointmentDetail.appointmentId);
+                    connection.stop();
+                }
+            });
 
-        connection.start()
-            .then(() => this.props.actions.appointment.referenceConnectionSignalR(connection))
+            connection.onclose(async (error) => {
+                this.props.actions.appointment.resetConnectSignalR();
+            });
+
+            connection.start()
+                .then(() => this.props.actions.appointment.referenceConnectionSignalR(connection))
+                .catch(error => { });
+
+        } catch (error) {
+            // console.log('------ error : ', error);
+        }
+
+
     }
 
     doneAddBasketSignInAppointment = () => {
