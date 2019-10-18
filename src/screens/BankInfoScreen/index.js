@@ -5,7 +5,7 @@ import { Alert, Platform } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateIsNumber } from '@utils';
+import { validateIsNumber ,scaleSzie} from '@utils';
 
 class BankInfoScreen extends Layout {
 
@@ -25,6 +25,11 @@ class BankInfoScreen extends Layout {
             }
         };
         this.uploadVoidCheckRef = React.createRef();
+        this.srollBankInfoRef = React.createRef();
+    }
+
+    scrollBankInfoTo(position){
+        this.srollBankInfoRef.current.scrollTo({x: 0, y: scaleSzie(position), animated: true})
     }
 
     componentDidMount() {

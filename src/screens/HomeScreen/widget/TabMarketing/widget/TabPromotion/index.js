@@ -72,8 +72,8 @@ class TabPromotion extends Layout {
 
     const temptPromotionSecond = {
       ...this.promotionSecondRef.current.state.data,
-      serviceUsing: getServiceIdByName(servicesByMerchant, promotionSeconde.serviceUsing ? promotionSeconde.serviceUsing : '' ),
-      serviceApply: getServiceIdByName(servicesByMerchant, promotionSeconde.serviceApply ?   promotionSeconde.serviceApply : ''),
+      serviceUsing: getServiceIdByName(servicesByMerchant, promotionSeconde.serviceUsing ? promotionSeconde.serviceUsing : 0 ),
+      serviceApply: getServiceIdByName(servicesByMerchant, promotionSeconde.serviceApply ?   promotionSeconde.serviceApply : 0),
     };
 
     const dataUpdate = [promotionFirst, temptPromotionSecond, promotionThird, promotionFour, promotionFive];
