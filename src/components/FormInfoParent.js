@@ -53,7 +53,8 @@ export default class FormInfoParent extends React.PureComponent {
                 <StatusBarHeader />
                 <HeaderLogoTop />
                 <View style={{ flex: 1 }} >
-                    <ScrollView
+                    {this.props.children}
+                    {/* <ScrollView
                         showsVerticalScrollIndicator={false}
                     >
                         <View style={{
@@ -74,7 +75,7 @@ export default class FormInfoParent extends React.PureComponent {
                         </View>
                         {this.props.children}
                         <View style={{ height: scaleSzie(250) }} />
-                    </ScrollView>
+                    </ScrollView> */}
 
                 </View>
                 {this.renderFooter()}

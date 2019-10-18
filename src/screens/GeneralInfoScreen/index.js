@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateEmail, validateIsNumber, getIdStateByName, requestAPI } from '@utils';
+import { validateEmail, validateIsNumber, getIdStateByName, requestAPI ,scaleSzie} from '@utils';
 import apiConfigs from '@configs/api';
 
 
@@ -36,6 +36,11 @@ class GeneralInfoScreen extends Layout {
         };
         this.businessPhoneRef = React.createRef();
         this.contactPhoneRef = React.createRef();
+        this.srollGeneralRef = React.createRef();
+    }
+
+    scrollGeneralTo(position){
+        this.srollGeneralRef.current.scrollTo({x: 0, y: scaleSzie(position), animated: true})
     }
 
     updateGeneralInfo(key, value, keyParent = '') {

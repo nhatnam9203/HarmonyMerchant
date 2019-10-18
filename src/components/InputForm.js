@@ -15,7 +15,7 @@ export default class InputForm extends React.PureComponent {
     render() {
         const { title, subTitle, placeholder, style, value,
             onChangeText, secureTextEntry, keyboardType,
-            isOnlyNumber, maxLength, editable
+            isOnlyNumber, maxLength, editable,onFocus
         } = this.props;
         const temptHeight = Platform.OS === 'ios' ? 30 : 40
         return (
@@ -42,6 +42,7 @@ export default class InputForm extends React.PureComponent {
                             placeholderTextColor="#A9A9A9"
                             maxLength={maxLength ? maxLength : null}
                             editable={editable}
+                            onFocus={() => onFocus && onFocus()}
                         /> : <TextInput
                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
                                 placeholder={placeholder}
@@ -52,6 +53,7 @@ export default class InputForm extends React.PureComponent {
                                 placeholderTextColor="#A9A9A9"
                                 maxLength={maxLength ? maxLength : null}
                                 editable={editable}
+                                onFocus={() => onFocus && onFocus()}
                             />
                     }
 
