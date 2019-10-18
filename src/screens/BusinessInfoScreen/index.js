@@ -1,5 +1,8 @@
+import React from 'react';
+
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
+import { scaleSzie } from '@utils';
 
 class BusinessInfoScreen extends Layout {
 
@@ -34,7 +37,12 @@ class BusinessInfoScreen extends Layout {
                     question: 'question5'
                 },
             }
-        }
+        };
+        this.srollBusinessRef = React.createRef();
+    }
+
+    scrollBusinessTo(position){
+        this.srollBusinessRef.current.scrollTo({x: 0, y: scaleSzie(position), animated: true})
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
