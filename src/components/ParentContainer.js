@@ -54,7 +54,7 @@ class ParentContainer extends Component {
     getTimeOut(number) {
         let timeout = 0;
         switch (number) {
-            case '00:30 ss':
+            case '00:30 s':
                 timeout = 30000;
                 break;
             case '05:00 min':

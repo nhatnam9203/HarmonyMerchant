@@ -9,7 +9,8 @@ import {
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import moment from 'moment';
 
-import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupCalendar,PopupEnterPinInvoice ,
+import {
+    Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupCalendar, PopupEnterPinInvoice,
     PopupConfirmInvoiceStatus
 } from '@components';
 import { scaleSzie, localize } from '@utils';
@@ -144,7 +145,7 @@ export default class Layout extends React.Component {
                             label={localize('Statuses', language)}
                             data={[{ value: '' }, { value: 'Pending' }, { value: 'Paid' }, { value: 'Voided' },
                             { value: 'Refunded' }
-                            // , { value: 'Fail' }, { value: 'Cancel' }
+                                // , { value: 'Fail' }, { value: 'Cancel' }
                             ]}
                             value={status}
                             onChangeText={(value) => this.updateSearchFilterInfo('status', value)}
@@ -557,7 +558,7 @@ export default class Layout extends React.Component {
 
     render() {
         const { language } = this.props;
-        const { visibleCalendar, isFocus,visibleConfirmInvoiceStatus } = this.state;
+        const { visibleCalendar, isFocus, visibleConfirmInvoiceStatus } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -590,17 +591,17 @@ export default class Layout extends React.Component {
                     onRequestClose={() => this.setState({ visibleCalendar: false })}
                     changeTitleTimeRange={this.changeTitleTimeRange}
                 />
-                <PopupEnterPinInvoice 
-                  ref={this.visibleEnterPinRef}
-                  title="Input PIN Number"
-                  onRequestClose={() =>{}}
+                <PopupEnterPinInvoice
+                    ref={this.visibleEnterPinRef}
+                    title="Input PIN Number"
+                    onRequestClose={() => { }}
                 />
-                <PopupConfirmInvoiceStatus 
-                    ref={this.confirmInvoiceStatusRef }
+                <PopupConfirmInvoiceStatus
+                    ref={this.confirmInvoiceStatusRef}
                     visible={visibleConfirmInvoiceStatus}
                     title="Confirmation"
                     confirmChangeInvoiceStatus={this.confirmChangeInvoiceStatus}
-                    onRequestClose={() => this.setState({visibleConfirmInvoiceStatus: false})}
+                    onRequestClose={() => this.setState({ visibleConfirmInvoiceStatus: false })}
                 />
             </ParentContainer>
         );

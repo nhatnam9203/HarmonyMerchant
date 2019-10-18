@@ -175,18 +175,17 @@ class PromotionFirst extends React.Component {
                                 this.props.actions.marketing.setStatusApplyButton(true);
                             }}
                             selectCheckbox={() => {
+                                this.props.actions.marketing.setStatusApplyButton(true);
                                 if (data.discountType === 'discount_fixtom') {
                                     const tempData = updateStateChildren('discountType', '', data);
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                    this.props.actions.marketing.setStatusApplyButton(true);
                                 } else {
                                     const tempData = updateStateChildren('discountType', 'discount_fixtom', data);
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                   c
                                 }
                             }}
                         />

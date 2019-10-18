@@ -143,8 +143,11 @@ class Layout extends React.Component {
         let totalAmount = 0;
         if (invoicesOfStaff.length > 0) {
             invoicesOfStaff.forEach(invoice => {
-                tipAmount = parseFloat(tipAmount) + parseFloat(formatNumberFromCurrency(invoice.tipAmount));
-                totalAmount = parseFloat(totalAmount) + parseFloat(formatNumberFromCurrency(invoice.amount));
+                if(invoice.status === 'paid' || invoice.status === 'pending'){
+                    tipAmount = parseFloat(tipAmount) + parseFloat(formatNumberFromCurrency(invoice.tipAmount));
+                    totalAmount = parseFloat(totalAmount) + parseFloat(formatNumberFromCurrency(invoice.amount));
+                }
+               
             });
         }
         return (
@@ -191,12 +194,12 @@ class Layout extends React.Component {
                     <View style={{ alignItems: 'flex-end', paddingRight: scaleSzie(10), paddingTop: scaleSzie(10) }} >
                         <Text style={{ fontSize: scaleSzie(12), color: '#404040', marginBottom: scaleSzie(10) }} >
                             Tip Amount: <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginLeft: scaleSzie(5) }} >
-                                {`  $  ${formatMoney(tipAmount)}`}
+                                {`  $  ${formatMoney(Number(tipAmount).toFixed(2))}`}
                             </Text>
                         </Text>
                         <Text style={{ fontSize: scaleSzie(12), color: '#404040', }} >
                             Total Amount: <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginLeft: scaleSzie(5) }} >
-                                {`  $  ${formatMoney(totalAmount)}`}
+                                {`  $  ${formatMoney(Number(totalAmount).toFixed(2))}`}
                             </Text>
                         </Text>
                     </View>
