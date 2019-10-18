@@ -6,7 +6,7 @@ import moment from 'moment';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateIsNumber, getIdStateByName, validYear ,validateEmail} from '@utils';
+import { validateIsNumber, getIdStateByName, validYear ,validateEmail,scaleSzie} from '@utils';
 
 class PrincipalScreen extends Layout {
 
@@ -44,6 +44,11 @@ class PrincipalScreen extends Layout {
         this.uploadVoidCheckRef = React.createRef();
         this.homePhoneRef = React.createRef();
         this.mobilePhoneRef = React.createRef();
+        this.srollPrincipalRef = React.createRef();
+    }
+
+    scrollPrincipalTo(position){
+        this.srollPrincipalRef.current.scrollTo({x: 0, y: scaleSzie(position), animated: true})
     }
 
     componentDidMount() {
