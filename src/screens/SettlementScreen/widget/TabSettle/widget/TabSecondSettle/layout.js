@@ -22,11 +22,12 @@ class Layout extends React.Component {
 
     // ---------- Footer 2 ------
     renderFooter2() {
+        const { progress } = this.state;
         return (
             <View style={{ flex: 1, padding: scaleSzie(10) }} >
                 <View style={{ alignItems: 'center' }} >
                     <Text style={{ color: '#DB7D2A', fontSize: scaleSzie(16) }} >
-                        Batch Settlement Successful
+                        {progress === 1 ? 'Batch Settlement Successful' : ''}
                     </Text>
                 </View>
                 <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginTop: scaleSzie(10), marginBottom: scaleSzie(4) }} >
@@ -325,9 +326,9 @@ class Layout extends React.Component {
                         {
                             note === '' ?
                                 <View >
-                                     <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginTop: scaleSzie(20), marginBottom: scaleSzie(10) }} >
-                                     </Text>
-                                    <View style={{height: scaleSzie(60) }} />
+                                    <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginTop: scaleSzie(20), marginBottom: scaleSzie(10) }} >
+                                    </Text>
+                                    <View style={{ height: scaleSzie(60) }} />
                                 </View>
                                 :
                                 <View>
