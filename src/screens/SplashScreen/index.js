@@ -12,14 +12,19 @@ class SplashScreen extends Layout {
     }
 
     componentDidMount() {
-        const { token } = this.props;
+        const { token, profile } = this.props;
         this.props.actions.app.resetIsFlashScreen(true);
         if (!token) {
             this.props.actions.app.getStateCity();
             this.props.navigation.navigate('Auth');
         } else {
-            // this.props.actions.app.handleLockScreen(true);
-            this.props.navigation.navigate('Drawer');
+            if (profile.needSetting) {
+                this.props.actions.staff.loginStaff(profile.merchantCode, '0000');
+                this.props.navigation.navigate('SetupStore');
+            } else {
+                this.props.navigation.navigate('Drawer');
+            }
+
         }
     }
 
@@ -49,8 +54,10 @@ class SplashScreen extends Layout {
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
+
         const { loading, visibleModalLock, isLoginStaff, isFlashScreen } = this.props;
         if (isFlashScreen && !loading && loading !== prevProps.loading && visibleModalLock && isLoginStaff) {
+            console.log('-----');
             this.props.actions.dataLocal.resetStateLoginStaff();
             this.gotoDrawer();
         }

@@ -51,7 +51,7 @@ export default class InputAuth extends React.PureComponent {
                     }} >
                         <Image
                             source={iconShowPass}
-                            style={{ width: scaleSzie(25), height: scaleSzie(15) }}
+                            style={{ width: scaleSzie(25), height: scaleSzie(18) }}
                         />
                     </Button> : <View />
                 }
