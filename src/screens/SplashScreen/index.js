@@ -55,12 +55,12 @@ class SplashScreen extends Layout {
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
 
-        const { loading, visibleModalLock, isLoginStaff, isFlashScreen } = this.props;
-        if (isFlashScreen && !loading && loading !== prevProps.loading && visibleModalLock && isLoginStaff) {
-            console.log('-----');
-            this.props.actions.dataLocal.resetStateLoginStaff();
-            this.gotoDrawer();
-        }
+        // const { loading, visibleModalLock, isLoginStaff, isFlashScreen } = this.props;
+        // if (isFlashScreen && !loading && loading !== prevProps.loading && visibleModalLock && isLoginStaff) {
+        //     console.log('-----');
+        //     this.props.actions.dataLocal.resetStateLoginStaff();
+        //     this.gotoDrawer();
+        // }
     }
 
     componentWillUnmount() {

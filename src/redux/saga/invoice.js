@@ -8,7 +8,7 @@ function* getListInvoicesByMerchant(action) {
     try {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
-        // console.log('responses : ', responses);
+        console.log('getListInvoicesByMerchant : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -24,14 +24,14 @@ function* getListInvoicesByMerchant(action) {
                 type: 'UNAUTHORIZED'
             })
         } else {
-            yield put({type :'GET_LIST_INVOICE_BY_MERCHANT_FAIL'});
+            yield put({ type: 'GET_LIST_INVOICE_BY_MERCHANT_FAIL' });
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
             })
         }
     } catch (error) {
-        yield put({type :'GET_LIST_INVOICE_BY_MERCHANT_FAIL'});
+        yield put({ type: 'GET_LIST_INVOICE_BY_MERCHANT_FAIL' });
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });

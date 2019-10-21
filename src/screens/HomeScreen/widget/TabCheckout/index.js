@@ -566,7 +566,9 @@ class TabCheckout extends Layout {
     getHour() {
         const hours = parseInt(new Date().getHours()) - 12 > 0 ? parseInt(new Date().getHours()) - 13 : parseInt(new Date().getHours());
         const surfix = parseInt(new Date().getHours()) - 12 > 0 ? 'PM' : 'AM'
-        const temptDate = `${hours}:${new Date().getMinutes()}:${new Date().getSeconds()} ${surfix}`;
+        // const temptDate = `${hours}:${new Date().getMinutes()}:${new Date().getSeconds()} ${surfix}`;
+        const temptDate = `${hours}:${new Date().getMinutes()} ${surfix}`;
+
         return temptDate;
     }
 
@@ -575,13 +577,13 @@ class TabCheckout extends Layout {
     }
 
     async printInvoice() {
+        const { infoUser, basket } = this.state;
         try {
             const printer = await PrintManager.getInstance().portDiscovery();
             if (printer.length > 0) {
                 const portName = printer[0].portName;
                 // -------- GET INFO BILL --------
-                const { profile } = this.props;
-                const { basket, infoUser } = this.state;
+                const { profile, profileStaffLogin } = this.props;
                 const { firstName, lastName, phoneNumber } = this.state.infoUser;
                 const commands = [];
                 const temptDate = `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
@@ -589,21 +591,23 @@ class TabCheckout extends Layout {
 
                 commands.push({ enableEmphasis: true });
                 commands.push({
-                    appendAlignment: StarPRNT.AlignmentPosition.Center,
+                    appendAlignment: 'Center',
                     data: `${profile.businessName}\n`,
                 });
                 commands.push({ enableEmphasis: false });
+
+                profile.addressFull ? commands.push({
+                    appendAlignment: 'Center',
+                    data: `${profile.addressFull ? profile.addressFull : ''}\n`,
+                }) : '';
+
                 commands.push({
-                    appendAlignment: StarPRNT.AlignmentPosition.Center,
-                    data: `${profile.addressFull}\n`,
-                });
-                commands.push({
-                    appendAlignment: StarPRNT.AlignmentPosition.Center,
+                    appendAlignment: 'Center',
                     data: `Tel: ${profile.phone}\n`
                 });
 
                 commands.push({
-                    appendAlignment: StarPRNT.AlignmentPosition.Center,
+                    appendAlignment: 'Center',
                     data: `${profile.webLink}\n`
                 });
 
@@ -611,188 +615,156 @@ class TabCheckout extends Layout {
 
                 commands.push({ enableEmphasis: true });
                 commands.push({
-                    appendAlignment: StarPRNT.AlignmentPosition.Center,
+                    appendAlignment: 'Center',
                     data: `SALE\n`,
                 });
                 commands.push({ appendLineFeed: 1 });
                 commands.push({ enableEmphasis: false });
                 commands.push({
-                    appendAlignment: StarPRNT.AlignmentPosition.Center,
-                    data: " -------------------------------\n"
+                    appendAlignment: 'Center',
+                    data: "--------------------------------\n"
                 });
-               
 
+                commands.push({
+                    append: `Dated: ${this.getDate()} ${this.getHour()}\n`
+                });
+                commands.push({
+                    append: `Staff: ${profileStaffLogin.displayName}\n`
+                });
+                commands.push({
+                    append: `Invoice No: 1038400389489\n`
+                });
+                commands.push({
+                    appendAlignment: 'Center',
+                    data: "--------------------------------\n"
+                });
 
-                // commands.push({
-                //     appendAlignment: StarPRNT.AlignmentPosition.Center,
-                //     data: `Fax : ${profile.taxId}\n`
-                // });
+                commands.push({
+                    appendAbsolutePosition: 0,
+                    data: `DESCRIPTION`
+                });
 
+                commands.push({
+                    appendAbsolutePosition: 220,
+                    data: `QTY`
+                });
 
+                commands.push({
+                    appendAbsolutePosition: 300,
+                    data: `PRICE\n`
+                });
+                commands.push({
+                    appendAlignment: 'Center',
+                    data: "--------------------------------\n"
+                });
 
+                // ------- Item ------ 
+                for (let i = 0; i < basket.length; i++) {
+                    commands.push({
+                        appendAbsolutePosition: 0,
+                        data: `${basket[i].data.name}`,
+                    })
 
-                // commands.push({
-                //     appendAbsolutePosition: 10,
-                //     data: `${this.getHour()}`
-                // });
-                // commands.push({
-                //     appendAbsolutePosition: 210,
-                //     data: `Drawer:Simon\n`
-                // });
-                // // ----------------
-                // commands.push({
-                //     appendAbsolutePosition: 10,
-                //     data: `${this.getDate()}`
-                // })
-                // commands.push({
-                //     appendAbsolutePosition: 210,
-                //     data: `#1038400389489\n`
-                // })
-                // // ----------------
-                // commands.push({
-                //     appendAbsolutePosition: 10,
-                //     data: `Client :${firstName} ${lastName}\n`
-                // });
-                // // ----------------
-                // commands.push({
-                //     appendAlignment: StarPRNT.AlignmentPosition.Center,
-                //     data: "-------------------------------\n"
-                // });
+                    commands.push({
+                        appendAbsolutePosition: 220,
+                        data: `${basket[i].quanlitySet ? basket[i].quanlitySet : ''}`
+                    })
 
-                // // ----------------
-                // commands.push({
-                //     appendAbsolutePosition: 10,
-                //     data: `DESCRIPTION`
-                // });
+                    commands.push({
+                        appendAbsolutePosition: 300,
+                        data: `$ ${basket[i].data.price}\n`
+                    })
+                }
 
-                // commands.push({
-                //     appendAbsolutePosition: 220,
-                //     data: `QTY`
-                // });
+                commands.push({ enableUnderline: true });
+                commands.push({ enableEmphasis: true });
+                commands.push({
+                    appendAlignment: 'Center',
+                    data: "                                \n",
 
-                // commands.push({
-                //     appendAbsolutePosition: 320,
-                //     data: `PRICE\n`
-                // });
+                });
+                commands.push({ enableUnderline: false });
+                commands.push({ enableEmphasis: false });
 
-                // // ----------------
+                // --------- Row 1 ---------
+                commands.push({
+                    appendAbsolutePosition: 0,
+                    data: `Sub total`
+                })
 
-                // commands.push({
-                //     appendAbsolutePosition: 10,
-                //     data: `---------------`
-                // });
+                commands.push({
+                    appendAbsolutePosition: 220,
+                    data: ``
+                })
 
-                // commands.push({
-                //     appendAbsolutePosition: 210,
-                //     data: `-----`
-                // });
+                commands.push({
+                    appendAbsolutePosition: 300,
+                    data: `$ 2.00\n`
+                })
+                 // --------- Row 2 ---------
+                 commands.push({
+                    appendAbsolutePosition: 0,
+                    data: `TAX`
+                })
 
-                // commands.push({
-                //     appendAbsolutePosition: 285,
-                //     data: `--------\n`
-                // });
-                // // ------- Price ------ 
-                // for (let i = 0; i < basket.length; i++) {
-                //     commands.push({
-                //         appendAbsolutePosition: 10,
-                //         data: `${basket[i].data.name}`,
-                //     })
+                commands.push({
+                    appendAbsolutePosition: 220,
+                    data: ``
+                })
 
-                //     commands.push({
-                //         appendAbsolutePosition: 230,
-                //         data: `${basket[i].quanlitySet ? basket[i].quanlitySet : ''}`
-                //     })
+                commands.push({
+                    appendAbsolutePosition: 300,
+                    data: `$ 0.0\n`
+                })
 
-                //     commands.push({
-                //         appendAbsolutePosition: 330,
-                //         data: `${basket[i].data.price}\n`
-                //     })
-                // }
+                 // --------- Row 3 ---------
+                 commands.push({
+                    appendAbsolutePosition: 0,
+                    data: `Discount`
+                })
 
-                // // --------
-                // commands.push({
-                //     appendAbsolutePosition: 10,
-                //     data: `                    `
-                // })
+                commands.push({
+                    appendAbsolutePosition: 220,
+                    data: ``
+                })
 
-                // commands.push({
-                //     appendUnderline: "           \n"
-                // })
+                commands.push({
+                    appendAbsolutePosition: 300,
+                    data: `$ 0.0\n`
+                });
 
-                // // --------
-                // commands.push({
-                //     appendAbsolutePosition: 130,
-                //     data: `Sub total`
-                // });
-                // commands.push({
-                //     appendAbsolutePosition: 320,
-                //     data: `$ ${this.state.total}\n`
-                // });
-                // // --------
-                // commands.push({
-                //     appendAbsolutePosition: 200,
-                //     data: `Tax`
-                // });
-                // commands.push({
-                //     appendAbsolutePosition: 320,
-                //     data: `$ 0\n`
-                // });
-                // // --------
-                // commands.push({
-                //     appendAbsolutePosition: 180,
-                //     data: `TOTAL`
-                // });
-                // commands.push({
-                //     appendAbsolutePosition: 320,
-                //     data: `$ ${this.state.total}\n`
-                // });
+                 // --------- Row 4 ---------
+                 commands.push({ enableEmphasis: true });
+                 commands.push({
+                    appendAbsolutePosition: 0,
+                    data: `TOTAL`
+                })
 
-                // // --------
-                // commands.push({ appendLineFeed: 1 });
+                commands.push({
+                    appendAbsolutePosition: 220,
+                    data: ``
+                })
 
-                // // --------
-                // commands.push({
-                //     appendAbsolutePosition: 185,
-                //     data: `CASH`
-                // });
-                // commands.push({
-                //     appendAbsolutePosition: 320,
-                //     data: `${this.state.total}\n`
-                // });
-                // // --------
-                // commands.push({ appendLineFeed: 1 });
+                commands.push({
+                    appendAbsolutePosition: 300,
+                    data: `$ 0.0\n`
+                })
+                commands.push({ enableEmphasis: false });
+                
+                // ---------- End --------
 
-                // // --------
-                // commands.push({
-                //     appendAbsolutePosition: 140,
-                //     data: `Tendered`
-                // });
-                // commands.push({
-                //     appendAbsolutePosition: 320,
-                //     data: `120\n`
-                // });
-
-                // // --------
-                // commands.push({
-                //     appendAbsolutePosition: 160,
-                //     data: `Change`
-                // });
-                // commands.push({
-                //     appendAbsolutePosition: 320,
-                //     data: `15\n`
-                // });
-                // // ------
-                // commands.push({ appendLineFeed: 1 });
-
-                // commands.push({
-                //     appendAlignment: StarPRNT.AlignmentPosition.Center,
-                //     data: "--- See you again ---\n"
-                // })
-
+                commands.push({ appendLineFeed: 1 });
+                commands.push({
+                    appendAlignment: 'Center',
+                    data: `Thank you !\n`
+                });
+                commands.push({
+                    appendAlignment: 'Center',
+                    data: `please come again\n`
+                });
 
                 commands.push({ appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed });
                 const result = await PrintManager.getInstance().print(portName, commands);
-                // this.donotPrintBill();
             } else {
                 setTimeout(() => {
                     alert('Please connect to your print ! ')
@@ -826,7 +798,7 @@ class TabCheckout extends Layout {
 
         const printer = await PrintManager.getInstance().portDiscovery();
         if (printer.length > 0) {
-            const { paymentSelected } = this.state;
+            const { paymentSelected, basket } = this.state;
             const { connectionSignalR } = this.props;
             if (!_.isEmpty(connectionSignalR)) {
                 connectionSignalR.stop();
@@ -841,6 +813,8 @@ class TabCheckout extends Layout {
             this.props.actions.appointment.resetBasketEmpty();
             this.setState(initState);
             this.props.actions.appointment.resetPayment();
+
+            console.log('----- basket : ' + JSON.stringify(basket));
         } else {
             alert('Please connect to your print ! ');
         }

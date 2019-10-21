@@ -221,6 +221,9 @@ function* editStaff(action) {
                 api: `${apiConfigs.BASE_API}staff`,
                 isShowLoading: true
             });
+            yield put({
+                type: 'RESET_NEED_SETTING_STORE'
+            })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
