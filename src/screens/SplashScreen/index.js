@@ -24,7 +24,6 @@ class SplashScreen extends Layout {
             } else {
                 this.props.navigation.navigate('Drawer');
             }
-
         }
     }
 

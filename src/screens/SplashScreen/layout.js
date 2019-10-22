@@ -3,6 +3,7 @@ import {
     View,
     Image
 } from 'react-native';
+import UserInactivity from 'react-native-user-inactivity';
 
 import styles from './style';
 import IMAGE from '../../resources';

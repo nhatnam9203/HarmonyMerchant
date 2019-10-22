@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
     PanResponder, View, StyleSheet
 } from 'react-native';
+import UserInactivity from 'react-native-user-inactivity';
 
 import connectRedux from '@redux/ConnectRedux';
 
@@ -12,39 +13,11 @@ class ParentContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            lastInteraction: new Date(),
-            panResponder: {}
+            active: true
         }
     }
 
-    componentWillMount() {
-        this.panResponder = PanResponder.create({
-            onStartShouldSetPanResponder: this.handleStartShouldSetPanResponder,
-            onMoveShouldSetPanResponder: this.handleMoveShouldSetPanResponder,
-            onStartShouldSetPanResponderCapture: () => false,
-            onMoveShouldSetPanResponderCapture: () => false,
-            onPanResponderTerminationRequest: () => true,
-            onShouldBlockNativeResponder: () => false,
-        });
-        this.maybeStartWatchingForInactivity();
-    }
 
-    componentDidMount() {
-        this.setIsActive();
-    }
-
-    maybeStartWatchingForInactivity = () => {
-        if (this.inactivityTimer) {
-            return;
-        }
-        // console.log('---Click---');
-        this.inactivityTimer = setInterval(() => {
-            if (this.props.activeScreen && !this.props.visibleEnterPin && !this.props.visibleEnterPinInvoice && new Date() - this.lastInteraction >= this.getTimeOut(this.props.autoLockScreenAfter)) {
-                this.setIsInactive();
-            }
-        }, INACTIVITY_CHECK_INTERVAL_MS);
-
-    };
 
     getTimeOut(number) {
         let timeout = 0;
@@ -67,55 +40,37 @@ class ParentContainer extends Component {
             default:
                 timeout = 1 * 1000 * 60;
         }
-        // console.log('number : ', this.props.activeScreen);
-        // console.log('getTimeOut : ', timeout);
         return timeout
     }
 
-    setIsActive = () => {
-        this.lastInteraction = new Date();
-        if (this.state.timeWentInactive) {
-            this.setState({ timeWentInactive: null });
+    handleInactive = isActive =>{
+        const {activeScreen,visibleEnterPinInvoice,visibleEnterPin} = this.props;
+        if(!isActive && activeScreen && !visibleEnterPinInvoice && ! visibleEnterPin){
+            this.props.handleLockScreen();
         }
-        this.maybeStartWatchingForInactivity();
-    };
+    }
 
-    setIsInactive = () => {
-        // console.log('---setIsInactive----');
-        this.setState({ timeWentInactive: new Date() });
-        clearInterval(this.inactivityTimer);
-        this.inactivityTimer = null;
-        this.props.handleLockScreen();
-    };
 
-    handleStartShouldSetPanResponder = () => {
-        this.setIsActive();
-        return false;
-    };
-
-    handleMoveShouldSetPanResponder = () => {
-        this.setIsActive();
-        return false;
-    };
 
     render() {
+        const { autoLockScreenAfter } = this.props;
+        const { active } = this.state;
         return (
-            <View style={styles.container}
-                collapsable={false}
-                {...this.panResponder.panHandlers}
+            <UserInactivity
+                isActive={active}
+                timeForInactivity={this.getTimeOut(autoLockScreenAfter)}
+                // timeForInactivity={3000}
+                onAction={this.handleInactive}
+                style={{ flex: 1 }}
             >
                 {this.props.children}
-            </View>
+            </UserInactivity>
         );
     }
 
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-});
+
 
 const mapStateToProps = state => ({
     autoLockScreenAfter: state.dataLocal.autoLockScreenAfter,
