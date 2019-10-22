@@ -44,10 +44,12 @@ class PopupChangeStylist extends React.Component {
     getStaffDataDropdown(staffs) {
         const data = [];
         for (let i = 0; i < staffs.length; i++) {
-            data.push({
-                staffId: staffs[i].staffId,
-                value: `${staffs[i].displayName}`
-            })
+            if(staffs[i].isDisabled === 0){
+                data.push({
+                    staffId: staffs[i].staffId,
+                    value: `${staffs[i].displayName}`
+                });
+            }
         };
         return data;
     }
