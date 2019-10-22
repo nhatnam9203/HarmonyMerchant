@@ -38,8 +38,10 @@ class PopupAddEditCustomer extends React.Component {
                 favourite: ''
             },
             customerId: '',
-            codeAreaPhone:'+1'
-        }
+            codeAreaPhone:'+1',
+            codeReferrerPhone :'+1'
+        };
+        this.scrollCustomerRef = React.createRef();
     }
 
 
@@ -73,11 +75,12 @@ class PopupAddEditCustomer extends React.Component {
                     city: customer.addressPost.city,
                     state: customer.addressPost.state === 0 ? '' : getNameStateById(this.props.stateCity, customer.addressPost.state)
                 },
-                referrerPhone: customer.referrerPhone,
+                referrerPhone: getCodeAreaPhone(customer.referrerPhone).phone,
                 favourite: customer.favourite
             },
             customerId: customer.customerId,
-            codeAreaPhone: getCodeAreaPhone(customer.phone).areaCode
+            codeAreaPhone: getCodeAreaPhone(customer.phone).areaCode,
+            codeReferrerPhone: getCodeAreaPhone(customer.referrerPhone).areaCode,
         })
     }
 
@@ -120,17 +123,24 @@ class PopupAddEditCustomer extends React.Component {
             const temptCustomerInfo = {
                 ...customerInfo,
                 phone: `${this.state.codeAreaPhone}${customerInfo.phone}`,
+                referrerPhone:`${this.state.codeReferrerPhone}${customerInfo.referrerPhone}`,
                 addressPost: temptAddress
             };
+            // console.log('temptCustomerInfo : ' ,temptCustomerInfo);
             if (this.props.isSave) {
                 this.props.editCustomer(this.state.customerId, temptCustomerInfo);
             } else {
                 this.props.addCustomer(temptCustomerInfo);
-                // console.log('temptCustomerInfo : ', temptCustomerInfo);
             }
 
         }
     }
+
+    scrollCustomerTo(position){
+        this.scrollCustomerRef.current.scrollTo({x: 0, y: scaleSzie(position), animated: true})
+    }
+
+    // ----------- render ----------
 
 
     render() {
@@ -157,6 +167,7 @@ class PopupAddEditCustomer extends React.Component {
                 }} >
                     <View style={{ flex: 1, }} >
                         <ScrollView
+                            ref={this.scrollCustomerRef}
                             showsVerticalScrollIndicator={false}
                         >
                             <TouchableOpacity activeOpacity={1}>
@@ -220,6 +231,7 @@ class PopupAddEditCustomer extends React.Component {
                                             style={{ flex: 1, fontSize: scaleSzie(16) }}
                                             value={phone}
                                             onChangeText={value => this.updateCustomerInfo('phone', value)}
+                                            onFocus={() => this.scrollCustomerTo(60)}
                                         />
                                     </View>
 
@@ -237,6 +249,7 @@ class PopupAddEditCustomer extends React.Component {
                                         style={{ flex: 1, fontSize: scaleSzie(16) }}
                                         value={email}
                                         onChangeText={value => this.updateCustomerInfo('email', value)}
+                                        onFocus={() => this.scrollCustomerTo(120)}
                                     />
                                 </View>
                                 {/* ------- */}
@@ -252,6 +265,7 @@ class PopupAddEditCustomer extends React.Component {
                                         style={{ flex: 1, fontSize: scaleSzie(16) }}
                                         value={street}
                                         onChangeText={value => this.updateCustomerInfo('street', value, 'addressPost')}
+                                        onFocus={() => this.scrollCustomerTo(180)}
                                     />
                                 </View>
                                 {/* ----- */}
@@ -264,6 +278,7 @@ class PopupAddEditCustomer extends React.Component {
                                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
                                                     value={city}
                                                     onChangeText={value => this.updateCustomerInfo('city', value, 'addressPost')}
+                                                    onFocus={() => this.scrollCustomerTo(180)}
                                                 />
                                             </View>
                                         </View>
@@ -288,7 +303,7 @@ class PopupAddEditCustomer extends React.Component {
                                     </View>
                                 </View>
                                 {/* ---- */}
-                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
+                                {/* <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
                                     {localize('Referrer Phone Number', language)}
                                 </Text>
                                 <View style={{
@@ -301,10 +316,51 @@ class PopupAddEditCustomer extends React.Component {
                                         style={{ flex: 1, fontSize: scaleSzie(16) }}
                                         value={referrerPhone}
                                         onChangeText={value => this.updateCustomerInfo('referrerPhone', value)}
-
+                                        onFocus={() => this.scrollCustomerTo(275)}
                                     />
-                                </View>
+                                </View> */}
                                 {/* ------- */}
+                                {/* ---- Referrer Phone Number */}
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
+                                    {localize('Referrer Phone Number', language)}
+                                </Text>
+                                <View style={{ height: scaleSzie(30), flexDirection: 'row' }} >
+                                    <View style={{ width: scaleSzie(55) }} >
+                                        <Dropdown
+                                            label={'+1'}
+                                            data={ListCodeAreaPhone}
+                                            value={this.state.codeReferrerPhone}
+                                            onChangeText={(codeReferrerPhone) => this.setState({ codeReferrerPhone })}
+                                            containerStyle={{
+                                                backgroundColor: '#fff',
+                                                borderWidth: 1,
+                                                borderColor: '#C5C5C5',
+                                                flex: 1
+                                            }}
+                                        />
+                                    </View>
+                                    <View style={{ width: scaleSzie(8) }} />
+                                    <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(10) }} >
+                                        {/* <TextInputMask
+                                            type="only-numbers"
+                                            placeholder="0123 456 456"
+                                            style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                            value={phone}
+                                            onChangeText={value => this.updateCustomerInfo('phone', value)}
+                                            onFocus={() => this.scrollCustomerTo(60)}
+                                        /> */}
+                                        <TextInputMask
+                                        type="only-numbers"
+                                        placeholder="0123 456 456"
+                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                        value={referrerPhone}
+                                        onChangeText={value => this.updateCustomerInfo('referrerPhone', value)}
+                                        onFocus={() => this.scrollCustomerTo(275)}
+                                    />
+                                    </View>
+
+                                </View>
+                                {/* ---- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                     {localize('Note', language)}
                                 </Text>
@@ -329,9 +385,10 @@ class PopupAddEditCustomer extends React.Component {
                                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
                                                     value={favourite}
                                                     onChangeText={value => this.updateCustomerInfo('favourite', value)}
+                                                    onFocus={() => this.scrollCustomerTo(275)}
                                                 />
                                             </View>
-                                            <View style={{
+                                            {/* <View style={{
                                                 width: scaleSzie(40), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center',
                                                 borderTopRightRadius: 4, borderBottomRightRadius: 4
                                             }} >
@@ -339,7 +396,7 @@ class PopupAddEditCustomer extends React.Component {
                                                     source={IMAGE.arrowNote}
                                                     style={{ width: scaleSzie(20), height: scaleSzie(23) }}
                                                 />
-                                            </View>
+                                            </View> */}
 
                                         </View>
                                     </View>
