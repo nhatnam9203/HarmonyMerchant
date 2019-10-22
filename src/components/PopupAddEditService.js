@@ -9,6 +9,7 @@ import {
     ActivityIndicator
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
+import connectRedux from '@redux/ConnectRedux';
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
@@ -258,10 +259,10 @@ class PopupAddEditService extends React.Component {
     // ------- Render -----
 
     renderButtonSubmit() {
-        const { isSave } = this.props;
+        const { isSave ,loading} = this.props;
         const { isSubmitButton } = this.state;
         const temptTitleButton = isSave ? 'Save' : 'Done';
-        if (isSubmitButton) {
+        if (!loading) {
             return (
                 <ButtonCustom
                     width={150}
@@ -764,5 +765,11 @@ const strings = {
 }
 
 
-export default PopupAddEditService;
+// export default PopupAddEditService;
 
+const mapStateToProps = state => ({
+    loading: state.app.loading,
+})
+
+
+export default connectRedux(mapStateToProps, PopupAddEditService);

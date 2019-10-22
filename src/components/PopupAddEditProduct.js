@@ -16,6 +16,7 @@ import PopupParent from './PopupParent';
 import BrowserFile from './BrowserFile';
 import { Dropdown } from './react-native-material-dropdown';
 import { scaleSzie, getCategoryName, getArrayNameCategories, getCategoryIdByName } from '@utils';
+import connectRedux from '@redux/ConnectRedux';
 
 const { width } = Dimensions.get('window');
 
@@ -157,10 +158,10 @@ class PopupAddEditProduct extends React.Component {
     // --------- Render -----
 
     renderButtonSubmit() {
-        const { isSave } = this.props;
+        const { isSave ,loading} = this.props;
         const { isSubmitButton } = this.state;
         const temptTitleButton = isSave ? 'Save' : 'Done';
-        if (isSubmitButton) {
+        if (!loading) {
             return (
                 <ButtonCustom
                     width={150}
@@ -442,6 +443,13 @@ const strings = {
     status: 'Active',
 }
 
-export default PopupAddEditProduct;
+// export default PopupAddEditProduct;
 
+
+const mapStateToProps = state => ({
+    loading: state.app.loading,
+})
+
+
+export default connectRedux(mapStateToProps, PopupAddEditProduct);
 

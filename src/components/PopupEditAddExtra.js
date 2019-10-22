@@ -15,6 +15,7 @@ import PopupParent from './PopupParent';
 import { Dropdown } from './react-native-material-dropdown';
 import BrowserFile from './BrowserFile';
 import { scaleSzie } from '@utils';
+import connectRedux from '@redux/ConnectRedux';
 
 class PopupEditAddExtra extends React.Component {
 
@@ -139,10 +140,10 @@ class PopupEditAddExtra extends React.Component {
     // -------- Render -------
 
     renderButtonSubmit() {
-        const { isEdit } = this.props;
+        const { isEdit,loading } = this.props;
         const { isSubmitButton } = this.state;
         const temptTitleButton = isEdit ? 'Save' : 'Done';
-        if (isSubmitButton) {
+        if (!loading) {
             return (
                 <ButtonCustom
                     width={150}
@@ -358,10 +359,12 @@ const strings = {
     status: 'Mising info :Status',
 }
 
-// const mapStateToProps = state => ({
-//     categoriesByMerchant: state.category.categoriesByMerchant
-// });
-// export default connectRedux(mapStateToProps, PopupEditAddExtra);
-export default PopupEditAddExtra
+const mapStateToProps = state => ({
+    loading: state.app.loading,
+})
+
+
+export default connectRedux(mapStateToProps, PopupEditAddExtra);
+// export default PopupEditAddExtra
 
 
