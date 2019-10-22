@@ -3,6 +3,7 @@ import {
     View,
     Image,
 } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 
 import { scaleSzie } from '@utils';
 import styles from '../style';
@@ -38,6 +39,14 @@ class ItemCheckBoxInput extends React.Component {
                     width: scaleSzie(180),
                 }} >
                     <InputForm
+                        typeInputMask={'money'}
+                        optionsInputMask={{
+                            precision: 2,
+                            separator: '.',
+                            delimiter: ',',
+                            unit: '',
+                            suffixUnit: ''
+                        }}
                         title={title}
                         subTitle=""
                         placeholder={placeholder}
@@ -47,6 +56,7 @@ class ItemCheckBoxInput extends React.Component {
                         isOnlyNumber={true}
                         editable={isSelectCheckBox}
                     />
+
                 </View>
             </View>
         );

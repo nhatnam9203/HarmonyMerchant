@@ -15,7 +15,7 @@ export default class InputForm extends React.PureComponent {
     render() {
         const { title, subTitle, placeholder, style, value,
             onChangeText, secureTextEntry, keyboardType,
-            isOnlyNumber, maxLength, editable,onFocus
+            isOnlyNumber, maxLength, editable, onFocus, typeInputMask, optionsInputMask
         } = this.props;
         const temptHeight = Platform.OS === 'ios' ? 30 : 40
         return (
@@ -32,7 +32,9 @@ export default class InputForm extends React.PureComponent {
                 }} >
                     {
                         isOnlyNumber ? <TextInputMask
-                            type="only-numbers"
+                            // type="only-numbers"
+                            type={typeInputMask ? typeInputMask : 'only-numbers'}
+                            options={optionsInputMask}
                             style={{ flex: 1, fontSize: scaleSzie(16) }}
                             placeholder={placeholder}
                             value={value}

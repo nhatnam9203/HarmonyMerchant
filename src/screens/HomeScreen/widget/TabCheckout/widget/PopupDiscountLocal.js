@@ -310,7 +310,6 @@ class CustomDiscount extends React.Component {
                                 keyboardType="numeric"
                                 placeholderTextColor="#A9A9A9"
                                 maxLength={6}
-
                             />
                         </View>
                         <View style={{ justifyContent: 'center', paddingRight: scaleSzie(5) }} >
