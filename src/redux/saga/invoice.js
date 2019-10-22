@@ -206,7 +206,7 @@ function* searchTransactionSettlement(action) {
 
 function* getBatchHistory(action) {
     try {
-        yield put({ type: 'LOADING_ROOT' });
+        action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
         // console.log('getBatchHistory  : ' + JSON.stringify(responses));
@@ -223,11 +223,17 @@ function* getBatchHistory(action) {
             })
         } else {
             yield put({
+                type: 'GET_BATCH_HISTORY_FAIL',
+            })
+            yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
             })
         }
     } catch (error) {
+        yield put({
+            type: 'GET_BATCH_HISTORY_FAIL',
+        })
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });

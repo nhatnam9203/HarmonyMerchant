@@ -18,7 +18,8 @@ const initialState = {
 
 
     refreshingSettle: false,
-    refreshingTransaction: false
+    refreshingTransaction: false,
+    refreshingBatchHistory: false
 
 }
 
@@ -109,10 +110,21 @@ function appReducer(state = initialState, action) {
                 listTransactionSearch: [],
                 isShowSearchTransaction: false
             }
+        case 'GET_BATCH_HISTORY':
+            return {
+                ...state,
+                refreshingBatchHistory: !action.isShowLoading
+            }
         case 'GET_BATCH_HISTORY_SUCCESS':
             return {
                 ...state,
                 listBatchHistory: action.payload,
+                refreshingBatchHistory: false
+            }
+        case 'GET_BATCH_HISTORY_FAIL':
+            return {
+                ...state,
+                refreshingBatchHistory: false
             }
         case 'SEARCH_BATCH_HISTORY_SUCCESS':
             return {

@@ -11,7 +11,7 @@ import styles from './style';
 import IMAGE from '@resources';
 import { TabContactUs} from './widget';
 
-const MENU = ["Videos", "Documents", "Contact us"];
+const MENU = ["Videos", "Contact us"];
 
 export default class Layout extends React.Component {
 
@@ -94,7 +94,7 @@ export default class Layout extends React.Component {
                                 renderTabBar={() => <View />}
                             >
                                 <View style={{ flex: 1 }} />
-                                <View style={{ flex: 1 }} />
+                                {/* <View style={{ flex: 1 }} /> */}
                                 <TabContactUs />
 
                             </ScrollableTabView>

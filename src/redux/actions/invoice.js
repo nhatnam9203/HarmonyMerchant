@@ -78,12 +78,13 @@ export function clearSearTransaction() {
     }
 }
 
-export function getBatchHistory() {
+export function getBatchHistory(isShowLoading = true) {
     return {
         type: 'GET_BATCH_HISTORY',
         method: 'GET',
         api: `${apiConfigs.BASE_API}settlement/search?from=&to=&key`,
-        token: true
+        token: true,
+        isShowLoading
     }
 }
 

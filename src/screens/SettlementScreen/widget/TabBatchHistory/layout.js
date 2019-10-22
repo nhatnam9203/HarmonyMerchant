@@ -100,7 +100,7 @@ class Layout extends React.Component {
     }
 
     renderLeftContent() {
-        const { listBatchHistory, isShowSearchBatchHistory, listBatchHistorySearch } = this.props;
+        const { listBatchHistory, isShowSearchBatchHistory, listBatchHistorySearch, refreshingBatchHistory } = this.props;
         const temptData = isShowSearchBatchHistory ? listBatchHistorySearch : listBatchHistory;
         return (
             <View style={{ flex: 1, paddingRight: scaleSzie(10) }} >
@@ -117,6 +117,8 @@ class Layout extends React.Component {
                                 onPress={this.selectSette}
                             />}
                             keyExtractor={(item, index) => `${index}`}
+                            refreshing={refreshingBatchHistory}
+                            onRefresh={() => this.props.actions.invoice.getBatchHistory(false)}
                         />
 
                     </View>
@@ -156,7 +158,7 @@ class Layout extends React.Component {
                                 Payment by Credit card
                             </Text>
                             <Text style={styles.textRightBox} >
-                            {`$ ${settleSelected.paymentByCreditCard ? settleSelected.paymentByCreditCard : ''}`}
+                                {`$ ${settleSelected.paymentByCreditCard ? settleSelected.paymentByCreditCard : ''}`}
                             </Text>
                         </View>
                         {/* -------- Box Child ------- */}
@@ -189,7 +191,7 @@ class Layout extends React.Component {
                                 Payment by Cash
                             </Text>
                             <Text style={styles.textRightBox} >
-                            {`$ ${settleSelected.paymentByCash ? settleSelected.paymentByCash : ''}`}
+                                {`$ ${settleSelected.paymentByCash ? settleSelected.paymentByCash : ''}`}
                             </Text>
                         </View>
                         {/* ---------- Row 4 -------- */}
@@ -198,7 +200,7 @@ class Layout extends React.Component {
                                 Other payment
                             </Text>
                             <Text style={styles.textRightBox} >
-                            {`$ ${settleSelected.otherPayment ? settleSelected.otherPayment : ''}`}
+                                {`$ ${settleSelected.otherPayment ? settleSelected.otherPayment : ''}`}
                             </Text>
                         </View>
                     </View>
@@ -211,8 +213,8 @@ class Layout extends React.Component {
                                 Payment by Credit card
                         </Text>
                             <Text style={{ color: '#fff', fontSize: scaleSzie(20), fontWeight: 'bold' }} >
-                            {`$ ${settleSelected.paymentByCreditCard ? settleSelected.paymentByCreditCard : ''}`}
-                        </Text>
+                                {`$ ${settleSelected.paymentByCreditCard ? settleSelected.paymentByCreditCard : ''}`}
+                            </Text>
                         </View>
                     </View>
                 </View>
@@ -231,8 +233,8 @@ class Layout extends React.Component {
 
     renderTabDetail() {
         const { settleSelected } = this.state;
-        const dateDetail = settleSelected.settlementDate ?  `${moment.parseZone(settleSelected.settlementDate).local().format('MM/DD/YYYY h:mm A')}` : '' ;
-       
+        const dateDetail = settleSelected.settlementDate ? `${moment.parseZone(settleSelected.settlementDate).local().format('MM/DD/YYYY h:mm A')}` : '';
+
         return (
             <View style={{ flex: 1 }} >
                 <View style={[styles.tableLeft, { padding: scaleSzie(10) }]} >
@@ -256,10 +258,10 @@ class Layout extends React.Component {
                         {/* ------- Item ------ */}
                         <View>
                             <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
-                               {dateDetail}
+                                {dateDetail}
                             </Text>
                             <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
-                              {settleSelected.note ? settleSelected.note : ''}
+                                {settleSelected.note ? settleSelected.note : ''}
                             </Text>
                         </View>
 

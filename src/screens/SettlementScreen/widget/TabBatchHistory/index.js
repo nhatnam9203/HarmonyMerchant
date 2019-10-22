@@ -127,7 +127,8 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     listBatchHistory: state.invoice.listBatchHistory,
     listBatchHistorySearch: state.invoice.listBatchHistorySearch,
-    isShowSearchBatchHistory: state.invoice.isShowSearchBatchHistory
+    isShowSearchBatchHistory: state.invoice.isShowSearchBatchHistory,
+    refreshingBatchHistory : state.invoice.refreshingBatchHistory
 })
 
 
