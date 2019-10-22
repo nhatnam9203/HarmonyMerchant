@@ -12,7 +12,7 @@ import { NavigationEvents } from 'react-navigation';
 import moment from 'moment';
 import _ from 'ramda';
 
-import { scaleSzie, localize, formatNumberFromCurrency, formatMoney } from '@utils';
+import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber } from '@utils';
 import {
     Text, Button, ButtonCustom,
 } from '@components';
@@ -143,11 +143,10 @@ class Layout extends React.Component {
         let totalAmount = 0;
         if (invoicesOfStaff.length > 0) {
             invoicesOfStaff.forEach(invoice => {
-                if(invoice.status === 'paid' || invoice.status === 'pending'){
+                if (invoice.status === 'paid' || invoice.status === 'pending') {
                     tipAmount = parseFloat(tipAmount) + parseFloat(formatNumberFromCurrency(invoice.tipAmount));
                     totalAmount = parseFloat(totalAmount) + parseFloat(formatNumberFromCurrency(invoice.amount));
                 }
-               
             });
         }
         return (
@@ -194,7 +193,8 @@ class Layout extends React.Component {
                     <View style={{ alignItems: 'flex-end', paddingRight: scaleSzie(10), paddingTop: scaleSzie(10) }} >
                         <Text style={{ fontSize: scaleSzie(12), color: '#404040', marginBottom: scaleSzie(10) }} >
                             Tip Amount: <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginLeft: scaleSzie(5) }} >
-                                {`  $  ${formatMoney(Number(tipAmount).toFixed(2))}`}
+                                {/* {`  $  ${formatMoney(Number(tipAmount).toFixed(2))}`} */}
+                                {`$ ${_.compose(formatMoney, roundFloatNumber)(tipAmount)}`}
                             </Text>
                         </Text>
                         <Text style={{ fontSize: scaleSzie(12), color: '#404040', }} >
@@ -322,9 +322,7 @@ class Layout extends React.Component {
 
                             <TextInputAmount
                                 ref={this.inputCreditPaymentRef}
-                                // value={formatMoney(creditAmount)}
                                 value={settleWaiting.paymentByCreditCard}
-
                                 onChangeText={this.updateTotalCustom}
                             />
                         </View>
@@ -447,9 +445,9 @@ class Layout extends React.Component {
                     _.isEmpty(settleWaiting) || settleWaiting.checkout.length === 0 ?
                         <ScrollView
                             refreshControl={
-                                <RefreshControl 
-                                refreshing={this.props.refreshingSettle} 
-                                onRefresh={this.onRefreshSettle} 
+                                <RefreshControl
+                                    refreshing={this.props.refreshingSettle}
+                                    onRefresh={this.onRefreshSettle}
                                 />
                             }
                         >
@@ -472,13 +470,13 @@ class Layout extends React.Component {
                             </View>
                         </ScrollView>
                         :
-                        <ScrollView 
-                        refreshControl={
-                            <RefreshControl 
-                            refreshing={this.props.refreshingSettle} 
-                            onRefresh={this.onRefreshSettle} 
-                            />
-                        }
+                        <ScrollView
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={this.props.refreshingSettle}
+                                    onRefresh={this.onRefreshSettle}
+                                />
+                            }
                         >
                             {this.renderLastSettlement()}
                             {this.renderHeaderStaffList()}

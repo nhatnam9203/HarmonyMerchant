@@ -39,7 +39,7 @@ class ParentContainer extends Component {
         }
         // console.log('---Click---');
         this.inactivityTimer = setInterval(() => {
-            if (this.props.activeScreen && new Date() - this.lastInteraction >= this.getTimeOut(this.props.autoLockScreenAfter)) {
+            if (this.props.activeScreen && !this.props.visibleEnterPin && !this.props.visibleEnterPinInvoice && new Date() - this.lastInteraction >= this.getTimeOut(this.props.autoLockScreenAfter)) {
                 this.setIsInactive();
             }
         }, INACTIVITY_CHECK_INTERVAL_MS);
@@ -118,7 +118,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-    autoLockScreenAfter: state.dataLocal.autoLockScreenAfter
+    autoLockScreenAfter: state.dataLocal.autoLockScreenAfter,
+    visibleEnterPinInvoice: state.app.visibleEnterPinInvoice,
+    visibleEnterPin: state.app.visibleEnterPin
 })
 
 

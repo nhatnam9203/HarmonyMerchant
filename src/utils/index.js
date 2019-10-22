@@ -408,17 +408,22 @@ export const getCodeAreaPhone = (phone) => {
 }
 
 export const formatNumberFromCurrency = currency => {
+    // console.log('formatNumberFromCurrency : ',currency);
     return Number(`${currency}`.replace(/[^0-9.-]+/g, ""));
 }
 
 export const roundFloatNumber = number => {
+    // console.log('roundFloatNumber : ',number);
     return Number(number).toFixed(2);
 }
 
-export const formatMoney = (number, decPlaces, decSep, thouSep) => {
-    if (`${number}`.includes(',') || `${number}`.includes('.')) {
-        return number
-    }
+export const formatMoney = ( number1, decPlaces, decSep, thouSep) => {
+    let number = `${number}`.includes(',') || `${number}`.includes('.') ? parseFloat(number1) : number1;
+
+    // if (`${number}`.includes(',') || `${number}`.includes('.')) {
+    //      number = parseFloat(number1);
+    // }
+
     decPlaces = isNaN(decPlaces = Math.abs(decPlaces)) ? 2 : decPlaces,
         decSep = typeof decSep === "undefined" ? "." : decSep;
     thouSep = typeof thouSep === "undefined" ? "," : thouSep;

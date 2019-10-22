@@ -40,6 +40,7 @@ pod 'RNFastImage', :path => '../node_modules/react-native-fast-image'
 
 pod 'RNStarPrnt', :path => '../node_modules/react-native-star-prnt'
   pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker/RNDateTimePicker.podspec'
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

@@ -7,8 +7,9 @@ import {
     ScrollView,
     Dimensions
 } from 'react-native';
+import _ from 'ramda';
 
-import { scaleSzie, localize, formatMoney } from '@utils';
+import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber } from '@utils';
 import {
     Text, Button, ButtonCustom,
 } from '@components';
@@ -33,15 +34,15 @@ export default class TotalCustom extends React.Component {
 
     setStateFromParent = async (total) => {
         await this.setState({
-            total
+            total: total
         })
     }
 
-    resetStateFromParent = async () =>{
-        await  this.setState({
-               initState: true
-           })
-       }
+    resetStateFromParent = async () => {
+        await this.setState({
+            initState: true
+        })
+    }
 
     render() {
         const { total } = this.state;

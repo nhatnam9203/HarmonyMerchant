@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import app from './app';
 import dataLocal from './dataLocal';
@@ -18,17 +18,18 @@ import marketing from './marketing';
 
 const rootPersistConfig = {
     key: 'root',
-    storage: storage,
+    storage: AsyncStorage,
     whitelist: ['dataLocal']
 };
 
 const authPersistConfig = {
     key: 'dataLocal',
-    storage: storage,
+    storage: AsyncStorage,
 };
 
 const rootReducer = combineReducers({
-    dataLocal: persistReducer(authPersistConfig, dataLocal),
+    // dataLocal: persistReducer(authPersistConfig, dataLocal),
+    dataLocal,
     app,
     auth,
     category,

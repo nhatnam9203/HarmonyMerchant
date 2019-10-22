@@ -209,7 +209,7 @@ class InvoiceScreen extends Layout {
 
     handleLockScreen = () => {
         const { isFocus } = this.state;
-        if (isFocus) {
+        if (isFocus && !this.props.visibleEnterPinInvoice) {
             this.props.navigation.navigate('Home');
             this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
         }
@@ -301,6 +301,7 @@ const mapStateToProps = state => ({
 
     totalPages: state.invoice.totalPages,
     currentPage: state.invoice.currentPage,
+    visibleEnterPinInvoice: state.app.visibleEnterPinInvoice
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);
