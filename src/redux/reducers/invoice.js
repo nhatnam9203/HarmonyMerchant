@@ -17,12 +17,18 @@ const initialState = {
     isShowSearchBatchHistory: false,
 
 
-    refreshingSettle: false
+    refreshingSettle: false,
+    refreshingTransaction: false
 
 }
 
 function appReducer(state = initialState, action) {
     switch (action.type) {
+        case 'GET_TRANSACTION_SETTLEMENT':
+            return {
+                ...state,
+                refreshingTransaction: !action.isShowLoading
+            }
         case 'GET_LIST_INVOICE_BY_MERCHANT':
             return {
                 ...state,
@@ -73,7 +79,7 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 refreshingSettle: false,
-                settleWaiting:{}
+                settleWaiting: {}
             }
         case 'INVOICE_OFF_STAFF_SUCCESS':
             return {
@@ -84,6 +90,12 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 transactionsSettlement: action.payload,
+                refreshingTransaction: false
+            }
+        case 'GET_TRANSACTION_SETTLEMENT_FAIL':
+            return {
+                ...state,
+                refreshingTransaction: false
             }
         case 'SEARCH_TRANSACTION_SETTLEMENT_SUCCESS':
             return {

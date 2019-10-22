@@ -68,7 +68,7 @@ class Layout extends React.Component {
     renderFilter() {
         const { language } = this.props;
         const { searchFilter, titleRangeTime } = this.state;
-        const {  status } = searchFilter;
+        const { status } = searchFilter;
         const temptColorTextTimeRange = titleRangeTime === 'Time Range' ? 'rgb(155,155,155)' : 'rgb(38,38,38)';
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
@@ -98,7 +98,7 @@ class Layout extends React.Component {
                             label={localize('Statuses', language)}
                             data={[{ value: '' }, { value: 'Pending' }, { value: 'Paid' }, { value: 'Voided' },
                             { value: 'Refunded' }
-                            // , { value: 'Fail' }, { value: 'Cancel' }
+                                // , { value: 'Fail' }, { value: 'Cancel' }
                             ]}
                             value={status}
                             onChangeText={(value) => this.updateSearchFilterInfo('status', value)}
@@ -118,8 +118,10 @@ class Layout extends React.Component {
 
 
     renderContent() {
-        const { transactionsSettlement ,listTransactionSearch,isShowSearchTransaction} = this.props;
-        const tempData = isShowSearchTransaction ? listTransactionSearch  : transactionsSettlement;
+        const { transactionsSettlement, listTransactionSearch, isShowSearchTransaction,
+            refreshingTransaction
+        } = this.props;
+        const tempData = isShowSearchTransaction ? listTransactionSearch : transactionsSettlement;
         return (
             <View style={styles.contentContainer} >
                 <HeaderTableTransaction />
@@ -130,6 +132,8 @@ class Layout extends React.Component {
                         data={tempData}
                         renderItem={({ item, index }) => <ItemTransaction data={item} />}
                         keyExtractor={(item, index) => `${index}`}
+                        refreshing={refreshingTransaction}
+                        onRefresh={() => this.props.actions.invoice.getTransactionSettlement(false)}
                     />
 
                 </View>

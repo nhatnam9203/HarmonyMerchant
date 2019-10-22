@@ -400,14 +400,14 @@ class Layout extends React.Component {
                                     onChangeText={(note) => this.setState({ note })}
                                 />
                             </View>
-                            <View style={{
+                            {/* <View style={{
                                 width: scaleSzie(45), backgroundColor: '#0764B0', borderBottomRightRadius: 4, borderTopRightRadius: 4,
                                 justifyContent: 'center', alignItems: 'center'
                             }} >
                                 <Image source={IMAGE.arrowNote}
                                     style={{ width: 30, height: 30 }}
                                 />
-                            </View>
+                            </View> */}
                         </View>
                     </View>
                 </View>

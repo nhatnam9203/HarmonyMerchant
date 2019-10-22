@@ -53,12 +53,13 @@ export function invoicesOfStaff(staffId) {
     }
 }
 
-export function getTransactionSettlement() {
+export function getTransactionSettlement(isShowLoading = true) {
     return {
         type: 'GET_TRANSACTION_SETTLEMENT',
         method: 'GET',
         api: `${apiConfigs.BASE_API}settlement/transaction`,
-        token: true
+        token: true,
+        isShowLoading
     }
 }
 

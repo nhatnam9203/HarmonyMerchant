@@ -98,7 +98,8 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     transactionsSettlement: state.invoice.transactionsSettlement,
     listTransactionSearch: state.invoice.listTransactionSearch,
-    isShowSearchTransaction: state.invoice.isShowSearchTransaction
+    isShowSearchTransaction: state.invoice.isShowSearchTransaction,
+    refreshingTransaction : state.invoice.refreshingTransaction
 })
 
 

@@ -74,12 +74,14 @@ const ItemTransaction = (props) => {
             </View>
             {/* --------- Col 5 --------- */}
             <View style={{ width: scaleSzie(130), alignItems: 'center', flexDirection: 'row' }} >
-                <Image source={IMAGE.hpLogo} />
-                <View style={{ width: 5 }} />
-                <Image source={IMAGE.discoverLogo} />
-                <View style={{ width: 5 }} />
+                {
+                    data.paymentData.card_type === 'Mastercard' ? <Image source={IMAGE.masterCardLogo}
+                        style={{ width: scaleSzie(30), height: scaleSzie(20) }}
+                    /> : <Image source={IMAGE.visaLogo} style={{ width: scaleSzie(30), height: scaleSzie(20) }} />
+                }
+                <View style={{ width: 10 }} />
                 <Text style={styles.textHeaderContent} >
-                    3527
+                    {data.paymentData.card_number}
                 </Text>
             </View>
             {/* --------- Col 5 --------- */}
