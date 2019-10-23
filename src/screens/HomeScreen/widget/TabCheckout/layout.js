@@ -18,7 +18,7 @@ import styles from './style';
 import IMAGE from '@resources';
 import {
     ItemCategory, ColPlaceHolder, ItemBasket, ItemProductService, ItemAmount,
-    ItemExtra, PopupDiscount, PopupProcessingCredit, PopupBill,PopupDiscountLocal
+    ItemExtra, PopupDiscount, PopupProcessingCredit, PopupBill, PopupDiscountLocal
 } from './widget';
 
 class Layout extends React.Component {
@@ -255,7 +255,7 @@ class Layout extends React.Component {
 
     renderBasket() {
         const { language, appointmentDetail, flagSignInAppointment } = this.props;
-        const { basket, subTotalLocal, tipLocal, discountTotalLocal,taxLocal } = this.state;
+        const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
 
         const tipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
         const subTotal = appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
@@ -267,7 +267,7 @@ class Layout extends React.Component {
         const temptTotal = _.isEmpty(appointmentDetail) ? Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2) : total;
         const temptDiscount = _.isEmpty(appointmentDetail) ? discountTotalLocal : discount;
         const temptTip = _.isEmpty(appointmentDetail) ? tipLocal : tipAmount;
-        const temptTax =  _.isEmpty(appointmentDetail) ? taxLocal : tax;
+        const temptTax = _.isEmpty(appointmentDetail) ? taxLocal : tax;
 
         return (
             <View style={{ flex: 1 }} >
@@ -504,7 +504,13 @@ class Layout extends React.Component {
                 </Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
                     {
-                        ['Harmony Pay', 'Cash'].map((title, index) => <ItemPaymentMethod
+                        // ['Harmony Pay', 'Cash'].map((title, index) => <ItemPaymentMethod
+                        //     key={index}
+                        //     title={title}
+                        //     selectedPayment={this.selectedPayment}
+                        //     paymentSelected={this.state.paymentSelected}
+                        // />)
+                        ['Cash', 'Credit Cards'].map((title, index) => <ItemPaymentMethod
                             key={index}
                             title={title}
                             selectedPayment={this.selectedPayment}
@@ -514,7 +520,14 @@ class Layout extends React.Component {
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: scaleSzie(30) }} >
                     {
-                        ['Credit Cards', 'Others - Check'].map((title, index) => <ItemPaymentMethod
+                        // ['Credit Cards', 'Others - Check'].map((title, index) => <ItemPaymentMethod
+                        //     key={index}
+                        //     title={title}
+                        //     selectedPayment={this.selectedPayment}
+                        //     paymentSelected={this.state.paymentSelected}
+                        // />)
+
+                        ['Others - Check'].map((title, index) => <ItemPaymentMethod
                             key={index}
                             title={title}
                             selectedPayment={this.selectedPayment}
@@ -622,7 +635,7 @@ class Layout extends React.Component {
     render() {
         const { language } = this.props;
         const { basket, visibleConfirm, visibleChangeStylist, visibleChangeMoney,
-        visiblePopupDiscountLocal 
+            visiblePopupDiscountLocal
         } = this.state;
         return (
             <View style={styles.container} >
@@ -633,12 +646,12 @@ class Layout extends React.Component {
                     title={'Discount'}
                     callbackDiscountToParent={(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal) => this.callbackDiscountToParent(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal)}
                 />
-                <PopupDiscountLocal 
-                     ref={this.popupDiscountLocalRef}
-                     visible={visiblePopupDiscountLocal}
-                     title={'Discount'}
-                     onRequestClose={this.onRequestClosePopupDiscountLocal}
-                     callbackDiscountToParent={(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal) => this.callbackDiscountToParent(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal)}
+                <PopupDiscountLocal
+                    ref={this.popupDiscountLocalRef}
+                    visible={visiblePopupDiscountLocal}
+                    title={'Discount'}
+                    onRequestClose={this.onRequestClosePopupDiscountLocal}
+                    callbackDiscountToParent={(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal) => this.callbackDiscountToParent(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal)}
                 />
                 <PopupConfirm
                     visible={visibleConfirm}
