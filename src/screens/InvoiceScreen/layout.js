@@ -399,7 +399,7 @@ export default class Layout extends React.Component {
                                     {`${localize('Tip', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$ ${invoiceDetail.tip ? `${invoiceDetail.tip}` : '0.00'}`}
+                                    {`$ ${invoiceDetail.tipAmount ? `${invoiceDetail.tipAmount}` : '0.00'}`}
                                 </Text>
                             </View>
                             {/* ---------- Tax ------ */}

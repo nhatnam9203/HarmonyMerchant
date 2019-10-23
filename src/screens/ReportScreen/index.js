@@ -77,8 +77,18 @@ class ReportScreen extends Layout {
         } else {
             url = `quickFilter=${getQuickFilterTimeRange(quickFilter)}`;
         }
-        // this.props.actions.staff.filterListStaffsSalaryTop(url);
         this.props.actions.staff.getListStaffsSalaryTop(url,true);
+    }
+
+    onRefreshStaffReport =  () => {
+        const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
+        let url;
+        if (isCustomizeDate) {
+            url = `timeStart=${startDate}&timeEnd=${endDate}`;
+        } else {
+            url = `quickFilter=${getQuickFilterTimeRange(quickFilter)}`;
+        }
+        this.props.actions.staff.getListStaffsSalaryTop(url, false)
     }
 
     componentWillUnmount() {

@@ -577,7 +577,24 @@ class TabCheckout extends Layout {
     }
 
     async printInvoice() {
-        const { infoUser, basket } = this.state;
+        // ------------------------
+        const { appointmentDetail } = this.props;
+        const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
+
+        const tipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
+        const subTotal = appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
+        const discount = appointmentDetail.discount ? appointmentDetail.discount : 0;
+        const tax = appointmentDetail.tax ? appointmentDetail.tax : 0;
+        const total = appointmentDetail.total ? appointmentDetail.total : 0;
+
+        const temptSubTotal = _.isEmpty(appointmentDetail) ? subTotalLocal : subTotal;
+        const temptTotal = _.isEmpty(appointmentDetail) ? Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2) : total;
+        const temptDiscount = _.isEmpty(appointmentDetail) ? discountTotalLocal : discount;
+        const temptTip = _.isEmpty(appointmentDetail) ? tipLocal : tipAmount;
+        const temptTax = _.isEmpty(appointmentDetail) ? taxLocal : tax;
+
+        // ------------------------
+
         try {
             const printer = await PrintManager.getInstance().portDiscovery();
             if (printer.length > 0) {
@@ -657,11 +674,11 @@ class TabCheckout extends Layout {
                 });
 
                 commands.push({
-                    appendAbsolutePosition: 290,
+                    appendAbsolutePosition: 280,
                     data: `PRICE\n`
                 });
 
-               commands.push({ enableEmphasis: true });
+                commands.push({ enableEmphasis: true });
                 commands.push({
                     appendAlignment: 'Center',
                     data: "- - - - - - - - - - - - - - - -\n"
@@ -669,8 +686,8 @@ class TabCheckout extends Layout {
                 commands.push({ enableEmphasis: false });
 
                 // ------- Item ------ 
-                commands.push({  appendFontStyle: 'B' });
-                
+                commands.push({ appendFontStyle: 'B' });
+
                 for (let i = 0; i < basket.length; i++) {
                     commands.push({
                         appendAbsolutePosition: 0,
@@ -687,7 +704,7 @@ class TabCheckout extends Layout {
                         data: `$ ${basket[i].data.price}\n`
                     })
                 };
-                commands.push({  appendFontStyle: 'A' });
+                commands.push({ appendFontStyle: 'A' });
 
 
                 commands.push({ enableUnderline: true });
@@ -701,8 +718,8 @@ class TabCheckout extends Layout {
                 commands.push({ enableUnderline: false });
                 commands.push({ enableEmphasis: false });
 
-                commands.push({  appendFontStyle: 'B' });
-                // --------- Row 1 ---------
+                commands.push({ appendFontStyle: 'B' });
+                // --------- Row 0 ---------
                 commands.push({
                     appendAbsolutePosition: 0,
                     data: `Sub total`
@@ -710,7 +727,17 @@ class TabCheckout extends Layout {
 
                 commands.push({
                     appendAbsolutePosition: 270,
-                    data: `$ 2.00\n`
+                    data: `$ ${formatMoney(temptSubTotal)}\n`
+                })
+                // --------- Row 1 ---------
+                commands.push({
+                    appendAbsolutePosition: 0,
+                    data: `Tip`
+                })
+
+                commands.push({
+                    appendAbsolutePosition: 270,
+                    data: `$ ${formatMoney(temptTip)}\n`
                 })
                 // --------- Row 2 ---------
                 commands.push({
@@ -720,7 +747,7 @@ class TabCheckout extends Layout {
 
                 commands.push({
                     appendAbsolutePosition: 270,
-                    data: `$ 0.0\n`
+                    data: `$ ${formatMoney(temptTax)}\n`
                 })
 
                 // --------- Row 3 ---------
@@ -731,9 +758,9 @@ class TabCheckout extends Layout {
 
                 commands.push({
                     appendAbsolutePosition: 270,
-                    data: `$ 0.0\n`
+                    data: `$ ${formatMoney(temptDiscount)}\n`
                 });
-                commands.push({  appendFontStyle: 'A' });
+                commands.push({ appendFontStyle: 'A' });
                 // --------- Row 4 ---------
                 commands.push({ enableEmphasis: true });
                 commands.push({
@@ -743,7 +770,7 @@ class TabCheckout extends Layout {
 
                 commands.push({
                     appendAbsolutePosition: 270,
-                    data: `$ 0.0\n`
+                    data: `$ ${formatMoney(temptTotal)}\n`
                 })
                 commands.push({ enableEmphasis: false });
 
@@ -800,7 +827,7 @@ class TabCheckout extends Layout {
                 connectionSignalR.stop();
             }
             if (paymentSelected === 'Cash' || paymentSelected === 'Others - Check') {
-                // this.openCashDrawer();
+                this.openCashDrawer();
             }
             this.printInvoice();
             this.scrollTabRef.current.goToPage(0);

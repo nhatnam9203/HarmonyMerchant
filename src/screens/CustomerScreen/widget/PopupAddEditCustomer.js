@@ -209,7 +209,7 @@ class PopupAddEditCustomer extends React.Component {
                                     {localize('Phone Number *', language)}
                                 </Text>
                                 <View style={{ height: scaleSzie(30), flexDirection: 'row' }} >
-                                    <View style={{ width: scaleSzie(55) }} >
+                                    <View style={{ width: scaleSzie(70) }} >
                                         <Dropdown
                                             label={'+1'}
                                             data={ListCodeAreaPhone}
@@ -325,7 +325,7 @@ class PopupAddEditCustomer extends React.Component {
                                     {localize('Referrer Phone Number', language)}
                                 </Text>
                                 <View style={{ height: scaleSzie(30), flexDirection: 'row' }} >
-                                    <View style={{ width: scaleSzie(55) }} >
+                                    <View style={{ width: scaleSzie(70) }} >
                                         <Dropdown
                                             label={'+1'}
                                             data={ListCodeAreaPhone}

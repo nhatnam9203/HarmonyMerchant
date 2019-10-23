@@ -416,7 +416,7 @@
 		2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		2399DE9322F1A9C100DBCCFE /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/rn-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		23D48D642330947300EC4331 /* libPods-Hpmerchant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libPods-Hpmerchant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		23E988C12360301C00341588 /* Hpmerchant copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hpmerchant copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		23E988C12360301C00341588 /* MerchantDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MerchantDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23E988C22360301D00341588 /* Hpmerchant copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Hpmerchant copy-Info.plist"; path = "/Users/phinhn/Desktop/OutSource/Hpmerchant/ios/Hpmerchant copy-Info.plist"; sourceTree = "<absolute>"; };
 		2CC1715E5F55550B8443F454 /* Pods-Hpmerchant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant.debug.xcconfig"; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -803,7 +803,7 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* Hpmerchant.app */,
-				23E988C12360301C00341588 /* Hpmerchant copy.app */,
+				23E988C12360301C00341588 /* MerchantDev.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -857,7 +857,7 @@
 			);
 			name = "Hpmerchant copy";
 			productName = "Hello World";
-			productReference = 23E988C12360301C00341588 /* Hpmerchant copy.app */;
+			productReference = 23E988C12360301C00341588 /* MerchantDev.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1426,7 +1426,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
@@ -1465,7 +1465,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
@@ -1528,7 +1528,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.hpmerchant.dev;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MerchantDev;
 				PROVISIONING_PROFILE_SPECIFIER = HpmerchantDev;
 				TARGETED_DEVICE_FAMILY = 2;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1566,7 +1566,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.hpmerchant.dev;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MerchantDev;
 				PROVISIONING_PROFILE_SPECIFIER = HpmerchantDev;
 				TARGETED_DEVICE_FAMILY = 2;
 				VERSIONING_SYSTEM = "apple-generic";
