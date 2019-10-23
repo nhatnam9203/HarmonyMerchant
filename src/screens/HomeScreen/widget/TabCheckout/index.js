@@ -620,10 +620,13 @@ class TabCheckout extends Layout {
                 });
                 commands.push({ appendLineFeed: 1 });
                 commands.push({ enableEmphasis: false });
+
+                commands.push({ enableEmphasis: true });
                 commands.push({
                     appendAlignment: 'Center',
-                    data: "--------------------------------\n"
+                    data: "- - - - - - - - - - - - - - - -\n"
                 });
+                commands.push({ enableEmphasis: false });
 
                 commands.push({
                     append: `Dated: ${this.getDate()} ${this.getHour()}\n`
@@ -634,10 +637,14 @@ class TabCheckout extends Layout {
                 commands.push({
                     append: `Invoice No: 1038400389489\n`
                 });
+
+                commands.push({ enableEmphasis: true });
                 commands.push({
                     appendAlignment: 'Center',
-                    data: "--------------------------------\n"
+                    data: "- - - - - - - - - - - - - - - -\n"
                 });
+                commands.push({ enableEmphasis: false });
+
 
                 commands.push({
                     appendAbsolutePosition: 0,
@@ -645,20 +652,25 @@ class TabCheckout extends Layout {
                 });
 
                 commands.push({
-                    appendAbsolutePosition: 220,
+                    appendAbsolutePosition: 190,
                     data: `QTY`
                 });
 
                 commands.push({
-                    appendAbsolutePosition: 300,
+                    appendAbsolutePosition: 290,
                     data: `PRICE\n`
                 });
+
+               commands.push({ enableEmphasis: true });
                 commands.push({
                     appendAlignment: 'Center',
-                    data: "--------------------------------\n"
+                    data: "- - - - - - - - - - - - - - - -\n"
                 });
+                commands.push({ enableEmphasis: false });
 
                 // ------- Item ------ 
+                commands.push({  appendFontStyle: 'B' });
+                
                 for (let i = 0; i < basket.length; i++) {
                     commands.push({
                         appendAbsolutePosition: 0,
@@ -666,15 +678,17 @@ class TabCheckout extends Layout {
                     })
 
                     commands.push({
-                        appendAbsolutePosition: 220,
+                        appendAbsolutePosition: 195,
                         data: `${basket[i].quanlitySet ? basket[i].quanlitySet : ''}`
                     })
 
                     commands.push({
-                        appendAbsolutePosition: 300,
+                        appendAbsolutePosition: 270,
                         data: `$ ${basket[i].data.price}\n`
                     })
-                }
+                };
+                commands.push({  appendFontStyle: 'A' });
+
 
                 commands.push({ enableUnderline: true });
                 commands.push({ enableEmphasis: true });
@@ -683,9 +697,11 @@ class TabCheckout extends Layout {
                     data: "                                \n",
 
                 });
+                commands.push({ appendLineFeed: 1 });
                 commands.push({ enableUnderline: false });
                 commands.push({ enableEmphasis: false });
 
+                commands.push({  appendFontStyle: 'B' });
                 // --------- Row 1 ---------
                 commands.push({
                     appendAbsolutePosition: 0,
@@ -693,64 +709,44 @@ class TabCheckout extends Layout {
                 })
 
                 commands.push({
-                    appendAbsolutePosition: 220,
-                    data: ``
-                })
-
-                commands.push({
-                    appendAbsolutePosition: 300,
+                    appendAbsolutePosition: 270,
                     data: `$ 2.00\n`
                 })
-                 // --------- Row 2 ---------
-                 commands.push({
+                // --------- Row 2 ---------
+                commands.push({
                     appendAbsolutePosition: 0,
                     data: `TAX`
                 })
 
                 commands.push({
-                    appendAbsolutePosition: 220,
-                    data: ``
-                })
-
-                commands.push({
-                    appendAbsolutePosition: 300,
+                    appendAbsolutePosition: 270,
                     data: `$ 0.0\n`
                 })
 
-                 // --------- Row 3 ---------
-                 commands.push({
+                // --------- Row 3 ---------
+                commands.push({
                     appendAbsolutePosition: 0,
                     data: `Discount`
                 })
 
                 commands.push({
-                    appendAbsolutePosition: 220,
-                    data: ``
-                })
-
-                commands.push({
-                    appendAbsolutePosition: 300,
+                    appendAbsolutePosition: 270,
                     data: `$ 0.0\n`
                 });
-
-                 // --------- Row 4 ---------
-                 commands.push({ enableEmphasis: true });
-                 commands.push({
+                commands.push({  appendFontStyle: 'A' });
+                // --------- Row 4 ---------
+                commands.push({ enableEmphasis: true });
+                commands.push({
                     appendAbsolutePosition: 0,
                     data: `TOTAL`
                 })
 
                 commands.push({
-                    appendAbsolutePosition: 220,
-                    data: ``
-                })
-
-                commands.push({
-                    appendAbsolutePosition: 300,
+                    appendAbsolutePosition: 270,
                     data: `$ 0.0\n`
                 })
                 commands.push({ enableEmphasis: false });
-                
+
                 // ---------- End --------
 
                 commands.push({ appendLineFeed: 1 });

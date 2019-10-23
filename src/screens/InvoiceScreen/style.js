@@ -18,7 +18,7 @@ export default StyleSheet.create({
     payNumberTextContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: scaleSzie(6)
+        marginBottom: scaleSzie(4)
     },
     textPay: {
         fontSize: scaleSzie(14),
