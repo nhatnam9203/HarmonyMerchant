@@ -29,7 +29,8 @@ const DrawerStack = createDrawerNavigator({
 }, {
         initialRouteName: "Home",
         contentComponent: SlideDrawer,
-        drawerWidth: scaleSzie(220)
+        drawerWidth: scaleSzie(220),
+        overlayColor: "rgba(0, 0, 0, 0.5) ",
 
     });
 

@@ -14,12 +14,13 @@ import { TabMarketing, TabAppointment, TabCheckout } from './widget';
 export default class Layout extends React.Component {
 
     render() {
-        const { language } = this.props;
+        const { language ,navigation} = this.props;
         const { visibleConfirm, isFocus } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
                 activeScreen={isFocus}
+                navigation={navigation}
             >
                 <View style={styles.container} >
                     <StatusBarHeader />
