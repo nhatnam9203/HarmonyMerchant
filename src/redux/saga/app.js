@@ -139,11 +139,11 @@ function* setupMerchantTAX(action) {
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'SAVE_PROFILE_LOCAL',
-                payload:{profile: responses.data}
+                payload: { profile: responses.data }
             });
             yield put({
                 type: 'CHANGE_FLAG_SUBMIT_TAX',
-                payload:false
+                payload: false
             });
 
         } else if (parseInt(codeNumber) === 401) {

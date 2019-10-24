@@ -3,6 +3,7 @@ package com.hpmerchant;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import net.infoxication.reactstarprnt.RNStarPrntPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
@@ -30,6 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativeYouTube(),
             new RNFetchBlobPackage(),
             new RNStarPrntPackage(),
             new FastImageViewPackage(),

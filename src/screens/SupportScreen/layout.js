@@ -4,12 +4,13 @@ import {
     Image
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
+import YouTube from 'react-native-youtube';
 
 import { StatusBarHeader, Button, ParentContainer, Text, PopupLogout } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { TabContactUs} from './widget';
+import { TabContactUs ,TabVideos} from './widget';
 
 const MENU = ["Videos", "Contact us"];
 
@@ -70,7 +71,7 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { language,navigation } = this.props;
+        const { language, navigation } = this.props;
         const { isFocus } = this.state;
         return (
             <ParentContainer
@@ -94,7 +95,21 @@ export default class Layout extends React.Component {
                                 springFriction={1}
                                 renderTabBar={() => <View />}
                             >
-                                <View style={{ flex: 1 }} />
+                                {/* <View style={{ flex: 1 }} >
+                                    <YouTube
+                                        videoId="eQq5knMITLk"
+                                        play 
+                                        fullscreen 
+                                        loop 
+                                        onReady={e => this.setState({ isReady: true })}
+                                        onChangeState={e => this.setState({ status: e.state })}
+                                        onChangeQuality={e => this.setState({ quality: e.quality })}
+                                        onError={e => this.setState({ error: e.error })}
+                                        style={{ alignSelf: 'stretch', height: 300 }}
+                                    />
+
+                                </View> */}
+                                <TabVideos />
                                 {/* <View style={{ flex: 1 }} /> */}
                                 <TabContactUs />
 
