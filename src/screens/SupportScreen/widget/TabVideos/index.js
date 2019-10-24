@@ -1,5 +1,6 @@
 import { Linking } from 'react-native'
 import React from 'react';
+import { YouTubeStandaloneIOS } from 'react-native-youtube';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -10,13 +11,15 @@ class TabVideos extends Layout {
     constructor(props) {
         super(props);
         this.state = {
-            isReady: false,
-            status: '',
-            quality: '',
-            error: ''
+           
         };
     }
 
+    showFullScreeen=(videoId) =>{
+        YouTubeStandaloneIOS.playVideo(videoId)
+            .then(message => console.log(message))
+            .catch(errorMessage => console.error(errorMessage));
+    }
 
 }
 

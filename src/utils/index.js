@@ -73,7 +73,7 @@ export const requestAPI = async (action, header = {}) => {
             } else if (error.message.includes('Network Error')) {
                 throw 'NET_WORK_REQUEST_FAIL'
             } else {
-                throw  error;
+                throw error;
             }
         }
     }
@@ -135,7 +135,7 @@ export const uploadFromData = async (action, header = {}) => {
             } else if (error.message.includes('Network Error')) {
                 throw 'NET_WORK_REQUEST_FAIL'
             } else {
-                throw  error;
+                throw error;
             }
         }
     }
@@ -417,7 +417,7 @@ export const roundFloatNumber = number => {
     return Number(number).toFixed(2);
 }
 
-export const formatMoney = ( number1, decPlaces, decSep, thouSep) => {
+export const formatMoney = (number1, decPlaces, decSep, thouSep) => {
     let number = `${number}`.includes(',') || `${number}`.includes('.') ? parseFloat(number1) : number1;
 
     // if (`${number}`.includes(',') || `${number}`.includes('.')) {
@@ -498,7 +498,15 @@ export const getQuickFilterTimeRange = (type) => {
             quickFilter = ''
     }
     return quickFilter;
+
 }
+
+export const YOUTUBE_DATA = [
+    {
+        videoId: 'eQq5knMITLk',
+        description: "HarmonyPayment - Mobile Payment App With POS Systems"
+    }
+]
 
 export const WorkingTime = [
     {

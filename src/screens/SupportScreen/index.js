@@ -1,6 +1,5 @@
 import React from 'react';
 import { Keyboard } from 'react-native';
-import { YouTubeStandaloneIOS } from 'react-native-youtube';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -41,9 +40,7 @@ class SupportScreen extends Layout {
                 })
             }
         );
-        // YouTubeStandaloneIOS.playVideo('KVZ-P-ZI6W4')
-        //     .then(message => console.log(message))
-        //     .catch(errorMessage => console.error(errorMessage));
+       
     }
 
     handleLockScreen = () => {
