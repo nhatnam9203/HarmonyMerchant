@@ -129,10 +129,12 @@ export default class Layout extends React.Component {
 
     render() {
         const { isFocus, visibleCalendar } = this.state;
+        const {navigation} = this.props;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
                 activeScreen={isFocus}
+                navigation={navigation}
             >
                 <View style={styles.container} >
                     <StatusBarHeader />
