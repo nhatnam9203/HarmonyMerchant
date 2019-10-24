@@ -505,7 +505,7 @@ export const YOUTUBE_DATA = [
     {
         videoId: 'eQq5knMITLk',
         description: "HarmonyPayment - Mobile Payment App With POS Systems"
-    }
+    },
 ]
 
 export const WorkingTime = [

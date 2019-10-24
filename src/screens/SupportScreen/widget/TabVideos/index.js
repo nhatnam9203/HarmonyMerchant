@@ -11,11 +11,11 @@ class TabVideos extends Layout {
     constructor(props) {
         super(props);
         this.state = {
-           
+
         };
     }
 
-    showFullScreeen=(videoId) =>{
+    showFullScreeen = (videoId) => {
         YouTubeStandaloneIOS.playVideo(videoId)
             .then(message => console.log(message))
             .catch(errorMessage => console.error(errorMessage));
