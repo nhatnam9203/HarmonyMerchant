@@ -20,9 +20,11 @@ class SplashScreen extends Layout {
 
     checkForUpdateCodepush() {
         const deploymentKey = checkEnvironment() === 'DEV' ? configs.codePushKeyIOS.staging : configs.codePushKeyIOS.production;
+        // console.log('deploymentKey : ', deploymentKey);
         CodePush.checkForUpdate(deploymentKey)
             .then(update => {
                 if (update) {
+                    console.log('update : ',update);
                     let codePushOptions = {
                         installMode: CodePush.InstallMode.ON_NEXT_RESTART,
                         mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
