@@ -22,7 +22,14 @@ const configs = {
                 elevation: 2,
             },
         })
-    }
+    },
+    codePushKeyIOS: {
+        production: 'duhVozb0nWJ1ciL39iNtdh5xdqBy8ed003ce-e621-4347-babf-de7857b9c737',
+        staging: ' mnF_3WG05SYllO2LScQOQIhTgfRs8ed003ce-e621-4347-babf-de7857b9c737'
+    },
+    bundleIdAppStore: 'com.merchant.harmony',
+    bundleIdAdhoc: 'com.app.hpmerchant',
+    bundleIdAdhocDEV: 'com.app.hpmerchant.dev',
 }
 
 export default configs; 

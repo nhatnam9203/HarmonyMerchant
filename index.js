@@ -48,4 +48,3 @@ AppRegistry.registerComponent(appName, () => App);
 
 
 
-// com.merchant.harmony

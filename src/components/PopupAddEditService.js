@@ -731,7 +731,7 @@ class ItemTime extends React.Component {
                             value={value}
                             onChangeText={this.onChangeText}
                             editable={editable}
-                            onFocus={() => onFocus()}
+                            onFocus={() => onFocus && onFocus()}
                         />
                     </View>
                     <View style={{ justifyContent: 'flex-end', paddingRight: 4 }} >
