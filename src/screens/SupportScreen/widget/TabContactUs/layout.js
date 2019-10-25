@@ -29,10 +29,13 @@ class Layout extends React.Component {
                         </Text>
                         {/* ----------- */}
                         <Text style={styles.textPhone} >
-                            1-810-594-6322
+                        800-531-3126
                         </Text>
                         <Text style={styles.textPhone} >
-                            1-810-594-6333
+                        813-534-0055 text
+                        </Text>
+                        <Text style={styles.textPhone} >
+                        888-316-8164 fax
                         </Text>
                          {/* ----------- */}
                         <Button onPress={this.callPhone} style={{
@@ -48,7 +51,7 @@ class Layout extends React.Component {
                         </Text>
                         {/* ----------- */}
                         <Text style={[styles.textPhone,{marginTop:scaleSzie(5),marginBottom:scaleSzie(15)}]} >
-                            support@harmonypay.com
+                        team@harmonypayment.com
                         </Text>
                          {/* ----------- */}
                          <Button onPress={this.sendEmail} style={{

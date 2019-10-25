@@ -9,9 +9,9 @@ import { StatusBarHeader, Button, ParentContainer, Text, PopupLogout } from '@co
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { TabStaff, TabService, TabExtra, TabCategories, TabGaneral, TabHardware ,TabTAX} from './widget';
+import { TabStaff, TabService, TabExtra, TabCategories, TabGaneral, TabHardware, TabTAX } from './widget';
 
-const MENU = ["General", "Staff", "Categories", "Services", "Extra", "TAX", "Hardware", "About", "Logout"];
+const MENU = ["General", "Staff", "Categories", "Services", "Extra", "TAX", "Hardware", "Logout"];
 
 export default class Layout extends React.Component {
 
@@ -60,7 +60,7 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { language ,navigation} = this.props;
+        const { language, navigation } = this.props;
         const { isFocus } = this.state;
         return (
             <ParentContainer
@@ -91,60 +91,7 @@ export default class Layout extends React.Component {
                                 <TabExtra />
                                 <TabTAX />
                                 <TabHardware />
-                                {/* -------- Tab About ----- */}
-                                <View style={styles.containerAbout} >
-                                    <View style={{ flex: 1 }} >
-                                        <Text style={styles.textTitle} >
-                                            About
-                                        </Text>
-                                        {/* ------- Logo -------- */}
-                                        <View style={styles.logo} >
-                                            <Image source={IMAGE.logoAbout} />
-                                        </View>
-                                        {/* ----------- */}
-                                        <Text style={styles.text2} >
-                                            HarmonyPay Application
-                                        </Text>
-                                        {/* ----------- */}
-                                        <Text style={styles.textVersion} >
-                                            Version 1.0
-                                        </Text>
-                                        {/* ----------- */}
-                                        <Text style={styles.textCopy} >
-                                            Copyright ©  2019 Hamory Inc.
-                                        </Text>
-                                        {/* -------- Text decription ------ */}
-                                        <View style={{
-                                            paddingRight: scaleSzie(20),
-                                            marginTop: scaleSzie(20)
-                                        }} >
-                                            <Text style={styles.textDesc} >
-                                                Lorem Ipsum is simply dummy text of the
-                                                printing and typesetting industry.
-                                                 Lorem Ipsum has been the industry's
-                                                  standard dummy text ever since the 1 500s,
-                                                   when an unknown printer took a galley of type
-                                                   and scrambled it to make a type specimen book.
-                                                   It has survived not only five centuries,
-                                                    but also the leap into electronic typesetting,
-                                                     remaining essentially unchanged.
-                                        </Text>
-                                        </View>
-                                        {/* ------- Footer ----- */}
-                                        <View style={{
-                                            flex: 1, flexDirection: 'row',
-                                            alignItems: 'flex-end', justifyContent: 'space-between',
-                                            paddingBottom: scaleSzie(20)
-                                        }} >
-                                            <Text style={[styles.textFooter, { textDecorationLine: "underline" }]} >
-                                                www.harmonypayment.com
-                                            </Text>
-                                            <Text style={styles.textFooter} >
-                                                Created by Levin Team
-                                            </Text>
-                                        </View>
-                                    </View>
-                                </View>
+                                {/* <About /> */}
                             </ScrollableTabView>
                         </View>
                     </View>
@@ -170,4 +117,64 @@ export default class Layout extends React.Component {
             </ParentContainer>
         );
     }
+}
+
+
+
+const About = () => {
+    return (
+        <View style={styles.containerAbout} >
+            <View style={{ flex: 1 }} >
+                <Text style={styles.textTitle} >
+                    About
+            </Text>
+                {/* ------- Logo -------- */}
+                <View style={styles.logo} >
+                    <Image source={IMAGE.logoAbout} />
+                </View>
+                {/* ----------- */}
+                <Text style={styles.text2} >
+                    HarmonyPay Application
+            </Text>
+                {/* ----------- */}
+                <Text style={styles.textVersion} >
+                    Version 1.0
+            </Text>
+                {/* ----------- */}
+                <Text style={styles.textCopy} >
+                    Copyright ©  2019 Hamory Inc.
+            </Text>
+                {/* -------- Text decription ------ */}
+                <View style={{
+                    paddingRight: scaleSzie(20),
+                    marginTop: scaleSzie(20)
+                }} >
+                    <Text style={styles.textDesc} >
+                        Lorem Ipsum is simply dummy text of the
+                        printing and typesetting industry.
+                         Lorem Ipsum has been the industry's
+                          standard dummy text ever since the 1 500s,
+                           when an unknown printer took a galley of type
+                           and scrambled it to make a type specimen book.
+                           It has survived not only five centuries,
+                            but also the leap into electronic typesetting,
+                             remaining essentially unchanged.
+            </Text>
+                </View>
+                {/* ------- Footer ----- */}
+                <View style={{
+                    flex: 1, flexDirection: 'row',
+                    alignItems: 'flex-end', justifyContent: 'space-between',
+                    paddingBottom: scaleSzie(20)
+                }} >
+                    <Text style={[styles.textFooter, { textDecorationLine: "underline" }]} >
+                        www.harmonypayment.com
+                </Text>
+                    <Text style={styles.textFooter} >
+                        Created by Levin Team
+                </Text>
+                </View>
+            </View>
+        </View>
+    );
 }

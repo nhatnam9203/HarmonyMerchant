@@ -270,7 +270,9 @@ class PopupAddEditProduct extends React.Component {
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
                                             SKU number *
                                     </Text>
-                                        <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
+                                        <View style={{ height: scaleSzie(30), 
+                                            // paddingRight: scaleSzie(20) 
+                                            }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
                                                 <TextInput
                                                     placeholder="sku12345678"
@@ -282,7 +284,7 @@ class PopupAddEditProduct extends React.Component {
                                             </View>
                                         </View>
                                     </View>
-                                    <View style={{
+                                    {/* <View style={{
                                         width: scaleSzie(100), justifyContent: 'flex-end',
                                     }} >
                                         <ButtonCustom
@@ -297,7 +299,7 @@ class PopupAddEditProduct extends React.Component {
                                                 fontSize: scaleSzie(14)
                                             }}
                                         />
-                                    </View>
+                                    </View> */}
                                 </View>
                                 {/* -----  */}
                                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >

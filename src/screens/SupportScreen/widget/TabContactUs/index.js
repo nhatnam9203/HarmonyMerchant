@@ -14,11 +14,11 @@ class TabContactUs extends Layout {
     }
 
     callPhone = () => {
-        Linking.openURL(`tel:1-810-594-6322`)
+        Linking.openURL(`tel:800-531-3126`)
     }
 
     sendEmail = () => {
-        Linking.openURL('mailto:support@harmonypay.com')
+        Linking.openURL('mailto:team@harmonypayment.com')
 
     }
 
