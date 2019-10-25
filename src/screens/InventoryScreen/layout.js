@@ -125,7 +125,7 @@ export default class Layout extends React.Component {
                                     width: scaleSzie(200), justifyContent: 'center', alignItems: 'center',marginRight:scaleSzie(8)
                                 }, styles.borderStyle,{backgroundColor:'rgb(235,93,57)'}]} >
                                     <Text style={{ color: '#fff', fontSize: scaleSzie(15) }} >
-                                        {localize('Hanlde the downloaded file ', language)}
+                                        {localize('Handle the downloaded file ', language)}
                                     </Text>
                                 </Button>
                             }

@@ -103,7 +103,7 @@ class RowTableCustomer extends React.Component {
                             {/* Deandre Wallace */}
                         </Text>
                         <Text style={styles.textTableHeader} >
-                            {customer.referrerPhone}
+                            {customer.referrerPhone === '+1' || customer.referrerPhone === '+84' ? '' : customer.referrerPhone}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
