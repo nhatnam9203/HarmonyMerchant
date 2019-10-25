@@ -6,6 +6,7 @@ import {
 import axios from 'axios';
 
 import Configs from '../configs';
+import apiConfigs from '../configs/api';
 import Localization from '../localization';
 
 const { width } = Dimensions.get('window');
@@ -507,6 +508,10 @@ export const YOUTUBE_DATA = [
         description: "HarmonyPayment - Mobile Payment App With POS Systems"
     },
 ]
+
+export const checkEnvironment = () => {
+    return apiConfigs.BASE_API === "http://api2.levincidemo.com/api/" ? "DEV" : "PRO";
+}
 
 export const WorkingTime = [
     {

@@ -1,7 +1,10 @@
 import _ from 'ramda';
+import CodePush from "react-native-code-push";
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
+import configs from '@configs';
+import { checkEnvironment } from '@utils';
 
 class SplashScreen extends Layout {
 
@@ -12,6 +15,40 @@ class SplashScreen extends Layout {
     }
 
     componentDidMount() {
+        this.checkForUpdateCodepush();
+    }
+
+    checkForUpdateCodepush() {
+        const deploymentKey = checkEnvironment() === 'DEV' ? configs.codePushKeyIOS.staging : configs.codePushKeyIOS.production;
+        CodePush.checkForUpdate(deploymentKey)
+            .then(update => {
+                if (update) {
+                    let codePushOptions = {
+                        installMode: CodePush.InstallMode.ON_NEXT_RESTART,
+                        mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
+                        deploymentKey: deploymentKey
+                    };
+                    CodePush.sync(
+                        codePushOptions,
+                        this.codePushStatusDidChange.bind(this),
+                        this.codePushDownloadDidProgress.bind(this)
+                    );
+                } else {
+                    this.controlFlowInitApp();
+                }
+            })
+            .catch(error => console.log('error : ', error))
+    }
+
+    codePushStatusDidChange(syncStatus) {
+        // console.log('progress : ' ,syncStatus);
+    }
+
+    codePushDownloadDidProgress(progress) {
+        // console.log('progress : ' ,progress);
+    }
+
+    controlFlowInitApp() {
         const { token, profile } = this.props;
         this.props.actions.app.resetIsFlashScreen(true);
         if (!token) {
@@ -27,40 +64,7 @@ class SplashScreen extends Layout {
         }
     }
 
-    gotoDrawer() {
-        const { profile } = this.props;
-        if (profile.needSetting) {
-            this.props.actions.app.handleLockScreen(false);
-            this.props.navigation.navigate('SetupStore');
-        } else {
-            Promise.all([
-                this.props.actions.category.getCategoriesByMerchantId(),
-                this.props.actions.extra.getExtraByMerchant(),
-                this.props.actions.service.getServicesByMerchant(),
-                this.props.actions.product.getProductsByMerchant(),
-                this.props.actions.staff.getStaffByMerchantId(),
-                this.props.actions.app.getStateCity()
-            ]).then((data) => {
-                if (data.length === 6) {
-                    this.props.actions.app.stopLoadingApp();
-                    this.props.actions.app.handleLockScreen(false);
-                    this.props.navigation.navigate('Drawer');
-                }
 
-            });
-        }
-
-    }
-
-    async componentDidUpdate(prevProps, prevState, snapshot) {
-
-        // const { loading, visibleModalLock, isLoginStaff, isFlashScreen } = this.props;
-        // if (isFlashScreen && !loading && loading !== prevProps.loading && visibleModalLock && isLoginStaff) {
-        //     console.log('-----');
-        //     this.props.actions.dataLocal.resetStateLoginStaff();
-        //     this.gotoDrawer();
-        // }
-    }
 
     componentWillUnmount() {
         this.props.actions.app.resetIsFlashScreen();
@@ -76,8 +80,11 @@ const mapStateToProps = state => ({
     isLoginStaff: state.dataLocal.isLoginStaff,
     loading: state.app.loading,
     isFlashScreen: state.app.isFlashScreen
-})
+});
 
+let codePushOptions = { checkFrequency: CodePush.CheckFrequency.MANUAL };
+
+SplashScreen = CodePush(codePushOptions)(SplashScreen);
 
 
 export default connectRedux(mapStateToProps, SplashScreen);

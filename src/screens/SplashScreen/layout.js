@@ -1,23 +1,48 @@
 import React from 'react';
 import {
     View,
-    Image
+    Image,
+    ImageBackground,
+    ActivityIndicator
 } from 'react-native';
-import UserInactivity from 'react-native-user-inactivity';
+import AnimatedEllipsis from 'react-native-animated-ellipsis';
 
 import styles from './style';
 import IMAGE from '../../resources';
+import { Text } from '@components';
+import { scaleSzie } from '@utils';
 
 export default class Layout extends React.Component {
 
     render() {
         return (
-            <View style={styles.container} >
-                <Image source={IMAGE.splashScreen}
-                    style={{ width: null, height: null, flex: 1 }}
-                />
-            </View>
+            <ImageBackground
+                style={styles.container}
+                source={IMAGE.splashScreen}
+            >
+                <View style={{flex:1}} />
+                <View style={{height:scaleSzie(220),alignItems:'center'}} > 
+                    <Text style={{ color: '#fff', fontSize: scaleSzie(20),fontWeight:'bold',marginBottom:scaleSzie(6) }} >
+                        Checking Version
+                    </Text>
+                    <AnimatedEllipsis 
+                    numberOfDots={6}
+                    animationDelay={150}
+                    style={{
+                        color: '#fff',
+                        fontSize: 100,
+                        backgroundColor:'#fff',
+                        height:scaleSzie(5)
+                      }}
+                    />
+                  
+                </View>
+
+
+            </ImageBackground>
 
         );
     }
 }
+
+

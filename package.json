@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "codepush:ios:staging": "code-push release-react HpMerchant-IOS ios -d \"Staging\" -m --plistFile ./ios/Hpmerchant/Info.plist --description \"Test 4\" ",
+    "codepush:ios:product": "code-push release-react HpMerchant-IOS ios -d \"Product\" -m --plistFile ./ios/Hpmerchant/Info.plist --description \"Test 4\" "
   },
   "dependencies": {
     "@aspnet/signalr": "^1.1.4",
@@ -15,6 +17,7 @@
     "ramda": "^0.26.1",
     "react": "16.8.3",
     "react-native": "0.59.9",
+    "react-native-animated-ellipsis": "^2.0.0",
     "react-native-code-push": "^5.7.0",
     "react-native-draggable-flatlist": "^1.1.9",
     "react-native-fast-image": "^7.0.2",
