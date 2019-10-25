@@ -25,7 +25,8 @@ const configs = {
     },
     codePushKeyIOS: {
         production: 'duhVozb0nWJ1ciL39iNtdh5xdqBy8ed003ce-e621-4347-babf-de7857b9c737',
-        staging: ' mnF_3WG05SYllO2LScQOQIhTgfRs8ed003ce-e621-4347-babf-de7857b9c737'
+        staging: 'mnF_3WG05SYllO2LScQOQIhTgfRs8ed003ce-e621-4347-babf-de7857b9c737',
+        name:'HpMerchant-IOS'
     },
     bundleIdAppStore: 'com.merchant.harmony',
     bundleIdAdhoc: 'com.app.hpmerchant',
@@ -33,3 +34,6 @@ const configs = {
 }
 
 export default configs; 
+
+
+
