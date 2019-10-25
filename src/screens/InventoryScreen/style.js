@@ -21,7 +21,7 @@ export default StyleSheet.create({
     },
     containerDropdownExport: {
         width: scaleSzie(110),
-         height: scaleSzie(550),
+         height: scaleSzie(50),
         backgroundColor: '#fff', borderRadius: scaleSzie(4),
         ...Platform.select({
             ios: {
