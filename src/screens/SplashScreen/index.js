@@ -49,7 +49,11 @@ class SplashScreen extends Layout {
                     this.controlFlowInitApp();
                 }
             })
-            .catch(error => console.log('error : ', error))
+            .catch(error => {
+                if (`${error}`.includes('Network request failed')) {
+                    alert('dd')
+                }
+            })
     }
 
     codePushStatusDidChange(syncStatus) {

@@ -22,7 +22,8 @@ class TabSecondSettle extends Layout {
                 otherPayment: 0.00,
                 total: 0.00,
                 note: ''
-            }
+            },
+            errorMessage: ''
         };
     }
 
@@ -113,7 +114,10 @@ class TabSecondSettle extends Layout {
                     numberFooter: 1,
                     progress: 0,
                 })
-                alert(result.message);
+                // alert(result.message);
+                await this.setState({
+                    errorMessage: result.message
+                })
             } else {
                 const { settleWaiting } = this.props;
                 const { settleTotal } = this.state;

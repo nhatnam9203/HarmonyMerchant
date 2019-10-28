@@ -22,7 +22,7 @@ class Layout extends React.Component {
 
     // ---------- Footer 2 ------
     renderFooter2() {
-        const { progress } = this.state;
+        const { progress,errorMessage } = this.state;
         return (
             <View style={{ flex: 1, padding: scaleSzie(10) }} >
                 <View style={{ alignItems: 'center' }} >
@@ -49,11 +49,12 @@ class Layout extends React.Component {
                     </View>
                     <View style={{ flex: 1 }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(14), }} >
-                            - Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                            {/* - Lorem Ipsum is simply dummy text of the printing and typesetting industry. */}
+                            {`- ${errorMessage}`}
                         </Text>
-                        <Text style={{ color: '#404040', fontSize: scaleSzie(14), }} >
+                        {/* <Text style={{ color: '#404040', fontSize: scaleSzie(14), }} >
                             - Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                        </Text>
+                        </Text> */}
                     </View>
                 </View>
 

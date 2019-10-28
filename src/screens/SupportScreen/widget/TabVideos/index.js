@@ -17,8 +17,8 @@ class TabVideos extends Layout {
 
     showFullScreeen = (videoId) => {
         YouTubeStandaloneIOS.playVideo(videoId)
-            .then(message => console.log(message))
-            .catch(errorMessage => console.error(errorMessage));
+            .then(message => {})
+            .catch(errorMessage => {});
     }
 
 }
