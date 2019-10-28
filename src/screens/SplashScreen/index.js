@@ -16,17 +16,20 @@ class SplashScreen extends Layout {
     }
 
     componentDidMount() {
-        CodePush.notifyAppReady();
-        this.checkForUpdateCodepush();
+        if (checkEnvironment() === 'DEV') {
+            this.controlFlowInitApp();
+        } else {
+            this.checkForUpdateCodepush();
+        }
+
     }
 
     checkForUpdateCodepush() {
-        const deploymentKey = checkEnvironment() === 'DEV' ? configs.codePushKeyIOS.staging : configs.codePushKeyIOS.production;
-        // console.log('deploymentKey : ', deploymentKey);
+        // const deploymentKey = checkEnvironment() === 'DEV' ? configs.codePushKeyIOS.staging : configs.codePushKeyIOS.production;
+        const deploymentKey = configs.codePushKeyIOS.production;
         CodePush.checkForUpdate(deploymentKey)
             .then(update => {
                 if (update) {
-                    console.log('update : ' + JSON.stringify(update));
                     if (update.failedInstall) {
                         this.controlFlowInitApp();
                     } else {
@@ -54,7 +57,7 @@ class SplashScreen extends Layout {
     }
 
     async  codePushDownloadDidProgress(progress) {
-        let temp = parseFloat(progress.receivedBytes / progress.totalBytes).toFixed(2);
+        let temp = parseInt(progress.receivedBytes / progress.totalBytes);
         await this.setState({
             progress: temp * 100
         })
