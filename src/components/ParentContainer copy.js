@@ -39,7 +39,7 @@ class ParentContainer extends Component {
         }
         // console.log('---Click---');
         this.inactivityTimer = setInterval(() => {
-            if (this.props.activeScreen && !this.props.visibleEnterPin && !this.props.visibleEnterPinInvoice && new Date() - this.lastInteraction >= c(this.props.autoLockScreenAfter)) {
+            if (this.props.activeScreen && !this.props.visibleEnterPin && !this.props.visibleEnterPinInvoice && new Date() - this.lastInteraction >= (this.props.autoLockScreenAfter)) {
                 this.setIsInactive();
             }
         }, INACTIVITY_CHECK_INTERVAL_MS);

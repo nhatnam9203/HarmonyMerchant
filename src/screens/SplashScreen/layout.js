@@ -35,7 +35,9 @@ export default class Layout extends React.Component {
                         height:scaleSzie(5)
                       }}
                     />
-                  
+                    <Text style={{ color: '#fff', fontSize: scaleSzie(12),marginBottom:scaleSzie(6),marginTop:scaleSzie(10) }} >
+                       {`${this.state.progress}%`}
+                    </Text>
                 </View>
 
 

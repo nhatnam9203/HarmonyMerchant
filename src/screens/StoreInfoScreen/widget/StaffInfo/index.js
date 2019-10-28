@@ -59,7 +59,7 @@ class StaffInfo extends Layout {
                     timeEnd: "08:00 PM",
                     isCheck: true
                 },
-                Sartuday: {
+                Saturday: {
                     timeStart: "08:00 AM",
                     timeEnd: "08:00 PM",
                     isCheck: true

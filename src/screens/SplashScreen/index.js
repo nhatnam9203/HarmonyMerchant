@@ -11,10 +11,12 @@ class SplashScreen extends Layout {
     constructor(props) {
         super(props);
         this.state = {
+            progress: 0
         }
     }
 
     componentDidMount() {
+        CodePush.notifyAppReady();
         this.checkForUpdateCodepush();
     }
 
@@ -24,17 +26,22 @@ class SplashScreen extends Layout {
         CodePush.checkForUpdate(deploymentKey)
             .then(update => {
                 if (update) {
-                    console.log('update : ',update);
-                    let codePushOptions = {
-                        installMode: CodePush.InstallMode.ON_NEXT_RESTART,
-                        mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
-                        deploymentKey: deploymentKey
-                    };
-                    CodePush.sync(
-                        codePushOptions,
-                        this.codePushStatusDidChange.bind(this),
-                        this.codePushDownloadDidProgress.bind(this)
-                    );
+                    console.log('update : ' + JSON.stringify(update));
+                    if (update.failedInstall) {
+                        this.controlFlowInitApp();
+                    } else {
+                        let codePushOptions = {
+                            installMode: CodePush.InstallMode.ON_NEXT_RESTART,
+                            mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
+                            deploymentKey: deploymentKey
+                        };
+                        CodePush.sync(
+                            codePushOptions,
+                            this.codePushStatusDidChange.bind(this),
+                            this.codePushDownloadDidProgress.bind(this)
+                        );
+                    }
+
                 } else {
                     this.controlFlowInitApp();
                 }
@@ -46,8 +53,11 @@ class SplashScreen extends Layout {
         // console.log('progress : ' ,syncStatus);
     }
 
-    codePushDownloadDidProgress(progress) {
-        // console.log('progress : ' ,progress);
+    async  codePushDownloadDidProgress(progress) {
+        let temp = parseFloat(progress.receivedBytes / progress.totalBytes).toFixed(2);
+        await this.setState({
+            progress: temp * 100
+        })
     }
 
     controlFlowInitApp() {
