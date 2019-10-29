@@ -1,5 +1,6 @@
 import _ from 'ramda';
 import CodePush from "react-native-code-push";
+import {Alert} from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -29,6 +30,7 @@ class SplashScreen extends Layout {
         const deploymentKey = configs.codePushKeyIOS.production;
         CodePush.checkForUpdate(deploymentKey)
             .then(update => {
+                // console.log('update : ', update);
                 if (update) {
                     if (update.failedInstall) {
                         this.controlFlowInitApp();
@@ -51,7 +53,18 @@ class SplashScreen extends Layout {
             })
             .catch(error => {
                 if (`${error}`.includes('Network request failed')) {
-                    alert('dd')
+                    Alert.alert(
+                        'Please check your internet!',
+                        'Restart application!',
+                        [
+                            
+                            { text: 'OK', onPress: () => {
+                                CodePush.restartApp();
+                            } },
+                        ],
+                        { cancelable: false },
+                    );
+
                 }
             })
     }
