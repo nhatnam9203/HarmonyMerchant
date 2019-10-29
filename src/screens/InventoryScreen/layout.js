@@ -76,7 +76,7 @@ export default class Layout extends React.Component {
                             styleText={{ fontSize: scaleSzie(15), fontWeight: 'normal' }}
                         />
                     </View>
-                    <View style={{ width: scaleSzie(120), alignItems: 'flex-end' }} >
+                    {/* <View style={{ width: scaleSzie(120), alignItems: 'flex-end' }} >
                         <ButtonCustom
                             width={scaleSzie(110)}
                             height={40}
@@ -87,7 +87,7 @@ export default class Layout extends React.Component {
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: 'normal' }}
                         />
-                    </View>
+                    </View> */}
                 </View>
             </View>
         );
