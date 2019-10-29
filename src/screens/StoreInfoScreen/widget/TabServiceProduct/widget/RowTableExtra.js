@@ -62,12 +62,12 @@ class RowTableExtra extends React.Component {
                                 marginLeft: scaleSzie(8)
                             }}
                         />
-                        <Image source={IMAGE.indicate}
-                            style={{ width: scaleSzie(12), height: scaleSzie(29), marginRight: scaleSzie(12) }}
-                        />
-                        <Text style={styles.textTableHeader}  numberOfLines={1} >
-                            {extra.name}
-                        </Text>
+                        <View style={{ flex: 1 }} >
+                            <Text style={styles.textTableHeader} numberOfLines={1} >
+                                {extra.name}
+                            </Text>
+                        </View>
+
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
@@ -92,7 +92,7 @@ class RowTableExtra extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            {extra.isDisabled === 0 ? 'Active': 'Disable'}
+                            {extra.isDisabled === 0 ? 'Active' : 'Disable'}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >

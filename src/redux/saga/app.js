@@ -210,7 +210,7 @@ function* showErrorMessage(action) {
     yield put({ ...action, type: 'STOP_LOADING_ROOT' });
     // alert(action.message);
     setTimeout(() => {
-        alert(action.message);
+        alert(action.message ? action.message : 'Something went wrong');
     }, 300)
 
 }

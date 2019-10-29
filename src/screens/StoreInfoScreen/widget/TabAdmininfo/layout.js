@@ -229,7 +229,7 @@ class Layout extends React.Component {
                         title={localize('Tip fee', language)}
                     />
                     {
-                        [{ title: `${localize('Percent', language)} ($)`, placeholder: '100' },
+                        [{ title: `${localize('Percent', language)} (%)`, placeholder: '100' },
                         { title: `${localize('Fixed amount')} ($)`, placeholder: '10' }
                         ].map((salary, index) => {
                             return <ItemScalary

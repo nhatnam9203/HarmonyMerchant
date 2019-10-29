@@ -49,9 +49,12 @@ class RowTable extends React.Component {
                         <Image source={IMAGE.indicate}
                             style={{ width: scaleSzie(12), height: scaleSzie(29), marginRight: scaleSzie(12) }}
                         />
+                        <View style={{flex:1}} >
                         <Text style={styles.textTableHeader}  numberOfLines={1} >
                             {category.name}
                         </Text>
+                        </View>
+                        
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />

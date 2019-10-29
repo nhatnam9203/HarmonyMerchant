@@ -2,12 +2,11 @@ import React from 'react';
 import {
     View,
     Image,
-    Text,
     StyleSheet
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
-import { ButtonCustom, } from '@components';
+import { ButtonCustom, Text, } from '@components';
 import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 
@@ -61,9 +60,12 @@ class RowTableExtra extends React.Component {
                             /> : <Image source={IMAGE.product_holder} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
                         }
                         </View>
+                        <View style={{flex:1}} >
                         <Text style={styles.textTableHeader}  numberOfLines={1} >
                             {product.name}
                         </Text>
+                        </View>
+                       
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />

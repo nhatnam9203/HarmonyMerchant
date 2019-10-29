@@ -64,9 +64,12 @@ class RowTableServices extends React.Component {
                                 marginLeft: scaleSzie(8)
                             }}
                         />
+                        <View style={{flex:1}} >
                         <Text style={styles.textTableHeader}  numberOfLines={1} >
                             {service.name}
                         </Text>
+                        </View>
+                      
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
@@ -77,7 +80,7 @@ class RowTableServices extends React.Component {
                     width: scaleSzie(180), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
+                        <Text style={styles.textTableHeader}  numberOfLines={1} >
                             {categoryName}
                         </Text>
                     </View>
@@ -90,7 +93,7 @@ class RowTableServices extends React.Component {
                     width: scaleSzie(180), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader}  >
+                        <Text style={styles.textTableHeader}  numberOfLines={1}  >
                             {extraName}
                         </Text>
                     </View>
