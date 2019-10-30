@@ -34,7 +34,7 @@ class TabFirstSettle extends Layout {
 
 
     onDidFocus = (payload) => {
-        this.handleReport();
+        // this.handleReport();
     }
 
     pushStaffIntoArrayStaff = ref => {
@@ -55,10 +55,11 @@ class TabFirstSettle extends Layout {
     }
 
     async handleResponseReportTransactions(message) {
+        // console.log('handleResponseReportTransactions : ' , message)
         try {
             const result = JSON.parse(message);
             if (result.status == 0) {
-                alert(result.message);
+                // alert(result.message);
             } else {
                 this.setState({
                     creditCount: result.CreditCount,

@@ -9,7 +9,7 @@ const initialState = {
         name: '',
         ip: '',
         port: '',
-        timeout: '',
+        timeout: 60000,
         isSetup: false
     },
     profileStaffLogin: {},

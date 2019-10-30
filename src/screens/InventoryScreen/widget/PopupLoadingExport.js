@@ -48,7 +48,7 @@ class PopupLoadingExport extends React.Component {
                             {localize('Please wait !', language)}
                         </Text>
                         <Text style={{ color: '#404040', fontSize: scaleSzie(18), marginTop: scaleSzie(4) }} >
-                            {localize('PDF file is being created ...', language)}
+                            {localize('Excell file is being created ...', language)}
                         </Text>
 
                         <View style={{

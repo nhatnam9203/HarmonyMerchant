@@ -23,12 +23,14 @@ class TabSecondSettle extends Layout {
                 total: 0.00,
                 note: ''
             },
-            errorMessage: ''
+            errorMessage:'',
+            paxErrorMessage:''
         };
     }
 
     componentDidMount() {
-        this.handleReport();
+        // console.log('ddd');
+        // this.handleReport();
     }
 
     setStateFromParent = (settleTotal) => {
@@ -53,14 +55,21 @@ class TabSecondSettle extends Layout {
     }
 
     async handleResponseReportTransactions(message) {
+        // console.log('Second : ', message);
         try {
             const result = JSON.parse(message);
             if (result.status == 0) {
-                alert(result.message);
+                // console.log('error Second : ',messageee);
+                this.setState({
+                    paxErrorMessage: result.message,
+                    errorMessage: `-${result.message}`,
+                })
             } else {
                 this.setState({
                     creditCount: result.CreditCount,
-                    creditAmount: result.CreditAmount
+                    creditAmount: result.CreditAmount,
+                    paxErrorMessage:'',
+                    errorMessage:''
                 })
             }
         } catch (error) {
@@ -116,7 +125,7 @@ class TabSecondSettle extends Layout {
                 })
                 // alert(result.message);
                 await this.setState({
-                    errorMessage: result.message
+                    paxErrorMessage: result.message
                 })
             } else {
                 const { settleWaiting } = this.props;

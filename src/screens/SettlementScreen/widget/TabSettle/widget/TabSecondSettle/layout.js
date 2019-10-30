@@ -50,7 +50,7 @@ class Layout extends React.Component {
                     <View style={{ flex: 1 }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(14), }} >
                             {/* - Lorem Ipsum is simply dummy text of the printing and typesetting industry. */}
-                            {`- ${errorMessage}`}
+                            {`${errorMessage}`}
                         </Text>
                         {/* <Text style={{ color: '#404040', fontSize: scaleSzie(14), }} >
                             - Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
@@ -248,7 +248,7 @@ class Layout extends React.Component {
 
     render() {
         const { settleWaiting } = this.props;
-        const { creditAmount, settleTotal } = this.state;
+        const { creditAmount, settleTotal ,paxErrorMessage} = this.state;
         const { paymentByHarmony, paymentByCreditCard, paymentByCash, otherPayment, total, note } = settleTotal;
         return (
             <View style={[styles.container, { backgroundColor: '#F6F6F6' }]} >
@@ -360,6 +360,11 @@ class Layout extends React.Component {
                             {this.renderOpenBatch()}
                         </View>
                     </View>
+                </View>
+                <View style={{height:scaleSzie(40),alignItems:'center',justifyContent:'center'}} >
+                    <Text style={{fontSize:scaleSzie(18),color:'red',fontWeight:'bold'}} >
+                        {paxErrorMessage} 
+                    </Text>
                 </View>
                 {/* ------------ Footer -------- */}
                 {this.renderFooter()}
