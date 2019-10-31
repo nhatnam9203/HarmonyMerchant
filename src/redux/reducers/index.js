@@ -19,7 +19,7 @@ import marketing from './marketing';
 const rootPersistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    whitelist: ['dataLocal']
+    blacklist: ['app','auth','upload','appointment' ]
 };
 
 const authPersistConfig = {
@@ -28,20 +28,51 @@ const authPersistConfig = {
 };
 
 const rootReducer = combineReducers({
-    // dataLocal: persistReducer(authPersistConfig, dataLocal),
     dataLocal,
     app,
     auth,
-    category,
-    product,
-    staff,
-    service,
-    extra,
+    category: persistReducer({
+        key: 'category',
+        storage: AsyncStorage,
+        whitelist: ['categoriesByMerchant']
+    }, category),
+    product: persistReducer({
+        key: 'product',
+        storage: AsyncStorage,
+        whitelist: ['productsByMerchantId']
+    }, product),
+    staff: persistReducer({
+        key: 'staff',
+        storage: AsyncStorage,
+        whitelist: ['listStaffByMerchant']
+    }, staff),
+    service: persistReducer({
+        key: 'service',
+        storage: AsyncStorage,
+        whitelist: ['servicesByMerchant']
+    }, service),
+    extra: persistReducer({
+        key: 'extra',
+        storage: AsyncStorage,
+        whitelist: ['extrasByMerchant']
+    }, extra),
     upload,
     appointment,
-    customer,
-    invoice,
-    marketing
+    customer: persistReducer({
+        key: 'customer',
+        storage: AsyncStorage,
+        whitelist: ['listCustomersByMerchant']
+    }, customer),
+    invoice: persistReducer({
+        key: 'invoice',
+        storage: AsyncStorage,
+        whitelist: ['listInvoicesByMerchant']
+    }, invoice),
+    marketing: persistReducer({
+        key: 'marketing',
+        storage: AsyncStorage,
+        whitelist: ['listBanners','promotions']
+    }, marketing),
 });
 
 export default persistReducer(rootPersistConfig, rootReducer);
