@@ -11,7 +11,8 @@ const initialState = {
 
     visibleEnterPin: true,
     isSubmitTax: false,
-    visibleEnterPinInvoice: false
+    visibleEnterPinInvoice: false,
+    isOfflineMode: false
 }
 
 function appReducer(state = initialState, action) {
@@ -93,6 +94,17 @@ function appReducer(state = initialState, action) {
                 ...state,
                 visibleEnterPinInvoice: true
             }
+        case 'TURN_ON_OFFLINE_MODE':
+            return {
+                ...state,
+                isOfflineMode: action.payload
+            }
+        case 'CLOSE_POPUP_ENTER_PIN':
+            return {
+                ...state,
+                visibleEnterPin: false
+            }
+
 
 
         default:

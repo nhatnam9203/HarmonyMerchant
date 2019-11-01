@@ -278,7 +278,7 @@ function* loginStaff(action) {
     } catch (error) {
         yield put({ type: 'LOGIN_STAFF_FAIL' });
         yield put({ type: 'STOP_LOADING_ROOT' });
-        yield put({ type: error });
+        yield put({ ...action, type: error ,typeParent:action.type});
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }

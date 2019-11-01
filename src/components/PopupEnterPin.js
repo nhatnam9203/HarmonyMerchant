@@ -33,7 +33,7 @@ class PopupEnterPin extends React.Component {
 
     setStateFromParent = async (value) => {
         this.setState({
-            value 
+            value
         })
     }
 
@@ -53,8 +53,12 @@ class PopupEnterPin extends React.Component {
 
     }
 
+    loginWithOfflineMode =() =>{
+        this.props.actions.app.closePopupEnterPin();
+    }
+
     render() {
-        const { title, visibleEnterPin, isShowButtonEnterPinCode, onRequestClose, confimYes, hideCloseButton } = this.props;
+        const { title, visibleEnterPin, isOfflineMode, onRequestClose, confimYes, hideCloseButton,isShowButtonEnterPinCode } = this.props;
         const { value, customStyle, loading } = this.state;
         return (
             <PopupParent
@@ -65,10 +69,11 @@ class PopupEnterPin extends React.Component {
                 style={customStyle}
             >
                 <View style={{
-                    height: scaleSzie(130), backgroundColor: '#fff',
+                    // height: scaleSzie(130), 
+                    backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15)
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+                    <View style={{ height: scaleSzie(85), justifyContent: 'center', alignItems: 'center' }} >
                         <View style={{
                             width: '90%', height: scaleSzie(45),
                             borderColor: 'rgb(231,231,231)', borderWidth: 3
@@ -91,25 +96,37 @@ class PopupEnterPin extends React.Component {
                             />
                         </View>
                     </View>
-                    <View style={{
-                        height: scaleSzie(45), alignItems: 'center'
-                    }} >
-                        {
-                            isShowButtonEnterPinCode ? <View style={{
-                                width: '30%', height: scaleSzie(35), backgroundColor: '#0764B0',
-                                justifyContent: 'center', alignItems: 'center'
+                    {
+                        isOfflineMode ? <View style={{ height: scaleSzie(120), }} >
+                            <Text style={{
+                                color: 'rgb(246,195,49)', fontWeight: 'bold', fontSize: scaleSzie(14),
+                                textAlign: 'center'
                             }} >
-                                <ActivityIndicator
-                                    size="large"
-                                    color="#fff"
-                                />
-                            </View> : <ButtonCustom
+                                Please check your internet !
+                        </Text>
+                            <Text style={{
+                                color: 'rgb(246,195,49)', fontWeight: 'bold', fontSize: scaleSzie(14),
+                                textAlign: 'center'
+                            }} >
+                                Or
+                        </Text>
+                            <Text style={{
+                                color: 'rgb(246,195,49)', fontWeight: 'bold', fontSize: scaleSzie(14),
+                                textAlign: 'center'
+                            }} >
+                                Do you want use offline mode ?
+                        </Text>
+                            <View style={{
+                                flex: 1, flexDirection: 'row', justifyContent: 'space-around',
+                                alignItems: 'center'
+                            }} >
+                                <ButtonCustom
                                     width={'30%'}
                                     height={35}
                                     backgroundColor="#0764B0"
-                                    title="Enter"
+                                    title="Ask me later"
                                     textColor="#fff"
-                                    onPress={() => confimYes()}
+                                    onPress={() => this.props.actions.app.toogleOfflineMode(false)}
                                     styleText={{
                                         fontSize: scaleSzie(14)
                                     }}
@@ -117,15 +134,62 @@ class PopupEnterPin extends React.Component {
                                         borderRadius: scaleSzie(4)
                                     }}
                                 />
-                        }
 
-                    </View>
+                                <ButtonCustom
+                                    width={'30%'}
+                                    height={35}
+                                    backgroundColor="#0764B0"
+                                    title="OK"
+                                    textColor="#fff"
+                                    onPress={this.loginWithOfflineMode}
+                                    styleText={{
+                                        fontSize: scaleSzie(14)
+                                    }}
+                                    style={{
+                                        borderRadius: scaleSzie(4)
+                                    }}
+                                />
+
+                            </View>
+                        </View> :
+                            < View style={{
+                                height: scaleSzie(45), alignItems: 'center'
+                            }} >
+                                {
+                                    isShowButtonEnterPinCode ? <View style={{
+                                        width: '30%', height: scaleSzie(35), backgroundColor: '#0764B0',
+                                        justifyContent: 'center', alignItems: 'center'
+                                    }} >
+                                        <ActivityIndicator
+                                            size="large"
+                                            color="#fff"
+                                        />
+                                    </View> : <ButtonCustom
+                                            width={'30%'}
+                                            height={35}
+                                            backgroundColor="#0764B0"
+                                            title="Enter"
+                                            textColor="#fff"
+                                            onPress={() => confimYes()}
+                                            styleText={{
+                                                fontSize: scaleSzie(14)
+                                            }}
+                                            style={{
+                                                borderRadius: scaleSzie(4)
+                                            }}
+                                        />
+                                }
+
+                            </View>
+                    }
+
+
                 </View>
-            </PopupParent>
+            </PopupParent >
         );
     }
 
-   
+
 
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
@@ -138,7 +202,8 @@ class PopupEnterPin extends React.Component {
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     isShowButtonEnterPinCode: state.staff.isShowButtonEnterPinCode,
-    visibleEnterPin: state.app.visibleEnterPin
+    visibleEnterPin: state.app.visibleEnterPin,
+    isOfflineMode: state.app.isOfflineMode
 });
 
 export default connectRedux(mapStateToProps, PopupEnterPin);

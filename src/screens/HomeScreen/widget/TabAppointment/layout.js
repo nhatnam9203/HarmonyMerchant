@@ -4,7 +4,7 @@ import {
     ScrollView,
     Image
 } from 'react-native';
-import { WebView } from 'react-native-webview';
+import { WebView} from 'react-native-webview';
 
 import { Text, ButtonCustom, Button, PopupConfirm, PopupChangeStylist } from '@components';
 import styles from './style';
@@ -409,10 +409,16 @@ class Layout extends React.Component {
             <View style={styles.container} >
                 <WebView
                     ref={this.webviewRef}
-                    source={{ uri: `${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}&staffId=${profileStaffLogin.staffId}` }}
+                    // source={{ uri: `${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}&staffId=${profileStaffLogin.staffId}` }}
+                    source={{ uri: `https://www.google.com/` }}
+
                     startInLoadingState={true}
                     injectedJavaScript={injectedJavascript}
                     onMessage={this.onMessageFromWebview}
+                    cacheEnabled={true}
+                    // cacheMode={}
+                    domStorageEnabled={true}
+                    useWebKit={true}
                 />
                 {this.state.isShowAddAppointment ? this.renderModalBookAppointment() : <View />}
                 <PopupConfirm

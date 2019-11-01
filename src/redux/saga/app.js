@@ -1,6 +1,6 @@
 import { put, takeLatest, all, join } from "redux-saga/effects";
 import NavigationServices from "../../navigators/NavigatorServices";
-
+import { Alert } from 'react-native';
 
 import { requestAPI } from '../../utils';
 
@@ -192,13 +192,22 @@ function* checkEmailSignup(action) {
 
 function* requestNetworkTimeout(action) {
     yield put({ type: 'STOP_LOADING_ROOT' });
-    // alert('Please check your internet !');
-    setTimeout(() => {
-        alert('Please check your internet !');
-    }, 300)
+    if (action.typeParent && action.typeParent === 'LOGIN_STAFF') {
+        yield put({
+            type: 'TURN_ON_OFFLINE_MODE',
+            payload: true
+        })
+    } else {
+        setTimeout(() => {
+            alert('Please check your internet !');
+        }, 300)
+    }
+
+
 }
 
 function* timeout(action) {
+    console.log('dddd');
     yield put({ type: 'STOP_LOADING_ROOT' });
     setTimeout(() => {
         alert('Server not response');

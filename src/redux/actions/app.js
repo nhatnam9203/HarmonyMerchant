@@ -161,3 +161,17 @@ export function setVisibleEnterPincodeInvoice(visible = true) {
         payload: visible
     }
 }
+
+export function toogleOfflineMode(visible = true) {
+    return {
+        type: 'TURN_ON_OFFLINE_MODE',
+        payload: visible
+    }
+}
+
+
+export function closePopupEnterPin() {
+    return {
+        type: 'CLOSE_POPUP_ENTER_PIN',
+    }
+}
