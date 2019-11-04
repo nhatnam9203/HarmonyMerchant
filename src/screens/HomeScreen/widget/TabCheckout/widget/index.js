@@ -9,6 +9,7 @@ import PopupProcessingCredit from './PopupProcessingCredit';
 import PopupBill from './PopupBill';
 import PopupDiscountLocal from './PopupDiscountLocal';
 import PopupEnterInfo from './PopupEnterInfo';
+import PopupEnterCustomerPhone from './PopupEnterCustomerPhone';
 
 module.exports = {
     ItemCategory,
@@ -21,5 +22,6 @@ module.exports = {
     PopupProcessingCredit,
     PopupBill,
     PopupDiscountLocal,
-    PopupEnterInfo
+    PopupEnterInfo,
+    PopupEnterCustomerPhone
 }

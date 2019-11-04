@@ -18,7 +18,8 @@ import styles from './style';
 import IMAGE from '@resources';
 import {
     ItemCategory, ColPlaceHolder, ItemBasket, ItemProductService, ItemAmount,
-    ItemExtra, PopupDiscount, PopupProcessingCredit, PopupBill, PopupDiscountLocal,PopupEnterInfo
+    ItemExtra, PopupDiscount, PopupProcessingCredit, PopupBill, PopupDiscountLocal,PopupEnterInfo,
+    PopupEnterCustomerPhone
 } from './widget';
 
 class Layout extends React.Component {
@@ -35,7 +36,7 @@ class Layout extends React.Component {
                     <Text style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(90) }]} >
                         {`${firstName} ${lastName}`}
                     </Text>
-                    <Text style={styles.textHeader} >
+                    <Text onPress={this.displayPopupCustomerPhone} style={styles.textHeader} >
                         {`${localize('Phone', language)}:`}
                     </Text>
                     <Text style={[styles.textHeader, { marginLeft: scaleSzie(12) }]} >
@@ -711,6 +712,13 @@ class Layout extends React.Component {
                       title="Confirmation"
                       message="Customer Name"
                       onRequestClose={() => this.setState({ visibleCustomerName: false })}
+                    confimYes={this.changeCustomerName}
+                />
+                <PopupEnterCustomerPhone 
+                      visible={this.state.visibleCustomerPhone}
+                      title="Confirmation"
+                      message="Customer Phone"
+                      onRequestClose={() => this.setState({ visibleCustomerPhone: false })}
                     confimYes={this.changeCustomerName}
                 />
             </View>

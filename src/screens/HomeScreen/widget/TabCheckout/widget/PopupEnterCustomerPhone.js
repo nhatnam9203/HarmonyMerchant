@@ -14,7 +14,7 @@ import { ButtonCustom, PopupParent } from '@components';
 import { scaleSzie } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
-class PopupEnterInfo extends React.Component {
+class PopupEnterCustomerPhone extends React.Component {
 
     constructor(props) {
         super(props);
@@ -43,7 +43,7 @@ class PopupEnterInfo extends React.Component {
         await this.setState({
             customStyle: {
                 justifyContent: 'flex-start',
-                paddingTop: scaleSzie(40)
+                paddingTop: scaleSzie(80)
             }
         });
     }
@@ -69,14 +69,14 @@ class PopupEnterInfo extends React.Component {
                 style={customStyle}
             >
                 <View style={{
-                    height: scaleSzie(210), backgroundColor: '#fff',
+                    height: scaleSzie(130), backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15)
                 }} >
-                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: scaleSzie(10), marginBottom: scaleSzie(4) }} >
+                    {/* <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: scaleSzie(10), marginBottom: scaleSzie(4) }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
                             {message}
                         </Text>
-                    </View>
+                    </View> */}
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                         <View style={{
                             width: '90%', height: scaleSzie(45),
@@ -89,7 +89,7 @@ class PopupEnterInfo extends React.Component {
                                     flex: 1, fontSize: scaleSzie(18),
                                     padding: 0, margin: 0
                                 }}
-                                placeholder={"First Name"}
+                                placeholder={"Phone numbers"}
                                 value={firstName}
                                 onChangeText={(firstName) => this.setState({ firstName })}
                                 onSubmitEditing={() => {
@@ -98,29 +98,8 @@ class PopupEnterInfo extends React.Component {
                             />
                         </View>
                     </View>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
-                        <View style={{
-                            width: '90%', height: scaleSzie(45),
-                            borderColor: 'rgb(231,231,231)', borderWidth: 3,
-                            paddingHorizontal: scaleSzie(10)
-                        }} >
-                            <TextInput
-                                // type="only-numbers"
-                                style={{
-                                    flex: 1, fontSize: scaleSzie(18),
-                                    padding: 0, margin: 0
-                                }}
-                                placeholder={"Last Name"}
-                                value={lastName}
-                                onChangeText={(lastName) => this.setState({ lastName })}
-                                onSubmitEditing={() => {
-                                    confimYes();
-                                }}
-                            />
-                        </View>
-                    </View>
                     <View style={{
-                        height: scaleSzie(50), alignItems: 'center'
+                        height: scaleSzie(45), alignItems: 'center'
                     }} >
                         {
                             isShowButtonEnterPinCode ? <View style={{
@@ -168,5 +147,5 @@ const mapStateToProps = state => ({
     isShowButtonEnterPinCode: state.staff.isShowButtonEnterPinCode,
 });
 
-export default connectRedux(mapStateToProps, PopupEnterInfo);
+export default connectRedux(mapStateToProps, PopupEnterCustomerPhone);
 

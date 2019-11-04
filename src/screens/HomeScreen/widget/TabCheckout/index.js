@@ -61,7 +61,8 @@ const initState = {
     customDiscountFixedLocal: 0,
     visibleSendLinkPopup: false,
     visiblePopupDiscountLocal: false,
-    visibleCustomerName: false
+    visibleCustomerName: false,
+    visibleCustomerPhone: false
 }
 
 class TabCheckout extends Layout {
@@ -1181,6 +1182,14 @@ class TabCheckout extends Layout {
         await this.setState({
             infoUser :{...infoUser,firstName,lastName},
             visibleCustomerName: false
+        })
+    }
+
+    // -------- handle Customer Phone 
+
+    displayPopupCustomerPhone =() =>{
+        this.setState({
+            visibleCustomerPhone: true
         })
     }
 
