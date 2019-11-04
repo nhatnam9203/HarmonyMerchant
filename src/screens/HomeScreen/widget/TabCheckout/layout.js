@@ -18,7 +18,7 @@ import styles from './style';
 import IMAGE from '@resources';
 import {
     ItemCategory, ColPlaceHolder, ItemBasket, ItemProductService, ItemAmount,
-    ItemExtra, PopupDiscount, PopupProcessingCredit, PopupBill, PopupDiscountLocal
+    ItemExtra, PopupDiscount, PopupProcessingCredit, PopupBill, PopupDiscountLocal,PopupEnterInfo
 } from './widget';
 
 class Layout extends React.Component {
@@ -29,7 +29,7 @@ class Layout extends React.Component {
         return (
             <View style={styles.headerContainer} >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                    <Text style={styles.textHeader} >
+                    <Text onPress={this.displayPopupCustomerName} style={styles.textHeader} >
                         {`${localize('Customer', language)}:`}
                     </Text>
                     <Text style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(90) }]} >
@@ -504,35 +504,35 @@ class Layout extends React.Component {
                 </Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
                     {
-                        // ['Harmony Pay', 'Cash'].map((title, index) => <ItemPaymentMethod
-                        //     key={index}
-                        //     title={title}
-                        //     selectedPayment={this.selectedPayment}
-                        //     paymentSelected={this.state.paymentSelected}
-                        // />)
-                        ['Cash', 'Credit Cards'].map((title, index) => <ItemPaymentMethod
+                        ['Harmony Pay', 'Cash'].map((title, index) => <ItemPaymentMethod
                             key={index}
                             title={title}
                             selectedPayment={this.selectedPayment}
                             paymentSelected={this.state.paymentSelected}
                         />)
+                        // ['Cash', 'Credit Cards'].map((title, index) => <ItemPaymentMethod
+                        //     key={index}
+                        //     title={title}
+                        //     selectedPayment={this.selectedPayment}
+                        //     paymentSelected={this.state.paymentSelected}
+                        // />)
                     }
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: scaleSzie(30) }} >
                     {
-                        // ['Credit Cards', 'Others - Check'].map((title, index) => <ItemPaymentMethod
-                        //     key={index}
-                        //     title={title}
-                        //     selectedPayment={this.selectedPayment}
-                        //     paymentSelected={this.state.paymentSelected}
-                        // />)
-
-                        ['Others - Check'].map((title, index) => <ItemPaymentMethod
+                        ['Credit Cards', 'Others - Check'].map((title, index) => <ItemPaymentMethod
                             key={index}
                             title={title}
                             selectedPayment={this.selectedPayment}
                             paymentSelected={this.state.paymentSelected}
                         />)
+
+                        // ['Others - Check'].map((title, index) => <ItemPaymentMethod
+                        //     key={index}
+                        //     title={title}
+                        //     selectedPayment={this.selectedPayment}
+                        //     paymentSelected={this.state.paymentSelected}
+                        // />)
                     }
                 </View>
                 {/* ------ Footer ----- */}
@@ -594,7 +594,7 @@ class Layout extends React.Component {
                         backgroundColor="#F1F1F1"
                         title="BACK"
                         textColor="#6A6A6A"
-                        onPress={() => { }}
+                        onPress={() =>  this.scrollTabRef.current.goToPage(1)}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                         styleText={{ fontSize: scaleSzie(26) }}
                     />
@@ -612,7 +612,7 @@ class Layout extends React.Component {
                         ref={this.scrollTabRef}
                         style={{}}
                         initialPage={0}
-                        // locked={true}
+                        locked={true}
                         renderTabBar={() => <View />}
                         onChangeTab={(index) => {
                             this.setState({ tabCurrent: index.i })
@@ -704,6 +704,13 @@ class Layout extends React.Component {
                     title="Confirmation"
                     onRequestClose={() => this.setState({ visibleSendLinkPopup: false })}
                     confimYes={this.sendLinkInstallApp}
+                />
+                <PopupEnterInfo 
+                      visible={this.state.visibleCustomerNameRef}
+                      title="Confirmation"
+                      placeholder="Customer Name"
+                      onRequestClose={() => this.setState({ visibleCustomerNameRef: false })}
+                    confimYes={this.changeCustomerName}
                 />
             </View>
         );

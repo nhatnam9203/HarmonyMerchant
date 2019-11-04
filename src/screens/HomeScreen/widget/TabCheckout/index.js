@@ -60,7 +60,8 @@ const initState = {
     customDiscountPercentLocal: 0,
     customDiscountFixedLocal: 0,
     visibleSendLinkPopup: false,
-    visiblePopupDiscountLocal: false
+    visiblePopupDiscountLocal: false,
+    visibleCustomerNameRef:false
 }
 
 class TabCheckout extends Layout {
@@ -387,7 +388,7 @@ class TabCheckout extends Layout {
 
     payBasket = async () => {
         const { appointmentId, paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal } = this.state;
-        const { profile, token, appointmentDetail, paxMachineInfo } = this.props;
+        const { profile, token, appointmentDetail, paxMachineInfo ,isOfflineMode} = this.props;
         let method = this.getPaymentString(paymentSelected);
 
         if (appointmentId !== -1) {
@@ -423,11 +424,15 @@ class TabCheckout extends Layout {
         } else
             //-------Payment Anymous ------
             if (method === 'harmony') {
-                // alert('Does not support payment for anonymous customers');
-                this.popupSendLinkInstallRef.current.setStateFromParent('');
-                this.setState({
-                    visibleSendLinkPopup: true
-                });
+                if(isOfflineMode){
+                    this.scrollTabRef.current.goToPage(2);
+                }else{
+                    this.popupSendLinkInstallRef.current.setStateFromParent('');
+                    this.setState({
+                        visibleSendLinkPopup: true
+                    });
+                }
+               
 
             } else {
                 if (method === 'credit_card') {
@@ -444,16 +449,21 @@ class TabCheckout extends Layout {
                 } else {
                     const dataAnymousAppoitment = this.getBasketOffline();
                     const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
-                    if (this.props.isOfflineMode) {
+                    if (isOfflineMode) {
                         // ------ Handle Offline Mode  ------
+                        if (method === 'cash') {
+                            await this.setState({
+                                visibleBillOfPayment: true
+                            })
+                        }
                         const appointmentOfflineMode = {
-                            firstName:'',
-                            lastName:'',
-                            phoneNumber:'',
-                            subtotal:'',
-                            tax:'',
-                            tipAmount:'',
-                            qrcode:'',
+                            firstName: '',
+                            lastName: '',
+                            phoneNumber: '',
+                            subtotal: '',
+                            tax: '',
+                            tipAmount: '',
+                            qrcode: '',
                             merchantId: profile.merchantId,
                             services: arryaServicesBuy,
                             extras: arrayExtrasBuy,
@@ -1153,6 +1163,14 @@ class TabCheckout extends Layout {
 
         });
         this.props.actions.appointment.resetPayment();
+    }
+
+    displayPopupCustomerName =() =>{
+        this.setState({visibleCustomerNameRef: true});
+    }
+
+    changeCustomerName= () =>{
+        
     }
 
 
