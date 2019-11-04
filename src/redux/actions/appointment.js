@@ -77,7 +77,7 @@ export function closeModalPaymentCompleted() {
     }
 }
 
-export function createAnymousAppointment(merchantId, products, services = [], extras = [], paymentMethod, isLoading = true,customDiscountFixed,customDiscountPercent,staffId = 0) {
+export function createAnymousAppointment(merchantId, products, services = [], extras = [], paymentMethod, isLoading = true, customDiscountFixed, customDiscountPercent, staffId = 0) {
     return {
         type: 'CREATE_ANYMOUS_APPOINTMENT',
         body: {
@@ -87,7 +87,7 @@ export function createAnymousAppointment(merchantId, products, services = [], ex
             services: services,
             extras: extras,
             products: products,
-            fromTime:moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
+            fromTime: moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
             staffId,
             customDiscountFixed,
             customDiscountPercent,
@@ -177,3 +177,10 @@ export function cancelHarmonyPayment(appointmentId) {
     }
 }
 
+export function addAppointmentOfflineMode(body) {
+    return {
+        type: 'ADD_APPOINTMENT_OFFLINE_MODE',
+        payload: body
+    }
+
+}

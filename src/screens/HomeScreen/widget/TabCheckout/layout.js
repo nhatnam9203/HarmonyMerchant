@@ -570,7 +570,10 @@ class Layout extends React.Component {
                 <View style={{ alignItems: 'center' }} >
                     <View style={styles.containerQrcode} >
                         <QRCode
-                            value="http://awesome.link.qr"
+                            value="{
+                                api:https://www.harmonypayment.com
+                                total:300
+                            }"
                             size={scaleSzie(200)}
                         />
                     </View>
@@ -609,7 +612,7 @@ class Layout extends React.Component {
                         ref={this.scrollTabRef}
                         style={{}}
                         initialPage={0}
-                        locked={true}
+                        // locked={true}
                         renderTabBar={() => <View />}
                         onChangeTab={(index) => {
                             this.setState({ tabCurrent: index.i })

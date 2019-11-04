@@ -3,7 +3,7 @@ import _ from 'ramda';
 import { StarPRNT } from 'react-native-star-prnt';
 const signalR = require('@aspnet/signalr');
 import { Alert, NativeModules } from 'react-native';
-
+import moment from 'moment';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -442,21 +442,47 @@ class TabCheckout extends Layout {
                     }
 
                 } else {
-                    if (method === 'cash') {
-                        await this.setState({
-                            visibleBillOfPayment: true
-                        })
-                    }
-                    await this.setState({
-                        changeButtonDone: true,
-                        methodPayment: method
-                    });
                     const dataAnymousAppoitment = this.getBasketOffline();
                     const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
-                    const isLoadingOffline = method === 'cash' ? false : true;
-                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, isLoadingOffline,
-                        customDiscountPercentLocal, customDiscountFixedLocal, staffId
-                    );
+                    if (this.props.isOfflineMode) {
+                        // ------ Handle Offline Mode  ------
+                        const appointmentOfflineMode = {
+                            firstName:'',
+                            lastName:'',
+                            phoneNumber:'',
+                            subtotal:'',
+                            tax:'',
+                            tipAmount:'',
+                            qrcode:'',
+                            merchantId: profile.merchantId,
+                            services: arryaServicesBuy,
+                            extras: arrayExtrasBuy,
+                            products: arrayProductBuy,
+                            fromTime: moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
+                            staffId,
+                            customDiscountFixed: customDiscountPercentLocal,
+                            customDiscountPercent: customDiscountFixedLocal,
+                            paymentMethod: method
+                        };
+                        this.props.actions.appointment.addAppointmentOfflineMode(appointmentOfflineMode);
+
+                    } else {
+                        if (method === 'cash') {
+                            await this.setState({
+                                visibleBillOfPayment: true
+                            })
+                        }
+                        await this.setState({
+                            changeButtonDone: true,
+                            methodPayment: method
+                        });
+                        const isLoadingOffline = method === 'cash' ? false : true;
+                        this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, isLoadingOffline,
+                            customDiscountPercentLocal, customDiscountFixedLocal, staffId
+                        );
+                    }
+
+
                 }
 
             }
@@ -1177,7 +1203,8 @@ const mapStateToProps = state => ({
     paxMachineInfo: state.dataLocal.paxMachineInfo,
     extrasByMerchant: state.extra.extrasByMerchant,
     listStaffByMerchant: state.staff.listStaffByMerchant,
-    profileStaffLogin: state.dataLocal.profileStaffLogin
+    profileStaffLogin: state.dataLocal.profileStaffLogin,
+    isOfflineMode: state.app.isOfflineMode
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);

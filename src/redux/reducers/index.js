@@ -19,7 +19,7 @@ import marketing from './marketing';
 const rootPersistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    blacklist: ['app','auth','upload','appointment' ]
+    blacklist: ['app', 'auth', 'upload']
 };
 
 const authPersistConfig = {
@@ -57,7 +57,11 @@ const rootReducer = combineReducers({
         whitelist: ['extrasByMerchant']
     }, extra),
     upload,
-    appointment,
+    appointment: persistReducer({
+        key: 'appointment',
+        storage: AsyncStorage,
+        whitelist: ['listAppointmentsOfflineMode']
+    }, appointment),
     customer: persistReducer({
         key: 'customer',
         storage: AsyncStorage,
@@ -71,7 +75,7 @@ const rootReducer = combineReducers({
     marketing: persistReducer({
         key: 'marketing',
         storage: AsyncStorage,
-        whitelist: ['listBanners','promotions']
+        whitelist: ['listBanners', 'promotions']
     }, marketing),
 });
 

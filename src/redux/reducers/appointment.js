@@ -5,7 +5,8 @@ const initialState = {
     isDonePayment: false,
     appointmentIdOffline: '',
     connectionSignalR: {},
-    flagSignInAppointment: false
+    flagSignInAppointment: false,
+    listAppointmentsOfflineMode: []
 }
 
 function appReducer(state = initialState, action) {
@@ -66,14 +67,20 @@ function appReducer(state = initialState, action) {
                 ...state,
                 connectionSignalR: {}
             }
-        case 'CHANGE_FLAG_APPOINTMENT' :
+        case 'CHANGE_FLAG_APPOINTMENT':
             return {
                 ...state,
-                flagSignInAppointment:action.payload
+                flagSignInAppointment: action.payload
             }
-
-
-
+        case 'ADD_APPOINTMENT_OFFLINE_MODE':
+            // console.log('state.listAppointmentsOfflineMode : ', state.listAppointmentsOfflineMode);
+            // console.log('--- : ', state.listAppointmentsOfflineMode.push(action.payload));
+            // console.log('action.payload : ', action.payload);
+            return {
+                ...state,
+                // listAppointmentsOfflineMode: state.listAppointmentsOfflineMode.push(action.payload)
+                listAppointmentsOfflineMode:  [...state.listAppointmentsOfflineMode, action.payload]
+            }
 
         default:
             return state
