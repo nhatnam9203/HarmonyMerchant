@@ -61,7 +61,7 @@ const initState = {
     customDiscountFixedLocal: 0,
     visibleSendLinkPopup: false,
     visiblePopupDiscountLocal: false,
-    visibleCustomerNameRef:false
+    visibleCustomerName: false
 }
 
 class TabCheckout extends Layout {
@@ -77,6 +77,7 @@ class TabCheckout extends Layout {
         this.popupDiscountRef = React.createRef();
         this.popupSendLinkInstallRef = React.createRef();
         this.popupDiscountLocalRef = React.createRef();
+        this.customerNameRef = React.createRef();
     }
 
     resetStateFromParent = async () => {
@@ -388,7 +389,7 @@ class TabCheckout extends Layout {
 
     payBasket = async () => {
         const { appointmentId, paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal } = this.state;
-        const { profile, token, appointmentDetail, paxMachineInfo ,isOfflineMode} = this.props;
+        const { profile, token, appointmentDetail, paxMachineInfo, isOfflineMode } = this.props;
         let method = this.getPaymentString(paymentSelected);
 
         if (appointmentId !== -1) {
@@ -424,15 +425,15 @@ class TabCheckout extends Layout {
         } else
             //-------Payment Anymous ------
             if (method === 'harmony') {
-                if(isOfflineMode){
+                if (isOfflineMode) {
                     this.scrollTabRef.current.goToPage(2);
-                }else{
+                } else {
                     this.popupSendLinkInstallRef.current.setStateFromParent('');
                     this.setState({
                         visibleSendLinkPopup: true
                     });
                 }
-               
+
 
             } else {
                 if (method === 'credit_card') {
@@ -1165,12 +1166,22 @@ class TabCheckout extends Layout {
         this.props.actions.appointment.resetPayment();
     }
 
-    displayPopupCustomerName =() =>{
-        this.setState({visibleCustomerNameRef: true});
+    displayPopupCustomerName = async () => {
+        const {infoUser} = this.state;
+        const {firstName,lastName,phoneNumber} = infoUser;
+        this.customerNameRef.current.setStateFromParent(firstName,lastName);
+       await this.setState({ visibleCustomerName: true });
     }
 
-    changeCustomerName= () =>{
-        
+    changeCustomerName = async () => {
+        const firstName = this.customerNameRef.current.state.firstName;
+        const lastName = this.customerNameRef.current.state.lastName;
+        const {infoUser} = this.state;
+
+        await this.setState({
+            infoUser :{...infoUser,firstName,lastName},
+            visibleCustomerName: false
+        })
     }
 
 

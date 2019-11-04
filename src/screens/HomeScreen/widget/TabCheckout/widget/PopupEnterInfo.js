@@ -20,6 +20,8 @@ class PopupEnterInfo extends React.Component {
         super(props);
         this.state = {
             value: '',
+            firstName:'',
+            lastName:'',
             customStyle: {},
             loading: false
         }
@@ -30,9 +32,10 @@ class PopupEnterInfo extends React.Component {
         this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardDidHide);
     }
 
-    setStateFromParent = async (value) => {
+    setStateFromParent = async (firstName,lastName) => {
         this.setState({
-            value
+            firstName,
+            lastName
         })
     }
 
@@ -40,7 +43,7 @@ class PopupEnterInfo extends React.Component {
         await this.setState({
             customStyle: {
                 justifyContent: 'flex-start',
-                paddingTop: scaleSzie(80)
+                paddingTop: scaleSzie(40)
             }
         });
     }
@@ -56,7 +59,7 @@ class PopupEnterInfo extends React.Component {
         const { title, visible, isShowButtonEnterPinCode, onRequestClose, confimYes, hideCloseButton ,message,
             placeholder
         } = this.props;
-        const { value, customStyle } = this.state;
+        const { value, customStyle ,firstName,lastName} = this.state;
         return (
             <PopupParent
                 title={title}
@@ -66,14 +69,14 @@ class PopupEnterInfo extends React.Component {
                 style={customStyle}
             >
                 <View style={{
-                    height: scaleSzie(120), backgroundColor: '#fff',
+                    height: scaleSzie(210), backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15)
                 }} >
-                    {/* <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: scaleSzie(10), marginBottom: scaleSzie(4) }} >
+                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: scaleSzie(10), marginBottom: scaleSzie(4) }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
                             {message}
                         </Text>
-                    </View> */}
+                    </View>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                         <View style={{
                             width: '90%', height: scaleSzie(45),
@@ -86,9 +89,30 @@ class PopupEnterInfo extends React.Component {
                                     flex: 1, fontSize: scaleSzie(18), 
                                     padding: 0, margin: 0
                                 }}
-                                placeholder={placeholder}
-                                value={value}
-                                onChangeText={(value) => this.setState({ value })}
+                                placeholder={"First Name"}
+                                value={firstName}
+                                onChangeText={(firstName) => this.setState({ firstName })}
+                                onSubmitEditing={() => {
+                                    confimYes();
+                                }}
+                            />
+                        </View>
+                    </View>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+                        <View style={{
+                            width: '90%', height: scaleSzie(45),
+                            borderColor: 'rgb(231,231,231)', borderWidth: 3,
+                            paddingHorizontal:scaleSzie(10)
+                        }} >
+                            <TextInput
+                                // type="only-numbers"
+                                style={{
+                                    flex: 1, fontSize: scaleSzie(18), 
+                                    padding: 0, margin: 0
+                                }}
+                                placeholder={"Last Name"}
+                                value={lastName}
+                                onChangeText={(lastName) => this.setState({ lastName })}
                                 onSubmitEditing={() => {
                                     confimYes();
                                 }}
@@ -96,7 +120,7 @@ class PopupEnterInfo extends React.Component {
                         </View>
                     </View>
                     <View style={{
-                        height: scaleSzie(45), alignItems: 'center'
+                        height: scaleSzie(50), alignItems: 'center'
                     }} >
                         {
                             isShowButtonEnterPinCode ? <View style={{

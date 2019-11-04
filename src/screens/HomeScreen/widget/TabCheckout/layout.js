@@ -706,10 +706,11 @@ class Layout extends React.Component {
                     confimYes={this.sendLinkInstallApp}
                 />
                 <PopupEnterInfo 
-                      visible={this.state.visibleCustomerNameRef}
+                    ref={this.customerNameRef}
+                      visible={this.state.visibleCustomerName}
                       title="Confirmation"
-                      placeholder="Customer Name"
-                      onRequestClose={() => this.setState({ visibleCustomerNameRef: false })}
+                      message="Customer Name"
+                      onRequestClose={() => this.setState({ visibleCustomerName: false })}
                     confimYes={this.changeCustomerName}
                 />
             </View>
