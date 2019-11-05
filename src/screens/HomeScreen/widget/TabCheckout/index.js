@@ -390,8 +390,8 @@ class TabCheckout extends Layout {
     }
 
     payBasket = async () => {
-        const { appointmentId, paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal ,
-        infoUser,tipLocal,subTotalLocal,taxLocal
+        const { appointmentId, paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
+            infoUser, tipLocal, subTotalLocal, taxLocal
         } = this.state;
         const { profile, token, appointmentDetail, paxMachineInfo, isOfflineMode } = this.props;
         let method = this.getPaymentString(paymentSelected);
@@ -441,15 +441,20 @@ class TabCheckout extends Layout {
 
             } else {
                 if (method === 'credit_card') {
-                    if (paxMachineInfo.isSetup) {
-                        this.hanleCreditCardProcess(false);
-                        await this.setState({
-                            changeButtonDone: true,
-                            methodPayment: method
-                        });
+                    if (isOfflineMode) {
+                        alert("Payment wiht credit card not support offline mode!");
                     } else {
-                        alert('Please setup your pax machine in setting');
+                        if (paxMachineInfo.isSetup) {
+                            this.hanleCreditCardProcess(false);
+                            await this.setState({
+                                changeButtonDone: true,
+                                methodPayment: method
+                            });
+                        } else {
+                            alert('Please setup your pax machine in setting');
+                        }
                     }
+
 
                 } else {
                     const dataAnymousAppoitment = this.getBasketOffline();
@@ -460,26 +465,28 @@ class TabCheckout extends Layout {
                             await this.setState({
                                 visibleBillOfPayment: true
                             });
+                        } else if(method === 'orther'){
+                           this.props.actions.appointment.showModalPrintReceipt();
                         }
-                        const appointmentOfflineMode = {
-                            firstName: infoUser.firstName,
-                            lastName: infoUser.lastName,
-                            phoneNumber: infoUser.phoneNumber,
-                            subtotal: subTotalLocal,
-                            tax: taxLocal,
-                            tipAmount: tipLocal,
-                            qrcode: 'https://www.harmonypayment.com',
-                            merchantId: profile.merchantId,
-                            services: arryaServicesBuy,
-                            extras: arrayExtrasBuy,
-                            products: arrayProductBuy,
-                            fromTime: moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
-                            staffId,
-                            customDiscountFixed: customDiscountPercentLocal,
-                            customDiscountPercent: customDiscountFixedLocal,
-                            paymentMethod: method
-                        };
-                        this.props.actions.appointment.addAppointmentOfflineMode(appointmentOfflineMode);
+                        // const appointmentOfflineMode = {
+                        //     firstName: infoUser.firstName,
+                        //     lastName: infoUser.lastName,
+                        //     phoneNumber: infoUser.phoneNumber,
+                        //     subtotal: subTotalLocal ?  parseFloat(subTotalLocal) : 0,
+                        //     tax: taxLocal ? parseFloat(taxLocal) : 0,
+                        //     tipAmount: tipLocal ? parseFloat(tipLocal) : 0,
+                        //     qrcode: 'https://www.harmonypayment.com',
+                        //     merchantId: profile.merchantId,
+                        //     services: arryaServicesBuy,
+                        //     extras: arrayExtrasBuy,
+                        //     products: arrayProductBuy,
+                        //     fromTime: moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
+                        //     staffId,
+                        //     customDiscountFixed: customDiscountPercentLocal,
+                        //     customDiscountPercent: customDiscountFixedLocal,
+                        //     paymentMethod: method
+                        // };
+                        // this.props.actions.appointment.addAppointmentOfflineMode(appointmentOfflineMode);
 
                     } else {
                         if (method === 'cash') {
@@ -1173,41 +1180,41 @@ class TabCheckout extends Layout {
     }
 
     displayPopupCustomerName = async () => {
-        const {infoUser} = this.state;
-        const {firstName,lastName} = infoUser;
-        this.customerNameRef.current.setStateFromParent(firstName,lastName);
-       await this.setState({ visibleCustomerName: true });
+        const { infoUser } = this.state;
+        const { firstName, lastName } = infoUser;
+        this.customerNameRef.current.setStateFromParent(firstName, lastName);
+        await this.setState({ visibleCustomerName: true });
     }
 
     changeCustomerName = async () => {
         const firstName = this.customerNameRef.current.state.firstName;
         const lastName = this.customerNameRef.current.state.lastName;
-        const {infoUser} = this.state;
+        const { infoUser } = this.state;
 
         await this.setState({
-            infoUser :{...infoUser,firstName,lastName},
+            infoUser: { ...infoUser, firstName, lastName },
             visibleCustomerName: false
         })
     }
 
     // -------- handle Customer Phone 
 
-    displayPopupCustomerPhone =() =>{
-        const {infoUser} = this.state;
-        const {phoneNumber} = infoUser;
+    displayPopupCustomerPhone = () => {
+        const { infoUser } = this.state;
+        const { phoneNumber } = infoUser;
         this.CustomerPhoneRef.current.setStateFromParent(phoneNumber);
         this.setState({
             visibleCustomerPhone: true
         })
     }
 
-    changeCustomerPhone =async () =>{
-        const {infoUser} = this.state;
+    changeCustomerPhone = async () => {
+        const { infoUser } = this.state;
         const codeAreaPhone = this.CustomerPhoneRef.current.state.codeAreaPhone;
         const phone = this.CustomerPhoneRef.current.state.phone;
         const phoneNumber = `${codeAreaPhone}${phone}`;
         await this.setState({
-            infoUser :{...infoUser,phoneNumber},
+            infoUser: { ...infoUser, phoneNumber },
             visibleCustomerPhone: false
         })
     }

@@ -157,22 +157,22 @@ class HomeScreen extends Layout {
 
 
     loginStaffSuccess = () => {
-        const{listAppointmentsOfflineMode} = this.props;
-        this.props.actions.appointment.submitAppointmentOffline(listAppointmentsOfflineMode);
-        // Promise.all([
-        //     this.props.actions.category.getCategoriesByMerchantId(),
-        //     this.props.actions.extra.getExtraByMerchant(),
-        //     this.props.actions.service.getServicesByMerchant(),
-        //     this.props.actions.product.getProductsByMerchant(),
-        //     this.props.actions.staff.getStaffByMerchantId()
-        // ]).then((data) => {
-        //     this.props.actions.staff.reloadButtonEnterPincode();
-        //     if (data.length === 5) {
-        //        this.props.actions.app.changeFlagVisibleEnteerPinCode(false);
-        //     }
-        // }).catch(error => {
-        //     this.props.actions.staff.reloadButtonEnterPincode();
-        // })
+        // const{listAppointmentsOfflineMode} = this.props;
+        // this.props.actions.appointment.submitAppointmentOffline(listAppointmentsOfflineMode);
+        Promise.all([
+            this.props.actions.category.getCategoriesByMerchantId(),
+            this.props.actions.extra.getExtraByMerchant(),
+            this.props.actions.service.getServicesByMerchant(),
+            this.props.actions.product.getProductsByMerchant(),
+            this.props.actions.staff.getStaffByMerchantId()
+        ]).then((data) => {
+            this.props.actions.staff.reloadButtonEnterPincode();
+            if (data.length === 5) {
+               this.props.actions.app.changeFlagVisibleEnteerPinCode(false);
+            }
+        }).catch(error => {
+            this.props.actions.staff.reloadButtonEnterPincode();
+        })
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {

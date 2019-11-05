@@ -207,7 +207,6 @@ function* requestNetworkTimeout(action) {
 }
 
 function* timeout(action) {
-    console.log('dddd');
     yield put({ type: 'STOP_LOADING_ROOT' });
     setTimeout(() => {
         alert('Server not response');

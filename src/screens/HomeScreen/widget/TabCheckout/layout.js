@@ -80,9 +80,6 @@ class Layout extends React.Component {
                     </Text>
                     }
 
-                    {/* <Text style={[styles.textHeader, { marginLeft: scaleSzie(12) }]} >
-                        {phoneNumber}
-                    </Text> */}
                 </View>
                 {/* -------- Button open cash -------- */}
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end' }} >
