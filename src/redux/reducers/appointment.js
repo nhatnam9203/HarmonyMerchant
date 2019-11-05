@@ -73,12 +73,8 @@ function appReducer(state = initialState, action) {
                 flagSignInAppointment: action.payload
             }
         case 'ADD_APPOINTMENT_OFFLINE_MODE':
-            // console.log('state.listAppointmentsOfflineMode : ', state.listAppointmentsOfflineMode);
-            // console.log('--- : ', state.listAppointmentsOfflineMode.push(action.payload));
-            // console.log('action.payload : ', action.payload);
             return {
                 ...state,
-                // listAppointmentsOfflineMode: state.listAppointmentsOfflineMode.push(action.payload)
                 listAppointmentsOfflineMode:  [...state.listAppointmentsOfflineMode, action.payload]
             }
 

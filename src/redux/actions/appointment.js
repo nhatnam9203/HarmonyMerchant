@@ -182,5 +182,16 @@ export function addAppointmentOfflineMode(body) {
         type: 'ADD_APPOINTMENT_OFFLINE_MODE',
         payload: body
     }
-
 }
+
+export function submitAppointmentOffline(body) {
+    return {
+        type: 'SUBMIT_APPOINTMENT_OFFLINE',
+        body: body,
+        method: 'POST',
+        token: true,
+        api: `${apiConfigs.BASE_API}appointmentOffline`,
+    }
+}
+
+
