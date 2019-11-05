@@ -27,21 +27,62 @@ class Layout extends React.Component {
     renderHeader() {
         const { language } = this.props;
         const { firstName, lastName, phoneNumber } = this.state.infoUser;
+        const name =`${firstName} ${lastName}`;
         return (
             <View style={styles.headerContainer} >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }} >
                     <Text onPress={this.displayPopupCustomerName} style={styles.textHeader} >
                         {`${localize('Customer', language)}:`}
                     </Text>
-                    <Text style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(90) }]} >
+                    {
+                        name.trim() == '' ?  
+                        <ButtonCustom
+                        width={scaleSzie(120)}
+                        height={35}
+                        backgroundColor="#0764B0"
+                        title={localize('Enter Name', language)}
+                        textColor="#fff"
+                        onPress={this.displayPopupCustomerName}
+                        style={{
+                            borderWidth: 1, borderColor: '#C5C5C5',
+                            borderRadius: scaleSzie(3),
+                            marginHorizontal:scaleSzie(14)
+                        }}
+                        styleText={{ fontSize: scaleSzie(14), fontWeight: 'bold', }}
+                    />
+                        :  <Text onPress={this.displayPopupCustomerName} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(90) }]} >
                         {`${firstName} ${lastName}`}
                     </Text>
+                    }
+
+                   
                     <Text onPress={this.displayPopupCustomerPhone} style={styles.textHeader} >
                         {`${localize('Phone', language)}:`}
                     </Text>
-                    <Text style={[styles.textHeader, { marginLeft: scaleSzie(12) }]} >
+                    {
+                        phoneNumber.trim() == '' ?  
+                        <ButtonCustom
+                        width={scaleSzie(120)}
+                        height={35}
+                        backgroundColor="#0764B0"
+                        title={localize('Enter Phone', language)}
+                        textColor="#fff"
+                        onPress={this.displayPopupCustomerPhone}
+                        style={{
+                            borderWidth: 1, borderColor: '#C5C5C5',
+                            borderRadius: scaleSzie(3),
+                            marginHorizontal:scaleSzie(14)
+                        }}
+                        styleText={{ fontSize: scaleSzie(14), fontWeight: 'bold', }}
+                    />
+                        :  <Text onPress={this.displayPopupCustomerPhone} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(90) }]} >
                         {phoneNumber}
                     </Text>
+                    }
+
+                    {/* <Text style={[styles.textHeader, { marginLeft: scaleSzie(12) }]} >
+                        {phoneNumber}
+                    </Text> */}
                 </View>
                 {/* -------- Button open cash -------- */}
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end' }} >

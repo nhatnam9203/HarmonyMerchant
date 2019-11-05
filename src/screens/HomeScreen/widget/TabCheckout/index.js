@@ -390,7 +390,9 @@ class TabCheckout extends Layout {
     }
 
     payBasket = async () => {
-        const { appointmentId, paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal } = this.state;
+        const { appointmentId, paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal ,
+        infoUser,tipLocal,subTotalLocal,taxLocal
+        } = this.state;
         const { profile, token, appointmentDetail, paxMachineInfo, isOfflineMode } = this.props;
         let method = this.getPaymentString(paymentSelected);
 
@@ -457,16 +459,16 @@ class TabCheckout extends Layout {
                         if (method === 'cash') {
                             await this.setState({
                                 visibleBillOfPayment: true
-                            })
+                            });
                         }
                         const appointmentOfflineMode = {
-                            firstName: '',
-                            lastName: '',
-                            phoneNumber: '',
-                            subtotal: '',
-                            tax: '',
-                            tipAmount: '',
-                            qrcode: '',
+                            firstName: infoUser.firstName,
+                            lastName: infoUser.lastName,
+                            phoneNumber: infoUser.phoneNumber,
+                            subtotal: subTotalLocal,
+                            tax: taxLocal,
+                            tipAmount: tipLocal,
+                            qrcode: 'https://www.harmonypayment.com',
                             merchantId: profile.merchantId,
                             services: arryaServicesBuy,
                             extras: arrayExtrasBuy,
@@ -1142,11 +1144,13 @@ class TabCheckout extends Layout {
 
     sendLinkInstallApp = async () => {
         const phone = this.popupSendLinkInstallRef.current.state.value;
+        const codeAreaPhone = this.popupSendLinkInstallRef.current.state.codeAreaPhone;
+
         if (phone.length > 6) {
             await this.setState({
                 visibleSendLinkPopup: false
             });
-            this.props.actions.app.sendLinkInstallApp(phone);
+            this.props.actions.app.sendLinkInstallApp(`${codeAreaPhone}${phone}`);
         } else {
             alert('Phone is invalid !')
         }

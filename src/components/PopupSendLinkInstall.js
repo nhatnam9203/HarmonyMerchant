@@ -11,8 +11,9 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 
 import ButtonCustom from './ButtonCustom';
+import {Dropdown} from './react-native-material-dropdown';
 import PopupParent from './PopupParent';
-import { scaleSzie } from '../utils';
+import { scaleSzie, ListCodeAreaPhone } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupSendLinkInstall extends React.Component {
@@ -22,7 +23,8 @@ class PopupSendLinkInstall extends React.Component {
         this.state = {
             value: '',
             customStyle: {},
-            loading: false
+            loading: false,
+            codeAreaPhone:'+1'
         }
     }
 
@@ -55,7 +57,7 @@ class PopupSendLinkInstall extends React.Component {
 
     render() {
         const { title, visible, isShowButtonEnterPinCode, onRequestClose, confimYes, hideCloseButton } = this.props;
-        const { value, customStyle } = this.state;
+        const { value, customStyle,codeAreaPhone } = this.state;
         return (
             <PopupParent
                 title={title}
@@ -76,24 +78,46 @@ class PopupSendLinkInstall extends React.Component {
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                         <View style={{
                             width: '90%', height: scaleSzie(45),
-                            borderColor: 'rgb(231,231,231)', borderWidth: 3
+                            flexDirection: 'row'
                         }} >
-                            <TextInputMask
-                                type="only-numbers"
-                                style={{
-                                    flex: 1, fontSize: scaleSzie(18), textAlign: 'center',
-                                    padding: 0, margin: 0
-                                }}
-                                placeholder="Your phone number"
-                                keyboardType="numeric"
-                                // maxLength={4}
-                                value={value}
-                                onChangeText={(value) => this.setState({ value })}
-                                onSubmitEditing={() => {
-                                    confimYes();
-                                }}
+                            <View style={{ width: scaleSzie(70), marginRight: scaleSzie(10) }} >
+                                <Dropdown
+                                    label={'+1'}
+                                    data={ListCodeAreaPhone}
+                                    value={codeAreaPhone}
+                                    onChangeText={(codeAreaPhone) => this.setState({ codeAreaPhone })}
+                                    containerStyle={{
+                                        backgroundColor: '#fff',
+                                        borderWidth: 1,
+                                        borderColor: '#C5C5C5',
+                                        flex: 1
+                                    }}
+                                />
+                            </View>
+                            <View style={{
+                                flex: 1, borderColor: 'rgb(231,231,231)', borderWidth: 3,
+                                paddingHorizontal: scaleSzie(10),
+                            }} >
+                                <TextInputMask
+                                    type="only-numbers"
+                                    style={{
+                                        flex: 1, fontSize: scaleSzie(18),
+                                        //  textAlign: 'center',
+                                        padding: 0, margin: 0
+                                    }}
+                                    placeholder="Your phone number"
+                                    keyboardType="numeric"
+                                    // maxLength={4}
+                                    value={value}
+                                    onChangeText={(value) => this.setState({ value })}
+                                    onSubmitEditing={() => {
+                                        confimYes();
+                                    }}
                                 // secureTextEntry={true}
-                            />
+                                />
+
+                            </View>
+
                         </View>
                     </View>
                     <View style={{
