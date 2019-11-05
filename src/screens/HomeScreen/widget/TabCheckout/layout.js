@@ -715,11 +715,12 @@ class Layout extends React.Component {
                     confimYes={this.changeCustomerName}
                 />
                 <PopupEnterCustomerPhone 
+                    ref={this.CustomerPhoneRef}
                       visible={this.state.visibleCustomerPhone}
                       title="Confirmation"
                       message="Customer Phone"
                       onRequestClose={() => this.setState({ visibleCustomerPhone: false })}
-                    confimYes={this.changeCustomerName}
+                    confimYes={this.changeCustomerPhone}
                 />
             </View>
         );

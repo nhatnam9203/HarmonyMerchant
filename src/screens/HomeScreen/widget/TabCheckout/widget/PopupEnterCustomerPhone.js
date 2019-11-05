@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
-import { ButtonCustom, PopupParent } from '@components';
-import { scaleSzie } from '@utils';
+import { ButtonCustom, PopupParent, Dropdown } from '@components';
+import { scaleSzie ,ListCodeAreaPhone,getCodeAreaPhone} from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupEnterCustomerPhone extends React.Component {
@@ -23,7 +23,9 @@ class PopupEnterCustomerPhone extends React.Component {
             firstName: '',
             lastName: '',
             customStyle: {},
-            loading: false
+            loading: false,
+            codeAreaPhone: '+1',
+            phone:''
         }
     }
 
@@ -32,10 +34,10 @@ class PopupEnterCustomerPhone extends React.Component {
         this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardDidHide);
     }
 
-    setStateFromParent = async (firstName, lastName) => {
+    setStateFromParent = async (customerPhone) => {
         this.setState({
-            firstName,
-            lastName
+            phone:getCodeAreaPhone(customerPhone).phone,
+            codeAreaPhone:getCodeAreaPhone(customerPhone).areaCode,
         })
     }
 
@@ -59,7 +61,7 @@ class PopupEnterCustomerPhone extends React.Component {
         const { title, visible, isShowButtonEnterPinCode, onRequestClose, confimYes, hideCloseButton, message,
             placeholder
         } = this.props;
-        const { value, customStyle, firstName, lastName } = this.state;
+        const { phone, customStyle, firstName, codeAreaPhone } = this.state;
         return (
             <PopupParent
                 title={title}
@@ -80,22 +82,40 @@ class PopupEnterCustomerPhone extends React.Component {
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                         <View style={{
                             width: '90%', height: scaleSzie(45),
-                            borderColor: 'rgb(231,231,231)', borderWidth: 3,
-                            paddingHorizontal: scaleSzie(10)
+                            flexDirection: 'row'
                         }} >
-                            <TextInput
-                                // type="only-numbers"
-                                style={{
-                                    flex: 1, fontSize: scaleSzie(18),
-                                    padding: 0, margin: 0
-                                }}
-                                placeholder={"Phone numbers"}
-                                value={firstName}
-                                onChangeText={(firstName) => this.setState({ firstName })}
-                                onSubmitEditing={() => {
-                                    confimYes();
-                                }}
-                            />
+                            <View style={{ width: scaleSzie(70),marginRight:scaleSzie(10) }} >
+                                <Dropdown
+                                    label={'+1'}
+                                    data={ListCodeAreaPhone}
+                                    value={codeAreaPhone}
+                                    onChangeText={(codeAreaPhone) => this.setState({ codeAreaPhone })}
+                                    containerStyle={{
+                                        backgroundColor: '#fff',
+                                        borderWidth: 1,
+                                        borderColor: '#C5C5C5',
+                                        flex: 1
+                                    }}
+                                />
+                            </View>
+                            <View style={{ flex: 1, borderColor: 'rgb(231,231,231)', borderWidth: 3,
+                        paddingHorizontal:scaleSzie(10),
+                        }} >
+                                <TextInputMask
+                                    type="only-numbers"
+                                    style={{
+                                        flex: 1, fontSize: scaleSzie(18),
+                                        padding: 0, margin: 0,
+                                    }}
+                                    placeholder={"Phone numbers"}
+                                    value={phone}
+                                    onChangeText={(phone) => this.setState({ phone })}
+                                    onSubmitEditing={() => {
+                                        confimYes();
+                                    }}
+                                />
+                            </View>
+
                         </View>
                     </View>
                     <View style={{

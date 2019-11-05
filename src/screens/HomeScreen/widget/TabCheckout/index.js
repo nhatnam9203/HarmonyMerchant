@@ -79,6 +79,7 @@ class TabCheckout extends Layout {
         this.popupSendLinkInstallRef = React.createRef();
         this.popupDiscountLocalRef = React.createRef();
         this.customerNameRef = React.createRef();
+        this.CustomerPhoneRef = React.createRef();
     }
 
     resetStateFromParent = async () => {
@@ -1169,7 +1170,7 @@ class TabCheckout extends Layout {
 
     displayPopupCustomerName = async () => {
         const {infoUser} = this.state;
-        const {firstName,lastName,phoneNumber} = infoUser;
+        const {firstName,lastName} = infoUser;
         this.customerNameRef.current.setStateFromParent(firstName,lastName);
        await this.setState({ visibleCustomerName: true });
     }
@@ -1188,8 +1189,22 @@ class TabCheckout extends Layout {
     // -------- handle Customer Phone 
 
     displayPopupCustomerPhone =() =>{
+        const {infoUser} = this.state;
+        const {phoneNumber} = infoUser;
+        this.CustomerPhoneRef.current.setStateFromParent(phoneNumber);
         this.setState({
             visibleCustomerPhone: true
+        })
+    }
+
+    changeCustomerPhone =async () =>{
+        const {infoUser} = this.state;
+        const codeAreaPhone = this.CustomerPhoneRef.current.state.codeAreaPhone;
+        const phone = this.CustomerPhoneRef.current.state.phone;
+        const phoneNumber = `${codeAreaPhone}${phone}`;
+        await this.setState({
+            infoUser :{...infoUser,phoneNumber},
+            visibleCustomerPhone: false
         })
     }
 
