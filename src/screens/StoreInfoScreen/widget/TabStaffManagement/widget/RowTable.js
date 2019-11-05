@@ -65,6 +65,7 @@ class RowTable extends React.Component {
                                 source={{
                                     uri: staff.imageUrl,
                                     priority: FastImage.priority.low,
+                                    cache:FastImage.cacheControl.immutable
                                 }}
                             /> : <Image source={IMAGE.staff_holder} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
                         }

@@ -36,8 +36,10 @@ const ItemBanner = ({ banner,deleteBanner }) => {
                           <FastImage
                         style={{ width: scaleSzie(130), height: scaleSzie(85) }} 
                         source={{
+                            // uri: imageUrl,
                             uri: imageUrl,
                             priority: FastImage.priority.low,
+                            cache:FastImage.cacheControl.immutable
                         }}
                     />
                     </View>

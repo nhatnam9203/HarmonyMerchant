@@ -66,6 +66,7 @@ class RowTableExtra extends React.Component {
                                 source={{
                                     uri: extra.imageUrl,
                                     priority: FastImage.priority.low,
+                                    cache:FastImage.cacheControl.immutable
                                 }}
                             /> : <Image source={IMAGE.extra_holder} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
                         }

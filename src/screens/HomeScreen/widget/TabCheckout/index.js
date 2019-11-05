@@ -465,29 +465,9 @@ class TabCheckout extends Layout {
                             await this.setState({
                                 visibleBillOfPayment: true
                             });
-                        } else if(method === 'orther'){
-                           this.props.actions.appointment.showModalPrintReceipt();
+                        } else if (method === 'orther') {
+                            this.props.actions.appointment.showModalPrintReceipt();
                         }
-                        // const appointmentOfflineMode = {
-                        //     firstName: infoUser.firstName,
-                        //     lastName: infoUser.lastName,
-                        //     phoneNumber: infoUser.phoneNumber,
-                        //     subtotal: subTotalLocal ?  parseFloat(subTotalLocal) : 0,
-                        //     tax: taxLocal ? parseFloat(taxLocal) : 0,
-                        //     tipAmount: tipLocal ? parseFloat(tipLocal) : 0,
-                        //     qrcode: 'https://www.harmonypayment.com',
-                        //     merchantId: profile.merchantId,
-                        //     services: arryaServicesBuy,
-                        //     extras: arrayExtrasBuy,
-                        //     products: arrayProductBuy,
-                        //     fromTime: moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
-                        //     staffId,
-                        //     customDiscountFixed: customDiscountPercentLocal,
-                        //     customDiscountPercent: customDiscountFixedLocal,
-                        //     paymentMethod: method
-                        // };
-                        // this.props.actions.appointment.addAppointmentOfflineMode(appointmentOfflineMode);
-
                     } else {
                         if (method === 'cash') {
                             await this.setState({
@@ -847,7 +827,41 @@ class TabCheckout extends Layout {
 
     }
 
+    addAppointmentOfflineMode() {
+        const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
+            infoUser, tipLocal, subTotalLocal, taxLocal
+        } = this.state;
+        const { profile } = this.props;
+        let method = this.getPaymentString(paymentSelected);
+        const dataAnymousAppoitment = this.getBasketOffline();
+        const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
+        const appointmentOfflineMode = {
+            firstName: infoUser.firstName,
+            lastName: infoUser.lastName,
+            phoneNumber: infoUser.phoneNumber,
+            subtotal: subTotalLocal ? parseFloat(subTotalLocal) : 0,
+            tax: taxLocal ? parseFloat(taxLocal) : 0,
+            tipAmount: tipLocal ? parseFloat(tipLocal) : 0,
+            qrcode: 'https://www.harmonypayment.com',
+            merchantId: profile.merchantId,
+            services: arryaServicesBuy,
+            extras: arrayExtrasBuy,
+            products: arrayProductBuy,
+            fromTime: moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
+            staffId,
+            customDiscountFixed: customDiscountPercentLocal,
+            customDiscountPercent: customDiscountFixedLocal,
+            paymentMethod: method
+        };
+        this.props.actions.appointment.addAppointmentOfflineMode(appointmentOfflineMode);
+    }
+
     donotPrintBill = () => {
+        const {isOfflineMode} = this.props;
+        if(isOfflineMode){
+            this.addAppointmentOfflineMode();
+        }
+
         const { connectionSignalR } = this.props;
         const { paymentSelected } = this.state;
         if (!_.isEmpty(connectionSignalR)) {
