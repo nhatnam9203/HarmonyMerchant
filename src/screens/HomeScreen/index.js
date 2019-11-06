@@ -142,7 +142,7 @@ class HomeScreen extends Layout {
 
     bookAppointment = async (appointmentId) => {
         this.props.actions.appointment.getAppointmentById(appointmentId);
-        this.props.actions.appointment.checkoutAppointment(appointmentId);
+        // this.props.actions.appointment.checkoutAppointment(appointmentId);
     }
 
     submitPincode = () => {

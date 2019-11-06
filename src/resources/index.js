@@ -55,6 +55,7 @@ export default {
     sale: require('./img/sale.png'),
     showPass: require('./img/showPass.png'),
     notShowPass: require('./img/notShowPass.png'),
+    printInvoice: require('./img/printInvoice.png'),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),

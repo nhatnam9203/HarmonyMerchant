@@ -980,15 +980,16 @@ class TabCheckout extends Layout {
 
     extractBill = () => {
         const { appointmentDetail } = this.props;
-        const { total, subTotalLocal, tipLocal, discountTotalLocal } = this.state;
-        const temptTotal = _.isEmpty(appointmentDetail) ? Number(subTotalLocal + tipLocal - discountTotalLocal).toFixed(2) : total;
+        const { total, subTotalLocal, tipLocal, discountTotalLocal,taxLocal } = this.state;
+        console.log('taxLocal : ',taxLocal);
+        const temptTotal = _.isEmpty(appointmentDetail) ? Number(subTotalLocal + tipLocal +  parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : total;
         this.modalBillRef.current.setStateFromParent(`${temptTotal}`);
     }
 
     doneBill = async () => {
         const { appointmentDetail } = this.props;
-        const { total, subTotalLocal, tipLocal, discountTotalLocal } = this.state;
-        const temptTotal = _.isEmpty(appointmentDetail) ? Number(subTotalLocal + tipLocal - discountTotalLocal).toFixed(2) : total;
+        const { total, subTotalLocal, tipLocal, discountTotalLocal,taxLocal } = this.state;
+        const temptTotal = _.isEmpty(appointmentDetail) ? Number(subTotalLocal + tipLocal  +  parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : total;
         const moneyUserGiveForStaff = this.modalBillRef.current.state.quality;
 
         const moneyChange = parseFloat(formatNumberFromCurrency(moneyUserGiveForStaff)) - parseFloat(formatNumberFromCurrency(temptTotal));

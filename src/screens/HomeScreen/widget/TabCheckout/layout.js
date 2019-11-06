@@ -82,7 +82,19 @@ class Layout extends React.Component {
 
                 </View>
                 {/* -------- Button open cash -------- */}
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end' }} >
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end',flexDirection:'row' }} >
+                    {
+                        this.state.basket.length > 0 ?  <Button 
+                        onPress={() => this.printInvoice()}
+                        style={{width:scaleSzie(30),height:scaleSzie(30),marginRight:scaleSzie(16) }} >
+                        <Image 
+                            source={IMAGE.printInvoice}
+                            style={{width:scaleSzie(30),height:scaleSzie(30) }}
+                        />
+                        </Button> : <View/>
+                    }
+                   
+                   
                     <ButtonCustom
                         width={scaleSzie(120)}
                         height={35}
