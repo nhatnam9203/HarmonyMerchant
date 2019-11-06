@@ -77,7 +77,9 @@ export function closeModalPaymentCompleted() {
     }
 }
 
-export function createAnymousAppointment(merchantId, products, services = [], extras = [], paymentMethod, isLoading = true, customDiscountFixed, customDiscountPercent, staffId = 0) {
+export function createAnymousAppointment(merchantId, products, services = [], extras = [], paymentMethod, isLoading = true, customDiscountFixed, customDiscountPercent, staffId = 0,
+    firstName,lastName,phoneNumber
+    ) {
     return {
         type: 'CREATE_ANYMOUS_APPOINTMENT',
         body: {
@@ -91,6 +93,9 @@ export function createAnymousAppointment(merchantId, products, services = [], ex
             staffId,
             customDiscountFixed,
             customDiscountPercent,
+            firstName,
+            lastName,
+            phoneNumber
         },
         method: 'POST',
         token: true,

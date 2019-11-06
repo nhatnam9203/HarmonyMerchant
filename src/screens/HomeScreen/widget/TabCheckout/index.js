@@ -480,7 +480,11 @@ class TabCheckout extends Layout {
                         });
                         const isLoadingOffline = method === 'cash' ? false : true;
                         this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, isLoadingOffline,
-                            customDiscountPercentLocal, customDiscountFixedLocal, staffId
+                            customDiscountPercentLocal, customDiscountFixedLocal, staffId,
+                           infoUser.firstName,
+                            infoUser.lastName,
+                            infoUser.phoneNumber,
+
                         );
                     }
 
@@ -545,7 +549,6 @@ class TabCheckout extends Layout {
 
     async handleResponseCreditCard(message, online) {
         // console.log('---- Response : ',message);
-        const { appointmentId } = this.state;
         await this.setState({
             visibleProcessingCredit: false
         })
@@ -561,7 +564,7 @@ class TabCheckout extends Layout {
 
             } else {
                 const { profile } = this.props;
-                const { appointmentId, paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal } = this.state;
+                const { appointmentId, paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,infoUser } = this.state;
                 let method = this.getPaymentString(paymentSelected);
 
                 if (online) {
@@ -574,7 +577,11 @@ class TabCheckout extends Layout {
                     const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
 
                     this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, false,
-                        customDiscountPercentLocal, customDiscountFixedLocal, staffId);
+                        customDiscountPercentLocal, customDiscountFixedLocal, staffId,
+                        infoUser.firstName,
+                            infoUser.lastName,
+                            infoUser.phoneNumber,
+                        );
                 }
             }
             // console.log('message : ', message);
