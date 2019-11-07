@@ -15,11 +15,13 @@ import appointment from './appointment';
 import customer from './customer';
 import invoice from './invoice';
 import marketing from './marketing';
+import network from './network';
+
 
 const rootPersistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    blacklist: ['app', 'auth', 'upload']
+    blacklist: ['app', 'auth', 'upload', 'network']
 };
 
 const authPersistConfig = {
@@ -77,6 +79,7 @@ const rootReducer = combineReducers({
         storage: AsyncStorage,
         whitelist: ['listBanners', 'promotions']
     }, marketing),
+    network
 });
 
 export default persistReducer(rootPersistConfig, rootReducer);

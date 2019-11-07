@@ -104,9 +104,6 @@ function appReducer(state = initialState, action) {
                 ...state,
                 visibleEnterPin: false
             }
-
-
-
         default:
             return state
     }

@@ -14,8 +14,12 @@ const initialState = {
     currentTab: 1,
     visibleConfirm: false,
     temptCurrentTap: -1,
-    visibleEnterPin: true
+    visibleEnterPin: true,
+
+    isConnectedInternet: true
 }
+
+let unsubscribeInternet;
 
 class HomeScreen extends Layout {
 
@@ -29,6 +33,7 @@ class HomeScreen extends Layout {
     }
 
     componentDidMount() {
+        // this.checkInternet();
         this.getCurrentLocation();
         this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
         this.didBlurSubscription = this.props.navigation.addListener(
@@ -49,6 +54,31 @@ class HomeScreen extends Layout {
                 })
             }
         );
+    }
+
+    checkInternet() {
+        unsubscribeInternet = NetInfo.addEventListener(state => {
+            // console.log("Connection type" + JSON.stringify(state));
+            // console.log("Is connected?", state.isConnected);
+            if (!state.isConnected) {
+                unsubscribeInternet();
+                Alert.alert(
+                    'Alert Title',
+                    'My Alert Msg',
+                    [
+                        { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') },
+                        {
+                            text: 'Cancel',
+                            onPress: () => console.log('Cancel Pressed'),
+                            style: 'cancel',
+                        },
+                        { text: 'OK', onPress: () => console.log('OK Pressed') },
+                    ],
+                    { cancelable: false },
+                );
+            }
+        });
+
     }
 
     async getCurrentLocation() {
@@ -98,7 +128,7 @@ class HomeScreen extends Layout {
                 this.tabCheckoutRef.current.setStateVisibleFromParent();
             }
             else {
-                if (currentTab === 2 && this.tabCheckoutRef.current.state.basket.length === 0){
+                if (currentTab === 2 && this.tabCheckoutRef.current.state.basket.length === 0) {
                     this.tabCheckoutRef.current.resetStateFromParent();
                 }
                 this.scrollTabParentRef.current.goToPage(index);
@@ -128,7 +158,7 @@ class HomeScreen extends Layout {
     }
 
     clearDataTabCheckout = () => {
-        if( this.tabCheckoutRef.current){
+        if (this.tabCheckoutRef.current) {
             this.tabCheckoutRef.current.resetStateFromParent();
         }
     }
@@ -170,7 +200,7 @@ class HomeScreen extends Layout {
         ]).then((data) => {
             this.props.actions.staff.reloadButtonEnterPincode();
             if (data.length === 5) {
-               this.props.actions.app.changeFlagVisibleEnteerPinCode(false);
+                this.props.actions.app.changeFlagVisibleEnteerPinCode(false);
             }
         }).catch(error => {
             this.props.actions.staff.reloadButtonEnterPincode();
@@ -188,6 +218,7 @@ class HomeScreen extends Layout {
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();
+        unsubscribeInternet();
     }
 
 

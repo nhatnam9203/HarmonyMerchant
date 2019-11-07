@@ -30,13 +30,13 @@ class App extends React.Component {
                     loading={<ImageBackground style={{ flex: 1, }} source={IMAGE.splashScreen} >
                     </ImageBackground>}
                     persistor={this.state.persistor}>
-                     <AppNavigators
-                            ref={navigatorRef => {
-                                NavigatorServices.setContainer(navigatorRef);
-                            }}
-                        />
-                        <Loading />
-                    <NetworkListener />
+                    <AppNavigators
+                        ref={navigatorRef => {
+                            NavigatorServices.setContainer(navigatorRef);
+                        }}
+                    />
+                    <Loading />
+                    {/* <NetworkListener /> */}
                 </PersistGate>
             </Provider>
         );

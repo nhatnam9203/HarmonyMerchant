@@ -203,7 +203,7 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     isShowButtonEnterPinCode: state.staff.isShowButtonEnterPinCode,
     visibleEnterPin: state.app.visibleEnterPin,
-    isOfflineMode: state.app.isOfflineMode
+    isOfflineMode: state.network.isOfflineMode
 });
 
 export default connectRedux(mapStateToProps, PopupEnterPin);
