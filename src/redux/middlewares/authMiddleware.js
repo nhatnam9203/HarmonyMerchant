@@ -1,4 +1,18 @@
 const authMiddleware = store => next => action => {
+
+    if (action.type === 'persist/REHYDRATE') {
+        const key = action.key ? action.key : '';
+        if (key === 'category') {
+            return next({
+                type: 'UPDATE_STORAGE_CATEGORIES',
+                payload: action.payload.categoriesByMerchant
+            })
+        }
+
+
+    }
+
+
     if (action.token) {
         const appState = store.getState();
         return next({ ...action, token: appState.dataLocal.profileStaffLogin.token });

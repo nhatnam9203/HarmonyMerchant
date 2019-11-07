@@ -75,9 +75,14 @@ function appReducer(state = initialState, action) {
         case 'ADD_APPOINTMENT_OFFLINE_MODE':
             return {
                 ...state,
-                listAppointmentsOfflineMode:  [...state.listAppointmentsOfflineMode, action.payload]
+                listAppointmentsOfflineMode: [...state.listAppointmentsOfflineMode, action.payload]
             }
-
+        case 'SUBMIT_APPOINTMENT_OFFLINE_SUCCESS': {
+            return {
+                ...state,
+                listAppointmentsOfflineMode: []
+            }
+        }
         default:
             return state
     }

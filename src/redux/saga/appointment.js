@@ -286,6 +286,9 @@ function* submitAppointmentOffline(action) {
         console.log('submitAppointmentOffline : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "SUBMIT_APPOINTMENT_OFFLINE_SUCCESS"
+            });
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({

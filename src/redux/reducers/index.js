@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
+import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
 import app from './app';
 import dataLocal from './dataLocal';
@@ -21,23 +23,21 @@ import network from './network';
 const rootPersistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    blacklist: ['app', 'auth', 'upload', 'network']
+    blacklist: ['app', 'auth', 'upload', 'network'],
+    stateReconciler: autoMergeLevel2,
 };
 
-const authPersistConfig = {
-    key: 'dataLocal',
-    storage: AsyncStorage,
-};
 
 const rootReducer = combineReducers({
     dataLocal,
     app,
     auth,
-    category: persistReducer({
-        key: 'category',
-        storage: AsyncStorage,
-        whitelist: ['categoriesByMerchant']
-    }, category),
+    // category: persistReducer({
+    //     key: 'category',
+    //     storage: AsyncStorage,
+    //     blacklist: ['refreshListCategories','listCategoriesSearch','isShowSearchCategories','isGetListSearchCategories']
+    // }, category),
+    category,
     product: persistReducer({
         key: 'product',
         storage: AsyncStorage,

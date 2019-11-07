@@ -1,3 +1,6 @@
+import AsyncStorage from '@react-native-community/async-storage';
+import { persistReducer } from 'redux-persist';
+
 const initialState = {
     categoriesByMerchant: [],
     refreshListCategories: false,
@@ -8,6 +11,12 @@ const initialState = {
 
 function appReducer(state = initialState, action) {
     switch (action.type) {
+        case 'UPDATE_STORAGE_CATEGORIES':
+            return {
+                ...initialState,
+                categoriesByMerchant: action.payload,
+            }
+
         case 'GET_CATEGORIES_BY_MERCHANR_ID':
             return {
                 ...state,
@@ -64,4 +73,11 @@ function appReducer(state = initialState, action) {
     }
 }
 
-module.exports = appReducer;
+
+const persistConfig = {
+    key: 'category',
+    storage: AsyncStorage,
+    blacklist: ['refreshListCategories', 'listCategoriesSearch', 'isShowSearchCategories', 'isGetListSearchCategories']
+};
+
+module.exports = persistReducer(persistConfig, appReducer);

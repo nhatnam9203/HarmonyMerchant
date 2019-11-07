@@ -1,7 +1,6 @@
 import React from 'react';
 import _ from 'ramda';
 import { Alert } from 'react-native';
-import NetInfo from '@react-native-community/netinfo';
 
 
 import Layout from './layout';
@@ -19,7 +18,6 @@ const initialState = {
     isConnectedInternet: true
 }
 
-let unsubscribeInternet;
 
 class HomeScreen extends Layout {
 
@@ -33,7 +31,6 @@ class HomeScreen extends Layout {
     }
 
     componentDidMount() {
-        // this.checkInternet();
         this.getCurrentLocation();
         this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
         this.didBlurSubscription = this.props.navigation.addListener(
@@ -56,30 +53,6 @@ class HomeScreen extends Layout {
         );
     }
 
-    checkInternet() {
-        unsubscribeInternet = NetInfo.addEventListener(state => {
-            // console.log("Connection type" + JSON.stringify(state));
-            // console.log("Is connected?", state.isConnected);
-            if (!state.isConnected) {
-                unsubscribeInternet();
-                Alert.alert(
-                    'Alert Title',
-                    'My Alert Msg',
-                    [
-                        { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') },
-                        {
-                            text: 'Cancel',
-                            onPress: () => console.log('Cancel Pressed'),
-                            style: 'cancel',
-                        },
-                        { text: 'OK', onPress: () => console.log('OK Pressed') },
-                    ],
-                    { cancelable: false },
-                );
-            }
-        });
-
-    }
 
     async getCurrentLocation() {
         const { profile } = this.props;
@@ -189,8 +162,10 @@ class HomeScreen extends Layout {
 
 
     loginStaffSuccess = () => {
-        // const{listAppointmentsOfflineMode} = this.props;
-        // this.props.actions.appointment.submitAppointmentOffline(listAppointmentsOfflineMode);
+        const { listAppointmentsOfflineMode } = this.props;
+        if (listAppointmentsOfflineMode.length > 0) {
+            this.props.actions.appointment.submitAppointmentOffline(listAppointmentsOfflineMode);
+        }
         Promise.all([
             this.props.actions.category.getCategoriesByMerchantId(),
             this.props.actions.extra.getExtraByMerchant(),
