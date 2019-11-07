@@ -481,7 +481,7 @@ class TabCheckout extends Layout {
                         const isLoadingOffline = method === 'cash' ? false : true;
                         this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, isLoadingOffline,
                             customDiscountPercentLocal, customDiscountFixedLocal, staffId,
-                           infoUser.firstName,
+                            infoUser.firstName,
                             infoUser.lastName,
                             infoUser.phoneNumber,
 
@@ -564,7 +564,7 @@ class TabCheckout extends Layout {
 
             } else {
                 const { profile } = this.props;
-                const { appointmentId, paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,infoUser } = this.state;
+                const { appointmentId, paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser } = this.state;
                 let method = this.getPaymentString(paymentSelected);
 
                 if (online) {
@@ -579,9 +579,9 @@ class TabCheckout extends Layout {
                     this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, false,
                         customDiscountPercentLocal, customDiscountFixedLocal, staffId,
                         infoUser.firstName,
-                            infoUser.lastName,
-                            infoUser.phoneNumber,
-                        );
+                        infoUser.lastName,
+                        infoUser.phoneNumber,
+                    );
                 }
             }
             // console.log('message : ', message);
@@ -864,10 +864,12 @@ class TabCheckout extends Layout {
     }
 
     donotPrintBill = () => {
-        const {isOfflineMode} = this.props;
-        if(isOfflineMode){
+        // ------- Handle Offline mode ------
+        const { isOfflineMode } = this.props;
+        if (isOfflineMode) {
             this.addAppointmentOfflineMode();
         }
+        // ---------------------------------
 
         const { connectionSignalR } = this.props;
         const { paymentSelected } = this.state;
@@ -887,6 +889,12 @@ class TabCheckout extends Layout {
 
 
     printBill = async () => {
+        // ------- Handle Offline mode ------
+        const { isOfflineMode } = this.props;
+        if (isOfflineMode) {
+            this.addAppointmentOfflineMode();
+        }
+        // ---------------------------------
 
         const printer = await PrintManager.getInstance().portDiscovery();
         if (printer.length > 0) {
@@ -906,7 +914,7 @@ class TabCheckout extends Layout {
             this.setState(initState);
             this.props.actions.appointment.resetPayment();
 
-            console.log('----- basket : ' + JSON.stringify(basket));
+            // console.log('----- basket : ' + JSON.stringify(basket));
         } else {
             alert('Please connect to your print ! ');
         }
@@ -939,7 +947,6 @@ class TabCheckout extends Layout {
                 .withUrl(`${apiConfigs.BASE_URL}notification/?merchantId=${profile.merchantId}&Title=Merchant&kind=app`, { accessTokenFactory: () => token })
                 .configureLogging({
                     log: function (logLevel, message) {
-                        // console.log(new Date().toISOString() + ": " + message);
                     }
                 })
                 .build();
@@ -987,16 +994,15 @@ class TabCheckout extends Layout {
 
     extractBill = () => {
         const { appointmentDetail } = this.props;
-        const { total, subTotalLocal, tipLocal, discountTotalLocal,taxLocal } = this.state;
-        console.log('taxLocal : ',taxLocal);
-        const temptTotal = _.isEmpty(appointmentDetail) ? Number(subTotalLocal + tipLocal +  parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : total;
+        const { total, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
+        const temptTotal = _.isEmpty(appointmentDetail) ? Number(subTotalLocal + tipLocal + parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : total;
         this.modalBillRef.current.setStateFromParent(`${temptTotal}`);
     }
 
     doneBill = async () => {
         const { appointmentDetail } = this.props;
-        const { total, subTotalLocal, tipLocal, discountTotalLocal,taxLocal } = this.state;
-        const temptTotal = _.isEmpty(appointmentDetail) ? Number(subTotalLocal + tipLocal  +  parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : total;
+        const { total, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
+        const temptTotal = _.isEmpty(appointmentDetail) ? Number(subTotalLocal + tipLocal + parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : total;
         const moneyUserGiveForStaff = this.modalBillRef.current.state.quality;
 
         const moneyChange = parseFloat(formatNumberFromCurrency(moneyUserGiveForStaff)) - parseFloat(formatNumberFromCurrency(temptTotal));
@@ -1021,11 +1027,20 @@ class TabCheckout extends Layout {
     doneBillByCash = async () => {
         await this.setState({
             visibleChangeMoney: false
-        })
-        const { appointmentDetail, appointmentIdOffline } = this.props;
-        const temptAppointmentId = _.isEmpty(appointmentDetail) ? appointmentIdOffline : appointmentDetail.appointmentId;
-        this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
-        this.props.actions.appointment.showModalPrintReceipt();
+        });
+        // ------- Handle Offline mode ------
+        const { isOfflineMode } = this.props;
+        if (isOfflineMode) {
+            this.props.actions.appointment.showModalPrintReceipt();
+        } else {
+            const { appointmentDetail, appointmentIdOffline } = this.props;
+            const temptAppointmentId = _.isEmpty(appointmentDetail) ? appointmentIdOffline : appointmentDetail.appointmentId;
+            this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
+            this.props.actions.appointment.showModalPrintReceipt();
+        }
+
+
+
     }
 
     setStateVisibleFromParent = async (visibleConfirm) => {

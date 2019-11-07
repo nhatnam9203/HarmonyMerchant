@@ -1,6 +1,8 @@
 import React from 'react';
 import _ from 'ramda';
 import { Alert } from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
+
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';

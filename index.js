@@ -8,8 +8,8 @@ import AppNavigators from './src/navigators/AppNavigator';
 import configureStore from './src/redux/store';
 import { name as appName } from './app.json';
 import NavigatorServices from './src/navigators/NavigatorServices';
-import { Loading } from './src/components';
-import { LockScreen } from './src/screens';
+import { Loading, NetworkListener } from './src/components';
+// import { LockScreen } from './src/screens';
 import IMAGE from './src/resources';
 
 class App extends React.Component {
@@ -30,13 +30,13 @@ class App extends React.Component {
                     loading={<ImageBackground style={{ flex: 1, }} source={IMAGE.splashScreen} >
                     </ImageBackground>}
                     persistor={this.state.persistor}>
-                    <AppNavigators
-                        ref={navigatorRef => {
-                            NavigatorServices.setContainer(navigatorRef);
-                        }}
-                    />
-                    <Loading />
-                    <LockScreen />
+                     <AppNavigators
+                            ref={navigatorRef => {
+                                NavigatorServices.setContainer(navigatorRef);
+                            }}
+                        />
+                        <Loading />
+                    <NetworkListener />
                 </PersistGate>
             </Provider>
         );
