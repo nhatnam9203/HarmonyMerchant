@@ -80,7 +80,7 @@ export function restockProduct(ids, quantity) {
     }
 }
 
-export function exportInventory(merchantId,fileName) {
+export function exportInventory(merchantId, fileName) {
     return {
         type: 'EXPORT_INVENTORY',
         method: 'GET',
@@ -90,16 +90,16 @@ export function exportInventory(merchantId,fileName) {
     }
 }
 
-export function resetDownloadFinleInventory(){
-    return{
-        type:'RESET_DOWNLOAD_FILE_INVENTORY',
+export function resetDownloadFinleInventory() {
+    return {
+        type: 'RESET_DOWNLOAD_FILE_INVENTORY',
     }
 }
 
-export function updateProductsPositionLocal(data){
-    return{
-        type:'UPDATE_PRODUCTS_POSITION_LOCAL',
-        payload:data
+export function updateProductsPositionLocal(data) {
+    return {
+        type: 'UPDATE_PRODUCTS_POSITION_LOCAL',
+        payload: data
     }
 }
 
@@ -113,3 +113,11 @@ export function updateProductsPosition(body) {
     }
 }
 
+export function checkSKUIsExist(sku) {
+    return {
+        type: 'CHECK_SKU_IS_EXIST',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}product/checksku?sku=${sku}`,
+    }
+}

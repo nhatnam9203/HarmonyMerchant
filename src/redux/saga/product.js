@@ -53,14 +53,14 @@ function* getProductsByMerchantId(action) {
                 type: 'UNAUTHORIZED'
             })
         } else {
-            yield put({type :'GET_PRODUCTS_BY_MERCHANR_ID_FAIL'});
+            yield put({ type: 'GET_PRODUCTS_BY_MERCHANR_ID_FAIL' });
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
             })
         }
     } catch (error) {
-        yield put({type :'GET_PRODUCTS_BY_MERCHANR_ID_FAIL'});
+        yield put({ type: 'GET_PRODUCTS_BY_MERCHANR_ID_FAIL' });
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -283,6 +283,31 @@ function* updateProductsPosition(action) {
     }
 }
 
+function* checkSKUIsExist(action) {
+    try {
+        // yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log('--- checkSKUIsExist : ', responses);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 
 export default function* saga() {
     yield all([
@@ -295,7 +320,6 @@ export default function* saga() {
         takeLatest('RESTOCK_PRODUCT', restockProduct),
         takeLatest('EXPORT_INVENTORY', exportInventory),
         takeLatest('UPDATE_PRODUCTS_POSITION', updateProductsPosition),
-
-
+        takeLatest('CHECK_SKU_IS_EXIST', checkSKUIsExist),
     ])
 } 
