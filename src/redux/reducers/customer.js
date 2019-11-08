@@ -1,3 +1,6 @@
+import AsyncStorage from '@react-native-community/async-storage';
+import { persistReducer } from 'redux-persist';
+
 const initialState = {
     listCustomersByMerchant: [],
     listCustomersSearch: [],
@@ -7,6 +10,11 @@ const initialState = {
 
 function appReducer(state = initialState, action) {
     switch (action.type) {
+        case 'REHYDRATE_CUSTOMERS':
+            return {
+                ...state,
+                listCustomersByMerchant: action.payload
+            }
         case 'GET_LIST_CUSTOMER_BY_MERCHANT':
             return {
                 ...state,
@@ -18,11 +26,11 @@ function appReducer(state = initialState, action) {
                 listCustomersByMerchant: action.payload,
                 refreshListCustomer: false
             }
-            case 'GET_LIST_CUSTOMER_BY_MERCHANT_FAIL':
-                return {
-                    ...state,
-                    refreshListCustomer: false
-                }
+        case 'GET_LIST_CUSTOMER_BY_MERCHANT_FAIL':
+            return {
+                ...state,
+                refreshListCustomer: false
+            }
         case 'SEARCH_CUSTOMER_SUCCESS':
             return {
                 ...state,
@@ -35,20 +43,26 @@ function appReducer(state = initialState, action) {
                 listCustomersSearch: [],
                 isShowSearchCustomer: false
             }
-            case 'NET_WORK_REQUEST_FAIL':
-                return {
-                    ...state,
-                    refreshListCustomer: false
-                }
-            case 'TIME_OUT':
-                return {
-                    ...state,
-                    refreshListCustomer: false
-                }
+        case 'NET_WORK_REQUEST_FAIL':
+            return {
+                ...state,
+                refreshListCustomer: false
+            }
+        case 'TIME_OUT':
+            return {
+                ...state,
+                refreshListCustomer: false
+            }
 
         default:
             return state
     }
 }
 
-module.exports = appReducer;
+const persistConfig = {
+    key: 'customer',
+    storage: AsyncStorage,
+    whitelist: ['listCustomersByMerchant']
+};
+
+module.exports = persistReducer(persistConfig, appReducer);

@@ -1,3 +1,6 @@
+import AsyncStorage from '@react-native-community/async-storage';
+import { persistReducer } from 'redux-persist';
+
 const initialState = {
     appointmentDetail: {},
     isGetAppointmentSucces: false,
@@ -11,6 +14,11 @@ const initialState = {
 
 function appReducer(state = initialState, action) {
     switch (action.type) {
+        case 'REHYDRATE_APPOINTMENT':
+            return {
+                ...initialState,
+                listAppointmentsOfflineMode: action.payload,
+            }
         case 'GET_APPOINTMENT_BY_ID_SUCCESS':
             return {
                 ...state,
@@ -88,4 +96,12 @@ function appReducer(state = initialState, action) {
     }
 }
 
-module.exports = appReducer;
+
+
+const persistConfig = {
+    key: 'appointment',
+    storage: AsyncStorage,
+    whitelist: ['listAppointmentsOfflineMode']
+};
+
+module.exports = persistReducer(persistConfig, appReducer);

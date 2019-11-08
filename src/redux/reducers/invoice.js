@@ -1,3 +1,6 @@
+import AsyncStorage from '@react-native-community/async-storage';
+import { persistReducer } from 'redux-persist';
+
 const initialState = {
     listInvoicesByMerchant: [],
     totalPages: 0,
@@ -25,6 +28,11 @@ const initialState = {
 
 function appReducer(state = initialState, action) {
     switch (action.type) {
+        case 'REHYDRATE_INVOICES':
+            return {
+                ...initialState,
+                listInvoicesByMerchant: action.payload
+            }
         case 'GET_TRANSACTION_SETTLEMENT':
             return {
                 ...state,
@@ -143,5 +151,10 @@ function appReducer(state = initialState, action) {
     }
 }
 
-module.exports = appReducer;
+const persistConfig = {
+    key: 'invoice',
+    storage: AsyncStorage,
+    whitelist: ['listInvoicesByMerchant']
+};
 
+module.exports = persistReducer(persistConfig, appReducer);

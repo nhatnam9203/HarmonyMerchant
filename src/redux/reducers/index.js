@@ -35,42 +35,12 @@ const rootReducer = combineReducers({
     category,
     product,
     staff,
-    // service: persistReducer({
-    //     key: 'service',
-    //     storage: AsyncStorage,
-    //     whitelist: ['servicesByMerchant']
-    // }, service),
     service,
-    // extra: persistReducer({
-    //     key: 'extra',
-    //     storage: AsyncStorage,
-    //     whitelist: ['extrasByMerchant']
-    // }, extra),
     extra,
     upload,
-    // appointment: persistReducer({
-    //     key: 'appointment',
-    //     storage: AsyncStorage,
-    //     whitelist: ['listAppointmentsOfflineMode']
-    // }, appointment),
     appointment,
-    // customer: persistReducer({ 
-    //     key: 'customer',
-    //     storage: AsyncStorage,
-    //     whitelist: ['listCustomersByMerchant']
-    // }, customer),
     customer,
-    // invoice: persistReducer({
-    //     key: 'invoice',
-    //     storage: AsyncStorage,
-    //     whitelist: ['listInvoicesByMerchant']
-    // }, invoice),
     invoice,
-    // marketing: persistReducer({
-    //     key: 'marketing',
-    //     storage: AsyncStorage,
-    //     whitelist: ['listBanners', 'promotions']
-    // }, marketing),
     marketing,
     network
 });

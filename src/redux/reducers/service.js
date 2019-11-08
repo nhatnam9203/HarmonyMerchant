@@ -1,3 +1,6 @@
+import AsyncStorage from '@react-native-community/async-storage';
+import { persistReducer } from 'redux-persist';
+
 const initialState = {
     servicesByMerchant: [],
     listServicesSearch: [],
@@ -9,6 +12,11 @@ const initialState = {
 
 function appReducer(state = initialState, action) {
     switch (action.type) {
+        case 'REHYDRATE_SERVICES':
+            return {
+                ...initialState,
+                servicesByMerchant: action.payload
+            }
         case 'GET_SERVICE_BY_MERCHANT':
             return {
                 ...state,
@@ -65,4 +73,12 @@ function appReducer(state = initialState, action) {
     }
 }
 
-module.exports = appReducer;
+
+
+const persistConfig = {
+    key: 'service',
+    storage: AsyncStorage,
+    whitelist: ['servicesByMerchant']
+};
+
+module.exports = persistReducer(persistConfig, appReducer);

@@ -1,3 +1,6 @@
+import AsyncStorage from '@react-native-community/async-storage';
+import { persistReducer } from 'redux-persist';
+
 const initialState = {
     listBanners: [],
     isUploadBanner: false,
@@ -9,6 +12,12 @@ const initialState = {
 
 function appReducer(state = initialState, action) {
     switch (action.type) {
+        case 'REHYDRATE_MARKETINGS':
+            return {
+                ...initialState,
+                listBanners: action.listBanners,
+                promotions: action.promotions
+            }
         case 'GET_BANNER_MERCHANT_SUCCESS':
             return {
                 ...state,
@@ -52,4 +61,10 @@ function appReducer(state = initialState, action) {
     }
 }
 
-module.exports = appReducer;
+    const persistConfig = {
+        key: 'marketing',
+        storage: AsyncStorage,
+        whitelist: ['listBanners','promotions']
+    };
+    
+    module.exports = persistReducer(persistConfig, appReducer);

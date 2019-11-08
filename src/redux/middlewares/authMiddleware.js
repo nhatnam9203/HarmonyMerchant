@@ -15,6 +15,56 @@ const authMiddleware = store => next => action => {
         })
     }
 
+    if (type === 'persist/REHYDRATE' && key === 'staff' && payload) {
+        return next({
+            type: 'REHYDRATE_STAFFS',
+            payload: action.payload.listStaffByMerchant
+        })
+    }
+
+    if (type === 'persist/REHYDRATE' && key === 'service' && payload) {
+        return next({
+            type: 'REHYDRATE_SERVICES',
+            payload: action.payload.servicesByMerchant
+        })
+    }
+
+    if (type === 'persist/REHYDRATE' && key === 'extra' && payload) {
+        return next({
+            type: 'REHYDRATE_EXTRAS',
+            payload: action.payload.extrasByMerchant
+        })
+    }
+
+    if (type === 'persist/REHYDRATE' && key === 'appointment' && payload) {
+        return next({
+            type: 'REHYDRATE_APPOINTMENT',
+            payload: action.payload.listAppointmentsOfflineMode
+        })
+    }
+
+    if (type === 'persist/REHYDRATE' && key === 'customer' && payload) {
+        return next({
+            type: 'REHYDRATE_CUSTOMERS',
+            payload: action.payload.listCustomersByMerchant
+        })
+    }
+
+    if (type === 'persist/REHYDRATE' && key === 'invoice' && payload) {
+        return next({
+            type: 'REHYDRATE_INVOICES',
+            payload: action.payload.listInvoicesByMerchant
+        })
+    }
+
+    if (type === 'persist/REHYDRATE' && key === 'marketing' && payload) {
+        return next({
+            type: 'REHYDRATE_MARKETINGS',
+            listBanners: action.payload.listBanners,
+            promotions: action.payload.promotions
+        })
+    }
+
 
     if (action.token) {
         const appState = store.getState();
@@ -22,7 +72,6 @@ const authMiddleware = store => next => action => {
 
     }
 
-    // console.log('middleware : ',action);
     if (action.type && action.type.includes("_SUCCESS")) {
         return next({ ...action, typeNetwork: 'IS_CONNECTED_INTERNET' });
     }
