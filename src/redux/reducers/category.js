@@ -11,7 +11,7 @@ const initialState = {
 
 function appReducer(state = initialState, action) {
     switch (action.type) {
-        case 'UPDATE_STORAGE_CATEGORIES':
+        case 'REHYDRATE_CATEGORIES':
             return {
                 ...initialState,
                 categoriesByMerchant: action.payload,
@@ -77,7 +77,8 @@ function appReducer(state = initialState, action) {
 const persistConfig = {
     key: 'category',
     storage: AsyncStorage,
-    blacklist: ['refreshListCategories', 'listCategoriesSearch', 'isShowSearchCategories', 'isGetListSearchCategories']
+    whitelist:["categoriesByMerchant"]
 };
 
 module.exports = persistReducer(persistConfig, appReducer);
+

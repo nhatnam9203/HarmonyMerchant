@@ -24,7 +24,7 @@ const rootPersistConfig = {
     key: 'root',
     storage: AsyncStorage,
     blacklist: ['app', 'auth', 'upload', 'network'],
-    stateReconciler: autoMergeLevel2,
+    // stateReconciler: autoMergeLevel2,
 };
 
 
@@ -32,53 +32,46 @@ const rootReducer = combineReducers({
     dataLocal,
     app,
     auth,
-    // category: persistReducer({
-    //     key: 'category',
-    //     storage: AsyncStorage,
-    //     blacklist: ['refreshListCategories','listCategoriesSearch','isShowSearchCategories','isGetListSearchCategories']
-    // }, category),
     category,
-    product: persistReducer({
-        key: 'product',
-        storage: AsyncStorage,
-        whitelist: ['productsByMerchantId']
-    }, product),
-    staff: persistReducer({
-        key: 'staff',
-        storage: AsyncStorage,
-        whitelist: ['listStaffByMerchant']
-    }, staff),
-    service: persistReducer({
-        key: 'service',
-        storage: AsyncStorage,
-        whitelist: ['servicesByMerchant']
-    }, service),
-    extra: persistReducer({
-        key: 'extra',
-        storage: AsyncStorage,
-        whitelist: ['extrasByMerchant']
-    }, extra),
+    product,
+    staff,
+    // service: persistReducer({
+    //     key: 'service',
+    //     storage: AsyncStorage,
+    //     whitelist: ['servicesByMerchant']
+    // }, service),
+    service,
+    // extra: persistReducer({
+    //     key: 'extra',
+    //     storage: AsyncStorage,
+    //     whitelist: ['extrasByMerchant']
+    // }, extra),
+    extra,
     upload,
-    appointment: persistReducer({
-        key: 'appointment',
-        storage: AsyncStorage,
-        whitelist: ['listAppointmentsOfflineMode']
-    }, appointment),
-    customer: persistReducer({
-        key: 'customer',
-        storage: AsyncStorage,
-        whitelist: ['listCustomersByMerchant']
-    }, customer),
-    invoice: persistReducer({
-        key: 'invoice',
-        storage: AsyncStorage,
-        whitelist: ['listInvoicesByMerchant']
-    }, invoice),
-    marketing: persistReducer({
-        key: 'marketing',
-        storage: AsyncStorage,
-        whitelist: ['listBanners', 'promotions']
-    }, marketing),
+    // appointment: persistReducer({
+    //     key: 'appointment',
+    //     storage: AsyncStorage,
+    //     whitelist: ['listAppointmentsOfflineMode']
+    // }, appointment),
+    appointment,
+    // customer: persistReducer({ 
+    //     key: 'customer',
+    //     storage: AsyncStorage,
+    //     whitelist: ['listCustomersByMerchant']
+    // }, customer),
+    customer,
+    // invoice: persistReducer({
+    //     key: 'invoice',
+    //     storage: AsyncStorage,
+    //     whitelist: ['listInvoicesByMerchant']
+    // }, invoice),
+    invoice,
+    // marketing: persistReducer({
+    //     key: 'marketing',
+    //     storage: AsyncStorage,
+    //     whitelist: ['listBanners', 'promotions']
+    // }, marketing),
+    marketing,
     network
 });
 

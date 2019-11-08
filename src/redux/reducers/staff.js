@@ -1,3 +1,6 @@
+import AsyncStorage from '@react-native-community/async-storage';
+import { persistReducer } from 'redux-persist';
+
 const initialState = {
     listStaffByMerchant: [],
     listSearchStaff: [],
@@ -122,4 +125,10 @@ function appReducer(state = initialState, action) {
     }
 }
 
-module.exports = appReducer;
+    const persistConfig = {
+        key: 'staff',
+        storage: AsyncStorage,
+        whitelist: ['listStaffByMerchant']
+    };
+    
+    module.exports = persistReducer(persistConfig, appReducer);

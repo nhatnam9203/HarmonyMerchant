@@ -1,15 +1,18 @@
 const authMiddleware = store => next => action => {
 
-    if (action.type === 'persist/REHYDRATE') {
-        const key = action.key ? action.key : '';
-        if (key === 'category') {
-            return next({
-                type: 'UPDATE_STORAGE_CATEGORIES',
-                payload: action.payload.categoriesByMerchant
-            })
-        }
-
-
+    const { type, payload } = action;
+    const key = action.key ? action.key : '';
+    if (type === 'persist/REHYDRATE' && key === 'category' && payload) {
+        return next({
+            type: 'REHYDRATE_CATEGORIES',
+            payload: action.payload.categoriesByMerchant
+        })
+    }
+    if (type === 'persist/REHYDRATE' && key === 'product' && payload) {
+        return next({
+            type: 'REHYDRATE_PRODUCTS',
+            payload: action.payload.productsByMerchantId
+        })
     }
 
 
