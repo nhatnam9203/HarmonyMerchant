@@ -287,7 +287,7 @@ function* checkSKUIsExist(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('--- checkSKUIsExist : ', responses);
+        // console.log('--- checkSKUIsExist : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             

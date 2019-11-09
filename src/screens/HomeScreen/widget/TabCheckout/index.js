@@ -953,23 +953,26 @@ class TabCheckout extends Layout {
 
             connection.on("ListWaNotification", (data) => {
                 const temptData = JSON.parse(data);
-                // console.log('temptData : ' + JSON.stringify(temptData));
+                console.log('temptData : ' + JSON.stringify(temptData));
                 if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
                     && temptData.data.appointmentId == appointmentDetail.appointmentId
                 ) {
                     this.props.actions.appointment.donePaymentHarmony();
-                    this.props.actions.appointment.getAppointmentById(appointmentDetail.appointmentId);
+                    // this.props.actions.appointment.getAppointmentById(appointmentDetail.appointmentId);
                     connection.stop();
                 }
             });
 
             connection.onclose(async (error) => {
+                console.log('----- Close -----');
                 this.props.actions.appointment.resetConnectSignalR();
             });
 
+            console.log('connection : ' + JSON.stringify(connection));
+
             connection.start()
-                .then(() => this.props.actions.appointment.referenceConnectionSignalR(connection))
-                .catch(error => { });
+                .then(() => this.props.actions.appointment.referenceConnectionSignalR(connection));
+            // .catch(error => { });
 
         } catch (error) {
             // console.log('------ error : ', error);

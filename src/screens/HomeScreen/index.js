@@ -193,7 +193,7 @@ class HomeScreen extends Layout {
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();
-        unsubscribeInternet();
+        // unsubscribeInternet();
     }
 
 

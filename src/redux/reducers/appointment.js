@@ -104,4 +104,6 @@ const persistConfig = {
     whitelist: ['listAppointmentsOfflineMode']
 };
 
-module.exports = persistReducer(persistConfig, appReducer);
+// module.exports = persistReducer(persistConfig, appReducer);
+module.exports = appReducer;
+

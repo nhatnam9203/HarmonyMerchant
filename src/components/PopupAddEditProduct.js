@@ -124,7 +124,7 @@ class PopupAddEditProduct extends React.Component {
                     token: this.props.token,
                     api: `${apiConfigs.BASE_API}product/checksku?sku=${temptProductInfo.sku}`,
                 });
-                 console.log('checkSKUIsExist1 : ' + JSON.stringify(checkSKUIsExist));
+                //  console.log('checkSKUIsExist1 : ' + JSON.stringify(checkSKUIsExist));
                  if(checkSKUIsExist.codeNumber === 200){
                     if (this.props.isSave) {
                         this.props.editProduct({
@@ -142,8 +142,7 @@ class PopupAddEditProduct extends React.Component {
                  }
                
             } catch (error) {
-                // console.log('error : ',error);
-                alert('Please check your Internet !')
+                this.props.actions.app.catchError(error)
 
             }
 

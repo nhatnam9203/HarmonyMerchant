@@ -23,7 +23,7 @@ import network from './network';
 const rootPersistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    blacklist: ['app', 'auth', 'upload', 'network'],
+    blacklist: ['app', 'auth', 'upload', 'network','appointment'],
     // stateReconciler: autoMergeLevel2,
 };
 
