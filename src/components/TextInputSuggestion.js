@@ -92,7 +92,6 @@ class TextInputSuggestion extends React.PureComponent {
                 onFocus={this.onFocus}
                 onBlur={this.onBlur}
                 keyExtractor={(item, index) => `${item}_${index}`}
-                // listContainerStyle={{ height: scaleSzie(50) }}
                 listStyle={{height: scaleSzie(50) }}
             />
 

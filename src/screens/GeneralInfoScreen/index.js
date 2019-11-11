@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateEmail, validateIsNumber, getIdStateByName, requestAPI ,scaleSzie} from '@utils';
+import { validateEmail, validateIsNumber, getIdStateByName, requestAPI ,scaleSzie,checkStateIsValid} from '@utils';
 import apiConfigs from '@configs/api';
 
 
@@ -60,28 +60,17 @@ class GeneralInfoScreen extends Layout {
         }
     }
 
-    nextTab1 = async () => {
-        try {
-            const responses = await requestAPI({
-                method: 'GET',
-                api: `${apiConfigs.BASE_API}merchant/checkEmail?email=abc@gmail.com`
-            });
-            this.props.actions.app.stopLoadingApp();
-            const { codeNumber } = responses;
-            if (parseInt(codeNumber) == 200) {
-                this.props.actions.app.setGeneralInfo(temptGeneralInfo);
-                this.props.navigation.navigate('BusinessInfo');
-            } else {
-                this.props.actions.app.showMessageError(responses.message);
-            }
-        } catch (error) {
-            this.props.actions.app.catchError(error);
-        }
-    }
+    // nextTab = async () => {
+    //     const { generalInfo } = this.state;
+    //     const {stateCity} = this.props;
+    //     alert(checkStateIsValid(stateCity,generalInfo.businessAddress.state));
+    //     // alert(generalInfo.businessAddress.state)
+    // }
 
     nextTab = async () => {
         const { generalInfo } = this.state;
         const arrayKey = Object.keys(generalInfo);
+        const {stateCity} = this.props;
         let keyError = '';
         for (let i = 0; i < arrayKey.length; i++) {
             if (arrayKey[i] == 'tax') {
@@ -106,6 +95,12 @@ class GeneralInfoScreen extends Layout {
                     keyError = 'state';
                     break;
                 }
+
+                if (!checkStateIsValid(stateCity,generalInfo.businessAddress.state)) {
+                    keyError = 'stateInvalid';
+                    break;
+                }
+                
                 if (generalInfo.businessAddress.zip == '') {
                     keyError = 'zip';
                     break;
@@ -142,7 +137,7 @@ class GeneralInfoScreen extends Layout {
             Alert.alert(`${strings[keyError]}`);
         } else {
             const { businessAddress } = generalInfo;
-            const temptBusinessAddress = { ...businessAddress, state: getIdStateByName(this.props.stateCity, businessAddress.state) };
+            const temptBusinessAddress = { ...businessAddress, state: getIdStateByName(stateCity, businessAddress.state) };
             const temptGeneralInfo = {
                 ...generalInfo,
                 tax: `${generalInfo.tax.prefix}-${generalInfo.tax.suffix}`,

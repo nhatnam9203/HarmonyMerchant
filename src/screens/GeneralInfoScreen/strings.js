@@ -15,7 +15,8 @@ const strings = {
     contactPhone: `Missing info : Contact's Phone Number`,
     emailInvalid:'Missing info : Email Invalid',
     businessPhoneNotNumber:'Business Phone Invalid',
-    contactPhoneNotNumber:'Contact Phone Invalid'
+    contactPhoneNotNumber:'Contact Phone Invalid',
+    stateInvalid:"State Invalid!"
 }
 
 export default strings;
