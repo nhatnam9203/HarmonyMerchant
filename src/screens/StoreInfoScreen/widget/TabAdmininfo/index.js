@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateEmail, getIdStateByName ,scaleSzie} from '@utils';
+import { validateEmail, getIdStateByName ,scaleSzie,checkStateIsValid} from '@utils';
 
 const initState = {
     user: {
@@ -89,11 +89,12 @@ class StoreInfoScreen extends Layout {
 
     addAdmin = () => {
         const { user } = this.state;
+        const {stateCity} = this.props;
         const arrayKey = Object.keys(user);
         let keyError = '';
         for (let i = 0; i < arrayKey.length; i++) {
             if (arrayKey[i] == 'address') {
-                continue;
+                // continue;
                 // if (user.address.street == '') {
                 //     keyError = 'street';
                 //     break;
@@ -104,11 +105,10 @@ class StoreInfoScreen extends Layout {
                 //     break;
                 //     continue
                 // }
-                // if (user.address.state == '') {
-                //     keyError = 'state';
-                //     break;
-                //     continue
-                // }
+                if (user.address.state !== '' && !checkStateIsValid(stateCity,user.address.state))  {
+                    keyError = 'stateInvalid';
+                    break;
+                }
             } else if (arrayKey[i] == 'roles') {
                 if (user.roles.nameRole == '') {
                     keyError = 'nameRole';
@@ -177,7 +177,7 @@ class StoreInfoScreen extends Layout {
                 }
             });
             const { address } = user;
-            const temptAddress = { ...address, state: getIdStateByName(this.props.stateCity, address.state) };
+            const temptAddress = { ...address, state: getIdStateByName(stateCity, address.state) };
             const temptStaff = {
                 ...user,
                 cellphone: `${this.cellphoneRef.current.state.codeAreaPhone}${user.cellphone}`,

@@ -59,7 +59,7 @@ class TextInputSuggestion extends React.PureComponent {
     }
 
     render() {
-        const { value, onChangeText, onFocus } = this.props;
+        const { value, onChangeText, onFocus ,inputContainerStyle} = this.props;
         const { data } = this.state;
         return (
             <Autocomplete
@@ -82,7 +82,8 @@ class TextInputSuggestion extends React.PureComponent {
                 inputContainerStyle={{
                     paddingHorizontal: scaleSzie(8),
                     height: scaleSzie(30),
-                    justifyContent: "center"
+                    justifyContent: "center",
+                    ...inputContainerStyle
                 }}
                 style={{ fontSize: scaleSzie(16) }}
                 onFocus={this.onFocus}
