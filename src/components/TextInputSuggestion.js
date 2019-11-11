@@ -23,21 +23,17 @@ class TextInputSuggestion extends React.PureComponent {
             this.props.onChangeText(value);
             return;
         }
-
-        if (value.length > 1) {
-            const { stateCity } = this.props;
-            const temptState = stateCity.map(state => state.name);
-            let temptData = [];
-            for (let i = 0; i < temptState.length; i++) {
-                if (removeAccent(temptState[i].toLowerCase()).startsWith(removeAccent(value).toLowerCase())) {
-                    temptData.push(temptState[i]);
-                }
+        const { stateCity } = this.props;
+        const temptState = stateCity.map(state => state.name);
+        let temptData = [];
+        for (let i = 0; i < temptState.length; i++) {
+            if (removeAccent(temptState[i].toLowerCase()).startsWith(removeAccent(value).toLowerCase())) {
+                temptData.push(temptState[i]);
             }
-            this.setState({
-                data: temptData
-            })
         }
-
+        this.setState({
+            data: temptData
+        })
         this.props.onChangeText(value);
     }
 
@@ -92,7 +88,7 @@ class TextInputSuggestion extends React.PureComponent {
                 onFocus={this.onFocus}
                 onBlur={this.onBlur}
                 keyExtractor={(item, index) => `${item}_${index}`}
-                listStyle={{height: scaleSzie(50) }}
+                listStyle={{ height: scaleSzie(50) }}
             />
 
         );

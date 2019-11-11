@@ -10,7 +10,7 @@ import moment from 'moment';
 
 import {
     InputForm, FormInfoParent, Text, Dropdown, Button, PopupUpload, DatePicker,
-    InputFormPhone
+    InputFormPhone,TextInputSuggestion
 } from '@components';
 import { scaleSzie, localize, getArrayNameStateCity } from '@utils';
 import IMAGE from '@resources';
@@ -169,7 +169,7 @@ export default class Layout extends React.Component {
                                     onFocus={() =>this.scrollPrincipalTo(470)}
                                 />
                             </View>
-                            <View style={{ width: scaleSzie(180), backgroundColor: 'red' }} >
+                            {/* <View style={{ width: scaleSzie(180) }} >
                                 <Dropdown
                                     label={localize('State', language)}
                                     data={getArrayNameStateCity(stateCity)}
@@ -181,6 +181,13 @@ export default class Layout extends React.Component {
                                         borderColor: '#C5C5C5',
                                         flex: 1
                                     }}
+                                />
+                            </View> */}
+                            <View style={{ width: scaleSzie(180), height: scaleSzie(30) }} >
+                                <TextInputSuggestion
+                                    value={state}
+                                    onChangeText={(value) => this.updatePrincipalInfo('state', value, 'addressPrincipal')}
+                                    onFocus={() =>this.scrollPrincipalTo(470)}
                                 />
                             </View>
                             <View style={{ width: scaleSzie(180) }} >
@@ -198,7 +205,7 @@ export default class Layout extends React.Component {
                                 />
                             </View>
                         </View>
-
+                        <View style={{height:scaleSzie(15)}} />
                         <InputForm
                             isOnlyNumber={true}
                             title={localize('Years at This Address *')}

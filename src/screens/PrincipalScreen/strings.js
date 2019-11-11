@@ -25,7 +25,8 @@ const strings = {
     driverLicenseInvalid: 'Driver License Invalid',
     yearInvalid: 'Year Invalid',
     missAvatar: 'Please Upload Driver License',
-    emailInvalid : 'Email Invalid'
+    emailInvalid : 'Email Invalid',
+    stateInvalid:"State Invalid!"
 }
 
 export default strings;

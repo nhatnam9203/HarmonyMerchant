@@ -6,7 +6,7 @@ import moment from 'moment';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateIsNumber, getIdStateByName, validYear ,validateEmail,scaleSzie} from '@utils';
+import { validateIsNumber, getIdStateByName, validYear, validateEmail, scaleSzie, checkStateIsValid } from '@utils';
 
 class PrincipalScreen extends Layout {
 
@@ -47,8 +47,8 @@ class PrincipalScreen extends Layout {
         this.srollPrincipalRef = React.createRef();
     }
 
-    scrollPrincipalTo(position){
-        this.srollPrincipalRef.current.scrollTo({x: 0, y: scaleSzie(position), animated: true})
+    scrollPrincipalTo(position) {
+        this.srollPrincipalRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
     }
 
     componentDidMount() {
@@ -89,6 +89,7 @@ class PrincipalScreen extends Layout {
 
     nextScreen = () => {
         const { principalInfo, uriUpload } = this.state;
+        const { stateCity } = this.props;
         const arrayKey = Object.keys(principalInfo);
         let keyError = '';
         for (let i = 0; i < arrayKey.length; i++) {
@@ -105,12 +106,16 @@ class PrincipalScreen extends Layout {
                     keyError = 'state';
                     break;
                 }
+                if (!checkStateIsValid(stateCity, principalInfo.addressPrincipal.state)) {
+                    keyError = 'stateInvalid';
+                    break;
+                }
                 if (principalInfo.addressPrincipal.zip == '') {
                     keyError = 'zip';
                     break;
                 }
 
-            } 
+            }
             // else if (arrayKey[i] == 'yearAtThisAddress' && !validYear(principalInfo[arrayKey[i]])) {
             //     keyError = 'yearInvalid';
             //     break;
@@ -162,11 +167,11 @@ class PrincipalScreen extends Layout {
         } else {
             if (uriUpload != '') {
                 const { addressPrincipal } = principalInfo;
-                const temptAddressPrincipal = { ...addressPrincipal, state: getIdStateByName(this.props.stateCity, addressPrincipal.state) };
+                const temptAddressPrincipal = { ...addressPrincipal, state: getIdStateByName(stateCity, addressPrincipal.state) };
                 const temptPrincipalInfo = {
                     ...principalInfo,
                     homePhone: `${this.homePhoneRef.current.state.codeAreaPhone}${principalInfo.homePhone}`,
-                     mobilePhone: `${this.mobilePhoneRef.current.state.codeAreaPhone}${principalInfo.mobilePhone}`,
+                    mobilePhone: `${this.mobilePhoneRef.current.state.codeAreaPhone}${principalInfo.mobilePhone}`,
                     dateOfBirth: `${moment(this.state.dateOfBirth).format('MM/DD/YYYY')}`,
                     fileId: this.state.fileId,
                     addressPrincipal: temptAddressPrincipal

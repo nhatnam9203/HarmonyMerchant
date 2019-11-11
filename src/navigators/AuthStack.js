@@ -29,7 +29,7 @@ const AuthStack = createStackNavigator(
         UserGuide: UserGuideScreen
     },
     {
-        initialRouteName: 'GeneralInfo',
+        initialRouteName: 'PrincipalInfo',
         headerMode: 'none',
         transitionConfig: getSlideFromRightTransition
     }
