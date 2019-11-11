@@ -9,10 +9,10 @@ import {
 
 import {
     Dropdown,
-    ButtonCustom, Text, BrowserFile
+    ButtonCustom, Text, BrowserFile, TextInputSuggestion
 } from '@components';
 import { scaleSzie, localize, getArrayNameStateCity } from '@utils';
-import { ItemAdminInfo, ItemAdminCellPhone} from '../componentTab';
+import { ItemAdminInfo, ItemAdminCellPhone } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
 
@@ -87,12 +87,20 @@ class Layout extends React.Component {
                             flex: 1,
                             marginLeft: scaleSzie(5)
                         }} >
-                            <Dropdown
+                            {/* <Dropdown
                                 label={localize('State', language)}
                                 data={getArrayNameStateCity(stateCity)}
                                 value={state}
                                 onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
                                 containerStyle={styles.dropdown}
+                            /> */}
+                            <TextInputSuggestion
+                                value={state}
+                                onChangeText={value => this.updateUserInfo('state', value, 'address')}
+                                onFocus={() => { }}
+                                inputContainerStyle={{
+                                    height: scaleSzie(35),
+                                }}
                             />
                         </View>
                     </ItemAdminInfoDoubleItem>
@@ -105,7 +113,7 @@ class Layout extends React.Component {
                     />
 
                     <ItemAdminCellPhone
-                      ref={this.cellphoneRef}
+                        ref={this.cellphoneRef}
                         title={`${localize('Cell phone', language)} *`}
                         placeholder={localize('Phone number', language)}
                         value={cellphone}
@@ -205,8 +213,8 @@ class Layout extends React.Component {
                         })
                     }
 
-                     {/* ----- Product Salary ---- */}
-                     <TitleTabAdminInfo
+                    {/* ----- Product Salary ---- */}
+                    <TitleTabAdminInfo
                         title={localize('Product Salary', language)}
                     />
                     {
@@ -284,12 +292,12 @@ class Layout extends React.Component {
     }
 
     renderButtonSubmit() {
-        const {language} = this.props;
+        const { language } = this.props;
         const { isSubmitButton } = this.state;
         const titleButton = this.props.isEditStaff ? 'SAVE' : 'ADD';
         if (isSubmitButton) {
             return (
-               
+
                 <ButtonCustom
                     width={scaleSzie(120)}
                     height={40}

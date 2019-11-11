@@ -9,7 +9,7 @@ import {
 
 import {
     Dropdown,
-    ButtonCustom, Text, BrowserFile
+    ButtonCustom, Text, BrowserFile,TextInputSuggestion
 } from '@components';
 import { scaleSzie, localize, getArrayNameStateCity } from '@utils';
 import { ItemAdminInfo, ItemAdminCellPhone } from '../componentTab';
@@ -85,13 +85,21 @@ class Layout extends React.Component {
                             flex: 1,
                             marginLeft: scaleSzie(5)
                         }} >
-                            <Dropdown
+                            {/* <Dropdown
                                 label={localize('State', language)}
                                 data={getArrayNameStateCity(stateCity)}
                                 value={state}
                                 onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
                                 containerStyle={styles.dropdown}
-                            />
+                            /> */}
+                              <TextInputSuggestion
+                                    value={state}
+                                    onChangeText={value => this.updateUserInfo('state', value, 'address')}
+                                    onFocus={() => {}}
+                                    inputContainerStyle={{
+                                        height: scaleSzie(35),
+                                    }}
+                                />
                         </View>
                     </ItemAdminInfoDoubleItem>
 

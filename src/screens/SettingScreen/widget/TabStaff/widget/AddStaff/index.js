@@ -4,7 +4,7 @@ import _ from 'ramda';
 
 import Layout from './layout';
 import strings from './strings';
-import { validateEmail, getIdStateByName, getNameStateById, getCodeAreaPhone ,scaleSzie} from '@utils';
+import { validateEmail, getIdStateByName, getNameStateById, getCodeAreaPhone ,scaleSzie,checkStateIsValid} from '@utils';
 
 class AddStaff extends Layout {
 
@@ -197,11 +197,12 @@ class AddStaff extends Layout {
 
     addAdmin = () => {
         const { user } = this.state;
+        const {stateCity} = this.props;
         const arrayKey = Object.keys(user);
         let keyError = '';
         for (let i = 0; i < arrayKey.length; i++) {
             if (arrayKey[i] == 'address') {
-                continue;
+                // continue;
                 // if (user.address.street == '') {
                 //     keyError = 'street';
                 //     break;
@@ -215,6 +216,10 @@ class AddStaff extends Layout {
                 //     keyError = 'state';
                 //     break;
                 // }
+                if (user.address.state !== '' && !checkStateIsValid(stateCity,user.address.state))  {
+                    keyError = 'stateInvalid';
+                    break;
+                }
             } else if (arrayKey[i] == 'roles') {
                 if (user.roles.nameRole == '') {
                     keyError = 'nameRole';
@@ -283,7 +288,7 @@ class AddStaff extends Layout {
                 }
             });
             const { address } = user;
-            const temptAddress = { ...address, state: getIdStateByName(this.props.stateCity, address.state) };
+            const temptAddress = { ...address, state: getIdStateByName(stateCity, address.state) };
             const temptStaff = {
                 ...user,
                 cellphone: `${this.cellphoneRef.current.state.codeAreaPhone}${user.cellphone}`,
