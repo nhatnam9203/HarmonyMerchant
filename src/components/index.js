@@ -37,6 +37,7 @@ import PopupSendLinkInstall from './PopupSendLinkInstall';
 import PopupEnterPinInvoice from './PopupEnterPinInvoice';
 import PopupConfirmInvoiceStatus from './PopupConfirmInvoiceStatus';
 import NetworkListener from './NetworkListener';
+import TextInputSuggestion from './TextInputSuggestion';
 
 module.exports = {
     Button,
@@ -77,5 +78,6 @@ module.exports = {
     PopupSendLinkInstall,
     PopupEnterPinInvoice,
     PopupConfirmInvoiceStatus,
-    NetworkListener
+    NetworkListener,
+    TextInputSuggestion
 }

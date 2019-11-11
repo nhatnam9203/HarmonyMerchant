@@ -249,7 +249,7 @@ class Layout extends React.Component {
                     />
                     <ItemTextStoreInfo
                         title="EIN"
-                        value={ein ? ein : ''}
+                        value={taxId ? taxId : ''}
                     />
                     <ItemTextStoreInfo
                         title={localize('Merchant ID', language)}

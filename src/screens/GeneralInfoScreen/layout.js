@@ -2,10 +2,12 @@ import React from 'react';
 import {
     View,
     ScrollView,
-    Dimensions
+    Dimensions,
+    TextInput,
+    TouchableOpacity
 } from 'react-native';
 
-import { InputForm, FormInfoParent, Text, Dropdown, InputFormPhone } from '@components';
+import { InputForm, FormInfoParent, Text, Dropdown, InputFormPhone, TextInputSuggestion } from '@components';
 import { scaleSzie, localize, getArrayNameStateCity } from '@utils';
 
 const { width, height } = Dimensions.get('window');
@@ -125,18 +127,11 @@ export default class Layout extends React.Component {
                                     onFocus={() => this.scrollGeneralTo(310)}
                                 />
                             </View>
-                            <View style={{ width: scaleSzie(180), backgroundColor: 'red' }} >
-                                <Dropdown
-                                    label={'State'}
-                                    data={getArrayNameStateCity(stateCity)}
+                            <View style={{ width: scaleSzie(180), height: scaleSzie(30) }} >
+                                <TextInputSuggestion
                                     value={state}
-                                    onChangeText={(value) => this.updateGeneralInfo('state', value, 'businessAddress')}
-                                    containerStyle={{
-                                        backgroundColor: '#F1F1F1',
-                                        borderWidth: 1,
-                                        borderColor: '#C5C5C5',
-                                        flex: 1
-                                    }}
+                                    onChangeText={value => this.updateGeneralInfo('state', value, 'businessAddress')}
+                                    onFocus={() => this.scrollGeneralTo(310)}
                                 />
                             </View>
                             <View style={{ width: scaleSzie(180) }} >
