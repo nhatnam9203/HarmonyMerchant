@@ -6,7 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "codepush:ios:staging": "code-push release-react HpMerchant-IOS ios -d \"Staging\" -m --plistFile ./ios/Hpmerchant/Info.plist --description \"Fix test Release Beta 1.0.3\" ",
-    "codepush:ios:product": "code-push release-react HpMerchant-IOS ios -d \"Production\" -k private.pem -m --plistFile ./ios/Hpmerchant/Info.plist --description \"fix appointment info\" "
+    "codepush:ios:product": "code-push release-react HpMerchant-IOS ios -d \"Production\" -k private.pem -m --plistFile ./ios/Hpmerchant/Info.plist --description \"fix bugs\" "
   },
   "dependencies": {
     "@aspnet/signalr": "^1.1.4",

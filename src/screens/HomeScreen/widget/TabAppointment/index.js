@@ -266,6 +266,7 @@ class TabAppointment extends Layout {
         this.props.actions.appointment.resetPayment();
         this.props.actions.appointment.changeFlagSigninAppointment(false);
         this.props.clearDataTabCheckout();
+        // ------- Cancle book appointment ----------
     }
 
     setStateVisibleFromParent = async (visibleConfirm) => {
