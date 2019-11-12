@@ -611,7 +611,7 @@ class TabCheckout extends Layout {
         return `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`;
     }
 
-    async printInvoice() {
+    async printInvoice(isShowTip = false) {
         // ------------------------
         const { appointmentDetail } = this.props;
         const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
@@ -764,16 +764,6 @@ class TabCheckout extends Layout {
                     appendAbsolutePosition: 270,
                     data: `$ ${formatMoney(temptSubTotal)}\n`
                 })
-                // --------- Row 1 ---------
-                commands.push({
-                    appendAbsolutePosition: 0,
-                    data: `Tip`
-                })
-
-                commands.push({
-                    appendAbsolutePosition: 270,
-                    data: `$ ${formatMoney(temptTip)}\n`
-                })
                 // --------- Row 2 ---------
                 commands.push({
                     appendAbsolutePosition: 0,
@@ -795,22 +785,66 @@ class TabCheckout extends Layout {
                     appendAbsolutePosition: 270,
                     data: `$ ${formatMoney(temptDiscount)}\n`
                 });
-                commands.push({ appendFontStyle: 'A' });
-                // --------- Row 4 ---------
-                commands.push({ enableEmphasis: true });
-                commands.push({
-                    appendAbsolutePosition: 0,
-                    data: `TOTAL`
-                })
 
-                commands.push({
-                    appendAbsolutePosition: 270,
-                    data: `$ ${formatMoney(temptTotal)}\n`
-                })
-                commands.push({ enableEmphasis: false });
+                if (!isShowTip) {
+                    // --------- Row 1 ---------
+                    commands.push({
+                        appendAbsolutePosition: 0,
+                        data: `Tip`
+                    })
+
+                    commands.push({
+                        appendAbsolutePosition: 270,
+                        data: `$ ${formatMoney(temptTip)}\n`
+                    })
+
+                    commands.push({ appendFontStyle: 'A' });
+                    // --------- Row 4 ---------
+                    commands.push({ enableEmphasis: true });
+                    commands.push({
+                        appendAbsolutePosition: 0,
+                        data: `TOTAL`
+                    })
+
+                    commands.push({
+                        appendAbsolutePosition: 270,
+                        data: `$ ${formatMoney(temptTotal)}\n`
+                    })
+                    // commands.push({ enableEmphasis: false });
+
+                } else {
+                    commands.push({ appendFontStyle: 'A' });
+                    commands.push({ enableEmphasis: true });
+                    commands.push({ appendLineFeed: 1 });
+                    // --------- Row Tip ---------
+                    commands.push({
+                        appendAbsolutePosition: 0,
+                        data: `Tip`
+                    });
+
+                    commands.push({
+                        appendAbsolutePosition: 180,
+                        data: `_ _ _ _ _ _ _ _ _\n`
+                    });
+
+                    commands.push({ appendLineFeed: 1 });
+                    // --------- Row Total ---------
+
+                    commands.push({ enableEmphasis: true });
+                    commands.push({
+                        appendAbsolutePosition: 0,
+                        data: `TOTAL`
+                    })
+
+                    commands.push({
+                        appendAbsolutePosition: 180,
+                        data: `_ _ _ _ _ _ _ _ _\n`
+                    });
+                }
+
 
                 // ---------- End --------
-
+                commands.push({ enableEmphasis: false });
                 commands.push({ appendLineFeed: 1 });
                 commands.push({
                     appendAlignment: 'Center',

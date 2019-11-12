@@ -85,7 +85,7 @@ class Layout extends React.Component {
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end',flexDirection:'row' }} >
                     {
                         this.state.basket.length > 0 ?  <Button 
-                        onPress={() => this.printInvoice()}
+                        onPress={() => this.printInvoice(true)}
                         style={{width:scaleSzie(30),height:scaleSzie(30),marginRight:scaleSzie(16) }} >
                         <Image 
                             source={IMAGE.printInvoice}
