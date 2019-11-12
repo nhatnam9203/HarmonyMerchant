@@ -117,37 +117,34 @@ class PopupAddEditProduct extends React.Component {
         if (keyError != '') {
             Alert.alert(`${strings[keyError]}`);
         } else {
-            try {
-                const checkSKUIsExist = await requestAPI({
-                    type: 'CHECK_SKU_IS_EXIST1',
-                    method: 'GET',
-                    token: this.props.token,
-                    api: `${apiConfigs.BASE_API}product/checksku?sku=${temptProductInfo.sku}`,
+            if (this.props.isSave) {
+                this.props.editProduct({
+                    ...temptProductInfo, isDisabled: productInfo.isDisabled === 'Active' ? 0 : 1,
+                    fileId: this.state.fileId
                 });
-                //  console.log('checkSKUIsExist1 : ' + JSON.stringify(checkSKUIsExist));
-                 if(checkSKUIsExist.codeNumber === 200){
-                    if (this.props.isSave) {
-                        this.props.editProduct({
-                            ...temptProductInfo, isDisabled: productInfo.isDisabled === 'Active' ? 0 : 1,
-                            fileId: this.state.fileId
-                        });
-                    } else {
+            } else {
+                try {
+                    const checkSKUIsExist = await requestAPI({
+                        type: 'CHECK_SKU_IS_EXIST1',
+                        method: 'GET',
+                        token: this.props.token,
+                        api: `${apiConfigs.BASE_API}product/checksku?sku=${temptProductInfo.sku}`,
+                    });
+                    //  console.log('checkSKUIsExist1 : ' + JSON.stringify(checkSKUIsExist));
+                    if (checkSKUIsExist.codeNumber === 200) {
                         this.props.confimYes({
                             ...temptProductInfo, isDisabled: productInfo.isDisabled === 'Active' ? 0 : 1,
                             fileId: this.state.fileId
                         });
+                    } else {
+                        alert('This product SKU is existing!')
                     }
-                 }else{
-                    alert('This product SKU is existing!')
-                 }
-               
-            } catch (error) {
-                this.props.actions.app.catchError(error)
 
+                } catch (error) {
+                    this.props.actions.app.catchError(error)
+
+                }
             }
-
-           
-
 
         }
     }

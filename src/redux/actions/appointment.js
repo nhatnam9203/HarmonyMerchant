@@ -78,8 +78,8 @@ export function closeModalPaymentCompleted() {
 }
 
 export function createAnymousAppointment(merchantId, products, services = [], extras = [], paymentMethod, isLoading = true, customDiscountFixed, customDiscountPercent, staffId = 0,
-    firstName,lastName,phoneNumber
-    ) {
+    firstName, lastName, phoneNumber
+) {
     return {
         type: 'CREATE_ANYMOUS_APPOINTMENT',
         body: {
@@ -199,4 +199,26 @@ export function submitAppointmentOffline(body) {
     }
 }
 
+
+export function cancleAppointment(appointmentId, merchantId,userId) {
+    return {
+        type: 'CANCEL_APPOINTMENT',
+        body: {
+            staffId: 0,
+            customerId: 0,
+            merchantId,
+            userId,
+            status: "cancel",
+            services: [],
+            products: [],
+            extras: [],
+            fromTime: new Date(),
+            toTime: new Date(),
+        }
+        ,
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}appointment/${appointmentId}`,
+    }
+}
 
