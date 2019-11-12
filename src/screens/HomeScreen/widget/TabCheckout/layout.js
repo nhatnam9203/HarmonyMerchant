@@ -37,20 +37,22 @@ class Layout extends React.Component {
                     {
                         name.trim() == '' ?  
                         <ButtonCustom
-                        width={scaleSzie(120)}
-                        height={35}
-                        backgroundColor="#0764B0"
+                        width={scaleSzie(100)}
+                        height={30}
+                        backgroundColor="rgb(247,247,247)"
                         title={localize('Enter Name', language)}
-                        textColor="#fff"
+                        textColor="rgb(63,63,63)"
                         onPress={this.displayPopupCustomerName}
                         style={{
-                            borderWidth: 1, borderColor: '#C5C5C5',
+                            borderWidth: 1, borderColor: 'rgb(199,199,199)',
                             borderRadius: scaleSzie(3),
-                            marginHorizontal:scaleSzie(14)
+                            marginHorizontal:scaleSzie(14),
+                            alignItems:"flex-start",
+                            paddingHorizontal:scaleSzie(10)
                         }}
-                        styleText={{ fontSize: scaleSzie(14), fontWeight: 'bold', }}
+                        styleText={{ fontSize: scaleSzie(12), }}
                     />
-                        :  <Text onPress={this.displayPopupCustomerName} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(90) }]} >
+                        :  <Text onPress={this.displayPopupCustomerName} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(30) }]} >
                         {`${firstName} ${lastName}`}
                     </Text>
                     }
@@ -62,20 +64,22 @@ class Layout extends React.Component {
                     {
                         phoneNumber.trim() == '' ?  
                         <ButtonCustom
-                        width={scaleSzie(120)}
-                        height={35}
-                        backgroundColor="#0764B0"
+                        width={scaleSzie(100)}
+                        height={30}
+                        backgroundColor="rgb(247,247,247)"
                         title={localize('Enter Phone', language)}
-                        textColor="#fff"
+                        textColor="rgb(63,63,63)"
                         onPress={this.displayPopupCustomerPhone}
                         style={{
-                            borderWidth: 1, borderColor: '#C5C5C5',
+                            borderWidth: 1, borderColor: 'rgb(199,199,199)',
                             borderRadius: scaleSzie(3),
-                            marginHorizontal:scaleSzie(14)
+                            marginHorizontal:scaleSzie(14),
+                            alignItems:"flex-start",
+                            paddingHorizontal:scaleSzie(10)
                         }}
-                        styleText={{ fontSize: scaleSzie(14), fontWeight: 'bold', }}
+                        styleText={{ fontSize: scaleSzie(12),  }}
                     />
-                        :  <Text onPress={this.displayPopupCustomerPhone} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(90) }]} >
+                        :  <Text onPress={this.displayPopupCustomerPhone} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(12) }]} >
                         {phoneNumber}
                     </Text>
                     }
@@ -84,29 +88,20 @@ class Layout extends React.Component {
                 {/* -------- Button open cash -------- */}
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end',flexDirection:'row' }} >
                     {
-                        this.state.basket.length > 0 ?  <Button 
-                        onPress={() => this.printInvoice(true)}
-                        style={{width:scaleSzie(30),height:scaleSzie(30),marginRight:scaleSzie(16) }} >
-                        <Image 
-                            source={IMAGE.printInvoice}
-                            style={{width:scaleSzie(30),height:scaleSzie(30) }}
+                        this.state.basket.length > 0 ?    <Button  onPress={() => this.printInvoice(true)} style={[styles.btnCashier,{marginRight:scaleSzie(8)}]} >
+                        <Image source={IMAGE.print_btn} 
+                        style={{width:scaleSzie(14),height:scaleSzie(16)}}
                         />
-                        </Button> : <View/>
+                        <Text style={styles.textBtnCashier} >
+                       Print receipt
+                        </Text>
+                    </Button>: <View/>
                     }
                    
 
-                   <Button  onPress={() => this.openCashDrawer(true)} style={styles.btnCashier} >
-                        <Image source={IMAGE.cashier_btn} 
-                        style={{width:scaleSzie(20),height:scaleSzie(17)}}
-                        />
-                        <Text style={styles.textBtnCashier} >
-                        Open Cashier
-                        </Text>
-                    </Button>
-
                     <Button  onPress={() => this.openCashDrawer(true)} style={styles.btnCashier} >
                         <Image source={IMAGE.cashier_btn} 
-                        style={{width:scaleSzie(20),height:scaleSzie(17)}}
+                        style={{width:scaleSzie(16),height:scaleSzie(13)}}
                         />
                         <Text style={styles.textBtnCashier} >
                         Open Cashier
