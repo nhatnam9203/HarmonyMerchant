@@ -94,20 +94,25 @@ class Layout extends React.Component {
                         </Button> : <View/>
                     }
                    
+
+                   <Button  onPress={() => this.openCashDrawer(true)} style={styles.btnCashier} >
+                        <Image source={IMAGE.cashier_btn} 
+                        style={{width:scaleSzie(20),height:scaleSzie(17)}}
+                        />
+                        <Text style={styles.textBtnCashier} >
+                        Open Cashier
+                        </Text>
+                    </Button>
+
+                    <Button  onPress={() => this.openCashDrawer(true)} style={styles.btnCashier} >
+                        <Image source={IMAGE.cashier_btn} 
+                        style={{width:scaleSzie(20),height:scaleSzie(17)}}
+                        />
+                        <Text style={styles.textBtnCashier} >
+                        Open Cashier
+                        </Text>
+                    </Button>
                    
-                    <ButtonCustom
-                        width={scaleSzie(120)}
-                        height={35}
-                        backgroundColor="#0764B0"
-                        title={localize('Open Cashier', language)}
-                        textColor="#fff"
-                        onPress={() => this.openCashDrawer(true)}
-                        style={{
-                            borderWidth: 1, borderColor: '#C5C5C5',
-                            borderRadius: scaleSzie(3)
-                        }}
-                        styleText={{ fontSize: scaleSzie(14), fontWeight: 'bold', }}
-                    />
                 </View>
             </View>
         );

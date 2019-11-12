@@ -56,6 +56,8 @@ export default {
     showPass: require('./img/showPass.png'),
     notShowPass: require('./img/notShowPass.png'),
     printInvoice: require('./img/printInvoice.png'),
+    print_btn: require('./img/print_btn.png'),
+    cashier_btn: require('./img/cashier_btn.png'),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),

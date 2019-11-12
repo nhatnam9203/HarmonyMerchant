@@ -78,16 +78,16 @@ export default StyleSheet.create({
     },
 
     containerQrcode: {
-        width: scaleSzie(220), 
+        width: scaleSzie(220),
         height: scaleSzie(220),
-        justifyContent: 'center', 
+        justifyContent: 'center',
         alignItems: 'center',
-        borderColor:'rgb(230,236,242)',
-        borderWidth:1,
+        borderColor: 'rgb(230,236,242)',
+        borderWidth: 1,
         ...Platform.select({
             ios: {
                 shadowColor: 'rgba(0, 0, 0,0.3)',
-                shadowOffset: { width: 1, height: 0},
+                shadowOffset: { width: 1, height: 0 },
                 shadowOpacity: 1,
 
             },
@@ -96,5 +96,20 @@ export default StyleSheet.create({
                 elevation: 2,
             },
         })
+    },
+    btnCashier: {
+        height: scaleSzie(30),
+        width: scaleSzie(110),
+        backgroundColor: '#0764B0',
+        borderRadius: scaleSzie(3),
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    textBtnCashier: {
+        fontWeight: 'bold',
+        fontSize: scaleSzie(10),
+        color: "#fff",
+        marginLeft:scaleSzie(4)
     }
 })
