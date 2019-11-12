@@ -57,17 +57,22 @@ class HomeScreen extends Layout {
     async getCurrentLocation() {
         const { profile } = this.props;
         if (!profile.longitude || !profile.latitude) {
-            const position = await getPosotion();
-            const { latitude, longitude } = position.coords;
-            this.props.actions.app.merchantSetting({
-                businessHourStart: profile.businessHourStart,
-                businessHourEnd: profile.businessHourEnd,
-                webLink: profile.webLink,
-                latitude: latitude,
-                longitude: longitude,
-                taxService: profile.taxService,
-                taxProduct: profile.taxProduct,
-            });
+            try {
+                const position = await getPosotion();
+                const { latitude, longitude } = position.coords;
+                this.props.actions.app.merchantSetting({
+                    businessHourStart: profile.businessHourStart,
+                    businessHourEnd: profile.businessHourEnd,
+                    webLink: profile.webLink,
+                    latitude: latitude,
+                    longitude: longitude,
+                    taxService: profile.taxService,
+                    taxProduct: profile.taxProduct,
+                });
+            } catch (error) {
+                
+            }
+           
         }
     }
 

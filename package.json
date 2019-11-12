@@ -6,7 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "codepush:ios:staging": "code-push release-react HpMerchant-IOS ios -d \"Staging\" -m --plistFile ./ios/Hpmerchant/Info.plist --description \"Fix test Release Beta 1.0.3\" ",
-    "nho_check_endpoint" :"",
+    "nho_check_endpoint": "",
     "codepush:ios:product": "code-push release-react HpMerchant-IOS ios -d \"Production\" -k private.pem -m --plistFile ./ios/Hpmerchant/Info.plist --description \"fix bugs exists sku\" "
   },
   "dependencies": {
@@ -31,6 +31,7 @@
     "react-native-image-picker": "^0.28.1",
     "react-native-masked-text": "^1.12.3",
     "react-native-material-dropdown": "^0.11.1",
+    "react-native-permissions": "^2.0.3",
     "react-native-progress": "^3.6.0",
     "react-native-qrcode-svg": "^5.1.2",
     "react-native-scrollable-tab-view": "^0.10.0",

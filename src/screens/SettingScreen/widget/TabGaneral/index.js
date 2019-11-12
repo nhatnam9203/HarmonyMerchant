@@ -2,7 +2,7 @@ import React from 'react';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { getNameLanguage, getPosotion } from '@utils';
+import { getNameLanguage, getPosotion,gotoSettingsDevice } from '@utils';
 
 
 class TabGaneral extends Layout {
@@ -24,12 +24,17 @@ class TabGaneral extends Layout {
     }
 
     getCurrentPosition = async () => {
-        const position = await getPosotion();
-        const { latitude, longitude } = position.coords;
-        await this.setState({
-            latitude: `${latitude}`,
-            longitude: `${longitude}`,
-        })
+        try {
+            const position = await getPosotion();
+            const { latitude, longitude } = position.coords;
+            await this.setState({
+                latitude: `${latitude}`,
+                longitude: `${longitude}`,
+            })
+        } catch (error) {
+            gotoSettingsDevice();
+        }
+
     }
 
     saveSettngApp = () => {
@@ -58,7 +63,7 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     autoCloseAt: state.dataLocal.autoCloseAt,
     autoLockScreenAfter: state.dataLocal.autoLockScreenAfter,
-    stateCity : state.dataLocal.stateCity
+    stateCity: state.dataLocal.stateCity
 })
 
 

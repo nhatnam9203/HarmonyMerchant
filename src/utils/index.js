@@ -2,8 +2,11 @@ import {
     Platform,
     Dimensions,
     Linking,
+    Alert
 } from 'react-native';
 import axios from 'axios';
+import { openSettings, request, PERMISSIONS } from 'react-native-permissions';
+
 
 import Configs from '../configs';
 import apiConfigs from '../configs/api';
@@ -189,11 +192,29 @@ createFormData = (media) => {
     return data;
 };
 
-export const getPosotion = (options = {}) => {
+export const getPosotion = (options = { timeout: 20000, maximumAge: 20000, enableHighAccuracy: true }) => {
     return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject, options);
     });
 };
+
+
+export const gotoSettingsDevice = () => {
+    Alert.alert(
+        'Confirmation',
+        'You not allowed this permission. Please go to settings .Then enable allow this permission!',
+        [
+            { text: 'Ask me later', onPress: () => {} },
+            {
+                text: 'Cancel',
+                onPress: () => {},
+                style: 'cancel',
+            },
+            { text: 'OK', onPress: () => openSettings().catch(() => console.warn('cannot open settings'))},
+        ],
+        { cancelable: false },
+    );
+}
 
 export const isIphoneX = () => {
     const { height, width } = Dimensions.get('window');
@@ -527,11 +548,11 @@ export const removeAccent = str => {
     return str;
 };
 
-export const checkStateIsValid = (arrayState,state )=>{
+export const checkStateIsValid = (arrayState, state) => {
     let isValid = false;
-    for(let i = 0; i< arrayState.length ;i++){
-        if(removeAccent(arrayState[i].name.toLowerCase()) === removeAccent(state.toLowerCase())){
-            isValid =  true;
+    for (let i = 0; i < arrayState.length; i++) {
+        if (removeAccent(arrayState[i].name.toLowerCase()) === removeAccent(state.toLowerCase())) {
+            isValid = true;
             break;
         }
     }

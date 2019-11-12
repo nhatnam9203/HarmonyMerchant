@@ -47,6 +47,10 @@ pod 'RCTYouTube', :path => '../node_modules/react-native-youtube'
 pod 'CodePush', :path => '../node_modules/react-native-code-push'
 pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
 
+# permissions_path = '../node_modules/react-native-permissions/ios'
+
+pod 'RNPermissions', :path => '../node_modules/react-native-permissions'
+
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

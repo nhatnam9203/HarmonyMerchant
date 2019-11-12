@@ -12,7 +12,7 @@ import ButtonCustom from './ButtonCustom';
 import IMAGE from '@resources';
 import connectRedux from '@redux/ConnectRedux';
 
-import { scaleSzie } from '@utils';
+import { scaleSzie, gotoSettingsDevice } from '@utils';
 
 class BrowserFile extends React.PureComponent {
 
@@ -32,7 +32,10 @@ class BrowserFile extends React.PureComponent {
     }
 
     handleImagePicker = async (response) => {
-        if (response.uri) {
+        // console.log('response : ', response);
+        if (response.error === "Photo library permissions not granted") {
+            gotoSettingsDevice();
+        } else if (response.uri) {
             this.props.editButtonSubmit(false);
             await this.setState({
                 // uriUpload: response.uri,
@@ -55,9 +58,14 @@ class BrowserFile extends React.PureComponent {
     }
 
     showPicker = () => {
-        ImagePicker.showImagePicker({
-            quality: 0.2
-        }, (response) => this.handleImagePicker(response));
+        try {
+            ImagePicker.showImagePicker({
+                quality: 0.2
+            }, (response) => this.handleImagePicker(response));
+        } catch (error) {
+            alert(error)
+        }
+
     }
 
 

@@ -347,7 +347,7 @@ class Layout extends React.Component {
                     <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                         <View style={{ flex: 1 }} />
 
-                        <View style={{ flex: 1.3, paddingRight: scaleSzie(12) }} >
+                        <View style={{ flex: 1.5, paddingRight: scaleSzie(12) }} >
                             {/* ---------- Price ------ */}
                             <View style={styles.payNumberTextContainer} >
                                 <Text style={styles.textPay} >

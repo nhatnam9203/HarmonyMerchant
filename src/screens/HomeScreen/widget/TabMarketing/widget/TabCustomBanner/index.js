@@ -7,6 +7,8 @@ import {
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import NavigationServices from "@navigators/NavigatorServices";
+import { gotoSettingsDevice } from '@utils';
+
 
 
 class TabCustomBanner extends Layout {
@@ -34,22 +36,28 @@ class TabCustomBanner extends Layout {
     }
 
     handleUploadBannerLocal = async (response) => {
-        let fileName = response.fileName;
-        if (fileName) {
-            if (Platform.OS === 'ios' && (fileName.endsWith('.heic') || fileName.endsWith('.HEIC'))) {
-                fileName = `${fileName.split(".")[0]}.JPG`;
+        if (response.error === "Photo library permissions not granted") {
+            gotoSettingsDevice();
+        } else if (response.uri) {
+            let fileName = response.fileName;
+            if (fileName) {
+                if (Platform.OS === 'ios' && (fileName.endsWith('.heic') || fileName.endsWith('.HEIC'))) {
+                    fileName = `${fileName.split(".")[0]}.JPG`;
+                }
             }
+
+            const bannerUpload = {
+                uri: response.uri,
+                fileName: fileName,
+                type: response.type
+            }
+
+            await this.setState({
+                bannerUpload
+            });
         }
 
-        const bannerUpload = {
-            uri: response.uri,
-            fileName: fileName,
-            type: response.type
-        }
 
-        await this.setState({
-            bannerUpload
-        });
 
     }
 
@@ -111,17 +119,17 @@ class TabCustomBanner extends Layout {
             this.props.actions.upload.uploadBanner([bannerUpload], {
                 title: titleBanner,
                 description: descriptionBanner
-            },profile.merchantId)
+            }, profile.merchantId)
         } else {
             alert('Please enter full infomation')
         }
     }
 
-   async componentDidUpdate(prevprops,prevState){
-        const{isUploadBanner,loading} = this.props;
-        if(!loading && loading !== prevprops.loading && isUploadBanner){
+    async componentDidUpdate(prevprops, prevState) {
+        const { isUploadBanner, loading } = this.props;
+        if (!loading && loading !== prevprops.loading && isUploadBanner) {
             await this.setState({
-                bannerUpload:{
+                bannerUpload: {
                     uri: '',
                     fileName: '',
                     type: ''

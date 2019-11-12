@@ -5,7 +5,7 @@ import { Alert, Platform } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateIsNumber ,scaleSzie} from '@utils';
+import { validateIsNumber, scaleSzie, gotoSettingsDevice } from '@utils';
 
 class BankInfoScreen extends Layout {
 
@@ -28,8 +28,8 @@ class BankInfoScreen extends Layout {
         this.srollBankInfoRef = React.createRef();
     }
 
-    scrollBankInfoTo(position){
-        this.srollBankInfoRef.current.scrollTo({x: 0, y: scaleSzie(position), animated: true})
+    scrollBankInfoTo(position) {
+        this.srollBankInfoRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
     }
 
     componentDidMount() {
@@ -105,21 +105,26 @@ class BankInfoScreen extends Layout {
     }
 
     handleVoidCheck = async (response) => {
-        let fileName = response.fileName;
-        if (fileName) {
-            if (Platform.OS === 'ios' && (fileName.endsWith('.heic') || fileName.endsWith('.HEIC'))) {
-                fileName = `${fileName.split(".")[0]}.JPG`;
+
+        if (response.error === "Photo library permissions not granted") {
+            gotoSettingsDevice();
+        } else if (response.uri) {
+            let fileName = response.fileName;
+            if (fileName) {
+                if (Platform.OS === 'ios' && (fileName.endsWith('.heic') || fileName.endsWith('.HEIC'))) {
+                    fileName = `${fileName.split(".")[0]}.JPG`;
+                }
             }
+            this.uploadVoidCheckRef.current.setStateFromparent({
+                uri: response.uri,
+                fileName: fileName,
+                type: response.type
+            })
+            await this.setState({
+                visibleUpload: true
+            })
         }
 
-        this.uploadVoidCheckRef.current.setStateFromparent({
-            uri: response.uri,
-            fileName: fileName,
-            type: response.type
-        })
-        await this.setState({
-            visibleUpload: true
-        })
     }
 
     takePhoto = () => {

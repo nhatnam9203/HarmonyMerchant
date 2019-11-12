@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'ramda';
-import { Alert} from 'react-native';
+import { Alert } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -267,8 +267,8 @@ class TabAppointment extends Layout {
         this.props.actions.appointment.changeFlagSigninAppointment(false);
         this.props.clearDataTabCheckout();
         // ------- Cancle book appointment ----------
-        const {profile,appointmentDetail} = this.props;
-        this.props.actions.appointment.cancleAppointment(this.state.appointmentId,profile.merchantId,appointmentDetail.userId ?appointmentDetail.userId : 0 );
+        const { profile, appointmentDetail } = this.props;
+        this.props.actions.appointment.cancleAppointment(this.state.appointmentId, profile.merchantId, appointmentDetail.userId ? appointmentDetail.userId : 0);
     }
 
     setStateVisibleFromParent = async (visibleConfirm) => {

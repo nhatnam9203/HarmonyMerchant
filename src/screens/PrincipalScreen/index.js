@@ -6,7 +6,7 @@ import moment from 'moment';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateIsNumber, getIdStateByName, validYear, validateEmail, scaleSzie, checkStateIsValid } from '@utils';
+import { validateIsNumber, getIdStateByName, gotoSettingsDevice, validateEmail, scaleSzie, checkStateIsValid } from '@utils';
 
 class PrincipalScreen extends Layout {
 
@@ -200,21 +200,26 @@ class PrincipalScreen extends Layout {
     }
 
     handleVoidCheck = async (response) => {
-        let fileName = response.fileName;
-        if (fileName) {
-            if (Platform.OS === 'ios' && (fileName.endsWith('.heic') || fileName.endsWith('.HEIC'))) {
-                fileName = `${fileName.split(".")[0]}.JPG`;
+        if (response.error === "Photo library permissions not granted") {
+            gotoSettingsDevice();
+        } else if (response.uri) {
+            let fileName = response.fileName;
+            if (fileName) {
+                if (Platform.OS === 'ios' && (fileName.endsWith('.heic') || fileName.endsWith('.HEIC'))) {
+                    fileName = `${fileName.split(".")[0]}.JPG`;
+                }
             }
+
+            this.uploadVoidCheckRef.current.setStateFromparent({
+                uri: response.uri,
+                fileName: fileName,
+                type: response.type
+            })
+            await this.setState({
+                visibleUpload: true
+            })
         }
 
-        this.uploadVoidCheckRef.current.setStateFromparent({
-            uri: response.uri,
-            fileName: fileName,
-            type: response.type
-        })
-        await this.setState({
-            visibleUpload: true
-        })
     }
 
     takePhoto = () => {
