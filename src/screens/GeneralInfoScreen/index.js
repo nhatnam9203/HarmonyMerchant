@@ -153,6 +153,7 @@ class GeneralInfoScreen extends Layout {
                     method: 'GET',
                     api: `${apiConfigs.BASE_API}merchant/checkEmail?email=${generalInfo.email}`
                 });
+                // console.log('responses : ',responses);
                 this.props.actions.app.stopLoadingApp();
                 const { codeNumber } = responses;
                 if (parseInt(codeNumber) == 200) {
@@ -162,7 +163,7 @@ class GeneralInfoScreen extends Layout {
                     this.props.actions.app.showMessageError(responses.message);
                 }
             } catch (error) {
-                this.props.actions.app.loadingApp();
+                this.props.actions.app.stopLoadingApp();
                 this.props.actions.app.catchError(error);
             }
         }

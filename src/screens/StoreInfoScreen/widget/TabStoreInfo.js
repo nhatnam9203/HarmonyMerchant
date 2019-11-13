@@ -66,7 +66,7 @@ class TabAdminInfo extends React.Component {
                     />
                     <ItemTextStoreInfo
                         title="EIN"
-                        value={ein ? ein : ''}
+                        value={taxId ? taxId : ''}
                     />
                     <View style={{ height: scaleSzie(20) }} />
                     {

@@ -31,7 +31,6 @@ class HomeScreen extends Layout {
     }
 
     componentDidMount() {
-        this.getCurrentLocation();
         this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
@@ -171,6 +170,7 @@ class HomeScreen extends Layout {
         if (listAppointmentsOfflineMode.length > 0) {
             this.props.actions.appointment.submitAppointmentOffline(listAppointmentsOfflineMode);
         }
+        this.getCurrentLocation();
         Promise.all([
             this.props.actions.category.getCategoriesByMerchantId(),
             this.props.actions.extra.getExtraByMerchant(),
