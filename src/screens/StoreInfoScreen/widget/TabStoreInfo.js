@@ -37,7 +37,7 @@ class TabAdminInfo extends React.Component {
 
                     <ItemTextStoreInfo
                         title={localize('Business Hour', language)}
-                        value={`${businessHourStart} - ${businessHourEnd}`}
+                        value={`${businessHourStart ? businessHourStart : ""} - ${businessHourEnd ? businessHourEnd : ""}`}
                     />
 
                     <ItemTextStoreInfo

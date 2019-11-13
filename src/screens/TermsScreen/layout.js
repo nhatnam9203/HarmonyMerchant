@@ -356,7 +356,7 @@ individual claim(s).
                                 <Text style={styles.contentTerms}>
                                 Pre-Arbitration Dispute Resolution - Harmony Pay is always interested in resolving disputes
 amicably and efficiently, and most participant concerns can be resolved quickly and to the
-participant’s satisfaction by emailing Harmony Pay’s support team at ___________@HarmonyPayment.com. If such efforts prove unsuccessful, a party who intends
+participant’s satisfaction by emailing Harmony Pay’s support team at team@harmonypayment.com. If such efforts prove unsuccessful, a party who intends
 to seek arbitration must first send to the other, by certified mail, a written Notice of Dispute
 (“Notice”). The Notice to Harmony Pay should be sent to Harmony Pay at 35246 US HWY 19 N.
 Suite 189, Palm Harbor, FL 34684 Att: Dispute (“Notice Address”). The Notice must (i) describe

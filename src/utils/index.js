@@ -618,6 +618,9 @@ export const WorkingTime = [
         value: '09:00 AM',
     },
     {
+        value: '09:30 AM',
+    },
+    {
         value: '10:00 AM',
     },
     {
@@ -685,6 +688,9 @@ export const WorkingTime = [
     },
     {
         value: '09:00 PM',
+    },
+    {
+        value: '09:30 PM',
     },
     {
         value: '10:00 PM',

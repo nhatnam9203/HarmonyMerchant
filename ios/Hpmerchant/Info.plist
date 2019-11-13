@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Get your store address to show up on the Google Map</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -71,6 +69,8 @@ jwIDAQAB</string>
 	<string>Bluetooth is used to communicate with BLE devices.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like to use your camera</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Get your store address to show up on the Google Map</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Get your store address to show up on the Google Map</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
