@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 
 import Layout from './layout';
 import strings from './strings';
-import { validateEmail, getIdStateByName, getNameStateById, getCodeAreaPhone ,scaleSzie,checkStateIsValid} from '@utils';
+import { validateEmail, getIdStateByName, getNameStateById, getCodeAreaPhone, scaleSzie, checkStateIsValid } from '@utils';
 
 class StaffInfo extends Layout {
 
@@ -110,8 +110,8 @@ class StaffInfo extends Layout {
         this.scrollStaffRef = React.createRef();
     }
 
-    scrollStaffTo(position){
-        this.scrollStaffRef.current.scrollTo({x: 0, y: scaleSzie(position), animated: true})
+    scrollStaffTo(position) {
+        this.scrollStaffRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
     }
 
     async componentDidMount() {
@@ -191,7 +191,7 @@ class StaffInfo extends Layout {
 
     addAdmin = () => {
         const { user } = this.state;
-        const {stateCity} = this.props;
+        const { stateCity } = this.props;
         const arrayKey = Object.keys(user);
         let keyError = '';
         for (let i = 0; i < arrayKey.length; i++) {
@@ -210,7 +210,7 @@ class StaffInfo extends Layout {
                 //     keyError = 'state';
                 //     break;
                 // }
-                if (user.address.state !== '' && !checkStateIsValid(stateCity,user.address.state))  {
+                if (user.address.state !== '' && !checkStateIsValid(stateCity, user.address.state)) {
                     keyError = 'stateInvalid';
                     break;
                 }
@@ -220,13 +220,13 @@ class StaffInfo extends Layout {
                     break;
                 }
             }
-            else if (arrayKey[i] == 'email') {
+            else if (arrayKey[i] == 'email' && user[arrayKey[i]] !== '') {
                 if (!validateEmail(user[arrayKey[i]])) {
                     keyError = 'emailInvalid';
                     break;
                 }
             } else if (arrayKey[i] != 'driverlicense' && arrayKey[i] != 'socialSecurityNumber' && arrayKey[i] != 'professionalLicense') {
-                if (user[arrayKey[i]] === '') {
+                if (user[arrayKey[i]] === '' && arrayKey[i] !== 'cellphone' && arrayKey[i] !== 'email') {
                     keyError = arrayKey[i];
                     break;
                 }

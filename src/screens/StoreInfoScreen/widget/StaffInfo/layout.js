@@ -112,14 +112,14 @@ class Layout extends React.Component {
 
                     <ItemAdminCellPhone
                         ref={this.cellphoneRef}
-                        title={`${localize('Cell phone', language)} *`}
+                        title={`${localize('Cell phone', language)}`}
                         placeholder={localize('Phone number', language)}
                         value={cellphone}
                         onChangeText={(value) => this.updateUserInfo('cellphone', value)}
                         onFocus={() => this.scrollStaffTo(310)}
                     />
                     <ItemAdminInfo
-                        title={`${localize('Contact email', language)} *`}
+                        title={`${localize('Contact email', language)}`}
                         placeholder={localize('Email')}
                         value={email}
                         onChangeText={(value) => this.updateUserInfo('email', value)}
