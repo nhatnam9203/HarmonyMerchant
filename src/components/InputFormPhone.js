@@ -55,7 +55,10 @@ export default class InputFormPhone extends React.PureComponent {
                     <View style={{ width: scaleSzie(8) }} />
                     <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: (8) }} >
                         <TextInputMask
-                            type="only-numbers"
+                           type={'custom'}
+                           options={{
+                            mask: '999-999-9999'
+                           }}
                             style={{ flex: 1, fontSize: scaleSzie(16) }}
                             placeholder={placeholder}
                             value={value}

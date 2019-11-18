@@ -474,7 +474,7 @@ private information should be protected by you.
                                 </View>
                                 <Text style={styles.contentTerms}>
                                 If you have any questions about these Terms, please contact Harmony Pay at
-____________@HarmonyPayment.com.
+                                team@harmonypayment.com.
                                 </Text>
                             </ScrollView>
                         </View>
