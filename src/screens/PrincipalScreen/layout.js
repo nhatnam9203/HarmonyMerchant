@@ -24,7 +24,7 @@ export default class Layout extends React.Component {
 
 
     render() {
-        const { principalInfo, isShowPrincipal1 ,dateOfBirth,uriUpload} = this.state;
+        const { principalInfo, isShowPrincipal1, dateOfBirth, uriUpload } = this.state;
         const {
             firstName, lastName, position, ownership, homePhone, mobilePhone, addressPrincipal,
             yearAtThisAddress, ssn, email, driverLicense, stateIssued
@@ -34,8 +34,8 @@ export default class Layout extends React.Component {
         } = addressPrincipal;
         const { language, stateCity } = this.props;
 
-        const iconPrincipal1 = isShowPrincipal1 ? IMAGE.right_scroll_active : IMAGE.top_scroll_active;
-        
+        const iconPrincipal1 = isShowPrincipal1 ?  IMAGE.top_scroll_active : IMAGE.right_scroll_active;
+
         return (
             <FormInfoParent
                 title={localize('Principal Information', language)}
@@ -95,15 +95,22 @@ export default class Layout extends React.Component {
                             </View>
                         </View>
 
-                        <BodyPrincipal 
-                        principalInfo={principalInfo}
-                        language={language}
-                        dateOfBirth={dateOfBirth}
-                        uriUpload={uriUpload}
-                         scrollPrincipalTo={this.scrollPrincipalTo}
-                        />
-                        
-                        
+                        {
+                            isShowPrincipal1 ? <BodyPrincipal
+                                principalInfo={principalInfo}
+                                language={language}
+                                dateOfBirth={dateOfBirth}
+                                uriUpload={uriUpload}
+                                scrollPrincipalTo={this.scrollPrincipalTo}
+                                updatePrincipalInfo={this.updatePrincipalInfo}
+                                showCalendar={this.showCalendar}
+                                takePhoto={this.takePhoto}
+                                openImageLibrary={this.openImageLibrary}
+                            /> : <View />
+                        }
+
+
+
 
                         {/* ------------------   Principal 2 ---------------- */}
                         <View style={{ flexDirection: "row" }} >

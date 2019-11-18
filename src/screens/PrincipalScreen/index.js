@@ -77,7 +77,7 @@ class PrincipalScreen extends Layout {
         );
     }
 
-    updatePrincipalInfo(key, value, keyParent = '') {
+    updatePrincipalInfo = (key, value, keyParent = '') => {
         const { principalInfo } = this.state;
         if (keyParent !== '') {
             const temptParent = principalInfo[keyParent];
