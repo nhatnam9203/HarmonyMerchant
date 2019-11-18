@@ -113,8 +113,11 @@ class ItemAdminCellPhone extends React.Component {
                     </View>
                     <View style={{ width: scaleSzie(8) }} />
                     <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(10) }} >
-                        <TextInput
-                            // type="only-numbers"
+                    <TextInputMask
+                           type={'custom'}
+                           options={{
+                            mask: '999-999-9999'
+                           }}
                             style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
                             placeholder={placeholder}
                             value={value}
