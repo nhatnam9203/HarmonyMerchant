@@ -3,12 +3,12 @@ import {
     View,
     Image,
     Text,
-    StyleSheet
+    StyleSheet,
+    FlatList
 } from 'react-native';
 
 import { Button } from '@components';
 import { scaleSzie, formatNumberFromCurrency, formatMoney, roundFloatNumber } from '@utils';
-import IMAGE from '@resources';
 
 class RowFooterStaffSalary extends React.Component {
 
@@ -52,14 +52,13 @@ class RowFooterStaffSalary extends React.Component {
 
 
     handleTotal1 = (accumulator, currentValue) => accumulator + currentValue;
-
     render() {
         const { data } = this.props;
-        const workingHour = roundFloatNumber((data.reduce(this.handleTotal('workingHour'), 0)).workingHour);
-        const hourlyWage = roundFloatNumber((data.reduce(this.handleTotal('hourlyWage'), 0)).hourlyWage);
-        const serviceWage = roundFloatNumber((data.reduce(this.handleTotal('serviceWage'), 0)).serviceWage);
-        const tipAmount = roundFloatNumber((data.reduce(this.handleTotal('tipAmount'), 0)).tipAmount);
-        const totalAmount = roundFloatNumber((data.reduce(this.handleTotal('totalAmount'), 0)).totalAmount);
+
+        const tipAmount = roundFloatNumber((data.reduce(this.handleTotal('tip'), 0)).tip);
+        const totalAmount = roundFloatNumber((data.reduce(this.handleTotal('total'), 0)).total);
+        const split = roundFloatNumber((data.reduce(this.handleTotal('split'), 0)).split);
+        const product = roundFloatNumber((data.reduce(this.handleTotal('product'), 0)).product);
 
 
         return (
@@ -85,47 +84,23 @@ class RowFooterStaffSalary extends React.Component {
                     </View>
                 </View>
                 {/* ----- 2 ------ */}
-                <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
-                }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
-                            {workingHour}
-                        </Text>
-                    </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View>
-                </View>
-                {/* ----- 3 ------ */}
-                <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
-                }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
-                            {`$ ${formatMoney(hourlyWage)}`}
-                        </Text>
-                    </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View>
-                </View>
-                {/* ----- 4 ------ */}
-                <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
-                }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
-                            {`$ ${formatMoney(serviceWage)}`}
-                        </Text>
-                    </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View>
-                </View>
+
                 {/* ----- 5 ------ */}
                 <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
+                    width: scaleSzie(120), flexDirection: 'row',
+                }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                        <Text style={styles.textTableHeader} >
+                            {`$ ${formatMoney(split)}`}
+                        </Text>
+                    </View>
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
+                    </View>
+                </View>
+                {/* ----- 6 ------ */}
+                <View style={{
+                    width: scaleSzie(120), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
@@ -136,9 +111,22 @@ class RowFooterStaffSalary extends React.Component {
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
-                {/* ----- 6 ------ */}
+                {/* ----- product ------ */}
                 <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
+                    width: scaleSzie(120), flexDirection: 'row',
+                }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                        <Text style={styles.textTableHeader} >
+                            {`$ ${formatMoney(product)}`}
+                        </Text>
+                    </View>
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
+                    </View>
+                </View>
+                {/* ----- total ------ */}
+                <View style={{
+                    width: scaleSzie(120), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
@@ -164,7 +152,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#E5E5E5',
         borderWidth: 0.5,
         borderColor: '#C5C5C5',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginBottom:scaleSzie(7)
     },
     textTableHeader: {
         color: '#6A6A6A',

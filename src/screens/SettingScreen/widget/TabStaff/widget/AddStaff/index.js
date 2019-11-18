@@ -74,11 +74,11 @@ class AddStaff extends Layout {
             tipFee: {
                 percent: {
                     value: '',
-                    isCheck: false
+                    isCheck: false,
                 },
                 fixedAmount: {
                     value: '',
-                    isCheck: false
+                    isCheck: false,
                 }
             },
             salary: {
@@ -99,7 +99,8 @@ class AddStaff extends Layout {
             },
             fileId: 0,
             imageUrl: '',
-            isSubmitButton: true
+            isSubmitButton: true,
+            value: {}
         }
         // ---- Refs ----
         this.inputRefsTime = [];
@@ -291,7 +292,7 @@ class AddStaff extends Layout {
             const temptAddress = { ...address, state: getIdStateByName(stateCity, address.state) };
             const temptStaff = {
                 ...user,
-                cellphone: user.cellphone === '' ? '' :  `${this.cellphoneRef.current.state.codeAreaPhone}${user.cellphone}`,
+                cellphone: user.cellphone === '' ? '' : `${this.cellphoneRef.current.state.codeAreaPhone}${user.cellphone}`,
                 address: temptAddress,
                 isDisabled: (user.isDisabled === 'Active' ? 0 : 1),
                 workingTime: objWorkingTime,

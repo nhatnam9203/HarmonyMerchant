@@ -204,13 +204,13 @@ export const gotoSettingsDevice = () => {
         'Confirmation',
         'You not allowed this permission. Please go to settings .Then enable allow this permission!',
         [
-            { text: 'Ask me later', onPress: () => {} },
+            { text: 'Ask me later', onPress: () => { } },
             {
                 text: 'Cancel',
-                onPress: () => {},
+                onPress: () => { },
                 style: 'cancel',
             },
-            { text: 'OK', onPress: () => openSettings().catch(() => console.warn('cannot open settings'))},
+            { text: 'OK', onPress: () => openSettings().catch(() => console.warn('cannot open settings')) },
         ],
         { cancelable: false },
     );
@@ -723,3 +723,30 @@ export const Status = [
         value: 'Disable'
     }
 ]
+export const getMonthNameShort = (month) => {
+    const monthNamesShort = {
+        '01': 'Jan',
+        '02': 'Fer',
+        '03': 'Mar',
+        '04': 'Apr',
+        '05': 'May',
+        '06': 'Jun',
+        '07': 'Jul',
+        '08': 'Aug',
+        '09': 'Sep',
+        '10': 'Oct',
+        '11': 'Nov',
+        '12': 'Dec'
+    };
+    return monthNamesShort[month];
+}
+export function formatDateApi(eDate) {
+    var dateT = eDate.split('T');
+    var date = dateT[0].split('-');
+    var month = getMonthNameShort(date[1]);
+    return {
+        month,
+        day: date[2],
+        year: date[0]
+    };
+}

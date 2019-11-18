@@ -89,7 +89,7 @@ export function resetFlagCreateAdmin() {
     }
 }
 
-export function loginStaff(merchantCode, staffPin,isPincodeInvoice = false) {
+export function loginStaff(merchantCode, staffPin, isPincodeInvoice = false) {
     return {
         type: 'LOGIN_STAFF',
         body: {
@@ -148,12 +148,20 @@ export function reloadButtonEnterPincode() {
     }
 }
 
-export function getListStaffsSalaryTop(params = '',isShowLoading = true) {
+export function getListStaffsSalaryTop(params = 'quickFilter=thisWeek', isShowLoading = true) {
     return {
         type: 'GET_LIST_STAFFS_SALARY_TOP',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}staff/salary/top?${params}`,
+        api: `${apiConfigs.BASE_API}staff/salary/top?${params}&timezone=${new Date().getTimezoneOffset()}`,
         isShowLoading
+    }
+}
+
+export function setPositionHeader(dx) {
+    return {
+        type: 'ON_SCROLL',
+        payload: dx
+
     }
 }
