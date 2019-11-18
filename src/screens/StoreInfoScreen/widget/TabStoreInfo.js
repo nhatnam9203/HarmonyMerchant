@@ -35,15 +35,15 @@ class TabAdminInfo extends React.Component {
                         value={address}
                     />
 
-                    <ItemTextStoreInfo
+                    {/* <ItemTextStoreInfo
                         title={localize('Business Hour', language)}
                         value={`${businessHourStart ? businessHourStart : ""} - ${businessHourEnd ? businessHourEnd : ""}`}
-                    />
+                    /> */}
 
-                    <ItemTextStoreInfo
+                    {/* <ItemTextStoreInfo
                         title={localize('Federal Tax Id', language)}
                         value={taxId}
-                    />
+                    /> */}
                     <ItemTextStoreInfo
                         title={localize('Phone Number', language)}
                         value={phone}

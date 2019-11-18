@@ -223,10 +223,10 @@ class Layout extends React.Component {
                         title={localize('Business Address', language)}
                         value={address}
                     />
-                    <ItemTextStoreInfo
+                    {/* <ItemTextStoreInfo
                         title={localize('Federal Tax Id', language)}
                         value={taxId}
-                    />
+                    /> */}
                     <ItemTextStoreInfo
                         title={localize('Phone Number', language)}
                         value={phone}

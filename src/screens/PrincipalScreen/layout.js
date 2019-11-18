@@ -268,13 +268,13 @@ export default class Layout extends React.Component {
                         <View style={{ flexDirection: 'row' }} >
                             <View style={{ flex: 1, paddingRight: scaleSzie(20) }} >
                                 <InputForm
-                                    isOnlyNumber={true}
+                                    // isOnlyNumber={true}
                                     title={localize('Driver License Number *', language)}
                                     subTitle=""
                                     placeholder=""
                                     value={driverLicense}
                                     onChangeText={(value) => this.updatePrincipalInfo('driverLicense', value)}
-                                    keyboardType="numeric"
+                                    // keyboardType="numeric"
                                     onFocus={() =>this.scrollPrincipalTo(900)}
                                 />
                             </View>
