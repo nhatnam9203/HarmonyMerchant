@@ -39,7 +39,8 @@ class PrincipalScreen extends Layout {
                 stateIssued: ''
             },
             showCalendar: false,
-            dateOfBirth: new Date()
+            dateOfBirth: new Date(),
+            isShowPrincipal1: true
         };
         this.uploadVoidCheckRef = React.createRef();
         this.homePhoneRef = React.createRef();
@@ -47,7 +48,13 @@ class PrincipalScreen extends Layout {
         this.srollPrincipalRef = React.createRef();
     }
 
-    scrollPrincipalTo(position) {
+    showPrincipal1 = () =>{
+        this.setState(prevState =>({
+            isShowPrincipal1: !prevState.isShowPrincipal1
+        }))
+    }
+
+    scrollPrincipalTo =  (position) => {
         this.srollPrincipalRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
     }
 
