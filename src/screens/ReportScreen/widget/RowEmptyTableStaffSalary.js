@@ -9,6 +9,7 @@ import {
 import { Button } from '@components';
 import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
+import { FlatList } from 'react-native-gesture-handler';
 
 class RowEmptyTableStaffSalary extends React.Component {
 
@@ -49,7 +50,7 @@ class RowEmptyTableStaffSalary extends React.Component {
     render() {
         const { sortUpStaffName, sortUpId, sortUpRole, sortUpStatus } = this.state;
         const iconSortStaffName = sortUpStaffName ? IMAGE.sortUp : IMAGE.sortDown;
-       
+        const { calendar } = this.props;
         return (
             <View style={styles.tableHeader} >
                 {/* ----- 0 ------ */}
@@ -63,7 +64,7 @@ class RowEmptyTableStaffSalary extends React.Component {
                 </View>
                 {/* ----- 1 ------ */}
                 <View style={{
-                    flex:1, flexDirection: 'row'
+                    flexDirection: 'row', width: scaleSzie(120)
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} numberOfLines={1} >
@@ -74,32 +75,28 @@ class RowEmptyTableStaffSalary extends React.Component {
                     </View>
                 </View>
                 {/* ----- 2 ------ */}
-                <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
-                }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
-                        </Text>
-                    </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View>
-                </View>
-                {/* ----- 3 ------ */}
-                <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
-                }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
-                        </Text>
-                    </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View>
+                <View style={{ flex: 1 }}>
+                    <FlatList
+                        data={calendar}
+                        keyExtractor={(item, index) => index + ''}
+                        renderItem={({ item }) => {
+                            <View style={{
+                                width: scaleSzie(120), flexDirection: 'row',
+                            }} >
+                                <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                                    <Text style={styles.textTableHeader} >
+                                    </Text>
+                                </View>
+                                <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                                    <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
+                                </View>
+                            </View>
+                        }}
+                    />
                 </View>
                 {/* ----- 4 ------ */}
                 <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
+                    width: scaleSzie(120), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
@@ -109,9 +106,9 @@ class RowEmptyTableStaffSalary extends React.Component {
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
-                 {/* ----- 5 ------ */}
-                 <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
+                {/* ----- 5 ------ */}
+                <View style={{
+                    width: scaleSzie(120), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
@@ -121,9 +118,9 @@ class RowEmptyTableStaffSalary extends React.Component {
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
-                 {/* ----- 6 ------ */}
-                 <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
+                {/* ----- 6 ------ */}
+                <View style={{
+                    width: scaleSzie(120), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >

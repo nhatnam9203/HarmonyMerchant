@@ -12,11 +12,11 @@ import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import { HeaderTableStaffSalary, RowTableStaffSalary, RowEmptyTableStaffSalary, RowFooterStaffSalary } from './widget';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default class Layout extends React.Component {
-
     renderHeader() {
-        const { language } = this.props;
+        const { language, staff } = this.props;
         return (
             <View style={{
                 height: scaleSzie(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: scaleSzie(50),
@@ -31,7 +31,7 @@ export default class Layout extends React.Component {
 
     renderFilter() {
         const { titleRangeTime } = this.state;
-        const temptColorTextTimeRange = titleRangeTime === 'All time' ? 'rgb(155,155,155)' : 'rgb(38,38,38)';
+        const temptColorTextTimeRange = titleRangeTime === 'This Week' ? 'rgb(155,155,155)' : 'rgb(38,38,38)';
         return (
             <View style={{ paddingHorizontal: scaleSzie(20), marginTop: scaleSzie(20), marginBottom: scaleSzie(10) }} >
                 {/* ---------- Row 1 ---------- */}
@@ -97,25 +97,38 @@ export default class Layout extends React.Component {
     }
 
     renderTable() {
-        const { listStaffsSalary, refreshListStaffsSalary } = this.props;
+        const { listStaffsSalary, refreshListStaffsSalary, listStaffsCalendar } = this.props;
         return (
-            <View style={{ flex: 1 }} >
-                <HeaderTableStaffSalary />
-                <FlatList
-                    data={listStaffsSalary}
-                    renderItem={({ item, index }) => <RowTableStaffSalary
-                        staff={item}
-                        index={index + 1}
-                    />}
-                    keyExtractor={(item, index) => `${item.staffId}_${index}`}
-                    ListEmptyComponent={<RowEmptyTableStaffSalary />}
-                    refreshing={refreshListStaffsSalary}
-                    onRefresh={this.onRefreshStaffReport}
-                />
-                <RowFooterStaffSalary
-                    data={listStaffsSalary}
-                />
-            </View>
+            <ScrollView
+                contentContainerStyle={listStaffsCalendar.length > 3 ? null : { flex: 1 }}
+                showsHorizontalScrollIndicator={false}
+                horizontal>
+                <View style={{ flex: 1, width: '100%' }}>
+                    <HeaderTableStaffSalary
+                        calendar={listStaffsCalendar}
+                        setPosition={this.setPosition}
+                    />
+                    <FlatList
+                        data={listStaffsSalary}
+                        renderItem={({ item, index }) =>
+
+                            <RowTableStaffSalary
+                                staff={item}
+                                index={index + 1}
+                                dx={this.props.dx}
+                            />
+                        }
+                        keyExtractor={(item, index) => `${item.staffId}_${index}`}
+                        ListEmptyComponent={<RowEmptyTableStaffSalary calendar={listStaffsCalendar} />}
+                        refreshing={refreshListStaffsSalary}
+                        onRefresh={this.onRefreshStaffReport}
+                    />
+                    <RowFooterStaffSalary
+                        data={listStaffsSalary}
+                    />
+                </View>
+            </ScrollView>
+
         );
     }
 
@@ -129,7 +142,7 @@ export default class Layout extends React.Component {
 
     render() {
         const { isFocus, visibleCalendar } = this.state;
-        const {navigation} = this.props;
+        const { navigation } = this.props;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -147,6 +160,7 @@ export default class Layout extends React.Component {
                 </View>
                 <PopupCalendar
                     ref={this.modalCalendarRef}
+                    type='report'
                     visible={visibleCalendar}
                     onRequestClose={() => this.setState({ visibleCalendar: false })}
                     changeTitleTimeRange={this.changeTitleTimeRange}

@@ -13,6 +13,8 @@ const initialState = {
     isShowButtonEnterPinCode: false,
     listStaffsSalary: [],
     refreshListStaffsSalary: false,
+    listStaffsCalendar: [],
+    dx: 0
 
 }
 
@@ -117,12 +119,18 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 listStaffsSalary: action.payload,
+                listStaffsCalendar: action.payload[0].salariesByDate,
                 refreshListStaffsSalary: false
             }
         case 'GET_LIST_STAFFS_SALARY_TOP_FAIL':
             return {
                 ...state,
                 refreshListStaffsSalary: false
+            }
+        case 'ON_SCROLL':
+            return {
+                ...state,
+                dx: action.payload
             }
 
         default:

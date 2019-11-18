@@ -17,12 +17,12 @@ class SplashScreen extends Layout {
     }
 
     componentDidMount() {
-        if (checkEnvironment() === 'DEV') {
-            this.controlFlowInitApp();
-        } else {
-            this.checkForUpdateCodepush();
-        }
-
+        // if (checkEnvironment() === 'DEV') {
+        //     this.controlFlowInitApp();
+        // } else {
+        //     this.checkForUpdateCodepush();
+        // }
+        this.controlFlowInitApp();
     }
 
     checkForUpdateCodepush() {
@@ -115,9 +115,9 @@ const mapStateToProps = state => ({
     isFlashScreen: state.app.isFlashScreen
 });
 
-let codePushOptions = { checkFrequency: CodePush.CheckFrequency.MANUAL };
+// let codePushOptions = { checkFrequency: CodePush.CheckFrequency.MANUAL };
 
-SplashScreen = CodePush(codePushOptions)(SplashScreen);
+// SplashScreen = CodePush(codePushOptions)(SplashScreen);
 
 
 export default connectRedux(mapStateToProps, SplashScreen);

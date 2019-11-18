@@ -178,7 +178,7 @@ class InvoiceScreen extends Layout {
                 quickFilter = 'lastMonth';
                 break;
             default:
-                quickFilter = 'today'
+                quickFilter = ''
         }
         return quickFilter
     }
@@ -195,7 +195,7 @@ class InvoiceScreen extends Layout {
                 const url = `method=${this.getPaymentString(paymentMethod)}&status=${status}&timeStart=${startDate}&timeEnd=${endDate}&key=${keySearch}`
                 this.props.actions.invoice.searchInvoice(url);
             } else if (quickFilter) {
-                const url = `method=${this.getPaymentString(paymentMethod)}&status=${status}&quickFilter=${this.getQuickFilterString(quickFilter)}&${endDate}&key=${keySearch}`
+                const url = `method=${this.getPaymentString(paymentMethod)}&status=${status}&quickFilter=${this.getQuickFilterString(quickFilter)}&key=${keySearch}`
                 this.props.actions.invoice.searchInvoice(url);
             } else {
                 const url = `method=${this.getPaymentString(paymentMethod)}&status=${status}&key=${keySearch}`

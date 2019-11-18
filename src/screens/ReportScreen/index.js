@@ -13,7 +13,7 @@ class ReportScreen extends Layout {
             isFocus: true,
             valueSwitch: true,
             visibleCalendar: false,
-            titleRangeTime: 'All time'
+            titleRangeTime: 'This week'
         };
         this.modalCalendarRef = React.createRef();
     }
@@ -68,25 +68,30 @@ class ReportScreen extends Layout {
             visibleCalendar: false
         })
     }
-
+    setPosition = (dx) => {
+        this.props.actions.staff.setPositionHeader(dx)
+    }
     searchStaff = () => {
         const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
         let url;
         if (isCustomizeDate) {
             url = `timeStart=${startDate}&timeEnd=${endDate}`;
         } else {
-            url = `quickFilter=${getQuickFilterTimeRange(quickFilter)}`;
+            const filter = quickFilter === false ? 'This Week' : quickFilter;
+            console.log('quickFilter',quickFilter)
+            url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
         }
-        this.props.actions.staff.getListStaffsSalaryTop(url,true);
+        this.props.actions.staff.getListStaffsSalaryTop(url, true);
     }
 
-    onRefreshStaffReport =  () => {
+    onRefreshStaffReport = () => {
         const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
         let url;
         if (isCustomizeDate) {
             url = `timeStart=${startDate}&timeEnd=${endDate}`;
         } else {
-            url = `quickFilter=${getQuickFilterTimeRange(quickFilter)}`;
+            const filter = quickFilter === false ? 'This Week' : quickFilter;
+            url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
         }
         this.props.actions.staff.getListStaffsSalaryTop(url, false)
     }
@@ -102,6 +107,8 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     listStaffsSalary: state.staff.listStaffsSalary,
     refreshListStaffsSalary: state.staff.refreshListStaffsSalary,
+    listStaffsCalendar: state.staff.listStaffsCalendar,
+    dx: state.staff.dx,
 })
 
 

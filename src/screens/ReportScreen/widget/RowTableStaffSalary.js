@@ -9,6 +9,7 @@ import {
 import { Button } from '@components';
 import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
 
 class RowTableStaffSalary extends React.Component {
 
@@ -18,7 +19,8 @@ class RowTableStaffSalary extends React.Component {
             sortUpStaffName: false,
             sortUpId: false,
             sortUpRole: false,
-            sortUpStatus: false
+            sortUpStatus: false,
+            enableScroll: false
         }
     }
 
@@ -45,10 +47,12 @@ class RowTableStaffSalary extends React.Component {
             sortUpStatus: !prevState.sortUpStatus
         }))
     }
-
     render() {
-        const {staff,index} = this.props;
+
+        const { staff, index, dx } = this.props;
+
         return (
+
             <View style={styles.tableHeader} >
                 {/* ----- 0 ------ */}
                 <View style={{
@@ -56,17 +60,17 @@ class RowTableStaffSalary extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        {`${index}.`}
+                            {`${index}.`}
                         </Text>
                     </View>
                 </View>
                 {/* ----- 1 ------ */}
                 <View style={{
-                    flex:1, flexDirection: 'row'
+                    width: scaleSzie(120), flexDirection: 'row'
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} numberOfLines={1} >
-                        {staff.staff.displayName}
+                            {staff.name}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -74,70 +78,105 @@ class RowTableStaffSalary extends React.Component {
                     </View>
                 </View>
                 {/* ----- 2 ------ */}
-                <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
-                }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
-                        {staff.workingHour}
-                        </Text>
-                    </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View>
-                </View>
-                {/* ----- 3 ------ */}
-                <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
-                }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
-                        {`$ ${staff.hourlyWage}`}
-                        </Text>
-                    </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View>
+                <View style={{ flex: 1 }}>
+                    <ScrollView
+                        scrollEnabled={false}
+                        contentContainerStyle={{ flex: 1 }}
+                        // keyExtractor={(item, index) => index + ''}
+                        horizontal
+                    // showsHorizontalScrollIndicator={false}
+                    // data={staff.salariesByDate}
+                    // renderItem={({ item }) => {
+                    //     return (
+                    //         <View style={{
+                    //             width: scaleSzie(100), flexDirection: 'row',
+                    //         }} >
+                    //             <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                    //                 <Text style={styles.textTableHeader} >
+                    //                     {`$ ${item.salary}`}
+                    //                 </Text>
+                    //             </View>
+                    //             <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    //                 <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
+                    //             </View>
+                    //         </View>
+                    //     )
+                    // }}
+                    >
+                        {staff.salariesByDate.map((item, index) => {
+             
+                            return (
+                                <View
+                                    key={index}
+                                    style={{
+                                        width: scaleSzie(120), flexDirection: 'row',
+                                    }} >
+                                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                                        <Text style={styles.textTableHeader} >
+                                            {`$ ${item.salary}`}
+                                        </Text>
+                                    </View>
+                                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
+                                    </View>
+                                </View>
+                            )
+                        })}
+                    </ScrollView>
                 </View>
                 {/* ----- 4 ------ */}
                 <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
+                    width: scaleSzie(120), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        {`$ ${staff.serviceWage}`}
+                            {`$ ${staff.split}`}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
-                 {/* ----- 5 ------ */}
-                 <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
+                {/* ----- 5 ------ */}
+                <View style={{
+                    width: scaleSzie(120), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        {`$ ${staff.tipAmount}`}
+                            {`$ ${staff.tip}`}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
-                 {/* ----- 6 ------ */}
-                 <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
+
+                <View style={{
+                    width: scaleSzie(120), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        {`$ ${staff.totalAmount}`}
+                            {`$ ${staff.product}`}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
+                {/* ----- 6 ------ */}
+                <View style={{
+                    width: scaleSzie(120), flexDirection: 'row',
+                }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                        <Text style={styles.textTableHeader} >
+                            {`$ ${staff.total}`}
+                        </Text>
+                    </View>
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
+                    </View>
+                </View>
+
             </View>
 
         );

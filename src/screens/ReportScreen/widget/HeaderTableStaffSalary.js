@@ -7,8 +7,9 @@ import {
 } from 'react-native';
 
 import { Button } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie, formatDateApi } from '@utils';
 import IMAGE from '@resources';
+import { FlatList } from 'react-native-gesture-handler';
 
 class HeaderTableStaffSalary extends React.Component {
 
@@ -45,11 +46,10 @@ class HeaderTableStaffSalary extends React.Component {
             sortUpStatus: !prevState.sortUpStatus
         }))
     }
-
     render() {
         const { sortUpStaffName, sortUpId, sortUpRole, sortUpStatus } = this.state;
         const iconSortStaffName = sortUpStaffName ? IMAGE.sortUp : IMAGE.sortDown;
-       
+        const { calendar } = this.props;
         return (
             <View style={styles.tableHeader} >
                 {/* ----- 0 ------ */}
@@ -58,7 +58,7 @@ class HeaderTableStaffSalary extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        No.
+                            No.
                         </Text>
                     </View>
                     {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -67,14 +67,14 @@ class HeaderTableStaffSalary extends React.Component {
                 </View>
                 {/* ----- 1 ------ */}
                 <View style={{
-                    flex:1, flexDirection: 'row'
+                    width: scaleSzie(120), flexDirection: 'row'
                 }} >
                     {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View> */}
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        Name
+                            Name
                         </Text>
                     </View>
                     {/* <Button onPress={this.sortStaffName} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
@@ -85,70 +85,89 @@ class HeaderTableStaffSalary extends React.Component {
                     </View>
                 </View>
                 {/* ----- 2 ------ */}
-                <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
-                }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
-                        Hours worked
-                        </Text>
-                    </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View>
-                </View>
-                {/* ----- 3 ------ */}
-                <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
-                }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
-                        Hourly Wage
-                        </Text>
-                    </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View>
+                <View style={{ flex: 1 }}>
+                    <FlatList
+                        keyExtractor={(item, index) => index + ''}
+                        showsHorizontalScrollIndicator={false}
+                        horizontal={true}
+                        data={calendar}
+                        renderItem={({ item }) => {
+                           
+                            return (
+                                <View style={{
+                                    width: scaleSzie(120), flexDirection: 'row',
+                                }} >
+                                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                                        <View style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+                                            <Text style={[styles.textTableHeader]} >
+                                                {item.dateInWeek}
+                                            </Text>
+                                            <Text style={[styles.textTableHeader]} >
+                                                {formatDateApi(item.date).month} {formatDateApi(item.date).day}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
+                                    </View>
+                                </View>
+                            )
+                        }}
+                    />
                 </View>
                 {/* ----- 4 ------ */}
                 <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
+                    width: scaleSzie(120), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        Split Amount
+                            Split
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
-                 {/* ----- 5 ------ */}
-                 <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
+                {/* ----- 5 ------ */}
+                <View style={{
+                    width: scaleSzie(120), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        Tip Amount
+                            Tip
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
-                 {/* ----- 6 ------ */}
-                 <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
+
+                <View style={{
+                    width: scaleSzie(120), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        Total Amount
+                            Product
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
+                {/* ----- 6 ------ */}
+                <View style={{
+                    width: scaleSzie(120), flexDirection: 'row',
+                }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                        <Text style={styles.textTableHeader} >
+                            Total
+                        </Text>
+                    </View>
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
+                    </View>
+                </View>
+
             </View>
 
         );

@@ -343,10 +343,11 @@ function* updateStaffsPosition(action) {
 }
 
 function* getListStaffsSalaryTop(action) {
+    console.log(action)
     try {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
-        // console.log('getListStaffsSalaryTop : ' + JSON.stringify(responses));
+         console.log('getListStaffsSalaryTop : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
