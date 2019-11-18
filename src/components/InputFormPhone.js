@@ -22,7 +22,8 @@ export default class InputFormPhone extends React.PureComponent {
     render() {
         const { title, subTitle, placeholder, style, value,
             onChangeText, secureTextEntry, keyboardType,
-            isOnlyNumber, maxLength, editable,onFocus
+            isOnlyNumber, maxLength, editable,onFocus,
+            isNotShowDropdown
         } = this.props;
         const temptHeight = Platform.OS === 'ios' ? 30 : 40
         return (
@@ -38,7 +39,9 @@ export default class InputFormPhone extends React.PureComponent {
                     marginTop: scaleSzie(5),
                     flexDirection: 'row'
                 }} >
-                    <View style={{ width: scaleSzie(60), }} >
+                    {
+                        !isNotShowDropdown ? <>
+                             <View style={{ width: scaleSzie(60), }} >
                         <Dropdown
                             label={'+1'}
                             data={ListCodeAreaPhone}
@@ -53,6 +56,9 @@ export default class InputFormPhone extends React.PureComponent {
                         />
                     </View>
                     <View style={{ width: scaleSzie(8) }} />
+                        </> :<View />
+                    }
+                   
                     <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: (8) }} >
                         <TextInputMask
                            type={'custom'}
