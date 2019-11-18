@@ -182,7 +182,7 @@ class Layout extends React.Component {
                                 ref={this.setRefTimeWorking}
                                 title={day}
                                 dataInit={{
-                                    timeStart: "08:00 AM",
+                                    timeStart: "10:00 AM",
                                     timeEnd: "08:00 PM",
                                     isCheck: true
                                 }}

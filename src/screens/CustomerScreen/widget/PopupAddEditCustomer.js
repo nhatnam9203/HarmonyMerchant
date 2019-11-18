@@ -12,7 +12,8 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent, Dropdown } from '@components';
-import { scaleSzie, localize, getArrayNameStateCity, getIdStateByName, getNameStateById,ListCodeAreaPhone ,
+import {
+    scaleSzie, localize, getArrayNameStateCity, getIdStateByName, getNameStateById, ListCodeAreaPhone,
     getCodeAreaPhone
 } from '@utils';
 import IMAGE from '@resources';
@@ -38,8 +39,8 @@ class PopupAddEditCustomer extends React.Component {
                 favourite: ''
             },
             customerId: '',
-            codeAreaPhone:'+1',
-            codeReferrerPhone :'+1'
+            codeAreaPhone: '+1',
+            codeReferrerPhone: '+1'
         };
         this.scrollCustomerRef = React.createRef();
     }
@@ -123,7 +124,7 @@ class PopupAddEditCustomer extends React.Component {
             const temptCustomerInfo = {
                 ...customerInfo,
                 phone: `${this.state.codeAreaPhone}${customerInfo.phone}`,
-                referrerPhone:`${this.state.codeReferrerPhone}${customerInfo.referrerPhone}`,
+                referrerPhone: `${this.state.codeReferrerPhone}${customerInfo.referrerPhone}`,
                 addressPost: temptAddress
             };
             // console.log('temptCustomerInfo : ' ,temptCustomerInfo);
@@ -136,8 +137,8 @@ class PopupAddEditCustomer extends React.Component {
         }
     }
 
-    scrollCustomerTo(position){
-        this.scrollCustomerRef.current.scrollTo({x: 0, y: scaleSzie(position), animated: true})
+    scrollCustomerTo(position) {
+        this.scrollCustomerRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
     }
 
     // ----------- render ----------
@@ -226,8 +227,11 @@ class PopupAddEditCustomer extends React.Component {
                                     <View style={{ width: scaleSzie(8) }} />
                                     <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(10) }} >
                                         <TextInputMask
-                                            type="only-numbers"
-                                            placeholder="0123 456 456"
+                                            type={'custom'}
+                                            options={{
+                                                mask: '999-999-9999'
+                                            }}
+                                            placeholder="012-345-6456"
                                             style={{ flex: 1, fontSize: scaleSzie(16) }}
                                             value={phone}
                                             onChangeText={value => this.updateCustomerInfo('phone', value)}
@@ -350,13 +354,13 @@ class PopupAddEditCustomer extends React.Component {
                                             onFocus={() => this.scrollCustomerTo(60)}
                                         /> */}
                                         <TextInputMask
-                                        type="only-numbers"
-                                        placeholder="0123 456 456"
-                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                        value={referrerPhone}
-                                        onChangeText={value => this.updateCustomerInfo('referrerPhone', value)}
-                                        onFocus={() => this.scrollCustomerTo(275)}
-                                    />
+                                            type="only-numbers"
+                                            placeholder="0123 456 456"
+                                            style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                            value={referrerPhone}
+                                            onChangeText={value => this.updateCustomerInfo('referrerPhone', value)}
+                                            onFocus={() => this.scrollCustomerTo(275)}
+                                        />
                                     </View>
 
                                 </View>
