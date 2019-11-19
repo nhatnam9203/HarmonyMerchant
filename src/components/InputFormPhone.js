@@ -19,10 +19,21 @@ export default class InputFormPhone extends React.PureComponent {
         }
     }
 
+    setStateFromParent = async (codeAreaPhone) => {
+        await this.setState({
+            codeAreaPhone
+        })
+    }
+
+    onChangePhoneCode = (codeAreaPhone) => {
+        this.setState({ codeAreaPhone });
+        this.props.onChangePhoneCode ? this.props.onChangePhoneCode(codeAreaPhone) : '';
+    }
+
     render() {
         const { title, subTitle, placeholder, style, value,
             onChangeText, secureTextEntry, keyboardType,
-            isOnlyNumber, maxLength, editable,onFocus,
+            isOnlyNumber, maxLength, editable, onFocus,
             isNotShowDropdown
         } = this.props;
         const temptHeight = Platform.OS === 'ios' ? 30 : 40
@@ -41,30 +52,30 @@ export default class InputFormPhone extends React.PureComponent {
                 }} >
                     {
                         !isNotShowDropdown ? <>
-                             <View style={{ width: scaleSzie(60), }} >
-                        <Dropdown
-                            label={'+1'}
-                            data={ListCodeAreaPhone}
-                            value={this.state.codeAreaPhone}
-                            onChangeText={(codeAreaPhone) => this.setState({ codeAreaPhone })}
-                            containerStyle={{
-                                backgroundColor: '#fff',
-                                borderWidth: 1,
-                                borderColor: '#C5C5C5',
-                                flex: 1
-                            }}
-                        />
-                    </View>
-                    <View style={{ width: scaleSzie(8) }} />
-                        </> :<View />
+                            <View style={{ width: scaleSzie(60), }} >
+                                <Dropdown
+                                    label={'+1'}
+                                    data={ListCodeAreaPhone}
+                                    value={this.state.codeAreaPhone}
+                                    onChangeText={this.onChangePhoneCode}
+                                    containerStyle={{
+                                        backgroundColor: '#fff',
+                                        borderWidth: 1,
+                                        borderColor: '#C5C5C5',
+                                        flex: 1
+                                    }}
+                                />
+                            </View>
+                            <View style={{ width: scaleSzie(8) }} />
+                        </> : <View />
                     }
-                   
+
                     <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: (8) }} >
                         <TextInputMask
-                           type={'custom'}
-                           options={{
-                            mask: '999-999-9999'
-                           }}
+                            type={'custom'}
+                            options={{
+                                mask: '999-999-9999'
+                            }}
                             style={{ flex: 1, fontSize: scaleSzie(16) }}
                             placeholder={placeholder}
                             value={value}

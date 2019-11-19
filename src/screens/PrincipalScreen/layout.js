@@ -24,12 +24,13 @@ export default class Layout extends React.Component {
 
 
     render() {
-        const { principalInfo, isShowPrincipal1, dateOfBirth, uriUpload ,
-            isShowPrincipal2,principalInfo2,uriUploadPrincipal2
+        const { principalInfo, isShowPrincipal1, dateOfBirth, uriUpload,
+            isShowPrincipal2, principalInfo2, uriUploadPrincipal2,dateOfBirthPrincipal2,
+            phoneCodePrincipal1,phoneCodePrincipal2
         } = this.state;
         const { language } = this.props;
-        const iconPrincipal1 = isShowPrincipal1 ?  IMAGE.top_scroll_active : IMAGE.right_scroll_active;
-        const iconPrincipal2 = isShowPrincipal2 ?  IMAGE.top_scroll_active : IMAGE.right_scroll_active;
+        const iconPrincipal1 = isShowPrincipal1 ? IMAGE.top_scroll_active : IMAGE.right_scroll_active;
+        const iconPrincipal2 = isShowPrincipal2 ? IMAGE.top_scroll_active : IMAGE.right_scroll_active;
 
         return (
             <FormInfoParent
@@ -69,13 +70,13 @@ export default class Layout extends React.Component {
                     <View style={{ flex: 1, paddingHorizontal: scaleSzie(25) }} >
                         <View style={{ height: scaleSzie(16) }} />
                         {/* ------------------   Principal 1 ---------------- */}
-                        <View style={{ flexDirection: "row" }} >
-                            <View style={{ marginTop: scaleSzie(10) }} >
+                        <View style={{ flexDirection: "row"}} >
+                            <View style={{ marginTop: scaleSzie(10) ,width:scaleSzie(100) }} >
                                 <Text style={{
                                     color: '#404040', fontSize: scaleSzie(18), fontWeight: 'bold',
                                     marginBottom: scaleSzie(10)
                                 }} >
-                                    Principal 1
+                                    Principal 1*
                             </Text>
                             </View>
                             <Button onPress={this.showPrincipal1} style={{
@@ -92,6 +93,7 @@ export default class Layout extends React.Component {
 
                         {
                             isShowPrincipal1 ? <BodyPrincipal
+                                ref={this.principalFirstRef}
                                 principalInfo={principalInfo}
                                 language={language}
                                 dateOfBirth={dateOfBirth}
@@ -101,15 +103,14 @@ export default class Layout extends React.Component {
                                 showCalendar={this.showCalendar}
                                 takePhoto={this.takePhoto}
                                 openImageLibrary={this.openImageLibrary}
+                                updatePhoneCode={this.updatePhoneCode}
+                                phoneCodePrincipal={phoneCodePrincipal1}
                             /> : <View />
                         }
 
-
-
-
                         {/* ------------------   Principal 2 ---------------- */}
                         <View style={{ flexDirection: "row" }} >
-                            <View style={{ marginTop: scaleSzie(10) }} >
+                            <View style={{ marginTop: scaleSzie(10),width:scaleSzie(100) }} >
                                 <Text style={{
                                     color: '#404040', fontSize: scaleSzie(18), fontWeight: 'bold',
                                     marginBottom: scaleSzie(10)
@@ -130,9 +131,10 @@ export default class Layout extends React.Component {
                         </View>
                         {
                             isShowPrincipal2 ? <BodyPrincipal
+                                ref={this.principalSecondRef}
                                 principalInfo={principalInfo2}
                                 language={language}
-                                dateOfBirth={dateOfBirth}
+                                dateOfBirth={dateOfBirthPrincipal2}
                                 uriUpload={uriUploadPrincipal2}
                                 scrollPrincipalTo={this.scrollPrincipalTo}
                                 updatePrincipalInfo={this.updatePrincipalInfo}
@@ -140,6 +142,8 @@ export default class Layout extends React.Component {
                                 takePhoto={this.takePhoto}
                                 openImageLibrary={this.openImageLibrary}
                                 isPrincipalSecond={true}
+                                updatePhoneCode={this.updatePhoneCode}
+                                phoneCodePrincipal={phoneCodePrincipal2}
                             /> : <View />
                         }
 
@@ -159,7 +163,7 @@ export default class Layout extends React.Component {
                         visible={this.state.showCalendar}
                         onRequestClose={() => this.setState({ showCalendar: false })}
                         title="Day Of Birth"
-                        dateCalendar={this.state.dateOfBirth}
+                        dateCalendar={isShowPrincipal1 ? dateOfBirth : dateOfBirthPrincipal2 }
                         setDateSelected={this.setDateSelected}
                     />
                     <View style={{ height: scaleSzie(250) }} />

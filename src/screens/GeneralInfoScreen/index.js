@@ -118,17 +118,17 @@ class GeneralInfoScreen extends Layout {
                     keyError = arrayKey[i];
                     break;
                 } else {
-                    if (arrayKey[i] === 'businessPhone') {
-                        if (!validateIsNumber(generalInfo[arrayKey[i]])) {
-                            keyError = 'businessPhoneNotNumber';
-                            break;
-                        }
-                    } else if (arrayKey[i] === 'contactPhone') {
-                        if (!validateIsNumber(generalInfo[arrayKey[i]])) {
-                            keyError = 'contactPhoneNotNumber';
-                            break;
-                        }
-                    }
+                    // if (arrayKey[i] === 'businessPhone') {
+                    //     if (!validateIsNumber(generalInfo[arrayKey[i]])) {
+                    //         keyError = 'businessPhoneNotNumber';
+                    //         break;
+                    //     }
+                    // } else if (arrayKey[i] === 'contactPhone') {
+                    //     if (!validateIsNumber(generalInfo[arrayKey[i]])) {
+                    //         keyError = 'contactPhoneNotNumber';
+                    //         break;
+                    //     }
+                    // }
                 }
             }
         }

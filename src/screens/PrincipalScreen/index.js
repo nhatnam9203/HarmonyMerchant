@@ -28,9 +28,19 @@ const initalStatePrincipal2 = {
         driverLicense: '',
         stateIssued: ''
     },
-    isShowPrincipal2: true,
+    isShowPrincipal2: false,
     uriUploadPrincipal2: "",
+    dateOfBirthPrincipal2: new Date(),
     fileIdPrincipal2: -1,
+
+    phoneCodePrincipal1: {
+        homePhone: "+1",
+        mobilePhone: "+1"
+    },
+    phoneCodePrincipal2: {
+        homePhone: "+1",
+        mobilePhone: "+1"
+    }
 }
 
 class PrincipalScreen extends Layout {
@@ -65,13 +75,16 @@ class PrincipalScreen extends Layout {
             },
             showCalendar: false,
             dateOfBirth: new Date(),
-            isShowPrincipal1: false,
+            isShowPrincipal1: true,
             ...initalStatePrincipal2
         };
         this.uploadVoidCheckRef = React.createRef();
         this.homePhoneRef = React.createRef();
         this.mobilePhoneRef = React.createRef();
         this.srollPrincipalRef = React.createRef();
+        this.principalFirstRef = React.createRef();
+        this.principalSecondRef = React.createRef();
+
     }
 
     showPrincipal1 = () => {
@@ -121,6 +134,22 @@ class PrincipalScreen extends Layout {
         );
     }
 
+    updatePhoneCode = async (code, key, isPrincipalSecond) => {
+        const { phoneCodePrincipal1, phoneCodePrincipal2 } = this.state;
+        const temptPhoneCode = isPrincipalSecond ? phoneCodePrincipal2 : phoneCodePrincipal1;
+        const temptUpdate = { ...temptPhoneCode, [key]: code };
+        if (isPrincipalSecond) {
+            await this.setState({
+                phoneCodePrincipal2: temptUpdate
+            })
+        } else {
+            await this.setState({
+                phoneCodePrincipal1: temptUpdate
+            })
+        }
+
+    }
+
     updatePrincipalInfo = (key, value, keyParent = '', isPrincipalSecond) => {
         const { principalInfo, principalInfo2 } = this.state;
         const temptPrincipal = isPrincipalSecond ? principalInfo2 : principalInfo;
@@ -154,8 +183,14 @@ class PrincipalScreen extends Layout {
         }
     }
 
+    nextScreen1 = async () => {
+
+    }
+
     nextScreen = () => {
-        const { principalInfo, uriUpload } = this.state;
+        const { principalInfo, uriUpload,phoneCodePrincipal2,phoneCodePrincipal1,
+        
+        } = this.state;
         const { stateCity } = this.props;
         const arrayKey = Object.keys(principalInfo);
         let keyError = '';
@@ -183,10 +218,6 @@ class PrincipalScreen extends Layout {
                 }
 
             }
-            // else if (arrayKey[i] == 'yearAtThisAddress' && !validYear(principalInfo[arrayKey[i]])) {
-            //     keyError = 'yearInvalid';
-            //     break;
-            // } 
             else if (arrayKey[i] == 'email') {
                 if (!validateEmail(principalInfo[arrayKey[i]])) {
                     keyError = 'emailInvalid';
@@ -199,33 +230,35 @@ class PrincipalScreen extends Layout {
                     keyError = arrayKey[i];
                     break;
                 } else {
-                    if (arrayKey[i] === 'homePhone') {
-                        if (!validateIsNumber(principalInfo[arrayKey[i]])) {
-                            keyError = 'homePhoneNotNumber';
-                            break;
-                        }
-                    } else if (arrayKey[i] === 'mobilePhone') {
-                        if (!validateIsNumber(principalInfo[arrayKey[i]])) {
-                            keyError = 'mobilePhoneNotNumber';
-                            break;
-                        }
-                    } else if (arrayKey[i] === 'yearAtThisAddress') {
+                    // if (arrayKey[i] === 'homePhone') {
+                    //     if (!validateIsNumber(principalInfo[arrayKey[i]])) {
+                    //         keyError = 'homePhoneNotNumber';
+                    //         break;
+                    //     }
+                    // } else if (arrayKey[i] === 'mobilePhone') {
+                    //     if (!validateIsNumber(principalInfo[arrayKey[i]])) {
+                    //         keyError = 'mobilePhoneNotNumber';
+                    //         break;
+                    //     }
+                    // } else 
+                    if (arrayKey[i] === 'yearAtThisAddress') {
                         if (!validateIsNumber(principalInfo[arrayKey[i]])) {
                             keyError = 'yearAtThisAddressInvalid';
                             break;
                         }
-                    } else if (arrayKey[i] === 'ssn') {
-                        if (!validateIsNumber(principalInfo[arrayKey[i]])) {
-                            keyError = 'ssnInvalid';
-                            break;
-                        }
-                    }
-                    else if (arrayKey[i] === 'driverLicense') {
-                        if (!validateIsNumber(principalInfo[arrayKey[i]])) {
-                            keyError = 'driverLicenseInvalid';
-                            break;
-                        }
-                    }
+                    } 
+                    // else if (arrayKey[i] === 'ssn') {
+                    //     if (!validateIsNumber(principalInfo[arrayKey[i]])) {
+                    //         keyError = 'ssnInvalid';
+                    //         break;
+                    //     }
+                    // }
+                    // else if (arrayKey[i] === 'driverLicense') {
+                    //     if (!validateIsNumber(principalInfo[arrayKey[i]])) {
+                    //         keyError = 'driverLicenseInvalid';
+                    //         break;
+                    //     }
+                    // }
                 }
             }
         }
@@ -237,8 +270,8 @@ class PrincipalScreen extends Layout {
                 const temptAddressPrincipal = { ...addressPrincipal, state: getIdStateByName(stateCity, addressPrincipal.state) };
                 const temptPrincipalInfo = {
                     ...principalInfo,
-                    homePhone: `${this.homePhoneRef.current.state.codeAreaPhone}${principalInfo.homePhone}`,
-                    mobilePhone: `${this.mobilePhoneRef.current.state.codeAreaPhone}${principalInfo.mobilePhone}`,
+                    homePhone: `${phoneCodePrincipal1.homePhone}${principalInfo.homePhone}`,
+                    mobilePhone: `${phoneCodePrincipal1.mobilePhone}${principalInfo.mobilePhone}`,
                     dateOfBirth: `${moment(this.state.dateOfBirth).format('MM/DD/YYYY')}`,
                     fileId: this.state.fileId,
                     addressPrincipal: temptAddressPrincipal
@@ -254,9 +287,16 @@ class PrincipalScreen extends Layout {
     }
 
     setDateSelected = (date) => {
-        this.setState({
-            dateOfBirth: date
-        })
+        if (this.state.isShowPrincipal1) {
+            this.setState({
+                dateOfBirth: date
+            })
+        } else {
+            this.setState({
+                dateOfBirthPrincipal2: date
+            })
+        }
+
     }
 
 
