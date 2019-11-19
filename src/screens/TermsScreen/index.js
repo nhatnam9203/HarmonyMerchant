@@ -14,13 +14,14 @@ class TermsScreen extends Layout {
     }
 
     agreeTerm = () => {
-        this.setState(prevState => ({
-            isAgree: !prevState.isAgree
-        }))
+        // this.setState(prevState => ({
+        //     isAgree: !prevState.isAgree
+        // }))
+        this.props.actions.app.agreeTerm();
     }
 
     nextScreen = () => {
-        if (this.state.isAgree) {
+        if (this.props.isAgreeTerm) {
             this.props.navigation.navigate('GeneralInfo');
         }
 
@@ -29,6 +30,7 @@ class TermsScreen extends Layout {
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
+    isAgreeTerm: state.app.isAgreeTerm
 })
 
 

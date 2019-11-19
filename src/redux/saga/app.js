@@ -21,6 +21,9 @@ function* registerUser(action) {
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "RESET_AGREE_TERM"
+            })
             NavigationServices.navigate('SignIn');
         } else {
             yield put({

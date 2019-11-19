@@ -175,3 +175,11 @@ export function closePopupEnterPin() {
         type: 'CLOSE_POPUP_ENTER_PIN',
     }
 }
+
+
+export function agreeTerm() {
+    return {
+        type: 'AGREE_TERM',
+    }
+}
+

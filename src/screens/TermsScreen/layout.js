@@ -14,10 +14,11 @@ import IMAGE from '@resources';
 export default class Layout extends React.Component {
 
     render() {
-        const { isAgree } = this.state;
-        const temptIconCheck = isAgree ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
-        const temptBackgroundButton = isAgree ? '#0764B0' : '#F1F1F1';
-        const temptColorTextButton = isAgree ? '#fff' : '#C5C5C5';
+        // const { isAgree } = this.state;
+        const {isAgreeTerm} = this.props;
+        const temptIconCheck = isAgreeTerm ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
+        const temptBackgroundButton = isAgreeTerm ? '#0764B0' : '#F1F1F1';
+        const temptColorTextButton = isAgreeTerm ? '#fff' : '#C5C5C5';
         return (
             <View style={styles.container} >
                 <StatusBarHeader />

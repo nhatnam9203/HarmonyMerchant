@@ -183,8 +183,80 @@ class PrincipalScreen extends Layout {
         }
     }
 
-    nextScreen1 = async () => {
+    checkPrincipalInfo2Valid =  () => {
+        const { principalInfo2, uriUploadPrincipal2 } = this.state;
+        const arrayKey = Object.keys(principalInfo2);
+        const { stateCity } = this.props;
+        let keyError = '';
+        let isMustCheck = false;
+        for (let i = 0; i < arrayKey.length; i++) {
+            if (principalInfo2[arrayKey[i]] !== '' && arrayKey[i] !== 'addressPrincipal') {
+                isMustCheck = true;
+                break;
+            }
+        }
+        if (isMustCheck) {
+            for (let i = 0; i < arrayKey.length; i++) {
+                if (arrayKey[i] == 'addressPrincipal') {
+                    if (principalInfo2.addressPrincipal.address == '') {
+                        keyError = 'address';
+                        break;
+                    }
+                    if (principalInfo2.addressPrincipal.city == '') {
+                        keyError = 'city';
+                        break;
+                    }
+                    if (principalInfo2.addressPrincipal.state == '') {
+                        keyError = 'state';
+                        break;
+                    }
+                    if (!checkStateIsValid(stateCity, principalInfo2.addressPrincipal.state)) {
+                        keyError = 'stateInvalid';
+                        break;
+                    }
+                    if (principalInfo2.addressPrincipal.zip == '') {
+                        keyError = 'zip';
+                        break;
+                    }
 
+                }
+                else if (arrayKey[i] == 'email') {
+                    if (!validateEmail(principalInfo2[arrayKey[i]])) {
+                        keyError = 'emailInvalid';
+                        break;
+                    }
+                }
+
+                else {
+                    if (principalInfo2[arrayKey[i]] === '') {
+                        keyError = arrayKey[i];
+                        break;
+                    } else {
+                        if (arrayKey[i] === 'yearAtThisAddress') {
+                            if (!validateIsNumber(principalInfo2[arrayKey[i]])) {
+                                keyError = 'yearAtThisAddressInvalid';
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            // ------- Handle Error ------
+            if (keyError !== '') {
+                Alert.alert(`${strings[keyError]} in Principal 2 infomation!`);
+                return 0     // ------ Error ----
+            } else {
+                if (uriUploadPrincipal2 === '') {
+                    Alert.alert(`Please upload a photo for Pricipal 2`);
+                    return 0 // ------ Error ----
+                } else {
+                    return 2; // ------ Add 2 Principal  ----
+                }
+
+            }
+        } else {
+            return 1; // ------ Add 1 Principal  ----
+        }
     }
 
     nextScreen = () => {
@@ -255,20 +327,28 @@ class PrincipalScreen extends Layout {
                 };
 
                 // -------- handle principal 2 -------
-                const { addressPrincipal: addressPrincipalSecond } = principalInfo2;
-                const temptAddressPrincipalSecond = { ...addressPrincipalSecond, state: getIdStateByName(stateCity, addressPrincipalSecond.state) };
-                const temptPrincipalSecondInfo = {
-                    ...principalInfo2,
-                    homePhone: `${phoneCodePrincipal2.homePhone}${principalInfo2.homePhone}`,
-                    mobilePhone: `${phoneCodePrincipal2.mobilePhone}${principalInfo2.mobilePhone}`,
-                    dateOfBirth: `${moment(this.state.dateOfBirthPrincipal2).format('MM/DD/YYYY')}`,
-                    fileId: this.state.fileIdPrincipal2,
-                    addressPrincipal: temptAddressPrincipalSecond
-                };
+                const result = this.checkPrincipalInfo2Valid();
+                console.log('result : ',result);
+                if (result === 1) {
+                    
+                    this.props.actions.app.setPrincipalInfo([temptPrincipalInfo]);
+                    this.props.navigation.navigate('ApplicationSubmit');
+                } else if (result === 2) {
+                    const { addressPrincipal: addressPrincipalSecond } = principalInfo2;
+                    const temptAddressPrincipalSecond = { ...addressPrincipalSecond, state: getIdStateByName(stateCity, addressPrincipalSecond.state) };
+                    const temptPrincipalSecondInfo = {
+                        ...principalInfo2,
+                        homePhone: `${phoneCodePrincipal2.homePhone}${principalInfo2.homePhone}`,
+                        mobilePhone: `${phoneCodePrincipal2.mobilePhone}${principalInfo2.mobilePhone}`,
+                        dateOfBirth: `${moment(this.state.dateOfBirthPrincipal2).format('MM/DD/YYYY')}`,
+                        fileId: this.state.fileIdPrincipal2,
+                        addressPrincipal: temptAddressPrincipalSecond
+                    };
+                    this.props.actions.app.setPrincipalInfo([temptPrincipalInfo, temptPrincipalSecondInfo]);
+                    this.props.navigation.navigate('ApplicationSubmit');
+                }
 
 
-                this.props.actions.app.setPrincipalInfo([temptPrincipalInfo, temptPrincipalSecondInfo]);
-                this.props.navigation.navigate('ApplicationSubmit');
             } else {
                 Alert.alert(`Please upload a photo`);
             }

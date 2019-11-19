@@ -12,11 +12,22 @@ const initialState = {
     visibleEnterPin: true,
     isSubmitTax: false,
     visibleEnterPinInvoice: false,
-    isOfflineMode: false
+    isOfflineMode: false,
+    isAgreeTerm: false
 }
 
 function appReducer(state = initialState, action) {
     switch (action.type) {
+        case 'AGREE_TERM':
+            return {
+                ...state,
+                isAgreeTerm: true
+            }
+        case 'RESET_AGREE_TERM':
+            return {
+                ...state,
+                isAgreeTerm: false
+            }
         case 'LOADING_ROOT':
             return {
                 ...state,
