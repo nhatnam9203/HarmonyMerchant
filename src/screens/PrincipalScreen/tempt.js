@@ -188,8 +188,8 @@ class PrincipalScreen extends Layout {
     }
 
     nextScreen = () => {
-        const { principalInfo, uriUpload, phoneCodePrincipal2, phoneCodePrincipal1,
-            principalInfo2
+        const { principalInfo, uriUpload,phoneCodePrincipal2,phoneCodePrincipal1,
+        
         } = this.state;
         const { stateCity } = this.props;
         const arrayKey = Object.keys(principalInfo);
@@ -230,12 +230,35 @@ class PrincipalScreen extends Layout {
                     keyError = arrayKey[i];
                     break;
                 } else {
+                    // if (arrayKey[i] === 'homePhone') {
+                    //     if (!validateIsNumber(principalInfo[arrayKey[i]])) {
+                    //         keyError = 'homePhoneNotNumber';
+                    //         break;
+                    //     }
+                    // } else if (arrayKey[i] === 'mobilePhone') {
+                    //     if (!validateIsNumber(principalInfo[arrayKey[i]])) {
+                    //         keyError = 'mobilePhoneNotNumber';
+                    //         break;
+                    //     }
+                    // } else 
                     if (arrayKey[i] === 'yearAtThisAddress') {
                         if (!validateIsNumber(principalInfo[arrayKey[i]])) {
                             keyError = 'yearAtThisAddressInvalid';
                             break;
                         }
-                    }
+                    } 
+                    // else if (arrayKey[i] === 'ssn') {
+                    //     if (!validateIsNumber(principalInfo[arrayKey[i]])) {
+                    //         keyError = 'ssnInvalid';
+                    //         break;
+                    //     }
+                    // }
+                    // else if (arrayKey[i] === 'driverLicense') {
+                    //     if (!validateIsNumber(principalInfo[arrayKey[i]])) {
+                    //         keyError = 'driverLicenseInvalid';
+                    //         break;
+                    //     }
+                    // }
                 }
             }
         }
@@ -253,21 +276,7 @@ class PrincipalScreen extends Layout {
                     fileId: this.state.fileId,
                     addressPrincipal: temptAddressPrincipal
                 };
-
-                // -------- handle principal 2 -------
-                const { addressPrincipal: addressPrincipalSecond } = principalInfo2;
-                const temptAddressPrincipalSecond = { ...addressPrincipalSecond, state: getIdStateByName(stateCity, addressPrincipalSecond.state) };
-                const temptPrincipalSecondInfo = {
-                    ...principalInfo2,
-                    homePhone: `${phoneCodePrincipal2.homePhone}${principalInfo2.homePhone}`,
-                    mobilePhone: `${phoneCodePrincipal2.mobilePhone}${principalInfo2.mobilePhone}`,
-                    dateOfBirth: `${moment(this.state.dateOfBirthPrincipal2).format('MM/DD/YYYY')}`,
-                    fileId: this.state.fileIdPrincipal2,
-                    addressPrincipal: temptAddressPrincipalSecond
-                };
-
-
-                this.props.actions.app.setPrincipalInfo([temptPrincipalInfo, temptPrincipalSecondInfo]);
+                this.props.actions.app.setPrincipalInfo(temptPrincipalInfo);
                 this.props.navigation.navigate('ApplicationSubmit');
             } else {
                 Alert.alert(`Please upload a photo`);
