@@ -24,17 +24,12 @@ export default class Layout extends React.Component {
 
 
     render() {
-        const { principalInfo, isShowPrincipal1, dateOfBirth, uriUpload } = this.state;
-        const {
-            firstName, lastName, position, ownership, homePhone, mobilePhone, addressPrincipal,
-            yearAtThisAddress, ssn, email, driverLicense, stateIssued
-        } = principalInfo;
-        const {
-            address, city, state, zip
-        } = addressPrincipal;
-        const { language, stateCity } = this.props;
-
+        const { principalInfo, isShowPrincipal1, dateOfBirth, uriUpload ,
+            isShowPrincipal2,principalInfo2,uriUploadPrincipal2
+        } = this.state;
+        const { language } = this.props;
         const iconPrincipal1 = isShowPrincipal1 ?  IMAGE.top_scroll_active : IMAGE.right_scroll_active;
+        const iconPrincipal2 = isShowPrincipal2 ?  IMAGE.top_scroll_active : IMAGE.right_scroll_active;
 
         return (
             <FormInfoParent
@@ -122,17 +117,31 @@ export default class Layout extends React.Component {
                                     Principal 2
                             </Text>
                             </View>
-                            <View style={{
+                            <Button onPress={this.showPrincipal2} style={{
                                 width: scaleSzie(30), justifyContent: "center", alignItems: "center"
                             }} >
                                 <Image
-                                    source={IMAGE.right_scroll_active}
+                                    source={iconPrincipal2}
                                 />
-                            </View>
+                            </Button>
                             <View style={{ flex: 1, justifyContent: "center" }} >
                                 <View style={{ width: "100%", height: 2, backgroundColor: "#0764B0" }} />
                             </View>
                         </View>
+                        {
+                            isShowPrincipal2 ? <BodyPrincipal
+                                principalInfo={principalInfo2}
+                                language={language}
+                                dateOfBirth={dateOfBirth}
+                                uriUpload={uriUploadPrincipal2}
+                                scrollPrincipalTo={this.scrollPrincipalTo}
+                                updatePrincipalInfo={this.updatePrincipalInfo}
+                                showCalendar={this.showCalendar}
+                                takePhoto={this.takePhoto}
+                                openImageLibrary={this.openImageLibrary}
+                                isPrincipalSecond={true}
+                            /> : <View />
+                        }
 
                         {/* ---------------------- */}
                     </View>

@@ -8,6 +8,31 @@ import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
 import { validateIsNumber, getIdStateByName, gotoSettingsDevice, validateEmail, scaleSzie, checkStateIsValid } from '@utils';
 
+const initalStatePrincipal2 = {
+    principalInfo2: {
+        firstName: '',
+        lastName: '',
+        position: '',
+        ownership: '',
+        homePhone: '',
+        mobilePhone: '',
+        addressPrincipal: {
+            address: '',
+            city: '',
+            state: '',
+            zip: ''
+        },
+        yearAtThisAddress: "",
+        ssn: '',
+        email: '',
+        driverLicense: '',
+        stateIssued: ''
+    },
+    isShowPrincipal2: true,
+    uriUploadPrincipal2: "",
+    fileIdPrincipal2: -1,
+}
+
 class PrincipalScreen extends Layout {
 
     constructor(props) {
@@ -40,7 +65,8 @@ class PrincipalScreen extends Layout {
             },
             showCalendar: false,
             dateOfBirth: new Date(),
-            isShowPrincipal1: true
+            isShowPrincipal1: false,
+            ...initalStatePrincipal2
         };
         this.uploadVoidCheckRef = React.createRef();
         this.homePhoneRef = React.createRef();
@@ -48,13 +74,31 @@ class PrincipalScreen extends Layout {
         this.srollPrincipalRef = React.createRef();
     }
 
-    showPrincipal1 = () =>{
-        this.setState(prevState =>({
-            isShowPrincipal1: !prevState.isShowPrincipal1
-        }))
+    showPrincipal1 = () => {
+        this.setState(prevState => ({
+            isShowPrincipal1: !prevState.isShowPrincipal1,
+        }), () => {
+            this.setState({
+                isShowPrincipal2: this.state.isShowPrincipal1 ? false : this.state.isShowPrincipal2
+            })
+        })
     }
 
-    scrollPrincipalTo =  (position) => {
+    showPrincipal2 = () => {
+        this.setState(prevState => ({
+            isShowPrincipal2: !prevState.isShowPrincipal2
+        }), () => {
+            this.setState({
+                isShowPrincipal1: this.state.isShowPrincipal2 ? false : this.state.isShowPrincipal1
+            }, () => {
+                if (!this.state.isShowPrincipal1 && this.state.isShowPrincipal2) {
+                    this.srollPrincipalRef.current.scrollTo({ x: 0, y: 0, animated: false })
+                }
+            })
+        })
+    }
+
+    scrollPrincipalTo = (position) => {
         this.srollPrincipalRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
     }
 
@@ -77,20 +121,36 @@ class PrincipalScreen extends Layout {
         );
     }
 
-    updatePrincipalInfo = (key, value, keyParent = '') => {
-        const { principalInfo } = this.state;
+    updatePrincipalInfo = (key, value, keyParent = '', isPrincipalSecond) => {
+        const { principalInfo, principalInfo2 } = this.state;
+        const temptPrincipal = isPrincipalSecond ? principalInfo2 : principalInfo;
         if (keyParent !== '') {
-            const temptParent = principalInfo[keyParent];
+            const temptParent = temptPrincipal[keyParent];
             const temptChild = { ...temptParent, [key]: value };
-            const temptUpdate = { ...principalInfo, [keyParent]: temptChild };
-            this.setState({
-                principalInfo: temptUpdate
-            })
+            const temptUpdate = { ...temptPrincipal, [keyParent]: temptChild };
+            if (isPrincipalSecond) {
+                this.setState({
+                    principalInfo2: temptUpdate
+                })
+            } else {
+                this.setState({
+                    principalInfo: temptUpdate
+                })
+            }
+
+
         } else {
-            const temptUpdate = { ...principalInfo, [key]: value };
-            this.setState({
-                principalInfo: temptUpdate
-            })
+            const temptUpdate = { ...temptPrincipal, [key]: value };
+            if (isPrincipalSecond) {
+                this.setState({
+                    principalInfo2: temptUpdate
+                })
+            } else {
+                this.setState({
+                    principalInfo: temptUpdate
+                })
+            }
+
         }
     }
 
@@ -251,14 +311,24 @@ class PrincipalScreen extends Layout {
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { isUpload, dataUpload } = this.props;
-        const { isActiveScreen } = this.state;
+        const { isActiveScreen, isShowPrincipal1 } = this.state;
         if (isUpload && isActiveScreen && isUpload !== prevProps.isUpload) {
-            await this.setState({
-                savaFileUpload: true,
-                visibleUpload: false,
-                uriUpload: dataUpload.url,
-                fileId: dataUpload.fileId
-            });
+            if (isShowPrincipal1) {
+                await this.setState({
+                    savaFileUpload: true,
+                    visibleUpload: false,
+                    uriUpload: dataUpload.url,
+                    fileId: dataUpload.fileId
+                });
+            } else {
+                await this.setState({
+                    savaFileUpload: true,
+                    visibleUpload: false,
+                    uriUploadPrincipal2: dataUpload.url,
+                    fileIdPrincipal2: dataUpload.fileId
+                });
+            }
+
             this.props.actions.upload.resetStateUpload();
         }
     }

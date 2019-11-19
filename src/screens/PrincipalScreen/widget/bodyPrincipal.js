@@ -22,7 +22,7 @@ export default class Layout extends React.Component {
 
     render() {
         const { language, principalInfo, scrollPrincipalTo, dateOfBirth, uriUpload, updatePrincipalInfo,
-            showCalendar, takePhoto,openImageLibrary } = this.props;
+            showCalendar, takePhoto,openImageLibrary,isPrincipalSecond } = this.props;
         const {
             firstName, lastName, position, ownership, homePhone, mobilePhone, addressPrincipal,
             yearAtThisAddress, ssn, email, driverLicense, stateIssued
@@ -42,8 +42,8 @@ export default class Layout extends React.Component {
                             subTitle=""
                             placeholder={localize('First name', language)}
                             value={firstName}
-                            onChangeText={(value) => updatePrincipalInfo('firstName', value)}
-                            onFocus={() => scrollPrincipalTo(190)}
+                            onChangeText={(value) => updatePrincipalInfo('firstName', value,'',isPrincipalSecond)}
+                            onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 230 : 190)}
                         />
                     </View>
                     <View style={{ flex: 1, paddingLeft: scaleSzie(20) }} >
@@ -52,8 +52,8 @@ export default class Layout extends React.Component {
                             subTitle=""
                             placeholder={localize('Last name', language)}
                             value={lastName}
-                            onChangeText={(value) => updatePrincipalInfo('lastName', value)}
-                            onFocus={() => scrollPrincipalTo(190)}
+                            onChangeText={(value) => updatePrincipalInfo('lastName', value,'',isPrincipalSecond)}
+                            onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 230 : 190)}
                         />
                     </View>
                 </View>
@@ -63,16 +63,16 @@ export default class Layout extends React.Component {
                     subTitle=""
                     placeholder={localize('Manager', language)}
                     value={position}
-                    onChangeText={(value) => updatePrincipalInfo('position', value)}
-                    onFocus={() => scrollPrincipalTo(270)}
+                    onChangeText={(value) => updatePrincipalInfo('position', value,'',isPrincipalSecond)}
+                    onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 310 : 270)}
                 />
                 <InputForm
                     title={localize('Ownership (%) *', language)}
                     subTitle=""
                     placeholder=""
                     value={ownership}
-                    onChangeText={(value) => updatePrincipalInfo('ownership', value)}
-                    onFocus={() => scrollPrincipalTo(350)}
+                    onChangeText={(value) => updatePrincipalInfo('ownership', value,'',isPrincipalSecond)}
+                    onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 390 : 350)}
                 />
 
                 <View style={{ flexDirection: 'row' }} >
@@ -83,9 +83,9 @@ export default class Layout extends React.Component {
                             subTitle=""
                             placeholder=""
                             value={homePhone}
-                            onChangeText={(value) => updatePrincipalInfo('homePhone', value)}
+                            onChangeText={(value) => updatePrincipalInfo('homePhone', value,'',isPrincipalSecond)}
                             keyboardType="numeric"
-                            onFocus={() => scrollPrincipalTo(420)}
+                            onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 460  : 420)}
                         />
                     </View>
                     <View style={{ flex: 1, paddingLeft: scaleSzie(20) }} >
@@ -95,9 +95,9 @@ export default class Layout extends React.Component {
                             subTitle=""
                             placeholder=""
                             value={mobilePhone}
-                            onChangeText={(value) => updatePrincipalInfo('mobilePhone', value)}
+                            onChangeText={(value) => updatePrincipalInfo('mobilePhone', value,'',isPrincipalSecond)}
                             keyboardType="numeric"
-                            onFocus={() => scrollPrincipalTo(420)}
+                            onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 460  : 420)}
                         />
                     </View>
                 </View>
@@ -110,8 +110,8 @@ export default class Layout extends React.Component {
                         marginBottom: scaleSzie(10)
                     }}
                     value={address}
-                    onChangeText={(value) => updatePrincipalInfo('address', value, 'addressPrincipal')}
-                    onFocus={() => scrollPrincipalTo(500)}
+                    onChangeText={(value) => updatePrincipalInfo('address', value, 'addressPrincipal',isPrincipalSecond)}
+                    onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 540 :500)}
                 />
                 <View style={{
                     height: scaleSzie(30), marginBottom: scaleSzie(24), justifyContent: 'space-between',
@@ -126,15 +126,15 @@ export default class Layout extends React.Component {
                                 marginBottom: 0
                             }}
                             value={city}
-                            onChangeText={(value) => updatePrincipalInfo('city', value, 'addressPrincipal')}
-                            onFocus={() => scrollPrincipalTo(500)}
+                            onChangeText={(value) => updatePrincipalInfo('city', value, 'addressPrincipal',isPrincipalSecond)}
+                            onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 540 :500)}
                         />
                     </View>
                     <View style={{ width: scaleSzie(180), height: scaleSzie(30) }} >
                         <TextInputSuggestion
                             value={state}
-                            onChangeText={(value) => updatePrincipalInfo('state', value, 'addressPrincipal')}
-                            onFocus={() => scrollPrincipalTo(500)}
+                            onChangeText={(value) => updatePrincipalInfo('state', value, 'addressPrincipal',isPrincipalSecond)}
+                            onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 540 :500)}
                         />
                     </View>
                     <View style={{ width: scaleSzie(180) }} >
@@ -146,9 +146,9 @@ export default class Layout extends React.Component {
                                 marginBottom: 0
                             }}
                             value={zip}
-                            onChangeText={(value) => updatePrincipalInfo('zip', value, 'addressPrincipal')}
+                            onChangeText={(value) => updatePrincipalInfo('zip', value, 'addressPrincipal',isPrincipalSecond)}
                             keyboardType="numeric"
-                            onFocus={() => scrollPrincipalTo(500)}
+                            onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 540 :500)}
                         />
                     </View>
                 </View>
@@ -159,10 +159,10 @@ export default class Layout extends React.Component {
                     subTitle=""
                     placeholder=""
                     value={yearAtThisAddress}
-                    onChangeText={(value) => updatePrincipalInfo('yearAtThisAddress', value)}
+                    onChangeText={(value) => updatePrincipalInfo('yearAtThisAddress', value,'',isPrincipalSecond)}
                     keyboardType="numeric"
                     maxLength={4}
-                    onFocus={() => scrollPrincipalTo(625)}
+                    onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 665 : 625)}
                 />
                 <InputFormPhone
                     isNotShowDropdown={true}
@@ -170,9 +170,9 @@ export default class Layout extends React.Component {
                     subTitle=""
                     placeholder=""
                     value={ssn}
-                    onChangeText={(value) => updatePrincipalInfo('ssn', value)}
+                    onChangeText={(value) => updatePrincipalInfo('ssn', value,'',isPrincipalSecond)}
                     keyboardType="numeric"
-                    onFocus={() => scrollPrincipalTo(705)}
+                    onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 745 : 705)}
                 />
                 {/* ------ Date of Birth ----- */}
                 <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(6) }} >
@@ -208,8 +208,8 @@ export default class Layout extends React.Component {
                     subTitle=""
                     placeholder="example@gmail.com"
                     value={email}
-                    onChangeText={(value) => updatePrincipalInfo('email', value)}
-                    onFocus={() => scrollPrincipalTo(860)}
+                    onChangeText={(value) => updatePrincipalInfo('email', value,'',isPrincipalSecond)}
+                    onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 900 :860)}
 
                 />
                 <View style={{ flexDirection: 'row' }} >
@@ -219,8 +219,8 @@ export default class Layout extends React.Component {
                             subTitle=""
                             placeholder=""
                             value={driverLicense}
-                            onChangeText={(value) => updatePrincipalInfo('driverLicense', value)}
-                            onFocus={() => scrollPrincipalTo(940)}
+                            onChangeText={(value) => updatePrincipalInfo('driverLicense', value,'',isPrincipalSecond)}
+                            onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 980 :940)}
                         />
                     </View>
                     <View style={{ width: scaleSzie(180) }} >
@@ -229,8 +229,8 @@ export default class Layout extends React.Component {
                             subTitle=""
                             placeholder=""
                             value={stateIssued}
-                            onChangeText={(value) => updatePrincipalInfo('stateIssued', value)}
-                            onFocus={() => scrollPrincipalTo(940)}
+                            onChangeText={(value) => updatePrincipalInfo('stateIssued', value,'',isPrincipalSecond)}
+                            onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 980 :940)}
                         />
                     </View>
                 </View>

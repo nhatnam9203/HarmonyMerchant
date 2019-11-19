@@ -54,7 +54,7 @@ class PopupCalendar extends React.Component {
         const { startDate, endDate } = this.state;
         const temptstartDate = new Date(startDate).getTime();
         const temptEndDate = new Date(endDate).getTime();
-        const isBefore = parseInt(temptstartDate) < parseInt(temptEndDate) ? true : false
+        const isBefore = parseInt(temptstartDate) <= parseInt(temptEndDate) ? true : false
         if (isBefore) {
             this.props.changeTitleTimeRange('Customize Date');
             await this.setState({
