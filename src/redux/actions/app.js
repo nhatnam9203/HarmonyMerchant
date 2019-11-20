@@ -177,9 +177,10 @@ export function closePopupEnterPin() {
 }
 
 
-export function agreeTerm() {
+export function agreeTerm(visible = true) {
     return {
         type: 'AGREE_TERM',
+        payload: visible
     }
 }
 

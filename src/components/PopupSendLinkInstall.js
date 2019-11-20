@@ -99,7 +99,11 @@ class PopupSendLinkInstall extends React.Component {
                                 paddingHorizontal: scaleSzie(10),
                             }} >
                                 <TextInputMask
-                                    type="only-numbers"
+                                    // type="only-numbers"
+                                    type={'custom'}
+                                    options={{
+                                        mask: '999-999-9999'
+                                    }}
                                     style={{
                                         flex: 1, fontSize: scaleSzie(18),
                                         //  textAlign: 'center',

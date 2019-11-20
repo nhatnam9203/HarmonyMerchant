@@ -17,7 +17,8 @@ class TermsScreen extends Layout {
         // this.setState(prevState => ({
         //     isAgree: !prevState.isAgree
         // }))
-        this.props.actions.app.agreeTerm();
+        const {isAgreeTerm} = this.props;
+        this.props.actions.app.agreeTerm(!isAgreeTerm);
     }
 
     nextScreen = () => {

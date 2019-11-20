@@ -21,7 +21,7 @@ function appReducer(state = initialState, action) {
         case 'AGREE_TERM':
             return {
                 ...state,
-                isAgreeTerm: true
+                isAgreeTerm: action.payload
             }
         case 'RESET_AGREE_TERM':
             return {
