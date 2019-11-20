@@ -22,7 +22,6 @@ class SplashScreen extends Layout {
         } else {
             this.checkForUpdateCodepush();
         }
-        // this.controlFlowInitApp();
     }
 
     checkForUpdateCodepush() {
