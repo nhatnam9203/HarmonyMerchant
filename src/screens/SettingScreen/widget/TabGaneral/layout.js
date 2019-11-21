@@ -9,6 +9,7 @@ import {
 import { ButtonCustom, Text, Dropdown } from '@components';
 import { scaleSzie, localize, WorkingTime, getNameStateById } from '@utils';
 import IMAGE from '@resources';
+import configs from '@configs';
 
 class Layout extends React.Component {
 
@@ -255,6 +256,14 @@ class Layout extends React.Component {
                         title={localize('Merchant ID', language)}
                         value={merchantCode}
                     />
+
+                    <View style={{height:scaleSzie(50),
+                justifyContent:"flex-end",alignItems:"flex-end"
+                }} >
+                        <Text style={{color:"rrgb(57,54,60)",fontSize:scaleSzie(14),fontWeight:"600"}} >
+                            Version : {configs.VERSION}- build: {configs.BUILD}
+                        </Text>
+                    </View>
                     <View style={{ height: scaleSzie(250) }} />
                 </ScrollView>
             </View>
