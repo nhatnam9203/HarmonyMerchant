@@ -100,7 +100,7 @@ export default class Layout extends React.Component {
         const { listStaffsSalary, refreshListStaffsSalary, listStaffsCalendar } = this.props;
         return (
             <ScrollView
-                contentContainerStyle={listStaffsCalendar.length > 3 ? null : { flex: 1 }}
+                contentContainerStyle={listStaffsCalendar.length > 0 ? null : { flex: 1 }}
                 showsHorizontalScrollIndicator={false}
                 horizontal>
                 <View style={{ flex: 1, width: '100%' }}>

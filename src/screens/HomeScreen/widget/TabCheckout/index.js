@@ -614,7 +614,8 @@ class TabCheckout extends Layout {
     async printInvoice(isShowTip = false) {
         // ------------------------
         const { appointmentDetail } = this.props;
-        const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
+        const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal,methodPayment } = this.state;
+        // methodPayment === 'credit_card'
 
         const tipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
         const subTotal = appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
@@ -834,6 +835,20 @@ class TabCheckout extends Layout {
                     commands.push({
                         appendAbsolutePosition: 0,
                         data: `TOTAL`
+                    })
+
+                    commands.push({
+                        appendAbsolutePosition: 180,
+                        data: `_ _ _ _ _ _ _ _ _\n`
+                    });
+                }
+
+                if( methodPayment === 'credit_card'){
+                    commands.push({ appendLineFeed: 1 });
+                    commands.push({ enableEmphasis: true });
+                    commands.push({
+                        appendAbsolutePosition: 0,
+                        data: `Signature`
                     })
 
                     commands.push({
