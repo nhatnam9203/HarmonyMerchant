@@ -171,7 +171,7 @@ class Layout extends React.Component {
                         />
                         <View style={{ flex: 1 }} >
                             {/* ----- Header ---- */}
-                            <Button onPress={this.showColAmount} style={{
+                            <View style={{
                                 height: scaleSzie(46),
                                 borderBottomColor: '#404040',
                                 borderTopColor: '#404040',
@@ -183,7 +183,7 @@ class Layout extends React.Component {
                                 <Text style={styles.textHeader} >
                                     {localize(temptHeader, language)}
                                 </Text>
-                            </Button>
+                            </View>
                             {/* ------- Content ----- */}
                             <View style={{ flex: 1 }} >
                                 {
