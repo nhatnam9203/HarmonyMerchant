@@ -191,6 +191,7 @@ export default class Layout extends React.Component {
                 />
                 <InputFormPhone
                     isNotShowDropdown={true}
+                    mark='999-99-9999'
                     title={localize('Social Security Number (SSN) *', language)}
                     subTitle=""
                     placeholder=""

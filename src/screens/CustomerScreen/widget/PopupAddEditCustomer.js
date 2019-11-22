@@ -123,8 +123,8 @@ class PopupAddEditCustomer extends React.Component {
             };
             const temptCustomerInfo = {
                 ...customerInfo,
-                phone: `${this.state.codeAreaPhone}${customerInfo.phone}`,
-                referrerPhone: `${this.state.codeReferrerPhone}${customerInfo.referrerPhone}`,
+                phone: customerInfo.phone === '' ? '' : `${this.state.codeAreaPhone}${customerInfo.phone}`,
+                referrerPhone: customerInfo.referrerPhone === '' ? '' : `${this.state.codeReferrerPhone}${customerInfo.referrerPhone}`,
                 addressPost: temptAddress
             };
             // console.log('temptCustomerInfo : ' ,temptCustomerInfo);
@@ -354,7 +354,11 @@ class PopupAddEditCustomer extends React.Component {
                                             onFocus={() => this.scrollCustomerTo(60)}
                                         /> */}
                                         <TextInputMask
-                                            type="only-numbers"
+                                            // type="only-numbers"
+                                            type={'custom'}
+                                            options={{
+                                                mask: '999-999-9999'
+                                            }}
                                             placeholder="0123 456 456"
                                             style={{ flex: 1, fontSize: scaleSzie(16) }}
                                             value={referrerPhone}

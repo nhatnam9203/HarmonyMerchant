@@ -34,7 +34,7 @@ export default class InputFormPhone extends React.PureComponent {
         const { title, subTitle, placeholder, style, value,
             onChangeText, secureTextEntry, keyboardType,
             isOnlyNumber, maxLength, editable, onFocus,
-            isNotShowDropdown
+            isNotShowDropdown,mark
         } = this.props;
         const temptHeight = Platform.OS === 'ios' ? 30 : 40
         return (
@@ -74,7 +74,7 @@ export default class InputFormPhone extends React.PureComponent {
                         <TextInputMask
                             type={'custom'}
                             options={{
-                                mask: '999-999-9999'
+                                mask: mark ? mark : '999-999-9999'
                             }}
                             style={{ flex: 1, fontSize: scaleSzie(16) }}
                             placeholder={placeholder}

@@ -602,7 +602,7 @@ class TabCheckout extends Layout {
         const hours = parseInt(new Date().getHours()) - 12 > 0 ? parseInt(new Date().getHours()) - 13 : parseInt(new Date().getHours());
         const surfix = parseInt(new Date().getHours()) - 12 > 0 ? 'PM' : 'AM'
         // const temptDate = `${hours}:${new Date().getMinutes()}:${new Date().getSeconds()} ${surfix}`;
-        const temptDate = `${hours}:${new Date().getMinutes()} ${surfix}`;
+        const temptDate = `${hours}:${(new Date().getMinutes()) > 10 ? (new Date().getMinutes()) : `0${(new Date().getMinutes())}`} ${surfix}`;
 
         return temptDate;
     }
