@@ -228,7 +228,7 @@ class PrincipalScreen extends Layout {
                 }
 
                 else {
-                    if (principalInfo2[arrayKey[i]] === '') {
+                    if (principalInfo2[arrayKey[i]] === '' && arrayKey[i] !== 'homePhone') {
                         keyError = arrayKey[i];
                         break;
                     } else {
@@ -298,7 +298,7 @@ class PrincipalScreen extends Layout {
             }
 
             else {
-                if (principalInfo[arrayKey[i]] === '') {
+                if (principalInfo[arrayKey[i]] === '' && arrayKey[i] !== 'homePhone') {
                     keyError = arrayKey[i];
                     break;
                 } else {

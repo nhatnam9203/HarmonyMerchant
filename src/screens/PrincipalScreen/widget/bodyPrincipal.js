@@ -102,7 +102,7 @@ export default class Layout extends React.Component {
                     <View style={{ flex: 1 }} >
                         <InputFormPhone
                             ref={this.homePhoneRef}
-                            title={localize('Home Phone *', language)}
+                            title={localize('Home Phone', language)}
                             subTitle=""
                             placeholder=""
                             value={homePhone}

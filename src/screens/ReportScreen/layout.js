@@ -31,7 +31,8 @@ export default class Layout extends React.Component {
 
     renderFilter() {
         const { titleRangeTime } = this.state;
-        const temptColorTextTimeRange = titleRangeTime === 'This Week' ? 'rgb(155,155,155)' : 'rgb(38,38,38)';
+        // const temptColorTextTimeRange = titleRangeTime === 'This Week' ? 'rgb(155,155,155)' : 'rgb(38,38,38)';
+        const temptColorTextTimeRange = 'rgb(38,38,38)';
         return (
             <View style={{ paddingHorizontal: scaleSzie(20), marginTop: scaleSzie(20), marginBottom: scaleSzie(10) }} >
                 {/* ---------- Row 1 ---------- */}
