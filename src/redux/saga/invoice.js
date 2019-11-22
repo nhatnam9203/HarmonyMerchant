@@ -39,12 +39,12 @@ function* getListInvoicesByMerchant(action) {
 }
 
 function* searchInvoice(action) {
-    console.log(action)
+    // console.log(action)
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-         console.log('searchInvoice : ', responses);
+        //  console.log('searchInvoice : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({

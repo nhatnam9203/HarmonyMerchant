@@ -343,7 +343,7 @@ function* updateStaffsPosition(action) {
 }
 
 function* getListStaffsSalaryTop(action) {
-    console.log(action)
+    // console.log(action)
     try {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);

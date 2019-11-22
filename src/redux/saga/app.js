@@ -17,7 +17,7 @@ function* registerUser(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         // console.log('--- registerUser : ', responses);
-        console.log('----- body register : ' + JSON.stringify(action.body));
+        // console.log('----- body register : ' + JSON.stringify(action.body));
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {

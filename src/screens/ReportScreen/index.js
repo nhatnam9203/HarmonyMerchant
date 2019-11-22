@@ -78,7 +78,7 @@ class ReportScreen extends Layout {
             url = `timeStart=${startDate}&timeEnd=${endDate}`;
         } else {
             const filter = quickFilter === false ? 'This Week' : quickFilter;
-            console.log('quickFilter',quickFilter)
+            // console.log('quickFilter',quickFilter)
             url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
         }
         this.props.actions.staff.getListStaffsSalaryTop(url, true);
