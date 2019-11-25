@@ -62,6 +62,8 @@ export default {
     top_scroll_active : require('./img/top_scroll_active.png'),
     add_appointment_checkout: require('./img/add_appointment_checkout.png'),
     add_discount_checkout: require("./img/add_discount_checkout.png"),
+    close_customer_basket: require("./img/close_customer_basket.png"),
+    open_customer_basket: require("./img/open_customer_basket.png"),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),
