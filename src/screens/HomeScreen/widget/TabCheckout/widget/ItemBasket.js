@@ -4,7 +4,7 @@ import {
     Image,
 
 } from 'react-native';
-import Swipeout from 'react-native-swipeout'
+import Swipeout from 'react-native-swipeout';
 
 import { scaleSzie, localize } from '@utils';
 import { Text, Button } from '@components';
@@ -12,15 +12,14 @@ import IMAGE from '@resources';
 
 const ItemBasket = ({ item, removeItemBasket, onPress }) => {
     const { data } = item;
-    // console.log('---- item : ', item);
     const swipeoutBtns = [
         {
-            backgroundColor: '#fff',
+            backgroundColor: '#6A6A6A',
             component: <Button onPress={() => removeItemBasket(item)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
-                <Image source={IMAGE.removeItemBasket} style={{ width: scaleSzie(26), height: scaleSzie(26) }} />
+                <Image source={IMAGE.removeItemBasket} style={{ width: scaleSzie(24), height: scaleSzie(24) }} />
             </Button>,
         }
-    ]
+    ];
     return (
         <Swipeout
             right={swipeoutBtns}

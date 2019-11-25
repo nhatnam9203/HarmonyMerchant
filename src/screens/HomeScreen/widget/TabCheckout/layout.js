@@ -354,6 +354,18 @@ class Layout extends React.Component {
                                 />)
                             }
                         </ItemCustomerBasket>
+                        <ItemCustomerBasket 
+                        language={language}
+                        >
+                            {
+                                basket.map((item, index) => <ItemBasket
+                                    key={index}
+                                    item={item}
+                                    removeItemBasket={this.removeItemBasket}
+                                    onPress={this.changeStylist}
+                                />)
+                            }
+                        </ItemCustomerBasket>
                     </ScrollView>
                         {/* ------ Items Basket ------- */}
                         {/* <ScrollView showsVerticalScrollIndicator={false} >

@@ -249,7 +249,7 @@ class Layout extends React.Component {
                     ref={this.scrollTabRef}
                     style={{}}
                     initialPage={0}
-                    // locked={true}
+                    locked={true}
                     renderTabBar={() => <View />}
                     onChangeTab={(index) => {
                         this.setState({ tabCurrent: index.i })

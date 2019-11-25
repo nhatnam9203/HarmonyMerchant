@@ -9,6 +9,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import Collapsible from 'react-native-collapsible';
+import Swipeout from 'react-native-swipeout';
 
 import { ButtonCustom, PopupParent, Button } from '@components';
 import { scaleSzie, localize, getCategoryName, formatMoney } from '@utils';
@@ -26,31 +27,49 @@ class ItemCustomerBasket extends React.Component {
         }
     }
 
-    toggleCollaps =() =>{
+    toggleCollaps = () => {
         this.setState(prevState => ({
-            isCollapsed : !prevState.isCollapsed
+            isCollapsed: !prevState.isCollapsed
         }))
     }
 
     // ---------- Render --------
 
     renderHeaderCustomerBaket() {
+        const { isCollapsed } = this.state;
+        const iconCollaps = isCollapsed ? IMAGE.open_customer_basket : IMAGE.close_customer_basket;
+        const swipeoutBtns = [
+            {
+                backgroundColor: '#6A6A6A',
+                component: <Button onPress={() => removeItemBasket(item)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+                    <Image source={IMAGE.removeItemBasket} style={{ width: scaleSzie(24), height: scaleSzie(24) }} />
+                </Button>,
+            }
+        ];
+
         return (
-            <View style={{
-                height: scaleSzie(35), backgroundColor: "#0764B0", paddingHorizontal: scaleSzie(10),
-                flexDirection: "row", alignItems: "center"
-            }} >
-                <Text style={{ color: "#fff", fontSize: scaleSzie(16), fontWeight: "bold" }} >
-                    #04 - Samatha Colins
+            <Swipeout
+                right={swipeoutBtns}
+                buttonWidth={scaleSzie(45)}
+                // disabled={true}
+                close={true}
+            >
+                <View style={{
+                    height: scaleSzie(35), backgroundColor: "#0764B0", paddingHorizontal: scaleSzie(10),
+                    flexDirection: "row", alignItems: "center"
+                }} >
+                    <Text style={{ color: "#fff", fontSize: scaleSzie(16), fontWeight: "bold" }} >
+                        #04 - Samatha Colins
                 </Text>
-                <View style={{ flex: 1, alignItems: "flex-end" }} >
-                    <Button onPress={this.toggleCollaps} >
-                        <Image source={IMAGE.open_customer_basket}
-                            style={{ width: scaleSzie(28), height: scaleSzie(28) }}
-                        />
-                    </Button>
+                    <View style={{ flex: 1, alignItems: "flex-end" }} >
+                        <Button onPress={this.toggleCollaps} >
+                            <Image source={iconCollaps}
+                                style={{ width: scaleSzie(28), height: scaleSzie(28) }}
+                            />
+                        </Button>
+                    </View>
                 </View>
-            </View>
+            </Swipeout>
         );
     }
 
