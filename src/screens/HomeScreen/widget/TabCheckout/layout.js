@@ -19,7 +19,7 @@ import IMAGE from '@resources';
 import {
     ItemCategory, ColPlaceHolder, ItemBasket, ItemProductService, ItemAmount,
     ItemExtra, PopupDiscount, PopupProcessingCredit, PopupBill, PopupDiscountLocal,PopupEnterInfo,
-    PopupEnterCustomerPhone
+    PopupEnterCustomerPhone,ItemCustomerBasket
 } from './widget';
 
 class Layout extends React.Component {
@@ -323,8 +323,7 @@ class Layout extends React.Component {
         return (
             <View style={{ flex: 1 }} >
                 {/* -------- Header Basket -------- */}
-                <View style={[styles.headerBasket,{flexDirection:"row",paddingHorizontal:scaleSzie(10),
-            // justifyContent:"space-between"
+                <View style={[styles.headerBasket,{flexDirection:"row",paddingHorizontal:scaleSzie(8),
             },]} >
                     <View style={{flex:1}} />
                     <Text style={styles.textHeader} >
@@ -357,9 +356,7 @@ class Layout extends React.Component {
                     </View>
                     {/* ----------- Payment Number --------- */}
                     <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
-                        <View style={{ flex: 1 }} />
-
-                        <View style={{ flex: 1.5, paddingRight: scaleSzie(12) }} >
+                        <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
                             {/* ---------- Price ------ */}
                             <View style={styles.payNumberTextContainer} >
                                 <Text style={styles.textPay} >
@@ -391,10 +388,10 @@ class Layout extends React.Component {
                             <View style={styles.payNumberTextContainer} >
                                 <Button onPress={this.showModalDiscount} >
                                     <Text style={styles.textPay} >
-                                        {`${localize('Discount', language)}:`}
+                                        {`${localize('Discount', language)}:  `}
 
-                                        <Image source={IMAGE.discountBtn}
-                                            style={{ width: scaleSzie(20), height: scaleSzie(20) }}
+                                        <Image source={IMAGE.add_discount_checkout}
+                                            style={{ width: scaleSzie(20), height: scaleSzie(20)}}
                                         />
 
                                     </Text>

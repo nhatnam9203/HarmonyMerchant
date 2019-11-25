@@ -10,6 +10,7 @@ import PopupBill from './PopupBill';
 import PopupDiscountLocal from './PopupDiscountLocal';
 import PopupEnterInfo from './PopupEnterInfo';
 import PopupEnterCustomerPhone from './PopupEnterCustomerPhone';
+import ItemCustomerBasket from './ItemCustomerBasket';
 
 module.exports = {
     ItemCategory,
@@ -23,5 +24,6 @@ module.exports = {
     PopupBill,
     PopupDiscountLocal,
     PopupEnterInfo,
-    PopupEnterCustomerPhone
+    PopupEnterCustomerPhone,
+    ItemCustomerBasket
 }
