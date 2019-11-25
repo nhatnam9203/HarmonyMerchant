@@ -60,6 +60,7 @@ export default {
     cashier_btn: require('./img/cashier_btn.png'),
     right_scroll_active : require('./img/right_scroll_active.png'),
     top_scroll_active : require('./img/top_scroll_active.png'),
+    add_appointment_checkout: require('./img/add_appointment_checkout.png'),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),

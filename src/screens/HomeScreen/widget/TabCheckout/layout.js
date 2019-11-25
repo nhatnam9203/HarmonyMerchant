@@ -323,10 +323,22 @@ class Layout extends React.Component {
         return (
             <View style={{ flex: 1 }} >
                 {/* -------- Header Basket -------- */}
-                <View style={styles.headerBasket} >
+                <View style={[styles.headerBasket,{flexDirection:"row",paddingHorizontal:scaleSzie(10),
+            // justifyContent:"space-between"
+            },]} >
+                    <View style={{flex:1}} />
                     <Text style={styles.textHeader} >
                         {localize('Basket', language)}
                     </Text>
+                    <View style={{flex:1,alignItems:"flex-end"}} >
+                        <Button onPress={this.addAppointmentCheckout} >
+                        <Image 
+                        source={IMAGE.add_appointment_checkout} 
+                        style={{width:scaleSzie(25),height:scaleSzie(25)}}
+                        />
+                        </Button>
+                        
+                    </View>
                 </View>
                 {/* -------- Content Basket -------- */}
                 <View style={{ flex: 1 }} >

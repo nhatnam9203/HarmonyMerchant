@@ -33,7 +33,8 @@ const ItemBasket = ({ item, removeItemBasket, onPress }) => {
                     onPress(item);
                 }
             }} style={{
-                height: scaleSzie(40), backgroundColor: '#0764B0', borderBottomColor: '#fff', borderBottomWidth: 2,
+                height: scaleSzie(35), backgroundColor: '#fff', borderBottomColor: '#DDDDDD', borderBottomWidth: 1,
+                borderTopColor:"#DDDDDD",borderTopWidth:1,
                 flexDirection: 'row'
             }} >
                 {/* -------- Avatar ------- */}
@@ -57,7 +58,7 @@ const ItemBasket = ({ item, removeItemBasket, onPress }) => {
                 <View style={{ flex: 1, flexDirection: 'row' }} >
                     {/* ------------ */}
                     <View style={{ flex: 1, justifyContent: 'center' }} >
-                        <Text style={{ color: '#fff', fontSize: scaleSzie(13), }} >
+                        <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(13), }} >
                             {
                                 item.type === 'Service' ? (item.staff && item.staff.displayName ? item.staff.displayName : '') : data.name
                             }
@@ -67,7 +68,7 @@ const ItemBasket = ({ item, removeItemBasket, onPress }) => {
                     {/* ------------ */}
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
 
-                        <Text style={{ color: '#fff', fontSize: scaleSzie(13), }} >
+                        <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(13), }} >
                             {item.type === 'Product' ? item.quanlitySet : item.data.name}
                         </Text>
                     </View>
@@ -75,7 +76,7 @@ const ItemBasket = ({ item, removeItemBasket, onPress }) => {
                     <View style={{
                         flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(10),
                     }} >
-                        <Text style={{ color: '#fff', fontSize: scaleSzie(14), }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(14), }} >
                             {`$ ${data.price}`}
                         </Text>
                     </View>

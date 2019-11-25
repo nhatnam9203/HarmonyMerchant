@@ -22,6 +22,7 @@ export default StyleSheet.create({
     },
     textHeader: {
         fontSize: scaleSzie(20),
+        fontWeight:"600",
         color: '#404040'
     },
     categoriesHeader: {
@@ -65,7 +66,7 @@ export default StyleSheet.create({
         borderLeftWidth: 0,
         borderTopWidth: 0,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     payNumberTextContainer: {
         flexDirection: 'row',

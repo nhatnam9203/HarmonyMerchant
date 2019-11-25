@@ -1308,6 +1308,12 @@ class TabCheckout extends Layout {
         })
     }
 
+    // ----------- Change Flow Checkout ------------
+
+    addAppointmentCheckout = () =>{
+        alert("ddd")
+    }
+
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { currentTabParent, appointmentDetail, loading, isGetAppointmentSucces,
