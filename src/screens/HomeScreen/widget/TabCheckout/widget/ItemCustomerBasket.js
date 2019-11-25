@@ -8,6 +8,7 @@ import {
     Image,
     TouchableOpacity,
 } from 'react-native';
+import Collapsible from 'react-native-collapsible';
 
 import { ButtonCustom, PopupParent, Button } from '@components';
 import { scaleSzie, localize, getCategoryName, formatMoney } from '@utils';
@@ -21,7 +22,14 @@ class ItemCustomerBasket extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            isCollapsed: false
         }
+    }
+
+    toggleCollaps =() =>{
+        this.setState(prevState => ({
+            isCollapsed : !prevState.isCollapsed
+        }))
     }
 
     // ---------- Render --------
@@ -36,9 +44,11 @@ class ItemCustomerBasket extends React.Component {
                     #04 - Samatha Colins
                 </Text>
                 <View style={{ flex: 1, alignItems: "flex-end" }} >
-                    <Image source={IMAGE.open_customer_basket}
-                        style={{ width: scaleSzie(28), height: scaleSzie(28) }}
-                    />
+                    <Button onPress={this.toggleCollaps} >
+                        <Image source={IMAGE.open_customer_basket}
+                            style={{ width: scaleSzie(28), height: scaleSzie(28) }}
+                        />
+                    </Button>
                 </View>
             </View>
         );
@@ -47,6 +57,7 @@ class ItemCustomerBasket extends React.Component {
 
 
     render() {
+        const { isCollapsed } = this.state;
         const { language } = this.props;
         const temptSubTotal = 10;
         const temptTotal = 10;
@@ -56,65 +67,90 @@ class ItemCustomerBasket extends React.Component {
         return (
             <View>
                 {this.renderHeaderCustomerBaket()}
-                {/* ----------- Item Product , Service , Extra --------- */}
-                {this.props.children}
-                {/* ----------- Payment Number --------- */}
-                <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
-                    <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
-                        {/* ---------- Price ------ */}
-                        <View style={styles.payNumberTextContainer} >
-                            <Text style={styles.textPay} >
-                                {`${localize('Subtotal', language)}:`}
-                            </Text>
-                            <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                {`$${formatMoney(temptSubTotal)}`}
-                            </Text>
-                        </View>
-                        {/* ---------- Tip ------ */}
-                        <View style={styles.payNumberTextContainer} >
-                            <Text style={styles.textPay} >
-                                {`${localize('Tip', language)}:`}
-                            </Text>
-                            <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                {`$${formatMoney(temptTip)}`}
-                            </Text>
-                        </View>
-                        {/* ---------- Discount ------ */}
-                        <View style={styles.payNumberTextContainer} >
-                            <Button onPress={this.showModalDiscount} >
+                <Collapsible collapsed={isCollapsed}>
+                    {/* ----------- Item Product , Service , Extra --------- */}
+                    {this.props.children}
+                    {/* ----------- Payment Number --------- */}
+                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                        <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
+                            {/* ---------- Price ------ */}
+                            <View style={styles.payNumberTextContainer} >
                                 <Text style={styles.textPay} >
-                                    {`${localize('Discount', language)}:  `}
-
-                                    <Image source={IMAGE.add_discount_checkout}
-                                        style={{ width: scaleSzie(20), height: scaleSzie(20) }}
-                                    />
-
+                                    {`${localize('Subtotal', language)}:`}
                                 </Text>
-                            </Button>
-                            <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                {`$ ${formatMoney(temptDiscount)}`}
-                            </Text>
-                        </View>
-                        {/* ---------- Tax ------ */}
-                        <View style={styles.payNumberTextContainer} >
-                            <Text style={styles.textPay} >
-                                {`${localize('Tax', language)}:`}
-                            </Text>
-                            <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                {`$ ${formatMoney(temptTax)}`}
-                            </Text>
-                        </View>
-                        {/* ---------- Total ------ */}
-                        <View style={styles.payNumberTextContainer} >
-                            <Text style={[styles.textPay, { fontSize: scaleSzie(20) }]} >
-                                {`${localize('Total', language)}:`}
-                            </Text>
-                            <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(20), fontWeight: "bold" }]} >
-                                {`$${formatMoney(`${temptTotal}`)}`}
-                            </Text>
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                    {`$${formatMoney(temptSubTotal)}`}
+                                </Text>
+                            </View>
+                            {/* ---------- Tip ------ */}
+                            <View style={styles.payNumberTextContainer} >
+                                <Text style={styles.textPay} >
+                                    {`${localize('Tip', language)}:`}
+                                </Text>
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                    {`$${formatMoney(temptTip)}`}
+                                </Text>
+                            </View>
+                            {/* ---------- Discount ------ */}
+                            <View style={styles.payNumberTextContainer} >
+                                <Button onPress={this.showModalDiscount} >
+                                    <Text style={styles.textPay} >
+                                        {`${localize('Discount', language)}:  `}
+
+                                        <Image source={IMAGE.add_discount_checkout}
+                                            style={{ width: scaleSzie(20), height: scaleSzie(20) }}
+                                        />
+
+                                    </Text>
+                                </Button>
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                    {`$ ${formatMoney(temptDiscount)}`}
+                                </Text>
+                            </View>
+                            {/* ---------- Gift card ------ */}
+                            <View style={styles.payNumberTextContainer} >
+                                <View style={{
+                                    flexDirection: "row", alignItems: "center", height: scaleSzie(20),
+                                }} >
+                                    <Image source={IMAGE.checkBox} style={{ marginRight: scaleSzie(8) }} />
+                                    <Text style={[styles.textPay, { fontSize: scaleSzie(15) }]} >
+                                        {`${localize('Use gift card', language)}:`}
+                                        <Text style={[styles.textPay, { fontSize: scaleSzie(14) }]} >
+                                            {`(Value : $ 0)`}
+                                        </Text>
+                                    </Text>
+                                </View>
+
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                    {`$ ${formatMoney(temptTax)}`}
+                                </Text>
+                            </View>
+                            {/* ---------- Tax ------ */}
+                            <View style={styles.payNumberTextContainer} >
+                                <Text style={styles.textPay} >
+                                    {`${localize('Tax', language)}:`}
+                                </Text>
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                    {`$ ${formatMoney(temptTax)}`}
+                                </Text>
+                            </View>
+                            {/* ---------- Line ------ */}
+                            <View style={{
+                                height: 2, backgroundColor: "#DDDDDD", marginTop: scaleSzie(2),
+                                marginBottom: scaleSzie(6)
+                            }} />
+                            {/* ---------- Total ------ */}
+                            <View style={styles.payNumberTextContainer} >
+                                <Text style={[styles.textPay, { fontSize: scaleSzie(20) }]} >
+                                    {`${localize('Total', language)}:`}
+                                </Text>
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(20), fontWeight: "bold" }]} >
+                                    {`$${formatMoney(`${temptTotal}`)}`}
+                                </Text>
+                            </View>
                         </View>
                     </View>
-                </View>
+                </Collapsible>
             </View>
         );
     }

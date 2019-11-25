@@ -4,6 +4,7 @@ import {
     Image,
     Dimensions
 } from 'react-native';
+import Collapsible from 'react-native-collapsible';
 
 import { scaleSzie } from '@utils';
 import styles from '../style';
@@ -17,13 +18,13 @@ class ItemPromo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isShowContent: this.props.isShowContent 
+            isShowContent: !this.props.isShowContent
         }
 
     }
 
     selectCheckBox = () => {
-       this.props.checkSelectPromotion();
+        this.props.checkSelectPromotion();
     }
 
     showContent = () => {
@@ -33,8 +34,8 @@ class ItemPromo extends React.Component {
     }
 
     render() {
-        const {  isShowContent } = this.state;
-        const { title, style ,isSelected} = this.props;
+        const { isShowContent } = this.state;
+        const { title, style, isSelected } = this.props;
         const temptIconCheckBox = isSelected ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
             <View style={[{ width: width, paddingHorizontal: scaleSzie(15) }, style]} >
@@ -62,7 +63,7 @@ class ItemPromo extends React.Component {
                             width: scaleSzie(50), justifyContent: 'center',
                             alignItems: 'flex-end'
                         }} >{
-                                isShowContent ? <Image source={IMAGE.sub} style={{ width: scaleSzie(18), height: scaleSzie(5) }} />
+                                !isShowContent ? <Image source={IMAGE.sub} style={{ width: scaleSzie(18), height: scaleSzie(5) }} />
                                     :
                                     <Image source={IMAGE.plus} style={{ width: scaleSzie(18), height: scaleSzie(18) }} />
                             }
@@ -77,9 +78,9 @@ class ItemPromo extends React.Component {
 
                     </View>
                     {/* ------- Content ------- */}
-                    {
-                        isShowContent ? this.props.children : <View />
-                    }
+                    <Collapsible collapsed={isShowContent}>
+                        {this.props.children}
+                    </Collapsible>
                 </View>
 
             </View>
