@@ -9,7 +9,9 @@ const initialState = {
     appointmentIdOffline: '',
     connectionSignalR: {},
     flagSignInAppointment: false,
-    listAppointmentsOfflineMode: []
+    listAppointmentsOfflineMode: [],
+
+    groupAppointments: []
 }
 
 function appReducer(state = initialState, action) {
@@ -23,6 +25,7 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 appointmentDetail: action.payload,
+                groupAppointments:[action.payload],
                 isGetAppointmentSucces: true
             }
         case 'GET_APPOINTMENT_BY_ID_FAIL':

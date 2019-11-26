@@ -1018,11 +1018,10 @@ class TabCheckout extends Layout {
             });
 
             connection.onclose(async (error) => {
-                console.log('----- Close -----');
+                // console.log('----- Close -----');
                 this.props.actions.appointment.resetConnectSignalR();
             });
 
-            console.log('connection : ' + JSON.stringify(connection));
 
             connection.start()
                 .then(() => this.props.actions.appointment.referenceConnectionSignalR(connection));
@@ -1315,6 +1314,29 @@ class TabCheckout extends Layout {
 
     // ----------- Change Flow Checkout ------------
 
+    getTypesOfMoneyAppointmenr = (appointmentDetail) => {
+        const tipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
+        const subTotal = appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
+        const discount = appointmentDetail.discount ? appointmentDetail.discount : 0;
+        const tax = appointmentDetail.tax ? appointmentDetail.tax : 0;
+        const total = appointmentDetail.total ? appointmentDetail.total : 0;
+
+        const temptSubTotal = _.isEmpty(appointmentDetail) ? subTotalLocal : subTotal;
+        const temptTotal = _.isEmpty(appointmentDetail) ? Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2) : total;
+        const temptDiscount = _.isEmpty(appointmentDetail) ? discountTotalLocal : discount;
+        const temptTip = _.isEmpty(appointmentDetail) ? tipLocal : tipAmount;
+        const temptTax = _.isEmpty(appointmentDetail) ? taxLocal : tax;
+
+        return {
+            temptSubTotal,
+            temptTotal,
+            temptDiscount,
+            temptTip,
+            temptTax
+        }
+
+    }
+
     addAppointmentCheckout = () => {
 
     }
@@ -1368,7 +1390,8 @@ const mapStateToProps = state => ({
     extrasByMerchant: state.extra.extrasByMerchant,
     listStaffByMerchant: state.staff.listStaffByMerchant,
     profileStaffLogin: state.dataLocal.profileStaffLogin,
-    isOfflineMode: state.network.isOfflineMode
+    isOfflineMode: state.network.isOfflineMode,
+    groupAppointments: state.appointment.groupAppointments
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);
