@@ -354,30 +354,25 @@ class Layout extends React.Component {
                                 />)
                             }
                         </ItemCustomerBasket>
-                        <ItemCustomerBasket 
-                        language={language}
-                        >
-                            {
-                                basket.map((item, index) => <ItemBasket
-                                    key={index}
-                                    item={item}
-                                    removeItemBasket={this.removeItemBasket}
-                                    onPress={this.changeStylist}
-                                />)
-                            }
-                        </ItemCustomerBasket>
+                       
+                        {/* ----------- Grand Total ----------- */}
+                        <View style={{paddingHorizontal:scaleSzie(10)}} >
+                            <View style={{height:2,backgroundColor:"#0764B0",marginTop:scaleSzie(10),marginBottom:scaleSzie(15)}} />
+                             {/* ---------- Tip ------ */}
+                             <View style={styles.payNumberTextContainer} >
+                                <Text style={[styles.textPay,{fontSize:scaleSzie(22),fontWeight:"bold",color:"#0764B0"}]} >
+                                    {`${localize('Grand Total:', language)}:`}
+                                </Text>
+                                <Text style={[styles.textPay, { fontSize:scaleSzie(22),fontWeight:"bold",color: 'rgb(65,184,85)' }]} >
+                                    {`$${formatMoney(10)}`}
+                                </Text>
+                            </View>
+                        </View>
+                       
+                        
+
                     </ScrollView>
-                        {/* ------ Items Basket ------- */}
-                        {/* <ScrollView showsVerticalScrollIndicator={false} >
-                            {
-                                basket.map((item, index) => <ItemBasket
-                                    key={index}
-                                    item={item}
-                                    removeItemBasket={this.removeItemBasket}
-                                    onPress={this.changeStylist}
-                                />)
-                            }
-                        </ScrollView> */}
+                       
                     </View>
                     
                 {/* -------- Footer Basket -------- */}

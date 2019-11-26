@@ -614,7 +614,7 @@ class TabCheckout extends Layout {
     async printInvoice(isShowTip = false) {
         // ------------------------
         const { appointmentDetail } = this.props;
-        const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal,methodPayment } = this.state;
+        const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal, methodPayment } = this.state;
         // methodPayment === 'credit_card'
 
         const tipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
@@ -843,7 +843,7 @@ class TabCheckout extends Layout {
                     });
                 }
 
-                if( methodPayment === 'credit_card'){
+                if (methodPayment === 'credit_card') {
                     commands.push({ appendLineFeed: 1 });
                     commands.push({ enableEmphasis: true });
                     commands.push({
@@ -1002,13 +1002,18 @@ class TabCheckout extends Layout {
 
             connection.on("ListWaNotification", (data) => {
                 const temptData = JSON.parse(data);
-                console.log('temptData : ' + JSON.stringify(temptData));
+                // console.log('temptData : ' + JSON.stringify(temptData));
                 if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
                     && temptData.data.appointmentId == appointmentDetail.appointmentId
                 ) {
                     this.props.actions.appointment.donePaymentHarmony();
-                    // this.props.actions.appointment.getAppointmentById(appointmentDetail.appointmentId);
                     connection.stop();
+                }
+                // ---------- Handle reload Tip in Customer App ---------
+                if (!_.isEmpty(temptData.data) && temptData.data.isTipAppointment
+                    && temptData.data.appointmentId == appointmentDetail.appointmentId
+                ) {
+                    this.props.actions.appointment.getAppointmentById(appointmentDetail.appointmentId);
                 }
             });
 
@@ -1310,8 +1315,8 @@ class TabCheckout extends Layout {
 
     // ----------- Change Flow Checkout ------------
 
-    addAppointmentCheckout = () =>{
-        alert("ddd")
+    addAppointmentCheckout = () => {
+
     }
 
 

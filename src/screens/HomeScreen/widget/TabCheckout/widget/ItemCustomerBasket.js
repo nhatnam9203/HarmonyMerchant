@@ -23,13 +23,20 @@ class ItemCustomerBasket extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isCollapsed: false
+            isCollapsed: false,
+            isSelectGiftCard: false
         }
     }
 
     toggleCollaps = () => {
         this.setState(prevState => ({
             isCollapsed: !prevState.isCollapsed
+        }))
+    }
+
+    selectCheckbox = () => {
+        this.setState(prevState => ({
+            isSelectGiftCard: !prevState.isSelectGiftCard
         }))
     }
 
@@ -40,7 +47,7 @@ class ItemCustomerBasket extends React.Component {
         const iconCollaps = isCollapsed ? IMAGE.open_customer_basket : IMAGE.close_customer_basket;
         const swipeoutBtns = [
             {
-                backgroundColor: '#6A6A6A',
+                backgroundColor: '#fff',
                 component: <Button onPress={() => removeItemBasket(item)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                     <Image source={IMAGE.removeItemBasket} style={{ width: scaleSzie(24), height: scaleSzie(24) }} />
                 </Button>,
@@ -76,13 +83,15 @@ class ItemCustomerBasket extends React.Component {
 
 
     render() {
-        const { isCollapsed } = this.state;
+        const { isCollapsed, isSelectGiftCard } = this.state;
         const { language } = this.props;
         const temptSubTotal = 10;
         const temptTotal = 10;
         const temptDiscount = 10;
         const temptTip = 10;
         const temptTax = 10;
+
+        const iconCheckbox = isSelectGiftCard ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
             <View>
                 {this.renderHeaderCustomerBaket()}
@@ -131,7 +140,9 @@ class ItemCustomerBasket extends React.Component {
                                 <View style={{
                                     flexDirection: "row", alignItems: "center", height: scaleSzie(20),
                                 }} >
-                                    <Image source={IMAGE.checkBox} style={{ marginRight: scaleSzie(8) }} />
+                                    <Button onPress={this.selectCheckbox} >
+                                        <Image source={iconCheckbox} style={{ marginRight: scaleSzie(8) }} />
+                                    </Button>
                                     <Text style={[styles.textPay, { fontSize: scaleSzie(15) }]} >
                                         {`${localize('Use gift card', language)}:`}
                                         <Text style={[styles.textPay, { fontSize: scaleSzie(14) }]} >
