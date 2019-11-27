@@ -56,15 +56,17 @@ export function resetKeyUpdateAppointment() {
 }
 
 
-export function checkoutAppointment(id,checkoutGroupId = 0) {
+export function checkoutAppointment(appointmentId, checkoutGroupId = 0) {
     return {
         type: 'CHECK_OUT_APPOINTMENT',
         body: {
-            checkoutGroupId:0
+            checkoutGroupId,
         },
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/checkout/${id}`,
+        api: `${apiConfigs.BASE_API}appointment/checkout/${appointmentId}`,
+        checkoutGroupId,
+        appointmentId
     }
 }
 

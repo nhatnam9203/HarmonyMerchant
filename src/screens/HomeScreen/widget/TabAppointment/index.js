@@ -363,6 +363,8 @@ const mapStateToProps = state => ({
 
     isLoginStaff: state.dataLocal.isLoginStaff,
     loading: state.app.loading,
+
+     
 })
 
 

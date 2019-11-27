@@ -11,7 +11,7 @@ const initialState = {
     flagSignInAppointment: false,
     listAppointmentsOfflineMode: [],
 
-    groupAppointment: []
+    groupAppointment: {}
 }
 
 function appReducer(state = initialState, action) {

@@ -69,9 +69,9 @@ class HomeScreen extends Layout {
                     taxProduct: profile.taxProduct,
                 });
             } catch (error) {
-                
+
             }
-           
+
         }
     }
 
@@ -144,15 +144,15 @@ class HomeScreen extends Layout {
         await this.setState({
             currentTab: 2
         })
-        // this.props.actions.appointment.getAppointmentById(appointmentId);
-        this.props.actions.appointment.getGroupAppointmentById(appointmentId);
-        this.props.actions.appointment.checkoutAppointment(appointmentId);
+        const { groupAppointment } = this.props;
+        const checkoutGroupId = groupAppointment.checkoutGroupId ? groupAppointment.checkoutGroupId : 0;
+        // this.props.actions.appointment.getGroupAppointmentById(appointmentId);
+        this.props.actions.appointment.checkoutAppointment(appointmentId, checkoutGroupId);
         this.scrollTabParentRef.current.goToPage(2);
     }
 
     bookAppointment = async (appointmentId) => {
         this.props.actions.appointment.getAppointmentById(appointmentId);
-        // this.props.actions.appointment.checkoutAppointment(appointmentId);
     }
 
     submitPincode = () => {
@@ -196,6 +196,12 @@ class HomeScreen extends Layout {
         }
     }
 
+    // ----------- Handle group appointment -------
+
+    gotoAppointmentTabToGroup = () => {
+        this.scrollTabParentRef.current.goToPage(1);
+    }
+
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();
@@ -214,7 +220,8 @@ const mapStateToProps = state => ({
     visibleModalLock: state.app.visibleModalLock,
     loading: state.app.loading,
     isLoginStaff: state.dataLocal.isLoginStaff,
-    listAppointmentsOfflineMode: state.appointment.listAppointmentsOfflineMode
+    listAppointmentsOfflineMode: state.appointment.listAppointmentsOfflineMode,
+    groupAppointment: state.appointment.groupAppointment
 })
 
 

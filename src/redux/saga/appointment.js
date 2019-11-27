@@ -127,11 +127,17 @@ function* removeItemIntoAppointment(action) {
 
 function* checkoutAppointment(action) {
     try {
-        // yield put({ type: 'LOADING_ROOT' });
+        yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('checkoutAppointment : ', responses);
+        console.log('checkoutAppointment : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: 'GET_GROUP_APPOINTMENT_BY_ID',
+                method: 'GET',
+                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId}`,
+                token: true
+            })
             if (action.isPayment) {
                 yield put({
                     type: 'PAY_APPOINTMENT',
@@ -157,7 +163,7 @@ function* checkoutAppointment(action) {
     } catch (error) {
         yield put({ type: error });
     } finally {
-        // yield put({ type: 'STOP_LOADING_ROOT' });
+        yield put({ type: 'STOP_LOADING_ROOT' });
     }
 }
 

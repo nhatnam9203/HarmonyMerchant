@@ -1338,7 +1338,7 @@ class TabCheckout extends Layout {
     }
 
     addAppointmentCheckout = () => {
-        
+        this.props.gotoAppointmentTabToGroup();
     }
 
 
