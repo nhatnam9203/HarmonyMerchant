@@ -264,8 +264,9 @@ class TabCheckout extends Layout {
 
     }
 
-    removeItemBasket = (item) => {
-        const { appointmentId, basket } = this.state;
+    removeItemBasket = (item, appointmentId = -1, isGroup = false) => {
+        console.log('appointmentId : ', appointmentId);
+        const { basket } = this.state;
         if (appointmentId !== -1) {
             // ----- Remove With Appointmnet 
             let dataRemove = {};
@@ -292,15 +293,16 @@ class TabCheckout extends Layout {
                     }
                     break;
             }
-            this.props.actions.appointment.removeItemIntoAppointment(dataRemove, appointmentId);
+            this.props.actions.appointment.removeItemIntoAppointment(dataRemove, appointmentId, isGroup);
         } else {
             // -------- Remove Offline --------
-            const temptBasket = basket.filter((itemBasket) => itemBasket.id !== item.id);
-            this.setState({
-                basket: temptBasket,
-                subTotalLocal: this.getPriceOfline(temptBasket),
-                taxLocal: this.calculateTotalTaxLocal(temptBasket)
-            })
+            alert("Remove Offline ")
+            // const temptBasket = basket.filter((itemBasket) => itemBasket.id !== item.id);
+            // this.setState({
+            //     basket: temptBasket,
+            //     subTotalLocal: this.getPriceOfline(temptBasket),
+            //     taxLocal: this.calculateTotalTaxLocal(temptBasket)
+            // })
         }
 
     }

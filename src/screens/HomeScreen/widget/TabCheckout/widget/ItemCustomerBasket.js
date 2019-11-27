@@ -133,7 +133,7 @@ class ItemCustomerBasket extends React.Component {
                         basket.map((item, index) => <ItemBasket
                             key={index}
                             item={item}
-                            removeItemBasket={(item) => removeItemBasket(item)}
+                            removeItemBasket={(item) => removeItemBasket(item,appointmentDetail.appointmentId,true)}
                             onPress={(service) => changeStylist(service)}
                         />)
                     }

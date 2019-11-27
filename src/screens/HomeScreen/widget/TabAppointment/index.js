@@ -250,7 +250,7 @@ class TabAppointment extends Layout {
                     }
                     break;
             }
-            this.props.actions.appointment.removeItemIntoAppointment(dataRemove, appointmentId);
+            this.props.actions.appointment.removeItemIntoAppointment(dataRemove, appointmentId,false);
         } else {
             // -------- Remove Offline --------
             const temptBasket = basket.filter((itemBasket) => itemBasket.id !== item.id);
