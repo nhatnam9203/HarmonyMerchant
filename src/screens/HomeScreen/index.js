@@ -146,7 +146,6 @@ class HomeScreen extends Layout {
         })
         const { groupAppointment } = this.props;
         const checkoutGroupId = groupAppointment.checkoutGroupId ? groupAppointment.checkoutGroupId : 0;
-        // this.props.actions.appointment.getGroupAppointmentById(appointmentId);
         this.props.actions.appointment.checkoutAppointment(appointmentId, checkoutGroupId);
         this.scrollTabParentRef.current.goToPage(2);
     }

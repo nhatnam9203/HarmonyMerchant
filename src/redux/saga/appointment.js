@@ -1,4 +1,4 @@
-import { put, takeLatest, all, join } from "redux-saga/effects";
+import { put, takeLatest, all, select } from "redux-saga/effects";
 import NavigationServices from "../../navigators/NavigatorServices";
 
 import { requestAPI, uploadFromData } from '../../utils';
@@ -368,6 +368,40 @@ function* cancleAppointment(action) {
     }
 }
 
+function* removeAppointmentInGroup(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        // console.log('removeAppointmentInGroup : ' + JSON.stringify(responses));
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            // ------- Get Group Appointment --------
+            const state = yield select();
+            const appointment = state.appointment.groupAppointment.appointments.find((appointment) => appointment.isMain === 1);
+            yield put({
+                type: 'GET_GROUP_APPOINTMENT_BY_ID',
+                method: 'GET',
+                api: `${apiConfigs.BASE_API}appointment/getGroupById/${appointment.appointmentId}`,
+                token: true
+            })
+
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 export default function* saga() {
     yield all([
         takeLatest('GET_APPOINTMENT_BY_ID', getAppointmentById),
@@ -382,5 +416,7 @@ export default function* saga() {
         takeLatest('SUBMIT_APPOINTMENT_OFFLINE', submitAppointmentOffline),
         takeLatest('CANCEL_APPOINTMENT', cancleAppointment),
         takeLatest('GET_GROUP_APPOINTMENT_BY_ID', getGroupAppointmentById),
+        takeLatest('REMOVE_APPOINTMENT_IN_GROUP', removeAppointmentInGroup),
+
     ])
 }

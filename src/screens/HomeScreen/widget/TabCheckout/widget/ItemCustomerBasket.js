@@ -20,6 +20,7 @@ import {
 import IMAGE from '@resources';
 import styles from '../style';
 import ItemBasket from './ItemBasket';
+import connectRedux from '@redux/ConnectRedux';
 
 const { width } = Dimensions.get('window');
 
@@ -74,13 +75,13 @@ class ItemCustomerBasket extends React.Component {
     // ---------- Render --------
 
     renderHeaderCustomerBaket() {
-        const { lastName, firstName, customerId } = this.props.appointmentDetail;
+        const { lastName, firstName, customerId, isMain, appointmentId } = this.props.appointmentDetail;
         const { isCollapsed } = this.state;
         const iconCollaps = isCollapsed ? IMAGE.open_customer_basket : IMAGE.close_customer_basket;
         const swipeoutBtns = [
             {
                 backgroundColor: '#fff',
-                component: <Button onPress={() => removeItemBasket(item)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+                component: <Button onPress={() => this.props.actions.appointment.removeAppointmentInGroup(appointmentId)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                     <Image source={IMAGE.removeItemBasket} style={{ width: scaleSzie(24), height: scaleSzie(24) }} />
                 </Button>,
             }
@@ -90,7 +91,7 @@ class ItemCustomerBasket extends React.Component {
             <Swipeout
                 right={swipeoutBtns}
                 buttonWidth={scaleSzie(45)}
-                // disabled={true}
+                disabled={isMain === 1 ? true : false}
                 close={true}
             >
                 <View style={{
@@ -116,7 +117,7 @@ class ItemCustomerBasket extends React.Component {
 
     render() {
         const { isCollapsed } = this.state;
-        const { language, appointmentDetail ,removeItemBasket,changeStylist} = this.props;
+        const { language, appointmentDetail, removeItemBasket, changeStylist } = this.props;
         const { temptSubTotal, temptTotal, temptDiscount, temptTip, temptTax } = this.getTypesOfMoneyAppointmenr(appointmentDetail);
         const { services, products, extras } = appointmentDetail;
         const arrayProducts = getArrayProductsFromAppointment(products);
@@ -132,7 +133,7 @@ class ItemCustomerBasket extends React.Component {
                         basket.map((item, index) => <ItemBasket
                             key={index}
                             item={item}
-                            removeItemBasket={(item) =>removeItemBasket(item)}
+                            removeItemBasket={(item) => removeItemBasket(item)}
                             onPress={(service) => changeStylist(service)}
                         />)
                     }
@@ -209,7 +210,14 @@ class ItemCustomerBasket extends React.Component {
 }
 
 
-export default ItemCustomerBasket;
+const mapStateToProps = state => ({
+
+})
+
+
+
+export default connectRedux(mapStateToProps, ItemCustomerBasket);
+// export default ItemCustomerBasket;
 
 
 

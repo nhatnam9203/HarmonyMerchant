@@ -235,3 +235,13 @@ export function cancleAppointment(appointmentId, merchantId, userId) {
     }
 }
 
+export function removeAppointmentInGroup(appointmentId) {
+    return {
+        type: 'REMOVE_APPOINTMENT_IN_GROUP',
+        body: {},
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}appointment/removeGroup/${appointmentId}`,
+    }
+}
+

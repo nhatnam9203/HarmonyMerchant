@@ -307,23 +307,8 @@ class Layout extends React.Component {
     renderBasket() {
         const { language, appointmentDetail, groupAppointment } = this.props;
         const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
-
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
-
-        // const tipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
-        // const subTotal = appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
-        // const discount = appointmentDetail.discount ? appointmentDetail.discount : 0;
-        // const tax = appointmentDetail.tax ? appointmentDetail.tax : 0;
-        // const total = appointmentDetail.total ? appointmentDetail.total : 0;
-
-        // const temptSubTotal = _.isEmpty(appointmentDetail) ? subTotalLocal : subTotal;
-        // const temptTotal = _.isEmpty(appointmentDetail) ? Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2) : total;
-        // const temptDiscount = _.isEmpty(appointmentDetail) ? discountTotalLocal : discount;
-        // const temptTip = _.isEmpty(appointmentDetail) ? tipLocal : tipAmount;
-        // const temptTax = _.isEmpty(appointmentDetail) ? taxLocal : tax;
-
-        // const {temptSubTotal,temptTotal,temptDiscount,temptTip,temptTax} = this.getTypesOfMoneyAppointmenr(appointmentDetail);
-
+        const grandTotal = groupAppointment.total ?  groupAppointment.total : 0;
         return (
             <View style={{ flex: 1 }} >
                 {/* -------- Header Basket -------- */}
@@ -371,7 +356,7 @@ class Layout extends React.Component {
                                     {`${localize('Grand Total:', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { fontSize:scaleSzie(22),fontWeight:"bold",color: 'rgb(65,184,85)' }]} >
-                                    {`$${formatMoney(10)}`}
+                                    {`$${formatMoney(grandTotal)}`}
                                 </Text>
                             </View>
                         </View>
