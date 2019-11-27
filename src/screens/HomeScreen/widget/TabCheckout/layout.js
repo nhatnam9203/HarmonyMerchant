@@ -353,6 +353,8 @@ class Layout extends React.Component {
                                     tipLocal={tipLocal}
                                     discountTotalLocal={discountTotalLocal} 
                                     taxLocal={taxLocal}
+                                    removeItemBasket={this.removeItemBasket}
+                                    changeStylist={this.changeStylist}
                             >
                                 {/* {
                                     basket.map((item, index) => <ItemBasket

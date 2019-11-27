@@ -116,7 +116,7 @@ class ItemCustomerBasket extends React.Component {
 
     render() {
         const { isCollapsed } = this.state;
-        const { language, appointmentDetail } = this.props;
+        const { language, appointmentDetail ,removeItemBasket,changeStylist} = this.props;
         const { temptSubTotal, temptTotal, temptDiscount, temptTip, temptTax } = this.getTypesOfMoneyAppointmenr(appointmentDetail);
         const { services, products, extras } = appointmentDetail;
         const arrayProducts = getArrayProductsFromAppointment(products);
@@ -132,8 +132,8 @@ class ItemCustomerBasket extends React.Component {
                         basket.map((item, index) => <ItemBasket
                             key={index}
                             item={item}
-                            removeItemBasket={this.removeItemBasket}
-                            onPress={this.changeStylist}
+                            removeItemBasket={(item) =>removeItemBasket(item)}
+                            onPress={(service) => changeStylist(service)}
                         />)
                     }
                     {/* ----------- Payment Number --------- */}
@@ -205,21 +205,6 @@ class ItemCustomerBasket extends React.Component {
     }
 
 
-    // async componentDidUpdate(prevProps, prevState, snapshot) {
-    //     const { appointmentDetail } = this.props;
-    //     if (!_.isEmpty(appointmentDetail)) {
-    //         const { services, products, extras } = appointmentDetail;
-    //         const arrayProducts = getArrayProductsFromAppointment(products);
-    //         const arryaServices = getArrayServicesFromAppointment(services);
-    //         const arrayExtras = getArrayExtrasFromAppointment(extras);
-    //         const temptBasket = arrayProducts.concat(arryaServices, arrayExtras);
-    //         console.log("temptBasket : ", JSON.stringify(temptBasket));
-    //         this.setState({
-    //             basket: temptBasket
-    //         })
-    //     }
-
-    // }
 
 }
 

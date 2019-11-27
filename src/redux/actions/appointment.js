@@ -7,6 +7,7 @@ export function getAppointmentById(id) {
         type: 'GET_APPOINTMENT_BY_ID',
         method: 'GET',
         api: `${apiConfigs.BASE_API}appointment/${id}`,
+        // api: `${apiConfigs.BASE_API}getGroupById/${id}`,
         token: true
     }
 }
@@ -200,7 +201,7 @@ export function submitAppointmentOffline(body) {
 }
 
 
-export function cancleAppointment(appointmentId, merchantId,userId) {
+export function cancleAppointment(appointmentId, merchantId, userId) {
     return {
         type: 'CANCEL_APPOINTMENT',
         body: {
