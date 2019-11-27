@@ -8,7 +8,7 @@ function* getAppointmentById(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('responses : ', JSON.stringify(responses));
+        console.log('getAppointmentById : ', JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -32,6 +32,36 @@ function* getAppointmentById(action) {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
 }
+
+function* getGroupAppointmentById(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log('getGroupAppointmentById : ', JSON.stringify(responses));
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: 'GET_GROUP_APPOINTMENT_BY_ID_SUCCESS',
+                payload: responses.data
+            })
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 
 function* addItemIntoAppointment(action) {
     try {
@@ -345,6 +375,6 @@ export default function* saga() {
         takeLatest('CANCEL_HARMONY_PAYMENT', cancelHarmonyPayment),
         takeLatest('SUBMIT_APPOINTMENT_OFFLINE', submitAppointmentOffline),
         takeLatest('CANCEL_APPOINTMENT', cancleAppointment),
-
+        takeLatest('GET_GROUP_APPOINTMENT_BY_ID', getGroupAppointmentById),
     ])
 }

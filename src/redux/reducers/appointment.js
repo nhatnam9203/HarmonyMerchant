@@ -11,7 +11,7 @@ const initialState = {
     flagSignInAppointment: false,
     listAppointmentsOfflineMode: [],
 
-    groupAppointments: []
+    groupAppointment: []
 }
 
 function appReducer(state = initialState, action) {
@@ -25,8 +25,12 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 appointmentDetail: action.payload,
-                groupAppointments:[action.payload],
                 isGetAppointmentSucces: true
+            }
+        case 'GET_GROUP_APPOINTMENT_BY_ID_SUCCESS':
+            return {
+                ...state,
+                groupAppointment: action.payload,
             }
         case 'GET_APPOINTMENT_BY_ID_FAIL':
             return {

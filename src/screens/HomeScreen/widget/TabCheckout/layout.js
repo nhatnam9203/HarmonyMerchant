@@ -34,7 +34,7 @@ class Layout extends React.Component {
                     <Text onPress={this.displayPopupCustomerName} style={styles.textHeader} >
                         {`${localize('Customer', language)}:`}
                     </Text>
-                    {
+                    {/* {
                         name.trim() == '' ?  
                         <ButtonCustom
                         width={scaleSzie(100)}
@@ -55,13 +55,13 @@ class Layout extends React.Component {
                         :  <Text onPress={this.displayPopupCustomerName} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(30) }]} >
                         {`${firstName} ${lastName}`}
                     </Text>
-                    }
+                    } */}
 
                    
                     <Text onPress={this.displayPopupCustomerPhone} style={styles.textHeader} >
                         {`${localize('Phone', language)}:`}
                     </Text>
-                    {
+                    {/* {
                         phoneNumber.trim() == '' ?  
                         <ButtonCustom
                         width={scaleSzie(100)}
@@ -82,7 +82,7 @@ class Layout extends React.Component {
                         :  <Text onPress={this.displayPopupCustomerPhone} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(12) }]} >
                         {phoneNumber}
                     </Text>
-                    }
+                    } */}
 
                 </View>
                 {/* -------- Button open cash -------- */}
@@ -305,8 +305,10 @@ class Layout extends React.Component {
     }
 
     renderBasket() {
-        const { language, appointmentDetail, groupAppointments } = this.props;
+        const { language, appointmentDetail, groupAppointment } = this.props;
         const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
+
+        const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
 
         // const tipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
         // const subTotal = appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
@@ -345,10 +347,10 @@ class Layout extends React.Component {
                     <View style={{ flex: 1 }} >
                     <ScrollView showsVerticalScrollIndicator={false} >
                         {
-                            groupAppointments.map((customerBasket,index) => <ItemCustomerBasket 
-                                    key={`${customerBasket.appointmentId}_${index}`}
+                            appointments.map((appointment,index) => <ItemCustomerBasket 
+                                    key={`${appointment.appointmentId}_${index}`}
                                     language={language}
-                                    appointmentDetail={customerBasket}
+                                    appointmentDetail={appointment}
                                     subTotalLocal={subTotalLocal} 
                                     tipLocal={tipLocal}
                                     discountTotalLocal={discountTotalLocal} 
@@ -356,14 +358,6 @@ class Layout extends React.Component {
                                     removeItemBasket={this.removeItemBasket}
                                     changeStylist={this.changeStylist}
                             >
-                                {/* {
-                                    basket.map((item, index) => <ItemBasket
-                                        key={index}
-                                        item={item}
-                                        removeItemBasket={this.removeItemBasket}
-                                        onPress={this.changeStylist}
-                                    />)
-                                } */}
                             </ItemCustomerBasket>)
                         }
                        

@@ -1338,7 +1338,7 @@ class TabCheckout extends Layout {
     }
 
     addAppointmentCheckout = () => {
-
+        
     }
 
 
@@ -1391,7 +1391,7 @@ const mapStateToProps = state => ({
     listStaffByMerchant: state.staff.listStaffByMerchant,
     profileStaffLogin: state.dataLocal.profileStaffLogin,
     isOfflineMode: state.network.isOfflineMode,
-    groupAppointments: state.appointment.groupAppointments
+    groupAppointment: state.appointment.groupAppointment
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);

@@ -7,7 +7,15 @@ export function getAppointmentById(id) {
         type: 'GET_APPOINTMENT_BY_ID',
         method: 'GET',
         api: `${apiConfigs.BASE_API}appointment/${id}`,
-        // api: `${apiConfigs.BASE_API}getGroupById/${id}`,
+        token: true
+    }
+}
+
+export function getGroupAppointmentById(id) {
+    return {
+        type: 'GET_GROUP_APPOINTMENT_BY_ID',
+        method: 'GET',
+        api: `${apiConfigs.BASE_API}appointment/getGroupById/${id}`,
         token: true
     }
 }
@@ -48,10 +56,12 @@ export function resetKeyUpdateAppointment() {
 }
 
 
-export function checkoutAppointment(id) {
+export function checkoutAppointment(id,checkoutGroupId = 0) {
     return {
         type: 'CHECK_OUT_APPOINTMENT',
-        body: {},
+        body: {
+            checkoutGroupId:0
+        },
         method: 'PUT',
         token: true,
         api: `${apiConfigs.BASE_API}appointment/checkout/${id}`,

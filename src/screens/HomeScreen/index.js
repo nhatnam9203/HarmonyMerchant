@@ -144,7 +144,8 @@ class HomeScreen extends Layout {
         await this.setState({
             currentTab: 2
         })
-        this.props.actions.appointment.getAppointmentById(appointmentId);
+        // this.props.actions.appointment.getAppointmentById(appointmentId);
+        this.props.actions.appointment.getGroupAppointmentById(appointmentId);
         this.props.actions.appointment.checkoutAppointment(appointmentId);
         this.scrollTabParentRef.current.goToPage(2);
     }
