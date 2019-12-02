@@ -158,14 +158,15 @@ function* getPromotionByAppointment(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('responses : ', JSON.stringify(responses));
+        console.log('getPromotionByAppointment : ', JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({ type: 'STOP_LOADING_ROOT' });
             yield put({
                 type: 'GET_PROMOTION_BY_APPOINTMENT_SUCCESS',
-                payload: responses.data
+                payload: responses.data,
+                appointmentId: action.appointmentId
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -230,12 +231,18 @@ function* customPromotion(action) {
         // console.log('responses : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            yield put({
-                type: 'GET_APPOINTMENT_BY_ID',
+            action.isGroup ? yield put({
+                type: 'GET_GROUP_APPOINTMENT_BY_ID',
                 method: 'GET',
-                api: `${apiConfigs.BASE_API}appointment/${action.appointmentid}`,
+                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentid}`,
                 token: true
-            })
+            }) :
+                yield put({
+                    type: 'GET_APPOINTMENT_BY_ID',
+                    method: 'GET',
+                    api: `${apiConfigs.BASE_API}appointment/${action.appointmentid}`,
+                    token: true
+                })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

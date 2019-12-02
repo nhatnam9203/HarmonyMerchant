@@ -34,10 +34,6 @@ class PopupDiscount extends React.Component {
     }
 
     setStateFromParent = async (totalLocal, discountTotal, customDiscountPercent, customDiscountFixedLocal) => {
-        // console.log('totalLocal : ', totalLocal);
-        // console.log('discountTotal : ', discountTotal);
-        // console.log('customDiscountPercent : ', customDiscountPercent);
-        // console.log('customDiscountFixedLocal : ', customDiscountFixedLocal);
 
         await this.setState({
             totalLocal,
@@ -49,19 +45,26 @@ class PopupDiscount extends React.Component {
     }
 
     submitCustomPromotion() {
-        const { appointmentDetail } = this.props;
+        const { appointmentDetail,groupAppointment,appointmentIdUpdatePromotion } = this.props;
         const customDiscountPercent = this.customDiscountRef.current.state.percent;
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
-        if (_.isEmpty(appointmentDetail)) {
-            const { discountTotal } = this.state;
-            this.props.callbackDiscountToParent(customDiscountPercent, customFixedAmount, Number(discountTotal).toFixed(2));
-            this.props.actions.marketing.closeModalDiscount();
-        } else {
-            const { appointmentDetail } = this.props;
-            this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentDetail.appointmentId);
+        if(_.isEmpty(groupAppointment)) {
+
+        }else{
+            this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentIdUpdatePromotion,true);
             this.props.actions.marketing.closeModalDiscount();
         }
-        this.resetState();
+
+        // if (_.isEmpty(appointmentDetail)) {
+        //     const { discountTotal } = this.state;
+        //     this.props.callbackDiscountToParent(customDiscountPercent, customFixedAmount, Number(discountTotal).toFixed(2));
+        //     this.props.actions.marketing.closeModalDiscount();
+        // } else {
+        //     const { appointmentDetail } = this.props;
+        //     this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentDetail.appointmentId);
+        //     this.props.actions.marketing.closeModalDiscount();
+        // }
+        // this.resetState();
     }
 
     onRequestClose = async () => {
@@ -82,20 +85,13 @@ class PopupDiscount extends React.Component {
         const { temptTotalLocal, customDiscountFixedLocal } = this.state;
         const { appointmentDetail } = this.props;
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
-
-        // console.log('temptTotalLocal : ', temptTotalLocal);
-        // console.log('discount : ', discount);
-        // console.log('customFixedAmount : ', customFixedAmount);
-
         const temptDiscount = formatNumberFromCurrency(discount) + formatNumberFromCurrency(customFixedAmount)
-        // console.log('discountTotal : ', temptDiscount);
 
         if (_.isEmpty(appointmentDetail)) {
             await this.setState(prevState => ({
                 discountTotal: temptDiscount
             }));
         } else {
-            // console.log('moneyDiscountCuston : ',discount);
             await this.setState({
                 moneyDiscountCustom: discount,
                 moneyDiscountFixedAmout: this.customFixedAmountRef.current.state.discount
@@ -129,7 +125,7 @@ class PopupDiscount extends React.Component {
             appointmentDetail
         } = this.props;
         const { customDiscountPercent, customDiscountFixed } = appointmentDetail;
-        const { 
+        const {
             moneyDiscountCustom, moneyDiscountFixedAmout, totalLocal, discountTotal,
             customDiscountPercentLocal, customDiscountFixedLocal
         } = this.state;
@@ -147,7 +143,6 @@ class PopupDiscount extends React.Component {
             total = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountCustom);
         }
         if (visibleModalDiscount && this.customFixedAmountRef.current) {
-            // console.log('---- : ',this.customFixedAmountRef.current.state.discount);
             total = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountFixedAmout);
         }
 
@@ -157,10 +152,6 @@ class PopupDiscount extends React.Component {
         const temptTotal = _.isEmpty(appointmentDetail) ? totalLocal : appointmentDetail.subTotal;
         const temptCustomDiscountPercent = _.isEmpty(appointmentDetail) ? customDiscountPercentLocal : customDiscountPercent;
         const temptCustomDiscountFixed = _.isEmpty(appointmentDetail) ? customDiscountFixedLocal : customDiscountFixed;
-
-        // console.log('---- temptTotal ---- : ',temptTotal);
-        // console.log('---- isHandleDiscountTotal ---- : ',isHandleDiscountTotal);
-
 
         return (
             <PopupParent
@@ -273,15 +264,12 @@ class CustomDiscount extends React.Component {
         await this.setState({ percent });
         const { total } = this.props;
         const discount = Number(formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100).toFixed(2);
-        // console.log('---- total : ', total);
-        // console.log('---- discount : ', discount);
         this.props.onChangeText(discount);
     }
 
     render() {
         const { percent } = this.state;
         const { total, onChangeText } = this.props;
-        // const discount = Number((parseFloat(percent) * parseFloat(total) / 100).toFixed(2));
         const discount = Number(formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100).toFixed(2);
 
         return (
@@ -401,7 +389,9 @@ class CustomDiscountFixed extends React.Component {
 const mapStateToProps = state => ({
     discount: state.marketing.discount,
     visibleModalDiscount: state.marketing.visibleModalDiscount,
-    appointmentDetail: state.appointment.appointmentDetail
+    appointmentDetail: state.appointment.appointmentDetail,
+    groupAppointment: state.appointment.groupAppointment,
+    appointmentIdUpdatePromotion: state.marketing.appointmentIdUpdatePromotion
 })
 
 

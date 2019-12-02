@@ -52,7 +52,8 @@ export function getPromotionByAppointment(appointmentId) {
         type: 'GET_PROMOTION_BY_APPOINTMENT',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/promotion/${appointmentId}`
+        api: `${apiConfigs.BASE_API}appointment/promotion/${appointmentId}`,
+        appointmentId
     }
 }
 
@@ -79,7 +80,7 @@ export function changeStylist(staffId, bookingServiceId, tipAmount, appointmentI
     }
 }
 
-export function customPromotion(discountPercent, discountFixtom, appointmentid) {
+export function customPromotion(discountPercent, discountFixtom, appointmentid, isGroup = false) {
     return {
         type: 'CUSTOM_PROMOTION',
         method: 'PUT',
@@ -89,7 +90,8 @@ export function customPromotion(discountPercent, discountFixtom, appointmentid) 
             discountFixtom
         },
         api: `${apiConfigs.BASE_API}appointment/custompromotion/${appointmentid}`,
-        appointmentid
+        appointmentid,
+        isGroup
     }
 }
 

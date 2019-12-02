@@ -7,7 +7,8 @@ const initialState = {
     promotions: [],
     discount: [],
     visibleModalDiscount: false,
-    isApplyPromotion: false
+    isApplyPromotion: false,
+    appointmentIdUpdatePromotion: -1
 }
 
 function appReducer(state = initialState, action) {
@@ -38,7 +39,8 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 discount: action.payload,
-                visibleModalDiscount: true
+                visibleModalDiscount: true,
+                appointmentIdUpdatePromotion: action.appointmentId
             }
         case 'CLOSE_MODAL_DISCOUNT':
             return {
@@ -61,10 +63,10 @@ function appReducer(state = initialState, action) {
     }
 }
 
-    const persistConfig = {
-        key: 'marketing',
-        storage: AsyncStorage,
-        whitelist: ['listBanners','promotions']
-    };
-    
-    module.exports = persistReducer(persistConfig, appReducer);
+const persistConfig = {
+    key: 'marketing',
+    storage: AsyncStorage,
+    whitelist: ['listBanners', 'promotions']
+};
+
+module.exports = persistReducer(persistConfig, appReducer);
