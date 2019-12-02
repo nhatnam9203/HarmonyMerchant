@@ -62,7 +62,8 @@ const initState = {
     visibleSendLinkPopup: false,
     visiblePopupDiscountLocal: false,
     visibleCustomerName: false,
-    visibleCustomerPhone: false
+    visibleCustomerPhone: false,
+    appointmentIdChangeStylist: -1
 }
 
 class TabCheckout extends Layout {
@@ -1159,10 +1160,12 @@ class TabCheckout extends Layout {
         })
     }
 
-    changeStylist = async (service) => {
-        this.changeStylistRef.current.setStateFromParent(service);
+    changeStylist = async (service, appointmentId) => {
+        console.log('appointmentId : ', appointmentId);
+        this.changeStylistRef.current.setStateFromParent(service,appointmentId);
         await this.setState({
-            visibleChangeStylist: true
+            visibleChangeStylist: true,
+            // appointmentIdChangeStylist: appointmentId
         })
     }
 

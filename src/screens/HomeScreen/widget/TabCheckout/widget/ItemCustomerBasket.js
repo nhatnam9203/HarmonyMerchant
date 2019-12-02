@@ -120,6 +120,7 @@ class ItemCustomerBasket extends React.Component {
         const { language, appointmentDetail, removeItemBasket, changeStylist } = this.props;
         const { temptSubTotal, temptTotal, temptDiscount, temptTip, temptTax } = this.getTypesOfMoneyAppointmenr(appointmentDetail);
         const { services, products, extras } = appointmentDetail;
+        const { appointmentId } = appointmentDetail;
         const arrayProducts = getArrayProductsFromAppointment(products);
         const arryaServices = getArrayServicesFromAppointment(services);
         const arrayExtras = getArrayExtrasFromAppointment(extras);
@@ -133,8 +134,8 @@ class ItemCustomerBasket extends React.Component {
                         basket.map((item, index) => <ItemBasket
                             key={index}
                             item={item}
-                            removeItemBasket={(item) => removeItemBasket(item,appointmentDetail.appointmentId,true)}
-                            onPress={(service) => changeStylist(service)}
+                            removeItemBasket={(item) => removeItemBasket(item, appointmentId, true)}
+                            onPress={(service) => changeStylist(service, appointmentId)}
                         />)
                     }
                     {/* ----------- Payment Number --------- */}

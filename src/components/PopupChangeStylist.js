@@ -25,11 +25,12 @@ class PopupChangeStylist extends React.Component {
             name: '',
             tip: 0.00,
             bookingServiceId: '',
-            serviceIdLocal: ''
+            serviceIdLocal: '',
+            appointmentIdChangeStylist: -1
         }
     }
 
-    setStateFromParent = async (service) => {
+    setStateFromParent = async (service, appointmentId) => {
         // console.log('serviec : '+ JSON.stringify(service));
         const { staff } = service;
         await this.setState({
@@ -37,14 +38,15 @@ class PopupChangeStylist extends React.Component {
             name: staff && staff.displayName ? staff.displayName : '',
             bookingServiceId: service.data.bookingServiceId ? service.data.bookingServiceId : '',
             tip: staff && staff.tip ? staff.tip : 0.00,
-            serviceIdLocal: service.data.serviceId ? service.data.serviceId : ''
+            serviceIdLocal: service.data.serviceId ? service.data.serviceId : '',
+            appointmentIdChangeStylist: appointmentId
         })
     }
 
     getStaffDataDropdown(staffs) {
         const data = [];
         for (let i = 0; i < staffs.length; i++) {
-            if(staffs[i].isDisabled === 0){
+            if (staffs[i].isDisabled === 0) {
                 data.push({
                     staffId: staffs[i].staffId,
                     value: `${staffs[i].displayName}`
@@ -62,12 +64,14 @@ class PopupChangeStylist extends React.Component {
     }
 
     submitChangeStylist = () => {
-        const { staffId, bookingServiceId, tip, serviceIdLocal } = this.state;
-        const { appointmentDetail } = this.props;
-        if (_.isEmpty(appointmentDetail)) {
-            this.props.changeStylistBasketLocal(serviceIdLocal,staffId,tip);
+        const { staffId, bookingServiceId, tip, serviceIdLocal, appointmentIdChangeStylist } = this.state;
+        const { appointmentDetail, groupAppointment } = this.props;
+        if (_.isEmpty(groupAppointment)) {
+            this.props.changeStylistBasketLocal(serviceIdLocal, staffId, tip);
         } else {
-            this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentDetail.appointmentId);
+            // this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentDetail.appointmentId);
+            this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentIdChangeStylist,true);
+
         }
         this.props.onRequestClose();
 
@@ -86,7 +90,7 @@ class PopupChangeStylist extends React.Component {
                 onRequestClose={() => onRequestClose()}
                 width={scaleSzie(200)}
                 style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(50) }}
-                styleTitle={{fontSize:scaleSzie(17)}}
+                styleTitle={{ fontSize: scaleSzie(17) }}
             >
                 <View style={{
                     height: scaleSzie(250), backgroundColor: '#FAFAFA',
@@ -165,6 +169,7 @@ class PopupChangeStylist extends React.Component {
 const mapStateToProps = state => ({
     listStaffByMerchant: state.staff.listStaffByMerchant,
     appointmentDetail: state.appointment.appointmentDetail,
+    groupAppointment: state.appointment.groupAppointment
 })
 
 

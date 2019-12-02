@@ -63,7 +63,7 @@ export function closeModalDiscount() {
 }
 
 
-export function changeStylist(staffId, bookingServiceId, tipAmount, appointmentId) {
+export function changeStylist(staffId, bookingServiceId, tipAmount, appointmentId, isGroup = false) {
     return {
         type: 'CHANGE_STYLIST',
         method: 'PUT',
@@ -74,7 +74,8 @@ export function changeStylist(staffId, bookingServiceId, tipAmount, appointmentI
             tipAmount,
         },
         api: `${apiConfigs.BASE_API}appointment/tip/${appointmentId}`,
-        appointmentId
+        appointmentId,
+        isGroup
     }
 }
 
@@ -108,7 +109,7 @@ export function sendNotificationByPromotionId(promotionId) {
     }
 }
 
-export function openPopupDiscount () {
+export function openPopupDiscount() {
     return {
         type: 'OPEN_MODAL_DISCOUNT',
     }

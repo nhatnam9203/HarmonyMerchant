@@ -688,7 +688,7 @@ class Layout extends React.Component {
                 <PopupChangeStylist
                     ref={this.changeStylistRef}
                     visible={visibleChangeStylist}
-                    title="Change Stylist11"
+                    title="Change Stylist"
                     onRequestClose={() => { this.setState({ visibleChangeStylist: false }) }}
                     changeStylistBasketLocal={this.changeStylistBasketLocal}
                 />
