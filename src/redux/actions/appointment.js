@@ -20,19 +20,20 @@ export function getGroupAppointmentById(id) {
     }
 }
 
-export function addItemIntoAppointment(body, id) {
+export function addItemIntoAppointment(body, id, isGroup = false) {
     return {
         type: 'ADD_ITEM_INTO_APPOINTMENT',
         body: body,
         method: 'PUT',
         token: true,
         api: `${apiConfigs.BASE_API}appointment/additem/${id}`,
-        appointmentId: id
+        appointmentId: id,
+        isGroup
     }
 }
 
 
-export function removeItemIntoAppointment(body, appointmentId,isGroup = false) {
+export function removeItemIntoAppointment(body, appointmentId, isGroup = false) {
     return {
         type: 'REMOVE_ITEM_INTO_APPOINTMENT',
         body: body,

@@ -106,6 +106,58 @@ class TabCheckout extends Layout {
     }
 
     addAmount = async () => {
+        const { groupAppointment } = this.props;
+        const { categoryTypeSelected, basket, productSeleted, extraSelected } = this.state;
+
+        if (!_.isEmpty(groupAppointment)) {  // ------------- Buy online ---------
+            const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
+            const mainAppointment = appointments.find(appointment => appointment.isMain === 1);
+            const appointmentId = mainAppointment.appointmentId ? mainAppointment.appointmentId : 0;
+            if (categoryTypeSelected === 'Product') {
+                this.props.actions.appointment.addItemIntoAppointment(
+                    {
+                        services: [],
+                        extras: [],
+                        products: [{
+                            productId: productSeleted.productId,
+                            quantity: this.amountRef.current.state.quanlity
+                        }]
+                    }, appointmentId, true);
+            } else { // ------------- Buy online Extra , Service ---------
+                const temptExtra = extraSelected.extraId !== -1 ? [{ extraId: extraSelected.extraId }] : [];
+                this.props.actions.appointment.addItemIntoAppointment(
+                    {
+                        services: [{
+                            serviceId: productSeleted.serviceId
+                        }],
+                        extras: temptExtra,
+                        products: []
+                    }, appointmentId, true);
+            }
+        } else {  // ------------- Buy at store ---------
+
+        }
+
+        await this.setState({
+            isShowColProduct: false,
+            isShowColAmount: false,
+            categorySelected: {
+                categoryId: -1,
+                categoryType: ''
+            },
+            productSeleted: {
+                name: ''
+            },
+            categoryTypeSelected: '',
+            extraSelected: {
+                extraId: -1,
+                name: ''
+            },
+        })
+
+    }
+
+    addAmount1 = async () => {
         const { appointmentDetail } = this.props;
         const { categoryTypeSelected, basket, productSeleted, extraSelected, appointmentId } = this.state;
         // console.log('appointmentId : ', appointmentId);

@@ -67,16 +67,23 @@ function* addItemIntoAppointment(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('responses : ', responses);
+        console.log('addItemIntoAppointment : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            yield put({
-                type: 'GET_APPOINTMENT_BY_ID',
+            action.isGroup ? yield put({
+
+                type: 'GET_GROUP_APPOINTMENT_BY_ID',
                 method: 'GET',
-                api: `${apiConfigs.BASE_API}appointment/${action.appointmentId}`,
+                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId}`,
                 token: true
-            })
+            }) :
+                yield put({
+                    type: 'GET_APPOINTMENT_BY_ID',
+                    method: 'GET',
+                    api: `${apiConfigs.BASE_API}appointment/${action.appointmentId}`,
+                    token: true
+                })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
