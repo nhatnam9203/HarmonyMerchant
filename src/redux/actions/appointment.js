@@ -247,3 +247,9 @@ export function removeAppointmentInGroup(appointmentId) {
     }
 }
 
+export function resetGroupAppointment() {
+    return {
+        type: 'RESET_GROUP_APPOINTMENT',
+    }
+}
+

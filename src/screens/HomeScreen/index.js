@@ -92,13 +92,14 @@ class HomeScreen extends Layout {
 
     onPressHandlerChangeTab = async (index) => {
         const { currentTab } = this.state;
+         const {groupAppointment } = this.props;
         if (currentTab !== index) {
             if (currentTab === 1 && this.tabAppointmentRef.current.state.isShowAddAppointment) {
                 await this.setState({
                     temptCurrentTap: index
                 })
                 this.tabAppointmentRef.current.setStateVisibleFromParent(true);
-            } else if (currentTab === 2 && this.tabCheckoutRef.current.state.basket.length > 0) {
+            } else if (currentTab === 2 && this.tabCheckoutRef.current.state.basket.length > 0 || !_.isEmpty(groupAppointment)) {
                 await this.setState({
                     temptCurrentTap: index
                 })

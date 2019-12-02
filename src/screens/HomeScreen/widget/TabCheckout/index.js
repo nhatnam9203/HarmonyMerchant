@@ -416,6 +416,7 @@ class TabCheckout extends Layout {
         this.props.actions.appointment.resetBasketEmpty();
         this.props.actions.appointment.resetPayment();
         this.props.actions.appointment.changeFlagSigninAppointment(false);
+        this.props.actions.appointment.resetGroupAppointment();
 
     }
 

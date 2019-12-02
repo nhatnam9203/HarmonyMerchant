@@ -21,6 +21,12 @@ function appReducer(state = initialState, action) {
                 ...initialState,
                 listAppointmentsOfflineMode: action.payload,
             }
+            case 'RESET_GROUP_APPOINTMENT':
+                return {
+                    ...initialState,
+                    groupAppointment: {},
+                }
+            
         case 'GET_APPOINTMENT_BY_ID_SUCCESS':
             return {
                 ...state,
