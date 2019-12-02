@@ -1162,7 +1162,7 @@ class TabCheckout extends Layout {
 
     changeStylist = async (service, appointmentId) => {
         console.log('appointmentId : ', appointmentId);
-        this.changeStylistRef.current.setStateFromParent(service,appointmentId);
+        this.changeStylistRef.current.setStateFromParent(service, appointmentId);
         await this.setState({
             visibleChangeStylist: true,
             // appointmentIdChangeStylist: appointmentId
@@ -1260,22 +1260,37 @@ class TabCheckout extends Layout {
         }
     }
 
-    showModalDiscount = async () => {
+    showModalDiscount = async (appointmentId) => {
         const { basket, subTotalLocal, tipLocal, discountTotalLocal, customDiscountPercentLocal,
             customDiscountFixedLocal
         } = this.state;
-        if (basket.length > 0) {
-            const { appointmentDetail } = this.props;
-            if (!_.isEmpty(appointmentDetail)) {
-                const { appointmentId } = this.state;
+        if (appointmentId !== -1) {
+            const { groupAppointment } = this.props;
+            const appointment = groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentId);
+            const { services, products, extras } = appointment;
+            const arrayProducts = getArrayProductsFromAppointment(products);
+            const arryaServices = getArrayServicesFromAppointment(services);
+            const arrayExtras = getArrayExtrasFromAppointment(extras);
+            const temptBasket = arrayProducts.concat(arryaServices, arrayExtras);
+            if (temptBasket.length > 0) {
                 this.props.actions.marketing.getPromotionByAppointment(appointmentId);
-            } else {
-                this.popupDiscountLocalRef.current.setStateFromParent(subTotalLocal, discountTotalLocal, customDiscountPercentLocal, customDiscountFixedLocal);
-                await this.setState({
-                    visiblePopupDiscountLocal: true
-                })
             }
+        } else { // ----------- Offline ------------
+
         }
+
+        // if (basket.length > 0) {
+        //     const { appointmentDetail } = this.props;
+        //     if (!_.isEmpty(appointmentDetail)) {
+        //         const { appointmentId } = this.state;
+        //         this.props.actions.marketing.getPromotionByAppointment(appointmentId);
+        //     } else {
+        //         this.popupDiscountLocalRef.current.setStateFromParent(subTotalLocal, discountTotalLocal, customDiscountPercentLocal, customDiscountFixedLocal);
+        //         await this.setState({
+        //             visiblePopupDiscountLocal: true
+        //         })
+        //     }
+        // }
     }
 
     async callbackDiscountToParent(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal) {

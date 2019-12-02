@@ -69,7 +69,12 @@ class ItemCustomerBasket extends React.Component {
             temptTip,
             temptTax
         }
+    }
 
+    showModalDiscount = () => {
+        const { groupAppointment } = this.props;
+        const appointmentId = _.isEmpty(groupAppointment) ? -1 : this.props.appointmentDetail.appointmentId;
+        this.props.showModalDiscount(appointmentId);
     }
 
     // ---------- Render --------
@@ -212,7 +217,7 @@ class ItemCustomerBasket extends React.Component {
 
 
 const mapStateToProps = state => ({
-
+    groupAppointment: state.appointment.groupAppointment
 })
 
 

@@ -342,6 +342,7 @@ class Layout extends React.Component {
                                     taxLocal={taxLocal}
                                     removeItemBasket={this.removeItemBasket}
                                     changeStylist={this.changeStylist}
+                                    showModalDiscount={this.showModalDiscount}
                             >
                             </ItemCustomerBasket>)
                         }
