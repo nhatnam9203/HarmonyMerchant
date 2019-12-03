@@ -1333,7 +1333,10 @@ class TabCheckout extends Layout {
                 this.props.actions.marketing.getPromotionByAppointment(appointmentId);
             }
         } else { // ----------- Offline ------------
-
+            this.popupDiscountLocalRef.current.setStateFromParent(subTotalLocal, discountTotalLocal, customDiscountPercentLocal, customDiscountFixedLocal);
+            await this.setState({
+                visiblePopupDiscountLocal: true
+            })
         }
 
         // if (basket.length > 0) {

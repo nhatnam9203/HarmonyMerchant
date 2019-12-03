@@ -6,14 +6,15 @@ import {
 } from 'react-native';
 import { WebView} from 'react-native-webview';
 
-import { Text, ButtonCustom, Button, PopupConfirm, PopupChangeStylist } from '@components';
+import { Text, ButtonCustom, Button, PopupConfirm } from '@components';
 import styles from './style';
 import apiConfigs from '@configs/api';
 import { scaleSzie, localize } from '@utils';
 import {
-    ItemCategory, ItemProductService, ColPlaceHolder, ItemAmount, ItemExtra, ItemBasket, PopupDiscount
+    ItemCategory, ItemProductService, ColPlaceHolder, ItemAmount, ItemExtra, ItemBasket
 } from '../TabCheckout/widget';
 import IMAGE from '@resources';
+import {PopupDiscount,PopupChangeStylist} from './widget';
 
 
 class Layout extends React.Component {

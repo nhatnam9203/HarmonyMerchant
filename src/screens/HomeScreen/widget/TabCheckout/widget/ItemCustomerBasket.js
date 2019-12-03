@@ -149,10 +149,9 @@ class ItemCustomerBasket extends React.Component {
             const arrayExtras = getArrayExtrasFromAppointment(extras);
             basket = arrayProducts.concat(arryaServices, arrayExtras);
         } else {
-            basket = basketLocal
+            basket = basketLocal;
         }
 
-        console.log('basket : ',basket);
         return (
             <View>
                 {this.renderHeaderCustomerBaket()}

@@ -308,7 +308,7 @@ class Layout extends React.Component {
         const { language, appointmentDetail, groupAppointment } = this.props;
         const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
-        const grandTotal = groupAppointment.total ?  groupAppointment.total : 0;
+        const grandTotal = groupAppointment.total ?  groupAppointment.total :  0;
         return (
             <View style={{ flex: 1 }} >
                 {/* -------- Header Basket -------- */}
@@ -319,12 +319,15 @@ class Layout extends React.Component {
                         {localize('Basket', language)}
                     </Text>
                     <View style={{flex:1,alignItems:"flex-end"}} >
-                        <Button onPress={this.addAppointmentCheckout} >
-                        <Image 
-                        source={IMAGE.add_appointment_checkout} 
-                        style={{width:scaleSzie(25),height:scaleSzie(25)}}
-                        />
-                        </Button>
+                        {
+                            !_.isEmpty(groupAppointment) ? <Button onPress={this.addAppointmentCheckout} >
+                            <Image 
+                            source={IMAGE.add_appointment_checkout} 
+                            style={{width:scaleSzie(25),height:scaleSzie(25)}}
+                            />
+                            </Button> : <View />
+                        }
+                        
                         
                     </View>
                 </View>
@@ -333,9 +336,7 @@ class Layout extends React.Component {
                     <ScrollView showsVerticalScrollIndicator={false} >
                         {
                           basket.length > 0 ? <ItemCustomerBasket 
-                                    // key={`${appointment.appointmentId}_${index}`}
                                     language={language}
-                                    // appointmentDetail={appointment}
                                     subTotalLocal={subTotalLocal} 
                                     tipLocal={tipLocal}
                                     discountTotalLocal={discountTotalLocal} 
