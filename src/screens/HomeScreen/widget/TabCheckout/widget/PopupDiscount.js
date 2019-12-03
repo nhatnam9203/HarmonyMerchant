@@ -45,13 +45,13 @@ class PopupDiscount extends React.Component {
     }
 
     submitCustomPromotion() {
-        const { appointmentDetail,groupAppointment,appointmentIdUpdatePromotion } = this.props;
+        const { appointmentDetail, groupAppointment, appointmentIdUpdatePromotion } = this.props;
         const customDiscountPercent = this.customDiscountRef.current.state.percent;
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
-        if(_.isEmpty(groupAppointment)) {
+        if (_.isEmpty(groupAppointment)) {
 
-        }else{
-            this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentIdUpdatePromotion,true);
+        } else {
+            this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentIdUpdatePromotion, true);
             this.props.actions.marketing.closeModalDiscount();
         }
 
@@ -83,11 +83,11 @@ class PopupDiscount extends React.Component {
 
     onChangeTextCustomDiscount = async (discount) => {
         const { temptTotalLocal, customDiscountFixedLocal } = this.state;
-        const { appointmentDetail } = this.props;
+        const { appointmentDetail, groupAppointment } = this.props;
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
         const temptDiscount = formatNumberFromCurrency(discount) + formatNumberFromCurrency(customFixedAmount)
 
-        if (_.isEmpty(appointmentDetail)) {
+        if (_.isEmpty(groupAppointment)) {
             await this.setState(prevState => ({
                 discountTotal: temptDiscount
             }));
@@ -102,15 +102,20 @@ class PopupDiscount extends React.Component {
     onChangeTextDiscountFixed = async (discountFixed) => {
         const { temptTotalLocal, totalLocal } = this.state;
         const customDiscountPercent = this.customDiscountRef.current.state.percent;
-        const { appointmentDetail } = this.props;
+        const {
+            // appointmentDetail,
+            appointmentIdUpdatePromotion,
+            groupAppointment
+        } = this.props;
 
         const temptDiscount = formatNumberFromCurrency(discountFixed) + Number((formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(totalLocal) / 100).toFixed(2));
 
-        if (_.isEmpty(appointmentDetail)) {
+        if (_.isEmpty(groupAppointment)) {
             await this.setState(prevState => ({
                 discountTotal: temptDiscount
             }));
         } else {
+            const appointmentDetail = !_.isEmpty(groupAppointment) && groupAppointment.appointments ? groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) : { subTotal: 0 };
             await this.setState({
                 moneyDiscountFixedAmout: discountFixed,
                 moneyDiscountCustom: (formatNumberFromCurrency(this.customDiscountRef.current.state.percent) * formatNumberFromCurrency(appointmentDetail.subTotal) / 100)
@@ -122,9 +127,17 @@ class PopupDiscount extends React.Component {
 
     render() {
         const { title, discount, visibleModalDiscount,
-            appointmentDetail
+            // appointmentDetail,
+            appointmentIdUpdatePromotion, groupAppointment
         } = this.props;
-        const { customDiscountPercent, customDiscountFixed } = appointmentDetail;
+
+        const appointmentDetail = appointmentIdUpdatePromotion !== -1 && !_.isEmpty(groupAppointment) && groupAppointment.appointments ? groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) : { subTotal: 0 };
+        // console.log('appointmentDetail : ', appointmentDetail);
+        // console.log('appointmentIdUpdatePromotion : ', appointmentIdUpdatePromotion);
+
+
+        const { customDiscountPercent, customDiscountFixed } = appointmentDetail !== undefined && appointmentDetail && !_.isEmpty(appointmentDetail) ? appointmentDetail : { customDiscountPercent: 0, customDiscountFixed: 0 };
+
         const {
             moneyDiscountCustom, moneyDiscountFixedAmout, totalLocal, discountTotal,
             customDiscountPercentLocal, customDiscountFixedLocal
