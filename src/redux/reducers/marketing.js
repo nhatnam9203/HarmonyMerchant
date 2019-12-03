@@ -19,6 +19,11 @@ function appReducer(state = initialState, action) {
                 listBanners: action.listBanners,
                 promotions: action.promotions
             }
+        case 'RESET_GROUP_APPOINTMENT':
+            return {
+                ...state,
+                appointmentIdUpdatePromotion: -1,
+            }
         case 'GET_BANNER_MERCHANT_SUCCESS':
             return {
                 ...state,

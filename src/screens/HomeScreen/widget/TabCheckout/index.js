@@ -113,7 +113,7 @@ class TabCheckout extends Layout {
         if (!_.isEmpty(groupAppointment)) {  // ------------- Buy online ---------
             const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
             const mainAppointment = appointments.find(appointment => appointment.isMain === 1);
-            console.log('mainAppointment : ' ,mainAppointment);
+            console.log('mainAppointment : ', mainAppointment);
             const appointmentId = mainAppointment.appointmentId ? mainAppointment.appointmentId : 0;
             if (categoryTypeSelected === 'Product') {
                 this.props.actions.appointment.addItemIntoAppointment(
@@ -137,7 +137,25 @@ class TabCheckout extends Layout {
                     }, appointmentId, true);
             }
         } else {  // ------------- Buy at store ---------
-
+            if (categoryTypeSelected === 'Product') {
+                const temptBasket = basket.filter((item) => item.id !== `${productSeleted.productId}_pro`);
+                temptBasket.unshift({
+                    type: 'Product',
+                    id: `${productSeleted.productId}_pro`,
+                    data: {
+                        name: productSeleted.name,
+                        productId: productSeleted.productId,
+                        price: productSeleted.price
+                    },
+                    quanlitySet: this.amountRef.current.state.quanlity
+                });
+                await this.setState({
+                    basket: temptBasket,
+                    subTotalLocal: this.getPriceOfline(temptBasket),
+                    taxLocal: this.calculateTotalTaxLocal(temptBasket)
+                });
+                console.log('temptBasket : ', temptBasket);
+            }
         }
 
         await this.setState({

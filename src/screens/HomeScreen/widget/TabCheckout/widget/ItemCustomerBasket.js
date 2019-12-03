@@ -50,17 +50,17 @@ class ItemCustomerBasket extends React.Component {
     getTypesOfMoneyAppointmenr = (appointmentDetail) => {
         const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.props;
 
-        const tipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
-        const subTotal = appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
-        const discount = appointmentDetail.discount ? appointmentDetail.discount : 0;
-        const tax = appointmentDetail.tax ? appointmentDetail.tax : 0;
-        const total = appointmentDetail.total ? appointmentDetail.total : 0;
+        const tipAmount = appointmentDetail && appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
+        const subTotal = appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
+        const discount = appointmentDetail && appointmentDetail.discount ? appointmentDetail.discount : 0;
+        const tax = appointmentDetail && appointmentDetail.tax ? appointmentDetail.tax : 0;
+        const total = appointmentDetail && appointmentDetail.total ? appointmentDetail.total : 0;
 
-        const temptSubTotal = _.isEmpty(appointmentDetail) ? subTotalLocal : subTotal;
-        const temptTotal = _.isEmpty(appointmentDetail) ? Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2) : total;
-        const temptDiscount = _.isEmpty(appointmentDetail) ? discountTotalLocal : discount;
-        const temptTip = _.isEmpty(appointmentDetail) ? tipLocal : tipAmount;
-        const temptTax = _.isEmpty(appointmentDetail) ? taxLocal : tax;
+        const temptSubTotal = !appointmentDetail && _.isEmpty(appointmentDetail) ? subTotalLocal : subTotal;
+        const temptTotal = !appointmentDetail && _.isEmpty(appointmentDetail) ? Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2) : total;
+        const temptDiscount = !appointmentDetail && _.isEmpty(appointmentDetail) ? discountTotalLocal : discount;
+        const temptTip = !appointmentDetail && _.isEmpty(appointmentDetail) ? tipLocal : tipAmount;
+        const temptTax = !appointmentDetail && _.isEmpty(appointmentDetail) ? taxLocal : tax;
 
         return {
             temptSubTotal,
@@ -122,14 +122,21 @@ class ItemCustomerBasket extends React.Component {
 
     render() {
         const { isCollapsed } = this.state;
-        const { language, appointmentDetail, removeItemBasket, changeStylist } = this.props;
+        const { language, appointmentDetail, removeItemBasket, changeStylist, basketLocal } = this.props;
+        let basket = [];
+        const appointmentId = appointmentDetail && appointmentDetail.appointmentId ? appointmentDetail.appointmentId : -1;
         const { temptSubTotal, temptTotal, temptDiscount, temptTip, temptTax } = this.getTypesOfMoneyAppointmenr(appointmentDetail);
-        const { services, products, extras } = appointmentDetail;
-        const { appointmentId } = appointmentDetail;
-        const arrayProducts = getArrayProductsFromAppointment(products);
-        const arryaServices = getArrayServicesFromAppointment(services);
-        const arrayExtras = getArrayExtrasFromAppointment(extras);
-        const basket = arrayProducts.concat(arryaServices, arrayExtras);
+        if (appointmentDetail) {
+            const { services, products, extras } = appointmentDetail;
+            const arrayProducts = getArrayProductsFromAppointment(products);
+            const arryaServices = getArrayServicesFromAppointment(services);
+            const arrayExtras = getArrayExtrasFromAppointment(extras);
+            basket = arrayProducts.concat(arryaServices, arrayExtras);
+        } else {
+            basket = basketLocal
+        }
+
+
         return (
             <View>
                 {this.renderHeaderCustomerBaket()}
@@ -210,40 +217,11 @@ class ItemCustomerBasket extends React.Component {
             </View>
         );
     }
-
-
-
 }
 
 
 const mapStateToProps = state => ({
     groupAppointment: state.appointment.groupAppointment
-})
-
-
+});
 
 export default connectRedux(mapStateToProps, ItemCustomerBasket);
-// export default ItemCustomerBasket;
-
-
-
-{/* ---------- Gift card ------ */ }
-{/* <View style={styles.payNumberTextContainer} >
-                                <View style={{
-                                    flexDirection: "row", alignItems: "center", height: scaleSzie(20),
-                                }} >
-                                    <Button onPress={this.selectCheckbox} >
-                                        <Image source={iconCheckbox} style={{ marginRight: scaleSzie(8) }} />
-                                    </Button>
-                                    <Text style={[styles.textPay, { fontSize: scaleSzie(15) }]} >
-                                        {`${localize('Use gift card', language)}:`}
-                                        <Text style={[styles.textPay, { fontSize: scaleSzie(14) }]} >
-                                            {`(Value : $ 0)`}
-                                        </Text>
-                                    </Text>
-                                </View>
-
-                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$ ${formatMoney(temptTax)}`}
-                                </Text>
-                            </View> */}

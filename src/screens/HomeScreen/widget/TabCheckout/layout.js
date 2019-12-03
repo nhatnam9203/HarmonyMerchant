@@ -332,7 +332,20 @@ class Layout extends React.Component {
                     <View style={{ flex: 1 }} >
                     <ScrollView showsVerticalScrollIndicator={false} >
                         {
-                            appointments.map((appointment,index) => <ItemCustomerBasket 
+                          basket.length > 0 ? <ItemCustomerBasket 
+                                    // key={`${appointment.appointmentId}_${index}`}
+                                    language={language}
+                                    // appointmentDetail={appointment}
+                                    subTotalLocal={subTotalLocal} 
+                                    tipLocal={tipLocal}
+                                    discountTotalLocal={discountTotalLocal} 
+                                    taxLocal={taxLocal}
+                                    removeItemBasket={this.removeItemBasket}
+                                    changeStylist={this.changeStylist}
+                                    showModalDiscount={this.showModalDiscount}
+                                    basketLocal={basket}
+                  >
+                  </ItemCustomerBasket> :  appointments.map((appointment,index) => <ItemCustomerBasket 
                                     key={`${appointment.appointmentId}_${index}`}
                                     language={language}
                                     appointmentDetail={appointment}
@@ -343,6 +356,7 @@ class Layout extends React.Component {
                                     removeItemBasket={this.removeItemBasket}
                                     changeStylist={this.changeStylist}
                                     showModalDiscount={this.showModalDiscount}
+                                    basketLocal={basket}
                             >
                             </ItemCustomerBasket>)
                         }
