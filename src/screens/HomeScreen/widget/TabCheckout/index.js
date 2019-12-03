@@ -1339,18 +1339,6 @@ class TabCheckout extends Layout {
             })
         }
 
-        // if (basket.length > 0) {
-        //     const { appointmentDetail } = this.props;
-        //     if (!_.isEmpty(appointmentDetail)) {
-        //         const { appointmentId } = this.state;
-        //         this.props.actions.marketing.getPromotionByAppointment(appointmentId);
-        //     } else {
-        //         this.popupDiscountLocalRef.current.setStateFromParent(subTotalLocal, discountTotalLocal, customDiscountPercentLocal, customDiscountFixedLocal);
-        //         await this.setState({
-        //             visiblePopupDiscountLocal: true
-        //         })
-        //     }
-        // }
     }
 
     async callbackDiscountToParent(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal) {
@@ -1405,10 +1393,24 @@ class TabCheckout extends Layout {
     }
 
     displayPopupCustomerName = async () => {
+        const { groupAppointment } = this.props;
         const { infoUser } = this.state;
-        const { firstName, lastName } = infoUser;
+        let firstName = '';
+        let lastName = '';
+
+        if (!_.isEmpty(groupAppointment)) {
+            const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
+            const appointmentMain = appointments.find(appointment => appointment.isMain === 1);
+            firstName = appointmentMain.firstName ? appointmentMain.firstName : '';
+            lastName = appointmentMain.lastName ? appointmentMain.lastName : '';
+
+        }
+        firstName = infoUser.firstName !== '' ? infoUser.firstName : firstName;
+        lastName = infoUser.lastName !== '' ? infoUser.lastName : lastName;
+
         this.customerNameRef.current.setStateFromParent(firstName, lastName);
         await this.setState({ visibleCustomerName: true });
+
     }
 
     changeCustomerName = async () => {
@@ -1420,13 +1422,24 @@ class TabCheckout extends Layout {
             infoUser: { ...infoUser, firstName, lastName },
             visibleCustomerName: false
         })
+
     }
 
     // -------- handle Customer Phone 
 
     displayPopupCustomerPhone = () => {
+
+        const { groupAppointment } = this.props;
         const { infoUser } = this.state;
-        const { phoneNumber } = infoUser;
+        let phoneNumber = '';
+
+        if (!_.isEmpty(groupAppointment)) {
+            const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
+            const appointmentMain = appointments.find(appointment => appointment.isMain === 1);
+            phoneNumber = appointmentMain.phoneNumber ? appointmentMain.phoneNumber : '';
+
+        }
+        phoneNumber = infoUser.phoneNumber !== '' ? infoUser.phoneNumber : phoneNumber;
         this.CustomerPhoneRef.current.setStateFromParent(phoneNumber);
         this.setState({
             visibleCustomerPhone: true

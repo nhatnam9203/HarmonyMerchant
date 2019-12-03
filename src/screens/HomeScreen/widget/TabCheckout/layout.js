@@ -25,16 +25,32 @@ import {
 class Layout extends React.Component {
 
     renderHeader() {
-        const { language } = this.props;
-        const { firstName, lastName, phoneNumber } = this.state.infoUser;
-        const name =`${firstName} ${lastName}`;
+        const { language,groupAppointment } = this.props;
+        const {infoUser} = this.state;
+        let firstName = '';
+        let lastName = '';
+        let phoneNumber = '';
+
+        if(!_.isEmpty(groupAppointment)){
+            const appointments = groupAppointment.appointments ?   groupAppointment.appointments : [];
+            const appointmentMain = appointments.find(appointment => appointment.isMain === 1);
+             firstName = appointmentMain.firstName ? appointmentMain.firstName : '';
+             lastName = appointmentMain.lastName ? appointmentMain.lastName : '';
+             phoneNumber = appointmentMain.phoneNumber ? appointmentMain.phoneNumber : '';
+
+        }
+            firstName = infoUser.firstName !== '' ? infoUser.firstName :firstName  ;
+            lastName = infoUser.lastName!== '' ? infoUser.lastName :lastName  ;
+            phoneNumber = infoUser.phoneNumber!== '' ? infoUser.phoneNumber :phoneNumber  ;
+        
+         const name =`${firstName} ${lastName}`;
         return (
             <View style={styles.headerContainer} >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }} >
                     <Text onPress={this.displayPopupCustomerName} style={styles.textHeader} >
                         {`${localize('Customer', language)}:`}
                     </Text>
-                    {/* {
+                    {
                         name.trim() == '' ?  
                         <ButtonCustom
                         width={scaleSzie(100)}
@@ -55,13 +71,13 @@ class Layout extends React.Component {
                         :  <Text onPress={this.displayPopupCustomerName} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(30) }]} >
                         {`${firstName} ${lastName}`}
                     </Text>
-                    } */}
+                    }
 
                    
                     <Text onPress={this.displayPopupCustomerPhone} style={styles.textHeader} >
                         {`${localize('Phone', language)}:`}
                     </Text>
-                    {/* {
+                    {
                         phoneNumber.trim() == '' ?  
                         <ButtonCustom
                         width={scaleSzie(100)}
@@ -82,7 +98,7 @@ class Layout extends React.Component {
                         :  <Text onPress={this.displayPopupCustomerPhone} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(12) }]} >
                         {phoneNumber}
                     </Text>
-                    } */}
+                    }
 
                 </View>
                 {/* -------- Button open cash -------- */}
@@ -309,6 +325,8 @@ class Layout extends React.Component {
         const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
         const grandTotal = groupAppointment.total ?  groupAppointment.total :  0;
+        const temptTotalLocal = Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2);
+        const temptGrandTotal = basket.length > 0 ?  temptTotalLocal : grandTotal;
         return (
             <View style={{ flex: 1 }} >
                 {/* -------- Header Basket -------- */}
@@ -372,7 +390,7 @@ class Layout extends React.Component {
                                     {`${localize('Grand Total:', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { fontSize:scaleSzie(22),fontWeight:"bold",color: 'rgb(65,184,85)' }]} >
-                                    {`$${formatMoney(grandTotal)}`}
+                                    {`$${formatMoney(temptGrandTotal)}`}
                                 </Text>
                             </View>
                         </View>

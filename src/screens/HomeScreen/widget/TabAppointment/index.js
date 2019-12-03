@@ -250,7 +250,7 @@ class TabAppointment extends Layout {
                     }
                     break;
             }
-            this.props.actions.appointment.removeItemIntoAppointment(dataRemove, appointmentId,false);
+            this.props.actions.appointment.removeItemIntoAppointment(dataRemove, appointmentId, false);
         } else {
             // -------- Remove Offline --------
             const temptBasket = basket.filter((itemBasket) => itemBasket.id !== item.id);
@@ -364,7 +364,7 @@ const mapStateToProps = state => ({
     isLoginStaff: state.dataLocal.isLoginStaff,
     loading: state.app.loading,
 
-     
+
 })
 
 
