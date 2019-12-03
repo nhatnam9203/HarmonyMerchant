@@ -113,7 +113,7 @@ class TabCheckout extends Layout {
         if (!_.isEmpty(groupAppointment)) {  // ------------- Buy online ---------
             const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
             const mainAppointment = appointments.find(appointment => appointment.isMain === 1);
-            console.log('mainAppointment : ', mainAppointment);
+            // console.log('mainAppointment : ', mainAppointment);
             const appointmentId = mainAppointment.appointmentId ? mainAppointment.appointmentId : 0;
             if (categoryTypeSelected === 'Product') {
                 this.props.actions.appointment.addItemIntoAppointment(
@@ -137,7 +137,7 @@ class TabCheckout extends Layout {
                     }, appointmentId, true);
             }
         } else {  // ------------- Buy at store ---------
-            if (categoryTypeSelected === 'Product') {
+            if (categoryTypeSelected === 'Product') { // ------------- Buy Product at store ---------
                 const temptBasket = basket.filter((item) => item.id !== `${productSeleted.productId}_pro`);
                 temptBasket.unshift({
                     type: 'Product',
@@ -154,7 +154,45 @@ class TabCheckout extends Layout {
                     subTotalLocal: this.getPriceOfline(temptBasket),
                     taxLocal: this.calculateTotalTaxLocal(temptBasket)
                 });
-                console.log('temptBasket : ', temptBasket);
+            } else { // ------------- Buy Service, Extra at store ---------
+                const { profileStaffLogin } = this.props;
+                const temptBasket = basket.filter((item) => item.id !== `${productSeleted.serviceId}_ser`);
+                temptBasket.unshift({
+                    type: 'Service',
+                    id: `${productSeleted.serviceId}_ser`,
+                    data: {
+                        name: productSeleted.name,
+                        serviceId: productSeleted.serviceId,
+                        price: productSeleted.price
+                    },
+                    serviceName: productSeleted.name,
+                    staff: {
+                        staffId: profileStaffLogin.staffId,
+                        imageUrl: profileStaffLogin.imageUrl,
+                        displayName: profileStaffLogin.displayName,
+                        tip: 0.00
+                    }
+                });
+
+                const temptBasketExtra = temptBasket.filter((item) => item.id !== `${extraSelected.extraId}_extra`);
+                if (extraSelected.extraId !== -1) {
+                    temptBasketExtra.unshift({
+                        type: 'Extra',
+                        id: `${extraSelected.extraId}_extra`,
+                        data: {
+                            name: extraSelected.name,
+                            extraId: extraSelected.extraId,
+                            price: extraSelected.price
+                        },
+                        serviceName: productSeleted.name
+                    });
+                }
+
+                this.setState({
+                    basket: temptBasketExtra,
+                    subTotalLocal: this.getPriceOfline(temptBasketExtra),
+                    taxLocal: this.calculateTotalTaxLocal(temptBasketExtra)
+                });
             }
         }
 
@@ -368,13 +406,12 @@ class TabCheckout extends Layout {
             this.props.actions.appointment.removeItemIntoAppointment(dataRemove, appointmentId, isGroup);
         } else {
             // -------- Remove Offline --------
-            alert("Remove Offline ")
-            // const temptBasket = basket.filter((itemBasket) => itemBasket.id !== item.id);
-            // this.setState({
-            //     basket: temptBasket,
-            //     subTotalLocal: this.getPriceOfline(temptBasket),
-            //     taxLocal: this.calculateTotalTaxLocal(temptBasket)
-            // })
+            const temptBasket = basket.filter((itemBasket) => itemBasket.id !== item.id);
+            this.setState({
+                basket: temptBasket,
+                subTotalLocal: this.getPriceOfline(temptBasket),
+                taxLocal: this.calculateTotalTaxLocal(temptBasket)
+            })
         }
 
     }

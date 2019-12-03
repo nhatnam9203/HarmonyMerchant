@@ -49,6 +49,11 @@ class ItemCustomerBasket extends React.Component {
 
     getTypesOfMoneyAppointmenr = (appointmentDetail) => {
         const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.props;
+        console.log('subTotalLocal : ',subTotalLocal);
+        console.log('tipLocal : ',tipLocal);
+        console.log('discountTotalLocal : ',discountTotalLocal);
+        console.log('taxLocal : ',taxLocal);
+
 
         const tipAmount = appointmentDetail && appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
         const subTotal = appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
@@ -56,11 +61,12 @@ class ItemCustomerBasket extends React.Component {
         const tax = appointmentDetail && appointmentDetail.tax ? appointmentDetail.tax : 0;
         const total = appointmentDetail && appointmentDetail.total ? appointmentDetail.total : 0;
 
-        const temptSubTotal = !appointmentDetail && _.isEmpty(appointmentDetail) ? subTotalLocal : subTotal;
-        const temptTotal = !appointmentDetail && _.isEmpty(appointmentDetail) ? Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2) : total;
-        const temptDiscount = !appointmentDetail && _.isEmpty(appointmentDetail) ? discountTotalLocal : discount;
-        const temptTip = !appointmentDetail && _.isEmpty(appointmentDetail) ? tipLocal : tipAmount;
-        const temptTax = !appointmentDetail && _.isEmpty(appointmentDetail) ? taxLocal : tax;
+        // console.log(!appointmentDetail || _.isEmpty(appointmentDetail) );
+        const temptSubTotal = !appointmentDetail || _.isEmpty(appointmentDetail) ? subTotalLocal : subTotal;
+        const temptTotal = !appointmentDetail || _.isEmpty(appointmentDetail) ? Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2) : total;
+        const temptDiscount = !appointmentDetail || _.isEmpty(appointmentDetail) ? discountTotalLocal : discount;
+        const temptTip = !appointmentDetail || _.isEmpty(appointmentDetail) ? tipLocal : tipAmount;
+        const temptTax = !appointmentDetail || _.isEmpty(appointmentDetail) ? taxLocal : tax;
 
         return {
             temptSubTotal,
@@ -80,7 +86,17 @@ class ItemCustomerBasket extends React.Component {
     // ---------- Render --------
 
     renderHeaderCustomerBaket() {
-        const { lastName, firstName, customerId, isMain, appointmentId } = this.props.appointmentDetail;
+        const {appointmentDetail} = this.props;
+        // const { lastName, firstName, customerId, isMain, appointmentId } = this.props.appointmentDetail;
+        const lastName = appointmentDetail ? appointmentDetail.lastName : '';
+        const firstName = appointmentDetail ? appointmentDetail.firstName : '';
+        const customerId = appointmentDetail ? appointmentDetail.customerId : '-1';
+        const isMain = appointmentDetail ? appointmentDetail.isMain : 1;
+        const appointmentId = appointmentDetail ? appointmentDetail.appointmentId :-1;
+
+
+
+
         const { isCollapsed } = this.state;
         const iconCollaps = isCollapsed ? IMAGE.open_customer_basket : IMAGE.close_customer_basket;
         const swipeoutBtns = [
@@ -104,7 +120,7 @@ class ItemCustomerBasket extends React.Component {
                     flexDirection: "row", alignItems: "center"
                 }} >
                     <Text style={{ color: "#fff", fontSize: scaleSzie(16), fontWeight: "bold" }} >
-                        {`#${customerId} - ${firstName} ${lastName}`}
+                        {`#${customerId } - ${firstName} ${lastName }`}
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
                         <Button onPress={this.toggleCollaps} >
@@ -136,7 +152,7 @@ class ItemCustomerBasket extends React.Component {
             basket = basketLocal
         }
 
-
+        console.log('basket : ',basket);
         return (
             <View>
                 {this.renderHeaderCustomerBaket()}
