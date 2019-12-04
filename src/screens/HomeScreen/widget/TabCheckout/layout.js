@@ -19,7 +19,7 @@ import IMAGE from '@resources';
 import {
     ItemCategory, ColPlaceHolder, ItemBasket, ItemProductService, ItemAmount,
     ItemExtra, PopupDiscount, PopupProcessingCredit, PopupBill, PopupDiscountLocal,PopupEnterInfo,
-    PopupEnterCustomerPhone,ItemCustomerBasket
+    PopupEnterCustomerPhone,ItemCustomerBasket,PopupPaymentDetails
 } from './widget';
 
 class Layout extends React.Component {
@@ -692,7 +692,7 @@ class Layout extends React.Component {
     render() {
         const { language } = this.props;
         const { basket, visibleConfirm, visibleChangeStylist, visibleChangeMoney,
-            visiblePopupDiscountLocal
+            visiblePopupDiscountLocal,visiblePopupPaymentDetails
         } = this.state;
         return (
             <View style={styles.container} >
@@ -774,6 +774,12 @@ class Layout extends React.Component {
                       message="Customer Phone"
                       onRequestClose={() => this.setState({ visibleCustomerPhone: false })}
                     confimYes={this.changeCustomerPhone}
+                />
+                <PopupPaymentDetails 
+                    title={'Payment Details'}
+                    visible={visiblePopupPaymentDetails}
+                    onRequestClose={this.closePopupProductPaymentDetails}
+                    language={language}
                 />
             </View>
         );

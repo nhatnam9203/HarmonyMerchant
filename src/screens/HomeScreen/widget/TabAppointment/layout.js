@@ -4,7 +4,7 @@ import {
     ScrollView,
     Image
 } from 'react-native';
-import { WebView} from 'react-native-webview';
+import { WebView } from 'react-native-webview';
 
 import { Text, ButtonCustom, Button, PopupConfirm } from '@components';
 import styles from './style';
@@ -14,7 +14,7 @@ import {
     ItemCategory, ItemProductService, ColPlaceHolder, ItemAmount, ItemExtra
 } from '../TabCheckout/widget';
 import IMAGE from '@resources';
-import {PopupDiscount,PopupChangeStylist,ItemBasket} from './widget';
+import { PopupDiscount, PopupChangeStylist, ItemBasket } from './widget';
 
 
 class Layout extends React.Component {
