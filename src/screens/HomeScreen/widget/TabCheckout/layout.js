@@ -321,6 +321,7 @@ class Layout extends React.Component {
     }
 
     renderBasket() {
+        const {infoUser} = this.state;
         const { language, appointmentDetail, groupAppointment } = this.props;
         const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
@@ -363,6 +364,7 @@ class Layout extends React.Component {
                                     changeStylist={this.changeStylist}
                                     showModalDiscount={this.showModalDiscount}
                                     basketLocal={basket}
+                                    infoUser={infoUser}
                   >
                   </ItemCustomerBasket> :  appointments.map((appointment,index) => <ItemCustomerBasket 
                                     key={`${appointment.appointmentId}_${index}`}
@@ -376,6 +378,7 @@ class Layout extends React.Component {
                                     changeStylist={this.changeStylist}
                                     showModalDiscount={this.showModalDiscount}
                                     basketLocal={basket}
+                                    infoUser={infoUser}
                             >
                             </ItemCustomerBasket>)
                         }

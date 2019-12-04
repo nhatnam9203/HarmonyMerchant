@@ -49,11 +49,6 @@ class ItemCustomerBasket extends React.Component {
 
     getTypesOfMoneyAppointmenr = (appointmentDetail) => {
         const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.props;
-        console.log('subTotalLocal : ',subTotalLocal);
-        console.log('tipLocal : ',tipLocal);
-        console.log('discountTotalLocal : ',discountTotalLocal);
-        console.log('taxLocal : ',taxLocal);
-
 
         const tipAmount = appointmentDetail && appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
         const subTotal = appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
@@ -86,15 +81,18 @@ class ItemCustomerBasket extends React.Component {
     // ---------- Render --------
 
     renderHeaderCustomerBaket() {
-        const {appointmentDetail} = this.props;
-        // const { lastName, firstName, customerId, isMain, appointmentId } = this.props.appointmentDetail;
-        const lastName = appointmentDetail ? appointmentDetail.lastName : '';
-        const firstName = appointmentDetail ? appointmentDetail.firstName : '';
-        const customerId = appointmentDetail ? appointmentDetail.customerId : '-1';
+        const { appointmentDetail, infoUser } = this.props;
+        let firstName = '';
+        let lastName = '';
+
+        lastName = appointmentDetail ? appointmentDetail.lastName : '';
+        firstName = appointmentDetail ? appointmentDetail.firstName : 'Anonymous';
+        const customerId = appointmentDetail ? appointmentDetail.customerId : '1';
         const isMain = appointmentDetail ? appointmentDetail.isMain : 1;
-        const appointmentId = appointmentDetail ? appointmentDetail.appointmentId :-1;
+        const appointmentId = appointmentDetail ? appointmentDetail.appointmentId : -1;
 
-
+        firstName = infoUser.firstName !== '' ? infoUser.firstName : firstName;
+        lastName = infoUser.lastName !== '' ? infoUser.lastName : lastName;
 
 
         const { isCollapsed } = this.state;
@@ -120,7 +118,7 @@ class ItemCustomerBasket extends React.Component {
                     flexDirection: "row", alignItems: "center"
                 }} >
                     <Text style={{ color: "#fff", fontSize: scaleSzie(16), fontWeight: "bold" }} >
-                        {`#${customerId } - ${firstName} ${lastName }`}
+                        {`#${customerId} - ${firstName} ${lastName}`}
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
                         <Button onPress={this.toggleCollaps} >
