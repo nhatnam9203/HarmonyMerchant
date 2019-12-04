@@ -114,7 +114,7 @@ class TabCheckout extends Layout {
             const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
             const mainAppointment = appointments.find(appointment => appointment.isMain === 1);
             // console.log('mainAppointment : ', mainAppointment);
-            const appointmentId = mainAppointment.appointmentId ? mainAppointment.appointmentId : 0;
+            const appointmentId = mainAppointment && mainAppointment.appointmentId ? mainAppointment.appointmentId : 0;
             if (categoryTypeSelected === 'Product') {
                 this.props.actions.appointment.addItemIntoAppointment(
                     {
@@ -1401,8 +1401,11 @@ class TabCheckout extends Layout {
         if (!_.isEmpty(groupAppointment)) {
             const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
             const appointmentMain = appointments.find(appointment => appointment.isMain === 1);
-            firstName = appointmentMain.firstName ? appointmentMain.firstName : '';
+            if(appointmentMain){
+                firstName = appointmentMain.firstName ? appointmentMain.firstName : '';
             lastName = appointmentMain.lastName ? appointmentMain.lastName : '';
+            }
+            
 
         }
         firstName = infoUser.firstName !== '' ? infoUser.firstName : firstName;
@@ -1436,7 +1439,10 @@ class TabCheckout extends Layout {
         if (!_.isEmpty(groupAppointment)) {
             const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
             const appointmentMain = appointments.find(appointment => appointment.isMain === 1);
-            phoneNumber = appointmentMain.phoneNumber ? appointmentMain.phoneNumber : '';
+            if(appointmentMain){
+                phoneNumber = appointmentMain.phoneNumber ? appointmentMain.phoneNumber : '';
+            }
+            
 
         }
         phoneNumber = infoUser.phoneNumber !== '' ? infoUser.phoneNumber : phoneNumber;

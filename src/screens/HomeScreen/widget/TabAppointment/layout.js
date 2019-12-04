@@ -11,10 +11,10 @@ import styles from './style';
 import apiConfigs from '@configs/api';
 import { scaleSzie, localize } from '@utils';
 import {
-    ItemCategory, ItemProductService, ColPlaceHolder, ItemAmount, ItemExtra, ItemBasket
+    ItemCategory, ItemProductService, ColPlaceHolder, ItemAmount, ItemExtra
 } from '../TabCheckout/widget';
 import IMAGE from '@resources';
-import {PopupDiscount,PopupChangeStylist} from './widget';
+import {PopupDiscount,PopupChangeStylist,ItemBasket} from './widget';
 
 
 class Layout extends React.Component {

@@ -37,7 +37,7 @@ function* getGroupAppointmentById(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('getGroupAppointmentById : ', JSON.stringify(responses));
+        console.log('getGroupAppointmentById : ', JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -218,7 +218,7 @@ function* createAnymousAppointment(action) {
     try {
         action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
-        // console.log('createAnymousAppointment : ' + JSON.stringify(responses));
+        console.log('createAnymousAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
@@ -395,12 +395,15 @@ function* removeAppointmentInGroup(action) {
             // ------- Get Group Appointment --------
             const state = yield select();
             const appointment = state.appointment.groupAppointment.appointments.find((appointment) => appointment.isMain === 1);
-            yield put({
-                type: 'GET_GROUP_APPOINTMENT_BY_ID',
-                method: 'GET',
-                api: `${apiConfigs.BASE_API}appointment/getGroupById/${appointment.appointmentId}`,
-                token: true
-            })
+            if(appointment){
+                yield put({
+                    type: 'GET_GROUP_APPOINTMENT_BY_ID',
+                    method: 'GET',
+                    api: `${apiConfigs.BASE_API}appointment/getGroupById/${appointment.appointmentId}`,
+                    token: true
+                })
+            }
+           
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({

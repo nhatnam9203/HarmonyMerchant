@@ -87,7 +87,7 @@ class ItemCustomerBasket extends React.Component {
 
         lastName = appointmentDetail ? appointmentDetail.lastName : '';
         firstName = appointmentDetail ? appointmentDetail.firstName : 'Anonymous';
-        const customerId = appointmentDetail ? appointmentDetail.customerId : '1';
+        // const customerId = appointmentDetail ? appointmentDetail.customerId : '1';
         const isMain = appointmentDetail ? appointmentDetail.isMain : 1;
         const appointmentId = appointmentDetail ? appointmentDetail.appointmentId : -1;
 
@@ -105,7 +105,7 @@ class ItemCustomerBasket extends React.Component {
                 </Button>,
             }
         ];
-
+        const temptColor = isMain === 1 ?"#0764B0" : "red";
         return (
             <Swipeout
                 right={swipeoutBtns}
@@ -114,11 +114,11 @@ class ItemCustomerBasket extends React.Component {
                 close={true}
             >
                 <View style={{
-                    height: scaleSzie(35), backgroundColor: "#0764B0", paddingHorizontal: scaleSzie(10),
-                    flexDirection: "row", alignItems: "center"
+                    height: scaleSzie(35), backgroundColor: "#0764B0", paddingLeft: scaleSzie(10),
+                    flexDirection: "row", alignItems: "center",
                 }} >
                     <Text style={{ color: "#fff", fontSize: scaleSzie(16), fontWeight: "bold" }} >
-                        {`#${customerId} - ${firstName} ${lastName}`}
+                        {`#${appointmentId} - ${firstName} ${lastName}`}
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
                         <Button onPress={this.toggleCollaps} >
@@ -127,7 +127,9 @@ class ItemCustomerBasket extends React.Component {
                             />
                         </Button>
                     </View>
+                    <View style={{width:scaleSzie(5),height: scaleSzie(35),backgroundColor:temptColor,marginLeft:scaleSzie(8)}} />
                 </View>
+                <View style={{  height: 2, borderBottomColor:"#fff",borderBottomWidth:2}} />
             </Swipeout>
         );
     }
