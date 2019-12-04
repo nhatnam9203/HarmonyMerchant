@@ -5,12 +5,14 @@ import {
     TextInput,
     ScrollView,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity,
+    Dimensions
 } from 'react-native';
 
 import { ButtonCustom, PopupParent, PopupConfirm } from '@components';
 import { scaleSzie, localize, getCategoryName } from '@utils';
 
+const { width } = Dimensions.get("window");
 
 class PopupPaymentDetails extends React.Component {
 
@@ -30,78 +32,72 @@ class PopupPaymentDetails extends React.Component {
                 title={title}
                 visible={visible}
                 onRequestClose={() => onRequestClose()}
-                style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
+                width={500}
+                hideCloseButton={true}
             >
                 <View style={{
-                    height: scaleSzie(480), backgroundColor: '#fff',
+                    height: scaleSzie(400), backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15),
                     borderBottomRightRadius: scaleSzie(15),
-                    paddingHorizontal: scaleSzie(30)
+                    paddingHorizontal: scaleSzie(50)
                 }} >
                     <View style={{ flex: 1 }} >
-                        <ScrollView
-                            showsVerticalScrollIndicator={false}
-                        >
-                            <View style={{ height: scaleSzie(13) }} />
-                            {/* ---- start ---- */}
-                            <TouchableOpacity activeOpacity={1}>
-                                <ItemDetail
-                                    title={localize('Product', language)}
-                                    value={'name'}
-                                />
-                                <ItemDetail
-                                    title={localize('SKU number', language)}
-                                    value={'sku'}
-                                />
-                                <ItemDetail
-                                    title={localize('Category', language)}
-                                    value={'categoryId'}
-                                />
-                                <ItemDetail
-                                    title={localize('Quantity', language)}
-                                    value={'quantity'}
-                                />
-                                <ItemDetail
-                                    title={localize('Need to order', language)}
-                                    value={'needToorDer'}
-                                />
-                                <ItemDetail
-                                    title={localize('Low theshold', language)}
-                                    value={'minThreshold'}
-                                />
-                                <ItemDetail
-                                    title={localize('Max theshold', language)}
-                                    value={'maxThreshold'}
-                                />
-                                <ItemDetail
-                                    title={`${localize('Price', language)} ($)`}
-                                    value={`${'price'}`}
-                                />
-                                <ItemDetail
-                                    title={localize('Status', language)}
-                                    value={'isDisabled'}
-                                />
-                                <ItemDetail
-                                    title={localize('Description', language)}
-                                    value={''}
-                                />
-                            </TouchableOpacity>
+                        <View style={{ height: scaleSzie(15) }} />
+                        {/* ---- start ---- */}
+                        <ItemDetail
+                            title={`${localize('Invoice No', language)}:`}
+                            value={'# 1498'}
+                            subText={""}
+                        />
+                        <ItemDetail
+                            title={`${localize('Customer Name', language)}:`}
+                            value={'Samatha Colins'}
+                            subText={""}
+                        />
+                        <ItemDetail
+                            title={`${localize('Phone Number', language)}:`}
+                            value={'1-347-939-1189'}
+                            subText={""}
+                        />
+                        <ItemDetail
+                            title={`${localize('Status', language)}:`}
+                            value={'Pending'}
+                            subText={""}
+                        />
+                        <ItemDetail
+                            title={`${localize('Grand Total', language)}:`}
+                            value={`$ 240`}
+                            isBold={true}
+                            subText={""}
+                        />
+                        <View style={{ height: 3, backgroundColor: "rgb(238,238,238)", marginVertical: scaleSzie(10) }} />
+                        <ItemDetail
+                            title={`${localize('Paid Amount', language)}:`}
+                            value={`$ 150`}
+                            isBold={true}
+                            subText={"(Harmony Pay)"}
+                        />
+                        <ItemDetail
+                            title={`${localize('Due Amount', language)}:`}
+                            value={`$ 90`}
+                            isBold={true}
+                            subText={""}
+                        />
 
-                            {/* -----  */}
-                            <TouchableOpacity activeOpacity={1} style={{ height: scaleSzie(250), }} />
-                        </ScrollView>
+                        {/* -----  */}
+                        <TouchableOpacity activeOpacity={1} style={{ height: scaleSzie(250), }} />
                     </View>
                     {/* ---- Footer ---- */}
-                    <View style={{ height: scaleSzie(70), flexDirection: 'row', justifyContent: 'space-evenly' }} >
+                    <View style={{ height: scaleSzie(60), flexDirection: 'row', justifyContent: 'space-evenly' }} >
                         <ButtonCustom
                             width={200}
                             height={45}
-                            backgroundColor="#F1F1F1"
-                            title={localize('Edit', language)}
-                            textColor="#6A6A6A"
+                            backgroundColor="#0764B0"
+                            title={localize('Next', language)}
+                            textColor="#fff"
                             onPress={this.showModalEditProduct}
                             style={{
-                                borderRadius: scaleSzie(2),
+                                borderRadius: scaleSzie(4),
                                 borderColor: '#C5C5C5',
                                 borderWidth: 1,
                             }}
@@ -117,7 +113,8 @@ class PopupPaymentDetails extends React.Component {
     }
 }
 
-const ItemDetail = ({ title, value }) => {
+const ItemDetail = ({ title, value, isBold, subText }) => {
+    const temptWeight = isBold ? "bold" : "500";
     return (
         <View style={{ height: scaleSzie(40), flexDirection: 'row' }} >
             <View style={{ flex: 1, justifyContent: 'center' }} >
@@ -125,9 +122,12 @@ const ItemDetail = ({ title, value }) => {
                     {title}
                 </Text>
             </View>
-            <View style={{ flex: 1, justifyContent: 'center' }} >
-                <Text style={styles.textValue} >
+            <View style={{ flex: 1.1, justifyContent: 'center' }} >
+                <Text style={[styles.textValue, { fontWeight: temptWeight }]} >
                     {value}
+                    <Text style={styles.textCommon} >
+                        {subText}
+                    </Text>
                 </Text>
             </View>
         </View>
@@ -136,12 +136,13 @@ const ItemDetail = ({ title, value }) => {
 
 const styles = StyleSheet.create({
     textCommon: {
-        color: '#707070',
-        fontSize: scaleSzie(16)
+        color: 'rgb(73,73,73)',
+        fontSize: scaleSzie(18)
     },
     textValue: {
-        color: '#404040',
+        color: 'rgb(73,73,73)',
         fontSize: scaleSzie(18)
+
     }
 })
 
