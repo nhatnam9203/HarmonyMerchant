@@ -18,7 +18,7 @@ const ItemProductService = ({ item, showColAmount, colorText, itemSelected, cate
             backgroundColor: temptBackgrounColor,
             // paddingHorizontal:scaleSzie(4)
         }} >
-            <Text style={[{ fontSize: scaleSzie(20), color: '#404040' },
+            <Text  style={[{ fontSize: scaleSzie(20), color: '#404040' },
                 colorText,
                 temptTextColor
             ]} numberOflines={1} >

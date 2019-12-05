@@ -15,7 +15,7 @@ const ItemExtra = ({ extra,onPressSelectExtra,extraSelected}) => {
             alignItems: 'center', borderBottomWidth: 3, borderBottomColor: '#fff',
             backgroundColor: temptBackgrounColor
         }} >
-            <Text style={[{ fontSize: scaleSzie(20), color: '#404040' }, 
+            <Text numberOfLines={1} style={[{ fontSize: scaleSzie(20), color: '#404040' }, 
             temptTextColor
             ]} >
                 {extra.name}

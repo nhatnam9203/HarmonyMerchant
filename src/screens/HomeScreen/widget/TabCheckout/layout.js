@@ -135,7 +135,7 @@ class Layout extends React.Component {
     renderCategoriesCheckout() {
         const { language, categoriesByMerchant } = this.props;
         const { isShowColProduct } = this.state;
-        const temptWidth = isShowColProduct ? 140 : 190;
+        const temptWidth = isShowColProduct ? 120 : 190;
         const temptColorHeader = isShowColProduct ? { color: '#6A6A6A' } : {};
         const temptBorderColor = isShowColProduct ? { borderColor: rgb(197, 197, 197) } : {};
 
@@ -180,8 +180,8 @@ class Layout extends React.Component {
         const { isShowColProduct, isShowColAmount, categorySelected, productSeleted,
             categoryTypeSelected
         } = this.state;
-        let temptWidth = isShowColProduct ? 190 : 140;
-        temptWidth = isShowColAmount ? 140 : temptWidth;
+        let temptWidth = isShowColProduct ? 190 : 120;
+        temptWidth = isShowColAmount ? 120 : temptWidth;
         const temptBorder = isShowColAmount ? 'rgb(197,197,197)' : '#404040';
         const temptColorHeader = isShowColAmount ? { color: '#6A6A6A' } : {};
         const data = this.getDataColProduct();
@@ -249,7 +249,7 @@ class Layout extends React.Component {
     renderAmountCheckout() {
         const { language } = this.props;
         const { isShowColAmount, categorySelected, categoryTypeSelected, productSeleted } = this.state;
-        const temptWidth = isShowColAmount ? 190 : 140;
+        const temptWidth = isShowColAmount ? 190 : 120;
         const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
         return (
             <View style={{ width: scaleSzie(temptWidth) }} >
@@ -332,7 +332,7 @@ class Layout extends React.Component {
         const temptTotalLocal = Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2);
         const temptGrandTotal = basket.length > 0 ?  temptTotalLocal : grandTotal;
         return (
-            <View style={{ flex: 1 }} >
+            <View style={{ flex:1}} >
                 {/* -------- Header Basket -------- */}
                 <View style={[styles.headerBasket,{flexDirection:"row",paddingHorizontal:scaleSzie(8),
             },]} >
@@ -392,10 +392,10 @@ class Layout extends React.Component {
                             <View style={{height:2,backgroundColor:"#0764B0",marginTop:scaleSzie(10),marginBottom:scaleSzie(15)}} />
                              {/* ---------- Tip ------ */}
                              <View style={styles.payNumberTextContainer} >
-                                <Text style={[styles.textPay,{fontSize:scaleSzie(22),fontWeight:"600",color:"#0764B0"}]} >
-                                    {`${localize('Grand Total:', language)}:`}
+                                <Text style={[styles.textPay,{fontSize:scaleSzie(20),fontWeight:"600",color:"#0764B0"}]} >
+                                    {`${localize('Grand Total', language)}:`}
                                 </Text>
-                                <Text style={[styles.textPay, { fontSize:scaleSzie(22),fontWeight:"600",color: 'rgb(65,184,85)' }]} >
+                                <Text style={[styles.textPay, { fontSize:scaleSzie(20),fontWeight:"600",color: 'rgb(65,184,85)' }]} >
                                     {`$${formatMoney(temptGrandTotal)}`}
                                 </Text>
                             </View>
@@ -406,21 +406,25 @@ class Layout extends React.Component {
                             <View style={{height:2,backgroundColor:"#DDDDDD",marginTop:scaleSzie(10),marginBottom:scaleSzie(15)}} />
                              {/* ---------- Paid amount ------ */}
                              <View style={[styles.payNumberTextContainer,{  justifyContent: 'flex-start',}]} >
-                                <Text style={[styles.textPay,{fontSize:scaleSzie(22),fontWeight:"600",color:"#404040"}]} >
+                                <Text style={[styles.textPay,{fontSize:scaleSzie(20),fontWeight:"600",color:"#404040"}]} >
                                     {`${localize('Paid amount', language)}:`}
                                 </Text>
-                                <Text style={[styles.textPay, { fontSize:scaleSzie(22),fontWeight:"600",color: '#404040' }]} >
+                                <Text style={[styles.textPay, { fontSize:scaleSzie(20),fontWeight:"600",color: '#404040' }]} >
                                     {`  $ ${formatMoney(temptGrandTotal)}`}
+                                </Text>
+                                <Text style={[styles.textPay, { fontSize:scaleSzie(20),fontWeight:"300",color: '#404040' }]} >
+                                    {` (Harmony Pay)`}
                                 </Text>
                             </View>
 
                              {/* ---------- Due amount ------ */}
                              <View style={[styles.payNumberTextContainer,{  justifyContent: 'flex-start',}]} >
-                                <Text style={[styles.textPay,{fontSize:scaleSzie(22),fontWeight:"600",color:"#FF3B30"}]} >
+                                <Text style={[styles.textPay,{fontSize:scaleSzie(20),fontWeight:"600",color:"#FF3B30"}]} >
                                     {`${localize('Due amount', language)}:`}
                                 </Text>
-                                <Text style={[styles.textPay, { fontSize:scaleSzie(22),fontWeight:"600",color: '#FF3B30' }]} >
+                                <Text style={[styles.textPay, { fontSize:scaleSzie(20),fontWeight:"600",color: '#FF3B30' }]} >
                                     {`   $ ${formatMoney(temptGrandTotal)}`}
+                                   
                                 </Text>
                             </View>
                         </View>
@@ -684,7 +688,8 @@ class Layout extends React.Component {
         const { isShowColProduct, isShowColAmount, } = this.state;
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
-                <View style={{ width: scaleSzie(474) }} >
+                {/* 474 435 */}
+                <View style={{ width: scaleSzie(432) }} > 
                     <ScrollableTabView
                         ref={this.scrollTabRef}
                         style={{}}
