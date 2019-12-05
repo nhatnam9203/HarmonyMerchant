@@ -219,10 +219,10 @@ class ItemCustomerBasket extends React.Component {
                             }} />
                             {/* ---------- Total ------ */}
                             <View style={styles.payNumberTextContainer} >
-                                <Text style={[styles.textPay, { fontSize: scaleSzie(20) }]} >
+                                <Text style={[styles.textPay, { fontSize: scaleSzie(18) }]} >
                                     {`${localize('Total', language)}:`}
                                 </Text>
-                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(20), fontWeight: "bold" }]} >
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(18), fontWeight: "600" }]} >
                                     {`$${formatMoney(`${temptTotal}`)}`}
                                 </Text>
                             </View>

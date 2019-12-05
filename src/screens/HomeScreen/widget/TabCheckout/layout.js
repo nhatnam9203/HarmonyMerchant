@@ -392,37 +392,37 @@ class Layout extends React.Component {
                             <View style={{height:2,backgroundColor:"#0764B0",marginTop:scaleSzie(10),marginBottom:scaleSzie(15)}} />
                              {/* ---------- Tip ------ */}
                              <View style={styles.payNumberTextContainer} >
-                                <Text style={[styles.textPay,{fontSize:scaleSzie(20),fontWeight:"600",color:"#0764B0"}]} >
+                                <Text style={[styles.textPay,{fontSize:scaleSzie(18),fontWeight:"600",color:"#0764B0"}]} >
                                     {`${localize('Grand Total', language)}:`}
                                 </Text>
-                                <Text style={[styles.textPay, { fontSize:scaleSzie(20),fontWeight:"600",color: 'rgb(65,184,85)' }]} >
+                                <Text style={[styles.textPay, { fontSize:scaleSzie(18),fontWeight:"600",color: 'rgb(65,184,85)' }]} >
                                     {`$${formatMoney(temptGrandTotal)}`}
                                 </Text>
                             </View>
                         </View>
                         
-                         {/* ----------- Amount Paid ----------- */}
+                         {/* ----------- Paid Amount ----------- */}
                          <View style={{paddingHorizontal:scaleSzie(10),marginBottom:scaleSzie(8)}} >
                             <View style={{height:2,backgroundColor:"#DDDDDD",marginTop:scaleSzie(10),marginBottom:scaleSzie(15)}} />
                              {/* ---------- Paid amount ------ */}
-                             <View style={[styles.payNumberTextContainer,{  justifyContent: 'flex-start',}]} >
-                                <Text style={[styles.textPay,{fontSize:scaleSzie(20),fontWeight:"600",color:"#404040"}]} >
+                             <View style={[styles.payNumberTextContainer,{  justifyContent: 'flex-start',marginBottom:scaleSzie(8)}]} >
+                                <Text style={[styles.textPay,{fontSize:scaleSzie(18),fontWeight:"600",color:"#404040"}]} >
                                     {`${localize('Paid amount', language)}:`}
                                 </Text>
-                                <Text style={[styles.textPay, { fontSize:scaleSzie(20),fontWeight:"600",color: '#404040' }]} >
+                                <Text style={[styles.textPay, { fontSize:scaleSzie(18),fontWeight:"600",color: '#404040' }]} >
                                     {`  $ ${formatMoney(temptGrandTotal)}`}
                                 </Text>
-                                <Text style={[styles.textPay, { fontSize:scaleSzie(20),fontWeight:"300",color: '#404040' }]} >
+                                <Text style={[styles.textPay, { fontSize:scaleSzie(18),fontWeight:"300",color: '#404040' }]} >
                                     {` (Harmony Pay)`}
                                 </Text>
                             </View>
 
                              {/* ---------- Due amount ------ */}
                              <View style={[styles.payNumberTextContainer,{  justifyContent: 'flex-start',}]} >
-                                <Text style={[styles.textPay,{fontSize:scaleSzie(20),fontWeight:"600",color:"#FF3B30"}]} >
+                                <Text style={[styles.textPay,{fontSize:scaleSzie(18),fontWeight:"600",color:"#FF3B30"}]} >
                                     {`${localize('Due amount', language)}:`}
                                 </Text>
-                                <Text style={[styles.textPay, { fontSize:scaleSzie(20),fontWeight:"600",color: '#FF3B30' }]} >
+                                <Text style={[styles.textPay, { fontSize:scaleSzie(18),fontWeight:"600",color: '#FF3B30' }]} >
                                     {`   $ ${formatMoney(temptGrandTotal)}`}
                                    
                                 </Text>
@@ -822,7 +822,7 @@ const ItemPaymentMethod = ({ title, selectedPayment, paymentSelected }) => {
 
     return (
         <Button onPress={() => selectedPayment(title)} style={[{
-            width: scaleSzie(200), height: scaleSzie(90), borderWidth: 1, borderColor: '#6A6A6A',
+            width: scaleSzie(180), height: scaleSzie(80), borderWidth: 1, borderColor: '#6A6A6A',
             justifyContent: 'center', alignItems: 'center'
         }, temptBackground]} >
             <Text style={[styles.textHeader, { fontSize: scaleSzie(18) }, temptTextColor]} >
