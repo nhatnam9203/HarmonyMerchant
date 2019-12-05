@@ -26,7 +26,7 @@ class PopupPaymentDetails extends React.Component {
     // ---------- Render --------
 
     render() {
-        const { title, visible, onRequestClose, language } = this.props;
+        const { title, visible, onRequestClose, language, nextPayment } = this.props;
         return (
             <PopupParent
                 title={title}
@@ -75,7 +75,7 @@ class PopupPaymentDetails extends React.Component {
                             title={`${localize('Paid Amount', language)}:`}
                             value={`$ 150`}
                             isBold={true}
-                            subText={"(Harmony Pay)"}
+                            subText={" (Harmony Pay)"}
                         />
                         <ItemDetail
                             title={`${localize('Due Amount', language)}:`}
@@ -95,7 +95,7 @@ class PopupPaymentDetails extends React.Component {
                             backgroundColor="#0764B0"
                             title={localize('Next', language)}
                             textColor="#fff"
-                            onPress={this.showModalEditProduct}
+                            onPress={() => nextPayment()}
                             style={{
                                 borderRadius: scaleSzie(4),
                                 borderColor: '#C5C5C5',
@@ -125,7 +125,7 @@ const ItemDetail = ({ title, value, isBold, subText }) => {
             <View style={{ flex: 1.1, justifyContent: 'center' }} >
                 <Text style={[styles.textValue, { fontWeight: temptWeight }]} >
                     {value}
-                    <Text style={styles.textCommon} >
+                    <Text style={[styles.textCommon, { fontWeight: "400" }]} >
                         {subText}
                     </Text>
                 </Text>

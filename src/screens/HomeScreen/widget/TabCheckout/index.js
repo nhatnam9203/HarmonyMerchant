@@ -503,6 +503,12 @@ class TabCheckout extends Layout {
     }
 
     payBasket = async () => {
+        await this.setState({
+            visibleBillOfPayment: true
+        })
+    }
+
+    payBasket1 = async () => {
         const { appointmentId, paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
             infoUser, tipLocal, subTotalLocal, taxLocal
         } = this.state;
@@ -518,7 +524,6 @@ class TabCheckout extends Layout {
                         changeButtonDone: true,
                         methodPayment: method
                     });
-                    // this.props.actions.appointment.paymentAppointment(appointmentId, method, false);
                 } else {
                     alert('Please setup your pax machine in setting');
                 }
@@ -1085,7 +1090,7 @@ class TabCheckout extends Layout {
 
     openCashDrawer = async (isDelay = false) => {
         this.setState({
-            visiblePopupPaymentDetails:true
+            visiblePopupPaymentDetails: true
         })
 
         // const printer = await PrintManager.getInstance().portDiscovery();
@@ -1165,13 +1170,48 @@ class TabCheckout extends Layout {
 
 
     extractBill = () => {
-        const { appointmentDetail } = this.props;
+        const { appointmentDetail, groupAppointment } = this.props;
         const { total, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
-        const temptTotal = _.isEmpty(appointmentDetail) ? Number(subTotalLocal + tipLocal + parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : total;
+        const temptTotal = _.isEmpty(groupAppointment) ? Number(subTotalLocal + tipLocal + parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : groupAppointment.total;
         this.modalBillRef.current.setStateFromParent(`${temptTotal}`);
+
     }
 
     doneBill = async () => {
+        const {paymentSelected} = this.state;
+        const { groupAppointment } = this.props;
+
+        const {  subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
+        const temptTotal = _.isEmpty(groupAppointment) ? Number(subTotalLocal + tipLocal + parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : groupAppointment.total;
+        const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
+        const moneyChange = moneyUserGiveForStaff - parseFloat(formatNumberFromCurrency(temptTotal));
+        const method = this.getPaymentString(paymentSelected);
+
+        if (moneyChange < 0) {
+            alert('Cashback not negative number');
+        } else {
+            await this.setState({
+                visibleBillOfPayment: false,
+            });
+
+            // if (moneyChange === 0) {
+            //     console.log('Not change');
+            // } else {
+            //     console.log("moneyChange : ", moneyChange);
+            // }
+            // this.modalBillRef.current.setStateFromParent(`0`);
+
+            if(!_.isEmpty(groupAppointment)){
+                this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method,moneyUserGiveForStaff);
+            }else{
+
+            }
+            
+            
+        }
+    }
+
+    doneBill1 = async () => {
         const { appointmentDetail } = this.props;
         const { total, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         const temptTotal = _.isEmpty(appointmentDetail) ? Number(subTotalLocal + tipLocal + parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : total;
@@ -1405,11 +1445,11 @@ class TabCheckout extends Layout {
         if (!_.isEmpty(groupAppointment)) {
             const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
             const appointmentMain = appointments.find(appointment => appointment.isMain === 1);
-            if(appointmentMain){
+            if (appointmentMain) {
                 firstName = appointmentMain.firstName ? appointmentMain.firstName : '';
-            lastName = appointmentMain.lastName ? appointmentMain.lastName : '';
+                lastName = appointmentMain.lastName ? appointmentMain.lastName : '';
             }
-            
+
 
         }
         firstName = infoUser.firstName !== '' ? infoUser.firstName : firstName;
@@ -1443,10 +1483,10 @@ class TabCheckout extends Layout {
         if (!_.isEmpty(groupAppointment)) {
             const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
             const appointmentMain = appointments.find(appointment => appointment.isMain === 1);
-            if(appointmentMain){
+            if (appointmentMain) {
                 phoneNumber = appointmentMain.phoneNumber ? appointmentMain.phoneNumber : '';
             }
-            
+
 
         }
         phoneNumber = infoUser.phoneNumber !== '' ? infoUser.phoneNumber : phoneNumber;
@@ -1496,9 +1536,15 @@ class TabCheckout extends Layout {
         this.props.gotoAppointmentTabToGroup();
     }
 
-    closePopupProductPaymentDetails = () =>{
+    closePopupProductPaymentDetails = () => {
         this.setState({
-            visiblePopupPaymentDetails:false
+            visiblePopupPaymentDetails: false
+        })
+    }
+
+    nextPayment = async () => {
+        await this.setState({
+            visiblePopupPaymentDetails: false
         })
     }
 

@@ -400,9 +400,8 @@ class Layout extends React.Component {
                                 </Text>
                             </View>
                         </View>
-                       
-                        
 
+                       <View style={{height:scaleSzie(50)}} />
                     </ScrollView>
                        
                     </View>
@@ -419,7 +418,7 @@ class Layout extends React.Component {
     renderButtonChekout() {
         const { tabCurrent, basket, paymentSelected, changeButtonDone
         } = this.state;
-        const { language, isDonePayment } = this.props;
+        const { language, isDonePayment,groupAppointment } = this.props;
         if (tabCurrent === 1) {
             if (changeButtonDone && !isDonePayment) {
                 if (paymentSelected === 'Harmony Pay') {
@@ -513,7 +512,7 @@ class Layout extends React.Component {
                 />
             );
         } else {
-            if (basket.length > 0) {
+            if (basket.length > 0 || !_.isEmpty(groupAppointment)) {
                 return (
                     <ButtonCustom
                         width={`100%`}
@@ -780,6 +779,7 @@ class Layout extends React.Component {
                     visible={visiblePopupPaymentDetails}
                     onRequestClose={this.closePopupProductPaymentDetails}
                     language={language}
+                    nextPayment={this.nextPayment}
                 />
             </View>
         );
