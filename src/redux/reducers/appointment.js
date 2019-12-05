@@ -11,7 +11,9 @@ const initialState = {
     flagSignInAppointment: false,
     listAppointmentsOfflineMode: [],
 
-    groupAppointment: {}
+    groupAppointment: {},
+    paymentDetilInfo: {},
+    visiblePopupPaymentDetails: false
 }
 
 function appReducer(state = initialState, action) {
@@ -21,10 +23,22 @@ function appReducer(state = initialState, action) {
                 ...initialState,
                 listAppointmentsOfflineMode: action.payload,
             }
-            case 'RESET_GROUP_APPOINTMENT':
+        case 'RESET_GROUP_APPOINTMENT':
+            return {
+                ...initialState,
+                groupAppointment: {},
+            }
+
+        case 'CHECKOUT_SUBMIT_SUCCESS':
+            return {
+                ...state,
+                paymentDetilInfo: action.payload,
+                visiblePopupPaymentDetails: true
+            }
+            case 'CLOSE_POPUP_PAYMENT_DETAIL':
                 return {
-                    ...initialState,
-                    groupAppointment: {},
+                    ...state,
+                    visiblePopupPaymentDetails: false
                 }
             
         case 'GET_APPOINTMENT_BY_ID_SUCCESS':

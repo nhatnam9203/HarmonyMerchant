@@ -190,18 +190,23 @@ function* paymentAppointment(action) {
         const responses = yield requestAPI(action);
         console.log('paymentAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
-        yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
-            if (action.body.method !== 'harmony') {
-                yield put({
-                    type: 'PAY_APPOINTMENT_SUCCESS',
-                });
-            }
+            yield put({
+                type: 'CHECKOUT_SUBMIT',
+                body: {},
+                method: 'PUT',
+                token: true,
+                api: `${apiConfigs.BASE_API}checkout/submit/${responses.data}`,
+                paymentMethod: action.paymentMethod,
+                amount: action.amount
+            })
         } else if (parseInt(codeNumber) === 401) {
+            yield put({ type: 'STOP_LOADING_ROOT' });
             yield put({
                 type: 'UNAUTHORIZED'
             })
         } else {
+            yield put({ type: 'STOP_LOADING_ROOT' });
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -261,10 +266,18 @@ function* checkoutSubmit(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('checkoutSubmit : ', responses);
+        console.log('checkoutSubmit : ', responses);
         const { codeNumber } = responses;
+        yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
-
+            yield put({
+                type: "CHECKOUT_SUBMIT_SUCCESS",
+                payload: responses.data && responses.data.checkoutPaymentResponse ? {
+                    ...responses.data.checkoutPaymentResponse,
+                    paymentMethod: action.paymentMethod,
+                    amount: action.amount
+                } : {}
+            })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
@@ -276,6 +289,7 @@ function* checkoutSubmit(action) {
             })
         }
     } catch (error) {
+        yield put({ type: 'STOP_LOADING_ROOT' });
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -395,7 +409,7 @@ function* removeAppointmentInGroup(action) {
             // ------- Get Group Appointment --------
             const state = yield select();
             const appointment = state.appointment.groupAppointment.appointments.find((appointment) => appointment.isMain === 1);
-            if(appointment){
+            if (appointment) {
                 yield put({
                     type: 'GET_GROUP_APPOINTMENT_BY_ID',
                     method: 'GET',
@@ -403,7 +417,7 @@ function* removeAppointmentInGroup(action) {
                     token: true
                 })
             }
-           
+
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({

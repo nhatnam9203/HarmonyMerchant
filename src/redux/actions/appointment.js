@@ -84,6 +84,7 @@ export function paymentAppointment(groupId, method, amount, isLoading = true) {
         // api: `${apiConfigs.BASE_API}appointment/pay/${appointmentId}`,
         api: `${apiConfigs.BASE_API}appointment/selectpaymentmethod/${groupId}`,
         paymentMethod: method,
+        amount,
         isLoading
     }
 }
@@ -252,6 +253,12 @@ export function removeAppointmentInGroup(appointmentId) {
 export function resetGroupAppointment() {
     return {
         type: 'RESET_GROUP_APPOINTMENT',
+    }
+}
+
+export function closePopupPaymentDetail() {
+    return {
+        type: 'CLOSE_POPUP_PAYMENT_DETAIL',
     }
 }
 

@@ -392,11 +392,35 @@ class Layout extends React.Component {
                             <View style={{height:2,backgroundColor:"#0764B0",marginTop:scaleSzie(10),marginBottom:scaleSzie(15)}} />
                              {/* ---------- Tip ------ */}
                              <View style={styles.payNumberTextContainer} >
-                                <Text style={[styles.textPay,{fontSize:scaleSzie(22),fontWeight:"bold",color:"#0764B0"}]} >
+                                <Text style={[styles.textPay,{fontSize:scaleSzie(22),fontWeight:"600",color:"#0764B0"}]} >
                                     {`${localize('Grand Total:', language)}:`}
                                 </Text>
-                                <Text style={[styles.textPay, { fontSize:scaleSzie(22),fontWeight:"bold",color: 'rgb(65,184,85)' }]} >
+                                <Text style={[styles.textPay, { fontSize:scaleSzie(22),fontWeight:"600",color: 'rgb(65,184,85)' }]} >
                                     {`$${formatMoney(temptGrandTotal)}`}
+                                </Text>
+                            </View>
+                        </View>
+                        
+                         {/* ----------- Amount Paid ----------- */}
+                         <View style={{paddingHorizontal:scaleSzie(10),marginBottom:scaleSzie(8)}} >
+                            <View style={{height:2,backgroundColor:"#DDDDDD",marginTop:scaleSzie(10),marginBottom:scaleSzie(15)}} />
+                             {/* ---------- Paid amount ------ */}
+                             <View style={[styles.payNumberTextContainer,{  justifyContent: 'flex-start',}]} >
+                                <Text style={[styles.textPay,{fontSize:scaleSzie(22),fontWeight:"600",color:"#404040"}]} >
+                                    {`${localize('Paid amount', language)}:`}
+                                </Text>
+                                <Text style={[styles.textPay, { fontSize:scaleSzie(22),fontWeight:"600",color: '#404040' }]} >
+                                    {`  $ ${formatMoney(temptGrandTotal)}`}
+                                </Text>
+                            </View>
+
+                             {/* ---------- Due amount ------ */}
+                             <View style={[styles.payNumberTextContainer,{  justifyContent: 'flex-start',}]} >
+                                <Text style={[styles.textPay,{fontSize:scaleSzie(22),fontWeight:"600",color:"#FF3B30"}]} >
+                                    {`${localize('Due amount', language)}:`}
+                                </Text>
+                                <Text style={[styles.textPay, { fontSize:scaleSzie(22),fontWeight:"600",color: '#FF3B30' }]} >
+                                    {`   $ ${formatMoney(temptGrandTotal)}`}
                                 </Text>
                             </View>
                         </View>
@@ -689,9 +713,9 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { language } = this.props;
+        const { language ,visiblePopupPaymentDetails} = this.props;
         const { basket, visibleConfirm, visibleChangeStylist, visibleChangeMoney,
-            visiblePopupDiscountLocal,visiblePopupPaymentDetails
+            visiblePopupDiscountLocal,
         } = this.state;
         return (
             <View style={styles.container} >

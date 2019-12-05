@@ -1178,17 +1178,18 @@ class TabCheckout extends Layout {
     }
 
     doneBill = async () => {
-        const {paymentSelected} = this.state;
+        const { paymentSelected } = this.state;
         const { groupAppointment } = this.props;
 
-        const {  subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
+        const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         const temptTotal = _.isEmpty(groupAppointment) ? Number(subTotalLocal + tipLocal + parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : groupAppointment.total;
         const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
         const moneyChange = moneyUserGiveForStaff - parseFloat(formatNumberFromCurrency(temptTotal));
         const method = this.getPaymentString(paymentSelected);
 
-        if (moneyChange < 0) {
-            alert('Cashback not negative number');
+
+        if (moneyUserGiveForStaff == 0) {
+            alert('Enter amount!');
         } else {
             await this.setState({
                 visibleBillOfPayment: false,
@@ -1199,15 +1200,13 @@ class TabCheckout extends Layout {
             // } else {
             //     console.log("moneyChange : ", moneyChange);
             // }
-            // this.modalBillRef.current.setStateFromParent(`0`);
 
-            if(!_.isEmpty(groupAppointment)){
-                this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method,moneyUserGiveForStaff);
-            }else{
+            this.modalBillRef.current.setStateFromParent(`0`);
+            if (!_.isEmpty(groupAppointment)) {
+                this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff);
+            } else {
 
             }
-            
-            
         }
     }
 
@@ -1598,7 +1597,8 @@ const mapStateToProps = state => ({
     listStaffByMerchant: state.staff.listStaffByMerchant,
     profileStaffLogin: state.dataLocal.profileStaffLogin,
     isOfflineMode: state.network.isOfflineMode,
-    groupAppointment: state.appointment.groupAppointment
+    groupAppointment: state.appointment.groupAppointment,
+    visiblePopupPaymentDetails: state.appointment.visiblePopupPaymentDetails
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);

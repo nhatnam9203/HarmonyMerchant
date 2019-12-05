@@ -11,6 +11,8 @@ import {
 
 import { ButtonCustom, PopupParent, PopupConfirm } from '@components';
 import { scaleSzie, localize, getCategoryName } from '@utils';
+import connectRedux from '@redux/ConnectRedux';
+
 
 const { width } = Dimensions.get("window");
 
@@ -22,11 +24,15 @@ class PopupPaymentDetails extends React.Component {
         }
     }
 
+    nextPayment =() =>{
+       this.props.actions.appointment.closePopupPaymentDetail();
+    }
+
 
     // ---------- Render --------
 
     render() {
-        const { title, visible, onRequestClose, language, nextPayment } = this.props;
+        const { title, visible, onRequestClose, language, nextPayment,paymentDetilInfo } = this.props;
         return (
             <PopupParent
                 title={title}
@@ -46,40 +52,40 @@ class PopupPaymentDetails extends React.Component {
                         {/* ---- start ---- */}
                         <ItemDetail
                             title={`${localize('Invoice No', language)}:`}
-                            value={'# 1498'}
+                            value={`# ${paymentDetilInfo.checkoutGropId ? paymentDetilInfo.checkoutGropId : ''}`}
                             subText={""}
                         />
                         <ItemDetail
                             title={`${localize('Customer Name', language)}:`}
-                            value={'Samatha Colins'}
+                            value={`${paymentDetilInfo.customerName ?paymentDetilInfo.customerName : '' }`}
                             subText={""}
                         />
                         <ItemDetail
                             title={`${localize('Phone Number', language)}:`}
-                            value={'1-347-939-1189'}
+                            value={`${paymentDetilInfo.phone ? paymentDetilInfo.phone  : ''}`}
                             subText={""}
                         />
                         <ItemDetail
                             title={`${localize('Status', language)}:`}
-                            value={'Pending'}
+                            value={`${paymentDetilInfo.status ? paymentDetilInfo.status  : ''}`}
                             subText={""}
                         />
                         <ItemDetail
                             title={`${localize('Grand Total', language)}:`}
-                            value={`$ 240`}
+                            value={`$ ${paymentDetilInfo.grandTotal ? paymentDetilInfo.grandTotal  : ''}`}
                             isBold={true}
                             subText={""}
                         />
                         <View style={{ height: 3, backgroundColor: "rgb(238,238,238)", marginVertical: scaleSzie(10) }} />
                         <ItemDetail
                             title={`${localize('Paid Amount', language)}:`}
-                            value={`$ 150`}
+                            value={`$ ${paymentDetilInfo.amount ? paymentDetilInfo.amount  : ''}`}
                             isBold={true}
-                            subText={" (Harmony Pay)"}
+                            subText={` (${paymentDetilInfo.paymentMethod ? paymentDetilInfo.paymentMethod  : ''})`}
                         />
                         <ItemDetail
                             title={`${localize('Due Amount', language)}:`}
-                            value={`$ 90`}
+                            value={`$ ${paymentDetilInfo.dueAmount ? paymentDetilInfo.dueAmount  : ''}`}
                             isBold={true}
                             subText={""}
                         />
@@ -95,7 +101,7 @@ class PopupPaymentDetails extends React.Component {
                             backgroundColor="#0764B0"
                             title={localize('Next', language)}
                             textColor="#fff"
-                            onPress={() => nextPayment()}
+                            onPress={this.nextPayment}
                             style={{
                                 borderRadius: scaleSzie(4),
                                 borderColor: '#C5C5C5',
@@ -146,6 +152,13 @@ const styles = StyleSheet.create({
     }
 })
 
-export default PopupPaymentDetails;
+const mapStateToProps = state => ({
+    language: state.dataLocal.language,
+    paymentDetilInfo: state.appointment.paymentDetilInfo,
+});
+
+export default connectRedux(mapStateToProps, PopupPaymentDetails);
+
+// export default PopupPaymentDetails;
 
 
