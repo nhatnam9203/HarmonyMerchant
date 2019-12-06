@@ -1598,7 +1598,8 @@ const mapStateToProps = state => ({
     profileStaffLogin: state.dataLocal.profileStaffLogin,
     isOfflineMode: state.network.isOfflineMode,
     groupAppointment: state.appointment.groupAppointment,
-    visiblePopupPaymentDetails: state.appointment.visiblePopupPaymentDetails
+    visiblePopupPaymentDetails: state.appointment.visiblePopupPaymentDetails,
+    paymentDetilInfo: state.appointment.paymentDetilInfo
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);

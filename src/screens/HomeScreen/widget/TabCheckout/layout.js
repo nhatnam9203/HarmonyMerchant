@@ -325,7 +325,7 @@ class Layout extends React.Component {
 
     renderBasket() {
         const {infoUser} = this.state;
-        const { language, appointmentDetail, groupAppointment } = this.props;
+        const { language, appointmentDetail, groupAppointment ,paymentDetilInfo} = this.props;
         const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
         const grandTotal = groupAppointment.total ?  groupAppointment.total :  0;
@@ -401,33 +401,42 @@ class Layout extends React.Component {
                             </View>
                         </View>
                         
-                         {/* ----------- Paid Amount ----------- */}
-                         <View style={{paddingHorizontal:scaleSzie(10),marginBottom:scaleSzie(8)}} >
+                        {/* ----------- Paid Amount ----------- */}
+                     {
+                         !_.isEmpty(paymentDetilInfo) ? <View style={{paddingHorizontal:scaleSzie(10),marginBottom:scaleSzie(8)}} >
                             <View style={{height:2,backgroundColor:"#DDDDDD",marginTop:scaleSzie(10),marginBottom:scaleSzie(15)}} />
                              {/* ---------- Paid amount ------ */}
-                             <View style={[styles.payNumberTextContainer,{  justifyContent: 'flex-start',marginBottom:scaleSzie(8)}]} >
-                                <Text style={[styles.textPay,{fontSize:scaleSzie(18),fontWeight:"600",color:"#404040"}]} >
-                                    {`${localize('Paid amount', language)}:`}
-                                </Text>
-                                <Text style={[styles.textPay, { fontSize:scaleSzie(18),fontWeight:"600",color: '#404040' }]} >
-                                    {`  $ ${formatMoney(temptGrandTotal)}`}
-                                </Text>
-                                <Text style={[styles.textPay, { fontSize:scaleSzie(18),fontWeight:"300",color: '#404040' }]} >
-                                    {` (Harmony Pay)`}
-                                </Text>
-                            </View>
+                             {
+                                 paymentDetilInfo.paidAmounts ?  paymentDetilInfo.paidAmounts.map((paidAmountInfo,index) => <View key={index} style={[styles.payNumberTextContainer,{  justifyContent: 'flex-start',marginBottom:scaleSzie(8)}]} >
+                                 <Text style={[styles.textPay,{fontSize:scaleSzie(18),fontWeight:"600",color:"#404040"}]} >
+                                     {`${localize('Paid amount', language)}:`}
+                                 </Text>
+                                 <Text style={[styles.textPay, { fontSize:scaleSzie(18),fontWeight:"600",color: '#404040' }]} >
+                                     {`  $ ${formatMoney(paidAmountInfo.amount)}`}
+                                 </Text>
+                                 <Text style={[styles.textPay, { fontSize:scaleSzie(18),fontWeight:"300",color: '#404040' }]} >
+                                     {` (${paidAmountInfo.paymentMethod})`}
+                                 </Text>
+                             </View> ) : <View />
+                             }
+                            
 
                              {/* ---------- Due amount ------ */}
-                             <View style={[styles.payNumberTextContainer,{  justifyContent: 'flex-start',}]} >
-                                <Text style={[styles.textPay,{fontSize:scaleSzie(18),fontWeight:"600",color:"#FF3B30"}]} >
-                                    {`${localize('Due amount', language)}:`}
-                                </Text>
-                                <Text style={[styles.textPay, { fontSize:scaleSzie(18),fontWeight:"600",color: '#FF3B30' }]} >
-                                    {`   $ ${formatMoney(temptGrandTotal)}`}
-                                   
-                                </Text>
-                            </View>
-                        </View>
+                             {
+                                 paymentDetilInfo.dueAmount ? <View style={[styles.payNumberTextContainer,{  justifyContent: 'flex-start',}]} >
+                                 <Text style={[styles.textPay,{fontSize:scaleSzie(18),fontWeight:"600",color:"#FF3B30"}]} >
+                                     {`${localize('Due amount', language)}:`}
+                                 </Text>
+                                 <Text style={[styles.textPay, { fontSize:scaleSzie(18),fontWeight:"600",color: '#FF3B30' }]} >
+                                     {`   $ ${formatMoney(paymentDetilInfo.dueAmount)}`}
+                                    
+                                 </Text>
+                             </View> :<View />
+                             }
+                             
+                        </View> : <View />
+                     }   
+                         
 
                        <View style={{height:scaleSzie(50)}} />
                     </ScrollView>
