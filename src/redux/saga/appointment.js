@@ -270,14 +270,27 @@ function* checkoutSubmit(action) {
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
-            yield put({
-                type: "CHECKOUT_SUBMIT_SUCCESS",
-                payload: responses.data && responses.data.checkoutPaymentResponse ? {
-                    ...responses.data.checkoutPaymentResponse,
-                    paymentMethod: action.paymentMethod,
-                    amount: action.amount
-                } : {}
-            })
+            const dueAmount = responses.data && responses.data.checkoutPaymentResponse && responses.data.checkoutPaymentResponse.dueAmount ? parseFloat(responses.data.checkoutPaymentResponse.dueAmount) : 0;
+            console.log('dueAmount : ', dueAmount);
+            // ----- check dueAmount === 0 --------
+            if (dueAmount === 0) {
+                // ----- Transaction Completed --------
+                yield put({
+                    type: "TRACSACTION_COMPLETED"
+                })
+            } else if (dueAmount < 0) {
+                console.log('Show money changed');
+            } else {
+                yield put({
+                    type: "CHECKOUT_SUBMIT_SUCCESS",
+                    payload: responses.data && responses.data.checkoutPaymentResponse ? {
+                        ...responses.data.checkoutPaymentResponse,
+                        paymentMethod: action.paymentMethod,
+                        amount: action.amount
+                    } : {}
+                })
+            }
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

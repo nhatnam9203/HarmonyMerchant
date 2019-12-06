@@ -1123,7 +1123,8 @@ class TabCheckout extends Layout {
 
             connection.on("ListWaNotification", (data) => {
                 const temptData = JSON.parse(data);
-                // console.log('temptData : ' + JSON.stringify(temptData));
+                // console.log('temptData : ' + JSON.stringify(temptData)); 
+                // checkoutGroupId
                 if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
                     && temptData.data.appointmentId == appointmentDetail.appointmentId
                 ) {
@@ -1170,10 +1171,16 @@ class TabCheckout extends Layout {
 
 
     extractBill = () => {
-        const { appointmentDetail, groupAppointment } = this.props;
-        const { total, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
-        const temptTotal = _.isEmpty(groupAppointment) ? Number(subTotalLocal + tipLocal + parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : groupAppointment.total;
-        this.modalBillRef.current.setStateFromParent(`${temptTotal}`);
+        const { groupAppointment, paymentDetilInfo } = this.props;
+        if (_.isEmpty(paymentDetilInfo)) {
+            const { total, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
+            const temptTotal = _.isEmpty(groupAppointment) ? Number(subTotalLocal + tipLocal + parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : groupAppointment.total;
+            this.modalBillRef.current.setStateFromParent(`${temptTotal}`);
+        } else {
+            const totalExact = paymentDetilInfo.dueAmount ? paymentDetilInfo.dueAmount : 0;
+            this.modalBillRef.current.setStateFromParent(`${totalExact}`);
+        }
+
 
     }
 
@@ -1195,15 +1202,16 @@ class TabCheckout extends Layout {
                 visibleBillOfPayment: false,
             });
 
-            // if (moneyChange === 0) {
-            //     console.log('Not change');
-            // } else {
-            //     console.log("moneyChange : ", moneyChange);
-            // }
-
             this.modalBillRef.current.setStateFromParent(`0`);
             if (!_.isEmpty(groupAppointment)) {
-                this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff);
+                if (method === 'harmony') {
+                    console.log('harmony');
+                } else if (method === 'credit_card') {
+                    console.log('credit_card');
+                } else {
+                    this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff);
+                }
+
             } else {
 
             }

@@ -35,12 +35,12 @@ function appReducer(state = initialState, action) {
                 paymentDetilInfo: action.payload,
                 visiblePopupPaymentDetails: true
             }
-            case 'CLOSE_POPUP_PAYMENT_DETAIL':
-                return {
-                    ...state,
-                    visiblePopupPaymentDetails: false
-                }
-            
+        case 'CLOSE_POPUP_PAYMENT_DETAIL':
+            return {
+                ...state,
+                visiblePopupPaymentDetails: false
+            }
+
         case 'GET_APPOINTMENT_BY_ID_SUCCESS':
             return {
                 ...state,
@@ -65,7 +65,9 @@ function appReducer(state = initialState, action) {
         case 'RESET_BASKET_EMPTY':
             return {
                 ...state,
-                appointmentDetail: {}
+                appointmentDetail: {},
+                groupAppointment: {},
+                paymentDetilInfo: {}
             }
         case 'PAY_APPOINTMENT_SUCCESS':
             return {
@@ -116,6 +118,12 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 listAppointmentsOfflineMode: []
+            }
+        }
+        case 'TRACSACTION_COMPLETED': {
+            return {
+                ...state,
+                visiblePaymentCompleted: true
             }
         }
         default:
