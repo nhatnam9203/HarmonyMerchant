@@ -286,7 +286,9 @@ function* checkoutSubmit(action) {
                     type: "TRACSACTION_COMPLETED"
                 })
             } else if (dueAmount < 0) {
-                console.log('Show money changed');
+                yield put({
+                    type: "SHOW_POPUP_CHANGED_MONEY"
+                })
             } else {
                 yield put({
                     type: "CHECKOUT_SUBMIT_SUCCESS",

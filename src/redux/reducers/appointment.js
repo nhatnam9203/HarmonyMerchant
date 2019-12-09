@@ -13,7 +13,8 @@ const initialState = {
 
     groupAppointment: {},
     paymentDetilInfo: {},
-    visiblePopupPaymentDetails: false
+    visiblePopupPaymentDetails: false,
+    visibleChangeMoney: false
 }
 
 function appReducer(state = initialState, action) {
@@ -40,7 +41,6 @@ function appReducer(state = initialState, action) {
                 ...state,
                 visiblePopupPaymentDetails: false
             }
-
         case 'GET_APPOINTMENT_BY_ID_SUCCESS':
             return {
                 ...state,
@@ -123,9 +123,16 @@ function appReducer(state = initialState, action) {
         case 'TRACSACTION_COMPLETED': {
             return {
                 ...state,
+                visibleChangeMoney: false,
                 visiblePaymentCompleted: true
+              
             }
         }
+        case 'SHOW_POPUP_CHANGED_MONEY':
+            return {
+                ...state,
+                visibleChangeMoney: true
+            }
         default:
             return state
     }

@@ -9,30 +9,32 @@ import {
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import { scaleSzie } from '../utils';
+import connectRedux from '@redux/ConnectRedux';
 
 class PopupChangeMoney extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state ={
-            cashBack : '0.00'
+        this.state = {
+            cashBack: '0.00'
         }
     }
 
-    setStateFromParent =async (cashBack) =>{
+    setStateFromParent = async (cashBack) => {
         await this.setState({
             cashBack
         })
     }
 
     render() {
-        const { title, visible, onRequestClose, confimOK } = this.props;
-        const {cashBack} = this.state;
+        const { title, onRequestClose, confimOK, visibleChangeMoney } = this.props;
+        const { cashBack } = this.state;
         return (
             <PopupParent
                 title={title}
-                visible={visible}
+                visible={visibleChangeMoney}
                 onRequestClose={() => onRequestClose()}
+                hideCloseButton={true}
             >
                 <View style={{
                     height: scaleSzie(130), backgroundColor: '#fff',
@@ -65,19 +67,11 @@ class PopupChangeMoney extends React.Component {
 
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    footer: {
-        height: scaleSzie(50),
-        flexDirection: 'row',
-    },
-    buttonContainer: {
-        flex: 1,
-        alignItems: 'center'
-    },
+const mapStateToProps = state => ({
+    visibleChangeMoney: state.appointment.visibleChangeMoney
 })
 
-export default PopupChangeMoney;
+export default connectRedux(mapStateToProps, PopupChangeMoney);
+
+
 

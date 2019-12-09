@@ -1577,7 +1577,8 @@ const mapStateToProps = state => ({
     isOfflineMode: state.network.isOfflineMode,
     groupAppointment: state.appointment.groupAppointment,
     visiblePopupPaymentDetails: state.appointment.visiblePopupPaymentDetails,
-    paymentDetilInfo: state.appointment.paymentDetilInfo
+    paymentDetilInfo: state.appointment.paymentDetilInfo,
+    visibleChangeMoney: state.appointment.visibleChangeMoney
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);

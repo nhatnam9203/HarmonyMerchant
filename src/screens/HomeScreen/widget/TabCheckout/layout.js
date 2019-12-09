@@ -727,8 +727,8 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { language ,visiblePopupPaymentDetails} = this.props;
-        const { basket, visibleConfirm, visibleChangeStylist, visibleChangeMoney,
+        const { language ,visiblePopupPaymentDetails,visibleChangeMoney} = this.props;
+        const { basket, visibleConfirm, visibleChangeStylist,
             visiblePopupDiscountLocal,
         } = this.state;
         return (
@@ -756,7 +756,7 @@ class Layout extends React.Component {
                 />
                 <PopupChangeMoney
                     ref={this.cashBackRef}
-                    visible={visibleChangeMoney}
+                    // visible={visibleChangeMoney}
                     title="Confirmation"
                     // message="If you exit Checkout Screen , Basket will Reset ?"
                     onRequestClose={() => { this.setState({ visibleChangeMoney: false }) }}

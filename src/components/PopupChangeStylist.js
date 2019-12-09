@@ -172,7 +172,5 @@ const mapStateToProps = state => ({
     groupAppointment: state.appointment.groupAppointment
 })
 
-
-
 export default connectRedux(mapStateToProps, PopupChangeStylist);
 
