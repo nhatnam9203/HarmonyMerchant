@@ -1092,20 +1092,6 @@ class TabCheckout extends Layout {
         this.setState({
             visiblePopupPaymentDetails: true
         })
-
-        // const printer = await PrintManager.getInstance().portDiscovery();
-        // if (printer.length > 0) {
-        //     const portName = printer[0].portName;
-        //     PrintManager.getInstance().openCashDrawer(portName);
-        // } else {
-        //     if (isDelay) {
-        //         alert('Please connect to your print ! ');
-        //     } else {
-        //         setTimeout(() => {
-        //             alert('Please connect to your print ! ');
-        //         }, 500)
-        //     }
-        // }
     }
 
     // ------------ Signal R -------
@@ -1185,8 +1171,8 @@ class TabCheckout extends Layout {
     }
 
     doneBill = async () => {
-        const { paymentSelected } = this.state;
-        const { groupAppointment } = this.props;
+        const { paymentSelected , customDiscountPercentLocal, customDiscountFixedLocal,infoUser} = this.state;
+        const { groupAppointment,profile } = this.props;
 
         const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         const temptTotal = _.isEmpty(groupAppointment) ? Number(subTotalLocal + tipLocal + parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : groupAppointment.total;
@@ -1212,36 +1198,20 @@ class TabCheckout extends Layout {
                     this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff);
                 }
 
-            } else {
+            } else { // ------ Handle Buy at store -------
+                const dataAnymousAppoitment = this.getBasketOffline();
+                const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
+                this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
+                    customDiscountPercentLocal, customDiscountFixedLocal, staffId,
+                    infoUser.firstName,
+                    infoUser.lastName,
+                    infoUser.phoneNumber,
+                );
 
             }
         }
     }
 
-    doneBill1 = async () => {
-        const { appointmentDetail } = this.props;
-        const { total, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
-        const temptTotal = _.isEmpty(appointmentDetail) ? Number(subTotalLocal + tipLocal + parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : total;
-        const moneyUserGiveForStaff = this.modalBillRef.current.state.quality;
-
-        const moneyChange = parseFloat(formatNumberFromCurrency(moneyUserGiveForStaff)) - parseFloat(formatNumberFromCurrency(temptTotal));
-        if (moneyChange < 0) {
-            alert('Cashback not negative number')
-        } else {
-            await this.setState({
-                visibleBillOfPayment: false,
-            });
-            if (moneyChange === 0) {
-                this.doneBillByCash();
-            } else {
-                this.cashBackRef.current.setStateFromParent(`${formatMoney(parseFloat(moneyChange))}`);
-                await this.setState({
-                    visibleChangeMoney: true
-                })
-            }
-            this.modalBillRef.current.setStateFromParent(`0`);
-        }
-    }
 
     doneBillByCash = async () => {
         await this.setState({

@@ -229,20 +229,27 @@ function* createAnymousAppointment(action) {
         if (parseInt(codeNumber) == 200) {
             // ------- Call checkout -----
             const appointmentId = responses.data;
-            yield put({
-                type: 'CHECK_OUT_APPOINTMENT_OFFLINE_SUCCESS',
-                payload: appointmentId
-            });
-            yield put({
-                type: 'CHECK_OUT_APPOINTMENT',
-                body: {},
-                method: 'PUT',
-                token: true,
-                api: `${apiConfigs.BASE_API}appointment/checkout/${appointmentId}`,
-                isPayment: true,
-                appointmentId,
-                paymentMethod: action.paymentMethod
-            })
+            // yield put({
+            //     type: 'CHECK_OUT_APPOINTMENT_OFFLINE_SUCCESS',
+            //     payload: appointmentId
+            // });
+            // yield put({
+            //     type: 'CHECK_OUT_APPOINTMENT',
+            //     body: {},
+            //     method: 'PUT',
+            //     token: true,
+            //     api: `${apiConfigs.BASE_API}appointment/checkout/${appointmentId}`,
+            //     isPayment: true,
+            //     appointmentId,
+            //     paymentMethod: action.paymentMethod
+            // })
+
+            // yield put({
+            //     type: 'GET_GROUP_APPOINTMENT_BY_ID',
+            //     method: 'GET',
+            //     api: `${apiConfigs.BASE_API}appointment/getGroupById/${id}`,
+            //     token: true
+            // })
 
 
         } else if (parseInt(codeNumber) === 401) {
