@@ -229,10 +229,7 @@ function* createAnymousAppointment(action) {
         if (parseInt(codeNumber) == 200) {
             // ------- Call checkout -----
             const appointmentId = responses.data;
-            // yield put({
-            //     type: 'CHECK_OUT_APPOINTMENT_OFFLINE_SUCCESS',
-            //     payload: appointmentId
-            // });
+         
             // yield put({
             //     type: 'CHECK_OUT_APPOINTMENT',
             //     body: {},
@@ -287,7 +284,8 @@ function* checkoutSubmit(action) {
                 })
             } else if (dueAmount < 0) {
                 yield put({
-                    type: "SHOW_POPUP_CHANGED_MONEY"
+                    type: "SHOW_POPUP_CHANGED_MONEY",
+                    payload: Math.abs(dueAmount)
                 })
             } else {
                 yield put({

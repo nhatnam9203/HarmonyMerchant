@@ -26,8 +26,13 @@ class PopupChangeMoney extends React.Component {
         })
     }
 
+    confimOK = () => {
+        this.props.actions.appointment.completeTransaction();
+        // this.props.confimOK();
+    }
+
     render() {
-        const { title, onRequestClose, confimOK, visibleChangeMoney } = this.props;
+        const { title, onRequestClose, visibleChangeMoney, moneyChanged } = this.props;
         const { cashBack } = this.state;
         return (
             <PopupParent
@@ -42,7 +47,7 @@ class PopupChangeMoney extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
-                            {`Change : $ ${cashBack}`}
+                            {`Change : $ ${moneyChanged}`}
                         </Text>
                     </View>
                     <View style={{
@@ -54,7 +59,7 @@ class PopupChangeMoney extends React.Component {
                             backgroundColor="#0764B0"
                             title="OK"
                             textColor="#fff"
-                            onPress={() => confimOK()}
+                            onPress={this.confimOK}
                             styleText={{
                                 fontSize: scaleSzie(14)
                             }}
@@ -68,7 +73,8 @@ class PopupChangeMoney extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    visibleChangeMoney: state.appointment.visibleChangeMoney
+    visibleChangeMoney: state.appointment.visibleChangeMoney,
+    moneyChanged: state.appointment.moneyChanged
 })
 
 export default connectRedux(mapStateToProps, PopupChangeMoney);

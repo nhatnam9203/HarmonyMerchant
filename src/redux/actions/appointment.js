@@ -262,3 +262,10 @@ export function closePopupPaymentDetail() {
     }
 }
 
+export function completeTransaction() {
+    return {
+        type: 'TRACSACTION_COMPLETED',
+    }
+}
+
+
