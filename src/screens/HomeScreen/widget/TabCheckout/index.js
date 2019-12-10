@@ -962,8 +962,7 @@ class TabCheckout extends Layout {
 
                 if (online) {
                     // ------ Payment with credit online card success ----
-                    this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff);
-                    // this.props.actions.appointment.submitPaymentWithCreditCard(profile.merchantId, '0', message, groupAppointment.checkoutGroupId);
+                    this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff,message,profile.merchantId);
                 } else {
                     // ------ Payment with credit offline card success ----
                     const dataAnymousAppoitment = this.getBasketOffline();

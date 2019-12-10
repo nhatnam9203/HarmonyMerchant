@@ -59,7 +59,6 @@ function* getGroupAppointmentById(action) {
                     api: `${apiConfigs.BASE_API}appointment/selectpaymentmethod/${responses.data.checkoutGroupId}`,
                     paymentMethod: action.paymentMethod,
                     amount: action.paidAmount,
-                    isLoading: true
                 })
             }
         } else if (parseInt(codeNumber) === 401) {
@@ -196,7 +195,7 @@ function* checkoutAppointment(action) {
 
 function* paymentAppointment(action) {
     try {
-        action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
+        yield put({ type: 'LOADING_ROOT' })
         const responses = yield requestAPI(action);
         console.log('paymentAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
@@ -209,7 +208,22 @@ function* paymentAppointment(action) {
                 api: `${apiConfigs.BASE_API}checkout/submit/${responses.data}`,
                 paymentMethod: action.paymentMethod,
                 amount: action.amount
-            })
+            });
+            if (action.creditCardInfo) {
+                yield put({
+                    type: 'SUBMIT_PAYMENT_WITH_CREDIT_CARD',
+                    body: {
+                        merchantId : action.merchantId,
+                        userId: 0,
+                        title: 'pax',
+                        responseData : action.creditCardInfo,
+                        checkoutPaymentId:responses.data
+                    },
+                    method: 'POST',
+                    token: true,
+                    api: `${apiConfigs.BASE_API}paymentTransaction`,
+                })
+            }
         } else if (parseInt(codeNumber) === 401) {
             yield put({ type: 'STOP_LOADING_ROOT' });
             yield put({

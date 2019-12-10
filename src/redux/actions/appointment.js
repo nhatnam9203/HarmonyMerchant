@@ -72,7 +72,7 @@ export function checkoutAppointment(appointmentId, checkoutGroupId = 0) {
     }
 }
 
-export function paymentAppointment(groupId, method, amount, isLoading = true) {
+export function paymentAppointment(groupId, method, amount,creditCardInfo = false,merchantId = -1) {
     return {
         type: 'PAY_APPOINTMENT',
         body: {
@@ -81,11 +81,11 @@ export function paymentAppointment(groupId, method, amount, isLoading = true) {
         },
         method: 'PUT',
         token: true,
-        // api: `${apiConfigs.BASE_API}appointment/pay/${appointmentId}`,
         api: `${apiConfigs.BASE_API}appointment/selectpaymentmethod/${groupId}`,
         paymentMethod: method,
         amount,
-        isLoading
+        creditCardInfo,
+        merchantId
     }
 }
 
