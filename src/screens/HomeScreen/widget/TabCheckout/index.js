@@ -1171,8 +1171,8 @@ class TabCheckout extends Layout {
     }
 
     doneBill = async () => {
-        const { paymentSelected , customDiscountPercentLocal, customDiscountFixedLocal,infoUser} = this.state;
-        const { groupAppointment,profile } = this.props;
+        const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser } = this.state;
+        const { groupAppointment, profile } = this.props;
 
         const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         const temptTotal = _.isEmpty(groupAppointment) ? Number(subTotalLocal + tipLocal + parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : groupAppointment.total;
@@ -1206,6 +1206,7 @@ class TabCheckout extends Layout {
                     infoUser.firstName,
                     infoUser.lastName,
                     infoUser.phoneNumber,
+                    moneyUserGiveForStaff
                 );
 
             }

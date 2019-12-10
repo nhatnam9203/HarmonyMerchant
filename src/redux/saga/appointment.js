@@ -44,7 +44,22 @@ function* getGroupAppointmentById(action) {
             yield put({
                 type: 'GET_GROUP_APPOINTMENT_BY_ID_SUCCESS',
                 payload: responses.data
-            })
+            });
+            if (action.isPayment) {
+                yield put({
+                    type: 'PAY_APPOINTMENT',
+                    body: {
+                        method :action.paymentMethod ,
+                        amount:action.paidAmount
+                    },
+                    method: 'PUT',
+                    token: true,
+                    api: `${apiConfigs.BASE_API}appointment/selectpaymentmethod/${responses.data.checkoutGroupId}`,
+                    paymentMethod: action.paymentMethod ,
+                    amount:action.paidAmount,
+                    isLoading:true
+                })
+            }
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
@@ -153,19 +168,12 @@ function* checkoutAppointment(action) {
                 type: 'GET_GROUP_APPOINTMENT_BY_ID',
                 method: 'GET',
                 api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId}`,
-                token: true
+                token: true,
+                appointmentId: action.appointmentId,
+                paidAmount: action.paidAmount,
+                isPayment: true,
+                paymentMethod: action.paymentMethod
             })
-            if (action.isPayment) {
-                yield put({
-                    type: 'PAY_APPOINTMENT',
-                    body: {
-                        method: action.paymentMethod
-                    },
-                    method: 'PUT',
-                    token: true,
-                    api: `${apiConfigs.BASE_API}appointment/pay/${action.appointmentId}`,
-                })
-            }
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -229,26 +237,21 @@ function* createAnymousAppointment(action) {
         if (parseInt(codeNumber) == 200) {
             // ------- Call checkout -----
             const appointmentId = responses.data;
-         
-            // yield put({
-            //     type: 'CHECK_OUT_APPOINTMENT',
-            //     body: {},
-            //     method: 'PUT',
-            //     token: true,
-            //     api: `${apiConfigs.BASE_API}appointment/checkout/${appointmentId}`,
-            //     isPayment: true,
-            //     appointmentId,
-            //     paymentMethod: action.paymentMethod
-            // })
+            yield put({
+                type: 'CHECK_OUT_APPOINTMENT',
+                body: {
+                    checkoutGroupId: 0,
+                },
+                method: 'PUT',
+                token: true,
+                api: `${apiConfigs.BASE_API}appointment/checkout/${appointmentId}`,
+                checkoutGroupId: 0,
+                appointmentId,
+                paidAmount: action.paidAmount,
+                isPayment: true,
+                paymentMethod: action.paymentMethod
 
-            // yield put({
-            //     type: 'GET_GROUP_APPOINTMENT_BY_ID',
-            //     method: 'GET',
-            //     api: `${apiConfigs.BASE_API}appointment/getGroupById/${id}`,
-            //     token: true
-            // })
-
-
+            })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
