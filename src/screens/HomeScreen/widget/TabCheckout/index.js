@@ -376,12 +376,6 @@ class TabCheckout extends Layout {
         return method
     }
 
-    payBasket = async () => {
-        await this.setState({
-            visibleBillOfPayment: true
-        })
-    }
-
     getBasketOffline = () => {
         const { basket } = this.state;
         const arrayProductBuy = [];
@@ -869,6 +863,24 @@ class TabCheckout extends Layout {
 
     }
 
+    payBasket = async () => {
+        const { paymentSelected } = this.state;
+        const { groupAppointment } = this.props;
+        const method = this.getPaymentString(paymentSelected);
+
+        if (method === 'harmony' && _.isEmpty(groupAppointment)) {
+            this.popupSendLinkInstallRef.current.setStateFromParent('');
+            this.setState({
+                visibleSendLinkPopup: true
+            });
+        } else {
+            await this.setState({
+                visibleBillOfPayment: true
+            })
+        }
+
+    }
+
     doneBill = async () => {
         const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser } = this.state;
         const { groupAppointment, profile, paxMachineInfo } = this.props;
@@ -909,6 +921,11 @@ class TabCheckout extends Layout {
             } else { // ------ Handle Buy at store -------
                 if (method === 'credit_card') {
                     this.hanleCreditCardProcess(false, moneyUserGiveForStaff);
+                } else if (method === 'harmony') {
+                    this.popupSendLinkInstallRef.current.setStateFromParent('');
+                    this.setState({
+                        visibleSendLinkPopup: true
+                    });
                 } else {
                     const dataAnymousAppoitment = this.getBasketOffline();
                     const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
