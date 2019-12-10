@@ -38,6 +38,8 @@ function* getGroupAppointmentById(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         console.log('getGroupAppointmentById : ', JSON.stringify(responses));
+        console.log('action : ', JSON.stringify(action));
+
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -49,15 +51,15 @@ function* getGroupAppointmentById(action) {
                 yield put({
                     type: 'PAY_APPOINTMENT',
                     body: {
-                        method :action.paymentMethod ,
-                        amount:action.paidAmount
+                        method: action.paymentMethod,
+                        amount: action.paidAmount
                     },
                     method: 'PUT',
                     token: true,
                     api: `${apiConfigs.BASE_API}appointment/selectpaymentmethod/${responses.data.checkoutGroupId}`,
-                    paymentMethod: action.paymentMethod ,
-                    amount:action.paidAmount,
-                    isLoading:true
+                    paymentMethod: action.paymentMethod,
+                    amount: action.paidAmount,
+                    isLoading: true
                 })
             }
         } else if (parseInt(codeNumber) === 401) {
@@ -171,7 +173,7 @@ function* checkoutAppointment(action) {
                 token: true,
                 appointmentId: action.appointmentId,
                 paidAmount: action.paidAmount,
-                isPayment: true,
+                isPayment: action.isPayment,
                 paymentMethod: action.paymentMethod
             })
 

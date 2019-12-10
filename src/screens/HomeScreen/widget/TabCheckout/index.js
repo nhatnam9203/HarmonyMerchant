@@ -216,133 +216,7 @@ class TabCheckout extends Layout {
 
     }
 
-    addAmount1 = async () => {
-        const { appointmentDetail } = this.props;
-        const { categoryTypeSelected, basket, productSeleted, extraSelected, appointmentId } = this.state;
-        // console.log('appointmentId : ', appointmentId);
-        if (categoryTypeSelected === 'Product') {
-            if (!_.isEmpty(appointmentDetail)) {
-                // ------- Buy With Appointment -----
-                this.props.actions.appointment.addItemIntoAppointment(
-                    {
-                        services: [],
-                        extras: [],
-                        products: [{
-                            productId: productSeleted.productId,
-                            quantity: this.amountRef.current.state.quanlity
-                        }]
-                    }, appointmentId)
-            } else {
-                // ------ Buy Ofline -----------
-                const temptBasket = basket.filter((item) => item.id !== `${productSeleted.productId}_pro`);
-                temptBasket.unshift({
-                    type: 'Product',
-                    id: `${productSeleted.productId}_pro`,
-                    data: {
-                        name: productSeleted.name,
-                        productId: productSeleted.productId,
-                        price: productSeleted.price
-                    },
-                    quanlitySet: this.amountRef.current.state.quanlity
-                });
-                await this.setState({
-                    basket: temptBasket,
-                    subTotalLocal: this.getPriceOfline(temptBasket),
-                    taxLocal: this.calculateTotalTaxLocal(temptBasket)
-                })
-            }
 
-            await this.setState({
-                isShowColProduct: false,
-                isShowColAmount: false,
-                categorySelected: {
-                    categoryId: -1,
-                    categoryType: ''
-                },
-                productSeleted: {
-                    name: ''
-                },
-                categoryTypeSelected: '',
-                extraSelected: {
-                    extraId: -1,
-                    name: ''
-                },
-            })
-
-        } else {
-            if (!_.isEmpty(appointmentDetail)) {
-                // ------- Buy with appointment ------
-                const temptExtra = extraSelected.extraId !== -1 ? [{ extraId: extraSelected.extraId }] : [];
-                this.props.actions.appointment.addItemIntoAppointment(
-                    {
-                        services: [{
-                            serviceId: productSeleted.serviceId
-                        }],
-                        extras: temptExtra,
-                        products: []
-                    }, appointmentId)
-            } else {
-                // ------ Buy Offline ------
-                // console.log('productSeleted : ',JSON.stringify());
-                const { profileStaffLogin } = this.props;
-                const temptBasket = basket.filter((item) => item.id !== `${productSeleted.serviceId}_ser`);
-                temptBasket.unshift({
-                    type: 'Service',
-                    id: `${productSeleted.serviceId}_ser`,
-                    data: {
-                        name: productSeleted.name,
-                        serviceId: productSeleted.serviceId,
-                        price: productSeleted.price
-                    },
-                    serviceName: productSeleted.name,
-                    staff: {
-                        staffId: profileStaffLogin.staffId,
-                        imageUrl: profileStaffLogin.imageUrl,
-                        displayName: profileStaffLogin.displayName,
-                        tip: 0.00
-                    }
-                });
-
-                const temptBasketExtra = temptBasket.filter((item) => item.id !== `${extraSelected.extraId}_extra`);
-                if (extraSelected.extraId !== -1) {
-                    temptBasketExtra.unshift({
-                        type: 'Extra',
-                        id: `${extraSelected.extraId}_extra`,
-                        data: {
-                            name: extraSelected.name,
-                            extraId: extraSelected.extraId,
-                            price: extraSelected.price
-                        },
-                        serviceName: productSeleted.name
-                    });
-                }
-
-                this.setState({
-                    basket: temptBasketExtra,
-                    subTotalLocal: this.getPriceOfline(temptBasketExtra),
-                    taxLocal: this.calculateTotalTaxLocal(temptBasketExtra)
-                });
-            }
-            // ---------------- Handle -----------------
-            this.setState({
-                isShowColProduct: false,
-                isShowColAmount: false,
-                categorySelected: {
-                    categoryId: -1,
-                    categoryType: ''
-                },
-                productSeleted: {
-                    name: ''
-                },
-                categoryTypeSelected: '',
-                extraSelected: {
-                    extraId: -1,
-                    name: ''
-                },
-            })
-        }
-
-    }
 
     getPriceOfline(basket) {
         // console.log('basket : ' + JSON.stringify(basket));
@@ -508,111 +382,6 @@ class TabCheckout extends Layout {
         })
     }
 
-    payBasket1 = async () => {
-        const { appointmentId, paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
-            infoUser, tipLocal, subTotalLocal, taxLocal
-        } = this.state;
-        const { profile, token, appointmentDetail, paxMachineInfo, isOfflineMode } = this.props;
-        let method = this.getPaymentString(paymentSelected);
-
-        if (appointmentId !== -1) {
-            // --------- Payment with appointment -----
-            if (method === 'credit_card') {
-                if (paxMachineInfo.isSetup) {
-                    this.hanleCreditCardProcess(true);
-                    await this.setState({
-                        changeButtonDone: true,
-                        methodPayment: method
-                    });
-                } else {
-                    alert('Please setup your pax machine in setting');
-                }
-
-            } else {
-                if (method === 'harmony') {
-                    this.setupSignalR(profile, token, appointmentDetail);
-                }
-                if (method === 'cash') {
-                    await this.setState({
-                        visibleBillOfPayment: true
-                    })
-                }
-                await this.setState({
-                    changeButtonDone: true,
-                    methodPayment: method
-                });
-                const isLoading = method === 'cash' ? false : true;
-                this.props.actions.appointment.paymentAppointment(appointmentId, method, isLoading);
-            }
-        } else
-            //-------Payment Anymous ------
-            if (method === 'harmony') {
-                if (isOfflineMode) {
-                    this.scrollTabRef.current.goToPage(2);
-                } else {
-                    this.popupSendLinkInstallRef.current.setStateFromParent('');
-                    this.setState({
-                        visibleSendLinkPopup: true
-                    });
-                }
-
-
-            } else {
-                if (method === 'credit_card') {
-                    if (isOfflineMode) {
-                        alert("Payment wiht credit card not support offline mode!");
-                    } else {
-                        if (paxMachineInfo.isSetup) {
-                            this.hanleCreditCardProcess(false);
-                            await this.setState({
-                                changeButtonDone: true,
-                                methodPayment: method
-                            });
-                        } else {
-                            alert('Please setup your pax machine in setting');
-                        }
-                    }
-
-
-                } else {
-                    const dataAnymousAppoitment = this.getBasketOffline();
-                    const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
-                    if (isOfflineMode) {
-                        // ------ Handle Offline Mode  ------
-                        if (method === 'cash') {
-                            await this.setState({
-                                visibleBillOfPayment: true
-                            });
-                        } else if (method === 'orther') {
-                            this.props.actions.appointment.showModalPrintReceipt();
-                        }
-                    } else {
-                        if (method === 'cash') {
-                            await this.setState({
-                                visibleBillOfPayment: true
-                            })
-                        }
-                        await this.setState({
-                            changeButtonDone: true,
-                            methodPayment: method
-                        });
-                        const isLoadingOffline = method === 'cash' ? false : true;
-                        this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, isLoadingOffline,
-                            customDiscountPercentLocal, customDiscountFixedLocal, staffId,
-                            infoUser.firstName,
-                            infoUser.lastName,
-                            infoUser.phoneNumber,
-
-                        );
-                    }
-
-
-                }
-
-            }
-    }
-
-
     getBasketOffline = () => {
         const { basket } = this.state;
         const arrayProductBuy = [];
@@ -644,76 +413,6 @@ class TabCheckout extends Layout {
             arrayExtrasBuy,
             staffId
         }
-    }
-
-    async hanleCreditCardProcess(online) {
-        const { total, subTotalLocal, tipLocal, discountTotalLocal } = this.state;
-        const { paxMachineInfo, appointmentDetail } = this.props;
-        const { ip, port, timeout } = paxMachineInfo;
-        const temptTotal = _.isEmpty(appointmentDetail) ? Number(subTotalLocal + tipLocal - discountTotalLocal).toFixed(2) : total;
-
-        // 1. Check setup pax 
-        PosLink.setupPax(ip, port, timeout);
-
-        // 2. Show modal processing 
-        await this.setState({
-            visibleProcessingCredit: true
-        })
-
-        // 3. Send Transaction 
-
-        PosLink.sendTransaction(formatNumberFromCurrency(temptTotal) * 100, (message) => this.handleResponseCreditCard(message, online));
-    }
-
-    async handleResponseCreditCard(message, online) {
-        // console.log('---- Response : ',message);
-        await this.setState({
-            visibleProcessingCredit: false
-        })
-        try {
-            const result = JSON.parse(message);
-            if (result.status == 0) {
-                await this.setState({
-                    changeButtonDone: false,
-                });
-                setTimeout(() => {
-                    alert(result.message);
-                }, 200)
-
-            } else {
-                const { profile } = this.props;
-                const { appointmentId, paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser } = this.state;
-                let method = this.getPaymentString(paymentSelected);
-
-                if (online) {
-                    // ------ Payment with credit online card success ----
-                    this.props.actions.appointment.paymentAppointment(appointmentId, method, false);
-                    this.props.actions.appointment.submitPaymentWithCreditCard(profile.merchantId, '0', message, appointmentId);
-                } else {
-                    // ------ Payment with credit offline card success ----
-                    const dataAnymousAppoitment = this.getBasketOffline();
-                    const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
-
-                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, false,
-                        customDiscountPercentLocal, customDiscountFixedLocal, staffId,
-                        infoUser.firstName,
-                        infoUser.lastName,
-                        infoUser.phoneNumber,
-                    );
-                }
-            }
-            // console.log('message : ', message);
-        } catch (error) {
-            // console.log('error : ', error)
-        }
-    }
-
-    cancelTransaction = async () => {
-        await this.setState({
-            visibleProcessingCredit: false,
-            changeButtonDone: false,
-        });
-        PosLink.cancelTransaction()
     }
 
     getHour() {
@@ -1172,7 +871,7 @@ class TabCheckout extends Layout {
 
     doneBill = async () => {
         const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser } = this.state;
-        const { groupAppointment, profile } = this.props;
+        const { groupAppointment, profile, paxMachineInfo } = this.props;
 
         const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         const temptTotal = _.isEmpty(groupAppointment) ? Number(subTotalLocal + tipLocal + parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : groupAppointment.total;
@@ -1193,24 +892,103 @@ class TabCheckout extends Layout {
                 if (method === 'harmony') {
                     console.log('harmony');
                 } else if (method === 'credit_card') {
-                    console.log('credit_card');
+
+                    if (paxMachineInfo.isSetup) {
+                        this.hanleCreditCardProcess(true, moneyUserGiveForStaff);
+                    } else {
+                        setTimeout(() => {
+                            alert('Please setup your pax machine in setting');
+                        }, 300)
+
+                    }
+
                 } else {
                     this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff);
                 }
 
             } else { // ------ Handle Buy at store -------
-                const dataAnymousAppoitment = this.getBasketOffline();
-                const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
-                this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
-                    customDiscountPercentLocal, customDiscountFixedLocal, staffId,
-                    infoUser.firstName,
-                    infoUser.lastName,
-                    infoUser.phoneNumber,
-                    moneyUserGiveForStaff
-                );
+                if (method === 'credit_card') {
+                    this.hanleCreditCardProcess(false, moneyUserGiveForStaff);
+                } else {
+                    const dataAnymousAppoitment = this.getBasketOffline();
+                    const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
+                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
+                        customDiscountPercentLocal, customDiscountFixedLocal, staffId,
+                        infoUser.firstName,
+                        infoUser.lastName,
+                        infoUser.phoneNumber,
+                        moneyUserGiveForStaff
+                    );
+                }
+
 
             }
         }
+    }
+
+    async hanleCreditCardProcess(online = true, moneyUserGiveForStaff) {
+        const { paxMachineInfo } = this.props;
+        const { ip, port, timeout } = paxMachineInfo;
+
+        // 1. Check setup pax 
+        PosLink.setupPax(ip, port, timeout);
+
+        // 2. Show modal processing 
+        await this.setState({
+            visibleProcessingCredit: true
+        })
+
+        const moneyCreditCard = parseFloat(formatNumberFromCurrency(moneyUserGiveForStaff)).toFixed(2)*100;
+        console.log("moneyUserGiveForStaff : ",moneyCreditCard)
+        // 3. Send Transaction 
+        PosLink.sendTransaction(moneyCreditCard, (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
+    }
+
+    async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
+        await this.setState({
+            visibleProcessingCredit: false
+        })
+        try {
+            const result = JSON.parse(message);
+            if (result.status == 0) {
+                setTimeout(() => {
+                    alert(result.message);
+                }, 300)
+
+            } else {
+                const { profile, groupAppointment } = this.props;
+                const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser } = this.state;
+                let method = this.getPaymentString(paymentSelected);
+
+                if (online) {
+                    // ------ Payment with credit online card success ----
+                    this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff);
+                    // this.props.actions.appointment.submitPaymentWithCreditCard(profile.merchantId, '0', message, groupAppointment.checkoutGroupId);
+                } else {
+                    // ------ Payment with credit offline card success ----
+                    const dataAnymousAppoitment = this.getBasketOffline();
+                    const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
+
+                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
+                        customDiscountPercentLocal, customDiscountFixedLocal, staffId,
+                        infoUser.firstName,
+                        infoUser.lastName,
+                        infoUser.phoneNumber,
+                        moneyUserGiveForStaff
+                    );
+                }
+            }
+        } catch (error) {
+            // console.log('error : ', error)
+        }
+    }
+
+    cancelTransaction = async () => {
+        await this.setState({
+            visibleProcessingCredit: false,
+            changeButtonDone: false,
+        });
+        PosLink.cancelTransaction()
     }
 
 
