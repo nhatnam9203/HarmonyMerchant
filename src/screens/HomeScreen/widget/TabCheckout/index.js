@@ -938,10 +938,10 @@ class TabCheckout extends Layout {
             visibleProcessingCredit: true
         })
 
-        const moneyCreditCard = parseFloat(formatNumberFromCurrency(moneyUserGiveForStaff)).toFixed(2) * 100;
+        const moneyCreditCard = Number(formatNumberFromCurrency(moneyUserGiveForStaff) * 100).toFixed(2);
         console.log("moneyUserGiveForStaff : ", moneyCreditCard)
         // 3. Send Transaction 
-        PosLink.sendTransaction(moneyCreditCard, (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
+        PosLink.sendTransaction(parseFloat(moneyCreditCard), (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
     }
 
     async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
