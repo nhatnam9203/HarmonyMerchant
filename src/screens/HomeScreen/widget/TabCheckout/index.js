@@ -938,8 +938,8 @@ class TabCheckout extends Layout {
             visibleProcessingCredit: true
         })
 
-        const moneyCreditCard = parseFloat(formatNumberFromCurrency(moneyUserGiveForStaff)).toFixed(2)*100;
-        console.log("moneyUserGiveForStaff : ",moneyCreditCard)
+        const moneyCreditCard = parseFloat(formatNumberFromCurrency(moneyUserGiveForStaff)).toFixed(2) * 100;
+        console.log("moneyUserGiveForStaff : ", moneyCreditCard)
         // 3. Send Transaction 
         PosLink.sendTransaction(moneyCreditCard, (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
     }
@@ -962,7 +962,7 @@ class TabCheckout extends Layout {
 
                 if (online) {
                     // ------ Payment with credit online card success ----
-                    this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff,message,profile.merchantId);
+                    this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff, message, profile.merchantId);
                 } else {
                     // ------ Payment with credit offline card success ----
                     const dataAnymousAppoitment = this.getBasketOffline();
@@ -973,7 +973,8 @@ class TabCheckout extends Layout {
                         infoUser.firstName,
                         infoUser.lastName,
                         infoUser.phoneNumber,
-                        moneyUserGiveForStaff
+                        moneyUserGiveForStaff,
+                        message,
                     );
                 }
             }
