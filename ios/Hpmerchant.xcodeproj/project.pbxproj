@@ -1442,7 +1442,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony;
 				PRODUCT_NAME = HpMerchant;
-				PROVISIONING_PROFILE_SPECIFIER = HpmerchantStore;
+				PROVISIONING_PROFILE_SPECIFIER = HarmonyMerchantDev;
 				TARGETED_DEVICE_FAMILY = 2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1480,7 +1480,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony;
 				PRODUCT_NAME = HpMerchant;
-				PROVISIONING_PROFILE_SPECIFIER = HpmerchantStore;
+				PROVISIONING_PROFILE_SPECIFIER = HarmonyMerchantDev;
 				TARGETED_DEVICE_FAMILY = 2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

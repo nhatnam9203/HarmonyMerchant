@@ -454,11 +454,11 @@ class Layout extends React.Component {
 
 
     renderButtonChekout() {
-        const { tabCurrent, basket, paymentSelected, changeButtonDone
+        const { tabCurrent, basket, paymentSelected, changeButtonDone,isCancelHarmonyPay
         } = this.state;
         const { language, isDonePayment,groupAppointment } = this.props;
         if (tabCurrent === 1) {
-            if (changeButtonDone && !isDonePayment) {
+            if (changeButtonDone && isCancelHarmonyPay) {
                 if (paymentSelected === 'Harmony Pay') {
                     return (
                         <ButtonCustom

@@ -64,7 +64,9 @@ const initState = {
     visibleCustomerName: false,
     visibleCustomerPhone: false,
     appointmentIdChangeStylist: -1,
-    visiblePopupPaymentDetails: false
+    visiblePopupPaymentDetails: false,
+
+    isCancelHarmonyPay: false
 }
 
 class TabCheckout extends Layout {
@@ -788,7 +790,7 @@ class TabCheckout extends Layout {
 
     // ------------ Signal R -------
 
-    setupSignalR(profile, token, appointmentDetail) {
+    setupSignalR(profile, token, checkoutGroupId) {
 
         try {
             const connection = new signalR.HubConnectionBuilder()
@@ -801,26 +803,26 @@ class TabCheckout extends Layout {
 
             connection.on("ListWaNotification", (data) => {
                 const temptData = JSON.parse(data);
-                // console.log('temptData : ' + JSON.stringify(temptData)); 
+                console.log('temptData1 : ' + JSON.stringify(temptData)); 
                 // checkoutGroupId
                 if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
-                    && temptData.data.checkoutGroupId == appointmentDetail.checkoutGroupId
+                    && temptData.data.checkoutGroupId == checkoutGroupId
                 ) {
-                    console.log("tempt Data : ",temptData);
+                    console.log("tempt Data2 : ", temptData);
                     // this.props.actions.appointment.donePaymentHarmony();
                     // connection.stop();
                 }
                 // ---------- Handle reload Tip in Customer App ---------
                 if (!_.isEmpty(temptData.data) && temptData.data.isTipAppointment
-                    && temptData.data.checkoutGroupId == appointmentDetail.checkoutGroupId
+                    && temptData.data.checkoutGroupId == checkoutGroupId
                 ) {
-                    console.log("tempt Data : ",temptData);
+                    console.log("tempt Data3 : ", temptData);
                     // this.props.actions.appointment.getAppointmentById(appointmentDetail.appointmentId);
                 }
             });
 
             connection.onclose(async (error) => {
-                // console.log('----- Close -----');
+                console.log('----- Close -----');
                 this.props.actions.appointment.resetConnectSignalR();
             });
 
@@ -882,14 +884,28 @@ class TabCheckout extends Layout {
 
     }
 
+    cancelHarmonyPayment = async () => {
+        await this.setState({
+            changeButtonDone: false,
+            isCancelHarmonyPay: false,
+            paymentSelected: '',
+        });
+        // this.props.actions.appointment.cancelHarmonyPayment(this.props.appointmentDetail.appointmentId);
+        // this.props.actions.appointment.resetPayment();
+        const { connectionSignalR } = this.props;
+        if (!_.isEmpty(connectionSignalR)) {
+            connectionSignalR.stop();
+        }
+    }
+
     doneBill = async () => {
         const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser } = this.state;
-        const { groupAppointment, profile, paxMachineInfo } = this.props;
+        const { groupAppointment, profile, paxMachineInfo ,token} = this.props;
 
-        const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
-        const temptTotal = _.isEmpty(groupAppointment) ? Number(subTotalLocal + tipLocal + parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : groupAppointment.total;
+        // const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
+        // const temptTotal = _.isEmpty(groupAppointment) ? Number(subTotalLocal + tipLocal + parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : groupAppointment.total;
         const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
-        const moneyChange = moneyUserGiveForStaff - parseFloat(formatNumberFromCurrency(temptTotal));
+        // const moneyChange = moneyUserGiveForStaff - parseFloat(formatNumberFromCurrency(temptTotal));
         const method = this.getPaymentString(paymentSelected);
 
 
@@ -903,18 +919,20 @@ class TabCheckout extends Layout {
             this.modalBillRef.current.setStateFromParent(`0`);
             if (!_.isEmpty(groupAppointment)) {
                 if (method === 'harmony') {
-                    console.log('harmony');
+                    await this.setState({
+                        isCancelHarmonyPay: true,
+                        changeButtonDone: true
+                    });
+                    this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff);
+                    this.setupSignalR(profile, token, groupAppointment.checkoutGroupId);
                 } else if (method === 'credit_card') {
-
                     if (paxMachineInfo.isSetup) {
                         this.hanleCreditCardProcess(true, moneyUserGiveForStaff);
                     } else {
                         setTimeout(() => {
                             alert('Please setup your pax machine in setting');
                         }, 300)
-
                     }
-
                 } else {
                     this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff);
                 }
@@ -1167,18 +1185,6 @@ class TabCheckout extends Layout {
         })
     }
 
-    cancelHarmonyPayment = async () => {
-        await this.setState({
-            changeButtonDone: false,
-            paymentSelected: '',
-        });
-        this.props.actions.appointment.cancelHarmonyPayment(this.props.appointmentDetail.appointmentId);
-        this.props.actions.appointment.resetPayment();
-        const { connectionSignalR } = this.props;
-        if (!_.isEmpty(connectionSignalR)) {
-            connectionSignalR.stop();
-        }
-    }
 
     sendLinkInstallApp = async () => {
         const phone = this.popupSendLinkInstallRef.current.state.value;

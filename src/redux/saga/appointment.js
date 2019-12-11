@@ -59,8 +59,8 @@ function* getGroupAppointmentById(action) {
                     api: `${apiConfigs.BASE_API}appointment/selectpaymentmethod/${responses.data.checkoutGroupId}`,
                     paymentMethod: action.paymentMethod,
                     amount: action.paidAmount,
-                    creditCardInfo:action.creditCardInfo,
-                    merchantId:action.merchantId
+                    creditCardInfo: action.creditCardInfo,
+                    merchantId: action.merchantId
                 })
             }
         } else if (parseInt(codeNumber) === 401) {
@@ -204,15 +204,17 @@ function* paymentAppointment(action) {
         console.log('paymentAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            yield put({
-                type: 'CHECKOUT_SUBMIT',
-                body: {},
-                method: 'PUT',
-                token: true,
-                api: `${apiConfigs.BASE_API}checkout/submit/${responses.data}`,
-                paymentMethod: action.paymentMethod,
-                amount: action.amount
-            });
+            if (action.paymentMethod !== 'harmony') {
+                yield put({
+                    type: 'CHECKOUT_SUBMIT',
+                    body: {},
+                    method: 'PUT',
+                    token: true,
+                    api: `${apiConfigs.BASE_API}checkout/submit/${responses.data}`,
+                    paymentMethod: action.paymentMethod,
+                    amount: action.amount
+                });
+            }
             if (action.creditCardInfo) {
                 yield put({
                     type: 'SUBMIT_PAYMENT_WITH_CREDIT_CARD',
@@ -257,7 +259,7 @@ function* createAnymousAppointment(action) {
         if (parseInt(codeNumber) == 200) {
             // ------- Call checkout -----
             const appointmentId = responses.data;
-            if(action.paymentMethod !== 'credit_card'){
+            if (action.paymentMethod !== 'credit_card') {
                 yield put({
                     type: 'CHECK_OUT_APPOINTMENT',
                     body: {
@@ -271,10 +273,10 @@ function* createAnymousAppointment(action) {
                     paidAmount: action.paidAmount,
                     isPayment: true,
                     paymentMethod: action.paymentMethod,
-                    
-    
+
+
                 })
-            }else{
+            } else {
                 yield put({
                     type: 'CHECK_OUT_APPOINTMENT',
                     body: {
@@ -290,10 +292,10 @@ function* createAnymousAppointment(action) {
                     paymentMethod: action.paymentMethod,
                     creditCardInfo: action.creditCardInfo,
                     merchantId: action.merchantId
-    
+
                 })
             }
-           
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
