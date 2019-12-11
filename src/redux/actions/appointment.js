@@ -272,3 +272,9 @@ export function completeTransaction() {
 }
 
 
+export function updatePaymentInfoByHarmonyPayment(data) {
+    return {
+        type: 'UPDATE_PAYMENT_DETAIL_INFO_BY_HARMONY_PAYMENT',
+        payload: data
+    }
+}

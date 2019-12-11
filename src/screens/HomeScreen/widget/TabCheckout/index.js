@@ -788,6 +788,17 @@ class TabCheckout extends Layout {
         })
     }
 
+
+    handleHarmonyPayment = async (checkoutPaymentInfo) => {
+        console.log("checkoutPayment : ", JSON.stringify(checkoutPaymentInfo));
+        await this.setState({
+            changeButtonDone: false,
+            isCancelHarmonyPay: false,
+            paymentSelected: ""
+        });
+        this.props.actions.appointment.updatePaymentInfoByHarmonyPayment(checkoutPaymentInfo);
+    }
+
     // ------------ Signal R -------
 
     setupSignalR(profile, token, checkoutGroupId) {
@@ -803,14 +814,13 @@ class TabCheckout extends Layout {
 
             connection.on("ListWaNotification", (data) => {
                 const temptData = JSON.parse(data);
-                console.log('temptData1 : ' + JSON.stringify(temptData)); 
+                // console.log('temptData1 : ' + JSON.stringify(temptData)); 
                 // checkoutGroupId
                 if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
                     && temptData.data.checkoutGroupId == checkoutGroupId
                 ) {
-                    console.log("tempt Data2 : ", temptData);
-                    // this.props.actions.appointment.donePaymentHarmony();
-                    // connection.stop();
+                    this.handleHarmonyPayment(temptData.data.checkoutPayment);
+                    connection.stop();
                 }
                 // ---------- Handle reload Tip in Customer App ---------
                 if (!_.isEmpty(temptData.data) && temptData.data.isTipAppointment
@@ -900,7 +910,7 @@ class TabCheckout extends Layout {
 
     doneBill = async () => {
         const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser } = this.state;
-        const { groupAppointment, profile, paxMachineInfo ,token} = this.props;
+        const { groupAppointment, profile, paxMachineInfo, token } = this.props;
 
         // const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         // const temptTotal = _.isEmpty(groupAppointment) ? Number(subTotalLocal + tipLocal + parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : groupAppointment.total;

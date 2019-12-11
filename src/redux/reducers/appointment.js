@@ -136,6 +136,12 @@ function appReducer(state = initialState, action) {
                 visibleChangeMoney: true,
                 moneyChanged: action.payload
             }
+
+        case 'UPDATE_PAYMENT_DETAIL_INFO_BY_HARMONY_PAYMENT':
+            return {
+                ...state,
+                paymentDetilInfo: action.payload,
+            }
         default:
             return state
     }
