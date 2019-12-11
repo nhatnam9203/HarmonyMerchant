@@ -796,7 +796,16 @@ class TabCheckout extends Layout {
             isCancelHarmonyPay: false,
             paymentSelected: ""
         });
+
+        const dueAmount = checkoutPaymentInfo && checkoutPaymentInfo.dueAmount ? parseFloat(checkoutPaymentInfo.dueAmount).toFixed(2) : 0;
         this.props.actions.appointment.updatePaymentInfoByHarmonyPayment(checkoutPaymentInfo);
+        if (dueAmount === 0) {   // ----- Transaction Completed --------
+            this.props.actions.appointment.completeTransaction();
+        } else if (dueAmount < 0) {
+            this.props.actions.appointment.showPopupChangeMoney(dueAmount);
+        } else {
+            this.props.actions.appointment.showPopupPaymentDetails();
+        }
     }
 
     // ------------ Signal R -------

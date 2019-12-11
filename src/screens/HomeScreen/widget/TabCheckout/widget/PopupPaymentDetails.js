@@ -33,6 +33,7 @@ class PopupPaymentDetails extends React.Component {
 
     render() {
         const { title, visible, onRequestClose, language, nextPayment,paymentDetilInfo } = this.props;
+        const paidAmounts = paymentDetilInfo.paidAmounts && paymentDetilInfo.paidAmounts.length > 0 ?  paymentDetilInfo.paidAmounts[0] : {} ;
         return (
             <PopupParent
                 title={title}
@@ -79,9 +80,9 @@ class PopupPaymentDetails extends React.Component {
                         <View style={{ height: 3, backgroundColor: "rgb(238,238,238)", marginVertical: scaleSzie(10) }} />
                         <ItemDetail
                             title={`${localize('Paid Amount', language)}:`}
-                            value={`$ ${paymentDetilInfo.amount ? paymentDetilInfo.amount  : ''}`}
+                            value={`$ ${paidAmounts.amount ? paidAmounts.amount  : ''}`}
                             isBold={true}
-                            subText={` (${paymentDetilInfo.paymentMethod ? paymentDetilInfo.paymentMethod  : ''})`}
+                            subText={` (${paidAmounts.paymentMethod ? paidAmounts.paymentMethod  : ''})`}
                         />
                         <ItemDetail
                             title={`${localize('Due Amount', language)}:`}

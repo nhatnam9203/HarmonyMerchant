@@ -278,3 +278,20 @@ export function updatePaymentInfoByHarmonyPayment(data) {
         payload: data
     }
 }
+
+export function showPopupChangeMoney(data) {
+    return {
+        type: 'SHOW_POPUP_CHANGED_MONEY',
+        payload: data
+    }
+}
+
+export function showPopupPaymentDetails() {
+    return {
+        type: 'SHOW_POPUP_PAYMENT_DETAILS',
+    }
+}
+
+
+
+

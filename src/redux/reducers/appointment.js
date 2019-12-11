@@ -127,7 +127,7 @@ function appReducer(state = initialState, action) {
                 visibleChangeMoney: false,
                 moneyChanged: 0,
                 visiblePaymentCompleted: true,
-              
+
             }
         }
         case 'SHOW_POPUP_CHANGED_MONEY':
@@ -142,6 +142,13 @@ function appReducer(state = initialState, action) {
                 ...state,
                 paymentDetilInfo: action.payload,
             }
+        case 'SHOW_POPUP_PAYMENT_DETAILS':
+            return {
+                ...state,
+                visiblePopupPaymentDetails: true
+            }
+
+
         default:
             return state
     }
