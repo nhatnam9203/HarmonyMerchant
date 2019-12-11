@@ -412,7 +412,6 @@ class TabCheckout extends Layout {
     getHour() {
         const hours = parseInt(new Date().getHours()) - 12 > 0 ? parseInt(new Date().getHours()) - 13 : parseInt(new Date().getHours());
         const surfix = parseInt(new Date().getHours()) - 12 > 0 ? 'PM' : 'AM'
-        // const temptDate = `${hours}:${new Date().getMinutes()}:${new Date().getSeconds()} ${surfix}`;
         const temptDate = `${hours}:${(new Date().getMinutes()) > 10 ? (new Date().getMinutes()) : `0${(new Date().getMinutes())}`} ${surfix}`;
 
         return temptDate;
@@ -805,16 +804,18 @@ class TabCheckout extends Layout {
                 // console.log('temptData : ' + JSON.stringify(temptData)); 
                 // checkoutGroupId
                 if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
-                    && temptData.data.appointmentId == appointmentDetail.appointmentId
+                    && temptData.data.checkoutGroupId == appointmentDetail.checkoutGroupId
                 ) {
-                    this.props.actions.appointment.donePaymentHarmony();
-                    connection.stop();
+                    console.log("tempt Data : ",temptData);
+                    // this.props.actions.appointment.donePaymentHarmony();
+                    // connection.stop();
                 }
                 // ---------- Handle reload Tip in Customer App ---------
                 if (!_.isEmpty(temptData.data) && temptData.data.isTipAppointment
-                    && temptData.data.appointmentId == appointmentDetail.appointmentId
+                    && temptData.data.checkoutGroupId == appointmentDetail.checkoutGroupId
                 ) {
-                    this.props.actions.appointment.getAppointmentById(appointmentDetail.appointmentId);
+                    console.log("tempt Data : ",temptData);
+                    // this.props.actions.appointment.getAppointmentById(appointmentDetail.appointmentId);
                 }
             });
 

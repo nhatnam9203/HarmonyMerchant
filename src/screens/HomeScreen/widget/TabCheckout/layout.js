@@ -407,23 +407,24 @@ class Layout extends React.Component {
                             <View style={{height:2,backgroundColor:"#DDDDDD",marginTop:scaleSzie(10),marginBottom:scaleSzie(15)}} />
                              {/* ---------- Paid amount ------ */}
                              {
-                                 paymentDetilInfo.paidAmounts ?  paymentDetilInfo.paidAmounts.map((paidAmountInfo,index) => <View key={index} style={[styles.payNumberTextContainer,{  justifyContent: 'flex-start',marginBottom:scaleSzie(8)}]} >
+                                 paymentDetilInfo.paidAmounts ?  paymentDetilInfo.paidAmounts.map((paidAmountInfo,index) => <View key={index} style={[styles.payNumberTextContainer,{  justifyContent: 'space-between',marginBottom:scaleSzie(8)}]} >
                                  <Text style={[styles.textPay,{fontSize:scaleSzie(18),fontWeight:"600",color:"#404040"}]} >
-                                     {`${localize('Paid amount', language)}:`}
+                                     {`${localize('Paid ', language)}`}
+                                     <Text style={[styles.textPay, { fontSize:scaleSzie(18),fontWeight:"300",color: '#404040' }]} >
+                                     {` (${paidAmountInfo.paymentMethod})`}
+                                 </Text>
                                  </Text>
                                  <Text style={[styles.textPay, { fontSize:scaleSzie(18),fontWeight:"600",color: '#404040' }]} >
                                      {`  $ ${formatMoney(paidAmountInfo.amount)}`}
                                  </Text>
-                                 <Text style={[styles.textPay, { fontSize:scaleSzie(18),fontWeight:"300",color: '#404040' }]} >
-                                     {` (${paidAmountInfo.paymentMethod})`}
-                                 </Text>
+                                
                              </View> ) : <View />
                              }
                             
 
                              {/* ---------- Due amount ------ */}
                              {
-                                 paymentDetilInfo.dueAmount ? <View style={[styles.payNumberTextContainer,{  justifyContent: 'flex-start',}]} >
+                                 paymentDetilInfo.dueAmount ? <View style={[styles.payNumberTextContainer,{  justifyContent: 'space-between',}]} >
                                  <Text style={[styles.textPay,{fontSize:scaleSzie(18),fontWeight:"600",color:"#FF3B30"}]} >
                                      {`${localize('Due amount', language)}:`}
                                  </Text>
