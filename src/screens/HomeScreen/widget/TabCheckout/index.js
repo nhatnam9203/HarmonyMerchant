@@ -66,7 +66,11 @@ const initState = {
     appointmentIdChangeStylist: -1,
     visiblePopupPaymentDetails: false,
 
-    isCancelHarmonyPay: false
+    isCancelHarmonyPay: false,
+
+    customerInfoByPhone :{
+        userId: 0
+    }
 }
 
 class TabCheckout extends Layout {
@@ -918,7 +922,7 @@ class TabCheckout extends Layout {
     }
 
     doneBill = async () => {
-        const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser } = this.state;
+        const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser,customerInfoByPhone } = this.state;
         const { groupAppointment, profile, paxMachineInfo, token } = this.props;
 
         // const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
@@ -967,8 +971,10 @@ class TabCheckout extends Layout {
                 } else {
                     const dataAnymousAppoitment = this.getBasketOffline();
                     const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
-                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
-                        customDiscountPercentLocal, customDiscountFixedLocal, staffId,
+                    const userId = customerInfoByPhone.userId ? ustomerInfoByPhone.userId : 0;
+                    console.log('customerInfoByPhone : ',customerInfoByPhone);
+                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId,userId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
+                       customDiscountFixedLocal,  customDiscountPercentLocal, staffId,
                         infoUser.firstName,
                         infoUser.lastName,
                         infoUser.phoneNumber,
@@ -1012,7 +1018,7 @@ class TabCheckout extends Layout {
 
             } else {
                 const { profile, groupAppointment } = this.props;
-                const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser } = this.state;
+                const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser ,customerInfoByPhone} = this.state;
                 let method = this.getPaymentString(paymentSelected);
 
                 if (online) {
@@ -1022,9 +1028,9 @@ class TabCheckout extends Layout {
                     // ------ Payment with credit offline card success ----
                     const dataAnymousAppoitment = this.getBasketOffline();
                     const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
-
-                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
-                        customDiscountPercentLocal, customDiscountFixedLocal, staffId,
+                    const userId = customerInfoByPhone.userId ? ustomerInfoByPhone.userId : 0;
+                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId,userId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
+                      customDiscountFixedLocal,  customDiscountPercentLocal,  staffId,
                         infoUser.firstName,
                         infoUser.lastName,
                         infoUser.phoneNumber,
@@ -1318,12 +1324,16 @@ class TabCheckout extends Layout {
                         firstName: responses.data && responses.data.firstName ? responses.data.firstName : infoUser.firstName,
                         lastName: responses.data && responses.data.lastName ? responses.data.lastName : infoUser.lastName
                     },
-                    visibleCustomerPhone: false
+                    visibleCustomerPhone: false,
+                    customerInfoByPhone: responses.data
                 })
             } else {
                 await this.setState({
                     infoUser: { ...infoUser, phoneNumber },
-                    visibleCustomerPhone: false
+                    visibleCustomerPhone: false,
+                    customerInfoByPhone:{
+                        userId:0
+                    }
                 })
             }
         } catch (error) {

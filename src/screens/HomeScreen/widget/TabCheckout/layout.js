@@ -342,7 +342,7 @@ class Layout extends React.Component {
                     </Text>
                     <View style={{flex:1,alignItems:"flex-end"}} >
                         {
-                            !_.isEmpty(groupAppointment) ? <Button onPress={this.addAppointmentCheckout} >
+                            !_.isEmpty(groupAppointment) && _.isEmpty(paymentDetailInfo) ? <Button onPress={this.addAppointmentCheckout} >
                             <Image 
                             source={IMAGE.add_appointment_checkout} 
                             style={{width:scaleSzie(25),height:scaleSzie(25)}}
@@ -357,7 +357,7 @@ class Layout extends React.Component {
                     <View style={{ flex: 1 }} >
                     <ScrollView showsVerticalScrollIndicator={false} >
                         {
-                          _.isEmpty(groupAppointment) ? <ItemCustomerBasket 
+                          _.isEmpty(groupAppointment) ? ( basket.length > 0?  <ItemCustomerBasket 
                                     language={language}
                                     subTotalLocal={subTotalLocal} 
                                     tipLocal={tipLocal}
@@ -369,7 +369,7 @@ class Layout extends React.Component {
                                     basketLocal={basket}
                                     infoUser={infoUser}
                   >
-                  </ItemCustomerBasket> :  appointments.map((appointment,index) => <ItemCustomerBasket 
+                  </ItemCustomerBasket> : <View />) :  appointments.map((appointment,index) => <ItemCustomerBasket 
                                     key={`${appointment.appointmentId}_${index}`}
                                     language={language}
                                     appointmentDetail={appointment}
