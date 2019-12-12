@@ -12,7 +12,7 @@ const initialState = {
     listAppointmentsOfflineMode: [],
 
     groupAppointment: {},
-    paymentDetilInfo: {},
+    paymentDetailInfo: {},
     visiblePopupPaymentDetails: false,
     visibleChangeMoney: false,
     moneyChanged: 0,
@@ -34,7 +34,7 @@ function appReducer(state = initialState, action) {
         case 'CHECKOUT_SUBMIT_SUCCESS':
             return {
                 ...state,
-                paymentDetilInfo: action.payload,
+                paymentDetailInfo: action.payload,
                 visiblePopupPaymentDetails: true
             }
         case 'CLOSE_POPUP_PAYMENT_DETAIL':
@@ -68,7 +68,7 @@ function appReducer(state = initialState, action) {
                 ...state,
                 appointmentDetail: {},
                 groupAppointment: {},
-                paymentDetilInfo: {}
+                paymentDetailInfo: {}
             }
         case 'PAY_APPOINTMENT_SUCCESS':
             return {
@@ -140,7 +140,7 @@ function appReducer(state = initialState, action) {
         case 'UPDATE_PAYMENT_DETAIL_INFO_BY_HARMONY_PAYMENT':
             return {
                 ...state,
-                paymentDetilInfo: action.payload,
+                paymentDetailInfo: action.payload,
             }
         case 'SHOW_POPUP_PAYMENT_DETAILS':
             return {

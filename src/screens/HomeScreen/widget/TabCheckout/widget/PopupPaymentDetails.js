@@ -32,8 +32,8 @@ class PopupPaymentDetails extends React.Component {
     // ---------- Render --------
 
     render() {
-        const { title, visible, onRequestClose, language, nextPayment,paymentDetilInfo } = this.props;
-        const paidAmounts = paymentDetilInfo.paidAmounts && paymentDetilInfo.paidAmounts.length > 0 ?  paymentDetilInfo.paidAmounts[0] : {} ;
+        const { title, visible, onRequestClose, language, nextPayment,paymentDetailInfo } = this.props;
+        const paidAmounts = paymentDetailInfo.paidAmounts && paymentDetailInfo.paidAmounts.length > 0 ?  paymentDetailInfo.paidAmounts[0] : {} ;
         return (
             <PopupParent
                 title={title}
@@ -53,27 +53,27 @@ class PopupPaymentDetails extends React.Component {
                         {/* ---- start ---- */}
                         <ItemDetail
                             title={`${localize('Invoice No', language)}:`}
-                            value={`# ${paymentDetilInfo.checkoutGropId ? paymentDetilInfo.checkoutGropId : ''}`}
+                            value={`# ${paymentDetailInfo.checkoutGropId ? paymentDetailInfo.checkoutGropId : ''}`}
                             subText={""}
                         />
                         <ItemDetail
                             title={`${localize('Customer Name', language)}:`}
-                            value={`${paymentDetilInfo.customerName ?paymentDetilInfo.customerName : '' }`}
+                            value={`${paymentDetailInfo.customerName ?paymentDetailInfo.customerName : '' }`}
                             subText={""}
                         />
                         <ItemDetail
                             title={`${localize('Phone Number', language)}:`}
-                            value={`${paymentDetilInfo.phone ? paymentDetilInfo.phone  : ''}`}
+                            value={`${paymentDetailInfo.phone ? paymentDetailInfo.phone  : ''}`}
                             subText={""}
                         />
                         <ItemDetail
                             title={`${localize('Status', language)}:`}
-                            value={`${paymentDetilInfo.status ? paymentDetilInfo.status  : ''}`}
+                            value={`${paymentDetailInfo.status ? paymentDetailInfo.status  : ''}`}
                             subText={""}
                         />
                         <ItemDetail
                             title={`${localize('Grand Total', language)}:`}
-                            value={`$ ${paymentDetilInfo.grandTotal ? paymentDetilInfo.grandTotal  : ''}`}
+                            value={`$ ${paymentDetailInfo.grandTotal ? paymentDetailInfo.grandTotal  : ''}`}
                             isBold={true}
                             subText={""}
                         />
@@ -86,7 +86,7 @@ class PopupPaymentDetails extends React.Component {
                         />
                         <ItemDetail
                             title={`${localize('Due Amount', language)}:`}
-                            value={`$ ${paymentDetilInfo.dueAmount ? paymentDetilInfo.dueAmount  : ''}`}
+                            value={`$ ${paymentDetailInfo.dueAmount ? paymentDetailInfo.dueAmount  : ''}`}
                             isBold={true}
                             subText={""}
                         />
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    paymentDetilInfo: state.appointment.paymentDetilInfo,
+    paymentDetailInfo: state.appointment.paymentDetailInfo,
 });
 
 export default connectRedux(mapStateToProps, PopupPaymentDetails);

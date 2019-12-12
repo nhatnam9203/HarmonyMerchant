@@ -73,9 +73,12 @@ class ItemCustomerBasket extends React.Component {
     }
 
     showModalDiscount = () => {
-        const { groupAppointment } = this.props;
-        const appointmentId = _.isEmpty(groupAppointment) ? -1 : this.props.appointmentDetail.appointmentId;
-        this.props.showModalDiscount(appointmentId);
+        const { groupAppointment, paymentDetailInfo } = this.props;
+        if (_.isEmpty(paymentDetailInfo)) {
+            const appointmentId = _.isEmpty(groupAppointment) ? -1 : this.props.appointmentDetail.appointmentId;
+            this.props.showModalDiscount(appointmentId);
+        }
+
     }
 
     // ---------- Render --------
@@ -105,7 +108,7 @@ class ItemCustomerBasket extends React.Component {
                 </Button>,
             }
         ];
-        const temptColor = isMain === 1 ?"#0764B0" : "red";
+        const temptColor = isMain === 1 ? "#0764B0" : "red";
         return (
             <Swipeout
                 right={swipeoutBtns}
@@ -127,9 +130,9 @@ class ItemCustomerBasket extends React.Component {
                             />
                         </Button>
                     </View>
-                    <View style={{width:scaleSzie(5),height: scaleSzie(35),backgroundColor:temptColor,marginLeft:scaleSzie(8)}} />
+                    <View style={{ width: scaleSzie(5), height: scaleSzie(35), backgroundColor: temptColor, marginLeft: scaleSzie(8) }} />
                 </View>
-                <View style={{  height: 2, borderBottomColor:"#fff",borderBottomWidth:2}} />
+                <View style={{ height: 2, borderBottomColor: "#fff", borderBottomWidth: 2 }} />
             </Swipeout>
         );
     }
@@ -138,7 +141,7 @@ class ItemCustomerBasket extends React.Component {
 
     render() {
         const { isCollapsed } = this.state;
-        const { language, appointmentDetail, removeItemBasket, changeStylist, basketLocal } = this.props;
+        const { language, appointmentDetail, removeItemBasket, changeStylist, basketLocal, paymentDetailInfo } = this.props;
         let basket = [];
         const appointmentId = appointmentDetail && appointmentDetail.appointmentId ? appointmentDetail.appointmentId : -1;
         const { temptSubTotal, temptTotal, temptDiscount, temptTip, temptTax } = this.getTypesOfMoneyAppointmenr(appointmentDetail);
@@ -191,10 +194,12 @@ class ItemCustomerBasket extends React.Component {
                                 <Button onPress={this.showModalDiscount} >
                                     <Text style={styles.textPay} >
                                         {`${localize('Discount', language)}:  `}
+                                        {
+                                            _.isEmpty(paymentDetailInfo) ? <Image source={IMAGE.add_discount_checkout}
+                                                style={{ width: scaleSzie(20), height: scaleSzie(20) }}
+                                            /> : <Text />
+                                        }
 
-                                        <Image source={IMAGE.add_discount_checkout}
-                                            style={{ width: scaleSzie(20), height: scaleSzie(20) }}
-                                        />
 
                                     </Text>
                                 </Button>
@@ -236,7 +241,8 @@ class ItemCustomerBasket extends React.Component {
 
 
 const mapStateToProps = state => ({
-    groupAppointment: state.appointment.groupAppointment
+    groupAppointment: state.appointment.groupAppointment,
+    paymentDetailInfo: state.appointment.paymentDetailInfo
 });
 
 export default connectRedux(mapStateToProps, ItemCustomerBasket);

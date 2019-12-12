@@ -325,7 +325,7 @@ class Layout extends React.Component {
 
     renderBasket() {
         const {infoUser} = this.state;
-        const { language, appointmentDetail, groupAppointment ,paymentDetilInfo} = this.props;
+        const { language, groupAppointment ,paymentDetailInfo} = this.props;
         const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
         const grandTotal = groupAppointment.total ?  groupAppointment.total :  0;
@@ -357,7 +357,7 @@ class Layout extends React.Component {
                     <View style={{ flex: 1 }} >
                     <ScrollView showsVerticalScrollIndicator={false} >
                         {
-                          basket.length > 0 ? <ItemCustomerBasket 
+                          _.isEmpty(groupAppointment) ? <ItemCustomerBasket 
                                     language={language}
                                     subTotalLocal={subTotalLocal} 
                                     tipLocal={tipLocal}
@@ -403,11 +403,11 @@ class Layout extends React.Component {
                         
                         {/* ----------- Paid Amount ----------- */}
                      {
-                         !_.isEmpty(paymentDetilInfo) ? <View style={{paddingHorizontal:scaleSzie(10),marginBottom:scaleSzie(8)}} >
+                         !_.isEmpty(paymentDetailInfo) ? <View style={{paddingHorizontal:scaleSzie(10),marginBottom:scaleSzie(8)}} >
                             <View style={{height:2,backgroundColor:"#DDDDDD",marginTop:scaleSzie(10),marginBottom:scaleSzie(15)}} />
                              {/* ---------- Paid amount ------ */}
                              {
-                                 paymentDetilInfo.paidAmounts ?  paymentDetilInfo.paidAmounts.map((paidAmountInfo,index) => <View key={index} style={[styles.payNumberTextContainer,{  justifyContent: 'space-between',marginBottom:scaleSzie(8)}]} >
+                                 paymentDetailInfo.paidAmounts ?  paymentDetailInfo.paidAmounts.map((paidAmountInfo,index) => <View key={index} style={[styles.payNumberTextContainer,{  justifyContent: 'space-between',marginBottom:scaleSzie(8)}]} >
                                  <Text style={[styles.textPay,{fontSize:scaleSzie(18),fontWeight:"600",color:"#404040"}]} >
                                      {`${localize('Paid ', language)}`}
                                      <Text style={[styles.textPay, { fontSize:scaleSzie(18),fontWeight:"300",color: '#404040' }]} >
@@ -424,12 +424,12 @@ class Layout extends React.Component {
 
                              {/* ---------- Due amount ------ */}
                              {
-                                 paymentDetilInfo.dueAmount ? <View style={[styles.payNumberTextContainer,{  justifyContent: 'space-between',}]} >
+                                 paymentDetailInfo.dueAmount ? <View style={[styles.payNumberTextContainer,{  justifyContent: 'space-between',}]} >
                                  <Text style={[styles.textPay,{fontSize:scaleSzie(18),fontWeight:"600",color:"#FF3B30"}]} >
                                      {`${localize('Due amount', language)}:`}
                                  </Text>
                                  <Text style={[styles.textPay, { fontSize:scaleSzie(18),fontWeight:"600",color: '#FF3B30' }]} >
-                                     {`   $ ${formatMoney(paymentDetilInfo.dueAmount)}`}
+                                     {`   $ ${formatMoney(paymentDetailInfo.dueAmount)}`}
                                     
                                  </Text>
                              </View> :<View />

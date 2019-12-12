@@ -872,13 +872,13 @@ class TabCheckout extends Layout {
 
 
     extractBill = () => {
-        const { groupAppointment, paymentDetilInfo } = this.props;
-        if (_.isEmpty(paymentDetilInfo)) {
+        const { groupAppointment, paymentDetailInfo } = this.props;
+        if (_.isEmpty(paymentDetailInfo)) {
             const { total, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
             const temptTotal = _.isEmpty(groupAppointment) ? Number(subTotalLocal + tipLocal + parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : groupAppointment.total;
             this.modalBillRef.current.setStateFromParent(`${temptTotal}`);
         } else {
-            const totalExact = paymentDetilInfo.dueAmount ? paymentDetilInfo.dueAmount : 0;
+            const totalExact = paymentDetailInfo.dueAmount ? paymentDetailInfo.dueAmount : 0;
             this.modalBillRef.current.setStateFromParent(`${totalExact}`);
         }
 
@@ -1296,7 +1296,7 @@ class TabCheckout extends Layout {
     }
 
     changeCustomerPhone = async () => {
-        const { token } = this.props;
+        const { token, profileStaffLogin } = this.props;
         const { infoUser } = this.state;
         const codeAreaPhone = this.CustomerPhoneRef.current.state.codeAreaPhone;
         const phone = this.CustomerPhoneRef.current.state.phone;
@@ -1308,18 +1308,28 @@ class TabCheckout extends Layout {
             const responses = await requestAPI({
                 method: 'GET',
                 api: `${apiConfigs.BASE_API}customer/getbyphone/${splitPlusInPhoneNumber(phoneNumber)}`,
-                token: token
+                token: profileStaffLogin.token
             });
             this.props.actions.app.stopLoadingApp();
-            console.log('responses : ' + JSON.stringify(responses));
+            if (responses.codeNumber === 200) {
+                await this.setState({
+                    infoUser: {
+                        ...infoUser, phoneNumber,
+                        firstName: responses.data && responses.data.firstName ? responses.data.firstName : infoUser.firstName,
+                        lastName: responses.data && responses.data.lastName ? responses.data.lastName : infoUser.lastName
+                    },
+                    visibleCustomerPhone: false
+                })
+            } else {
+                await this.setState({
+                    infoUser: { ...infoUser, phoneNumber },
+                    visibleCustomerPhone: false
+                })
+            }
         } catch (error) {
             console.log('error : ', error);
         }
-        // this.props.actions.customer.getCustomerInfoByPhone(splitPlusInPhoneNumber(phoneNumber));
-        // await this.setState({
-        //     infoUser: { ...infoUser, phoneNumber },
-        //     visibleCustomerPhone: false
-        // })
+
     }
 
     // ----------- Change Flow Checkout ------------
@@ -1415,7 +1425,7 @@ const mapStateToProps = state => ({
     isOfflineMode: state.network.isOfflineMode,
     groupAppointment: state.appointment.groupAppointment,
     visiblePopupPaymentDetails: state.appointment.visiblePopupPaymentDetails,
-    paymentDetilInfo: state.appointment.paymentDetilInfo,
+    paymentDetailInfo: state.appointment.paymentDetailInfo,
     visibleChangeMoney: state.appointment.visibleChangeMoney
 })
 
