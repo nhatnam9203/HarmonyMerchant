@@ -46,5 +46,12 @@ export function editCustomer(id, body) {
     }
 }
 
-
+export function getCustomerInfoByPhone(phone) {
+    return {
+        type: 'GET_CUSTOMER_INFO_BY_PHONE',
+        method: 'GET',
+        api: `${apiConfigs.BASE_API}customer/getbyphone/${phone}`,
+        token: true
+    }
+}
 

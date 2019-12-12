@@ -559,6 +559,16 @@ export const checkStateIsValid = (arrayState, state) => {
     return isValid;
 }
 
+export const splitPlusInPhoneNumber = (phone) => {
+    let temptPhone = [];
+    for (let i = 0; i < phone.length; i++) {
+        if (phone[i] !== '+') {
+            temptPhone.push(phone[i]);
+        }
+    }
+    return temptPhone.join('');
+}
+
 export const WorkingTime = [
     {
         value: '00:00 AM',

@@ -8,8 +8,8 @@ import moment from 'moment';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
-    getArrayProductsFromAppointment, getArrayServicesFromAppointment,
-    getArrayExtrasFromAppointment, formatNumberFromCurrency, formatMoney, getStaffInfoById
+    getArrayProductsFromAppointment, getArrayServicesFromAppointment, requestAPI,
+    getArrayExtrasFromAppointment, formatNumberFromCurrency, formatMoney, getStaffInfoById, splitPlusInPhoneNumber
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 import apiConfigs from '@configs/api';
@@ -1296,14 +1296,30 @@ class TabCheckout extends Layout {
     }
 
     changeCustomerPhone = async () => {
+        const { token } = this.props;
         const { infoUser } = this.state;
         const codeAreaPhone = this.CustomerPhoneRef.current.state.codeAreaPhone;
         const phone = this.CustomerPhoneRef.current.state.phone;
         const phoneNumber = `${codeAreaPhone}${phone}`;
-        await this.setState({
-            infoUser: { ...infoUser, phoneNumber },
-            visibleCustomerPhone: false
-        })
+
+        // ------- Get Customer Info by Phone ------
+        this.props.actions.app.loadingApp();
+        try {
+            const responses = await requestAPI({
+                method: 'GET',
+                api: `${apiConfigs.BASE_API}customer/getbyphone/${splitPlusInPhoneNumber(phoneNumber)}`,
+                token: token
+            });
+            this.props.actions.app.stopLoadingApp();
+            console.log('responses : ' + JSON.stringify(responses));
+        } catch (error) {
+            console.log('error : ', error);
+        }
+        // this.props.actions.customer.getCustomerInfoByPhone(splitPlusInPhoneNumber(phoneNumber));
+        // await this.setState({
+        //     infoUser: { ...infoUser, phoneNumber },
+        //     visibleCustomerPhone: false
+        // })
     }
 
     // ----------- Change Flow Checkout ------------
