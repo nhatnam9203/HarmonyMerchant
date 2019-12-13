@@ -84,7 +84,7 @@ class ItemCustomerBasket extends React.Component {
     // ---------- Render --------
 
     renderHeaderCustomerBaket() {
-        const { appointmentDetail, infoUser } = this.props;
+        const { appointmentDetail, infoUser ,paymentDetailInfo} = this.props;
         let firstName = '';
         let lastName = '';
 
@@ -92,7 +92,7 @@ class ItemCustomerBasket extends React.Component {
         firstName = appointmentDetail ? appointmentDetail.firstName : 'Anonymous';
         // const customerId = appointmentDetail ? appointmentDetail.customerId : '1';
         const isMain = appointmentDetail ? appointmentDetail.isMain : 1;
-        const appointmentId = appointmentDetail ? appointmentDetail.appointmentId : -1;
+        const appointmentId = appointmentDetail ? appointmentDetail.code : -1;
 
         firstName = infoUser.firstName !== '' ? infoUser.firstName : firstName;
         lastName = infoUser.lastName !== '' ? infoUser.lastName : lastName;
@@ -109,11 +109,12 @@ class ItemCustomerBasket extends React.Component {
             }
         ];
         const temptColor = isMain === 1 ? "#0764B0" : "red";
+        const disabledRemoveItemCustomerBasket = _.isEmpty(paymentDetailInfo) ? false : true;
         return (
             <Swipeout
                 right={swipeoutBtns}
                 buttonWidth={scaleSzie(45)}
-                disabled={isMain === 1 ? true : false}
+                disabled={isMain === 1 ? true : disabledRemoveItemCustomerBasket}
                 close={true}
             >
                 <View style={{
@@ -154,7 +155,7 @@ class ItemCustomerBasket extends React.Component {
         } else {
             basket = basketLocal;
         }
-
+        const disabledRemoveItemBasket = _.isEmpty(paymentDetailInfo) ? false : true;
         return (
             <View>
                 {this.renderHeaderCustomerBaket()}
@@ -162,6 +163,7 @@ class ItemCustomerBasket extends React.Component {
                     {/* ----------- Item Product , Service , Extra --------- */}
                     {
                         basket.map((item, index) => <ItemBasket
+                            disabled={disabledRemoveItemBasket}
                             key={index}
                             item={item}
                             removeItemBasket={(item) => removeItemBasket(item, appointmentId, true)}

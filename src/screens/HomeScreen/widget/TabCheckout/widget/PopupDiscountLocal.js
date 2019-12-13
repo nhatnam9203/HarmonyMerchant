@@ -34,10 +34,6 @@ class PopupDiscountLocal extends React.Component {
     }
 
     setStateFromParent = async (totalLocal, discountTotal, customDiscountPercent, customDiscountFixedLocal) => {
-        // console.log('totalLocal : ', totalLocal);
-        // console.log('discountTotal : ', discountTotal);
-        // console.log('customDiscountPercent : ', customDiscountPercent);
-        // console.log('customDiscountFixedLocal : ', customDiscountFixedLocal);
 
         await this.setState({
             totalLocal,
@@ -49,17 +45,13 @@ class PopupDiscountLocal extends React.Component {
     }
 
     submitCustomPromotion() {
-        const { appointmentDetail } = this.props;
+        const { groupAppointment } = this.props;
         const customDiscountPercent = this.customDiscountRef.current.state.percent;
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
-        if (_.isEmpty(appointmentDetail)) {
+        if (_.isEmpty(groupAppointment)) {
             const { discountTotal } = this.state;
             this.props.callbackDiscountToParent(customDiscountPercent, customFixedAmount, Number(discountTotal).toFixed(2));
             this.props.onRequestClose();
-        } else {
-            const { appointmentDetail } = this.props;
-            this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentDetail.appointmentId);
-            this.props.actions.marketing.closeModalDiscount();
         }
         this.resetState();
     }
@@ -79,84 +71,41 @@ class PopupDiscountLocal extends React.Component {
     }
 
     onChangeTextCustomDiscount = async (discount) => {
-        const { temptTotalLocal, customDiscountFixedLocal } = this.state;
-        const { appointmentDetail } = this.props;
+        const { groupAppointment } = this.props;
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
-
-        // console.log('temptTotalLocal : ', temptTotalLocal);
-        // console.log('discount : ', discount);
-        // console.log('customFixedAmount : ', customFixedAmount);
-
         const temptDiscount = formatNumberFromCurrency(discount) + formatNumberFromCurrency(customFixedAmount)
-        // console.log('discountTotal : ', temptDiscount);
 
-        if (_.isEmpty(appointmentDetail)) {
+        if (_.isEmpty(groupAppointment)) {
             await this.setState(prevState => ({
                 discountTotal: temptDiscount
             }));
-        } else {
-            // console.log('moneyDiscountCuston : ',discount);
-            await this.setState({
-                moneyDiscountCustom: discount
-            });
         }
     }
 
     onChangeTextDiscountFixed = async (discountFixed) => {
-        const { temptTotalLocal, totalLocal } = this.state;
+        const { totalLocal } = this.state;
         const customDiscountPercent = this.customDiscountRef.current.state.percent;
-        const { appointmentDetail } = this.props;
+        const { groupAppointment } = this.props;
 
         const temptDiscount = formatNumberFromCurrency(discountFixed) + Number((formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(totalLocal) / 100).toFixed(2));
 
-        if (_.isEmpty(appointmentDetail)) {
+        if (_.isEmpty(groupAppointment)) {
             await this.setState(prevState => ({
                 discountTotal: temptDiscount
             }));
-        } else {
-            await this.setState({
-                moneyDiscountFixedAmout: discountFixed
-            })
         }
     }
 
     // ------ Render -----
 
     render() {
-        const { title, discount, visible,
-            appointmentDetail
-        } = this.props;
-        const { customDiscountPercent, customDiscountFixed } = appointmentDetail;
-        const { moneyDiscountCustom, moneyDiscountFixedAmout, totalLocal, discountTotal,
-            customDiscountPercentLocal, customDiscountFixedLocal
-        } = this.state;
+        const { title, discount, visible, groupAppointment  } = this.props;
+        const {totalLocal, discountTotal,customDiscountPercentLocal, customDiscountFixedLocal } = this.state;
         let total = 0;
-        // for (let i = 0; i < discount.length; i++) {
-        //     total = formatNumberFromCurrency(total) + formatNumberFromCurrency(discount[i].discount);
-        // }
-        // if (visibleModalDiscount && !this.customDiscountRef.current) {
-        //     total = formatNumberFromCurrency(total) + (formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(appointmentDetail.subTotal) / 100);
-        // }
-        // if (visibleModalDiscount && !this.customFixedAmountRef.current) {
-        //     total = formatNumberFromCurrency(total) + formatNumberFromCurrency(customDiscountFixed);
-        // }
-        // if (visibleModalDiscount && this.customDiscountRef.current) {
-        //     total = formatNumberFromCurrency(total) + (formatNumberFromCurrency(this.customDiscountRef.current.state.percent) * formatNumberFromCurrency(appointmentDetail.subTotal) / 100);
-        // }
-        // if (visibleModalDiscount && this.customFixedAmountRef.current) {
-        //     total = formatNumberFromCurrency(total) + formatNumberFromCurrency(this.customFixedAmountRef.current.state.discount);
-        // }
-
-        // total = Number(total).toFixed(2);
-
-        const temptTotalDiscount = _.isEmpty(appointmentDetail) ? Number(discountTotal).toFixed(2) : Number(total).toFixed(2);
-        const temptTotal = _.isEmpty(appointmentDetail) ? totalLocal : appointmentDetail.subTotal;
-        const temptCustomDiscountPercent = _.isEmpty(appointmentDetail) ? customDiscountPercentLocal : customDiscountPercent;
-        const temptCustomDiscountFixed = _.isEmpty(appointmentDetail) ? customDiscountFixedLocal : customDiscountFixed;
-
-        // console.log('---- temptTotal ---- : ',temptTotal);
-        // console.log('---- isHandleDiscountTotal ---- : ',isHandleDiscountTotal);
-
+        const temptTotalDiscount = _.isEmpty(groupAppointment) ? Number(discountTotal).toFixed(2) : Number(total).toFixed(2);
+        const temptTotal =totalLocal 
+        const temptCustomDiscountPercent = customDiscountPercentLocal;
+        const temptCustomDiscountFixed =customDiscountFixedLocal;''
 
         return (
             <PopupParent
@@ -396,7 +345,8 @@ class CustomDiscountFixed extends React.Component {
 const mapStateToProps = state => ({
     discount: state.marketing.discount,
     visibleModalDiscount: state.marketing.visibleModalDiscount,
-    appointmentDetail: state.appointment.appointmentDetail
+    appointmentDetail: state.appointment.appointmentDetail,
+    groupAppointment: state.appointment.groupAppointment,
 })
 
 

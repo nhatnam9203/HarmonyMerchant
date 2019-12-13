@@ -45,7 +45,7 @@ class PopupDiscount extends React.Component {
     }
 
     submitCustomPromotion() {
-        const { appointmentDetail, groupAppointment, appointmentIdUpdatePromotion } = this.props;
+        const {  groupAppointment, appointmentIdUpdatePromotion } = this.props;
         const customDiscountPercent = this.customDiscountRef.current.state.percent;
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
         if (_.isEmpty(groupAppointment)) {
@@ -55,16 +55,6 @@ class PopupDiscount extends React.Component {
             this.props.actions.marketing.closeModalDiscount();
         }
 
-        // if (_.isEmpty(appointmentDetail)) {
-        //     const { discountTotal } = this.state;
-        //     this.props.callbackDiscountToParent(customDiscountPercent, customFixedAmount, Number(discountTotal).toFixed(2));
-        //     this.props.actions.marketing.closeModalDiscount();
-        // } else {
-        //     const { appointmentDetail } = this.props;
-        //     this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentDetail.appointmentId);
-        //     this.props.actions.marketing.closeModalDiscount();
-        // }
-        // this.resetState();
     }
 
     onRequestClose = async () => {
@@ -83,7 +73,7 @@ class PopupDiscount extends React.Component {
 
     onChangeTextCustomDiscount = async (discount) => {
         const { temptTotalLocal, customDiscountFixedLocal } = this.state;
-        const { appointmentDetail, groupAppointment } = this.props;
+        const {  groupAppointment } = this.props;
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
         const temptDiscount = formatNumberFromCurrency(discount) + formatNumberFromCurrency(customFixedAmount)
 
@@ -103,7 +93,6 @@ class PopupDiscount extends React.Component {
         const { temptTotalLocal, totalLocal } = this.state;
         const customDiscountPercent = this.customDiscountRef.current.state.percent;
         const {
-            // appointmentDetail,
             appointmentIdUpdatePromotion,
             groupAppointment
         } = this.props;
@@ -127,13 +116,10 @@ class PopupDiscount extends React.Component {
 
     render() {
         const { title, discount, visibleModalDiscount,
-            // appointmentDetail,
             appointmentIdUpdatePromotion, groupAppointment
         } = this.props;
 
         const appointmentDetail = appointmentIdUpdatePromotion !== -1 && !_.isEmpty(groupAppointment) && groupAppointment.appointments ? groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) : { subTotal: 0 };
-        // console.log('appointmentDetail : ', appointmentDetail);
-        // console.log('appointmentIdUpdatePromotion : ', appointmentIdUpdatePromotion);
 
 
         const { customDiscountPercent, customDiscountFixed } = appointmentDetail !== undefined && appointmentDetail && !_.isEmpty(appointmentDetail) ? appointmentDetail : { customDiscountPercent: 0, customDiscountFixed: 0 };

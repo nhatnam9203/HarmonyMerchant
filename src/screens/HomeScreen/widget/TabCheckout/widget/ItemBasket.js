@@ -10,7 +10,7 @@ import { scaleSzie, localize } from '@utils';
 import { Text, Button } from '@components';
 import IMAGE from '@resources';
 
-const ItemBasket = ({ item, removeItemBasket, onPress }) => {
+const ItemBasket = ({ item, removeItemBasket, onPress,disabled  = false}) => {
     const { data } = item;
     const swipeoutBtns = [
         {
@@ -24,7 +24,7 @@ const ItemBasket = ({ item, removeItemBasket, onPress }) => {
         <Swipeout
             right={swipeoutBtns}
             buttonWidth={scaleSzie(45)}
-            // disabled={true}
+            disabled={disabled}
             close={true}
         >
             <Button onPress={() => {

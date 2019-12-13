@@ -787,9 +787,20 @@ class TabCheckout extends Layout {
     }
 
     openCashDrawer = async (isDelay = false) => {
-        this.setState({
-            visiblePopupPaymentDetails: true
-        })
+        const printer = await PrintManager.getInstance().portDiscovery();
+        if (printer.length > 0) {
+            const portName = printer[0].portName;
+            PrintManager.getInstance().openCashDrawer(portName);
+        } else {
+            if (isDelay) {
+                alert('Please connect to your print ! ');
+            } else {
+                setTimeout(() => {
+                    alert('Please connect to your print ! ');
+                }, 500)
+            }
+
+        }
     }
 
 
@@ -1179,7 +1190,8 @@ class TabCheckout extends Layout {
     }
 
     showModalDiscount = async (appointmentId) => {
-        const { basket, subTotalLocal, tipLocal, discountTotalLocal, customDiscountPercentLocal,
+        console.log('showModalDiscount : ',appointmentId);
+        const { subTotalLocal, discountTotalLocal, customDiscountPercentLocal,
             customDiscountFixedLocal
         } = this.state;
         if (appointmentId !== -1) {
