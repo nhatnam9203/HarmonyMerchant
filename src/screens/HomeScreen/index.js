@@ -31,6 +31,7 @@ class HomeScreen extends Layout {
     }
 
     componentDidMount() {
+        // this.scrollTabParentRef.current.goToPage(1);
         this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
@@ -100,7 +101,7 @@ class HomeScreen extends Layout {
                     temptCurrentTap: index
                 })
                 this.tabAppointmentRef.current.setStateVisibleFromParent(true);
-            } else if (currentTab === 2 && this.tabCheckoutRef.current.state.basket.length > 0 ) {
+            } else if (currentTab === 2 && this.tabCheckoutRef.current.state.basket.length > 0) {
                 // console.log('-----2-------');
                 await this.setState({
                     temptCurrentTap: index
@@ -123,12 +124,12 @@ class HomeScreen extends Layout {
                         this.scrollTabParentRef.current.goToPage(index);
                     }
 
-                   
-                }else{
+
+                } else {
                     // console.log('-----7-------');
                     this.scrollTabParentRef.current.goToPage(index);
                 }
-              
+
             }
         }
 

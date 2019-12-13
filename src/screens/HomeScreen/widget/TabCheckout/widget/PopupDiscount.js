@@ -44,7 +44,7 @@ class PopupDiscount extends React.Component {
         });
     }
 
-    submitCustomPromotion() {
+    submitCustomPromotion =  () => {
         const {  groupAppointment, appointmentIdUpdatePromotion } = this.props;
         const customDiscountPercent = this.customDiscountRef.current.state.percent;
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
@@ -72,21 +72,26 @@ class PopupDiscount extends React.Component {
     }
 
     onChangeTextCustomDiscount = async (discount) => {
-        const { temptTotalLocal, customDiscountFixedLocal } = this.state;
-        const {  groupAppointment } = this.props;
-        const customFixedAmount = this.customFixedAmountRef.current.state.discount;
-        const temptDiscount = formatNumberFromCurrency(discount) + formatNumberFromCurrency(customFixedAmount)
+        // const { temptTotalLocal, customDiscountFixedLocal } = this.state;
+        // const {  groupAppointment } = this.props;
+        // const customFixedAmount = this.customFixedAmountRef.current.state.discount;
+        // const temptDiscount = formatNumberFromCurrency(discount) + formatNumberFromCurrency(customFixedAmount)
+        console.log('discount : ',discount);
+        await this.setState({
+            moneyDiscountCustom: discount,
+            moneyDiscountFixedAmout: this.customFixedAmountRef.current.state.discount
+        });
 
-        if (_.isEmpty(groupAppointment)) {
-            await this.setState(prevState => ({
-                discountTotal: temptDiscount
-            }));
-        } else {
-            await this.setState({
-                moneyDiscountCustom: discount,
-                moneyDiscountFixedAmout: this.customFixedAmountRef.current.state.discount
-            });
-        }
+        // if (_.isEmpty(groupAppointment)) {
+        //     await this.setState(prevState => ({
+        //         discountTotal: temptDiscount
+        //     }));
+        // } else {
+        //     await this.setState({
+        //         moneyDiscountCustom: discount,
+        //         moneyDiscountFixedAmout: this.customFixedAmountRef.current.state.discount
+        //     });
+        // }
     }
 
     onChangeTextDiscountFixed = async (discountFixed) => {
@@ -118,16 +123,13 @@ class PopupDiscount extends React.Component {
         const { title, discount, visibleModalDiscount,
             appointmentIdUpdatePromotion, groupAppointment
         } = this.props;
-
         const appointmentDetail = appointmentIdUpdatePromotion !== -1 && !_.isEmpty(groupAppointment) && groupAppointment.appointments ? groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) : { subTotal: 0 };
-
-
         const { customDiscountPercent, customDiscountFixed } = appointmentDetail !== undefined && appointmentDetail && !_.isEmpty(appointmentDetail) ? appointmentDetail : { customDiscountPercent: 0, customDiscountFixed: 0 };
-
         const {
             moneyDiscountCustom, moneyDiscountFixedAmout, totalLocal, discountTotal,
             customDiscountPercentLocal, customDiscountFixedLocal
         } = this.state;
+
         let total = 0;
         for (let i = 0; i < discount.length; i++) {
             total = formatNumberFromCurrency(total) + formatNumberFromCurrency(discount[i].discount);
@@ -147,15 +149,14 @@ class PopupDiscount extends React.Component {
 
         total = Number(total).toFixed(2);
 
-        const temptTotalDiscount = _.isEmpty(appointmentDetail) ? Number(discountTotal).toFixed(2) : Number(total).toFixed(2);
-        const temptTotal = _.isEmpty(appointmentDetail) ? totalLocal : appointmentDetail.subTotal;
         const temptCustomDiscountPercent = _.isEmpty(appointmentDetail) ? customDiscountPercentLocal : customDiscountPercent;
         const temptCustomDiscountFixed = _.isEmpty(appointmentDetail) ? customDiscountFixedLocal : customDiscountFixed;
 
+        const visible = visibleModalDiscount && !_.isEmpty(groupAppointment) ? true :false;
         return (
             <PopupParent
                 title={title}
-                visible={visibleModalDiscount}
+                visible={visible}
                 onRequestClose={this.onRequestClose}
                 width={600}
                 style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
@@ -179,7 +180,7 @@ class PopupDiscount extends React.Component {
                                 <CustomDiscount
                                     ref={this.customDiscountRef}
                                     customDiscountPercent={temptCustomDiscountPercent}
-                                    total={formatNumberFromCurrency(temptTotal)}
+                                    total={formatNumberFromCurrency( appointmentDetail.subTotal)}
                                     onChangeText={this.onChangeTextCustomDiscount}
                                 />
                                 {/* ----------- Row 2 ----------- */}
@@ -205,7 +206,7 @@ class PopupDiscount extends React.Component {
                         </View>
                         <View style={{ justifyContent: 'center' }} >
                             <Text style={{ color: '#4CD964', fontSize: scaleSzie(30), fontWeight: 'bold' }} >
-                                {`- ${formatMoney(temptTotalDiscount)}$`}
+                                {`- ${formatMoney(total)}$`}
                             </Text>
                         </View>
                     </View>
@@ -218,7 +219,7 @@ class PopupDiscount extends React.Component {
                             backgroundColor="#0764B0"
                             title="Done"
                             textColor="#fff"
-                            onPress={() => this.submitCustomPromotion()}
+                            onPress={this.submitCustomPromotion}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                         />
                     </View>
@@ -243,7 +244,7 @@ const ItemCampaign = ({ title, discount }) => {
             </View>
             <View style={{ justifyContent: 'center' }} >
                 <Text style={{ color: '#4CD964', fontSize: scaleSzie(20) }} >
-                    {`-${discount}$`}
+                    {`${discount}$`}
                 </Text>
             </View>
         </View>

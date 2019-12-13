@@ -739,7 +739,6 @@ class Layout extends React.Component {
                 <PopupDiscount
                     ref={this.popupDiscountRef}
                     title={'Discount'}
-                    callbackDiscountToParent={(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal) => this.callbackDiscountToParent(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal)}
                 />
                 <PopupDiscountLocal
                     ref={this.popupDiscountLocalRef}

@@ -56,7 +56,6 @@ class ItemCustomerBasket extends React.Component {
         const tax = appointmentDetail && appointmentDetail.tax ? appointmentDetail.tax : 0;
         const total = appointmentDetail && appointmentDetail.total ? appointmentDetail.total : 0;
 
-        // console.log(!appointmentDetail || _.isEmpty(appointmentDetail) );
         const temptSubTotal = !appointmentDetail || _.isEmpty(appointmentDetail) ? subTotalLocal : subTotal;
         const temptTotal = !appointmentDetail || _.isEmpty(appointmentDetail) ? Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2) : total;
         const temptDiscount = !appointmentDetail || _.isEmpty(appointmentDetail) ? discountTotalLocal : discount;
@@ -84,7 +83,7 @@ class ItemCustomerBasket extends React.Component {
     // ---------- Render --------
 
     renderHeaderCustomerBaket() {
-        const { appointmentDetail, infoUser ,paymentDetailInfo} = this.props;
+        const { appointmentDetail, infoUser, paymentDetailInfo } = this.props;
         let firstName = '';
         let lastName = '';
 

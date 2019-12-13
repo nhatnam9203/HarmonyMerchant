@@ -52,15 +52,12 @@ class PopupDiscount extends React.Component {
         const { appointmentDetail } = this.props;
         const customDiscountPercent = this.customDiscountRef.current.state.percent;
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
-        if (_.isEmpty(appointmentDetail)) {
-            const { discountTotal } = this.state;
-            this.props.callbackDiscountToParent(customDiscountPercent, customFixedAmount, Number(discountTotal).toFixed(2));
-            this.props.actions.marketing.closeModalDiscount();
-        } else {
+        if (!_.isEmpty(appointmentDetail)) {
             const { appointmentDetail } = this.props;
             this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentDetail.appointmentId);
             this.props.actions.marketing.closeModalDiscount();
         }
+        console.log('dddd');
         this.resetState();
     }
 
@@ -129,7 +126,7 @@ class PopupDiscount extends React.Component {
             appointmentDetail
         } = this.props;
         const { customDiscountPercent, customDiscountFixed } = appointmentDetail;
-        const { 
+        const {
             moneyDiscountCustom, moneyDiscountFixedAmout, totalLocal, discountTotal,
             customDiscountPercentLocal, customDiscountFixedLocal
         } = this.state;
@@ -161,11 +158,12 @@ class PopupDiscount extends React.Component {
         // console.log('---- temptTotal ---- : ',temptTotal);
         // console.log('---- isHandleDiscountTotal ---- : ',isHandleDiscountTotal);
 
+        const visible = visibleModalDiscount && !_.isEmpty(appointmentDetail) ? true : false;
 
         return (
             <PopupParent
                 title={title}
-                visible={visibleModalDiscount}
+                visible={visible}
                 onRequestClose={this.onRequestClose}
                 width={600}
                 style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
@@ -401,7 +399,8 @@ class CustomDiscountFixed extends React.Component {
 const mapStateToProps = state => ({
     discount: state.marketing.discount,
     visibleModalDiscount: state.marketing.visibleModalDiscount,
-    appointmentDetail: state.appointment.appointmentDetail
+    appointmentDetail: state.appointment.appointmentDetail,
+
 })
 
 

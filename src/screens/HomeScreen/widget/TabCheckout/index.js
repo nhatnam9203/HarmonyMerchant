@@ -90,6 +90,8 @@ class TabCheckout extends Layout {
         this.CustomerPhoneRef = React.createRef();
     }
 
+   
+
     resetStateFromParent = async () => {
         await this.setState(initState);
     }
