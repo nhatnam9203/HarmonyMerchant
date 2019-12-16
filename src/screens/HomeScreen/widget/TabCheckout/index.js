@@ -68,7 +68,7 @@ const initState = {
 
     isCancelHarmonyPay: false,
 
-    customerInfoByPhone :{
+    customerInfoByPhone: {
         userId: 0
     }
 }
@@ -90,7 +90,7 @@ class TabCheckout extends Layout {
         this.CustomerPhoneRef = React.createRef();
     }
 
-   
+
 
     resetStateFromParent = async () => {
         await this.setState(initState);
@@ -116,8 +116,11 @@ class TabCheckout extends Layout {
     }
 
     addAmount = async () => {
-        const { groupAppointment } = this.props;
-        const { categoryTypeSelected, basket, productSeleted, extraSelected } = this.state;
+        const { groupAppointment , profile, token} = this.props;
+        const { categoryTypeSelected, basket, productSeleted, extraSelected,customerInfoByPhone ,infoUser,
+            paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
+        } = this.state;
+       
 
         if (!_.isEmpty(groupAppointment)) {  // ------------- Buy online ---------
             const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
@@ -197,13 +200,29 @@ class TabCheckout extends Layout {
                     });
                 }
 
-                this.setState({
+                await this.setState({
                     basket: temptBasketExtra,
                     subTotalLocal: this.getPriceOfline(temptBasketExtra),
                     taxLocal: this.calculateTotalTaxLocal(temptBasketExtra)
                 });
             }
         }
+
+        // --------- Create AnymousAppointment --------
+        const dataAnymousAppoitment = this.getBasketOffline();
+        const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
+        const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
+        const method = this.getPaymentString(paymentSelected);
+        const userId = customerInfoByPhone.userId ? ustomerInfoByPhone.userId : 0;
+
+        this.props.actions.appointment.createAnymousAppointment(profile.merchantId,userId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
+            customDiscountFixedLocal,  customDiscountPercentLocal, staffId,
+             infoUser.firstName,
+             infoUser.lastName,
+             infoUser.phoneNumber,
+             moneyUserGiveForStaff,
+             false,false
+         );
 
         await this.setState({
             isShowColProduct: false,
@@ -935,15 +954,10 @@ class TabCheckout extends Layout {
     }
 
     doneBill = async () => {
-        const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser,customerInfoByPhone } = this.state;
+        const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser, customerInfoByPhone } = this.state;
         const { groupAppointment, profile, paxMachineInfo, token } = this.props;
-
-        // const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
-        // const temptTotal = _.isEmpty(groupAppointment) ? Number(subTotalLocal + tipLocal + parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : groupAppointment.total;
         const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
-        // const moneyChange = moneyUserGiveForStaff - parseFloat(formatNumberFromCurrency(temptTotal));
         const method = this.getPaymentString(paymentSelected);
-
 
         if (moneyUserGiveForStaff == 0) {
             alert('Enter amount!');
@@ -984,10 +998,10 @@ class TabCheckout extends Layout {
                 } else {
                     const dataAnymousAppoitment = this.getBasketOffline();
                     const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
-                    const userId = customerInfoByPhone.userId ? ustomerInfoByPhone.userId : 0;
-                    console.log('customerInfoByPhone : ',customerInfoByPhone);
-                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId,userId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
-                       customDiscountFixedLocal,  customDiscountPercentLocal, staffId,
+                    const userId = customerInfoByPhone.userId ? customerInfoByPhone.userId : 0;
+                    console.log('customerInfoByPhone : ', customerInfoByPhone);
+                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, userId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
+                        customDiscountFixedLocal, customDiscountPercentLocal, staffId,
                         infoUser.firstName,
                         infoUser.lastName,
                         infoUser.phoneNumber,
@@ -1031,7 +1045,7 @@ class TabCheckout extends Layout {
 
             } else {
                 const { profile, groupAppointment } = this.props;
-                const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser ,customerInfoByPhone} = this.state;
+                const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser, customerInfoByPhone } = this.state;
                 let method = this.getPaymentString(paymentSelected);
 
                 if (online) {
@@ -1042,8 +1056,8 @@ class TabCheckout extends Layout {
                     const dataAnymousAppoitment = this.getBasketOffline();
                     const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
                     const userId = customerInfoByPhone.userId ? ustomerInfoByPhone.userId : 0;
-                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId,userId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
-                      customDiscountFixedLocal,  customDiscountPercentLocal,  staffId,
+                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, userId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
+                        customDiscountFixedLocal, customDiscountPercentLocal, staffId,
                         infoUser.firstName,
                         infoUser.lastName,
                         infoUser.phoneNumber,
@@ -1192,7 +1206,7 @@ class TabCheckout extends Layout {
     }
 
     showModalDiscount = async (appointmentId) => {
-        console.log('showModalDiscount : ',appointmentId);
+        console.log('showModalDiscount : ', appointmentId);
         const { subTotalLocal, discountTotalLocal, customDiscountPercentLocal,
             customDiscountFixedLocal
         } = this.state;
@@ -1330,6 +1344,7 @@ class TabCheckout extends Layout {
                 api: `${apiConfigs.BASE_API}customer/getbyphone/${splitPlusInPhoneNumber(phoneNumber)}`,
                 token: profileStaffLogin.token
             });
+            console.log("responses : " + JSON.stringify(responses));
             this.props.actions.app.stopLoadingApp();
             if (responses.codeNumber === 200) {
                 await this.setState({
@@ -1345,8 +1360,8 @@ class TabCheckout extends Layout {
                 await this.setState({
                     infoUser: { ...infoUser, phoneNumber },
                     visibleCustomerPhone: false,
-                    customerInfoByPhone:{
-                        userId:0
+                    customerInfoByPhone: {
+                        userId: 0
                     }
                 })
             }

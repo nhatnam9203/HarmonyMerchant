@@ -35,9 +35,9 @@ class Layout extends React.Component {
             const appointments = groupAppointment.appointments ?   groupAppointment.appointments : [];
             const appointmentMain = appointments.find(appointment => appointment.isMain === 1);
             if(appointmentMain){
-                firstName = appointmentMain.firstName ? appointmentMain.firstName : '';
-             lastName = appointmentMain.lastName ? appointmentMain.lastName : '';
-             phoneNumber = appointmentMain.phoneNumber ? appointmentMain.phoneNumber : '';
+            firstName = appointmentMain.firstName ? appointmentMain.firstName : '';
+            lastName = appointmentMain.lastName ? appointmentMain.lastName : '';
+            phoneNumber = appointmentMain.phoneNumber ? appointmentMain.phoneNumber : '';
             }
              
 
@@ -758,9 +758,7 @@ class Layout extends React.Component {
                 />
                 <PopupChangeMoney
                     ref={this.cashBackRef}
-                    // visible={visibleChangeMoney}
                     title="Confirmation"
-                    // message="If you exit Checkout Screen , Basket will Reset ?"
                     onRequestClose={() => { this.setState({ visibleChangeMoney: false }) }}
                     confimOK={this.doneBillByCash}
                 />
