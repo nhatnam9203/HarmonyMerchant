@@ -945,7 +945,8 @@ class TabCheckout extends Layout {
             isCancelHarmonyPay: false,
             paymentSelected: '',
         });
-        // this.props.actions.appointment.cancelHarmonyPayment(this.props.appointmentDetail.appointmentId);
+        const {groupAppointment} = this.props;
+        this.props.actions.appointment.cancelHarmonyPayment(groupAppointment.checkoutGroupId?  groupAppointment.checkoutGroupId : 0);
         // this.props.actions.appointment.resetPayment();
         const { connectionSignalR } = this.props;
         if (!_.isEmpty(connectionSignalR)) {
