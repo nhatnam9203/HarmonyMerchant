@@ -47,6 +47,15 @@ function* getGroupAppointmentById(action) {
                 type: 'GET_GROUP_APPOINTMENT_BY_ID_SUCCESS',
                 payload: responses.data
             });
+            yield put({
+                type:"UPDATE_PAYMENT_DETAIL_INFO_BY_HARMONY_PAYMENT",
+                payload: {...responses.data,
+                    customerName:"",
+                    phone:"",
+                    grandTotal:responses.data.total ? responses.data.total : 0,
+                    paidAmounts:responses.data.checkoutPayments ? responses.data.checkoutPayments : []
+                }
+            })
             if (action.isPayment) {
                 yield put({
                     type: 'PAY_APPOINTMENT',

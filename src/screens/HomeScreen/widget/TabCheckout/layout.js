@@ -331,6 +331,8 @@ class Layout extends React.Component {
         const grandTotal = groupAppointment.total ?  groupAppointment.total :  0;
         const temptTotalLocal = Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2);
         const temptGrandTotal = basket.length > 0 ?  temptTotalLocal : grandTotal;
+
+        const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         return (
             <View style={{ flex:1}} >
                 {/* -------- Header Basket -------- */}
@@ -342,7 +344,7 @@ class Layout extends React.Component {
                     </Text>
                     <View style={{flex:1,alignItems:"flex-end"}} >
                         {
-                            !_.isEmpty(groupAppointment) && _.isEmpty(paymentDetailInfo) ? <Button onPress={this.addAppointmentCheckout} >
+                            !_.isEmpty(groupAppointment) && checkoutPayments.length === 0 ? <Button onPress={this.addAppointmentCheckout} >
                             <Image 
                             source={IMAGE.add_appointment_checkout} 
                             style={{width:scaleSzie(25),height:scaleSzie(25)}}

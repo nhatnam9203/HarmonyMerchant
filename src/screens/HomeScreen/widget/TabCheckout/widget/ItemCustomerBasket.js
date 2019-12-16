@@ -73,7 +73,8 @@ class ItemCustomerBasket extends React.Component {
 
     showModalDiscount = () => {
         const { groupAppointment, paymentDetailInfo } = this.props;
-        if (_.isEmpty(paymentDetailInfo)) {
+        const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
+        if (checkoutPayments.length === 0) {
             const appointmentId = _.isEmpty(groupAppointment) ? -1 : this.props.appointmentDetail.appointmentId;
             this.props.showModalDiscount(appointmentId);
         }
@@ -91,7 +92,7 @@ class ItemCustomerBasket extends React.Component {
         firstName = appointmentDetail ? appointmentDetail.firstName : 'Anonymous';
         // const customerId = appointmentDetail ? appointmentDetail.customerId : '1';
         const isMain = appointmentDetail ? appointmentDetail.isMain : 1;
-        const appointmentId = appointmentDetail ? appointmentDetail.code : -1;
+        const appointmentId = appointmentDetail ? appointmentDetail.appointmentId : -1;
 
         firstName = infoUser.firstName !== '' ? infoUser.firstName : firstName;
         lastName = infoUser.lastName !== '' ? infoUser.lastName : lastName;
@@ -108,7 +109,8 @@ class ItemCustomerBasket extends React.Component {
             }
         ];
         const temptColor = isMain === 1 ? "#0764B0" : "red";
-        const disabledRemoveItemCustomerBasket = _.isEmpty(paymentDetailInfo) ? false : true;
+        const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
+        const disabledRemoveItemCustomerBasket =checkoutPayments.length === 0 ? false : true;
         return (
             <Swipeout
                 right={swipeoutBtns}
@@ -155,6 +157,7 @@ class ItemCustomerBasket extends React.Component {
             basket = basketLocal;
         }
         const disabledRemoveItemBasket = _.isEmpty(paymentDetailInfo) ? false : true;
+        const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         return (
             <View>
                 {this.renderHeaderCustomerBaket()}
@@ -162,7 +165,7 @@ class ItemCustomerBasket extends React.Component {
                     {/* ----------- Item Product , Service , Extra --------- */}
                     {
                         basket.map((item, index) => <ItemBasket
-                            disabled={disabledRemoveItemBasket}
+                            disabled={checkoutPayments.length === 0 ? false : true}
                             key={index}
                             item={item}
                             removeItemBasket={(item) => removeItemBasket(item, appointmentId, true)}
@@ -196,7 +199,7 @@ class ItemCustomerBasket extends React.Component {
                                     <Text style={styles.textPay} >
                                         {`${localize('Discount', language)}:  `}
                                         {
-                                            _.isEmpty(paymentDetailInfo) ? <Image source={IMAGE.add_discount_checkout}
+                                           checkoutPayments.length === 0 ? <Image source={IMAGE.add_discount_checkout}
                                                 style={{ width: scaleSzie(20), height: scaleSzie(20) }}
                                             /> : <Text />
                                         }
