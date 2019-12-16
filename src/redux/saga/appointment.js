@@ -214,6 +214,10 @@ function* paymentAppointment(action) {
         console.log('paymentAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "PAY_APPOINTMENT_ID",
+                payload: responses.data
+            })
             if (action.paymentMethod !== 'harmony') {
                 yield put({
                     type: 'CHECKOUT_SUBMIT',

@@ -60,12 +60,6 @@ class GeneralInfoScreen extends Layout {
         }
     }
 
-    // nextTab = async () => {
-    //     const { generalInfo } = this.state;
-    //     const {stateCity} = this.props;
-    //     alert(checkStateIsValid(stateCity,generalInfo.businessAddress.state));
-    //     // alert(generalInfo.businessAddress.state)
-    // }
 
     nextTab = async () => {
         const { generalInfo } = this.state;

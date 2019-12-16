@@ -16,6 +16,7 @@ const initialState = {
     visiblePopupPaymentDetails: false,
     visibleChangeMoney: false,
     moneyChanged: 0,
+    payAppointmentId: 0
 }
 
 function appReducer(state = initialState, action) {
@@ -146,6 +147,11 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 visiblePopupPaymentDetails: true
+            }
+        case 'PAY_APPOINTMENT_ID':
+            return {
+                ...state,
+                payAppointmentId: action.payload
             }
 
 

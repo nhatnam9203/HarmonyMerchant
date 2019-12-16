@@ -858,9 +858,9 @@ class TabCheckout extends Layout {
                 .build();
 
             connection.on("ListWaNotification", (data) => {
+                
                 const temptData = JSON.parse(data);
-                // console.log('temptData1 : ' + JSON.stringify(temptData)); 
-                // checkoutGroupId
+                console.log('ListWaNotification : ' + JSON.stringify(temptData) );
                 if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
                     && temptData.data.checkoutGroupId == checkoutGroupId
                 ) {
@@ -869,15 +869,14 @@ class TabCheckout extends Layout {
                 }
                 // ---------- Handle reload Tip in Customer App ---------
                 if (!_.isEmpty(temptData.data) && temptData.data.isTipAppointment
-                    && temptData.data.checkoutGroupId == checkoutGroupId
+                    // && temptData.data.checkoutGroupId == checkoutGroupId
                 ) {
-                    console.log("tempt Data3 : ", temptData);
-                    // this.props.actions.appointment.getAppointmentById(appointmentDetail.appointmentId);
+                    
+                    this.props.actions.appointment.getGroupAppointmentById(temptData.data.appointmentId);
                 }
             });
 
             connection.onclose(async (error) => {
-                console.log('----- Close -----');
                 this.props.actions.appointment.resetConnectSignalR();
             });
 
@@ -945,8 +944,8 @@ class TabCheckout extends Layout {
             isCancelHarmonyPay: false,
             paymentSelected: '',
         });
-        const {groupAppointment} = this.props;
-        this.props.actions.appointment.cancelHarmonyPayment(groupAppointment.checkoutGroupId?  groupAppointment.checkoutGroupId : 0);
+        const {groupAppointment,payAppointmentId} = this.props;
+        this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);
         // this.props.actions.appointment.resetPayment();
         const { connectionSignalR } = this.props;
         if (!_.isEmpty(connectionSignalR)) {
@@ -1466,7 +1465,8 @@ const mapStateToProps = state => ({
     groupAppointment: state.appointment.groupAppointment,
     visiblePopupPaymentDetails: state.appointment.visiblePopupPaymentDetails,
     paymentDetailInfo: state.appointment.paymentDetailInfo,
-    visibleChangeMoney: state.appointment.visibleChangeMoney
+    visibleChangeMoney: state.appointment.visibleChangeMoney,
+    payAppointmentId: state.appointment.payAppointmentId
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);
