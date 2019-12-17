@@ -93,6 +93,7 @@ class ItemCustomerBasket extends React.Component {
         // const customerId = appointmentDetail ? appointmentDetail.customerId : '1';
         const isMain = appointmentDetail ? appointmentDetail.isMain : 1;
         const appointmentId = appointmentDetail ? appointmentDetail.appointmentId : -1;
+        const codeAppointment = appointmentDetail ? appointmentDetail.code : -1;
 
         firstName = infoUser.firstName !== '' ? infoUser.firstName : firstName;
         lastName = infoUser.lastName !== '' ? infoUser.lastName : lastName;
@@ -123,7 +124,7 @@ class ItemCustomerBasket extends React.Component {
                     flexDirection: "row", alignItems: "center",
                 }} >
                     <Text style={{ color: "#fff", fontSize: scaleSzie(16), fontWeight: "bold" }} >
-                        {`#${appointmentId} - ${firstName} ${lastName}`}
+                        {`#${codeAppointment} - ${firstName} ${lastName}`}
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
                         <Button onPress={this.toggleCollaps} >

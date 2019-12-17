@@ -112,7 +112,7 @@ class PopupDiscount extends React.Component {
             const appointmentDetail = !_.isEmpty(groupAppointment) && groupAppointment.appointments ? groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) : { subTotal: 0 };
             await this.setState({
                 moneyDiscountFixedAmout: discountFixed,
-                moneyDiscountCustom: (formatNumberFromCurrency(this.customDiscountRef.current.state.percent) * formatNumberFromCurrency(appointmentDetail.subTotal) / 100)
+                moneyDiscountCustom: (formatNumberFromCurrency(this.customDiscountRef.current.state.percent) * formatNumberFromCurrency(appointmentDetail.subTotal ? appointmentDetail.subTotal : 0) / 100)
             })
         }
     }
@@ -135,7 +135,7 @@ class PopupDiscount extends React.Component {
             total = formatNumberFromCurrency(total) + formatNumberFromCurrency(discount[i].discount);
         }
         if (visibleModalDiscount && !this.customDiscountRef.current) {
-            total = formatNumberFromCurrency(total) + (formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(appointmentDetail.subTotal) / 100);
+            total = formatNumberFromCurrency(total) + (formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(appointmentDetail.subTotal ? appointmentDetail.subTotal : 0) / 100);
         }
         if (visibleModalDiscount && !this.customFixedAmountRef.current) {
             total = formatNumberFromCurrency(total) + formatNumberFromCurrency(customDiscountFixed);
@@ -180,7 +180,7 @@ class PopupDiscount extends React.Component {
                                 <CustomDiscount
                                     ref={this.customDiscountRef}
                                     customDiscountPercent={temptCustomDiscountPercent}
-                                    total={formatNumberFromCurrency( appointmentDetail.subTotal)}
+                                    total={formatNumberFromCurrency( appointmentDetail.subTotal ? appointmentDetail.subTotal : 0)}
                                     onChangeText={this.onChangeTextCustomDiscount}
                                 />
                                 {/* ----------- Row 2 ----------- */}

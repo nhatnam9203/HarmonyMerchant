@@ -114,7 +114,7 @@ class PopupDiscount extends React.Component {
         } else {
             await this.setState({
                 moneyDiscountFixedAmout: discountFixed,
-                moneyDiscountCustom: (formatNumberFromCurrency(this.customDiscountRef.current.state.percent) * formatNumberFromCurrency(appointmentDetail.subTotal) / 100)
+                moneyDiscountCustom: (formatNumberFromCurrency(this.customDiscountRef.current.state.percent) * formatNumberFromCurrency(appointmentDetail.subTotal ? appointmentDetail.subTotal : 0) / 100)
             })
         }
     }
@@ -135,7 +135,7 @@ class PopupDiscount extends React.Component {
             total = formatNumberFromCurrency(total) + formatNumberFromCurrency(discount[i].discount);
         }
         if (visibleModalDiscount && !this.customDiscountRef.current) {
-            total = formatNumberFromCurrency(total) + (formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(appointmentDetail.subTotal) / 100);
+            total = formatNumberFromCurrency(total) + (formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(appointmentDetail.subTotal ? appointmentDetail.subTotal : 0) / 100);
         }
         if (visibleModalDiscount && !this.customFixedAmountRef.current) {
             total = formatNumberFromCurrency(total) + formatNumberFromCurrency(customDiscountFixed);
@@ -151,7 +151,7 @@ class PopupDiscount extends React.Component {
         total = Number(total).toFixed(2);
 
         const temptTotalDiscount = _.isEmpty(appointmentDetail) ? Number(discountTotal).toFixed(2) : Number(total).toFixed(2);
-        const temptTotal = _.isEmpty(appointmentDetail) ? totalLocal : appointmentDetail.subTotal;
+        const temptTotal = _.isEmpty(appointmentDetail) ? totalLocal : (appointmentDetail.subTotal ? appointmentDetail.subTotal : 0);
         const temptCustomDiscountPercent = _.isEmpty(appointmentDetail) ? customDiscountPercentLocal : customDiscountPercent;
         const temptCustomDiscountFixed = _.isEmpty(appointmentDetail) ? customDiscountFixedLocal : customDiscountFixed;
 

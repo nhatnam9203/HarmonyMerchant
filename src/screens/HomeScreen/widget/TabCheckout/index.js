@@ -116,11 +116,11 @@ class TabCheckout extends Layout {
     }
 
     addAmount = async () => {
-        const { groupAppointment , profile, token} = this.props;
-        const { categoryTypeSelected, basket, productSeleted, extraSelected,customerInfoByPhone ,infoUser,
+        const { groupAppointment, profile, token } = this.props;
+        const { categoryTypeSelected, basket, productSeleted, extraSelected, customerInfoByPhone, infoUser,
             paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
         } = this.state;
-       
+
 
         if (!_.isEmpty(groupAppointment)) {  // ------------- Buy online ---------
             const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
@@ -206,23 +206,25 @@ class TabCheckout extends Layout {
                     taxLocal: this.calculateTotalTaxLocal(temptBasketExtra)
                 });
             }
+
+            // --------- Create AnymousAppointment --------
+            const dataAnymousAppoitment = this.getBasketOffline();
+            const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
+            const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
+            const method = this.getPaymentString(paymentSelected);
+            const userId = customerInfoByPhone.userId ? ustomerInfoByPhone.userId : 0;
+
+            this.props.actions.appointment.createAnymousAppointment(profile.merchantId, userId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
+                customDiscountFixedLocal, customDiscountPercentLocal, staffId,
+                infoUser.firstName,
+                infoUser.lastName,
+                infoUser.phoneNumber,
+                moneyUserGiveForStaff,
+                false, false
+            );
+
         }
 
-        // --------- Create AnymousAppointment --------
-        const dataAnymousAppoitment = this.getBasketOffline();
-        const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
-        const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
-        const method = this.getPaymentString(paymentSelected);
-        const userId = customerInfoByPhone.userId ? ustomerInfoByPhone.userId : 0;
-
-        this.props.actions.appointment.createAnymousAppointment(profile.merchantId,userId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
-            customDiscountFixedLocal,  customDiscountPercentLocal, staffId,
-             infoUser.firstName,
-             infoUser.lastName,
-             infoUser.phoneNumber,
-             moneyUserGiveForStaff,
-             false,false
-         );
 
         await this.setState({
             isShowColProduct: false,
@@ -858,9 +860,9 @@ class TabCheckout extends Layout {
                 .build();
 
             connection.on("ListWaNotification", (data) => {
-                
+
                 const temptData = JSON.parse(data);
-                console.log('ListWaNotification : ' + JSON.stringify(temptData) );
+                console.log('ListWaNotification : ' + JSON.stringify(temptData));
                 if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
                     && temptData.data.checkoutGroupId == checkoutGroupId
                 ) {
@@ -871,7 +873,7 @@ class TabCheckout extends Layout {
                 if (!_.isEmpty(temptData.data) && temptData.data.isTipAppointment
                     // && temptData.data.checkoutGroupId == checkoutGroupId
                 ) {
-                    
+
                     this.props.actions.appointment.getGroupAppointmentById(temptData.data.appointmentId);
                 }
             });
@@ -944,7 +946,7 @@ class TabCheckout extends Layout {
             isCancelHarmonyPay: false,
             paymentSelected: '',
         });
-        const {groupAppointment,payAppointmentId} = this.props;
+        const { groupAppointment, payAppointmentId } = this.props;
         this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);
         // this.props.actions.appointment.resetPayment();
         const { connectionSignalR } = this.props;

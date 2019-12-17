@@ -271,34 +271,61 @@ export default class Layout extends React.Component {
         );
     }
 
+
+
     renderCardInfo() {
         const { language } = this.props;
         const { invoiceDetail } = this.state;
-        if (invoiceDetail.paymentMethod && invoiceDetail.paymentMethod === 'credit_card') {
-            const { paymentInformation } = invoiceDetail;
-            return (
-                <View style={{ flex: 1 }} >
-                    <View style={{ height: scaleSzie(16) }} />
-                    <ItemInfo
-                        title={localize('Payment method', language)}
-                        value={'Credit Card'}
-                    />
-                    <ItemInfo
-                        title={localize('CC type', language)}
-                        value={paymentInformation.type ? paymentInformation.type : ''}
-                    />
-                    <ItemInfo
-                        title={localize('CC number', language)}
-                        value={paymentInformation.number ? `xxxx xxxx xxxx ${paymentInformation.number}` : ''}
-                    />
-                    <ItemInfo
-                        title={localize('CC exp', language)}
-                        value={paymentInformation.exp ? paymentInformation.exp : ''}
-                    />
-                </View>
-            );
-        }
-        return <View />;
+        const temptInvoiceDetail = invoiceDetail.checkoutPayments ? invoiceDetail.checkoutPayments : [];
+        console.log('temptInvoiceDetail : ', temptInvoiceDetail);
+        return (
+            <View style={{ flex: 1 }} >
+                {
+                    temptInvoiceDetail.map((payment, index) => <View key={`payment_${index}`} >
+                        <View style={{ height: scaleSzie(16) }} />
+
+                        <ItemInfo
+                            title={localize('Payment method', language)}
+                            value={payment.paymentMethod && payment.paymentMethod ? payment.paymentMethod : ''}
+                        />
+                         <ItemInfo
+                            title={localize('Amount', language)}
+                            value={payment.amount && payment.amount ? payment.amount : ''}
+                        />
+                           <ItemInfo
+                            title={localize('Status', language)}
+                            value={payment.status && payment.status ? payment.status : ''}
+                        />
+                         <ItemInfo
+                            title={localize('Date', language)}
+                            value={payment.createdDate && payment.createdDate ? `${moment.parseZone(payment.createdDate).local().format('MM/DD/YYYY h:mm A')}` : ''}
+                        />
+                        {
+                            payment.paymentInformation ? <>
+                                <ItemInfo
+                                    title={localize('CC type', language)}
+                                    value={payment.paymentInformation && payment.paymentInformation.type ? payment.paymentInformation.type : ''}
+                                />
+                                <ItemInfo
+                                    title={localize('CC number', language)}
+                                    value={payment.paymentInformation && payment.paymentInformation.number ? `xxxx xxxx xxxx ${payment.paymentInformation.number}` : ''}
+                                />
+                                <ItemInfo
+                                    title={localize('CC exp', language)}
+                                    value={payment.paymentInformation && payment.paymentInformation.exp ? payment.paymentInformation.exp : ''}
+                                />
+                            </> : <View />
+                        }
+
+                        {/* ------------ Line ----------- */}
+                        <View style={{height:1 ,marginTop:scaleSzie(10),paddingHorizontal:scaleSzie(30)}} >
+                                <View style={{flex:1,backgroundColor:"rgba(64,64,64,0.3)"}} />
+                        </View>
+
+                    </View>)
+                }
+            </View>
+        );
 
     }
 
@@ -566,7 +593,7 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { language ,navigation} = this.props;
+        const { language, navigation } = this.props;
         const { visibleCalendar, isFocus, visibleConfirmInvoiceStatus } = this.state;
         return (
             <ParentContainer
