@@ -310,6 +310,12 @@ function* createAnymousAppointment(action) {
                 })
             }
 
+            if(!action.isPayment){
+                yield put({
+                    type:"SET_CANCEL_APPOINTMENT"
+                })
+            }
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

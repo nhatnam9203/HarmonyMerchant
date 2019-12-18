@@ -366,7 +366,8 @@ class TabCheckout extends Layout {
     }
 
     clearDataCofrim = async () => {
-        const { connectionSignalR } = this.props;
+        const { connectionSignalR ,groupAppointment,profile,isCancelAppointment} = this.props;
+        const {customerInfoByPhone} = this.state;
         if (!_.isEmpty(connectionSignalR)) {
             connectionSignalR.stop();
         }
@@ -377,6 +378,14 @@ class TabCheckout extends Layout {
         this.props.actions.appointment.resetPayment();
         this.props.actions.appointment.changeFlagSigninAppointment(false);
         this.props.actions.appointment.resetGroupAppointment();
+
+        if(isCancelAppointment){
+            const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
+            const userId = customerInfoByPhone.userId ? customerInfoByPhone.userId : 0;
+            this.props.actions.appointment.cancleAppointment(mainAppointmentId, profile.merchantId, userId);
+        }
+       
+
 
     }
 
@@ -1525,7 +1534,8 @@ const mapStateToProps = state => ({
     visiblePopupPaymentDetails: state.appointment.visiblePopupPaymentDetails,
     paymentDetailInfo: state.appointment.paymentDetailInfo,
     visibleChangeMoney: state.appointment.visibleChangeMoney,
-    payAppointmentId: state.appointment.payAppointmentId
+    payAppointmentId: state.appointment.payAppointmentId,
+    isCancelAppointment: state.appointment.isCancelAppointment
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);
