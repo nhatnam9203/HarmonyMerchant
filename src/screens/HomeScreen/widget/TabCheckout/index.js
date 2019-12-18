@@ -438,6 +438,53 @@ class TabCheckout extends Layout {
         }
     }
 
+    getBasketOnline = (appointments) => {
+        const arrayProductBuy = [];
+        const arryaServicesBuy = [];
+        const arrayExtrasBuy = [];
+        appointments.forEach((appointment) => {
+            // ------ Push Service -------
+            appointment.services.forEach((service) => {
+                arryaServicesBuy.push({
+                    type: "Service",
+                    data: {
+                        name: service.serviceName ? service.serviceName : "",
+                        price: service.price ? service.price : ""
+                    }
+                })
+            });
+
+            // ------ Push Product -------
+            appointment.products.forEach((product) => {
+                arrayProductBuy.push({
+                    type: "Product",
+                    data: {
+                        name: product.productName ? product.productName : "",
+                        price: product.price ? product.price : ""
+                    },
+                    quanlitySet: product.quantity ? product.quantity : ""
+                })
+            });
+
+            // ------ Push Product -------
+            appointment.extras.forEach((extra) => {
+                arrayExtrasBuy.push({
+                    type: 'Extra',
+                    data: {
+                        name: extra.extraName ? extra.extraName : "",
+                        price: extra.price ? extra.price : ""
+                    }
+                })
+            })
+        });
+
+        return {
+            arryaServicesBuy,
+            arrayProductBuy,
+            arrayExtrasBuy
+        }
+    }
+
     getHour() {
         const hours = parseInt(new Date().getHours()) - 12 > 0 ? parseInt(new Date().getHours()) - 13 : parseInt(new Date().getHours());
         const surfix = parseInt(new Date().getHours()) - 12 > 0 ? 'PM' : 'AM'
@@ -452,24 +499,30 @@ class TabCheckout extends Layout {
 
     async printInvoice(isShowTip = false) {
         // ------------------------
-        const { appointmentDetail } = this.props;
-        const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal, methodPayment } = this.state;
+        const { groupAppointment } = this.props;
+        const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal, methodPayment } = this.state;
         // methodPayment === 'credit_card'
 
-        const tipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
-        const subTotal = appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
-        const discount = appointmentDetail.discount ? appointmentDetail.discount : 0;
-        const tax = appointmentDetail.tax ? appointmentDetail.tax : 0;
-        const total = appointmentDetail.total ? appointmentDetail.total : 0;
+        const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
 
-        const temptSubTotal = _.isEmpty(appointmentDetail) ? subTotalLocal : subTotal;
-        const temptTotal = _.isEmpty(appointmentDetail) ? Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2) : total;
-        const temptDiscount = _.isEmpty(appointmentDetail) ? discountTotalLocal : discount;
-        const temptTip = _.isEmpty(appointmentDetail) ? tipLocal : tipAmount;
-        const temptTax = _.isEmpty(appointmentDetail) ? taxLocal : tax;
+        const { arryaServicesBuy ,arrayProductBuy,arrayExtrasBuy} = this.getBasketOnline(appointments);
+        const basket = [...arryaServicesBuy,...arrayProductBuy,...arrayExtrasBuy];
+        // console.log('basket : ' + JSON.stringify(basket));
+
+        const tipAmount = groupAppointment.tipAmount ? groupAppointment.tipAmount : 0;
+        const subTotal = groupAppointment.subTotal ? groupAppointment.subTotal : 0;
+        const discount = groupAppointment.discount ? groupAppointment.discount : 0;
+        const tax = groupAppointment.tax ? groupAppointment.tax : 0;
+        const total = groupAppointment.total ? groupAppointment.total : 0;
+
+        const temptSubTotal = _.isEmpty(groupAppointment) ? subTotalLocal : subTotal;
+        const temptTotal = _.isEmpty(groupAppointment) ? Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2) : total;
+        const temptDiscount = _.isEmpty(groupAppointment) ? discountTotalLocal : discount;
+        const temptTip = _.isEmpty(groupAppointment) ? tipLocal : tipAmount;
+        const temptTax = _.isEmpty(groupAppointment) ? taxLocal : tax;
 
         // ------------------------
-
+        // console.log('---- basket : ' + JSON.stringify(basket));
         try {
             const printer = await PrintManager.getInstance().portDiscovery();
             if (printer.length > 0) {
@@ -650,7 +703,11 @@ class TabCheckout extends Layout {
                         appendAbsolutePosition: 270,
                         data: `$ ${formatMoney(temptTotal)}\n`
                     })
-                    // commands.push({ enableEmphasis: false });
+
+                    commands.push({
+                        appendAbsolutePosition: 270,
+                        data: `$ ${10.00}\n`
+                    })
 
                 } else {
                     commands.push({ appendFontStyle: 'A' });

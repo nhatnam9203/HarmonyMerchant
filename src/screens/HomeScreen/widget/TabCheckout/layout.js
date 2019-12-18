@@ -107,7 +107,7 @@ class Layout extends React.Component {
                 {/* -------- Button open cash -------- */}
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end',flexDirection:'row' }} >
                     {
-                        this.state.basket.length > 0 ?    <Button  onPress={() => this.printInvoice(true)} style={[styles.btnCashier,{marginRight:scaleSzie(8)}]} >
+                       !_.isEmpty(groupAppointment) ?    <Button  onPress={() => this.printInvoice(true)} style={[styles.btnCashier,{marginRight:scaleSzie(8)}]} >
                         <Image source={IMAGE.print_btn} 
                         style={{width:scaleSzie(14),height:scaleSzie(16)}}
                         />
@@ -328,9 +328,7 @@ class Layout extends React.Component {
         const { language, groupAppointment ,paymentDetailInfo} = this.props;
         const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
-        const grandTotal = groupAppointment.total ?  groupAppointment.total :  0;
-        const temptTotalLocal = Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2);
-        const temptGrandTotal = basket.length > 0 ?  temptTotalLocal : grandTotal;
+        const temptGrandTotal = groupAppointment.total ? groupAppointment.total : 0;
 
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         return (
