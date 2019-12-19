@@ -39,6 +39,7 @@ import PopupConfirmInvoiceStatus from './PopupConfirmInvoiceStatus';
 import NetworkListener from './NetworkListener';
 import TextInputSuggestion from './TextInputSuggestion';
 import PopupActiveGiftCard from './PopupActiveGiftCard';
+import PopupScanCode from './PopupScanCode';
 
 module.exports = {
     Button,
@@ -81,5 +82,6 @@ module.exports = {
     PopupConfirmInvoiceStatus,
     NetworkListener,
     TextInputSuggestion,
-    PopupActiveGiftCard
+    PopupActiveGiftCard,
+    PopupScanCode
 }
