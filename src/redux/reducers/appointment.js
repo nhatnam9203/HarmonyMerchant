@@ -17,7 +17,8 @@ const initialState = {
     visibleChangeMoney: false,
     moneyChanged: 0,
     payAppointmentId: 0,
-    isCancelAppointment: false
+    isCancelAppointment: false,
+    visiblePopupActiveGiftCard: false
 }
 
 function appReducer(state = initialState, action) {
@@ -158,6 +159,11 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 isCancelAppointment: true
+            }
+        case 'VISIBLE_POPUP_ACTIVEE_GIFT_CARD':
+            return {
+                ...state,
+                visiblePopupActiveGiftCard: action.payload
             }
 
         default:

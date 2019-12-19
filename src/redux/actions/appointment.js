@@ -293,6 +293,12 @@ export function showPopupPaymentDetails() {
     }
 }
 
+export function handleVisibleActiveGiftCard(visible = true) {
+    return {
+        type: 'VISIBLE_POPUP_ACTIVEE_GIFT_CARD',
+        payload: visible
+    }
+}
 
 
 

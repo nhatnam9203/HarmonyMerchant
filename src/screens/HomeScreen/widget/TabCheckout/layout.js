@@ -12,7 +12,7 @@ import _ from 'ramda';
 import { scaleSzie, localize, formatNumberFromCurrency, formatMoney } from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
-    PopupSendLinkInstall
+    PopupSendLinkInstall,PopupActiveGiftCard
 } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
@@ -161,6 +161,17 @@ class Layout extends React.Component {
                                     categorySelected={this.state.categorySelected}
                                 />)
                             }
+
+                            {/* --------- Gift Card --------  */}
+                            <ItemCategory
+                                    category={{
+                                        name:"Gift Card",
+                                        categoryId:1
+                                    }}
+                                    onPressSelectCategory={this.onSelectGiftCard}
+                                    colorText={temptColorHeader}
+                                    categorySelected={this.state.categorySelected}
+                                />
                         </ScrollView>
                     </View>
                 </View>
@@ -792,6 +803,11 @@ class Layout extends React.Component {
                     visible={this.state.visibleSendLinkPopup}
                     title="Confirmation"
                     onRequestClose={() => this.setState({ visibleSendLinkPopup: false })}
+                    confimYes={this.sendLinkInstallApp}
+                />
+                <PopupActiveGiftCard 
+                    title="Active Gift Card"
+                    onRequestClose={this.closePopupActiveGiftCard}
                     confimYes={this.sendLinkInstallApp}
                 />
                 <PopupEnterInfo 

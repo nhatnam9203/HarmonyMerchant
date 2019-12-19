@@ -366,8 +366,8 @@ class TabCheckout extends Layout {
     }
 
     clearDataCofrim = async () => {
-        const { connectionSignalR ,groupAppointment,profile,isCancelAppointment} = this.props;
-        const {customerInfoByPhone} = this.state;
+        const { connectionSignalR, groupAppointment, profile, isCancelAppointment } = this.props;
+        const { customerInfoByPhone } = this.state;
         if (!_.isEmpty(connectionSignalR)) {
             connectionSignalR.stop();
         }
@@ -379,12 +379,12 @@ class TabCheckout extends Layout {
         this.props.actions.appointment.changeFlagSigninAppointment(false);
         this.props.actions.appointment.resetGroupAppointment();
 
-        if(isCancelAppointment){
+        if (isCancelAppointment) {
             const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
             const userId = customerInfoByPhone.userId ? customerInfoByPhone.userId : 0;
             this.props.actions.appointment.cancleAppointment(mainAppointmentId, profile.merchantId, userId);
         }
-       
+
 
 
     }
@@ -514,8 +514,8 @@ class TabCheckout extends Layout {
 
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
 
-        const { arryaServicesBuy ,arrayProductBuy,arrayExtrasBuy} = this.getBasketOnline(appointments);
-        const basket = [...arryaServicesBuy,...arrayProductBuy,...arrayExtrasBuy];
+        const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy } = this.getBasketOnline(appointments);
+        const basket = [...arryaServicesBuy, ...arrayProductBuy, ...arrayExtrasBuy];
         // console.log('basket : ' + JSON.stringify(basket));
 
         const tipAmount = groupAppointment.tipAmount ? groupAppointment.tipAmount : 0;
@@ -1200,6 +1200,64 @@ class TabCheckout extends Layout {
                 this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
                 this.props.actions.appointment.showModalPrintReceipt();
             }
+        }
+    }
+
+    closePopupActiveGiftCard = async () => {
+        this.props.actions.appointment.handleVisibleActiveGiftCard(false);
+        await this.setState({
+            isShowColProduct: false,
+            isShowColAmount: false,
+            categorySelected: {
+                categoryId: -1,
+                categoryType: ''
+            },
+            productSeleted: {
+                name: ''
+            },
+            categoryTypeSelected: '',
+            extraSelected: {
+                extraId: -1,
+                name: ''
+            },
+        })
+    }
+
+    onSelectGiftCard = async (category) => {
+        const { categorySelected } = this.state;
+        if (categorySelected.categoryId !== category.categoryId) {
+            await this.setState({
+                categorySelected: category,
+                categoryTypeSelected: category.categoryType,
+                productSeleted: {
+                    name: ''
+                },
+                isShowColProduct: false,
+                isShowColAmount: false,
+                extraSelected: {
+                    extraId: -1,
+                    name: ''
+                },
+            });
+            this.props.actions.appointment.handleVisibleActiveGiftCard();
+           
+        } else {
+            await this.setState({
+                isShowColProduct: false,
+                isShowColAmount: false,
+                categorySelected: {
+                    categoryId: -1,
+                    categoryType: ''
+                },
+                productSeleted: {
+                    name: ''
+                },
+                categoryTypeSelected: '',
+                extraSelected: {
+                    extraId: -1,
+                    name: ''
+                },
+            })
         }
     }
 
