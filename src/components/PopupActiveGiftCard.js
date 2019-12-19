@@ -7,12 +7,14 @@ import {
     TextInput,
     Keyboard,
     ActivityIndicator,
+    TouchableOpacity
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import QRCodeScanner from 'react-native-qrcode-scanner';
+import { RNCamera} from 'react-native-camera';
 
 import ButtonCustom from './ButtonCustom';
-import {Dropdown} from './react-native-material-dropdown';
+import { Dropdown } from './react-native-material-dropdown';
 import PopupParent from './PopupParent';
 import Button from './Button';
 import { scaleSzie, ListCodeAreaPhone } from '../utils';
@@ -27,7 +29,7 @@ class PopupActiveGiftCard extends React.Component {
             value: '',
             customStyle: {},
             loading: false,
-            codeAreaPhone:'+1'
+            codeAreaPhone: '+1'
         }
     }
 
@@ -58,15 +60,61 @@ class PopupActiveGiftCard extends React.Component {
 
     }
 
-    scanCodeGiftCard = () =>{
+    scanCodeGiftCard = () => {
         alert("dd")
+    }
+
+    onSuccess = (e) => {
+        // console.log('e : ',e);
+        alert(e.data);
     }
 
     render() {
         const { title, visible, isShowButtonEnterPinCode, onRequestClose, confimYes, hideCloseButton,
-        visiblePopupActiveGiftCard
+            visiblePopupActiveGiftCard
         } = this.props;
-        const { value, customStyle,codeAreaPhone } = this.state;
+        const { value, customStyle, codeAreaPhone } = this.state;
+        return (
+            <PopupParent
+                title={"Scan Your Code"}
+                visible={visiblePopupActiveGiftCard}
+                onRequestClose={() => onRequestClose()}
+                hideCloseButton={hideCloseButton}
+                style={customStyle}
+                width={500}
+            >
+                <View style={{
+                    height: scaleSzie(400),
+                    width: scaleSzie(500),
+                    backgroundColor: "transparent",
+                    borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
+                    overflow:"hidden"
+                }} >
+                    <QRCodeScanner
+                        onRead={this.onSuccess}
+                        cameraProps={{ flashMode: RNCamera.Constants.FlashMode.auto }}
+                        showMarker={true}
+                        containerStyle={{
+                            height: scaleSzie(400),
+                            width: scaleSzie(500),
+                        }}
+
+                        cameraStyle={{
+                            height: scaleSzie(400),
+                            width: scaleSzie(500),
+                        }}
+                    />
+
+                </View>
+            </PopupParent>
+        );
+    }
+
+    renderA() {
+        const { title, visible, isShowButtonEnterPinCode, onRequestClose, confimYes, hideCloseButton,
+            visiblePopupActiveGiftCard
+        } = this.props;
+        const { value, customStyle, codeAreaPhone } = this.state;
         return (
             <PopupParent
                 title={title}
@@ -100,8 +148,8 @@ class PopupActiveGiftCard extends React.Component {
                                     // }}
                                     style={{
                                         flex: 1, fontSize: scaleSzie(18),
-                                        fontWeight:'bold',
-                                         textAlign: 'center',
+                                        fontWeight: 'bold',
+                                        textAlign: 'center',
                                         padding: 0, margin: 0
                                     }}
                                     placeholder="Your gift card"
@@ -113,12 +161,13 @@ class PopupActiveGiftCard extends React.Component {
                                     }}
                                 />
                             </View>
-                            <Button 
-                            onPress={this.scanCodeGiftCard}
-                            style={{width:scaleSzie(50),backgroundColor:"#F1F1F1",borderColor: 'rgb(231,231,231)', borderWidth: 2,
-                        borderLeftWidth:0,justifyContent:"center",alignItems:"center"
-                        }} >    
-                        <Image source={IMAGE.scancode} />
+                            <Button
+                                onPress={this.scanCodeGiftCard}
+                                style={{
+                                    width: scaleSzie(50), backgroundColor: "#F1F1F1", borderColor: 'rgb(231,231,231)', borderWidth: 2,
+                                    borderLeftWidth: 0, justifyContent: "center", alignItems: "center"
+                                }} >
+                                <Image source={IMAGE.scancode} />
 
                             </Button>
 
@@ -171,7 +220,7 @@ class PopupActiveGiftCard extends React.Component {
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     isShowButtonEnterPinCode: state.staff.isShowButtonEnterPinCode,
-    visiblePopupActiveGiftCard : state.appointment.visiblePopupActiveGiftCard
+    visiblePopupActiveGiftCard: state.appointment.visiblePopupActiveGiftCard
 });
 
 export default connectRedux(mapStateToProps, PopupActiveGiftCard);
