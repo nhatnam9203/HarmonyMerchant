@@ -138,6 +138,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-permissions')
+    implementation project(':react-native-camera')
     implementation project(':react-native-youtube')
     implementation project(':rn-fetch-blob')
     implementation project(':react-native-star-prnt')

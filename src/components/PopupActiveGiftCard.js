@@ -9,6 +9,7 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
+import QRCodeScanner from 'react-native-qrcode-scanner';
 
 import ButtonCustom from './ButtonCustom';
 import {Dropdown} from './react-native-material-dropdown';

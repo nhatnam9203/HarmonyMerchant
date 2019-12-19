@@ -52,6 +52,8 @@ pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/ne
 pod 'RNPermissions', :path => '../node_modules/react-native-permissions'
 
 
+pod 'react-native-camera', :path => '../node_modules/react-native-camera'
+
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     if target.name == "React"
