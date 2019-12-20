@@ -51,7 +51,7 @@ class PopupScanCode extends React.Component {
                     width: scaleSzie(500),
                     backgroundColor: "#fff",
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
-                    overflow:"hidden"
+                    overflow:"hidden",
                 }} >
                     <QRCodeScanner
                         ref={this.scannerRef}

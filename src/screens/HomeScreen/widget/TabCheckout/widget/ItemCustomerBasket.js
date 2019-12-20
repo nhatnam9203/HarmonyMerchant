@@ -90,8 +90,7 @@ class ItemCustomerBasket extends React.Component {
 
         lastName = appointmentDetail ? appointmentDetail.lastName : '';
         firstName = appointmentDetail ? appointmentDetail.firstName : 'Anonymous';
-        // const customerId = appointmentDetail ? appointmentDetail.customerId : '1';
-        const isMain = appointmentDetail ? appointmentDetail.isMain : 1;
+        const isMain = appointmentDetail && appointmentDetail.isMain  ? appointmentDetail.isMain : 0;
         const appointmentId = appointmentDetail ? appointmentDetail.appointmentId : -1;
         const codeAppointment = appointmentDetail ? appointmentDetail.code : -1;
 

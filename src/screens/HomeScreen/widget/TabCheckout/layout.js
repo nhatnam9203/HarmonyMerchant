@@ -35,12 +35,10 @@ class Layout extends React.Component {
             const appointments = groupAppointment.appointments ?   groupAppointment.appointments : [];
             const appointmentMain = appointments.find(appointment => appointment.isMain === 1);
             if(appointmentMain){
-            firstName = appointmentMain.firstName ? appointmentMain.firstName : '';
-            lastName = appointmentMain.lastName ? appointmentMain.lastName : '';
-            phoneNumber = appointmentMain.phoneNumber ? appointmentMain.phoneNumber : '';
+                firstName = appointmentMain.firstName ? appointmentMain.firstName : '';
+                lastName = appointmentMain.lastName ? appointmentMain.lastName : '';
+                phoneNumber = appointmentMain.phoneNumber ? appointmentMain.phoneNumber : '';
             }
-             
-
         }
             firstName = infoUser.firstName !== '' ? infoUser.firstName :firstName  ;
             lastName = infoUser.lastName!== '' ? infoUser.lastName :lastName  ;

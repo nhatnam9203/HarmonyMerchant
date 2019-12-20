@@ -165,6 +165,8 @@ class TabCheckout extends Layout {
                     basket: temptBasket,
                     subTotalLocal: this.getPriceOfline(temptBasket),
                     taxLocal: this.calculateTotalTaxLocal(temptBasket)
+                }, () => {
+                    console.log('------- First --------');
                 });
             } else { // ------------- Buy Service, Extra at store ---------
                 const { profileStaffLogin } = this.props;
@@ -206,7 +208,7 @@ class TabCheckout extends Layout {
                     taxLocal: this.calculateTotalTaxLocal(temptBasketExtra)
                 });
             }
-
+            console.log('------- Second --------');
             // --------- Create AnymousAppointment --------
             const dataAnymousAppoitment = this.getBasketOffline();
             const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
@@ -220,7 +222,8 @@ class TabCheckout extends Layout {
                 infoUser.lastName,
                 infoUser.phoneNumber,
                 moneyUserGiveForStaff,
-                false, false
+                false,
+                false
             );
 
         }
@@ -713,10 +716,6 @@ class TabCheckout extends Layout {
                         data: `$ ${formatMoney(temptTotal)}\n`
                     })
 
-                    commands.push({
-                        appendAbsolutePosition: 270,
-                        data: `$ ${10.00}\n`
-                    })
 
                 } else {
                     commands.push({ appendFontStyle: 'A' });
@@ -1067,7 +1066,6 @@ class TabCheckout extends Layout {
                     const dataAnymousAppoitment = this.getBasketOffline();
                     const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
                     const userId = customerInfoByPhone.userId ? customerInfoByPhone.userId : 0;
-                    console.log('customerInfoByPhone : ', customerInfoByPhone);
                     this.props.actions.appointment.createAnymousAppointment(profile.merchantId, userId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
                         customDiscountFixedLocal, customDiscountPercentLocal, staffId,
                         infoUser.firstName,
@@ -1240,7 +1238,7 @@ class TabCheckout extends Layout {
                 },
             });
             this.props.actions.appointment.handleVisibleActiveGiftCard();
-           
+
         } else {
             await this.setState({
                 isShowColProduct: false,

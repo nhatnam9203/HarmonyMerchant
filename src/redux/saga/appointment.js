@@ -495,7 +495,8 @@ function* removeAppointmentInGroup(action) {
         if (parseInt(codeNumber) == 200) {
             // ------- Get Group Appointment --------
             const state = yield select();
-            const appointment = state.appointment.groupAppointment.appointments.find((appointment) => appointment.isMain === 1);
+            const {groupAppointment} = state.appointment;
+            const appointment = groupAppointment.appointments && groupAppointment.appointments.find((appointment) => appointment.isMain === 1);
             if (appointment) {
                 yield put({
                     type: 'GET_GROUP_APPOINTMENT_BY_ID',
