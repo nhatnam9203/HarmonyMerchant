@@ -496,16 +496,13 @@ function* removeAppointmentInGroup(action) {
             // ------- Get Group Appointment --------
             const state = yield select();
             const { groupAppointment } = state.appointment;
-            const appointment = groupAppointment.appointments && groupAppointment.appointments.find((appointment) => appointment.isMain === 1);
-            if (appointment) {
-                yield put({
-                    type: 'GET_GROUP_APPOINTMENT_BY_ID',
-                    method: 'GET',
-                    api: `${apiConfigs.BASE_API}appointment/getGroupById/${appointment.appointmentId}`,
-                    token: true
-                })
-            }
-
+            const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
+            yield put({
+                type: 'GET_GROUP_APPOINTMENT_BY_ID',
+                method: 'GET',
+                api: `${apiConfigs.BASE_API}appointment/getGroupById/${mainAppointmentId}`,
+                token: true
+            });
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -518,6 +515,7 @@ function* removeAppointmentInGroup(action) {
             })
         }
     } catch (error) {
+        console.log('---- error : ', error);
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });

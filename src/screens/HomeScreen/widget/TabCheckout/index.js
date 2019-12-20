@@ -123,10 +123,7 @@ class TabCheckout extends Layout {
 
 
         if (!_.isEmpty(groupAppointment)) {  // ------------- Buy online ---------
-            const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
-            const mainAppointment = appointments.find(appointment => appointment.isMain === 1);
-            // console.log('mainAppointment : ', mainAppointment);
-            const appointmentId = mainAppointment && mainAppointment.appointmentId ? mainAppointment.appointmentId : 0;
+            const appointmentId =groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0 ;
             if (categoryTypeSelected === 'Product') {
                 this.props.actions.appointment.addItemIntoAppointment(
                     {
