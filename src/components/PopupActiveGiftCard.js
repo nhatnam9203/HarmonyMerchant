@@ -81,6 +81,10 @@ class PopupActiveGiftCard extends React.Component {
         })
     }
 
+    submitSerialCode = () => {
+        this.props.actions.appointment.checkSerialNumber(12344333);
+    }
+
 
     render() {
         const { title, visible, isShowButtonEnterPinCode, onRequestClose, confimYes, hideCloseButton,
@@ -159,7 +163,7 @@ class PopupActiveGiftCard extends React.Component {
                                     backgroundColor="#0764B0"
                                     title="Active"
                                     textColor="#fff"
-                                    onPress={() => confimYes()}
+                                    onPress={this.submitSerialCode}
                                     styleText={{
                                         fontSize: scaleSzie(14)
                                     }}

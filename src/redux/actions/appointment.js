@@ -72,7 +72,7 @@ export function checkoutAppointment(appointmentId, checkoutGroupId = 0) {
     }
 }
 
-export function paymentAppointment(groupId, method, amount,creditCardInfo = false,merchantId = -1) {
+export function paymentAppointment(groupId, method, amount, creditCardInfo = false, merchantId = -1) {
     return {
         type: 'PAY_APPOINTMENT',
         body: {
@@ -95,8 +95,8 @@ export function closeModalPaymentCompleted() {
     }
 }
 
-export function createAnymousAppointment(merchantId,userId = 0, products, services = [], extras = [], paymentMethod, isLoading = true, customDiscountFixed, customDiscountPercent, staffId = 0,
-    firstName, lastName, phoneNumber,paidAmount,creditCardInfo = false,isPayment = true
+export function createAnymousAppointment(merchantId, userId = 0, products, services = [], extras = [], paymentMethod, isLoading = true, customDiscountFixed, customDiscountPercent, staffId = 0,
+    firstName, lastName, phoneNumber, paidAmount, creditCardInfo = false, isPayment = true
 ) {
     return {
         type: 'CREATE_ANYMOUS_APPOINTMENT',
@@ -300,5 +300,12 @@ export function handleVisibleActiveGiftCard(visible = true) {
     }
 }
 
-
+export function checkSerialNumber(serialId) {
+    return {
+        type: 'CHECK_SERIAL_NUMBER',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}giftcard/serialNumber/${serialId}`,
+    }
+}
 
