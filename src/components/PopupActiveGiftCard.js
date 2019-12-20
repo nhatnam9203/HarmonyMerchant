@@ -82,7 +82,7 @@ class PopupActiveGiftCard extends React.Component {
     }
 
     submitSerialCode = () => {
-        this.props.actions.appointment.checkSerialNumber(12344333);
+        this.props.actions.appointment.checkSerialNumber("10120191220000001");
     }
 
 

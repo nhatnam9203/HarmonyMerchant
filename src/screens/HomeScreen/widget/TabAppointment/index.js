@@ -147,7 +147,8 @@ class TabAppointment extends Layout {
                         products: [{
                             productId: productSeleted.productId,
                             quantity: this.amountRef.current.state.quanlity
-                        }]
+                        }],
+                        giftcards:[]
                     }, appointmentId)
             } else {
                 // ------ Buy Ofline -----------
@@ -196,7 +197,8 @@ class TabAppointment extends Layout {
                             serviceId: productSeleted.serviceId
                         }],
                         extras: temptExtra,
-                        products: []
+                        products: [],
+                        giftcards:[]
                     }, appointmentId)
             } else {
                 // ------ Buy Offline ------

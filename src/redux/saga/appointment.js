@@ -310,9 +310,9 @@ function* createAnymousAppointment(action) {
                 })
             }
 
-            if(!action.isPayment){
+            if (!action.isPayment) {
                 yield put({
-                    type:"SET_CANCEL_APPOINTMENT"
+                    type: "SET_CANCEL_APPOINTMENT"
                 })
             }
 
@@ -495,7 +495,7 @@ function* removeAppointmentInGroup(action) {
         if (parseInt(codeNumber) == 200) {
             // ------- Get Group Appointment --------
             const state = yield select();
-            const {groupAppointment} = state.appointment;
+            const { groupAppointment } = state.appointment;
             const appointment = groupAppointment.appointments && groupAppointment.appointments.find((appointment) => appointment.isMain === 1);
             if (appointment) {
                 yield put({
@@ -532,6 +532,26 @@ function* checkSerialNumber(action) {
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            const state = yield select();
+            const { groupAppointment } = state.appointment;
+            const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
+            yield put({
+                type: 'ADD_ITEM_INTO_APPOINTMENT',
+                body: {
+                    giftcards: [{
+                        bookingGiftCardId: 0,
+                        giftCardId: responses.data && responses.data.giftCardId ? responses.data.giftCardId : 0
+                    }],
+                    services: [],
+                    extras: [],
+                    products: [],
+                },
+                method: 'PUT',
+                token: true,
+                api: `${apiConfigs.BASE_API}appointment/additem/${mainAppointmentId}`,
+                appointmentId: mainAppointmentId,
+                isGroup: true
+            })
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -544,6 +564,7 @@ function* checkSerialNumber(action) {
             })
         }
     } catch (error) {
+        console.log('error : ', error);
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -569,7 +590,7 @@ export default function* saga() {
         takeLatest('REMOVE_APPOINTMENT_IN_GROUP', removeAppointmentInGroup),
         takeLatest('CHECK_SERIAL_NUMBER', checkSerialNumber),
 
-        
+
 
     ])
 }

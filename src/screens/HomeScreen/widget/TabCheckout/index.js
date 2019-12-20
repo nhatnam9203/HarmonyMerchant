@@ -135,7 +135,8 @@ class TabCheckout extends Layout {
                         products: [{
                             productId: productSeleted.productId,
                             quantity: this.amountRef.current.state.quanlity
-                        }]
+                        }],
+                        giftcards:[]
                     }, appointmentId, true);
             } else { // ------------- Buy online Extra , Service ---------
                 const temptExtra = extraSelected.extraId !== -1 ? [{ extraId: extraSelected.extraId }] : [];
@@ -145,7 +146,8 @@ class TabCheckout extends Layout {
                             serviceId: productSeleted.serviceId
                         }],
                         extras: temptExtra,
-                        products: []
+                        products: [],
+                        giftcards:[]
                     }, appointmentId, true);
             }
         } else {  // ------------- Buy at store ---------
