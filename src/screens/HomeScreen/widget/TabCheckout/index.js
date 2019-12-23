@@ -459,10 +459,11 @@ class TabCheckout extends Layout {
     }
 
     getBasketOnline = (appointments) => {
-        console.log("getBasketOnline : " + JSON.stringify(appointments));
+        // console.log("getBasketOnline : " + JSON.stringify(appointments));
         const arrayProductBuy = [];
         const arryaServicesBuy = [];
         const arrayExtrasBuy = [];
+        const arrayGiftCards = [];
         appointments.forEach((appointment) => {
             // ------ Push Service -------
             appointment.services.forEach((service) => {
@@ -496,6 +497,18 @@ class TabCheckout extends Layout {
                         price: extra.price ? extra.price : ""
                     }
                 })
+            });
+
+            // ------ Push Gift Card -------
+            appointment.giftCards.forEach((gift) => {
+                arrayGiftCards.push({
+                    type: 'GiftCards',
+                    data: {
+                        name: gift.name ? gift.name : "Gift Card",
+                        price: gift.price ? gift.price : ""
+                    },
+                    quanlitySet: gift.quantity ? gift.quantity : ""
+                })
             })
         });
 
@@ -507,7 +520,7 @@ class TabCheckout extends Layout {
     }
 
     getHour() {
-        const hours = parseInt(new Date().getHours()) - 12 > 0 ? parseInt(new Date().getHours()) - 13 : parseInt(new Date().getHours());
+        const hours = parseInt(new Date().getHours()) - 12 > 0 ? `0${parseInt(new Date().getHours()) - 12}` : parseInt(new Date().getHours());
         const surfix = parseInt(new Date().getHours()) - 12 > 0 ? 'PM' : 'AM'
         const temptDate = `${hours}:${(new Date().getMinutes()) > 10 ? (new Date().getMinutes()) : `0${(new Date().getMinutes())}`} ${surfix}`;
 
@@ -526,8 +539,8 @@ class TabCheckout extends Layout {
 
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
 
-        const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy } = this.getBasketOnline(appointments);
-        const basket = [...arryaServicesBuy, ...arrayProductBuy, ...arrayExtrasBuy];
+        const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy ,arrayGiftCards} = this.getBasketOnline(appointments);
+        const basket = [...arryaServicesBuy, ...arrayProductBuy, ...arrayExtrasBuy,...arrayGiftCards];
         // console.log('basket : ' + JSON.stringify(basket));
 
         const tipAmount = groupAppointment.tipAmount ? groupAppointment.tipAmount : 0;
