@@ -166,14 +166,16 @@ function appReducer(state = initialState, action) {
                 visiblePopupActiveGiftCard: action.payload
             }
 
-            case 'ADD_ITEM_INTO_APPOINTMENT':
-                return {
-                    ...state,
-                    visiblePopupActiveGiftCard:false
-                }
-
-            
-
+        case 'ADD_ITEM_INTO_APPOINTMENT':
+            return {
+                ...state,
+                visiblePopupActiveGiftCard: false
+            }
+        case 'CREATE_ANYMOUS_APPOINTMENT':
+            return {
+                ...state,
+                visiblePopupActiveGiftCard: false
+            }
         default:
             return state
     }

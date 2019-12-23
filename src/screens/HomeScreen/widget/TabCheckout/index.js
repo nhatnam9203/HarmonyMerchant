@@ -1558,7 +1558,7 @@ class TabCheckout extends Layout {
             const userId = customerInfoByPhone.userId ? ustomerInfoByPhone.userId : 0;
 
            
-            const body = {
+            const bodyAction = {
                 merchantId: profile.merchantId,
                 userId: userId,
                 status: 'checkin',
@@ -1566,7 +1566,7 @@ class TabCheckout extends Layout {
                 extras: [],
                 products: [],
                 fromTime: moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
-                staffId: profileStaffLogin.staffId && profileStaffLogin.staffId : 0 ,
+                staffId: profileStaffLogin.staffId ? profileStaffLogin.staffId : 0 ,
                 customDiscountFixed: customDiscountFixedLocal,
                 customDiscountPercent: customDiscountPercentLocal,
                 firstName: infoUser.firstName ? infoUser.firstName : "",

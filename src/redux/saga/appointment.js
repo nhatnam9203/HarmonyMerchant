@@ -552,7 +552,12 @@ function* checkSerialNumber(action) {
                     isGroup: true
                 })
             }else{
-                
+                // console.log('ddddddd');
+                yield put({
+                    type: 'CREATE_ANYMOUS_APPOINTMENT',
+                    body:{...action.bodyAction,giftcards:[{bookingGiftCardId:0,GiftCardId:responses.data.giftCardId ?responses.data.giftCardId : 0 }]},
+                    ...action.optionAction
+                })
             }
            
 
