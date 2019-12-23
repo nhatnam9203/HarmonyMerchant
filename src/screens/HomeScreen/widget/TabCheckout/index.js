@@ -88,6 +88,7 @@ class TabCheckout extends Layout {
         this.popupDiscountLocalRef = React.createRef();
         this.customerNameRef = React.createRef();
         this.CustomerPhoneRef = React.createRef();
+        this.activeGiftCardRef= React.createRef();
     }
 
 
@@ -1245,6 +1246,7 @@ class TabCheckout extends Layout {
                     name: ''
                 },
             });
+            this.activeGiftCardRef.current.setStateFromParent();
             this.props.actions.appointment.handleVisibleActiveGiftCard();
 
         } else {

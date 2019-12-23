@@ -804,6 +804,7 @@ class Layout extends React.Component {
                     confimYes={this.sendLinkInstallApp}
                 />
                 <PopupActiveGiftCard 
+                    ref={this.activeGiftCardRef}
                     title="Active Gift Card"
                     onRequestClose={this.closePopupActiveGiftCard}
                     confimYes={this.sendLinkInstallApp}

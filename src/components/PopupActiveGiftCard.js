@@ -40,11 +40,12 @@ class PopupActiveGiftCard extends React.Component {
         this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardDidHide);
     }
 
-    setStateFromParent = async (value) => {
-        this.setState({
-            value
+    setStateFromParent = async () =>{
+        await this.setState({
+            scancode:""
         })
     }
+
 
     keyboardDidShow = async () => {
         await this.setState({
@@ -82,13 +83,14 @@ class PopupActiveGiftCard extends React.Component {
     }
 
     submitSerialCode = () => {
-        this.props.submitSerialCode("10120191220000003");
+        const {scancode} = this.state;
+        this.props.submitSerialCode(`${scancode}`);
     }
 
 
     render() {
         const { title, visible, isShowButtonEnterPinCode, onRequestClose, confimYes, hideCloseButton,
-            visiblePopupActiveGiftCard
+            visiblePopupActiveGiftCard,loading
         } = this.props;
         const { value, customStyle, scancode } = this.state;
         return (
@@ -149,7 +151,7 @@ class PopupActiveGiftCard extends React.Component {
                         height: scaleSzie(45), alignItems: 'center'
                     }} >
                         {
-                            isShowButtonEnterPinCode ? <View style={{
+                            loading ? <View style={{
                                 width: '30%', height: scaleSzie(35), backgroundColor: '#0764B0',
                                 justifyContent: 'center', alignItems: 'center'
                             }} >
@@ -197,7 +199,8 @@ class PopupActiveGiftCard extends React.Component {
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     isShowButtonEnterPinCode: state.staff.isShowButtonEnterPinCode,
-    visiblePopupActiveGiftCard: state.appointment.visiblePopupActiveGiftCard
+    visiblePopupActiveGiftCard: state.appointment.visiblePopupActiveGiftCard,
+    loading:state.app.loading
 });
 
 export default connectRedux(mapStateToProps, PopupActiveGiftCard);
