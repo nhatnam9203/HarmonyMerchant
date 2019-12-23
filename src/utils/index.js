@@ -397,6 +397,24 @@ export const getArrayExtrasFromAppointment = (extras = []) => {
     return temptArrayExtras;
 }
 
+export const getArrayGiftCardsFromAppointment = (giftCards = []) => {
+    const temptArrayGiftCards = giftCards.map(gift => {
+        return {
+            type: 'GiftCards',
+            id: `${gift.giftCardId}_gift`,
+            quanlitySet: gift.quantity,
+            data: {
+                name: "Gift Card",
+                giftCardId: gift.giftCardId,
+                price: gift.price,
+                bookingGiftCardId: gift.bookingGiftCardId
+            },
+        }
+    });
+
+    return temptArrayGiftCards;
+}
+
 export const updateStateChildren = (key, value, parent) => {
     return { ...parent, [key]: value };
 }

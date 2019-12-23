@@ -12,6 +12,7 @@ import IMAGE from '@resources';
 
 const ItemBasket = ({ item, removeItemBasket, onPress,disabled  = false}) => {
     const { data } = item;
+    console.log('item : '+ JSON.stringify(item));
     const swipeoutBtns = [
         {
             backgroundColor: '#6A6A6A',
@@ -34,7 +35,6 @@ const ItemBasket = ({ item, removeItemBasket, onPress,disabled  = false}) => {
             }} style={{
                 height: scaleSzie(35), backgroundColor: '#fff', 
                 borderBottomColor: '#DDDDDD', borderBottomWidth: 1,
-                // borderTopColor:"#DDDDDD",borderTopWidth:1,
                 flexDirection: 'row'
             }} >
                 {/* -------- Avatar ------- */}
@@ -51,7 +51,9 @@ const ItemBasket = ({ item, removeItemBasket, onPress,disabled  = false}) => {
                             }} >
                                 <Image source={IMAGE.extra_holder} style={{ width: scaleSzie(22), height: scaleSzie(20) }} />
                             </View> :
-                                <Image source={IMAGE.productBasket} style={{ width: scaleSzie(22), height: scaleSzie(20) }} />
+                              ( item.type === 'GiftCards' ? <Image source={IMAGE.giftcard} 
+                            //   style={{ width: scaleSzie(22), height: scaleSzie(20) }} 
+                              /> :   <Image source={IMAGE.productBasket} style={{ width: scaleSzie(22), height: scaleSzie(20) }} />)
                     }
                 </View>
                 {/* -------- Avatar ------- */}
@@ -69,7 +71,7 @@ const ItemBasket = ({ item, removeItemBasket, onPress,disabled  = false}) => {
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
 
                         <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(13), }} >
-                            {item.type === 'Product' ? item.quanlitySet : item.data.name}
+                            {item.type === 'Product' ||  item.type ==="GiftCards" ? item.quanlitySet : item.data.name}
                         </Text>
                     </View>
                     {/* ------------ */}

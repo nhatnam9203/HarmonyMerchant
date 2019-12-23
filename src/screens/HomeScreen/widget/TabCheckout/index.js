@@ -123,7 +123,7 @@ class TabCheckout extends Layout {
 
 
         if (!_.isEmpty(groupAppointment)) {  // ------------- Buy online ---------
-            const appointmentId =groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0 ;
+            const appointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
             if (categoryTypeSelected === 'Product') {
                 this.props.actions.appointment.addItemIntoAppointment(
                     {
@@ -133,7 +133,7 @@ class TabCheckout extends Layout {
                             productId: productSeleted.productId,
                             quantity: this.amountRef.current.state.quanlity
                         }],
-                        giftcards:[]
+                        giftcards: []
                     }, appointmentId, true);
             } else { // ------------- Buy online Extra , Service ---------
                 const temptExtra = extraSelected.extraId !== -1 ? [{ extraId: extraSelected.extraId }] : [];
@@ -144,7 +144,7 @@ class TabCheckout extends Layout {
                         }],
                         extras: temptExtra,
                         products: [],
-                        giftcards:[]
+                        giftcards: []
                     }, appointmentId, true);
             }
         } else {  // ------------- Buy at store ---------
@@ -306,6 +306,14 @@ class TabCheckout extends Layout {
                         services: [],
                         extras: [{ bookingExtraId: item.data.bookingExtraId }],
                         products: []
+                    }
+                    break;
+                case 'GiftCards':
+                    dataRemove = {
+                        services: [],
+                        extras: [{ bookingExtraId: item.data.bookingExtraId }],
+                        products: [],
+                        giftCards: [{bookingGiftCardId: item.data.bookingGiftCardId}]
                     }
                     break;
             }

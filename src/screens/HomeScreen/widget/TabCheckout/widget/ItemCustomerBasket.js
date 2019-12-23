@@ -15,7 +15,7 @@ import _ from 'ramda';
 import { ButtonCustom, PopupParent, Button } from '@components';
 import {
     scaleSzie, localize, formatNumberFromCurrency, formatMoney, getArrayProductsFromAppointment,
-    getArrayServicesFromAppointment, getArrayExtrasFromAppointment
+    getArrayServicesFromAppointment, getArrayExtrasFromAppointment,getArrayGiftCardsFromAppointment
 } from '@utils';
 import IMAGE from '@resources';
 import styles from '../style';
@@ -148,15 +148,16 @@ class ItemCustomerBasket extends React.Component {
         const appointmentId = appointmentDetail && appointmentDetail.appointmentId ? appointmentDetail.appointmentId : -1;
         const { temptSubTotal, temptTotal, temptDiscount, temptTip, temptTax } = this.getTypesOfMoneyAppointmenr(appointmentDetail);
         if (appointmentDetail) {
-            const { services, products, extras } = appointmentDetail;
+            const { services, products, extras ,giftCards} = appointmentDetail;
             const arrayProducts = getArrayProductsFromAppointment(products);
             const arryaServices = getArrayServicesFromAppointment(services);
             const arrayExtras = getArrayExtrasFromAppointment(extras);
-            basket = arrayProducts.concat(arryaServices, arrayExtras);
+            const arrayGiftCards = getArrayGiftCardsFromAppointment(giftCards);
+            basket = arrayProducts.concat(arryaServices, arrayExtras,arrayGiftCards);
         } else {
             basket = basketLocal;
         }
-        const disabledRemoveItemBasket = _.isEmpty(paymentDetailInfo) ? false : true;
+        console.log('basket : '+ JSON.stringify(basket));
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         return (
             <View>
