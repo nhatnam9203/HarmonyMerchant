@@ -807,6 +807,7 @@ class Layout extends React.Component {
                     title="Active Gift Card"
                     onRequestClose={this.closePopupActiveGiftCard}
                     confimYes={this.sendLinkInstallApp}
+                    submitSerialCode={this.submitSerialCode}
                 />
                 <PopupEnterInfo 
                     ref={this.customerNameRef}

@@ -313,7 +313,7 @@ class TabCheckout extends Layout {
                         services: [],
                         extras: [{ bookingExtraId: item.data.bookingExtraId }],
                         products: [],
-                        giftCards: [{bookingGiftCardId: item.data.bookingGiftCardId}]
+                        giftCards: [{ bookingGiftCardId: item.data.bookingGiftCardId }]
                     }
                     break;
             }
@@ -458,6 +458,7 @@ class TabCheckout extends Layout {
     }
 
     getBasketOnline = (appointments) => {
+        console.log("getBasketOnline : " + JSON.stringify(appointments));
         const arrayProductBuy = [];
         const arryaServicesBuy = [];
         const arrayExtrasBuy = [];
@@ -1541,6 +1542,52 @@ class TabCheckout extends Layout {
         await this.setState({
             visiblePopupPaymentDetails: false
         })
+    }
+
+    submitSerialCode = (code) => {
+        const { groupAppointment, profile, token, profileStaffLogin } = this.props;
+        const { categoryTypeSelected, basket, productSeleted, extraSelected, customerInfoByPhone, infoUser,
+            paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
+        } = this.state;
+        if (!_.isEmpty(groupAppointment)) {
+            this.props.actions.appointment.checkSerialNumber(code);
+        } else {
+
+            const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
+            const method = this.getPaymentString(paymentSelected);
+            const userId = customerInfoByPhone.userId ? ustomerInfoByPhone.userId : 0;
+
+           
+            const body = {
+                merchantId: profile.merchantId,
+                userId: userId,
+                status: 'checkin',
+                services: [],
+                extras: [],
+                products: [],
+                fromTime: moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
+                staffId: profileStaffLogin.staffId && profileStaffLogin.staffId : 0 ,
+                customDiscountFixed: customDiscountFixedLocal,
+                customDiscountPercent: customDiscountPercentLocal,
+                firstName: infoUser.firstName ? infoUser.firstName : "",
+                lastName: infoUser.lastName ? infoUser.lastName : "",
+                phoneNumber: infoUser.phoneNumber ? infoUser.phoneNumber : ""
+            };
+            const optionAction = {
+                method: 'POST',
+                token: true,
+                api: `${apiConfigs.BASE_API}appointment`,
+                paymentMethod :method,
+                isLoading: true,
+                paidAmount:moneyUserGiveForStaff,
+                creditCardInfo:false,
+                merchantId: profile.merchantId,
+                isPayment: false
+            };
+
+            this.props.actions.appointment.checkSerialNumber(code,bodyAction,optionAction);
+        }
+
     }
 
 

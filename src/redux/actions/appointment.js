@@ -300,12 +300,15 @@ export function handleVisibleActiveGiftCard(visible = true) {
     }
 }
 
-export function checkSerialNumber(serialId) {
+export function checkSerialNumber(serialId,bodyAction = false,optionAction = false) {
     return {
         type: 'CHECK_SERIAL_NUMBER',
         method: 'GET',
         token: true,
         api: `${apiConfigs.BASE_API}giftcard/serialNumber/${serialId}`,
+        bodyAction,
+        optionAction
+
     }
 }
 

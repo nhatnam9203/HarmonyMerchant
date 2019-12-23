@@ -530,26 +530,31 @@ function* checkSerialNumber(action) {
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            const state = yield select();
-            const { groupAppointment } = state.appointment;
-            const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
-            yield put({
-                type: 'ADD_ITEM_INTO_APPOINTMENT',
-                body: {
-                    giftcards: [{
-                        bookingGiftCardId: 0,
-                        giftCardId: responses.data && responses.data.giftCardId ? responses.data.giftCardId : 0
-                    }],
-                    services: [],
-                    extras: [],
-                    products: [],
-                },
-                method: 'PUT',
-                token: true,
-                api: `${apiConfigs.BASE_API}appointment/additem/${mainAppointmentId}`,
-                appointmentId: mainAppointmentId,
-                isGroup: true
-            })
+            if(!action.bodyAction){
+                const state = yield select();
+                const { groupAppointment } = state.appointment;
+                const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
+                yield put({
+                    type: 'ADD_ITEM_INTO_APPOINTMENT',
+                    body: {
+                        giftcards: [{
+                            bookingGiftCardId: 0,
+                            giftCardId: responses.data && responses.data.giftCardId ? responses.data.giftCardId : 0
+                        }],
+                        services: [],
+                        extras: [],
+                        products: [],
+                    },
+                    method: 'PUT',
+                    token: true,
+                    api: `${apiConfigs.BASE_API}appointment/additem/${mainAppointmentId}`,
+                    appointmentId: mainAppointmentId,
+                    isGroup: true
+                })
+            }else{
+                
+            }
+           
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({
