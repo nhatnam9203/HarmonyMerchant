@@ -122,7 +122,6 @@ class TabCheckout extends Layout {
             paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
         } = this.state;
 
-
         if (!_.isEmpty(groupAppointment)) {  // ------------- Buy online ---------
             const appointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
             if (categoryTypeSelected === 'Product') {
@@ -134,7 +133,7 @@ class TabCheckout extends Layout {
                             productId: productSeleted.productId,
                             quantity: this.amountRef.current.state.quanlity
                         }],
-                        giftcards: []
+                        giftCards: []
                     }, appointmentId, true);
             } else { // ------------- Buy online Extra , Service ---------
                 const temptExtra = extraSelected.extraId !== -1 ? [{ extraId: extraSelected.extraId }] : [];
@@ -145,7 +144,7 @@ class TabCheckout extends Layout {
                         }],
                         extras: temptExtra,
                         products: [],
-                        giftcards: []
+                        giftCards: []
                     }, appointmentId, true);
             }
         } else {  // ------------- Buy at store ---------
@@ -166,7 +165,7 @@ class TabCheckout extends Layout {
                     subTotalLocal: this.getPriceOfline(temptBasket),
                     taxLocal: this.calculateTotalTaxLocal(temptBasket)
                 }, () => {
-                    console.log('------- First --------');
+                    this.createAnymousAppointment();
                 });
             } else { // ------------- Buy Service, Extra at store ---------
                 const { profileStaffLogin } = this.props;
@@ -206,26 +205,10 @@ class TabCheckout extends Layout {
                     basket: temptBasketExtra,
                     subTotalLocal: this.getPriceOfline(temptBasketExtra),
                     taxLocal: this.calculateTotalTaxLocal(temptBasketExtra)
+                },() =>{
+                    this.createAnymousAppointment();
                 });
             }
-            console.log('------- Second --------');
-            // --------- Create AnymousAppointment --------
-            const dataAnymousAppoitment = this.getBasketOffline();
-            const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
-            const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
-            const method = this.getPaymentString(paymentSelected);
-            const userId = customerInfoByPhone.userId ? ustomerInfoByPhone.userId : 0;
-
-            this.props.actions.appointment.createAnymousAppointment(profile.merchantId, userId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
-                customDiscountFixedLocal, customDiscountPercentLocal, staffId,
-                infoUser.firstName,
-                infoUser.lastName,
-                infoUser.phoneNumber,
-                moneyUserGiveForStaff,
-                false,
-                false
-            );
-
         }
 
 
@@ -248,6 +231,29 @@ class TabCheckout extends Layout {
 
     }
 
+
+    createAnymousAppointment = () =>{
+        const {  profile } = this.props;
+        const {  customerInfoByPhone, infoUser,
+            paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
+        } = this.state;
+
+         const dataAnymousAppoitment = this.getBasketOffline();
+         const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
+         const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
+         const method = this.getPaymentString(paymentSelected);
+         const userId = customerInfoByPhone.userId ? ustomerInfoByPhone.userId : 0;
+
+         this.props.actions.appointment.createAnymousAppointment(profile.merchantId, userId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
+             customDiscountFixedLocal, customDiscountPercentLocal, staffId,
+             infoUser.firstName,
+             infoUser.lastName,
+             infoUser.phoneNumber,
+             moneyUserGiveForStaff,
+             false,
+             false
+         );
+    }
 
 
     getPriceOfline(basket) {
@@ -515,7 +521,8 @@ class TabCheckout extends Layout {
         return {
             arryaServicesBuy,
             arrayProductBuy,
-            arrayExtrasBuy
+            arrayExtrasBuy,
+            arrayGiftCards
         }
     }
 

@@ -530,14 +530,14 @@ function* checkSerialNumber(action) {
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            if(!action.bodyAction){
+            if (!action.bodyAction) {
                 const state = yield select();
                 const { groupAppointment } = state.appointment;
                 const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
                 yield put({
                     type: 'ADD_ITEM_INTO_APPOINTMENT',
                     body: {
-                        giftcards: [{
+                        giftCards: [{
                             bookingGiftCardId: 0,
                             giftCardId: responses.data && responses.data.giftCardId ? responses.data.giftCardId : 0
                         }],
@@ -551,15 +551,15 @@ function* checkSerialNumber(action) {
                     appointmentId: mainAppointmentId,
                     isGroup: true
                 })
-            }else{
+            } else {
                 // console.log('ddddddd');
                 yield put({
                     type: 'CREATE_ANYMOUS_APPOINTMENT',
-                    body:{...action.bodyAction,giftcards:[{bookingGiftCardId:0,GiftCardId:responses.data.giftCardId ?responses.data.giftCardId : 0 }]},
+                    body: { ...action.bodyAction, giftCards: [{ bookingGiftCardId: 0, GiftCardId: responses.data.giftCardId ? responses.data.giftCardId : 0 }] },
                     ...action.optionAction
                 })
             }
-           
+
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({

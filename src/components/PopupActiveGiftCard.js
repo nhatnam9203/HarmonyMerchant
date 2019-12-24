@@ -87,9 +87,7 @@ class PopupActiveGiftCard extends React.Component {
         if(scancode === ''){
             alert("Enter your code!")
         }else{
-            // this.props.submitSerialCode(`${scancode}`);
-            this.props.submitSerialCode(`10120191220001000`);
-            
+            this.props.submitSerialCode(`${scancode}`);
         }
       
     }
@@ -170,7 +168,7 @@ class PopupActiveGiftCard extends React.Component {
                                     width={'30%'}
                                     height={35}
                                     backgroundColor="#0764B0"
-                                    title="Active"
+                                    title="Add"
                                     textColor="#fff"
                                     onPress={this.submitSerialCode}
                                     styleText={{

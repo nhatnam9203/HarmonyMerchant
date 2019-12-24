@@ -94,8 +94,11 @@ class ItemCustomerBasket extends React.Component {
         const appointmentId = appointmentDetail ? appointmentDetail.appointmentId : -1;
         const codeAppointment = appointmentDetail ? appointmentDetail.code : -1;
 
-        firstName = infoUser.firstName !== '' ? infoUser.firstName : firstName;
-        lastName = infoUser.lastName !== '' ? infoUser.lastName : lastName;
+        if(isMain === 1) {
+            firstName = infoUser.firstName !== '' ? infoUser.firstName : firstName;
+            lastName = infoUser.lastName !== '' ? infoUser.lastName : lastName;
+        }
+       
 
 
         const { isCollapsed } = this.state;
