@@ -55,6 +55,8 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 groupAppointment: action.payload,
+                paymentDetailInfo: action.paymentDetailInfo,
+
             }
         case 'GET_APPOINTMENT_BY_ID_FAIL':
             return {

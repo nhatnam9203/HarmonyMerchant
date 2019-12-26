@@ -9,9 +9,7 @@ import {
     ActivityIndicator,
     TouchableOpacity
 } from 'react-native';
-import { TextInputMask } from 'react-native-masked-text';
-import QRCodeScanner from 'react-native-qrcode-scanner';
-import { RNCamera } from 'react-native-camera';
+
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';

@@ -8,7 +8,7 @@ function* getAppointmentById(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('getAppointmentById : ', JSON.stringify(responses));
+        // console.log('getAppointmentById : ', JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -43,40 +43,39 @@ function* getGroupAppointmentById(action) {
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            yield put({
-                type: 'GET_GROUP_APPOINTMENT_BY_ID_SUCCESS',
-                payload: responses.data
-            });
-            const { data } = responses;
-            yield put({
-                type: "UPDATE_PAYMENT_DETAIL_INFO_BY_HARMONY_PAYMENT",
-                payload: {
-                    // ...responses.data,
-                    checkoutGropId: data && data.checkoutGroupId ? data.checkoutGroupId : 0,
-                    customerName: "",
-                    phone: "",
-                    status:data && data.status ? data.status : "Pending",
-                    grandTotal: data && data.total ? data.total : 0,
-                    paidAmounts: data && data.checkoutPayments ? data.checkoutPayments : [],
-                    dueAmount:data && data.dueAmount ? data.dueAmount : 0
-                }
-            })
-            if (action.isPayment) {
+            const data = responses.data ? responses.data : false;
+            if (data) {
                 yield put({
-                    type: 'PAY_APPOINTMENT',
-                    body: {
-                        method: action.paymentMethod,
-                        amount: action.paidAmount
-                    },
-                    method: 'PUT',
-                    token: true,
-                    api: `${apiConfigs.BASE_API}appointment/selectpaymentmethod/${responses.data.checkoutGroupId}`,
-                    paymentMethod: action.paymentMethod,
-                    amount: action.paidAmount,
-                    creditCardInfo: action.creditCardInfo,
-                    merchantId: action.merchantId
-                })
+                    type: 'GET_GROUP_APPOINTMENT_BY_ID_SUCCESS',
+                    payload: responses.data,
+                    paymentDetailInfo: {
+                        checkoutGropId: data && data.checkoutGroupId ? data.checkoutGroupId : 0,
+                        customerName: "",
+                        phone: "",
+                        status: data && data.status ? data.status : "Pending",
+                        grandTotal: data && data.total ? data.total : 0,
+                        paidAmounts: data && data.checkoutPayments ? data.checkoutPayments : [],
+                        dueAmount: data && data.dueAmount ? data.dueAmount : 0
+                    }
+                });
+                if (action.isPayment) {
+                    yield put({
+                        type: 'PAY_APPOINTMENT',
+                        body: {
+                            method: action.paymentMethod,
+                            amount: action.paidAmount
+                        },
+                        method: 'PUT',
+                        token: true,
+                        api: `${apiConfigs.BASE_API}appointment/selectpaymentmethod/${responses.data.checkoutGroupId}`,
+                        paymentMethod: action.paymentMethod,
+                        amount: action.paidAmount,
+                        creditCardInfo: action.creditCardInfo,
+                        merchantId: action.merchantId
+                    })
+                }
             }
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
@@ -100,7 +99,7 @@ function* addItemIntoAppointment(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('addItemIntoAppointment : ', responses);
+        // console.log('addItemIntoAppointment : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -138,7 +137,7 @@ function* removeItemIntoAppointment(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('responses : ', responses);
+        // console.log('responses : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -180,7 +179,7 @@ function* checkoutAppointment(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('checkoutAppointment : ', responses);
+        // console.log('checkoutAppointment : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -275,7 +274,7 @@ function* createAnymousAppointment(action) {
     try {
         action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
-    // console.log('createAnymousAppointment : ' + JSON.stringify(responses));
+        // console.log('createAnymousAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
@@ -346,12 +345,12 @@ function* checkoutSubmit(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('checkoutSubmit : ' + JSON.stringify(responses));
+        // console.log('checkoutSubmit : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
             const dueAmount = responses.data && responses.data.checkoutPaymentResponse && responses.data.checkoutPaymentResponse.dueAmount ? parseFloat(responses.data.checkoutPaymentResponse.dueAmount) : 0;
-        // console.log('dueAmount : ', dueAmount);
+            // console.log('dueAmount : ', dueAmount);
             // ----- check dueAmount === 0 --------
             if (dueAmount === 0) {
                 // ----- Transaction Completed --------
@@ -397,7 +396,7 @@ function* submitPaymentWithCreditCard(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('submitPaymentWithCreditCard : ', responses);
+        // console.log('submitPaymentWithCreditCard : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
 
@@ -423,7 +422,7 @@ function* cancelHarmonyPayment(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('cancelHarmonyPayment : ', responses);
+        // console.log('cancelHarmonyPayment : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
 
@@ -449,7 +448,7 @@ function* submitAppointmentOffline(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('submitAppointmentOffline : ' + JSON.stringify(responses));
+        // console.log('submitAppointmentOffline : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -478,7 +477,7 @@ function* cancleAppointment(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('responses : ' + JSON.stringify(responses));
+        // console.log('responses : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
 
@@ -504,7 +503,7 @@ function* removeAppointmentInGroup(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('removeAppointmentInGroup : ' + JSON.stringify(responses));
+        // console.log('removeAppointmentInGroup : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             // ------- Get Group Appointment --------
@@ -529,7 +528,7 @@ function* removeAppointmentInGroup(action) {
             })
         }
     } catch (error) {
-    // console.log('---- error : ', error);
+        // console.log('---- error : ', error);
         alert(`error-removeAppointmentInGroup: ${error}`)
         yield put({ type: error });
     } finally {
@@ -541,7 +540,7 @@ function* checkSerialNumber(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('checkSerialNumber : ' + JSON.stringify(responses));
+        // console.log('checkSerialNumber : ' + JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -567,7 +566,7 @@ function* checkSerialNumber(action) {
                     isGroup: true
                 })
             } else {
-            // console.log('ddddddd');
+                // console.log('ddddddd');
                 yield put({
                     type: 'CREATE_ANYMOUS_APPOINTMENT',
                     body: { ...action.bodyAction, giftCards: [{ bookingGiftCardId: 0, GiftCardId: responses.data.giftCardId ? responses.data.giftCardId : 0 }] },
@@ -587,7 +586,7 @@ function* checkSerialNumber(action) {
             })
         }
     } catch (error) {
-    // console.log('error-checkSerialNumber: ', error);
+        // console.log('error-checkSerialNumber: ', error);
         alert(`error: ${error}`)
         yield put({ type: error });
     } finally {
