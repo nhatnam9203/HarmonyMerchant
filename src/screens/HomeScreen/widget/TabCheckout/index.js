@@ -88,7 +88,7 @@ class TabCheckout extends Layout {
         this.popupDiscountLocalRef = React.createRef();
         this.customerNameRef = React.createRef();
         this.CustomerPhoneRef = React.createRef();
-        this.activeGiftCardRef= React.createRef();
+        this.activeGiftCardRef = React.createRef();
     }
 
 
@@ -117,10 +117,8 @@ class TabCheckout extends Layout {
     }
 
     addAmount = async () => {
-        const { groupAppointment, profile, token } = this.props;
-        const { categoryTypeSelected, basket, productSeleted, extraSelected, customerInfoByPhone, infoUser,
-            paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
-        } = this.state;
+        const { groupAppointment } = this.props;
+        const { categoryTypeSelected, basket, productSeleted, extraSelected } = this.state;
 
         if (!_.isEmpty(groupAppointment)) {  // ------------- Buy online ---------
             const appointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
@@ -205,7 +203,7 @@ class TabCheckout extends Layout {
                     basket: temptBasketExtra,
                     subTotalLocal: this.getPriceOfline(temptBasketExtra),
                     taxLocal: this.calculateTotalTaxLocal(temptBasketExtra)
-                },() =>{
+                }, () => {
                     this.createAnymousAppointment();
                 });
             }
@@ -232,37 +230,43 @@ class TabCheckout extends Layout {
     }
 
 
-    createAnymousAppointment = () =>{
-        const {  profile } = this.props;
-        const {  customerInfoByPhone, infoUser,
+    createAnymousAppointment = async () => {
+        const { profile } = this.props;
+        const { customerInfoByPhone, infoUser,
             paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
         } = this.state;
 
-         const dataAnymousAppoitment = this.getBasketOffline();
-         const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
-         const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
-         const method = this.getPaymentString(paymentSelected);
-         const userId = customerInfoByPhone.userId ? ustomerInfoByPhone.userId : 0;
+        const dataAnymousAppoitment = this.getBasketOffline();
+        const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
+        const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
+        const method = this.getPaymentString(paymentSelected);
+        const userId = customerInfoByPhone.userId ? ustomerInfoByPhone.userId : 0;
 
-         this.props.actions.appointment.createAnymousAppointment(profile.merchantId, userId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
-             customDiscountFixedLocal, customDiscountPercentLocal, staffId,
-             infoUser.firstName,
-             infoUser.lastName,
-             infoUser.phoneNumber,
-             moneyUserGiveForStaff,
-             false,
-             false
-         );
+        this.props.actions.appointment.createAnymousAppointment(profile.merchantId, userId, arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
+            customDiscountFixedLocal, customDiscountPercentLocal, staffId,
+            infoUser.firstName,
+            infoUser.lastName,
+            infoUser.phoneNumber,
+            moneyUserGiveForStaff,
+            false,
+            false
+        );
+
+        await this.setState({
+            basket: [],
+            customDiscountPercentLocal: 0,
+            customDiscountFixedLocal: 0,
+        });
     }
 
 
     getPriceOfline(basket) {
-    // console.log('basket : ' + JSON.stringify(basket));
+        // console.log('basket : ' + JSON.stringify(basket));
         let total = 0;
         for (let i = 0; i < basket.length; i++) {
             if (basket[i].type === "Product") {
                 total = total + parseFloat(basket[i].data.price) * basket[i].quanlitySet;
-            // console.log('total : ', total);
+                // console.log('total : ', total);
             } else {
                 total = total + formatNumberFromCurrency(basket[i].data.price);
             }
@@ -288,7 +292,7 @@ class TabCheckout extends Layout {
     }
 
     removeItemBasket = (item, appointmentId = -1, isGroup = false) => {
-    // console.log('appointmentId : ', appointmentId);
+        // console.log('appointmentId : ', appointmentId);
         const { basket } = this.state;
         if (appointmentId !== -1) {
             // ----- Remove With Appointmnet 
@@ -465,7 +469,7 @@ class TabCheckout extends Layout {
     }
 
     getBasketOnline = (appointments) => {
-    // console.log("getBasketOnline : " + JSON.stringify(appointments));
+        // console.log("getBasketOnline : " + JSON.stringify(appointments));
         const arrayProductBuy = [];
         const arryaServicesBuy = [];
         const arrayExtrasBuy = [];
@@ -546,9 +550,9 @@ class TabCheckout extends Layout {
 
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
 
-        const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy ,arrayGiftCards} = this.getBasketOnline(appointments);
-        const basket = [...arryaServicesBuy, ...arrayProductBuy, ...arrayExtrasBuy,...arrayGiftCards];
-    // console.log('basket : ' + JSON.stringify(basket));
+        const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards } = this.getBasketOnline(appointments);
+        const basket = [...arryaServicesBuy, ...arrayProductBuy, ...arrayExtrasBuy, ...arrayGiftCards];
+        // console.log('basket : ' + JSON.stringify(basket));
 
         const tipAmount = groupAppointment.tipAmount ? groupAppointment.tipAmount : 0;
         const subTotal = groupAppointment.subTotal ? groupAppointment.subTotal : 0;
@@ -563,7 +567,7 @@ class TabCheckout extends Layout {
         const temptTax = _.isEmpty(groupAppointment) ? taxLocal : tax;
 
         // ------------------------
-    // console.log('---- basket : ' + JSON.stringify(basket));
+        // console.log('---- basket : ' + JSON.stringify(basket));
         try {
             const printer = await PrintManager.getInstance().portDiscovery();
             if (printer.length > 0) {
@@ -811,7 +815,7 @@ class TabCheckout extends Layout {
                 }, 500)
             }
         } catch (error) {
-        // console.log('scan error : ', error);
+            // console.log('scan error : ', error);
         }
 
     }
@@ -896,7 +900,7 @@ class TabCheckout extends Layout {
             this.setState(initState);
             this.props.actions.appointment.resetPayment();
 
-        // console.log('----- basket : ' + JSON.stringify(basket));
+            // console.log('----- basket : ' + JSON.stringify(basket));
         } else {
             alert('Please connect to your print ! ');
         }
@@ -922,7 +926,7 @@ class TabCheckout extends Layout {
 
 
     handleHarmonyPayment = async (checkoutPaymentInfo) => {
-    // console.log("checkoutPayment : ", JSON.stringify(checkoutPaymentInfo));
+        // console.log("checkoutPayment : ", JSON.stringify(checkoutPaymentInfo));
         await this.setState({
             changeButtonDone: false,
             isCancelHarmonyPay: false,
@@ -956,7 +960,7 @@ class TabCheckout extends Layout {
             connection.on("ListWaNotification", (data) => {
 
                 const temptData = JSON.parse(data);
-            // console.log('ListWaNotification : ' + JSON.stringify(temptData));
+                // console.log('ListWaNotification : ' + JSON.stringify(temptData));
                 if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
                     && temptData.data.checkoutGroupId == checkoutGroupId
                 ) {
@@ -982,7 +986,7 @@ class TabCheckout extends Layout {
             // .catch(error => { });
 
         } catch (error) {
-        // console.log('------ error : ', error);
+            // console.log('------ error : ', error);
         }
 
 
@@ -1122,7 +1126,7 @@ class TabCheckout extends Layout {
         })
 
         const moneyCreditCard = Number(formatNumberFromCurrency(moneyUserGiveForStaff) * 100).toFixed(2);
-    // console.log("moneyUserGiveForStaff : ", moneyCreditCard)
+        // console.log("moneyUserGiveForStaff : ", moneyCreditCard)
         // 3. Send Transaction 
         PosLink.sendTransaction(parseFloat(moneyCreditCard), (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
     }
@@ -1162,7 +1166,7 @@ class TabCheckout extends Layout {
                 }
             }
         } catch (error) {
-        // console.log('error : ', error)
+            // console.log('error : ', error)
         }
     }
 
@@ -1201,7 +1205,7 @@ class TabCheckout extends Layout {
     }
 
     changeStylist = async (service, appointmentId) => {
-    // console.log('appointmentId : ', appointmentId);
+        // console.log('appointmentId : ', appointmentId);
         this.changeStylistRef.current.setStateFromParent(service, appointmentId);
         await this.setState({
             visibleChangeStylist: true,
@@ -1360,7 +1364,7 @@ class TabCheckout extends Layout {
     }
 
     showModalDiscount = async (appointmentId) => {
-    // console.log('showModalDiscount : ', appointmentId);
+        // console.log('showModalDiscount : ', appointmentId);
         const { subTotalLocal, discountTotalLocal, customDiscountPercentLocal,
             customDiscountFixedLocal
         } = this.state;
@@ -1498,7 +1502,7 @@ class TabCheckout extends Layout {
                 api: `${apiConfigs.BASE_API}customer/getbyphone/${splitPlusInPhoneNumber(phoneNumber)}`,
                 token: profileStaffLogin.token
             });
-        // console.log("responses : " + JSON.stringify(responses));
+            // console.log("responses : " + JSON.stringify(responses));
             this.props.actions.app.stopLoadingApp();
             if (responses.codeNumber === 200) {
                 await this.setState({
@@ -1520,7 +1524,7 @@ class TabCheckout extends Layout {
                 })
             }
         } catch (error) {
-        // console.log('error : ', error);
+            // console.log('error : ', error);
         }
 
     }
@@ -1579,7 +1583,7 @@ class TabCheckout extends Layout {
             const method = this.getPaymentString(paymentSelected);
             const userId = customerInfoByPhone.userId ? ustomerInfoByPhone.userId : 0;
 
-           
+
             const bodyAction = {
                 merchantId: profile.merchantId,
                 userId: userId,
@@ -1588,7 +1592,7 @@ class TabCheckout extends Layout {
                 extras: [],
                 products: [],
                 fromTime: moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
-                staffId: profileStaffLogin.staffId ? profileStaffLogin.staffId : 0 ,
+                staffId: profileStaffLogin.staffId ? profileStaffLogin.staffId : 0,
                 customDiscountFixed: customDiscountFixedLocal,
                 customDiscountPercent: customDiscountPercentLocal,
                 firstName: infoUser.firstName ? infoUser.firstName : "",
@@ -1599,15 +1603,15 @@ class TabCheckout extends Layout {
                 method: 'POST',
                 token: true,
                 api: `${apiConfigs.BASE_API}appointment`,
-                paymentMethod :method,
+                paymentMethod: method,
                 isLoading: true,
-                paidAmount:moneyUserGiveForStaff,
-                creditCardInfo:false,
+                paidAmount: moneyUserGiveForStaff,
+                creditCardInfo: false,
                 merchantId: profile.merchantId,
                 isPayment: false
             };
 
-            this.props.actions.appointment.checkSerialNumber(code,bodyAction,optionAction);
+            this.props.actions.appointment.checkSerialNumber(code, bodyAction, optionAction);
         }
 
     }

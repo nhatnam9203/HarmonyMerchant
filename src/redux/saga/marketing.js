@@ -119,6 +119,7 @@ function* getPromotionByMerchant(action) {
             })
         }
     } catch (error) {
+        alert(`error-getPromotionByMerchant: ${error}`)
         yield put({ type: error });
     } finally {
         // yield put({ type: 'STOP_LOADING_ROOT' });
@@ -179,6 +180,7 @@ function* getPromotionByAppointment(action) {
             })
         }
     } catch (error) {
+        alert(`error-getPromotionByAppointment: ${error}`)
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -254,6 +256,7 @@ function* customPromotion(action) {
             })
         }
     } catch (error) {
+        alert(`error-customPromotion: ${error}`)
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });

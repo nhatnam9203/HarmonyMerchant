@@ -112,9 +112,10 @@ class PopupDiscount extends React.Component {
                 discountTotal: temptDiscount
             }));
         } else {
+            const subTotal = !_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
             await this.setState({
                 moneyDiscountFixedAmout: discountFixed,
-                moneyDiscountCustom: (formatNumberFromCurrency(this.customDiscountRef.current.state.percent) * formatNumberFromCurrency(!_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0) / 100)
+                moneyDiscountCustom: (formatNumberFromCurrency(this.customDiscountRef.current.state.percent) * formatNumberFromCurrency(subTotal) / 100)
             })
         }
     }
@@ -135,7 +136,8 @@ class PopupDiscount extends React.Component {
             total = formatNumberFromCurrency(total) + formatNumberFromCurrency(discount[i].discount);
         }
         if (visibleModalDiscount && !this.customDiscountRef.current) {
-            total = formatNumberFromCurrency(total) + (formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(!_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0) / 100);
+            const subTotal = !_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
+            total = formatNumberFromCurrency(total) + (formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(subTotal) / 100);
         }
         if (visibleModalDiscount && !this.customFixedAmountRef.current) {
             total = formatNumberFromCurrency(total) + formatNumberFromCurrency(customDiscountFixed);

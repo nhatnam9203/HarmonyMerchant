@@ -8,7 +8,7 @@ function* addStaffByMerchant(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('--- addStaffByMerchant : ' + JSON.stringify(action.body));
+        // console.log('--- addStaffByMerchant : ' + JSON.stringify(action.body));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -80,7 +80,7 @@ function* searchStaffByName(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('searchStaffByName : ' + JSON.stringify(responses));
+        // console.log('searchStaffByName : ' + JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -109,7 +109,7 @@ function* archiveStaff(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('archiveStaff : ' + JSON.stringify(responses));
+        // console.log('archiveStaff : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({ type: 'IS_GET_LIST_SEARCH_STAFF' });
@@ -141,7 +141,7 @@ function* restoreStaff(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('restoreStaff : ' + JSON.stringify(responses));
+        // console.log('restoreStaff : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({ type: 'IS_GET_LIST_SEARCH_STAFF' });
@@ -173,7 +173,7 @@ function* createAdmin(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('createAdmin : ' + JSON.stringify(responses));
+        // console.log('createAdmin : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -210,8 +210,8 @@ function* editStaff(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
 
-    // console.log('editStaff : ' + JSON.stringify(responses));
-    // console.log('--- editStaff : ' + JSON.stringify(action.body));
+        // console.log('editStaff : ' + JSON.stringify(responses));
+        // console.log('--- editStaff : ' + JSON.stringify(action.body));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -245,7 +245,7 @@ function* loginStaff(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('loginStaff : ' + JSON.stringify(responses));
+        // console.log('loginStaff : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
@@ -278,7 +278,7 @@ function* loginStaff(action) {
     } catch (error) {
         yield put({ type: 'LOGIN_STAFF_FAIL' });
         yield put({ type: 'STOP_LOADING_ROOT' });
-        yield put({ ...action, type: error ,typeParent:action.type});
+        yield put({ ...action, type: error, typeParent: action.type });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -288,7 +288,7 @@ function* forgotPin(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('forgotPin : ' + JSON.stringify(responses));
+        // console.log('forgotPin : ' + JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -321,7 +321,7 @@ function* updateStaffsPosition(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('forgotPin : ' + JSON.stringify(responses));
+        // console.log('forgotPin : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
 
@@ -343,7 +343,7 @@ function* updateStaffsPosition(action) {
 }
 
 function* getListStaffsSalaryTop(action) {
-// console.log(action)
+        // console.log(action)
     try {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);

@@ -38,8 +38,7 @@ function* getGroupAppointmentById(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('getGroupAppointmentById : ', JSON.stringify(responses));
-    // console.log('---action---- : ', JSON.stringify(action));
+        console.log('getGroupAppointmentById : ', JSON.stringify(responses));
 
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
