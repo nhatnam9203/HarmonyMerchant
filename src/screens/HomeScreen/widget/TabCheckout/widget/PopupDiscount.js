@@ -76,7 +76,7 @@ class PopupDiscount extends React.Component {
         // const {  groupAppointment } = this.props;
         // const customFixedAmount = this.customFixedAmountRef.current.state.discount;
         // const temptDiscount = formatNumberFromCurrency(discount) + formatNumberFromCurrency(customFixedAmount)
-        console.log('discount : ',discount);
+    // console.log('discount : ',discount);
         await this.setState({
             moneyDiscountCustom: discount,
             moneyDiscountFixedAmout: this.customFixedAmountRef.current.state.discount
@@ -112,7 +112,7 @@ class PopupDiscount extends React.Component {
             const appointmentDetail = !_.isEmpty(groupAppointment) && groupAppointment.appointments ? groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) : { subTotal: 0 };
             await this.setState({
                 moneyDiscountFixedAmout: discountFixed,
-                moneyDiscountCustom: (formatNumberFromCurrency(this.customDiscountRef.current.state.percent) * formatNumberFromCurrency(appointmentDetail.subTotal ? appointmentDetail.subTotal : 0) / 100)
+                moneyDiscountCustom: (formatNumberFromCurrency(this.customDiscountRef.current.state.percent) * formatNumberFromCurrency(!_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0) / 100)
             })
         }
     }
@@ -135,7 +135,7 @@ class PopupDiscount extends React.Component {
             total = formatNumberFromCurrency(total) + formatNumberFromCurrency(discount[i].discount);
         }
         if (visibleModalDiscount && !this.customDiscountRef.current) {
-            total = formatNumberFromCurrency(total) + (formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(appointmentDetail.subTotal ? appointmentDetail.subTotal : 0) / 100);
+            total = formatNumberFromCurrency(total) + (formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(!_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0) / 100);
         }
         if (visibleModalDiscount && !this.customFixedAmountRef.current) {
             total = formatNumberFromCurrency(total) + formatNumberFromCurrency(customDiscountFixed);

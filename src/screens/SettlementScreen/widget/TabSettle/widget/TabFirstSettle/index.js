@@ -55,7 +55,7 @@ class TabFirstSettle extends Layout {
     }
 
     async handleResponseReportTransactions(message) {
-        // console.log('handleResponseReportTransactions : ' , message)
+    // console.log('handleResponseReportTransactions : ' , message)
         try {
             const result = JSON.parse(message);
             if (result.status == 0) {
@@ -67,7 +67,7 @@ class TabFirstSettle extends Layout {
                 })
             }
         } catch (error) {
-            // console.log('error : ', error)
+        // console.log('error : ', error)
         }
     }
 

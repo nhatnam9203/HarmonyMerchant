@@ -12,7 +12,7 @@ import IMAGE from '@resources';
 
 const ItemBasket = ({ item, removeItemBasket, onPress }) => {
     const { data } = item;
-    // console.log('---- item : ', item);
+// console.log('---- item : ', item);
     const swipeoutBtns = [
         {
             backgroundColor: '#fff',

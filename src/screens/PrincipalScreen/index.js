@@ -328,7 +328,7 @@ class PrincipalScreen extends Layout {
 
                 // -------- handle principal 2 -------
                 const result = this.checkPrincipalInfo2Valid();
-                // console.log('result : ',result);
+            // console.log('result : ',result);
                 if (result === 1) {
                     
                     this.props.actions.app.setPrincipalInfo([temptPrincipalInfo]);

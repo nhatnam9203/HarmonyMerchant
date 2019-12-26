@@ -34,10 +34,10 @@ class PopupDiscount extends React.Component {
     }
 
     setStateFromParent = async (totalLocal, discountTotal, customDiscountPercent, customDiscountFixedLocal) => {
-        // console.log('totalLocal : ', totalLocal);
-        // console.log('discountTotal : ', discountTotal);
-        // console.log('customDiscountPercent : ', customDiscountPercent);
-        // console.log('customDiscountFixedLocal : ', customDiscountFixedLocal);
+    // console.log('totalLocal : ', totalLocal);
+    // console.log('discountTotal : ', discountTotal);
+    // console.log('customDiscountPercent : ', customDiscountPercent);
+    // console.log('customDiscountFixedLocal : ', customDiscountFixedLocal);
 
         await this.setState({
             totalLocal,
@@ -57,7 +57,7 @@ class PopupDiscount extends React.Component {
             this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentDetail.appointmentId);
             this.props.actions.marketing.closeModalDiscount();
         }
-        console.log('dddd');
+    // console.log('dddd');
         this.resetState();
     }
 
@@ -80,19 +80,19 @@ class PopupDiscount extends React.Component {
         const { appointmentDetail } = this.props;
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
 
-        // console.log('temptTotalLocal : ', temptTotalLocal);
-        // console.log('discount : ', discount);
-        // console.log('customFixedAmount : ', customFixedAmount);
+    // console.log('temptTotalLocal : ', temptTotalLocal);
+    // console.log('discount : ', discount);
+    // console.log('customFixedAmount : ', customFixedAmount);
 
         const temptDiscount = formatNumberFromCurrency(discount) + formatNumberFromCurrency(customFixedAmount)
-        // console.log('discountTotal : ', temptDiscount);
+    // console.log('discountTotal : ', temptDiscount);
 
         if (_.isEmpty(appointmentDetail)) {
             await this.setState(prevState => ({
                 discountTotal: temptDiscount
             }));
         } else {
-            // console.log('moneyDiscountCuston : ',discount);
+        // console.log('moneyDiscountCuston : ',discount);
             await this.setState({
                 moneyDiscountCustom: discount,
                 moneyDiscountFixedAmout: this.customFixedAmountRef.current.state.discount
@@ -114,7 +114,7 @@ class PopupDiscount extends React.Component {
         } else {
             await this.setState({
                 moneyDiscountFixedAmout: discountFixed,
-                moneyDiscountCustom: (formatNumberFromCurrency(this.customDiscountRef.current.state.percent) * formatNumberFromCurrency(appointmentDetail.subTotal ? appointmentDetail.subTotal : 0) / 100)
+                moneyDiscountCustom: (formatNumberFromCurrency(this.customDiscountRef.current.state.percent) * formatNumberFromCurrency(!_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0) / 100)
             })
         }
     }
@@ -135,7 +135,7 @@ class PopupDiscount extends React.Component {
             total = formatNumberFromCurrency(total) + formatNumberFromCurrency(discount[i].discount);
         }
         if (visibleModalDiscount && !this.customDiscountRef.current) {
-            total = formatNumberFromCurrency(total) + (formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(appointmentDetail.subTotal ? appointmentDetail.subTotal : 0) / 100);
+            total = formatNumberFromCurrency(total) + (formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(!_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0) / 100);
         }
         if (visibleModalDiscount && !this.customFixedAmountRef.current) {
             total = formatNumberFromCurrency(total) + formatNumberFromCurrency(customDiscountFixed);
@@ -144,19 +144,17 @@ class PopupDiscount extends React.Component {
             total = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountCustom);
         }
         if (visibleModalDiscount && this.customFixedAmountRef.current) {
-            // console.log('---- : ',this.customFixedAmountRef.current.state.discount);
+        // console.log('---- : ',this.customFixedAmountRef.current.state.discount);
             total = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountFixedAmout);
         }
 
         total = Number(total).toFixed(2);
 
         const temptTotalDiscount = _.isEmpty(appointmentDetail) ? Number(discountTotal).toFixed(2) : Number(total).toFixed(2);
-        const temptTotal = _.isEmpty(appointmentDetail) ? totalLocal : (appointmentDetail.subTotal ? appointmentDetail.subTotal : 0);
+        const temptTotal = _.isEmpty(appointmentDetail) ? totalLocal : (!_.isEmpty(appointmentDetail) && appointmentDetail  && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0);
         const temptCustomDiscountPercent = _.isEmpty(appointmentDetail) ? customDiscountPercentLocal : customDiscountPercent;
         const temptCustomDiscountFixed = _.isEmpty(appointmentDetail) ? customDiscountFixedLocal : customDiscountFixed;
 
-        // console.log('---- temptTotal ---- : ',temptTotal);
-        // console.log('---- isHandleDiscountTotal ---- : ',isHandleDiscountTotal);
 
         const visible = visibleModalDiscount && !_.isEmpty(appointmentDetail) ? true : false;
 
@@ -271,8 +269,8 @@ class CustomDiscount extends React.Component {
         await this.setState({ percent });
         const { total } = this.props;
         const discount = Number(formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100).toFixed(2);
-        // console.log('---- total : ', total);
-        // console.log('---- discount : ', discount);
+    // console.log('---- total : ', total);
+    // console.log('---- discount : ', discount);
         this.props.onChangeText(discount);
     }
 

@@ -27,7 +27,7 @@ class Layout extends React.Component {
                         data={[{ value: 'English' }, { value: 'Viet Nam' }]}
                         value={languageApp}
                         onChangeText={value => {
-                            // console.log(value);
+                        // console.log(value);
                             this.setState({ languageApp: value })
                         }}
                         placeHolder={localize('Language', language)}

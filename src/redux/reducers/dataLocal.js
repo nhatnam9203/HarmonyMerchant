@@ -20,7 +20,7 @@ const initialState = {
 function dataLocal(state = initialState, action) {
     switch (action.type) {
         case 'REHYDRATE_ROOT':
-            // console.log('action.payload.dataLocal : ',action.payload.dataLocal);
+        // console.log('action.payload.dataLocal : ',action.payload.dataLocal);
             return  action.payload.dataLocal
         case 'SAVE_PROFILE_LOCAL':
             return {

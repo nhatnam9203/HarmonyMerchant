@@ -127,7 +127,7 @@ class PopupAddEditCustomer extends React.Component {
                 referrerPhone: customerInfo.referrerPhone === '' ? '' : `${this.state.codeReferrerPhone}${customerInfo.referrerPhone}`,
                 addressPost: temptAddress
             };
-            // console.log('temptCustomerInfo : ' ,temptCustomerInfo);
+        // console.log('temptCustomerInfo : ' ,temptCustomerInfo);
             if (this.props.isSave) {
                 this.props.editCustomer(this.state.customerId, temptCustomerInfo);
             } else {

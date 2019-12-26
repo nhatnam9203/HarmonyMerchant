@@ -51,7 +51,7 @@ class ItemCustomerBasket extends React.Component {
         const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.props;
 
         const tipAmount = appointmentDetail && appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
-        const subTotal = appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
+        const subTotal = !_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
         const discount = appointmentDetail && appointmentDetail.discount ? appointmentDetail.discount : 0;
         const tax = appointmentDetail && appointmentDetail.tax ? appointmentDetail.tax : 0;
         const total = appointmentDetail && appointmentDetail.total ? appointmentDetail.total : 0;
@@ -160,7 +160,7 @@ class ItemCustomerBasket extends React.Component {
         } else {
             basket = basketLocal;
         }
-        console.log('basket : '+ JSON.stringify(basket));
+    // console.log('basket : '+ JSON.stringify(basket));
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         return (
             <View>

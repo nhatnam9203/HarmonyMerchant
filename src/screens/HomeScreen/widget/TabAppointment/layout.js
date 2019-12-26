@@ -5,6 +5,7 @@ import {
     Image
 } from 'react-native';
 import { WebView } from 'react-native-webview';
+import _ from 'ramda';
 
 import { Text, ButtonCustom, Button, PopupConfirm } from '@components';
 import styles from './style';
@@ -238,7 +239,7 @@ class Layout extends React.Component {
         const { language, appointmentDetail } = this.props;
         const { basket, total } = this.state;
         const tempTipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
-        const subTotal = appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
+        const subTotal =  !_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
 
         const discount = appointmentDetail.discount ? appointmentDetail.discount : 0;
         const tax = appointmentDetail.tax ? appointmentDetail.tax : 0;
@@ -404,7 +405,7 @@ class Layout extends React.Component {
           window.onscroll = function() { window.postMessage(document.documentElement.scrollTop||document.body.scrollTop)}
           true
           `;
-        // console.log(`${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}&staffId=${profileStaffLogin.staffId}`);
+    // console.log(`${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}&staffId=${profileStaffLogin.staffId}`);
         return (
             <View style={styles.container} >
                 <WebView

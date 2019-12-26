@@ -17,7 +17,7 @@ export default class ItemScalary extends React.Component {
     constructor(props) {
         super(props);
         const {dataInit} = this.props;
-        // console.log('dataInit : ', dataInit);
+    // console.log('dataInit : ', dataInit);
         this.state = {
             isCheck:dataInit.isCheck,
             value: dataInit.value

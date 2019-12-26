@@ -9,7 +9,7 @@ function* addExtraByMerchant(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-        // console.log('--- responses : ', responses);
+    // console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -41,7 +41,7 @@ function* getExtraByMerchant(action) {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-        // console.log('getExtraByMerchant : ', responses);
+    // console.log('getExtraByMerchant : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -72,7 +72,7 @@ function* archiveExtra(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-        // console.log('--- archiveExtra : ', responses);
+    // console.log('--- archiveExtra : ', responses);
         if (parseInt(codeNumber) == 200) {
             yield put({type:'IS_GET_LIST_SEARCH_EXTRA'});
             yield put({
@@ -104,7 +104,7 @@ function* restoreExtra(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-        // console.log('--- restoreExtra : ', responses);
+    // console.log('--- restoreExtra : ', responses);
         if (parseInt(codeNumber) == 200) {
             yield put({type:'IS_GET_LIST_SEARCH_EXTRA'});
             yield put({
@@ -135,7 +135,7 @@ function* editExtra(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('--- responses : ', responses);
+    // console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({type:'IS_GET_LIST_SEARCH_EXTRA'});
@@ -167,7 +167,7 @@ function* searchExtra(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('--- responses : ', responses);
+    // console.log('--- responses : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -196,7 +196,7 @@ function* updatePositionExtras(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('--- updateSerivePosition : ', responses);
+    // console.log('--- updateSerivePosition : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             // yield put({

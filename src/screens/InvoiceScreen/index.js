@@ -229,7 +229,7 @@ class InvoiceScreen extends Layout {
         const arryaServices = getArrayServicesFromAppointment(basket.services);
         const arrayExtras = getArrayExtrasFromAppointment(basket.extras);
         const temptBasket = arrayProducts.concat(arryaServices, arrayExtras);
-        // console.log('temptBasket : ', JSON.stringify(temptBasket));
+    // console.log('temptBasket : ', JSON.stringify(temptBasket));
         return temptBasket;
     }
 

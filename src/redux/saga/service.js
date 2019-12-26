@@ -8,7 +8,7 @@ function* addServiceByMerchant(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('--- responses : ', responses);
+    // console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -47,7 +47,7 @@ function* getServicesByMerchant(action) {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-        // console.log('getServicesByMerchant : ', responses);
+    // console.log('getServicesByMerchant : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -86,7 +86,7 @@ function* archiveService(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-        // console.log('--- responses : ', responses);
+    // console.log('--- responses : ', responses);
         if (parseInt(codeNumber) == 200) {
             yield put({ type: 'IS_GET_LIST_SEARCH_SERVICE' });
             yield put({
@@ -118,7 +118,7 @@ function* restoreService(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-        // console.log('--- restoreService : ', responses);
+    // console.log('--- restoreService : ', responses);
         if (parseInt(codeNumber) == 200) {
             yield put({ type: 'IS_GET_LIST_SEARCH_SERVICE' });
             yield put({
@@ -149,7 +149,7 @@ function* editService(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('--- responses : ', responses);
+    // console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({ type: 'IS_GET_LIST_SEARCH_SERVICE' });
@@ -183,7 +183,7 @@ function* searchService(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-        // console.log('--- responses : ', responses);
+    // console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -211,7 +211,7 @@ function* updateSerivePosition(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('--- updateSerivePosition : ', responses);
+    // console.log('--- updateSerivePosition : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             // yield put({

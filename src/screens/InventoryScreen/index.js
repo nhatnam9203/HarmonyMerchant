@@ -114,7 +114,7 @@ class InventoryScreen extends Layout {
             .fetch('GET', 'http://image.levincitest.com/reports/products/3_20190731_055440.csv', {
             })
             .then((res) => {
-                // console.log('The file saved to ', res.path());
+            // console.log('The file saved to ', res.path());
                 this.setState({
                     fileDownload: res.path()
                 })

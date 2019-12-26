@@ -159,7 +159,7 @@ class AddStaff extends Layout {
     }
 
     setStaffInfoFromParent = staff => {
-        // console.log('setStaffInfoFromParent : ', staff);
+    // console.log('setStaffInfoFromParent : ', staff);
     }
 
     setRefTimeWorking = (ref) => {
@@ -190,7 +190,7 @@ class AddStaff extends Layout {
     };
 
     updateFileId = async (fileId) => {
-        // console.log('---- fileId : ', fileId);
+    // console.log('---- fileId : ', fileId);
         await this.setState({
             fileId
         })
@@ -311,7 +311,7 @@ class AddStaff extends Layout {
 
     convertKeyToName(key) {
         let name = '';
-        // console.log('convertKeyToName : ',key);
+    // console.log('convertKeyToName : ',key);
         switch (key) {
             case 'Percent (%)':
                 name = 'percent';

@@ -84,7 +84,7 @@ class CustomerScreen extends Layout {
     }
 
     showModalDetail = (customer) => {
-        // console.log('----- customer : ',customer);
+    // console.log('----- customer : ',customer);
         this.modalDetailRef.current.setStateFromParent(customer);
         this.setState({
             visibleDetail: true

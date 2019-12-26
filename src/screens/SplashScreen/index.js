@@ -29,7 +29,7 @@ class SplashScreen extends Layout {
         const deploymentKey = configs.codePushKeyIOS.production;
         CodePush.checkForUpdate(deploymentKey)
             .then(update => {
-                // console.log('update : ', update);
+            // console.log('update : ', update);
                 if (update) {
                     if (update.failedInstall) {
                         this.controlFlowInitApp();
@@ -69,7 +69,7 @@ class SplashScreen extends Layout {
     }
 
     codePushStatusDidChange(syncStatus) {
-        // console.log('progress : ' ,syncStatus);
+    // console.log('progress : ' ,syncStatus);
     }
 
     async  codePushDownloadDidProgress(progress) {

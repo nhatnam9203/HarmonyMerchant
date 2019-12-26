@@ -32,7 +32,7 @@ class BrowserFile extends React.PureComponent {
     }
 
     handleImagePicker = async (response) => {
-        // console.log('response : ', response);
+    // console.log('response : ', response);
         if (response.error === "Photo library permissions not granted") {
             gotoSettingsDevice();
         } else if (response.uri) {

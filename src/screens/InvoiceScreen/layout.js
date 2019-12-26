@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import moment from 'moment';
+import _ from 'ramda';
 
 import {
     Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupCalendar, PopupEnterPinInvoice,
@@ -277,7 +278,7 @@ export default class Layout extends React.Component {
         const { language } = this.props;
         const { invoiceDetail } = this.state;
         const temptInvoiceDetail = invoiceDetail.checkoutPayments ? invoiceDetail.checkoutPayments : [];
-        console.log('temptInvoiceDetail : ', temptInvoiceDetail);
+    // console.log('temptInvoiceDetail : ', temptInvoiceDetail);
         return (
             <View style={{ flex: 1 }} >
                 {
@@ -417,7 +418,7 @@ export default class Layout extends React.Component {
                                     {`${localize('Subtotal', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$ ${invoiceDetail.subTotal ? `${invoiceDetail.subTotal}` : '0.00'}`}
+                                    {`$ ${!_.isEmpty(invoiceDetail) && invoiceDetail && invoiceDetail.subTotal ? `${invoiceDetail.subTotal}` : '0.00'}`}
                                 </Text>
                             </View>
                             {/* ---------- Tip ------ */}

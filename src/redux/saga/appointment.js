@@ -8,7 +8,7 @@ function* getAppointmentById(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('getAppointmentById : ', JSON.stringify(responses));
+    // console.log('getAppointmentById : ', JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -27,6 +27,7 @@ function* getAppointmentById(action) {
             })
         }
     } catch (error) {
+        alert(`error-getAppointmentById: ${error}`)
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -37,8 +38,8 @@ function* getGroupAppointmentById(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('getGroupAppointmentById : ', JSON.stringify(responses));
-        console.log('action : ', JSON.stringify(action));
+    // console.log('getGroupAppointmentById : ', JSON.stringify(responses));
+    // console.log('---action---- : ', JSON.stringify(action));
 
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
@@ -47,14 +48,18 @@ function* getGroupAppointmentById(action) {
                 type: 'GET_GROUP_APPOINTMENT_BY_ID_SUCCESS',
                 payload: responses.data
             });
+            const { data } = responses;
             yield put({
                 type: "UPDATE_PAYMENT_DETAIL_INFO_BY_HARMONY_PAYMENT",
                 payload: {
-                    ...responses.data,
+                    // ...responses.data,
+                    checkoutGropId: data && data.checkoutGroupId ? data.checkoutGroupId : 0,
                     customerName: "",
                     phone: "",
-                    grandTotal: responses.data.total ? responses.data.total : 0,
-                    paidAmounts: responses.data.checkoutPayments ? responses.data.checkoutPayments : []
+                    status:data && data.status ? data.status : "Pending",
+                    grandTotal: data && data.total ? data.total : 0,
+                    paidAmounts: data && data.checkoutPayments ? data.checkoutPayments : [],
+                    dueAmount:data && data.dueAmount ? data.dueAmount : 0
                 }
             })
             if (action.isPayment) {
@@ -84,6 +89,7 @@ function* getGroupAppointmentById(action) {
             })
         }
     } catch (error) {
+        alert(`error-getGroupAppointmentById: ${error}`)
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -95,12 +101,11 @@ function* addItemIntoAppointment(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('addItemIntoAppointment : ', responses);
+    // console.log('addItemIntoAppointment : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             action.isGroup ? yield put({
-
                 type: 'GET_GROUP_APPOINTMENT_BY_ID',
                 method: 'GET',
                 api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId}`,
@@ -123,6 +128,7 @@ function* addItemIntoAppointment(action) {
             })
         }
     } catch (error) {
+        alert(`error-addItemIntoAppointment: ${error}`)
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -133,7 +139,7 @@ function* removeItemIntoAppointment(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('responses : ', responses);
+    // console.log('responses : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -164,6 +170,7 @@ function* removeItemIntoAppointment(action) {
             })
         }
     } catch (error) {
+        alert(`error-removeItemIntoAppointment: ${error}`)
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -174,7 +181,7 @@ function* checkoutAppointment(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('checkoutAppointment : ', responses);
+    // console.log('checkoutAppointment : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -201,6 +208,7 @@ function* checkoutAppointment(action) {
             })
         }
     } catch (error) {
+        alert(`error-checkoutAppointment: ${error}`)
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -211,7 +219,7 @@ function* paymentAppointment(action) {
     try {
         yield put({ type: 'LOADING_ROOT' })
         const responses = yield requestAPI(action);
-        console.log('paymentAppointment : ' + JSON.stringify(responses));
+        // console.log('paymentAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -257,6 +265,7 @@ function* paymentAppointment(action) {
             })
         }
     } catch (error) {
+        alert(`error-paymentAppointment: ${error}`)
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -267,7 +276,7 @@ function* createAnymousAppointment(action) {
     try {
         action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
-        console.log('createAnymousAppointment : ' + JSON.stringify(responses));
+    // console.log('createAnymousAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
@@ -327,6 +336,7 @@ function* createAnymousAppointment(action) {
             })
         }
     } catch (error) {
+        alert(`error-createAnymousAppointment: ${error}`)
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -337,12 +347,12 @@ function* checkoutSubmit(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('checkoutSubmit : ' + JSON.stringify(responses));
+    // console.log('checkoutSubmit : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
             const dueAmount = responses.data && responses.data.checkoutPaymentResponse && responses.data.checkoutPaymentResponse.dueAmount ? parseFloat(responses.data.checkoutPaymentResponse.dueAmount) : 0;
-            console.log('dueAmount : ', dueAmount);
+        // console.log('dueAmount : ', dueAmount);
             // ----- check dueAmount === 0 --------
             if (dueAmount === 0) {
                 // ----- Transaction Completed --------
@@ -376,6 +386,7 @@ function* checkoutSubmit(action) {
             })
         }
     } catch (error) {
+        alert(`error-checkoutSubmit: ${error}`)
         yield put({ type: 'STOP_LOADING_ROOT' });
         yield put({ type: error });
     } finally {
@@ -387,7 +398,7 @@ function* submitPaymentWithCreditCard(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('submitPaymentWithCreditCard : ', responses);
+    // console.log('submitPaymentWithCreditCard : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
 
@@ -402,6 +413,7 @@ function* submitPaymentWithCreditCard(action) {
             })
         }
     } catch (error) {
+        alert(`error-submitPaymentWithCreditCard: ${error}`)
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -412,7 +424,7 @@ function* cancelHarmonyPayment(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('cancelHarmonyPayment : ', responses);
+    // console.log('cancelHarmonyPayment : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
 
@@ -427,6 +439,7 @@ function* cancelHarmonyPayment(action) {
             })
         }
     } catch (error) {
+        alert(`error-cancelHarmonyPayment: ${error}`)
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -437,7 +450,7 @@ function* submitAppointmentOffline(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('submitAppointmentOffline : ' + JSON.stringify(responses));
+    // console.log('submitAppointmentOffline : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -455,6 +468,7 @@ function* submitAppointmentOffline(action) {
             })
         }
     } catch (error) {
+        alert(`error-submitAppointmentOffline: ${error}`)
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -465,7 +479,7 @@ function* cancleAppointment(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('responses : ' + JSON.stringify(responses));
+    // console.log('responses : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
 
@@ -480,6 +494,7 @@ function* cancleAppointment(action) {
             })
         }
     } catch (error) {
+        alert(`error-cancleAppointment: ${error}`)
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -490,7 +505,7 @@ function* removeAppointmentInGroup(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('removeAppointmentInGroup : ' + JSON.stringify(responses));
+    // console.log('removeAppointmentInGroup : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             // ------- Get Group Appointment --------
@@ -515,7 +530,8 @@ function* removeAppointmentInGroup(action) {
             })
         }
     } catch (error) {
-        console.log('---- error : ', error);
+    // console.log('---- error : ', error);
+        alert(`error-removeAppointmentInGroup: ${error}`)
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -526,7 +542,7 @@ function* checkSerialNumber(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('checkSerialNumber : ' + JSON.stringify(responses));
+    // console.log('checkSerialNumber : ' + JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -552,7 +568,7 @@ function* checkSerialNumber(action) {
                     isGroup: true
                 })
             } else {
-                // console.log('ddddddd');
+            // console.log('ddddddd');
                 yield put({
                     type: 'CREATE_ANYMOUS_APPOINTMENT',
                     body: { ...action.bodyAction, giftCards: [{ bookingGiftCardId: 0, GiftCardId: responses.data.giftCardId ? responses.data.giftCardId : 0 }] },
@@ -572,7 +588,8 @@ function* checkSerialNumber(action) {
             })
         }
     } catch (error) {
-        console.log('error : ', error);
+    // console.log('error-checkSerialNumber: ', error);
+        alert(`error: ${error}`)
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });

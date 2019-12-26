@@ -80,7 +80,7 @@ class TabCategories extends Layout {
     searchCategories = () => {
         const { searchFilter } = this.state;
         const { keySearch, category, status } = searchFilter;
-        // console.log('searchFilter : ', searchFilter);
+    // console.log('searchFilter : ', searchFilter);
         if (keySearch == '' && category == '' & status == '') {
             this.props.actions.category.clearSearchCategories();
         } else {

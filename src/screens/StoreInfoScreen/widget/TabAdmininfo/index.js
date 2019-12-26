@@ -189,13 +189,13 @@ class StoreInfoScreen extends Layout {
                 tipFee: objTipFee,
                 fileId: this.state.fileId
             };
-            // console.log('productSalary : ' + JSON.stringify(objProjectSalary));
+        // console.log('productSalary : ' + JSON.stringify(objProjectSalary));
             this.props.actions.staff.createAdmin(temptStaff);
         }
     }
 
     convertKeyToName(key) {
-        // console.log('key : ', key);
+    // console.log('key : ', key);
         let name = '';
         switch (key) {
             case 'Percent (%)':
