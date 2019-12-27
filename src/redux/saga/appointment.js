@@ -641,6 +641,35 @@ function* checkSerialNumber(action) {
     }
 }
 
+function* updateCustomerInAppointment(action) {
+    try {
+        // yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log('updateCustomerInAppointment : ' + JSON.stringify(responses));
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+           
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        //console.log('---- error : ', error);
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        setTimeout(() =>{
+            alert(`error-removeAppointmentInGroup: ${error}`)
+        },2000);
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
 
 
 export default function* saga() {
@@ -659,7 +688,7 @@ export default function* saga() {
         takeLatest('GET_GROUP_APPOINTMENT_BY_ID', getGroupAppointmentById),
         takeLatest('REMOVE_APPOINTMENT_IN_GROUP', removeAppointmentInGroup),
         takeLatest('CHECK_SERIAL_NUMBER', checkSerialNumber),
-
+        takeLatest('UPDATE_CUSTOMER_IN_APPOINTMENT', updateCustomerInAppointment),
 
 
     ])

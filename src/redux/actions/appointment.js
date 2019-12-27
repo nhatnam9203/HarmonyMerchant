@@ -312,3 +312,19 @@ export function checkSerialNumber(serialId,bodyAction = false,optionAction = fal
     }
 }
 
+export function updateCustomerInAppointment(appointmentID,body) {
+    return {
+        type: 'UPDATE_CUSTOMER_IN_APPOINTMENT',
+        method: 'PUT',
+        body,
+        // body:{
+        //     customerId:'',
+        //     firstName:'',
+        //     lastName:'',
+        //     phoneNumber:''
+        // },
+        token: true,
+        api: `${apiConfigs.BASE_API}updateCustomer/${appointmentID}`,
+
+    }
+}

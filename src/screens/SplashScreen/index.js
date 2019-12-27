@@ -25,7 +25,6 @@ class SplashScreen extends Layout {
     }
 
     checkForUpdateCodepush() {
-        // const deploymentKey = checkEnvironment() === 'DEV' ? configs.codePushKeyIOS.staging : configs.codePushKeyIOS.production;
         const deploymentKey = configs.codePushKeyIOS.production;
         CodePush.checkForUpdate(deploymentKey)
             .then(update => {

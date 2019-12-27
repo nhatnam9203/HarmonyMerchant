@@ -166,7 +166,7 @@ class PopupActiveGiftCard extends React.Component {
                                     width={'30%'}
                                     height={35}
                                     backgroundColor="#0764B0"
-                                    title="Add"
+                                    title="Add card"
                                     textColor="#fff"
                                     onPress={this.submitSerialCode}
                                     styleText={{

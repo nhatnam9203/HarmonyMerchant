@@ -1488,7 +1488,7 @@ class TabCheckout extends Layout {
     }
 
     changeCustomerPhone = async () => {
-        const { token, profileStaffLogin } = this.props;
+        const { groupAppointment, profileStaffLogin } = this.props;
         const { infoUser } = this.state;
         const codeAreaPhone = this.CustomerPhoneRef.current.state.codeAreaPhone;
         const phone = this.CustomerPhoneRef.current.state.phone;
@@ -1502,7 +1502,7 @@ class TabCheckout extends Layout {
                 api: `${apiConfigs.BASE_API}customer/getbyphone/${splitPlusInPhoneNumber(phoneNumber)}`,
                 token: profileStaffLogin.token
             });
-            //console.log("responses : " + JSON.stringify(responses));
+            console.log("changeCustomerPhone : " + JSON.stringify(responses));
             this.props.actions.app.stopLoadingApp();
             if (responses.codeNumber === 200) {
                 await this.setState({
@@ -1513,7 +1513,17 @@ class TabCheckout extends Layout {
                     },
                     visibleCustomerPhone: false,
                     customerInfoByPhone: responses.data
-                })
+                });
+                if (!_.isEmpty(groupAppointment)) {
+                    const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
+                    const body = {
+                        customerId: responses.data && responses.data.customerId ? responses.data.customerId : 0,
+                        firstName: responses.data && responses.data.firstName ? responses.data.firstName : '',
+                        lastName: responses.data && responses.data.lastName ? responses.data.lastName : '',
+                        phoneNumber: responses.data && responses.data.phone ? responses.data.phone : '',
+                    };
+                    this.props.actions.appointment.updateCustomerInAppointment(mainAppointmentId, body);
+                }
             } else {
                 await this.setState({
                     infoUser: { ...infoUser, phoneNumber },
