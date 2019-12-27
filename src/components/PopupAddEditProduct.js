@@ -130,7 +130,7 @@ class PopupAddEditProduct extends React.Component {
                         token: this.props.token,
                         api: `${apiConfigs.BASE_API}product/checksku?sku=${temptProductInfo.sku}`,
                     });
-                    // console.log('checkSKUIsExist1 : ' + JSON.stringify(checkSKUIsExist));
+                    //console.log('checkSKUIsExist1 : ' + JSON.stringify(checkSKUIsExist));
                     if (checkSKUIsExist.codeNumber === 200) {
                         this.props.confimYes({
                             ...temptProductInfo, isDisabled: productInfo.isDisabled === 'Active' ? 0 : 1,

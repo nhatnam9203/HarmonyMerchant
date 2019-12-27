@@ -8,7 +8,7 @@ function* addCategory(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('--- responses : ', responses);
+    //console.log('--- responses : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -40,7 +40,7 @@ function* getCategoriesByMerchantId(action) {
     try {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
-    // console.log('getCategoriesByMerchantId : ', responses);
+    //console.log('getCategoriesByMerchantId : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -72,7 +72,7 @@ function* archiveCategory(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-    // console.log('--- responses : ', responses);
+    //console.log('--- responses : ', responses);
         if (parseInt(codeNumber) == 200) {
             yield put({ type: 'IS_GET_LIST_SEARCH_CATEGORIES' });
             yield put({
@@ -104,7 +104,7 @@ function* restoreCategory(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-    // console.log('--- restoreCategory : ', responses);
+    //console.log('--- restoreCategory : ', responses);
         if (parseInt(codeNumber) == 200) {
             yield put({ type: 'IS_GET_LIST_SEARCH_CATEGORIES' });
             yield put({
@@ -135,7 +135,7 @@ function* editCategory(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('--- responses : ', responses);
+    //console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({ type: 'IS_GET_LIST_SEARCH_CATEGORIES' });
@@ -168,7 +168,7 @@ function* searchCategories(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-    // console.log('--- responses : ', responses);
+    //console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -196,7 +196,7 @@ function* updatePositionCategories(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('--- updatePositionCategories : ', responses);
+    //console.log('--- updatePositionCategories : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             // yield put({

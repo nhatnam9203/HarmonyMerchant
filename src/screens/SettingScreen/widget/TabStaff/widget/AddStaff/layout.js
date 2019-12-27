@@ -33,7 +33,7 @@ class Layout extends React.Component {
         const temptDataTipFee = isEditStaff ? infoStaffHandle.tipFees : this.state.tipFee;
         const temptDataSalary = isEditStaff ? infoStaffHandle.salaries : this.state.salary;
         const temptDataProductScalary = isEditStaff ? infoStaffHandle.productSalaries : this.state.productSalary;
-    // console.log('infoStaffHandle : '+ JSON.stringify(infoStaffHandle));
+    //console.log('infoStaffHandle : '+ JSON.stringify(infoStaffHandle));
         return (
             <View style={styles.body} >
                 <ScrollView
@@ -219,7 +219,7 @@ class Layout extends React.Component {
                     />
                     {
                         Object.keys(temptDataProductScalary).map((tip, index) => {
-                        // console.log('tip : ',temptDataProductScalary[tip]);
+                        //console.log('tip : ',temptDataProductScalary[tip]);
                             const temptTitle = tip == 'perHour' ? 'Per hour' : 'Commission';
                             const temptChar = tip == 'perHour' ? '($)' : '(%)';
 

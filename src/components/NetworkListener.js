@@ -25,7 +25,7 @@ class NetworkListener extends React.PureComponent {
                 this.setState({
                     isConnected: state.isConnected
                 }, () => {
-                // console.log('fail');
+                //console.log('fail');
                     this.unsubscribe();
                     callback
                 })
@@ -34,7 +34,7 @@ class NetworkListener extends React.PureComponent {
     }
 
     handleConnectivityChange = isConnected => {
-    // console.log('isConnected : ', isConnected);
+    //console.log('isConnected : ', isConnected);
     };
 
     render() {
@@ -44,7 +44,7 @@ class NetworkListener extends React.PureComponent {
     }
 
     componentWillUnmount() {
-    // console.log('componentWillUnmount');
+    //console.log('componentWillUnmount');
         this.unsubscribe();
         // NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
     }

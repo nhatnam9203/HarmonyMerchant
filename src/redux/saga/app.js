@@ -7,7 +7,7 @@ import { requestAPI } from '../../utils';
 function* getMerchantByID(action) {
     try {
         const responses = yield requestAPI(action);
-    // console.log('--- responses : ', responses);
+    //console.log('--- responses : ', responses);
     } catch (error) {
     }
 }
@@ -16,8 +16,8 @@ function* registerUser(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('--- registerUser : ', responses);
-    // console.log('----- body register : ' + JSON.stringify(action.body));
+    //console.log('--- registerUser : ', responses);
+    //console.log('----- body register : ' + JSON.stringify(action.body));
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
@@ -43,7 +43,7 @@ function* getStateCity(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('--- responses : ', responses);
+    //console.log('--- responses : ', responses);
         yield put({
             type: 'GET_STATE_CITY_SUCCESS',
             payload: responses.data
@@ -60,7 +60,7 @@ function* getQuestion(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('--- responses 2222 : ', responses);
+    //console.log('--- responses 2222 : ', responses);
         yield put({
             type: 'GET_QUESTION_SUCCESS',
             payload: responses.data
@@ -77,7 +77,7 @@ function* merchantSetting(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('--- merchantSetting : ', responses);
+    //console.log('--- merchantSetting : ', responses);
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
@@ -106,7 +106,7 @@ function* sendLinkInstallApp(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('--- sendLinkInstallApp : ', responses);
+    //console.log('--- sendLinkInstallApp : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -136,7 +136,7 @@ function* setupMerchantTAX(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('--- setupMerchantTAX : ', responses);
+    //console.log('--- setupMerchantTAX : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -170,7 +170,7 @@ function* checkEmailSignup(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('--- checkEmailSignup : ', responses);
+    //console.log('--- checkEmailSignup : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {

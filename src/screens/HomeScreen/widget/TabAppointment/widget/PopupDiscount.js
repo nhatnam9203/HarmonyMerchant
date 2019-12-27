@@ -33,20 +33,6 @@ class PopupDiscount extends React.Component {
         this.customFixedAmountRef = React.createRef();
     }
 
-    setStateFromParent = async (totalLocal, discountTotal, customDiscountPercent, customDiscountFixedLocal) => {
-    // console.log('totalLocal : ', totalLocal);
-    // console.log('discountTotal : ', discountTotal);
-    // console.log('customDiscountPercent : ', customDiscountPercent);
-    // console.log('customDiscountFixedLocal : ', customDiscountFixedLocal);
-
-        await this.setState({
-            totalLocal,
-            discountTotal: discountTotal,
-            temptTotalLocal: discountTotal,
-            customDiscountPercentLocal: customDiscountPercent,
-            customDiscountFixedLocal
-        });
-    }
 
     submitCustomPromotion() {
         const { appointmentDetail } = this.props;
@@ -57,7 +43,6 @@ class PopupDiscount extends React.Component {
             this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentDetail.appointmentId);
             this.props.actions.marketing.closeModalDiscount();
         }
-    // console.log('dddd');
         this.resetState();
     }
 
@@ -76,23 +61,14 @@ class PopupDiscount extends React.Component {
     }
 
     onChangeTextCustomDiscount = async (discount) => {
-        const { temptTotalLocal, customDiscountFixedLocal } = this.state;
         const { appointmentDetail } = this.props;
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
 
-    // console.log('temptTotalLocal : ', temptTotalLocal);
-    // console.log('discount : ', discount);
-    // console.log('customFixedAmount : ', customFixedAmount);
 
         const temptDiscount = formatNumberFromCurrency(discount) + formatNumberFromCurrency(customFixedAmount)
-    // console.log('discountTotal : ', temptDiscount);
+        //console.log('discountTotal : ', temptDiscount);
 
-        if (_.isEmpty(appointmentDetail)) {
-            await this.setState(prevState => ({
-                discountTotal: temptDiscount
-            }));
-        } else {
-        // console.log('moneyDiscountCuston : ',discount);
+        if (!_.isEmpty(appointmentDetail)) {
             await this.setState({
                 moneyDiscountCustom: discount,
                 moneyDiscountFixedAmout: this.customFixedAmountRef.current.state.discount
@@ -101,138 +77,143 @@ class PopupDiscount extends React.Component {
     }
 
     onChangeTextDiscountFixed = async (discountFixed) => {
-        const { temptTotalLocal, totalLocal } = this.state;
-        const customDiscountPercent = this.customDiscountRef.current.state.percent;
         const { appointmentDetail } = this.props;
 
-        const temptDiscount = formatNumberFromCurrency(discountFixed) + Number((formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(totalLocal) / 100).toFixed(2));
-
-        if (_.isEmpty(appointmentDetail)) {
-            await this.setState(prevState => ({
-                discountTotal: temptDiscount
-            }));
-        } else {
+        if (!_.isEmpty(appointmentDetail)) {
             const subTotal = !_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
             await this.setState({
                 moneyDiscountFixedAmout: discountFixed,
                 moneyDiscountCustom: (formatNumberFromCurrency(this.customDiscountRef.current.state.percent) * formatNumberFromCurrency(subTotal) / 100)
             })
         }
+
     }
 
     // ------ Render -----
 
     render() {
-        const { title, discount, visibleModalDiscount,
-            appointmentDetail
-        } = this.props;
-        const { customDiscountPercent, customDiscountFixed } = appointmentDetail;
-        const {
-            moneyDiscountCustom, moneyDiscountFixedAmout, totalLocal, discountTotal,
-            customDiscountPercentLocal, customDiscountFixedLocal
-        } = this.state;
-        let total = 0;
-        for (let i = 0; i < discount.length; i++) {
-            total = formatNumberFromCurrency(total) + formatNumberFromCurrency(discount[i].discount);
-        }
-        if (visibleModalDiscount && !this.customDiscountRef.current) {
-            const subTotal = !_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
-            total = formatNumberFromCurrency(total) + (formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(subTotal) / 100);
-        }
-        if (visibleModalDiscount && !this.customFixedAmountRef.current) {
-            total = formatNumberFromCurrency(total) + formatNumberFromCurrency(customDiscountFixed);
-        }
-        if (visibleModalDiscount && this.customDiscountRef.current) {
-            total = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountCustom);
-        }
-        if (visibleModalDiscount && this.customFixedAmountRef.current) {
-        // console.log('---- : ',this.customFixedAmountRef.current.state.discount);
-            total = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountFixedAmout);
-        }
-
-        total = Number(total).toFixed(2);
-
-        const temptTotalDiscount = _.isEmpty(appointmentDetail) ? Number(discountTotal).toFixed(2) : Number(total).toFixed(2);
-        const temptTotal = _.isEmpty(appointmentDetail) ? totalLocal : (!_.isEmpty(appointmentDetail) && appointmentDetail  && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0);
-        const temptCustomDiscountPercent = _.isEmpty(appointmentDetail) ? customDiscountPercentLocal : customDiscountPercent;
-        const temptCustomDiscountFixed = _.isEmpty(appointmentDetail) ? customDiscountFixedLocal : customDiscountFixed;
-
-
-        const visible = visibleModalDiscount && !_.isEmpty(appointmentDetail) ? true : false;
-
-        return (
-            <PopupParent
-                title={title}
-                visible={visible}
-                onRequestClose={this.onRequestClose}
-                width={600}
-                style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
-            >
-                <View style={{
-                    height: scaleSzie(380), backgroundColor: '#fff',
-                    borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
-                }} >
-                    <View style={{ height: scaleSzie(260) }} >
-                        <ScrollView >
-                            <TouchableOpacity activeOpacity={1} style={{ paddingHorizontal: scaleSzie(25) }} >
-                                {
-                                    discount.map((promo, index) => <ItemCampaign
-                                        key={index}
-                                        title={promo.merchantPromotion.campaignName}
-                                        discount={promo.discount}
-                                    />
-                                    )
-                                }
-                                {/* ----------- Row 1 ----------- */}
-                                <CustomDiscount
-                                    ref={this.customDiscountRef}
-                                    customDiscountPercent={temptCustomDiscountPercent}
-                                    total={formatNumberFromCurrency(temptTotal)}
-                                    onChangeText={this.onChangeTextCustomDiscount}
-                                />
-                                {/* ----------- Row 2 ----------- */}
-                                <CustomDiscountFixed
-                                    ref={this.customFixedAmountRef}
-                                    customDiscountFixed={temptCustomDiscountFixed}
-                                    onChangeText={this.onChangeTextDiscountFixed}
-                                />
-                                <View style={{ height: scaleSzie(100) }} />
-                            </TouchableOpacity>
-                        </ScrollView>
-
-                    </View>
-                    {/* ---------- Total ------- */}
+        //console.log('------ Render 11111 -----');
+        try {
+            const { title, discount, visibleModalDiscount,
+                appointmentDetail
+            } = this.props;
+            const { customDiscountPercent, customDiscountFixed } = appointmentDetail;
+            const {
+                moneyDiscountCustom, moneyDiscountFixedAmout, totalLocal, discountTotal,
+                customDiscountPercentLocal, customDiscountFixedLocal
+            } = this.state;
+            let total = 0;
+            for (let i = 0; i < discount.length; i++) {
+                total = formatNumberFromCurrency(total) + formatNumberFromCurrency(discount[i].discount);
+            }
+            if (visibleModalDiscount && !this.customDiscountRef.current) {
+                const subTotal = !_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
+                //console.log('----- subTotal : ',subTotal);
+                total = formatNumberFromCurrency(total) + (formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(subTotal) / 100);
+            }
+            if (visibleModalDiscount && !this.customFixedAmountRef.current) {
+                total = formatNumberFromCurrency(total) + formatNumberFromCurrency(customDiscountFixed);
+                //console.log('----- !customFixedAmountRef : ',total);
+            }
+            if (visibleModalDiscount && this.customDiscountRef.current) {
+                total = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountCustom);
+                //console.log('----- customDiscountRef : ',total);
+            }
+            if (visibleModalDiscount && this.customFixedAmountRef.current) {
+                //console.log('---- : ', this.customFixedAmountRef.current.state.discount);
+                total = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountFixedAmout);
+                //console.log('----- customFixedAmountRef : ',total);
+            }
+    
+            total = Number(total).toFixed(2);
+            //console.log('----- total : ',total);
+    
+            const temptTotalDiscount = _.isEmpty(appointmentDetail) ? Number(discountTotal).toFixed(2) : Number(total).toFixed(2);
+            const temptTotal = _.isEmpty(appointmentDetail) ? totalLocal : (!_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0);
+            const temptCustomDiscountPercent = _.isEmpty(appointmentDetail) ? customDiscountPercentLocal : customDiscountPercent;
+            const temptCustomDiscountFixed = _.isEmpty(appointmentDetail) ? customDiscountFixedLocal : customDiscountFixed;
+    
+    
+            const visible = visibleModalDiscount && !_.isEmpty(appointmentDetail) ? true : false;
+    
+            return (
+                <PopupParent
+                    title={title}
+                    visible={visible}
+                    onRequestClose={this.onRequestClose}
+                    width={600}
+                    style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
+                >
                     <View style={{
-                        flexDirection: 'row', height: scaleSzie(60),
-                        paddingHorizontal: scaleSzie(25)
+                        height: scaleSzie(380), backgroundColor: '#fff',
+                        borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
                     }} >
-                        <View style={{ flex: 1, justifyContent: 'center' }} >
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(30), fontWeight: 'bold' }} >
-                                Total Discount
-                            </Text>
+                        <View style={{ height: scaleSzie(260) }} >
+                            <ScrollView >
+                                <TouchableOpacity activeOpacity={1} style={{ paddingHorizontal: scaleSzie(25) }} >
+                                    {
+                                        discount.map((promo, index) => <ItemCampaign
+                                            key={index}
+                                            title={promo.merchantPromotion.campaignName}
+                                            discount={promo.discount}
+                                        />
+                                        )
+                                    }
+                                    {/* ----------- Row 1 ----------- */}
+                                    <CustomDiscount
+                                        ref={this.customDiscountRef}
+                                        customDiscountPercent={temptCustomDiscountPercent}
+                                        total={formatNumberFromCurrency(temptTotal)}
+                                        onChangeText={this.onChangeTextCustomDiscount}
+                                    />
+                                    {/* ----------- Row 2 ----------- */}
+                                    <CustomDiscountFixed
+                                        ref={this.customFixedAmountRef}
+                                        customDiscountFixed={temptCustomDiscountFixed}
+                                        onChangeText={this.onChangeTextDiscountFixed}
+                                    />
+                                    <View style={{ height: scaleSzie(100) }} />
+                                </TouchableOpacity>
+                            </ScrollView>
+    
                         </View>
-                        <View style={{ justifyContent: 'center' }} >
-                            <Text style={{ color: '#4CD964', fontSize: scaleSzie(30), fontWeight: 'bold' }} >
-                                {`- ${formatMoney(temptTotalDiscount)}$`}
-                            </Text>
+                        {/* ---------- Total ------- */}
+                        <View style={{
+                            flexDirection: 'row', height: scaleSzie(60),
+                            paddingHorizontal: scaleSzie(25)
+                        }} >
+                            <View style={{ flex: 1, justifyContent: 'center' }} >
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(30), fontWeight: 'bold' }} >
+                                    Total Discount
+                                </Text>
+                            </View>
+                            <View style={{ justifyContent: 'center' }} >
+                                <Text style={{ color: '#4CD964', fontSize: scaleSzie(30), fontWeight: 'bold' }} >
+                                    {`- ${formatMoney(temptTotalDiscount)}$`}
+                                </Text>
+                            </View>
+                        </View>
+    
+                        {/* ----------- Button Add ---- */}
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(12) }} >
+                            <ButtonCustom
+                                width={scaleSzie(125)}
+                                height={45}
+                                backgroundColor="#0764B0"
+                                title="Done"
+                                textColor="#fff"
+                                onPress={() => this.submitCustomPromotion()}
+                                style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                            />
                         </View>
                     </View>
-
-                    {/* ----------- Button Add ---- */}
-                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(12) }} >
-                        <ButtonCustom
-                            width={scaleSzie(125)}
-                            height={45}
-                            backgroundColor="#0764B0"
-                            title="Done"
-                            textColor="#fff"
-                            onPress={() => this.submitCustomPromotion()}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                        />
-                    </View>
-                </View>
-            </PopupParent>
-        );
+                </PopupParent>
+            );
+            
+        } catch (error) {
+            //console.log('-------- error : ',error);
+        }
+        
     }
 
 }
@@ -271,8 +252,8 @@ class CustomDiscount extends React.Component {
         await this.setState({ percent });
         const { total } = this.props;
         const discount = Number(formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100).toFixed(2);
-    // console.log('---- total : ', total);
-    // console.log('---- discount : ', discount);
+        //console.log('---- total : ', total);
+        //console.log('---- discount : ', discount);
         this.props.onChangeText(discount);
     }
 

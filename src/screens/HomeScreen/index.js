@@ -96,37 +96,37 @@ class HomeScreen extends Layout {
         const { groupAppointment } = this.props;
         if (currentTab !== index) {
             if (currentTab === 1 && this.tabAppointmentRef.current.state.isShowAddAppointment) {
-            // console.log('-----1-------');
+            //console.log('-----1-------');
                 await this.setState({
                     temptCurrentTap: index
                 })
                 this.tabAppointmentRef.current.setStateVisibleFromParent(true);
             } else if (currentTab === 2 && this.tabCheckoutRef.current.state.basket.length > 0) {
-            // console.log('-----2-------');
+            //console.log('-----2-------');
                 await this.setState({
                     temptCurrentTap: index
                 })
                 this.tabCheckoutRef.current.setStateVisibleFromParent();
             }
             else {
-            // console.log('-----3-------');
+            //console.log('-----3-------');
                 if (currentTab === 2 && this.tabCheckoutRef.current.state.basket.length === 0) {
-                // console.log('-----4-------');
+                //console.log('-----4-------');
                     if (!_.isEmpty(groupAppointment)) {
-                    // console.log('-----5-------');
+                    //console.log('-----5-------');
                         await this.setState({
                             temptCurrentTap: index
                         })
                         this.tabCheckoutRef.current.setStateVisibleFromParent();
                     } else {
-                    // console.log('-----6-------');
+                    //console.log('-----6-------');
                         this.tabCheckoutRef.current.resetStateFromParent();
                         this.scrollTabParentRef.current.goToPage(index);
                     }
 
 
                 } else {
-                // console.log('-----7-------');
+                //console.log('-----7-------');
                     this.scrollTabParentRef.current.goToPage(index);
                 }
 

@@ -37,7 +37,7 @@ class ParentContainer extends Component {
         if (this.inactivityTimer) {
             return;
         }
-    // console.log('---Click---');
+    //console.log('---Click---');
         this.inactivityTimer = setInterval(() => {
             if (this.props.activeScreen && !this.props.visibleEnterPin && !this.props.visibleEnterPinInvoice && new Date() - this.lastInteraction >= (this.props.autoLockScreenAfter)) {
                 this.setIsInactive();
@@ -67,8 +67,8 @@ class ParentContainer extends Component {
             default:
                 timeout = 1 * 1000 * 60;
         }
-    // console.log('number : ', this.props.activeScreen);
-    // console.log('getTimeOut : ', timeout);
+    //console.log('number : ', this.props.activeScreen);
+    //console.log('getTimeOut : ', timeout);
         return timeout
     }
 
@@ -81,7 +81,7 @@ class ParentContainer extends Component {
     };
 
     setIsInactive = () => {
-    // console.log('---setIsInactive----');
+    //console.log('---setIsInactive----');
         this.setState({ timeWentInactive: new Date() });
         clearInterval(this.inactivityTimer);
         this.inactivityTimer = null;

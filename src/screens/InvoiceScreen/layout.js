@@ -278,7 +278,7 @@ export default class Layout extends React.Component {
         const { language } = this.props;
         const { invoiceDetail } = this.state;
         const temptInvoiceDetail = invoiceDetail.checkoutPayments ? invoiceDetail.checkoutPayments : [];
-    // console.log('temptInvoiceDetail : ', temptInvoiceDetail);
+    //console.log('temptInvoiceDetail : ', temptInvoiceDetail);
         return (
             <View style={{ flex: 1 }} >
                 {

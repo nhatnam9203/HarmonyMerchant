@@ -160,7 +160,7 @@ class ItemCustomerBasket extends React.Component {
         } else {
             basket = basketLocal;
         }
-    // console.log('basket : '+ JSON.stringify(basket));
+    //console.log('basket : '+ JSON.stringify(basket));
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         return (
             <View>

@@ -19,7 +19,7 @@ const { width } = Dimensions.get('window');
 export default class DatePicker extends Component {
 
     setDate = (event, date) => {
-        // console.log('----date : ', `${moment(date).format()}`);
+        //console.log('----date : ', `${moment(date).format()}`);
         const temptDate = `${moment(date).format()}`;
         this.props.setDateSelected(temptDate);
     }

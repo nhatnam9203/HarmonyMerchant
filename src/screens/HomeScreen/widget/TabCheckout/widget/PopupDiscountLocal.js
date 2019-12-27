@@ -218,8 +218,8 @@ class CustomDiscount extends React.Component {
         await this.setState({ percent });
         const { total } = this.props;
         const discount = Number(formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100).toFixed(2);
-    // console.log('---- total : ', total);
-    // console.log('---- discount : ', discount);
+    //console.log('---- total : ', total);
+    //console.log('---- discount : ', discount);
         this.props.onChangeText(discount);
     }
 

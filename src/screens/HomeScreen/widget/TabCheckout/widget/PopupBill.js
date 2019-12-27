@@ -31,7 +31,7 @@ class PopupBill extends React.Component {
     }
 
     onPressNumber = (number) => {
-    // console.log('---- p : ', this.state.quality);
+    //console.log('---- p : ', this.state.quality);
         this.setState(prevState => ({
             quality: prevState.quality === '0' ? `${number}` : `${prevState.quality}${number}`
         }))

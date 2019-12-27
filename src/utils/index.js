@@ -44,7 +44,7 @@ function fetchWithTimeout(url, options, timeout = 10000) {
 }
 
 export const requestAPI = async (action, header = {}) => {
-// console.log('action : ',action);
+//console.log('action : ',action);
     let method = action.method || "GET";
     let baseURL = action.api;
     let headers = Object.assign({ "Accept": "application/json", "Content-Type": "application/json" }, header);
@@ -64,14 +64,14 @@ export const requestAPI = async (action, header = {}) => {
     }
     try {
         let response = await axios(configs);
-    // console.log('response : ' + JSON.stringify(response));
+    //console.log('response : ' + JSON.stringify(response));
         const codeNumber = response.status ? response.status : 0;
         if (codeNumber === 401) {
             return { codeNumber: codeNumber }
         }
         return response.data;
     } catch (error) {
-    // console.log('error message : ', error);
+    //console.log('error message : ', error);
         if (error.request) {
             if (error.message.includes('timeout')) {
                 throw 'TIME_OUT'
@@ -133,7 +133,7 @@ export const uploadFromData = async (action, header = {}) => {
         let response = await axios(configs);
         return response.data;
     } catch (error) {
-    // console.log('error message : ' + JSON.stringify(error));
+    //console.log('error message : ' + JSON.stringify(error));
         if (error.request) {
             if (error.message.includes('timeout')) {
                 throw 'TIME_OUT'
@@ -170,7 +170,7 @@ export const uploadFromData1 = async (action, headers = {}) => {
         let response = await fetch(action.api, request);
         return await response.json();
     } catch (error) {
-    // console.log("error uploadMultiImage : ", error);
+    //console.log("error uploadMultiImage : ", error);
     }
 };
 
@@ -362,7 +362,7 @@ export const getArrayProductsFromAppointment = (products = []) => {
 
 export const getArrayServicesFromAppointment = (services = []) => {
     const temptArrayServices = services.map((service) => {
-    // console.log('staff : ',service.staff);
+    //console.log('staff : ',service.staff);
         return {
             type: 'Service',
             id: `${service.serviceId}_ser`,
@@ -449,12 +449,12 @@ export const getCodeAreaPhone = (phone) => {
 }
 
 export const formatNumberFromCurrency = currency => {
-// console.log('formatNumberFromCurrency : ',currency);
+//console.log('formatNumberFromCurrency : ',currency);
     return Number(`${currency}`.replace(/[^0-9.-]+/g, ""));
 }
 
 export const roundFloatNumber = number => {
-// console.log('roundFloatNumber : ',number);
+//console.log('roundFloatNumber : ',number);
     return Number(number).toFixed(2);
 }
 

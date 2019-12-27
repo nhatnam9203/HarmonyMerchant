@@ -47,7 +47,7 @@ class BusinessInfoScreen extends Layout {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps.question.length > 0 && !prevState.initQuestion) {
-        // console.log(nextProps.question);
+        //console.log(nextProps.question);
             const { question } = nextProps
             return {
                 initQuestion: true,

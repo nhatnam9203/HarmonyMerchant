@@ -29,7 +29,7 @@ class TabSecondSettle extends Layout {
     }
 
     componentDidMount() {
-    // console.log('ddd');
+    //console.log('ddd');
         // this.handleReport();
     }
 
@@ -55,11 +55,11 @@ class TabSecondSettle extends Layout {
     }
 
     async handleResponseReportTransactions(message) {
-    // console.log('Second : ', message);
+    //console.log('Second : ', message);
         try {
             const result = JSON.parse(message);
             if (result.status == 0) {
-            // console.log('error Second : ',messageee);
+            //console.log('error Second : ',messageee);
                 this.setState({
                     paxErrorMessage: result.message,
                     errorMessage: `-${result.message}`,
@@ -73,7 +73,7 @@ class TabSecondSettle extends Layout {
                 })
             }
         } catch (error) {
-        // console.log('error : ', error)
+        //console.log('error : ', error)
         }
     }
 
