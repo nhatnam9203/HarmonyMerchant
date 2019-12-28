@@ -317,14 +317,8 @@ export function updateCustomerInAppointment(appointmentID,body) {
         type: 'UPDATE_CUSTOMER_IN_APPOINTMENT',
         method: 'PUT',
         body,
-        // body:{
-        //     customerId:'',
-        //     firstName:'',
-        //     lastName:'',
-        //     phoneNumber:''
-        // },
         token: true,
-        api: `${apiConfigs.BASE_API}updateCustomer/${appointmentID}`,
+        api: `${apiConfigs.BASE_API}appointment/updateCustomer/${appointmentID}`,
 
     }
 }
