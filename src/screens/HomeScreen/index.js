@@ -241,7 +241,8 @@ const mapStateToProps = state => ({
     loading: state.app.loading,
     isLoginStaff: state.dataLocal.isLoginStaff,
     listAppointmentsOfflineMode: state.appointment.listAppointmentsOfflineMode,
-    groupAppointment: state.appointment.groupAppointment
+    groupAppointment: state.appointment.groupAppointment,
+    webviewRef: state.appointment.webviewRef
 })
 
 

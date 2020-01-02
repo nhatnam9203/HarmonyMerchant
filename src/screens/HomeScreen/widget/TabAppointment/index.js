@@ -50,6 +50,9 @@ class TabAppointment extends Layout {
         this.popupEnterPinRef = React.createRef();
     }
 
+    componentDidMount(){
+        // this.props.actions.appointment.setWebviewRefToRedux(this.webviewRef);
+    }
 
     setStateFromParent = async () => {
         await this.setState(initState);
@@ -66,7 +69,7 @@ class TabAppointment extends Layout {
 
     onMessageFromWebview = async (event) => {
         const data = JSON.parse(event.nativeEvent.data);
-    //console.log('data : ', JSON.stringify(data));
+    console.log('data : ', JSON.stringify(data));
         if (validateIsNumber(data) && data < -150) {
             this.onLoadStartWebview();
         } else {

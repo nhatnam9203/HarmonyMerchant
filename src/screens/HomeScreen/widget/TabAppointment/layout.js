@@ -17,6 +17,7 @@ import {
 import IMAGE from '@resources';
 import { PopupDiscount, PopupChangeStylist, ItemBasket } from './widget';
 
+const myHtmlFile = require("../../../../public/index.html");
 
 class Layout extends React.Component {
 
@@ -239,7 +240,7 @@ class Layout extends React.Component {
         const { language, appointmentDetail } = this.props;
         const { basket, total } = this.state;
         const tempTipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
-        const subTotal =  !_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
+        const subTotal = !_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
 
         const discount = appointmentDetail.discount ? appointmentDetail.discount : 0;
         const tax = appointmentDetail.tax ? appointmentDetail.tax : 0;
@@ -405,12 +406,12 @@ class Layout extends React.Component {
           window.onscroll = function() { window.postMessage(document.documentElement.scrollTop||document.body.scrollTop)}
           true
           `;
-    //console.log(`${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}&staffId=${profileStaffLogin.staffId}`);
+        // console.log(`${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}&staffId=${profileStaffLogin.staffId}`);
         return (
             <View style={styles.container} >
                 <WebView
                     ref={this.webviewRef}
-                    // baseUrl={"./sourceWeb/index.html"}
+                    // source={myHtmlFile}
                     source={{ uri: `${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}&staffId=${profileStaffLogin.staffId}` }}
                     startInLoadingState={true}
                     injectedJavaScript={injectedJavascript}
@@ -418,6 +419,11 @@ class Layout extends React.Component {
                     cacheEnabled={false}
                     domStorageEnabled={true}
                     useWebKit={true}
+                    incognito={true}
+                    javaScriptEnabled={true}
+                    allowUniversalAccessFromFileURLs={true}
+                    allowFileAccess={true}
+
                 />
                 {this.state.isShowAddAppointment ? this.renderModalBookAppointment() : <View />}
                 <PopupConfirm

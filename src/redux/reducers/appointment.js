@@ -18,7 +18,8 @@ const initialState = {
     moneyChanged: 0,
     payAppointmentId: 0,
     isCancelAppointment: false,
-    visiblePopupActiveGiftCard: false
+    visiblePopupActiveGiftCard: false,
+    webviewRef: {}
 }
 
 function appReducer(state = initialState, action) {
@@ -178,6 +179,13 @@ function appReducer(state = initialState, action) {
                 ...state,
                 visiblePopupActiveGiftCard: false
             }
+        case 'SET_WEBVIEW_REF_TO_REDUX':
+            return {
+                ...state,
+                webviewRef: action.payload
+            }
+
+
         default:
             return state
     }

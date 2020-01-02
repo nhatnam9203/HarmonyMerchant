@@ -300,7 +300,7 @@ export function handleVisibleActiveGiftCard(visible = true) {
     }
 }
 
-export function checkSerialNumber(serialId,bodyAction = false,optionAction = false) {
+export function checkSerialNumber(serialId, bodyAction = false, optionAction = false) {
     return {
         type: 'CHECK_SERIAL_NUMBER',
         method: 'GET',
@@ -312,7 +312,7 @@ export function checkSerialNumber(serialId,bodyAction = false,optionAction = fal
     }
 }
 
-export function updateCustomerInAppointment(appointmentID,body) {
+export function updateCustomerInAppointment(appointmentID, body) {
     return {
         type: 'UPDATE_CUSTOMER_IN_APPOINTMENT',
         method: 'PUT',
@@ -320,5 +320,13 @@ export function updateCustomerInAppointment(appointmentID,body) {
         token: true,
         api: `${apiConfigs.BASE_API}appointment/updateCustomer/${appointmentID}`,
 
+    }
+}
+
+
+export function setWebviewRefToRedux(webviewRef) {
+    return {
+        type: 'SET_WEBVIEW_REF_TO_REDUX',
+        payload: webviewRef
     }
 }
