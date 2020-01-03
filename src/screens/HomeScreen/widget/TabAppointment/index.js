@@ -50,7 +50,7 @@ class TabAppointment extends Layout {
         this.popupEnterPinRef = React.createRef();
     }
 
-    componentDidMount(){
+    componentDidMount() {
         // this.props.actions.appointment.setWebviewRefToRedux(this.webviewRef);
     }
 
@@ -68,18 +68,25 @@ class TabAppointment extends Layout {
     }
 
     onMessageFromWebview = async (event) => {
-        const data = JSON.parse(event.nativeEvent.data);
-    console.log('data : ', JSON.stringify(data));
-        if (validateIsNumber(data) && data < -150) {
-            this.onLoadStartWebview();
-        } else {
-            const { action, appointmentId } = data;
-            if (action === 'checkout') {
-                this.props.checkoutAppointment(appointmentId);
-            } else if (action == 'signinAppointment') {
-                this.props.bookAppointment(appointmentId);
+        try {
+            if (event.nativeEvent && event.nativeEvent.data) {
+                const data = JSON.parse(event.nativeEvent.data);
+                console.log('data : ', JSON.stringify(data));
+                if (validateIsNumber(data) && data < -150) {
+                    this.onLoadStartWebview();
+                } else {
+                    const { action, appointmentId } = data;
+                    if (action === 'checkout') {
+                        this.props.checkoutAppointment(appointmentId);
+                    } else if (action == 'signinAppointment') {
+                        this.props.bookAppointment(appointmentId);
+                    }
+                }
             }
+        } catch (error) {
+            // console.log('------ error : ', event);
         }
+
     }
 
     // -------- Add Appointment --------
@@ -151,7 +158,7 @@ class TabAppointment extends Layout {
                             productId: productSeleted.productId,
                             quantity: this.amountRef.current.state.quanlity
                         }],
-                        giftCards:[]
+                        giftCards: []
                     }, appointmentId)
             } else {
                 // ------ Buy Ofline -----------
@@ -201,7 +208,7 @@ class TabAppointment extends Layout {
                         }],
                         extras: temptExtra,
                         products: [],
-                        giftCards:[]
+                        giftCards: []
                     }, appointmentId)
             } else {
                 // ------ Buy Offline ------

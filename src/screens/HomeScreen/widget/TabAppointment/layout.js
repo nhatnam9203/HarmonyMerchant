@@ -411,7 +411,6 @@ class Layout extends React.Component {
             <View style={styles.container} >
                 <WebView
                     ref={this.webviewRef}
-                    // source={myHtmlFile}
                     source={{ uri: `${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}&staffId=${profileStaffLogin.staffId}` }}
                     startInLoadingState={true}
                     injectedJavaScript={injectedJavascript}
@@ -419,11 +418,6 @@ class Layout extends React.Component {
                     cacheEnabled={false}
                     domStorageEnabled={true}
                     useWebKit={true}
-                    incognito={true}
-                    javaScriptEnabled={true}
-                    allowUniversalAccessFromFileURLs={true}
-                    allowFileAccess={true}
-
                 />
                 {this.state.isShowAddAppointment ? this.renderModalBookAppointment() : <View />}
                 <PopupConfirm

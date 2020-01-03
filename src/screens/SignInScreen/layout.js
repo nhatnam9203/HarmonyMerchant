@@ -15,7 +15,7 @@ export default class Layout extends React.Component {
     render() {
         const { errorLogin ,language} = this.props;
         const {isSecureTextEntry} = this.state;
-        const iconShowPass = isSecureTextEntry ?  IMAGE.notShowPass :  IMAGE.showPass;
+        const iconShowPass = isSecureTextEntry ? IMAGE.showPass  :  IMAGE.notShowPass ;
         return (
             <ImageBackground
                 style={styles.container}

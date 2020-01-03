@@ -28,10 +28,10 @@ function* getAppointmentById(action) {
         }
     } catch (error) {
         yield put({ type: 'STOP_LOADING_ROOT' });
-        setTimeout(() =>{
-            alert(`error-getAppointmentById: ${error}`)
-        },2000);
-       
+        // setTimeout(() =>{
+        //     alert(`error-getAppointmentById: ${error}`)
+        // },2000);
+
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -92,9 +92,9 @@ function* getGroupAppointmentById(action) {
         }
     } catch (error) {
         yield put({ type: 'STOP_LOADING_ROOT' });
-        setTimeout(() =>{
-            alert(`error-getGroupAppointmentById: ${error}`)
-        },2000);
+        // setTimeout(() =>{
+        //     alert(`error-getGroupAppointmentById: ${error}`)
+        // },2000);
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -134,9 +134,9 @@ function* addItemIntoAppointment(action) {
         }
     } catch (error) {
         yield put({ type: 'STOP_LOADING_ROOT' });
-        setTimeout(() =>{
-            alert(`error-addItemIntoAppointment: ${error}`)
-        },2000);
+        // setTimeout(() =>{
+        //     alert(`error-addItemIntoAppointment: ${error}`)
+        // },2000);
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -179,9 +179,9 @@ function* removeItemIntoAppointment(action) {
         }
     } catch (error) {
         yield put({ type: 'STOP_LOADING_ROOT' });
-        setTimeout(() =>{
-            alert(`error-removeItemIntoAppointment: ${error}`)
-        },2000);
+        // setTimeout(() =>{
+        //     alert(`error-removeItemIntoAppointment: ${error}`)
+        // },2000);
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -220,10 +220,11 @@ function* checkoutAppointment(action) {
         }
     } catch (error) {
         yield put({ type: 'STOP_LOADING_ROOT' });
-        setTimeout(() =>{
-            alert(`error-checkoutAppointment: ${error}`)
-        },2000);
+        // setTimeout(() =>{
+        //     alert(`error-checkoutAppointment: ${error}`)
+        // },2000);
         yield put({ type: error });
+      
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -279,11 +280,11 @@ function* paymentAppointment(action) {
             })
         }
     } catch (error) {
-       
+
         yield put({ type: 'STOP_LOADING_ROOT' });
-        setTimeout(() =>{
-            alert(`error-paymentAppointment: ${error}`)
-        },2000);
+        // setTimeout(() =>{
+        //     alert(`error-paymentAppointment: ${error}`)
+        // },2000);
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -353,10 +354,10 @@ function* createAnymousAppointment(action) {
         }
     } catch (error) {
         yield put({ type: 'STOP_LOADING_ROOT' });
-        setTimeout(() =>{
-            alert(`error-createAnymousAppointment: ${error}`)
-        },2000);
-       
+        // setTimeout(() =>{
+        //     alert(`error-createAnymousAppointment: ${error}`)
+        // },2000);
+
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -407,10 +408,10 @@ function* checkoutSubmit(action) {
         }
     } catch (error) {
         yield put({ type: 'STOP_LOADING_ROOT' });
-        setTimeout(() =>{
-            alert(`error-checkoutSubmit: ${error}`)
-        },2000);
-        
+        // setTimeout(() =>{
+        //     alert(`error-checkoutSubmit: ${error}`)
+        // },2000);
+
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -436,11 +437,11 @@ function* submitPaymentWithCreditCard(action) {
             })
         }
     } catch (error) {
-      
+
         yield put({ type: 'STOP_LOADING_ROOT' });
-        setTimeout(() =>{
-            alert(`error-submitPaymentWithCreditCard: ${error}`)
-        },2000);
+        // setTimeout(() =>{
+        //     alert(`error-submitPaymentWithCreditCard: ${error}`)
+        // },2000);
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -466,11 +467,11 @@ function* cancelHarmonyPayment(action) {
             })
         }
     } catch (error) {
-       
+
         yield put({ type: 'STOP_LOADING_ROOT' });
-        setTimeout(() =>{
-            alert(`error-cancelHarmonyPayment: ${error}`)
-        },2000);
+        // setTimeout(() =>{
+        //     alert(`error-cancelHarmonyPayment: ${error}`)
+        // },2000);
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -499,11 +500,11 @@ function* submitAppointmentOffline(action) {
             })
         }
     } catch (error) {
-       
+
         yield put({ type: 'STOP_LOADING_ROOT' });
-        setTimeout(() =>{
-            alert(`error-submitAppointmentOffline: ${error}`)
-        },2000);
+        // setTimeout(() =>{
+        //     alert(`error-submitAppointmentOffline: ${error}`)
+        // },2000);
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -529,11 +530,11 @@ function* cancleAppointment(action) {
             })
         }
     } catch (error) {
-       
+
         yield put({ type: 'STOP_LOADING_ROOT' });
-        setTimeout(() =>{
-            alert(`error-cancleAppointment: ${error}`)
-        },2000);
+        // setTimeout(() =>{
+        //     alert(`error-cancleAppointment: ${error}`)
+        // },2000);
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -571,9 +572,9 @@ function* removeAppointmentInGroup(action) {
     } catch (error) {
         //console.log('---- error : ', error);
         yield put({ type: 'STOP_LOADING_ROOT' });
-        setTimeout(() =>{
-            alert(`error-removeAppointmentInGroup: ${error}`)
-        },2000);
+        // setTimeout(() =>{
+        //     alert(`error-removeAppointmentInGroup: ${error}`)
+        // },2000);
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -632,9 +633,9 @@ function* checkSerialNumber(action) {
     } catch (error) {
         //console.log('error-checkSerialNumber: ', error);
         yield put({ type: 'STOP_LOADING_ROOT' });
-        setTimeout(() =>{
-            alert(`error-checkSerialNumber: ${error}`)
-        },2000);
+        // setTimeout(() =>{
+        //     alert(`error-checkSerialNumber: ${error}`)
+        // },2000);
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -648,7 +649,7 @@ function* updateCustomerInAppointment(action) {
         console.log('updateCustomerInAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-           
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
@@ -662,9 +663,9 @@ function* updateCustomerInAppointment(action) {
     } catch (error) {
         //console.log('---- error : ', error);
         yield put({ type: 'STOP_LOADING_ROOT' });
-        setTimeout(() =>{
-            alert(`error-removeAppointmentInGroup: ${error}`)
-        },2000);
+        // setTimeout(() =>{
+        //     alert(`error-removeAppointmentInGroup: ${error}`)
+        // },2000);
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
