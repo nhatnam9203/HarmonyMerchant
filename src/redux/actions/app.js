@@ -165,6 +165,7 @@ export function setVisibleEnterPincodeInvoice(visible = true) {
 export function toogleOfflineMode(visible = true) {
     return {
         type: 'TURN_ON_OFFLINE_MODE',
+        typeNetwork: 'TURN_ON_OFFLINE_MODE',
         payload: visible
     }
 }

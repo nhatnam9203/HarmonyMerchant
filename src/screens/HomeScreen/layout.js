@@ -75,7 +75,6 @@ export default class Layout extends React.Component {
                     <PopupEnterPin
                         ref={this.popupEnterPinRef}
                         title="Pin code"
-                        message="If you exit Checkout Screen , Basket will Reset ?"
                         onRequestClose={() => { }}
                         confimYes={this.submitPincode}
                         hideCloseButton={true}

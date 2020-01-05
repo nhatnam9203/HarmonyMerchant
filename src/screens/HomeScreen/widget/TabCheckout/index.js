@@ -116,8 +116,13 @@ class TabCheckout extends Layout {
 
     }
 
+    addAmount1 =() =>{
+        const { groupAppointment,isOfflineMode } = this.props;
+        alert(isOfflineMode);
+    }
+
     addAmount = async () => {
-        const { groupAppointment } = this.props;
+        const { groupAppointment,isOfflineMode } = this.props;
         const { categoryTypeSelected, basket, productSeleted, extraSelected } = this.state;
 
         if (!_.isEmpty(groupAppointment)) {  // ------------- Buy online ---------
@@ -163,7 +168,11 @@ class TabCheckout extends Layout {
                     subTotalLocal: this.getPriceOfline(temptBasket),
                     taxLocal: this.calculateTotalTaxLocal(temptBasket)
                 }, () => {
-                    this.createAnymousAppointment();
+                    if(isOfflineMode){
+                        // alert("Product!")
+                    }else{
+                        this.createAnymousAppointment();
+                    }
                 });
             } else { // ------------- Buy Service, Extra at store ---------
                 const { profileStaffLogin } = this.props;
@@ -204,7 +213,12 @@ class TabCheckout extends Layout {
                     subTotalLocal: this.getPriceOfline(temptBasketExtra),
                     taxLocal: this.calculateTotalTaxLocal(temptBasketExtra)
                 }, () => {
-                    this.createAnymousAppointment();
+                    if(isOfflineMode){
+                        // alert("Service_Extra!")
+                    }else{
+                        this.createAnymousAppointment();
+                    }
+                   
                 });
             }
         }
@@ -1022,8 +1036,18 @@ class TabCheckout extends Layout {
 
     payBasket = async () => {
         const { paymentSelected } = this.state;
-        const { groupAppointment } = this.props;
+        const { groupAppointment,isOfflineMode } = this.props;
         const method = this.getPaymentString(paymentSelected);
+
+        if(isOfflineMode &&  method === 'harmony' ){
+           this.scrollTabRef.current.goToPage(2);
+            return; 
+        }
+
+        if(isOfflineMode &&  method === 'credit_card' ){
+           alert("Not Support Offline Mode")
+             return; 
+         }
 
         if (method === 'harmony' && _.isEmpty(groupAppointment)) {
             this.popupSendLinkInstallRef.current.setStateFromParent('');
