@@ -51,3 +51,10 @@ export function resetNeddSettingStore(){
         type :'RESET_NEED_SETTING_STORE',
     }
 }
+
+export function addAppointmentOfflineMode(body) {
+    return {
+        type: 'ADD_APPOINTMENT_OFFLINE_MODE',
+        payload: body
+    }
+}

@@ -9,7 +9,7 @@ const initialState = {
     appointmentIdOffline: '',
     connectionSignalR: {},
     flagSignInAppointment: false,
-    listAppointmentsOfflineMode: [],
+    // listAppointmentsOfflineMode: [],
 
     groupAppointment: {},
     paymentDetailInfo: {},
@@ -24,11 +24,11 @@ const initialState = {
 
 function appReducer(state = initialState, action) {
     switch (action.type) {
-        case 'REHYDRATE_APPOINTMENT':
-            return {
-                ...initialState,
-                listAppointmentsOfflineMode: action.payload,
-            }
+        // case 'REHYDRATE_APPOINTMENT':
+        //     return {
+        //         ...initialState,
+        //         listAppointmentsOfflineMode: action.payload,
+        //     }
         case 'RESET_GROUP_APPOINTMENT':
             return {
                 ...initialState,
@@ -116,17 +116,6 @@ function appReducer(state = initialState, action) {
                 ...state,
                 flagSignInAppointment: action.payload
             }
-        case 'ADD_APPOINTMENT_OFFLINE_MODE':
-            return {
-                ...state,
-                listAppointmentsOfflineMode: [...state.listAppointmentsOfflineMode, action.payload]
-            }
-        case 'SUBMIT_APPOINTMENT_OFFLINE_SUCCESS': {
-            return {
-                ...state,
-                listAppointmentsOfflineMode: []
-            }
-        }
         case 'TRACSACTION_COMPLETED': {
             return {
                 ...state,
@@ -193,11 +182,11 @@ function appReducer(state = initialState, action) {
 
 
 
-const persistConfig = {
-    key: 'appointment',
-    storage: AsyncStorage,
-    whitelist: ['listAppointmentsOfflineMode']
-};
+// const persistConfig = {
+//     key: 'appointment',
+//     storage: AsyncStorage,
+//     whitelist: ['listAppointmentsOfflineMode']
+// };
 
 // module.exports = persistReducer(persistConfig, appReducer);
 module.exports = appReducer;

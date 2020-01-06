@@ -31,7 +31,7 @@ class HomeScreen extends Layout {
     }
 
     componentDidMount() {
-       
+
         this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
@@ -52,9 +52,9 @@ class HomeScreen extends Layout {
             }
         );
 
-        setTimeout(() =>{
-             this.scrollTabParentRef.current.goToPage(1,false);
-        },100)
+        setTimeout(() => {
+            this.scrollTabParentRef.current.goToPage(1, false);
+        }, 100)
     }
 
 
@@ -165,7 +165,7 @@ class HomeScreen extends Layout {
         }
     }
 
-    checkoutAppointment = async (appointmentId,appointment = {}) => {
+    checkoutAppointment = async (appointmentId, appointment = {}) => {
         await this.setState({
             currentTab: 2
         })
@@ -249,7 +249,7 @@ const mapStateToProps = state => ({
     visibleModalLock: state.app.visibleModalLock,
     loading: state.app.loading,
     isLoginStaff: state.dataLocal.isLoginStaff,
-    listAppointmentsOfflineMode: state.appointment.listAppointmentsOfflineMode,
+    listAppointmentsOfflineMode: state.dataLocal.listAppointmentsOfflineMode,
     groupAppointment: state.appointment.groupAppointment,
     isOfflineMode: state.network.isOfflineMode
 })

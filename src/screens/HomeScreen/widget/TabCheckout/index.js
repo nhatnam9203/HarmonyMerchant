@@ -126,11 +126,11 @@ class TabCheckout extends Layout {
             basket: temptBasket,
             subTotalLocal: appointment.subTotal ? appointment.subTotal : 0,
             taxLocal: appointment.tax ? appointment.tax : 0,
-            tipLocal : appointment.tipAmount ? appointment.tipAmount : 0,
-            discountTotalLocal:appointment.discount ? appointment.discount : 0,
+            tipLocal: appointment.tipAmount ? appointment.tipAmount : 0,
+            discountTotalLocal: appointment.discount ? appointment.discount : 0,
             infoUser: {
-                firstName: appointment.firstName ?appointment.firstName :"" ,
-                lastName: appointment.lastName ? appointment.lastName :"",
+                firstName: appointment.firstName ? appointment.firstName : "",
+                lastName: appointment.lastName ? appointment.lastName : "",
                 phoneNumber: appointment.phoneNumber
             },
         })
@@ -849,34 +849,6 @@ class TabCheckout extends Layout {
 
     }
 
-    addAppointmentOfflineMode() {
-        const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
-            infoUser, tipLocal, subTotalLocal, taxLocal
-        } = this.state;
-        const { profile } = this.props;
-        let method = this.getPaymentString(paymentSelected);
-        const dataAnymousAppoitment = this.getBasketOffline();
-        const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
-        const appointmentOfflineMode = {
-            firstName: infoUser.firstName,
-            lastName: infoUser.lastName,
-            phoneNumber: infoUser.phoneNumber,
-            subtotal: subTotalLocal ? parseFloat(subTotalLocal) : 0,
-            tax: taxLocal ? parseFloat(taxLocal) : 0,
-            tipAmount: tipLocal ? parseFloat(tipLocal) : 0,
-            qrcode: 'https://www.harmonypayment.com',
-            merchantId: profile.merchantId,
-            services: arryaServicesBuy,
-            extras: arrayExtrasBuy,
-            products: arrayProductBuy,
-            fromTime: moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
-            staffId,
-            customDiscountFixed: customDiscountPercentLocal,
-            customDiscountPercent: customDiscountFixedLocal,
-            paymentMethod: method
-        };
-        this.props.actions.appointment.addAppointmentOfflineMode(appointmentOfflineMode);
-    }
 
     donotPrintBill = () => {
         // ------- Handle Offline mode ------
@@ -1036,11 +1008,17 @@ class TabCheckout extends Layout {
 
 
     extractBill = () => {
-        const { groupAppointment, paymentDetailInfo } = this.props;
+        const { groupAppointment, paymentDetailInfo, isOfflineMode } = this.props;
+        const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         if (_.isEmpty(paymentDetailInfo)) {
-            const { total, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
-            const temptTotal = _.isEmpty(groupAppointment) ? Number(subTotalLocal + tipLocal + parseFloat(taxLocal) - discountTotalLocal).toFixed(2) : groupAppointment.total;
-            this.modalBillRef.current.setStateFromParent(`${temptTotal}`);
+            if (!isOfflineMode) {
+                const temptTotal = Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2);
+                this.modalBillRef.current.setStateFromParent(`${temptTotal}`);
+            } else {
+                const temptTotal = _.isEmpty(groupAppointment) ? Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2) : groupAppointment.total;
+                this.modalBillRef.current.setStateFromParent(`${temptTotal}`);
+            }
+
         } else {
             const totalExact = paymentDetailInfo.dueAmount ? paymentDetailInfo.dueAmount : 0;
             this.modalBillRef.current.setStateFromParent(`${totalExact}`);
@@ -1054,12 +1032,12 @@ class TabCheckout extends Layout {
         const { groupAppointment, isOfflineMode } = this.props;
         const method = this.getPaymentString(paymentSelected);
 
-        if (isOfflineMode && method === 'harmony') {
+        if (!isOfflineMode && method === 'harmony') {
             this.scrollTabRef.current.goToPage(2);
             return;
         }
 
-        if (isOfflineMode && method === 'credit_card') {
+        if (!isOfflineMode && method === 'credit_card') {
             alert("Not Support Offline Mode")
             return;
         }
@@ -1092,11 +1070,59 @@ class TabCheckout extends Layout {
         }
     }
 
+    addAppointmentOfflineMode() {
+        const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
+            infoUser, tipLocal, subTotalLocal, taxLocal
+        } = this.state;
+        const { profile } = this.props;
+        let method = this.getPaymentString(paymentSelected);
+        const dataAnymousAppoitment = this.getBasketOffline();
+        const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
+        const appointmentOfflineMode = {
+            firstName: infoUser.firstName,
+            lastName: infoUser.lastName,
+            phoneNumber: infoUser.phoneNumber,
+            subtotal: subTotalLocal ? parseFloat(subTotalLocal) : 0,
+            tax: taxLocal ? parseFloat(taxLocal) : 0,
+            tipAmount: tipLocal ? parseFloat(tipLocal) : 0,
+            qrcode: 'https://www.harmonypayment.com',
+            merchantId: profile.merchantId,
+            services: arryaServicesBuy,
+            extras: arrayExtrasBuy,
+            products: arrayProductBuy,
+            fromTime: moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
+            staffId,
+            customDiscountFixed: customDiscountPercentLocal,
+            customDiscountPercent: customDiscountFixedLocal,
+            paymentMethod: method
+        };
+        this.props.actions.dataLocal.addAppointmentOfflineMode(appointmentOfflineMode);
+    }
+
+    handlePaymentOffLineMode = () => {
+        const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
+        const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
+        const totalLocal = Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2);
+
+        if (moneyUserGiveForStaff == 0) {
+            alert('Enter amount!');
+        } else if (moneyUserGiveForStaff - totalLocal < 0) {
+            alert("Payment amount must be greater : " + totalLocal);
+        } else {
+            this.addAppointmentOfflineMode();
+        }
+    }
+
     doneBill = async () => {
         const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser, customerInfoByPhone } = this.state;
-        const { groupAppointment, profile, paxMachineInfo, token } = this.props;
+        const { groupAppointment, profile, paxMachineInfo, token, isOfflineMode } = this.props;
         const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
         const method = this.getPaymentString(paymentSelected);
+
+        if (!isOfflineMode) {
+            this.handlePaymentOffLineMode()
+            return;
+        }
 
         if (moneyUserGiveForStaff == 0) {
             alert('Enter amount!');

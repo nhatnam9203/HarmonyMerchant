@@ -13,15 +13,17 @@ const initialState = {
         isSetup: false
     },
     profileStaffLogin: {},
-    isLoginStaff: false
+    isLoginStaff: false,
+
+    listAppointmentsOfflineMode: []
 
 }
 
 function dataLocal(state = initialState, action) {
     switch (action.type) {
         case 'REHYDRATE_ROOT':
-        //console.log('action.payload.dataLocal : ',action.payload.dataLocal);
-            return  action.payload.dataLocal
+            //console.log('action.payload.dataLocal : ',action.payload.dataLocal);
+            return action.payload.dataLocal
         case 'SAVE_PROFILE_LOCAL':
             return {
                 ...state,
@@ -66,6 +68,17 @@ function dataLocal(state = initialState, action) {
                 ...state,
                 paxMachineInfo: action.payload
             }
+        case 'ADD_APPOINTMENT_OFFLINE_MODE':
+            return {
+                ...state,
+                listAppointmentsOfflineMode: [...state.listAppointmentsOfflineMode, action.payload]
+            }
+        case 'SUBMIT_APPOINTMENT_OFFLINE_SUCCESS': {
+            return {
+                ...state,
+                listAppointmentsOfflineMode: []
+            }
+        }
         case 'LOGOUT_APP':
             return {
                 ...state,
