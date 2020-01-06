@@ -573,14 +573,14 @@ class TabCheckout extends Layout {
 
     async printInvoice(isShowTip = false) {
         // ------------------------
-        const { groupAppointment } = this.props;
+        const { groupAppointment ,isOfflineMode} = this.props;
         const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal, methodPayment } = this.state;
         // methodPayment === 'credit_card'
 
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
 
         const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards } = this.getBasketOnline(appointments);
-        const basket = [...arryaServicesBuy, ...arrayProductBuy, ...arrayExtrasBuy, ...arrayGiftCards];
+        const basket =  isOfflineMode ? this.state.basket : [...arryaServicesBuy, ...arrayProductBuy, ...arrayExtrasBuy, ...arrayGiftCards];
         //console.log('basket : ' + JSON.stringify(basket));
 
         const tipAmount = groupAppointment.tipAmount ? groupAppointment.tipAmount : 0;
@@ -877,10 +877,10 @@ class TabCheckout extends Layout {
 
     printBill = async () => {
         // ------- Handle Offline mode ------
-        const { isOfflineMode } = this.props;
-        if (isOfflineMode) {
-            this.addAppointmentOfflineMode();
-        }
+        // const { isOfflineMode } = this.props;
+        // if (!isOfflineMode) {
+        //     this.addAppointmentOfflineMode();
+        // }
         // ---------------------------------
 
         const printer = await PrintManager.getInstance().portDiscovery();
@@ -1099,7 +1099,7 @@ class TabCheckout extends Layout {
         this.props.actions.dataLocal.addAppointmentOfflineMode(appointmentOfflineMode);
     }
 
-    handlePaymentOffLineMode = () => {
+    handlePaymentOffLineMode = async () => {
         const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
         const totalLocal = Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2);
@@ -1110,6 +1110,11 @@ class TabCheckout extends Layout {
             alert("Payment amount must be greater : " + totalLocal);
         } else {
             this.addAppointmentOfflineMode();
+            await this.setState({
+                visibleBillOfPayment: false,
+            });
+            this.modalBillRef.current.setStateFromParent(`0`);
+            this.props.actions.appointment.showModalPrintReceipt();
         }
     }
 
