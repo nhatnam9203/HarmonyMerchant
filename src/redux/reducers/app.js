@@ -13,7 +13,8 @@ const initialState = {
     isSubmitTax: false,
     visibleEnterPinInvoice: false,
     isOfflineMode: true,
-    isAgreeTerm: false
+    isAgreeTerm: false,
+    visibleDisconnect: false
 }
 
 function appReducer(state = initialState, action) {
@@ -116,6 +117,12 @@ function appReducer(state = initialState, action) {
                 ...state,
                 visibleEnterPin: false
             }
+        case 'SHOW_POP_UP_DISCONNECTED':
+            return {
+                ...state,
+                visibleDisconnect: action.payload
+            }
+
         default:
             return state
     }

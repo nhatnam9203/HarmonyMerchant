@@ -185,3 +185,10 @@ export function agreeTerm(visible = true) {
     }
 }
 
+export function showPopupDisconneted(visible = true) {
+    return {
+        type: 'SHOW_POP_UP_DISCONNECTED',
+        payload: visible
+    }
+}
+

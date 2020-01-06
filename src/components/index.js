@@ -40,6 +40,7 @@ import NetworkListener from './NetworkListener';
 import TextInputSuggestion from './TextInputSuggestion';
 import PopupActiveGiftCard from './PopupActiveGiftCard';
 import PopupScanCode from './PopupScanCode';
+import PopupDisconnected from './PopupDisconnected';
 
 module.exports = {
     Button,
@@ -83,5 +84,6 @@ module.exports = {
     NetworkListener,
     TextInputSuggestion,
     PopupActiveGiftCard,
-    PopupScanCode
+    PopupScanCode,
+    PopupDisconnected
 }

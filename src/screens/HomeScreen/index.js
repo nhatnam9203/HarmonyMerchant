@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'ramda';
 import { Alert } from 'react-native';
-
+import NetInfo from "@react-native-community/netinfo";
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -28,6 +28,7 @@ class HomeScreen extends Layout {
         this.tabAppointmentRef = React.createRef();
         this.tabCheckoutRef = React.createRef();
         this.popupEnterPinRef = React.createRef();
+        this.unsubscribeNetInfo = null;
     }
 
     componentDidMount() {
@@ -54,7 +55,13 @@ class HomeScreen extends Layout {
 
         setTimeout(() => {
             this.scrollTabParentRef.current.goToPage(1, false);
-        }, 100)
+        }, 100);
+
+        this.unsubscribeNetInfo = NetInfo.addEventListener(state => {
+            if (!state.isConnected ) {
+                this.props.actions.app.showPopupDisconneted();
+            }
+        });
     }
 
 
@@ -234,6 +241,7 @@ class HomeScreen extends Layout {
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();
+        this.unsubscribeNetInfo();
         // unsubscribeInternet();
     }
 

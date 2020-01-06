@@ -8,7 +8,7 @@ import AppNavigators from './src/navigators/AppNavigator';
 import configureStore from './src/redux/store';
 import { name as appName } from './app.json';
 import NavigatorServices from './src/navigators/NavigatorServices';
-import { Loading } from './src/components';
+import { Loading,PopupDisconnected } from './src/components';
 import IMAGE from './src/resources';
 
 class App extends React.Component {
@@ -35,6 +35,7 @@ class App extends React.Component {
                         }}
                     />
                     <Loading />
+                    <PopupDisconnected />
                 </PersistGate>
             </Provider>
         );
