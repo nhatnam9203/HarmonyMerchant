@@ -77,7 +77,7 @@ class TabAppointment extends Layout {
                 } else {
                     const { action, appointmentId } = data;
                     if (action === 'checkout') {
-                        this.props.checkoutAppointment(appointmentId);
+                        this.props.checkoutAppointment(appointmentId, data.appointment);
                     } else if (action == 'signinAppointment') {
                         this.props.bookAppointment(appointmentId);
                     }

@@ -31,7 +31,7 @@ class HomeScreen extends Layout {
     }
 
     componentDidMount() {
-        // this.scrollTabParentRef.current.goToPage(1);
+       
         this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
@@ -51,6 +51,10 @@ class HomeScreen extends Layout {
                 })
             }
         );
+
+        setTimeout(() =>{
+             this.scrollTabParentRef.current.goToPage(1,false);
+        },100)
     }
 
 
@@ -161,13 +165,14 @@ class HomeScreen extends Layout {
         }
     }
 
-    checkoutAppointment = async (appointmentId) => {
+    checkoutAppointment = async (appointmentId,appointment = {}) => {
         await this.setState({
             currentTab: 2
         })
         const { groupAppointment, isOfflineMode } = this.props;
-        if (isOfflineMode) {
-
+        if (!isOfflineMode) {
+            // this.props.actions.appointment.convertBasketOfflineMode(appointment);
+            this.tabCheckoutRef.current.setBasketOfflineModeFromParent(appointment);
         } else {
             const checkoutGroupId = !_.isEmpty(groupAppointment) && groupAppointment.checkoutGroupId ? groupAppointment.checkoutGroupId : 0;
             this.props.actions.appointment.checkoutAppointment(appointmentId, checkoutGroupId);

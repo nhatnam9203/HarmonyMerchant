@@ -330,3 +330,11 @@ export function setWebviewRefToRedux(webviewRef) {
         payload: webviewRef
     }
 }
+
+export function convertBasketOfflineMode(appointment) {
+    return {
+        type: 'CONVERT_BASKET_OFFLINE_MODE',
+        payload: appointment
+    }
+}
+

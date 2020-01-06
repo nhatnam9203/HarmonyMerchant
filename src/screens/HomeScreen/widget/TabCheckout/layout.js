@@ -334,12 +334,13 @@ class Layout extends React.Component {
 
     renderBasket() {
         const {infoUser} = this.state;
-        const { language, groupAppointment ,paymentDetailInfo} = this.props;
+        const { language, groupAppointment ,paymentDetailInfo,isOfflineMode} = this.props;
         const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
         const temptGrandTotal = groupAppointment.total ? groupAppointment.total : 0;
 
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
+         console.log("basket : " + JSON.stringify(basket));
         return (
             <View style={{ flex:1}} >
                 {/* -------- Header Basket -------- */}
@@ -549,13 +550,13 @@ class Layout extends React.Component {
                     backgroundColor="#0764B0"
                     title={localize('CONFIRM', language)}
                     textColor="#fff"
-                    onPress={() => { }}
+                    onPress={this.confimPayOfflinemode}
                     style={{
                         borderWidth: 1, borderColor: '#C5C5C5',
                         flex: 1
                     }}
                     styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
-                    activeOpacity={1}
+                    // activeOpacity={1}
                 />
             );
         } else {

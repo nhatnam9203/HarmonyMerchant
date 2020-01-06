@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'ramda';
+import _, { ap } from 'ramda';
 import { StarPRNT } from 'react-native-star-prnt';
 const signalR = require('@aspnet/signalr');
 import { Alert, NativeModules } from 'react-native';
@@ -116,13 +116,23 @@ class TabCheckout extends Layout {
 
     }
 
-    addAmount1 =() =>{
-        const { groupAppointment,isOfflineMode } = this.props;
-        alert(isOfflineMode);
+    setBasketOfflineModeFromParent = async (appointment) => {
+        const { options: services, products, extras } = appointment;
+        const arryaServices = getArrayServicesFromAppointment(services);
+        const arrayProducts = getArrayProductsFromAppointment(products);
+        const arrayExtras = getArrayExtrasFromAppointment(extras);
+        const temptBasket = arrayProducts.concat(arryaServices, arrayExtras);
+        await this.setState({
+            basket: temptBasket,
+            subTotalLocal: appointment.subTotal ? appointment.subTotal : 0,
+            taxLocal: appointment.tax ? appointment.tax : 0,
+            tipLocal : appointment.tipAmount ? appointment.tipAmount : 0,
+            discountTotalLocal:appointment.discount ? appointment.discount : 0,
+        })
     }
 
     addAmount = async () => {
-        const { groupAppointment,isOfflineMode } = this.props;
+        const { groupAppointment, isOfflineMode } = this.props;
         const { categoryTypeSelected, basket, productSeleted, extraSelected } = this.state;
 
         if (!_.isEmpty(groupAppointment)) {  // ------------- Buy online ---------
@@ -168,9 +178,9 @@ class TabCheckout extends Layout {
                     subTotalLocal: this.getPriceOfline(temptBasket),
                     taxLocal: this.calculateTotalTaxLocal(temptBasket)
                 }, () => {
-                    if(isOfflineMode){
+                    if (!isOfflineMode) {
                         // alert("Product!")
-                    }else{
+                    } else {
                         this.createAnymousAppointment();
                     }
                 });
@@ -213,12 +223,12 @@ class TabCheckout extends Layout {
                     subTotalLocal: this.getPriceOfline(temptBasketExtra),
                     taxLocal: this.calculateTotalTaxLocal(temptBasketExtra)
                 }, () => {
-                    if(isOfflineMode){
+                    if (!isOfflineMode) {
                         // alert("Service_Extra!")
-                    }else{
+                    } else {
                         this.createAnymousAppointment();
                     }
-                   
+
                 });
             }
         }
@@ -1036,18 +1046,18 @@ class TabCheckout extends Layout {
 
     payBasket = async () => {
         const { paymentSelected } = this.state;
-        const { groupAppointment,isOfflineMode } = this.props;
+        const { groupAppointment, isOfflineMode } = this.props;
         const method = this.getPaymentString(paymentSelected);
 
-        if(isOfflineMode &&  method === 'harmony' ){
-           this.scrollTabRef.current.goToPage(2);
-            return; 
+        if (isOfflineMode && method === 'harmony') {
+            this.scrollTabRef.current.goToPage(2);
+            return;
         }
 
-        if(isOfflineMode &&  method === 'credit_card' ){
-           alert("Not Support Offline Mode")
-             return; 
-         }
+        if (isOfflineMode && method === 'credit_card') {
+            alert("Not Support Offline Mode")
+            return;
+        }
 
         if (method === 'harmony' && _.isEmpty(groupAppointment)) {
             this.popupSendLinkInstallRef.current.setStateFromParent('');
@@ -1648,6 +1658,10 @@ class TabCheckout extends Layout {
             this.props.actions.appointment.checkSerialNumber(code, bodyAction, optionAction);
         }
 
+    }
+
+    confimPayOfflinemode = () => {
+        alert("ddd")
     }
 
 
