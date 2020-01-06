@@ -41,10 +41,10 @@ class PopupDisconnected extends React.Component {
                             <ButtonCustom
                                 width={'30%'}
                                 height={35}
-                                backgroundColor="#fff"
                                 title="OK"
-                                textColor="#6A6A6A"
-                                onPress={() => {}}
+                                backgroundColor="#EC1818"
+                                textColor="#fff"
+                                onPress={() => this.props.actions.app.toogleOfflineMode(true)}
                                 style={{
                                     borderWidth: 1,
                                     borderColor: '#C5C5C5'

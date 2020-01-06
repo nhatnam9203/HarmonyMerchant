@@ -416,7 +416,7 @@ class Layout extends React.Component {
                     injectedJavaScript={injectedJavascript}
                     onMessage={this.onMessageFromWebview}
                     cacheEnabled={false}
-                    domStorageEnabled={true}
+                    // domStorageEnabled={true}
                     useWebKit={true}
                 />
                 {this.state.isShowAddAppointment ? this.renderModalBookAppointment() : <View />}

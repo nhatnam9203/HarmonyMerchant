@@ -1,5 +1,5 @@
 const initialState = {
-    isOfflineMode: true
+    isOfflineMode: false
 }
 
 function networkReducer(state = initialState, action) {
@@ -7,7 +7,7 @@ function networkReducer(state = initialState, action) {
         case 'IS_CONNECTED_INTERNET':
             return {
                 ...state,
-                // isOfflineMode: false
+                isOfflineMode: false
             }
         case 'TURN_ON_OFFLINE_MODE':
             return {

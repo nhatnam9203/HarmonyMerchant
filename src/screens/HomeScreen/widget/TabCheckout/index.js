@@ -183,7 +183,7 @@ class TabCheckout extends Layout {
                     subTotalLocal: this.getPriceOfline(temptBasket),
                     taxLocal: this.calculateTotalTaxLocal(temptBasket)
                 }, () => {
-                    if (!isOfflineMode) {
+                    if (isOfflineMode) {
                         // alert("Product!")
                     } else {
                         this.createAnymousAppointment();
@@ -228,7 +228,7 @@ class TabCheckout extends Layout {
                     subTotalLocal: this.getPriceOfline(temptBasketExtra),
                     taxLocal: this.calculateTotalTaxLocal(temptBasketExtra)
                 }, () => {
-                    if (!isOfflineMode) {
+                    if (isOfflineMode) {
                         // alert("Service_Extra!")
                     } else {
                         this.createAnymousAppointment();
@@ -876,13 +876,6 @@ class TabCheckout extends Layout {
 
 
     printBill = async () => {
-        // ------- Handle Offline mode ------
-        // const { isOfflineMode } = this.props;
-        // if (!isOfflineMode) {
-        //     this.addAppointmentOfflineMode();
-        // }
-        // ---------------------------------
-
         const printer = await PrintManager.getInstance().portDiscovery();
         if (printer.length > 0) {
             const { paymentSelected, basket } = this.state;
@@ -1011,7 +1004,7 @@ class TabCheckout extends Layout {
         const { groupAppointment, paymentDetailInfo, isOfflineMode } = this.props;
         const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         if (_.isEmpty(paymentDetailInfo)) {
-            if (!isOfflineMode) {
+            if (isOfflineMode) {
                 const temptTotal = Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2);
                 this.modalBillRef.current.setStateFromParent(`${temptTotal}`);
             } else {
@@ -1032,12 +1025,12 @@ class TabCheckout extends Layout {
         const { groupAppointment, isOfflineMode } = this.props;
         const method = this.getPaymentString(paymentSelected);
 
-        if (!isOfflineMode && method === 'harmony') {
+        if (isOfflineMode && method === 'harmony') {
             this.scrollTabRef.current.goToPage(2);
             return;
         }
 
-        if (!isOfflineMode && method === 'credit_card') {
+        if (isOfflineMode && method === 'credit_card') {
             alert("Not Support Offline Mode")
             return;
         }
@@ -1124,7 +1117,7 @@ class TabCheckout extends Layout {
         const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
         const method = this.getPaymentString(paymentSelected);
 
-        if (!isOfflineMode) {
+        if (isOfflineMode) {
             this.handlePaymentOffLineMode()
             return;
         }

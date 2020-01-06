@@ -122,6 +122,13 @@ function appReducer(state = initialState, action) {
                 ...state,
                 visibleDisconnect: action.payload
             }
+        case 'TURN_ON_OFFLINE_MODE':
+            return {
+                ...state,
+                visibleDisconnect: false
+            }
+
+
 
         default:
             return state
