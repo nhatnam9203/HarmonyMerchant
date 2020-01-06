@@ -117,7 +117,7 @@ class TabCheckout extends Layout {
     }
 
     setBasketOfflineModeFromParent = async (appointment) => {
-        const { options: services, products, extras } = appointment;
+        const { services, products, extras } = appointment;
         const arryaServices = getArrayServicesFromAppointment(services);
         const arrayProducts = getArrayProductsFromAppointment(products);
         const arrayExtras = getArrayExtrasFromAppointment(extras);
@@ -128,6 +128,11 @@ class TabCheckout extends Layout {
             taxLocal: appointment.tax ? appointment.tax : 0,
             tipLocal : appointment.tipAmount ? appointment.tipAmount : 0,
             discountTotalLocal:appointment.discount ? appointment.discount : 0,
+            infoUser: {
+                firstName: appointment.firstName ?appointment.firstName :"" ,
+                lastName: appointment.lastName ? appointment.lastName :"",
+                phoneNumber: appointment.phoneNumber
+            },
         })
     }
 

@@ -171,7 +171,6 @@ class HomeScreen extends Layout {
         })
         const { groupAppointment, isOfflineMode } = this.props;
         if (!isOfflineMode) {
-            // this.props.actions.appointment.convertBasketOfflineMode(appointment);
             this.tabCheckoutRef.current.setBasketOfflineModeFromParent(appointment);
         } else {
             const checkoutGroupId = !_.isEmpty(groupAppointment) && groupAppointment.checkoutGroupId ? groupAppointment.checkoutGroupId : 0;

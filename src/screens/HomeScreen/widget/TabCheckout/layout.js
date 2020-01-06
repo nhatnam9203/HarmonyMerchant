@@ -340,7 +340,7 @@ class Layout extends React.Component {
         const temptGrandTotal = groupAppointment.total ? groupAppointment.total : 0;
 
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
-         console.log("basket : " + JSON.stringify(basket));
+         const totalLocal =  Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2);
         return (
             <View style={{ flex:1}} >
                 {/* -------- Header Basket -------- */}
@@ -378,6 +378,8 @@ class Layout extends React.Component {
                                     showModalDiscount={this.showModalDiscount}
                                     basketLocal={basket}
                                     infoUser={infoUser}
+                                    isOfflineMode={true}
+                                    
                   >
                   </ItemCustomerBasket> : <View />) :  appointments.map((appointment,index) => <ItemCustomerBasket 
                                     key={`${appointment.appointmentId}_${index}`}
@@ -406,7 +408,7 @@ class Layout extends React.Component {
                                     {`${localize('Grand Total', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { fontSize:scaleSzie(18),fontWeight:"600",color: 'rgb(65,184,85)' }]} >
-                                    {`$${formatMoney(temptGrandTotal)}`}
+                                    {`$${!isOfflineMode ? formatMoney(totalLocal) :  formatMoney(temptGrandTotal)}`}
                                 </Text>
                             </View>
                         </View>

@@ -47,7 +47,7 @@ class ItemCustomerBasket extends React.Component {
         }))
     }
 
-    getTypesOfMoneyAppointmenr = (appointmentDetail) => {
+    getTypesOfMoneyAppointment = (appointmentDetail) => {
         const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.props;
 
         const tipAmount = appointmentDetail && appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
@@ -84,7 +84,7 @@ class ItemCustomerBasket extends React.Component {
     // ---------- Render --------
 
     renderHeaderCustomerBaket() {
-        const { appointmentDetail, infoUser, paymentDetailInfo } = this.props;
+        const { appointmentDetail, infoUser, paymentDetailInfo ,isOfflineMode} = this.props;
         let firstName = '';
         let lastName = '';
 
@@ -111,14 +111,14 @@ class ItemCustomerBasket extends React.Component {
                 </Button>,
             }
         ];
-        const temptColor = isMain === 1 ? "#0764B0" : "red";
+        const temptColor = isMain === 1 || isOfflineMode ? "#0764B0" : "red";
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         const disabledRemoveItemCustomerBasket =checkoutPayments.length === 0 ? false : true;
         return (
             <Swipeout
                 right={swipeoutBtns}
                 buttonWidth={scaleSzie(45)}
-                disabled={isMain === 1 ? true : disabledRemoveItemCustomerBasket}
+                disabled={isMain === 1 || isOfflineMode ? true : disabledRemoveItemCustomerBasket}
                 close={true}
             >
                 <View style={{
@@ -149,7 +149,7 @@ class ItemCustomerBasket extends React.Component {
         const { language, appointmentDetail, removeItemBasket, changeStylist, basketLocal, paymentDetailInfo } = this.props;
         let basket = [];
         const appointmentId = appointmentDetail && appointmentDetail.appointmentId ? appointmentDetail.appointmentId : -1;
-        const { temptSubTotal, temptTotal, temptDiscount, temptTip, temptTax } = this.getTypesOfMoneyAppointmenr(appointmentDetail);
+        const { temptSubTotal, temptTotal, temptDiscount, temptTip, temptTax } = this.getTypesOfMoneyAppointment(appointmentDetail);
         if (appointmentDetail) {
             const { services, products, extras ,giftCards} = appointmentDetail;
             const arrayProducts = getArrayProductsFromAppointment(products);
