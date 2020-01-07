@@ -238,6 +238,11 @@ class HomeScreen extends Layout {
         this.scrollTabParentRef.current.goToPage(1);
     }
 
+    pushAppointmentIdOfflineIntoWebview =() =>{
+    //    console.log('pushAppointmentIdOfflineIntoWebview');
+    this.tabAppointmentRef.current.connectWebview();
+    }
+
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();

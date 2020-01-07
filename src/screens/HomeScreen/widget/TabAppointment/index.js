@@ -37,6 +37,7 @@ const initState = {
     visibleConfirm: false,
     visibleChangeStylist: false,
     visibleDiscount: false,
+    appointmentIdOffline: 0
 }
 
 class TabAppointment extends Layout {
@@ -52,6 +53,14 @@ class TabAppointment extends Layout {
 
     componentDidMount() {
         // this.props.actions.appointment.setWebviewRefToRedux(this.webviewRef);
+    }
+
+    connectWebview = () => {
+        console.log('appointmentIdOffline : ',this.state.appointmentIdOffline);
+        this.webviewRef.current.postMessage(JSON.stringify({
+            action: 'PaidOffline',
+            idAppointment: this.state.appointmentIdOffline
+        }))
     }
 
     setStateFromParent = async () => {
@@ -78,6 +87,10 @@ class TabAppointment extends Layout {
                     const { action, appointmentId } = data;
                     if (action === 'checkout') {
                         this.props.checkoutAppointment(appointmentId, data.appointment);
+                        // this.props.actions.appointment.setWebviewRefToRedux(this.webviewRef.current);
+                        this.setState({
+                            appointmentIdOffline: appointmentId
+                        })
                     } else if (action == 'signinAppointment') {
                         this.props.bookAppointment(appointmentId);
                     }

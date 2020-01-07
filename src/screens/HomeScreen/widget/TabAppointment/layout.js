@@ -17,7 +17,6 @@ import {
 import IMAGE from '@resources';
 import { PopupDiscount, PopupChangeStylist, ItemBasket } from './widget';
 
-const myHtmlFile = require("../../../../public/index.html");
 
 class Layout extends React.Component {
 

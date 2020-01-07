@@ -62,6 +62,7 @@ export default class Layout extends React.Component {
                             gotoAppoitmentScreen={this.gotoAppoitmentScreen}
                             currentTabParent={this.state.currentTab}
                             gotoAppointmentTabToGroup={this.gotoAppointmentTabToGroup}
+                            pushAppointmentIdOfflineIntoWebview={this.pushAppointmentIdOfflineIntoWebview}
                         />
                     </ScrollableTabView>
                     <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >

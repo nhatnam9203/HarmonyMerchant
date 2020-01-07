@@ -573,14 +573,14 @@ class TabCheckout extends Layout {
 
     async printInvoice(isShowTip = false) {
         // ------------------------
-        const { groupAppointment ,isOfflineMode} = this.props;
+        const { groupAppointment, isOfflineMode } = this.props;
         const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal, methodPayment } = this.state;
         // methodPayment === 'credit_card'
 
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
 
         const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards } = this.getBasketOnline(appointments);
-        const basket =  isOfflineMode ? this.state.basket : [...arryaServicesBuy, ...arrayProductBuy, ...arrayExtrasBuy, ...arrayGiftCards];
+        const basket = isOfflineMode ? this.state.basket : [...arryaServicesBuy, ...arrayProductBuy, ...arrayExtrasBuy, ...arrayGiftCards];
         //console.log('basket : ' + JSON.stringify(basket));
 
         const tipAmount = groupAppointment.tipAmount ? groupAppointment.tipAmount : 0;
@@ -849,15 +849,17 @@ class TabCheckout extends Layout {
 
     }
 
+    pushAppointmentIdOfflineIntoWebview = () => {
+        if (this.props.isOfflineMode) {
+            this.props.pushAppointmentIdOfflineIntoWebview();
+        }
+
+    }
+
 
     donotPrintBill = () => {
-        // ------- Handle Offline mode ------
-        const { isOfflineMode } = this.props;
-        if (isOfflineMode) {
-            this.addAppointmentOfflineMode();
-        }
-        // ---------------------------------
 
+        this.props.pushAppointmentIdOfflineIntoWebview();
         const { connectionSignalR } = this.props;
         const { paymentSelected } = this.state;
         if (!_.isEmpty(connectionSignalR)) {
@@ -876,6 +878,7 @@ class TabCheckout extends Layout {
 
 
     printBill = async () => {
+        this.pushAppointmentIdOfflineIntoWebview();
         const printer = await PrintManager.getInstance().portDiscovery();
         if (printer.length > 0) {
             const { paymentSelected, basket } = this.state;
@@ -1748,7 +1751,8 @@ const mapStateToProps = state => ({
     paymentDetailInfo: state.appointment.paymentDetailInfo,
     visibleChangeMoney: state.appointment.visibleChangeMoney,
     payAppointmentId: state.appointment.payAppointmentId,
-    isCancelAppointment: state.appointment.isCancelAppointment
+    isCancelAppointment: state.appointment.isCancelAppointment,
+    webviewRef: state.appointment.webviewRef
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);
