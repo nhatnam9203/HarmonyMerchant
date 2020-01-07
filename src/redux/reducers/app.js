@@ -14,7 +14,8 @@ const initialState = {
     visibleEnterPinInvoice: false,
     isOfflineMode: true,
     isAgreeTerm: false,
-    visibleDisconnect: false
+    visibleDisconnect: false,
+    visibleConnected: false
 }
 
 function appReducer(state = initialState, action) {
@@ -106,12 +107,7 @@ function appReducer(state = initialState, action) {
                 ...state,
                 visibleEnterPinInvoice: true
             }
-        // case 'TURN_ON_OFFLINE_MODE':
-        //     return {
-        //         ...state,
-        //         isOfflineMode: action.payload,
-        //         visibleEnterPin: false
-        //     }
+
         case 'CLOSE_POPUP_ENTER_PIN':
             return {
                 ...state,
@@ -122,6 +118,13 @@ function appReducer(state = initialState, action) {
                 ...state,
                 visibleDisconnect: action.payload
             }
+        case 'SHOW_POP_UP_CONNECTED':
+            return {
+                ...state,
+                visibleConnected: action.payload
+            }
+
+
         case 'TURN_ON_OFFLINE_MODE':
             return {
                 ...state,

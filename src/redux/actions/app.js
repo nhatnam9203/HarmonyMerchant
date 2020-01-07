@@ -192,3 +192,10 @@ export function showPopupDisconneted(visible = true) {
     }
 }
 
+export function showPopupConneted(visible = true) {
+    return {
+        type: 'SHOW_POP_UP_CONNECTED',
+        payload: visible
+    }
+}
+

@@ -2,6 +2,8 @@ import React from 'react';
 import _ from 'ramda';
 import { Alert } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
+import { Subject } from 'rxjs';
+import { last, distinctUntilChanged } from 'rxjs/operators';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -29,10 +31,10 @@ class HomeScreen extends Layout {
         this.tabCheckoutRef = React.createRef();
         this.popupEnterPinRef = React.createRef();
         this.unsubscribeNetInfo = null;
+        this.watcherNetwork = new Subject();
     }
 
     componentDidMount() {
-
         this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
@@ -56,12 +58,31 @@ class HomeScreen extends Layout {
         setTimeout(() => {
             this.scrollTabParentRef.current.goToPage(1, false);
         }, 100);
+        this.initWatcherNetwork();
 
         this.unsubscribeNetInfo = NetInfo.addEventListener(state => {
-            if (!state.isConnected ) {
-                this.props.actions.app.showPopupDisconneted();
-            }
+            const isConnected = state.isConnected ? state.isConnected : false;
+            this.watcherNetwork.next(isConnected);
         });
+
+    }
+
+    initWatcherNetwork = () => {
+        this.watcherNetwork.pipe(
+            distinctUntilChanged()
+        ).subscribe(isConnected => {
+            this.checkIsOfflineMode(isConnected);
+        })
+    }
+
+    checkIsOfflineMode = (isConnected) => {
+        const { isOfflineMode } = this.props;
+        if (!isConnected && !isOfflineMode) {
+            this.props.actions.app.showPopupDisconneted();
+        } else if (isConnected && isOfflineMode) {
+            this.props.actions.app.showPopupConneted(true),
+            this.props.actions.app.toogleOfflineMode(false);
+        }
     }
 
 
@@ -238,9 +259,9 @@ class HomeScreen extends Layout {
         this.scrollTabParentRef.current.goToPage(1);
     }
 
-    pushAppointmentIdOfflineIntoWebview =() =>{
-    //    console.log('pushAppointmentIdOfflineIntoWebview');
-    this.tabAppointmentRef.current.connectWebview();
+    pushAppointmentIdOfflineIntoWebview = () => {
+        //    console.log('pushAppointmentIdOfflineIntoWebview');
+        this.tabAppointmentRef.current.connectWebview();
     }
 
     componentWillUnmount() {
@@ -248,6 +269,9 @@ class HomeScreen extends Layout {
         this.didFocusSubscription.remove();
         this.unsubscribeNetInfo();
         // unsubscribeInternet();
+        this.watcherNetwork.pipe(
+            finalize(() => { })
+        );
     }
 
 

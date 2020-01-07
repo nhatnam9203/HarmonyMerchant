@@ -41,6 +41,7 @@ import TextInputSuggestion from './TextInputSuggestion';
 import PopupActiveGiftCard from './PopupActiveGiftCard';
 import PopupScanCode from './PopupScanCode';
 import PopupDisconnected from './PopupDisconnected';
+import PopupConnected from './PopupConnected';
 
 module.exports = {
     Button,
@@ -85,5 +86,6 @@ module.exports = {
     TextInputSuggestion,
     PopupActiveGiftCard,
     PopupScanCode,
-    PopupDisconnected
+    PopupDisconnected,
+    PopupConnected
 }
