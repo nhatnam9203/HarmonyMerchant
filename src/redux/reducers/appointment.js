@@ -6,7 +6,6 @@ const initialState = {
     isGetAppointmentSucces: false,
     visiblePaymentCompleted: false,
     isDonePayment: false,
-    appointmentIdOffline: '',
     connectionSignalR: {},
     flagSignInAppointment: false,
     // listAppointmentsOfflineMode: [],
@@ -19,7 +18,8 @@ const initialState = {
     payAppointmentId: 0,
     isCancelAppointment: false,
     visiblePopupActiveGiftCard: false,
-    webviewRef: {}
+    webviewRef: {},
+    appointmentIdOffline: 0
 }
 
 function appReducer(state = initialState, action) {
@@ -96,7 +96,7 @@ function appReducer(state = initialState, action) {
                 ...state,
                 visiblePaymentCompleted: true
             }
-        case 'CHECK_OUT_APPOINTMENT_OFFLINE_SUCCESS':
+        case 'CHECK_OUT_APPOINTMENT_OFFLINE':
             return {
                 ...state,
                 appointmentIdOffline: action.payload

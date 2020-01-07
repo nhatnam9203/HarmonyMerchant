@@ -52,7 +52,6 @@ class TabAppointment extends Layout {
     }
 
     componentDidMount() {
-        // this.props.actions.appointment.setWebviewRefToRedux(this.webviewRef);
     }
 
     connectWebview = () => {
@@ -87,7 +86,7 @@ class TabAppointment extends Layout {
                     const { action, appointmentId } = data;
                     if (action === 'checkout') {
                         this.props.checkoutAppointment(appointmentId, data.appointment);
-                        // this.props.actions.appointment.setWebviewRefToRedux(this.webviewRef.current);
+                        this.props.actions.appointment.checkoutAppointmentOffline(appointmentId);
                         this.setState({
                             appointmentIdOffline: appointmentId
                         })

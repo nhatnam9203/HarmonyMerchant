@@ -338,3 +338,9 @@ export function convertBasketOfflineMode(appointment) {
     }
 }
 
+export function checkoutAppointmentOffline(appointmentId) {
+    return {
+        type: 'CHECK_OUT_APPOINTMENT_OFFLINE',
+        payload: appointmentId
+    }
+}

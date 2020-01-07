@@ -1071,11 +1071,12 @@ class TabCheckout extends Layout {
         const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
             infoUser, tipLocal, subTotalLocal, taxLocal
         } = this.state;
-        const { profile } = this.props;
+        const { profile,appointmentIdOffline } = this.props;
         let method = this.getPaymentString(paymentSelected);
         const dataAnymousAppoitment = this.getBasketOffline();
         const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
         const appointmentOfflineMode = {
+            appointmentId: appointmentIdOffline,
             firstName: infoUser.firstName,
             lastName: infoUser.lastName,
             phoneNumber: infoUser.phoneNumber,
@@ -1678,7 +1679,7 @@ class TabCheckout extends Layout {
         })
     }
 
-    onRequestCloseScanCode =() =>{
+    onRequestCloseScanCode = () => {
         this.setState({
             visibleScanCode: false
         })
@@ -1719,7 +1720,8 @@ const mapStateToProps = state => ({
     visibleChangeMoney: state.appointment.visibleChangeMoney,
     payAppointmentId: state.appointment.payAppointmentId,
     isCancelAppointment: state.appointment.isCancelAppointment,
-    webviewRef: state.appointment.webviewRef
+    webviewRef: state.appointment.webviewRef,
+    appointmentIdOffline: state.appointment.appointmentIdOffline
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);
