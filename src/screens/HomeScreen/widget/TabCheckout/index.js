@@ -70,7 +70,8 @@ const initState = {
 
     customerInfoByPhone: {
         userId: 0
-    }
+    },
+    visibleScanCode: false
 }
 
 class TabCheckout extends Layout {
@@ -1028,7 +1029,7 @@ class TabCheckout extends Layout {
         const { groupAppointment, isOfflineMode } = this.props;
         const method = this.getPaymentString(paymentSelected);
 
-        if (isOfflineMode && method === 'harmony') {
+        if (!isOfflineMode && method === 'harmony') {
             this.scrollTabRef.current.goToPage(2);
             return;
         }
@@ -1277,27 +1278,6 @@ class TabCheckout extends Layout {
             visibleChangeStylist: true,
             // appointmentIdChangeStylist: appointmentId
         })
-    }
-
-    donePayment = () => {
-        const { methodPayment } = this.state;
-        const { appointmentDetail, appointmentIdOffline } = this.props;
-        const temptAppointmentId = _.isEmpty(appointmentDetail) ? appointmentIdOffline : appointmentDetail.appointmentId;
-        if (methodPayment !== 'cash') {
-            if (methodPayment === 'harmony') {
-                setTimeout(() => {
-                    this.props.actions.appointment.showModalPrintReceipt();
-                }, 500);
-            } else if (methodPayment === 'credit_card') {
-                this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
-                setTimeout(() => {
-                    this.props.actions.appointment.showModalPrintReceipt();
-                }, 500);
-            } else {
-                this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
-                this.props.actions.appointment.showModalPrintReceipt();
-            }
-        }
     }
 
     closePopupActiveGiftCard = async () => {
@@ -1693,37 +1673,24 @@ class TabCheckout extends Layout {
     }
 
     confimPayOfflinemode = () => {
-        alert("ddd")
+        this.setState({
+            visibleScanCode: true
+        })
     }
 
-
-    async componentDidUpdate(prevProps, prevState, snapshot) {
-        const { currentTabParent, appointmentDetail, loading, isGetAppointmentSucces,
-            isDonePayment
-        } = this.props;
-        if (!loading && isGetAppointmentSucces && currentTabParent === 2) {
-            const { services, products, extras } = appointmentDetail;
-            const arrayProducts = getArrayProductsFromAppointment(products);
-            const arryaServices = getArrayServicesFromAppointment(services);
-            const arrayExtras = getArrayExtrasFromAppointment(extras);
-            const temptBasket = arrayProducts.concat(arryaServices, arrayExtras);
-            this.props.actions.appointment.resetKeyUpdateAppointment();
-            await this.setState({
-                total: appointmentDetail.total,
-                basket: temptBasket,
-                appointmentId: appointmentDetail.appointmentId,
-                infoUser: {
-                    firstName: appointmentDetail.firstName,
-                    lastName: appointmentDetail.lastName,
-                    phoneNumber: appointmentDetail.phoneNumber,
-                }
-            });
-        }
-        if (isDonePayment) {
-            this.props.actions.appointment.resetPayment();
-            this.donePayment();
-        }
+    onRequestCloseScanCode =() =>{
+        this.setState({
+            visibleScanCode: false
+        })
     }
+
+    resultScanCode = async (data) => {
+        await this.setState({
+            visibleScanCode: false,
+            // scancode:data
+        })
+    }
+
 }
 
 const mapStateToProps = state => ({

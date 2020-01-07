@@ -12,7 +12,7 @@ import _ from 'ramda';
 import { scaleSzie, localize, formatNumberFromCurrency, formatMoney } from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
-    PopupSendLinkInstall,PopupActiveGiftCard
+    PopupSendLinkInstall,PopupActiveGiftCard,PopupScanCode
 } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
@@ -508,7 +508,7 @@ class Layout extends React.Component {
                     backgroundColor="#0764B0"
                     title={localize('DONE', language)}
                     textColor="#fff"
-                    onPress={this.donePayment}
+                    onPress={() =>{}}
                     style={{
                         borderWidth: 1, borderColor: '#C5C5C5',
                         flex: 1
@@ -742,7 +742,7 @@ class Layout extends React.Component {
     render() {
         const { language ,visiblePopupPaymentDetails,visibleChangeMoney} = this.props;
         const { basket, visibleConfirm, visibleChangeStylist,
-            visiblePopupDiscountLocal,
+            visiblePopupDiscountLocal,visibleScanCode
         } = this.state;
         return (
             <View style={styles.container} >
@@ -835,6 +835,11 @@ class Layout extends React.Component {
                     onRequestClose={this.closePopupProductPaymentDetails}
                     language={language}
                     nextPayment={this.nextPayment}
+                />
+                  <PopupScanCode
+                    visible={visibleScanCode}
+                    onRequestClose={this.onRequestCloseScanCode}
+                    resultScanCode={this.resultScanCode}
                 />
             </View>
         );
