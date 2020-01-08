@@ -657,6 +657,7 @@ class Layout extends React.Component {
     }
 
     renderOfflineMode() {
+        const {appointmentOfflineMode} = this.state;
         return (
             <View style={{
                 flex: 1, borderRightWidth: 1, borderRightColor: 'rgb(197, 197, 197)',
@@ -673,10 +674,7 @@ class Layout extends React.Component {
                 <View style={{ alignItems: 'center' }} >
                     <View style={styles.containerQrcode} >
                         <QRCode
-                            value="{
-                                api:https://www.harmonypayment.com
-                                total:300
-                            }"
+                            value={JSON.stringify(appointmentOfflineMode)}
                             size={scaleSzie(200)}
                         />
                     </View>
