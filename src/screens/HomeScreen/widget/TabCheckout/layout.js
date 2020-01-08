@@ -17,7 +17,7 @@ import {
 import styles from './style';
 import IMAGE from '@resources';
 import {
-    ItemCategory, ColPlaceHolder, ItemBasket, ItemProductService, ItemAmount,
+    ItemCategory, ColPlaceHolder, ItemProductService, ItemAmount,
     ItemExtra, PopupDiscount, PopupProcessingCredit, PopupBill, PopupDiscountLocal,PopupEnterInfo,
     PopupEnterCustomerPhone,ItemCustomerBasket,PopupPaymentDetails
 } from './widget';

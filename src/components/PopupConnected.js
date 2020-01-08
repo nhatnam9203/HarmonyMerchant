@@ -14,12 +14,12 @@ import connectRedux from '@redux/ConnectRedux';
 class PopupConnected extends React.Component {
 
     render() {
-        const { visibleConnected} = this.props;
+        const { visibleConnected } = this.props;
         return (
             <PopupParent
                 title={"Warning"}
                 visible={visibleConnected}
-                onRequestClose={() => {}}
+                onRequestClose={() => { }}
                 hideCloseButton={true}
             >
                 <View style={{
