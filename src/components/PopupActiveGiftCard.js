@@ -73,10 +73,10 @@ class PopupActiveGiftCard extends React.Component {
         })
     }
 
-    resultScanCode = async (data) => {
+    resultScanCode = async (e) => {
         await this.setState({
             visibleScanCode: false,
-            scancode:data
+            scancode:e.data
         })
     }
 

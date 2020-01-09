@@ -28,8 +28,11 @@ class PopupScanCode extends React.Component {
 
 
     onSuccess = (e) => {
-        this.props.resultScanCode(e.data);
-        this.scannerRef.current.reactivate();
+        this.props.resultScanCode(e);
+        // setTimeout(() =>{
+        //     this.scannerRef.current.reactivate();
+        // },3000)
+        // this.scannerRef.current.reactivate();
     }
 
     render() {

@@ -3,7 +3,7 @@ import _ from 'ramda';
 import { Alert } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import { Subject } from 'rxjs';
-import { last, distinctUntilChanged } from 'rxjs/operators';
+import { last, distinctUntilChanged ,finalize} from 'rxjs/operators';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';

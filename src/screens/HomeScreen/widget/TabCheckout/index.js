@@ -475,18 +475,22 @@ class TabCheckout extends Layout {
         for (let i = 0; i < basket.length; i++) {
             if (basket[i].type === 'Product') {
                 arrayProductBuy.push({
+                    ...basket[i],
                     productId: basket[i].data.productId,
-                    quantity: basket[i].quanlitySet
+                    quantity: basket[i].quanlitySet,
+
                 });
             } else if (basket[i].type === 'Service') {
                 staffId = basket[i].staff && basket[i].staff.staffId ? basket[i].staff.staffId : 0;
                 arryaServicesBuy.push({
+                    ...basket[i],
                     serviceId: basket[i].data.serviceId,
                     staffId: basket[i].staff && basket[i].staff.staffId ? basket[i].staff.staffId : 0,
                     tipAmount: basket[i].staff && basket[i].staff.tip ? basket[i].staff.tip : 0,
                 });
             } else if (basket[i].type === 'Extra') {
                 arrayExtrasBuy.push({
+                    ...basket[i],
                     extraId: basket[i].data.extraId,
                 })
             }
@@ -1055,7 +1059,7 @@ class TabCheckout extends Layout {
             paymentTransactionId: 0
         };
         if (isHarmonyOffline) {
-            // console.log("appointmentOfflineMode : " + JSON.stringify(appointmentOfflineMode));
+            console.log("appointmentOfflineMode : " + JSON.stringify(appointmentOfflineMode));
             this.setState({
                 appointmentOfflineMode: appointmentOfflineMode
             })
@@ -1700,11 +1704,13 @@ class TabCheckout extends Layout {
         })
     }
 
-    resultScanCode = async (data) => {
+    resultScanCode = async (e) => {
         await this.setState({
             visibleScanCode: false,
-            // scancode:data
-        })
+        });
+        const { appointmentOfflineMode } = this.state;
+        const tempDate = {...appointmentOfflineMode,paymentTransactionId:e.data};
+        this.props.actions.dataLocal.addAppointmentOfflineMode(tempDate);
     }
 
 }
