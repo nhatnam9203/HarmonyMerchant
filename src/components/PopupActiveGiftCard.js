@@ -29,7 +29,7 @@ class PopupActiveGiftCard extends React.Component {
             loading: false,
             codeAreaPhone: '+1',
             visibleScanCode: false,
-            scancode:""
+            scancode: ""
         }
     }
 
@@ -38,9 +38,9 @@ class PopupActiveGiftCard extends React.Component {
         this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardDidHide);
     }
 
-    setStateFromParent = async () =>{
+    setStateFromParent = async () => {
         await this.setState({
-            scancode:""
+            scancode: ""
         })
     }
 
@@ -76,24 +76,24 @@ class PopupActiveGiftCard extends React.Component {
     resultScanCode = async (e) => {
         await this.setState({
             visibleScanCode: false,
-            scancode:e.data
+            scancode: `${e.data}`.trim()
         })
     }
 
     submitSerialCode = () => {
-        const {scancode} = this.state;
-        if(scancode === ''){
+        const { scancode } = this.state;
+        if (scancode === '') {
             alert("Enter your code!")
-        }else{
+        } else {
             this.props.submitSerialCode(`${scancode}`);
         }
-      
+
     }
 
 
     render() {
         const { title, visible, isShowButtonEnterPinCode, onRequestClose, confimYes, hideCloseButton,
-            visiblePopupActiveGiftCard,loading
+            visiblePopupActiveGiftCard, loading
         } = this.props;
         const { value, customStyle, scancode } = this.state;
         return (
@@ -203,7 +203,7 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     isShowButtonEnterPinCode: state.staff.isShowButtonEnterPinCode,
     visiblePopupActiveGiftCard: state.appointment.visiblePopupActiveGiftCard,
-    loading:state.app.loading
+    loading: state.app.loading
 });
 
 export default connectRedux(mapStateToProps, PopupActiveGiftCard);

@@ -1292,11 +1292,9 @@ class TabCheckout extends Layout {
     }
 
     changeStylist = async (service, appointmentId) => {
-        //console.log('appointmentId : ', appointmentId);
         this.changeStylistRef.current.setStateFromParent(service, appointmentId);
         await this.setState({
             visibleChangeStylist: true,
-            // appointmentIdChangeStylist: appointmentId
         })
     }
 
@@ -1711,6 +1709,7 @@ class TabCheckout extends Layout {
         const { appointmentOfflineMode } = this.state;
         const tempDate = {...appointmentOfflineMode,paymentTransactionId:e.data};
         this.props.actions.dataLocal.addAppointmentOfflineMode(tempDate);
+        this.props.actions.appointment.showModalPrintReceipt();
     }
 
 }

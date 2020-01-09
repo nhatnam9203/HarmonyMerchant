@@ -13,6 +13,15 @@ import connectRedux from '@redux/ConnectRedux';
 
 class PopupConnected extends React.Component {
 
+    onPress =() =>{
+        const { listAppointmentsOfflineMode } = this.props;
+        if (listAppointmentsOfflineMode.length > 0) {
+            this.props.actions.appointment.submitAppointmentOffline(listAppointmentsOfflineMode);
+        }
+         this.props.actions.app.showPopupConneted(false);
+
+    }
+
     render() {
         const { visibleConnected } = this.props;
         return (
@@ -44,7 +53,7 @@ class PopupConnected extends React.Component {
                                 title="OK"
                                 backgroundColor="#0764B0"
                                 textColor="#fff"
-                                onPress={() => this.props.actions.app.showPopupConneted(false)}
+                                onPress={this.onPress}
                                 style={{
                                     borderWidth: 1,
                                     borderColor: '#C5C5C5'
@@ -77,7 +86,8 @@ class PopupConnected extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    visibleConnected: state.app.visibleConnected
+    visibleConnected: state.app.visibleConnected,
+    listAppointmentsOfflineMode: state.dataLocal.listAppointmentsOfflineMode,
 })
 
 

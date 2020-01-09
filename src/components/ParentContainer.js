@@ -44,10 +44,10 @@ class ParentContainer extends Component {
     }
 
     handleInactive = isActive => {
-        const { activeScreen, visibleEnterPinInvoice, visibleEnterPin } = this.props;
+        const { activeScreen, visibleEnterPinInvoice, visibleEnterPin,isOfflineMode } = this.props;
         const parent = this.props.navigation.dangerouslyGetParent();
         const isDrawerOpen = parent && parent.state && parent.state.isDrawerOpen;
-        if (!isActive && activeScreen && !visibleEnterPinInvoice && !visibleEnterPin && !isDrawerOpen) {
+        if (!isActive && activeScreen && !visibleEnterPinInvoice && !visibleEnterPin && !isDrawerOpen && isOfflineMode) {
             this.props.handleLockScreen();
         }
     }
@@ -77,7 +77,8 @@ class ParentContainer extends Component {
 const mapStateToProps = state => ({
     autoLockScreenAfter: state.dataLocal.autoLockScreenAfter,
     visibleEnterPinInvoice: state.app.visibleEnterPinInvoice,
-    visibleEnterPin: state.app.visibleEnterPin
+    visibleEnterPin: state.app.visibleEnterPin,
+    isOfflineMode: state.network.isOfflineMode,
 })
 
 
