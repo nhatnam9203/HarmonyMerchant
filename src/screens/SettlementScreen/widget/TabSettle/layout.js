@@ -38,6 +38,7 @@ class Layout extends React.Component {
                        ref={this.tabsecondSettleRef}
                         backTabFirstSettle={this.backTabFirstSettle}
                         reviewBatchHistory={() => this.props.reviewBatchHistory()}
+                        finishBatch={this.finishBatch}
                     />
                 </ScrollableTabView>
 

@@ -33,6 +33,12 @@ class TabFirstSettle extends Layout {
     }
 
 
+    resetNoteFromParent = async () => {
+        await this.setState({
+            note: ''
+        })
+    }
+
     onDidFocus = (payload) => {
         // this.handleReport();
     }
@@ -55,7 +61,7 @@ class TabFirstSettle extends Layout {
     }
 
     async handleResponseReportTransactions(message) {
-    //console.log('handleResponseReportTransactions : ' , message)
+        //console.log('handleResponseReportTransactions : ' , message)
         try {
             const result = JSON.parse(message);
             if (result.status == 0) {
@@ -67,7 +73,7 @@ class TabFirstSettle extends Layout {
                 })
             }
         } catch (error) {
-        //console.log('error : ', error)
+            //console.log('error : ', error)
         }
     }
 
@@ -110,24 +116,24 @@ class TabFirstSettle extends Layout {
         this.totalCustomRef.current.setStateFromParent(total);
     }
 
-   onRefreshSettle = () =>{
-    this.props.actions.invoice.getSettlementWating(false);
-    if(this.inputHarmonyPaymentRef.current){
-        this.inputHarmonyPaymentRef.current.resetStateFromParent();
+    onRefreshSettle = () => {
+        this.props.actions.invoice.getSettlementWating(false);
+        if (this.inputHarmonyPaymentRef.current) {
+            this.inputHarmonyPaymentRef.current.resetStateFromParent();
+        }
+        if (this.inputCreditPaymentRef.current) {
+            this.inputCreditPaymentRef.current.resetStateFromParent();
+        }
+        if (this.inputCashPaymentRef.current) {
+            this.inputCashPaymentRef.current.resetStateFromParent();
+        }
+        if (this.inputOtherPaymentRef.current) {
+            this.inputOtherPaymentRef.current.resetStateFromParent();
+        }
+        if (this.totalCustomRef.current) {
+            this.totalCustomRef.current.resetStateFromParent();
+        }
     }
-    if( this.inputCreditPaymentRef.current){
-        this.inputCreditPaymentRef.current.resetStateFromParent();
-    }
-    if(this.inputCashPaymentRef.current){
-        this.inputCashPaymentRef.current.resetStateFromParent();
-    }
-    if( this.inputOtherPaymentRef.current){
-        this.inputOtherPaymentRef.current.resetStateFromParent();
-    }
-    if(this.totalCustomRef.current){
-        this.totalCustomRef.current.resetStateFromParent();
-    }
-   }
 
 }
 

@@ -30,6 +30,10 @@ class TabSettle extends Layout {
         this.scrollTabRef.current.goToPage(0);
     }
 
+    finishBatch =() =>{
+        this.tabFirstSettleRef.current.resetNoteFromParent();
+    }
+
 }
 
 const mapStateToProps = state => ({

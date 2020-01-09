@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import Swipeout from 'react-native-swipeout';
 
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize,formatMoney } from '@utils';
 import { Text, Button } from '@components';
 import IMAGE from '@resources';
 
@@ -79,7 +79,7 @@ const ItemBasket = ({ item, removeItemBasket, onPress,disabled  = false}) => {
                         flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(10),
                     }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(14), }} >
-                            {`$ ${data.price}`}
+                            {`$ ${formatMoney(data.price)}`}
                         </Text>
                     </View>
                 </View>

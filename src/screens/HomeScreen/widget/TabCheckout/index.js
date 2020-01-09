@@ -72,7 +72,8 @@ const initState = {
         userId: 0
     },
     visibleScanCode: false,
-    appointmentOfflineMode: {}
+    appointmentOfflineMode: {},
+    staffIdOfline:0
 }
 
 class TabCheckout extends Layout {
@@ -126,6 +127,7 @@ class TabCheckout extends Layout {
         const temptBasket = arrayProducts.concat(arryaServices, arrayExtras);
         await this.setState({
             basket: temptBasket,
+            staffIdOfline:appointment.staffId ? appointment.staffId  : 0,
             subTotalLocal: appointment.subTotal ? appointment.subTotal : 0,
             taxLocal: appointment.tax ? appointment.tax : 0,
             tipLocal: appointment.tipAmount ? appointment.tipAmount : 0,
@@ -1031,7 +1033,7 @@ class TabCheckout extends Layout {
 
     addAppointmentOfflineMode(isHarmonyOffline = false) {
         const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
-            infoUser, tipLocal, subTotalLocal, taxLocal, discountTotalLocal
+            infoUser, tipLocal, subTotalLocal, taxLocal, discountTotalLocal,staffIdOfline
         } = this.state;
         const { profile, appointmentIdOffline } = this.props;
         let method = this.getPaymentString(paymentSelected);
@@ -1042,17 +1044,17 @@ class TabCheckout extends Layout {
             firstName: infoUser.firstName,
             lastName: infoUser.lastName,
             phoneNumber: infoUser.phoneNumber,
-            subtotal: subTotalLocal ? parseFloat(subTotalLocal) : 0,
+            subTotal: subTotalLocal ? parseFloat(subTotalLocal) : 0,
             tax: taxLocal ? parseFloat(taxLocal) : 0,
             tipAmount: tipLocal ? parseFloat(tipLocal) : 0,
-            discountTotalLocal: discountTotalLocal ? parseFloat(discountTotalLocal) : 0,
-            qrcode: 'https://www.harmonypayment.com',
+            discount: discountTotalLocal ? parseFloat(discountTotalLocal) : 0,
+            // qrcode: 'https://www.harmonypayment.com',
             merchantId: profile.merchantId,
             services: arryaServicesBuy,
             extras: arrayExtrasBuy,
             products: arrayProductBuy,
             fromTime: moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
-            staffId,
+            staffId:staffIdOfline,
             customDiscountFixed: customDiscountPercentLocal,
             customDiscountPercent: customDiscountFixedLocal,
             paymentMethod: method,

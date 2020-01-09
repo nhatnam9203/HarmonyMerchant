@@ -226,7 +226,8 @@ class Layout extends React.Component {
                                 Payment by Credit card
                         </Text>
                             <Text style={{ color: '#fff', fontSize: scaleSzie(20), fontWeight: 'bold' }} >
-                                {`$ ${total}`}
+                                {/* {`$ ${total}`} */}
+                                {`$ ${paymentByCreditCard}`}
                             </Text>
                         </View>
                     </View>
