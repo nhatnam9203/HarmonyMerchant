@@ -196,6 +196,7 @@ class HomeScreen extends Layout {
     }
 
     checkoutAppointment = async (appointmentId, appointment = {}) => {
+        //console.log('--- appointment offline : ', JSON.stringify(appointment));
         await this.setState({
             currentTab: 2
         })

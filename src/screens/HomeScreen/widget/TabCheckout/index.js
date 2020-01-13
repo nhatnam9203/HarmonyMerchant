@@ -73,7 +73,8 @@ const initState = {
     },
     visibleScanCode: false,
     appointmentOfflineMode: {},
-    staffIdOfline:0
+    staffIdOfline:0,
+    fromTime:""
 }
 
 class TabCheckout extends Layout {
@@ -128,6 +129,7 @@ class TabCheckout extends Layout {
         await this.setState({
             basket: temptBasket,
             staffIdOfline:appointment.staffId ? appointment.staffId  : 0,
+            fromTime: appointment.fromTime ?  appointment.fromTime : "",
             subTotalLocal: appointment.subTotal ? appointment.subTotal : 0,
             taxLocal: appointment.tax ? appointment.tax : 0,
             tipLocal: appointment.tipAmount ? appointment.tipAmount : 0,
@@ -294,12 +296,12 @@ class TabCheckout extends Layout {
 
 
     getPriceOfline(basket) {
-        //console.log('basket : ' + JSON.stringify(basket));
+        ////console.log('basket : ' + JSON.stringify(basket));
         let total = 0;
         for (let i = 0; i < basket.length; i++) {
             if (basket[i].type === "Product") {
                 total = total + parseFloat(basket[i].data.price) * basket[i].quanlitySet;
-                //console.log('total : ', total);
+                ////console.log('total : ', total);
             } else {
                 total = total + formatNumberFromCurrency(basket[i].data.price);
             }
@@ -325,7 +327,7 @@ class TabCheckout extends Layout {
     }
 
     removeItemBasket = (item, appointmentId = -1, isGroup = false) => {
-        //console.log('appointmentId : ', appointmentId);
+        ////console.log('appointmentId : ', appointmentId);
         const { basket } = this.state;
         if (appointmentId !== -1) {
             // ----- Remove With Appointmnet 
@@ -506,7 +508,7 @@ class TabCheckout extends Layout {
     }
 
     getBasketOnline = (appointments) => {
-        //console.log("getBasketOnline : " + JSON.stringify(appointments));
+        ////console.log("getBasketOnline : " + JSON.stringify(appointments));
         const arrayProductBuy = [];
         const arryaServicesBuy = [];
         const arrayExtrasBuy = [];
@@ -589,7 +591,7 @@ class TabCheckout extends Layout {
 
         const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards } = this.getBasketOnline(appointments);
         const basket = isOfflineMode ? this.state.basket : [...arryaServicesBuy, ...arrayProductBuy, ...arrayExtrasBuy, ...arrayGiftCards];
-        //console.log('basket : ' + JSON.stringify(basket));
+        ////console.log('basket : ' + JSON.stringify(basket));
 
         const tipAmount = groupAppointment.tipAmount ? groupAppointment.tipAmount : 0;
         const subTotal = groupAppointment.subTotal ? groupAppointment.subTotal : 0;
@@ -604,7 +606,7 @@ class TabCheckout extends Layout {
         const temptTax = _.isEmpty(groupAppointment) ? taxLocal : tax;
 
         // ------------------------
-        //console.log('---- basket : ' + JSON.stringify(basket));
+        ////console.log('---- basket : ' + JSON.stringify(basket));
         try {
             const printer = await PrintManager.getInstance().portDiscovery();
             if (printer.length > 0) {
@@ -852,7 +854,7 @@ class TabCheckout extends Layout {
                 }, 500)
             }
         } catch (error) {
-            //console.log('scan error : ', error);
+            ////console.log('scan error : ', error);
         }
 
     }
@@ -905,7 +907,7 @@ class TabCheckout extends Layout {
             this.setState(initState);
             this.props.actions.appointment.resetPayment();
 
-            //console.log('----- basket : ' + JSON.stringify(basket));
+            ////console.log('----- basket : ' + JSON.stringify(basket));
         } else {
             alert('Please connect to your print ! ');
         }
@@ -931,7 +933,7 @@ class TabCheckout extends Layout {
 
 
     handleHarmonyPayment = async (checkoutPaymentInfo) => {
-        //console.log("checkoutPayment : ", JSON.stringify(checkoutPaymentInfo));
+        ////console.log("checkoutPayment : ", JSON.stringify(checkoutPaymentInfo));
         await this.setState({
             changeButtonDone: false,
             isCancelHarmonyPay: false,
@@ -965,7 +967,7 @@ class TabCheckout extends Layout {
             connection.on("ListWaNotification", (data) => {
 
                 const temptData = JSON.parse(data);
-                //console.log('ListWaNotification : ' + JSON.stringify(temptData));
+                ////console.log('ListWaNotification : ' + JSON.stringify(temptData));
                 if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
                     && temptData.data.checkoutGroupId == checkoutGroupId
                 ) {
@@ -991,7 +993,7 @@ class TabCheckout extends Layout {
             // .catch(error => { });
 
         } catch (error) {
-            //console.log('------ error : ', error);
+            ////console.log('------ error : ', error);
         }
 
 
@@ -1033,7 +1035,7 @@ class TabCheckout extends Layout {
 
     addAppointmentOfflineMode(isHarmonyOffline = false) {
         const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
-            infoUser, tipLocal, subTotalLocal, taxLocal, discountTotalLocal,staffIdOfline
+            infoUser, tipLocal, subTotalLocal, taxLocal, discountTotalLocal,staffIdOfline,fromTime
         } = this.state;
         const { profile, appointmentIdOffline } = this.props;
         let method = this.getPaymentString(paymentSelected);
@@ -1048,12 +1050,11 @@ class TabCheckout extends Layout {
             tax: taxLocal ? parseFloat(taxLocal) : 0,
             tipAmount: tipLocal ? parseFloat(tipLocal) : 0,
             discount: discountTotalLocal ? parseFloat(discountTotalLocal) : 0,
-            // qrcode: 'https://www.harmonypayment.com',
             merchantId: profile.merchantId,
             services: arryaServicesBuy,
             extras: arrayExtrasBuy,
             products: arrayProductBuy,
-            fromTime: moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
+            fromTime: fromTime !== "" ? fromTime : moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
             staffId:staffIdOfline,
             customDiscountFixed: customDiscountPercentLocal,
             customDiscountPercent: customDiscountFixedLocal,
@@ -1061,7 +1062,7 @@ class TabCheckout extends Layout {
             paymentTransactionId: 0
         };
         if (isHarmonyOffline) {
-            //console.log("appointmentOfflineMode : " + JSON.stringify(appointmentOfflineMode));
+            ////console.log("appointmentOfflineMode : " + JSON.stringify(appointmentOfflineMode));
             this.setState({
                 appointmentOfflineMode: appointmentOfflineMode
             })
@@ -1215,7 +1216,7 @@ class TabCheckout extends Layout {
         })
 
         const moneyCreditCard = Number(formatNumberFromCurrency(moneyUserGiveForStaff) * 100).toFixed(2);
-        //console.log("moneyUserGiveForStaff : ", moneyCreditCard)
+        ////console.log("moneyUserGiveForStaff : ", moneyCreditCard)
         // 3. Send Transaction 
         PosLink.sendTransaction(parseFloat(moneyCreditCard), (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
     }
@@ -1255,7 +1256,7 @@ class TabCheckout extends Layout {
                 }
             }
         } catch (error) {
-            //console.log('error : ', error)
+            ////console.log('error : ', error)
         }
     }
 
@@ -1430,7 +1431,7 @@ class TabCheckout extends Layout {
     }
 
     showModalDiscount = async (appointmentId) => {
-        //console.log('showModalDiscount : ', appointmentId);
+        ////console.log('showModalDiscount : ', appointmentId);
         const { subTotalLocal, discountTotalLocal, customDiscountPercentLocal,
             customDiscountFixedLocal
         } = this.state;
@@ -1568,7 +1569,7 @@ class TabCheckout extends Layout {
                 api: `${apiConfigs.BASE_API}customer/getbyphone/${splitPlusInPhoneNumber(phoneNumber)}`,
                 token: profileStaffLogin.token
             });
-            //console.log("changeCustomerPhone : " + JSON.stringify(responses));
+            ////console.log("changeCustomerPhone : " + JSON.stringify(responses));
             this.props.actions.app.stopLoadingApp();
             if (responses.codeNumber === 200) {
                 await this.setState({
@@ -1600,7 +1601,7 @@ class TabCheckout extends Layout {
                 })
             }
         } catch (error) {
-            //console.log('error : ', error);
+            ////console.log('error : ', error);
         }
 
     }
