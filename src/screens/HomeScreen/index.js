@@ -182,9 +182,11 @@ class HomeScreen extends Layout {
     }
 
     showLockScreen = () => {
+        // this.tabAppointmentRef.current.reloadWebviewFromParent();
         this.popupEnterPinRef.current.setStateFromParent('');
         this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
         this.scrollTabParentRef.current.goToPage(1);
+
     }
 
     clearDataTabCheckout = () => {
@@ -260,7 +262,7 @@ class HomeScreen extends Layout {
     }
 
     pushAppointmentIdOfflineIntoWebview = () => {
-        //    console.log('pushAppointmentIdOfflineIntoWebview');
+        //    //console.log('pushAppointmentIdOfflineIntoWebview');
         this.tabAppointmentRef.current.connectWebview();
     }
 

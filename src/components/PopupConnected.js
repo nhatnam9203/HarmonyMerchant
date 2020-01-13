@@ -19,6 +19,8 @@ class PopupConnected extends React.Component {
             this.props.actions.appointment.submitAppointmentOffline(listAppointmentsOfflineMode);
         }
          this.props.actions.app.showPopupConneted(false);
+         
+
 
     }
 

@@ -1061,7 +1061,7 @@ class TabCheckout extends Layout {
             paymentTransactionId: 0
         };
         if (isHarmonyOffline) {
-            console.log("appointmentOfflineMode : " + JSON.stringify(appointmentOfflineMode));
+            //console.log("appointmentOfflineMode : " + JSON.stringify(appointmentOfflineMode));
             this.setState({
                 appointmentOfflineMode: appointmentOfflineMode
             })
@@ -1568,7 +1568,7 @@ class TabCheckout extends Layout {
                 api: `${apiConfigs.BASE_API}customer/getbyphone/${splitPlusInPhoneNumber(phoneNumber)}`,
                 token: profileStaffLogin.token
             });
-            console.log("changeCustomerPhone : " + JSON.stringify(responses));
+            //console.log("changeCustomerPhone : " + JSON.stringify(responses));
             this.props.actions.app.stopLoadingApp();
             if (responses.codeNumber === 200) {
                 await this.setState({

@@ -199,3 +199,9 @@ export function showPopupConneted(visible = true) {
     }
 }
 
+export function resetStateReloadWebView(visible = true) {
+    return {
+        type: 'RESET_STATE_RELOAD_WEBVIEW',
+        payload: visible
+    }
+}

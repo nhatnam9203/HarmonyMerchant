@@ -15,7 +15,8 @@ const initialState = {
     isOfflineMode: true,
     isAgreeTerm: false,
     visibleDisconnect: false,
-    visibleConnected: false
+    visibleConnected: false,
+    isReloadWebview: false
 }
 
 function appReducer(state = initialState, action) {
@@ -121,7 +122,13 @@ function appReducer(state = initialState, action) {
         case 'SHOW_POP_UP_CONNECTED':
             return {
                 ...state,
-                visibleConnected: action.payload
+                visibleConnected: action.payload,
+                isReloadWebview: !action.payload ? true : state.isReloadWebview
+            }
+        case 'RESET_STATE_RELOAD_WEBVIEW':
+            return {
+                ...state,
+                isReloadWebview: false
             }
 
 

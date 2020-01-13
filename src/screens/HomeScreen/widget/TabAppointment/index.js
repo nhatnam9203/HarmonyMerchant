@@ -51,11 +51,14 @@ class TabAppointment extends Layout {
         this.popupEnterPinRef = React.createRef();
     }
 
-    componentDidMount() {
+    reloadWebviewFromParent = () => {
+        this.webviewRef.current.postMessage(JSON.stringify({
+            action: 'reloadWed',
+        }))
     }
 
     connectWebview = () => {
-        // console.log('appointmentIdOffline : ',this.state.appointmentIdOffline);
+        // //console.log('appointmentIdOffline : ',this.state.appointmentIdOffline);
         this.webviewRef.current.postMessage(JSON.stringify({
             action: 'PaidOffline',
             idAppointment: this.state.appointmentIdOffline
@@ -79,7 +82,7 @@ class TabAppointment extends Layout {
         try {
             if (event.nativeEvent && event.nativeEvent.data) {
                 const data = JSON.parse(event.nativeEvent.data);
-                // console.log('data : ', JSON.stringify(data));
+                // //console.log('data : ', JSON.stringify(data));
                 if (validateIsNumber(data) && data < -150) {
                     this.onLoadStartWebview();
                 } else {
@@ -96,7 +99,7 @@ class TabAppointment extends Layout {
                 }
             }
         } catch (error) {
-            // console.log('------ error : ', event);
+            // //console.log('------ error : ', event);
         }
 
     }
@@ -347,7 +350,7 @@ class TabAppointment extends Layout {
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { currentTabParent, appointmentDetail, loading, isGetAppointmentSucces,
-            isLoginStaff
+            isLoginStaff,isReloadWebview
         } = this.props;
         if (!loading && isGetAppointmentSucces && currentTabParent === 1) {
             const { services, products, extras } = appointmentDetail;
@@ -370,6 +373,11 @@ class TabAppointment extends Layout {
             });
         }
 
+        if(isReloadWebview && isReloadWebview != prevProps.isReloadWebview){
+            this.reloadWebviewFromParent();
+            this.props.actions.app.resetStateReloadWebView();
+        }
+
     }
 
 }
@@ -388,6 +396,7 @@ const mapStateToProps = state => ({
     isLoginStaff: state.dataLocal.isLoginStaff,
     loading: state.app.loading,
 
+    isReloadWebview: state.app.isReloadWebview
 
 })
 
