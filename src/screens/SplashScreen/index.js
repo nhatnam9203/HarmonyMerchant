@@ -80,10 +80,8 @@ class SplashScreen extends Layout {
 
     controlFlowInitApp() {
         const { token, profile } = this.props;
-        // this.props.actions.app.resetIsFlashScreen(true);
         this.props.actions.app.getStateCity();
         if (!token) {
-            // this.props.actions.app.getStateCity();
             this.props.navigation.navigate('Auth');
         } else {
             if (profile.needSetting) {
@@ -97,10 +95,7 @@ class SplashScreen extends Layout {
 
 
 
-    componentWillUnmount() {
-        // this.props.actions.app.resetIsFlashScreen();
-    }
-
+   
 }
 
 const mapStateToProps = state => ({

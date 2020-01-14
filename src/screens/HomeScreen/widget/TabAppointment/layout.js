@@ -405,7 +405,7 @@ class Layout extends React.Component {
           window.onscroll = function() { window.postMessage(document.documentElement.scrollTop||document.body.scrollTop)}
           true
           `;
-        // //console.log(`${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}&staffId=${profileStaffLogin.staffId}`);
+        //console.log(`${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}&staffId=${profileStaffLogin.staffId}`);
         return (
             <View style={styles.container} >
                 <WebView

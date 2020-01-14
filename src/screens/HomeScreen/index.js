@@ -263,7 +263,7 @@ class HomeScreen extends Layout {
     }
 
     pushAppointmentIdOfflineIntoWebview = () => {
-        //    //console.log('pushAppointmentIdOfflineIntoWebview');
+           //console.log('pushAppointmentIdOfflineIntoWebview');
         this.tabAppointmentRef.current.connectWebview();
     }
 

@@ -58,7 +58,7 @@ class TabAppointment extends Layout {
     }
 
     connectWebview = () => {
-        // //console.log('appointmentIdOffline : ',this.state.appointmentIdOffline);
+        //console.log('appointmentIdOffline : ',this.state.appointmentIdOffline);
         this.webviewRef.current.postMessage(JSON.stringify({
             action: 'PaidOffline',
             idAppointment: this.state.appointmentIdOffline
@@ -82,7 +82,7 @@ class TabAppointment extends Layout {
         try {
             if (event.nativeEvent && event.nativeEvent.data) {
                 const data = JSON.parse(event.nativeEvent.data);
-                // //console.log('data : ', JSON.stringify(data));
+                //console.log('data : ', JSON.stringify(data));
                 if (validateIsNumber(data) && data < -150) {
                     this.onLoadStartWebview();
                 } else {
@@ -99,7 +99,7 @@ class TabAppointment extends Layout {
                 }
             }
         } catch (error) {
-            // //console.log('------ error : ', event);
+            //console.log('------ error : ', event);
         }
 
     }
