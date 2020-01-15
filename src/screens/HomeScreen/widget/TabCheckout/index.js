@@ -1034,7 +1034,7 @@ class TabCheckout extends Layout {
         const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
             infoUser, tipLocal, subTotalLocal, taxLocal, discountTotalLocal, staffIdOfline, fromTime
         } = this.state;
-        const { profile, appointmentIdOffline } = this.props;
+        const { profile, appointmentIdOffline,profileStaffLogin } = this.props;
         let method = this.getPaymentString(paymentSelected);
         const dataAnymousAppoitment = this.getBasketOffline();
         const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
@@ -1052,7 +1052,7 @@ class TabCheckout extends Layout {
             extras: arrayExtrasBuy,
             products: arrayProductBuy,
             fromTime: fromTime !== "" ? fromTime : moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
-            staffId: staffIdOfline,
+            staffId: staffIdOfline !== 0 ? staffIdOfline : profileStaffLogin.staffId,
             customDiscountFixed: customDiscountPercentLocal,
             customDiscountPercent: customDiscountFixedLocal,
             paymentMethod: method,

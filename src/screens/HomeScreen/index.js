@@ -265,6 +265,7 @@ class HomeScreen extends Layout {
             this.props.actions.appointment.checkAppointmentBeforOffline(false);
             this.tabCheckoutRef.current.resetStateFromParent();
             this.scrollTabParentRef.current.goToPage(1);
+            this.props.actions.appointment.resetGroupAppointment();
         }
     }
 
