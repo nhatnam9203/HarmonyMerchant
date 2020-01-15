@@ -19,7 +19,9 @@ const initialState = {
     isCancelAppointment: false,
     visiblePopupActiveGiftCard: false,
     webviewRef: {},
-    appointmentIdOffline: 0
+    appointmentIdOffline: 0,
+
+    isCheckAppointmentBeforeOffline: false
 }
 
 function appReducer(state = initialState, action) {
@@ -173,7 +175,11 @@ function appReducer(state = initialState, action) {
                 ...state,
                 webviewRef: action.payload
             }
-
+        case 'CHECK_APPOINTMENT_BEFORE_OFFLINE':
+            return {
+                ...state,
+                isCheckAppointmentBeforeOffline: action.payload
+            }
 
         default:
             return state

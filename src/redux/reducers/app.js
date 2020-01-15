@@ -130,8 +130,11 @@ function appReducer(state = initialState, action) {
                 ...state,
                 isReloadWebview: false
             }
-
-
+        case 'SUBMIT_APPOINTMENT_OFFLINE_SUCCESS':
+            return {
+                ...state,
+                isReloadWebview: true
+            }
         case 'TURN_ON_OFFLINE_MODE':
             return {
                 ...state,

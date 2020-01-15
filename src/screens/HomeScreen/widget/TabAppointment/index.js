@@ -350,7 +350,7 @@ class TabAppointment extends Layout {
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { currentTabParent, appointmentDetail, loading, isGetAppointmentSucces,
-            isLoginStaff,isReloadWebview
+            isLoginStaff, isReloadWebview
         } = this.props;
         if (!loading && isGetAppointmentSucces && currentTabParent === 1) {
             const { services, products, extras } = appointmentDetail;
@@ -373,7 +373,7 @@ class TabAppointment extends Layout {
             });
         }
 
-        if(isReloadWebview && isReloadWebview != prevProps.isReloadWebview){
+        if (isReloadWebview && isReloadWebview != prevProps.isReloadWebview) {
             this.reloadWebviewFromParent();
             this.props.actions.app.resetStateReloadWebView();
         }
@@ -392,10 +392,8 @@ const mapStateToProps = state => ({
     servicesByMerchant: state.service.servicesByMerchant,
     appointmentDetail: state.appointment.appointmentDetail,
     isGetAppointmentSucces: state.appointment.isGetAppointmentSucces,
-
     isLoginStaff: state.dataLocal.isLoginStaff,
     loading: state.app.loading,
-
     isReloadWebview: state.app.isReloadWebview
 
 })

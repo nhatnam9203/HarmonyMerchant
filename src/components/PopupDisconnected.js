@@ -13,13 +13,21 @@ import connectRedux from '@redux/ConnectRedux';
 
 class PopupDisconnected extends React.Component {
 
+
+
+
+    onPress = () => {
+        this.props.actions.app.toogleOfflineMode(true);
+        this.props.actions.appointment.checkAppointmentBeforOffline(true);
+    }
+
     render() {
-        const { title, message, onRequestClose, confimYes ,visibleDisconnect} = this.props;
+        const { title, message, onRequestClose, confimYes, visibleDisconnect } = this.props;
         return (
             <PopupParent
                 title={"Warning"}
                 visible={visibleDisconnect}
-                onRequestClose={() => {}}
+                onRequestClose={() => { }}
                 hideCloseButton={true}
             >
                 <View style={{
@@ -44,7 +52,7 @@ class PopupDisconnected extends React.Component {
                                 title="OK"
                                 backgroundColor="#EC1818"
                                 textColor="#fff"
-                                onPress={() => this.props.actions.app.toogleOfflineMode(true)}
+                                onPress={this.onPress}
                                 style={{
                                     borderWidth: 1,
                                     borderColor: '#C5C5C5'

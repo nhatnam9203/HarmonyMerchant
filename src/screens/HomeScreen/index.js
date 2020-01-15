@@ -3,7 +3,7 @@ import _ from 'ramda';
 import { Alert } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import { Subject } from 'rxjs';
-import { last, distinctUntilChanged ,finalize} from 'rxjs/operators';
+import { last, distinctUntilChanged, finalize } from 'rxjs/operators';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -81,7 +81,7 @@ class HomeScreen extends Layout {
             this.props.actions.app.showPopupDisconneted();
         } else if (isConnected && isOfflineMode) {
             this.props.actions.app.showPopupConneted(true),
-            this.props.actions.app.toogleOfflineMode(false);
+                this.props.actions.app.toogleOfflineMode(false);
         }
     }
 
@@ -125,7 +125,10 @@ class HomeScreen extends Layout {
 
     onPressHandlerChangeTab = async (index) => {
         const { currentTab } = this.state;
-        const { groupAppointment } = this.props;
+        const { groupAppointment, appointmentIdOffline } = this.props;
+        if (appointmentIdOffline !== 0) {
+            this.props.actions.appointment.checkoutAppointmentOffline(0);
+        }
         if (currentTab !== index) {
             if (currentTab === 1 && this.tabAppointmentRef.current.state.isShowAddAppointment) {
                 //console.log('-----1-------');
@@ -248,11 +251,20 @@ class HomeScreen extends Layout {
         })
     }
 
+
+
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        const { isLoginStaff } = this.props;
+        const { isLoginStaff, isCheckAppointmentBeforeOffline, groupAppointment } = this.props;
         if (isLoginStaff) {
             this.props.actions.dataLocal.resetStateLoginStaff();
             this.loginStaffSuccess();
+        }
+
+        // ----------- Check Appointent Checkout berfore Offline mode -----------
+        if (!_.isEmpty(groupAppointment) && isCheckAppointmentBeforeOffline && isCheckAppointmentBeforeOffline !== prevProps.isCheckAppointmentBeforeOffline) {
+            this.props.actions.appointment.checkAppointmentBeforOffline(false);
+            this.tabCheckoutRef.current.resetStateFromParent();
+            this.scrollTabParentRef.current.goToPage(1);
         }
     }
 
@@ -263,7 +275,6 @@ class HomeScreen extends Layout {
     }
 
     pushAppointmentIdOfflineIntoWebview = () => {
-           //console.log('pushAppointmentIdOfflineIntoWebview');
         this.tabAppointmentRef.current.connectWebview();
     }
 
@@ -291,7 +302,8 @@ const mapStateToProps = state => ({
     isLoginStaff: state.dataLocal.isLoginStaff,
     listAppointmentsOfflineMode: state.dataLocal.listAppointmentsOfflineMode,
     groupAppointment: state.appointment.groupAppointment,
-    isOfflineMode: state.network.isOfflineMode
+    isOfflineMode: state.network.isOfflineMode,
+    isCheckAppointmentBeforeOffline: state.appointment.isCheckAppointmentBeforeOffline
 })
 
 

@@ -344,3 +344,11 @@ export function checkoutAppointmentOffline(appointmentId) {
         payload: appointmentId
     }
 }
+
+
+export function checkAppointmentBeforOffline(isCheck = true) {
+    return {
+        type: "CHECK_APPOINTMENT_BEFORE_OFFLINE",
+        payload: isCheck
+    }
+}
