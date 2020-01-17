@@ -26,15 +26,47 @@ export default class PrintManager {
         });
 
         try {
-            var printResult = await StarPRNT.print('StarPRNT', commands, portName);
-        //console.log(printResult); // Success!
+            // StarGraphic,
+            // StarPRNT
+            // StarLine
+            let printResult = await StarPRNT.print('StarPRNT', commands, portName);
+            //console.log(printResult); // Success!
         } catch (e) {
             console.error(e);
         }
     }
 
-    async print(portName,commands) {
-       return StarPRNT.print('StarPRNT', commands, portName);
+    async print(portName, commands) {
+        // StarGraphic,
+        // StarPRNT
+        // StarLine
+        try {
+            console.log('portName : ', portName);
+            // console.log('commands : ', commands);
+
+            let printResult = await StarPRNT.print('StarPRNT', commands, portName);
+            console.log(printResult); // Success!
+        } catch (error) {
+            console.log('error : ', error);
+        }
+        // return StarPRNT.print('StarGraphic', commands, portName);
     }
+
+
+    async checkStatus(portName) {
+        // StarGraphic,
+        // StarPRNT
+        // StarLine
+        try {
+            let printResult = await StarPRNT.checkStatus(portName, 'StarPRNT');
+            console.log(printResult); // Success!
+        } catch (error) {
+            console.log('error : ', error);
+        }
+        // return StarPRNT.print('StarGraphic', commands, portName);
+    }
+
+
+
 
 }

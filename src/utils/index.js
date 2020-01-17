@@ -750,7 +750,7 @@ export const Status = [
     {
         value: 'Disable'
     }
-]
+];
 export const getMonthNameShort = (month) => {
     const monthNamesShort = {
         '01': 'Jan',
@@ -767,7 +767,7 @@ export const getMonthNameShort = (month) => {
         '12': 'Dec'
     };
     return monthNamesShort[month];
-}
+};
 export function formatDateApi(eDate) {
     var dateT = eDate.split('T');
     var date = dateT[0].split('-');
@@ -778,3 +778,19 @@ export function formatDateApi(eDate) {
         year: date[0]
     };
 }
+
+
+export const PRINTER_MACHINE = {
+    "BT:mPOP": {
+        portName: "BT:mPOP",
+        isCashier: true,
+        isPrint: true,
+        emulation: "StarPRNT"
+    },
+    "BT:TSP100": {
+        portName: "BT:TSP100",
+        isCashier: false,
+        isPrint: true,
+        emulation: "StarGraphic"
+    },
+};

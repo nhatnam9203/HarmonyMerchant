@@ -105,7 +105,7 @@ class Layout extends React.Component {
                 {/* -------- Button open cash -------- */}
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end',flexDirection:'row' }} >
                     {
-                       !_.isEmpty(groupAppointment) ?    <Button  onPress={() => this.printInvoice(true)} style={[styles.btnCashier,{marginRight:scaleSzie(8)}]} >
+                       !_.isEmpty(groupAppointment) ?    <Button  onPress={this.printTemptInvoice} style={[styles.btnCashier,{marginRight:scaleSzie(8)}]} >
                         <Image source={IMAGE.print_btn} 
                         style={{width:scaleSzie(14),height:scaleSzie(16)}}
                         />
@@ -116,7 +116,7 @@ class Layout extends React.Component {
                     }
                    
 
-                    <Button  onPress={() => this.openCashDrawer(true)} style={styles.btnCashier} >
+                    <Button  onPress={this.checkStatusCashier} style={styles.btnCashier} >
                         <Image source={IMAGE.cashier_btn} 
                         style={{width:scaleSzie(16),height:scaleSzie(13)}}
                         />
@@ -714,7 +714,7 @@ class Layout extends React.Component {
                         ref={this.scrollTabRef}
                         style={{}}
                         initialPage={0}
-                        locked={false}
+                        locked={true}
                         renderTabBar={() => <View />}
                         onChangeTab={(index) => {
                             this.setState({ tabCurrent: index.i })

@@ -9,7 +9,8 @@ import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment, requestAPI,
-    getArrayExtrasFromAppointment, formatNumberFromCurrency, formatMoney, getStaffInfoById, splitPlusInPhoneNumber
+    getArrayExtrasFromAppointment, formatNumberFromCurrency, formatMoney, getStaffInfoById, splitPlusInPhoneNumber,
+    PRINTER_MACHINE
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 import apiConfigs from '@configs/api';
@@ -581,17 +582,15 @@ class TabCheckout extends Layout {
         return `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`;
     }
 
-    async printInvoice(isShowTip = false) {
+    async printInvoice(portName, isShowTip = false) {
         // ------------------------
         const { groupAppointment, isOfflineMode } = this.props;
         const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal, methodPayment } = this.state;
-        // methodPayment === 'credit_card'
 
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
 
         const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards } = this.getBasketOnline(appointments);
         const basket = isOfflineMode ? this.state.basket : [...arryaServicesBuy, ...arrayProductBuy, ...arrayExtrasBuy, ...arrayGiftCards];
-        //console.log('basket : ' + JSON.stringify(basket));
 
         const tipAmount = groupAppointment.tipAmount ? groupAppointment.tipAmount : 0;
         const subTotal = groupAppointment.subTotal ? groupAppointment.subTotal : 0;
@@ -605,256 +604,247 @@ class TabCheckout extends Layout {
         const temptTip = _.isEmpty(groupAppointment) ? tipLocal : tipAmount;
         const temptTax = _.isEmpty(groupAppointment) ? taxLocal : tax;
 
-        // ------------------------
-        //console.log('---- basket : ' + JSON.stringify(basket));
         try {
-            const printer = await PrintManager.getInstance().portDiscovery();
-            if (printer.length > 0) {
-                const portName = printer[0].portName;
-                // -------- GET INFO BILL --------
-                const { profile, profileStaffLogin } = this.props;
-                const { firstName, lastName, phoneNumber } = this.state.infoUser;
-                const commands = [];
-                const temptDate = `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
-                commands.push({ appendInternational: StarPRNT.InternationalType.UK });
+            // -------- GET INFO BILL --------
+            const { profile, profileStaffLogin } = this.props;
+            const { firstName, lastName, phoneNumber } = this.state.infoUser;
+            const commands = [];
+            const temptDate = `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
+            commands.push({ appendInternational: StarPRNT.InternationalType.UK });
 
-                commands.push({ enableEmphasis: true });
-                commands.push({
-                    appendAlignment: 'Center',
-                    data: `${profile.businessName}\n`,
-                });
-                commands.push({ enableEmphasis: false });
+            commands.push({ enableEmphasis: true });
+            commands.push({
+                appendAlignment: 'Center',
+                data: `${profile.businessName}\n`,
+            });
+            commands.push({ enableEmphasis: false });
 
-                profile.addressFull ? commands.push({
-                    appendAlignment: 'Center',
-                    data: `${profile.addressFull ? profile.addressFull : ''}\n`,
-                }) : '';
+            profile.addressFull ? commands.push({
+                appendAlignment: 'Center',
+                data: `${profile.addressFull ? profile.addressFull : ''}\n`,
+            }) : '';
 
-                commands.push({
-                    appendAlignment: 'Center',
-                    data: `Tel: ${profile.phone}\n`
-                });
+            commands.push({
+                appendAlignment: 'Center',
+                data: `Tel: ${profile.phone}\n`
+            });
 
-                commands.push({
-                    appendAlignment: 'Center',
-                    data: `${profile.webLink}\n`
-                });
+            commands.push({
+                appendAlignment: 'Center',
+                data: `${profile.webLink}\n`
+            });
 
-                commands.push({ appendLineFeed: 1 });
+            commands.push({ appendLineFeed: 1 });
 
-                commands.push({ enableEmphasis: true });
-                commands.push({
-                    appendAlignment: 'Center',
-                    data: `SALE\n`,
-                });
-                commands.push({ appendLineFeed: 1 });
-                commands.push({ enableEmphasis: false });
+            commands.push({ enableEmphasis: true });
+            commands.push({
+                appendAlignment: 'Center',
+                data: `SALE\n`,
+            });
+            commands.push({ appendLineFeed: 1 });
+            commands.push({ enableEmphasis: false });
 
-                commands.push({ enableEmphasis: true });
-                commands.push({
-                    appendAlignment: 'Center',
-                    data: "- - - - - - - - - - - - - - - -\n"
-                });
-                commands.push({ enableEmphasis: false });
+            commands.push({ enableEmphasis: true });
+            commands.push({
+                appendAlignment: 'Center',
+                data: "- - - - - - - - - - - - - - - -\n"
+            });
+            commands.push({ enableEmphasis: false });
 
-                commands.push({
-                    append: `Dated: ${this.getDate()} ${this.getHour()}\n`
-                });
-                commands.push({
-                    append: `Staff: ${profileStaffLogin.displayName}\n`
-                });
-                commands.push({
-                    append: `Invoice No: 1038400389489\n`
-                });
+            commands.push({
+                append: `Dated: ${this.getDate()} ${this.getHour()}\n`
+            });
+            commands.push({
+                append: `Staff: ${profileStaffLogin.displayName}\n`
+            });
+            commands.push({
+                append: `Invoice No: 1038400389489\n`
+            });
 
-                commands.push({ enableEmphasis: true });
-                commands.push({
-                    appendAlignment: 'Center',
-                    data: "- - - - - - - - - - - - - - - -\n"
-                });
-                commands.push({ enableEmphasis: false });
+            commands.push({ enableEmphasis: true });
+            commands.push({
+                appendAlignment: 'Center',
+                data: "- - - - - - - - - - - - - - - -\n"
+            });
+            commands.push({ enableEmphasis: false });
 
 
+            commands.push({
+                appendAbsolutePosition: 0,
+                data: `DESCRIPTION`
+            });
+
+            commands.push({
+                appendAbsolutePosition: 190,
+                data: `QTY`
+            });
+
+            commands.push({
+                appendAbsolutePosition: 280,
+                data: `PRICE\n`
+            });
+
+            commands.push({ enableEmphasis: true });
+            commands.push({
+                appendAlignment: 'Center',
+                data: "- - - - - - - - - - - - - - - -\n"
+            });
+            commands.push({ enableEmphasis: false });
+
+            // ------- Item ------ 
+            commands.push({ appendFontStyle: 'B' });
+
+            for (let i = 0; i < basket.length; i++) {
                 commands.push({
                     appendAbsolutePosition: 0,
-                    data: `DESCRIPTION`
-                });
+                    data: `${basket[i].data.name}`,
+                })
 
                 commands.push({
-                    appendAbsolutePosition: 190,
-                    data: `QTY`
-                });
+                    appendAbsolutePosition: 195,
+                    data: `${basket[i].quanlitySet ? basket[i].quanlitySet : ''}`
+                })
 
                 commands.push({
-                    appendAbsolutePosition: 280,
-                    data: `PRICE\n`
-                });
+                    appendAbsolutePosition: 270,
+                    data: `$ ${basket[i].data.price}\n`
+                })
+            };
+            commands.push({ appendFontStyle: 'A' });
 
-                commands.push({ enableEmphasis: true });
+
+            commands.push({ enableUnderline: true });
+            commands.push({ enableEmphasis: true });
+            commands.push({
+                appendAlignment: 'Center',
+                data: "                                \n",
+
+            });
+            commands.push({ appendLineFeed: 1 });
+            commands.push({ enableUnderline: false });
+            commands.push({ enableEmphasis: false });
+
+            commands.push({ appendFontStyle: 'B' });
+            // --------- Row 0 ---------
+            commands.push({
+                appendAbsolutePosition: 0,
+                data: `Sub total`
+            })
+
+            commands.push({
+                appendAbsolutePosition: 270,
+                data: `$ ${formatMoney(temptSubTotal)}\n`
+            })
+            // --------- Row 2 ---------
+            commands.push({
+                appendAbsolutePosition: 0,
+                data: `TAX`
+            })
+
+            commands.push({
+                appendAbsolutePosition: 270,
+                data: `$ ${formatMoney(temptTax)}\n`
+            })
+
+            // --------- Row 3 ---------
+            commands.push({
+                appendAbsolutePosition: 0,
+                data: `Discount`
+            })
+
+            commands.push({
+                appendAbsolutePosition: 270,
+                data: `$ ${formatMoney(temptDiscount)}\n`
+            });
+
+            if (!isShowTip) {
+                // --------- Row 1 ---------
                 commands.push({
-                    appendAlignment: 'Center',
-                    data: "- - - - - - - - - - - - - - - -\n"
-                });
-                commands.push({ enableEmphasis: false });
+                    appendAbsolutePosition: 0,
+                    data: `Tip`
+                })
 
-                // ------- Item ------ 
-                commands.push({ appendFontStyle: 'B' });
+                commands.push({
+                    appendAbsolutePosition: 270,
+                    data: `$ ${formatMoney(temptTip)}\n`
+                })
 
-                for (let i = 0; i < basket.length; i++) {
-                    commands.push({
-                        appendAbsolutePosition: 0,
-                        data: `${basket[i].data.name}`,
-                    })
-
-                    commands.push({
-                        appendAbsolutePosition: 195,
-                        data: `${basket[i].quanlitySet ? basket[i].quanlitySet : ''}`
-                    })
-
-                    commands.push({
-                        appendAbsolutePosition: 270,
-                        data: `$ ${basket[i].data.price}\n`
-                    })
-                };
                 commands.push({ appendFontStyle: 'A' });
-
-
-                commands.push({ enableUnderline: true });
+                // --------- Row 4 ---------
                 commands.push({ enableEmphasis: true });
                 commands.push({
-                    appendAlignment: 'Center',
-                    data: "                                \n",
-
-                });
-                commands.push({ appendLineFeed: 1 });
-                commands.push({ enableUnderline: false });
-                commands.push({ enableEmphasis: false });
-
-                commands.push({ appendFontStyle: 'B' });
-                // --------- Row 0 ---------
-                commands.push({
                     appendAbsolutePosition: 0,
-                    data: `Sub total`
+                    data: `TOTAL`
                 })
 
                 commands.push({
                     appendAbsolutePosition: 270,
-                    data: `$ ${formatMoney(temptSubTotal)}\n`
-                })
-                // --------- Row 2 ---------
-                commands.push({
-                    appendAbsolutePosition: 0,
-                    data: `TAX`
+                    data: `$ ${formatMoney(temptTotal)}\n`
                 })
 
-                commands.push({
-                    appendAbsolutePosition: 270,
-                    data: `$ ${formatMoney(temptTax)}\n`
-                })
 
-                // --------- Row 3 ---------
-                commands.push({
-                    appendAbsolutePosition: 0,
-                    data: `Discount`
-                })
-
-                commands.push({
-                    appendAbsolutePosition: 270,
-                    data: `$ ${formatMoney(temptDiscount)}\n`
-                });
-
-                if (!isShowTip) {
-                    // --------- Row 1 ---------
-                    commands.push({
-                        appendAbsolutePosition: 0,
-                        data: `Tip`
-                    })
-
-                    commands.push({
-                        appendAbsolutePosition: 270,
-                        data: `$ ${formatMoney(temptTip)}\n`
-                    })
-
-                    commands.push({ appendFontStyle: 'A' });
-                    // --------- Row 4 ---------
-                    commands.push({ enableEmphasis: true });
-                    commands.push({
-                        appendAbsolutePosition: 0,
-                        data: `TOTAL`
-                    })
-
-                    commands.push({
-                        appendAbsolutePosition: 270,
-                        data: `$ ${formatMoney(temptTotal)}\n`
-                    })
-
-
-                } else {
-                    commands.push({ appendFontStyle: 'A' });
-                    commands.push({ enableEmphasis: true });
-                    commands.push({ appendLineFeed: 1 });
-                    // --------- Row Tip ---------
-                    commands.push({
-                        appendAbsolutePosition: 0,
-                        data: `Tip`
-                    });
-
-                    commands.push({
-                        appendAbsolutePosition: 180,
-                        data: `_ _ _ _ _ _ _ _ _\n`
-                    });
-
-                    commands.push({ appendLineFeed: 1 });
-                    // --------- Row Total ---------
-
-                    commands.push({ enableEmphasis: true });
-                    commands.push({
-                        appendAbsolutePosition: 0,
-                        data: `TOTAL`
-                    })
-
-                    commands.push({
-                        appendAbsolutePosition: 180,
-                        data: `_ _ _ _ _ _ _ _ _\n`
-                    });
-                }
-
-                if (methodPayment === 'credit_card') {
-                    commands.push({ appendLineFeed: 1 });
-                    commands.push({ enableEmphasis: true });
-                    commands.push({
-                        appendAbsolutePosition: 0,
-                        data: `Signature`
-                    })
-
-                    commands.push({
-                        appendAbsolutePosition: 180,
-                        data: `_ _ _ _ _ _ _ _ _\n`
-                    });
-                }
-
-
-                // ---------- End --------
-                commands.push({ enableEmphasis: false });
-                commands.push({ appendLineFeed: 1 });
-                commands.push({
-                    appendAlignment: 'Center',
-                    data: `Thank you !\n`
-                });
-                commands.push({
-                    appendAlignment: 'Center',
-                    data: `please come again\n`
-                });
-
-                commands.push({ appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed });
-                const result = await PrintManager.getInstance().print(portName, commands);
             } else {
-                setTimeout(() => {
-                    alert('Please connect to your print ! ')
-                }, 500)
+                commands.push({ appendFontStyle: 'A' });
+                commands.push({ enableEmphasis: true });
+                commands.push({ appendLineFeed: 1 });
+                // --------- Row Tip ---------
+                commands.push({
+                    appendAbsolutePosition: 0,
+                    data: `Tip`
+                });
+
+                commands.push({
+                    appendAbsolutePosition: 180,
+                    data: `_ _ _ _ _ _ _ _ _\n`
+                });
+
+                commands.push({ appendLineFeed: 1 });
+                // --------- Row Total ---------
+
+                commands.push({ enableEmphasis: true });
+                commands.push({
+                    appendAbsolutePosition: 0,
+                    data: `TOTAL`
+                })
+
+                commands.push({
+                    appendAbsolutePosition: 180,
+                    data: `_ _ _ _ _ _ _ _ _\n`
+                });
             }
+
+            if (methodPayment === 'credit_card') {
+                commands.push({ appendLineFeed: 1 });
+                commands.push({ enableEmphasis: true });
+                commands.push({
+                    appendAbsolutePosition: 0,
+                    data: `Signature`
+                })
+
+                commands.push({
+                    appendAbsolutePosition: 180,
+                    data: `_ _ _ _ _ _ _ _ _\n`
+                });
+            }
+
+
+            // ---------- End --------
+            commands.push({ enableEmphasis: false });
+            commands.push({ appendLineFeed: 1 });
+            commands.push({
+                appendAlignment: 'Center',
+                data: `Thank you !\n`
+            });
+            commands.push({
+                appendAlignment: 'Center',
+                data: `please come again\n`
+            });
+
+            commands.push({ appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed });
+            PrintManager.getInstance().print(portName, commands);
+
         } catch (error) {
-            //console.log('scan error : ', error);
+            // console.log('scan error : ', error);
         }
 
     }
@@ -876,59 +866,98 @@ class TabCheckout extends Layout {
             connectionSignalR.stop();
         }
         if (paymentSelected === 'Cash' || paymentSelected === 'Others - Check') {
-            this.openCashDrawer();
-        }
-        this.scrollTabRef.current.goToPage(0);
-        this.props.actions.appointment.closeModalPaymentCompleted();
-        this.props.gotoAppoitmentScreen();
-        this.props.actions.appointment.resetBasketEmpty();
-        this.setState(initState);
-        this.props.actions.appointment.resetPayment();
-    }
-
-
-    printBill = async () => {
-        this.pushAppointmentIdOfflineIntoWebview();
-        const printer = await PrintManager.getInstance().portDiscovery();
-        if (printer.length > 0) {
-            const { paymentSelected, basket } = this.state;
-            const { connectionSignalR } = this.props;
-            if (!_.isEmpty(connectionSignalR)) {
-                connectionSignalR.stop();
+            const printMachine = await this.checkStatusPrint();
+            if (printMachine) {
+                this.openCashDrawer(printMachine.portName);
+                this.scrollTabRef.current.goToPage(0);
+                this.props.actions.appointment.closeModalPaymentCompleted();
+                this.props.gotoAppoitmentScreen();
+                this.props.actions.appointment.resetBasketEmpty();
+                this.setState(initState);
+                this.props.actions.appointment.resetPayment();
+            } else {
+                alert('Please connect to your cashier ! ');
             }
-            if (paymentSelected === 'Cash' || paymentSelected === 'Others - Check') {
-                this.openCashDrawer();
-            }
-            this.printInvoice();
+
+        } else {
             this.scrollTabRef.current.goToPage(0);
             this.props.actions.appointment.closeModalPaymentCompleted();
             this.props.gotoAppoitmentScreen();
             this.props.actions.appointment.resetBasketEmpty();
             this.setState(initState);
             this.props.actions.appointment.resetPayment();
-
-            //console.log('----- basket : ' + JSON.stringify(basket));
-        } else {
-            alert('Please connect to your print ! ');
         }
 
     }
 
-    openCashDrawer = async (isDelay = false) => {
-        const printer = await PrintManager.getInstance().portDiscovery();
-        if (printer.length > 0) {
-            const portName = printer[0].portName;
-            PrintManager.getInstance().openCashDrawer(portName);
-        } else {
-            if (isDelay) {
-                alert('Please connect to your print ! ');
-            } else {
-                setTimeout(() => {
-                    alert('Please connect to your print ! ');
-                }, 500)
+
+    printBill = async () => {
+        this.pushAppointmentIdOfflineIntoWebview();
+        const printMachine = await this.checkStatusPrint();
+        if (printMachine) {
+            const { paymentSelected, basket } = this.state;
+            const { connectionSignalR } = this.props;
+            if (!_.isEmpty(connectionSignalR)) {
+                connectionSignalR.stop();
+            }
+            if (paymentSelected === 'Cash' || paymentSelected === 'Others - Check') {
+                this.openCashDrawer(printMachine.portName);
             }
 
+            this.printInvoice(printMachine.portName);
+            this.scrollTabRef.current.goToPage(0);
+            this.props.actions.appointment.closeModalPaymentCompleted();
+            this.props.gotoAppoitmentScreen();
+            this.props.actions.appointment.resetBasketEmpty();
+            this.setState(initState);
+            this.props.actions.appointment.resetPayment();
+        } else {
+            alert('Please connect to your print ! ');
         }
+    }
+
+    printTemptInvoice = () => {
+        const printMachine = await this.checkStatusPrint();
+        if (printMachine) {
+            this.printInvoice(printMachine.portName, true);
+        } else {
+            alert('Please connect to your print ! ');
+        }
+    }
+
+    checkStatusCashier = () => {
+        const printMachine = await this.checkStatusPrint();
+        if (printMachine) {
+            this.openCashDrawer(printMachine.portName);
+        } else {
+            alert('Please connect to your cashier ! ');
+        }
+    }
+
+
+    checkStatusPrint = async () => {
+        const printer = await PrintManager.getInstance().portDiscovery();
+        if (printer.length > 0) {
+            let portName = "";
+            for (let i = 0; i < printer.length; i++) {
+                if (printer[i].portName === "BT:mPOP") {
+                    portName = "BT:mPOP";
+                    break;
+                }
+            };
+
+            if (portName === "") {
+                return false;
+            };
+            return { portName };
+        } else {
+            return false
+        }
+
+    }
+
+    openCashDrawer = async (portName) => {
+        PrintManager.getInstance().openCashDrawer(portName);
     }
 
 
@@ -967,15 +996,15 @@ class TabCheckout extends Layout {
             connection.on("ListWaNotification", (data) => {
 
                 const temptData = JSON.parse(data);
-                //console.log('ListWaNotification : ' + JSON.stringify(temptData));
-                if (!_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
+                // console.log('ListWaNotification : ' + JSON.stringify(temptData));
+                if (temptData.data && !_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
                     && temptData.data.checkoutGroupId == checkoutGroupId
                 ) {
                     this.handleHarmonyPayment(temptData.data.checkoutPayment);
                     connection.stop();
                 }
                 // ---------- Handle reload Tip in Customer App ---------
-                if (!_.isEmpty(temptData.data) && temptData.data.isTipAppointment) {
+                if (temptData.data && !_.isEmpty(temptData.data) && temptData.data.isTipAppointment) {
                     this.props.actions.appointment.getGroupAppointmentById(temptData.data.appointmentId);
                 }
             });
@@ -1034,7 +1063,7 @@ class TabCheckout extends Layout {
         const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
             infoUser, tipLocal, subTotalLocal, taxLocal, discountTotalLocal, staffIdOfline, fromTime
         } = this.state;
-        const { profile, appointmentIdOffline,profileStaffLogin } = this.props;
+        const { profile, appointmentIdOffline, profileStaffLogin } = this.props;
         let method = this.getPaymentString(paymentSelected);
         const dataAnymousAppoitment = this.getBasketOffline();
         const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
