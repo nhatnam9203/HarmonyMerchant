@@ -25,6 +25,7 @@ export default class PrintManager {
             openCashDrawer: 1
         });
 
+        console.log('portName : ', portName);
         try {
             // StarGraphic,
             // StarPRNT
@@ -41,13 +42,13 @@ export default class PrintManager {
         // StarPRNT
         // StarLine
         try {
-            console.log('portName : ', portName);
+            // console.log('portName : ', portName);
             // console.log('commands : ', commands);
 
             let printResult = await StarPRNT.print('StarPRNT', commands, portName);
-            console.log(printResult); // Success!
+            // console.log(printResult); // Success!
         } catch (error) {
-            console.log('error : ', error);
+            // console.log('error : ', error);
         }
         // return StarPRNT.print('StarGraphic', commands, portName);
     }
@@ -59,9 +60,9 @@ export default class PrintManager {
         // StarLine
         try {
             let printResult = await StarPRNT.checkStatus(portName, 'StarPRNT');
-            console.log(printResult); // Success!
+            // console.log(printResult); // Success!
         } catch (error) {
-            console.log('error : ', error);
+            // console.log('error : ', error);
         }
         // return StarPRNT.print('StarGraphic', commands, portName);
     }

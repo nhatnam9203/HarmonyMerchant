@@ -857,7 +857,7 @@ class TabCheckout extends Layout {
     }
 
 
-    donotPrintBill = () => {
+    donotPrintBill = async () => {
 
         this.props.pushAppointmentIdOfflineIntoWebview();
         const { connectionSignalR } = this.props;
@@ -916,7 +916,7 @@ class TabCheckout extends Layout {
         }
     }
 
-    printTemptInvoice = () => {
+    printTemptInvoice = async () => {
         const printMachine = await this.checkStatusPrint();
         if (printMachine) {
             this.printInvoice(printMachine.portName, true);
@@ -925,7 +925,7 @@ class TabCheckout extends Layout {
         }
     }
 
-    checkStatusCashier = () => {
+    checkStatusCashier = async () => {
         const printMachine = await this.checkStatusPrint();
         if (printMachine) {
             this.openCashDrawer(printMachine.portName);
