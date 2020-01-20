@@ -93,24 +93,25 @@ class StoreInfoScreen extends Layout {
         const arrayKey = Object.keys(user);
         let keyError = '';
         for (let i = 0; i < arrayKey.length; i++) {
-            if (arrayKey[i] == 'address') {
+            // if (arrayKey[i] == 'address') {
                
-                if (user.address.state !== '' && !checkStateIsValid(stateCity,user.address.state))  {
-                    keyError = 'stateInvalid';
-                    break;
-                }
-            } else if (arrayKey[i] == 'roles') {
-                if (user.roles.nameRole == '') {
-                    keyError = 'nameRole';
-                    break;
-                }
-            }
-            else if (arrayKey[i] == 'email') {
-                if (!validateEmail(user[arrayKey[i]])) {
-                    keyError = 'emailInvalid';
-                    break;
-                }
-            } else if (arrayKey[i] != 'driverlicense' && arrayKey[i] != 'socialSecurityNumber' && arrayKey[i] != 'professionalLicense') {
+            //     if (user.address.state !== '' && !checkStateIsValid(stateCity,user.address.state))  {
+            //         keyError = 'stateInvalid';
+            //         break;
+            //     }
+            // } else if (arrayKey[i] == 'roles') {
+            //     if (user.roles.nameRole == '') {
+            //         keyError = 'nameRole';
+            //         break;
+            //     }
+            // }
+            // else if (arrayKey[i] == 'email') {
+            //     if (!validateEmail(user[arrayKey[i]])) {
+            //         keyError = 'emailInvalid';
+            //         break;
+            //     }
+            // } else 
+            if (arrayKey[i] != 'driverlicense' && arrayKey[i] != 'socialSecurityNumber' && arrayKey[i] != 'professionalLicense') {
                 if (user[arrayKey[i]] === '') {
                     keyError = arrayKey[i];
                     break;

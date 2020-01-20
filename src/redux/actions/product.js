@@ -80,12 +80,12 @@ export function restockProduct(ids, quantity) {
     }
 }
 
-export function exportInventory(merchantId, fileName) {
+export function exportInventory(merchantId, fileName,isNeedToOrder = true) {
     return {
         type: 'EXPORT_INVENTORY',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}product/export?merchantId=${merchantId}`,
+        api: `${apiConfigs.BASE_API}product/export?merchantId=${merchantId}&isNeedToOrder=${isNeedToOrder}`,
         fileName
     }
 }

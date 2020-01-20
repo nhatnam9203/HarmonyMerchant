@@ -79,7 +79,7 @@ export default class Layout extends React.Component {
                 </View>
                 {/* ---------- Row 3 ---------- */}
                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(22), alignItems: 'center' }}>
-                    <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A', marginRight: scaleSzie(16) }} >
+                    {/* <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A', marginRight: scaleSzie(16) }} >
                         Graph Chart
                     </Text>
                     <Switch
@@ -91,7 +91,7 @@ export default class Layout extends React.Component {
                     />
                     <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A', marginLeft: scaleSzie(16) }} >
                         Grid View
-                    </Text>
+                    </Text> */}
                 </View>
             </View>
         );
