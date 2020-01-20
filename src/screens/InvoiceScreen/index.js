@@ -4,7 +4,7 @@ import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment,
-    getArrayExtrasFromAppointment
+    getArrayExtrasFromAppointment,getArrayGiftCardsFromAppointment
 } from '@utils';
 
 class InvoiceScreen extends Layout {
@@ -228,7 +228,9 @@ class InvoiceScreen extends Layout {
         const arrayProducts = getArrayProductsFromAppointment(basket.products);
         const arryaServices = getArrayServicesFromAppointment(basket.services);
         const arrayExtras = getArrayExtrasFromAppointment(basket.extras);
-        const temptBasket = arrayProducts.concat(arryaServices, arrayExtras);
+        const arrayGiftCards = getArrayGiftCardsFromAppointment(basket.giftCards);
+
+        const temptBasket = arrayProducts.concat(arryaServices, arrayExtras,arrayGiftCards);
     //console.log('temptBasket : ', JSON.stringify(temptBasket));
         return temptBasket;
     }

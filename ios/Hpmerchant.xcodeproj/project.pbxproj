@@ -1609,7 +1609,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony;
+				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony.dev;
 				PRODUCT_NAME = DEV;
 				PROVISIONING_PROFILE_SPECIFIER = HarmonyMerchantDev;
 				SWIFT_OBJC_BRIDGING_HEADER = "Hpmerchant-Bridging-Header.h";
@@ -1652,7 +1652,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony;
+				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony.dev;
 				PRODUCT_NAME = DEV;
 				PROVISIONING_PROFILE_SPECIFIER = HarmonyMerchantDev;
 				SWIFT_OBJC_BRIDGING_HEADER = "Hpmerchant-Bridging-Header.h";

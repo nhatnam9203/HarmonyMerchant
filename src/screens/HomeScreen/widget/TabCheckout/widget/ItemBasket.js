@@ -53,7 +53,7 @@ const ItemBasket = ({ item, removeItemBasket, onPress,disabled  = false}) => {
                             </View> :
                               ( item.type === 'GiftCards' ? <Image source={IMAGE.giftcard} 
                             //   style={{ width: scaleSzie(22), height: scaleSzie(20) }} 
-                              /> :   <Image source={IMAGE.productBasket} style={{ width: scaleSzie(22), height: scaleSzie(20) }} />)
+                              /> :   <Image source={IMAGE.blue_productBasket} style={{ width: scaleSzie(22), height: scaleSzie(20) }} />)
                     }
                 </View>
                 {/* -------- Avatar ------- */}

@@ -45,16 +45,17 @@ class ItemBasket extends React.Component {
                                 }} >
                                     <Image source={IMAGE.extra_holder} style={{ width: scaleSzie(22), height: scaleSzie(20) }} />
                                 </View>
-                                :
-                                <Image source={IMAGE.basketInvoice} style={{ width: scaleSzie(22), height: scaleSzie(20) }} />
+                                : ( item.type === 'GiftCards' ? <Image source={IMAGE.giftcard} 
+                                   style={{ width: scaleSzie(22), height: scaleSzie(20) }} 
+                                /> :
+                                <Image source={IMAGE.basketInvoice} style={{ width: scaleSzie(22), height: scaleSzie(20) }} />)
                     }
                 </View>
                 {/* ------------ Text ------------- */}
                 <View style={{ flex: 1, flexDirection: 'row' }} >
                     {/* ------------ */}
                     <View style={{ flex: 1, justifyContent: 'center' }} >
-                        <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(13), }} >
-                            {/* {data.name} */}
+                        <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(13) }} numberOfLines={1} >
                             {
                                 item.type === 'Service' ? (item.staff && item.staff.displayName ? item.staff.displayName : '') : data.name
                             }
@@ -63,15 +64,16 @@ class ItemBasket extends React.Component {
 
                     {/* ------------ */}
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
-                        <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(13), }} >
-                            {item.type === 'Product' ? item.quanlitySet : item.data.name}
+                        <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(13), }} numberOfLines={1} >
+                            {/* {item.type === 'Product' ? item.quanlitySet : item.data.name} */}
+                            {item.type === 'Product' ||  item.type ==="GiftCards" ? item.quanlitySet : item.data.name}
                         </Text>
                     </View>
                     {/* ------------ */}
                     <View style={{
                         flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(10),
                     }} >
-                        <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14), }} >
+                        <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14), }} numberOfLines={1} >
                             {`$ ${data.price}`}
                         </Text>
                     </View>

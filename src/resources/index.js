@@ -67,6 +67,7 @@ export default {
 
     giftcard: require("./img/giftcard.png"),
     scancode: require("./img/scancode.png"),
+    blue_productBasket: require('./img/blue_productBasket.png'),
 
 
     // --- drawer --
