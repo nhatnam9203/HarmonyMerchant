@@ -194,7 +194,7 @@ export default class Layout extends React.Component {
                     mark='999-99-9999'
                     title={localize('Social Security Number (SSN) *', language)}
                     subTitle=""
-                    placeholder=""
+                    placeholder="000-00-0000"
                     value={ssn}
                     onChangeText={(value) => updatePrincipalInfo('ssn', value, '', isPrincipalSecond)}
                     keyboardType="numeric"
@@ -202,7 +202,7 @@ export default class Layout extends React.Component {
                 />
                 {/* ------ Date of Birth ----- */}
                 <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(6) }} >
-                    {localize('Date of Birth (dd/mm/yyyy) *', language)}
+                    {localize('Date of Birth (mm/dd/yyyy) *', language)}
                 </Text>
 
                 <View style={{

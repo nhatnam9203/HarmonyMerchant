@@ -11,6 +11,7 @@ import {
 import { scaleSzie, ListCodeAreaPhone } from '@utils';
 
 const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntry, type,onFocus,
+    typeSocial,mark,
     maxLength }) => {
     return (
         <View style={{
@@ -34,7 +35,10 @@ const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntr
             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSzie(5) }} >
                 {
                     type ? <TextInputMask
-                        type="only-numbers"
+                        type={typeSocial ? typeSocial :"only-numbers"}
+                        options={{
+                            mask: mark ? mark : null
+                        }}
                         style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
                         placeholder={placeholder}
                         value={value}

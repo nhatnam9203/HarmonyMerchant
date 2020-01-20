@@ -35,7 +35,7 @@ class PopupCalendar extends React.Component {
         const addZeroToMonth = temptMonth < 10 ? `0${temptMonth}` : temptMonth;
         const addZeroToDay = temptDay < 10 ? `0${temptDay}` : temptDay
         this.setState({
-            startDate: `${year}-${addZeroToMonth}-${addZeroToDay}`
+            startDate: `${addZeroToMonth}/${addZeroToDay}/${year}`
         })
     }
 
@@ -46,7 +46,7 @@ class PopupCalendar extends React.Component {
         const addZeroToMonth = temptMonth < 10 ? `0${temptMonth}` : temptMonth;
         const addZeroToDay = temptDay < 10 ? `0${temptDay}` : temptDay
         this.setState({
-            endDate: `${year}-${addZeroToMonth}-${addZeroToDay}`
+            endDate: `${addZeroToMonth}/${addZeroToDay}/${year}`
         })
     }
 

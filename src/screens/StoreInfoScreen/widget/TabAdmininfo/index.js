@@ -94,17 +94,7 @@ class StoreInfoScreen extends Layout {
         let keyError = '';
         for (let i = 0; i < arrayKey.length; i++) {
             if (arrayKey[i] == 'address') {
-                // continue;
-                // if (user.address.street == '') {
-                //     keyError = 'street';
-                //     break;
-                //     continue;
-                // }
-                // if (user.address.city == '') {
-                //     keyError = 'city';
-                //     break;
-                //     continue
-                // }
+               
                 if (user.address.state !== '' && !checkStateIsValid(stateCity,user.address.state))  {
                     keyError = 'stateInvalid';
                     break;
