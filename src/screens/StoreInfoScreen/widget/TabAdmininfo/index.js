@@ -111,7 +111,7 @@ class StoreInfoScreen extends Layout {
             //         break;
             //     }
             // } else 
-            if (arrayKey[i] != 'driverlicense' && arrayKey[i] != 'socialSecurityNumber' && arrayKey[i] != 'professionalLicense') {
+            if (arrayKey[i] === 'firstName' || arrayKey[i] === 'lastName' || arrayKey[i] === 'displayName' || arrayKey[i] === 'pin' || arrayKey[i] === 'confirmPin') {
                 if (user[arrayKey[i]] === '') {
                     keyError = arrayKey[i];
                     break;
