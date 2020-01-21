@@ -876,8 +876,19 @@ class TabCheckout extends Layout {
                 this.setState(initState);
                 this.props.actions.appointment.resetPayment();
             } else {
-                alert('Please connect to your cashier ! ');
+                
+                this.scrollTabRef.current.goToPage(0);
+                this.props.actions.appointment.closeModalPaymentCompleted();
+                this.props.gotoAppoitmentScreen();
+                this.props.actions.appointment.resetBasketEmpty();
+                this.setState(initState);
+                this.props.actions.appointment.resetPayment();
+
+                setTimeout(() =>{
+                    alert('Please connect to your cashier ! ');
+                },700)
             }
+
 
         } else {
             this.scrollTabRef.current.goToPage(0);

@@ -103,7 +103,7 @@ class Layout extends React.Component {
                         </View>
                     </View>
                     <View style={{ width: scaleSzie(170), alignItems: 'flex-end' }} >
-                        <ButtonCustom
+                        {/* <ButtonCustom
                             width={'90%'}
                             height={40}
                             backgroundColor="#F1F1F1"
@@ -115,7 +115,7 @@ class Layout extends React.Component {
                                 backgroundColor: '#0764B0'
                             }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500', color: '#fff' }}
-                        />
+                        /> */}
                     </View>
                 </View>
             </View>

@@ -66,9 +66,10 @@ export default class FooterTab extends React.PureComponent {
 
 
     render() {
+        const {isNotShowBtnAdd} = this.props
         return (
             <View>
-                {this.renderButtonAdd()}
+                {isNotShowBtnAdd ? <View /> : this.renderButtonAdd()}
                 {this.renderFooter()}
             </View>
         );

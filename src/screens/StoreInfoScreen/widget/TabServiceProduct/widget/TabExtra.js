@@ -139,6 +139,7 @@ class TabExtra extends React.Component {
             <View style={styles.container} >
                 {this.renderTable()}
                 <FooterTab
+                isNotShowBtnAdd={true}
                     addNew={this.showModalAddExtra}
                     backTab={() => this.props.backTab()}
                     nextTab={() => this.props.nextTab()}

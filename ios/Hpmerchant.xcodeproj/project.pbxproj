@@ -59,21 +59,6 @@
 		23AA612923D1B99300020527 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		23AA612A23D1B99300020527 /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87F14B6172B346F0950939FF /* libRNGestureHandler.a */; };
 		23AA612B23D1B99300020527 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */; };
-		23AA612C23D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B5BF6260BDDE1D51A49D427 /* libPods-Hpmerchant.a */; };
-		23AA612D23D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
-		23AA612E23D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
-		23AA612F23D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
-		23AA613023D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
-		23AA613123D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
-		23AA613223D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
-		23AA613323D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
-		23AA613423D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
-		23AA613523D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
-		23AA613623D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
-		23AA613723D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
-		23AA613823D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
-		23AA613923D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
-		23AA613A23D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
 		23AA613C23D1B99300020527 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		23AA613D23D1B99300020527 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		23FE295523C77BEF00E95925 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FE295423C77BEF00E95925 /* File.swift */; };
@@ -87,6 +72,7 @@
 		87FD81DBB43D621E57E8A2A4 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
 		A3D7F3C0F0F8E53936BF99EA /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		C0C43EEDEC84B4F606B2E438 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
 		C737D9B397DA3735D84E0126 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
 		C757D92E4E5E404DAE4671BF /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */; };
 		CB738252167601E0C58215EB /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B5BF6260BDDE1D51A49D427 /* libPods-Hpmerchant.a */; };
@@ -435,7 +421,7 @@
 		23FE295323C77BEF00E95925 /* Hpmerchant-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hpmerchant-Bridging-Header.h"; sourceTree = "<group>"; };
 		23FE295423C77BEF00E95925 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		3D76B60C5AADA00A31F03739 /* Pods-Hpmerchant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant.debug.xcconfig"; sourceTree = "<group>"; };
+		3E8A86B4B11FBFD370DDFF4C /* Pods-Hpmerchant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant.debug.xcconfig"; sourceTree = "<group>"; };
 		4B5BF6260BDDE1D51A49D427 /* libPods-Hpmerchant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
@@ -443,9 +429,9 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		87F14B6172B346F0950939FF /* libRNGestureHandler.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGestureHandler.a; sourceTree = "<group>"; };
 		8C3DC6D58CE9413BA1484D22 /* libRNGestureHandler-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNGestureHandler-tvOS.a"; sourceTree = "<group>"; };
+		8F87C994973B562240B0692C /* Pods-Hpmerchant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant.release.xcconfig"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		C28B99EF8822419DB3A40583 /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGestureHandler.xcodeproj; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; };
-		C9BEC5A86AC0C017F474052B /* Pods-Hpmerchant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImagePicker.a; sourceTree = "<group>"; };
@@ -492,6 +478,7 @@
 				A3D7F3C0F0F8E53936BF99EA /* libPods-Hpmerchant.a in Frameworks */,
 				3FE5A64E28349F81C402D586 /* libPods-Hpmerchant.a in Frameworks */,
 				3FECC890F567B29FCCC04862 /* libPods-Hpmerchant.a in Frameworks */,
+				C0C43EEDEC84B4F606B2E438 /* libPods-Hpmerchant.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,21 +507,6 @@
 				23AA612923D1B99300020527 /* libRCTWebSocket.a in Frameworks */,
 				23AA612A23D1B99300020527 /* libRNGestureHandler.a in Frameworks */,
 				23AA612B23D1B99300020527 /* libRNImagePicker.a in Frameworks */,
-				23AA612C23D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */,
-				23AA612D23D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */,
-				23AA612E23D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */,
-				23AA612F23D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */,
-				23AA613023D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */,
-				23AA613123D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */,
-				23AA613223D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */,
-				23AA613323D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */,
-				23AA613423D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */,
-				23AA613523D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */,
-				23AA613623D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */,
-				23AA613723D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */,
-				23AA613823D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */,
-				23AA613923D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */,
-				23AA613A23D1B99300020527 /* libPods-Hpmerchant.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -756,8 +728,8 @@
 		51A61F587B2C0002B60C1005 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3D76B60C5AADA00A31F03739 /* Pods-Hpmerchant.debug.xcconfig */,
-				C9BEC5A86AC0C017F474052B /* Pods-Hpmerchant.release.xcconfig */,
+				3E8A86B4B11FBFD370DDFF4C /* Pods-Hpmerchant.debug.xcconfig */,
+				8F87C994973B562240B0692C /* Pods-Hpmerchant.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -875,13 +847,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 23AA614123D1B99300020527 /* Build configuration list for PBXNativeTarget "Hpmerchant copy" */;
 			buildPhases = (
-				23AA610F23D1B99300020527 /* [CP] Check Pods Manifest.lock */,
 				23AA611023D1B99300020527 /* Sources */,
 				23AA611623D1B99300020527 /* Frameworks */,
 				23AA613B23D1B99300020527 /* Resources */,
 				23AA613E23D1B99300020527 /* Bundle React Native code and images */,
 				23AA613F23D1B99300020527 /* ShellScript */,
-				23AA614023D1B99300020527 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1337,28 +1307,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 0f0084a0d929105cf47a24b38dd81f81901f8898 a429bc1d026280dc76172be9fa9b8d4c7afbdf2b261dc836bc1e3b6f8b32c7c3\n";
 		};
-		23AA610F23D1B99300020527 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		23AA613E23D1B99300020527 /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1389,24 +1337,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 0f0084a0d929105cf47a24b38dd81f81901f8898 a429bc1d026280dc76172be9fa9b8d4c7afbdf2b261dc836bc1e3b6f8b32c7c3\n";
-		};
-		23AA614023D1B99300020527 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant-resources.sh",
-				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WKYTPlayerView.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		70575A0A867BB8F70B74783F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1492,7 +1422,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3D76B60C5AADA00A31F03739 /* Pods-Hpmerchant.debug.xcconfig */;
+			baseConfigurationReference = 3E8A86B4B11FBFD370DDFF4C /* Pods-Hpmerchant.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1536,7 +1466,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C9BEC5A86AC0C017F474052B /* Pods-Hpmerchant.release.xcconfig */;
+			baseConfigurationReference = 8F87C994973B562240B0692C /* Pods-Hpmerchant.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1578,7 +1508,6 @@
 		};
 		23AA614223D1B99300020527 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3D76B60C5AADA00A31F03739 /* Pods-Hpmerchant.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1622,7 +1551,6 @@
 		};
 		23AA614323D1B99300020527 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C9BEC5A86AC0C017F474052B /* Pods-Hpmerchant.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
