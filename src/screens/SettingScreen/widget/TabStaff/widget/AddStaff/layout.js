@@ -257,7 +257,7 @@ class Layout extends React.Component {
                     {/* ---- Address ---- */}
                     <ItemAdminInfo
                         title={localize('Driver license', language)}
-                        placeholder="0000-0000-0000"
+                        // placeholder="0000-0000-0000"
                         value={driverlicense}
                         onChangeText={(value) => this.updateUserInfo('driverlicense', value)}
                         type={true}
@@ -275,7 +275,7 @@ class Layout extends React.Component {
                     />
                     <ItemAdminInfo
                         title={localize('Professional license', language)}
-                        placeholder="0000-0000-0000"
+                        // placeholder="0000-0000-0000"
                         value={professionalLicense}
                         onChangeText={(value) => this.updateUserInfo('professionalLicense', value)}
                         type={true}
