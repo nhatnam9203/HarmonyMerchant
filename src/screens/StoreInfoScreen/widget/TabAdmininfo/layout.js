@@ -79,13 +79,6 @@ class Layout extends React.Component {
                             flex: 1,
                             marginLeft: scaleSzie(5),
                         }} >
-                            {/* <Dropdown
-                                label={localize('State', language)}
-                                data={getArrayNameStateCity(stateCity)}
-                                value={state}
-                                onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
-                                containerStyle={styles.dropdown}
-                            /> */}
                              <TextInputSuggestion
                                     value={state}
                                     onChangeText={value => this.updateUserInfo('state', value, 'address')}
@@ -106,7 +99,7 @@ class Layout extends React.Component {
 
                     <ItemAdminCellPhone
                         ref={this.cellphoneRef}
-                        title={`${localize('Cell phone', language)} *`}
+                        title={`${localize('Cell phone', language)}`}
                         placeholder={localize('Phone number', language)}
                         value={cellphone}
                         onChangeText={(value) => this.updateUserInfo('cellphone', value)}
@@ -114,7 +107,7 @@ class Layout extends React.Component {
                     />
 
                     <ItemAdminInfo
-                        title={`${localize('Contact email', language)} *`}
+                        title={`${localize('Contact email', language)}`}
                         placeholder={localize('Email')}
                         value={email}
                         onChangeText={(value) => this.updateUserInfo('email', value)}

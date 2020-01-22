@@ -267,7 +267,7 @@ class Layout extends React.Component {
                         type={true}
                         onFocus={() => this.scrollStaffTo(1450)}
                         typeSocial="custom"
-                        mark="999-999-9999"
+                        mark="999-99-9999"
                     />
                     <ItemAdminInfo
                         title={localize('Professional license', language)}
