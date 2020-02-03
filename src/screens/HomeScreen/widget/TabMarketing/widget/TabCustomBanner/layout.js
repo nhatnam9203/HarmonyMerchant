@@ -176,7 +176,7 @@ class Layout extends React.Component {
                         <View style={{ flexDirection: 'row', marginTop: scaleSzie(20), paddingRight: scaleSzie(20) }} >
                             <View style={{ width: scaleSzie(100), justifyContent: 'center' }} >
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
-                                    Title:
+                                    {`${localize('Title', language)}:`}
                     </Text>
                             </View>
 
@@ -195,7 +195,7 @@ class Layout extends React.Component {
                         <View style={{ flexDirection: 'row', marginTop: scaleSzie(20), paddingRight: scaleSzie(20) }} >
                             <View style={{ width: scaleSzie(100), paddingTop: scaleSzie(14) }} >
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
-                                    Description:
+                                    {`${localize('Description', language)}:`}
                     </Text>
                             </View>
 
@@ -242,7 +242,6 @@ class Layout extends React.Component {
     }
 
     renderRightContent() {
-        const { language } = this.props;
         return (
             <View style={styles.rightContent} >
                 <ScrollableTabView
@@ -264,6 +263,7 @@ class Layout extends React.Component {
     }
 
     render() {
+        const { language } = this.props;
         const { visibleDeleteBanner } = this.state;
         return (
             <View style={styles.container} >
@@ -274,8 +274,8 @@ class Layout extends React.Component {
                 </View>
                 <PopupConfirm
                     visible={visibleDeleteBanner}
-                    title="Confirmation"
-                    message="Do you want to Delete this Banner ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to Delete this Banner', language)} ?`}
                     onRequestClose={() => this.setState({ visibleDeleteBanner: false })}
                     confimYes={this.submitDeleteBanner}
                 />

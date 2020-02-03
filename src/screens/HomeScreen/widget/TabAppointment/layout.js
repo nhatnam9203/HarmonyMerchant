@@ -395,7 +395,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { token, profile, profileStaffLogin, } = this.props;
+        const { token, profile, profileStaffLogin,language } = this.props;
         const { visibleConfirm, visibleChangeStylist } = this.state;
         const injectedJavascript = `(function() {
             window.postMessage = function(data) {
@@ -421,15 +421,15 @@ class Layout extends React.Component {
                 {this.state.isShowAddAppointment ? this.renderModalBookAppointment() : <View />}
                 <PopupConfirm
                     visible={visibleConfirm}
-                    title="Confirmation"
-                    message="If you exit Checkout Screen , Basket will Reset ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('If you exit Checkout Screen , Basket will Reset', language)} ?`}
                     onRequestClose={() => this.setState({ visibleConfirm: false })}
                     confimYes={this.clearDataCofrim}
                 />
                 <PopupChangeStylist
                     ref={this.changeStylistRef}
                     visible={visibleChangeStylist}
-                    title="Change Stylist"
+                    title={localize('Change Stylist', language)}
                     onRequestClose={() => { this.setState({ visibleChangeStylist: false }) }}
                 />
                 <PopupDiscount

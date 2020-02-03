@@ -12,7 +12,7 @@ import _ from 'ramda';
 import { Dropdown, PopupParent,ButtonCustom } from '@components';
 import connectRedux from '@redux/ConnectRedux';
 
-import { scaleSzie} from '@utils';
+import { scaleSzie,localize} from '@utils';
 
 
 class PopupChangeStylist extends React.Component {
@@ -75,7 +75,7 @@ class PopupChangeStylist extends React.Component {
     // --------------- Render -----------
 
     render() {
-        const { title, visible, listStaffByMerchant, onRequestClose, confimYes } = this.props;
+        const { title, visible, listStaffByMerchant, onRequestClose, confimYes,language } = this.props;
         const { name, tip } = this.state;
         const dataDropdown = this.getStaffDataDropdown(listStaffByMerchant)
         return (
@@ -95,12 +95,12 @@ class PopupChangeStylist extends React.Component {
                 }} >
                     <View style={{ flex: 1 }} >
                         <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
-                            Stylist
+                            {`${localize('Stylist', language)}`}
                         </Text>
                         {/* ------- Dropdown -------- */}
                         <View style={{ height: scaleSzie(40), marginBottom: scaleSzie(10) }} >
                             <Dropdown
-                                label='Name'
+                                label= {`${localize('Name', language)}:`}
                                 data={dataDropdown}
                                 value={name}
                                 onChangeText={(value, index) => this.changeStylist(value, dataDropdown[index].staffId)}
@@ -114,7 +114,8 @@ class PopupChangeStylist extends React.Component {
                         </View>
                         {/* ------- Tip -------- */}
                         <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
-                            Tip ($)
+                            
+                            {`${localize('Tip ($)', language)}`}
                         </Text>
                         {/* ------- Box -------- */}
                         <View style={{
@@ -142,7 +143,7 @@ class PopupChangeStylist extends React.Component {
                                 width={scaleSzie(120)}
                                 height={45}
                                 backgroundColor="#0764B0"
-                                title="Submit"
+                                title={`${localize('Submit', language)}`}
                                 textColor="#fff"
                                 onPress={this.submitChangeStylist}
                                 style={{
@@ -164,6 +165,7 @@ class PopupChangeStylist extends React.Component {
 const mapStateToProps = state => ({
     listStaffByMerchant: state.staff.listStaffByMerchant,
     appointmentDetail: state.appointment.appointmentDetail,
+    language: state.dataLocal.language,
 })
 
 
