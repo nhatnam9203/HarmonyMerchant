@@ -63,7 +63,7 @@ export default class Layout extends React.Component {
                 <Text style={{
                     color: '#fff', fontSize: scaleSzie(16), fontWeight: 'bold',
                 }} >
-                    {localize('Don’t have an account? ',language)}<Text style={{
+                    {`${localize('Don’t have an account',language)}? `}<Text style={{
                         color: '#5AC8FA', fontSize: scaleSzie(16), fontWeight: 'bold',
                     }} > {localize('Sign up')}</Text>
                 </Text>

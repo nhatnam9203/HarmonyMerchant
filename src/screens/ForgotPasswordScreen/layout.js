@@ -60,7 +60,7 @@ export default class Layout extends React.Component {
                         color: 'rgb(128,150,180)', fontSize: scaleSzie(18), fontWeight: 'bold',
                         textDecorationLine: 'underline'
                     }} >
-                        Back
+                        {localize('Back', language)}
                         </Text>
                 </Button>
                 {/* {

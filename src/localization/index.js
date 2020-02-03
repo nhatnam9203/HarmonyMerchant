@@ -96,7 +96,6 @@ const localization = {
         'Please take or upload photos of Driver License': 'Please take or upload photos of Driver License',
         'password': 'password',
         'Sign up': 'Sign up',
-        'Don’t have an account? ': 'Don’t have an account? ',
         'Home': 'Home',
         'Invoice': 'Invoice',
         'Settlement': 'Settlement',
@@ -181,7 +180,11 @@ const localization = {
         'Contact Phone Number':'Contact Phone Number',
         'Principal':'Principal',
         'Day Of Birth':'Day Of Birth',
-        'Social Security Number (SSN)' :'Social Security Number (SSN)'
+        'Social Security Number (SSN)' :'Social Security Number (SSN)',
+        'Forgot password':'Forgot password',
+        'SIGN IN':'SIGN IN',
+        'Don’t have an account':'Don’t have an account',
+        'Back' :'Back'
         
     },
     'vi': {
