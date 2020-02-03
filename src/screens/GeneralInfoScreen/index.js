@@ -167,7 +167,8 @@ class GeneralInfoScreen extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    stateCity: state.dataLocal.stateCity
+    stateCity: state.dataLocal.stateCity,
+    language: state.dataLocal.language,
 })
 
 
