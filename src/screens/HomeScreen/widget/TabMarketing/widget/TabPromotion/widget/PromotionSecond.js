@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import moment from 'moment';
 
-import { scaleSzie, localize, updateStateChildren,getServiceNameById } from '@utils';
+import { scaleSzie, localize, updateStateChildren, getServiceNameById } from '@utils';
 import IMAGE from '@resources';
 import { Text, InputForm, ButtonCustom } from '@components';
 import ItemCalendar from './ItemCalendar';
@@ -17,7 +17,7 @@ import ItemDropdown from './ItemDropdown';
 import ItemCheckBoxInput from './ItemCheckBoxInput';
 import connectRedux from '@redux/ConnectRedux';
 
- class PromotionSecond extends React.Component {
+class PromotionSecond extends React.Component {
 
     constructor(props) {
         super(props);
@@ -49,7 +49,7 @@ import connectRedux from '@redux/ConnectRedux';
     // ----------- RENDER ----------
 
     render() {
-        const { language, showCalendar, dataDropdown,servicesByMerchant } = this.props;
+        const { language, showCalendar, dataDropdown, servicesByMerchant } = this.props;
         const { data } = this.state;
         const { campaignName } = data;
         return (
@@ -61,7 +61,7 @@ import connectRedux from '@redux/ConnectRedux';
             >
                 <View style={{ paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10) }} >
                     <InputForm
-                        title={localize('Campaign Name:', language)}
+                        title={`${localize('Campaign Name', language)}:`}
                         subTitle=""
                         placeholder=""
                         value={campaignName}
@@ -77,7 +77,7 @@ import connectRedux from '@redux/ConnectRedux';
                         color: '#404040',
                         fontSize: scaleSzie(14)
                     }} >
-                        {localize('Campaign Time:', language)}
+                        {`${localize('Campaign Time', language)}:`}
                     </Text>
                     {/* ---- Row ---- */}
                     <View style={{ flexDirection: 'row' }} >
@@ -100,7 +100,7 @@ import connectRedux from '@redux/ConnectRedux';
                         fontSize: scaleSzie(14),
                         marginTop: scaleSzie(14)
                     }} >
-                        {localize('Promotional Services:', language)}
+                        {`${localize('Promotional Services', language)}:`}
                     </Text>
                     {/* ---- Row ---- */}
                     <View style={{
@@ -109,8 +109,8 @@ import connectRedux from '@redux/ConnectRedux';
                         <ItemDropdown
                             title={localize('Using', language)}
                             width={180}
-                            placeholder="Services"
-                            value={getServiceNameById(servicesByMerchant,data.serviceUsing)}
+                            placeholder={localize('Services', language)}
+                            value={getServiceNameById(servicesByMerchant, data.serviceUsing)}
                             dataDropdown={dataDropdown}
                             onChangeText={value => {
                                 this.setState({
@@ -123,8 +123,8 @@ import connectRedux from '@redux/ConnectRedux';
                         <ItemDropdown
                             title={localize('Apply to', language)}
                             width={180}
-                            placeholder="Services"
-                            value={getServiceNameById(servicesByMerchant,data.serviceApply)}
+                            placeholder={localize('Services', language)}
+                            value={getServiceNameById(servicesByMerchant, data.serviceApply)}
                             dataDropdown={dataDropdown}
                             onChangeText={value => {
                                 this.setState({
@@ -139,12 +139,12 @@ import connectRedux from '@redux/ConnectRedux';
                         color: '#404040',
                         fontSize: scaleSzie(14)
                     }} >
-                        {localize('Promotion:', language)}
+                        {`${localize('Promotion', language)}:`}
                     </Text>
                     {/* ---- Row ---- */}
                     <View style={{ flexDirection: 'row' }} >
                         <ItemCheckBoxInput
-                            title={localize('Discount by percent (%)', language)}
+                            title={`${localize('Discount by percent', language)} (%)`}
                             placeholder="15"
                             isSelectCheckBox={data.discountType === 'discount_percent' ? true : false}
                             value={data.discountType === 'discount_percent' ? data.discount : ''}
@@ -172,7 +172,7 @@ import connectRedux from '@redux/ConnectRedux';
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemCheckBoxInput
-                            title={localize('Discount fix amount ($)', language)}
+                            title={`${localize('Discount fix amount', language)} ($)`}
                             placeholder="100"
                             isSelectCheckBox={data.discountType === 'discount_fixtom' ? true : false}
                             value={data.discountType === 'discount_fixtom' ? data.discount : ''}
@@ -220,8 +220,8 @@ import connectRedux from '@redux/ConnectRedux';
 
 const mapStateToProps = state => ({
     servicesByMerchant: state.service.servicesByMerchant,
-  })
-  
-  
-  
-  export default connectRedux(mapStateToProps, PromotionSecond);
+})
+
+
+
+export default connectRedux(mapStateToProps, PromotionSecond);

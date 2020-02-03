@@ -13,6 +13,8 @@ import IMAGE from '@resources';
 export default class Layout extends React.Component {
 
     render() {
+        const {language} = this.props;
+        
         return (
             <ImageBackground
                 style={styles.container}

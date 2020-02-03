@@ -12,7 +12,7 @@ import { TextInputMask } from 'react-native-masked-text';
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
-import { scaleSzie } from '../utils';
+import { scaleSzie,localize } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupEnterPin extends React.Component {
@@ -58,8 +58,11 @@ class PopupEnterPin extends React.Component {
     }
 
     render() {
-        const { title, visibleEnterPin, isOfflineMode, onRequestClose, confimYes, hideCloseButton,isShowButtonEnterPinCode } = this.props;
+        const { title, visibleEnterPin, isOfflineMode, onRequestClose, confimYes, hideCloseButton,isShowButtonEnterPinCode,
+        language
+        } = this.props;
         const { value, customStyle, loading } = this.state;
+
         return (
             <PopupParent
                 title={title}
@@ -84,7 +87,7 @@ class PopupEnterPin extends React.Component {
                                     flex: 1, fontSize: scaleSzie(18), textAlign: 'center',
                                     padding: 0, margin: 0
                                 }}
-                                placeholder="Your pin code"
+                                placeholder={localize('Your pin code', language)}
                                 keyboardType="numeric"
                                 maxLength={4}
                                 value={value}
@@ -102,7 +105,7 @@ class PopupEnterPin extends React.Component {
                                 color: 'rgb(246,195,49)', fontWeight: 'bold', fontSize: scaleSzie(14),
                                 textAlign: 'center'
                             }} >
-                                Please check your internet !
+                                {`${localize('Please check your internet', language)} !`}
                         </Text>
                             <Text style={{
                                 color: 'rgb(246,195,49)', fontWeight: 'bold', fontSize: scaleSzie(14),
@@ -114,7 +117,7 @@ class PopupEnterPin extends React.Component {
                                 color: 'rgb(246,195,49)', fontWeight: 'bold', fontSize: scaleSzie(14),
                                 textAlign: 'center'
                             }} >
-                                Do you want use offline mode ?
+                                {`${localize('Do you want use offline mode', language)} ?`}
                         </Text>
                             <View style={{
                                 flex: 1, flexDirection: 'row', justifyContent: 'space-around',
@@ -124,7 +127,7 @@ class PopupEnterPin extends React.Component {
                                     width={'30%'}
                                     height={35}
                                     backgroundColor="#0764B0"
-                                    title="Ask me later"
+                                    title={localize('Ask me later', language)}
                                     textColor="#fff"
                                     onPress={() => this.props.actions.app.toogleOfflineMode(false)}
                                     styleText={{
@@ -139,7 +142,7 @@ class PopupEnterPin extends React.Component {
                                     width={'30%'}
                                     height={35}
                                     backgroundColor="#0764B0"
-                                    title="OK"
+                                    title={localize('OK', language)}
                                     textColor="#fff"
                                     onPress={this.loginWithOfflineMode}
                                     styleText={{
@@ -168,7 +171,7 @@ class PopupEnterPin extends React.Component {
                                             width={'30%'}
                                             height={35}
                                             backgroundColor="#0764B0"
-                                            title="Enter"
+                                            title={localize('Enter', language)}
                                             textColor="#fff"
                                             onPress={() => confimYes()}
                                             styleText={{

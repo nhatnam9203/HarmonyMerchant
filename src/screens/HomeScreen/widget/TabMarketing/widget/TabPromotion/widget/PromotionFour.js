@@ -57,7 +57,7 @@ import connectRedux from '@redux/ConnectRedux';
             >
                 <View style={{ paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10) }} >
                     <InputForm
-                        title={localize('Campaign Name:', language)}
+                        title={`${localize('Campaign Name', language)}:`}
                         subTitle=""
                         placeholder=""
                         value={campaignName}
@@ -91,12 +91,12 @@ import connectRedux from '@redux/ConnectRedux';
                         color: '#404040',
                         fontSize: scaleSzie(14)
                     }} >
-                        {localize('Promotion:', language)}
+                        {`${localize('Promotion', language)}:`}
                     </Text>
                     {/* ---- Row ---- */}
                     <View style={{ flexDirection: 'row' }} >
                         <ItemCheckBoxInput
-                            title={localize('Discount by percent (%)', language)}
+                            title={`${localize('Discount by percent', language)} (%)`}
                             placeholder="15"
                             isSelectCheckBox={data.discountType === 'discount_percent' ? true : false}
                             value={data.discountType === 'discount_percent' ? data.discount : ''}
@@ -124,7 +124,7 @@ import connectRedux from '@redux/ConnectRedux';
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemCheckBoxInput
-                            title={localize('Discount fix amount ($)', language)}
+                            title={`${localize('Discount fix amount', language)} ($)`}
                             placeholder="100"
                             isSelectCheckBox={data.discountType === 'discount_fixtom' ? true : false}
                             value={data.discountType === 'discount_fixtom' ? data.discount : ''}

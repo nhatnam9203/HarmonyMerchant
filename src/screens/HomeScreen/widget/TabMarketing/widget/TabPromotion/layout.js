@@ -124,7 +124,7 @@ class Layout extends React.Component {
                 <DatePicker
                     visible={show}
                     onRequestClose={() => this.setState({ show: false })}
-                    title="Select From Date"
+                    title={localize('Select From Date', language)}
                     dateCalendar={dateCalendar}
                     setDateSelected={this.setDateSelected}
                 />
