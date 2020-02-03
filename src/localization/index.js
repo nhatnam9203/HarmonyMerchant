@@ -173,6 +173,11 @@ const localization = {
         'Auto close at': 'Auto close at',
         'Auto lock screen after': 'Auto lock screen after',
         'SAVE': 'SAVE',
+        'Terms of Service':'Terms of Service',
+        'ACCEPT':'ACCEPT',
+        'USER GUIDE':'USER GUIDE',
+        'ANIMATION':'ANIMATION'
+
         
     },
     'vi': {

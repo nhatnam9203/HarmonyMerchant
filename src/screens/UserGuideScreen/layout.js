@@ -6,9 +6,9 @@ import {
 } from 'react-native';
 
 import { Text, ButtonCustom } from '@components';
-import { scaleSzie } from '../../utils';
+import { scaleSzie, localize } from '@utils';
 import styles from './style';
-import IMAGE from '../../resources';
+import IMAGE from '@resources';
 
 export default class Layout extends React.Component {
 
@@ -24,13 +24,15 @@ export default class Layout extends React.Component {
                     color: '#fff', fontSize: scaleSzie(45), fontWeight: 'bold',
                     marginBottom: scaleSzie(10)
                 }} >
-                    USER GUIDE
+                    
+                    {localize('USER GUIDE', language)}
                 </Text>
                 <Text style={{
                     color: '#fff', fontSize: scaleSzie(45), fontWeight: 'bold',
                     marginBottom: scaleSzie(10)
                 }} >
-                    ANIMATION
+                    {localize('ANIMATION', language)}
+                    
                 </Text>
                 <View style={{ flex: 1,justifyContent:'flex-end',
             paddingBottom:scaleSzie(7)

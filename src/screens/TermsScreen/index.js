@@ -31,7 +31,8 @@ class TermsScreen extends Layout {
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
-    isAgreeTerm: state.app.isAgreeTerm
+    isAgreeTerm: state.app.isAgreeTerm,
+    language: state.dataLocal.language,
 })
 
 
