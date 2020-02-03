@@ -133,7 +133,7 @@ const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     language: state.dataLocal.language,
     question: state.app.question,
-    loading: state.app.loading
+    loading: state.app.loading,
 })
 
 

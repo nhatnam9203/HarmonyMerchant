@@ -19,7 +19,6 @@ export default class Layout extends React.Component {
         const { language, loading, } = this.props;
         return (
             <FormInfoParent
-                // title={`${localize('Business Information', language)}`}
                 back={() => this.props.navigation.goBack()}
                 next={this.nextTab}
             >
@@ -35,7 +34,7 @@ export default class Layout extends React.Component {
                                 marginTop: scaleSzie(8)
                             }}  >
                                 <Text style={{ color: '#0764B0', fontWeight: 'bold', fontSize: scaleSzie(18) }} >
-                                    Please fill the form below
+                                    {localize('Please fill the form below', language)}
                             </Text>
                                 <View style={{
                                     height: scaleSzie(38), backgroundColor: '#0764B0', justifyContent: 'center',
