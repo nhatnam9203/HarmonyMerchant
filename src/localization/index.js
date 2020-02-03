@@ -224,7 +224,27 @@ const localization = {
         'Total Discount':'Total Discount',
         'Done':'Done',
         'Custom Discount by':'Custom Discount by',
-        'Custom Discount by fixed amount':'Custom Discount by fixed amount'
+        'Custom Discount by fixed amount':'Custom Discount by fixed amount',
+        'Print receipt':'Print receipt',
+        'Open Cashier':'Open Cashier',
+        'Grand Total':'Grand Total',
+        'Paid':'Paid',
+        'Due amount':'Due amount',
+        'CANCEL':'CANCEL',
+        'DONE':'DONE',
+        'PAY':'PAY',
+        'CONFIRM':'CONFIRM',
+        'SELECT PAYMENT':'SELECT PAYMENT',
+        'Select payment method':'Select payment method',
+        'BACK':'BACK',
+        'Offline mode':'Offline mode',
+        'Use consumer app to scan QR code below':'Use consumer app to scan QR code below', 
+        'Then scan the QR code on the phone':'Then scan the QR code on the phone',
+        'to complete the transaction':'to complete the transaction',
+        'Bill of payment':'Bill of payment',
+        'Active Gift Card':'Active Gift Card',
+        'Customer Phone':'Customer Phone',
+        'Payment Details':'Payment Details'
 
     },
     'vi': {

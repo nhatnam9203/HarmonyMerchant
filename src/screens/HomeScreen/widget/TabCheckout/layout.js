@@ -12,39 +12,39 @@ import _ from 'ramda';
 import { scaleSzie, localize, formatNumberFromCurrency, formatMoney } from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
-    PopupSendLinkInstall,PopupActiveGiftCard,PopupScanCode
+    PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode
 } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import {
     ItemCategory, ColPlaceHolder, ItemProductService, ItemAmount,
-    ItemExtra, PopupDiscount, PopupProcessingCredit, PopupBill, PopupDiscountLocal,PopupEnterInfo,
-    PopupEnterCustomerPhone,ItemCustomerBasket,PopupPaymentDetails
+    ItemExtra, PopupDiscount, PopupProcessingCredit, PopupBill, PopupDiscountLocal, PopupEnterInfo,
+    PopupEnterCustomerPhone, ItemCustomerBasket, PopupPaymentDetails
 } from './widget';
 
 class Layout extends React.Component {
 
     renderHeader() {
-        const { language,groupAppointment } = this.props;
-        const {infoUser} = this.state;
+        const { language, groupAppointment } = this.props;
+        const { infoUser } = this.state;
         let firstName = '';
         let lastName = '';
         let phoneNumber = '';
 
-        if(!_.isEmpty(groupAppointment)){
-            const appointments = groupAppointment.appointments ?   groupAppointment.appointments : [];
+        if (!_.isEmpty(groupAppointment)) {
+            const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
             const appointmentMain = appointments.find(appointment => appointment.isMain === 1);
-            if(appointmentMain){
+            if (appointmentMain) {
                 firstName = appointmentMain.firstName ? appointmentMain.firstName : '';
                 lastName = appointmentMain.lastName ? appointmentMain.lastName : '';
                 phoneNumber = appointmentMain.phoneNumber ? appointmentMain.phoneNumber : '';
             }
         }
-            firstName = infoUser.firstName !== '' ? infoUser.firstName :firstName  ;
-            lastName = infoUser.lastName!== '' ? infoUser.lastName :lastName  ;
-            phoneNumber = infoUser.phoneNumber!== '' ? infoUser.phoneNumber :phoneNumber  ;
-        
-         const name =`${firstName} ${lastName}`;
+        firstName = infoUser.firstName !== '' ? infoUser.firstName : firstName;
+        lastName = infoUser.lastName !== '' ? infoUser.lastName : lastName;
+        phoneNumber = infoUser.phoneNumber !== '' ? infoUser.phoneNumber : phoneNumber;
+
+        const name = `${firstName} ${lastName}`;
         return (
             <View style={styles.headerContainer} >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }} >
@@ -52,79 +52,80 @@ class Layout extends React.Component {
                         {`${localize('Customer', language)}:`}
                     </Text>
                     {
-                        name.trim() == '' ?  
-                        <ButtonCustom
-                        width={scaleSzie(100)}
-                        height={30}
-                        backgroundColor="rgb(247,247,247)"
-                        title={localize('Enter Name', language)}
-                        textColor="rgb(63,63,63)"
-                        onPress={this.displayPopupCustomerName}
-                        style={{
-                            borderWidth: 1, borderColor: 'rgb(199,199,199)',
-                            borderRadius: scaleSzie(3),
-                            marginHorizontal:scaleSzie(14),
-                            alignItems:"flex-start",
-                            paddingHorizontal:scaleSzie(10)
-                        }}
-                        styleText={{ fontSize: scaleSzie(12), }}
-                    />
-                        :  <Text onPress={this.displayPopupCustomerName} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(30) }]} >
-                        {`${firstName} ${lastName}`}
-                    </Text>
+                        name.trim() == '' ?
+                            <ButtonCustom
+                                width={scaleSzie(100)}
+                                height={30}
+                                backgroundColor="rgb(247,247,247)"
+                                title={localize('Enter Name', language)}
+                                textColor="rgb(63,63,63)"
+                                onPress={this.displayPopupCustomerName}
+                                style={{
+                                    borderWidth: 1, borderColor: 'rgb(199,199,199)',
+                                    borderRadius: scaleSzie(3),
+                                    marginHorizontal: scaleSzie(14),
+                                    alignItems: "flex-start",
+                                    paddingHorizontal: scaleSzie(10)
+                                }}
+                                styleText={{ fontSize: scaleSzie(12), }}
+                            />
+                            : <Text onPress={this.displayPopupCustomerName} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(30) }]} >
+                                {`${firstName} ${lastName}`}
+                            </Text>
                     }
 
-                   
+
                     <Text onPress={this.displayPopupCustomerPhone} style={styles.textHeader} >
                         {`${localize('Phone', language)}:`}
                     </Text>
                     {
-                        phoneNumber.trim() == '' ?  
-                        <ButtonCustom
-                        width={scaleSzie(100)}
-                        height={30}
-                        backgroundColor="rgb(247,247,247)"
-                        title={localize('Enter Phone', language)}
-                        textColor="rgb(63,63,63)"
-                        onPress={this.displayPopupCustomerPhone}
-                        style={{
-                            borderWidth: 1, borderColor: 'rgb(199,199,199)',
-                            borderRadius: scaleSzie(3),
-                            marginHorizontal:scaleSzie(14),
-                            alignItems:"flex-start",
-                            paddingHorizontal:scaleSzie(10)
-                        }}
-                        styleText={{ fontSize: scaleSzie(12),  }}
-                    />
-                        :  <Text onPress={this.displayPopupCustomerPhone} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(12) }]} >
-                        {phoneNumber}
-                    </Text>
+                        phoneNumber.trim() == '' ?
+                            <ButtonCustom
+                                width={scaleSzie(100)}
+                                height={30}
+                                backgroundColor="rgb(247,247,247)"
+                                title={localize('Enter Phone', language)}
+                                textColor="rgb(63,63,63)"
+                                onPress={this.displayPopupCustomerPhone}
+                                style={{
+                                    borderWidth: 1, borderColor: 'rgb(199,199,199)',
+                                    borderRadius: scaleSzie(3),
+                                    marginHorizontal: scaleSzie(14),
+                                    alignItems: "flex-start",
+                                    paddingHorizontal: scaleSzie(10)
+                                }}
+                                styleText={{ fontSize: scaleSzie(12), }}
+                            />
+                            : <Text onPress={this.displayPopupCustomerPhone} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(12) }]} >
+                                {phoneNumber}
+                            </Text>
                     }
 
                 </View>
                 {/* -------- Button open cash -------- */}
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end',flexDirection:'row' }} >
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', flexDirection: 'row' }} >
                     {
-                       !_.isEmpty(groupAppointment) ?    <Button  onPress={this.printTemptInvoice} style={[styles.btnCashier,{marginRight:scaleSzie(8)}]} >
-                        <Image source={IMAGE.print_btn} 
-                        style={{width:scaleSzie(14),height:scaleSzie(16)}}
-                        />
-                        <Text style={styles.textBtnCashier} >
-                       Print receipt
-                        </Text>
-                    </Button>: <View/>
-                    }
-                   
+                        !_.isEmpty(groupAppointment) ? <Button onPress={this.printTemptInvoice} style={[styles.btnCashier, { marginRight: scaleSzie(8) }]} >
+                            <Image source={IMAGE.print_btn}
+                                style={{ width: scaleSzie(14), height: scaleSzie(16) }}
+                            />
+                            <Text style={styles.textBtnCashier} >
 
-                    <Button  onPress={this.checkStatusCashier} style={styles.btnCashier} >
-                        <Image source={IMAGE.cashier_btn} 
-                        style={{width:scaleSzie(16),height:scaleSzie(13)}}
+                                {localize('Print receipt', language)}
+                            </Text>
+                        </Button> : <View />
+                    }
+
+
+                    <Button onPress={this.checkStatusCashier} style={styles.btnCashier} >
+                        <Image source={IMAGE.cashier_btn}
+                            style={{ width: scaleSzie(16), height: scaleSzie(13) }}
                         />
                         <Text style={styles.textBtnCashier} >
-                        Open Cashier
+                            {localize('Open Cashier', language)}
                         </Text>
                     </Button>
-                   
+
                 </View>
             </View>
         );
@@ -162,14 +163,14 @@ class Layout extends React.Component {
 
                             {/* --------- Gift Card --------  */}
                             <ItemCategory
-                                    category={{
-                                        name:"Gift Card",
-                                        categoryId:1
-                                    }}
-                                    onPressSelectCategory={this.onSelectGiftCard}
-                                    colorText={temptColorHeader}
-                                    categorySelected={this.state.categorySelected}
-                                />
+                                category={{
+                                    name: "Gift Card",
+                                    categoryId: 1
+                                }}
+                                onPressSelectCategory={this.onSelectGiftCard}
+                                colorText={temptColorHeader}
+                                categorySelected={this.state.categorySelected}
+                            />
                         </ScrollView>
                     </View>
                 </View>
@@ -333,129 +334,130 @@ class Layout extends React.Component {
     }
 
     renderBasket() {
-        const {infoUser} = this.state;
-        const { language, groupAppointment ,paymentDetailInfo,isOfflineMode} = this.props;
+        const { infoUser } = this.state;
+        const { language, groupAppointment, paymentDetailInfo, isOfflineMode } = this.props;
         const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
         const temptGrandTotal = groupAppointment.total ? groupAppointment.total : 0;
 
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
-         const totalLocal =  Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2);
+        const totalLocal = Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2);
         return (
-            <View style={{ flex:1}} >
+            <View style={{ flex: 1 }} >
                 {/* -------- Header Basket -------- */}
-                <View style={[styles.headerBasket,{flexDirection:"row",paddingHorizontal:scaleSzie(8),
-            },]} >
-                    <View style={{flex:1}} />
+                <View style={[styles.headerBasket, {
+                    flexDirection: "row", paddingHorizontal: scaleSzie(8),
+                },]} >
+                    <View style={{ flex: 1 }} />
                     <Text style={styles.textHeader} >
                         {localize('Basket', language)}
                     </Text>
-                    <View style={{flex:1,alignItems:"flex-end"}} >
+                    <View style={{ flex: 1, alignItems: "flex-end" }} >
                         {
                             !_.isEmpty(groupAppointment) && checkoutPayments.length === 0 ? <Button onPress={this.addAppointmentCheckout} >
-                            <Image 
-                            source={IMAGE.add_appointment_checkout} 
-                            style={{width:scaleSzie(25),height:scaleSzie(25)}}
-                            />
+                                <Image
+                                    source={IMAGE.add_appointment_checkout}
+                                    style={{ width: scaleSzie(25), height: scaleSzie(25) }}
+                                />
                             </Button> : <View />
                         }
-                        
-                        
+
+
                     </View>
                 </View>
                 {/* -------- Content Basket -------- */}
-                    <View style={{ flex: 1 }} >
+                <View style={{ flex: 1 }} >
                     <ScrollView showsVerticalScrollIndicator={false} >
                         {
-                          _.isEmpty(groupAppointment) ? ( basket.length > 0?  <ItemCustomerBasket 
-                                    language={language}
-                                    subTotalLocal={subTotalLocal} 
-                                    tipLocal={tipLocal}
-                                    discountTotalLocal={discountTotalLocal} 
-                                    taxLocal={taxLocal}
-                                    removeItemBasket={this.removeItemBasket}
-                                    changeStylist={this.changeStylist}
-                                    showModalDiscount={this.showModalDiscount}
-                                    basketLocal={basket}
-                                    infoUser={infoUser}
-                                    isOfflineMode={true}
-                                    
-                  >
-                  </ItemCustomerBasket> : <View />) :  appointments.map((appointment,index) => <ItemCustomerBasket 
-                                    key={`${appointment.appointmentId}_${index}`}
-                                    language={language}
-                                    appointmentDetail={appointment}
-                                    subTotalLocal={subTotalLocal} 
-                                    tipLocal={tipLocal}
-                                    discountTotalLocal={discountTotalLocal} 
-                                    taxLocal={taxLocal}
-                                    removeItemBasket={this.removeItemBasket}
-                                    changeStylist={this.changeStylist}
-                                    showModalDiscount={this.showModalDiscount}
-                                    basketLocal={basket}
-                                    infoUser={infoUser}
+                            _.isEmpty(groupAppointment) ? (basket.length > 0 ? <ItemCustomerBasket
+                                language={language}
+                                subTotalLocal={subTotalLocal}
+                                tipLocal={tipLocal}
+                                discountTotalLocal={discountTotalLocal}
+                                taxLocal={taxLocal}
+                                removeItemBasket={this.removeItemBasket}
+                                changeStylist={this.changeStylist}
+                                showModalDiscount={this.showModalDiscount}
+                                basketLocal={basket}
+                                infoUser={infoUser}
+                                isOfflineMode={true}
+
+                            >
+                            </ItemCustomerBasket> : <View />) : appointments.map((appointment, index) => <ItemCustomerBasket
+                                key={`${appointment.appointmentId}_${index}`}
+                                language={language}
+                                appointmentDetail={appointment}
+                                subTotalLocal={subTotalLocal}
+                                tipLocal={tipLocal}
+                                discountTotalLocal={discountTotalLocal}
+                                taxLocal={taxLocal}
+                                removeItemBasket={this.removeItemBasket}
+                                changeStylist={this.changeStylist}
+                                showModalDiscount={this.showModalDiscount}
+                                basketLocal={basket}
+                                infoUser={infoUser}
                             >
                             </ItemCustomerBasket>)
                         }
-                       
-                       
+
+
                         {/* ----------- Grand Total ----------- */}
-                        <View style={{paddingHorizontal:scaleSzie(10)}} >
-                            <View style={{height:2,backgroundColor:"#0764B0",marginTop:scaleSzie(10),marginBottom:scaleSzie(15)}} />
-                             {/* ---------- Tip ------ */}
-                             <View style={styles.payNumberTextContainer} >
-                                <Text style={[styles.textPay,{fontSize:scaleSzie(18),fontWeight:"600",color:"#0764B0"}]} >
+                        <View style={{ paddingHorizontal: scaleSzie(10) }} >
+                            <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
+                            {/* ---------- Tip ------ */}
+                            <View style={styles.payNumberTextContainer} >
+                                <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#0764B0" }]} >
                                     {`${localize('Grand Total', language)}:`}
                                 </Text>
-                                <Text style={[styles.textPay, { fontSize:scaleSzie(18),fontWeight:"600",color: 'rgb(65,184,85)' }]} >
-                                    {`$${isOfflineMode ? formatMoney(totalLocal) :  formatMoney(temptGrandTotal)}`}
+                                <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: 'rgb(65,184,85)' }]} >
+                                    {`$${isOfflineMode ? formatMoney(totalLocal) : formatMoney(temptGrandTotal)}`}
                                 </Text>
                             </View>
                         </View>
-                        
+
                         {/* ----------- Paid Amount ----------- */}
-                     {
-                         !_.isEmpty(paymentDetailInfo) ? <View style={{paddingHorizontal:scaleSzie(10),marginBottom:scaleSzie(8)}} >
-                            <View style={{height:2,backgroundColor:"#DDDDDD",marginTop:scaleSzie(10),marginBottom:scaleSzie(15)}} />
-                             {/* ---------- Paid amount ------ */}
-                             {
-                                 paymentDetailInfo.paidAmounts ?  paymentDetailInfo.paidAmounts.map((paidAmountInfo,index) => <View key={index} style={[styles.payNumberTextContainer,{  justifyContent: 'space-between',marginBottom:scaleSzie(8)}]} >
-                                 <Text style={[styles.textPay,{fontSize:scaleSzie(18),fontWeight:"600",color:"#404040"}]} >
-                                     {`${localize('Paid ', language)}`}
-                                     <Text style={[styles.textPay, { fontSize:scaleSzie(18),fontWeight:"300",color: '#404040' }]} >
-                                     {` (${paidAmountInfo.paymentMethod})`}
-                                 </Text>
-                                 </Text>
-                                 <Text style={[styles.textPay, { fontSize:scaleSzie(18),fontWeight:"600",color: '#404040' }]} >
-                                     {`  $ ${formatMoney(paidAmountInfo.amount)}`}
-                                 </Text>
-                                
-                             </View> ) : <View />
-                             }
-                            
+                        {
+                            !_.isEmpty(paymentDetailInfo) ? <View style={{ paddingHorizontal: scaleSzie(10), marginBottom: scaleSzie(8) }} >
+                                <View style={{ height: 2, backgroundColor: "#DDDDDD", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
+                                {/* ---------- Paid amount ------ */}
+                                {
+                                    paymentDetailInfo.paidAmounts ? paymentDetailInfo.paidAmounts.map((paidAmountInfo, index) => <View key={index} style={[styles.payNumberTextContainer, { justifyContent: 'space-between', marginBottom: scaleSzie(8) }]} >
+                                        <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#404040" }]} >
+                                            {`${localize('Paid ', language)}`}
+                                            <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "300", color: '#404040' }]} >
+                                                {` (${paidAmountInfo.paymentMethod})`}
+                                            </Text>
+                                        </Text>
+                                        <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: '#404040' }]} >
+                                            {`  $ ${formatMoney(paidAmountInfo.amount)}`}
+                                        </Text>
 
-                             {/* ---------- Due amount ------ */}
-                             {
-                                 paymentDetailInfo.dueAmount ? <View style={[styles.payNumberTextContainer,{  justifyContent: 'space-between',}]} >
-                                 <Text style={[styles.textPay,{fontSize:scaleSzie(18),fontWeight:"600",color:"#FF3B30"}]} >
-                                     {`${localize('Due amount', language)}:`}
-                                 </Text>
-                                 <Text style={[styles.textPay, { fontSize:scaleSzie(18),fontWeight:"600",color: '#FF3B30' }]} >
-                                     {`   $ ${formatMoney(paymentDetailInfo.dueAmount)}`}
-                                    
-                                 </Text>
-                             </View> :<View />
-                             }
-                             
-                        </View> : <View />
-                     }   
-                         
+                                    </View>) : <View />
+                                }
 
-                       <View style={{height:scaleSzie(50)}} />
+
+                                {/* ---------- Due amount ------ */}
+                                {
+                                    paymentDetailInfo.dueAmount ? <View style={[styles.payNumberTextContainer, { justifyContent: 'space-between', }]} >
+                                        <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#FF3B30" }]} >
+                                            {`${localize('Due amount', language)}:`}
+                                        </Text>
+                                        <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: '#FF3B30' }]} >
+                                            {`   $ ${formatMoney(paymentDetailInfo.dueAmount)}`}
+
+                                        </Text>
+                                    </View> : <View />
+                                }
+
+                            </View> : <View />
+                        }
+
+
+                        <View style={{ height: scaleSzie(50) }} />
                     </ScrollView>
-                       
-                    </View>
-                    
+
+                </View>
+
                 {/* -------- Footer Basket -------- */}
                 <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
                     {this.renderButtonChekout()}
@@ -466,9 +468,9 @@ class Layout extends React.Component {
 
 
     renderButtonChekout() {
-        const { tabCurrent, basket, paymentSelected, changeButtonDone,isCancelHarmonyPay
+        const { tabCurrent, basket, paymentSelected, changeButtonDone, isCancelHarmonyPay
         } = this.state;
-        const { language, isDonePayment,groupAppointment } = this.props;
+        const { language, isDonePayment, groupAppointment } = this.props;
         if (tabCurrent === 1) {
             if (changeButtonDone && isCancelHarmonyPay) {
                 if (paymentSelected === 'Harmony Pay') {
@@ -508,7 +510,7 @@ class Layout extends React.Component {
                     backgroundColor="#0764B0"
                     title={localize('DONE', language)}
                     textColor="#fff"
-                    onPress={() =>{}}
+                    onPress={() => { }}
                     style={{
                         borderWidth: 1, borderColor: '#C5C5C5',
                         flex: 1
@@ -558,7 +560,7 @@ class Layout extends React.Component {
                         flex: 1
                     }}
                     styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
-                    // activeOpacity={1}
+                // activeOpacity={1}
                 />
             );
         } else {
@@ -597,13 +599,14 @@ class Layout extends React.Component {
     }
 
     renderPaymetsMethod() {
+        const {language}= this.props;
         return (
             <View style={{
                 flex: 1, borderRightWidth: 1, borderRightColor: 'rgb(197, 197, 197)',
                 paddingHorizontal: scaleSzie(22)
             }} >
                 <Text style={[styles.textHeader, { fontSize: scaleSzie(18), marginTop: scaleSzie(40), marginBottom: scaleSzie(50) }]} >
-                    Select payment method
+                    {localize('Select payment method', language)}
                 </Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
                     {
@@ -644,7 +647,7 @@ class Layout extends React.Component {
                         width={scaleSzie(350)}
                         height={60}
                         backgroundColor="#F1F1F1"
-                        title="BACK"
+                        title={localize('BACK', language)}
                         textColor="#6A6A6A"
                         onPress={this.backAddBasket}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
@@ -657,18 +660,21 @@ class Layout extends React.Component {
     }
 
     renderOfflineMode() {
-        const {appointmentOfflineMode} = this.state;
+        const {language}= this.props;
+        const { appointmentOfflineMode } = this.state;
+
         return (
             <View style={{
                 flex: 1, borderRightWidth: 1, borderRightColor: 'rgb(197, 197, 197)',
                 paddingHorizontal: scaleSzie(22)
             }} >
                 <Text style={[styles.textHeader, { fontSize: scaleSzie(19), marginTop: scaleSzie(10), marginBottom: scaleSzie(12) }]} >
-                    Offline mode
+                    {localize('Offline mode', language)}
                 </Text>
                 <View style={{ alignItems: 'center', marginBottom: scaleSzie(30) }} >
                     <Text style={[styles.textHeader, { fontSize: scaleSzie(18) }]} >
-                        Use consumer app to scan QR code below
+                        
+                        {localize('Use consumer app to scan QR code below', language)}
                 </Text>
                 </View>
                 <View style={{ alignItems: 'center' }} >
@@ -681,10 +687,12 @@ class Layout extends React.Component {
                 </View>
                 <View style={{ alignItems: 'center', marginTop: scaleSzie(25) }} >
                     <Text style={[styles.textHeader, { fontSize: scaleSzie(18) }]} >
-                        Then scan the QR code on the phone
+                    {localize('Then scan the QR code on the phone', language)}
+                        
                 </Text>
                     <Text style={[styles.textHeader, { fontSize: scaleSzie(18) }]} >
-                        to complete the transaction
+                    {localize('to complete the transaction', language)}
+                        
                 </Text>
                 </View>
                 {/* ------ Footer ----- */}
@@ -693,9 +701,9 @@ class Layout extends React.Component {
                         width={scaleSzie(350)}
                         height={60}
                         backgroundColor="#F1F1F1"
-                        title="BACK"
+                        title={localize('BACK', language)}
                         textColor="#6A6A6A"
-                        onPress={() =>  this.scrollTabRef.current.goToPage(1)}
+                        onPress={() => this.scrollTabRef.current.goToPage(1)}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                         styleText={{ fontSize: scaleSzie(26) }}
                     />
@@ -709,7 +717,7 @@ class Layout extends React.Component {
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
                 {/* 474 435 */}
-                <View style={{ width: scaleSzie(432) }} > 
+                <View style={{ width: scaleSzie(432) }} >
                     <ScrollableTabView
                         ref={this.scrollTabRef}
                         style={{}}
@@ -738,9 +746,9 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { language ,visiblePopupPaymentDetails,visibleChangeMoney} = this.props;
+        const { language, visiblePopupPaymentDetails, visibleChangeMoney } = this.props;
         const { basket, visibleConfirm, visibleChangeStylist,
-            visiblePopupDiscountLocal,visibleScanCode
+            visiblePopupDiscountLocal, visibleScanCode
         } = this.state;
         return (
             <View style={styles.container} >
@@ -748,32 +756,32 @@ class Layout extends React.Component {
                 {this.renderBodyCheckout()}
                 <PopupDiscount
                     ref={this.popupDiscountRef}
-                    title={'Discount'}
+                    title={localize('Discount', language)}
                 />
                 <PopupDiscountLocal
                     ref={this.popupDiscountLocalRef}
                     visible={visiblePopupDiscountLocal}
-                    title={'Discount'}
+                    title={localize('Discount', language)}
                     onRequestClose={this.onRequestClosePopupDiscountLocal}
                     callbackDiscountToParent={(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal) => this.callbackDiscountToParent(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal)}
                 />
                 <PopupConfirm
                     visible={visibleConfirm}
-                    title="Confirmation"
+                    title={localize('Confirmation', language)}
                     message="If you exit Checkout Screen , Basket will Reset ?"
                     onRequestClose={() => { this.setState({ visibleConfirm: false }) }}
                     confimYes={this.clearDataCofrim}
                 />
                 <PopupChangeMoney
                     ref={this.cashBackRef}
-                    title="Confirmation"
+                    title={localize('Confirmation', language)}
                     onRequestClose={() => { this.setState({ visibleChangeMoney: false }) }}
                     confimOK={this.doneBillByCash}
                 />
                 <PopupChangeStylist
                     ref={this.changeStylistRef}
                     visible={visibleChangeStylist}
-                    title="Change Stylist"
+                    title={localize('Change Stylist', language)}
                     onRequestClose={() => { this.setState({ visibleChangeStylist: false }) }}
                     changeStylistBasketLocal={this.changeStylistBasketLocal}
                 />
@@ -790,7 +798,7 @@ class Layout extends React.Component {
                 />
                 <PopupBill
                     ref={this.modalBillRef}
-                    title={'Bill of payment'}
+                    title={localize('Bill of payment', language)}
                     visible={this.state.visibleBillOfPayment}
                     onRequestClose={this.onRequestCloseBillModal}
                     language={language}
@@ -800,41 +808,41 @@ class Layout extends React.Component {
                 <PopupSendLinkInstall
                     ref={this.popupSendLinkInstallRef}
                     visible={this.state.visibleSendLinkPopup}
-                    title="Confirmation"
+                    title={localize('Confirmation', language)}
                     onRequestClose={() => this.setState({ visibleSendLinkPopup: false })}
                     confimYes={this.sendLinkInstallApp}
                 />
-                <PopupActiveGiftCard 
+                <PopupActiveGiftCard
                     ref={this.activeGiftCardRef}
-                    title="Active Gift Card"
+                    title={localize('Active Gift Card', language)}
                     onRequestClose={this.closePopupActiveGiftCard}
                     confimYes={this.sendLinkInstallApp}
                     submitSerialCode={this.submitSerialCode}
                 />
-                <PopupEnterInfo 
+                <PopupEnterInfo
                     ref={this.customerNameRef}
-                      visible={this.state.visibleCustomerName}
-                      title="Confirmation"
-                      message="Customer Name"
-                      onRequestClose={() => this.setState({ visibleCustomerName: false })}
+                    visible={this.state.visibleCustomerName}
+                    title={localize('Confirmation', language)}
+                    message={localize('Customer Name', language)}
+                    onRequestClose={() => this.setState({ visibleCustomerName: false })}
                     confimYes={this.changeCustomerName}
                 />
-                <PopupEnterCustomerPhone 
+                <PopupEnterCustomerPhone
                     ref={this.CustomerPhoneRef}
-                      visible={this.state.visibleCustomerPhone}
-                      title="Confirmation"
-                      message="Customer Phone"
-                      onRequestClose={() => this.setState({ visibleCustomerPhone: false })}
+                    visible={this.state.visibleCustomerPhone}
+                    title={localize('Confirmation', language)}
+                    message={localize('Customer Phone', language)}
+                    onRequestClose={() => this.setState({ visibleCustomerPhone: false })}
                     confimYes={this.changeCustomerPhone}
                 />
-                <PopupPaymentDetails 
-                    title={'Payment Details'}
+                <PopupPaymentDetails
+                    title={localize('Payment Details', language)}
                     visible={visiblePopupPaymentDetails}
                     onRequestClose={this.closePopupProductPaymentDetails}
                     language={language}
                     nextPayment={this.nextPayment}
                 />
-                  <PopupScanCode
+                <PopupScanCode
                     visible={visibleScanCode}
                     onRequestClose={this.onRequestCloseScanCode}
                     resultScanCode={this.resultScanCode}
