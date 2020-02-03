@@ -61,7 +61,7 @@ export default class Layout extends React.Component {
                 <View style={{ flexDirection: 'row' }} >
                     <View style={{ flex: 1 }} >
                         <InputForm
-                            title={localize('Principal Name *', language)}
+                            title={`${localize('Principal Name', language)} *`}
                             subTitle=""
                             placeholder={localize('First name', language)}
                             value={firstName}
@@ -82,7 +82,7 @@ export default class Layout extends React.Component {
                 </View>
 
                 <InputForm
-                    title={localize('Title/Position *', language)}
+                    title={`${localize('Title/Position', language)} *`}
                     subTitle=""
                     placeholder={localize('Manager', language)}
                     value={position}
@@ -90,7 +90,7 @@ export default class Layout extends React.Component {
                     onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 310 : 270)}
                 />
                 <InputForm
-                    title={localize('Ownership (%) *', language)}
+                    title={`${localize('Ownership', language)} (%) *`}
                     subTitle=""
                     placeholder=""
                     value={ownership}
@@ -102,7 +102,7 @@ export default class Layout extends React.Component {
                     <View style={{ flex: 1 }} >
                         <InputFormPhone
                             ref={this.homePhoneRef}
-                            title={localize('Home Phone', language)}
+                            title={`${localize('Home Phone', language)}`}
                             subTitle=""
                             placeholder=""
                             value={homePhone}
@@ -128,7 +128,7 @@ export default class Layout extends React.Component {
                 </View>
 
                 <InputForm
-                    title={localize('Address *', language)}
+                    title={`${localize('Address', language)} *`}
                     subTitle=""
                     placeholder={localize('Home address', language)}
                     style={{
@@ -180,7 +180,7 @@ export default class Layout extends React.Component {
                 <View style={{ height: scaleSzie(15) }} />
                 <InputForm
                     isOnlyNumber={true}
-                    title={localize('Years at This Address *')}
+                    title={`${localize('Years at This Address')} *`}
                     subTitle=""
                     placeholder=""
                     value={yearAtThisAddress}
@@ -192,7 +192,7 @@ export default class Layout extends React.Component {
                 <InputFormPhone
                     isNotShowDropdown={true}
                     mark='999-99-9999'
-                    title={localize('Social Security Number (SSN) *', language)}
+                    title={`${localize('Social Security Number (SSN)', language)} *`}
                     subTitle=""
                     placeholder="000-00-0000"
                     value={ssn}
@@ -202,7 +202,7 @@ export default class Layout extends React.Component {
                 />
                 {/* ------ Date of Birth ----- */}
                 <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(6) }} >
-                    {localize('Date of Birth (mm/dd/yyyy) *', language)}
+                    {`${localize('Date of Birth', language)} (mm/dd/yyyy) *`}
                 </Text>
 
                 <View style={{
@@ -230,7 +230,7 @@ export default class Layout extends React.Component {
 
                 {/* ------------- */}
                 <InputForm
-                    title={localize('Email Address *')}
+                    title={`${localize('Email Address')} *`}
                     subTitle=""
                     placeholder="example@gmail.com"
                     value={email}
@@ -241,7 +241,7 @@ export default class Layout extends React.Component {
                 <View style={{ flexDirection: 'row' }} >
                     <View style={{ flex: 1, paddingRight: scaleSzie(20) }} >
                         <InputForm
-                            title={localize('Driver License Number *', language)}
+                            title={`${localize('Driver License Number', language)} *`}
                             subTitle=""
                             placeholder=""
                             value={driverLicense}
@@ -251,7 +251,7 @@ export default class Layout extends React.Component {
                     </View>
                     <View style={{ width: scaleSzie(180) }} >
                         <InputForm
-                            title={localize('State Issued *', language)}
+                            title={`${localize('State Issued', language)} *`}
                             subTitle=""
                             placeholder=""
                             value={stateIssued}
