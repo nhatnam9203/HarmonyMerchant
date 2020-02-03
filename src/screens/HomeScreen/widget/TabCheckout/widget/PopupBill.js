@@ -210,7 +210,7 @@ class PopupBill extends React.Component {
                                     justifyContent: 'center', alignItems: 'center', borderRadius: scaleSzie(4),
                                 }} >
                                     <Text style={{ color: '#fff', fontSize: scaleSzie(20), fontWeight: '600' }} >
-                                        Exact
+                                        {localize('Exact', language)}
                                     </Text>
                                 </Button>
                                 {/* -------- Btn Cancel ------ */}
@@ -220,7 +220,7 @@ class PopupBill extends React.Component {
                                     borderColor: '#C5C5C5', borderWidth: 1, marginTop: scaleSzie(9)
                                 }} >
                                     <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(20), fontWeight: '600' }} >
-                                        Cancel
+                                        {localize('Cancel', language)}
                                     </Text>
                                 </Button>
                                 {/* -------- Btn Done ------ */}
@@ -229,7 +229,7 @@ class PopupBill extends React.Component {
                                     justifyContent: 'center', alignItems: 'center', borderRadius: scaleSzie(4), marginTop: scaleSzie(9)
                                 }} >
                                     <Text style={{ color: '#fff', fontSize: scaleSzie(20), fontWeight: '600' }} >
-                                        Done
+                                        {localize('Done', language)}
                                     </Text>
                                 </Button>
                             </View>

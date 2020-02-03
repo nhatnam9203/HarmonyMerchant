@@ -45,10 +45,10 @@ class PopupProcessingCredit extends React.Component {
                 }} >
                     <View style={{ flex: 1, alignItems: 'center' }} >
                         <Text style={{ color: '#0764B0', fontSize: scaleSzie(24), fontWeight: 'bold' }} >
-                            {localize('Please wait !', language)}
+                            {`${localize('Please wait', language)} !`}
                         </Text>
                         <Text style={{ color: '#404040', fontSize: scaleSzie(18), marginTop: scaleSzie(4) }} >
-                            {localize('Transaction is processing ...', language)}
+                            {`${localize('Transaction is processing', language)} ...`}
                         </Text>
 
                         <View style={{

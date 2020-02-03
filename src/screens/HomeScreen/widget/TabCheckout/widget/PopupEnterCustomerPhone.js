@@ -11,7 +11,7 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent, Dropdown } from '@components';
-import { scaleSzie ,ListCodeAreaPhone,getCodeAreaPhone} from '@utils';
+import { scaleSzie ,ListCodeAreaPhone,getCodeAreaPhone,localize} from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupEnterCustomerPhone extends React.Component {
@@ -59,7 +59,7 @@ class PopupEnterCustomerPhone extends React.Component {
 
     render() {
         const { title, visible, isShowButtonEnterPinCode, onRequestClose, confimYes, hideCloseButton, message,
-            placeholder
+            placeholder,language
         } = this.props;
         const { phone, customStyle, firstName, codeAreaPhone } = this.state;
         return (
@@ -111,7 +111,7 @@ class PopupEnterCustomerPhone extends React.Component {
                                         flex: 1, fontSize: scaleSzie(18),
                                         padding: 0, margin: 0,
                                     }}
-                                    placeholder={"Phone numbers"}
+                                    placeholder={localize('Phone number', language)}
                                     value={phone}
                                     onChangeText={(phone) => this.setState({ phone })}
                                     onSubmitEditing={() => {
@@ -138,7 +138,7 @@ class PopupEnterCustomerPhone extends React.Component {
                                     width={'30%'}
                                     height={35}
                                     backgroundColor="#0764B0"
-                                    title="Done"
+                                    title={localize('Done', language)}
                                     textColor="#fff"
                                     onPress={() => confimYes()}
                                     styleText={{

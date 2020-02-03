@@ -11,7 +11,7 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie,localize } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupEnterInfo extends React.Component {
@@ -57,7 +57,7 @@ class PopupEnterInfo extends React.Component {
 
     render() {
         const { title, visible, isShowButtonEnterPinCode, onRequestClose, confimYes, hideCloseButton, message,
-            placeholder
+            placeholder,language
         } = this.props;
         const { value, customStyle, firstName, lastName } = this.state;
         return (
@@ -89,7 +89,7 @@ class PopupEnterInfo extends React.Component {
                                     flex: 1, fontSize: scaleSzie(18),
                                     padding: 0, margin: 0
                                 }}
-                                placeholder={"First Name"}
+                                placeholder={localize('First Name', language)}
                                 value={firstName}
                                 onChangeText={(firstName) => this.setState({ firstName })}
                                 onSubmitEditing={() => {
@@ -110,7 +110,7 @@ class PopupEnterInfo extends React.Component {
                                     flex: 1, fontSize: scaleSzie(18),
                                     padding: 0, margin: 0
                                 }}
-                                placeholder={"Last Name"}
+                                placeholder={localize('Last Name', language)}
                                 value={lastName}
                                 onChangeText={(lastName) => this.setState({ lastName })}
                                 onSubmitEditing={() => {
@@ -135,7 +135,7 @@ class PopupEnterInfo extends React.Component {
                                     width={'30%'}
                                     height={35}
                                     backgroundColor="#0764B0"
-                                    title="Done"
+                                    title={localize('Done', language)}
                                     textColor="#fff"
                                     onPress={() => confimYes()}
                                     styleText={{

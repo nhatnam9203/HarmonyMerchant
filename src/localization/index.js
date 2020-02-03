@@ -244,7 +244,19 @@ const localization = {
         'Bill of payment':'Bill of payment',
         'Active Gift Card':'Active Gift Card',
         'Customer Phone':'Customer Phone',
-        'Payment Details':'Payment Details'
+        'Payment Details':'Payment Details',
+        'Please wait':'Please wait',
+        'Transaction is processing':'Transaction is processing',
+        'Cancel':'Cancel',
+        'Invoice No':'Invoice No',
+        'Status':'Status',
+        'Grand Total':'Grand Total',
+        'Paid Amount':'Paid Amount',
+        'Due Amount':'Due Amount',
+        'Next':'Next',
+        'Exact':'Exact',
+        'Done':'Done'
+
 
     },
     'vi': {
