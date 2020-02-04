@@ -157,7 +157,6 @@ const localization = {
         'Customer': 'Customer',
         'Customer Name': 'Customer Name',
         'Phone number': 'Phone number',
-        'Add New': 'Add New',
         'Customer list': 'Customer list',
         'Referrer Phone Number': 'Referrer Phone Number',
         'Service': 'Service',
@@ -318,7 +317,14 @@ const localization = {
         'View Log Detail':'View Log Detail',
         'Log Detail':'Log Detail',
         'Batch ID':'Batch ID',
-        
+        'New Customer':'New Customer',
+        'Edit Customer':'Edit Customer',
+        'Customer Details':'Customer Details',
+        'Referrer':'Referrer',
+        "Note about customer's favourite":"Note about customer's favourite",
+        'Edit':'Edit',
+
+
 
 
 

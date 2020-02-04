@@ -110,12 +110,14 @@ export default class Layout extends React.Component {
 
     renderTable() {
         const { listCustomersByMerchant, listCustomersSearch, isShowSearchCustomer,
-            refreshListCustomer
+            refreshListCustomer, language
         } = this.props;
         const temptData = isShowSearchCustomer ? listCustomersSearch : listCustomersByMerchant;
         return (
             <View style={{ flex: 1 }} >
-                <HeaderTableCustomer />
+                <HeaderTableCustomer
+                    language={language}
+                />
                 <FlatList
                     data={temptData}
                     renderItem={({ item, index }) => <RowTableCustomer
@@ -134,8 +136,8 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { language,stateCity,navigation } = this.props;
-        const { visibleAdd, visibleDetail,visibleEdit,isFocus } = this.state;
+        const { language, stateCity, navigation } = this.props;
+        const { visibleAdd, visibleDetail, visibleEdit, isFocus } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -167,7 +169,7 @@ export default class Layout extends React.Component {
                     ref={this.modalAddRef}
                     language={language}
                     visible={visibleAdd}
-                    title="New Customer"
+                    title={localize('New Customer', language)}
                     onRequestClose={this.closeModalAddCustomer}
                     addCustomer={this.addCustomer}
                     stateCity={stateCity}
@@ -176,7 +178,7 @@ export default class Layout extends React.Component {
                     ref={this.modalEditRef}
                     language={language}
                     visible={visibleEdit}
-                    title="Edit Customer"
+                    title={localize('Edit Customer', language)}
                     onRequestClose={this.closeModalEditCustomer}
                     editCustomer={this.editCustomer}
                     stateCity={stateCity}
@@ -186,7 +188,7 @@ export default class Layout extends React.Component {
                     ref={this.modalDetailRef}
                     language={language}
                     visible={visibleDetail}
-                    title="Customer Details"
+                    title={localize('Customer Details', language)}
                     onRequestClose={this.closeModalDetail}
                     showModalEditCustomer={this.showModalEditCustomer}
                 />

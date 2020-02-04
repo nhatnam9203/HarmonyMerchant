@@ -129,7 +129,7 @@ class PopupCustomerDetail extends React.Component {
                             width={150}
                             height={35}
                             backgroundColor="#0764B0"
-                            title={'Edit'}
+                            title={`${localize('Edit', language)}`}
                             textColor="#fff"
                             onPress={() => this.props.showModalEditCustomer(this.state.customerInfo)}
                             style={{ borderRadius: scaleSzie(2) }}

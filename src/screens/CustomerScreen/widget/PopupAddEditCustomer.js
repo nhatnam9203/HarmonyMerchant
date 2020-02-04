@@ -207,7 +207,7 @@ class PopupAddEditCustomer extends React.Component {
                                 </View>
                                 {/* ---- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
-                                    {localize('Phone Number *', language)}
+                                    {`${localize('Phone Number', language)} *`}
                                 </Text>
                                 <View style={{ height: scaleSzie(30), flexDirection: 'row' }} >
                                     <View style={{ width: scaleSzie(70) }} >
@@ -278,7 +278,7 @@ class PopupAddEditCustomer extends React.Component {
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(10) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
                                                 <TextInput
-                                                    placeholder="City"
+                                                    placeholder={localize('City', language)}
                                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
                                                     value={city}
                                                     onChangeText={value => this.updateCustomerInfo('city', value, 'addressPost')}
@@ -291,7 +291,7 @@ class PopupAddEditCustomer extends React.Component {
                                         <View style={{ height: scaleSzie(30), }} >
                                             <View style={{ flex: 1 }} >
                                                 <Dropdown
-                                                    label='State'
+                                                    label={localize('State', language)}
                                                     data={getArrayNameStateCity(stateCity)}
                                                     value={state}
                                                     onChangeText={(value) => this.updateCustomerInfo('state', value, 'addressPost')}
@@ -380,7 +380,8 @@ class PopupAddEditCustomer extends React.Component {
                                     paddingTop: scaleSzie(12)
                                 }} >
                                     <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
-                                        Note about customer's favourite
+                                        
+                                        {localize("Note about customer's favourite", language)}
                                 </Text>
                                     <View style={{ flex: 1, justifyContent: 'flex-end' }} >
                                         <View style={{ height: scaleSzie(40), flexDirection: 'row' }} >

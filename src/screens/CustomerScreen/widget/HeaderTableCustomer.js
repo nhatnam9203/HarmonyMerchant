@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { Button } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie,localize } from '@utils';
 import IMAGE from '@resources';
 
 class HeaderTableCustomer extends React.Component {
@@ -47,11 +47,10 @@ class HeaderTableCustomer extends React.Component {
     }
 
     render() {
-        const { sortUpStaffName, sortUpId, sortUpRole, sortUpStatus } = this.state;
+        const {language} = this.props;
+        const { sortUpStaffName} = this.state;
         const iconSortStaffName = sortUpStaffName ? IMAGE.sortUp : IMAGE.sortDown;
-        const iconSortId = sortUpId ? IMAGE.sortUp : IMAGE.sortDown;
-        const iconSortRole = sortUpRole ? IMAGE.sortUp : IMAGE.sortDown;
-        const iconSortStatus = sortUpStatus ? IMAGE.sortUp : IMAGE.sortDown;
+        
         return (
             <View style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
@@ -63,7 +62,7 @@ class HeaderTableCustomer extends React.Component {
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(20) }} >
                         <Text style={styles.textTableHeader} >
-                        Name
+                        {localize('Name', language)}
                         </Text>
                     </View>
                     <Button onPress={this.sortStaffName} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
@@ -79,7 +78,8 @@ class HeaderTableCustomer extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        Phone number
+                        
+                        {localize('Phone number', language)}
                             </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -92,7 +92,8 @@ class HeaderTableCustomer extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        Email
+                        
+                        {localize('Email', language)}
                             </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -105,7 +106,8 @@ class HeaderTableCustomer extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        Referrer
+                        
+                        {localize('Referrer', language)}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
