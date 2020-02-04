@@ -100,7 +100,8 @@ class Layout extends React.Component {
                             />
                             <View style={{ marginHorizontal: scaleSzie(15), justifyContent: 'center' }} >
                                 <Text style={{ fontSize: scaleSzie(18), color: '#404040', }} >
-                                    To
+                                    
+                                    {localize('To', language)}
                                 </Text>
                             </View>
                             <Dropdown
@@ -261,7 +262,7 @@ class Layout extends React.Component {
                 justifyContent:"flex-end",alignItems:"flex-end"
                 }} >
                         <Text style={{color:"rrgb(57,54,60)",fontSize:scaleSzie(14),fontWeight:"600"}} >
-                            Version : {configs.VERSION}- build: {configs.BUILD}
+                        {localize('Version', language)}   : {configs.VERSION}- build: {configs.BUILD}
                         </Text>
                     </View>
                     <View style={{ height: scaleSzie(250) }} />

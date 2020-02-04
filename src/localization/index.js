@@ -362,7 +362,18 @@ const localization = {
         'Do you want to Archive this Extra':'Do you want to Archive this Extra',
         'Do you want to Restore this Extra':'Do you want to Restore this Extra',
         'Price':'Price',
+        'Website':'Website',
+        'Business Hour':'Business Hour',
+        'Longtitude':'Longtitude',
+        'Latitude':'Latitude',
+        'Get current your position':'Get current your position',
+        'Contact Email':'Contact Email',
+        'Merchant ID':'Merchant ID',
         
+
+
+
+
 
 
 
