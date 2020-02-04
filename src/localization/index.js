@@ -356,6 +356,12 @@ const localization = {
         'Do you want to Restore this Category':'Do you want to Restore this Category',
         'Type':'Type',
         'Actions':'Actions',
+        'Add Extra':'Add Extra',
+        'Add':'Add',
+        'Edit Extra':'Edit Extra',
+        'Do you want to Archive this Extra':'Do you want to Archive this Extra',
+        'Do you want to Restore this Extra':'Do you want to Restore this Extra',
+        'Price':'Price',
         
 
 

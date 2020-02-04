@@ -55,7 +55,7 @@ class HeaderTableExtra extends React.Component {
                         width: scaleSzie(50),
                     }, styles.itemTableHeaderContainer]} >
                         <Text style={styles.textTableHeader} >
-                            {localize('No.',language)}
+                            {`${localize('No',language)}.`}
                         </Text>
                     </View>
                     {/* ----- 2 ------ */}
@@ -84,7 +84,8 @@ class HeaderTableExtra extends React.Component {
                     }} >
                         <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                             <Text style={styles.textTableHeader} >
-                                Status
+                                
+                                {localize('Status',language)}
                             </Text>
                         </View>
                     </View>
@@ -93,7 +94,8 @@ class HeaderTableExtra extends React.Component {
                         flex: 1,
                     }, styles.itemTableHeaderContainer]} >
                         <Text style={styles.textTableHeader} >
-                            Actions
+                            
+                            {localize('Actions',language)}
                         </Text>
                     </View>
                 </View>

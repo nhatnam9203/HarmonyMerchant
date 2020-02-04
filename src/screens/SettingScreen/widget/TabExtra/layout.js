@@ -168,8 +168,8 @@ class Layout extends React.Component {
                 <PopupEditAddExtra
                     ref={this.addExtraRef}
                     visible={visibleAdd}
-                    title="Add Extra"
-                    titleButton="Add"
+                    title={localize('Add Extra', language)}
+                    titleButton={localize('Add', language)}
                     onRequestClose={() => this.setState({ visibleAdd: false })}
                     doneAddExtra={this.submitAddExtra}
                     categoriesByMerchant={this.props.categoriesByMerchant}
@@ -177,8 +177,8 @@ class Layout extends React.Component {
                 <PopupEditAddExtra
                     ref={this.editExtraRef}
                     visible={visibleEdit}
-                    title="Edit Extra"
-                    titleButton="Save"
+                    title={localize('Edit Extra', language)}
+                    titleButton={localize('Save', language)}
                     onRequestClose={() => this.setState({ visibleEdit: false })}
                     categoriesByMerchant={this.props.categoriesByMerchant}
                     isEdit={true}
@@ -186,15 +186,15 @@ class Layout extends React.Component {
                 />
                 <PopupConfirm
                     visible={visibleArchive}
-                    title="Confirmation"
-                    message="Do you want to Archive this Extra ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to Archive this Extra', language)} ?`}
                     onRequestClose={() => this.togglePopupArchive(false)}
                     confimYes={() => this.archiveExtraYess()}
                 />
                 <PopupConfirm
                     visible={visibleRestore}
-                    title="Confirmation"
-                    message="Do you want to Restore this Extra ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to Restore this Extra', language)} ?`}
                     onRequestClose={() => this.togglePopupRestore(false)}
                     confimYes={() => this.restoreExtraYess()}
                 />
