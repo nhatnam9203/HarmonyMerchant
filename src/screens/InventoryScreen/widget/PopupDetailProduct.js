@@ -229,15 +229,15 @@ class PopupDetailProduct extends React.Component {
                 </View>
                 <PopupConfirm
                     visible={this.state.visibleArchive}
-                    title="Confirmation"
-                    message="Do you want to Archive this Product ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to Archive this Product', language)} ?`}
                     onRequestClose={() => this.setState({ visibleArchive: false })}
                     confimYes={this.submitArchiveYess}
                 />
                 <PopupConfirm
                     visible={this.state.visibleRestore}
-                    title="Confirmation"
-                    message="Do you want to Restore this Product ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to Restore this Product', language)} ?`}
                     onRequestClose={() => this.setState({ visibleRestore: false })}
                     confimYes={this.submitRestoreYess}
                 />

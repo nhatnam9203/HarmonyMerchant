@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { Button } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie ,localize} from '@utils';
 import IMAGE from '@resources';
 
 class HeaderTableProducts extends React.Component {
@@ -47,11 +47,13 @@ class HeaderTableProducts extends React.Component {
     }
 
     render() {
+        const{language} = this.props;
         const { sortUpStaffName, sortUpId, sortUpRole, sortUpStatus } = this.state;
         const iconSortStaffName = sortUpStaffName ? IMAGE.sortUp : IMAGE.sortDown;
         const iconSortId = sortUpId ? IMAGE.sortUp : IMAGE.sortDown;
         const iconSortRole = sortUpRole ? IMAGE.sortUp : IMAGE.sortDown;
         const iconSortStatus = sortUpStatus ? IMAGE.sortUp : IMAGE.sortDown;
+
         return (
             <View style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
@@ -63,7 +65,8 @@ class HeaderTableProducts extends React.Component {
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(20) }} >
                         <Text style={styles.textTableHeader} >
-                            Product
+                            
+                            {localize('Product', language)}
                             </Text>
                     </View>
                     <Button onPress={this.sortStaffName} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
@@ -79,7 +82,8 @@ class HeaderTableProducts extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        SKU number
+                        
+                        {localize('SKU number', language)}
                             </Text>
                     </View>
                     <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
@@ -95,7 +99,8 @@ class HeaderTableProducts extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            Categories
+                            
+                            {localize('Categories', language)}
                             </Text>
                     </View>
                     <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
@@ -111,7 +116,8 @@ class HeaderTableProducts extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            Quantity
+                            
+                            {localize('Quantity', language)}
                             </Text>
                     </View>
                     <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
@@ -127,7 +133,8 @@ class HeaderTableProducts extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        Need to order
+                        
+                        {localize('Need to order', language)}
                             </Text>
                     </View>
                     <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >

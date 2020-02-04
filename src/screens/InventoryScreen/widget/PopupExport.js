@@ -56,7 +56,8 @@ class PopupExport extends React.Component {
                         <View style={{ flexDirection: 'row', height: scaleSzie(40) }} >
                             <View style={{ marginRight: scaleSzie(10), justifyContent: 'center' }} >
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
-                                    Save as
+                                    
+                                    {localize('Save as', language)}
                                 </Text>
                             </View>
                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(10) }}>
@@ -74,7 +75,8 @@ class PopupExport extends React.Component {
                             </Button>
                             <View style={{ flex: 1, justifyContent: 'center' }} >
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
-                                    The products need to order more
+                                    
+                                    {localize('The products need to order more', language)}
                                 </Text>
                             </View>
                         </View>
@@ -85,7 +87,8 @@ class PopupExport extends React.Component {
                             </Button>
                             <View style={{ flex: 1, justifyContent: 'center' }} >
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
-                                    All product
+                                   
+                                    {localize('All product', language)}
                                 </Text>
                             </View>
                         </View>

@@ -94,7 +94,7 @@ export default class Layout extends React.Component {
     }
 
     renderFilter() {
-        const { language, categoriesByMerchant ,pathFileInventory} = this.props;
+        const { language, categoriesByMerchant, pathFileInventory } = this.props;
         const { isSelectAll, searchFilter } = this.state;
         const { category, status } = searchFilter;
         const dataProductCategory = getArrayNameCategories(categoriesByMerchant, 'Product');
@@ -121,15 +121,15 @@ export default class Layout extends React.Component {
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: 'flex-end' }} >
                             {/* -------- Review File Download ------- */}
                             {
-                                pathFileInventory === '' ? <View /> :  <Button onPress={this.handleTheDownloadedFile} style={[{
-                                    width: scaleSzie(200), justifyContent: 'center', alignItems: 'center',marginRight:scaleSzie(8)
-                                }, styles.borderStyle,{backgroundColor:'rgb(235,93,57)'}]} >
+                                pathFileInventory === '' ? <View /> : <Button onPress={this.handleTheDownloadedFile} style={[{
+                                    width: scaleSzie(200), justifyContent: 'center', alignItems: 'center', marginRight: scaleSzie(8)
+                                }, styles.borderStyle, { backgroundColor: 'rgb(235,93,57)' }]} >
                                     <Text style={{ color: '#fff', fontSize: scaleSzie(15) }} >
-                                        {localize('Handle the downloaded file ', language)}
+                                        {localize('Handle the downloaded file', language)}
                                     </Text>
                                 </Button>
                             }
-                           
+
                             {/* --------- Restock ------ */}
                             <Button onPress={this.restock} style={[{
                                 width: scaleSzie(120), justifyContent: 'center', alignItems: 'center',
@@ -179,10 +179,11 @@ export default class Layout extends React.Component {
 
     renderTable() {
         const { productsByMerchantId, categoriesByMerchant,
-            listProductsSearch, isShowSearchProduct, refreshListProducts
+            listProductsSearch, isShowSearchProduct, refreshListProducts,
+            language
         } = this.props;
         const temptData = isShowSearchProduct ? listProductsSearch : productsByMerchantId;
-        const data = temptData.map((item,index) => {
+        const data = temptData.map((item, index) => {
             return {
                 ...item,
                 key: `item-${index}`,
@@ -190,10 +191,12 @@ export default class Layout extends React.Component {
         });
         return (
             <View style={{ flex: 1, paddingTop: scaleSzie(20) }} >
-                <HeaderTableProducts />
+                <HeaderTableProducts
+                    language={language}
+                />
                 <DraggableFlatList
                     data={data}
-                    renderItem={({ item, index , move, moveEnd, isActive}) => <RowTableProducts
+                    renderItem={({ item, index, move, moveEnd, isActive }) => <RowTableProducts
                         ref={this.setProductRef}
                         key={index}
                         product={item}
@@ -208,13 +211,15 @@ export default class Layout extends React.Component {
                     refreshing={refreshListProducts}
                     onRefresh={() => this.props.actions.product.getProductsByMerchant(false)}
                     scrollPercent={5}
-                    onMoveEnd={({ data }) =>this.updateProductsPosition(data,isShowSearchProduct)}
+                    onMoveEnd={({ data }) => this.updateProductsPosition(data, isShowSearchProduct)}
                 />
             </View>
         );
     }
 
     renderModalDropdownExport() {
+        const { language } = this.props;
+
         return (
             <ModalCustom
                 transparent={true}
@@ -236,8 +241,9 @@ export default class Layout extends React.Component {
                     </Button> */}
                     <Button onPress={this.exportExcel} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                         <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
-                            Export to excel
-                            </Text>
+
+                            {localize('Export to excel', language)}
+                        </Text>
                     </Button>
                 </View>
             </ModalCustom>
@@ -245,8 +251,8 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { language, categoriesByMerchant,navigation } = this.props;
-        const { visiblePopupDetail,isFocus } = this.state;
+        const { language, categoriesByMerchant, navigation } = this.props;
+        const { visiblePopupDetail, isFocus } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -274,7 +280,7 @@ export default class Layout extends React.Component {
                 </View>
                 <PopupDetailProduct
                     ref={this.productDetailRef}
-                    title={'Product Details'}
+                    title={localize('Product Details', language)}
                     visible={visiblePopupDetail}
                     onRequestClose={this.closePopupProductDetail}
                     language={language}
@@ -286,8 +292,8 @@ export default class Layout extends React.Component {
                 <PopupAddEditProduct
                     ref={this.editProductRef}
                     visible={this.state.visibleEdit}
-                    title="Edit Product"
-                    titleButton="Save"
+                    title={localize('Edit Product', language)}
+                    titleButton={localize('Save', language)}
                     isSave={true}
                     onRequestClose={() => this.setState({ visibleEdit: false })}
                     editProduct={this.editProduct}
@@ -296,7 +302,7 @@ export default class Layout extends React.Component {
                 <PopupAddEditProduct
                     ref={this.addProductRef}
                     visible={this.state.visibleAdd}
-                    title="Add Product"
+                    title={localize('Add Product', language)}
                     titleButton="Add"
                     onRequestClose={() => this.setState({ visibleAdd: false })}
                     confimYes={this.addProduct}
@@ -304,7 +310,7 @@ export default class Layout extends React.Component {
                 />
                 <PopupRestock
                     ref={this.restockRef}
-                    title={'Add Item to Stock'}
+                    title={localize('Add Item to Stock', language)}
                     visible={this.state.visibleRestock}
                     onRequestClose={() => this.setState({ visibleRestock: false })}
                     language={language}
@@ -312,7 +318,7 @@ export default class Layout extends React.Component {
                 />
                 <PopupExport
                     ref={this.modalExportRef}
-                    title={'Export'}
+                    title={localize('Export', language)}
                     visible={this.state.visiblePopupExport}
                     onRequestClose={() => this.setState({ visiblePopupExport: false })}
                     language={language}
