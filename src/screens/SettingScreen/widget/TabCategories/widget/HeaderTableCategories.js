@@ -5,11 +5,13 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { scaleSzie } from '@utils';
+import { scaleSzie ,localize} from '@utils';
 
 class HeaderTableCategories extends React.Component {
 
     render() {
+        const {language} = this.props;
+
         return (
                 <View style={styles.tableHeader} >
                     {/* ----- 1 ------ */}
@@ -17,7 +19,7 @@ class HeaderTableCategories extends React.Component {
                         width: scaleSzie(50),
                     }, styles.itemTableHeaderContainer]} >
                         <Text style={styles.textTableHeader} >
-                            No.
+                            {`${localize('No', language)}.`}
                         </Text>
                     </View>
                     {/* ----- 2 ------ */}
@@ -26,7 +28,8 @@ class HeaderTableCategories extends React.Component {
                     }} >
                         <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
                             <Text style={styles.textTableHeader} >
-                             Name
+                             
+                             {localize('Name', language)}
                             </Text>
                         </View>
                     </View>
@@ -36,7 +39,8 @@ class HeaderTableCategories extends React.Component {
                     }} >
                         <View style={{ flex: 1, justifyContent: 'center',paddingLeft: scaleSzie(10)   }} >
                             <Text style={styles.textTableHeader} >
-                            Type
+                            
+                            {localize('Type', language)}
                             </Text>
                         </View>
                     </View>
@@ -45,7 +49,8 @@ class HeaderTableCategories extends React.Component {
                         flex: 1,
                     }, styles.itemTableHeaderContainer]} >
                         <Text style={styles.textTableHeader} >
-                            Actions
+                            
+                            {localize('Actions', language)}
                         </Text>
                     </View>
                 </View>

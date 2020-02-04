@@ -347,7 +347,19 @@ const localization = {
         'Compare sales of Staffs':'Compare sales of Staffs',
         'No':'No',
         'Split':'Split',
+        'Settings':'Settings',
+        'Are you sure you want to Log out':'Are you sure you want to Log out',
+        'Catgory Name':'Catgory Name',
+        'Category Type':'Category Type',
+        'Add Category':'Add Category',
+        'Edit Category':'Edit Category',
+        'Do you want to Restore this Category':'Do you want to Restore this Category',
+        'Type':'Type',
+        'Actions':'Actions',
         
+
+
+
 
 
         

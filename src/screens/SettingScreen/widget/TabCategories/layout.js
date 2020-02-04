@@ -141,11 +141,12 @@ class Layout extends React.Component {
 
     renderTableStaff() {
         const { categoriesByMerchant, refreshListCategories,
-            isShowSearchCategories, listCategoriesSearch
+            isShowSearchCategories, listCategoriesSearch,
+            language
         } = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
         const temptData = isShowSearchCategories ? listCategoriesSearch : categoriesByMerchant;
-        const data = temptData.map((item,index) => {
+        const data = temptData.map((item, index) => {
             return {
                 ...item,
                 key: `item-${index}`,
@@ -158,10 +159,12 @@ class Layout extends React.Component {
                 {this.renderFilter()}
                 <View style={{ height: scaleSzie(10) }} />
                 <View style={{ flex: 1 }} >
-                    <HeaderTableCategories />
+                    <HeaderTableCategories
+                        language={language}
+                    />
                     <DraggableFlatList
                         data={data}
-                        renderItem={({ item, index , move, moveEnd, isActive}) => <RowTableCategories
+                        renderItem={({ item, index, move, moveEnd, isActive }) => <RowTableCategories
                             index={index}
                             category={item}
                             archiveCategory={() => this.archiveCategory(item)}
@@ -175,13 +178,13 @@ class Layout extends React.Component {
                         refreshing={refreshListCategories}
                         onRefresh={() => this.props.actions.category.getCategoriesByMerchantId(false)}
                         scrollPercent={5}
-                        onMoveEnd={({ data }) =>this.updatePositionCategories(data,isShowSearchCategories)}
+                        onMoveEnd={({ data }) => this.updatePositionCategories(data, isShowSearchCategories)}
                     />
                 </View>
                 <PopupEditAddCategories
                     ref={this.addCategoryRef}
                     visible={visibleAdd}
-                    title="Add Category"
+                    title={localize('Add Category', language)}
                     titleButton="Add"
                     onRequestClose={() => this.setState({ visibleAdd: false })}
                     confimYes={this.submitAddCategory}
@@ -189,22 +192,22 @@ class Layout extends React.Component {
                 <PopupEditAddCategories
                     ref={this.editCategoryRef}
                     visible={visibleEdit}
-                    title="Edit Category"
+                    title={localize('Edit Category', language)}
                     titleButton="Save"
                     onRequestClose={() => this.setState({ visibleEdit: false })}
                     confimYes={this.submitEditCategory}
                 />
                 <PopupConfirm
                     visible={visibleArchive}
-                    title="Confirmation"
-                    message="Do you want to Archive this Category ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to Archive this Category', language)} ?`}
                     onRequestClose={() => this.togglePopupArchive(false)}
                     confimYes={() => this.archiveCategoryYess()}
                 />
                 <PopupConfirm
                     visible={visibleRestore}
-                    title="Confirmation"
-                    message="Do you want to Restore this Category ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to Restore this Category', language)} ?`}
                     onRequestClose={() => this.togglePopupRestore(false)}
                     confimYes={() => this.restoreServiceYess()}
                 />
