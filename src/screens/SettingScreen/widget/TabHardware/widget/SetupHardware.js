@@ -53,7 +53,9 @@ class SetupHardware extends React.Component {
     // -------- Render ------
 
     render() {
+        const {language} = this.props;
         const { name, ip, port, timeout } = this.state;
+
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(14), paddingTop: scaleSzie(20) }} >
                 <Text style={{
@@ -61,7 +63,8 @@ class SetupHardware extends React.Component {
                     fontWeight: '600',
                     color: '#0764B0'
                 }} >
-                    Payment Terminal
+                    
+                    {localize('Payment Terminal', language)}
                         </Text>
                 <Text style={{
                     fontSize: scaleSzie(16),
@@ -70,28 +73,29 @@ class SetupHardware extends React.Component {
                     marginTop: scaleSzie(26),
                     marginBottom: scaleSzie(10)
                 }} >
-                    Terminal configuration
+                    
+                    {localize('Terminal configuration', language)}
                         </Text>
 
                 {/* ----------- Line ------------ */}
                 <View style={{ height: scaleSzie(1), backgroundColor: 'rgb(227,227,227)', }} />
                 <ScrollView  >
                     <ItemSetup
-                        title={"Name"}
-                        placeholder={"Device name"}
+                        title={localize('Name', language)}
+                        placeholder={localize('Device name', language)}
                         value={name}
                         onChangeText={name => this.setState({ name })}
                     />
 
                     <ItemSetup
-                        title={"IP Address"}
+                        title={localize('IP Address', language)}
                         placeholder={"192.168.1.1"}
                         value={ip}
                         onChangeText={ip => this.setState({ ip })}
                     />
 
                     <ItemSetup
-                        title={"Port"}
+                        title={localize('Port', language)}
                         placeholder={"10009"}
                         value={port}
                         onChangeText={port => this.setState({ port })}
@@ -112,7 +116,7 @@ class SetupHardware extends React.Component {
                             width={scaleSzie(130)}
                             height={50}
                             backgroundColor="#F1F1F1"
-                            title="CANCEL"
+                            title={localize('CANCEL', language)}
                             textColor="#6A6A6A"
                             onPress={this.cancelSetupPax}
                             style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}
@@ -123,7 +127,7 @@ class SetupHardware extends React.Component {
                             width={scaleSzie(130)}
                             height={50}
                             backgroundColor="#0764B0"
-                            title="SAVE"
+                            title={localize('SAVE', language)}
                             textColor="#fff"
                             onPress={this.setupPax}
                             style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}

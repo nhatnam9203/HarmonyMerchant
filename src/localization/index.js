@@ -369,7 +369,15 @@ const localization = {
         'Get current your position':'Get current your position',
         'Contact Email':'Contact Email',
         'Merchant ID':'Merchant ID',
-        
+        'No connected device':'No connected device',
+        'Add device':'Add device',
+        'Payment Terminal':'Payment Terminal',
+        'Connected device':'Connected device',
+        'Payment terminal':'Payment terminal',
+        'Terminal configuration':'Terminal configuration',
+        'Device name':'Device name',
+        'IP Address':'IP Address',
+
 
 
 

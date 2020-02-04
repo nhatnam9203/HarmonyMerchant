@@ -24,6 +24,8 @@ class AddDeviceHardware extends React.Component {
     // -------- Render ------
 
     renderNoConnected(){
+        const {language} = this.props;
+
         return(
             <View>
                 <Text style={{
@@ -32,7 +34,8 @@ class AddDeviceHardware extends React.Component {
                     marginTop: scaleSzie(10),
                     marginBottom: scaleSzie(7)
                 }} >
-                    No connected device
+                    {localize('No connected device', language)}
+                    
                 </Text>
 
                 <Button onPress={this.addDevice} style={{
@@ -58,7 +61,8 @@ class AddDeviceHardware extends React.Component {
                         color: '#0764B0',
                         marginLeft: scaleSzie(8)
                     }} >
-                        Add device
+                        
+                        {localize('Add device', language)}
                     </Text>
                 </Button>
             </View>
@@ -87,7 +91,7 @@ class AddDeviceHardware extends React.Component {
     }
 
     render() {
-        const { paxMachineInfo } = this.props;
+        const { paxMachineInfo ,language} = this.props;
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(14), paddingTop: scaleSzie(20) }} >
                 <Text style={{
@@ -95,7 +99,8 @@ class AddDeviceHardware extends React.Component {
                     fontWeight: '600',
                     color: '#0764B0'
                 }} >
-                    Payment Terminal
+                    
+                    {localize('Payment Terminal', language)}
             </Text>
 
                 <Text style={{
@@ -104,7 +109,8 @@ class AddDeviceHardware extends React.Component {
                     color: 'rgb(81,81,81)',
                     marginTop: scaleSzie(26)
                 }} >
-                    Connected device
+                    
+                    {localize('Connected device', language)}
             </Text>
                 {!paxMachineInfo.isSetup ? this.renderNoConnected() : this.renderConnected() }
 
@@ -115,7 +121,7 @@ class AddDeviceHardware extends React.Component {
                             width={scaleSzie(130)}
                             height={50}
                             backgroundColor="#F1F1F1"
-                            title="BACK"
+                            title={localize('BACK', language)}
                             textColor="#6A6A6A"
                             onPress={this.backHomeHardware}
                             style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}

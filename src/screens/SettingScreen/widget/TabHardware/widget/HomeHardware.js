@@ -25,7 +25,7 @@ class HomeHardware extends React.Component {
     // -------- Render ------
 
     render() {
-        const {paxMachineInfo} = this.props;
+        const {paxMachineInfo,language} = this.props;
         const temptTitle = !paxMachineInfo.isSetup  ? 'No device' : paxMachineInfo.name;
         return (
             <View style={{ flex: 1 }} >
@@ -61,7 +61,8 @@ class HomeHardware extends React.Component {
                         </View>
                         <View style={styles.containerTextBox} >
                             <Text style={styles.textBox} >
-                                Payment terminal
+                                
+                                {localize('Payment terminal', language)}
                         </Text>
                             <Text style={[styles.textBox, { fontWeight: 'normal', fontSize: scaleSzie(11), marginTop: scaleSzie(10) }]} >
                                 {temptTitle}
