@@ -22,6 +22,7 @@ class Layout extends React.Component {
 
     // ---------- Footer 2 ------
     renderFooter2() {
+        const {language} = this.props;
         const { progress,errorMessage } = this.state;
         return (
             <View style={{ flex: 1, padding: scaleSzie(10) }} >
@@ -31,7 +32,8 @@ class Layout extends React.Component {
                     </Text>
                 </View>
                 <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginTop: scaleSzie(10), marginBottom: scaleSzie(4) }} >
-                    Open Batch
+                    
+                    {localize('Open Batch', language)}
                 </Text>
                 <Progress.Bar
                     progress={this.state.progress}
@@ -44,7 +46,8 @@ class Layout extends React.Component {
                 <View style={{ flex: 1, marginTop: scaleSzie(12), flexDirection: 'row' }} >
                     <View style={{ width: scaleSzie(140) }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(14), }} >
-                            Log message
+                            
+                            {localize('Log message', language)}
                         </Text>
                     </View>
                     <View style={{ flex: 1 }} >
@@ -64,11 +67,13 @@ class Layout extends React.Component {
 
     // ---------- Footer 3 ------
     renderFooter3() {
+        const {language} = this.props;
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(10) }} >
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                     <Text style={{ color: '#4CD964', fontSize: scaleSzie(16) }} >
-                        Batch Settlement Successful
+                        
+                        {localize('Batch Settlement Successful', language)}
                     </Text>
                 </View>
                 <View style={{ flexDirection: 'row', height: scaleSzie(55) }} >
@@ -77,7 +82,7 @@ class Layout extends React.Component {
                             width={'100%'}
                             height={55}
                             backgroundColor="#0764B0"
-                            title="REVIEW BATCH HISTORY"
+                            title={localize('REVIEW BATCH HISTORY', language)}
                             textColor="#fff"
                             onPress={this.reviewBatchHistory}
                             style={{ borderWidth: 0.5, borderColor: '#C5C5C5' }}
@@ -90,7 +95,7 @@ class Layout extends React.Component {
                             width={'100%'}
                             height={55}
                             backgroundColor="#4CD964"
-                            title="FINISH"
+                            title={localize('FINISH', language)}
                             textColor="#fff"
                             onPress={this.finishBatch}
                             style={{ borderWidth: 0.5, borderColor: '#C5C5C5' }}
@@ -104,6 +109,7 @@ class Layout extends React.Component {
 
     // ---------- Footer 1 ------
     renderFooter1() {
+        const {language} = this.props;
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(10) }} >
                 <View style={{ flex: 1 }} >
@@ -114,7 +120,7 @@ class Layout extends React.Component {
                             width={'100%'}
                             height={55}
                             backgroundColor="#F1F1F1"
-                            title="BACK"
+                            title={localize('BACK', language)}
                             textColor="#6A6A6A"
                             onPress={this.backTabFirstSettle}
                             style={{ borderWidth: 0.5, borderColor: '#707070' }}
@@ -127,7 +133,7 @@ class Layout extends React.Component {
                             width={'100%'}
                             height={55}
                             backgroundColor="#4CD964"
-                            title="SETTLE"
+                            title={localize('SETTLE', language)}
                             textColor="#fff"
                             onPress={this.settle}
                             style={{ borderWidth: 0.5, borderColor: '#C5C5C5' }}
@@ -141,6 +147,7 @@ class Layout extends React.Component {
 
 
     renderOpenBatch() {
+        const {language} = this.props;
         const { creditCount, settleTotal } = this.state;
         const { paymentByHarmony, paymentByCreditCard, paymentByCash, otherPayment, total, note } = settleTotal;
         return (
@@ -148,7 +155,7 @@ class Layout extends React.Component {
                 <View style={[styles.tableLeft, { paddingHorizontal: scaleSzie(18) }]} >
                     <View style={{ height: scaleSzie(45), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
-                            Transactions:
+                            {`${localize('Transactions', language)}:`}
                         </Text>
                         <Text style={{ color: '#404040', fontSize: scaleSzie(22), fontWeight: 'bold' }} >
                             {creditCount}
@@ -159,7 +166,8 @@ class Layout extends React.Component {
                         {/* ---------- Row 1 -------- */}
                         <View style={styles.rowBox} >
                             <Text style={styles.textLeftBox} >
-                                Payment by Harmony account
+                                
+                                {`${localize('Payment by Harmony account', language)}`}
                             </Text>
                             <Text style={styles.textRightBox} >
                                 {`$ ${paymentByHarmony}`}
@@ -168,7 +176,8 @@ class Layout extends React.Component {
                         {/* ---------- Row 2 -------- */}
                         <View style={styles.rowBox} >
                             <Text style={styles.textLeftBox} >
-                                Payment by Credit card
+                                
+                                {`${localize('Payment by Credit card', language)}`}
                             </Text>
                             <Text style={styles.textRightBox} >
                                 {`$ ${paymentByCreditCard}`}
@@ -201,7 +210,8 @@ class Layout extends React.Component {
                         {/* ---------- Row 3 -------- */}
                         <View style={styles.rowBox} >
                             <Text style={styles.textLeftBox} >
-                                Payment by Cash
+                                
+                                {`${localize('Payment by Cash', language)}`}
                             </Text>
                             <Text style={styles.textRightBox} >
                                 {`$ ${paymentByCash}`}
@@ -210,7 +220,8 @@ class Layout extends React.Component {
                         {/* ---------- Row 4 -------- */}
                         <View style={styles.rowBox} >
                             <Text style={styles.textLeftBox} >
-                                Other Payment
+                            {`${localize('Other Payment', language)}`}
+                                
                             </Text>
                             <Text style={styles.textRightBox} >
                                 {`$ ${otherPayment}`}
@@ -223,7 +234,8 @@ class Layout extends React.Component {
                             alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: scaleSzie(10)
                         }} >
                             <Text style={{ color: '#fff', fontSize: scaleSzie(14) }} >
-                                Payment by Credit card
+                                
+                                {`${localize('Payment by Credit card', language)}`}
                         </Text>
                             <Text style={{ color: '#fff', fontSize: scaleSzie(20), fontWeight: 'bold' }} >
                                 {/* {`$ ${total}`} */}
@@ -248,7 +260,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { settleWaiting } = this.props;
+        const { settleWaiting ,language} = this.props;
         const { creditAmount, settleTotal ,paxErrorMessage} = this.state;
         const { paymentByHarmony, paymentByCreditCard, paymentByCash, otherPayment, total, note } = settleTotal;
         return (
@@ -261,7 +273,7 @@ class Layout extends React.Component {
                     {/* --------- Left --------- */}
                     <View style={{ flex: 1, paddingRight: scaleSzie(30) }} >
                         <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
-                            Actual Amount
+                            {localize('Actual Amount', language)}
                 </Text>
                         {/* ------------ Row 1 ------------ */}
                         <View style={{
@@ -269,7 +281,8 @@ class Layout extends React.Component {
                             paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
                         }} >
                             <Text style={{ fontSize: scaleSzie(13), color: '#fff' }} >
-                                Payment by Harmony account
+                                
+                                {localize('Payment by Harmony account', language)}
                     </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
                                 {`$ ${paymentByHarmony}`}
@@ -281,7 +294,8 @@ class Layout extends React.Component {
                             paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
                         }} >
                             <Text style={{ fontSize: scaleSzie(13), color: '#fff' }} >
-                                Payment by Credit card
+                                
+                                {localize('Payment by Credit card', language)}
                     </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
                                 {`$ ${paymentByCreditCard}`}
@@ -293,7 +307,8 @@ class Layout extends React.Component {
                             paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
                         }} >
                             <Text style={{ fontSize: scaleSzie(13), color: '#fff' }} >
-                                Payment by Cash
+                               
+                                {localize('Payment by Cash', language)}
                     </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
                                 {`$ ${paymentByCash}`}
@@ -305,7 +320,8 @@ class Layout extends React.Component {
                             paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
                         }} >
                             <Text style={{ fontSize: scaleSzie(13), color: '#6A6A6A' }} >
-                                Other payment
+                                
+                                {localize('Other payment', language)}
                     </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: '#6A6A6A' }} >
                                 {`$ ${otherPayment}`}
@@ -318,7 +334,7 @@ class Layout extends React.Component {
                             justifyContent: 'space-between'
                         }} >
                             <Text style={{ fontSize: scaleSzie(20), color: '#0764B0' }} >
-                                Total:
+                                {`${localize('Total', language)}:`}
                         </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: '#4CD964', fontWeight: 'bold' }} >
                                 {`$ ${total}`}
@@ -335,7 +351,7 @@ class Layout extends React.Component {
                                 :
                                 <View>
                                     <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginTop: scaleSzie(20), marginBottom: scaleSzie(10) }} >
-                                        Note:
+                                        {`${localize('Note', language)}:`}
                                      </Text>
                                     <View style={{
                                         height: scaleSzie(60), backgroundColor: '#F1F1F1', borderColor: '#C5C5C5', borderWidth: 1,
@@ -352,7 +368,8 @@ class Layout extends React.Component {
                     {/* --------- Right --------- */}
                     <View style={{ flex: 1 }} >
                         <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
-                            Open Batch
+                            
+                            {localize('Open Batch', language)}
                 </Text>
                         <View style={{
                             flex: 1, backgroundColor: '#fff', marginTop: scaleSzie(8),

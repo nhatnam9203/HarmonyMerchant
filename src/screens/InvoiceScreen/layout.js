@@ -330,6 +330,7 @@ export default class Layout extends React.Component {
     }
 
     renderPaymentInfomation() {
+        const { language } = this.props;
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(8) }} >
                 {/* ---------------- Header ---------------- */}
@@ -341,14 +342,16 @@ export default class Layout extends React.Component {
                                 marginRight: scaleSzie(6)
                             }} />
                             <Text style={{ color: '#0764B0', fontSize: scaleSzie(14) }} >
-                                Back
+                                
+                                {localize('Back', language)}
                         </Text>
                         </Button>
 
                     </View>
                     <View style={{}} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
-                            Payment information
+                            
+                            {localize('Payment information', language)}
                         </Text>
                     </View>
                     <View style={{ flex: 1 }} >
@@ -377,14 +380,15 @@ export default class Layout extends React.Component {
                                 marginRight: scaleSzie(6)
                             }} />
                             <Text style={{ color: '#0764B0', fontSize: scaleSzie(14) }} >
-                                Back
+                                {localize('Back', language)}
                         </Text>
                         </Button>
 
                     </View>
                     <View style={{}} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
-                            Basket
+                            
+                            {localize('Basket', language)}
                         </Text>
                     </View>
                     <View style={{ flex: 1 }} >
@@ -491,14 +495,14 @@ export default class Layout extends React.Component {
                                 marginRight: scaleSzie(6)
                             }} />
                             <Text style={{ color: '#0764B0', fontSize: scaleSzie(14) }} >
-                                Back
+                            {localize('Back', language)}
                         </Text>
                         </Button>
 
                     </View>
                     <View style={{}} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
-                            History
+                            {localize('History', language)}
                         </Text>
                     </View>
                     <View style={{ flex: 1 }} >
@@ -533,7 +537,8 @@ export default class Layout extends React.Component {
                         borderBottomColor: '#C5C5C5', borderBottomWidth: 1, paddingBottom: scaleSzie(6)
                     }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
-                            Invoice List
+                            
+                            {localize('Invoice List', language)}
                         </Text>
                     </View>
                     <View style={{ flex: 1 }} >
@@ -550,7 +555,8 @@ export default class Layout extends React.Component {
                             refreshing={refreshListInvoice}
                             ListEmptyComponent={() => <View style={{ width: '100%', alignItems: 'center', paddingTop: scaleSzie(20) }} >
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
-                                    List Empty
+                                    
+                                    {localize('List Empty', language)}
                                 </Text>
                             </View>}
                             onEndReached={this.loadMoreInvoiceList}
@@ -566,7 +572,8 @@ export default class Layout extends React.Component {
                         borderBottomColor: '#C5C5C5', borderBottomWidth: 1, paddingBottom: scaleSzie(6)
                     }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
-                            Invoice Detail
+                            
+                            {localize('Invoice Detail', language)}
                         </Text>
                     </View>
                     {/* -------- ScrollableTabView ---- */}
@@ -630,13 +637,13 @@ export default class Layout extends React.Component {
                 />
                 <PopupEnterPinInvoice
                     ref={this.visibleEnterPinRef}
-                    title="Input PIN Number"
+                    title={localize('Input PIN Number', language)}
                     onRequestClose={() => { }}
                 />
                 <PopupConfirmInvoiceStatus
                     ref={this.confirmInvoiceStatusRef}
                     visible={visibleConfirmInvoiceStatus}
-                    title="Confirmation"
+                    title={localize('Confirmation', language)}
                     confirmChangeInvoiceStatus={this.confirmChangeInvoiceStatus}
                     onRequestClose={() => this.setState({ visibleConfirmInvoiceStatus: false })}
                 />

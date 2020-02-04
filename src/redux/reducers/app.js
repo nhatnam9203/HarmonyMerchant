@@ -9,7 +9,7 @@ const initialState = {
     question: [],
     isFlashScreen: true,
 
-    visibleEnterPin: false,
+    visibleEnterPin: true,
     isSubmitTax: false,
     visibleEnterPinInvoice: false,
     isOfflineMode: false,

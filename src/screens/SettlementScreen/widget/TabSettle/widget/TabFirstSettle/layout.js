@@ -27,12 +27,12 @@ const { width, height } = Dimensions.get('window');
 class Layout extends React.Component {
 
     renderLastSettlement() {
-        const { settleWaiting } = this.props;
+        const { settleWaiting, language } = this.props;
         const { settlementDate } = settleWaiting;
         return (
             <View style={{ height: scaleSzie(50), backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }} >
                 <Text style={{ color: '#0764B0', fontSize: scaleSzie(14), marginLeft: scaleSzie(10), marginRight: scaleSzie(20) }} >
-                    Last Settlement:
+                    {`${localize('Last Settlement', language)}:`}
                 </Text>
                 <Text style={{ color: '#0764B0', fontSize: scaleSzie(16), fontWeight: 'bold', marginRight: scaleSzie(20) }} >
                     {moment.parseZone(settlementDate).local().format('MM/DD/YYYY')}
@@ -45,33 +45,37 @@ class Layout extends React.Component {
     }
 
     renderHeaderStaffList() {
+        const { language } = this.props;
         return (
             <View style={{ height: scaleSzie(45), backgroundColor: '#FAFAFA', flexDirection: 'row' }} >
                 <View style={{ flex: 1, paddingLeft: scaleSzie(10), justifyContent: 'center' }} >
                     <Text style={{ color: '#0764B0', fontSize: scaleSzie(18) }} >
-                        Staff List
-                </Text>
+                        {localize('Staff List', language)}
+                    </Text>
                 </View>
                 <View style={{ width: scaleSzie(2) }} />
                 <View style={{ flex: 1.2, paddingLeft: scaleSzie(10), justifyContent: 'center' }} >
                     <Text style={{ color: '#0764B0', fontSize: scaleSzie(18) }} >
-                        Staff Statistic
-                </Text>
+
+                        {localize('Staff Statistic', language)}
+                    </Text>
                 </View>
             </View>
         );
     }
 
     renderHeaderTableStaffList() {
+        const { language } = this.props;
         return (
             <View style={{ height: scaleSzie(35), flexDirection: 'row' }} >
                 <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#0764B0' }} >
                     <Text style={{ color: '#fff', fontSize: scaleSzie(14), marginLeft: scaleSzie(24) }} >
-                        Name
+                        {localize('Name', language)}
                     </Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }} >
                         <Text style={{ color: '#fff', fontSize: scaleSzie(14), marginRight: scaleSzie(5) }} >
-                            Total Amount
+                            
+                            {localize('Total Amount', language)}
                         </Text>
                         <Image source={IMAGE.arrowDownAmount} style={{ marginRight: scaleSzie(14) }} />
                     </View>
@@ -81,10 +85,12 @@ class Layout extends React.Component {
                     flex: 1.2, backgroundColor: '#0764B0', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
                 }} >
                     <Text style={{ color: '#fff', fontSize: scaleSzie(14), marginLeft: scaleSzie(14) }} >
-                        Invoice List
+                        
+                        {localize('Invoice List', language)}
                     </Text>
                     <Text style={{ color: '#fff', fontSize: scaleSzie(14), marginRight: scaleSzie(14) }} >
-                        Time/Amount
+                        
+                        {localize('Time/Amount', language)}
                     </Text>
                 </View>
             </View>
@@ -137,7 +143,7 @@ class Layout extends React.Component {
     }
 
     renderTableStaff() {
-        const { settleWaiting, invoicesOfStaff } = this.props;
+        const { settleWaiting, invoicesOfStaff ,language} = this.props;
         const { settlementStaff, total } = settleWaiting;
         let tipAmount = 0;
         let totalAmount = 0;
@@ -173,7 +179,7 @@ class Layout extends React.Component {
                             justifyContent: 'space-between'
                         }} >
                             <Text style={{ fontSize: scaleSzie(20), color: '#0764B0' }} >
-                                Total:
+                                {`${localize('Total', language)}:`}
                             </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: '#4CD964', fontWeight: 'bold' }} >
                                 {`$ ${total ? `${total}` : 0}`}
@@ -192,13 +198,13 @@ class Layout extends React.Component {
                     {/* -------- Total ------- */}
                     <View style={{ alignItems: 'flex-end', paddingRight: scaleSzie(10), paddingTop: scaleSzie(10) }} >
                         <Text style={{ fontSize: scaleSzie(12), color: '#404040', marginBottom: scaleSzie(10) }} >
-                            Tip Amount: <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginLeft: scaleSzie(5) }} >
+                        {`${localize('Tip Amount', language)}:`} <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginLeft: scaleSzie(5) }} >
                                 {/* {`  $  ${formatMoney(Number(tipAmount).toFixed(2))}`} */}
                                 {`$ ${_.compose(formatMoney, roundFloatNumber)(tipAmount)}`}
                             </Text>
                         </Text>
                         <Text style={{ fontSize: scaleSzie(12), color: '#404040', }} >
-                            Total Amount: <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginLeft: scaleSzie(5) }} >
+                        {`${localize('Total Amount', language)}:`} <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginLeft: scaleSzie(5) }} >
                                 {`  $  ${formatMoney(Number(totalAmount).toFixed(2))}`}
                             </Text>
                         </Text>
@@ -209,15 +215,17 @@ class Layout extends React.Component {
     }
 
     renderReportAmount() {
+        const { settleWaiting,language } = this.props;
         const { creditAmount } = this.state;
-        const { settleWaiting } = this.props;
+        
         // const temptCreditAmount = creditAmount === 0 ? '0.00' : creditAmount;
         return (
             <View style={{ paddingHorizontal: scaleSzie(10), flexDirection: 'row' }} >
                 {/* --------- Left --------- */}
                 <View style={{ flex: 1.2, paddingRight: scaleSzie(30) }} >
                     <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
-                        Report Amount
+                        
+                        {localize('Report Amount', language)}
                     </Text>
                     {/* ------------ Row 1 ------------ */}
                     <View style={{
@@ -225,7 +233,7 @@ class Layout extends React.Component {
                         paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
                     }} >
                         <Text style={{ fontSize: scaleSzie(13), color: '#fff' }} >
-                            Payment by Harmony account
+                            {localize('Payment by Harmony account', language)}
                         </Text>
                         <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
                             {`$ ${settleWaiting.paymentByHarmony}`}
@@ -237,7 +245,8 @@ class Layout extends React.Component {
                         paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
                     }} >
                         <Text style={{ fontSize: scaleSzie(13), color: '#fff' }} >
-                            Payment by Credit card
+                            
+                            {localize('Payment by Credit card', language)}
                         </Text>
                         <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
                             {/* {`$ ${formatMoney(`${creditAmount}`)}`} */}
@@ -250,7 +259,8 @@ class Layout extends React.Component {
                         paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
                     }} >
                         <Text style={{ fontSize: scaleSzie(13), color: '#fff' }} >
-                            Payment by Cash
+                            
+                            {localize('Payment by Cash', language)}
                         </Text>
                         <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
                             {`$ ${settleWaiting.paymentByCash}`}
@@ -262,7 +272,8 @@ class Layout extends React.Component {
                         paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
                     }} >
                         <Text style={{ fontSize: scaleSzie(13), color: '#6A6A6A' }} >
-                            Other payment
+                            
+                            {localize('Other payment', language)}
                         </Text>
                         <Text style={{ fontSize: scaleSzie(20), color: '#6A6A6A' }} >
                             {`$ ${settleWaiting.otherPayment}`}
@@ -275,7 +286,7 @@ class Layout extends React.Component {
                         justifyContent: 'space-between'
                     }} >
                         <Text style={{ fontSize: scaleSzie(20), color: '#0764B0' }} >
-                            Total:
+                            {`${localize('Total', language)}:`}
                             </Text>
                         <Text style={{ fontSize: scaleSzie(20), color: '#4CD964', fontWeight: 'bold' }} >
                             {`$ ${settleWaiting.total}`}
@@ -285,7 +296,8 @@ class Layout extends React.Component {
                 {/* --------- Right --------- */}
                 <View style={{ flex: 1.1 }} >
                     <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
-                        Editable Actual Amount
+                        
+                        {localize('Editable Actual Amount', language)}
                     </Text>
                     {/* ------------ Row 1 ------------ */}
                     <View style={{
@@ -293,7 +305,8 @@ class Layout extends React.Component {
                         flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
                     }} >
                         <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
-                            Payment by Harmony account
+                            
+                            {localize('Payment by Harmony account', language)}
                         </Text>
                         <View style={{
                             height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
@@ -313,7 +326,8 @@ class Layout extends React.Component {
                         flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
                     }} >
                         <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
-                            Payment by Credit card
+                            
+                            {localize('Payment by Credit card', language)}
                         </Text>
                         <View style={{
                             height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
@@ -333,7 +347,8 @@ class Layout extends React.Component {
                         flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
                     }} >
                         <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
-                            Payment by Cash
+                            
+                            {localize('Payment by Cash', language)}
                         </Text>
                         <View style={{
                             height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
@@ -352,7 +367,8 @@ class Layout extends React.Component {
                         flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
                     }} >
                         <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
-                            Other payment
+                            
+                            {localize('Other payment', language)}
                         </Text>
                         <View style={{
                             height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
@@ -435,7 +451,7 @@ class Layout extends React.Component {
 
 
     render() {
-        const { settleWaiting } = this.props
+        const { settleWaiting ,language} = this.props
         return (
             <View style={{ flex: 1 }} >
                 <NavigationEvents
@@ -459,13 +475,15 @@ class Layout extends React.Component {
                                     color: '#6A6A6A', fontSize: scaleSzie(40),
                                     marginTop: height / 2.8
                                 }} >
-                                    Empty Batch
+                                    
+                                    {localize('Empty Batch', language)}
                             </Text>
                                 <Text style={{
                                     color: '#6A6A6A', fontSize: scaleSzie(18),
                                     marginTop: 10
                                 }} >
-                                    (Pull to refresh )
+                                    {`(${localize('Pull to refresh', language)} )`}
+                                    
                             </Text>
                             </View>
                         </ScrollView>

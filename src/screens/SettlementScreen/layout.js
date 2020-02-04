@@ -34,6 +34,7 @@ export default class Layout extends React.Component {
     }
 
     renderTabContainer() {
+        const { language } = this.props;
         return (
             <View style={{ flex: 1 }} >
                 <ScrollableTabView
@@ -51,14 +52,14 @@ export default class Layout extends React.Component {
                     />}
                 >
                     <TabSettle
-                        tabLabel="Settle"
+                        tabLabel={localize('Settle', language)}
                         reviewBatchHistory={this.reviewBatchHistory}
                     />
                     <TabTransaction
-                        tabLabel="Transactions"
+                        tabLabel={localize('Transactions', language)}
                     />
                     <TabBatchHistory
-                        tabLabel="Batch history"
+                        tabLabel={localize('Batch history', language)}
                     />
 
                 </ScrollableTabView>

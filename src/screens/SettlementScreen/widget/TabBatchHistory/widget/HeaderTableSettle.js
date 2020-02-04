@@ -7,25 +7,28 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
+import { scaleSzie, localize, getCategoryName, getArrayNameCategories} from '@utils';
 import { Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService } from '@components';
 
-const HeaderTableSettle = ({ }) => {
+const HeaderTableSettle = ({language }) => {
     return (
         <View style={{ flexDirection: 'row', height: scaleSzie(30) }} >
             <View style={{ flex: 0.7, justifyContent: 'flex-end' }} >
                 <Text style={styles.textTitleLefConten} >
-                    Batch ID
+                    
+                    {localize('Batch ID', language)}
                 </Text>
             </View>
             <View style={{ flex: 1, justifyContent: 'flex-end', }} >
                 <Text style={[styles.textTitleLefConten, { marginLeft: scaleSzie(10) }]} >
-                    Datetime
+                    
+                    {localize('Datetime', language)}
                 </Text>
             </View>
             <View style={{ flex: 0.8, justifyContent: 'flex-end' }} >
                 <Text style={styles.textTitleLefConten} >
-                    Amount
+                {localize('Amount', language)}
+                    
                 </Text>
             </View>
         </View>

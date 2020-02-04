@@ -119,12 +119,14 @@ class Layout extends React.Component {
 
     renderContent() {
         const { transactionsSettlement, listTransactionSearch, isShowSearchTransaction,
-            refreshingTransaction
+            refreshingTransaction, language
         } = this.props;
         const tempData = isShowSearchTransaction ? listTransactionSearch : transactionsSettlement;
         return (
             <View style={styles.contentContainer} >
-                <HeaderTableTransaction />
+                <HeaderTableTransaction
+                    language={language}
+                />
                 <View style={{ height: scaleSzie(6) }} />
                 {/* ---------- Table ------- */}
                 <View style={styles.tableContainer} >
