@@ -138,7 +138,8 @@ class Layout extends React.Component {
 
     renderTableStaff() {
         const { servicesByMerchant, categoriesByMerchant,
-            isShowSearchService, listServicesSearch,refreshListServices
+            isShowSearchService, listServicesSearch,refreshListServices,
+            language
         } = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
         const temptData = isShowSearchService ? listServicesSearch : servicesByMerchant;
@@ -155,7 +156,9 @@ class Layout extends React.Component {
                 {this.renderFilter()}
                 <View style={{ height: scaleSzie(10) }} />
                 <View style={{ flex: 1 }} >
-                    <HeaderTableService />
+                    <HeaderTableService
+                    language={language}
+                    />
                     <DraggableFlatList
                         data={data}
                         renderItem={({ item, index , move, moveEnd, isActive}) => <RowTableService
@@ -179,8 +182,8 @@ class Layout extends React.Component {
                 <PopupAddEditService
                     ref={this.addServiceRef}
                     visible={visibleAdd}
-                    title="Add Service"
-                    titleButton="Add"
+                    title={localize('Add Service', language)}
+                    titleButton={localize('Add', language)}
                     onRequestClose={() => this.setState({ visibleAdd: false })}
                     doneAddService={this.submitAddService}
                     categoriesByMerchant={this.props.categoriesByMerchant}
@@ -188,8 +191,8 @@ class Layout extends React.Component {
                 <PopupAddEditService
                     ref={this.editServiceRef}
                     visible={visibleEdit}
-                    title="Edit Service"
-                    titleButton="Save"
+                    title={localize('Edit Service', language)}
+                    titleButton={localize('Save', language)}
                     isSave={true}
                     onRequestClose={() => this.setState({ visibleEdit: false })}
                     editService={this.submitEditService}
@@ -197,15 +200,15 @@ class Layout extends React.Component {
                 />
                 <PopupConfirm
                     visible={visibleArchive}
-                    title="Confirmation"
-                    message="Do you want to Archive this Service ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to Archive this Service', language)} ?`}
                     onRequestClose={() => this.togglePopupArchive(false)}
                     confimYes={() => this.archiveServiceYess()}
                 />
                 <PopupConfirm
                     visible={visibleRestore}
-                    title="Confirmation"
-                    message="Do you want to Restore this Service ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to Restore this Service', language)} ?`}
                     onRequestClose={() => this.togglePopupRestore(false)}
                     confimYes={() => this.restoreServiceYess()}
                 />

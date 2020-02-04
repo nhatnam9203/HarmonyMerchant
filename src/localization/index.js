@@ -201,7 +201,6 @@ const localization = {
         'Confirmation':'Confirmation',
         'Do you want to Delete this Banner':'Do you want to Delete this Banner',
         'Phone':'Phone',
-        'Categories':'Categories',
         'Extra':'Extra',
         'Amount':'Amount',
         'ADD':'ADD',
@@ -377,6 +376,15 @@ const localization = {
         'Terminal configuration':'Terminal configuration',
         'Device name':'Device name',
         'IP Address':'IP Address',
+        'Add Service':'Add Service',
+        'Edit Service':'Edit Service',
+        'Do you want to Archive this Service':'Do you want to Archive this Service',
+        'Do you want to Restore this Service':'Do you want to Restore this Service',
+        'Service Name':'Service Name',
+
+
+        
+
 
 
 
