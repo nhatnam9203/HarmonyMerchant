@@ -381,7 +381,9 @@ const localization = {
         'Do you want to Archive this Service':'Do you want to Archive this Service',
         'Do you want to Restore this Service':'Do you want to Restore this Service',
         'Service Name':'Service Name',
-
+        'Staff Name':'Staff Name',
+        'Role':'Role',
+        
 
         
 

@@ -135,7 +135,7 @@ class Layout extends React.Component {
 
 
     renderTableStaff() {
-        const { listStaffByMerchant, isShowSearch, listSearchStaff, refreshListStaffs } = this.props;
+        const { listStaffByMerchant, isShowSearch, listSearchStaff, refreshListStaffs ,language} = this.props;
         const { visibleArchive, visibleRestore } = this.state;
         const temptData = isShowSearch ? listSearchStaff : listStaffByMerchant;
         const data = temptData.map((item,index) => {
@@ -173,15 +173,15 @@ class Layout extends React.Component {
                 </View>
                 <PopupConfirm
                     visible={visibleArchive}
-                    title="Confirmation"
-                    message="Do you want to Archive this Staff ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to Archive this Staff', language)} ?`}
                     onRequestClose={() => this.togglePopupArchive(false)}
                     confimYes={() => this.archirveStaffYess()}
                 />
                 <PopupConfirm
                     visible={visibleRestore}
-                    title="Confirmation"
-                    message="Do you want to Restore this Staff ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to Restore this Staff', language)} ?`}
                     onRequestClose={() => this.togglePopupRestore(false)}
                     confimYes={() => this.archirveRestoreYess()}
                 />
