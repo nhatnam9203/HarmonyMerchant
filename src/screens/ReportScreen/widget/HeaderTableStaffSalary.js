@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { Button } from '@components';
-import { scaleSzie, formatDateApi } from '@utils';
+import { scaleSzie, formatDateApi ,localize} from '@utils';
 import IMAGE from '@resources';
 import { FlatList } from 'react-native-gesture-handler';
 
@@ -47,9 +47,11 @@ class HeaderTableStaffSalary extends React.Component {
         }))
     }
     render() {
+        const { calendar,language } = this.props;
         const { sortUpStaffName, sortUpId, sortUpRole, sortUpStatus } = this.state;
         const iconSortStaffName = sortUpStaffName ? IMAGE.sortUp : IMAGE.sortDown;
-        const { calendar } = this.props;
+        
+
         return (
             <View style={styles.tableHeader} >
                 {/* ----- 0 ------ */}
@@ -58,7 +60,8 @@ class HeaderTableStaffSalary extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            No.
+                        
+                            {`${localize('No', language)}.`}
                         </Text>
                     </View>
                     {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -74,7 +77,8 @@ class HeaderTableStaffSalary extends React.Component {
                     </View> */}
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            Name
+                            
+                            {localize('Name', language)}
                         </Text>
                     </View>
                     {/* <Button onPress={this.sortStaffName} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
@@ -121,7 +125,8 @@ class HeaderTableStaffSalary extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            Split
+                            
+                            {localize('Split', language)}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -134,7 +139,8 @@ class HeaderTableStaffSalary extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            Tip
+                            
+                            {localize('Tip', language)}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -147,7 +153,8 @@ class HeaderTableStaffSalary extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            Product
+                            
+                            {localize('Product', language)}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -160,7 +167,8 @@ class HeaderTableStaffSalary extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                            Total
+                            
+                            {localize('Total', language)}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >

@@ -16,7 +16,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 export default class Layout extends React.Component {
     renderHeader() {
-        const { language, staff } = this.props;
+        const { language } = this.props;
         return (
             <View style={{
                 height: scaleSzie(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: scaleSzie(50),
@@ -30,6 +30,7 @@ export default class Layout extends React.Component {
     }
 
     renderFilter() {
+        const { language } = this.props;
         const { titleRangeTime } = this.state;
         // const temptColorTextTimeRange = titleRangeTime === 'This Week' ? 'rgb(155,155,155)' : 'rgb(38,38,38)';
         const temptColorTextTimeRange = 'rgb(38,38,38)';
@@ -39,13 +40,15 @@ export default class Layout extends React.Component {
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Image source={IMAGE.sale} style={{ width: scaleSzie(26), height: scaleSzie(32) }} />
                     <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(22), fontWeight: '700', marginLeft: scaleSzie(8) }} >
-                        Compare sales of Staffs
+                       
+                        {localize('Compare sales of Staffs', language)}
                     </Text>
                 </View>
                 {/* ---------- Row 2 ---------- */}
                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(16), alignItems: 'center' }}>
                     <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A', marginRight: scaleSzie(10) }} >
-                        Filters
+                        
+                        {localize('Filters', language)}
                     </Text>
 
                     <Button onPress={this.showCalendar} style={{ width: scaleSzie(200) }} >
@@ -66,7 +69,7 @@ export default class Layout extends React.Component {
                             width={'90%'}
                             height={40}
                             backgroundColor="#F1F1F1"
-                            title={'Search'}
+                            title={localize('Search', language)}
                             textColor="#6A6A6A"
                             onPress={this.searchStaff}
                             style={{
@@ -98,7 +101,7 @@ export default class Layout extends React.Component {
     }
 
     renderTable() {
-        const { listStaffsSalary, refreshListStaffsSalary, listStaffsCalendar } = this.props;
+        const { listStaffsSalary, refreshListStaffsSalary, listStaffsCalendar,language } = this.props;
         return (
             <ScrollView
                 contentContainerStyle={listStaffsCalendar.length > 0 ? null : { flex: 1 }}
@@ -108,6 +111,7 @@ export default class Layout extends React.Component {
                     <HeaderTableStaffSalary
                         calendar={listStaffsCalendar}
                         setPosition={this.setPosition}
+                        language={language}
                     />
                     <FlatList
                         data={listStaffsSalary}
