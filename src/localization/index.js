@@ -129,7 +129,6 @@ const localization = {
         'Working time': 'Working time',
         'Salary': 'Salary',
         'Per hour': 'Per hour',
-        'Commission': 'Commission',
         'Tip fee': 'Tip fee',
         'Percent': 'Percent',
         'Fixed amount': 'Fixed amount',
@@ -386,6 +385,14 @@ const localization = {
         'LOG OUT':'LOG OUT',
         'Contact information':'Contact information',
         'Hotline':'Hotline',
+        'Services / Products':'Services / Products',
+        'Service Salary':'Service Salary',
+        'Per hour':'Per hour',
+        'Commission':'Commission',
+        'Product Salary':'Product Salary',
+        'Do you want to Archive this Staff':'Do you want to Archive this Staff',
+        'Do you want to Restore this Staff':'Do you want to Restore this Staff',
+        
         
 
         

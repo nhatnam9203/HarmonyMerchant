@@ -11,7 +11,7 @@ import {
     Dropdown,
     ButtonCustom, Text, BrowserFile,TextInputSuggestion
 } from '@components';
-import { scaleSzie, localize, getArrayNameStateCity } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import { ItemAdminInfo,ItemAdminCellPhone } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
@@ -20,6 +20,7 @@ import ItemScalary from '../ItemScalary';
 class Layout extends React.Component {
 
     renderBody() {
+        const { language } = this.props;
         const { address, firstName, lastName, displayName,
             cellphone, email, pin, confirmPin, roles,
             driverlicense, socialSecurityNumber, professionalLicense,
@@ -27,7 +28,7 @@ class Layout extends React.Component {
         } = this.state.user;
         const { street, city, state, zip } = address;
         const { nameRole } = roles;
-        const { language, stateCity } = this.props;
+        
         return (
             <View style={styles.body} >
                 <ScrollView
@@ -323,6 +324,8 @@ class Layout extends React.Component {
     }
 
     renderFooter() {
+        const { language } = this.props;
+
         return (
             <View style={styles.footer} >
                 <View style={styles.buttonContainer} >
@@ -330,7 +333,7 @@ class Layout extends React.Component {
                         width={scaleSzie(250)}
                         height={40}
                         backgroundColor="#F1F1F1"
-                        title="BACK"
+                        title={localize('BACK', language)}
                         textColor="#6A6A6A"
                         onPress={() => this.props.backTab()}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
@@ -341,7 +344,7 @@ class Layout extends React.Component {
                         width={scaleSzie(250)}
                         height={40}
                         backgroundColor="#0764B0"
-                        title="NEXT"
+                        title={localize('NEXT', language)}
                         textColor="#fff"
                         onPress={() => this.props.nextTab()}
                     />

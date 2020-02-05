@@ -6,7 +6,6 @@ import {
     StyleSheet
 } from 'react-native';
 
-import {  ButtonCustom } from '@components';
 import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 
@@ -32,8 +31,7 @@ class RowTable extends React.Component {
     }
 
     render() {
-        const { staff, index, archiveStaff, editStaff, restoreStaff } = this.props;
-        const { isArchive } = this.state;
+        
         return (
             <View style={styles.tableHeader} >
                 {/* ----- 1 ------ */}

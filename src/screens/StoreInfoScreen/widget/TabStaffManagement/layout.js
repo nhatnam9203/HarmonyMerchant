@@ -1,13 +1,11 @@
 import React from 'react';
 import {
     View,
-    Image,
-    ScrollView,
     FlatList
 } from 'react-native';
 
 import { FooterTab, PopupConfirm, Text} from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie ,localize} from '@utils';
 import styles from './style';
 import StaffInfo from '../StaffInfo';
 import { TableHeader, RowTable, RowEmptyTable } from './widget';
@@ -16,7 +14,8 @@ import { TableHeader, RowTable, RowEmptyTable } from './widget';
 class Layout extends React.Component {
 
     renderTable() {
-        const { listStaffByMerchant, refreshListStaffs } = this.props;
+        const { listStaffByMerchant, refreshListStaffs,language } = this.props;
+
         return (
             <View style={{ flex: 1 }}>
                 <View style={{
@@ -24,7 +23,7 @@ class Layout extends React.Component {
                     paddingBottom: scaleSzie(8)
                 }} >
                     <Text style={{ color: '#0764B0', fontSize: scaleSzie(18) }} >
-                        Staff List
+                        {localize('Staff List', language)}
                     </Text>
                 </View>
                 <TableHeader />
@@ -57,10 +56,11 @@ class Layout extends React.Component {
     }
 
     render() {
+        const { isAddStaff, language, stateCity } = this.props;
         const { visibleArchive, visibleRestore, infoStaffHandle,
             isEditStaff
         } = this.state;
-        const { isAddStaff, language, stateCity } = this.props;
+       
         return (
             <View style={styles.container} >
                 {isAddStaff ? <StaffInfo
@@ -80,15 +80,15 @@ class Layout extends React.Component {
                 /> : this.renderTable()}
                 <PopupConfirm
                     visible={visibleArchive}
-                    title="Confirmation"
-                    message="Do you want to Archive this Staff ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to Archive this Staff', language)} ?`}
                     onRequestClose={() => this.togglePopupArchive(false)}
                     confimYes={() => this.archirveStaffYess()}
                 />
                 <PopupConfirm
                     visible={visibleRestore}
-                    title="Confirmation"
-                    message="Do you want to Restore this Staff ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to Restore this Staff', language)} ?`}
                     onRequestClose={() => this.togglePopupRestore(false)}
                     confimYes={() => this.restoreStaffYess()}
                 />

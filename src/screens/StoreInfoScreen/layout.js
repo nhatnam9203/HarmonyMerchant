@@ -2,8 +2,6 @@ import React from 'react';
 import {
     View,
     Image,
-    Text,
-    ImageBackground,
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
