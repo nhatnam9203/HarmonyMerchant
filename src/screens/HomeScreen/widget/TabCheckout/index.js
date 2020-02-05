@@ -876,7 +876,7 @@ class TabCheckout extends Layout {
                 this.setState(initState);
                 this.props.actions.appointment.resetPayment();
             } else {
-                
+
                 this.scrollTabRef.current.goToPage(0);
                 this.props.actions.appointment.closeModalPaymentCompleted();
                 this.props.gotoAppoitmentScreen();
@@ -884,9 +884,9 @@ class TabCheckout extends Layout {
                 this.setState(initState);
                 this.props.actions.appointment.resetPayment();
 
-                setTimeout(() =>{
+                setTimeout(() => {
                     alert('Please connect to your cashier ! ');
-                },700)
+                }, 700)
             }
 
 
@@ -931,6 +931,7 @@ class TabCheckout extends Layout {
         const printMachine = await this.checkStatusPrint();
         if (printMachine) {
             this.printInvoice(printMachine.portName, true);
+            // PrintManager.getInstance().connect(printMachine.portName);
         } else {
             alert('Please connect to your print ! ');
         }
@@ -940,6 +941,7 @@ class TabCheckout extends Layout {
         const printMachine = await this.checkStatusPrint();
         if (printMachine) {
             this.openCashDrawer(printMachine.portName);
+            // this.printInvoice(printMachine.portName, true);
         } else {
             alert('Please connect to your cashier ! ');
         }
@@ -948,12 +950,13 @@ class TabCheckout extends Layout {
 
     checkStatusPrint = async () => {
         const printer = await PrintManager.getInstance().portDiscovery();
-        console.log("printer : ",printer);
+        console.log("printer : ", printer);
         if (printer.length > 0) {
             let portName = "";
             for (let i = 0; i < printer.length; i++) {
                 if (printer[i].portName === "BT:mPOP") {
-                    portName = "BT:mPOP";
+                    // portName = "BT:mPOP";
+                    portName = "BT:TSP100";
                     break;
                 }
             };

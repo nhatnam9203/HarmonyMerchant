@@ -792,5 +792,6 @@ export const PRINTER_MACHINE = {
         isCashier: false,
         isPrint: true,
         emulation: "StarGraphic"
+
     },
 };
