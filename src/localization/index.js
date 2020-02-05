@@ -383,6 +383,11 @@ const localization = {
         'Service Name':'Service Name',
         'Staff Name':'Staff Name',
         'Role':'Role',
+        'LOG OUT':'LOG OUT',
+        'Contact information':'Contact information',
+        'Hotline':'Hotline',
+        
+
         
 
         

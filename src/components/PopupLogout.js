@@ -8,12 +8,13 @@ import {
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
-import { scaleSzie } from '../utils';
+import { scaleSzie,localize } from '../utils';
 
 class PopupLogout extends React.Component {
 
     render() {
-        const { title, visible, message,onRequestClose,confimYes } = this.props;
+        const { title, visible, message,onRequestClose,confimYes,language } = this.props;
+
         return (
             <PopupParent
                 title={title}
@@ -37,7 +38,7 @@ class PopupLogout extends React.Component {
                                 width={'60%'}
                                 height={35}
                                 backgroundColor="#fff"
-                                title="CANCEL"
+                                title={localize('CANCEL', language)}
                                 textColor="#6A6A6A"
                                 onPress={() => onRequestClose()}
                                 style={{
@@ -54,7 +55,7 @@ class PopupLogout extends React.Component {
                                 width={'60%'}
                                 height={35}
                                 backgroundColor="#EC1818"
-                                title="LOG OUT"
+                                title={localize('LOG OUT', language)}
                                 textColor="#fff"
                                 onPress={() => confimYes()}
                                 styleText={{

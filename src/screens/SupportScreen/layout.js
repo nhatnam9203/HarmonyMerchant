@@ -95,22 +95,8 @@ export default class Layout extends React.Component {
                                 springFriction={1}
                                 renderTabBar={() => <View />}
                             >
-                                {/* <View style={{ flex: 1 }} >
-                                    <YouTube
-                                        videoId="eQq5knMITLk"
-                                        play 
-                                        fullscreen 
-                                        loop 
-                                        onReady={e => this.setState({ isReady: true })}
-                                        onChangeState={e => this.setState({ status: e.state })}
-                                        onChangeQuality={e => this.setState({ quality: e.quality })}
-                                        onError={e => this.setState({ error: e.error })}
-                                        style={{ alignSelf: 'stretch', height: 300 }}
-                                    />
-
-                                </View> */}
+                               
                                 <TabVideos />
-                                {/* <View style={{ flex: 1 }} /> */}
                                 <TabContactUs />
 
                             </ScrollableTabView>
@@ -128,13 +114,6 @@ export default class Layout extends React.Component {
                         <Image source={IMAGE.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
                     </Button>
                 </View>
-                <PopupLogout
-                    visible={this.state.visibleLogout}
-                    title="Confirmation"
-                    message="Are you sure you want to Log out?"
-                    onRequestClose={() => this.setState({ visibleLogout: false })}
-                    confimYes={this.logout}
-                />
             </ParentContainer>
         );
     }

@@ -16,16 +16,20 @@ import styles from './style';
 class Layout extends React.Component {
 
     render() {
+        const {language} = this.props;
+
         return (
             <View style={styles.container} >
                 <View style={styles.containerAbout} >
                     <View style={{ flex: 1 }} >
                         <Text style={styles.textTitle} >
-                            Contact information
+                            
+                            {localize('Contact information', language)}
                         </Text>
                         {/* ----------- */}
                         <Text style={styles.textCopy} >
-                            Hotline
+                            
+                            {localize('Hotline', language)}
                         </Text>
                         {/* ----------- */}
                         <Text style={styles.textPhone} >
@@ -47,7 +51,8 @@ class Layout extends React.Component {
                         </Button>
                         {/* ----------- */}
                         <Text style={[styles.textCopy, { marginVertical: scaleSzie(10) }]} >
-                            Email
+                            
+                            {localize('Email', language)}
                         </Text>
                         {/* ----------- */}
                         <Text style={[styles.textPhone,{marginTop:scaleSzie(5),marginBottom:scaleSzie(15)}]} >
