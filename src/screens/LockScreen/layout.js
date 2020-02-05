@@ -86,7 +86,6 @@ export default class Layout extends React.Component {
                         onRequestClose={() => { }}>
                         <ForgotPin 
                             isForgotPin={true}
-                            // closePopup={() => this.setState({visibleForotPin:false})}
                         />
                     </Modal>
                 </ImageBackground>

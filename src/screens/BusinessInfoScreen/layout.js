@@ -69,7 +69,6 @@ export default class Layout extends React.Component {
 
                                 <InputQuestionBusiness
                                     question={`${localize(question3.question, language)}`}
-                                    // question={`${localize('Has Merchant or any associated principal and/or owners disclosed below filed bankruptcy or been subject to any involuntary bankruptcy?', language)}`}
                                     subYes={`${localize('if yes, date filed', language)}`}
                                     value={question3.desc}
                                     onChangeText={(value) => this.updateBusinessInfo('desc', value, 'question3')}
@@ -79,7 +78,6 @@ export default class Layout extends React.Component {
 
                                 <InputQuestionBusiness
                                     question={`${localize(question4.question, language)}`}
-                                    // question={`${localize('Has Merchant been previously identified by Visa/Mastercard Risk Programs?', language)}`}
                                     subYes={`${localize('if yes, was program and when', language)}`}
                                     value={question4.desc}
                                     onChangeText={(value) => this.updateBusinessInfo('desc', value, 'question4')}
@@ -89,7 +87,6 @@ export default class Layout extends React.Component {
 
                                 <InputQuestionBusiness
                                     question={`${localize(question5.question, language)}`}
-                                    // question={`${localize('Will Product(s) or Service(s) Be Sold Outside of The U.S ?', language)}`}
                                     subYes=""
                                     value={question5.desc}
                                     onChangeText={(value) => this.updateBusinessInfo('desc', value, 'question5')}

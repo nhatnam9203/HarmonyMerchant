@@ -1,3 +1,4 @@
+
 import React from 'react';
 import {
     View,
@@ -5,7 +6,7 @@ import {
     ImageBackground,
 } from 'react-native';
 
-import { Text, InputAuth, ButtonCustom, Button } from '@components';
+import { Text, ButtonCustom } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';

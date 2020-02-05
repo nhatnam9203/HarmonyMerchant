@@ -3,17 +3,15 @@ import {
     View,
     Image,
     ScrollView,
-    TextInput,
     Dimensions
 } from 'react-native';
 import moment from 'moment';
 
 
 import {
-    InputForm, FormInfoParent, Text, Dropdown, Button, PopupUpload, DatePicker,
-    InputFormPhone, TextInputSuggestion
+     FormInfoParent, Text, Button, PopupUpload, DatePicker,
 } from '@components';
-import { scaleSzie, localize, getArrayNameStateCity } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import IMAGE from '@resources';
 import styles from './style';
 import BodyPrincipal from './widget/bodyPrincipal';

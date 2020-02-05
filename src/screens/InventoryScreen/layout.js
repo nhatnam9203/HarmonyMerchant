@@ -3,7 +3,6 @@ import {
     View,
     Image,
     TextInput,
-    FlatList,
 } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 
@@ -76,18 +75,6 @@ export default class Layout extends React.Component {
                             styleText={{ fontSize: scaleSzie(15), fontWeight: 'normal' }}
                         />
                     </View>
-                    {/* <View style={{ width: scaleSzie(120), alignItems: 'flex-end' }} >
-                        <ButtonCustom
-                            width={scaleSzie(110)}
-                            height={40}
-                            backgroundColor="#F1F1F1"
-                            title={localize('Scan SKU', language)}
-                            textColor="#6A6A6A"
-                            onPress={this.scanUKU}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                            styleText={{ fontSize: scaleSzie(15), fontWeight: 'normal' }}
-                        />
-                    </View> */}
                 </View>
             </View>
         );
@@ -270,13 +257,6 @@ export default class Layout extends React.Component {
                     <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
-
-                    {/* <Button onPress={this.showLockScreen} style={{
-                        position: 'absolute', top: 20, right: 0,
-                        width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
-                    }} >
-                        <Image source={IMAGE.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
-                    </Button> */}
                 </View>
                 <PopupDetailProduct
                     ref={this.productDetailRef}

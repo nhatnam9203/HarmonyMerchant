@@ -63,22 +63,6 @@ export default class Layout extends React.Component {
                         {localize('Back', language)}
                         </Text>
                 </Button>
-                {/* {
-                    isForgotPin ? <Button onPress={() => this.props.actions.staff.setVisibleForgotPin(false)} style={{
-                        width: scaleSzie(50), height: scaleSzie(50),
-                        justifyContent: 'center', alignItems: 'center',
-                        position: 'absolute', top: scaleSzie(30),
-                        left: scaleSzie(20)
-
-                    }} >
-                        <Text style={{
-                            color: 'rgb(128,150,180)', fontSize: scaleSzie(18), fontWeight: 'bold',
-                            textDecorationLine: 'underline'
-                        }} >
-                            Back
-                        </Text>
-                    </Button> : <View />
-                } */}
             </ImageBackground>
 
         );

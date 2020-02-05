@@ -91,7 +91,6 @@ export default class Layout extends React.Component {
                                 <TabExtra />
                                 <TabTAX />
                                 <TabHardware />
-                                {/* <About /> */}
                             </ScrollableTabView>
                         </View>
                     </View>

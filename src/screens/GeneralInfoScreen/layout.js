@@ -3,14 +3,12 @@ import {
     View,
     ScrollView,
     Dimensions,
-    TextInput,
-    TouchableOpacity
 } from 'react-native';
 
-import { InputForm, FormInfoParent, Text, Dropdown, InputFormPhone, TextInputSuggestion } from '@components';
-import { scaleSzie, localize, getArrayNameStateCity } from '@utils';
+import { InputForm, FormInfoParent, Text, InputFormPhone, TextInputSuggestion } from '@components';
+import { scaleSzie, localize } from '@utils';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 export default class Layout extends React.Component {
 
@@ -22,10 +20,9 @@ export default class Layout extends React.Component {
         } = generalInfo;
         const { prefix, suffix } = tax;
         const { address, city, state, zip } = businessAddress;
-        const { language, stateCity } = this.props;
+        const { language } = this.props;
         return (
             <FormInfoParent
-                // title={localize('General Information', language)}
                 back={() => this.props.navigation.goBack()}
                 next={this.nextTab}
 

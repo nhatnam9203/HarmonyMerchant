@@ -157,13 +157,6 @@ export default class Layout extends React.Component {
                     <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
-
-                    {/* <Button onPress={this.showLockScreen} style={{
-                        position: 'absolute', top: 20, right: 0,
-                        width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
-                    }} >
-                        <Image source={IMAGE.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
-                    </Button> */}
                 </View>
                 <PopupAddEditCustomer
                     ref={this.modalAddRef}

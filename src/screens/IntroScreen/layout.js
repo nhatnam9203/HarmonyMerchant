@@ -99,15 +99,6 @@ export default class Layout extends React.Component {
                         style={{borderRadius:scaleSzie(4)}}
                     />
                 </View>
-                {/* <View style={styles.footerLeft} >
-                    <ButtonCustom
-                        width="80%"
-                        backgroundColor="#0764B0"
-                        title={localize('DEMO', language)}
-                        textColor="#fff"
-                        onPress={this.gotoDemo}
-                    />
-                </View> */}
             </View>
         );
     }

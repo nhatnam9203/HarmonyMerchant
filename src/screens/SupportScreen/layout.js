@@ -4,7 +4,6 @@ import {
     Image
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import YouTube from 'react-native-youtube';
 
 import { StatusBarHeader, Button, ParentContainer, Text, PopupLogout } from '@components';
 import { scaleSzie, localize } from '@utils';

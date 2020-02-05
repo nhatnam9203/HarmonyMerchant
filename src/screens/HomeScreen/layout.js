@@ -15,7 +15,7 @@ export default class Layout extends React.Component {
 
     render() {
         const { language ,navigation} = this.props;
-        const { visibleConfirm, isFocus } = this.state;
+        const { isFocus } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}

@@ -8,7 +8,6 @@ import {
 
 import { InputForm, FormInfoParent, Text, Button, PopupUpload } from '@components';
 import { scaleSzie, localize } from '@utils';
-import styles from './style';
 import IMAGE from '@resources';
 
 const {width} = Dimensions.get('window');

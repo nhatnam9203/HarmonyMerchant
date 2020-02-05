@@ -2,9 +2,7 @@ import React from 'react';
 import {
     View,
     Image,
-    TextInput,
     FlatList,
-    Switch
 } from 'react-native';
 
 import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, PopupCalendar } from '@components';
@@ -32,7 +30,6 @@ export default class Layout extends React.Component {
     renderFilter() {
         const { language } = this.props;
         const { titleRangeTime } = this.state;
-        // const temptColorTextTimeRange = titleRangeTime === 'This Week' ? 'rgb(155,155,155)' : 'rgb(38,38,38)';
         const temptColorTextTimeRange = 'rgb(38,38,38)';
         return (
             <View style={{ paddingHorizontal: scaleSzie(20), marginTop: scaleSzie(20), marginBottom: scaleSzie(10) }} >
@@ -40,14 +37,14 @@ export default class Layout extends React.Component {
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Image source={IMAGE.sale} style={{ width: scaleSzie(26), height: scaleSzie(32) }} />
                     <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(22), fontWeight: '700', marginLeft: scaleSzie(8) }} >
-                       
+
                         {localize('Compare sales of Staffs', language)}
                     </Text>
                 </View>
                 {/* ---------- Row 2 ---------- */}
                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(16), alignItems: 'center' }}>
                     <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A', marginRight: scaleSzie(10) }} >
-                        
+
                         {localize('Filters', language)}
                     </Text>
 
@@ -82,26 +79,13 @@ export default class Layout extends React.Component {
                 </View>
                 {/* ---------- Row 3 ---------- */}
                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(22), alignItems: 'center' }}>
-                    {/* <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A', marginRight: scaleSzie(16) }} >
-                        Graph Chart
-                    </Text>
-                    <Switch
-                        ios_backgroundColor="#0764B0"
-                        trackColor={{ false: '', true: '#0764B0' }}
-                        style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}
-                        value={this.state.valueSwitch}
-                        onValueChange={this.onValueChangeSwich}
-                    />
-                    <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A', marginLeft: scaleSzie(16) }} >
-                        Grid View
-                    </Text> */}
                 </View>
             </View>
         );
     }
 
     renderTable() {
-        const { listStaffsSalary, refreshListStaffsSalary, listStaffsCalendar,language } = this.props;
+        const { listStaffsSalary, refreshListStaffsSalary, listStaffsCalendar, language } = this.props;
         return (
             <ScrollView
                 contentContainerStyle={listStaffsCalendar.length > 0 ? null : { flex: 1 }}

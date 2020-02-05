@@ -78,18 +78,6 @@ export default class Layout extends React.Component {
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
                     </View>
-                    {/* <View style={{ width: scaleSzie(120), alignItems: 'flex-end' }} >
-                        <ButtonCustom
-                            width={'90%'}
-                            height={40}
-                            backgroundColor="#F1F1F1"
-                            title={localize('Scan SKU', language)}
-                            textColor="#6A6A6A"
-                            onPress={this.searchInvoice}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                            styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
-                        />
-                    </View> */}
                 </View>
             </View>
         );
@@ -277,7 +265,6 @@ export default class Layout extends React.Component {
         const { language } = this.props;
         const { invoiceDetail } = this.state;
         const temptInvoiceDetail = invoiceDetail.checkoutPayments ? invoiceDetail.checkoutPayments : [];
-    //console.log('temptInvoiceDetail : ', temptInvoiceDetail);
         return (
             <View style={{ flex: 1 }} >
                 {
@@ -464,17 +451,6 @@ export default class Layout extends React.Component {
                         </View>
                     </View>
                     {/* -------- */}
-                    {/* ----------- Button Reefund --------- */}
-                    {/* <ButtonCustom
-                        width={'100%'}
-                        height={55}
-                        backgroundColor="#F1F1F1"
-                        title={localize('REFUND', language)}
-                        textColor="#6A6A6A"
-                        onPress={this.searchInvoice}
-                        style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                        styleText={{ fontSize: scaleSzie(16), fontWeight: 'bold' }}
-                    /> */}
                     <View style={{ height: scaleSzie(10) }} />
                 </View>
             </View>
