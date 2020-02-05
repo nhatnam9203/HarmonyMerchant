@@ -9,7 +9,8 @@ import {
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import { Dropdown } from './react-native-material-dropdown';
-import { scaleSzie } from '@utils';
+import { scaleSzie,localize } from '@utils';
+import connectRedux from '@redux/ConnectRedux';
 
 class PopupEditAddCategories extends React.Component {
 
@@ -66,8 +67,9 @@ class PopupEditAddCategories extends React.Component {
     }
 
     render() {
-        const { title, visible, titleButton, onRequestClose } = this.props;
-        const { categoryType, name } = this.state.category
+        const { title, visible, titleButton, onRequestClose ,language} = this.props;
+        const { categoryType, name } = this.state.category;
+
         return (
             <PopupParent
                 title={title}
@@ -85,7 +87,7 @@ class PopupEditAddCategories extends React.Component {
                     }} >
                         <View style={{ flex: 1 }} >
                             <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                Category Type *
+                                {`${localize('Category Type', language)} *`}
                         </Text>
                             <View style={{ width: scaleSzie(200), height: scaleSzie(30), }} >
                                 <Dropdown
@@ -102,14 +104,14 @@ class PopupEditAddCategories extends React.Component {
                                 />
                             </View>
                             <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                Category Name *
+                                {`${localize('Category Name', language)} *`}
                             </Text>
                             <View style={{
                                 height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
                                 paddingLeft: scaleSzie(10)
                             }} >
                                 <TextInput
-                                    placeholder="Gel Nails"
+                                    placeholder={localize('Gel Nails', language)}
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
                                     value={name}
                                     onChangeText={(value) => this.updateCategoryInfo('name', value)}
@@ -142,6 +144,11 @@ class PopupEditAddCategories extends React.Component {
 
 }
 
+const mapStateToProps = state => ({
+    language: state.dataLocal.language,
+})
 
-export default PopupEditAddCategories;
+export default connectRedux(mapStateToProps, PopupEditAddCategories);
+
+
 

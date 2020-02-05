@@ -9,15 +9,14 @@ import {
     ActivityIndicator
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
-import connectRedux from '@redux/ConnectRedux';
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import BrowserFile from './BrowserFile';
 import { Dropdown } from './react-native-material-dropdown';
 import Button from './Button';
-
-import { scaleSzie, getCategoryName, getArrayNameCategories, getCategoryIdByName } from '@utils';
+import { scaleSzie, getCategoryName, getArrayNameCategories, getCategoryIdByName,localize } from '@utils';
+import connectRedux from '@redux/ConnectRedux';
 
 
 class PopupAddEditService extends React.Component {
@@ -289,10 +288,10 @@ class PopupAddEditService extends React.Component {
     }
 
     render() {
-        const { title, visible, categoriesByMerchant } = this.props;
-        const { categoryId, name, duration, description, price, isDisabled
+        const { title, visible, categoriesByMerchant,language} = this.props;
+        const { categoryId, name, description, price, isDisabled
         } = this.state.serviceInfo;
-        // const temptTitleButton = isSave ? 'Save' : 'Done';
+
         return (
             <PopupParent
                 title={title}
@@ -312,7 +311,7 @@ class PopupAddEditService extends React.Component {
                         >
                             <TouchableOpacity activeOpacity={1}>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginTop: scaleSzie(10), marginBottom: scaleSzie(10) }} >
-                                    Category *
+                                    {`${localize('Category', language)} *`}
                             </Text>
                                 <View style={{ width: scaleSzie(200), height: scaleSzie(30), }} >
                                     <Dropdown
@@ -329,7 +328,7 @@ class PopupAddEditService extends React.Component {
                                     />
                                 </View>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                    Service *
+                                    {`${localize('Service', language)} *`}
                             </Text>
                                 <View style={{
                                     height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
@@ -345,7 +344,7 @@ class PopupAddEditService extends React.Component {
                                     />
                                 </View>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                    Description
+                                    {`${localize('Description', language)} *`}
                                 </Text>
                                 <View style={{
                                     height: scaleSzie(60), borderWidth: 1, borderColor: '#C5C5C5',
@@ -363,19 +362,19 @@ class PopupAddEditService extends React.Component {
                                 </View>
                                 {/* -------------------------- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                    Duration
+                                    {`${localize('Duration', language)} *`}
                                 </Text>
                                 <View style={{ height: scaleSzie(70), flexDirection: 'row', justifyContent: 'space-between' }} >
                                     <ItemTime
                                         ref={this.durationRef}
-                                        title="Minutes *"
+                                        title={`${localize('Minutes', language)} *`}
                                         value={this.state.serviceInfo.duration}
                                         editable={true}
                                         onFocus={() =>this.scrollServiceTo(250)}
                                     />
                                     <ItemTime
                                         ref={this.openTimeRef}
-                                        title="Open Time"
+                                        title={`${localize('Open Time', language)}`}
                                         editable={true}
                                         value={this.state.serviceInfo.openTime}
                                         onChangeText={this.handleInputSecondTime}
@@ -383,7 +382,7 @@ class PopupAddEditService extends React.Component {
                                     />
                                     <ItemTime
                                         ref={this.secondTimeRef}
-                                        title="Second Time"
+                                        title={`${localize('Second Time', language)}`}
                                         value={this.state.serviceInfo.secondTime}
                                         editable={this.state.isEditSecondTime}
                                         onFocus={() =>this.scrollServiceTo(250)}
@@ -392,7 +391,7 @@ class PopupAddEditService extends React.Component {
                                 <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
                                     <View style={{ flex: 1, paddingRight: scaleSzie(50) }}  >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                            Price *
+                                            {`${localize('Price', language)} *`}
                                     </Text>
                                         <View style={{
                                             height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
@@ -419,14 +418,14 @@ class PopupAddEditService extends React.Component {
                                     {/* ------ */}
                                     <View>
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                            Status *
+                                            {`${localize('Status', language)} *`}
                                     </Text>
                                         <View style={{
                                             height: scaleSzie(30), width: scaleSzie(90),
                                             flexDirection: 'row'
                                         }} >
                                             <Dropdown
-                                                label='Active'
+                                                label={`${localize('Active', language)}`}
                                                 data={[{ value: 'Active' }, { value: 'Disable' }]}
                                                 value={isDisabled}
                                                 onChangeText={(value) => this.updateServiceInfo('isDisabled', value)}
@@ -467,7 +466,7 @@ class PopupAddEditService extends React.Component {
                                         width={'100%'}
                                         height={35}
                                         backgroundColor="#4CD964"
-                                        title={'Add more extra'}
+                                        title={`${localize('Add more extra', language)}`}
                                         textColor="#fff"
                                         onPress={this.addMoreExtra}
                                         style={{ borderRadius: scaleSzie(2) }}
@@ -762,6 +761,7 @@ const strings = {
 
 const mapStateToProps = state => ({
     loading: state.app.loading,
+    language: state.dataLocal.language,
 })
 
 

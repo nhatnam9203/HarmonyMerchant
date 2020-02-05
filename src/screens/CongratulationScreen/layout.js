@@ -14,6 +14,7 @@ export default class Layout extends React.Component {
 
     render() {
         const {language} = this.props;
+
         return (
             <ImageBackground
                 style={styles.container}
@@ -25,7 +26,7 @@ export default class Layout extends React.Component {
                     color: '#00FFD6', fontSize: scaleSzie(40), fontWeight: 'bold',
                     marginBottom: scaleSzie(10)
                 }} >
-                    {localize('CONGRATULATION !',language)}
+                    {`${localize('CONGRATULATION',language)} !`}
                 </Text>
                 <View style={{ height: scaleSzie(20) }} />
                 <Text style={{

@@ -7,7 +7,7 @@ const localization = {
         'Custom Banner': 'Custom Banner',
         'Custom Marketing': 'Custom Marketing',
         'Thank you for submitting application, one of our agent will': 'Thank you for submitting application, one of our agent will',
-        'contact you within the next business day.': 'contact you within the next business day.',
+        'contact you within the next business day': 'contact you within the next business day',
         'FINISH': 'FINISH',
         'Bank Information': 'Bank Information',
         'ABA Routing Number': 'ABA Routing Number',
@@ -28,7 +28,7 @@ const localization = {
         'Has Merchant been previously identified by Visa/Mastercard Risk Programs?': 'Has Merchant been previously identified by Visa/Mastercard Risk Programs?',
         'if yes, was program and when': 'if yes, was program and when',
         'Will Product(s) or Service(s) Be Sold Outside of The U.S ?': 'Will Product(s) or Service(s) Be Sold Outside of The U.S ?',
-        'CONGRATULATION !': 'CONGRATULATION !',
+        'CONGRATULATION': 'CONGRATULATION',
         'Your account is ready to operate': 'Your account is ready to operate',
         'Forgot Password': 'Forgot Password',
         'Please enter your email address and we will send you': 'Please enter your email address and we will send you',
@@ -332,7 +332,6 @@ const localization = {
         'Need to order':'Need to order',
         'Low theshold':'Low theshold',
         'Max theshold':'Max theshold',
-        'Price':'Price',
         'Archive':'Archive',
         'Restore':'Restore',
         'Do you want to Archive this Product':'Do you want to Archive this Product',
@@ -393,9 +392,13 @@ const localization = {
         'Do you want to Archive this Staff':'Do you want to Archive this Staff',
         'Do you want to Restore this Staff':'Do you want to Restore this Staff',
         'Products':'Products',
+        'Category Name':'Category Name',
+        'Gel Nails':'Gel Nails',
+        'Duration':'Duration',
+        'Category':'Category',
+        'Items in stock':'Items in stock',
         
 
-        
 
         
 

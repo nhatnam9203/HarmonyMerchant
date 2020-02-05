@@ -32,7 +32,7 @@ export default class Layout extends React.Component {
                     color: '#fff', fontSize: scaleSzie(20), fontWeight: 'bold',
                     marginBottom: scaleSzie(10)
                 }} >
-                    {`${localize('contact you within the next business day.', language)}`}
+                    {`${localize('contact you within the next business day', language)}.`}
                 </Text>
                 <View style={{ height: scaleSzie(60) }} />
                 <ButtonCustom

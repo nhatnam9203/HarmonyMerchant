@@ -14,7 +14,7 @@ import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import { Dropdown } from './react-native-material-dropdown';
 import BrowserFile from './BrowserFile';
-import { scaleSzie } from '@utils';
+import { scaleSzie,localize } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupEditAddExtra extends React.Component {
@@ -174,8 +174,9 @@ class PopupEditAddExtra extends React.Component {
     }
 
     render() {
-        const { title, visible } = this.props;
+        const { title, visible ,language} = this.props;
         const { name, description, price, isDisable } = this.state.extraInfo;
+
         return (
             <PopupParent
                 title={title}
@@ -196,21 +197,21 @@ class PopupEditAddExtra extends React.Component {
                             <TouchableOpacity activeOpacity={1}>
                                 {/* ------ Extra ---- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(20) }} >
-                                    Extra name *
+                                    {`${localize('Extra name', language)} *`}
                             </Text>
                                 <View style={{
                                     height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
                                     paddingLeft: scaleSzie(10),
                                 }} >
                                     <TextInput
-                                        placeholder="Extra name"
+                                        placeholder={`${localize('Extra name', language)}`}
                                         style={{ flex: 1, fontSize: scaleSzie(16) }}
                                         value={name}
                                         onChangeText={(value) => this.updateExtraInfo('name', value)}
                                     />
                                 </View>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                    Description
+                                    {localize('Description', language)}
                             </Text>
                                 <View style={{
                                     height: scaleSzie(60), borderWidth: 1, borderColor: '#C5C5C5',
@@ -227,7 +228,8 @@ class PopupEditAddExtra extends React.Component {
                                 </View>
                                 {/* -------------------------- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                    Duration
+                                    
+                                    {localize('Duration', language)}
                             </Text>
                                 <ItemTime
                                     ref={this.durationRef}
@@ -238,14 +240,13 @@ class PopupEditAddExtra extends React.Component {
                                 <View style={{ height: scaleSzie(70), flexDirection: 'row',marginTop:scaleSzie(6) }} >
                                     <View style={{ flex: 1, paddingRight: scaleSzie(50) }}  >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                            Price *
+                                            {`${localize('Price', language)} *`}
                                     </Text>
                                         <View style={{
                                             height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
                                             borderWidth: 1, borderColor: '#C5C5C5', flexDirection: 'row'
                                         }} >
                                             <TextInputMask
-                                                // type="only-numbers"
                                                 type={'money'}
                                                 options={{
                                                     precision: 2,
@@ -265,7 +266,7 @@ class PopupEditAddExtra extends React.Component {
                                     {/* ------ */}
                                     <View>
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                            Status *
+                                            {`${localize('Status', language)} *`}
                                     </Text>
                                         <View style={{
                                             height: scaleSzie(30), width: scaleSzie(90),
@@ -360,6 +361,7 @@ const strings = {
 
 const mapStateToProps = state => ({
     loading: state.app.loading,
+    language: state.dataLocal.language,
 })
 
 

@@ -15,7 +15,7 @@ import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import BrowserFile from './BrowserFile';
 import { Dropdown } from './react-native-material-dropdown';
-import { scaleSzie, getCategoryName, getArrayNameCategories, getCategoryIdByName, requestAPI } from '@utils';
+import { scaleSzie, getCategoryName, getArrayNameCategories, getCategoryIdByName, requestAPI,localize } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 import apiConfigs from '@configs/api';
 
@@ -208,12 +208,11 @@ class PopupAddEditProduct extends React.Component {
     }
 
     render() {
-        const { title, visible,
-            categoriesByMerchant
-        } = this.props;
+        const { title, visible,categoriesByMerchant ,language} = this.props;
         const { categoryId, name, description, sku, quantity, minThreshold,
             maxThreshold, price, isDisabled
-        } = this.state.productInfo
+        } = this.state.productInfo;
+
         return (
             <PopupParent
                 title={title}
@@ -233,7 +232,7 @@ class PopupAddEditProduct extends React.Component {
                         >
                             <TouchableOpacity activeOpacity={1}>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginTop: scaleSzie(10), marginBottom: scaleSzie(10) }} >
-                                    Category *
+                                    {`${localize('Category', language)} *`}
                             </Text>
                                 <View style={{ width: scaleSzie(200), height: scaleSzie(30), }} >
                                     <Dropdown
@@ -250,7 +249,7 @@ class PopupAddEditProduct extends React.Component {
                                     />
                                 </View>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                    Product *
+                                    {`${localize('Product', language)} *`}
                             </Text>
                                 <View style={{
                                     height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
@@ -265,7 +264,8 @@ class PopupAddEditProduct extends React.Component {
                                     />
                                 </View>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                    Description
+                                    
+                                    {`${localize('Description', language)} *`}
                             </Text>
                                 <View style={{
                                     height: scaleSzie(70), borderWidth: 1, borderColor: '#C5C5C5',
@@ -284,7 +284,7 @@ class PopupAddEditProduct extends React.Component {
                                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                            SKU number *
+                                            {`${localize('SKU number', language)} *`}
                                     </Text>
                                         <View style={{
                                             height: scaleSzie(30),
@@ -305,7 +305,7 @@ class PopupAddEditProduct extends React.Component {
                                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                            Items in stock *
+                                            {`${localize('Items in stock', language)} *`}
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
@@ -328,7 +328,7 @@ class PopupAddEditProduct extends React.Component {
                                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                            Low theshold *
+                                            {`${localize('Low theshold', language)} *`}
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
@@ -345,7 +345,7 @@ class PopupAddEditProduct extends React.Component {
                                     </View>
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                            Max theshold *
+                                            {`${localize('Max theshold', language)} *`}
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
@@ -365,7 +365,7 @@ class PopupAddEditProduct extends React.Component {
                                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                            Price *
+                                            {`${localize('Priced', language)} *`}
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
@@ -390,7 +390,7 @@ class PopupAddEditProduct extends React.Component {
                                     </View>
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                            Status *
+                                            {`${localize('Status', language)} *`}
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ width: scaleSzie(100), height: scaleSzie(30) }} >
@@ -448,7 +448,8 @@ const strings = {
 
 const mapStateToProps = state => ({
     loading: state.app.loading,
-    token: state.dataLocal.token
+    token: state.dataLocal.token,
+    language: state.dataLocal.language,
 })
 
 
