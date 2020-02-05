@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { FooterTab, PopupConfirm,PopupAddEditProduct} from '@components';
-import { scaleSzie, getCategoryName ,getArrayNameCategories} from '@utils';
+import { scaleSzie, getCategoryName ,getArrayNameCategories,localize} from '@utils';
 import HeaderTableProducts from './HeaderTableProducts';
 import RowTableProducts from './RowTableProducts';
 import RowEmptyTableProducts from './RowEmptyTableProducts';
@@ -139,7 +139,9 @@ class TabProducts extends React.Component {
     }
 
     render() {
+        const {language} = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
+        
         return (
             <View style={styles.container} >
                 {this.renderTable()}
@@ -151,23 +153,23 @@ class TabProducts extends React.Component {
                 <PopupConfirm
                     ref={this.addProductRef}
                     visible={visibleArchive}
-                    title="Confirmation"
-                    message="Do you want to Archive this Product ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to Archive this Product', language)} ?`}
                     onRequestClose={() => this.togglePopupArchive(false)}
                     confimYes={() => this.archirveServiceYess()}
                 />
                 <PopupConfirm
                     visible={visibleRestore}
-                    title="Confirmation"
-                    message="Do you want to Restore this Product ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to Restore this Product', language)} ?`}
                     onRequestClose={() => this.togglePopupRestore(false)}
                     confimYes={() => this.restoreStaffYess()}
                 />
                 <PopupAddEditProduct
                     ref={this.addProductRef}
                     visible={visibleAdd}
-                    title="Add Product"
-                    titleButton="Add"
+                    title={localize('Add Product', language)}
+                    titleButton={localize('Add', language)}
                     onRequestClose={() => this.setState({ visibleAdd: false })}
                     confimYes={this.addProduct}
                     categoriesByMerchant={this.props.categoriesByMerchant}
@@ -175,8 +177,8 @@ class TabProducts extends React.Component {
                 <PopupAddEditProduct
                     ref={this.editProductRef}
                     visible={visibleEdit}
-                    title="Edit Product"
-                    titleButton="Save"
+                    title={localize('Edit Product', language)}
+                    titleButton={localize('Save', language)}
                     isSave={true}
                     onRequestClose={() => this.setState({ visibleEdit: false })}
                     editProduct={this.editProduct}
@@ -199,7 +201,8 @@ const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     productsByMerchantId: state.product.productsByMerchantId,
     categoriesByMerchant: state.category.categoriesByMerchant,
-    refreshListProducts: state.product.refreshListProducts
+    refreshListProducts: state.product.refreshListProducts,
+    language: state.dataLocal.language,
 });
 
 export default connectRedux(mapStateToProps, TabProducts);

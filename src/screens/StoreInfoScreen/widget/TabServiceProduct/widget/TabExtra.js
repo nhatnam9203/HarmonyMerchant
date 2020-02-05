@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { FooterTab, PopupConfirm, PopupEditAddExtra } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie ,localize} from '@utils';
 import HeaderTableExtra from './HeaderTableExtra';
 import RowTableExtra from './RowTableExtra';
 import RowEmptyTableExtra from './RowEmptyTableExtra';
@@ -134,7 +134,9 @@ class TabExtra extends React.Component {
     }
 
     render() {
+        const { language } = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
+
         return (
             <View style={styles.container} >
                 {this.renderTable()}
@@ -146,23 +148,23 @@ class TabExtra extends React.Component {
                 />
                 <PopupConfirm
                     visible={visibleArchive}
-                    title="Confirmation"
-                    message="Do you want to Archive this Extra ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to Archive this Extra', language)} ?`}
                     onRequestClose={() => this.togglePopupArchive(false)}
                     confimYes={() => this.archirveServiceYess()}
                 />
                 <PopupConfirm
                     visible={visibleRestore}
-                    title="Confirmation"
-                    message="Do you want to Restore this Extra ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to Restore this Extra', language)} ?`}
                     onRequestClose={() => this.togglePopupRestore(false)}
                     confimYes={() => this.restoreStaffYess()}
                 />
                 <PopupEditAddExtra
                     ref={this.addExtraRef}
                     visible={visibleAdd}
-                    title="Add Extra"
-                    titleButton="Add"
+                    title={localize('Add Extra', language)}
+                    titleButton={localize('Add', language)}
                     onRequestClose={() => this.setState({ visibleAdd: false })}
                     doneAddExtra={this.addExtra}
                     categoriesByMerchant={this.props.categoriesByMerchant}
@@ -170,8 +172,8 @@ class TabExtra extends React.Component {
                 <PopupEditAddExtra
                     ref={this.editExtraRef}
                     visible={visibleEdit}
-                    title="Edit Extra"
-                    titleButton="Save"
+                    title={localize('Edit Extra', language)}
+                    titleButton={localize('Save', language)}
                     onRequestClose={() => this.setState({ visibleEdit: false })}
                     categoriesByMerchant={this.props.categoriesByMerchant}
                     isEdit={true}
@@ -193,7 +195,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
     extrasByMerchant: state.extra.extrasByMerchant,
     categoriesByMerchant: state.category.categoriesByMerchant,
-    refreshListExtras: state.extra.refreshListExtras
+    refreshListExtras: state.extra.refreshListExtras,
+    language: state.dataLocal.language,
 });
 
 export default connectRedux(mapStateToProps, TabExtra);

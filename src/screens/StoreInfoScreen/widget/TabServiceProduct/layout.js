@@ -1,20 +1,19 @@
 import React from 'react';
 import {
     View,
-    Image,
-    ScrollView,
-    FlatList,
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import { CustomTabBar } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie ,localize} from '@utils';
 import styles from './style';
 import { TabCategories, TabServices, TabExtra, TabProducts } from './widget';
 
 class Layout extends React.Component {
 
     render() {
+        const {language} = this.props;
+
         return (
             <View style={styles.container} >
                 <ScrollableTabView
@@ -30,19 +29,19 @@ class Layout extends React.Component {
                         }}
                     />}
                 >
-                    <TabCategories tabLabel='Categories'
+                    <TabCategories tabLabel={localize('Categories', language)}
                         backTab={() => this.props.backTab()}
                         nextTab={this.gotoTabServices}
                     />
-                    <TabServices tabLabel='Services'
+                    <TabServices tabLabel={localize('Services', language)}
                         backTab={() => this.scrollTabRef.current.goToPage(0)}
                         nextTab={this.gotoTabExtra}
                     />
-                    <TabExtra tabLabel='Extra'
+                    <TabExtra tabLabel={localize('Extra', language)}
                         backTab={() => this.scrollTabRef.current.goToPage(1)}
                         nextTab={this.gotoTabProduct}
                     />
-                    <TabProducts tabLabel='Products'
+                    <TabProducts tabLabel={localize('Products', language)}
                         backTab={() => this.scrollTabRef.current.goToPage(2)}
                         nextTab={this.gotoCongratulation}
                     />

@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { FooterTab, PopupConfirm, PopupAddEditService } from '@components';
-import { scaleSzie, getCategoryName, getArrayNameCategories } from '@utils';
+import { scaleSzie, getCategoryName, getArrayNameCategories,localize } from '@utils';
 import HeaderTableServices from './HeaderTableServices';
 import RowTableServices from './RowTableServices';
 import RowEmptyTableServices from './RowEmptyTableServices';
@@ -153,7 +153,9 @@ class TabServices extends React.Component {
     }
 
     render() {
+        const {language} = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
+
         return (
             <View style={styles.container} >
                 {this.renderTable()}
@@ -164,24 +166,24 @@ class TabServices extends React.Component {
                 />
                 <PopupConfirm
                     visible={visibleArchive}
-                    title="Confirmation"
-                    message="Do you want to Archive this Service ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to Archive this Service', language)} ?`}
                     onRequestClose={() => this.togglePopupArchive(false)}
                     confimYes={() => this.archirveServiceYess()}
                 />
                 <PopupConfirm
                     ref={this.addServiceRef}
                     visible={visibleRestore}
-                    title="Confirmation"
-                    message="Do you want to Restore this Service ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to Restore this Service', language)} ?`}
                     onRequestClose={() => this.togglePopupRestore(false)}
                     confimYes={() => this.restoreStaffYess()}
                 />
                 <PopupAddEditService
                     ref={this.addServiceRef}
                     visible={visibleAdd}
-                    title="Add Service"
-                    titleButton="Add"
+                    title={localize('Add Service', language)}
+                    titleButton={localize('Add', language)}
                     onRequestClose={() => this.setState({ visibleAdd: false })}
                     doneAddService={this.addService}
                     categoriesByMerchant={this.props.categoriesByMerchant}
@@ -189,8 +191,8 @@ class TabServices extends React.Component {
                 <PopupAddEditService
                     ref={this.editServiceRef}
                     visible={visibleEdit}
-                    title="Edit Service"
-                    titleButton="Save"
+                    title={localize('Edit Service', language)}
+                    titleButton={localize('Save', language)}
                     isSave={true}
                     onRequestClose={() => this.setState({ visibleEdit: false })}
                     editService={this.editService}
@@ -213,7 +215,8 @@ const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     servicesByMerchant: state.service.servicesByMerchant,
     categoriesByMerchant: state.category.categoriesByMerchant,
-    refreshListServices: state.service.refreshListServices
+    refreshListServices: state.service.refreshListServices,
+    language: state.dataLocal.language,
 });
 
 export default connectRedux(mapStateToProps, TabServices);

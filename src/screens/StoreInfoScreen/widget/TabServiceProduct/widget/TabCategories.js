@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { FooterTab, PopupConfirm, PopupEditAddCategories } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie,localize } from '@utils';
 import HeaderTableCategories from './HeaderTableCategories';
 import RowTableCategories from './RowTableCategories';
 import RowEmptyTableCategories from './RowEmptyTableCategories';
@@ -110,6 +110,7 @@ class TabCategories extends React.Component {
 
     renderTable() {
         const { categoriesByMerchant,refreshListCategories } = this.props;
+
         return (
             <View style={{ flex: 1 }} >
                 <HeaderTableCategories />
@@ -136,8 +137,10 @@ class TabCategories extends React.Component {
     }
 
     render() {
+        const {language} = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit,
         } = this.state;
+
         return (
             <View style={styles.container} >
                 {this.renderTable()}
@@ -151,31 +154,31 @@ class TabCategories extends React.Component {
                 />
                 <PopupConfirm
                     visible={visibleArchive}
-                    title="Confirmation"
-                    message="Do you want to Archive this Category ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to Archive this Category', language)} ?`}
                     onRequestClose={() => this.togglePopupArchive(false)}
                     confimYes={() => this.archirveServiceYess()}
                 />
                 <PopupConfirm
                     visible={visibleRestore}
-                    title="Confirmation"
-                    message="Do you want to Restore this Category ?"
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to Restore this Category', language)} ?`}
                     onRequestClose={() => this.togglePopupRestore(false)}
                     confimYes={() => this.restoreStaffYess()}
                 />
                 <PopupEditAddCategories
                     ref={this.refAddCategory}
                     visible={visibleAdd}
-                    title="Add Category"
-                    titleButton="Add"
+                    title={localize('Add Category', language)}
+                    titleButton={localize('Add', language)}
                     onRequestClose={() => this.setState({ visibleAdd: false })}
                     confimYes={this.addCategory}
                 />
                 <PopupEditAddCategories
                     ref={this.refEditCategory}
                     visible={visibleEdit}
-                    title="Edit Category"
-                    titleButton="Save"
+                    title={localize('Edit Category', language)}
+                    titleButton={localize('Save', language)}
                     onRequestClose={() => this.setState({ visibleEdit: false })}
                     confimYes={this.editCategory}
                 />
@@ -195,7 +198,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     categoriesByMerchant: state.category.categoriesByMerchant,
-    refreshListCategories: state.category.refreshListCategories
+    refreshListCategories: state.category.refreshListCategories,
+    language: state.dataLocal.language,
 });
 
 export default connectRedux(mapStateToProps, TabCategories);

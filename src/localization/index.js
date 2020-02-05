@@ -392,7 +392,9 @@ const localization = {
         'Product Salary':'Product Salary',
         'Do you want to Archive this Staff':'Do you want to Archive this Staff',
         'Do you want to Restore this Staff':'Do you want to Restore this Staff',
+        'Products':'Products',
         
+
         
 
         
