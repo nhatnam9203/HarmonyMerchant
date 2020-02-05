@@ -9,7 +9,6 @@ const TextCustom = React.memo(function Row(props) {
       style={[
         DefaultStyle.defaul,
         props.style,
-        // { fontFamily: props.bold ? "NunitoSans-Bold" : "NunitoSans-Regular" }
       ]}
     >
       {props.children}

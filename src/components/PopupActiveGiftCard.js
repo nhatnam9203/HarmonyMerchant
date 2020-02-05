@@ -3,11 +3,9 @@ import {
     View,
     Image,
     Text,
-    StyleSheet,
     TextInput,
     Keyboard,
     ActivityIndicator,
-    TouchableOpacity
 } from 'react-native';
 
 
@@ -87,15 +85,14 @@ class PopupActiveGiftCard extends React.Component {
         } else {
             this.props.submitSerialCode(`${scancode}`);
         }
-
     }
 
 
     render() {
-        const { title, visible, isShowButtonEnterPinCode, onRequestClose, confimYes, hideCloseButton,
+        const { title, onRequestClose, confimYes, hideCloseButton,
             visiblePopupActiveGiftCard, loading
         } = this.props;
-        const { value, customStyle, scancode } = this.state;
+        const {  customStyle, scancode } = this.state;
         return (
             <PopupParent
                 title={title}

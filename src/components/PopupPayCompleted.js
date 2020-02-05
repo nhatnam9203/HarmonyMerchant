@@ -1,17 +1,12 @@
 import React from 'react';
 import {
     View,
-    Image,
     Text,
-    StyleSheet,
-    TouchableOpacity
 } from 'react-native';
 
 import ModalCustom from './ModalCustom';
 import ButtonCustom from './ButtonCustom';
 import { scaleSzie } from '../utils';
-import IMAGE from '../resources';
-import Button from './Button';
 
 class PopupPayCompleted extends React.Component {
 
@@ -64,7 +59,6 @@ class PopupPayCompleted extends React.Component {
                             width={scaleSzie(100)}
                             height={40}
                             backgroundColor="#F1F1F1"
-                            // title={localize('Search', language)}
                             title="No"
                             textColor="#6A6A6A"
                             

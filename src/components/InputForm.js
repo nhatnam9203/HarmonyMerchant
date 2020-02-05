@@ -6,10 +6,8 @@ import {
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
-import ButtonCustom from './ButtonCustom';
 import Text from './Text';
 import { scaleSzie } from '../utils';
-import IMAGE from '../resources';
 
 export default class InputForm extends React.PureComponent {
     render() {

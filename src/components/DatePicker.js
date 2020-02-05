@@ -5,7 +5,6 @@ import {
     Dimensions,
     View,
     Text,
-    Platform,
     TouchableOpacity
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -19,14 +18,13 @@ const { width } = Dimensions.get('window');
 export default class DatePicker extends Component {
 
     setDate = (event, date) => {
-        //console.log('----date : ', `${moment(date).format()}`);
         const temptDate = `${moment(date).format()}`;
         this.props.setDateSelected(temptDate);
     }
 
     render() {
         const { visible, onRequestClose,
-            heightPicker, title, data, selectedValue, onValueChange,
+            heightPicker, title, 
             dateCalendar
         } = this.props;
         const height = heightPicker && heightPicker || scaleSzie(180);

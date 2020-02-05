@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, ActivityIndicator, View, Alert } from "react-native";
+import { View } from "react-native";
 import NetInfo from '@react-native-community/netinfo';
 
 import connectRedux from "../redux/ConnectRedux";
@@ -14,7 +14,6 @@ class NetworkListener extends React.PureComponent {
     }
 
     componentDidMount() {
-        // NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
         this.testNetwork(this.testNetwork);
 
     }
@@ -25,7 +24,6 @@ class NetworkListener extends React.PureComponent {
                 this.setState({
                     isConnected: state.isConnected
                 }, () => {
-                //console.log('fail');
                     this.unsubscribe();
                     callback
                 })
@@ -34,7 +32,6 @@ class NetworkListener extends React.PureComponent {
     }
 
     handleConnectivityChange = isConnected => {
-    //console.log('isConnected : ', isConnected);
     };
 
     render() {
@@ -44,9 +41,7 @@ class NetworkListener extends React.PureComponent {
     }
 
     componentWillUnmount() {
-    //console.log('componentWillUnmount');
         this.unsubscribe();
-        // NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
     }
 }
 

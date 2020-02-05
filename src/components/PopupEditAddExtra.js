@@ -95,7 +95,6 @@ class PopupEditAddExtra extends React.Component {
         }
 
         if (keyError != "") {
-        //console.log('keyError:',keyError);
             Alert.alert(`${strings[keyError]}`);
         } else {
             if (this.props.isEdit) {
@@ -175,7 +174,7 @@ class PopupEditAddExtra extends React.Component {
     }
 
     render() {
-        const { title, visible, onRequestClose, isEdit } = this.props;
+        const { title, visible } = this.props;
         const { name, description, price, isDisable } = this.state.extraInfo;
         return (
             <PopupParent
@@ -365,6 +364,5 @@ const mapStateToProps = state => ({
 
 
 export default connectRedux(mapStateToProps, PopupEditAddExtra);
-// export default PopupEditAddExtra
 
 

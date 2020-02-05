@@ -1,9 +1,7 @@
 import React from 'react';
 import {
     View,
-    Image,
     Text,
-    StyleSheet
 } from 'react-native';
 
 import ButtonCustom from './ButtonCustom';
@@ -72,19 +70,6 @@ class PopupConfirm extends React.Component {
 
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    footer: {
-        height: scaleSzie(50),
-        flexDirection: 'row',
-    },
-    buttonContainer: {
-        flex: 1,
-        alignItems: 'center'
-    },
-})
 
 export default PopupConfirm;
 

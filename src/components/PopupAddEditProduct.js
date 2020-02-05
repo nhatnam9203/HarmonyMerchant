@@ -19,7 +19,6 @@ import { scaleSzie, getCategoryName, getArrayNameCategories, getCategoryIdByName
 import connectRedux from '@redux/ConnectRedux';
 import apiConfigs from '@configs/api';
 
-const { width } = Dimensions.get('window');
 
 class PopupAddEditProduct extends React.Component {
 
@@ -130,7 +129,6 @@ class PopupAddEditProduct extends React.Component {
                         token: this.props.token,
                         api: `${apiConfigs.BASE_API}product/checksku?sku=${temptProductInfo.sku}`,
                     });
-                    //console.log('checkSKUIsExist1 : ' + JSON.stringify(checkSKUIsExist));
                     if (checkSKUIsExist.codeNumber === 200) {
                         this.props.confimYes({
                             ...temptProductInfo, isDisabled: productInfo.isDisabled === 'Active' ? 0 : 1,
@@ -290,7 +288,6 @@ class PopupAddEditProduct extends React.Component {
                                     </Text>
                                         <View style={{
                                             height: scaleSzie(30),
-                                            // paddingRight: scaleSzie(20) 
                                         }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
                                                 <TextInput
@@ -303,22 +300,6 @@ class PopupAddEditProduct extends React.Component {
                                             </View>
                                         </View>
                                     </View>
-                                    {/* <View style={{
-                                        width: scaleSzie(100), justifyContent: 'flex-end',
-                                    }} >
-                                        <ButtonCustom
-                                            width={scaleSzie(100)}
-                                            height={30}
-                                            backgroundColor="#0764B0"
-                                            title={'Scan'}
-                                            textColor="#fff"
-                                            onPress={() => alert('scan')}
-                                            style={{ borderRadius: scaleSzie(2) }}
-                                            styleText={{
-                                                fontSize: scaleSzie(14)
-                                            }}
-                                        />
-                                    </View> */}
                                 </View>
                                 {/* -----  */}
                                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
@@ -463,8 +444,6 @@ const strings = {
     price: 'Mising info : Price',
     status: 'Active',
 }
-
-// export default PopupAddEditProduct;
 
 
 const mapStateToProps = state => ({

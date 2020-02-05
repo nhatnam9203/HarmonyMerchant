@@ -9,7 +9,7 @@ import {
 import { scaleSzie } from '../utils';
 import IMAGE from '../resources';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 export default class HeaderLogoTop extends React.PureComponent {
 

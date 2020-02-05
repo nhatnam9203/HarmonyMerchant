@@ -61,7 +61,6 @@ class ParentContainer extends Component {
             <UserInactivity
                 isActive={active}
                 timeForInactivity={this.getTimeOut(autoLockScreenAfter)}
-                // timeForInactivity={3000}
                 onAction={this.handleInactive}
                 style={{ flex: 1 }}
             >

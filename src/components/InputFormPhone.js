@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     View,
-    TextInput,
     Platform
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';

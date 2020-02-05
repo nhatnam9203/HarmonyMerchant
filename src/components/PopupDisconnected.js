@@ -1,9 +1,7 @@
 import React from 'react';
 import {
     View,
-    Image,
     Text,
-    StyleSheet
 } from 'react-native';
 
 import ButtonCustom from './ButtonCustom';
@@ -13,16 +11,13 @@ import connectRedux from '@redux/ConnectRedux';
 
 class PopupDisconnected extends React.Component {
 
-
-
-
     onPress = () => {
         this.props.actions.app.toogleOfflineMode(true);
         this.props.actions.appointment.checkAppointmentBeforOffline(true);
     }
 
     render() {
-        const { title, message, onRequestClose, confimYes, visibleDisconnect } = this.props;
+        const {  visibleDisconnect } = this.props;
         return (
             <PopupParent
                 title={"Warning"}
@@ -62,19 +57,6 @@ class PopupDisconnected extends React.Component {
                                 }}
                             />
                         </View>
-                        {/* <View style={{ flex: 1, alignItems: 'center' }} >
-                            <ButtonCustom
-                                width={'60%'}
-                                height={35}
-                                backgroundColor="#EC1818"
-                                title="LOG OUT"
-                                textColor="#fff"
-                                onPress={() => confimYes()}
-                                styleText={{
-                                    fontSize: scaleSzie(14)
-                                }}
-                            />
-                        </View> */}
 
                     </View>
                 </View>
@@ -88,9 +70,4 @@ const mapStateToProps = state => ({
     visibleDisconnect: state.app.visibleDisconnect
 })
 
-
 export default connectRedux(mapStateToProps, PopupDisconnected);
-
-
-// export default PopupDisconnected;
-

@@ -65,20 +65,6 @@ class PopupConnected extends React.Component {
                                 }}
                             />
                         </View>
-                        {/* <View style={{ flex: 1, alignItems: 'center' }} >
-                            <ButtonCustom
-                                width={'60%'}
-                                height={35}
-                                backgroundColor="#EC1818"
-                                title="LOG OUT"
-                                textColor="#fff"
-                                onPress={() => confimYes()}
-                                styleText={{
-                                    fontSize: scaleSzie(14)
-                                }}
-                            />
-                        </View> */}
-
                     </View>
                 </View>
             </PopupParent>

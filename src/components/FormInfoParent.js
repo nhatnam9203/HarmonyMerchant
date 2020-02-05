@@ -1,20 +1,13 @@
 import React from 'react';
 import {
     View,
-    Image,
-    Dimensions,
-    Platform,
-    ScrollView
 } from 'react-native';
 
 import { scaleSzie } from '../utils';
-import IMAGE from '../resources';
 import HeaderLogoTop from './HeaderLogoTop';
-import Text from './Text';
 import ButtonCustom from './ButtonCustom';
 import StatusBarHeader from './StatusBar';
 
-const { width, height } = Dimensions.get('window');
 
 export default class FormInfoParent extends React.PureComponent {
 
@@ -47,36 +40,12 @@ export default class FormInfoParent extends React.PureComponent {
     }
 
     render() {
-        const { title } = this.props;
         return (
             <View style={{ flex: 1 }} >
                 <StatusBarHeader />
                 <HeaderLogoTop />
                 <View style={{ flex: 1 }} >
                     {this.props.children}
-                    {/* <ScrollView
-                        showsVerticalScrollIndicator={false}
-                    >
-                        <View style={{
-                            width, paddingHorizontal: scaleSzie(15),
-                            marginTop: scaleSzie(8)
-                        }}  >
-                            <Text style={{ color: '#0764B0', fontWeight: 'bold', fontSize: scaleSzie(18) }} >
-                                Please fill the form below
-                            </Text>
-                            <View style={{
-                                height: scaleSzie(38), backgroundColor: '#0764B0', justifyContent: 'center',
-                                paddingLeft: scaleSzie(5), marginTop: scaleSzie(5)
-                            }} >
-                                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: scaleSzie(18) }} >
-                                    {title}
-                                </Text>
-                            </View>
-                        </View>
-                        {this.props.children}
-                        <View style={{ height: scaleSzie(250) }} />
-                    </ScrollView> */}
-
                 </View>
                 {this.renderFooter()}
             </View>

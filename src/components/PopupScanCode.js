@@ -1,13 +1,6 @@
 import React from 'react';
 import {
     View,
-    Image,
-    Text,
-    StyleSheet,
-    TextInput,
-    Keyboard,
-    ActivityIndicator,
-    TouchableOpacity
 } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera} from 'react-native-camera';
@@ -29,10 +22,6 @@ class PopupScanCode extends React.Component {
 
     onSuccess = (e) => {
         this.props.resultScanCode(e);
-        // setTimeout(() =>{
-        //     this.scannerRef.current.reactivate();
-        // },3000)
-        // this.scannerRef.current.reactivate();
     }
 
     render() {

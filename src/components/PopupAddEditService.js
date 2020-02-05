@@ -116,9 +116,6 @@ class PopupAddEditService extends React.Component {
         }
     }
 
-    done1 = () => {
-    //console.log('------ : ', this.arrayExtraRef);
-    }
 
     done = () => {
         const { serviceInfo, isEditSecondTime } = this.state;
@@ -138,7 +135,6 @@ class PopupAddEditService extends React.Component {
             if (arrayKey[i] === 'description' || arrayKey[i] === 'openTime' || arrayKey[i] === 'secondTime') {
                 continue;
             } else if (temptServiceInfo[arrayKey[i]] === "") {
-            //console.log(arrayKey[i] + '-' + temptServiceInfo[arrayKey[i]]);
                 keyError = arrayKey[i];
                 break;
             }
@@ -151,7 +147,6 @@ class PopupAddEditService extends React.Component {
             Alert.alert(`${strings[keyError]}`);
         } else {
             // --- Handle extra ---
-        //console.log('Handle extra :  ', this.arrayExtraRef);
             const arrayExtra = [];
             let checkValidateExtra = true;
             let errorCheckExtra = '';
@@ -404,7 +399,6 @@ class PopupAddEditService extends React.Component {
                                             borderWidth: 1, borderColor: '#C5C5C5', flexDirection: 'row'
                                         }} >
                                             <TextInputMask
-                                                // type="only-numbers"
                                                 ref={this.priceRef}
                                                 type={'money'}
                                                 options={{
@@ -765,7 +759,6 @@ const strings = {
 }
 
 
-// export default PopupAddEditService;
 
 const mapStateToProps = state => ({
     loading: state.app.loading,

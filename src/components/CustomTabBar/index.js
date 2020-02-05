@@ -115,8 +115,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#0764B0',
     borderRadius: scaleSzie(10)
-    // borderBottomWidth :scaleSzie(1),
-    // borderBottomColor:'#0764B0'
   },
 });
 

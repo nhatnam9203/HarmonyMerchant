@@ -1,12 +1,10 @@
 import React from 'react';
 import {
     View,
-    Image,
     Text,
     StyleSheet,
     Platform
 } from 'react-native';
-import moment from 'moment';
 
 import Button from './Button';
 import ModalCustom from './ModalCustom';
@@ -81,14 +79,6 @@ class PopupCalendar extends React.Component {
             } else {
                 alert('The end date must be greater than the start date')
             }
-            // } else if (quickFilter === 'Select') {
-            //     this.props.changeTitleTimeRange('Time Range');
-            //     this.setState({
-            //         quickFilter: false,
-            //         isCustomizeDate: false,
-            //         startDate: '',
-            //         endDate: ''
-            //     });
         } else {
             this.props.changeTitleTimeRange(quickFilter);
             this.setState({
@@ -228,7 +218,6 @@ class PopupCalendar extends React.Component {
 const ItemDay = ({ title, index, onPress, colorText }) => {
     return (
         <Button onPress={() => onPress(title)} style={{
-            // height: scaleSzie(320 / 7),
             flex: 1,
             justifyContent: 'center', paddingLeft: scaleSzie(12)
         }} >

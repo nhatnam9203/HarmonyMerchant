@@ -1,10 +1,7 @@
 import React from 'react';
 import {
     View,
-    Image,
     Text,
-    StyleSheet,
-    TextInput,
     Keyboard,
     ActivityIndicator,
     Alert

@@ -1,10 +1,7 @@
 import React from 'react';
 import {
     View,
-    Image,
     Text,
-    StyleSheet,
-    TextInput,
     Keyboard,
     ActivityIndicator
 } from 'react-native';
@@ -99,25 +96,21 @@ class PopupSendLinkInstall extends React.Component {
                                 paddingHorizontal: scaleSzie(10),
                             }} >
                                 <TextInputMask
-                                    // type="only-numbers"
                                     type={'custom'}
                                     options={{
                                         mask: '999-999-9999'
                                     }}
                                     style={{
                                         flex: 1, fontSize: scaleSzie(18),
-                                        //  textAlign: 'center',
                                         padding: 0, margin: 0
                                     }}
                                     placeholder="Your phone number"
                                     keyboardType="numeric"
-                                    // maxLength={4}
                                     value={value}
                                     onChangeText={(value) => this.setState({ value })}
                                     onSubmitEditing={() => {
                                         confimYes();
                                     }}
-                                // secureTextEntry={true}
                                 />
 
                             </View>

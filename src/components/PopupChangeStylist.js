@@ -1,10 +1,7 @@
 import React from 'react';
 import {
     View,
-    Image,
     Text,
-    StyleSheet,
-    TextInput
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
@@ -31,7 +28,6 @@ class PopupChangeStylist extends React.Component {
     }
 
     setStateFromParent = async (service, appointmentId) => {
-    //console.log('serviec : '+ JSON.stringify(service));
         const { staff } = service;
         await this.setState({
             staffId: staff && staff.staffId ? staff.staffId : '',
@@ -69,7 +65,6 @@ class PopupChangeStylist extends React.Component {
         if (_.isEmpty(groupAppointment)) {
             this.props.changeStylistBasketLocal(serviceIdLocal, staffId, tip);
         } else {
-            // this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentDetail.appointmentId);
             this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentIdChangeStylist, true);
 
         }

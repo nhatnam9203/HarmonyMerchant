@@ -3,7 +3,6 @@ import {
     View,
     Image,
     Text,
-    StyleSheet,
     ActivityIndicator
 } from 'react-native';
 import * as Progress from 'react-native-progress';
@@ -135,19 +134,6 @@ class PopupUpload extends React.Component {
 
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    footer: {
-        height: scaleSzie(50),
-        flexDirection: 'row',
-    },
-    buttonContainer: {
-        flex: 1,
-        alignItems: 'center'
-    },
-})
 
 export default PopupUpload;
 

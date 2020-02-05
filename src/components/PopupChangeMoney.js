@@ -28,7 +28,6 @@ class PopupChangeMoney extends React.Component {
 
     confimOK = () => {
         this.props.actions.appointment.completeTransaction();
-        // this.props.confimOK();
     }
 
     render() {

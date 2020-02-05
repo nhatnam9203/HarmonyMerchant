@@ -1,10 +1,7 @@
 import React from 'react';
 import {
     View,
-    Image,
     Text,
-    StyleSheet,
-    TextInput,
     Keyboard,
     ActivityIndicator
 } from 'react-native';
@@ -72,7 +69,6 @@ class PopupEnterPin extends React.Component {
                 style={customStyle}
             >
                 <View style={{
-                    // height: scaleSzie(130), 
                     backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15)
                 }} >
