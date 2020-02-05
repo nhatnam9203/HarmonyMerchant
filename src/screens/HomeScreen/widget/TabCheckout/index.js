@@ -948,6 +948,7 @@ class TabCheckout extends Layout {
 
     checkStatusPrint = async () => {
         const printer = await PrintManager.getInstance().portDiscovery();
+        console.log("printer : ",printer);
         if (printer.length > 0) {
             let portName = "";
             for (let i = 0; i < printer.length; i++) {

@@ -1,5 +1,9 @@
 import { StarPRNT } from 'react-native-star-prnt';
 
+import {
+    PRINTER_MACHINE
+} from '@utils';
+
 let instance;
 
 export default class PrintManager {
@@ -30,7 +34,7 @@ export default class PrintManager {
             // StarGraphic,
             // StarPRNT
             // StarLine
-            let printResult = await StarPRNT.print('StarPRNT', commands, portName);
+            let printResult = await StarPRNT.print( PRINTER_MACHINE[portName].emulation, commands, portName);
             //console.log(printResult); // Success!
         } catch (e) {
             console.error(e);
@@ -45,7 +49,7 @@ export default class PrintManager {
             // console.log('portName : ', portName);
             // console.log('commands : ', commands);
 
-            let printResult = await StarPRNT.print('StarPRNT', commands, portName);
+            let printResult = await StarPRNT.print(PRINTER_MACHINE[portName].emulation, commands, portName);
             // console.log(printResult); // Success!
         } catch (error) {
             // console.log('error : ', error);
@@ -59,7 +63,7 @@ export default class PrintManager {
         // StarPRNT
         // StarLine
         try {
-            let printResult = await StarPRNT.checkStatus(portName, 'StarPRNT');
+            let printResult = await StarPRNT.checkStatus(portName, PRINTER_MACHINE[portName].emulation);
             // console.log(printResult); // Success!
         } catch (error) {
             // console.log('error : ', error);

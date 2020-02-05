@@ -397,29 +397,6 @@ const localization = {
         'Duration':'Duration',
         'Category':'Category',
         'Items in stock':'Items in stock',
-        
-
-
-        
-
-        
-
-
-
-
-
-
-
-
-
-
-
-        
-
-
-
-
-
     },
     'vi': {
         
