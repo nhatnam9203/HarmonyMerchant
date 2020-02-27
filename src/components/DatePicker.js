@@ -24,7 +24,7 @@ export default class DatePicker extends Component {
 
     render() {
         const { visible, onRequestClose,
-            heightPicker, title, 
+            heightPicker, title,
             dateCalendar
         } = this.props;
         const height = heightPicker && heightPicker || scaleSzie(180);
@@ -50,6 +50,7 @@ export default class DatePicker extends Component {
                             mode={'date'}
                             display="default"
                             onChange={this.setDate}
+                            style={{ width: '100%', height: "100%", color: "#000" }}
                         />
                     </TouchableOpacity>
 

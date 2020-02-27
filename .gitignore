@@ -62,6 +62,7 @@ src/public
 
 ios/Pods
 ios/Podfile.lock
+
 android/.idea/caches/gradle_models.ser
 android/.idea/libraries/Gradle__android_arch_core_runtime_1_1_0_aar.xml
 android/.idea/libraries/Gradle__android_arch_lifecycle_livedata_core_1_1_0_aar.xml

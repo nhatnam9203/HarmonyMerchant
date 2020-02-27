@@ -84,34 +84,6 @@ export const requestAPI = async (action, header = {}) => {
     }
 }
 
-export const requestAPI1 = async (action, headers = {}) => {
-    let method = action.method || 'GET';
-    let request = {
-        method: method,
-        headers: Object.assign({
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }, headers)
-    };
-    if (action.token) {
-        request.headers['Authorization'] = "Bearer " + action.token;
-    }
-    if ((method == "POST" || method == "DELETE" || method == "PUT") && action.body) {
-        request['body'] = JSON.stringify(action.body);
-    }
-    try {
-        let response = await fetchWithTimeout(action.api, request, 10000);
-        const codeNumber = response.status;
-        if (codeNumber === 401) {
-            return { codeNumber: codeNumber }
-        }
-        const data = await response.json();
-        return { ...data };
-    } catch (error) {
-        throw (error);
-    }
-
-}
 
 export const uploadFromData = async (action, header = {}) => {
     let method = action.method || "GET";
@@ -146,33 +118,6 @@ export const uploadFromData = async (action, header = {}) => {
     }
 };
 
-
-export const uploadFromData1 = async (action, headers = {}) => {
-    let method = action.method || 'GET';
-    let request = {
-        method: method,
-        headers: Object.assign({
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }, headers)
-    };
-    if (action.token) {
-        request.headers['Authorization'] = "Bearer " + action.token;
-    }
-    request["body"] = this.createFormData(action.media);
-    // if (
-    //     (method == "POST" || method == "DELETE" || method == "PUT") &&
-    //     action.body
-    // ) {
-    //     request["body"] = this.createFormData(action.media, action.body);
-    // }
-    try {
-        let response = await fetch(action.api, request);
-        return await response.json();
-    } catch (error) {
-        //console.log("error uploadMultiImage : ", error);
-    }
-};
 
 createFormData = (media) => {
     const data = new FormData();

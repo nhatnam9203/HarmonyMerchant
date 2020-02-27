@@ -931,7 +931,6 @@ class TabCheckout extends Layout {
         const printMachine = await this.checkStatusPrint();
         if (printMachine) {
             this.printInvoice(printMachine.portName, true);
-            // PrintManager.getInstance().connect(printMachine.portName);
         } else {
             alert('Please connect to your print ! ');
         }
@@ -941,7 +940,6 @@ class TabCheckout extends Layout {
         const printMachine = await this.checkStatusPrint();
         if (printMachine) {
             this.openCashDrawer(printMachine.portName);
-            // this.printInvoice(printMachine.portName, true);
         } else {
             alert('Please connect to your cashier ! ');
         }
@@ -955,8 +953,8 @@ class TabCheckout extends Layout {
             let portName = "";
             for (let i = 0; i < printer.length; i++) {
                 if (printer[i].portName === "BT:mPOP") {
-                    // portName = "BT:mPOP";
-                    portName = "BT:TSP100";
+                    portName = "BT:mPOP";
+                    // portName = "BT:TSP100";
                     break;
                 }
             };
