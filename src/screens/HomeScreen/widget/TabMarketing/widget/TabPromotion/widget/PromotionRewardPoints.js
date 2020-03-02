@@ -130,6 +130,14 @@ class PromotionRewardPoints extends React.Component {
                             style={{ marginBottom: scaleSzie(0) }}
                             styleTitle={{ color: "#404040" }}
                             isOnlyNumber={true}
+                            typeInputMask={'money'}
+                            optionsInputMask={{
+                                precision: 2,
+                                separator: '.',
+                                delimiter: ',',
+                                unit: '',
+                                suffixUnit: ''
+                            }}
                         />
                     </View>
 

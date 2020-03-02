@@ -137,6 +137,12 @@ function* updatePromotionByMerchant(action) {
             yield put({
                 type: 'SET_STATUS_APPLY_BUTTON',
                 payload: false
+            });
+            yield put({
+                type: 'GET_PROMOTION_BY_MERCHANT',
+                method: 'GET',
+                token: true,
+                api: `${apiConfigs.BASE_API}merchantpromotion`
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
