@@ -68,11 +68,13 @@ class PromotionThird extends React.Component {
                             this.props.actions.marketing.setStatusApplyButton(true);
                         }}
                         style={{ marginBottom: scaleSzie(10) }}
+                        styleTitle={{fontWeight:"600"}}
                     />
                     {/* ---- Row ---- */}
                     <Text style={{
                         color: '#404040',
-                        fontSize: scaleSzie(14)
+                        fontSize: scaleSzie(14),
+                        fontWeight:"600"
                     }} >
                         {`${localize('Promotion', language)}:`}
                     </Text>

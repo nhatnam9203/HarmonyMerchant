@@ -46,7 +46,7 @@ class Layout extends React.Component {
         return (
             <View style={styles.container} >
                 <View style={{ flex: 1 }} >
-                    <ScrollView>
+                    <ScrollView showsVerticalScrollIndicator={false} >
                         <PromotionFirst
                             ref={this.promotionFirstRef}
                             language={language}

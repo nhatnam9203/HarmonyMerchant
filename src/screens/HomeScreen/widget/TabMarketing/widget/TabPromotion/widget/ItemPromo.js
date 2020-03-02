@@ -55,7 +55,7 @@ class ItemPromo extends React.Component {
                                     style={{ width: scaleSzie(20), height: scaleSzie(20) }}
                                 />
                             </Button>
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
+                            <Text style={{ color: '#404040', fontSize: scaleSzie(14),fontWeight:"bold" }} >
                                 {title}
                             </Text>
                         </View>

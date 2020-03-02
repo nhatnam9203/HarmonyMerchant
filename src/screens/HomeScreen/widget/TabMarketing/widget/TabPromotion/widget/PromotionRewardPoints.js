@@ -72,10 +72,12 @@ class PromotionRewardPoints extends React.Component {
                             this.props.actions.marketing.setStatusApplyButton(true);
                         }}
                         style={{ marginBottom: scaleSzie(10) }}
+                        styleTitle={{fontWeight:"600"}}
                     />
                     <Text style={{
                         color: '#404040',
-                        fontSize: scaleSzie(14)
+                        fontSize: scaleSzie(14),
+                        fontWeight:"600"
                     }} >
                         {`${localize('Campaign Time', language)}:`}
                     </Text>
@@ -94,42 +96,12 @@ class PromotionRewardPoints extends React.Component {
 
                         />
                     </View>
-                    {/* ---- Row ---- */}
-                    <View style={{
-                        flexDirection: 'row', marginTop: scaleSzie(2), marginBottom: scaleSzie(20),
-                    }} >
-                        <ItemDropdown
-                            ref={this.dropdownFromRef}
-                            title={localize('From', language)}
-                            width={120}
-                            placeholder="08:00 AM"
-                            value={data.fromTime}
-                            onChangeText={value => {
-                                this.setState({
-                                    data: updateStateChildren('fromTime', value, data)
-                                });
-                                this.props.actions.marketing.setStatusApplyButton(true);
-                            }}
-                        />
-                        <View style={{ width: scaleSzie(50) }} />
-                        <ItemDropdown
-                            ref={this.dropdownToRef}
-                            title={localize('To', language)}
-                            width={120}
-                            placeholder="08:00 AM"
-                            value={data.toTime}
-                            onChangeText={value => {
-                                this.setState({
-                                    data: updateStateChildren('toTime', value, data)
-                                });
-                                this.props.actions.marketing.setStatusApplyButton(true);
-                            }}
-                        />
-                    </View>
+                    
                     {/* ---- Row ---- */}
                     <Text style={{
                         color: '#404040',
-                        fontSize: scaleSzie(14)
+                        fontSize: scaleSzie(14),marginTop:scaleSzie(22),
+                        fontWeight:"600"
                     }} >
                         {`${localize('Promotion', language)}:`}
                     </Text>

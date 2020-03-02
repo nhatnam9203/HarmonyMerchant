@@ -13,12 +13,13 @@ export default class InputForm extends React.PureComponent {
     render() {
         const { title, subTitle, placeholder, style, value,
             onChangeText, secureTextEntry, keyboardType,
-            isOnlyNumber, maxLength, editable, onFocus, typeInputMask, optionsInputMask
+            isOnlyNumber, maxLength, editable, onFocus, typeInputMask, optionsInputMask,
+            styleTitle
         } = this.props;
         const temptHeight = Platform.OS === 'ios' ? 30 : 40
         return (
             <View style={[{ marginBottom: scaleSzie(24) }, style]} >
-                <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
+                <Text style={[{ color: '#404040', fontSize: scaleSzie(14) },styleTitle]} >
                     {title}
                     <Text style={{ color: '#404040', fontSize: scaleSzie(12) }} >
                         {subTitle}
