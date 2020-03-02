@@ -12,7 +12,8 @@ import styles from './style';
 import IMAGE from '@resources';
 import { ButtonCustom, Text, InputForm, DatePicker } from '@components';
 import {
-    PromotionFirst, PromotionSecond, PromotionThird, PromotionFour, PromotionFive
+    PromotionFirst, PromotionSecond, PromotionThird, PromotionFour, PromotionFive,
+    PromotionRewardPoints
 } from './widget';
 
 const { width } = Dimensions.get('window');
@@ -82,6 +83,17 @@ class Layout extends React.Component {
                             ref={this.promotionFiveRef}
                             language={language}
                             data={this.getDataItemPromotion(5, promotions)}
+                            checkSelectPromotion={this.checkSelectPromotion}
+                            sendNotification={this.sendNotification}
+                        />
+
+                        {/* ---------- Reward Points -------- */}
+                        <View style={{ height: scaleSzie(16) }} />
+                        <PromotionRewardPoints
+                            ref={this.promotionRewardPointsRef}
+                            language={language}
+                            data={this.getDataItemPromotion(6, promotions)}
+                            showCalendar={this.showCalendar}
                             checkSelectPromotion={this.checkSelectPromotion}
                             sendNotification={this.sendNotification}
                         />

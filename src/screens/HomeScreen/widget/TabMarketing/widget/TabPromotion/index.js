@@ -22,6 +22,7 @@ class TabPromotion extends Layout {
     this.promotionThirdRef = React.createRef();
     this.promotionFourRef = React.createRef();
     this.promotionFiveRef = React.createRef();
+    this.promotionRewardPointsRef = React.createRef();
   }
 
   componentDidMount() {

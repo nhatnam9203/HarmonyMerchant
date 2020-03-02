@@ -163,7 +163,7 @@ export default class Layout extends React.Component {
                         </View>
 
                         <InputForm
-                            title={`${localize('Contact is  Email Address', language)} *`}
+                            title={`${localize('Contact Email Address', language)} *`}
                             subTitle=""
                             placeholder="example@gmail.com"
                             value={email}
