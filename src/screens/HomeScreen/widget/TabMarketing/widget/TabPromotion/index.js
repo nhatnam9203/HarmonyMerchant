@@ -33,6 +33,8 @@ class TabPromotion extends Layout {
     const { promotionIdCalendar } = this.state;
     if (promotionIdCalendar === 1) {
       this.promotionFirstRef.current.setDateFromParent(this.state.keyCalendarUpdate, date);
+    } else if (promotionIdCalendar === 6) {
+      this.promotionRewardPointsRef.current.setDateFromParent(this.state.keyCalendarUpdate, date);
     } else {
       this.promotionSecondRef.current.setDateFromParent(this.state.keyCalendarUpdate, date);
     }
@@ -70,14 +72,15 @@ class TabPromotion extends Layout {
     const promotionThird = this.promotionThirdRef.current.state.data;
     const promotionFour = this.promotionFourRef.current.state.data;
     const promotionFive = this.promotionFiveRef.current.state.data;
+    const promotionRewardPoints = this.promotionRewardPointsRef.current.state.data;
 
     const temptPromotionSecond = {
       ...this.promotionSecondRef.current.state.data,
-      serviceUsing: getServiceIdByName(servicesByMerchant, promotionSeconde.serviceUsing ? promotionSeconde.serviceUsing : 0 ),
-      serviceApply: getServiceIdByName(servicesByMerchant, promotionSeconde.serviceApply ?   promotionSeconde.serviceApply : 0),
+      serviceUsing: getServiceIdByName(servicesByMerchant, promotionSeconde.serviceUsing ? promotionSeconde.serviceUsing : 0),
+      serviceApply: getServiceIdByName(servicesByMerchant, promotionSeconde.serviceApply ? promotionSeconde.serviceApply : 0),
     };
 
-    const dataUpdate = [promotionFirst, temptPromotionSecond, promotionThird, promotionFour, promotionFive];
+    const dataUpdate = [promotionFirst, temptPromotionSecond, promotionThird, promotionFour, promotionFive,promotionRewardPoints];
     this.props.actions.marketing.updatePromotionByMerchant(dataUpdate);
   }
 

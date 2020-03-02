@@ -72,12 +72,12 @@ class PromotionRewardPoints extends React.Component {
                             this.props.actions.marketing.setStatusApplyButton(true);
                         }}
                         style={{ marginBottom: scaleSzie(10) }}
-                        styleTitle={{fontWeight:"600"}}
+                        styleTitle={{ fontWeight: "600" }}
                     />
                     <Text style={{
                         color: '#404040',
                         fontSize: scaleSzie(14),
-                        fontWeight:"600"
+                        fontWeight: "600"
                     }} >
                         {`${localize('Campaign Time', language)}:`}
                     </Text>
@@ -86,94 +86,73 @@ class PromotionRewardPoints extends React.Component {
                         <ItemCalendar
                             title={localize('Start Date', language)}
                             value={`${moment(data.fromDate).format('MM/DD/YYYY')}`}
-                            onPress={() => showCalendar('fromDate', data.fromDate, 1)}
+                            onPress={() => showCalendar('fromDate', data.fromDate, 6)}
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemCalendar
                             title={localize('End Date', language)}
                             value={`${moment(data.toDate).format('MM/DD/YYYY')}`}
-                            onPress={() => showCalendar('toDate', data.toDate, 1)}
+                            onPress={() => showCalendar('toDate', data.toDate, 6)}
 
                         />
                     </View>
-                    
+
                     {/* ---- Row ---- */}
                     <Text style={{
                         color: '#404040',
-                        fontSize: scaleSzie(14),marginTop:scaleSzie(22),
-                        fontWeight:"600"
+                        fontSize: scaleSzie(14), marginTop: scaleSzie(22),
+                        fontWeight: "600"
                     }} >
-                        {`${localize('Promotion', language)}:`}
+                        {`${localize('Promotion form', language)}:`}
                     </Text>
+
+                    <Text style={{
+                        color: '#6A6A6A',
+                        fontSize: scaleSzie(14), marginTop: scaleSzie(15),
+                    }} >
+                        {`${localize('Receive reward points according to the payment value', language)}`}
+                    </Text>
+
                     {/* ---- Row ---- */}
-                    <View style={{ flexDirection: 'row' }} >
-                        <ItemCheckBoxInput
-                            title={`${localize('Discount by percent', language)} (%)`}
-                            placeholder="15"
-                            isSelectCheckBox={data.discountType === 'discount_percent' ? true : false}
-                            value={data.discountType === 'discount_percent' ? data.discount : ''}
-                            onChangeText={(value) => {
-                                this.setState({
-                                    data: updateStateChildren('discount', value, data)
-                                });
-                                this.props.actions.marketing.setStatusApplyButton(true);
-                            }}
-                            selectCheckbox={() => {
-                                if (data.discountType === 'discount_percent') {
-                                    const tempData = updateStateChildren('discountType', '', data);
-                                    this.setState({
-                                        data: { ...tempData, discount: 0 }
-                                    });
-                                    this.props.actions.marketing.setStatusApplyButton(true);
-                                } else {
-                                    const tempData = updateStateChildren('discountType', 'discount_percent', data)
-                                    this.setState({
-                                        data: { ...tempData, discount: 0 }
-                                    });
-                                    this.props.actions.marketing.setStatusApplyButton(true);
-                                }
-                            }}
-                        />
-                        <View style={{ width: scaleSzie(50) }} />
-                        <ItemCheckBoxInput
-                            title={`${localize('Discount fix amount', language)} ($)`}
+                    <View style={{ width: scaleSzie(200), marginTop: scaleSzie(15) }}  >
+                        <InputForm
+                            title={`${localize('Rate', language)} (%)`}
+                            subTitle=""
                             placeholder="100"
-                            isSelectCheckBox={data.discountType === 'discount_fixtom' ? true : false}
-                            value={data.discountType === 'discount_fixtom' ? data.discount : ''}
+                            value={data.discount}
                             onChangeText={(value) => {
                                 this.setState({
                                     data: updateStateChildren('discount', value, data)
                                 });
                                 this.props.actions.marketing.setStatusApplyButton(true);
                             }}
-                            selectCheckbox={() => {
-                                this.props.actions.marketing.setStatusApplyButton(true);
-                                if (data.discountType === 'discount_fixtom') {
-                                    const tempData = updateStateChildren('discountType', '', data);
-                                    this.setState({
-                                        data: { ...tempData, discount: 0 }
-                                    });
-                                } else {
-                                    const tempData = updateStateChildren('discountType', 'discount_fixtom', data);
-                                    this.setState({
-                                        data: { ...tempData, discount: 0 }
-                                    });
-                                }
-                            }}
+                            // onChangeText={(value) => { }}
+                            style={{ marginBottom: scaleSzie(0) }}
+                            styleTitle={{ color: "#404040" }}
+                            isOnlyNumber={true}
                         />
                     </View>
-                    <View style={{ alignItems: 'center', marginTop: scaleSzie(20) }} >
-                        <ButtonCustom
-                            width={scaleSzie(160)}
-                            height={40}
-                            backgroundColor="#4CD964"
-                            title={localize('Send Notification', language)}
-                            textColor="#fff"
-                            onPress={this.sendNotification}
-                            styleText={{ fontSize: scaleSzie(14), fontWeight: '600' }}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(4) }}
-                        />
-                    </View>
+
+                    <Text style={{
+                        color: '#6A6A6A',
+                        fontSize: scaleSzie(12), marginTop: scaleSzie(7),marginBottom:scaleSzie(6)
+                    }} >
+                        {`* ${localize('Payment of ', language)}`}
+                        <Text style={{ color: '#0764B0', fontWeight: "bold" }} >
+                            $100
+                        </Text>
+                        <Text style={{}} >
+                            {`${localize(' get ', language)}`}
+                        </Text>
+                        <Text style={{ color: '#0764B0', fontWeight: "bold" }} >
+                            100
+                        </Text>
+                        <Text style={{}} >
+                            {`${localize(' reward points', language)}`}
+                        </Text>
+                    </Text>
+
+
                 </View>
             </ItemPromo>
         );
@@ -182,8 +161,8 @@ class PromotionRewardPoints extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  })
-  
-  
-  
-  export default connectRedux(mapStateToProps, PromotionRewardPoints);
+})
+
+
+
+export default connectRedux(mapStateToProps, PromotionRewardPoints);

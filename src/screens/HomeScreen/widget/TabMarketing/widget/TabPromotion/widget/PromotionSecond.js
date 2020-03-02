@@ -143,7 +143,7 @@ class PromotionSecond extends React.Component {
                         fontSize: scaleSzie(14),
                         fontWeight:"600"
                     }} >
-                        {`${localize('Promotion', language)}:`}
+                        {`${localize('Promotion form', language)}:`}
                     </Text>
                     {/* ---- Row ---- */}
                     <View style={{ flexDirection: 'row' }} >
