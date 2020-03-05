@@ -20,7 +20,7 @@ export default class TextInputAmount extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: '',
+            value: 0,
             initState: true
         }
     }

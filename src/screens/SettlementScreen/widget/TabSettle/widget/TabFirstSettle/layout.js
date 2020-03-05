@@ -218,7 +218,8 @@ class Layout extends React.Component {
         const { settleWaiting,language } = this.props;
         const { creditAmount } = this.state;
         
-        // const temptCreditAmount = creditAmount === 0 ? '0.00' : creditAmount;
+        const temptCreditAmount = creditAmount === 0 || creditAmount ===""  ? 0 : creditAmount;
+        console.log("temptCreditAmount : ",temptCreditAmount);
         return (
             <View style={{ paddingHorizontal: scaleSzie(10), flexDirection: 'row' }} >
                 {/* --------- Left --------- */}
@@ -327,7 +328,7 @@ class Layout extends React.Component {
                     }} >
                         <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
                             
-                            {localize('Payment by Credit card', language)}
+                            {localize('Payment by Credit card  ---' , language)}
                         </Text>
                         <View style={{
                             height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
@@ -336,7 +337,7 @@ class Layout extends React.Component {
 
                             <TextInputAmount
                                 ref={this.inputCreditPaymentRef}
-                                value={settleWaiting.paymentByCreditCard}
+                                value={temptCreditAmount}
                                 onChangeText={this.updateTotalCustom}
                             />
                         </View>

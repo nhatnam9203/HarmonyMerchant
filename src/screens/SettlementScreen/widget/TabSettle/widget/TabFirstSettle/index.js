@@ -33,6 +33,8 @@ class TabFirstSettle extends Layout {
     }
 
 
+
+
     resetNoteFromParent = async () => {
         await this.setState({
             note: ''
@@ -40,7 +42,7 @@ class TabFirstSettle extends Layout {
     }
 
     onDidFocus = (payload) => {
-        // this.handleReport();
+        this.handleReport();
     }
 
     pushStaffIntoArrayStaff = ref => {
@@ -61,7 +63,7 @@ class TabFirstSettle extends Layout {
     }
 
     async handleResponseReportTransactions(message) {
-        //console.log('handleResponseReportTransactions : ' , message)
+        console.log('handleResponseReportTransactions : ' , message)
         try {
             const result = JSON.parse(message);
             if (result.status == 0) {
