@@ -96,6 +96,19 @@ class TabCheckout extends Layout {
         this.activeGiftCardRef = React.createRef();
     }
 
+    refundTransaction =() =>{
+        const { paxMachineInfo } = this.props;
+        const { ip, port, timeout } = paxMachineInfo;
+
+        // 1. Check setup pax 
+        PosLink.setupPax(ip, port, timeout);
+        const extData = "<AmountDue>0</AmountDue> <TipAmount>0</TipAmount> <CashBackAmount>0</CashBackAmount> <MechantFee>0</MechantFee> <TaxAmount>0</TaxAmount> <PLEntryMode>4</PLEntryMode> <ExpDate>1121</ExpDate> <PLNameOnCard>NGUYEN NGOC HUYEN </PLNameOnCard> <PLCardPresent>0</PLCardPresent> <ECRRefNum>0</ECRRefNum> <EDCTYPE>CREDIT</EDCTYPE> <CARDBIN>539146</CARDBIN> <PROGRAMTYPE>0</PROGRAMTYPE> <SN>53310319</SN> <GLOBALUID>53310319202003050311032328</GLOBALUID> <TC>07FF67D410E34115</TC> <TVR>8000008000</TVR> <AID>A0000000041010</AID> <TSI>6800</TSI> <ATC>01A0</ATC> <APPLAB>Mastercard</APPLAB> <APPPN>FE CREDIT</APPPN> <IAD>0114600003240000000000000000000000FF</IAD> <ARC>00</ARC> <CID>40</CID> <CVM>6</CVM> "
+        PosLink.refundTransaction(1870,15,extData,(data) => {
+            // const result = JSON.parse(data);
+            console.log("----- Resutl : ",data);
+
+        })
+    }
 
 
     resetStateFromParent = async () => {
@@ -1266,6 +1279,7 @@ class TabCheckout extends Layout {
         })
         try {
             const result = JSON.parse(message);
+            console.log("------ result : ", JSON.stringify(result));
             if (result.status == 0) {
                 setTimeout(() => {
                     alert(result.message);

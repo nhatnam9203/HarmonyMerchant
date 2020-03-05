@@ -210,7 +210,7 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)amount callback:(RCTResponseSender
   paymentRequest.PONum = @"";
   paymentRequest.OrigRefNum = @"";
   paymentRequest.InvNum = @"";
-  paymentRequest.ECRRefNum = @"1";
+  paymentRequest.ECRRefNum = @"0";
   paymentRequest.ECRTransID = @"";
   paymentRequest.AuthCode = @"";
   paymentRequest.ExtData = @"";
@@ -284,7 +284,6 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)amount callback:(RCTResponseSender
     
   });
 
-  //------ End scan TCP -------
   
 }
 
@@ -517,6 +516,110 @@ RCT_EXPORT_METHOD(reportTransaction:(RCTResponseSenderBlock)callback)
     });
     
   });
+}
+
+//---------------- Handle Refund -------------
+RCT_EXPORT_METHOD(refundTransaction:(NSString *)amount transactionId:(NSString *)transactionId extData:(NSString *)extData callback:(RCTResponseSenderBlock)callback)
+{
+
+ MyApp *myapp = [MyApp sharedSigleton];
+  PaymentRequest *paymentRequest = [[PaymentRequest alloc] init];
+  myapp.poslink.paymentRequest = paymentRequest;
+  
+ paymentRequest.TenderType = [PaymentRequest ParseTenderType:@"CREDIT"];
+  paymentRequest.TransType = [PaymentRequest ParseTransType:@"RETURN"];
+  
+  paymentRequest.Amount = amount;
+  paymentRequest.CashBackAmt = @"";
+  paymentRequest.ClerkID = @"";
+   [self load];
+   paymentRequest.SigSavePath = @"";
+  [self saveInTabPayment];
+  paymentRequest.Zip = @"";
+  paymentRequest.TipAmt = @"";
+  paymentRequest.TaxAmt = @"";
+  paymentRequest.FuelAmt = @"";
+  paymentRequest.ECRTransID = @"";
+  paymentRequest.Street1 = @"";
+  paymentRequest.Street2 = @"";
+  paymentRequest.SurchargeAmt = @"";
+  paymentRequest.PONum = @"";
+  paymentRequest.OrigRefNum = @"";
+  paymentRequest.InvNum = @"";
+  paymentRequest.ECRRefNum = transactionId;
+  paymentRequest.ECRTransID = @"";
+  paymentRequest.AuthCode = @"";
+  paymentRequest.ExtData = extData;
+  
+  
+  //  --------- Scan TCP ------
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    __weak typeof(self) weakSelf = self;
+    myapp.poslink.reportedStatusChangeBlock = ^{
+      statusCode = [myapp.poslink getReportedStatus];
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf showReportStatus:statusCode];
+      });
+    };
+    
+    ProcessTransResult *ret = [myapp.poslink processTrans:PAYMENT];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+      if (ret.code == OK) {
+        
+        signData = myapp.poslink.paymentResponse.signData;
+        
+        if (myapp.poslink.paymentResponse.Message && myapp.poslink.paymentResponse.HostResponse ) {
+          NSDictionary *dataSuccess = @{@"status":@true,
+                                        @"ResultCode" : myapp.poslink.paymentResponse.ResultCode ? myapp.poslink.paymentResponse.ResultCode : @"",
+                                        @"ResultTxt" : myapp.poslink.paymentResponse.ResultTxt ? myapp.poslink.paymentResponse.ResultTxt : @"",
+                                        @"AuthCode" : myapp.poslink.paymentResponse.AuthCode ? myapp.poslink.paymentResponse.AuthCode : @"",
+                                        @"ApprovedAmount" : myapp.poslink.paymentResponse.ApprovedAmount ? myapp.poslink.paymentResponse.ApprovedAmount : @"",
+                                        @"AvsResponse" : myapp.poslink.paymentResponse.AvsResponse ? myapp.poslink.paymentResponse.AvsResponse : @"",
+                                        @"BogusAccountNum" : myapp.poslink.paymentResponse.BogusAccountNum ? myapp.poslink.paymentResponse.BogusAccountNum : @"",
+                                        @"CardType" : myapp.poslink.paymentResponse.CardType ? myapp.poslink.paymentResponse.CardType : @"",
+                                        @"CvResponse" : myapp.poslink.paymentResponse.CvResponse ? myapp.poslink.paymentResponse.CvResponse : @"",
+                                        @"HostCode" : myapp.poslink.paymentResponse.HostCode ? myapp.poslink.paymentResponse.HostCode : @"",
+                                        @"HostResponse" : myapp.poslink.paymentResponse.HostResponse ?  myapp.poslink.paymentResponse.HostResponse : @"",
+                                        @"Message" : myapp.poslink.paymentResponse.Message ? myapp.poslink.paymentResponse.Message : @"",
+                                        @"RefNum" : myapp.poslink.paymentResponse.RefNum ? myapp.poslink.paymentResponse.RefNum : @"",
+                                        @"RemainingBalance" : myapp.poslink.paymentResponse.RemainingBalance ? myapp.poslink.paymentResponse.RemainingBalance : @"",
+                                        @"ExtraBalance" : myapp.poslink.paymentResponse.ExtraBalance ? myapp.poslink.paymentResponse.ExtraBalance : @"",
+                                        @"Timestamp" : myapp.poslink.paymentResponse.Timestamp ?  myapp.poslink.paymentResponse.Timestamp : @"",
+                                        @"InvNum" : myapp.poslink.paymentResponse.InvNum ? myapp.poslink.paymentResponse.InvNum : @"",
+                                        @"ExtData" : myapp.poslink.paymentResponse.ExtData ? myapp.poslink.paymentResponse.ExtData : @"",
+                                        @"RequestedAmount" : myapp.poslink.paymentResponse.RequestedAmount ? myapp.poslink.paymentResponse.RequestedAmount : @"",
+                                        };
+          NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
+          callback(@[result]);
+        }
+        
+        
+        if (signData != nil) {
+          NSString *str = [myapp.poslink.paymentResponse.Timestamp stringByAppendingFormat:@"_%@",myapp.poslink.paymentResponse.RefNum];
+          [myapp.poslink.paymentRequest saveSigData:signData fileName:str];
+          [myapp.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
+        }
+        
+      }else if (ret.code == ERROR){
+        NSDictionary *dataError = @{@"status":@false,
+                                    @"message":ret.msg
+                                      };
+         NSString  *resultError =  [self convertObjectToJson:dataError ] ;
+        callback(@[resultError]);
+
+      }else if(ret.code == TIMEOUT){
+        NSDictionary *dataTimeout = @{@"status":@false,
+                                    @"message":ret.msg
+                                    };
+      NSString  *resultTimeout  =  [self convertObjectToJson:dataTimeout ] ;
+        callback(@[resultTimeout]);
+       
+      }
+    });
+    
+  });
+
   
 }
 

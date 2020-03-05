@@ -117,7 +117,9 @@ class Layout extends React.Component {
                     }
 
 
-                    <Button onPress={this.checkStatusCashier} style={styles.btnCashier} >
+                    {/* <Button onPress={this.checkStatusCashier} style={styles.btnCashier} > */}
+                    <Button onPress={this.refundTransaction} style={styles.btnCashier} >
+
                         <Image source={IMAGE.cashier_btn}
                             style={{ width: scaleSzie(16), height: scaleSzie(13) }}
                         />
