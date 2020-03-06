@@ -155,7 +155,7 @@ export default class Layout extends React.Component {
         const { language } = this.props;
         const { invoiceDetail } = this.state;
         const status = invoiceDetail.status ? invoiceDetail.status : '';
-        if (status === 'paid') {
+        if (status === 'paid' && invoiceDetail.paymentMethod === "credit_card") {
             return (
                 <ButtonCustom
                     width={'100%'}
@@ -168,7 +168,7 @@ export default class Layout extends React.Component {
                     styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
                 />
             );
-        } else if (status === 'pending') {
+        } else if (status === 'pending' && invoiceDetail.paymentMethod === "credit_card") {
             return (
                 <ButtonCustom
                     width={'100%'}

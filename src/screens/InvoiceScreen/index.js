@@ -1,11 +1,15 @@
 import React from 'react';
+import { NativeModules } from 'react-native';
+import _ from "ramda";
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment,
-    getArrayExtrasFromAppointment,getArrayGiftCardsFromAppointment
+    getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment
 } from '@utils';
+
+const PosLink = NativeModules.MyApp;
 
 class InvoiceScreen extends Layout {
 
@@ -230,8 +234,8 @@ class InvoiceScreen extends Layout {
         const arrayExtras = getArrayExtrasFromAppointment(basket.extras);
         const arrayGiftCards = getArrayGiftCardsFromAppointment(basket.giftCards);
 
-        const temptBasket = arrayProducts.concat(arryaServices, arrayExtras,arrayGiftCards);
-    //console.log('temptBasket : ', JSON.stringify(temptBasket));
+        const temptBasket = arrayProducts.concat(arryaServices, arrayExtras, arrayGiftCards);
+        //console.log('temptBasket : ', JSON.stringify(temptBasket));
         return temptBasket;
     }
 
@@ -269,20 +273,35 @@ class InvoiceScreen extends Layout {
         })
     }
 
-    confirmChangeInvoiceStatus =async () =>{
+    confirmChangeInvoiceStatus = async () => {
+        const { paxMachineInfo } = this.props;
         const { invoiceDetail } = this.state;
-        await this.setState({
-            visibleConfirmInvoiceStatus: false
-        })
-        this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId);
-        await this.setState({
-            invoiceDetail: {
-                history: []
-            },
-        });
-        for (let i = 0; i < this.listInvoiceRef.length; i++) {
-            this.listInvoiceRef[i].setStateFromParent(false);
+        const { ip, port, timeout } = paxMachineInfo;
+
+        const paymentInformation = invoiceDetail.paymentInformation && invoiceDetail.paymentInformation.length > 0 &&
+            invoiceDetail.paymentInformation[0].responseData ? invoiceDetail.paymentInformation[0].responseData : {};
+
+        console.log("invoiceDetail :  ", JSON.stringify(paymentInformation));
+
+        if (!_.isEmpty(paymentInformation)) {
+            PosLink.setupPax(ip, port, timeout);
+            PosLink.refundTransaction(paymentInformation.RefNum, paymentInformation.ApprovedAmount, paymentInformation.ExtData, (data) => {
+                console.log("----- Resutl : ", data);
+            })
         }
+
+        // await this.setState({
+        //     visibleConfirmInvoiceStatus: false
+        // })
+        // this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId);
+        // await this.setState({
+        //     invoiceDetail: {
+        //         history: []
+        //     },
+        // });
+        // for (let i = 0; i < this.listInvoiceRef.length; i++) {
+        //     this.listInvoiceRef[i].setStateFromParent(false);
+        // }
     }
 
     componentWillUnmount() {
@@ -300,10 +319,11 @@ const mapStateToProps = state => ({
     refreshListInvoice: state.invoice.refreshListInvoice,
     listInvoicesSearch: state.invoice.listInvoicesSearch,
     isShowSearchInvoice: state.invoice.isShowSearchInvoice,
-
     totalPages: state.invoice.totalPages,
     currentPage: state.invoice.currentPage,
-    visibleEnterPinInvoice: state.app.visibleEnterPinInvoice
+    visibleEnterPinInvoice: state.app.visibleEnterPinInvoice,
+
+    paxMachineInfo: state.dataLocal.paxMachineInfo,
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);

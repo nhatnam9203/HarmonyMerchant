@@ -99,31 +99,6 @@ class InventoryScreen extends Layout {
         })
     }
 
-    exportFile1 = () => {
-        let dirs = RNFetchBlob.fs.dirs
-
-        RNFetchBlob
-            .config({
-                title: 'inventory.csv',
-                fileCache: true,
-                appendExt: 'csv',
-                useDownloadManager: true,
-                mediaScannable: true,
-                notification: true,
-                description: 'File downloaded by download manager.',
-                path: `${dirs.DocumentDir}/inventory.csv`,
-            })
-            .fetch('GET', 'http://image.levincitest.com/reports/products/3_20190731_055440.csv', {
-            })
-            .then((res) => {
-            //console.log('The file saved to ', res.path());
-                this.setState({
-                    fileDownload: res.path()
-                })
-            })
-    }
-
-
     updateSearchFilterInfo(key, value, keyParent = '') {
         const { searchFilter } = this.state;
         if (keyParent !== '') {
