@@ -20,13 +20,14 @@ export default class TotalCustom extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            total: 0,
+            total: 0.00,
             initState: true
         }
     }
 
     static getDerivedStateFromProps(props, state) {
-        if (props.total && state.initState) {
+        if (props.total != "0.00" && props.total && state.initState) {
+            // console.log("props.total : ",props.total);
             return { total: props.total, initState: false };
         }
         return null
@@ -56,7 +57,9 @@ export default class TotalCustom extends React.Component {
                     Total:
                     </Text>
                 <Text style={{ fontSize: scaleSzie(20), color: '#4CD964', fontWeight: 'bold' }} >
+                    {/* {`$ ${formatMoney(formatNumberFromCurrency(total))}`} */}
                     {`$ ${total}`}
+
                 </Text>
             </View>
         );

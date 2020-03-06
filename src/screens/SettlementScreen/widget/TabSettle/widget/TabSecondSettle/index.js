@@ -28,14 +28,11 @@ class TabSecondSettle extends Layout {
         };
     }
 
-    setStateFromParent = (settleTotal) => {
+    setStateFromParent = (settleTotal,creditCount) => {
         this.setState({
-            settleTotal
+            settleTotal,
+            creditCount
         })
-    }
-
-    onDidFocus = (payload) => {
-        this.handleReport();
     }
 
     handleReport() {

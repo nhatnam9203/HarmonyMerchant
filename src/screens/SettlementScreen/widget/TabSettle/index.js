@@ -24,15 +24,14 @@ class TabSettle extends Layout {
 
     onDidFocus = () => {
         this.tabFirstSettleRef.current.handleReportTabFirst();
-        // console.log(this.tabFirstSettleRef.current);
-        // console.log("----------");
     }
 
     gotoTabSecondSettle = () => {
         const settleTotal = this.tabFirstSettleRef.current.state.settleTotal;
+        const creditCount = this.tabFirstSettleRef.current.state.creditCount;
         this.scrollTabRef.current.goToPage(1);
         setTimeout(() => {
-            this.tabsecondSettleRef.current.setStateFromParent(settleTotal);
+            this.tabsecondSettleRef.current.setStateFromParent(settleTotal,creditCount);
         }, 500)
 
     }

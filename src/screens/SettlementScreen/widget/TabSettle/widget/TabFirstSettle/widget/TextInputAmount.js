@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize, formatMoney } from '@utils';
 import {
     Text, Button, ButtonCustom,
 } from '@components';
@@ -26,14 +26,15 @@ export default class TextInputAmount extends React.Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        if (props.value && state.initState) {
-            return { value: props.value, initState: false };
+        if (props.value != "0.00" && props.value && state.initState) {
+            // console.log("-------getDerivedStateFromProps : ", formatMoney(props.value));
+            return { value: formatMoney(props.value), initState: false };
         }
         return null
     }
 
-    resetStateFromParent = async () =>{
-     await  this.setState({
+    resetStateFromParent = async () => {
+        await this.setState({
             initState: true
         })
     }
@@ -46,7 +47,7 @@ export default class TextInputAmount extends React.Component {
     render() {
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
-                <View style={{justifyContent:'center',width:scaleSzie(13)}} >
+                <View style={{ justifyContent: 'center', width: scaleSzie(13) }} >
                     <Text style={{ fontSize: scaleSzie(20), color: '#404040', }} >
                         {'$ '}
                     </Text>

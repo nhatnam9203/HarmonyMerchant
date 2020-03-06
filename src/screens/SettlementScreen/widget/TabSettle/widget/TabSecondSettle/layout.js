@@ -7,7 +7,6 @@ import {
     Dimensions
 } from 'react-native';
 import * as Progress from 'react-native-progress';
-import { NavigationEvents } from 'react-navigation';
 
 import { scaleSzie, localize, } from '@utils';
 import {
@@ -52,12 +51,8 @@ class Layout extends React.Component {
                     </View>
                     <View style={{ flex: 1 }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(14), }} >
-                            {/* - Lorem Ipsum is simply dummy text of the printing and typesetting industry. */}
                             {`${errorMessage}`}
                         </Text>
-                        {/* <Text style={{ color: '#404040', fontSize: scaleSzie(14), }} >
-                            - Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                        </Text> */}
                     </View>
                 </View>
 
@@ -265,9 +260,6 @@ class Layout extends React.Component {
         const { paymentByHarmony, paymentByCreditCard, paymentByCash, otherPayment, total, note } = settleTotal;
         return (
             <View style={[styles.container, { backgroundColor: '#F6F6F6' }]} >
-                {/* <NavigationEvents
-                    onDidFocus={this.onDidFocus}
-                /> */}
                 <View style={{ height: scaleSzie(20) }} />
                 <View style={{ paddingHorizontal: scaleSzie(10), flexDirection: 'row' }} >
                     {/* --------- Left --------- */}
