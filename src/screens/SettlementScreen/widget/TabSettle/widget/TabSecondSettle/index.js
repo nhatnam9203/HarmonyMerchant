@@ -28,11 +28,6 @@ class TabSecondSettle extends Layout {
         };
     }
 
-    componentDidMount() {
-    //console.log('ddd');
-        // this.handleReport();
-    }
-
     setStateFromParent = (settleTotal) => {
         this.setState({
             settleTotal

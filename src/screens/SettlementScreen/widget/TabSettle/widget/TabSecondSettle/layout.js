@@ -265,9 +265,9 @@ class Layout extends React.Component {
         const { paymentByHarmony, paymentByCreditCard, paymentByCash, otherPayment, total, note } = settleTotal;
         return (
             <View style={[styles.container, { backgroundColor: '#F6F6F6' }]} >
-                <NavigationEvents
+                {/* <NavigationEvents
                     onDidFocus={this.onDidFocus}
-                />
+                /> */}
                 <View style={{ height: scaleSzie(20) }} />
                 <View style={{ paddingHorizontal: scaleSzie(10), flexDirection: 'row' }} >
                     {/* --------- Left --------- */}

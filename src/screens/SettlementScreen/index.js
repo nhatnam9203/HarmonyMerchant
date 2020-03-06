@@ -11,6 +11,7 @@ class SettlementScreen extends Layout {
             isFocus: true,
         };
         this.scrollTabRef = React.createRef();
+        this.tabSettleRef = React.createRef();
     }
 
     componentDidMount() {
@@ -27,7 +28,8 @@ class SettlementScreen extends Layout {
             payload => {
                 this.setState({
                     isFocus: true
-                })
+                });
+                this.tabSettleRef.current.onDidFocus();
             }
         );
     }

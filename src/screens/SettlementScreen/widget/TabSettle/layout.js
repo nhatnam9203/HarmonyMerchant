@@ -8,6 +8,7 @@ import {
     Dimensions
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
+import { NavigationEvents } from 'react-navigation';
 
 import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
 import { Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService } from '@components';
@@ -22,10 +23,13 @@ class Layout extends React.Component {
     render() {
         return (
             <View style={styles.container} >
+                {/* <NavigationEvents
+                    onDidFocus={this.onDidFocus}
+                /> */}
                 <ScrollableTabView
                     ref={this.scrollTabRef}
                     style={{}}
-                    initialPage={1}
+                    initialPage={0}
                     locked={true}
                     renderTabBar={() => <View />}
                 >

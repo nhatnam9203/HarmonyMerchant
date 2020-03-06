@@ -42,7 +42,8 @@ class TabFirstSettle extends Layout {
     }
 
     onDidFocus = (payload) => {
-        this.handleReport();
+        // console.log("dddddddddd");
+        // this.handleReport();
     }
 
     pushStaffIntoArrayStaff = ref => {
@@ -51,7 +52,7 @@ class TabFirstSettle extends Layout {
         }
     }
 
-    handleReport() {
+    handleReportTabFirst = () => {
         const { paxMachineInfo } = this.props;
         const { ip, port, timeout, isSetup } = paxMachineInfo;
         if (isSetup) {
@@ -63,7 +64,7 @@ class TabFirstSettle extends Layout {
     }
 
     async handleResponseReportTransactions(message) {
-        console.log('handleResponseReportTransactions : ' , message)
+        console.log('handleResponseReportTransactions : ', message)
         try {
             const result = JSON.parse(message);
             if (result.status == 0) {

@@ -20,19 +20,32 @@ class TabSettle extends Layout {
         this.props.actions.invoice.getSettlementWating();
     }
 
+
+
+    onDidFocus = () => {
+        this.tabFirstSettleRef.current.handleReportTabFirst();
+        // console.log(this.tabFirstSettleRef.current);
+        // console.log("----------");
+    }
+
     gotoTabSecondSettle = () => {
         const settleTotal = this.tabFirstSettleRef.current.state.settleTotal;
-        this.tabsecondSettleRef.current.setStateFromParent(settleTotal);
         this.scrollTabRef.current.goToPage(1);
+        setTimeout(() => {
+            this.tabsecondSettleRef.current.setStateFromParent(settleTotal);
+        }, 500)
+
     }
 
     backTabFirstSettle = () => {
         this.scrollTabRef.current.goToPage(0);
     }
 
-    finishBatch =() =>{
+    finishBatch = () => {
         this.tabFirstSettleRef.current.resetNoteFromParent();
     }
+
+
 
 }
 

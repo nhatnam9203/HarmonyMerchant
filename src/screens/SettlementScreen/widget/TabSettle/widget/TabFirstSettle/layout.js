@@ -219,7 +219,10 @@ class Layout extends React.Component {
         const { creditAmount } = this.state;
         
         const temptCreditAmount = creditAmount === 0 || creditAmount ===""  ? 0 : creditAmount;
+        const temtpTotal = settleWaiting.total - settleWaiting.paymentByCreditCard +creditAmount;
         console.log("temptCreditAmount : ",temptCreditAmount);
+
+
         return (
             <View style={{ paddingHorizontal: scaleSzie(10), flexDirection: 'row' }} >
                 {/* --------- Left --------- */}
@@ -328,7 +331,7 @@ class Layout extends React.Component {
                     }} >
                         <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
                             
-                            {localize('Payment by Credit card  ---' , language)}
+                            {localize('Payment by Credit card' , language)}
                         </Text>
                         <View style={{
                             height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
@@ -385,7 +388,7 @@ class Layout extends React.Component {
                     {/* -------- Total Custom ------- */}
                     <TotalCustom
                         ref={this.totalCustomRef}
-                        total={settleWaiting.total}
+                        total={temtpTotal}
                     />
                 </View>
             </View>
@@ -399,12 +402,6 @@ class Layout extends React.Component {
                     flex: 1, backgroundColor: '#F1F1F1', borderColor: '#C5C5C5', borderWidth: 1, paddingHorizontal: scaleSzie(16),
                     paddingTop: scaleSzie(20)
                 }} >
-                    {/* <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
-                        Lorem Ipsum is simply dummy text of
-                        the printing and typesetting industry.
-                         Lorem Ipsum has been the industry's standard dummy
-                         text ever since
-                   </Text> */}
                     <View style={{ flex: 1, justifyContent: 'flex-end', paddingBottom: scaleSzie(10) }} >
                         <View style={{ height: scaleSzie(40), flexDirection: 'row' }} >
                             <View style={{
@@ -455,9 +452,9 @@ class Layout extends React.Component {
         const { settleWaiting ,language} = this.props
         return (
             <View style={{ flex: 1 }} >
-                <NavigationEvents
+                {/* <NavigationEvents
                     onDidFocus={this.onDidFocus}
-                />
+                /> */}
                 {
                     _.isEmpty(settleWaiting) || settleWaiting.checkout.length === 0 ?
                         <ScrollView

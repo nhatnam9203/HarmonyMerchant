@@ -50,6 +50,7 @@ export default class Layout extends React.Component {
                     />}
                 >
                     <TabSettle
+                        ref={this.tabSettleRef}
                         tabLabel={localize('Settle', language)}
                         reviewBatchHistory={this.reviewBatchHistory}
                     />
