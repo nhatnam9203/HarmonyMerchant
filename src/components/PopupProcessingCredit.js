@@ -2,20 +2,13 @@ import React from 'react';
 import {
     View,
     Text,
-    Dimensions,
-    StyleSheet,
-    Platform,
-    Image,
-    TouchableOpacity,
-    TextInput,
     ActivityIndicator
 } from 'react-native';
 
-import { ButtonCustom, PopupParent, Button, ModalCustom } from '@components';
-import { scaleSzie, localize, getCategoryName } from '@utils';
-import IMAGE from '@resources';
+import ButtonCustom from "./ButtonCustom";
+import ModalCustom from "./ModalCustom";
 
-const { width } = Dimensions.get('window');
+import { scaleSzie, localize } from '@utils';
 
 class PopupProcessingCredit extends React.Component {
 
@@ -34,7 +27,6 @@ class PopupProcessingCredit extends React.Component {
                 transparent={true}
                 visible={visible}
                 onRequestClose={() => { }}
-            // style={style}
             >
                 <View style={{
                     height: scaleSzie(280),
@@ -84,10 +76,6 @@ class PopupProcessingCredit extends React.Component {
     }
 }
 
-
-
-const styles = StyleSheet.create({
-})
 
 export default PopupProcessingCredit;
 

@@ -68,7 +68,7 @@ class TabFirstSettle extends Layout {
         try {
             const result = JSON.parse(message);
             if (result.status == 0) {
-                // alert(result.message);
+                alert(result.message);
             } else {
                 this.setState({
                     creditCount: result.CreditCount,
@@ -121,6 +121,7 @@ class TabFirstSettle extends Layout {
 
     onRefreshSettle = () => {
         this.props.actions.invoice.getSettlementWating(false);
+        this.handleReportTabFirst();
         // if (this.inputHarmonyPaymentRef.current) {
         //     this.inputHarmonyPaymentRef.current.resetStateFromParent();
         // }

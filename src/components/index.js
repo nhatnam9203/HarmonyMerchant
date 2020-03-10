@@ -42,6 +42,7 @@ import PopupActiveGiftCard from './PopupActiveGiftCard';
 import PopupScanCode from './PopupScanCode';
 import PopupDisconnected from './PopupDisconnected';
 import PopupConnected from './PopupConnected';
+import PopupProcessingCredit from "./PopupProcessingCredit";
 
 module.exports = {
     Button,
@@ -87,5 +88,6 @@ module.exports = {
     PopupActiveGiftCard,
     PopupScanCode,
     PopupDisconnected,
-    PopupConnected
+    PopupConnected,
+    PopupProcessingCredit
 }

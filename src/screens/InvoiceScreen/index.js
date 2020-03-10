@@ -286,9 +286,11 @@ class InvoiceScreen extends Layout {
         if (!_.isEmpty(paymentInformation)) {
             PosLink.setupPax(ip, port, timeout);
             PosLink.refundTransaction(paymentInformation.RefNum, paymentInformation.ApprovedAmount, paymentInformation.ExtData, (data) => {
-                console.log("----- Resutl : ", data);
-            })
+                this.handleResultRefundTransaction(data);
+            });
         }
+
+
 
         // await this.setState({
         //     visibleConfirmInvoiceStatus: false
@@ -302,6 +304,18 @@ class InvoiceScreen extends Layout {
         // for (let i = 0; i < this.listInvoiceRef.length; i++) {
         //     this.listInvoiceRef[i].setStateFromParent(false);
         // }
+    }
+
+    handleResultRefundTransaction = result => {
+        console.log("----- Resutl : ", data);
+        const data = JSON.parse(result);
+        if (data.status === 1 && data.ResultTxt === "OK") {
+            alert("success")
+        } else if (data.status === 1 && data.ResultTxt === "DUP TRANSACTION") {
+            alert("Dup ")
+        } else{
+            alert(data.message)
+        }
     }
 
     componentWillUnmount() {

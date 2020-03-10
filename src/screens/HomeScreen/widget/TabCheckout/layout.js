@@ -12,13 +12,13 @@ import _ from 'ramda';
 import { scaleSzie, localize, formatNumberFromCurrency, formatMoney } from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
-    PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode
+    PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode,PopupProcessingCredit
 } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import {
     ItemCategory, ColPlaceHolder, ItemProductService, ItemAmount,
-    ItemExtra, PopupDiscount, PopupProcessingCredit, PopupBill, PopupDiscountLocal, PopupEnterInfo,
+    ItemExtra, PopupDiscount, PopupBill, PopupDiscountLocal, PopupEnterInfo,
     PopupEnterCustomerPhone, ItemCustomerBasket, PopupPaymentDetails
 } from './widget';
 

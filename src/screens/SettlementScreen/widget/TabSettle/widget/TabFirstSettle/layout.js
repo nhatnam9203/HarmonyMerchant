@@ -221,11 +221,11 @@ class Layout extends React.Component {
         const temptCreditAmount = creditAmount === 0 || creditAmount === "" ? 0 : creditAmount/100;
         const temtpTotal = formatMoney((formatNumberFromCurrency(settleWaiting.total) - formatNumberFromCurrency(settleWaiting.paymentByCreditCard) + formatNumberFromCurrency(temptCreditAmount)));
 
-        // console.log("temptCreditAmount : ", temptCreditAmount);
-        // console.log("temtpTotal : ", temtpTotal);
-        // console.log("settleWaiting.total : ", settleWaiting.total);
-        // console.log("settleWaiting.paymentByCreditCard : ", settleWaiting.paymentByCreditCard);
-        // console.log("creditAmount : ", creditAmount);
+        console.log("temptCreditAmount : ", temptCreditAmount);
+        console.log("temtpTotal : ", temtpTotal);
+        console.log("settleWaiting.total : ", settleWaiting.total);
+        console.log("settleWaiting.paymentByCreditCard : ", settleWaiting.paymentByCreditCard);
+        console.log("creditAmount : ", creditAmount);
 
         return (
             <View style={{ paddingHorizontal: scaleSzie(10), flexDirection: 'row' }} >

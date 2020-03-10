@@ -5,7 +5,6 @@ import ItemProductService from './ItemProductService';
 import ItemAmount from './ItemAmount';
 import ItemExtra from './ItemExtra';
 import PopupDiscount from './PopupDiscount';
-import PopupProcessingCredit from './PopupProcessingCredit';
 import PopupBill from './PopupBill';
 import PopupDiscountLocal from './PopupDiscountLocal';
 import PopupEnterInfo from './PopupEnterInfo';
@@ -21,7 +20,6 @@ module.exports = {
     ItemAmount,
     ItemExtra,
     PopupDiscount,
-    PopupProcessingCredit,
     PopupBill,
     PopupDiscountLocal,
     PopupEnterInfo,
