@@ -1314,11 +1314,12 @@ class TabCheckout extends Layout {
     }
 
     cancelTransaction = async () => {
+        PosLink.cancelTransaction();
         await this.setState({
             visibleProcessingCredit: false,
             changeButtonDone: false,
         });
-        PosLink.cancelTransaction()
+       
     }
 
 

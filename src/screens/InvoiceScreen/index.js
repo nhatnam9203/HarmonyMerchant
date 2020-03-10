@@ -28,7 +28,8 @@ class InvoiceScreen extends Layout {
             },
             titleRangeTime: 'Time Range',
             visibleEnterPin: true,
-            visibleConfirmInvoiceStatus: false
+            visibleConfirmInvoiceStatus: false,
+            visibleProcessingCredit: false
         }
         this.scrollTabInvoiceRef = React.createRef();
         this.modalCalendarRef = React.createRef();
@@ -282,40 +283,58 @@ class InvoiceScreen extends Layout {
             invoiceDetail.paymentInformation[0].responseData ? invoiceDetail.paymentInformation[0].responseData : {};
 
         console.log("invoiceDetail :  ", JSON.stringify(paymentInformation));
+        console.log("ApprovedAmount :  ", paymentInformation.ApprovedAmount);
+
 
         if (!_.isEmpty(paymentInformation)) {
+            await this.setState({
+                visibleConfirmInvoiceStatus: false,
+                visibleProcessingCredit: true
+            })
             PosLink.setupPax(ip, port, timeout);
-            PosLink.refundTransaction(paymentInformation.RefNum, paymentInformation.ApprovedAmount, paymentInformation.ExtData, (data) => {
+            PosLink.refundTransaction(paymentInformation.RefNum, parseFloat(paymentInformation.ApprovedAmount), paymentInformation.ExtData, (data) => {
                 this.handleResultRefundTransaction(data);
             });
         }
-
-
-
-        // await this.setState({
-        //     visibleConfirmInvoiceStatus: false
-        // })
-        // this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId);
-        // await this.setState({
-        //     invoiceDetail: {
-        //         history: []
-        //     },
-        // });
-        // for (let i = 0; i < this.listInvoiceRef.length; i++) {
-        //     this.listInvoiceRef[i].setStateFromParent(false);
-        // }
     }
 
-    handleResultRefundTransaction = result => {
-        console.log("----- Resutl : ", data);
+    handleResultRefundTransaction = async result => {
+        const { invoiceDetail } = this.state;
+
+        await this.setState({
+            visibleProcessingCredit: false
+        });
+
         const data = JSON.parse(result);
         if (data.status === 1 && data.ResultTxt === "OK") {
-            alert("success")
+            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId);
+            await this.setState({
+                invoiceDetail: {
+                    history: []
+                },
+            });
+            for (let i = 0; i < this.listInvoiceRef.length; i++) {
+                this.listInvoiceRef[i].setStateFromParent(false);
+            }
+
         } else if (data.status === 1 && data.ResultTxt === "DUP TRANSACTION") {
-            alert("Dup ")
-        } else{
-            alert(data.message)
+            setTimeout(() => {
+                alert("DUP TRANSACTION !")
+            }, 300)
+        } else {
+            setTimeout(() => {
+                alert(data.message)
+            }, 300)
+
         }
+    }
+
+    cancelTransaction = async () => {
+        PosLink.cancelTransaction();
+        await this.setState({
+            visibleProcessingCredit: false
+        });
+
     }
 
     componentWillUnmount() {

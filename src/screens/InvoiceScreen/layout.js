@@ -12,7 +12,7 @@ import _ from 'ramda';
 
 import {
     Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupCalendar, PopupEnterPinInvoice,
-    PopupConfirmInvoiceStatus
+    PopupConfirmInvoiceStatus,PopupProcessingCredit
 } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
@@ -622,6 +622,11 @@ export default class Layout extends React.Component {
                     title={localize('Confirmation', language)}
                     confirmChangeInvoiceStatus={this.confirmChangeInvoiceStatus}
                     onRequestClose={() => this.setState({ visibleConfirmInvoiceStatus: false })}
+                />
+                 <PopupProcessingCredit
+                    visible={this.state.visibleProcessingCredit}
+                    onRequestClose={this.cancelTransaction}
+                    language={language}
                 />
             </ParentContainer>
         );
