@@ -309,14 +309,14 @@ RCT_EXPORT_METHOD(batchTransaction:(RCTResponseSenderBlock)callback)
   batchRequest.TransType = [BatchRequest ParseTransType:@"BATCHCLOSE"];
   batchRequest.EDCType = [BatchRequest ParseEDCType:@"CREDIT"];
   batchRequest.PaymentType = [BatchRequest ParseTransType:@"ALL"];
-  batchRequest.CardType = [BatchRequest ParseEDCType:@"MASTERCARD"];
-  batchRequest.Timestamp = @"20190828061059";
+  batchRequest.CardType = [BatchRequest ParseEDCType:@"ALL"];
+  batchRequest.Timestamp = @"";
   batchRequest.SAFIndicator = @"";
   batchRequest.RecordNum = @"";
-  batchRequest.RefNum = @"2";
-  batchRequest.AuthCode = @"000000";
+  batchRequest.RefNum = @"";
+  batchRequest.AuthCode = @"";
   batchRequest.ECRRefNum = @"";
-  batchRequest.ExtData = @"<AmountDue>0</AmountDue>\n<TipAmount>0</TipAmount>\n<CashBackAmount>0</CashBackAmount>\n<MechantFee>0</MechantFee>\n<TaxAmount>0</TaxAmount>\n<PLEntryMode>4</PLEntryMode>\n<ExpDate>1121</ExpDate>\n<PLNameOnCard>NGUYEN NGOC HUYEN         </PLNameOnCard>\n<PLCardPresent>0</PLCardPresent>\n<ECRRefNum>1</ECRRefNum>\n<EDCTYPE>CREDIT</EDCTYPE>\n<CARDBIN>539146</CARDBIN>\n<PROGRAMTYPE>0</PROGRAMTYPE>\n<SN>53310319</SN>\n<GLOBALUID>53310319201908280550330151</GLOBALUID>\n<TC>3404B071C0946654</TC>\n<TVR>8000008000</TVR>\n<AID>A0000000041010</AID>\n<TSI>6800</TSI>\n<ATC>00A9</ATC>\n<APPLAB>Mastercard</APPLAB>\n<APPPN>FE CREDIT</APPPN>\n<IAD>0114600003240000000000000000000000FF</IAD>\n<ARC>00</ARC>\n<CID>40</CID>\n<CVM>6</CVM>\n";
+  batchRequest.ExtData = @"";
   
   myapp.poslink.batchRequest = batchRequest;
   
@@ -619,8 +619,109 @@ RCT_EXPORT_METHOD(refundTransaction:(NSString *)amount transactionId:(NSString *
     });
     
   });
+}
 
+//---------------- Handle Void -------------
+RCT_EXPORT_METHOD(voidTransaction:(NSString *)amount transactionId:(NSString *)transactionId extData:(NSString *)extData callback:(RCTResponseSenderBlock)callback)
+{
+
+ MyApp *myapp = [MyApp sharedSigleton];
+  PaymentRequest *paymentRequest = [[PaymentRequest alloc] init];
+  myapp.poslink.paymentRequest = paymentRequest;
   
+ paymentRequest.TenderType = [PaymentRequest ParseTenderType:@"CREDIT"];
+  paymentRequest.TransType = [PaymentRequest ParseTransType:@"VOID"];
+  
+  paymentRequest.Amount = @"";
+  paymentRequest.CashBackAmt = @"";
+  paymentRequest.ClerkID = @"";
+   [self load];
+   paymentRequest.SigSavePath = @"";
+  [self saveInTabPayment];
+  paymentRequest.Zip = @"";
+  paymentRequest.TipAmt = @"";
+  paymentRequest.TaxAmt = @"";
+  paymentRequest.FuelAmt = @"";
+  paymentRequest.ECRTransID = @"";
+  paymentRequest.Street1 = @"";
+  paymentRequest.Street2 = @"";
+  paymentRequest.SurchargeAmt = @"";
+  paymentRequest.PONum = @"";
+  paymentRequest.OrigRefNum = @"";
+  paymentRequest.InvNum = @"";
+  paymentRequest.ECRRefNum = transactionId;
+  paymentRequest.ECRTransID = @"";
+  paymentRequest.AuthCode = @"";
+  paymentRequest.ExtData =@"";
+  
+  
+  //  --------- Scan TCP ------
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    __weak typeof(self) weakSelf = self;
+    myapp.poslink.reportedStatusChangeBlock = ^{
+      statusCode = [myapp.poslink getReportedStatus];
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf showReportStatus:statusCode];
+      });
+    };
+    
+    ProcessTransResult *ret = [myapp.poslink processTrans:PAYMENT];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+      if (ret.code == OK) {
+        
+        signData = myapp.poslink.paymentResponse.signData;
+        
+        if (myapp.poslink.paymentResponse.Message && myapp.poslink.paymentResponse.HostResponse ) {
+          NSDictionary *dataSuccess = @{@"status":@true,
+                                        @"ResultCode" : myapp.poslink.paymentResponse.ResultCode ? myapp.poslink.paymentResponse.ResultCode : @"",
+                                        @"ResultTxt" : myapp.poslink.paymentResponse.ResultTxt ? myapp.poslink.paymentResponse.ResultTxt : @"",
+                                        @"AuthCode" : myapp.poslink.paymentResponse.AuthCode ? myapp.poslink.paymentResponse.AuthCode : @"",
+                                        @"ApprovedAmount" : myapp.poslink.paymentResponse.ApprovedAmount ? myapp.poslink.paymentResponse.ApprovedAmount : @"",
+                                        @"AvsResponse" : myapp.poslink.paymentResponse.AvsResponse ? myapp.poslink.paymentResponse.AvsResponse : @"",
+                                        @"BogusAccountNum" : myapp.poslink.paymentResponse.BogusAccountNum ? myapp.poslink.paymentResponse.BogusAccountNum : @"",
+                                        @"CardType" : myapp.poslink.paymentResponse.CardType ? myapp.poslink.paymentResponse.CardType : @"",
+                                        @"CvResponse" : myapp.poslink.paymentResponse.CvResponse ? myapp.poslink.paymentResponse.CvResponse : @"",
+                                        @"HostCode" : myapp.poslink.paymentResponse.HostCode ? myapp.poslink.paymentResponse.HostCode : @"",
+                                        @"HostResponse" : myapp.poslink.paymentResponse.HostResponse ?  myapp.poslink.paymentResponse.HostResponse : @"",
+                                        @"Message" : myapp.poslink.paymentResponse.Message ? myapp.poslink.paymentResponse.Message : @"",
+                                        @"RefNum" : myapp.poslink.paymentResponse.RefNum ? myapp.poslink.paymentResponse.RefNum : @"",
+                                        @"RemainingBalance" : myapp.poslink.paymentResponse.RemainingBalance ? myapp.poslink.paymentResponse.RemainingBalance : @"",
+                                        @"ExtraBalance" : myapp.poslink.paymentResponse.ExtraBalance ? myapp.poslink.paymentResponse.ExtraBalance : @"",
+                                        @"Timestamp" : myapp.poslink.paymentResponse.Timestamp ?  myapp.poslink.paymentResponse.Timestamp : @"",
+                                        @"InvNum" : myapp.poslink.paymentResponse.InvNum ? myapp.poslink.paymentResponse.InvNum : @"",
+                                        @"ExtData" : myapp.poslink.paymentResponse.ExtData ? myapp.poslink.paymentResponse.ExtData : @"",
+                                        @"RequestedAmount" : myapp.poslink.paymentResponse.RequestedAmount ? myapp.poslink.paymentResponse.RequestedAmount : @"",
+                                        };
+          NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
+          callback(@[result]);
+        }
+        
+        
+        if (signData != nil) {
+          NSString *str = [myapp.poslink.paymentResponse.Timestamp stringByAppendingFormat:@"_%@",myapp.poslink.paymentResponse.RefNum];
+          [myapp.poslink.paymentRequest saveSigData:signData fileName:str];
+          [myapp.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
+        }
+        
+      }else if (ret.code == ERROR){
+        NSDictionary *dataError = @{@"status":@false,
+                                    @"message":ret.msg
+                                      };
+         NSString  *resultError =  [self convertObjectToJson:dataError ] ;
+        callback(@[resultError]);
+
+      }else if(ret.code == TIMEOUT){
+        NSDictionary *dataTimeout = @{@"status":@false,
+                                    @"message":ret.msg
+                                    };
+      NSString  *resultTimeout  =  [self convertObjectToJson:dataTimeout ] ;
+        callback(@[resultTimeout]);
+       
+      }
+    });
+    
+  });
 }
 
 @end

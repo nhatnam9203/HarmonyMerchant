@@ -56,6 +56,10 @@ class PopupProcessingCredit extends React.Component {
                             />
                         </View>
 
+                        <Text style={{ alignSelf: "center", color: "#404040", fontSize: scaleSzie(18) }} >
+                            Enter<Text style={{color:"red",fontWeight:"bold"}} >{' 5 '}</Text> number into your PAX machine!
+                        </Text>
+
                         <View style={{ paddingVertical: scaleSzie(14) }} >
                             <ButtonCustom
                                 width={scaleSzie(120)}
