@@ -73,7 +73,7 @@ class PopupEnterPinInvoice extends React.Component {
                 onRequestClose={() => onRequestClose()}
                 hideCloseButton={hideCloseButton}
                 style={customStyle}
-                hideCloseButton={true}
+                // hideCloseButton={true}
             >
                 <View style={{
                     height: scaleSzie(150), backgroundColor: '#fff',

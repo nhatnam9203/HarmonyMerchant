@@ -614,7 +614,7 @@ export default class Layout extends React.Component {
                 <PopupEnterPinInvoice
                     ref={this.visibleEnterPinRef}
                     title={localize('Input PIN Number', language)}
-                    onRequestClose={() => { }}
+                    onRequestClose={this.closePopupEnterPinInvoice}
                 />
                 <PopupConfirmInvoiceStatus
                     ref={this.confirmInvoiceStatusRef}

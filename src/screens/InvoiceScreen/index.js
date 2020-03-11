@@ -395,6 +395,11 @@ class InvoiceScreen extends Layout {
 
     }
 
+    closePopupEnterPinInvoice = () =>{
+        this.props.actions.app.setVisibleEnterPincodeInvoice(false);
+        this.props.navigation.navigate("Home");
+    }
+
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();

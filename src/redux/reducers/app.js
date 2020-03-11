@@ -106,7 +106,7 @@ function appReducer(state = initialState, action) {
         case 'SET_VISIBLE_ENTER_CODE_INVOICE':
             return {
                 ...state,
-                visibleEnterPinInvoice: true
+                visibleEnterPinInvoice: action.payload
             }
 
         case 'CLOSE_POPUP_ENTER_PIN':
