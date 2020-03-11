@@ -23,12 +23,12 @@ class TabSecondSettle extends Layout {
                 total: 0.00,
                 note: ''
             },
-            errorMessage:'',
-            paxErrorMessage:''
+            errorMessage: '',
+            paxErrorMessage: ''
         };
     }
 
-    setStateFromParent = (settleTotal,creditCount) => {
+    setStateFromParent = (settleTotal, creditCount) => {
         this.setState({
             settleTotal,
             creditCount
@@ -47,11 +47,11 @@ class TabSecondSettle extends Layout {
     }
 
     async handleResponseReportTransactions(message) {
-    console.log('Second : ', message);
+        console.log('Second : ', message);
         try {
             const result = JSON.parse(message);
             if (result.status == 0) {
-            //console.log('error Second : ',messageee);
+                //console.log('error Second : ',messageee);
                 this.setState({
                     paxErrorMessage: result.message,
                     errorMessage: `-${result.message}`,
@@ -60,17 +60,21 @@ class TabSecondSettle extends Layout {
                 this.setState({
                     creditCount: result.CreditCount,
                     creditAmount: result.CreditAmount,
-                    paxErrorMessage:'',
-                    errorMessage:''
+                    paxErrorMessage: '',
+                    errorMessage: ''
                 })
             }
         } catch (error) {
-        //console.log('error : ', error)
+            //console.log('error : ', error)
         }
     }
 
     backTabFirstSettle = () => {
         this.props.backTabFirstSettle();
+        this.setState({
+            errorMessage: '',
+            paxErrorMessage: ''
+        })
     }
 
     reviewBatchHistory = () => {
@@ -85,7 +89,9 @@ class TabSecondSettle extends Layout {
             numberFooter: 1,
             progress: 0,
             creditCount: 0,
-            creditAmount: 0
+            creditAmount: 0,
+            errorMessage: '',
+            paxErrorMessage: ''
         })
     }
 
@@ -95,6 +101,8 @@ class TabSecondSettle extends Layout {
         if (isSetup) {
             await this.setState({
                 numberFooter: 2,
+                errorMessage: '',
+                paxErrorMessage: ''
             });
             setTimeout(() => {
                 this.setState({

@@ -51,12 +51,6 @@ class SettlementScreen extends Layout {
         this.props.navigation.openDrawer();
     }
 
-    showLockScreen = () => {
-        // this.props.actions.app.handleLockScreen(true);
-    }
-
-
-
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();
