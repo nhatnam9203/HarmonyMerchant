@@ -626,7 +626,7 @@ RCT_EXPORT_METHOD(voidTransaction:(NSString *)amount transactionId:(NSString *)t
   paymentRequest.ECRRefNum = transactionId;
   paymentRequest.ECRTransID = @"";
   paymentRequest.AuthCode = @"";
-  paymentRequest.ExtData =@"";
+  paymentRequest.ExtData =extData;
   
   //  --------- Scan TCP ------
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

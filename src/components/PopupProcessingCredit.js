@@ -15,12 +15,24 @@ class PopupProcessingCredit extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            transactionId : false
         }
+    }
+
+    componentDidMount(){
+        console.log('-------ffsfsffs');
+    }
+
+    setStateFromParent = async (transactionId) =>{
+      await  this.setState({
+            transactionId
+        })
     }
 
 
     render() {
         const { visible, onRequestClose, language } = this.props;
+        const {transactionId} = this.state;
 
         return (
             <ModalCustom
@@ -56,9 +68,12 @@ class PopupProcessingCredit extends React.Component {
                             />
                         </View>
 
-                        <Text style={{ alignSelf: "center", color: "#404040", fontSize: scaleSzie(18) }} >
-                            Enter<Text style={{color:"red",fontWeight:"bold"}} >{' 5 '}</Text> number into your PAX machine!
-                        </Text>
+                        {
+                            transactionId ? <Text style={{ alignSelf: "center", color: "#404040", fontSize: scaleSzie(18) }} >
+                            Enter<Text style={{color:"red",fontWeight:"bold"}} >{` ${transactionId} `}</Text> number into your PAX machine!
+                        </Text> : <View />
+                        }
+                        
 
                         <View style={{ paddingVertical: scaleSzie(14) }} >
                             <ButtonCustom

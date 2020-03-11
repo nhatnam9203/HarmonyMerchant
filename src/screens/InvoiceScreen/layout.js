@@ -155,7 +155,7 @@ export default class Layout extends React.Component {
         const { language } = this.props;
         const { invoiceDetail } = this.state;
         const status = invoiceDetail.status ? invoiceDetail.status : '';
-        if (status === 'paid' && invoiceDetail.paymentMethod === "credit_card") {
+        if (status === 'paid' ) {
             return (
                 <ButtonCustom
                     width={'100%'}
@@ -168,7 +168,7 @@ export default class Layout extends React.Component {
                     styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
                 />
             );
-        } else if (status === 'pending' && invoiceDetail.paymentMethod === "credit_card") {
+        } else if (status === 'pending') {
             return (
                 <ButtonCustom
                     width={'100%'}
@@ -577,7 +577,7 @@ export default class Layout extends React.Component {
 
     render() {
         const { language, navigation } = this.props;
-        const { visibleCalendar, isFocus, visibleConfirmInvoiceStatus } = this.state;
+        const { visibleCalendar, isFocus, visibleConfirmInvoiceStatus,transactionId } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -624,9 +624,11 @@ export default class Layout extends React.Component {
                     onRequestClose={() => this.setState({ visibleConfirmInvoiceStatus: false })}
                 />
                  <PopupProcessingCredit
+                    ref={this.popupProcessingCreditRef}
                     visible={this.state.visibleProcessingCredit}
                     onRequestClose={this.cancelTransaction}
                     language={language}
+                    transactionId={transactionId}
                 />
             </ParentContainer>
         );
