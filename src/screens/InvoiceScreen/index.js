@@ -274,7 +274,7 @@ class InvoiceScreen extends Layout {
         })
     }
 
-   
+
 
     confirmChangeInvoiceStatus = async () => {
         const { paxMachineInfo } = this.props;
@@ -294,9 +294,9 @@ class InvoiceScreen extends Layout {
                 visibleProcessingCredit: true
             })
             PosLink.setupPax(ip, port, timeout);
-            PosLink.voidTransaction(parseFloat(paymentInformation.ApprovedAmount) , paymentInformation.RefNum, paymentInformation.ExtData, (data) => {
-                console.log("--- data : ",data);
-                this.handleResultRefundTransaction(data);
+            PosLink.voidTransaction(parseFloat(paymentInformation.ApprovedAmount), paymentInformation.RefNum, paymentInformation.ExtData, (data) => {
+                console.log("--- data : ", data);
+                // this.handleResultRefundTransaction(data);
             });
         }
     }
@@ -304,7 +304,7 @@ class InvoiceScreen extends Layout {
     handleResultRefundTransaction = async result => {
         const { invoiceDetail } = this.state;
 
-        console.log("--- result : ",result);
+        console.log("--- result : ", result);
         await this.setState({
             visibleProcessingCredit: false
         });

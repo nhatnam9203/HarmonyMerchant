@@ -216,6 +216,7 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)amount callback:(RCTResponseSender
   paymentRequest.ExtData = @"";
   
   
+  
   //  --------- Scan TCP ------
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     __weak typeof(self) weakSelf = self;
@@ -230,7 +231,6 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)amount callback:(RCTResponseSender
     
     dispatch_async(dispatch_get_main_queue(), ^{
       if (ret.code == OK) {
-        
         signData = myapp.poslink.paymentResponse.signData;
         
         if (myapp.poslink.paymentResponse.Message && myapp.poslink.paymentResponse.HostResponse ) {
@@ -265,20 +265,13 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)amount callback:(RCTResponseSender
           [myapp.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
         }
         
-      }else if (ret.code == ERROR){
+      }else {
         NSDictionary *dataError = @{@"status":@false,
                                     @"message":ret.msg
                                       };
          NSString  *resultError =  [self convertObjectToJson:dataError ] ;
         callback(@[resultError]);
 
-      }else if(ret.code == TIMEOUT){
-        NSDictionary *dataTimeout = @{@"status":@false,
-                                    @"message":ret.msg
-                                    };
-      NSString  *resultTimeout  =  [self convertObjectToJson:dataTimeout ] ;
-        callback(@[resultTimeout]);
-       
       }
     });
     
@@ -369,18 +362,12 @@ RCT_EXPORT_METHOD(batchTransaction:(RCTResponseSenderBlock)callback)
          NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
          callback(@[result]);
          
-       }else if (ret.code == ERROR){
+       }else {
          NSDictionary *dataError = @{@"status":@false,
                                      @"message":ret.msg
                                      };
          NSString  *resultError =  [self convertObjectToJson:dataError ] ;
          callback(@[resultError]);
-       }else if (ret.code == TIMEOUT){
-         NSDictionary *dataTimeout = @{@"status":@false,
-                                       @"message":ret.msg
-                                       };
-         NSString  *resultTimeout  =  [self convertObjectToJson:dataTimeout ] ;
-         callback(@[resultTimeout]);
        }
        
      });
@@ -498,19 +485,13 @@ RCT_EXPORT_METHOD(reportTransaction:(RCTResponseSenderBlock)callback)
         NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
         callback(@[result]);
         
-      }else if (ret.code == ERROR){
+      }else {
         NSDictionary *dataError = @{@"status":@false,
                                     @"message":ret.msg
                                     };
         NSString  *resultError =  [self convertObjectToJson:dataError ] ;
         callback(@[resultError]);
         
-      }else if (ret.code == TIMEOUT){
-        NSDictionary *dataTimeout = @{@"status":@false,
-                                      @"message":ret.msg
-                                      };
-        NSString  *resultTimeout  =  [self convertObjectToJson:dataTimeout ] ;
-        callback(@[resultTimeout]);
       }
       
     });
@@ -601,20 +582,13 @@ RCT_EXPORT_METHOD(refundTransaction:(NSString *)amount transactionId:(NSString *
           [myapp.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
         }
         
-      }else if (ret.code == ERROR){
+      }else {
         NSDictionary *dataError = @{@"status":@false,
                                     @"message":ret.msg
                                       };
          NSString  *resultError =  [self convertObjectToJson:dataError ] ;
         callback(@[resultError]);
 
-      }else if(ret.code == TIMEOUT){
-        NSDictionary *dataTimeout = @{@"status":@false,
-                                    @"message":ret.msg
-                                    };
-      NSString  *resultTimeout  =  [self convertObjectToJson:dataTimeout ] ;
-        callback(@[resultTimeout]);
-       
       }
     });
     
@@ -654,7 +628,6 @@ RCT_EXPORT_METHOD(voidTransaction:(NSString *)amount transactionId:(NSString *)t
   paymentRequest.AuthCode = @"";
   paymentRequest.ExtData =@"";
   
-  
   //  --------- Scan TCP ------
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     __weak typeof(self) weakSelf = self;
@@ -669,9 +642,7 @@ RCT_EXPORT_METHOD(voidTransaction:(NSString *)amount transactionId:(NSString *)t
     
     dispatch_async(dispatch_get_main_queue(), ^{
       if (ret.code == OK) {
-        
         signData = myapp.poslink.paymentResponse.signData;
-        
         if (myapp.poslink.paymentResponse.Message && myapp.poslink.paymentResponse.HostResponse ) {
           NSDictionary *dataSuccess = @{@"status":@true,
                                         @"ResultCode" : myapp.poslink.paymentResponse.ResultCode ? myapp.poslink.paymentResponse.ResultCode : @"",
@@ -695,8 +666,14 @@ RCT_EXPORT_METHOD(voidTransaction:(NSString *)amount transactionId:(NSString *)t
                                         };
           NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
           callback(@[result]);
+        }else {
+            NSDictionary *dataSuccesButError = @{@"status":@false,
+                                                   @"ResultCode" : myapp.poslink.paymentResponse.ResultCode ? myapp.poslink.paymentResponse.ResultCode : @"",
+                                          @"message" : myapp.poslink.paymentResponse.ResultTxt ? myapp.poslink.paymentResponse.ResultTxt : @"",};
+          
+          NSString  *resultSuccesButError =  [self convertObjectToJson:dataSuccesButError ] ;
+          callback(@[resultSuccesButError]);
         }
-        
         
         if (signData != nil) {
           NSString *str = [myapp.poslink.paymentResponse.Timestamp stringByAppendingFormat:@"_%@",myapp.poslink.paymentResponse.RefNum];
@@ -704,21 +681,15 @@ RCT_EXPORT_METHOD(voidTransaction:(NSString *)amount transactionId:(NSString *)t
           [myapp.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
         }
         
-      }else if (ret.code == ERROR){
+      }else {
         NSDictionary *dataError = @{@"status":@false,
                                     @"message":ret.msg
                                       };
          NSString  *resultError =  [self convertObjectToJson:dataError ] ;
         callback(@[resultError]);
 
-      }else if(ret.code == TIMEOUT){
-        NSDictionary *dataTimeout = @{@"status":@false,
-                                    @"message":ret.msg
-                                    };
-      NSString  *resultTimeout  =  [self convertObjectToJson:dataTimeout ] ;
-        callback(@[resultTimeout]);
-       
       }
+      
     });
     
   });
