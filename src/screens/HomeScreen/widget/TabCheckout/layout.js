@@ -117,8 +117,8 @@ class Layout extends React.Component {
                     }
 
 
-                    {/* <Button onPress={this.checkStatusCashier} style={styles.btnCashier} > */}
-                    <Button onPress={this.refundTransaction} style={styles.btnCashier} >
+                    <Button onPress={this.checkStatusCashier} style={styles.btnCashier} >
+                    {/* <Button onPress={this.refundTransaction} style={styles.btnCashier} > */}
 
                         <Image source={IMAGE.cashier_btn}
                             style={{ width: scaleSzie(16), height: scaleSzie(13) }}
@@ -263,6 +263,9 @@ class Layout extends React.Component {
         const { isShowColAmount, categorySelected, categoryTypeSelected, productSeleted } = this.state;
         const temptWidth = isShowColAmount ? 190 : 120;
         const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
+
+        console.log("productSeleted : ", JSON.stringify(productSeleted));
+
         return (
             <View style={{ width: scaleSzie(temptWidth) }} >
                 {
@@ -294,7 +297,7 @@ class Layout extends React.Component {
                                         price={productSeleted.price}
                                     /> : <ScrollView>
                                             {
-                                                productSeleted.extras.map((extra, index) => <ItemExtra
+                                           (this.getExtrasFromRedux(productSeleted)).map((extra, index) => <ItemExtra
                                                     key={index}
                                                     extra={extra}
                                                     onPressSelectExtra={this.onPressSelectExtra}
@@ -783,7 +786,7 @@ class Layout extends React.Component {
                 <PopupChangeStylist
                     ref={this.changeStylistRef}
                     visible={visibleChangeStylist}
-                    title={localize('Change Stylist', language)}
+                    title={localize('Modification', language)}
                     onRequestClose={() => { this.setState({ visibleChangeStylist: false }) }}
                     changeStylistBasketLocal={this.changeStylistBasketLocal}
                 />

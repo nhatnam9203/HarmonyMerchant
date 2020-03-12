@@ -85,10 +85,10 @@ class PopupChangeStylist extends React.Component {
                 onRequestClose={() => onRequestClose()}
                 width={scaleSzie(200)}
                 style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(50) }}
-                styleTitle={{ fontSize: scaleSzie(17) }}
+                styleTitle={{ fontSize: scaleSzie(22),fontWeight:"bold" }}
             >
                 <View style={{
-                    height: scaleSzie(250), backgroundColor: '#FAFAFA',
+                    height: scaleSzie(320), backgroundColor: '#FAFAFA',
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
                     paddingHorizontal: scaleSzie(16),
                     paddingTop: scaleSzie(20), paddingBottom: scaleSzie(16)
@@ -112,11 +112,35 @@ class PopupChangeStylist extends React.Component {
                                 }}
                             />
                         </View>
+                         {/* ------- Price -------- */}
+                         <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
+                            Price ($)
+                        </Text>
+                         {/* ------- Box Price -------- */}
+                         <View style={{
+                            height: scaleSzie(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
+                            paddingHorizontal: scaleSzie(10), marginBottom: scaleSzie(10)
+                        }} >
+                            <TextInputMask
+                                // type="only-numbers"
+                                type={'money'}
+                                options={{
+                                    precision: 2,
+                                    separator: '.',
+                                    delimiter: ',',
+                                    unit: '',
+                                    suffixUnit: ''
+                                }}
+                                style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
+                                value={tip}
+                                onChangeText={(tip) => this.setState({ tip })}
+                            />
+                        </View>
                         {/* ------- Tip -------- */}
                         <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
                             Tip ($)
                         </Text>
-                        {/* ------- Box -------- */}
+                        {/* ------- Box Tip -------- */}
                         <View style={{
                             height: scaleSzie(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
                             paddingHorizontal: scaleSzie(10)

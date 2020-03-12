@@ -1613,9 +1613,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.harmonypayment.consumer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony.dev;
 				PRODUCT_NAME = DEV;
-				PROVISIONING_PROFILE_SPECIFIER = "HpConsumer Adhoc";
+				PROVISIONING_PROFILE_SPECIFIER = HarmonyMerchantDev;
 				SWIFT_OBJC_BRIDGING_HEADER = "Hpmerchant-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1656,9 +1656,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.harmonypayment.consumer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony.dev;
 				PRODUCT_NAME = DEV;
-				PROVISIONING_PROFILE_SPECIFIER = "HpConsumer Adhoc";
+				PROVISIONING_PROFILE_SPECIFIER = HarmonyMerchantDev;
 				SWIFT_OBJC_BRIDGING_HEADER = "Hpmerchant-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
