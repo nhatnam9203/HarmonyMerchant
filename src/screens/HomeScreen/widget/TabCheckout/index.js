@@ -1450,7 +1450,7 @@ class TabCheckout extends Layout {
         }
     }
 
-    changeStylistBasketLocal = async (serviceId, staffId, tip) => {
+    changeStylistBasketLocal = async (serviceId, staffId, tip, price) => {
         const { basket } = this.state;
         const { listStaffByMerchant } = this.props;
         if (staffId) {
@@ -1459,6 +1459,10 @@ class TabCheckout extends Layout {
                 if (item.type === 'Service' && item.data.serviceId === serviceId) {
                     return {
                         ...item,
+                        data: {
+                            ...item.data,
+                            price: price
+                        },
                         staff: {
                             staffId: staffId,
                             imageUrl: temptStaff ? temptStaff.imageUrl : '',
@@ -1783,7 +1787,7 @@ class TabCheckout extends Layout {
                 }
             }
         }
-        
+
         return extrasBySort;
 
     }

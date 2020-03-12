@@ -64,7 +64,7 @@ export function closeModalDiscount() {
 }
 
 
-export function changeStylist(staffId, bookingServiceId, tipAmount, appointmentId, isGroup = false) {
+export function changeStylist(staffId, bookingServiceId, tipAmount, appointmentId, price, isGroup = false) {
     return {
         type: 'CHANGE_STYLIST',
         method: 'PUT',
@@ -73,6 +73,7 @@ export function changeStylist(staffId, bookingServiceId, tipAmount, appointmentI
             staffId,
             bookingServiceId,
             tipAmount,
+            price
         },
         api: `${apiConfigs.BASE_API}appointment/tip/${appointmentId}`,
         appointmentId,
