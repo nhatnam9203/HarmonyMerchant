@@ -192,7 +192,7 @@ class PopupDiscount extends React.Component {
                             </View>
                             <View style={{ justifyContent: 'center' }} >
                                 <Text style={{ color: '#4CD964', fontSize: scaleSzie(30), fontWeight: 'bold' }} >
-                                    {`- ${formatMoney(temptTotalDiscount)}$`}
+                                    {`$ - ${formatMoney(temptTotalDiscount)}`}
                                 </Text>
                             </View>
                         </View>
@@ -235,7 +235,7 @@ const ItemCampaign = ({ title, discount }) => {
             </View>
             <View style={{ justifyContent: 'center' }} >
                 <Text style={{ color: '#4CD964', fontSize: scaleSzie(20) }} >
-                    {`-${discount}$`}
+                    {`$ -${discount}`}
                 </Text>
             </View>
         </View>
@@ -306,7 +306,7 @@ class CustomDiscount extends React.Component {
                 </View>
                 <View style={{ justifyContent: 'center' }} >
                     <Text style={{ color: '#4CD964', fontSize: scaleSzie(20) }} >
-                        {`${formatMoney(discount)}$`}
+                        {`$ ${formatMoney(discount)}`}
                     </Text>
                 </View>
             </View>
@@ -342,7 +342,12 @@ class CustomDiscountFixed extends React.Component {
                         borderColor: '#707070', borderWidth: 1, marginLeft: scaleSzie(20), borderRadius: scaleSzie(4),
                         flexDirection: 'row',
                     }} >
-                        <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
+                         <View style={{ justifyContent: 'center',paddingLeft: scaleSzie(5) }} >
+                            <Text style={{ color: '#4CD964', fontSize: scaleSzie(20) }} >
+                                $
+                            </Text>
+                        </View>
+                        <View style={{ flex: 1, paddingHorizontal: scaleSzie(5) }} >
                             <TextInputMask
                                 type={'money'}
                                 options={{
@@ -363,11 +368,7 @@ class CustomDiscountFixed extends React.Component {
                                 maxLength={3}
                             />
                         </View>
-                        <View style={{ justifyContent: 'center', paddingRight: scaleSzie(5) }} >
-                            <Text style={{ color: '#4CD964', fontSize: scaleSzie(20) }} >
-                                $
-                            </Text>
-                        </View>
+                       
                     </View>
                     {/* -------  ----- */}
                 </View>
