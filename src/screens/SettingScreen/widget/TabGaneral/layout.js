@@ -119,7 +119,7 @@ class Layout extends React.Component {
                         </View>
                     </View>
                     {/* -------- Longtitude --------- */}
-                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
+                    {/* <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
                         <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
                             <Text style={{
                                 color: '#404040',
@@ -140,9 +140,9 @@ class Layout extends React.Component {
                                 onChangeText={value => this.setState({ longitude: value })}
                             />
                         </View>
-                    </View>
+                    </View> */}
                     {/* -------- Lattitude --------- */}
-                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
+                    {/* <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
                         <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
                             <Text style={{
                                 color: '#404040',
@@ -163,10 +163,10 @@ class Layout extends React.Component {
                                 onChangeText={value => this.setState({ latitude: value })}
                             />
                         </View>
-                    </View>
+                    </View> */}
                     {/* ------ Button Save --- */}
                     <View style={{ justifyContent: 'flex-end', marginTop: scaleSzie(20), flexDirection: 'row' }} >
-                        <ButtonCustom
+                        {/* <ButtonCustom
                             width={scaleSzie(250)}
                             height={50}
                             backgroundColor="#F1F1F1"
@@ -179,7 +179,7 @@ class Layout extends React.Component {
                             }}
                             styleText={{ fontSize: scaleSzie(18), fontWeight: '500', color: '#fff' }}
                         />
-                        <View style={{ width: scaleSzie(20) }} />
+                        <View style={{ width: scaleSzie(20) }} /> */}
                         <ButtonCustom
                             width={scaleSzie(120)}
                             height={50}

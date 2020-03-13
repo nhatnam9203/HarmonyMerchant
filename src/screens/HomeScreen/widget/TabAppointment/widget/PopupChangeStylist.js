@@ -5,7 +5,8 @@ import {
     Text,
     StyleSheet,
     TextInput,
-    ScrollView
+    ScrollView,
+    Keyboard
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
@@ -29,6 +30,18 @@ class PopupChangeStylist extends React.Component {
             serviceIdLocal: ''
         };
         this.scrollRef = React.createRef();
+    }
+
+    componentDidMount() {
+        this.keyboardWillHide = Keyboard.addListener('keyboardWillHide', this.handleKeyboardWillHide);
+    }
+
+    handleKeyboardWillHide = async () => {
+       
+        if(this.scrollRef.current){
+            this.scrollRef.current.scrollTo({ x: 0, y: 0, animated: true })
+        }
+       
     }
 
     setStateFromParent = async (service) => {
@@ -92,7 +105,7 @@ class PopupChangeStylist extends React.Component {
                 title={title}
                 visible={visible}
                 onRequestClose={() => onRequestClose()}
-                width={scaleSzie(200)}
+                width={scaleSzie(260)}
                 // style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(50) }}
                 styleTitle={{ fontSize: scaleSzie(22), fontWeight: "bold" }}
             >
@@ -196,6 +209,10 @@ class PopupChangeStylist extends React.Component {
                 </View>
             </PopupParent>
         );
+    }
+
+    componentWillUnmount() {
+        this.keyboardWillHide.remove();
     }
 
 }

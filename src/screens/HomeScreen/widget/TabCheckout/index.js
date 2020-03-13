@@ -595,7 +595,12 @@ class TabCheckout extends Layout {
         return `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`;
     }
 
-    async printInvoice(portName, isShowTip = false) {
+    async printInvoice(portName, isShowTip = false) { 
+        const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal, methodPayment } = this.state;
+        alert(methodPayment)
+    }
+
+    async printInvoice1(portName, isShowTip = false) {
         // ------------------------
         const { groupAppointment, isOfflineMode } = this.props;
         const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal, methodPayment } = this.state;
