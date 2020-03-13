@@ -62,7 +62,7 @@ export default class Layout extends React.Component {
                     </Button>
                     {/* ----- Btn Search ---- */}
                     <View style={{ width: scaleSzie(120), alignItems: 'flex-end' }} >
-                        <ButtonCustom
+                        {/* <ButtonCustom
                             width={'90%'}
                             height={40}
                             backgroundColor="#F1F1F1"
@@ -74,7 +74,7 @@ export default class Layout extends React.Component {
                                 backgroundColor: '#0764B0'
                             }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500', color: '#fff' }}
-                        />
+                        /> */}
                     </View>
                 </View>
                 {/* ---------- Row 3 ---------- */}

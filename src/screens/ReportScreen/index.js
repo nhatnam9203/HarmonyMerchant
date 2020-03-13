@@ -62,11 +62,13 @@ class ReportScreen extends Layout {
         })
     }
 
-    changeTitleTimeRange = (title) => {
-        this.setState({
+    changeTitleTimeRange = async (title) => {
+        await this.setState({
             titleRangeTime: title !== 'Time Range' ? title : 'All time',
             visibleCalendar: false
-        })
+        });
+        this.searchStaff();
+        // console.log("------ title : ", title);
     }
     setPosition = (dx) => {
         this.props.actions.staff.setPositionHeader(dx)
@@ -78,7 +80,7 @@ class ReportScreen extends Layout {
             url = `timeStart=${startDate}&timeEnd=${endDate}`;
         } else {
             const filter = quickFilter === false ? 'This Week' : quickFilter;
-        //console.log('quickFilter',quickFilter)
+            //console.log('quickFilter',quickFilter)
             url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
         }
         this.props.actions.staff.getListStaffsSalaryTop(url, true);
