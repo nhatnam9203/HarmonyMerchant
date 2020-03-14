@@ -90,7 +90,7 @@ class PopupChangeStylist extends React.Component {
     }
 
     onFocusToScroll = (number) => {
-        this.scrollRef.current.scrollTo({ x: 0, y: number, animated: true })
+        this.scrollRef.current.scrollTo({ x: 0, y: scaleSzie(number), animated: true })
     }
 
     // --------------- Render -----------
@@ -159,7 +159,7 @@ class PopupChangeStylist extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
                                     value={price}
                                     onChangeText={(price) => this.setState({ price })}
-                                    onFocus={() => this.onFocusToScroll(160)}
+                                    onFocus={() => this.onFocusToScroll(90)}
                                 />
                             </View>
                             {/* ------- Tip -------- */}
@@ -184,7 +184,7 @@ class PopupChangeStylist extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
                                     value={tip}
                                     onChangeText={(tip) => this.setState({ tip })}
-                                    onFocus={() => this.onFocusToScroll(290)}
+                                    onFocus={() => this.onFocusToScroll(160)}
                                 />
                             </View>
                             {/* ------- Button -------- */}

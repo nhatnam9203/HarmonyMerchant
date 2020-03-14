@@ -127,6 +127,7 @@ class ItemAdminCellPhone extends React.Component {
                             secureTextEntry={secureTextEntry}
                             maxLength={maxLength ? maxLength : null}
                             onFocus={() => onFocus()}
+                            keyboardType="numeric"
                         />
                     </View>
 

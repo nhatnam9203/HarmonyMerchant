@@ -55,6 +55,7 @@ class ItemCheckBoxInput extends React.Component {
                         style={{ marginBottom: scaleSzie(10) }}
                         isOnlyNumber={true}
                         editable={isSelectCheckBox}
+                        keyboardType="numeric"
                     />
 
                 </View>

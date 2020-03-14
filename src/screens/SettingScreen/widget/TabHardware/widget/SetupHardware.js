@@ -5,7 +5,8 @@ import {
     Image,
     Platform,
     TextInput,
-    ScrollView
+    ScrollView,
+    Keyboard
 } from 'react-native';
 
 import { ButtonCustom, Text } from '@components';
@@ -24,7 +25,20 @@ class SetupHardware extends React.Component {
             ip,
             port,
             timeout:60000
+        };
+        this.scrollRef = React.createRef();
+    }
+
+    componentDidMount() {
+        this.keyboardWillHide = Keyboard.addListener('keyboardWillHide', this.handleKeyboardWillHide);
+    }
+
+    handleKeyboardWillHide = async () => {
+       
+        if(this.scrollRef.current){
+            this.scrollRef.current.scrollTo({ x: 0, y: 0, animated: true })
         }
+       
     }
 
     setupPax = () => {
@@ -48,6 +62,10 @@ class SetupHardware extends React.Component {
         });
 
         this.props.backListDevices();
+    }
+
+    scrollTo =(number) =>{
+        this.scrollRef.current.scrollTo({x: 0, y: scaleSzie(number), animated: true});
     }
 
     // -------- Render ------
@@ -79,7 +97,10 @@ class SetupHardware extends React.Component {
 
                 {/* ----------- Line ------------ */}
                 <View style={{ height: scaleSzie(1), backgroundColor: 'rgb(227,227,227)', }} />
-                <ScrollView  >
+                <ScrollView  
+                    ref={this.scrollRef}
+                    showsVerticalScrollIndicator={false}
+                >
                     <ItemSetup
                         title={localize('Name', language)}
                         placeholder={localize('Device name', language)}
@@ -92,6 +113,8 @@ class SetupHardware extends React.Component {
                         placeholder={"192.168.1.1"}
                         value={ip}
                         onChangeText={ip => this.setState({ ip })}
+                        keyboardType="numeric"
+                        onFocus={() => this.scrollTo(70)}
                     />
 
                     <ItemSetup
@@ -99,6 +122,8 @@ class SetupHardware extends React.Component {
                         placeholder={"10009"}
                         value={port}
                         onChangeText={port => this.setState({ port })}
+                        keyboardType="numeric"
+                        onFocus={() => this.scrollTo(120)}
                     />
 
                     {/* <ItemSetup
@@ -107,7 +132,7 @@ class SetupHardware extends React.Component {
                         value={timeout}
                         onChangeText={timeout => this.setState({ timeout })}
                     /> */}
-                    <View style={{ height: scaleSzie(300) }} />
+                    <View style={{ height: scaleSzie(400) }} />
                 </ScrollView>
                 {/* ------- Footer -------- */}
                 <View style={{ position: 'absolute', bottom: 0, width: '100%', justifyContent: 'flex-end', paddingBottom: scaleSzie(30) }} >
@@ -140,10 +165,14 @@ class SetupHardware extends React.Component {
 
     }
 
+    componentWillUnmount() {
+        this.keyboardWillHide.remove();
+    }
+
 }
 
 
-const ItemSetup = ({ title, value, placeholder, onChangeText }) => {
+const ItemSetup = ({ title, value, placeholder, onChangeText,keyboardType ,onFocus}) => {
     return (
         <View style={{ flexDirection: 'row', marginTop: scaleSzie(20), }} >
             <View style={{ width: scaleSzie(140), justifyContent: 'center', }} >
@@ -161,11 +190,14 @@ const ItemSetup = ({ title, value, placeholder, onChangeText }) => {
                         placeholder={placeholder}
                         value={value}
                         onChangeText={(value) => onChangeText(value)}
+                        keyboardType={keyboardType}
+                        onFocus={() => onFocus && onFocus()}
                     />
                 </View>
             </View>
         </View>
     );
+
 }
 
 

@@ -236,6 +236,7 @@ class PopupAddEditCustomer extends React.Component {
                                             value={phone}
                                             onChangeText={value => this.updateCustomerInfo('phone', value)}
                                             onFocus={() => this.scrollCustomerTo(60)}
+                                            keyboardType="numeric"
                                         />
                                     </View>
 
@@ -364,6 +365,7 @@ class PopupAddEditCustomer extends React.Component {
                                             value={referrerPhone}
                                             onChangeText={value => this.updateCustomerInfo('referrerPhone', value)}
                                             onFocus={() => this.scrollCustomerTo(275)}
+                                            keyboardType="numeric"
                                         />
                                     </View>
 

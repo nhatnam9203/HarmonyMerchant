@@ -55,6 +55,7 @@ export default class InputForm extends React.PureComponent {
                                 maxLength={maxLength ? maxLength : null}
                                 editable={editable}
                                 onFocus={() => onFocus && onFocus()}
+
                             />
                     }
 
