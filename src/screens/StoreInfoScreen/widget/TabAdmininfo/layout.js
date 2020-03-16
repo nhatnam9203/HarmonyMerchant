@@ -20,7 +20,7 @@ import ItemScalary from '../ItemScalary';
 class Layout extends React.Component {
 
     renderBody() {
-        const { language } = this.props;
+        const { language,profile } = this.props;
         const { address, firstName, lastName, displayName,
             cellphone, email, pin, confirmPin, roles,
             driverlicense, socialSecurityNumber, professionalLicense,
@@ -28,6 +28,9 @@ class Layout extends React.Component {
         } = this.state.user;
         const { street, city, state, zip } = address;
         const { nameRole } = roles;
+
+        const businessHourStart = profile.businessHourStart ? profile.businessHourStart : '';
+        const businessHourEnd = profile.businessHourEnd ? profile.businessHourEnd : '';
         
         return (
             <View style={styles.body} >
@@ -176,8 +179,8 @@ class Layout extends React.Component {
                                 ref={this.setRefTimeWorking}
                                 title={day}
                                 dataInit={{
-                                    timeStart: "10:00 AM",
-                                    timeEnd: "08:00 PM",
+                                    timeStart: businessHourStart,
+                                    timeEnd: businessHourEnd,
                                     isCheck: true
                                 }}
                             />

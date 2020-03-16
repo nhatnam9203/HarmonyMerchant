@@ -165,8 +165,8 @@ class TabAdminInfo extends React.Component {
                 webLink: '',
                 latitude: '',
                 longitude: '',
-                taxService: '',
-                taxProduct: ''
+                taxService: 0,
+                taxProduct: 0
             };
             this.props.actions.app.merchantSetting(body,false);
             this.props.nextTab();
@@ -284,7 +284,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     language: state.dataLocal.language,
-    profile: state.dataLocal.profile,
 })
 
 

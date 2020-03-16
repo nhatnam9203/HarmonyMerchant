@@ -56,7 +56,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { isAddStaff, language, stateCity } = this.props;
+        const { isAddStaff, language, stateCity ,profile} = this.props;
         const { visibleArchive, visibleRestore, infoStaffHandle,
             isEditStaff
         } = this.state;
@@ -64,6 +64,7 @@ class Layout extends React.Component {
         return (
             <View style={styles.container} >
                 {isAddStaff ? <StaffInfo
+                    profile={profile}
                     stateCity={stateCity}
                     language={language}
                     backTabelStaff={() => {

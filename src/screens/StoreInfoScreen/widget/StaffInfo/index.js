@@ -9,6 +9,11 @@ class StaffInfo extends Layout {
 
     constructor(props) {
         super(props);
+
+        const { profile } = this.props;
+        const businessHourStart = profile.businessHourStart ? profile.businessHourStart : '';
+        const businessHourEnd = profile.businessHourEnd ? profile.businessHourEnd : '';
+
         this.state = {
             user: {
                 firstName: '',
@@ -35,38 +40,38 @@ class StaffInfo extends Layout {
             staffId: '',
             workingTime: {
                 Monday: {
-                    timeStart: "10:00 AM",
-                    timeEnd: "08:00 PM",
+                    timeStart:businessHourStart,
+                    timeEnd: businessHourEnd,
                     isCheck: true
                 },
                 Tuesday: {
-                    timeStart: "10:00 AM",
-                    timeEnd: "08:00 PM",
+                    timeStart: businessHourStart,
+                    timeEnd: businessHourEnd,
                     isCheck: true
                 },
                 Wednesday: {
-                    timeStart: "10:00 AM",
-                    timeEnd: "08:00 PM",
+                    timeStart: businessHourStart,
+                    timeEnd: businessHourEnd,
                     isCheck: true
                 },
                 Thursday: {
-                    timeStart: "10:00 AM",
-                    timeEnd: "08:00 PM",
+                    timeStart: businessHourStart,
+                    timeEnd: businessHourEnd,
                     isCheck: true
                 },
                 Friday: {
-                    timeStart: "10:00 AM",
-                    timeEnd: "08:00 PM",
+                    timeStart: businessHourStart,
+                    timeEnd: businessHourEnd,
                     isCheck: true
                 },
                 Saturday: {
-                    timeStart: "10:00 AM",
-                    timeEnd: "08:00 PM",
+                    timeStart: businessHourStart,
+                    timeEnd: businessHourEnd,
                     isCheck: true
                 },
                 Sunday: {
-                    timeStart: "10:00 AM",
-                    timeEnd: "08:00 PM",
+                    timeStart: businessHourStart,
+                    timeEnd: businessHourEnd,
                     isCheck: true
                 }
             },
