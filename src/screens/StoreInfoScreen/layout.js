@@ -24,6 +24,7 @@ export default class Layout extends React.Component {
                     initialPage={0}
                     locked={true}
                     renderTabBar={() => <DefaultTabBar
+                        isNotPress={true}
                         activeTextColor="#fff"
                         inactiveTextColor="#6A6A6A"
                         backgroundTabActive="#0764B0"

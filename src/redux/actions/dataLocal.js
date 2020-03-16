@@ -58,3 +58,10 @@ export function addAppointmentOfflineMode(body) {
         payload: body
     }
 }
+
+export function updateBusinessHour(data) {
+    return {
+        type: 'UPDATE_BUSSINES_HOUR',
+        payload: data
+    }
+}

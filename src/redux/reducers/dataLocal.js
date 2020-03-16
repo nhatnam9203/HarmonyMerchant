@@ -79,6 +79,12 @@ function dataLocal(state = initialState, action) {
                 listAppointmentsOfflineMode: []
             }
         }
+        case 'UPDATE_BUSSINES_HOUR': {
+            return {
+                ...state,
+                profile: {... state.profile, ...action.payload}
+            }
+        }
         case 'LOGOUT_APP':
             return {
                 ...state,

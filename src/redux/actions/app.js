@@ -82,13 +82,14 @@ export function getQuestion() {
     }
 }
 
-export function merchantSetting(body) {
+export function merchantSetting(body,isLoading = true) {
     return {
         type: 'MERCHANT_SETTING',
         method: 'PUT',
         body,
         token: true,
-        api: `${apiConfigs.BASE_API}merchant/setting`
+        api: `${apiConfigs.BASE_API}merchant/setting`,
+        isLoading
     }
 }
 
