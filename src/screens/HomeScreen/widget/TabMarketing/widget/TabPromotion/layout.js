@@ -88,15 +88,15 @@ class Layout extends React.Component {
                         />
 
                         {/* ---------- Reward Points -------- */}
-                        <View style={{ height: scaleSzie(16) }} />
-                        <PromotionRewardPoints
+                        {/* <View style={{ height: scaleSzie(16) }} /> */}
+                        {/* <PromotionRewardPoints
                             ref={this.promotionRewardPointsRef}
                             language={language}
                             data={this.getDataItemPromotion(6, promotions)}
                             showCalendar={this.showCalendar}
                             checkSelectPromotion={this.checkSelectPromotion}
                             sendNotification={this.sendNotification}
-                        />
+                        /> */}
                         <View style={{ height: scaleSzie(300) }} />
                     </ScrollView>
                 </View>
