@@ -595,15 +595,11 @@ class TabCheckout extends Layout {
         return `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`;
     }
 
-    async printInvoice(portName, isShowTip = false) { 
-        const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal, methodPayment } = this.state;
-        alert(methodPayment)
-    }
 
-    async printInvoice1(portName, isShowTip = false) {
+    async printInvoice(portName, isShowTip = false) {
         // ------------------------
         const { groupAppointment, isOfflineMode } = this.props;
-        const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal, methodPayment } = this.state;
+        const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal, methodPayment,paymentSelected} = this.state;
 
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
 
@@ -831,7 +827,7 @@ class TabCheckout extends Layout {
                 });
             }
 
-            if (methodPayment === 'credit_card') {
+            if (paymentSelected === 'Credit Cards') {
                 commands.push({ appendLineFeed: 1 });
                 commands.push({ enableEmphasis: true });
                 commands.push({
