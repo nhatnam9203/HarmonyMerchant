@@ -3,7 +3,7 @@ import { NativeModules } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { formatNumberFromCurrency, formatMoney,scaleSzie } from '@utils';
+import { formatNumberFromCurrency, formatMoney, scaleSzie } from '@utils';
 
 
 const PosLink = NativeModules.MyApp;
@@ -30,12 +30,12 @@ class TabFirstSettle extends Layout {
         this.inputCashPaymentRef = React.createRef();
         this.inputOtherPaymentRef = React.createRef();
         this.totalCustomRef = React.createRef();
-        this.scrollSRef =React.createRef();
+        this.scrollSRef = React.createRef();
     }
 
 
-    scrollTo  =(number) =>{
-        this.scrollSRef.current.scrollTo({x: 0, y: scaleSzie(number), animated: true})
+    scrollTo = (number) => {
+        this.scrollSRef.current.scrollTo({ x: 0, y: scaleSzie(number), animated: true })
     }
 
     resetNoteFromParent = async () => {
@@ -73,10 +73,11 @@ class TabFirstSettle extends Layout {
                     creditCount: result.CreditCount,
                     creditAmount: result.CreditAmount
                 });
-                if(this.inputCreditPaymentRef.current){
-                    this.inputCreditPaymentRef.current.setValueFromParent(result.CreditAmount);
+                if (this.inputCreditPaymentRef.current) {
+                    const creditAmount = formatMoney(result.CreditAmount / 100);
+                    this.inputCreditPaymentRef.current.setValueFromParent(creditAmount);
                 }
-               
+
             }
         } catch (error) {
             //console.log('error : ', error)
