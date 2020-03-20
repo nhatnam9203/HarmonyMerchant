@@ -19,10 +19,6 @@ class PopupProcessingCredit extends React.Component {
         }
     }
 
-    componentDidMount(){
-        console.log('-------ffsfsffs');
-    }
-
     setStateFromParent = async (transactionId) =>{
       await  this.setState({
             transactionId

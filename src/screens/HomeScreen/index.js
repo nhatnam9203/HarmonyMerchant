@@ -70,13 +70,16 @@ class HomeScreen extends Layout {
     }
 
     checkUpdateAppleStore = async () => {
-        VersionCheck.needUpdate()
-            .then(async res => {
-                if (res.isNeeded) {
-                    Linking.openURL(res.storeUrl);
-                }
-            });
+        try {
+            const res = await VersionCheck.needUpdate();
+            if (res && res.isNeeded) {
+                Linking.openURL(res.storeUrl);
+            }
+
+        } catch (error) {
+        }
     }
+
 
     initWatcherNetwork = () => {
         this.watcherNetwork.pipe(

@@ -943,6 +943,7 @@ class TabCheckout extends Layout {
 
     printTemptInvoice = async () => {
         const printMachine = await this.checkStatusPrint();
+        console.log("printMachine : ",printMachine);
         if (printMachine) {
             this.printInvoice(printMachine.portName, true);
         } else {
