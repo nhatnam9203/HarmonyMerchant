@@ -29,7 +29,7 @@ export default class TotalCustom extends React.Component {
         if (props.total != "0.00" && props.total
         //  && state.initState
          ) {
-            console.log("props.total : ",props.total);
+            // console.log("props.total : ",props.total);
             return { total: props.total, initState: false };
         }
         return null

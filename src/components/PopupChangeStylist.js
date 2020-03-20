@@ -45,7 +45,7 @@ class PopupChangeStylist extends React.Component {
 
     setStateFromParent = async (service, appointmentId) => {
         const { staff } = service;
-        console.log("----- service : ", JSON.stringify(service));
+        // console.log("----- service : ", JSON.stringify(service));
         await this.setState({
             staffId: staff && staff.staffId ? staff.staffId : '',
             name: staff && staff.displayName ? staff.displayName : '',

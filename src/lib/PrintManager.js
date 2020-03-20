@@ -29,7 +29,7 @@ export default class PrintManager {
             openCashDrawer: 1
         });
 
-        console.log('portName : ', portName);
+        // console.log('portName : ', portName);
         try {
             // StarGraphic,
             // StarPRNT
@@ -48,9 +48,9 @@ export default class PrintManager {
         try {
 
             let printResult = await StarPRNT.print(PRINTER_MACHINE[portName].emulation, commands, portName);
-            console.log(printResult); // Success!
+            // console.log(printResult); // Success!
         } catch (error) {
-            console.log('error : ', error);
+            // console.log('error : ', error);
         }
     }
 
@@ -67,9 +67,9 @@ export default class PrintManager {
     async connect(portName,hasBarcodeReader = false) {
         try {
             let connect = await StarPRNT.connect(portName,PRINTER_MACHINE[portName].emulation, hasBarcodeReader);
-            console.log('connect : ',connect); // Success!
+            // console.log('connect : ',connect); // Success!
         } catch (error) {
-            console.log('error : ', error);
+            // console.log('error : ', error);
         }
     }
 

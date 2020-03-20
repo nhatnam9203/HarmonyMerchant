@@ -272,7 +272,7 @@ class InvoiceScreen extends Layout {
         const { invoiceDetail } = this.state;
         this.confirmInvoiceStatusRef.current.setStateFromParent(invoiceDetail);
 
-        console.log("---- invoiceDetail :  ", JSON.stringify(invoiceDetail));
+        // console.log("---- invoiceDetail :  ", JSON.stringify(invoiceDetail));
 
         await this.setState({
             visibleConfirmInvoiceStatus: true

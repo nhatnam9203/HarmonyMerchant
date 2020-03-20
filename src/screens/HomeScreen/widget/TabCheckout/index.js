@@ -105,7 +105,7 @@ class TabCheckout extends Layout {
         const extData = "<AmountDue>0</AmountDue> <TipAmount>0</TipAmount> <CashBackAmount>0</CashBackAmount> <MechantFee>0</MechantFee> <TaxAmount>0</TaxAmount> <PLEntryMode>4</PLEntryMode> <ExpDate>1121</ExpDate> <PLNameOnCard>NGUYEN NGOC HUYEN </PLNameOnCard> <PLCardPresent>0</PLCardPresent> <ECRRefNum>0</ECRRefNum> <EDCTYPE>CREDIT</EDCTYPE> <CARDBIN>539146</CARDBIN> <PROGRAMTYPE>0</PROGRAMTYPE> <SN>53310319</SN> <GLOBALUID>53310319202003050311032328</GLOBALUID> <TC>07FF67D410E34115</TC> <TVR>8000008000</TVR> <AID>A0000000041010</AID> <TSI>6800</TSI> <ATC>01A0</ATC> <APPLAB>Mastercard</APPLAB> <APPPN>FE CREDIT</APPPN> <IAD>0114600003240000000000000000000000FF</IAD> <ARC>00</ARC> <CID>40</CID> <CVM>6</CVM> "
         PosLink.refundTransaction(1870, 15, extData, (data) => {
             // const result = JSON.parse(data);
-            console.log("----- Resutl : ", data);
+            // console.log("----- Resutl : ", data);
 
         })
     }
@@ -943,7 +943,7 @@ class TabCheckout extends Layout {
 
     printTemptInvoice = async () => {
         const printMachine = await this.checkStatusPrint();
-        console.log("printMachine : ", printMachine);
+        // console.log("printMachine : ", printMachine);
         if (printMachine) {
             this.printInvoice(printMachine.portName, true);
         } else {
@@ -968,7 +968,7 @@ class TabCheckout extends Layout {
             //     modelName: "TSP143IIIBI GY"
             //     portName: "BT:TSP100"
             // }
-            console.log("printer : ",JSON.stringify(printer));
+            // console.log("printer : ",JSON.stringify(printer));
             if (printer.length > 0) {
                 return printer
             }
@@ -982,7 +982,7 @@ class TabCheckout extends Layout {
     checkStatusPrint = async () => {
         try {
             const printer = await PrintManager.getInstance().portDiscovery();
-            console.log("printer : ", printer);
+            // console.log("printer : ", printer);
             if (printer.length > 0) {
                 let portName = "";
                 for (let i = 0; i < printer.length; i++) {
@@ -1304,7 +1304,7 @@ class TabCheckout extends Layout {
         })
         try {
             const result = JSON.parse(message);
-            console.log("------ result : ", JSON.stringify(result));
+            // console.log("------ result : ", JSON.stringify(result));
             if (result.status == 0) {
                 setTimeout(() => {
                     alert(result.message);

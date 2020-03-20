@@ -47,7 +47,7 @@ class TabSecondSettle extends Layout {
     }
 
     async handleResponseReportTransactions(message) {
-        console.log('Second : ', message);
+        // console.log('Second : ', message);
         try {
             const result = JSON.parse(message);
             if (result.status == 0) {
