@@ -44,11 +44,6 @@ class TabFirstSettle extends Layout {
         })
     }
 
-    onDidFocus = (payload) => {
-        // console.log("dddddddddd");
-        // this.handleReport();
-    }
-
     pushStaffIntoArrayStaff = ref => {
         if (ref) {
             this.arrayStaffRef.push(ref);
@@ -67,7 +62,7 @@ class TabFirstSettle extends Layout {
     }
 
     async handleResponseReportTransactions(message) {
-        console.log('handleResponseReportTransactions : ', message)
+        // console.log('handleResponseReportTransactions : ', message)
         try {
             const result = JSON.parse(message);
             if (result.status == 0) {
@@ -76,7 +71,11 @@ class TabFirstSettle extends Layout {
                 this.setState({
                     creditCount: result.CreditCount,
                     creditAmount: result.CreditAmount
-                })
+                });
+                if(this.inputCreditPaymentRef.current){
+                    this.inputCreditPaymentRef.current.setValueFromParent(result.CreditAmount);
+                }
+               
             }
         } catch (error) {
             //console.log('error : ', error)
