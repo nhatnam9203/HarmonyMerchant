@@ -599,7 +599,7 @@ class TabCheckout extends Layout {
     async printInvoice(portName, isShowTip = false) {
         // ------------------------
         const { groupAppointment, isOfflineMode } = this.props;
-        const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal, methodPayment,paymentSelected} = this.state;
+        const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal, methodPayment, paymentSelected } = this.state;
 
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
 
@@ -943,7 +943,7 @@ class TabCheckout extends Layout {
 
     printTemptInvoice = async () => {
         const printMachine = await this.checkStatusPrint();
-        console.log("printMachine : ",printMachine);
+        console.log("printMachine : ", printMachine);
         if (printMachine) {
             this.printInvoice(printMachine.portName, true);
         } else {
@@ -960,27 +960,50 @@ class TabCheckout extends Layout {
         }
     }
 
+    checkStatusPrint_1 = async () => {
+        try {
+            const printer = await PrintManager.getInstance().portDiscovery();
+            // {
+            //     macAddress: "00:11:62:17:82:a8"
+            //     modelName: "TSP143IIIBI GY"
+            //     portName: "BT:TSP100"
+            // }
+            console.log("printer : ",JSON.stringify(printer));
+            if (printer.length > 0) {
+                return printer
+            }
+            return false
+        } catch (error) {
+
+        }
+
+    }
 
     checkStatusPrint = async () => {
-        const printer = await PrintManager.getInstance().portDiscovery();
-        console.log("printer : ", printer);
-        if (printer.length > 0) {
-            let portName = "";
-            for (let i = 0; i < printer.length; i++) {
-                if (printer[i].portName === "BT:mPOP") {
-                    portName = "BT:mPOP";
-                    // portName = "BT:TSP100";
-                    break;
-                }
-            };
+        try {
+            const printer = await PrintManager.getInstance().portDiscovery();
+            console.log("printer : ", printer);
+            if (printer.length > 0) {
+                let portName = "";
+                for (let i = 0; i < printer.length; i++) {
+                    if (printer[i].portName === "BT:mPOP") {
+                        portName = "BT:mPOP";
+                        // portName = "BT:TSP100";
+                        break;
+                    }
+                };
 
-            if (portName === "") {
-                return false;
-            };
-            return { portName };
-        } else {
-            return false
+                if (portName === "") {
+                    return false;
+                };
+                return { portName };
+            } else {
+                return false
+            }
+        } catch (error) {
+
         }
+
 
     }
 

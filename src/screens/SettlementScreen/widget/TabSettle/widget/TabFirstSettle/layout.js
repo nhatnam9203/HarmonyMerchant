@@ -324,7 +324,8 @@ class Layout extends React.Component {
                                 ref={this.inputHarmonyPaymentRef}
                                 value={settleWaiting.paymentByHarmony}
                                 onChangeText={this.updateTotalCustom}
-                            />
+                                onFocus={() => this.scrollTo(450)}
+                            /> 
                         </View>
                     </View>
                     {/* ------------ Row 2 ------------ */}
@@ -352,6 +353,7 @@ class Layout extends React.Component {
                                 ref={this.inputCreditPaymentRef}
                                 value={temptCreditAmount}
                                 onChangeText={this.updateTotalCustom}
+                                onFocus={() => this.scrollTo(450)}
                             />
                         </View>
                     </View>
@@ -372,6 +374,7 @@ class Layout extends React.Component {
                                 ref={this.inputCashPaymentRef}
                                 value={settleWaiting.paymentByCash}
                                 onChangeText={this.updateTotalCustom}
+                                onFocus={() => this.scrollTo(450)}
                             />
                         </View>
                     </View>
@@ -392,6 +395,7 @@ class Layout extends React.Component {
                                 ref={this.inputOtherPaymentRef}
                                 value={settleWaiting.otherPayment}
                                 onChangeText={this.updateTotalCustom}
+                                onFocus={() => this.scrollTo(450)}
                             />
                         </View>
                     </View>
@@ -422,6 +426,7 @@ class Layout extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
                                     value={this.state.note}
                                     onChangeText={(note) => this.setState({ note })}
+                                    onFocus={() => this.scrollTo(700)}
                                 />
                             </View>
 
@@ -490,6 +495,7 @@ class Layout extends React.Component {
                         </ScrollView>
                         :
                         <ScrollView
+                                ref={this.scrollSRef}
                             refreshControl={
                                 <RefreshControl
                                     refreshing={this.props.refreshingSettle}

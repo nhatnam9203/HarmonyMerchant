@@ -3,7 +3,7 @@ import { NativeModules } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { formatNumberFromCurrency, formatMoney } from '@utils';
+import { formatNumberFromCurrency, formatMoney,scaleSzie } from '@utils';
 
 
 const PosLink = NativeModules.MyApp;
@@ -30,10 +30,13 @@ class TabFirstSettle extends Layout {
         this.inputCashPaymentRef = React.createRef();
         this.inputOtherPaymentRef = React.createRef();
         this.totalCustomRef = React.createRef();
+        this.scrollSRef =React.createRef();
     }
 
 
-
+    scrollTo  =(number) =>{
+        this.scrollSRef.current.scrollTo({x: 0, y: scaleSzie(number), animated: true})
+    }
 
     resetNoteFromParent = async () => {
         await this.setState({

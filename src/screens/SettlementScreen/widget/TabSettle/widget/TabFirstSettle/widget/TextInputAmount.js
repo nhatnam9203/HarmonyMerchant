@@ -45,6 +45,7 @@ export default class TextInputAmount extends React.Component {
     }
 
     render() {
+        const { onFocus } = this.props;
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
                 <View style={{ justifyContent: 'center', width: scaleSzie(13) }} >
@@ -68,6 +69,7 @@ export default class TextInputAmount extends React.Component {
                         }}
                         value={`${this.state.value}`}
                         onChangeText={this.onChangeText}
+                        onFocus={() => onFocus && onFocus()}
                     />
                 </View>
             </View>
