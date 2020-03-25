@@ -960,25 +960,6 @@ class TabCheckout extends Layout {
         }
     }
 
-    checkStatusPrint_1 = async () => {
-        try {
-            const printer = await PrintManager.getInstance().portDiscovery();
-            // {
-            //     macAddress: "00:11:62:17:82:a8"
-            //     modelName: "TSP143IIIBI GY"
-            //     portName: "BT:TSP100"
-            // }
-            // console.log("printer : ",JSON.stringify(printer));
-            if (printer.length > 0) {
-                return printer
-            }
-            return false
-        } catch (error) {
-
-        }
-
-    }
-
     checkStatusPrint = async () => {
         try {
             const printer = await PrintManager.getInstance().portDiscovery();
@@ -988,9 +969,12 @@ class TabCheckout extends Layout {
                 for (let i = 0; i < printer.length; i++) {
                     if (printer[i].portName === "BT:mPOP") {
                         portName = "BT:mPOP";
-                        // portName = "BT:TSP100";
                         break;
                     }
+                    // if (printer[i].portName === "BT:TSP100") {
+                    //     portName = "BT:TSP100";
+                    //     break;
+                    // }
                 };
 
                 if (portName === "") {

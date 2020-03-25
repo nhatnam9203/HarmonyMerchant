@@ -33,12 +33,12 @@ class PromotionRewardPoints extends React.Component {
     }
 
     checkSelectPromotion = () => {
-        const { data } = this.state;
-        const isCheck = data.isDisabled === 0 ? 1 : 0;
-        this.setState({
-            data: updateStateChildren('isDisabled', isCheck, data)
-        });
-        this.props.checkSelectPromotion();
+        // const { data } = this.state;
+        // const isCheck = data.isDisabled === 0 ? 1 : 0;
+        // this.setState({
+        //     data: updateStateChildren('isDisabled', isCheck, data)
+        // });
+        // this.props.checkSelectPromotion();
     }
 
     sendNotification = () => {
@@ -73,16 +73,17 @@ class PromotionRewardPoints extends React.Component {
                         }}
                         style={{ marginBottom: scaleSzie(10) }}
                         styleTitle={{ fontWeight: "600" }}
+                        editable={false}
                     />
-                    <Text style={{
+                    {/* <Text style={{
                         color: '#404040',
                         fontSize: scaleSzie(14),
                         fontWeight: "600"
                     }} >
                         {`${localize('Campaign Time', language)}:`}
-                    </Text>
+                    </Text> */}
                     {/* ---- Row ---- */}
-                    <View style={{ flexDirection: 'row' }} >
+                    {/* <View style={{ flexDirection: 'row' }} >
                         <ItemCalendar
                             title={localize('Start Date', language)}
                             value={`${moment(data.fromDate).format('MM/DD/YYYY')}`}
@@ -95,12 +96,13 @@ class PromotionRewardPoints extends React.Component {
                             onPress={() => showCalendar('toDate', data.toDate, 6)}
 
                         />
-                    </View>
+                    </View> */}
 
                     {/* ---- Row ---- */}
                     <Text style={{
                         color: '#404040',
-                        fontSize: scaleSzie(14), marginTop: scaleSzie(22),
+                        fontSize: scaleSzie(14),
+                         marginTop: scaleSzie(10),
                         fontWeight: "600"
                     }} >
                         {`${localize('Promotion form', language)}:`}
@@ -138,6 +140,7 @@ class PromotionRewardPoints extends React.Component {
                                 unit: '',
                                 suffixUnit: ''
                             }}
+                            editable={false}
                         />
                     </View>
 

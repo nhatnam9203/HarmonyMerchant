@@ -1466,6 +1466,12 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)/**",
+					"\"${PODS_ROOT}/../../node_modules/react-native-star-prnt/ios/Frameworks\"/**",
+					"\"${PODS_ROOT}/Crashlytics/iOS\"/**",
+					"\"${PODS_ROOT}/Fabric/iOS\"/**",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
@@ -1489,9 +1495,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony;
+				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony.dev;
 				PRODUCT_NAME = HpMerchant;
-				PROVISIONING_PROFILE_SPECIFIER = HpmerchantStore;
+				PROVISIONING_PROFILE_SPECIFIER = HarmonyMerchantDev;
 				SWIFT_OBJC_BRIDGING_HEADER = "Hpmerchant-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1511,6 +1517,12 @@
 				CURRENT_PROJECT_VERSION = 39;
 				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)/**",
+					"\"${PODS_ROOT}/../../node_modules/react-native-star-prnt/ios/Frameworks\"/**",
+					"\"${PODS_ROOT}/Crashlytics/iOS\"/**",
+					"\"${PODS_ROOT}/Fabric/iOS\"/**",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
@@ -1534,9 +1546,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony;
+				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony.dev;
 				PRODUCT_NAME = HpMerchant;
-				PROVISIONING_PROFILE_SPECIFIER = HpmerchantStore;
+				PROVISIONING_PROFILE_SPECIFIER = HarmonyMerchantDev;
 				SWIFT_OBJC_BRIDGING_HEADER = "Hpmerchant-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;

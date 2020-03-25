@@ -6,10 +6,12 @@ import {
     ActivityIndicator
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
+import { StarPRNT } from 'react-native-star-prnt';
+// import {BluetoothManager,BluetoothEscposPrinter,BluetoothTscPrinter} from 'react-native-bluetooth-escpos-printer';
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
-import { scaleSzie,localize } from '../utils';
+import { scaleSzie, localize } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupEnterPin extends React.Component {
@@ -50,13 +52,29 @@ class PopupEnterPin extends React.Component {
 
     }
 
-    loginWithOfflineMode =() =>{
+    loginWithOfflineMode = () => {
         this.props.actions.app.closePopupEnterPin();
     }
 
+    testPrint = async () => {
+        BluetoothManager.scanDevices()
+        .then((s)=> {
+            // var ss = JSON.parse(s);//JSON string
+            // alert('scanDevices' + JSON.stringify(s));
+            console.log('scanDevices' +  JSON.stringify(s));
+            
+        }, (er)=> {
+           
+            // alert('error' + JSON.stringify(er));
+            console.log(JSON.stringify(er));
+        });
+    }
+
+    // -------------- Render --------------
+
     render() {
-        const { title, visibleEnterPin, isOfflineMode, onRequestClose, confimYes, hideCloseButton,isShowButtonEnterPinCode,
-        language
+        const { title, visibleEnterPin, isOfflineMode, onRequestClose, confimYes, hideCloseButton, isShowButtonEnterPinCode,
+            language
         } = this.props;
         const { value, customStyle, loading } = this.state;
 
@@ -102,7 +120,7 @@ class PopupEnterPin extends React.Component {
                                 textAlign: 'center'
                             }} >
                                 {`${localize('Please check your internet', language)} !`}
-                        </Text>
+                            </Text>
                             <Text style={{
                                 color: 'rgb(246,195,49)', fontWeight: 'bold', fontSize: scaleSzie(14),
                                 textAlign: 'center'
@@ -114,7 +132,7 @@ class PopupEnterPin extends React.Component {
                                 textAlign: 'center'
                             }} >
                                 {`${localize('Do you want use offline mode', language)} ?`}
-                        </Text>
+                            </Text>
                             <View style={{
                                 flex: 1, flexDirection: 'row', justifyContent: 'space-around',
                                 alignItems: 'center'
@@ -170,6 +188,8 @@ class PopupEnterPin extends React.Component {
                                             title={localize('Enter', language)}
                                             textColor="#fff"
                                             onPress={() => confimYes()}
+                                            // onPress={this.testPrint}
+
                                             styleText={{
                                                 fontSize: scaleSzie(14)
                                             }}

@@ -47,16 +47,20 @@ class Layout extends React.Component {
             <View style={styles.container} >
                 <View style={{ flex: 1 }} >
                     <ScrollView showsVerticalScrollIndicator={false} >
-                        <PromotionFirst
+                        {
+                            this.getDataItemPromotion(1, promotions) ?   <PromotionFirst
                             ref={this.promotionFirstRef}
                             language={language}
                             data={this.getDataItemPromotion(1, promotions)}
                             showCalendar={this.showCalendar}
                             checkSelectPromotion={this.checkSelectPromotion}
                             sendNotification={this.sendNotification}
-                        />
+                        /> : <View />
+                        }
+                      
                         <View style={{ height: scaleSzie(16) }} />
-                        <PromotionSecond
+                        {
+                            this.getDataItemPromotion(2, promotions) ? <PromotionSecond
                             ref={this.promotionSecondRef}
                             language={language}
                             data={this.getDataItemPromotion(2, promotions)}
@@ -64,39 +68,52 @@ class Layout extends React.Component {
                             dataDropdown={this.getDataDropdownService()}
                             checkSelectPromotion={this.checkSelectPromotion}
                             sendNotification={this.sendNotification}
-                        />
-                        <PromotionThird
-                            ref={this.promotionThirdRef}
-                            language={language}
-                            data={this.getDataItemPromotion(3, promotions)}
-                            checkSelectPromotion={this.checkSelectPromotion}
-                            sendNotification={this.sendNotification}
-                        />
-                        < PromotionFour
-                            ref={this.promotionFourRef}
-                            language={language}
-                            data={this.getDataItemPromotion(4, promotions)}
-                            checkSelectPromotion={this.checkSelectPromotion}
-                            sendNotification={this.sendNotification}
-                        />
-                        <PromotionFive
-                            ref={this.promotionFiveRef}
-                            language={language}
-                            data={this.getDataItemPromotion(5, promotions)}
-                            checkSelectPromotion={this.checkSelectPromotion}
-                            sendNotification={this.sendNotification}
-                        />
+                        /> :<View />
+                        }
+                        
+                        {
+                            this.getDataItemPromotion(3, promotions) ? <PromotionThird
+                                ref={this.promotionThirdRef}
+                                language={language}
+                                data={this.getDataItemPromotion(3, promotions)}
+                                checkSelectPromotion={this.checkSelectPromotion}
+                                sendNotification={this.sendNotification}
+                            /> : <View />
+                        }
+
+                        {
+                            this.getDataItemPromotion(4, promotions) ? < PromotionFour
+                                ref={this.promotionFourRef}
+                                language={language}
+                                data={this.getDataItemPromotion(4, promotions)}
+                                checkSelectPromotion={this.checkSelectPromotion}
+                                sendNotification={this.sendNotification}
+                            /> : <View />
+                        }
+
+                        {
+                            this.getDataItemPromotion(5, promotions) ? <PromotionFive
+                                ref={this.promotionFiveRef}
+                                language={language}
+                                data={this.getDataItemPromotion(5, promotions)}
+                                checkSelectPromotion={this.checkSelectPromotion}
+                                sendNotification={this.sendNotification}
+                            /> : <View />
+                        }
 
                         {/* ---------- Reward Points -------- */}
-                        {/* <View style={{ height: scaleSzie(16) }} /> */}
-                        {/* <PromotionRewardPoints
-                            ref={this.promotionRewardPointsRef}
-                            language={language}
-                            data={this.getDataItemPromotion(6, promotions)}
-                            showCalendar={this.showCalendar}
-                            checkSelectPromotion={this.checkSelectPromotion}
-                            sendNotification={this.sendNotification}
-                        /> */}
+                        <View style={{ height: scaleSzie(16) }} />
+                        {
+                            this.getDataItemPromotion(6, promotions) ? <PromotionRewardPoints
+                                ref={this.promotionRewardPointsRef}
+                                language={language}
+                                data={this.getDataItemPromotion(6, promotions)}
+                                showCalendar={this.showCalendar}
+                                checkSelectPromotion={this.checkSelectPromotion}
+                                sendNotification={this.sendNotification}
+                            /> : <View />
+                        }
+
                         <View style={{ height: scaleSzie(300) }} />
                     </ScrollView>
                 </View>

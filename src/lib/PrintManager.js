@@ -48,9 +48,9 @@ export default class PrintManager {
         try {
 
             let printResult = await StarPRNT.print(PRINTER_MACHINE[portName].emulation, commands, portName);
-            // console.log(printResult); // Success!
+            console.log(printResult); // Success!
         } catch (error) {
-            // console.log('error : ', error);
+            console.log('error : ', error);
         }
     }
 
@@ -68,6 +68,7 @@ export default class PrintManager {
         try {
             let connect = await StarPRNT.connect(portName,PRINTER_MACHINE[portName].emulation, hasBarcodeReader);
             // console.log('connect : ',connect); // Success!
+            return connect;
         } catch (error) {
             // console.log('error : ', error);
         }
