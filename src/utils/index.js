@@ -736,7 +736,6 @@ export const PRINTER_MACHINE = {
         portName: "BT:TSP100",
         isCashier: false,
         isPrint: true,
-        emulation: "StarGraphic"
-
+        emulation: "StarGraphic",
     },
 };

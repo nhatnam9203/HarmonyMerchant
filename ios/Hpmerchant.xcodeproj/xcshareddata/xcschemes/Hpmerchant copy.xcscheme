@@ -28,7 +28,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "23B5164823D8008400729EAE"
+               BlueprintIdentifier = "23FF257E242B563A00E711BD"
                BuildableName = "DEV.app"
                BlueprintName = "Hpmerchant copy"
                ReferencedContainer = "container:Hpmerchant.xcodeproj">
@@ -48,7 +48,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      launchStyle = "1"
+      launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
@@ -58,7 +58,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "23B5164823D8008400729EAE"
+            BlueprintIdentifier = "23FF257E242B563A00E711BD"
             BuildableName = "DEV.app"
             BlueprintName = "Hpmerchant copy"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
@@ -75,7 +75,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "23B5164823D8008400729EAE"
+            BlueprintIdentifier = "23FF257E242B563A00E711BD"
             BuildableName = "DEV.app"
             BlueprintName = "Hpmerchant copy"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">

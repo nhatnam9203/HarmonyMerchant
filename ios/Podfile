@@ -58,6 +58,8 @@ pod 'react-native-version-check', :path => '../node_modules/react-native-version
 permissions_path = '../node_modules/react-native-permissions/ios'
 pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
 
+pod 'react-native-view-shot', :path => '../node_modules/react-native-view-shot'
+
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     if target.name == "React"
