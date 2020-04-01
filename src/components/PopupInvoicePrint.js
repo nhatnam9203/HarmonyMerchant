@@ -24,57 +24,50 @@ class PopupInvoicePrint extends React.Component {
 
     constructor(props) {
         super(props);
+
         this.viewShotRef = React.createRef();
     }
 
-    testPrint = async () => {
+    doPrint = async () => {
         try {
-            captureRef(this.viewShotRef, {
-                // snapshotContentContainer: true,
-                // snapshotContentContainer: true
-            }).then(
-                imageUri => {
-                    let commands = [];
-                    commands.push({ appendLineFeed: 0 });
-                    commands.push({ appendBitmap: imageUri });
-                    commands.push({ appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed });
-                    PrintManager.getInstance().print("BT:TSP100", commands);
-                },
-                error => console.error('Oops, snapshot failed', error)
-            );
-
-            // let imageUri = await this.viewShotRef.current.capture();
-            // console.log("imageUri : ", imageUri);
-            // let commands = [];
-            // commands.push({ appendLineFeed: 0 });
-            // commands.push({ appendBitmap: imageUri });
-            // commands.push({ appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed });
-            // PrintManager.getInstance().print("BT:TSP100", commands);
-
+            const imageUri = await captureRef(this.viewShotRef, {});
+            if (imageUri) {
+                let commands = [];
+                commands.push({ appendLineFeed: 0 });
+                commands.push({ appendBitmap: imageUri });
+                commands.push({ appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed });
+                PrintManager.getInstance().print("BT:TSP100", commands);
+            }
         } catch (error) {
             console.log("error : ", error);
+            alert(error)
         }
-
     }
 
-    onCapture = uri => {
-        console.log("----do something with ", uri);
+    getHour() {
+        const hours = parseInt(new Date().getHours()) - 12 > 0 ? `0${parseInt(new Date().getHours()) - 12}` : parseInt(new Date().getHours());
+        const surfix = parseInt(new Date().getHours()) - 12 > 0 ? 'PM' : 'AM'
+        const temptDate = `${hours}:${(new Date().getMinutes()) > 10 ? (new Date().getMinutes()) : `0${(new Date().getMinutes())}`} ${surfix}`;
+
+        return temptDate;
     }
+
+    getDate() {
+        return `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`;
+    }
+
 
     // -------------- Render --------------
 
     render() {
-        const { title, visibleEnterPin, isOfflineMode, onRequestClose, confimYes, hideCloseButton, isShowButtonEnterPinCode,
-            language
+        const { onRequestClose, language, visiblePrintInvoice, profile, profileStaffLogin
         } = this.props;
-        const { value, customStyle, loading } = this.state;
 
         return (
             <Modal
-                visible={false}
-                onRequestClose={() => onRequestClose()}
+                visible={visiblePrintInvoice}
+                onRequestClose={() => { }}
                 transparent={true}
-            // presentationStyle="fullScreen"
             >
                 <View
                     style={[{
@@ -87,7 +80,7 @@ class PopupInvoicePrint extends React.Component {
                             width: scaleSzie(270)
                         }} >
                         <View
-                            style={{ height: scaleSzie(350) }}
+                            style={{ height: scaleSzie(450) }}
                         >
 
                             <ScrollView
@@ -101,20 +94,23 @@ class PopupInvoicePrint extends React.Component {
                                 >
                                     {/* ------------- Store Name ----------- */}
                                     <Text style={[styleInvoice.txt_normal, { fontSize: 15, fontWeight: "600", marginTop: scaleSzie(8) }]} >
-                                        AAA Store
-                                </Text>
+                                        {profile.businessName ? profile.businessName : ""}
+                                    </Text>
                                     {/* ------------- Store Address ----------- */}
                                     <Text numberOfLines={1} style={[styleInvoice.txt_normal, { paddingHorizontal: scaleSzie(10), marginTop: scaleSzie(4) }]} >
-                                        30 Cộng Hoà , phường 4 , Q. Tân Bình - HCM
-                            </Text>
+                                        {profile.addressFull ? profile.addressFull : ''}
+                                    </Text>
                                     {/* ------------- Phone Address ----------- */}
                                     <Text style={[styleInvoice.txt_normal, { paddingHorizontal: scaleSzie(10) }]} >
-                                        Tel : 0123-456-789
-                            </Text>
+                                        {`Tel : ${profile.phone ? profile.phone : ""}`}
+                                    </Text>
                                     {/* ------------- Company Website ----------- */}
-                                    <Text style={[styleInvoice.txt_normal, { paddingHorizontal: scaleSzie(10) }]} >
-                                        https://www.harmonypayment.com
-                            </Text>
+                                    {
+                                        profile.webLink ? <Text style={[styleInvoice.txt_normal, { paddingHorizontal: scaleSzie(10) }]} >
+                                            {profile.webLink ? profile.webLink : ""}
+                                        </Text> : <View />
+                                    }
+
                                     {/* ------------- SALE/VOID/REFUND  ----------- */}
                                     <Text style={[styleInvoice.txt_normal, {
                                         fontSize: 18, fontWeight: "bold",
@@ -137,7 +133,7 @@ class PopupInvoicePrint extends React.Component {
                                         </View>
                                         <View style={{ flex: 1 }} >
                                             <Text style={styleInvoice.txt_info} >
-                                                {`: 20/03/2020 12:11 AM`}
+                                                {`: ${this.getDate()} ${this.getHour()}`}
                                             </Text>
                                         </View>
                                     </View>
@@ -150,7 +146,7 @@ class PopupInvoicePrint extends React.Component {
                                         </View>
                                         <View style={{ flex: 1 }} >
                                             <Text style={styleInvoice.txt_info} >
-                                                {`: Luis Nani`}
+                                                {`: ${profileStaffLogin.displayName ? profileStaffLogin.displayName : ""}`}
                                             </Text>
                                         </View>
                                     </View>
@@ -263,7 +259,7 @@ class PopupInvoicePrint extends React.Component {
 
                         {/* ------ Button ----- */}
                         < View style={{
-                            height: scaleSzie(30), justifyContent: 'center',
+                            height: scaleSzie(35), justifyContent: 'center',
                             flexDirection: "row"
                         }} >
                             <ButtonCustom
@@ -272,7 +268,7 @@ class PopupInvoicePrint extends React.Component {
                                 backgroundColor="#0764B0"
                                 title={localize('CANCEL', language)}
                                 textColor="#fff"
-                                onPress={this.testPrint}
+                                onPress={() => onRequestClose()}
                                 styleText={{
                                     fontSize: scaleSzie(10),
                                     fontWeight: "600",
@@ -292,7 +288,7 @@ class PopupInvoicePrint extends React.Component {
                                 backgroundColor="#0764B0"
                                 title={localize('PRINT', language)}
                                 textColor="#fff"
-                                onPress={this.testPrint}
+                                onPress={this.doPrint}
                                 styleText={{
                                     fontSize: scaleSzie(10),
                                     fontWeight: "600"
@@ -368,9 +364,8 @@ const styleInvoice = StyleSheet.create({
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    isShowButtonEnterPinCode: state.staff.isShowButtonEnterPinCode,
-    visibleEnterPin: state.app.visibleEnterPin,
-    isOfflineMode: state.network.isOfflineMode
+    profileStaffLogin: state.dataLocal.profileStaffLogin,
+    profile: state.dataLocal.profile,
 });
 
 export default connectRedux(mapStateToProps, PopupInvoicePrint);

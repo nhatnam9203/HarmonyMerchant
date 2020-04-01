@@ -75,7 +75,8 @@ const initState = {
     visibleScanCode: false,
     appointmentOfflineMode: {},
     staffIdOfline: 0,
-    fromTime: ""
+    fromTime: "",
+    visiblePrintInvoice: false
 }
 
 class TabCheckout extends Layout {
@@ -621,7 +622,6 @@ class TabCheckout extends Layout {
         try {
             // -------- GET INFO BILL --------
             const { profile, profileStaffLogin } = this.props;
-            const { firstName, lastName, phoneNumber } = this.state.infoUser;
             const commands = [];
             const temptDate = `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
             commands.push({ appendInternational: StarPRNT.InternationalType.UK });
@@ -929,13 +929,18 @@ class TabCheckout extends Layout {
                 this.openCashDrawer(printMachine.portName);
             }
 
-            this.printInvoice(printMachine.portName);
-            this.scrollTabRef.current.goToPage(0);
             this.props.actions.appointment.closeModalPaymentCompleted();
-            this.props.gotoAppoitmentScreen();
-            this.props.actions.appointment.resetBasketEmpty();
-            this.setState(initState);
-            this.props.actions.appointment.resetPayment();
+            await this.setState({
+                visiblePrintInvoice : true
+            })
+
+            // this.printInvoice(printMachine.portName);
+            // this.scrollTabRef.current.goToPage(0);
+           
+            // this.props.gotoAppoitmentScreen();
+            // this.props.actions.appointment.resetBasketEmpty();
+            // this.setState(initState);
+            // this.props.actions.appointment.resetPayment();
         } else {
             alert('Please connect to your print ! ');
         }
@@ -952,29 +957,31 @@ class TabCheckout extends Layout {
     }
 
     checkStatusCashier = async () => {
-        const printMachine = await this.checkStatusPrint();
-        if (printMachine) {
-            this.openCashDrawer(printMachine.portName);
-        } else {
-            alert('Please connect to your cashier ! ');
-        }
+        this.setState({
+            visiblePrintInvoice: true
+        })
+        // const printMachine = await this.checkStatusPrint();
+        // if (printMachine) {
+        //     this.openCashDrawer(printMachine.portName);
+        // } else {
+        //     alert('Please connect to your cashier ! ');
+        // }
     }
 
     checkStatusPrint = async () => {
         try {
             const printer = await PrintManager.getInstance().portDiscovery();
-            // console.log("printer : ", printer);
             if (printer.length > 0) {
                 let portName = "";
                 for (let i = 0; i < printer.length; i++) {
-                    if (printer[i].portName === "BT:mPOP") {
-                        portName = "BT:mPOP";
-                        break;
-                    }
-                    // if (printer[i].portName === "BT:TSP100") {
-                    //     portName = "BT:TSP100";
+                    // if (printer[i].portName === "BT:mPOP") {
+                    //     portName = "BT:mPOP";
                     //     break;
                     // }
+                    if (printer[i].portName === "BT:TSP100") {
+                        portName = "BT:TSP100";
+                        break;
+                    }
                 };
 
                 if (portName === "") {

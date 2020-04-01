@@ -12,7 +12,7 @@ import _ from 'ramda';
 import { scaleSzie, localize, formatNumberFromCurrency, formatMoney } from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
-    PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode,PopupProcessingCredit
+    PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode,PopupProcessingCredit,PopupInvoicePrint
 } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
@@ -851,6 +851,10 @@ class Layout extends React.Component {
                     visible={visibleScanCode}
                     onRequestClose={this.onRequestCloseScanCode}
                     resultScanCode={this.resultScanCode}
+                />
+                <PopupInvoicePrint 
+                    visiblePrintInvoice={this.state.visiblePrintInvoice}
+                    onRequestClose={() => this.setState({visiblePrintInvoice: false})}
                 />
             </View>
         );

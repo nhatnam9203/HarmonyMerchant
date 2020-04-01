@@ -70,7 +70,7 @@ class HomeHardware extends React.Component {
                         </View>
                     </Button>
                     {/* ------------- Box 3 ----------- */}
-                    {/* <Button onPress={() => this.onPressBox('Print')} style={styles.box} >
+                    <Button onPress={() => this.onPressBox('Print')} style={[styles.box,{marginLeft:scaleSzie(20)}]} >
                         <View style={styles.containerIconBox} >
                             <Image source={IMAGE.Print} style={{
                                 width: scaleSzie(28),
@@ -85,7 +85,7 @@ class HomeHardware extends React.Component {
                                 No device
                         </Text>
                         </View>
-                    </Button> */}
+                    </Button>
                 </View>
 
             </View>
