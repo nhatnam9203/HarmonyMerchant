@@ -43,6 +43,7 @@ import PopupScanCode from './PopupScanCode';
 import PopupDisconnected from './PopupDisconnected';
 import PopupConnected from './PopupConnected';
 import PopupProcessingCredit from "./PopupProcessingCredit";
+import PopupInvoicePrint from "./PopupInvoicePrint";
 
 module.exports = {
     Button,
@@ -89,5 +90,6 @@ module.exports = {
     PopupScanCode,
     PopupDisconnected,
     PopupConnected,
-    PopupProcessingCredit
+    PopupProcessingCredit,
+    PopupInvoicePrint
 }
