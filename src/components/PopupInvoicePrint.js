@@ -24,8 +24,28 @@ class PopupInvoicePrint extends React.Component {
 
     constructor(props) {
         super(props);
-
+        this.state = {
+            basket: [],
+            temptSubTotal:0.00,
+            temptTax:0.00,
+            temptDiscount:0.00,
+            temptTip:0.00,
+            temptTotal:0.00,
+            paymentSelected:""
+        }
         this.viewShotRef = React.createRef();
+    }
+
+    setStateFromParent = async (basket,temptSubTotal,temptTax,temptDiscount,temptTip,temptTotal,paymentSelected) => {
+        await this.setState({
+            basket,
+            temptSubTotal,
+            temptTax,
+            temptDiscount,
+            temptTip,
+            temptTotal,
+            paymentSelected
+        })
     }
 
     doPrint = async () => {
@@ -62,6 +82,7 @@ class PopupInvoicePrint extends React.Component {
     render() {
         const { onRequestClose, language, visiblePrintInvoice, profile, profileStaffLogin
         } = this.props;
+        const { basket,temptSubTotal,temptTax,temptDiscount,temptTip,temptTotal,paymentSelected } = this.state;
 
         return (
             <Modal
@@ -196,9 +217,12 @@ class PopupInvoicePrint extends React.Component {
                                     </View>
 
                                     {/* ------------- Item Invoice   ----------- */}
-                                    <ItemInvoice />
-                                    <ItemInvoice />
-                                    <ItemInvoice />
+                                    {
+                                        basket.map((item, index) => <ItemInvoice
+                                            key={index}
+                                            item={item}
+                                        />)
+                                    }
 
                                     {/* ------------- Line end item invoice   ----------- */}
 
@@ -208,29 +232,29 @@ class PopupInvoicePrint extends React.Component {
                                     {/* ------------- SubTotal   ----------- */}
                                     <ItemTotal
                                         title={"Subtotal"}
-                                        value={"20.00"}
+                                        value={temptSubTotal}
                                     />
                                     <ItemTotal
                                         title={"TAX"}
-                                        value={"20.00"}
+                                        value={temptTax}
                                     />
                                     <ItemTotal
                                         title={"Discount"}
-                                        value={"20.00"}
+                                        value={temptDiscount}
                                     />
                                     <ItemTotal
                                         title={"TIP"}
-                                        value={"20.00"}
+                                        value={temptTip}
                                     />
                                     <ItemTotal
                                         title={"TOTAL"}
-                                        value={"20.00"}
+                                        value={temptTotal}
                                         style={{ fontSize: 15, fontWeight: "bold" }}
                                     />
                                     {/* ------------- Entry Method   ----------- */}
                                     <View style={{ flexDirection: "row", marginBottom: scaleSzie(4) }} >
                                         <Text style={[styleInvoice.txt_total,]} >
-                                            {`- Entry method : Cash`}
+                                            {`- Entry method : ${paymentSelected}`}
                                         </Text>
                                     </View>
 
@@ -309,22 +333,22 @@ class PopupInvoicePrint extends React.Component {
 
 }
 
-const ItemInvoice = () => {
+const ItemInvoice = ({ item }) => {
     return (
         <View style={{ flexDirection: "row", marginTop: scaleSzie(3) }} >
             <View style={{ flex: 1, justifyContent: "center" }} >
                 <Text style={[styleInvoice.txt_info,]} >
-                    {`Medicure 12`}
+                    {item.data && item.data.name ? item.data.name : ""}
                 </Text>
             </View>
             <View style={{ width: scaleSzie(35), justifyContent: "center", alignItems: "center" }} >
                 <Text style={[styleInvoice.txt_info,]} >
-                    {`2`}
+                    {item.quanlitySet ? item.quanlitySet : ""}
                 </Text>
             </View>
             <View style={{ flex: 0.6, justifyContent: "center", alignItems: "flex-end" }} >
                 <Text style={[styleInvoice.txt_info,]} >
-                    {`$ 100.00`}
+                    {`$ ${item.data && item.data.price ? item.data.price : ""}`}
                 </Text>
             </View>
         </View>

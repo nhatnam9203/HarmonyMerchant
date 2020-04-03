@@ -95,27 +95,12 @@ class TabCheckout extends Layout {
         this.customerNameRef = React.createRef();
         this.CustomerPhoneRef = React.createRef();
         this.activeGiftCardRef = React.createRef();
+        this.invoicePrintRef = React.createRef();
     }
-
-    refundTransaction = () => {
-        const { paxMachineInfo } = this.props;
-        const { ip, port, timeout } = paxMachineInfo;
-
-        // 1. Check setup pax 
-        PosLink.setupPax(ip, port, timeout);
-        const extData = "<AmountDue>0</AmountDue> <TipAmount>0</TipAmount> <CashBackAmount>0</CashBackAmount> <MechantFee>0</MechantFee> <TaxAmount>0</TaxAmount> <PLEntryMode>4</PLEntryMode> <ExpDate>1121</ExpDate> <PLNameOnCard>NGUYEN NGOC HUYEN </PLNameOnCard> <PLCardPresent>0</PLCardPresent> <ECRRefNum>0</ECRRefNum> <EDCTYPE>CREDIT</EDCTYPE> <CARDBIN>539146</CARDBIN> <PROGRAMTYPE>0</PROGRAMTYPE> <SN>53310319</SN> <GLOBALUID>53310319202003050311032328</GLOBALUID> <TC>07FF67D410E34115</TC> <TVR>8000008000</TVR> <AID>A0000000041010</AID> <TSI>6800</TSI> <ATC>01A0</ATC> <APPLAB>Mastercard</APPLAB> <APPPN>FE CREDIT</APPPN> <IAD>0114600003240000000000000000000000FF</IAD> <ARC>00</ARC> <CID>40</CID> <CVM>6</CVM> "
-        PosLink.refundTransaction(1870, 15, extData, (data) => {
-            // const result = JSON.parse(data);
-            // console.log("----- Resutl : ", data);
-
-        })
-    }
-
 
     resetStateFromParent = async () => {
         await this.setState(initState);
     }
-
 
     getDataColProduct() {
         const { categorySelected, categoryTypeSelected } = this.state;
@@ -919,24 +904,55 @@ class TabCheckout extends Layout {
     printBill = async () => {
         this.pushAppointmentIdOfflineIntoWebview();
         const printMachine = await this.checkStatusPrint();
-        if (printMachine) {
-            const { paymentSelected, basket } = this.state;
+        if (!printMachine) {
+            const { paymentSelected } = this.state;
             const { connectionSignalR } = this.props;
-            if (!_.isEmpty(connectionSignalR)) {
-                connectionSignalR.stop();
-            }
-            if (paymentSelected === 'Cash' || paymentSelected === 'Others - Check') {
-                this.openCashDrawer(printMachine.portName);
-            }
+            // if (!_.isEmpty(connectionSignalR)) {
+            //     connectionSignalR.stop();
+            // }
+            // if (paymentSelected === 'Cash' || paymentSelected === 'Others - Check') {
+            //     this.openCashDrawer(printMachine.portName);
+            // }
 
+            // -------- Pass data to Invoice --------
             this.props.actions.appointment.closeModalPaymentCompleted();
+            const { groupAppointment, isOfflineMode } = this.props;
+            const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal, } = this.state;
+
+            const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
+
+            const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards } = this.getBasketOnline(appointments);
+            const basket = isOfflineMode ? this.state.basket : [...arryaServicesBuy, ...arrayProductBuy, ...arrayExtrasBuy, ...arrayGiftCards];
+
+            const tipAmount = groupAppointment.tipAmount ? groupAppointment.tipAmount : 0;
+            const subTotal = groupAppointment.subTotal ? groupAppointment.subTotal : 0;
+            const discount = groupAppointment.discount ? groupAppointment.discount : 0;
+            const tax = groupAppointment.tax ? groupAppointment.tax : 0;
+            const total = groupAppointment.total ? groupAppointment.total : 0;
+
+            const temptSubTotal = _.isEmpty(groupAppointment) ? subTotalLocal : subTotal;
+            const temptTotal = _.isEmpty(groupAppointment) ? Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2) : total;
+            const temptDiscount = _.isEmpty(groupAppointment) ? discountTotalLocal : discount;
+            const temptTip = _.isEmpty(groupAppointment) ? tipLocal : tipAmount;
+            const temptTax = _.isEmpty(groupAppointment) ? taxLocal : tax;
+
+            this.invoicePrintRef.current.setStateFromParent(
+                basket,
+                temptSubTotal,
+                temptTax,
+                temptDiscount,
+                temptTip,
+                temptTotal,
+                this.getPaymentString(paymentSelected)
+            )
+
             await this.setState({
-                visiblePrintInvoice : true
+                visiblePrintInvoice: true
             })
 
             // this.printInvoice(printMachine.portName);
             // this.scrollTabRef.current.goToPage(0);
-           
+
             // this.props.gotoAppoitmentScreen();
             // this.props.actions.appointment.resetBasketEmpty();
             // this.setState(initState);
@@ -957,9 +973,13 @@ class TabCheckout extends Layout {
     }
 
     checkStatusCashier = async () => {
-        this.setState({
-            visiblePrintInvoice: true
-        })
+        this.printBill();
+        // this.setState({
+        //     visiblePrintInvoice: true
+        // })
+
+
+        // ---------- Main ------
         // const printMachine = await this.checkStatusPrint();
         // if (printMachine) {
         //     this.openCashDrawer(printMachine.portName);
