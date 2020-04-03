@@ -867,7 +867,7 @@ class TabCheckout extends Layout {
         if (paymentSelected === 'Cash' || paymentSelected === 'Others - Check') {
             const printMachine = await this.checkStatusPrint(true);
             if (printMachine) {
-                this.openCashDrawer(printMachine.portName);
+                this.openCashDrawer(printMachine);
                 this.scrollTabRef.current.goToPage(0);
                 this.props.actions.appointment.closeModalPaymentCompleted();
                 this.props.gotoAppoitmentScreen();
@@ -900,7 +900,7 @@ class TabCheckout extends Layout {
 
     }
 
-    showInvoicePrint = async (isTemptPrint = true) => {
+    showInvoicePrint = async (printMachine,isTemptPrint = true) => {
         // -------- Pass data to Invoice --------
         this.props.actions.appointment.closeModalPaymentCompleted();
         const { groupAppointment, isOfflineMode } = this.props;
@@ -931,7 +931,8 @@ class TabCheckout extends Layout {
             temptTip,
             temptTotal,
             paymentSelected,
-            isTemptPrint
+            isTemptPrint,
+            printMachine
         )
 
         await this.setState({
@@ -960,11 +961,11 @@ class TabCheckout extends Layout {
                 connectionSignalR.stop();
             }
             if (paymentSelected === 'Cash' || paymentSelected === 'Others - Check') {
-                this.openCashDrawer(printMachine.portName);
+                this.openCashDrawer(printMachine);
             }
 
             // --------- New -------
-            this.showInvoicePrint(false);
+            this.showInvoicePrint(printMachine,false);
 
             // this.printInvoice(printMachine.portName);
             // this.scrollTabRef.current.goToPage(0);
@@ -980,9 +981,9 @@ class TabCheckout extends Layout {
     printTemptInvoice = async () => {
         const printMachine = await this.checkStatusPrint();
         // console.log("printMachine : ", printMachine);
-        if (!printMachine) {
+        if (printMachine) {
             // this.printInvoice(printMachine.portName, true);
-            this.showInvoicePrint();
+            this.showInvoicePrint(printMachine);
         } else {
             alert('Please connect to your print ! ');
         }
@@ -991,7 +992,7 @@ class TabCheckout extends Layout {
     checkStatusCashier = async () => {
         const printMachine = await this.checkStatusPrint(true);
         if (printMachine) {
-            this.openCashDrawer(printMachine.portName);
+            this.openCashDrawer(printMachine);
         } else {
             alert('Please connect to your cashier ! ');
         }
@@ -1001,12 +1002,9 @@ class TabCheckout extends Layout {
         try {
             const printer = await PrintManager.getInstance().portDiscovery();
             if (printer.length > 0) {
-                let portName = "";
+                let portName = false;
                 for (let i = 0; i < printer.length; i++) {
-                    if (isOpenCashier && printer[i].portName === "BT:mPOP") {
-                        portName = "BT:mPOP";
-                        break;
-                    } else if (!isOpenCashier && (printer[i].portName === "BT:mPOP" || printer[i].portName === "BT:TSP100")) {
+                    if (printer[i].portName === "BT:mPOP" || printer[i].portName === "BT:TSP100") {
                         portName = printer[i].portName;
                         break;
                     }
@@ -1020,10 +1018,10 @@ class TabCheckout extends Layout {
                     // }
                 };
 
-                if (portName === "") {
-                    return false;
-                };
-                return { portName };
+                // if (portName === "") {
+                //     return false;
+                // };
+                return portName;
             } else {
                 return false
             }

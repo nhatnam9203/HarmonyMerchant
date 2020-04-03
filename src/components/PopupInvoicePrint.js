@@ -32,12 +32,13 @@ class PopupInvoicePrint extends React.Component {
             temptTip: 0.00,
             temptTotal: 0.00,
             paymentSelected: "",
-            isPrintTempt: true
+            isPrintTempt: true,
+            printMachine:""
         }
         this.viewShotRef = React.createRef();
     }
 
-    setStateFromParent = async (basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected, isPrintTempt) => {
+    setStateFromParent = async (basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected, isPrintTempt,printMachine) => {
         await this.setState({
             basket,
             temptSubTotal,
@@ -46,11 +47,13 @@ class PopupInvoicePrint extends React.Component {
             temptTip,
             temptTotal,
             paymentSelected,
-            isPrintTempt
+            isPrintTempt,
+            printMachine
         })
     }
 
     doPrint = async () => {
+        const {printMachine} = this.state
         try {
             const imageUri = await captureRef(this.viewShotRef, {});
             if (imageUri) {
@@ -58,8 +61,8 @@ class PopupInvoicePrint extends React.Component {
                 commands.push({ appendLineFeed: 0 });
                 commands.push({ appendBitmap: imageUri });
                 commands.push({ appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed });
-                await PrintManager.getInstance().print("BT:TSP100", commands);
-                
+                await PrintManager.getInstance().print(printMachine, commands);
+
                 const  {isPrintTempt} = this.state;
                 this.props.onRequestClose(isPrintTempt);
             }
