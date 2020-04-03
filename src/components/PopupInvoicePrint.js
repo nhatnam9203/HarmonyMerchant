@@ -26,17 +26,18 @@ class PopupInvoicePrint extends React.Component {
         super(props);
         this.state = {
             basket: [],
-            temptSubTotal:0.00,
-            temptTax:0.00,
-            temptDiscount:0.00,
-            temptTip:0.00,
-            temptTotal:0.00,
-            paymentSelected:""
+            temptSubTotal: 0.00,
+            temptTax: 0.00,
+            temptDiscount: 0.00,
+            temptTip: 0.00,
+            temptTotal: 0.00,
+            paymentSelected: "",
+            isPrintTempt: true
         }
         this.viewShotRef = React.createRef();
     }
 
-    setStateFromParent = async (basket,temptSubTotal,temptTax,temptDiscount,temptTip,temptTotal,paymentSelected) => {
+    setStateFromParent = async (basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected) => {
         await this.setState({
             basket,
             temptSubTotal,
@@ -80,9 +81,17 @@ class PopupInvoicePrint extends React.Component {
     // -------------- Render --------------
 
     render() {
-        const { onRequestClose, language, visiblePrintInvoice, profile, profileStaffLogin
+        const { onRequestClose, language, visiblePrintInvoice, profile, profileStaffLogin, groupAppointment
         } = this.props;
-        const { basket,temptSubTotal,temptTax,temptDiscount,temptTip,temptTotal,paymentSelected } = this.state;
+        const { basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected, isPrintTempt } = this.state;
+
+        let invoiceCode = "";
+        if (groupAppointment.appointments && groupAppointment.appointments.length > 0) {
+            const mainAppointment = groupAppointment.appointments.find(appointment => appointment.isMain === 1);
+            console.log("----- mainAppointment : ", mainAppointment);
+            invoiceCode = mainAppointment.code ? mainAppointment.code : "";
+        }
+
 
         return (
             <Modal
@@ -180,7 +189,7 @@ class PopupInvoicePrint extends React.Component {
                                         </View>
                                         <View style={{ flex: 1 }} >
                                             <Text style={styleInvoice.txt_info} >
-                                                {`: 198832434420324`}
+                                                {`: ${invoiceCode}`}
                                             </Text>
                                         </View>
                                     </View>
@@ -246,26 +255,82 @@ class PopupInvoicePrint extends React.Component {
                                         title={"TIP"}
                                         value={temptTip}
                                     />
-                                    <ItemTotal
-                                        title={"TOTAL"}
-                                        value={temptTotal}
-                                        style={{ fontSize: 15, fontWeight: "bold" }}
-                                    />
+                                    {
+                                        isPrintTempt ? <View /> : <ItemTotal
+                                            title={"TOTAL"}
+                                            value={temptTotal}
+                                            style={{ fontSize: 15, fontWeight: "bold" }}
+                                        />
+
+                                    }
+
+                                    {/* ------------- Enter Tip   ----------- */}
+                                    {
+                                        isPrintTempt ? <View style={{ height: scaleSzie(15), flexDirection: "row", marginBottom: scaleSzie(12) }} >
+                                            <View style={{ width: scaleSzie(50), justifyContent: "flex-end" }} >
+                                                <Text style={[styleInvoice.txt_total, { fontSize: 15, fontWeight: "bold" }]} >
+                                                    {"Tip :"}
+                                                </Text>
+                                            </View>
+                                            <View style={{ width: scaleSzie(50) }} />
+                                            <View style={{ flex: 1, borderBottomColor: "#000", borderBottomWidth: 1, }} />
+                                        </View> : <View />
+                                    }
+
+
+                                    {/* ------------- Enter Total   ----------- */}
+                                    {
+                                        isPrintTempt ? <View style={{ height: scaleSzie(15), flexDirection: "row", marginBottom: scaleSzie(4) }} >
+                                            <View style={{ width: scaleSzie(50), justifyContent: "flex-end" }} >
+                                                <Text style={[styleInvoice.txt_total, { fontSize: 15, fontWeight: "bold" }]} >
+                                                    {"TOTAL :"}
+                                                </Text>
+                                            </View>
+                                            <View style={{ width: scaleSzie(50) }} />
+                                            <View style={{ flex: 1, borderBottomColor: "#000", borderBottomWidth: 1, }} />
+                                        </View> : <View />
+
+                                    }
+
+
                                     {/* ------------- Entry Method   ----------- */}
-                                    <View style={{ flexDirection: "row", marginBottom: scaleSzie(4) }} >
-                                        <Text style={[styleInvoice.txt_total,]} >
-                                            {`- Entry method : ${paymentSelected}`}
-                                        </Text>
-                                    </View>
+                                    {
+                                        !isPrintTempt ? <View style={{ flexDirection: "row", marginBottom: scaleSzie(4) }} >
+                                            <Text style={[styleInvoice.txt_total,]} >
+                                                {`- Entry method : ${paymentSelected}`}
+                                            </Text>
+                                        </View> : <View />
+                                    }
+
 
                                     {/* ------------- Credit   ----------- */}
-                                    <View style={{ flexDirection: "row", marginBottom: scaleSzie(4) }} >
-                                        <Text style={[styleInvoice.txt_total,]} >
-                                            {`- Visa : ***********3022`}
-                                        </Text>
-                                    </View>
+                                    {
+                                        paymentSelected === "Credit Cards" ?
+                                            <View style={{ flexDirection: "row", marginBottom: scaleSzie(4) }} >
+                                                <Text style={[styleInvoice.txt_total,]} >
+                                                    {`- Card Number : ***********3022`}
+                                                </Text>
+                                            </View> : <View />
+                                    }
+
+                                    {/* ------------- Enter Signature   ----------- */}
+                                    {
+                                        paymentSelected === "Credit Cards" ?
+                                            <View style={{ height: scaleSzie(15), flexDirection: "row", marginTop: scaleSzie(15) }} >
+                                                <View style={{ width: scaleSzie(50), justifyContent: "flex-end" }} >
+                                                    <Text style={[styleInvoice.txt_total, { fontSize: 15, fontWeight: "bold" }]} >
+                                                        {"Signature :"}
+                                                    </Text>
+                                                </View>
+                                                <View style={{ width: scaleSzie(50) }} />
+                                                <View style={{ flex: 1, borderBottomColor: "#000", borderBottomWidth: 1, }} />
+                                            </View> : <View />
+                                    }
+
+
+
                                     {/* ----------- Thanks , see you again -------- */}
-                                    <View style={{ height: scaleSzie(50) }} />
+                                    <View style={{ height: scaleSzie(20) }} />
                                     <Text style={[styleInvoice.txt_total, { alignSelf: "center", fontWeight: "bold" }]} >
                                         Thank you !
                                 </Text>
@@ -390,6 +455,7 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     profileStaffLogin: state.dataLocal.profileStaffLogin,
     profile: state.dataLocal.profile,
+    groupAppointment: state.appointment.groupAppointment,
 });
 
 export default connectRedux(mapStateToProps, PopupInvoicePrint);

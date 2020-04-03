@@ -465,7 +465,7 @@ class TabCheckout extends Layout {
                 method = 'orther';
                 break;
             default:
-                method = 'cash'
+                method = ''
         }
         return method
     }
@@ -943,7 +943,7 @@ class TabCheckout extends Layout {
                 temptDiscount,
                 temptTip,
                 temptTotal,
-                this.getPaymentString(paymentSelected)
+                paymentSelected
             )
 
             await this.setState({
