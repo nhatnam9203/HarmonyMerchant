@@ -853,7 +853,7 @@ class Layout extends React.Component {
                 <PopupInvoicePrint 
                     ref={this.invoicePrintRef}
                     visiblePrintInvoice={this.state.visiblePrintInvoice}
-                    onRequestClose={() => this.setState({visiblePrintInvoice: false})}
+                    onRequestClose={this.cancelInvoicePrint}
                 />
             </View>
         );

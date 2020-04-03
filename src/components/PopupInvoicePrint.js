@@ -37,7 +37,7 @@ class PopupInvoicePrint extends React.Component {
         this.viewShotRef = React.createRef();
     }
 
-    setStateFromParent = async (basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected) => {
+    setStateFromParent = async (basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected, isPrintTempt) => {
         await this.setState({
             basket,
             temptSubTotal,
@@ -45,7 +45,8 @@ class PopupInvoicePrint extends React.Component {
             temptDiscount,
             temptTip,
             temptTotal,
-            paymentSelected
+            paymentSelected,
+            isPrintTempt
         })
     }
 
@@ -57,7 +58,10 @@ class PopupInvoicePrint extends React.Component {
                 commands.push({ appendLineFeed: 0 });
                 commands.push({ appendBitmap: imageUri });
                 commands.push({ appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed });
-                PrintManager.getInstance().print("BT:TSP100", commands);
+                await PrintManager.getInstance().print("BT:TSP100", commands);
+                
+                const  {isPrintTempt} = this.state;
+                this.props.onRequestClose(isPrintTempt);
             }
         } catch (error) {
             console.log("error : ", error);
@@ -77,6 +81,10 @@ class PopupInvoicePrint extends React.Component {
         return `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`;
     }
 
+    cancelInvoicePrint = () => {
+        const  {isPrintTempt} = this.state;
+        this.props.onRequestClose(isPrintTempt);
+    }
 
     // -------------- Render --------------
 
@@ -88,7 +96,6 @@ class PopupInvoicePrint extends React.Component {
         let invoiceCode = "";
         if (groupAppointment.appointments && groupAppointment.appointments.length > 0) {
             const mainAppointment = groupAppointment.appointments.find(appointment => appointment.isMain === 1);
-            console.log("----- mainAppointment : ", mainAppointment);
             invoiceCode = mainAppointment.code ? mainAppointment.code : "";
         }
 
@@ -304,14 +311,14 @@ class PopupInvoicePrint extends React.Component {
 
 
                                     {/* ------------- Credit   ----------- */}
-                                    {
+                                    {/* {
                                         paymentSelected === "Credit Cards" ?
                                             <View style={{ flexDirection: "row", marginBottom: scaleSzie(4) }} >
                                                 <Text style={[styleInvoice.txt_total,]} >
                                                     {`- Card Number : ***********3022`}
                                                 </Text>
                                             </View> : <View />
-                                    }
+                                    } */}
 
                                     {/* ------------- Enter Signature   ----------- */}
                                     {
@@ -357,7 +364,7 @@ class PopupInvoicePrint extends React.Component {
                                 backgroundColor="#0764B0"
                                 title={localize('CANCEL', language)}
                                 textColor="#fff"
-                                onPress={() => onRequestClose()}
+                                onPress={this.cancelInvoicePrint}
                                 styleText={{
                                     fontSize: scaleSzie(10),
                                     fontWeight: "600",

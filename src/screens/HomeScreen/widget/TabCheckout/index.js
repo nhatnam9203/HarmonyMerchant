@@ -865,7 +865,7 @@ class TabCheckout extends Layout {
             connectionSignalR.stop();
         }
         if (paymentSelected === 'Cash' || paymentSelected === 'Others - Check') {
-            const printMachine = await this.checkStatusPrint();
+            const printMachine = await this.checkStatusPrint(true);
             if (printMachine) {
                 this.openCashDrawer(printMachine.portName);
                 this.scrollTabRef.current.goToPage(0);
@@ -900,59 +900,74 @@ class TabCheckout extends Layout {
 
     }
 
+    showInvoicePrint = async (isTemptPrint = true) => {
+        // -------- Pass data to Invoice --------
+        this.props.actions.appointment.closeModalPaymentCompleted();
+        const { groupAppointment, isOfflineMode } = this.props;
+        const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal, paymentSelected } = this.state;
+
+        const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
+
+        const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards } = this.getBasketOnline(appointments);
+        const basket = isOfflineMode ? this.state.basket : [...arryaServicesBuy, ...arrayProductBuy, ...arrayExtrasBuy, ...arrayGiftCards];
+
+        const tipAmount = groupAppointment.tipAmount ? groupAppointment.tipAmount : 0;
+        const subTotal = groupAppointment.subTotal ? groupAppointment.subTotal : 0;
+        const discount = groupAppointment.discount ? groupAppointment.discount : 0;
+        const tax = groupAppointment.tax ? groupAppointment.tax : 0;
+        const total = groupAppointment.total ? groupAppointment.total : 0;
+
+        const temptSubTotal = _.isEmpty(groupAppointment) ? subTotalLocal : subTotal;
+        const temptTotal = _.isEmpty(groupAppointment) ? Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2) : total;
+        const temptDiscount = _.isEmpty(groupAppointment) ? discountTotalLocal : discount;
+        const temptTip = _.isEmpty(groupAppointment) ? tipLocal : tipAmount;
+        const temptTax = _.isEmpty(groupAppointment) ? taxLocal : tax;
+
+        this.invoicePrintRef.current.setStateFromParent(
+            basket,
+            temptSubTotal,
+            temptTax,
+            temptDiscount,
+            temptTip,
+            temptTotal,
+            paymentSelected,
+            isTemptPrint
+        )
+
+        await this.setState({
+            visiblePrintInvoice: true
+        })
+    }
+
+    cancelInvoicePrint = async (isPrintTempt) => {
+        await this.setState({ visiblePrintInvoice: false });
+        if (!isPrintTempt) {
+            this.scrollTabRef.current.goToPage(0);
+            this.props.gotoAppoitmentScreen();
+            this.props.actions.appointment.resetBasketEmpty();
+            this.setState(initState);
+            this.props.actions.appointment.resetPayment();
+        }
+    }
 
     printBill = async () => {
         this.pushAppointmentIdOfflineIntoWebview();
         const printMachine = await this.checkStatusPrint();
-        if (!printMachine) {
+        if (printMachine) {
             const { paymentSelected } = this.state;
             const { connectionSignalR } = this.props;
-            // if (!_.isEmpty(connectionSignalR)) {
-            //     connectionSignalR.stop();
-            // }
-            // if (paymentSelected === 'Cash' || paymentSelected === 'Others - Check') {
-            //     this.openCashDrawer(printMachine.portName);
-            // }
+            if (!_.isEmpty(connectionSignalR)) {
+                connectionSignalR.stop();
+            }
+            if (paymentSelected === 'Cash' || paymentSelected === 'Others - Check') {
+                this.openCashDrawer(printMachine.portName);
+            }
 
-            // -------- Pass data to Invoice --------
-            this.props.actions.appointment.closeModalPaymentCompleted();
-            const { groupAppointment, isOfflineMode } = this.props;
-            const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal, } = this.state;
-
-            const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
-
-            const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards } = this.getBasketOnline(appointments);
-            const basket = isOfflineMode ? this.state.basket : [...arryaServicesBuy, ...arrayProductBuy, ...arrayExtrasBuy, ...arrayGiftCards];
-
-            const tipAmount = groupAppointment.tipAmount ? groupAppointment.tipAmount : 0;
-            const subTotal = groupAppointment.subTotal ? groupAppointment.subTotal : 0;
-            const discount = groupAppointment.discount ? groupAppointment.discount : 0;
-            const tax = groupAppointment.tax ? groupAppointment.tax : 0;
-            const total = groupAppointment.total ? groupAppointment.total : 0;
-
-            const temptSubTotal = _.isEmpty(groupAppointment) ? subTotalLocal : subTotal;
-            const temptTotal = _.isEmpty(groupAppointment) ? Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2) : total;
-            const temptDiscount = _.isEmpty(groupAppointment) ? discountTotalLocal : discount;
-            const temptTip = _.isEmpty(groupAppointment) ? tipLocal : tipAmount;
-            const temptTax = _.isEmpty(groupAppointment) ? taxLocal : tax;
-
-            this.invoicePrintRef.current.setStateFromParent(
-                basket,
-                temptSubTotal,
-                temptTax,
-                temptDiscount,
-                temptTip,
-                temptTotal,
-                paymentSelected
-            )
-
-            await this.setState({
-                visiblePrintInvoice: true
-            })
+            // --------- New -------
+            this.showInvoicePrint(false);
 
             // this.printInvoice(printMachine.portName);
             // this.scrollTabRef.current.goToPage(0);
-
             // this.props.gotoAppoitmentScreen();
             // this.props.actions.appointment.resetBasketEmpty();
             // this.setState(initState);
@@ -965,43 +980,44 @@ class TabCheckout extends Layout {
     printTemptInvoice = async () => {
         const printMachine = await this.checkStatusPrint();
         // console.log("printMachine : ", printMachine);
-        if (printMachine) {
-            this.printInvoice(printMachine.portName, true);
+        if (!printMachine) {
+            // this.printInvoice(printMachine.portName, true);
+            this.showInvoicePrint();
         } else {
             alert('Please connect to your print ! ');
         }
     }
 
     checkStatusCashier = async () => {
-        this.printBill();
-        // this.setState({
-        //     visiblePrintInvoice: true
-        // })
-
-
-        // ---------- Main ------
-        // const printMachine = await this.checkStatusPrint();
-        // if (printMachine) {
-        //     this.openCashDrawer(printMachine.portName);
-        // } else {
-        //     alert('Please connect to your cashier ! ');
-        // }
+        const printMachine = await this.checkStatusPrint(true);
+        if (printMachine) {
+            this.openCashDrawer(printMachine.portName);
+        } else {
+            alert('Please connect to your cashier ! ');
+        }
     }
 
-    checkStatusPrint = async () => {
+    checkStatusPrint = async (isOpenCashier = false) => {
         try {
             const printer = await PrintManager.getInstance().portDiscovery();
             if (printer.length > 0) {
                 let portName = "";
                 for (let i = 0; i < printer.length; i++) {
+                    if (isOpenCashier && printer[i].portName === "BT:mPOP") {
+                        portName = "BT:mPOP";
+                        break;
+                    } else if (!isOpenCashier && (printer[i].portName === "BT:mPOP" || printer[i].portName === "BT:TSP100")) {
+                        portName = printer[i].portName;
+                        break;
+                    }
                     // if (printer[i].portName === "BT:mPOP") {
                     //     portName = "BT:mPOP";
                     //     break;
                     // }
-                    if (printer[i].portName === "BT:TSP100") {
-                        portName = "BT:TSP100";
-                        break;
-                    }
+                    // if (printer[i].portName === "BT:TSP100") {
+                    //     portName = "BT:TSP100";
+                    //     break;
+                    // }
                 };
 
                 if (portName === "") {
