@@ -10,7 +10,7 @@ export default class InputAuth extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            value: ''
+            value: this.props.value ? this.props.value : ""
         }
         this.textinputRef = React.createRef();
     }

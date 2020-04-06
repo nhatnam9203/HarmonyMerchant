@@ -900,7 +900,7 @@ class TabCheckout extends Layout {
 
     }
 
-    showInvoicePrint = async (printMachine,isTemptPrint = true) => {
+    showInvoicePrint = async (printMachine, isTemptPrint = true) => {
         // -------- Pass data to Invoice --------
         this.props.actions.appointment.closeModalPaymentCompleted();
         const { groupAppointment, isOfflineMode } = this.props;
@@ -965,7 +965,7 @@ class TabCheckout extends Layout {
             }
 
             // --------- New -------
-            this.showInvoicePrint(printMachine,false);
+            this.showInvoicePrint(printMachine, false);
 
             // this.printInvoice(printMachine.portName);
             // this.scrollTabRef.current.goToPage(0);
@@ -1004,23 +1004,12 @@ class TabCheckout extends Layout {
             if (printer.length > 0) {
                 let portName = false;
                 for (let i = 0; i < printer.length; i++) {
-                    if (printer[i].portName === "BT:mPOP" || printer[i].portName === "BT:TSP100") {
-                        portName = printer[i].portName;
+                    let tempt_portName = printer[i].portName ? printer[i].portName : "";
+                    if (tempt_portName === "BT:mPOP" || tempt_portName === "BT:TSP100") {
+                        portName = tempt_portName;
                         break;
                     }
-                    // if (printer[i].portName === "BT:mPOP") {
-                    //     portName = "BT:mPOP";
-                    //     break;
-                    // }
-                    // if (printer[i].portName === "BT:TSP100") {
-                    //     portName = "BT:TSP100";
-                    //     break;
-                    // }
                 };
-
-                // if (portName === "") {
-                //     return false;
-                // };
                 return portName;
             } else {
                 return false

@@ -16,11 +16,17 @@ const initialState = {
     isAgreeTerm: false,
     visibleDisconnect: false,
     visibleConnected: false,
-    isReloadWebview: false
+    isReloadWebview: false,
+    MIDStorage:""
 }
 
 function appReducer(state = initialState, action) {
     switch (action.type) {
+        case 'LOGIN_APP_SUCCESS':
+            return {
+                ...state,
+                MIDStorage: action.payload
+            }
         case 'AGREE_TERM':
             return {
                 ...state,

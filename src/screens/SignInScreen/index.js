@@ -42,7 +42,8 @@ class SignInScreen extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    errorLogin: state.auth.errorLogin
+    errorLogin: state.auth.errorLogin,
+    MIDStorage: state.app.MIDStorage
 })
 
 

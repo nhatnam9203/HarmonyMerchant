@@ -8,7 +8,7 @@ function* login(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    //console.log('responses : ', responses);
+        //console.log('responses : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -20,7 +20,8 @@ function* login(action) {
                 }
             });
             yield put({
-                type: 'LOGIN_APP_SUCCESS'
+                type: 'LOGIN_APP_SUCCESS',
+                payload: action.body && action.body.email ? action.body.email : ""
             });
             yield put({ type: 'STOP_LOADING_ROOT' });
             NavigationServices.navigate('Splash');
@@ -45,19 +46,19 @@ function* forgotPassword(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    //console.log('responses : ', responses);
+        //console.log('responses : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             NavigationServices.navigate('SignIn');
-            setTimeout(() =>{
+            setTimeout(() => {
                 alert(`Please check email : ${action.email}`)
-            },300)
+            }, 300)
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -81,6 +82,6 @@ export default function* saga() {
         takeLatest('LOGIN_APP', login),
         takeLatest('UNAUTHORIZED', expiredToken),
         takeLatest('FORGOT_PASSWORD', forgotPassword),
-        
+
     ])
 }

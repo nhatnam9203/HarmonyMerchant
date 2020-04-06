@@ -13,7 +13,7 @@ import IMAGE from '@resources';
 export default class Layout extends React.Component {
 
     render() {
-        const { errorLogin ,language} = this.props;
+        const { errorLogin ,language,MIDStorage} = this.props;
         const {isSecureTextEntry} = this.state;
         const iconShowPass = isSecureTextEntry ? IMAGE.showPass  :  IMAGE.notShowPass ;
         return (
@@ -29,6 +29,7 @@ export default class Layout extends React.Component {
                 </View>
                 <InputAuth
                     ref={this.idInputRef}
+                    value={MIDStorage}
                     placeholder="merchant ID"
                     onSubmitEditing={() => this.passwordInputRef.current.onFocusTexInput()}
                 />
