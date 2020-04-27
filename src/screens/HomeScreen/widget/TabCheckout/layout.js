@@ -134,16 +134,19 @@ class Layout extends React.Component {
     renderCategoriesCheckout() {
         const { language, categoriesByMerchant } = this.props;
         const { isShowColProduct } = this.state;
-        const temptWidth = isShowColProduct ? 120 : 190;
+        const temptWidth = isShowColProduct ? 120 : 202;
         const temptColorHeader = isShowColProduct ? { color: '#6A6A6A' } : {};
-        const temptBorderColor = isShowColProduct ? { borderColor: rgb(197, 197, 197) } : {};
+        // const temptBorderColor = isShowColProduct ? { borderColor: rgb(197, 197, 197) } : {};
+        // const temptBorderColor = isShowColProduct ? { borderColor: "red" } : {};
+
 
         const categoriesFilter = categoriesByMerchant.filter((category, index) => category.isDisabled === 0);
         return (
-            <View style={{ width: scaleSzie(temptWidth), flexDirection: 'row' }} >
-                <View style={{ flex: 1 }} >
+            <View style={{ width: scaleSzie(temptWidth),
+            borderRightColor:"#DDDDDD",borderRightWidth:1
+            }} >
                     {/* ------- Header ----- */}
-                    <View style={[styles.categoriesHeader, { borderRightWidth: 0 }, temptBorderColor]} >
+                    <View style={[styles.categoriesHeader,]} >
                         <Text style={[styles.textHeader, temptColorHeader]} >
                             {localize('Categories', language)}
                         </Text>
@@ -173,13 +176,12 @@ class Layout extends React.Component {
                             />
                         </ScrollView>
                     </View>
-                </View>
                 {/* ------- Line ----- */}
-                {
+                {/* {
                     isShowColProduct ? <View /> : <ShadowLine
                         style={styles.shadowLineRight}
                     />
-                }
+                } */}
 
             </View>
         );
@@ -190,17 +192,24 @@ class Layout extends React.Component {
         const { isShowColProduct, isShowColAmount, categorySelected, productSeleted,
             categoryTypeSelected
         } = this.state;
-        let temptWidth = isShowColProduct ? 190 : 120;
-        temptWidth = isShowColAmount ? 120 : temptWidth;
-        const temptBorder = isShowColAmount ? 'rgb(197,197,197)' : '#404040';
+        let temptWidth = isShowColProduct ? 190 : 122;
+        temptWidth = isShowColAmount ? 122 : temptWidth;
+        const temptBorder = isShowColAmount ? 'rgb(197,197,197)' : '#DDDDDD';
         const temptColorHeader = isShowColAmount ? { color: '#6A6A6A' } : {};
         const data = this.getDataColProduct();
         return (
-            <View style={{ width: scaleSzie(temptWidth) }} >
+            <View style={{ 
+                // width: scaleSzie(temptWidth)
+                flex:1
+                 }} >
                 {
-                    !isShowColProduct ? <ColPlaceHolder /> : <View style={{ flex: 1, flexDirection: 'row' }} >
+                    !isShowColProduct ?
+                    //  <ColPlaceHolder />
+                    <View style={{flex:1,  borderRightColor:"#DDDDDD",borderRightWidth:1}} />
+
+                    : <View style={{ flex: 1, flexDirection: 'row' }} >
                         {/* ------- Line ----- */}
-                        {
+                        {/* {
                             isShowColAmount ? <ShadowLine
                                 style={{
                                     shadowOffset: { width: -2, height: 2 }, backgroundColor: 'rgb(197,197,197)',
@@ -209,9 +218,10 @@ class Layout extends React.Component {
                             /> : <ShadowLine
                                     style={styles.shadowLineLeft}
                                 />
-                        }
+                        } */}
+                        {/* <ShadowLine style={{  shadowOffset: { width: -1, height: 0 }}} /> */}
 
-                        <View style={{ flex: 1 }} >
+                        <View style={{ flex: 1 ,}} >
                             {/* ----- Header ---- */}
                             <View style={{
                                 height: scaleSzie(46),
@@ -243,11 +253,11 @@ class Layout extends React.Component {
                             </View>
                         </View>
                         {/* ------- Line ----- */}
-                        {
+                        {/* {
                             isShowColAmount ? <View /> : <ShadowLine
                                 style={styles.shadowLineRight}
                             />
-                        }
+                        } */}
 
                     </View>
                 }
@@ -259,17 +269,21 @@ class Layout extends React.Component {
     renderAmountCheckout() {
         const { language } = this.props;
         const { isShowColAmount, categorySelected, categoryTypeSelected, productSeleted } = this.state;
-        const temptWidth = isShowColAmount ? 190 : 120;
+        const temptWidth = isShowColAmount ? 190 : 122;
         const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
 
         return (
             <View style={{ width: scaleSzie(temptWidth) }} >
                 {
-                    !isShowColAmount ? <ColPlaceHolder /> : <View style={{ flex: 1, flexDirection: 'row' }} >
+                    !isShowColAmount ? 
+                    // <ColPlaceHolder /> 
+                    <View style={{flex:1,  borderRightColor:"#DDDDDD",borderRightWidth:1}} />
+                    :
+                     <View style={{ flex: 1, flexDirection: 'row' }} >
                         {/* ------- Line ----- */}
-                        <ShadowLine
+                        {/* <ShadowLine
                             style={styles.shadowLineLeft}
-                        />
+                        /> */}
                         <View style={{ flex: 1 }} >
                             {/* ----- Header ---- */}
                             <View style={{
@@ -323,9 +337,9 @@ class Layout extends React.Component {
 
                         </View>
                         {/* ------- Line ----- */}
-                        <ShadowLine
+                        {/* <ShadowLine
                             style={styles.shadowLineRight}
-                        />
+                        /> */}
                     </View>
                 }
             </View>
@@ -718,7 +732,7 @@ class Layout extends React.Component {
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
                 {/* 474 435 */}
-                <View style={{ width: scaleSzie(432) }} >
+                <View style={{ width: scaleSzie(446) }} >
                     <ScrollableTabView
                         ref={this.scrollTabRef}
                         style={{}}
@@ -731,11 +745,11 @@ class Layout extends React.Component {
                     >
                         <View style={{ flex: 1, flexDirection: 'row' }} >
                             {this.renderCategoriesCheckout()}
-                            {isShowColProduct ? <View /> : <View style={{ width: scaleSzie(3) }} />}
+                            {/* {isShowColProduct ? <View /> : <View style={{ width: scaleSzie(3) }} />} */}
                             {this.renderProductCheckout()}
-                            {isShowColAmount ? <View /> : isShowColProduct ? <View style={{ width: scaleSzie(2) }} /> : <View />}
+                            {/* {isShowColAmount ? <View /> : isShowColProduct ? <View style={{ width: scaleSzie(2) }} /> : <View />} */}
                             {this.renderAmountCheckout()}
-                            {isShowColAmount ? <View style={{ width: scaleSzie(1) }} /> : <View />}
+                            {/* {isShowColAmount ? <View style={{ width: scaleSzie(1) }} /> : <View />} */}
                         </View>
                         {this.renderPaymetsMethod()}
                         {this.renderOfflineMode()}

@@ -14,21 +14,21 @@ export default StyleSheet.create({
         flex: 1,
     },
     headerContainer: {
-        height: scaleSzie(45),
+        height: scaleSzie(53),
         flexDirection: 'row',
         borderColor: 'rgb(197,197,197)',
         borderWidth: 1,
         paddingHorizontal: scaleSzie(14),
     },
     textHeader: {
-        fontSize: scaleSzie(20),
-        fontWeight:"600",
+        fontSize: scaleSzie(18),
+        // fontWeight:"600",
         color: '#404040'
     },
     categoriesHeader: {
-        height: scaleSzie(46),
-        borderWidth: 1,
-        borderColor: '#404040',
+        height: scaleSzie(36),
+        borderBottomWidth: 2,
+        borderColor: '#DDDDDD',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -37,13 +37,12 @@ export default StyleSheet.create({
         // backgroundColor: '#F1F1F1'
     },
     shadowLine: {
-        width: 2,
-        backgroundColor: '#404040',
+        width: 1,
+        // backgroundColor: '#DDDDDD',
         ...Platform.select({
             ios: {
-                shadowColor: 'rgba(0, 0, 0,1)',
+                shadowColor: 'rgba(0, 0, 0,0.5)',
                 shadowOpacity: 1,
-
             },
 
             android: {

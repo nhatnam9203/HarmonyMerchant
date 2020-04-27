@@ -10,15 +10,16 @@ import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 import { Button, Text } from '@components';
 
-const ItemBanner = ({ banner,deleteBanner }) => {
-    const { createdDate, description, imageUrl, title,merchantBannerId } = banner;
+const ItemBanner = ({ banner, deleteBanner }) => {
+    const { createdDate, description, imageUrl, title, merchantBannerId } = banner;
     return (
-        <View style={{ height: scaleSzie(100), paddingLeft: scaleSzie(15), marginBottom: scaleSzie(10),
+        <View style={{
+            height: scaleSzie(100), paddingLeft: scaleSzie(15), marginBottom: scaleSzie(10),
         }} >
             <View style={{
                 width: scaleSzie(360),
-                 backgroundColor: '#F1F1F1',
-                  height: scaleSzie(100),
+                backgroundColor: '#F1F1F1',
+                height: scaleSzie(100),
                 flexDirection: 'row'
             }} >
                 <View style={{
@@ -29,19 +30,18 @@ const ItemBanner = ({ banner,deleteBanner }) => {
                         source={IMAGE.iconItemBanner}
                         style={{ width: scaleSzie(10), height: scaleSzie(65) }}
                     />
-                  
+
                 </View>
                 <View style={{ justifyContent: 'center' }} >
                     <View style={{ width: scaleSzie(130), height: scaleSzie(85) }} >
-                          <FastImage
-                        style={{ width: scaleSzie(130), height: scaleSzie(85) }} 
-                        source={{
-                            // uri: imageUrl,
-                            uri: imageUrl,
-                            priority: FastImage.priority.low,
-                            cache:FastImage.cacheControl.immutable
-                        }}
-                    />
+                        <FastImage
+                            style={{ width: scaleSzie(130), height: scaleSzie(85) }}
+                            source={{
+                                uri: imageUrl,
+                                priority: FastImage.priority.low,
+                                cache: FastImage.cacheControl.immutable
+                            }}
+                        />
                     </View>
                 </View>
                 <View style={{ flex: 1, paddingLeft: scaleSzie(10), paddingTop: scaleSzie(10), paddingRight: scaleSzie(10) }}  >
