@@ -390,7 +390,6 @@ class TabCheckout extends Layout {
     }
 
     showColAmount = (item) => {
-        const { categoryTypeSelected } = this.state;
         this.setState({
             productSeleted: item,
             isShowColAmount: true,

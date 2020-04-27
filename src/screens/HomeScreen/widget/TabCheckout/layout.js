@@ -262,8 +262,6 @@ class Layout extends React.Component {
         const temptWidth = isShowColAmount ? 190 : 120;
         const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
 
-        // console.log("productSeleted : ", JSON.stringify(productSeleted));
-
         return (
             <View style={{ width: scaleSzie(temptWidth) }} >
                 {
