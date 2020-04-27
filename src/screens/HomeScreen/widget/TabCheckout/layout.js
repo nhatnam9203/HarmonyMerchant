@@ -12,7 +12,7 @@ import _ from 'ramda';
 import { scaleSzie, localize, formatNumberFromCurrency, formatMoney } from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
-    PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode,PopupProcessingCredit,PopupInvoicePrint
+    PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode, PopupProcessingCredit, PopupInvoicePrint
 } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
@@ -136,52 +136,44 @@ class Layout extends React.Component {
         const { isShowColProduct } = this.state;
         const temptWidth = isShowColProduct ? 120 : 202;
         const temptColorHeader = isShowColProduct ? { color: '#6A6A6A' } : {};
-        // const temptBorderColor = isShowColProduct ? { borderColor: rgb(197, 197, 197) } : {};
-        // const temptBorderColor = isShowColProduct ? { borderColor: "red" } : {};
-
-
         const categoriesFilter = categoriesByMerchant.filter((category, index) => category.isDisabled === 0);
-        return (
-            <View style={{ width: scaleSzie(temptWidth),
-            borderRightColor:"#DDDDDD",borderRightWidth:1
-            }} >
-                    {/* ------- Header ----- */}
-                    <View style={[styles.categoriesHeader,]} >
-                        <Text style={[styles.textHeader, temptColorHeader]} >
-                            {localize('Categories', language)}
-                        </Text>
-                    </View>
-                    {/* ------- Body ----- */}
-                    <View style={styles.categoriesBody} >
-                        <ScrollView showsVerticalScrollIndicator={false} >
-                            {
-                                categoriesFilter.map((category, index) => <ItemCategory
-                                    key={index}
-                                    category={category}
-                                    onPressSelectCategory={this.onPressSelectCategory}
-                                    colorText={temptColorHeader}
-                                    categorySelected={this.state.categorySelected}
-                                />)
-                            }
 
-                            {/* --------- Gift Card --------  */}
-                            <ItemCategory
-                                category={{
-                                    name: "Gift Card",
-                                    categoryId: 1
-                                }}
-                                onPressSelectCategory={this.onSelectGiftCard}
+        return (
+            <View style={{
+                width: scaleSzie(temptWidth),
+                borderRightColor: "#DDDDDD", borderRightWidth: 1
+            }} >
+                {/* ------- Header ----- */}
+                <View style={[styles.categoriesHeader,]} >
+                    <Text style={[styles.textHeader, temptColorHeader]} >
+                        {localize('Categories', language)}
+                    </Text>
+                </View>
+                {/* ------- Body ----- */}
+                <View style={styles.categoriesBody} >
+                    <ScrollView showsVerticalScrollIndicator={false} >
+                        {
+                            categoriesFilter.map((category, index) => <ItemCategory
+                                key={index}
+                                category={category}
+                                onPressSelectCategory={this.onPressSelectCategory}
                                 colorText={temptColorHeader}
                                 categorySelected={this.state.categorySelected}
-                            />
-                        </ScrollView>
-                    </View>
-                {/* ------- Line ----- */}
-                {/* {
-                    isShowColProduct ? <View /> : <ShadowLine
-                        style={styles.shadowLineRight}
-                    />
-                } */}
+                            />)
+                        }
+
+                        {/* --------- Gift Card --------  */}
+                        <ItemCategory
+                            category={{
+                                name: "Gift Card",
+                                categoryId: 1
+                            }}
+                            onPressSelectCategory={this.onSelectGiftCard}
+                            colorText={temptColorHeader}
+                            categorySelected={this.state.categorySelected}
+                        />
+                    </ScrollView>
+                </View>
 
             </View>
         );
@@ -197,69 +189,54 @@ class Layout extends React.Component {
         const temptBorder = isShowColAmount ? 'rgb(197,197,197)' : '#DDDDDD';
         const temptColorHeader = isShowColAmount ? { color: '#6A6A6A' } : {};
         const data = this.getDataColProduct();
+
         return (
-            <View style={{ 
-                // width: scaleSzie(temptWidth)
-                flex:1
-                 }} >
+            <View style={{ width: scaleSzie(temptWidth) }} >
                 {
                     !isShowColProduct ?
-                    //  <ColPlaceHolder />
-                    <View style={{flex:1,  borderRightColor:"#DDDDDD",borderRightWidth:1}} />
+                        <View style={{
+                            flex: 1, borderRightColor: "#DDDDDD", borderRightWidth: 1, flexDirection: "row",
+                            backgroundColor: "#fff"
+                        }} >
+                                <ShadowLineLeftToRight />
+                        </View>
+                        :
+                        <View style={{
+                            flex: 1, flexDirection: 'row',
+                            borderRightColor: "#DDDDDD", borderRightWidth: 1
+                        }} >
+                            {/* ------- Line ----- */}
 
-                    : <View style={{ flex: 1, flexDirection: 'row' }} >
-                        {/* ------- Line ----- */}
-                        {/* {
-                            isShowColAmount ? <ShadowLine
-                                style={{
-                                    shadowOffset: { width: -2, height: 2 }, backgroundColor: 'rgb(197,197,197)',
-                                    width: 1
-                                }}
-                            /> : <ShadowLine
-                                    style={styles.shadowLineLeft}
-                                />
-                        } */}
-                        {/* <ShadowLine style={{  shadowOffset: { width: -1, height: 0 }}} /> */}
-
-                        <View style={{ flex: 1 ,}} >
-                            {/* ----- Header ---- */}
-                            <View style={{
-                                height: scaleSzie(46),
-                                borderBottomColor: temptBorder,
-                                borderTopColor: temptBorder,
-                                borderBottomWidth: 1,
-                                borderTopWidth: 1,
-                                justifyContent: 'center',
-                                alignItems: 'center'
-                            }} >
-                                <Text style={[styles.textHeader, temptColorHeader]} >
-                                    {localize(categorySelected.categoryType, language)}
-                                </Text>
-                            </View>
-                            {/* --------- List ------- */}
-                            <View style={{ flex: 1 }} >
-                                <ScrollView showsVerticalScrollIndicator={false} >
-                                    {
-                                        data.map((item, index) => <ItemProductService
-                                            key={index}
-                                            item={item}
-                                            showColAmount={this.showColAmount}
-                                            colorText={temptColorHeader}
-                                            itemSelected={productSeleted}
-                                            categoryTypeSelected={categoryTypeSelected}
-                                        />)
-                                    }
-                                </ScrollView>
+                            <View style={{ flex: 1, }} >
+                                {/* ----- Header ---- */}
+                                <View style={{
+                                    height: scaleSzie(36),
+                                    borderBottomWidth: 2,
+                                    borderColor: '#DDDDDD',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }} >
+                                    <Text style={[styles.textHeader, temptColorHeader]} >
+                                        {localize(categorySelected.categoryType, language)}
+                                    </Text>
+                                </View>
+                                {/* --------- List ------- */}
+                                <View style={{ flex: 1 }} >
+                                    <ScrollView showsVerticalScrollIndicator={false} >
+                                        {
+                                            data.map((item, index) => <ItemProductService
+                                                key={index}
+                                                item={item}
+                                                showColAmount={this.showColAmount}
+                                                colorText={temptColorHeader}
+                                                itemSelected={productSeleted}
+                                                categoryTypeSelected={categoryTypeSelected}
+                                            />)
+                                        }
+                                    </ScrollView>
+                                </View>
                             </View>
                         </View>
-                        {/* ------- Line ----- */}
-                        {/* {
-                            isShowColAmount ? <View /> : <ShadowLine
-                                style={styles.shadowLineRight}
-                            />
-                        } */}
-
-                    </View>
                 }
             </View>
 
@@ -275,72 +252,62 @@ class Layout extends React.Component {
         return (
             <View style={{ width: scaleSzie(temptWidth) }} >
                 {
-                    !isShowColAmount ? 
-                    // <ColPlaceHolder /> 
-                    <View style={{flex:1,  borderRightColor:"#DDDDDD",borderRightWidth:1}} />
-                    :
-                     <View style={{ flex: 1, flexDirection: 'row' }} >
-                        {/* ------- Line ----- */}
-                        {/* <ShadowLine
-                            style={styles.shadowLineLeft}
-                        /> */}
-                        <View style={{ flex: 1 }} >
-                            {/* ----- Header ---- */}
-                            <View style={{
-                                height: scaleSzie(46),
-                                borderBottomColor: '#404040',
-                                borderTopColor: '#404040',
-                                borderBottomWidth: 1,
-                                borderTopWidth: 1,
-                                justifyContent: 'center',
-                                alignItems: 'center'
-                            }} >
-                                <Text style={styles.textHeader} >
-                                    {localize(temptHeader, language)}
-                                </Text>
-                            </View>
-                            {/* ------- Content ----- */}
+                    !isShowColAmount ?
+                        <View style={{ flex: 1, borderRightColor: "#DDDDDD", borderRightWidth: 1 }} />
+                        :
+                        <View style={{ flex: 1, flexDirection: 'row' }} >
                             <View style={{ flex: 1 }} >
-                                {
-                                    categoryTypeSelected === 'Product' ? <ItemAmount
-                                        ref={this.amountRef}
-                                        price={productSeleted.price}
-                                    /> : <ScrollView>
-                                            {
-                                           (this.getExtrasFromRedux(productSeleted)).map((extra, index) => <ItemExtra
-                                                    key={index}
-                                                    extra={extra}
-                                                    onPressSelectExtra={this.onPressSelectExtra}
-                                                    extraSelected={this.state.extraSelected}
-                                                />)
-                                            }
-                                        </ScrollView>
-                                }
+                                {/* ----- Header ---- */}
+                                <View style={{
+                                    height: scaleSzie(36),
+                                    borderBottomWidth: 2,
+                                    borderColor: '#DDDDDD',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }} >
+                                    <Text style={styles.textHeader} >
+                                        {localize(temptHeader, language)}
+                                    </Text>
+                                </View>
+                                {/* ------- Content ----- */}
+                                <View style={{ flex: 1 }} >
+                                    {
+                                        categoryTypeSelected === 'Product' ? <ItemAmount
+                                            ref={this.amountRef}
+                                            price={productSeleted.price}
+                                        /> : <ScrollView>
+                                                {
+                                                    (this.getExtrasFromRedux(productSeleted)).map((extra, index) => <ItemExtra
+                                                        key={index}
+                                                        extra={extra}
+                                                        onPressSelectExtra={this.onPressSelectExtra}
+                                                        extraSelected={this.state.extraSelected}
+                                                    />)
+                                                }
+                                            </ScrollView>
+                                    }
 
-                            </View>
-                            {/* ------- Footer -------- */}
-                            <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
-                                <ButtonCustom
-                                    width={`100%`}
-                                    backgroundColor="#F1F1F1"
-                                    title={localize('ADD', language)}
-                                    textColor="#6A6A6A"
-                                    onPress={this.addAmount}
-                                    style={{
-                                        borderWidth: 1, borderColor: '#C5C5C5',
-                                        backgroundColor: '#0764B0',
-                                        flex: 1
-                                    }}
-                                    styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', color: '#fff' }}
-                                />
+                                </View>
+                                {/* ------- Footer -------- */}
+                                <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
+                                    <ButtonCustom
+                                        width={`100%`}
+                                        backgroundColor="#F1F1F1"
+                                        title={localize('ADD', language)}
+                                        textColor="#6A6A6A"
+                                        onPress={this.addAmount}
+                                        style={{
+                                            borderWidth: 1, borderColor: '#C5C5C5',
+                                            backgroundColor: '#0764B0',
+                                            flex: 1
+                                        }}
+                                        styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', color: '#fff' }}
+                                    />
+                                </View>
+
                             </View>
 
                         </View>
-                        {/* ------- Line ----- */}
-                        {/* <ShadowLine
-                            style={styles.shadowLineRight}
-                        /> */}
-                    </View>
                 }
             </View>
 
@@ -614,7 +581,7 @@ class Layout extends React.Component {
     }
 
     renderPaymetsMethod() {
-        const {language}= this.props;
+        const { language } = this.props;
         return (
             <View style={{
                 flex: 1, borderRightWidth: 1, borderRightColor: 'rgb(197, 197, 197)',
@@ -675,7 +642,7 @@ class Layout extends React.Component {
     }
 
     renderOfflineMode() {
-        const {language}= this.props;
+        const { language } = this.props;
         const { appointmentOfflineMode } = this.state;
 
         return (
@@ -688,9 +655,9 @@ class Layout extends React.Component {
                 </Text>
                 <View style={{ alignItems: 'center', marginBottom: scaleSzie(30) }} >
                     <Text style={[styles.textHeader, { fontSize: scaleSzie(18) }]} >
-                        
+
                         {localize('Use consumer app to scan QR code below', language)}
-                </Text>
+                    </Text>
                 </View>
                 <View style={{ alignItems: 'center' }} >
                     <View style={styles.containerQrcode} >
@@ -702,13 +669,13 @@ class Layout extends React.Component {
                 </View>
                 <View style={{ alignItems: 'center', marginTop: scaleSzie(25) }} >
                     <Text style={[styles.textHeader, { fontSize: scaleSzie(18) }]} >
-                    {localize('Then scan the QR code on the phone', language)}
-                        
-                </Text>
+                        {localize('Then scan the QR code on the phone', language)}
+
+                    </Text>
                     <Text style={[styles.textHeader, { fontSize: scaleSzie(18) }]} >
-                    {localize('to complete the transaction', language)}
-                        
-                </Text>
+                        {localize('to complete the transaction', language)}
+
+                    </Text>
                 </View>
                 {/* ------ Footer ----- */}
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(8) }} >
@@ -862,7 +829,7 @@ class Layout extends React.Component {
                     onRequestClose={this.onRequestCloseScanCode}
                     resultScanCode={this.resultScanCode}
                 />
-                <PopupInvoicePrint 
+                <PopupInvoicePrint
                     ref={this.invoicePrintRef}
                     visiblePrintInvoice={this.state.visiblePrintInvoice}
                     onRequestClose={this.cancelInvoicePrint}
@@ -889,9 +856,17 @@ const ItemPaymentMethod = ({ title, selectedPayment, paymentSelected }) => {
     );
 }
 
-const ShadowLine = ({ style }) => {
+const ShadowLineLeftToRight = ({ style }) => {
     return (
-        <View style={[styles.shadowLine, style]} />
+        <>
+            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.1)" }} />
+            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.08)" }} />
+            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.06)" }} />
+            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.04)" }} />
+            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.04)" }} />
+            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.02)" }} />
+            <View style={{ flex: 1 }} />
+        </>
     )
 }
 

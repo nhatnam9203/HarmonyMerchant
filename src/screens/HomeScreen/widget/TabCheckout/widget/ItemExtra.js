@@ -11,7 +11,7 @@ const ItemExtra = ({ extra,onPressSelectExtra,extraSelected}) => {
     const temptTextColor =extra.extraId === extraSelected.extraId ? { color: '#fff' } : {};
     return (
         <Button onPress={() => onPressSelectExtra(extra)} style={{
-            height: scaleSzie(85), justifyContent: 'center',
+            height: scaleSzie(75), justifyContent: 'center',
             alignItems: 'center', borderBottomWidth: 3, borderBottomColor: '#fff',
             backgroundColor: temptBackgrounColor
         }} >

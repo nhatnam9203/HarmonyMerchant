@@ -37,11 +37,11 @@ export default StyleSheet.create({
         // backgroundColor: '#F1F1F1'
     },
     shadowLine: {
-        width: 1,
+        width: 10,
         // backgroundColor: '#DDDDDD',
         ...Platform.select({
             ios: {
-                shadowColor: 'rgba(0, 0, 0,0.5)',
+                shadowColor: 'rgba(0, 0, 0,1)',
                 shadowOpacity: 1,
             },
 

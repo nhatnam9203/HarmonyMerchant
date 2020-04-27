@@ -9,18 +9,16 @@ import { Text, Button } from '@components';
 
 const ItemProductService = ({ item, showColAmount, colorText, itemSelected, categoryTypeSelected }) => {
 
-    console.log("--- item : ", item);
-
     const temptKeyId = categoryTypeSelected === 'Service' ? 'serviceId' : 'productId';
     const temptBackgrounColor = item[temptKeyId] === itemSelected[temptKeyId] ? '#0764B0' : '#FAFAFA';
     const temptTextColor = item[temptKeyId] === itemSelected[temptKeyId] ? { color: '#fff' } : {};
 
     return (
         <Button onPress={() => showColAmount(item)} style={{
-            height: scaleSzie(85), borderBottomWidth: 2, borderBottomColor: '#DDDDDD',
+            height: scaleSzie(68), borderBottomWidth: 2, borderBottomColor: '#DDDDDD',
             backgroundColor: temptBackgrounColor,
         }} >
-            <View style={{ flex: 1, flexDirection: "row", padding: scaleSzie(6) ,paddingRight:0}} >
+            <View style={{ flex: 1, flexDirection: "row", padding: scaleSzie(4)}} >
                 <View style={{ width: scaleSzie(60), justifyContent: "center", alignItems: "center" }} >
                     <View style={{ width: scaleSzie(60), height: scaleSzie(60) }} >
                     <FastImage
