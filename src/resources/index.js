@@ -71,6 +71,7 @@ export default {
     basic_icon : require('./img/basic_icon.png'),
     medium_icon: require('./img/medium_icon.png'),
     professional_icon: require('./img/professional_icon.png'),
+    check_package_pricing: require('./img/check_package_pricing.png'),
 
 
     // --- drawer --
