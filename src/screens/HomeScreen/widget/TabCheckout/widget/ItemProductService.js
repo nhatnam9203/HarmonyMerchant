@@ -18,13 +18,13 @@ const ItemProductService = ({ item, showColAmount, colorText, itemSelected, cate
             height: scaleSzie(68), borderBottomWidth: 2, borderBottomColor: '#DDDDDD',
             backgroundColor: temptBackgrounColor,
         }} >
-            <View style={{ flex: 1, flexDirection: "row", padding: scaleSzie(4)}} >
+            <View style={{ flex: 1, flexDirection: "row", padding: scaleSzie(4) }} >
                 <View style={{ width: scaleSzie(60), justifyContent: "center", alignItems: "center" }} >
                     <View style={{ width: scaleSzie(60), height: scaleSzie(60) }} >
-                    <FastImage
+                        <FastImage
                             style={{ width: scaleSzie(60), height: scaleSzie(60) }}
                             source={{
-                                uri: "https://images.daznservices.com/di/library/GOAL/e2/a2/lionel-messi-barcelona-2019-20_6v9f1g8ktz0516nmdti9iowmc.jpg?t=-1292458400&quality=100",
+                                uri: item.imageUrl,
                                 priority: FastImage.priority.low,
                                 cache: FastImage.cacheControl.immutable
                             }}
@@ -32,24 +32,24 @@ const ItemProductService = ({ item, showColAmount, colorText, itemSelected, cate
                     </View>
                 </View>
                 <View style={{ flex: 1, paddingLeft: scaleSzie(8) }} >
-                    <View style={{ height: scaleSzie(40),}} >
-                        <Text numberOflines={2} style={[{ fontSize: scaleSzie(13), color: '#0764B0', fontWeight: "500",
-                    },
+                    <View style={{ height: scaleSzie(40), }} >
+                        <Text numberOflines={2} style={[{
+                            fontSize: scaleSzie(13), color: '#0764B0', fontWeight: "500",
+                        },
                             colorText,
                             temptTextColor
                         ]} >
                             {item.name}
                         </Text>
                     </View>
-                    <View style={{ flex: 1 ,justifyContent:"flex-end"}} >
-                        <Text  style={[{ fontSize: scaleSzie(11), color: '#6A6A6A' },]} >
-                           {`Price : $`}
-                           <Text  style={[{ fontWeight:"bold" },]} >
-                           {`${item.price ? item.price : ""}`}
-                        </Text>
+                    <View style={{ flex: 1, justifyContent: "flex-end" }} >
+                        <Text style={[{ fontSize: scaleSzie(11), color: '#6A6A6A' },]} >
+                            {`Price : $`}
+                            <Text style={[{ fontWeight: "bold" },]} >
+                                {`${item.price ? item.price : ""}`}
+                            </Text>
                         </Text>
                     </View>
-
                 </View>
             </View>
 

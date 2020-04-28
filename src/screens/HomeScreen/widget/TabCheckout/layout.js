@@ -184,7 +184,7 @@ class Layout extends React.Component {
         const { isShowColProduct, isShowColAmount, categorySelected, productSeleted,
             categoryTypeSelected,
         } = this.state;
-        let temptWidth = isShowColProduct ? 190 : 122;
+        let temptWidth = isShowColProduct ? 224 : 122;
         temptWidth = isShowColAmount ? 72 : temptWidth;
         const temptBorder = isShowColAmount ? 'rgb(197,197,197)' : '#DDDDDD';
         const temptColorHeader = isShowColAmount ? { color: '#6A6A6A' } : {};
@@ -256,7 +256,7 @@ class Layout extends React.Component {
     renderAmountCheckout() {
         const { language } = this.props;
         const { isShowColAmount, categorySelected, categoryTypeSelected, productSeleted, isShowColProduct } = this.state;
-        const temptWidth = isShowColAmount ? 240 : 122;
+        const temptWidth = isShowColAmount ? 254 : 102;
         const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
 
         return (
