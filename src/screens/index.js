@@ -21,7 +21,7 @@ import InvoiceScreen from './InvoiceScreen';
 import SupportScreen from './SupportScreen';
 import SettlementScreen from './SettlementScreen';
 import ReportScreen from './ReportScreen';
-
+import PackageAndPricing from "./PackageAndPricing";
 
 module.exports = {
     SplashScreen,
@@ -46,5 +46,6 @@ module.exports = {
     InvoiceScreen,
     SupportScreen,
     SettlementScreen,
-    ReportScreen
+    ReportScreen,
+    PackageAndPricing
 }

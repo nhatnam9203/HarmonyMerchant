@@ -64,10 +64,13 @@ export default {
     add_discount_checkout: require("./img/add_discount_checkout.png"),
     close_customer_basket: require("./img/close_customer_basket.png"),
     open_customer_basket: require("./img/open_customer_basket.png"),
-
     giftcard: require("./img/giftcard.png"),
     scancode: require("./img/scancode.png"),
     blue_productBasket: require('./img/blue_productBasket.png'),
+
+    basic_icon : require('./img/basic_icon.png'),
+    medium_icon: require('./img/medium_icon.png'),
+    professional_icon: require('./img/professional_icon.png'),
 
 
     // --- drawer --

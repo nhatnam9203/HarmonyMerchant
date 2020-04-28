@@ -5,6 +5,7 @@ import {
 
 import {
     SplashScreen,
+    PackageAndPricing
 } from '../screens';
 
 import AuthStack from './AuthStack';
@@ -17,10 +18,11 @@ export default createNavigationContainer(createSwitchNavigator({
     SetupStore: SetupStoreStack,
     Splash: SplashScreen,
     Drawer: DrawerStack,
-    SigninStack: SigninStack
+    SigninStack: SigninStack,
+    PackageAndPricing
 },
     {
-        initialRouteName: 'Splash'
+        initialRouteName: 'PackageAndPricing'
     }
 
 ))
