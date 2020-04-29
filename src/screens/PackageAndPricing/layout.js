@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Image,
     ImageBackground,
-    ActivityIndicator
+    ActivityIndicator,
+    Switch
 } from 'react-native';
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
 
 import styles from './style';
 import ICON from '@resources';
-import { Text } from '@components';
+import { Text, ButtonCustom } from '@components';
 import { scaleSzie } from '@utils';
 
 export default class Layout extends React.Component {
@@ -73,7 +74,7 @@ export default class Layout extends React.Component {
 
     renderBodyTable() {
         return (
-            <View style={{ height: scaleSzie(240), flexDirection: "row", }} >
+            <View style={{ height: scaleSzie(250), flexDirection: "row", }} >
                 <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
                 <View style={{ flex: 1, }} >
                     <ItemTextPackage
@@ -131,21 +132,20 @@ export default class Layout extends React.Component {
         return (
             <View style={{ flex: 1, flexDirection: "row", }} >
                 <View style={{ width: 1, backgroundColor: "#707070" }} />
-                <View style={{ flex: 1, backgroundColor:"#0764B0"}} >
-
-                </View>
+                <ItemFirstPricing
+                />
                 <View style={{ width: 1, backgroundColor: "#fff" }} />
-                <View style={{ flex: 1, backgroundColor:"#0764B0"}} >
-
-                </View>
+                <ItemPricing
+                    price={"34.95"}
+                />
                 <View style={{ width: 1, backgroundColor: "#fff" }} />
-                <View style={{ flex: 1, backgroundColor:"#0764B0"}} >
-
-                </View>
+                <ItemPricing
+                    price={"49.95"}
+                />
                 <View style={{ width: 1, backgroundColor: "#fff" }} />
-                <View style={{ flex: 1, backgroundColor:"#0764B0"}} >
-
-                </View>
+                <ItemPricing
+                    price={"79.95"}
+                />
                 <View style={{ width: 1, backgroundColor: "#707070" }} />
 
             </View>
@@ -173,7 +173,7 @@ export default class Layout extends React.Component {
                         {this.renderHeaderTable()}
                         {this.renderBodyTable()}
                         {this.renderFooterTable()}
-                        <View style={{height:scaleSzie(10)}} />
+                        <View style={{ height: scaleSzie(10) }} />
                     </View>
                 </View>
             </View>
@@ -223,3 +223,99 @@ const ItemValuePackage = ({ title }) => {
     );
 }
 
+const ItemPricing = ({ price }) => {
+    return (
+        <View style={{ flex: 1, backgroundColor: "#0764B0" }} >
+            <View style={{ flex: 1, justifyContent: "center" }} >
+                <View style={{
+                    flexDirection: "row", height: scaleSzie(26),
+                    justifyContent: "center"
+                }} >
+                    <Text style={{ color: "#fff", fontSize: scaleSzie(18), fontWeight: "600" }} >
+                        {`$${price}`}
+                    </Text>
+                    <View style={{ justifyContent: "flex-end" }} >
+                        <Text style={{ color: "#fff", fontSize: scaleSzie(12), fontWeight: "600" }} >
+                            /month
+                            </Text>
+                    </View>
+
+                </View>
+
+            </View>
+            <View style={{
+                height: scaleSzie(52), paddingHorizontal: scaleSzie(13)
+            }} >
+                <ButtonCustom
+                    width={'100%'}
+                    height={36}
+                    backgroundColor="#4CD964"
+                    title={'Start free trial'}
+                    textColor="#6A6A6A"
+                    // onPress={this.searchStaff}
+                    style={{
+                        borderWidth: 1, borderColor: '#C5C5C5',
+                        borderRadius: 6
+                        // backgroundColor: '#4CD964'
+                    }}
+                    styleText={{ fontSize: scaleSzie(16), fontWeight: '500', color: '#fff' }}
+                />
+            </View>
+        </View>
+    );
+}
+
+
+const ItemFirstPricing = ({ }) => {
+
+    const [toogle, setToogle] = useState(false);
+
+    return (
+        <View style={{ flex: 1, backgroundColor: "#0764B0" }} >
+            <View style={{ flex: 1, justifyContent: "center" }} >
+                <View style={{
+                    flexDirection: "row", height: scaleSzie(26),
+                    // justifyContent: "center",
+                    marginLeft: scaleSzie(12)
+                }} >
+                    <Text style={{ color: "#fff", fontSize: scaleSzie(18), fontWeight: "600" }} >
+                        {`Pricing`}
+                    </Text>
+
+
+                </View>
+
+            </View>
+            <View style={{
+                height: scaleSzie(52), paddingHorizontal: scaleSzie(12), flexDirection: "row",
+                justifyContent: "space-between"
+            }} >
+                <View>
+                    <Text style={styles.txtPricing} >
+                        Billed
+                    </Text>
+                    <Text style={styles.txtPricing} >
+                        Monthly
+                    </Text>
+                </View>
+                <Switch
+                    trackColor={{ false: "#767577", true: "#4CD964" }}
+                    // thumbColor={toogle ? "#f5dd4b" : "#f4f3f4"}
+                    ios_backgroundColor="#E5E5E5"
+                    onValueChange={(value) => {
+                        setToogle(value)
+                    }}
+                    value={toogle}
+                />
+                <View>
+                    <Text style={styles.txtPricing} >
+                        Billed
+                    </Text>
+                    <Text style={styles.txtPricing} >
+                        Annually
+                    </Text>
+                </View>
+            </View>
+        </View>
+    );
+}
