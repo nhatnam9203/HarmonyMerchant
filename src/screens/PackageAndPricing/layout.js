@@ -11,7 +11,7 @@ import AnimatedEllipsis from 'react-native-animated-ellipsis';
 import styles from './style';
 import ICON from '@resources';
 import { Text, ButtonCustom } from '@components';
-import { scaleSzie ,formatMoney} from '@utils';
+import { scaleSzie, formatMoney } from '@utils';
 
 export default class Layout extends React.Component {
 
@@ -47,7 +47,7 @@ export default class Layout extends React.Component {
                     icon={ICON.basic_icon}
                 />
                 <ItemHeader
-                      title={secondPackage && secondPackage.packageName ? secondPackage.packageName : ""}
+                    title={secondPackage && secondPackage.packageName ? secondPackage.packageName : ""}
                     style={{
                         backgroundColor: "#3E70B3",
                         flexDirection: "row",
@@ -60,7 +60,7 @@ export default class Layout extends React.Component {
                     icon={ICON.medium_icon}
                 />
                 <ItemHeader
-                     title={thirstPackage && thirstPackage.packageName ? thirstPackage.packageName : ""}
+                    title={thirstPackage && thirstPackage.packageName ? thirstPackage.packageName : ""}
                     style={{
                         backgroundColor: "#003680",
                         flexDirection: "row",
@@ -107,29 +107,72 @@ export default class Layout extends React.Component {
                 <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
                 <View style={{ flex: 1 }} >
                     <ItemValuePackage
-                       title={firstPackage && firstPackage.staffLimit ? firstPackage.staffLimit : ""}
+                        title={firstPackage && firstPackage.staffLimit ? firstPackage.staffLimit : ""}
                     />
-                    {
-                        [1, 2, 3, 4, 5].map((value) => <ItemValuePackage key={value} />)
-                    }
+
+                    {/* ------------ Support ---------- */}
+                    <ItemValuePackage
+                        isDisabled={firstPackage && firstPackage.pos ? firstPackage.pos : 0}
+                    />
+                    <ItemValuePackage
+                        isDisabled={firstPackage && firstPackage.signinApp ? firstPackage.signinApp : 0}
+                    />
+                     <ItemValuePackage
+                        isDisabled={firstPackage && firstPackage.staffApp ? firstPackage.staffApp : 0}
+                    />
+                     <ItemValuePackage
+                        isDisabled={firstPackage && firstPackage.marketing ? firstPackage.marketing : 0}
+                    />
+                     <ItemValuePackage
+                        isDisabled={firstPackage && firstPackage.report ? firstPackage.report : 0}
+                    />
+                   
                 </View>
                 <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
                 <View style={{ flex: 1 }} >
                     <ItemValuePackage
-                       title={secondPackage && secondPackage.staffLimit ? secondPackage.staffLimit : ""}
+                        title={secondPackage && secondPackage.staffLimit ? secondPackage.staffLimit : ""}
                     />
-                    {
-                        [1, 2, 3, 4, 5].map((value) => <ItemValuePackage key={value} />)
-                    }
+
+                    {/* ------------ Support ---------- */}
+                    <ItemValuePackage
+                        isDisabled={secondPackage && secondPackage.pos ? secondPackage.pos : 0}
+                    />
+                    <ItemValuePackage
+                        isDisabled={secondPackage && secondPackage.signinApp ? secondPackage.signinApp : 0}
+                    />
+                     <ItemValuePackage
+                        isDisabled={secondPackage && secondPackage.staffApp ? secondPackage.staffApp : 0}
+                    />
+                     <ItemValuePackage
+                        isDisabled={secondPackage && secondPackage.marketing ? secondPackage.marketing : 0}
+                    />
+                     <ItemValuePackage
+                        isDisabled={secondPackage && secondPackage.report ? secondPackage.report : 0}
+                    />
                 </View>
                 <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
                 <View style={{ flex: 1 }} >
                     <ItemValuePackage
-                       title={thirstPackage && thirstPackage.staffLimit ? thirstPackage.staffLimit : ""}
+                        title={thirstPackage && thirstPackage.staffLimit ? thirstPackage.staffLimit : ""}
                     />
-                    {
-                        [1, 2, 3, 4, 5].map((value) => <ItemValuePackage key={value} />)
-                    }
+
+                     {/* ------------ Support ---------- */}
+                     <ItemValuePackage
+                        isDisabled={thirstPackage && thirstPackage.pos ? thirstPackage.pos : 0}
+                    />
+                    <ItemValuePackage
+                        isDisabled={thirstPackage && thirstPackage.signinApp ? thirstPackage.signinApp : 0}
+                    />
+                     <ItemValuePackage
+                        isDisabled={thirstPackage && thirstPackage.staffApp ? thirstPackage.staffApp : 0}
+                    />
+                     <ItemValuePackage
+                        isDisabled={thirstPackage && thirstPackage.marketing ? thirstPackage.marketing : 0}
+                    />
+                     <ItemValuePackage
+                        isDisabled={thirstPackage && thirstPackage.report ? thirstPackage.report : 0}
+                    />
                 </View>
                 <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
             </View>
@@ -148,15 +191,15 @@ export default class Layout extends React.Component {
                 />
                 <View style={{ width: 1, backgroundColor: "#fff" }} />
                 <ItemPricing
-                    price={formatMoney(firstPackage && firstPackage.staffLimit ? firstPackage.staffLimit : 0)}
+                    price={formatMoney(firstPackage && firstPackage.pricing ? firstPackage.pricing : 0)}
                 />
                 <View style={{ width: 1, backgroundColor: "#fff" }} />
                 <ItemPricing
-                    price={formatMoney(secondPackage && secondPackage.staffLimit ? secondPackage.staffLimit : 0)}
+                    price={formatMoney(secondPackage && secondPackage.pricing ? secondPackage.pricing : 0)}
                 />
                 <View style={{ width: 1, backgroundColor: "#fff" }} />
                 <ItemPricing
-                    price={formatMoney(thirstPackage && thirstPackage.staffLimit ? thirstPackage.staffLimit : 0)}
+                    price={formatMoney(thirstPackage && thirstPackage.pricing ? thirstPackage.pricing : 0)}
                 />
                 <View style={{ width: 1, backgroundColor: "#707070" }} />
 
@@ -221,14 +264,16 @@ const ItemTextPackage = ({ title }) => {
 }
 
 
-const ItemValuePackage = ({ title }) => {
+const ItemValuePackage = ({ title, isDisabled }) => {
+    const icon = isDisabled === 0 ? ICON.not_support : ICON.check_package_pricing;
+
     return (
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
             {
                 title ? <Text style={[{ color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "500" },]} >
                     {title}
                 </Text> : <Image
-                        source={ICON.check_package_pricing}
+                        source={icon}
                     />
             }
         </View>
