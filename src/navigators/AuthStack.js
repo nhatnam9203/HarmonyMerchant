@@ -12,7 +12,8 @@ import {
     PrincipalScreen,
     ApplicationSubmitScreen,
     IntroScreen,
-    UserGuideScreen
+    UserGuideScreen,
+    PackageAndPricing
 } from '../screens';
 
 const AuthStack = createStackNavigator(
@@ -26,7 +27,8 @@ const AuthStack = createStackNavigator(
         PrincipalInfo: PrincipalScreen,
         ApplicationSubmit: ApplicationSubmitScreen,
         Intro: IntroScreen,
-        UserGuide: UserGuideScreen
+        UserGuide: UserGuideScreen,
+        PackageAndPricing
     },
     {
         initialRouteName: 'Intro',

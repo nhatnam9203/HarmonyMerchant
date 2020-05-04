@@ -277,7 +277,7 @@ class PrincipalScreen extends Layout {
                     addressPrincipal: temptAddressPrincipal
                 };
                 this.props.actions.app.setPrincipalInfo(temptPrincipalInfo);
-                this.props.navigation.navigate('ApplicationSubmit');
+                this.props.navigation.navigate('PackageAndPricing');
             } else {
                 Alert.alert(`Please upload a photo`);
             }

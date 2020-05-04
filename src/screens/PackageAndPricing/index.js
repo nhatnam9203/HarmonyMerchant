@@ -1,3 +1,4 @@
+import React from "react";
 import _ from 'ramda';
 import { } from 'react-native';
 
@@ -9,17 +10,30 @@ class PackageAndPricing extends Layout {
     constructor(props) {
         super(props);
         this.state = {
-        }
-    }
+        };
 
-    findPackage = (packageId = 1) =>{
-        const packageSelected = this.props.packageAndPricingData.find((value,index) => value.packageId === packageId);
-        return packageSelected ? packageSelected : "";
+        this.billRef = React.forwardRef();
     }
 
     componentDidMount() {
         this.props.actions.app.getPackageAndPricing();
     }
+
+    findPackage = (packageId = 1) => {
+        const packageSelected = this.props.packageAndPricingData.find((value, index) => value.packageId === packageId);
+        return packageSelected ? packageSelected : "";
+    }
+
+    startFreeTrial = (packageId = 1) => {
+        const pricingType = this.billRef.current.state.toogle ? "annualy" : "monthly";
+        const packagePricing = packageId;
+
+        this.props.navigation.navigate('ApplicationSubmit', {
+            pricingType,
+            packagePricing
+        });
+    }
+
 }
 
 const mapStateToProps = state => ({

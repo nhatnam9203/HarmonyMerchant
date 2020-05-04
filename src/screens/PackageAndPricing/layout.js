@@ -117,16 +117,16 @@ export default class Layout extends React.Component {
                     <ItemValuePackage
                         isDisabled={firstPackage && firstPackage.signinApp ? firstPackage.signinApp : 0}
                     />
-                     <ItemValuePackage
+                    <ItemValuePackage
                         isDisabled={firstPackage && firstPackage.staffApp ? firstPackage.staffApp : 0}
                     />
-                     <ItemValuePackage
+                    <ItemValuePackage
                         isDisabled={firstPackage && firstPackage.marketing ? firstPackage.marketing : 0}
                     />
-                     <ItemValuePackage
+                    <ItemValuePackage
                         isDisabled={firstPackage && firstPackage.report ? firstPackage.report : 0}
                     />
-                   
+
                 </View>
                 <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
                 <View style={{ flex: 1 }} >
@@ -141,13 +141,13 @@ export default class Layout extends React.Component {
                     <ItemValuePackage
                         isDisabled={secondPackage && secondPackage.signinApp ? secondPackage.signinApp : 0}
                     />
-                     <ItemValuePackage
+                    <ItemValuePackage
                         isDisabled={secondPackage && secondPackage.staffApp ? secondPackage.staffApp : 0}
                     />
-                     <ItemValuePackage
+                    <ItemValuePackage
                         isDisabled={secondPackage && secondPackage.marketing ? secondPackage.marketing : 0}
                     />
-                     <ItemValuePackage
+                    <ItemValuePackage
                         isDisabled={secondPackage && secondPackage.report ? secondPackage.report : 0}
                     />
                 </View>
@@ -157,20 +157,20 @@ export default class Layout extends React.Component {
                         title={thirstPackage && thirstPackage.staffLimit ? thirstPackage.staffLimit : ""}
                     />
 
-                     {/* ------------ Support ---------- */}
-                     <ItemValuePackage
+                    {/* ------------ Support ---------- */}
+                    <ItemValuePackage
                         isDisabled={thirstPackage && thirstPackage.pos ? thirstPackage.pos : 0}
                     />
                     <ItemValuePackage
                         isDisabled={thirstPackage && thirstPackage.signinApp ? thirstPackage.signinApp : 0}
                     />
-                     <ItemValuePackage
+                    <ItemValuePackage
                         isDisabled={thirstPackage && thirstPackage.staffApp ? thirstPackage.staffApp : 0}
                     />
-                     <ItemValuePackage
+                    <ItemValuePackage
                         isDisabled={thirstPackage && thirstPackage.marketing ? thirstPackage.marketing : 0}
                     />
-                     <ItemValuePackage
+                    <ItemValuePackage
                         isDisabled={thirstPackage && thirstPackage.report ? thirstPackage.report : 0}
                     />
                 </View>
@@ -188,18 +188,22 @@ export default class Layout extends React.Component {
             <View style={{ flex: 1, flexDirection: "row", }} >
                 <View style={{ width: 1, backgroundColor: "#707070" }} />
                 <ItemFirstPricing
+                    ref={this.billRef}
                 />
                 <View style={{ width: 1, backgroundColor: "#fff" }} />
                 <ItemPricing
                     price={formatMoney(firstPackage && firstPackage.pricing ? firstPackage.pricing : 0)}
+                    onPress={() => this.startFreeTrial(1)}
                 />
                 <View style={{ width: 1, backgroundColor: "#fff" }} />
                 <ItemPricing
                     price={formatMoney(secondPackage && secondPackage.pricing ? secondPackage.pricing : 0)}
+                    onPress={() => this.startFreeTrial(2)}
                 />
                 <View style={{ width: 1, backgroundColor: "#fff" }} />
                 <ItemPricing
                     price={formatMoney(thirstPackage && thirstPackage.pricing ? thirstPackage.pricing : 0)}
+                    onPress={() => this.startFreeTrial(3)}
                 />
                 <View style={{ width: 1, backgroundColor: "#707070" }} />
 
@@ -280,7 +284,7 @@ const ItemValuePackage = ({ title, isDisabled }) => {
     );
 }
 
-const ItemPricing = ({ price }) => {
+const ItemPricing = ({ price, onPress }) => {
     return (
         <View style={{ flex: 1, backgroundColor: "#0764B0" }} >
             <View style={{ flex: 1, justifyContent: "center" }} >
@@ -309,7 +313,7 @@ const ItemPricing = ({ price }) => {
                     backgroundColor="#4CD964"
                     title={'Start free trial'}
                     textColor="#6A6A6A"
-                    // onPress={this.searchStaff}
+                    onPress={() => onPress()}
                     style={{
                         borderWidth: 1, borderColor: '#C5C5C5',
                         borderRadius: 6
@@ -323,56 +327,64 @@ const ItemPricing = ({ price }) => {
 }
 
 
-const ItemFirstPricing = ({ }) => {
+class ItemFirstPricing extends React.Component {
 
-    const [toogle, setToogle] = useState(false);
+    constructor(props) {
+        super(props);
+        this.state = {
+            toogle: true
+        }
+    }
 
-    return (
-        <View style={{ flex: 1, backgroundColor: "#0764B0" }} >
-            <View style={{ flex: 1, justifyContent: "center" }} >
+
+    render() {
+        const { toogle } = this.state;
+
+        return (
+            <View style={{ flex: 1, backgroundColor: "#0764B0" }} >
+                <View style={{ flex: 1, justifyContent: "center" }} >
+                    <View style={{
+                        flexDirection: "row", height: scaleSzie(26),
+                        // justifyContent: "center",
+                        marginLeft: scaleSzie(12)
+                    }} >
+                        <Text style={{ color: "#fff", fontSize: scaleSzie(18), fontWeight: "600" }} >
+                            {`Pricing`}
+                        </Text>
+
+
+                    </View>
+
+                </View>
                 <View style={{
-                    flexDirection: "row", height: scaleSzie(26),
-                    // justifyContent: "center",
-                    marginLeft: scaleSzie(12)
+                    height: scaleSzie(52), paddingHorizontal: scaleSzie(12), flexDirection: "row",
+                    justifyContent: "space-between"
                 }} >
-                    <Text style={{ color: "#fff", fontSize: scaleSzie(18), fontWeight: "600" }} >
-                        {`Pricing`}
-                    </Text>
-
-
-                </View>
-
-            </View>
-            <View style={{
-                height: scaleSzie(52), paddingHorizontal: scaleSzie(12), flexDirection: "row",
-                justifyContent: "space-between"
-            }} >
-                <View>
-                    <Text style={styles.txtPricing} >
-                        Billed
-                    </Text>
-                    <Text style={styles.txtPricing} >
-                        Monthly
-                    </Text>
-                </View>
-                <Switch
-                    trackColor={{ false: "#767577", true: "#4CD964" }}
-                    // thumbColor={toogle ? "#f5dd4b" : "#f4f3f4"}
-                    ios_backgroundColor="#E5E5E5"
-                    onValueChange={(value) => {
-                        setToogle(value)
-                    }}
-                    value={toogle}
-                />
-                <View>
-                    <Text style={styles.txtPricing} >
-                        Billed
-                    </Text>
-                    <Text style={styles.txtPricing} >
-                        Annually
-                    </Text>
+                    <View>
+                        <Text style={styles.txtPricing} >
+                            Billed
+                        </Text>
+                        <Text style={styles.txtPricing} >
+                            Monthly
+                        </Text>
+                    </View>
+                    <Switch
+                        trackColor={{ false: "#767577", true: "#4CD964" }}
+                        // thumbColor={toogle ? "#f5dd4b" : "#f4f3f4"}
+                        ios_backgroundColor="#E5E5E5"
+                        onValueChange={(toogle) => this.setState({ toogle })}
+                        value={toogle}
+                    />
+                    <View>
+                        <Text style={styles.txtPricing} >
+                            Billed
+                        </Text>
+                        <Text style={styles.txtPricing} >
+                            Annually
+                        </Text>
+                    </View>
                 </View>
             </View>
-        </View>
-    );
+        );
+    }
 }

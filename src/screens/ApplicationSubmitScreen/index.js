@@ -12,17 +12,18 @@ class ApplicationSubmitScreen extends Layout {
 
     }
 
-    submit1 = () => {
-        this.props.navigation.navigate('GeneralInfo');
-    }
-
     submit = () => {
-        const { generalInfo, businessInfo, bankInfo, principalInfo } = this.props;
+        const { navigation, generalInfo, businessInfo, bankInfo, principalInfo } = this.props;
+        const pricingType = navigation.getParam('pricingType', "annualy");
+        const packagePricing = navigation.getParam('packagePricing', 1);
+
         this.props.actions.app.registerUser({
             generalInfo,
             businessInfo,
             bankInfo,
-            principalInfo
+            principalInfo,
+            pricingType,
+            packagePricing
         });
     }
 
