@@ -11,11 +11,15 @@ import AnimatedEllipsis from 'react-native-animated-ellipsis';
 import styles from './style';
 import ICON from '@resources';
 import { Text, ButtonCustom } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie ,formatMoney} from '@utils';
 
 export default class Layout extends React.Component {
 
     renderHeaderTable() {
+        const firstPackage = this.findPackage(1);
+        const secondPackage = this.findPackage(2);
+        const thirstPackage = this.findPackage(3);
+
         return (
             <View style={{ height: scaleSzie(45), flexDirection: "row" }} >
                 <ItemHeader
@@ -30,7 +34,7 @@ export default class Layout extends React.Component {
                     }}
                 />
                 <ItemHeader
-                    title={"Basic"}
+                    title={firstPackage && firstPackage.packageName ? firstPackage.packageName : ""}
                     style={{
                         backgroundColor: "#BFDAFF",
                         flexDirection: "row",
@@ -43,7 +47,7 @@ export default class Layout extends React.Component {
                     icon={ICON.basic_icon}
                 />
                 <ItemHeader
-                    title={"Medium"}
+                      title={secondPackage && secondPackage.packageName ? secondPackage.packageName : ""}
                     style={{
                         backgroundColor: "#3E70B3",
                         flexDirection: "row",
@@ -56,7 +60,7 @@ export default class Layout extends React.Component {
                     icon={ICON.medium_icon}
                 />
                 <ItemHeader
-                    title={"Pro"}
+                     title={thirstPackage && thirstPackage.packageName ? thirstPackage.packageName : ""}
                     style={{
                         backgroundColor: "#003680",
                         flexDirection: "row",
@@ -73,6 +77,10 @@ export default class Layout extends React.Component {
     }
 
     renderBodyTable() {
+        const firstPackage = this.findPackage(1);
+        const secondPackage = this.findPackage(2);
+        const thirstPackage = this.findPackage(3);
+
         return (
             <View style={{ height: scaleSzie(250), flexDirection: "row", }} >
                 <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
@@ -99,7 +107,7 @@ export default class Layout extends React.Component {
                 <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
                 <View style={{ flex: 1 }} >
                     <ItemValuePackage
-                        title={5}
+                       title={firstPackage && firstPackage.staffLimit ? firstPackage.staffLimit : ""}
                     />
                     {
                         [1, 2, 3, 4, 5].map((value) => <ItemValuePackage key={value} />)
@@ -108,7 +116,7 @@ export default class Layout extends React.Component {
                 <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
                 <View style={{ flex: 1 }} >
                     <ItemValuePackage
-                        title={10}
+                       title={secondPackage && secondPackage.staffLimit ? secondPackage.staffLimit : ""}
                     />
                     {
                         [1, 2, 3, 4, 5].map((value) => <ItemValuePackage key={value} />)
@@ -117,7 +125,7 @@ export default class Layout extends React.Component {
                 <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
                 <View style={{ flex: 1 }} >
                     <ItemValuePackage
-                        title={15}
+                       title={thirstPackage && thirstPackage.staffLimit ? thirstPackage.staffLimit : ""}
                     />
                     {
                         [1, 2, 3, 4, 5].map((value) => <ItemValuePackage key={value} />)
@@ -129,6 +137,10 @@ export default class Layout extends React.Component {
     }
 
     renderFooterTable() {
+        const firstPackage = this.findPackage(1);
+        const secondPackage = this.findPackage(2);
+        const thirstPackage = this.findPackage(3);
+
         return (
             <View style={{ flex: 1, flexDirection: "row", }} >
                 <View style={{ width: 1, backgroundColor: "#707070" }} />
@@ -136,15 +148,15 @@ export default class Layout extends React.Component {
                 />
                 <View style={{ width: 1, backgroundColor: "#fff" }} />
                 <ItemPricing
-                    price={"34.95"}
+                    price={formatMoney(firstPackage && firstPackage.staffLimit ? firstPackage.staffLimit : 0)}
                 />
                 <View style={{ width: 1, backgroundColor: "#fff" }} />
                 <ItemPricing
-                    price={"49.95"}
+                    price={formatMoney(secondPackage && secondPackage.staffLimit ? secondPackage.staffLimit : 0)}
                 />
                 <View style={{ width: 1, backgroundColor: "#fff" }} />
                 <ItemPricing
-                    price={"79.95"}
+                    price={formatMoney(thirstPackage && thirstPackage.staffLimit ? thirstPackage.staffLimit : 0)}
                 />
                 <View style={{ width: 1, backgroundColor: "#707070" }} />
 

@@ -140,26 +140,28 @@ class GeneralInfoScreen extends Layout {
                 businessAddress: temptBusinessAddress
             };
 
+            this.props.actions.app.setGeneralInfo(temptGeneralInfo);
+            this.props.navigation.navigate('BusinessInfo');
+
             //  ---- Check Email Exist ----
-            this.props.actions.app.loadingApp();
-            try {
-                const responses = await requestAPI({
-                    method: 'GET',
-                    api: `${apiConfigs.BASE_API}merchant/checkEmail?email=${generalInfo.email}`
-                });
-            //console.log('responses : ',responses);
-                this.props.actions.app.stopLoadingApp();
-                const { codeNumber } = responses;
-                if (parseInt(codeNumber) == 200) {
-                    this.props.actions.app.setGeneralInfo(temptGeneralInfo);
-                    this.props.navigation.navigate('BusinessInfo');
-                } else {
-                    this.props.actions.app.showMessageError(responses.message);
-                }
-            } catch (error) {
-                this.props.actions.app.stopLoadingApp();
-                this.props.actions.app.catchError(error);
-            }
+            // this.props.actions.app.loadingApp();
+            // try {
+            //     const responses = await requestAPI({
+            //         method: 'GET',
+            //         api: `${apiConfigs.BASE_API}merchant/checkEmail?email=${generalInfo.email}`
+            //     });
+            //     this.props.actions.app.stopLoadingApp();
+            //     const { codeNumber } = responses;
+            //     if (parseInt(codeNumber) == 200) {
+            //         this.props.actions.app.setGeneralInfo(temptGeneralInfo);
+            //         this.props.navigation.navigate('BusinessInfo');
+            //     } else {
+            //         this.props.actions.app.showMessageError(responses.message);
+            //     }
+            // } catch (error) {
+            //     this.props.actions.app.stopLoadingApp();
+            //     this.props.actions.app.catchError(error);
+            // }
         }
     }
 

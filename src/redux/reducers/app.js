@@ -17,7 +17,8 @@ const initialState = {
     visibleDisconnect: false,
     visibleConnected: false,
     isReloadWebview: false,
-    MIDStorage:""
+    MIDStorage: "",
+    packageAndPricingData: [],
 }
 
 function appReducer(state = initialState, action) {
@@ -145,6 +146,11 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 visibleDisconnect: false
+            }
+        case 'GET_PACKAGE_AND_PRICING_SUCCESS':
+            return {
+                ...state,
+                packageAndPricingData: action.payload ? action.payload : []
             }
 
 

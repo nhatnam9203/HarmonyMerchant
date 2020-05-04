@@ -206,3 +206,11 @@ export function resetStateReloadWebView(visible = true) {
         payload: visible
     }
 }
+
+export function getPackageAndPricing(){
+    return{
+        type: "GET_PACKAGE_AND_PRICING",
+        method: 'GET',
+        api: `${apiConfigs.BASE_API}package`
+    }
+}
