@@ -12,7 +12,8 @@ import _ from 'ramda';
 import { scaleSzie, localize, formatNumberFromCurrency, formatMoney } from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
-    PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode, PopupProcessingCredit, PopupInvoicePrint
+    PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode, PopupProcessingCredit, PopupInvoicePrint,
+    PopupChangePriceAmountProduct
 } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
@@ -391,6 +392,7 @@ class Layout extends React.Component {
                                 taxLocal={taxLocal}
                                 removeItemBasket={this.removeItemBasket}
                                 changeStylist={this.changeStylist}
+                                changeProduct={this.changeProduct}
                                 showModalDiscount={this.showModalDiscount}
                                 basketLocal={basket}
                                 infoUser={infoUser}
@@ -407,6 +409,7 @@ class Layout extends React.Component {
                                 taxLocal={taxLocal}
                                 removeItemBasket={this.removeItemBasket}
                                 changeStylist={this.changeStylist}
+                                changeProduct={this.changeProduct}
                                 showModalDiscount={this.showModalDiscount}
                                 basketLocal={basket}
                                 infoUser={infoUser}
@@ -727,10 +730,8 @@ class Layout extends React.Component {
     }
 
     renderBodyCheckout() {
-        const { isShowColProduct, isShowColAmount, } = this.state;
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
-                {/* 474 435 */}
                 <View style={{ width: scaleSzie(446) }} >
                     <ScrollableTabView
                         ref={this.scrollTabRef}
@@ -744,11 +745,8 @@ class Layout extends React.Component {
                     >
                         <View style={{ flex: 1, flexDirection: 'row' }} >
                             {this.renderCategoriesCheckout()}
-                            {/* {isShowColProduct ? <View /> : <View style={{ width: scaleSzie(3) }} />} */}
                             {this.renderProductCheckout()}
-                            {/* {isShowColAmount ? <View /> : isShowColProduct ? <View style={{ width: scaleSzie(2) }} /> : <View />} */}
                             {this.renderAmountCheckout()}
-                            {/* {isShowColAmount ? <View style={{ width: scaleSzie(1) }} /> : <View />} */}
                         </View>
                         {this.renderPaymetsMethod()}
                         {this.renderOfflineMode()}
@@ -797,6 +795,12 @@ class Layout extends React.Component {
                     visible={visibleChangeStylist}
                     title={localize('Modification', language)}
                     onRequestClose={() => { this.setState({ visibleChangeStylist: false }) }}
+                    changeStylistBasketLocal={this.changeStylistBasketLocal}
+                />
+                <PopupChangePriceAmountProduct
+                    visible={this.state.visibleChangePriceAmountProduct}
+                    title={localize('Product Modification', language)}
+                    onRequestClose={() => { this.setState({ visibleChangePriceAmountProduct: false }) }}
                     changeStylistBasketLocal={this.changeStylistBasketLocal}
                 />
                 <PopupPayCompleted

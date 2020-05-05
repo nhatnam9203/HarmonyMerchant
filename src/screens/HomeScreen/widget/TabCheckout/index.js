@@ -76,7 +76,9 @@ const initState = {
     appointmentOfflineMode: {},
     staffIdOfline: 0,
     fromTime: "",
-    visiblePrintInvoice: false
+    visiblePrintInvoice: false,
+
+    visibleChangePriceAmountProduct: false
 }
 
 class TabCheckout extends Layout {
@@ -1391,6 +1393,12 @@ class TabCheckout extends Layout {
         await this.setState({
             visibleChangeStylist: true,
         })
+    }
+
+    changeProduct = async (product, appointmentId) => { 
+       this.setState({
+        visibleChangePriceAmountProduct: true
+       })
     }
 
     closePopupActiveGiftCard = async () => {

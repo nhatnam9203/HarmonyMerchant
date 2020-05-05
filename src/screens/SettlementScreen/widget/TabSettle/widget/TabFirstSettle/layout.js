@@ -365,7 +365,7 @@ class Layout extends React.Component {
                      {/* ------------ Other payment Right ------------ */}
                      <View style={styles.box_actual_amount} >
                         <Text style={styles.txt_actual_amount} >
-                            {localize('Other payment', language)}
+                            {localize('Gift card', language)}
                         </Text>
                         <View style={styles.box_actual_value_amount} >
                             <TextInputAmount

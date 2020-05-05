@@ -6,13 +6,13 @@ import {
 } from 'react-native';
 import Swipeout from 'react-native-swipeout';
 
-import { scaleSzie, localize,formatMoney } from '@utils';
+import { scaleSzie, localize, formatMoney } from '@utils';
 import { Text, Button } from '@components';
 import IMAGE from '@resources';
 
-const ItemBasket = ({ item, removeItemBasket, onPress,disabled  = false}) => {
+const ItemBasket = ({ item, removeItemBasket, onPress, disabled = false, changeProduct }) => {
     const { data } = item;
-//console.log('item : '+ JSON.stringify(item));
+    //console.log('item : '+ JSON.stringify(item));
     const swipeoutBtns = [
         {
             backgroundColor: '#6A6A6A',
@@ -31,9 +31,11 @@ const ItemBasket = ({ item, removeItemBasket, onPress,disabled  = false}) => {
             <Button onPress={() => {
                 if (item.type === 'Service') {
                     onPress(item);
+                } else if (item.type === 'Product') {
+                    changeProduct(item)
                 }
             }} style={{
-                height: scaleSzie(35), backgroundColor: '#fff', 
+                height: scaleSzie(35), backgroundColor: '#fff',
                 borderBottomColor: '#DDDDDD', borderBottomWidth: 1,
                 flexDirection: 'row'
             }} >
@@ -51,9 +53,9 @@ const ItemBasket = ({ item, removeItemBasket, onPress,disabled  = false}) => {
                             }} >
                                 <Image source={IMAGE.extra_holder} style={{ width: scaleSzie(22), height: scaleSzie(20) }} />
                             </View> :
-                              ( item.type === 'GiftCards' ? <Image source={IMAGE.giftcard} 
-                            //   style={{ width: scaleSzie(22), height: scaleSzie(20) }} 
-                              /> :   <Image source={IMAGE.blue_productBasket} style={{ width: scaleSzie(22), height: scaleSzie(20) }} />)
+                                (item.type === 'GiftCards' ? <Image source={IMAGE.giftcard}
+                                //   style={{ width: scaleSzie(22), height: scaleSzie(20) }} 
+                                /> : <Image source={IMAGE.blue_productBasket} style={{ width: scaleSzie(22), height: scaleSzie(20) }} />)
                     }
                 </View>
                 {/* -------- Avatar ------- */}
@@ -71,7 +73,7 @@ const ItemBasket = ({ item, removeItemBasket, onPress,disabled  = false}) => {
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
 
                         <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(13), }} >
-                            {item.type === 'Product' ||  item.type ==="GiftCards" ? item.quanlitySet : item.data.name}
+                            {item.type === 'Product' || item.type === "GiftCards" ? item.quanlitySet : item.data.name}
                         </Text>
                     </View>
                     {/* ------------ */}

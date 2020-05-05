@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import Swipeout from 'react-native-swipeout';
-import _ from 'ramda';
+import _, { product } from 'ramda';
 
 import { ButtonCustom, PopupParent, Button } from '@components';
 import {
@@ -146,7 +146,9 @@ class ItemCustomerBasket extends React.Component {
 
     render() {
         const { isCollapsed } = this.state;
-        const { language, appointmentDetail, removeItemBasket, changeStylist, basketLocal, paymentDetailInfo } = this.props;
+        const { language, appointmentDetail, removeItemBasket, changeStylist, basketLocal, paymentDetailInfo ,
+            changeProduct
+        } = this.props;
         let basket = [];
         const appointmentId = appointmentDetail && appointmentDetail.appointmentId ? appointmentDetail.appointmentId : -1;
         const { temptSubTotal, temptTotal, temptDiscount, temptTip, temptTax } = this.getTypesOfMoneyAppointment(appointmentDetail);
@@ -174,6 +176,7 @@ class ItemCustomerBasket extends React.Component {
                             item={item}
                             removeItemBasket={(item) => removeItemBasket(item, appointmentId, true)}
                             onPress={(service) => changeStylist(service, appointmentId)}
+                            changeProduct={product =>changeProduct(product,appointmentId) }
                         />)
                     }
                     {/* ----------- Payment Number --------- */}
