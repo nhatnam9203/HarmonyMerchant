@@ -20,6 +20,7 @@ class BankInfoScreen extends Layout {
             fileId: -1,
             bankInfo: {
                 bankName: '',
+                accountHolderName:"",
                 routingNumber: '',
                 accountNumber: '',
             }

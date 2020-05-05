@@ -16,7 +16,7 @@ export default class Layout extends React.Component {
 
     render() {
         const {
-            bankName, routingNumber, accountNumber
+            bankName, routingNumber, accountNumber,accountHolderName
         } = this.state.bankInfo;
         const { language } = this.props;
         return (
@@ -49,12 +49,20 @@ export default class Layout extends React.Component {
                     <View style={{ flex: 1, paddingHorizontal: scaleSzie(25) }} >
                         <View style={{ height: scaleSzie(16) }} />
                         <InputForm
+                            title={`${localize('Account Holder Name', language)} *`}
+                            subTitle=""
+                            placeholder=""
+                            value={accountHolderName}
+                            onChangeText={(value) => this.updateBankInfo('accountHolderName', value, '')}
+                            onFocus={() => this.scrollBankInfoTo(85)}
+                        />
+                        <InputForm
                             title={`${localize('Bank Name', language)} *`}
                             subTitle=""
                             placeholder=""
                             value={bankName}
                             onChangeText={(value) => this.updateBankInfo('bankName', value, '')}
-                            onFocus={() => this.scrollBankInfoTo(85)}
+                            onFocus={() => this.scrollBankInfoTo(160)}
                         />
 
                         <InputForm
@@ -65,7 +73,7 @@ export default class Layout extends React.Component {
                             value={routingNumber}
                             onChangeText={(value) => this.updateBankInfo('routingNumber', value, '')}
                             keyboardType="numeric"
-                            onFocus={() => this.scrollBankInfoTo(160)}
+                            onFocus={() => this.scrollBankInfoTo(230)}
                         />
 
                         <InputForm
@@ -76,7 +84,7 @@ export default class Layout extends React.Component {
                             value={accountNumber}
                             onChangeText={(value) => this.updateBankInfo('accountNumber', value, '')}
                             keyboardType="numeric"
-                            onFocus={() => this.scrollBankInfoTo(230)}
+                            onFocus={() => this.scrollBankInfoTo(310)}
                         />
 
                         <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
