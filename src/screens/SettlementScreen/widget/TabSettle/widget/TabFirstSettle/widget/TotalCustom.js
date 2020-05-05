@@ -51,7 +51,8 @@ export default class TotalCustom extends React.Component {
         const { total } = this.state;
         return (
             <View style={{
-                height: scaleSzie(45), marginTop: scaleSzie(10),
+                height: scaleSzie(45),
+                //  marginTop: scaleSzie(10),
                 flexDirection: 'row', paddingHorizontal: scaleSzie(10), alignItems: 'center',
                 justifyContent: 'space-between'
             }} >

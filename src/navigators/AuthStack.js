@@ -31,7 +31,7 @@ const AuthStack = createStackNavigator(
         PackageAndPricing
     },
     {
-        initialRouteName: 'BankInfo',
+        initialRouteName: 'Intro',
         headerMode: 'none',
         transitionConfig: getSlideFromRightTransition
     }
