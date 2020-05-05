@@ -98,6 +98,7 @@ class TabCheckout extends Layout {
         this.CustomerPhoneRef = React.createRef();
         this.activeGiftCardRef = React.createRef();
         this.invoicePrintRef = React.createRef();
+        this.changePriceAmountProductRef = React.createRef();
     }
 
     resetStateFromParent = async () => {
@@ -1396,6 +1397,7 @@ class TabCheckout extends Layout {
     }
 
     changeProduct = async (product, appointmentId) => { 
+        this.changePriceAmountProductRef.current.setStateFromParent(product, appointmentId);
        this.setState({
         visibleChangePriceAmountProduct: true
        })

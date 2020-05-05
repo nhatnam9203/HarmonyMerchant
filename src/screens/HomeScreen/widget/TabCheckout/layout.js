@@ -798,6 +798,7 @@ class Layout extends React.Component {
                     changeStylistBasketLocal={this.changeStylistBasketLocal}
                 />
                 <PopupChangePriceAmountProduct
+                    ref={this.changePriceAmountProductRef}
                     visible={this.state.visibleChangePriceAmountProduct}
                     title={localize('Product Modification', language)}
                     onRequestClose={() => { this.setState({ visibleChangePriceAmountProduct: false }) }}
