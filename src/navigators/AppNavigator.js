@@ -21,7 +21,7 @@ export default createNavigationContainer(createSwitchNavigator({
   
 },
     {
-        initialRouteName: 'Splash'
+        initialRouteName: 'Auth'
     }
 
 ))
