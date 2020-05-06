@@ -332,6 +332,21 @@ class Layout extends React.Component {
                                 {`$ ${formatMoney(total)}`}
                             </Text>
                         </View>
+
+                        {/* -------- Gift Card ------- */}
+                        <View style={{
+                            height: scaleSzie(35), backgroundColor: '#FAFAFA', marginTop: scaleSzie(10),
+                            borderColor: 'rgba(217,82,69,0.4)', borderWidth: 1, flexDirection: 'row', paddingHorizontal: scaleSzie(10), alignItems: 'center',
+                            justifyContent: 'space-between'
+                        }} >
+                            <Text style={{ fontSize: scaleSzie(20), color: '#0764B0' }} >
+                                {`${localize('Gift card revenue', language)}:`}
+                            </Text>
+                            <Text style={{ fontSize: scaleSzie(20), color: 'rgb(217,82,69)', fontWeight: 'bold' }} >
+                                {`$ ${formatMoney(settleWaiting.giftCard ? settleWaiting.giftCard : 0.00)}`}
+                            </Text>
+                        </View>
+
                         {/* -------- Note ------- */}
                         {
                             note === '' ?
