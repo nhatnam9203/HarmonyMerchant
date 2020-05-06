@@ -672,6 +672,49 @@ function* updateCustomerInAppointment(action) {
     }
 }
 
+function* updateProductInAppointment(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log('updateProductInAppointment : ' + JSON.stringify(responses));
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            action.isGroup ? yield put({
+                type: 'GET_GROUP_APPOINTMENT_BY_ID',
+                method: 'GET',
+                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId}`,
+                token: true
+            }) :
+                yield put({
+                    type: 'GET_APPOINTMENT_BY_ID',
+                    method: 'GET',
+                    api: `${apiConfigs.BASE_API}appointment/${action.appointmentId}`,
+                    token: true
+                })
+
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        //console.log('---- error : ', error);
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        // setTimeout(() =>{
+        //     alert(`error-removeAppointmentInGroup: ${error}`)
+        // },2000);
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+
 
 export default function* saga() {
     yield all([
@@ -691,6 +734,6 @@ export default function* saga() {
         takeLatest('CHECK_SERIAL_NUMBER', checkSerialNumber),
         takeLatest('UPDATE_CUSTOMER_IN_APPOINTMENT', updateCustomerInAppointment),
 
-
+        takeLatest('UPDATE_PRODUCT_IN_APPOINTMENT', updateProductInAppointment),
     ])
 }

@@ -800,7 +800,7 @@ class Layout extends React.Component {
                 <PopupChangePriceAmountProduct
                     ref={this.changePriceAmountProductRef}
                     visible={this.state.visibleChangePriceAmountProduct}
-                    title={localize('Product Modification', language)}
+                    title={localize('Modification', language)}
                     onRequestClose={() => { this.setState({ visibleChangePriceAmountProduct: false }) }}
                     changeStylistBasketLocal={this.changeStylistBasketLocal}
                 />

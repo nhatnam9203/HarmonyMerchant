@@ -26,7 +26,7 @@ class PopupChangePriceAmountProduct extends React.Component {
             bookingProductId: "",
             appointmentIdChangeProduct: "",
             productIdLocal: "",
-            amount: 0
+            quantity: 0
         };
         this.scrollRef = React.createRef();
     }
@@ -49,8 +49,8 @@ class PopupChangePriceAmountProduct extends React.Component {
             bookingProductId: product && product.data && product.data.bookingProductId ? product.data.bookingProductId : '',
             price: product && product.data && product.data.price ? product.data.price : 0.00,
             appointmentIdChangeProduct: appointmentId,
-            amount: product && product.quanlitySet ? product.quanlitySet : 0,
-            productIdLocal: productIdLocal.data.productId ? productIdLocal.data.productId : '',
+            quantity: product && product.quanlitySet ? product.quanlitySet : 0,
+            productIdLocal: product.data.productId ? product.data.productId : '',
         });
     }
 
@@ -75,14 +75,19 @@ class PopupChangePriceAmountProduct extends React.Component {
     }
 
     submitChangeStylist = () => {
-        const { price, name, amount, appointmentIdChangeProduct, bookingProductId,productIdLocal} = this.state;
+        const { price, name, quantity, appointmentIdChangeProduct, bookingProductId, productIdLocal } = this.state;
         const { groupAppointment } = this.props;
-        // if (_.isEmpty(groupAppointment)) {
-        //     this.props.changeStylistBasketLocal(serviceIdLocal, staffId, tip, price);
-        // } else {
-        //     this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentIdChangeStylist, price, true);
-        // }
-        // this.props.onRequestClose();
+        if (_.isEmpty(groupAppointment)) {
+            // this.props.changeStylistBasketLocal(serviceIdLocal, staffId, tip, price);
+        } else {
+            // this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentIdChangeStylist, price, true);
+            this.props.actions.appointment.updateProductInAppointment(appointmentIdChangeProduct,{
+                bookingProductId,
+                price,
+                quantity
+            })
+        }
+        this.props.onRequestClose();
     }
 
     onFocusToScroll = (number) => {
@@ -93,7 +98,7 @@ class PopupChangePriceAmountProduct extends React.Component {
 
     render() {
         const { title, visible, listStaffByMerchant, onRequestClose, confimYes } = this.props;
-        const { name, tip, price, amount } = this.state;
+        const { name, tip, price, quantity } = this.state;
         return (
             <PopupParent
                 title={title}
@@ -157,7 +162,7 @@ class PopupChangePriceAmountProduct extends React.Component {
                             </View>
                             {/* ------- Tip -------- */}
                             <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
-                                Amount
+                                Quantity
                         </Text>
                             {/* ------- Box Tip -------- */}
                             <View style={{
@@ -175,8 +180,8 @@ class PopupChangePriceAmountProduct extends React.Component {
                                     //     suffixUnit: ''
                                     // }}
                                     style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
-                                    value={amount}
-                                    onChangeText={(amount) => this.setState({ amount })}
+                                    value={quantity}
+                                    onChangeText={(quantity) => this.setState({ quantity })}
                                     onFocus={() => this.onFocusToScroll(160)}
                                 />
                             </View>
