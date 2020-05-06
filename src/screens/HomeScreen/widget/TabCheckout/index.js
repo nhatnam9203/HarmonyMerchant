@@ -10,7 +10,7 @@ import connectRedux from '@redux/ConnectRedux';
 import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment, requestAPI,
     getArrayExtrasFromAppointment, formatNumberFromCurrency, formatMoney, getStaffInfoById, splitPlusInPhoneNumber,
-    PRINTER_MACHINE
+    PRINTER_MACHINE, getShortNameToPrintInvoice
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 import apiConfigs from '@configs/api';
@@ -698,7 +698,7 @@ class TabCheckout extends Layout {
             for (let i = 0; i < basket.length; i++) {
                 commands.push({
                     appendAbsolutePosition: 0,
-                    data: `${basket[i].data.name}`,
+                    data: `${getShortNameToPrintInvoice(basket[i].data.name)}`,
                 })
 
                 commands.push({
@@ -867,7 +867,7 @@ class TabCheckout extends Layout {
             connectionSignalR.stop();
         }
         if (paymentSelected === 'Cash' || paymentSelected === 'Others - Check') {
-            const printMachine = await this.checkStatusPrint(true);
+            const printMachine = await this.checkStatusPrint();
             if (printMachine) {
                 this.openCashDrawer(printMachine);
                 this.scrollTabRef.current.goToPage(0);
@@ -877,7 +877,6 @@ class TabCheckout extends Layout {
                 this.setState(initState);
                 this.props.actions.appointment.resetPayment();
             } else {
-
                 this.scrollTabRef.current.goToPage(0);
                 this.props.actions.appointment.closeModalPaymentCompleted();
                 this.props.gotoAppoitmentScreen();
@@ -967,14 +966,21 @@ class TabCheckout extends Layout {
             }
 
             // --------- New -------
-            this.showInvoicePrint(printMachine, false);
 
-            // this.printInvoice(printMachine.portName);
-            // this.scrollTabRef.current.goToPage(0);
-            // this.props.gotoAppoitmentScreen();
-            // this.props.actions.appointment.resetBasketEmpty();
-            // this.setState(initState);
-            // this.props.actions.appointment.resetPayment();
+            if (printMachine === "BT:mPOP") {
+                this.printInvoice(printMachine);
+                this.scrollTabRef.current.goToPage(0);
+                this.props.gotoAppoitmentScreen();
+                this.props.actions.appointment.resetBasketEmpty();
+                this.setState(initState);
+                this.props.actions.appointment.resetPayment();
+                this.props.actions.appointment.closeModalPaymentCompleted();
+            } else {
+                this.showInvoicePrint(printMachine, false);
+
+            }
+
+
         } else {
             alert('Please connect to your print ! ');
         }
@@ -982,10 +988,13 @@ class TabCheckout extends Layout {
 
     printTemptInvoice = async () => {
         const printMachine = await this.checkStatusPrint();
-        // console.log("printMachine : ", printMachine);
+        console.log("printMachine : ", printMachine);
         if (printMachine) {
-            // this.printInvoice(printMachine.portName, true);
-            this.showInvoicePrint(printMachine);
+            if (printMachine === "BT:mPOP") {
+                this.printInvoice(printMachine, true);
+            } else {
+                this.showInvoicePrint(printMachine);
+            }
         } else {
             alert('Please connect to your print ! ');
         }
@@ -993,14 +1002,14 @@ class TabCheckout extends Layout {
 
     checkStatusCashier = async () => {
         const printMachine = await this.checkStatusPrint(true);
-        if (printMachine) {
+        if (printMachine === "BT:mPOP") {
             this.openCashDrawer(printMachine);
         } else {
             alert('Please connect to your cashier ! ');
         }
     }
 
-    checkStatusPrint = async (isOpenCashier = false) => {
+    checkStatusPrint = async () => {
         try {
             const printer = await PrintManager.getInstance().portDiscovery();
             if (printer.length > 0) {
@@ -1026,7 +1035,6 @@ class TabCheckout extends Layout {
     openCashDrawer = async (portName) => {
         PrintManager.getInstance().openCashDrawer(portName);
     }
-
 
     handleHarmonyPayment = async (checkoutPaymentInfo) => {
         //console.log("checkoutPayment : ", JSON.stringify(checkoutPaymentInfo));
@@ -1396,11 +1404,11 @@ class TabCheckout extends Layout {
         })
     }
 
-    changeProduct = async (product, appointmentId) => { 
+    changeProduct = async (product, appointmentId) => {
         this.changePriceAmountProductRef.current.setStateFromParent(product, appointmentId);
-       this.setState({
-        visibleChangePriceAmountProduct: true
-       })
+        this.setState({
+            visibleChangePriceAmountProduct: true
+        })
     }
 
     closePopupActiveGiftCard = async () => {

@@ -727,15 +727,26 @@ export function formatDateApi(eDate) {
 
 export const PRINTER_MACHINE = {
     "BT:mPOP": {
+        printerModels: "mPOP",
         portName: "BT:mPOP",
         isCashier: true,
         isPrint: true,
         emulation: "StarPRNT"
     },
     "BT:TSP100": {
+        printerModels: "TSP100",
         portName: "BT:TSP100",
         isCashier: false,
         isPrint: true,
         emulation: "StarGraphic",
     },
 };
+
+export const getShortNameToPrintInvoice = (name) => {
+    if (name.length < 17) {
+        return name;
+    }
+    const shortName = name.slice(0, 16);
+
+    return `${shortName}...`
+}
