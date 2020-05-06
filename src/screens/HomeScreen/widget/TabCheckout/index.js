@@ -1506,6 +1506,10 @@ class TabCheckout extends Layout {
         }
     }
 
+    changeProductBasketLocal = async (productIdLocal,price,quantity) =>{
+
+    }
+
     changeStylistBasketLocal = async (serviceId, staffId, tip, price) => {
         const { basket } = this.state;
         const { listStaffByMerchant } = this.props;

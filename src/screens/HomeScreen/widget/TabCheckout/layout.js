@@ -802,7 +802,7 @@ class Layout extends React.Component {
                     visible={this.state.visibleChangePriceAmountProduct}
                     title={localize('Modification', language)}
                     onRequestClose={() => { this.setState({ visibleChangePriceAmountProduct: false }) }}
-                    changeStylistBasketLocal={this.changeStylistBasketLocal}
+                    changeProductBasketLocal={this.changeProductBasketLocal}
                 />
                 <PopupPayCompleted
                     visible={this.props.visiblePaymentCompleted}

@@ -312,13 +312,13 @@ export function checkSerialNumber(serialId, bodyAction = false, optionAction = f
     }
 }
 
-export function updateCustomerInAppointment(appointmentID, body) {
+export function updateCustomerInAppointment(appointmentId, body) {
     return {
         type: 'UPDATE_CUSTOMER_IN_APPOINTMENT',
         method: 'PUT',
         body,
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/updateCustomer/${appointmentID}`,
+        api: `${apiConfigs.BASE_API}appointment/updateCustomer/${appointmentId}`,
 
     }
 }
@@ -353,14 +353,14 @@ export function checkAppointmentBeforOffline(isCheck = true) {
     }
 }
 
-export function updateProductInAppointment(appointmentID, body) {
+export function updateProductInAppointment(appointmentId, body) {
     return {
         type: 'UPDATE_PRODUCT_IN_APPOINTMENT',
         method: 'PUT',
         body,
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/updateProduct/${appointmentID}?timezone=-420`,
-        appointmentID,
+        api: `${apiConfigs.BASE_API}appointment/updateProduct/${appointmentId}?timezone=-420`,
+        appointmentId,
         isGroup:true
     }
 }

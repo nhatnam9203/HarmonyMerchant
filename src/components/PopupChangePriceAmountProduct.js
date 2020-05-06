@@ -79,6 +79,7 @@ class PopupChangePriceAmountProduct extends React.Component {
         const { groupAppointment } = this.props;
         if (_.isEmpty(groupAppointment)) {
             // this.props.changeStylistBasketLocal(serviceIdLocal, staffId, tip, price);
+            this.props.changeProductBasketLocal(productIdLocal,price,quantity)
         } else {
             // this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentIdChangeStylist, price, true);
             this.props.actions.appointment.updateProductInAppointment(appointmentIdChangeProduct,{
