@@ -3,6 +3,7 @@ package com.hpmerchant;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import fr.greweb.reactnativeviewshot.RNViewShotPackage;
 import cn.jystudio.bluetooth.RNBluetoothEscposPrinterPackage;
 import com.reactnativecommunity.rnpermissions.RNPermissionsPackage;
@@ -35,6 +36,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativeConfigPackage(),
             new RNViewShotPackage(),
             new RNBluetoothEscposPrinterPackage(),
             new RNPermissionsPackage(),

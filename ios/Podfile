@@ -60,6 +60,8 @@ pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
 
 pod 'react-native-view-shot', :path => '../node_modules/react-native-view-shot'
 
+pod 'react-native-config', :path => '../node_modules/react-native-config'
+
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     if target.name == "React"
