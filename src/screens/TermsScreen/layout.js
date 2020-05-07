@@ -459,7 +459,9 @@ export default class Layout extends React.Component {
                                     </Text>
                                 </View>
                                 <Text style={styles.contentTerms}>
-                                If you have any questions about these Terms, please contact Harmony Pay at ____________@HarmonyPayment.com. 
+                                If you have any questions about these Terms, please contact Harmony Pay at
+                                    team@harmonypayment.com.
+
                                 </Text>
                             </ScrollView>
                         </View>
