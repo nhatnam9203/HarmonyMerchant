@@ -25,7 +25,7 @@ class PopupChangeStylist extends React.Component {
             staffId: '',
             name: '',
             tip: 0.00,
-            price:0.00,
+            price: 0.00,
             bookingServiceId: '',
             serviceIdLocal: ''
         };
@@ -37,11 +37,11 @@ class PopupChangeStylist extends React.Component {
     }
 
     handleKeyboardWillHide = async () => {
-       
-        if(this.scrollRef.current){
+
+        if (this.scrollRef.current) {
             this.scrollRef.current.scrollTo({ x: 0, y: 0, animated: true })
         }
-       
+
     }
 
     setStateFromParent = async (service) => {
@@ -53,7 +53,7 @@ class PopupChangeStylist extends React.Component {
             bookingServiceId: service.data.bookingServiceId ? service.data.bookingServiceId : '',
             tip: staff && staff.tip ? staff.tip : 0.00,
             serviceIdLocal: service.data.serviceId ? service.data.serviceId : '',
-            price : service.data && service.data.price ? service.data.price : 0.00
+            price: service.data && service.data.price ? service.data.price : 0.00
         })
     }
 
@@ -78,19 +78,19 @@ class PopupChangeStylist extends React.Component {
     }
 
     submitChangeStylist = () => {
-        const { staffId, bookingServiceId, tip, serviceIdLocal,price } = this.state;
+        const { staffId, bookingServiceId, tip, serviceIdLocal, price } = this.state;
         const { appointmentDetail } = this.props;
         if (_.isEmpty(appointmentDetail)) {
             this.props.changeStylistBasketLocal(serviceIdLocal, staffId, tip);
         } else {
-            this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentDetail.appointmentId,price);
+            this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentDetail.appointmentId, price);
         }
         this.props.onRequestClose();
 
     }
 
-    onFocusToScroll = (number) =>{
-        this.scrollRef.current.scrollTo({x: 0, y:scaleSzie(number), animated: true})
+    onFocusToScroll = (number) => {
+        this.scrollRef.current.scrollTo({ x: 0, y: scaleSzie(number), animated: true })
     }
 
 
@@ -98,7 +98,7 @@ class PopupChangeStylist extends React.Component {
 
     render() {
         const { title, visible, listStaffByMerchant, onRequestClose, confimYes, language } = this.props;
-        const { name, tip,price } = this.state;
+        const { name, tip, price } = this.state;
         const dataDropdown = this.getStaffDataDropdown(listStaffByMerchant)
         return (
             <PopupParent
@@ -110,7 +110,7 @@ class PopupChangeStylist extends React.Component {
                 styleTitle={{ fontSize: scaleSzie(22), fontWeight: "bold" }}
             >
                 <View style={{
-                    height: scaleSzie(250), backgroundColor: '#FAFAFA',
+                    height: scaleSzie(320), backgroundColor: '#FAFAFA',
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
                     paddingHorizontal: scaleSzie(16),
                 }} >
@@ -118,6 +118,7 @@ class PopupChangeStylist extends React.Component {
                         <ScrollView
                             ref={this.scrollRef}
                             showsVerticalScrollIndicator={false} >
+                            <View style={{ height: scaleSzie(20) }} />
                             <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
                                 {`${localize('Stylist', language)}`}
                             </Text>
@@ -136,8 +137,8 @@ class PopupChangeStylist extends React.Component {
                                     }}
                                 />
                             </View>
-                             {/* ------- Price -------- */}
-                             <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
+                            {/* ------- Price -------- */}
+                            <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
                                 Price ($)
                         </Text>
                             {/* ------- Box Price -------- */}
@@ -158,7 +159,7 @@ class PopupChangeStylist extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
                                     value={price}
                                     onChangeText={(price) => this.setState({ price })}
-                                    onFocus={() =>this.onFocusToScroll(90)}
+                                    onFocus={() => this.onFocusToScroll(90)}
                                 />
                             </View>
                             {/* ------- Tip -------- */}
@@ -184,11 +185,11 @@ class PopupChangeStylist extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
                                     value={tip}
                                     onChangeText={(tip) => this.setState({ tip })}
-                                    onFocus={() =>this.onFocusToScroll(160)}
+                                    onFocus={() => this.onFocusToScroll(160)}
                                 />
                             </View>
                             {/* ------- Button -------- */}
-                            <View style={{marginTop:scaleSzie(20),alignItems: 'center', }} >
+                            <View style={{ marginTop: scaleSzie(20), alignItems: 'center', }} >
                                 <ButtonCustom
                                     width={scaleSzie(120)}
                                     height={45}

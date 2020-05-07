@@ -9,12 +9,10 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
 
-import ButtonCustom from './ButtonCustom';
-import PopupParent from './PopupParent';
-import { Dropdown } from './react-native-material-dropdown';
 import connectRedux from '@redux/ConnectRedux';
+import {  ButtonCustom,PopupParent } from '@components';
 
-import { scaleSzie } from '../utils';
+import { scaleSzie } from '@utils';
 
 class PopupChangePriceAmountProduct extends React.Component {
 
@@ -48,7 +46,6 @@ class PopupChangePriceAmountProduct extends React.Component {
             name: product && product.data && product.data.name ? product.data.name : '',
             bookingProductId: product && product.data && product.data.bookingProductId ? product.data.bookingProductId : '',
             price: product && product.data && product.data.price ? product.data.price : 0.00,
-            appointmentIdChangeProduct: appointmentId,
             quantity: product && product.quanlitySet ? product.quanlitySet : 0,
             productIdLocal: product.data.productId ? product.data.productId : '',
         });
@@ -76,17 +73,15 @@ class PopupChangePriceAmountProduct extends React.Component {
 
     submitChangeStylist = () => {
         const { price, name, quantity, appointmentIdChangeProduct, bookingProductId, productIdLocal } = this.state;
-        const { groupAppointment } = this.props;
-        if (_.isEmpty(groupAppointment)) {
-            // this.props.changeStylistBasketLocal(serviceIdLocal, staffId, tip, price);
+        const { groupAppointment,appointmentDetail } = this.props;
+        if (_.isEmpty(appointmentDetail)) {
             this.props.changeProductBasketLocal(productIdLocal,price,quantity)
         } else {
-            // this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentIdChangeStylist, price, true);
-            this.props.actions.appointment.updateProductInAppointment(appointmentIdChangeProduct,{
+            this.props.actions.appointment.updateProductInAppointment(appointmentDetail.appointmentId,{
                 bookingProductId,
                 price,
                 quantity
-            })
+            },false)
         }
         this.props.onRequestClose();
     }
@@ -98,8 +93,8 @@ class PopupChangePriceAmountProduct extends React.Component {
     // --------------- Render -----------
 
     render() {
-        const { title, visible, onRequestClose, confimYes } = this.props;
-        const { name, price, quantity } = this.state;
+        const { title, visible, listStaffByMerchant, onRequestClose, confimYes } = this.props;
+        const { name, tip, price, quantity } = this.state;
         return (
             <PopupParent
                 title={title}
@@ -219,6 +214,8 @@ class PopupChangePriceAmountProduct extends React.Component {
 
 
 const mapStateToProps = state => ({
+    listStaffByMerchant: state.staff.listStaffByMerchant,
+    appointmentDetail: state.appointment.appointmentDetail,
     groupAppointment: state.appointment.groupAppointment
 })
 

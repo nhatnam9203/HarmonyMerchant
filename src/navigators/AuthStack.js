@@ -31,7 +31,7 @@ const AuthStack = createStackNavigator(
         PackageAndPricing
     },
     {
-        initialRouteName: 'Terms',
+        initialRouteName: 'Intro',
         headerMode: 'none',
         transitionConfig: getSlideFromRightTransition
     }

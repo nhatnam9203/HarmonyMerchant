@@ -37,7 +37,8 @@ const initState = {
     visibleConfirm: false,
     visibleChangeStylist: false,
     visibleDiscount: false,
-    appointmentIdOffline: 0
+    appointmentIdOffline: 0,
+    visibleChangePriceAmountProduct: false
 }
 
 class TabAppointment extends Layout {
@@ -49,6 +50,7 @@ class TabAppointment extends Layout {
         this.amountRef = React.createRef();
         this.changeStylistRef = React.createRef();
         this.popupEnterPinRef = React.createRef();
+        this.changePriceAmountProductRef = React.createRef();
     }
 
     reloadWebviewFromParent = () => {
@@ -310,6 +312,19 @@ class TabAppointment extends Layout {
         this.props.actions.appointment.resetPayment();
         this.props.actions.appointment.changeFlagSigninAppointment(false);
         this.props.clearDataTabCheckout();
+    }
+
+    changeProductInBasket = async (product) =>{
+        // console.log("product : ", JSON.stringify(product));
+        this.changePriceAmountProductRef.current.setStateFromParent(product);
+        this.setState({
+            visibleChangePriceAmountProduct: true
+        })
+        
+    }
+
+    changeProductBasketLocal = async (productIdLocal,price,quantity) =>{
+
     }
 
     changeStylist = async (service) => {

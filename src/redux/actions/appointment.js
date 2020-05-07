@@ -353,7 +353,7 @@ export function checkAppointmentBeforOffline(isCheck = true) {
     }
 }
 
-export function updateProductInAppointment(appointmentId, body) {
+export function updateProductInAppointment(appointmentId, body,isGroup = true) {
     return {
         type: 'UPDATE_PRODUCT_IN_APPOINTMENT',
         method: 'PUT',
@@ -361,23 +361,7 @@ export function updateProductInAppointment(appointmentId, body) {
         token: true,
         api: `${apiConfigs.BASE_API}appointment/updateProduct/${appointmentId}?timezone=-420`,
         appointmentId,
-        isGroup:true
+        isGroup
     }
 }
 
-// export function changeStylist(staffId, bookingServiceId, tipAmount, appointmentId, price, isGroup = false) {
-//     return {
-//         type: 'CHANGE_STYLIST',
-//         method: 'PUT',
-//         token: true,
-//         body: {
-//             staffId,
-//             bookingServiceId,
-//             tipAmount,
-//             price
-//         },
-//         api: `${apiConfigs.BASE_API}appointment/tip/${appointmentId}`,
-//         appointmentId,
-//         isGroup
-//     }
-// }

@@ -15,7 +15,7 @@ import {
     ItemCategory, ItemProductService, ColPlaceHolder, ItemAmount, ItemExtra
 } from '../TabCheckout/widget';
 import IMAGE from '@resources';
-import { PopupDiscount, PopupChangeStylist, ItemBasket } from './widget';
+import { PopupDiscount, PopupChangeStylist, ItemBasket,PopupChangePriceAmountProduct } from './widget';
 
 
 class Layout extends React.Component {
@@ -262,6 +262,7 @@ class Layout extends React.Component {
                                     item={item}
                                     removeItemBasket={this.removeItemBasket}
                                     onPress={this.changeStylist}
+                                    changeProductInBasket={this.changeProductInBasket}
                                 />)
                             }
                         </ScrollView>
@@ -425,6 +426,13 @@ class Layout extends React.Component {
                     message={`${localize('If you exit Checkout Screen , Basket will Reset', language)} ?`}
                     onRequestClose={() => this.setState({ visibleConfirm: false })}
                     confimYes={this.clearDataCofrim}
+                />
+                 <PopupChangePriceAmountProduct
+                    ref={this.changePriceAmountProductRef}
+                    visible={this.state.visibleChangePriceAmountProduct}
+                    title={localize('Modification', language)}
+                    onRequestClose={() => { this.setState({ visibleChangePriceAmountProduct: false }) }}
+                    changeProductBasketLocal={this.changeProductBasketLocal}
                 />
                 <PopupChangeStylist
                     ref={this.changeStylistRef}
