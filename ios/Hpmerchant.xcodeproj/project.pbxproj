@@ -12,6 +12,7 @@
 		00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
+		0EBBAABEA9838A296282728D /* libPods-Hpmerchant_Staging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 98565B1799273E964D4F0D00 /* libPods-Hpmerchant_Staging.a */; };
 		11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
@@ -25,6 +26,35 @@
 		232011EE22FAB38C0002C14B /* MyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 232011ED22FAB38C0002C14B /* MyApp.m */; };
 		23207BB522FAD00F0002C14B /* ExtDataPaymentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */; };
 		23207BB622FAD5BE0002C14B /* libPosLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23207BAF22FAC4730002C14B /* libPosLink.a */; };
+		232D649B2465060100AA4473 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FE295423C77BEF00E95925 /* File.swift */; };
+		232D649C2465060100AA4473 /* MyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 232011ED22FAB38C0002C14B /* MyApp.m */; };
+		232D649D2465060100AA4473 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
+		232D649E2465060100AA4473 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		232D649F2465060100AA4473 /* ExtDataPaymentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */; };
+		232D64A12465060100AA4473 /* libPosLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23207BAF22FAC4730002C14B /* libPosLink.a */; };
+		232D64A22465060100AA4473 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2399DEBD22F1A9C100DBCCFE /* libRNFetchBlob.a */; };
+		232D64A32465060100AA4473 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */; };
+		232D64A42465060100AA4473 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */; };
+		232D64A52465060100AA4473 /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342065F22DD7C1700E0EA35 /* StarIO.framework */; };
+		232D64A62465060100AA4473 /* StarIO_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */; };
+		232D64A72465060100AA4473 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
+		232D64A82465060100AA4473 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		232D64A92465060100AA4473 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		232D64AA2465060100AA4473 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		232D64AB2465060100AA4473 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
+		232D64AC2465060100AA4473 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
+		232D64AD2465060100AA4473 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
+		232D64AE2465060100AA4473 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
+		232D64AF2465060100AA4473 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
+		232D64B02465060100AA4473 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
+		232D64B12465060100AA4473 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		232D64B22465060100AA4473 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
+		232D64B32465060100AA4473 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
+		232D64B42465060100AA4473 /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87F14B6172B346F0950939FF /* libRNGestureHandler.a */; };
+		232D64B52465060100AA4473 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */; };
+		232D64B62465060100AA4473 /* libPods-Hpmerchant_Production.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA51496CC2F3590DB2E85F79 /* libPods-Hpmerchant_Production.a */; };
+		232D64B82465060100AA4473 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		232D64B92465060100AA4473 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		23344DA12463F0FB00513F43 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FE295423C77BEF00E95925 /* File.swift */; };
 		23344DA22463F0FB00513F43 /* MyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 232011ED22FAB38C0002C14B /* MyApp.m */; };
 		23344DA32463F0FB00513F43 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -51,9 +81,6 @@
 		23344DB92463F0FB00513F43 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		23344DBA2463F0FB00513F43 /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87F14B6172B346F0950939FF /* libRNGestureHandler.a */; };
 		23344DBB2463F0FB00513F43 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */; };
-		23344DBC2463F0FB00513F43 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B5BF6260BDDE1D51A49D427 /* libPods-Hpmerchant.a */; };
-		23344DBD2463F0FB00513F43 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
-		23344DBE2463F0FB00513F43 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
 		23344DC02463F0FB00513F43 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		23344DC12463F0FB00513F43 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		2342066122DD7C1800E0EA35 /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342065F22DD7C1700E0EA35 /* StarIO.framework */; };
@@ -62,13 +89,11 @@
 		2342066622DD7C3100E0EA35 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */; };
 		2399DEC122F1A9CF00DBCCFE /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2399DEBD22F1A9C100DBCCFE /* libRNFetchBlob.a */; };
 		23FE295523C77BEF00E95925 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FE295423C77BEF00E95925 /* File.swift */; };
-		703C3266FEB4A5A75C215D9E /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		864C87C1F2BF7E02213ECAA1 /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D48D642330947300EC4331 /* libPods-Hpmerchant.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		C757D92E4E5E404DAE4671BF /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */; };
-		CB738252167601E0C58215EB /* libPods-Hpmerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B5BF6260BDDE1D51A49D427 /* libPods-Hpmerchant.a */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
+		FC37D3A36BC804BC18F4350B /* libPods-Hpmerchant_Production.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA51496CC2F3590DB2E85F79 /* libPods-Hpmerchant_Production.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -370,6 +395,7 @@
 		00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVibration.xcodeproj; path = "../node_modules/react-native/Libraries/Vibration/RCTVibration.xcodeproj"; sourceTree = "<group>"; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* HpmerchantTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HpmerchantTests.m; sourceTree = "<group>"; };
+		0AE1BA70CBCDF7DB0D7B8756 /* Pods-Hpmerchant_Staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant_Staging.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant_Staging/Pods-Hpmerchant_Staging.debug.xcconfig"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* HPMerchant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HPMerchant.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -380,6 +406,8 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Hpmerchant/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Hpmerchant/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		1DE61E27D91AD1AD55653922 /* Pods-Hpmerchant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant.release.xcconfig"; sourceTree = "<group>"; };
+		1EA86854F25B6D911F08EA07 /* Pods-Hpmerchant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant.debug.xcconfig"; sourceTree = "<group>"; };
 		232011EC22FAB38C0002C14B /* MyApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MyApp.h; path = Hpmerchant/MyApp.h; sourceTree = "<group>"; };
 		232011ED22FAB38C0002C14B /* MyApp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MyApp.m; path = Hpmerchant/MyApp.m; sourceTree = "<group>"; };
 		23207B9E22FAC40F0002C14B /* PosLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PosLink.h; sourceTree = "<group>"; };
@@ -400,18 +428,19 @@
 		23207BAF22FAC4730002C14B /* libPosLink.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPosLink.a; sourceTree = "<group>"; };
 		23207BB322FAD00F0002C14B /* ExtDataPaymentReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExtDataPaymentReq.h; sourceTree = "<group>"; };
 		23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExtDataPaymentReq.m; sourceTree = "<group>"; };
-		23344DC82463F0FB00513F43 /* DEV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DEV.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		232D64C02465060100AA4473 /* Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dev.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		232D64EA2465060100AA4473 /* Hpmerchant_Production copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Hpmerchant_Production copy-Info.plist"; path = "/Users/phinhn/Desktop/Company Project/Hpmerchant_3/ios/Hpmerchant_Production copy-Info.plist"; sourceTree = "<absolute>"; };
+		23344DC82463F0FB00513F43 /* Staging.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Staging.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23344DC92463F0FB00513F43 /* Hpmerchant copy3-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Hpmerchant copy3-Info.plist"; path = "/Users/phinhn/Desktop/Company Project/Hpmerchant_3/ios/Hpmerchant copy3-Info.plist"; sourceTree = "<absolute>"; };
 		2342065F22DD7C1700E0EA35 /* StarIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StarIO.framework; path = "../node_modules/react-native-star-prnt/ios/Frameworks/StarIO.framework"; sourceTree = "<group>"; };
 		2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StarIO_Extension.framework; path = "../node_modules/react-native-star-prnt/ios/Frameworks/StarIO_Extension.framework"; sourceTree = "<group>"; };
 		2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		2399DE9322F1A9C100DBCCFE /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/rn-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
-		23D48D642330947300EC4331 /* libPods-Hpmerchant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libPods-Hpmerchant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23FE295323C77BEF00E95925 /* Hpmerchant-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hpmerchant-Bridging-Header.h"; sourceTree = "<group>"; };
 		23FE295423C77BEF00E95925 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		4B5BF6260BDDE1D51A49D427 /* libPods-Hpmerchant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		459E2B6AE93CFF269BF09721 /* Pods-Hpmerchant_Staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant_Staging.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant_Staging/Pods-Hpmerchant_Staging.release.xcconfig"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7EF40DF61A484AEE927C5392 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
@@ -419,13 +448,15 @@
 		87F14B6172B346F0950939FF /* libRNGestureHandler.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGestureHandler.a; sourceTree = "<group>"; };
 		8C3DC6D58CE9413BA1484D22 /* libRNGestureHandler-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNGestureHandler-tvOS.a"; sourceTree = "<group>"; };
 		8E75CE6F270F4982BF625EC0 /* libRNBluetoothEscposPrinter.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNBluetoothEscposPrinter.a; sourceTree = "<group>"; };
-		A5E22F97A27300C9F8CCD3AA /* Pods-Hpmerchant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant.debug.xcconfig"; sourceTree = "<group>"; };
+		98565B1799273E964D4F0D00 /* libPods-Hpmerchant_Staging.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant_Staging.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
+		B682F2F177AFF7A1C2F0D93A /* Pods-Hpmerchant_Production.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant_Production.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant_Production/Pods-Hpmerchant_Production.debug.xcconfig"; sourceTree = "<group>"; };
+		BA51496CC2F3590DB2E85F79 /* libPods-Hpmerchant_Production.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant_Production.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C28B99EF8822419DB3A40583 /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGestureHandler.xcodeproj; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; };
-		E2D04756A639A9B49D569A71 /* Pods-Hpmerchant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImagePicker.a; sourceTree = "<group>"; };
+		FD78A0712030824B23BA50F2 /* Pods-Hpmerchant_Production.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant_Production.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant_Production/Pods-Hpmerchant_Production.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -454,9 +485,36 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				190B834FB4BB4246962A3E7E /* libRNGestureHandler.a in Frameworks */,
 				C757D92E4E5E404DAE4671BF /* libRNImagePicker.a in Frameworks */,
-				CB738252167601E0C58215EB /* libPods-Hpmerchant.a in Frameworks */,
-				864C87C1F2BF7E02213ECAA1 /* libPods-Hpmerchant.a in Frameworks */,
-				703C3266FEB4A5A75C215D9E /* libPods-Hpmerchant.a in Frameworks */,
+				FC37D3A36BC804BC18F4350B /* libPods-Hpmerchant_Production.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		232D64A02465060100AA4473 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				232D64A12465060100AA4473 /* libPosLink.a in Frameworks */,
+				232D64A22465060100AA4473 /* libRNFetchBlob.a in Frameworks */,
+				232D64A32465060100AA4473 /* ExternalAccessory.framework in Frameworks */,
+				232D64A42465060100AA4473 /* CoreBluetooth.framework in Frameworks */,
+				232D64A52465060100AA4473 /* StarIO.framework in Frameworks */,
+				232D64A62465060100AA4473 /* StarIO_Extension.framework in Frameworks */,
+				232D64A72465060100AA4473 /* JavaScriptCore.framework in Frameworks */,
+				232D64A82465060100AA4473 /* libRCTBlob.a in Frameworks */,
+				232D64A92465060100AA4473 /* libRCTAnimation.a in Frameworks */,
+				232D64AA2465060100AA4473 /* libReact.a in Frameworks */,
+				232D64AB2465060100AA4473 /* libRCTActionSheet.a in Frameworks */,
+				232D64AC2465060100AA4473 /* libRCTGeolocation.a in Frameworks */,
+				232D64AD2465060100AA4473 /* libRCTImage.a in Frameworks */,
+				232D64AE2465060100AA4473 /* libRCTLinking.a in Frameworks */,
+				232D64AF2465060100AA4473 /* libRCTNetwork.a in Frameworks */,
+				232D64B02465060100AA4473 /* libRCTSettings.a in Frameworks */,
+				232D64B12465060100AA4473 /* libRCTText.a in Frameworks */,
+				232D64B22465060100AA4473 /* libRCTVibration.a in Frameworks */,
+				232D64B32465060100AA4473 /* libRCTWebSocket.a in Frameworks */,
+				232D64B42465060100AA4473 /* libRNGestureHandler.a in Frameworks */,
+				232D64B52465060100AA4473 /* libRNImagePicker.a in Frameworks */,
+				232D64B62465060100AA4473 /* libPods-Hpmerchant_Production.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,9 +543,7 @@
 				23344DB92463F0FB00513F43 /* libRCTWebSocket.a in Frameworks */,
 				23344DBA2463F0FB00513F43 /* libRNGestureHandler.a in Frameworks */,
 				23344DBB2463F0FB00513F43 /* libRNImagePicker.a in Frameworks */,
-				23344DBC2463F0FB00513F43 /* libPods-Hpmerchant.a in Frameworks */,
-				23344DBD2463F0FB00513F43 /* libPods-Hpmerchant.a in Frameworks */,
-				23344DBE2463F0FB00513F43 /* libPods-Hpmerchant.a in Frameworks */,
+				0EBBAABEA9838A296282728D /* libPods-Hpmerchant_Staging.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -694,7 +750,6 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				23D48D642330947300EC4331 /* libPods-Hpmerchant.a */,
 				2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */,
 				2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */,
 				2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */,
@@ -702,7 +757,8 @@
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
-				4B5BF6260BDDE1D51A49D427 /* libPods-Hpmerchant.a */,
+				98565B1799273E964D4F0D00 /* libPods-Hpmerchant_Staging.a */,
+				BA51496CC2F3590DB2E85F79 /* libPods-Hpmerchant_Production.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -710,8 +766,12 @@
 		51A61F587B2C0002B60C1005 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A5E22F97A27300C9F8CCD3AA /* Pods-Hpmerchant.debug.xcconfig */,
-				E2D04756A639A9B49D569A71 /* Pods-Hpmerchant.release.xcconfig */,
+				1EA86854F25B6D911F08EA07 /* Pods-Hpmerchant.debug.xcconfig */,
+				1DE61E27D91AD1AD55653922 /* Pods-Hpmerchant.release.xcconfig */,
+				0AE1BA70CBCDF7DB0D7B8756 /* Pods-Hpmerchant_Staging.debug.xcconfig */,
+				459E2B6AE93CFF269BF09721 /* Pods-Hpmerchant_Staging.release.xcconfig */,
+				B682F2F177AFF7A1C2F0D93A /* Pods-Hpmerchant_Production.debug.xcconfig */,
+				FD78A0712030824B23BA50F2 /* Pods-Hpmerchant_Production.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -777,6 +837,7 @@
 				230E40A1228D2CF900E114D6 /* Recovered References */,
 				51A61F587B2C0002B60C1005 /* Pods */,
 				23344DC92463F0FB00513F43 /* Hpmerchant copy3-Info.plist */,
+				232D64EA2465060100AA4473 /* Hpmerchant_Production copy-Info.plist */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -787,7 +848,8 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* HPMerchant.app */,
-				23344DC82463F0FB00513F43 /* DEV.app */,
+				23344DC82463F0FB00513F43 /* Staging.app */,
+				232D64C02465060100AA4473 /* Dev.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -804,9 +866,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		13B07F861A680F5B00A75B9A /* Hpmerchant */ = {
+		13B07F861A680F5B00A75B9A /* Hpmerchant_Production */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Hpmerchant" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Hpmerchant_Production" */;
 			buildPhases = (
 				7BF4CB7B6F05575B12C59C87 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
@@ -820,22 +882,43 @@
 			);
 			dependencies = (
 			);
-			name = Hpmerchant;
+			name = Hpmerchant_Production;
 			productName = "Hello World";
 			productReference = 13B07F961A680F5B00A75B9A /* HPMerchant.app */;
+			productType = "com.apple.product-type.application";
+		};
+		232D64982465060100AA4473 /* Hpmerchant_Dev */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 232D64BD2465060100AA4473 /* Build configuration list for PBXNativeTarget "Hpmerchant_Dev" */;
+			buildPhases = (
+				232D64992465060100AA4473 /* [CP] Check Pods Manifest.lock */,
+				232D649A2465060100AA4473 /* Sources */,
+				232D64A02465060100AA4473 /* Frameworks */,
+				232D64B72465060100AA4473 /* Resources */,
+				232D64BA2465060100AA4473 /* Bundle React Native code and images */,
+				232D64BB2465060100AA4473 /* ShellScript */,
+				232D64BC2465060100AA4473 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Hpmerchant_Dev;
+			productName = "Hello World";
+			productReference = 232D64C02465060100AA4473 /* Dev.app */;
 			productType = "com.apple.product-type.application";
 		};
 		23344D9E2463F0FB00513F43 /* Hpmerchant_Staging */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 23344DC52463F0FB00513F43 /* Build configuration list for PBXNativeTarget "Hpmerchant_Staging" */;
 			buildPhases = (
-				23344D9F2463F0FB00513F43 /* [CP] Check Pods Manifest.lock */,
+				34A3AED961AC51FFAE304789 /* [CP] Check Pods Manifest.lock */,
 				23344DA02463F0FB00513F43 /* Sources */,
 				23344DA62463F0FB00513F43 /* Frameworks */,
 				23344DBF2463F0FB00513F43 /* Resources */,
 				23344DC22463F0FB00513F43 /* Bundle React Native code and images */,
 				23344DC32463F0FB00513F43 /* ShellScript */,
-				23344DC42463F0FB00513F43 /* [CP] Copy Pods Resources */,
+				A49033E54032072AB1FF9EA9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -843,7 +926,7 @@
 			);
 			name = Hpmerchant_Staging;
 			productName = "Hello World";
-			productReference = 23344DC82463F0FB00513F43 /* DEV.app */;
+			productReference = 23344DC82463F0FB00513F43 /* Staging.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -858,6 +941,10 @@
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 69WQLJ9K8N;
 						LastSwiftMigration = 1130;
+						ProvisioningStyle = Manual;
+					};
+					232D64982465060100AA4473 = {
+						DevelopmentTeam = 69WQLJ9K8N;
 						ProvisioningStyle = Manual;
 					};
 					23344D9E2463F0FB00513F43 = {
@@ -942,8 +1029,9 @@
 			);
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* Hpmerchant */,
+				13B07F861A680F5B00A75B9A /* Hpmerchant_Production */,
 				23344D9E2463F0FB00513F43 /* Hpmerchant_Staging */,
+				232D64982465060100AA4473 /* Hpmerchant_Dev */,
 			);
 		};
 /* End PBXProject section */
@@ -1248,6 +1336,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		232D64B72465060100AA4473 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				232D64B82465060100AA4473 /* Images.xcassets in Resources */,
+				232D64B92465060100AA4473 /* LaunchScreen.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		23344DBF2463F0FB00513F43 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1274,7 +1371,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=$(which node)\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		23344D9F2463F0FB00513F43 /* [CP] Check Pods Manifest.lock */ = {
+		232D64992465060100AA4473 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1289,11 +1386,60 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant_Production-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		232D64BA2465060100AA4473 /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native code and images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export NODE_BINARY=$(which node)\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+		};
+		232D64BB2465060100AA4473 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 0f0084a0d929105cf47a24b38dd81f81901f8898 a429bc1d026280dc76172be9fa9b8d4c7afbdf2b261dc836bc1e3b6f8b32c7c3\n";
+		};
+		232D64BC2465060100AA4473 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant_Production/Pods-Hpmerchant_Production-resources.sh",
+				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WKYTPlayerView.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant_Production/Pods-Hpmerchant_Production-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		23344DC22463F0FB00513F43 /* Bundle React Native code and images */ = {
@@ -1327,24 +1473,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 0f0084a0d929105cf47a24b38dd81f81901f8898 a429bc1d026280dc76172be9fa9b8d4c7afbdf2b261dc836bc1e3b6f8b32c7c3\n";
 		};
-		23344DC42463F0FB00513F43 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant-resources.sh",
-				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WKYTPlayerView.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		23A6A60C22ACDBDF00739B1A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1362,13 +1490,35 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 0f0084a0d929105cf47a24b38dd81f81901f8898 a429bc1d026280dc76172be9fa9b8d4c7afbdf2b261dc836bc1e3b6f8b32c7c3\n";
 		};
+		34A3AED961AC51FFAE304789 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant_Staging-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		70575A0A867BB8F70B74783F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant_Production/Pods-Hpmerchant_Production-resources.sh",
 				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -1377,7 +1527,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant_Production/Pods-Hpmerchant_Production-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7BF4CB7B6F05575B12C59C87 /* [CP] Check Pods Manifest.lock */ = {
@@ -1395,11 +1545,29 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant_Production-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A49033E54032072AB1FF9EA9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant_Staging/Pods-Hpmerchant_Staging-resources.sh",
+				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WKYTPlayerView.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant_Staging/Pods-Hpmerchant_Staging-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1414,6 +1582,18 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				23207BB522FAD00F0002C14B /* ExtDataPaymentReq.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		232D649A2465060100AA4473 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				232D649B2465060100AA4473 /* File.swift in Sources */,
+				232D649C2465060100AA4473 /* MyApp.m in Sources */,
+				232D649D2465060100AA4473 /* AppDelegate.m in Sources */,
+				232D649E2465060100AA4473 /* main.m in Sources */,
+				232D649F2465060100AA4473 /* ExtDataPaymentReq.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1446,7 +1626,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A5E22F97A27300C9F8CCD3AA /* Pods-Hpmerchant.debug.xcconfig */;
+			baseConfigurationReference = B682F2F177AFF7A1C2F0D93A /* Pods-Hpmerchant_Production.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1498,7 +1678,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E2D04756A639A9B49D569A71 /* Pods-Hpmerchant.release.xcconfig */;
+			baseConfigurationReference = FD78A0712030824B23BA50F2 /* Pods-Hpmerchant_Production.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1546,9 +1726,111 @@
 			};
 			name = Release;
 		};
+		232D64BE2465060100AA4473 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B682F2F177AFF7A1C2F0D93A /* Pods-Hpmerchant_Production.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 39;
+				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = 69WQLJ9K8N;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)/**",
+					"\"${PODS_ROOT}/../../node_modules/react-native-star-prnt/ios/Frameworks\"/**",
+					"\"${PODS_ROOT}/Crashlytics/iOS\"/**",
+					"\"${PODS_ROOT}/Fabric/iOS\"/**",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-star-prnt/ios/Frameworks/**",
+					"$(SRCROOT)/../node_modules/react-native-bluetooth-escpos-printer/ios/**",
+				);
+				INFOPLIST_FILE = "Hpmerchant_Production copy-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/sdk/**",
+					"$(PROJECT_DIR)/sdk/inc/**",
+					"$(PROJECT_DIR)/sdk",
+					"\"$(SRCROOT)/HpMerchant\"",
+				);
+				MARKETING_VERSION = 1.0.5;
+				OTHER_CFLAGS = "-fembed-bitcode";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony.dev;
+				PRODUCT_NAME = Dev;
+				PROVISIONING_PROFILE_SPECIFIER = HarmonyMerchantDev;
+				SWIFT_OBJC_BRIDGING_HEADER = "Hpmerchant-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 2;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		232D64BF2465060100AA4473 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD78A0712030824B23BA50F2 /* Pods-Hpmerchant_Production.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 39;
+				DEVELOPMENT_TEAM = 69WQLJ9K8N;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)/**",
+					"\"${PODS_ROOT}/../../node_modules/react-native-star-prnt/ios/Frameworks\"/**",
+					"\"${PODS_ROOT}/Crashlytics/iOS\"/**",
+					"\"${PODS_ROOT}/Fabric/iOS\"/**",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-star-prnt/ios/Frameworks/**",
+					"$(SRCROOT)/../node_modules/react-native-bluetooth-escpos-printer/ios/**",
+				);
+				INFOPLIST_FILE = "Hpmerchant_Production copy-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/sdk/**",
+					"$(PROJECT_DIR)/sdk/inc/**",
+					"$(PROJECT_DIR)/sdk",
+					"\"$(SRCROOT)/HpMerchant\"",
+				);
+				MARKETING_VERSION = 1.0.5;
+				OTHER_CFLAGS = "-fembed-bitcode";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony.dev;
+				PRODUCT_NAME = Dev;
+				PROVISIONING_PROFILE_SPECIFIER = HarmonyMerchantDev;
+				SWIFT_OBJC_BRIDGING_HEADER = "Hpmerchant-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 2;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
 		23344DC62463F0FB00513F43 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A5E22F97A27300C9F8CCD3AA /* Pods-Hpmerchant.debug.xcconfig */;
+			baseConfigurationReference = 0AE1BA70CBCDF7DB0D7B8756 /* Pods-Hpmerchant_Staging.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1588,8 +1870,9 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony.dev;
-				PRODUCT_NAME = DEV;
+				PRODUCT_NAME = Staging;
 				PROVISIONING_PROFILE_SPECIFIER = HarmonyMerchantDev;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG_STAGING;
 				SWIFT_OBJC_BRIDGING_HEADER = "Hpmerchant-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1600,7 +1883,7 @@
 		};
 		23344DC72463F0FB00513F43 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E2D04756A639A9B49D569A71 /* Pods-Hpmerchant.release.xcconfig */;
+			baseConfigurationReference = 459E2B6AE93CFF269BF09721 /* Pods-Hpmerchant_Staging.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1639,8 +1922,10 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony.dev;
-				PRODUCT_NAME = DEV;
+				PRODUCT_NAME = Staging;
 				PROVISIONING_PROFILE_SPECIFIER = HarmonyMerchantDev;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = STAGING;
+				"SWIFT_ACTIVE_COMPILATION_CONDITIONS[arch=*]" = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Hpmerchant-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1750,11 +2035,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Hpmerchant" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Hpmerchant_Production" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		232D64BD2465060100AA4473 /* Build configuration list for PBXNativeTarget "Hpmerchant_Dev" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				232D64BE2465060100AA4473 /* Debug */,
+				232D64BF2465060100AA4473 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

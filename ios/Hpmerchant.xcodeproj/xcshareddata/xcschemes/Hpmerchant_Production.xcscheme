@@ -16,7 +16,7 @@
                      BuildableIdentifier = "primary"
                      BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
                      BuildableName = "HPMerchant.app"
-                     BlueprintName = "Hpmerchant"
+                     BlueprintName = "Hpmerchant_Production"
                      ReferencedContainer = "container:Hpmerchant.xcodeproj">
                   </BuildableReference>
                </EnvironmentBuildable>
@@ -47,8 +47,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "DEV.app"
-               BlueprintName = "Hpmerchant"
+               BuildableName = "HPMerchant.app"
+               BlueprintName = "Hpmerchant_Production"
                ReferencedContainer = "container:Hpmerchant.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -63,8 +63,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "DEV.app"
-            BlueprintName = "Hpmerchant"
+            BuildableName = "HPMerchant.app"
+            BlueprintName = "Hpmerchant_Production"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -86,8 +86,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "DEV.app"
-            BlueprintName = "Hpmerchant"
+            BuildableName = "HPMerchant.app"
+            BlueprintName = "Hpmerchant_Production"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -103,8 +103,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "DEV.app"
-            BlueprintName = "Hpmerchant"
+            BuildableName = "HPMerchant.app"
+            BlueprintName = "Hpmerchant_Production"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

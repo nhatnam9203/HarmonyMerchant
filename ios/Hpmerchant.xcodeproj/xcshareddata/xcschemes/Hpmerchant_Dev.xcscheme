@@ -3,20 +3,20 @@
    LastUpgradeVersion = "1130"
    version = "1.7">
    <BuildAction
-      parallelizeBuildables = "NO"
+      parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
       <PreActions>
          <ExecutionAction
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "echo &quot;.env.staging&quot; &gt; /tmp/envfile&#10;">
+               scriptText = "echo &quot;.env.dev&quot; &gt; /tmp/envfile&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
-                     BlueprintIdentifier = "23344D9E2463F0FB00513F43"
-                     BuildableName = "Staging.app"
-                     BlueprintName = "Hpmerchant_Staging"
+                     BlueprintIdentifier = "232D64982465060100AA4473"
+                     BuildableName = "Dev.app"
+                     BlueprintName = "Hpmerchant_Dev"
                      ReferencedContainer = "container:Hpmerchant.xcodeproj">
                   </BuildableReference>
                </EnvironmentBuildable>
@@ -32,23 +32,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "83CBBA2D1A601D0E00E9B192"
-               BuildableName = "libReact.a"
-               BlueprintName = "React"
-               ReferencedContainer = "container:../node_modules/react-native/React/React.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "23344D9E2463F0FB00513F43"
-               BuildableName = "Staging.app"
-               BlueprintName = "Hpmerchant_Staging"
+               BlueprintIdentifier = "232D64982465060100AA4473"
+               BuildableName = "Hpmerchant_Dev.app"
+               BlueprintName = "Hpmerchant_Dev"
                ReferencedContainer = "container:Hpmerchant.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -76,9 +62,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "23344D9E2463F0FB00513F43"
-            BuildableName = "Staging.app"
-            BlueprintName = "Hpmerchant_Staging"
+            BlueprintIdentifier = "232D64982465060100AA4473"
+            BuildableName = "Hpmerchant_Dev.app"
+            BlueprintName = "Hpmerchant_Dev"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -93,9 +79,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "23344D9E2463F0FB00513F43"
-            BuildableName = "Staging.app"
-            BlueprintName = "Hpmerchant_Staging"
+            BlueprintIdentifier = "232D64982465060100AA4473"
+            BuildableName = "Hpmerchant_Dev.app"
+            BlueprintName = "Hpmerchant_Dev"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
