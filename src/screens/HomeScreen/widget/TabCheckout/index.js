@@ -967,18 +967,19 @@ class TabCheckout extends Layout {
 
             // --------- New -------
 
-            if (printMachine === "BT:mPOP") {
-                this.printInvoice(printMachine);
-                this.scrollTabRef.current.goToPage(0);
-                this.props.gotoAppoitmentScreen();
-                this.props.actions.appointment.resetBasketEmpty();
-                this.setState(initState);
-                this.props.actions.appointment.resetPayment();
-                this.props.actions.appointment.closeModalPaymentCompleted();
-            } else {
-                this.showInvoicePrint(printMachine, false);
+            this.showInvoicePrint(printMachine, false);
+            // if (printMachine === "BT:mPOP") {
+            //     this.printInvoice(printMachine);
+            //     this.scrollTabRef.current.goToPage(0);
+            //     this.props.gotoAppoitmentScreen();
+            //     this.props.actions.appointment.resetBasketEmpty();
+            //     this.setState(initState);
+            //     this.props.actions.appointment.resetPayment();
+            //     this.props.actions.appointment.closeModalPaymentCompleted();
+            // } else {
+            //     this.showInvoicePrint(printMachine, false);
 
-            }
+            // }
 
 
         } else {
@@ -1023,7 +1024,7 @@ class TabCheckout extends Layout {
                         break;
                     }
                 };
-                return portName;
+                return portName ? portName : false;
             } else {
                 return false
             }
