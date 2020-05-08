@@ -17,7 +17,7 @@ export default class Layout extends React.Component {
         const { language } = this.props;
         return (
             <ImageBackground
-                style={styles.container}
+                style={styles.btn_first_name}
                 source={IMAGE.backgroundLogin}
             >
                 <Image source={IMAGE.logo} style={styles.logo} />

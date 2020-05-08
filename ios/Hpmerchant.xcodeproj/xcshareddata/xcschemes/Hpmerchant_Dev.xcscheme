@@ -3,7 +3,7 @@
    LastUpgradeVersion = "1130"
    version = "1.7">
    <BuildAction
-      parallelizeBuildables = "YES"
+      parallelizeBuildables = "NO"
       buildImplicitDependencies = "YES">
       <PreActions>
          <ExecutionAction
@@ -32,8 +32,22 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "83CBBA2D1A601D0E00E9B192"
+               BuildableName = "libReact.a"
+               BlueprintName = "React"
+               ReferencedContainer = "container:../node_modules/react-native/React/React.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "232D64982465060100AA4473"
-               BuildableName = "Hpmerchant_Dev.app"
+               BuildableName = "Dev.app"
                BlueprintName = "Hpmerchant_Dev"
                ReferencedContainer = "container:Hpmerchant.xcodeproj">
             </BuildableReference>
@@ -63,7 +77,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "232D64982465060100AA4473"
-            BuildableName = "Hpmerchant_Dev.app"
+            BuildableName = "Dev.app"
             BlueprintName = "Hpmerchant_Dev"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
          </BuildableReference>
@@ -80,7 +94,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "232D64982465060100AA4473"
-            BuildableName = "Hpmerchant_Dev.app"
+            BuildableName = "Dev.app"
             BlueprintName = "Hpmerchant_Dev"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
          </BuildableReference>
