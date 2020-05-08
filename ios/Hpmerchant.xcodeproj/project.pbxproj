@@ -12,7 +12,6 @@
 		00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
-		0EBBAABEA9838A296282728D /* libPods-Hpmerchant_Staging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 98565B1799273E964D4F0D00 /* libPods-Hpmerchant_Staging.a */; };
 		11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
@@ -22,7 +21,6 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		16953F70EB24C27EF3176B2C /* libPods-Hpmerchant_Dev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D63AFC6C0DDDF1481ED34D7C /* libPods-Hpmerchant_Dev.a */; };
 		190B834FB4BB4246962A3E7E /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87F14B6172B346F0950939FF /* libRNGestureHandler.a */; };
 		232011EE22FAB38C0002C14B /* MyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 232011ED22FAB38C0002C14B /* MyApp.m */; };
 		23207BB522FAD00F0002C14B /* ExtDataPaymentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */; };
@@ -91,10 +89,12 @@
 		23FE295523C77BEF00E95925 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FE295423C77BEF00E95925 /* File.swift */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		B02E0E6DAF7F29AA27CDC35A /* libPods-Hpmerchant-Hpmerchant_Production.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 20682341D852081936C43952 /* libPods-Hpmerchant-Hpmerchant_Production.a */; };
+		B124B99464A736A80EAE02F8 /* libPods-Hpmerchant-Hpmerchant_Dev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B433C90A07569EE0F1690854 /* libPods-Hpmerchant-Hpmerchant_Dev.a */; };
 		C757D92E4E5E404DAE4671BF /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */; };
+		D7938D8DCF49B5B95059FEAF /* libPods-Hpmerchant-Hpmerchant_Staging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DEC3923581CC3E42642C025 /* libPods-Hpmerchant-Hpmerchant_Staging.a */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
-		FAA95C87B2C4B83ECB77A97E /* libPods-Hpmerchant_Production.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A57AEDCD6FF012E10A601E44 /* libPods-Hpmerchant_Production.a */; };
-		FC37D3A36BC804BC18F4350B /* libPods-Hpmerchant_Production.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA51496CC2F3590DB2E85F79 /* libPods-Hpmerchant_Production.a */; };
+		FC37D3A36BC804BC18F4350B /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -397,6 +397,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* HpmerchantTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HpmerchantTests.m; sourceTree = "<group>"; };
 		0AE1BA70CBCDF7DB0D7B8756 /* Pods-Hpmerchant_Staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant_Staging.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant_Staging/Pods-Hpmerchant_Staging.debug.xcconfig"; sourceTree = "<group>"; };
+		0F23665E7837E3ECA108DEA2 /* Pods-Hpmerchant-Hpmerchant_Production.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Production.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Production/Pods-Hpmerchant-Hpmerchant_Production.release.xcconfig"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* HPMerchant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HPMerchant.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -409,6 +410,8 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		1DE61E27D91AD1AD55653922 /* Pods-Hpmerchant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant.release.xcconfig"; sourceTree = "<group>"; };
 		1EA86854F25B6D911F08EA07 /* Pods-Hpmerchant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant.debug.xcconfig"; sourceTree = "<group>"; };
+		20682341D852081936C43952 /* libPods-Hpmerchant-Hpmerchant_Production.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant-Hpmerchant_Production.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2206C6BACBF3ADBBCD9E5B86 /* Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig"; sourceTree = "<group>"; };
 		232011EC22FAB38C0002C14B /* MyApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MyApp.h; path = Hpmerchant/MyApp.h; sourceTree = "<group>"; };
 		232011ED22FAB38C0002C14B /* MyApp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MyApp.m; path = Hpmerchant/MyApp.m; sourceTree = "<group>"; };
 		23207B9E22FAC40F0002C14B /* PosLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PosLink.h; sourceTree = "<group>"; };
@@ -442,7 +445,9 @@
 		23FE295423C77BEF00E95925 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DC3A16DE477A97F683FBAE5 /* Pods-Hpmerchant_Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant_Dev.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant_Dev/Pods-Hpmerchant_Dev.debug.xcconfig"; sourceTree = "<group>"; };
+		429BF6F6217ED276A895E802 /* Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig"; sourceTree = "<group>"; };
 		459E2B6AE93CFF269BF09721 /* Pods-Hpmerchant_Staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant_Staging.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant_Staging/Pods-Hpmerchant_Staging.release.xcconfig"; sourceTree = "<group>"; };
+		4DEC3923581CC3E42642C025 /* libPods-Hpmerchant-Hpmerchant_Staging.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant-Hpmerchant_Staging.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7EF40DF61A484AEE927C5392 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
@@ -451,15 +456,16 @@
 		87F14B6172B346F0950939FF /* libRNGestureHandler.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGestureHandler.a; sourceTree = "<group>"; };
 		8C3DC6D58CE9413BA1484D22 /* libRNGestureHandler-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNGestureHandler-tvOS.a"; sourceTree = "<group>"; };
 		8E75CE6F270F4982BF625EC0 /* libRNBluetoothEscposPrinter.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNBluetoothEscposPrinter.a; sourceTree = "<group>"; };
-		98565B1799273E964D4F0D00 /* libPods-Hpmerchant_Staging.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant_Staging.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A57AEDCD6FF012E10A601E44 /* libPods-Hpmerchant_Production.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant_Production.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A03F560D2508C962CFF150D2 /* Pods-Hpmerchant-Hpmerchant_Staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Staging.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Staging/Pods-Hpmerchant-Hpmerchant_Staging.debug.xcconfig"; sourceTree = "<group>"; };
+		A3869ADE899CC003BC14F362 /* Pods-Hpmerchant-Hpmerchant_Staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Staging.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Staging/Pods-Hpmerchant-Hpmerchant_Staging.release.xcconfig"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
+		B433C90A07569EE0F1690854 /* libPods-Hpmerchant-Hpmerchant_Dev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant-Hpmerchant_Dev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B682F2F177AFF7A1C2F0D93A /* Pods-Hpmerchant_Production.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant_Production.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant_Production/Pods-Hpmerchant_Production.debug.xcconfig"; sourceTree = "<group>"; };
 		C28B99EF8822419DB3A40583 /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGestureHandler.xcodeproj; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; };
-		D63AFC6C0DDDF1481ED34D7C /* libPods-Hpmerchant_Dev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant_Dev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImagePicker.a; sourceTree = "<group>"; };
+		FC14D650DDA8D205FBE477F2 /* Pods-Hpmerchant-Hpmerchant_Production.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Production.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Production/Pods-Hpmerchant-Hpmerchant_Production.debug.xcconfig"; sourceTree = "<group>"; };
 		FD78A0712030824B23BA50F2 /* Pods-Hpmerchant_Production.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant_Production.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant_Production/Pods-Hpmerchant_Production.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -489,8 +495,7 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				190B834FB4BB4246962A3E7E /* libRNGestureHandler.a in Frameworks */,
 				C757D92E4E5E404DAE4671BF /* libRNImagePicker.a in Frameworks */,
-				FC37D3A36BC804BC18F4350B /* libPods-Hpmerchant_Production.a in Frameworks */,
-				FAA95C87B2C4B83ECB77A97E /* libPods-Hpmerchant_Production.a in Frameworks */,
+				B02E0E6DAF7F29AA27CDC35A /* libPods-Hpmerchant-Hpmerchant_Production.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,7 +524,7 @@
 				232D64B32465060100AA4473 /* libRCTWebSocket.a in Frameworks */,
 				232D64B42465060100AA4473 /* libRNGestureHandler.a in Frameworks */,
 				232D64B52465060100AA4473 /* libRNImagePicker.a in Frameworks */,
-				16953F70EB24C27EF3176B2C /* libPods-Hpmerchant_Dev.a in Frameworks */,
+				B124B99464A736A80EAE02F8 /* libPods-Hpmerchant-Hpmerchant_Dev.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -548,7 +553,7 @@
 				23344DB92463F0FB00513F43 /* libRCTWebSocket.a in Frameworks */,
 				23344DBA2463F0FB00513F43 /* libRNGestureHandler.a in Frameworks */,
 				23344DBB2463F0FB00513F43 /* libRNImagePicker.a in Frameworks */,
-				0EBBAABEA9838A296282728D /* libPods-Hpmerchant_Staging.a in Frameworks */,
+				D7938D8DCF49B5B95059FEAF /* libPods-Hpmerchant-Hpmerchant_Staging.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -762,9 +767,9 @@
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
-				98565B1799273E964D4F0D00 /* libPods-Hpmerchant_Staging.a */,
-				D63AFC6C0DDDF1481ED34D7C /* libPods-Hpmerchant_Dev.a */,
-				A57AEDCD6FF012E10A601E44 /* libPods-Hpmerchant_Production.a */,
+				B433C90A07569EE0F1690854 /* libPods-Hpmerchant-Hpmerchant_Dev.a */,
+				20682341D852081936C43952 /* libPods-Hpmerchant-Hpmerchant_Production.a */,
+				4DEC3923581CC3E42642C025 /* libPods-Hpmerchant-Hpmerchant_Staging.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -780,6 +785,12 @@
 				FD78A0712030824B23BA50F2 /* Pods-Hpmerchant_Production.release.xcconfig */,
 				2DC3A16DE477A97F683FBAE5 /* Pods-Hpmerchant_Dev.debug.xcconfig */,
 				82C6C848C71DA4BAD8478207 /* Pods-Hpmerchant_Dev.release.xcconfig */,
+				2206C6BACBF3ADBBCD9E5B86 /* Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig */,
+				429BF6F6217ED276A895E802 /* Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig */,
+				FC14D650DDA8D205FBE477F2 /* Pods-Hpmerchant-Hpmerchant_Production.debug.xcconfig */,
+				0F23665E7837E3ECA108DEA2 /* Pods-Hpmerchant-Hpmerchant_Production.release.xcconfig */,
+				A03F560D2508C962CFF150D2 /* Pods-Hpmerchant-Hpmerchant_Staging.debug.xcconfig */,
+				A3869ADE899CC003BC14F362 /* Pods-Hpmerchant-Hpmerchant_Staging.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -884,7 +895,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				23A6A60C22ACDBDF00739B1A /* ShellScript */,
-				70575A0A867BB8F70B74783F /* [CP] Copy Pods Resources */,
+				D7F9A9BAD42DE7C368490986 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -905,7 +916,7 @@
 				232D64B72465060100AA4473 /* Resources */,
 				232D64BA2465060100AA4473 /* Bundle React Native code and images */,
 				232D64BB2465060100AA4473 /* ShellScript */,
-				232D64BC2465060100AA4473 /* [CP] Copy Pods Resources */,
+				272F31E56FDF8680A31F10C7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -926,7 +937,7 @@
 				23344DBF2463F0FB00513F43 /* Resources */,
 				23344DC22463F0FB00513F43 /* Bundle React Native code and images */,
 				23344DC32463F0FB00513F43 /* ShellScript */,
-				A49033E54032072AB1FF9EA9 /* [CP] Copy Pods Resources */,
+				6E56B59321309D01E1330F68 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1394,7 +1405,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant_Dev-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant-Hpmerchant_Dev-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1431,24 +1442,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 0f0084a0d929105cf47a24b38dd81f81901f8898 a429bc1d026280dc76172be9fa9b8d4c7afbdf2b261dc836bc1e3b6f8b32c7c3\n";
-		};
-		232D64BC2465060100AA4473 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant_Dev/Pods-Hpmerchant_Dev-resources.sh",
-				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WKYTPlayerView.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant_Dev/Pods-Hpmerchant_Dev-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		23344DC22463F0FB00513F43 /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1498,6 +1491,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 0f0084a0d929105cf47a24b38dd81f81901f8898 a429bc1d026280dc76172be9fa9b8d4c7afbdf2b261dc836bc1e3b6f8b32c7c3\n";
 		};
+		272F31E56FDF8680A31F10C7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev-resources.sh",
+				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WKYTPlayerView.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		34A3AED961AC51FFAE304789 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1513,20 +1524,20 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant_Staging-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant-Hpmerchant_Staging-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		70575A0A867BB8F70B74783F /* [CP] Copy Pods Resources */ = {
+		6E56B59321309D01E1330F68 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant_Production/Pods-Hpmerchant_Production-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Staging/Pods-Hpmerchant-Hpmerchant_Staging-resources.sh",
 				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -1535,7 +1546,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant_Production/Pods-Hpmerchant_Production-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Staging/Pods-Hpmerchant-Hpmerchant_Staging-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7BF4CB7B6F05575B12C59C87 /* [CP] Check Pods Manifest.lock */ = {
@@ -1553,20 +1564,20 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant_Production-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant-Hpmerchant_Production-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A49033E54032072AB1FF9EA9 /* [CP] Copy Pods Resources */ = {
+		D7F9A9BAD42DE7C368490986 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant_Staging/Pods-Hpmerchant_Staging-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Production/Pods-Hpmerchant-Hpmerchant_Production-resources.sh",
 				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -1575,7 +1586,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant_Staging/Pods-Hpmerchant_Staging-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Production/Pods-Hpmerchant-Hpmerchant_Production-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1634,8 +1645,9 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B682F2F177AFF7A1C2F0D93A /* Pods-Hpmerchant_Production.debug.xcconfig */;
+			baseConfigurationReference = FC14D650DDA8D205FBE477F2 /* Pods-Hpmerchant-Hpmerchant_Production.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1651,7 +1663,7 @@
 					"\"${PODS_ROOT}/Fabric/iOS\"/**",
 				);
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
+					"$(inherited)/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-star-prnt/ios/Frameworks/**",
@@ -1660,7 +1672,7 @@
 				INFOPLIST_FILE = Hpmerchant/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
+					"$(inherited)/**",
 					"$(PROJECT_DIR)/sdk/**",
 					"$(PROJECT_DIR)/sdk/inc/**",
 					"$(PROJECT_DIR)/sdk",
@@ -1686,8 +1698,9 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FD78A0712030824B23BA50F2 /* Pods-Hpmerchant_Production.release.xcconfig */;
+			baseConfigurationReference = 0F23665E7837E3ECA108DEA2 /* Pods-Hpmerchant-Hpmerchant_Production.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1702,7 +1715,7 @@
 					"\"${PODS_ROOT}/Fabric/iOS\"/**",
 				);
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
+					"$(inherited)/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-star-prnt/ios/Frameworks/**",
@@ -1711,7 +1724,7 @@
 				INFOPLIST_FILE = Hpmerchant/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
+					"$(inherited)/**",
 					"$(PROJECT_DIR)/sdk/**",
 					"$(PROJECT_DIR)/sdk/inc/**",
 					"$(PROJECT_DIR)/sdk",
@@ -1736,8 +1749,9 @@
 		};
 		232D64BE2465060100AA4473 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2DC3A16DE477A97F683FBAE5 /* Pods-Hpmerchant_Dev.debug.xcconfig */;
+			baseConfigurationReference = 2206C6BACBF3ADBBCD9E5B86 /* Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1753,7 +1767,7 @@
 					"\"${PODS_ROOT}/Fabric/iOS\"/**",
 				);
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
+					"$(inherited)/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-star-prnt/ios/Frameworks/**",
@@ -1762,7 +1776,7 @@
 				INFOPLIST_FILE = "Hpmerchant_Production copy-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
+					"$(inherited)/**",
 					"$(PROJECT_DIR)/sdk/**",
 					"$(PROJECT_DIR)/sdk/inc/**",
 					"$(PROJECT_DIR)/sdk",
@@ -1788,8 +1802,9 @@
 		};
 		232D64BF2465060100AA4473 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 82C6C848C71DA4BAD8478207 /* Pods-Hpmerchant_Dev.release.xcconfig */;
+			baseConfigurationReference = 429BF6F6217ED276A895E802 /* Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1804,7 +1819,7 @@
 					"\"${PODS_ROOT}/Fabric/iOS\"/**",
 				);
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
+					"$(inherited)/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-star-prnt/ios/Frameworks/**",
@@ -1813,7 +1828,7 @@
 				INFOPLIST_FILE = "Hpmerchant_Production copy-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
+					"$(inherited)/**",
 					"$(PROJECT_DIR)/sdk/**",
 					"$(PROJECT_DIR)/sdk/inc/**",
 					"$(PROJECT_DIR)/sdk",
@@ -1838,8 +1853,9 @@
 		};
 		23344DC62463F0FB00513F43 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0AE1BA70CBCDF7DB0D7B8756 /* Pods-Hpmerchant_Staging.debug.xcconfig */;
+			baseConfigurationReference = A03F560D2508C962CFF150D2 /* Pods-Hpmerchant-Hpmerchant_Staging.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1864,7 +1880,7 @@
 				INFOPLIST_FILE = "Hpmerchant copy3-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
+					"$(inherited)/**",
 					"$(PROJECT_DIR)/sdk/**",
 					"$(PROJECT_DIR)/sdk/inc/**",
 					"$(PROJECT_DIR)/sdk",
@@ -1891,8 +1907,9 @@
 		};
 		23344DC72463F0FB00513F43 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 459E2B6AE93CFF269BF09721 /* Pods-Hpmerchant_Staging.release.xcconfig */;
+			baseConfigurationReference = A3869ADE899CC003BC14F362 /* Pods-Hpmerchant-Hpmerchant_Staging.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1916,7 +1933,7 @@
 				INFOPLIST_FILE = "Hpmerchant copy3-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
+					"$(inherited)/**",
 					"$(PROJECT_DIR)/sdk/**",
 					"$(PROJECT_DIR)/sdk/inc/**",
 					"$(PROJECT_DIR)/sdk",
