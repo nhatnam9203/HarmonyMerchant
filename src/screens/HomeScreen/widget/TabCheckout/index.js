@@ -1057,11 +1057,11 @@ class TabCheckout extends Layout {
 
     // ------------ Signal R -------
 
-    setupSignalR(profile, token, checkoutGroupId) {
+    setupSignalR(profile, token, checkoutGroupId,deviceId) {
 
         try {
             const connection = new signalR.HubConnectionBuilder()
-                .withUrl(`${apiConfigs.BASE_URL}notification/?merchantId=${profile.merchantId}&Title=Merchant&kind=app`, { accessTokenFactory: () => token })
+                .withUrl(`${apiConfigs.BASE_URL}notification/?merchantId=${profile.merchantId}&Title=Merchant&kind=app&deviceId=${deviceId}`, { accessTokenFactory: () => token })
                 .configureLogging({
                     log: function (logLevel, message) {
                     }
@@ -1241,7 +1241,7 @@ class TabCheckout extends Layout {
 
     doneBill = async () => {
         const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser, customerInfoByPhone } = this.state;
-        const { groupAppointment, profile, paxMachineInfo, token, isOfflineMode } = this.props;
+        const { groupAppointment, profile, paxMachineInfo, token, isOfflineMode,deviceId } = this.props;
         const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
         const method = this.getPaymentString(paymentSelected);
 
@@ -1265,7 +1265,7 @@ class TabCheckout extends Layout {
                         changeButtonDone: true
                     });
                     this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff);
-                    this.setupSignalR(profile, token, groupAppointment.checkoutGroupId);
+                    this.setupSignalR(profile, token, groupAppointment.checkoutGroupId,deviceId);
                 } else if (method === 'credit_card') {
                     if (paxMachineInfo.isSetup) {
                         this.hanleCreditCardProcess(true, moneyUserGiveForStaff);
@@ -1880,7 +1880,8 @@ const mapStateToProps = state => ({
     payAppointmentId: state.appointment.payAppointmentId,
     isCancelAppointment: state.appointment.isCancelAppointment,
     webviewRef: state.appointment.webviewRef,
-    appointmentIdOffline: state.appointment.appointmentIdOffline
+    appointmentIdOffline: state.appointment.appointmentIdOffline,
+    deviceId: state.dataLocal.deviceId
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);
