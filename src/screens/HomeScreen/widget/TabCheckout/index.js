@@ -990,11 +990,13 @@ class TabCheckout extends Layout {
         const printMachine = await this.checkStatusPrint();
         console.log("printMachine : ", printMachine);
         if (printMachine) {
-            if (printMachine === "BT:mPOP") {
-                this.printInvoice(printMachine, true);
-            } else {
-                this.showInvoicePrint(printMachine);
-            }
+
+            this.showInvoicePrint(printMachine);
+            // if (printMachine === "BT:mPOP") {
+            //     this.printInvoice(printMachine, true);
+            // } else {
+            //     this.showInvoicePrint(printMachine);
+            // }
         } else {
             alert('Please connect to your print ! ');
         }
@@ -1057,7 +1059,7 @@ class TabCheckout extends Layout {
 
     // ------------ Signal R -------
 
-    setupSignalR(profile, token, checkoutGroupId,deviceId) {
+    setupSignalR(profile, token, checkoutGroupId, deviceId) {
 
         try {
             const connection = new signalR.HubConnectionBuilder()
@@ -1241,7 +1243,7 @@ class TabCheckout extends Layout {
 
     doneBill = async () => {
         const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser, customerInfoByPhone } = this.state;
-        const { groupAppointment, profile, paxMachineInfo, token, isOfflineMode,deviceId } = this.props;
+        const { groupAppointment, profile, paxMachineInfo, token, isOfflineMode, deviceId } = this.props;
         const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
         const method = this.getPaymentString(paymentSelected);
 
@@ -1265,7 +1267,7 @@ class TabCheckout extends Layout {
                         changeButtonDone: true
                     });
                     this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff);
-                    this.setupSignalR(profile, token, groupAppointment.checkoutGroupId,deviceId);
+                    this.setupSignalR(profile, token, groupAppointment.checkoutGroupId, deviceId);
                 } else if (method === 'credit_card') {
                     if (paxMachineInfo.isSetup) {
                         this.hanleCreditCardProcess(true, moneyUserGiveForStaff);
@@ -1506,7 +1508,7 @@ class TabCheckout extends Layout {
         }
     }
 
-    changeProductBasketLocal = async (productIdLocal,price,quantity) =>{
+    changeProductBasketLocal = async (productIdLocal, price, quantity) => {
 
     }
 
