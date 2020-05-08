@@ -65,3 +65,10 @@ export function updateBusinessHour(data) {
         payload: data
     }
 }
+
+export function updateDeviceId(uniqueId) {
+    return {
+        type: 'UPDATE_DEVICE_ID',
+        payload: uniqueId
+    }
+}

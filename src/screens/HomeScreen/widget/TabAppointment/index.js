@@ -409,7 +409,8 @@ const mapStateToProps = state => ({
     isGetAppointmentSucces: state.appointment.isGetAppointmentSucces,
     isLoginStaff: state.dataLocal.isLoginStaff,
     loading: state.app.loading,
-    isReloadWebview: state.app.isReloadWebview
+    isReloadWebview: state.app.isReloadWebview,
+    deviceId: state.dataLocal.deviceId
 
 })
 

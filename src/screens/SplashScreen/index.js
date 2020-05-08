@@ -1,6 +1,7 @@
 import _ from 'ramda';
 import CodePush from "react-native-code-push";
-import {Alert} from 'react-native';
+import { Alert } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -17,6 +18,13 @@ class SplashScreen extends Layout {
     }
 
     componentDidMount() {
+        const { deviceId } = this.props;
+        if (!deviceId) {
+            const uniqueId = DeviceInfo.getUniqueId();
+           this.props.actions.dataLocal.updateDeviceId(uniqueId);
+        }
+
+        
         if (checkEnvironment() === 'DEV') {
             this.controlFlowInitApp();
         } else {
@@ -28,7 +36,7 @@ class SplashScreen extends Layout {
         const deploymentKey = configs.codePushKeyIOS.production;
         CodePush.checkForUpdate(deploymentKey)
             .then(update => {
-            //console.log('update : ', update);
+                //console.log('update : ', update);
                 if (update) {
                     if (update.failedInstall) {
                         this.controlFlowInitApp();
@@ -55,10 +63,12 @@ class SplashScreen extends Layout {
                         'Please check your internet!',
                         'Restart application!',
                         [
-                            
-                            { text: 'OK', onPress: () => {
-                                CodePush.restartApp();
-                            } },
+
+                            {
+                                text: 'OK', onPress: () => {
+                                    CodePush.restartApp();
+                                }
+                            },
                         ],
                         { cancelable: false },
                     );
@@ -68,7 +78,7 @@ class SplashScreen extends Layout {
     }
 
     codePushStatusDidChange(syncStatus) {
-    //console.log('progress : ' ,syncStatus);
+        //console.log('progress : ' ,syncStatus);
     }
 
     async  codePushDownloadDidProgress(progress) {
@@ -95,17 +105,13 @@ class SplashScreen extends Layout {
 
 
 
-   
+
 }
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     token: state.dataLocal.token,
-    profileStaffLogin: state.dataLocal.profileStaffLogin,
-    visibleModalLock: state.app.visibleModalLock,
-    isLoginStaff: state.dataLocal.isLoginStaff,
-    loading: state.app.loading,
-    isFlashScreen: state.app.isFlashScreen
+    deviceId: state.dataLocal.deviceId
 });
 
 let codePushOptions = { checkFrequency: CodePush.CheckFrequency.MANUAL };

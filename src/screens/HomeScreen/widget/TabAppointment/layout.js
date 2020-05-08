@@ -15,7 +15,7 @@ import {
     ItemCategory, ItemProductService, ColPlaceHolder, ItemAmount, ItemExtra
 } from '../TabCheckout/widget';
 import IMAGE from '@resources';
-import { PopupDiscount, PopupChangeStylist, ItemBasket,PopupChangePriceAmountProduct } from './widget';
+import { PopupDiscount, PopupChangeStylist, ItemBasket, PopupChangePriceAmountProduct } from './widget';
 
 
 class Layout extends React.Component {
@@ -396,7 +396,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { token, profile, profileStaffLogin,language } = this.props;
+        const { token, profile, profileStaffLogin, language, deviceId } = this.props;
         const { visibleConfirm, visibleChangeStylist } = this.state;
         const injectedJavascript = `(function() {
             window.postMessage = function(data) {
@@ -406,12 +406,13 @@ class Layout extends React.Component {
           window.onscroll = function() { window.postMessage(document.documentElement.scrollTop||document.body.scrollTop)}
           true
           `;
-        //console.log(`${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}&staffId=${profileStaffLogin.staffId}`);
+        const uriWebview = `${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}&staffId=${profileStaffLogin.staffId}&deviceId=${deviceId}`;
+
         return (
             <View style={styles.container} >
                 <WebView
                     ref={this.webviewRef}
-                    source={{ uri: `${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}&staffId=${profileStaffLogin.staffId}` }}
+                    source={{ uri: uriWebview }}
                     startInLoadingState={true}
                     injectedJavaScript={injectedJavascript}
                     onMessage={this.onMessageFromWebview}
@@ -427,7 +428,7 @@ class Layout extends React.Component {
                     onRequestClose={() => this.setState({ visibleConfirm: false })}
                     confimYes={this.clearDataCofrim}
                 />
-                 <PopupChangePriceAmountProduct
+                <PopupChangePriceAmountProduct
                     ref={this.changePriceAmountProductRef}
                     visible={this.state.visibleChangePriceAmountProduct}
                     title={localize('Modification', language)}
