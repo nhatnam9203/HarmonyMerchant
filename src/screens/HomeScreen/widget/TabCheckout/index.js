@@ -4,6 +4,7 @@ import { StarPRNT } from 'react-native-star-prnt';
 const signalR = require('@aspnet/signalr');
 import { Alert, NativeModules } from 'react-native';
 import moment from 'moment';
+import RNPrint from 'react-native-print';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -987,11 +988,15 @@ class TabCheckout extends Layout {
         }
     }
 
-    printTemptInvoice = async () => {
+    printTemptInvoice =async () =>{
+        const selectedPrinter = await RNPrint.selectPrinter({ x: 100, y: 100 });
+        alert(JSON.stringify(selectedPrinter))
+    }
+
+    printTemptInvoice_1 = async () => {
         const printMachine = await this.checkStatusPrint();
         console.log("printMachine : ", printMachine);
         if (printMachine) {
-
             this.showInvoicePrint(printMachine);
             // if (printMachine === "BT:mPOP") {
             //     this.printInvoice(printMachine, true);
