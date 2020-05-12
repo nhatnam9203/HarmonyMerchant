@@ -297,6 +297,7 @@ class PopupInvoicePrint extends React.Component {
                                         basket.map((item, index) => <ItemInvoice
                                             key={index}
                                             item={item}
+                                            index={index}
                                         />)
                                     }
 
@@ -467,12 +468,12 @@ class PopupInvoicePrint extends React.Component {
 
 }
 
-const ItemInvoice = ({ item }) => {
+const ItemInvoice = ({ item ,index}) => {
     return (
         <View style={{ flexDirection: "row", marginTop: scaleSzie(3) }} >
             <View style={{ flex: 1, justifyContent: "center" }} >
                 <Text style={[styleInvoice.txt_info,]} >
-                    {item.data && item.data.name ? item.data.name : ""}
+                    {`${index+1}. ${item.data && item.data.name ? item.data.name : ""}`}
                 </Text>
             </View>
             <View style={{ width: scaleSzie(35), justifyContent: "center", alignItems: "center" }} >
