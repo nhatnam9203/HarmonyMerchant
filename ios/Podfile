@@ -64,7 +64,6 @@ pod 'react-native-config', :path => '../node_modules/react-native-config'
 
 pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
-pod 'react-native-print', :path => '../node_modules/react-native-print'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

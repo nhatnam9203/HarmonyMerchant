@@ -1,0 +1,278 @@
+async printInvoice(portName, isShowTip = false) {
+    // ------------------------
+    const { groupAppointment, isOfflineMode } = this.props;
+    const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal, methodPayment, paymentSelected } = this.state;
+
+    const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
+
+    const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards } = this.getBasketOnline(appointments);
+    const basket = isOfflineMode ? this.state.basket : [...arryaServicesBuy, ...arrayProductBuy, ...arrayExtrasBuy, ...arrayGiftCards];
+
+    const tipAmount = groupAppointment.tipAmount ? groupAppointment.tipAmount : 0;
+    const subTotal = groupAppointment.subTotal ? groupAppointment.subTotal : 0;
+    const discount = groupAppointment.discount ? groupAppointment.discount : 0;
+    const tax = groupAppointment.tax ? groupAppointment.tax : 0;
+    const total = groupAppointment.total ? groupAppointment.total : 0;
+
+    const temptSubTotal = _.isEmpty(groupAppointment) ? subTotalLocal : subTotal;
+    const temptTotal = _.isEmpty(groupAppointment) ? Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2) : total;
+    const temptDiscount = _.isEmpty(groupAppointment) ? discountTotalLocal : discount;
+    const temptTip = _.isEmpty(groupAppointment) ? tipLocal : tipAmount;
+    const temptTax = _.isEmpty(groupAppointment) ? taxLocal : tax;
+
+    try {
+        // -------- GET INFO BILL --------
+        const { profile, profileStaffLogin } = this.props;
+        const commands = [];
+        const temptDate = `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
+        commands.push({ appendInternational: StarPRNT.InternationalType.UK });
+
+        commands.push({ enableEmphasis: true });
+        commands.push({
+            appendAlignment: 'Center',
+            data: `${profile.businessName}\n`,
+        });
+        commands.push({ enableEmphasis: false });
+
+        profile.addressFull ? commands.push({
+            appendAlignment: 'Center',
+            data: `${profile.addressFull ? profile.addressFull : ''}\n`,
+        }) : '';
+
+        commands.push({
+            appendAlignment: 'Center',
+            data: `Tel: ${profile.phone}\n`
+        });
+
+        commands.push({
+            appendAlignment: 'Center',
+            data: `${profile.webLink}\n`
+        });
+
+        commands.push({ appendLineFeed: 1 });
+
+        commands.push({ enableEmphasis: true });
+        commands.push({
+            appendAlignment: 'Center',
+            data: `SALE\n`,
+        });
+        commands.push({ appendLineFeed: 1 });
+        commands.push({ enableEmphasis: false });
+
+        commands.push({ enableEmphasis: true });
+        commands.push({
+            appendAlignment: 'Center',
+            data: "- - - - - - - - - - - - - - - -\n"
+        });
+        commands.push({ enableEmphasis: false });
+
+        commands.push({
+            append: `Dated: ${this.getDate()} ${this.getHour()}\n`
+        });
+        commands.push({
+            append: `Staff: ${profileStaffLogin.displayName}\n`
+        });
+        commands.push({
+            append: `Invoice No: 1038400389489\n`
+        });
+
+        commands.push({ enableEmphasis: true });
+        commands.push({
+            appendAlignment: 'Center',
+            data: "- - - - - - - - - - - - - - - -\n"
+        });
+        commands.push({ enableEmphasis: false });
+
+
+        commands.push({
+            appendAbsolutePosition: 0,
+            data: `DESCRIPTION`
+        });
+
+        commands.push({
+            appendAbsolutePosition: 190,
+            data: `QTY`
+        });
+
+        commands.push({
+            appendAbsolutePosition: 280,
+            data: `PRICE\n`
+        });
+
+        commands.push({ enableEmphasis: true });
+        commands.push({
+            appendAlignment: 'Center',
+            data: "- - - - - - - - - - - - - - - -\n"
+        });
+        commands.push({ enableEmphasis: false });
+
+        // ------- Item ------ 
+        commands.push({ appendFontStyle: 'B' });
+
+        for (let i = 0; i < basket.length; i++) {
+            commands.push({
+                appendAbsolutePosition: 0,
+                data: `${getShortNameToPrintInvoice(basket[i].data.name)}`,
+            })
+
+            commands.push({
+                appendAbsolutePosition: 195,
+                data: `${basket[i].quanlitySet ? basket[i].quanlitySet : ''}`
+            })
+
+            commands.push({
+                appendAbsolutePosition: 270,
+                data: `$ ${basket[i].data.price}\n`
+            })
+        };
+        commands.push({ appendFontStyle: 'A' });
+
+
+        commands.push({ enableUnderline: true });
+        commands.push({ enableEmphasis: true });
+        commands.push({
+            appendAlignment: 'Center',
+            data: "                                \n",
+
+        });
+        commands.push({ appendLineFeed: 1 });
+        commands.push({ enableUnderline: false });
+        commands.push({ enableEmphasis: false });
+
+        commands.push({ appendFontStyle: 'B' });
+        // --------- Row 0 ---------
+        commands.push({
+            appendAbsolutePosition: 0,
+            data: `Sub total`
+        })
+
+        commands.push({
+            appendAbsolutePosition: 270,
+            data: `$ ${formatMoney(temptSubTotal)}\n`
+        })
+        // --------- Row 2 ---------
+        commands.push({
+            appendAbsolutePosition: 0,
+            data: `TAX`
+        })
+
+        commands.push({
+            appendAbsolutePosition: 270,
+            data: `$ ${formatMoney(temptTax)}\n`
+        })
+
+        // --------- Row 3 ---------
+        commands.push({
+            appendAbsolutePosition: 0,
+            data: `Discount`
+        })
+
+        commands.push({
+            appendAbsolutePosition: 270,
+            data: `$ ${formatMoney(temptDiscount)}\n`
+        });
+
+        if (!isShowTip) {
+            // --------- Row 1 ---------
+            commands.push({
+                appendAbsolutePosition: 0,
+                data: `Tip`
+            })
+
+            commands.push({
+                appendAbsolutePosition: 270,
+                data: `$ ${formatMoney(temptTip)}\n`
+            })
+
+            commands.push({ appendFontStyle: 'A' });
+            // --------- Row 4 ---------
+            commands.push({ enableEmphasis: true });
+            commands.push({
+                appendAbsolutePosition: 0,
+                data: `TOTAL`
+            })
+
+            commands.push({
+                appendAbsolutePosition: 270,
+                data: `$ ${formatMoney(temptTotal)}\n`
+            })
+
+
+        } else {
+            commands.push({ appendFontStyle: 'A' });
+            commands.push({ enableEmphasis: true });
+            commands.push({ appendLineFeed: 1 });
+            // --------- Row Tip ---------
+            commands.push({
+                appendAbsolutePosition: 0,
+                data: `Tip`
+            });
+
+            commands.push({
+                appendAbsolutePosition: 180,
+                data: `_ _ _ _ _ _ _ _ _\n`
+            });
+
+            commands.push({ appendLineFeed: 1 });
+            // --------- Row Total ---------
+
+            commands.push({ enableEmphasis: true });
+            commands.push({
+                appendAbsolutePosition: 0,
+                data: `TOTAL`
+            })
+
+            commands.push({
+                appendAbsolutePosition: 180,
+                data: `_ _ _ _ _ _ _ _ _\n`
+            });
+        }
+
+        if (paymentSelected === 'Credit Cards') {
+            commands.push({ appendLineFeed: 1 });
+            commands.push({ enableEmphasis: true });
+            commands.push({
+                appendAbsolutePosition: 0,
+                data: `Signature`
+            })
+
+            commands.push({
+                appendAbsolutePosition: 180,
+                data: `_ _ _ _ _ _ _ _ _\n`
+            });
+        }
+
+
+        // ---------- End --------
+        commands.push({ enableEmphasis: false });
+        commands.push({ appendLineFeed: 1 });
+        commands.push({
+            appendAlignment: 'Center',
+            data: `Thank you !\n`
+        });
+        commands.push({
+            appendAlignment: 'Center',
+            data: `please come again\n`
+        });
+
+        commands.push({ appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed });
+        PrintManager.getInstance().print(portName, commands);
+
+    } catch (error) {
+        // console.log('scan error : ', error);
+    }
+
+}
+
+ // if (printMachine === "BT:mPOP") {
+            //     this.printInvoice(printMachine);
+            //     this.scrollTabRef.current.goToPage(0);
+            //     this.props.gotoAppoitmentScreen();
+            //     this.props.actions.appointment.resetBasketEmpty();
+            //     this.setState(initState);
+            //     this.props.actions.appointment.resetPayment();
+            //     this.props.actions.appointment.closeModalPaymentCompleted();
+            // } else {
+            //     this.showInvoicePrint(printMachine, false);
+
+            // }

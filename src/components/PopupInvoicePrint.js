@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import { StarPRNT, AlignmentPosition } from 'react-native-star-prnt';
-import ViewShot, { captureRef } from "react-native-view-shot";
+import ViewShot, { captureRef,releaseCapture } from "react-native-view-shot";
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
@@ -73,11 +73,13 @@ class PopupInvoicePrint extends React.Component {
                     isProcessingPrint: false
                 });
                 this.props.onRequestClose(isPrintTempt);
+                releaseCapture(imageUri);
             }
         } catch (error) {
             await this.setState({
                 isProcessingPrint: false
             });
+            releaseCapture(imageUri);
         }
     }
 
@@ -104,7 +106,7 @@ class PopupInvoicePrint extends React.Component {
         if(this.state.isProcessingPrint){
             return (
                 <View style={{
-                    height: scaleSzie(485), width: scaleSzie(270),
+                    height: scaleSzie(490), width: scaleSzie(270),
                     position: "absolute", top: 0, bottom: 0, left: 0, rightL: 0,backgroundColor: "rgba(0,0,0,0.2)",
                     justifyContent:"center",alignItems:"center"
                 }} >
@@ -297,7 +299,7 @@ class PopupInvoicePrint extends React.Component {
                                         isPrintTempt ? <View /> : <ItemTotal
                                             title={"TOTAL"}
                                             value={temptTotal}
-                                            style={{ fontSize: 15, }}
+                                            // style={{ fontSize: 15, }}
                                         />
 
                                     }
@@ -386,12 +388,12 @@ class PopupInvoicePrint extends React.Component {
 
                         {/* ------ Button ----- */}
                         < View style={{
-                            height: scaleSzie(35), justifyContent: 'center',
+                            height: scaleSzie(40), justifyContent: 'center',
                             flexDirection: "row"
                         }} >
                             <ButtonCustom
                                 width={'30%'}
-                                height={25}
+                                height={30}
                                 backgroundColor="#0764B0"
                                 title={localize('CANCEL', language)}
                                 textColor="#fff"
@@ -408,10 +410,10 @@ class PopupInvoicePrint extends React.Component {
                                     backgroundColor: "#F1F1F1"
                                 }}
                             />
-                            <View style={{ width: scaleSzie(20) }} />
+                            <View style={{ width: scaleSzie(35) }} />
                             <ButtonCustom
                                 width={'30%'}
-                                height={25}
+                                height={30}
                                 backgroundColor="#0764B0"
                                 title={localize('PRINT', language)}
                                 textColor="#fff"

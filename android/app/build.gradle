@@ -138,7 +138,6 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-print')
     implementation project(':react-native-device-info')
     implementation project(':react-native-config')
     implementation project(':react-native-view-shot')
