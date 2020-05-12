@@ -13,7 +13,7 @@ import { scaleSzie, localize, formatNumberFromCurrency, formatMoney } from '@uti
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
     PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode, PopupProcessingCredit, PopupInvoicePrint,
-    PopupChangePriceAmountProduct
+    PopupChangePriceAmountProduct,PopupChangeTip
 } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
@@ -397,9 +397,9 @@ class Layout extends React.Component {
                                 basketLocal={basket}
                                 infoUser={infoUser}
                                 isOfflineMode={true}
+                                showModalTipAppointment={this.showModalTipAppointment}
 
-                            >
-                            </ItemCustomerBasket> : <View />) : appointments.map((appointment, index) => <ItemCustomerBasket
+                            /> : <View />) : appointments.map((appointment, index) => <ItemCustomerBasket
                                 key={`${appointment.appointmentId}_${index}`}
                                 language={language}
                                 appointmentDetail={appointment}
@@ -413,8 +413,8 @@ class Layout extends React.Component {
                                 showModalDiscount={this.showModalDiscount}
                                 basketLocal={basket}
                                 infoUser={infoUser}
-                            >
-                            </ItemCustomerBasket>)
+                                showModalTipAppointment={this.showModalTipAppointment}
+                            />)
                         }
 
 
@@ -804,6 +804,16 @@ class Layout extends React.Component {
                     onRequestClose={() => { this.setState({ visibleChangePriceAmountProduct: false }) }}
                     changeProductBasketLocal={this.changeProductBasketLocal}
                 />
+
+
+                <PopupChangeTip
+                    ref={this.changeTipRef}
+                    visible={this.state.visibleChangeTip}
+                    title={localize('Modification', language)}
+                    onRequestClose={() => { this.setState({ visibleChangeTip: false }) }}
+                // changeStylistBasketLocal={this.changeStylistBasketLocal}
+                />
+
                 <PopupPayCompleted
                     visible={this.props.visiblePaymentCompleted}
                     onRequestClose={() => { }}

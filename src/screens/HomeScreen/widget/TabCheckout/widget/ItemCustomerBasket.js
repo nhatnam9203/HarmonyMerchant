@@ -15,7 +15,7 @@ import _, { product } from 'ramda';
 import { ButtonCustom, PopupParent, Button } from '@components';
 import {
     scaleSzie, localize, formatNumberFromCurrency, formatMoney, getArrayProductsFromAppointment,
-    getArrayServicesFromAppointment, getArrayExtrasFromAppointment,getArrayGiftCardsFromAppointment
+    getArrayServicesFromAppointment, getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment
 } from '@utils';
 import IMAGE from '@resources';
 import styles from '../style';
@@ -81,24 +81,33 @@ class ItemCustomerBasket extends React.Component {
 
     }
 
+    showModalTipAppointment = (tip) => {
+        const { groupAppointment, paymentDetailInfo } = this.props;
+        const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
+        if (checkoutPayments.length === 0) {
+            const appointmentId = _.isEmpty(groupAppointment) ? -1 : this.props.appointmentDetail.appointmentId;
+            this.props.showModalTipAppointment(appointmentId,tip);
+        }
+    }
+
     // ---------- Render --------
 
     renderHeaderCustomerBaket() {
-        const { appointmentDetail, infoUser, paymentDetailInfo ,isOfflineMode} = this.props;
+        const { appointmentDetail, infoUser, paymentDetailInfo, isOfflineMode } = this.props;
         let firstName = '';
         let lastName = '';
 
         lastName = appointmentDetail ? appointmentDetail.lastName : '';
         firstName = appointmentDetail ? appointmentDetail.firstName : 'Anonymous';
-        const isMain = appointmentDetail && appointmentDetail.isMain  ? appointmentDetail.isMain : 0;
+        const isMain = appointmentDetail && appointmentDetail.isMain ? appointmentDetail.isMain : 0;
         const appointmentId = appointmentDetail ? appointmentDetail.appointmentId : -1;
         const codeAppointment = appointmentDetail ? appointmentDetail.code : -1;
 
-        if(isMain === 1) {
+        if (isMain === 1) {
             firstName = infoUser.firstName !== '' ? infoUser.firstName : firstName;
             lastName = infoUser.lastName !== '' ? infoUser.lastName : lastName;
         }
-       
+
 
 
         const { isCollapsed } = this.state;
@@ -113,7 +122,7 @@ class ItemCustomerBasket extends React.Component {
         ];
         const temptColor = isMain === 1 || isOfflineMode ? "#0764B0" : "red";
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
-        const disabledRemoveItemCustomerBasket =checkoutPayments.length === 0 ? false : true;
+        const disabledRemoveItemCustomerBasket = checkoutPayments.length === 0 ? false : true;
         return (
             <Swipeout
                 right={swipeoutBtns}
@@ -146,23 +155,23 @@ class ItemCustomerBasket extends React.Component {
 
     render() {
         const { isCollapsed } = this.state;
-        const { language, appointmentDetail, removeItemBasket, changeStylist, basketLocal, paymentDetailInfo ,
+        const { language, appointmentDetail, removeItemBasket, changeStylist, basketLocal, paymentDetailInfo,
             changeProduct
         } = this.props;
         let basket = [];
         const appointmentId = appointmentDetail && appointmentDetail.appointmentId ? appointmentDetail.appointmentId : -1;
         const { temptSubTotal, temptTotal, temptDiscount, temptTip, temptTax } = this.getTypesOfMoneyAppointment(appointmentDetail);
         if (appointmentDetail) {
-            const { services, products, extras ,giftCards} = appointmentDetail;
+            const { services, products, extras, giftCards } = appointmentDetail;
             const arrayProducts = getArrayProductsFromAppointment(products);
             const arryaServices = getArrayServicesFromAppointment(services);
             const arrayExtras = getArrayExtrasFromAppointment(extras);
             const arrayGiftCards = getArrayGiftCardsFromAppointment(giftCards);
-            basket = arrayProducts.concat(arryaServices, arrayExtras,arrayGiftCards);
+            basket = arrayProducts.concat(arryaServices, arrayExtras, arrayGiftCards);
         } else {
             basket = basketLocal;
         }
-    //console.log('basket : '+ JSON.stringify(basket));
+        //console.log('basket : '+ JSON.stringify(basket));
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         return (
             <View>
@@ -176,7 +185,7 @@ class ItemCustomerBasket extends React.Component {
                             item={item}
                             removeItemBasket={(item) => removeItemBasket(item, appointmentId, true)}
                             onPress={(service) => changeStylist(service, appointmentId)}
-                            changeProduct={product =>changeProduct(product,appointmentId) }
+                            changeProduct={product => changeProduct(product, appointmentId)}
                         />)
                     }
                     {/* ----------- Payment Number --------- */}
@@ -193,26 +202,33 @@ class ItemCustomerBasket extends React.Component {
                             </View>
                             {/* ---------- Tip ------ */}
                             <View style={styles.payNumberTextContainer} >
-                                <Text style={styles.textPay} >
-                                    {`${localize('Tip', language)}:`}
-                                </Text>
+                                <Button style={{ flexDirection: "row" }} onPress={this.showModalTipAppointment.bind(this,temptTip)} >
+                                    <Text style={styles.textPay} >
+                                        {`${localize('Tip', language)}:  `}
+                                    </Text>
+                                    {
+                                        checkoutPayments.length === 0 ?
+                                            <Image source={IMAGE.add_discount_checkout}
+                                                style={{ width: scaleSzie(20), height: scaleSzie(20) }}
+                                            /> : null
+                                    }
+                                </Button>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$${formatMoney(temptTip)}`}
+                                    {`$ ${formatMoney(temptTip)}`}
                                 </Text>
                             </View>
                             {/* ---------- Discount ------ */}
                             <View style={styles.payNumberTextContainer} >
-                                <Button onPress={this.showModalDiscount} >
+                                <Button style={{ flexDirection: "row" }} onPress={this.showModalDiscount} >
                                     <Text style={styles.textPay} >
                                         {`${localize('Discount', language)}:  `}
-                                        {
-                                           checkoutPayments.length === 0 ? <Image source={IMAGE.add_discount_checkout}
-                                                style={{ width: scaleSzie(20), height: scaleSzie(20) }}
-                                            /> : <Text />
-                                        }
-
-
                                     </Text>
+                                    {
+                                        checkoutPayments.length === 0 ?
+                                            <Image source={IMAGE.add_discount_checkout}
+                                                style={{ width: scaleSzie(20), height: scaleSzie(20) }}
+                                            /> : null
+                                    }
                                 </Button>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
                                     {`$ ${formatMoney(temptDiscount)}`}

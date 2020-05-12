@@ -78,7 +78,8 @@ const initState = {
     fromTime: "",
     visiblePrintInvoice: false,
 
-    visibleChangePriceAmountProduct: false
+    visibleChangePriceAmountProduct: false,
+    visibleChangeTip: false
 }
 
 class TabCheckout extends Layout {
@@ -99,6 +100,7 @@ class TabCheckout extends Layout {
         this.activeGiftCardRef = React.createRef();
         this.invoicePrintRef = React.createRef();
         this.changePriceAmountProductRef = React.createRef();
+        this.changeTipRef = React.createRef();
     }
 
     resetStateFromParent = async () => {
@@ -1282,7 +1284,13 @@ class TabCheckout extends Layout {
                 visiblePopupDiscountLocal: true
             })
         }
+    }
 
+    showModalTipAppointment = async (appointmentId, tip) => {
+        // this.props.actions.marketing.changeStylist(0, 0,"10.50", appointmentId, 0, true);
+        this.setState({
+            visibleChangeTip: true
+        })
     }
 
     async callbackDiscountToParent(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal) {
