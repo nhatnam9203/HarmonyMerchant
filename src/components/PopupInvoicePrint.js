@@ -8,17 +8,19 @@ import {
     Platform,
     ScrollView,
     StyleSheet,
-    Modal
+    Modal,
+    Image
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import { StarPRNT, AlignmentPosition } from 'react-native-star-prnt';
-import ViewShot, { captureRef,releaseCapture } from "react-native-view-shot";
+import ViewShot, { captureRef, releaseCapture } from "react-native-view-shot";
 
 import ButtonCustom from './ButtonCustom';
-import PopupParent from './PopupParent';
+import Button from './Button';
 import { scaleSzie, localize } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 import PrintManager from '@lib/PrintManager';
+import ICON from "@resources";
 
 class PopupInvoicePrint extends React.Component {
 
@@ -34,7 +36,8 @@ class PopupInvoicePrint extends React.Component {
             paymentSelected: "",
             isPrintTempt: true,
             printMachine: "",
-            isProcessingPrint: false
+            isProcessingPrint: false,
+            isCheck: false
         }
         this.viewShotRef = React.createRef();
     }
@@ -54,7 +57,7 @@ class PopupInvoicePrint extends React.Component {
     }
 
     doPrint = async () => {
-        const { printMachine } = this.state
+        const { printMachine,isCheck } = this.state
         try {
             await this.setState({
                 isProcessingPrint: true
@@ -66,7 +69,15 @@ class PopupInvoicePrint extends React.Component {
                 commands.push({ appendLineFeed: 0 });
                 commands.push({ appendBitmap: imageUri, width: widthPaper, bothScale: true, diffusion: true, alignment: "Center" });
                 commands.push({ appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed });
-                await PrintManager.getInstance().print(printMachine, commands);
+
+                if(isCheck){
+                    for(let i = 0; i < 2; i++){
+                        await PrintManager.getInstance().print(printMachine, commands);
+                    }
+                }else{
+                    await PrintManager.getInstance().print(printMachine, commands);
+                }
+              
 
                 const { isPrintTempt } = this.state;
                 await this.setState({
@@ -100,17 +111,23 @@ class PopupInvoicePrint extends React.Component {
         this.props.onRequestClose(isPrintTempt);
     }
 
+    switchCheckbox = () =>{
+        this.setState(prevState => ({
+            isCheck: !prevState.isCheck
+        }))
+    }
+
     // -------------- Render --------------
 
     renderLoadingProcessingPrint() {
-        if(this.state.isProcessingPrint){
+        if (this.state.isProcessingPrint) {
             return (
                 <View style={{
-                    height: scaleSzie(490), width: scaleSzie(270),
-                    position: "absolute", top: 0, bottom: 0, left: 0, rightL: 0,backgroundColor: "rgba(0,0,0,0.2)",
-                    justifyContent:"center",alignItems:"center"
+                    height: scaleSzie(530), width: scaleSzie(270),
+                    position: "absolute", top: 0, bottom: 0, left: 0, rightL: 0, backgroundColor: "rgba(0,0,0,0.2)",
+                    justifyContent: "center", alignItems: "center"
                 }} >
-                    <ActivityIndicator 
+                    <ActivityIndicator
                         size="large"
                         color="#0764B0"
                     />
@@ -123,7 +140,9 @@ class PopupInvoicePrint extends React.Component {
     render() {
         const { onRequestClose, language, visiblePrintInvoice, profile, profileStaffLogin, groupAppointment
         } = this.props;
-        const { basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected, isPrintTempt } = this.state;
+        const { basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected, isPrintTempt,
+            isCheck
+        } = this.state;
 
         let invoiceCode = "";
         if (groupAppointment.appointments && groupAppointment.appointments.length > 0) {
@@ -131,6 +150,7 @@ class PopupInvoicePrint extends React.Component {
             invoiceCode = mainAppointment.code ? mainAppointment.code : "";
         }
 
+        const iconCheck = isCheck ? ICON.check_package_pricing : ICON.checkBoxEmpty;
 
         return (
             <Modal
@@ -149,10 +169,17 @@ class PopupInvoicePrint extends React.Component {
                             width: scaleSzie(270),
                             // height: scaleSzie(450) 
                         }} >
+                        <View style={{ height: scaleSzie(40), backgroundColor: "#0764B0", flexDirection: "row", alignItems: "center", justifyContent: "center" }} >
+                            <Button onPress={this.switchCheckbox} style={{ width: scaleSzie(40), height: scaleSzie(40), justifyContent:"center",alignItems:"center" }} >
+                                <Image source={iconCheck} style={{width: scaleSzie(20), height: scaleSzie(20)}} />
+                            </Button>
+                            <Text style={{ color: "#fff", fontSize: scaleSzie(10), fontWeight: "600" }} >
+                                Do you want to print customer's receipt?
+                            </Text>
+                        </View>
                         <View
                             style={{ height: scaleSzie(450) }}
                         >
-
                             <ScrollView
                                 style={{ flex: 1 }}
                                 automaticallyAdjustContentInsets={true}
@@ -299,15 +326,15 @@ class PopupInvoicePrint extends React.Component {
                                         isPrintTempt ? <View /> : <ItemTotal
                                             title={"TOTAL"}
                                             value={temptTotal}
-                                            // style={{ fontSize: 15, }}
+                                        // style={{ fontSize: 15, }}
                                         />
 
                                     }
 
                                     {/* ------------- Enter Tip   ----------- */}
                                     {
-                                        isPrintTempt ? <View style={{ height: scaleSzie(15), flexDirection: "row", marginBottom: scaleSzie(12) }} >
-                                            <View style={{ width: scaleSzie(50), justifyContent: "flex-end" }} >
+                                        isPrintTempt ? <View style={{ height: scaleSzie(25), flexDirection: "row", marginBottom: scaleSzie(12) }} >
+                                            <View style={{ width: scaleSzie(70), justifyContent: "flex-end" }} >
                                                 <Text style={[styleInvoice.txt_total, { fontSize: 20, fontWeight: "600" }]} >
                                                     {"Tip :"}
                                                 </Text>
@@ -320,10 +347,10 @@ class PopupInvoicePrint extends React.Component {
 
                                     {/* ------------- Enter Total   ----------- */}
                                     {
-                                        isPrintTempt ? <View style={{ height: scaleSzie(15), flexDirection: "row", marginBottom: scaleSzie(4) }} >
-                                            <View style={{ width: scaleSzie(50), justifyContent: "flex-end" }} >
-                                                <Text style={[styleInvoice.txt_total, { fontSize: 20, fontWeight: "600" }]} >
-                                                    {"TOTAL :"}
+                                        isPrintTempt ? <View style={{ height: scaleSzie(25), flexDirection: "row", marginBottom: scaleSzie(4) }} >
+                                            <View style={{ width: scaleSzie(70), justifyContent: "flex-end" }} >
+                                                <Text style={[styleInvoice.txt_total, { fontSize: 18, fontWeight: "600" }]} >
+                                                    {"Signature :"}
                                                 </Text>
                                             </View>
                                             <View style={{ width: scaleSzie(50) }} />

@@ -86,15 +86,15 @@ class ItemCustomerBasket extends React.Component {
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         if (checkoutPayments.length === 0) {
             const appointmentId = _.isEmpty(groupAppointment) ? -1 : this.props.appointmentDetail.appointmentId;
-            this.props.showModalTipAppointment(appointmentId,tip);
+            this.props.showModalTipAppointment(appointmentId, tip);
         }
     }
 
-    checkIsExistServiceInBasket = (basket) =>{
-        let isExistService =false;
+    checkIsExistServiceInBasket = (basket) => {
+        let isExistService = false;
 
-        for(let i = 0; i < basket.length ; i++ ){
-            if(basket[i].type === "Service"){
+        for (let i = 0; i < basket.length; i++) {
+            if (basket[i].type === "Service") {
                 isExistService = true;
                 break;
             }
@@ -216,12 +216,12 @@ class ItemCustomerBasket extends React.Component {
                             </View>
                             {/* ---------- Tip ------ */}
                             <View style={styles.payNumberTextContainer} >
-                                <Button style={{ flexDirection: "row" }} onPress={this.showModalTipAppointment.bind(this,temptTip)} >
+                                <Button style={{ flexDirection: "row" }} onPress={this.showModalTipAppointment.bind(this, temptTip)} >
                                     <Text style={styles.textPay} >
                                         {`${localize('Tip', language)}:  `}
                                     </Text>
                                     {
-                                       isExistService ?
+                                        isExistService ?
                                             <Image source={IMAGE.add_discount_checkout}
                                                 style={{ width: scaleSzie(20), height: scaleSzie(20) }}
                                             /> : null
