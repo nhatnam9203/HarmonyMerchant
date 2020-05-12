@@ -90,6 +90,19 @@ class ItemCustomerBasket extends React.Component {
         }
     }
 
+    checkIsExistServiceInBasket = (basket) =>{
+        let isExistService =false;
+
+        for(let i = 0; i < basket.length ; i++ ){
+            if(basket[i].type === "Service"){
+                isExistService = true;
+                break;
+            }
+        }
+
+        return isExistService;
+    }
+
     // ---------- Render --------
 
     renderHeaderCustomerBaket() {
@@ -171,7 +184,8 @@ class ItemCustomerBasket extends React.Component {
         } else {
             basket = basketLocal;
         }
-        //console.log('basket : '+ JSON.stringify(basket));
+        // console.log('------ basket : '+ JSON.stringify(basket));
+        const isExistService = this.checkIsExistServiceInBasket(basket);
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         return (
             <View>
@@ -207,7 +221,7 @@ class ItemCustomerBasket extends React.Component {
                                         {`${localize('Tip', language)}:  `}
                                     </Text>
                                     {
-                                        checkoutPayments.length === 0 ?
+                                       isExistService ?
                                             <Image source={IMAGE.add_discount_checkout}
                                                 style={{ width: scaleSzie(20), height: scaleSzie(20) }}
                                             /> : null

@@ -23,12 +23,30 @@ class PopupChangeTip extends React.Component {
         this.state = {
             appointmentId: '',
             tip: 0.00,
+            customStyle: {},
         };
         this.scrollRef = React.createRef();
     }
 
     componentDidMount() {
-        this.keyboardWillHide = Keyboard.addListener('keyboardWillHide', this.handleKeyboardWillHide);
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this.keyboardDidShow);
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardDidHide);
+    }
+
+    keyboardDidShow = async () => {
+        await this.setState({
+            customStyle: {
+                justifyContent: 'flex-start',
+                paddingTop: scaleSzie(80)
+            }
+        });
+    }
+
+    keyboardDidHide = async () => {
+        await this.setState({
+            customStyle: {}
+        });
+
     }
 
     handleKeyboardWillHide = async () => {
@@ -46,52 +64,18 @@ class PopupChangeTip extends React.Component {
         });
     }
 
-    getStaffDataDropdown(staffs) {
-        const data = [];
-        for (let i = 0; i < staffs.length; i++) {
-            if (staffs[i].isDisabled === 0) {
-                data.push({
-                    staffId: staffs[i].staffId,
-                    value: `${staffs[i].displayName}`
-                });
-            }
-        };
-        return data;
-    }
-
-    changeStylist = async (name, id) => {
-        await this.setState({
-            staffId: id,
-            name
-        })
-    }
-
     submitChangeStylist = () => {
-        const { price, name, quantity, appointmentIdChangeProduct, bookingProductId, productIdLocal } = this.state;
-        const { groupAppointment } = this.props;
-        if (_.isEmpty(groupAppointment)) {
-            // this.props.changeStylistBasketLocal(serviceIdLocal, staffId, tip, price);
-            this.props.changeProductBasketLocal(productIdLocal, price, quantity)
-        } else {
-            // this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentIdChangeStylist, price, true);
-            this.props.actions.appointment.updateProductInAppointment(appointmentIdChangeProduct, {
-                bookingProductId,
-                price,
-                quantity
-            })
-        }
+        const {appointmentId,tip} = this.state;
+        this.props.actions.marketing.changeStylist(0, 0,tip, appointmentId, 0, true);
         this.props.onRequestClose();
     }
 
-    onFocusToScroll = (number) => {
-        this.scrollRef.current.scrollTo({ x: 0, y: scaleSzie(number), animated: true })
-    }
 
     // --------------- Render -----------
 
     render() {
         const { title, visible, onRequestClose, confimYes } = this.props;
-        const { tip } = this.state;
+        const { tip,customStyle } = this.state;
         return (
             <PopupParent
                 title={title}
@@ -100,6 +84,7 @@ class PopupChangeTip extends React.Component {
                 width={scaleSzie(260)}
                 // style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(50) }}
                 styleTitle={{ fontSize: scaleSzie(22), fontWeight: "bold" }}
+                style={customStyle}
             >
                 <View style={{
                     height: scaleSzie(175), backgroundColor: '#FAFAFA',
@@ -108,6 +93,7 @@ class PopupChangeTip extends React.Component {
 
                 }} >
                     <View style={{ flex: 1 }} >
+                    <ScrollView keyboardShouldPersistTaps="always" >
                         <View style={{ height: scaleSzie(20) }} />
                         <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
                             Tip ($)
@@ -130,7 +116,6 @@ class PopupChangeTip extends React.Component {
                                 style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
                                 value={tip}
                                 onChangeText={(tip) => this.setState({ tip })}
-                            // onFocus={() => this.onFocusToScroll(90)}
                             />
                         </View>
 
@@ -149,6 +134,7 @@ class PopupChangeTip extends React.Component {
                                 }}
                             />
                         </View>
+                        </ScrollView>
                     </View>
                 </View>
             </PopupParent>
