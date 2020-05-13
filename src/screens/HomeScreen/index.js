@@ -59,7 +59,7 @@ class HomeScreen extends Layout {
 
         setTimeout(() => {
             this.scrollTabParentRef.current.goToPage(1, false);
-        }, 100);
+        }, 50);
         this.initWatcherNetwork();
 
         this.unsubscribeNetInfo = NetInfo.addEventListener(state => {

@@ -308,6 +308,7 @@ export default class Layout extends React.Component {
                     visible={this.state.visiblePopupLoadingExport}
                     onRequestClose={() => this.setState({ visiblePopupLoadingExport: false })}
                     language={language}
+                    typeFile={this.state.typeFile === "pdf" ? "PDF" : "Excel"}
                 />
                 {this.renderModalDropdownExport()}
             </ParentContainer>

@@ -27,7 +27,7 @@ class PopupLoadingExport extends React.Component {
 
 
     render() {
-        const { title, visible, onRequestClose, language } = this.props;
+        const { title, visible, onRequestClose, language,typeFile } = this.props;
 
         return (
             <ModalCustom
@@ -48,7 +48,7 @@ class PopupLoadingExport extends React.Component {
                             {`${localize('Please wait', language)} !`}
                         </Text>
                         <Text style={{ color: '#404040', fontSize: scaleSzie(18), marginTop: scaleSzie(4) }} >
-                            {`${localize('Excell file is being created', language)} ...`}
+                            {`${localize(`${typeFile} file is being created`, language)} ...`}
                         </Text>
 
                         <View style={{

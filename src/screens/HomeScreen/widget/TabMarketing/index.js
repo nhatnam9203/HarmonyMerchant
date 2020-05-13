@@ -13,7 +13,8 @@ class TabMarketing extends Layout {
         this.scrollTabRef = React.createRef();
     }
 
-    componentDidMount() {
+    fetchMarketingApi =(page) =>{
+        alert(page)
     }
 
     addPromotion = async () => {

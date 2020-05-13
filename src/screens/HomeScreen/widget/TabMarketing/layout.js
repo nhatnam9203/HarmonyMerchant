@@ -6,9 +6,10 @@ import {
     FlatList,
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
+import { NavigationEvents } from 'react-navigation';
 
 import { CustomTabBar } from '@components';
-import { scaleSzie,localize } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import { TabPromotion, TabCustomMarketing, TabCustomBanner } from './widget';
 
@@ -31,10 +32,10 @@ class Layout extends React.Component {
                         }}
                     />}
                 >
-                    <TabPromotion tabLabel={`${localize('Promotions',language)}`} 
-                    addPromotion={this.addPromotion}
+                    <TabPromotion tabLabel={`${localize('Promotions', language)}`}
+                        addPromotion={this.addPromotion}
                     />
-                    <TabCustomBanner tabLabel={`${localize('Market Place',language)}`} />
+                    <TabCustomBanner tabLabel={`${localize('Market Place', language)}`} />
                     {/* <TabCustomMarketing tabLabel={`${localize('Custom Marketing',language)}`} /> */}
 
                 </ScrollableTabView>
