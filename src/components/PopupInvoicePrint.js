@@ -17,28 +17,31 @@ import ViewShot, { captureRef, releaseCapture } from "react-native-view-shot";
 
 import ButtonCustom from './ButtonCustom';
 import Button from './Button';
-import { scaleSzie, localize ,PRINTER_MACHINE} from '../utils';
+import { scaleSzie, localize, PRINTER_MACHINE } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 import PrintManager from '@lib/PrintManager';
 import ICON from "@resources";
+
+const initalState = {
+    basket: [],
+    temptSubTotal: 0.00,
+    temptTax: 0.00,
+    temptDiscount: 0.00,
+    temptTip: 0.00,
+    temptTotal: 0.00,
+    paymentSelected: "",
+    isPrintTempt: true,
+    printMachine: "",
+    isProcessingPrint: false,
+    isCheck: false,
+    isSignature: false
+}
 
 class PopupInvoicePrint extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            basket: [],
-            temptSubTotal: 0.00,
-            temptTax: 0.00,
-            temptDiscount: 0.00,
-            temptTip: 0.00,
-            temptTotal: 0.00,
-            paymentSelected: "",
-            isPrintTempt: true,
-            printMachine: "",
-            isProcessingPrint: false,
-            isCheck: false
-        }
+        this.state = initalState;
         this.viewShotRef = React.createRef();
     }
 
@@ -57,7 +60,7 @@ class PopupInvoicePrint extends React.Component {
     }
 
     doPrint = async () => {
-        const { printMachine, isCheck } = this.state
+        const { printMachine,isCheck,isSignature } = this.state;
         try {
             await this.setState({
                 isProcessingPrint: true
@@ -65,32 +68,38 @@ class PopupInvoicePrint extends React.Component {
             const imageUri = await captureRef(this.viewShotRef, {});
             if (imageUri) {
                 let commands = [];
-                // const widthPaper = printMachine === "BT:TSP100" ? 576 : 400;
                 commands.push({ appendLineFeed: 0 });
-                commands.push({ appendBitmap: imageUri, width:PRINTER_MACHINE[printMachine].widthPaper, bothScale: true, diffusion: true, alignment: "Center" });
+                commands.push({ appendBitmap: imageUri, width: PRINTER_MACHINE[printMachine].widthPaper, bothScale: true, diffusion: true, alignment: "Center" });
                 commands.push({ appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed });
 
-                if (isCheck) {
-                    for (let i = 0; i < 2; i++) {
-                        await PrintManager.getInstance().print(printMachine, commands);
-                    }
-                } else {
-                    await PrintManager.getInstance().print(printMachine, commands);
-                }
-
-
+                await PrintManager.getInstance().print(printMachine, commands);
                 const { isPrintTempt } = this.state;
-                await this.setState({
-                    isProcessingPrint: false
-                });
-                this.props.onRequestClose(isPrintTempt);
                 releaseCapture(imageUri);
+
+                if (!isCheck || isSignature) {
+                    await this.setState(initalState);
+                    this.props.onRequestClose(isPrintTempt);
+                }
             }
         } catch (error) {
             await this.setState({
                 isProcessingPrint: false
             });
-            releaseCapture(imageUri);
+        
+        }
+    }
+
+    processPrintInvoice = async () => {
+        const { isCheck } = this.state;
+        this.doPrint();
+        if (isCheck) {
+            await this.setState({
+                isSignature: true
+            });
+            setTimeout(() =>{
+                this.doPrint();
+            },500)
+           
         }
     }
 
@@ -106,9 +115,12 @@ class PopupInvoicePrint extends React.Component {
         return `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`;
     }
 
-    cancelInvoicePrint = () => {
+    cancelInvoicePrint = async () => {
         const { isPrintTempt } = this.state;
-        this.props.onRequestClose(isPrintTempt);
+
+        let tempt = isPrintTempt;
+        await this.setState(initalState);
+        this.props.onRequestClose(tempt);
     }
 
     switchCheckbox = () => {
@@ -138,10 +150,10 @@ class PopupInvoicePrint extends React.Component {
     }
 
     render() {
-        const { onRequestClose, language, visiblePrintInvoice, profile, profileStaffLogin, groupAppointment
+        const {  language, visiblePrintInvoice, profile, profileStaffLogin, groupAppointment
         } = this.props;
         const { basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected, isPrintTempt,
-            isCheck
+            isCheck,isSignature
         } = this.state;
 
         let invoiceCode = "";
@@ -385,17 +397,29 @@ class PopupInvoicePrint extends React.Component {
                                     } */}
 
                                     {/* ------------- Enter Signature   ----------- */}
-                                    {
+                                    {/* {
                                         paymentSelected === "Credit Cards" ?
                                             <View style={{ height: scaleSzie(15), flexDirection: "row", marginTop: scaleSzie(15) }} >
-                                                <View style={{ width: scaleSzie(50), justifyContent: "flex-end" }} >
-                                                    <Text style={[styleInvoice.txt_total, { fontSize: 20, }]} >
-                                                        {"Signature :"}
-                                                    </Text>
-                                                </View>
+                                                <View style={{ width: scaleSzie(70), justifyContent: "flex-end" }} >
+                                                <Text style={[styleInvoice.txt_total, { fontSize: 18, fontWeight: "600" }]} >
+                                                    {"Signature :"}
+                                                </Text>
+                                            </View>
                                                 <View style={{ width: scaleSzie(50) }} />
                                                 <View style={{ flex: 1, borderBottomColor: "#000", borderBottomWidth: 1, }} />
                                             </View> : <View />
+                                    } */}
+
+                                    {
+                                        isSignature ? <View style={{ height: scaleSzie(15), flexDirection: "row", marginTop: scaleSzie(15) }} >
+                                            <View style={{ width: scaleSzie(70), justifyContent: "flex-end" }} >
+                                                <Text style={[styleInvoice.txt_total, { fontSize: 18, fontWeight: "600" }]} >
+                                                    {"Signature :"}
+                                                </Text>
+                                            </View>
+                                            <View style={{ width: scaleSzie(50) }} />
+                                            <View style={{ flex: 1, borderBottomColor: "#000", borderBottomWidth: 1, }} />
+                                        </View> : <View />
                                     }
 
 
@@ -448,7 +472,7 @@ class PopupInvoicePrint extends React.Component {
                                 backgroundColor="#0764B0"
                                 title={localize('PRINT', language)}
                                 textColor="#fff"
-                                onPress={this.doPrint}
+                                onPress={this.processPrintInvoice}
                                 styleText={{
                                     fontSize: scaleSzie(10),
                                     fontWeight: "600"
