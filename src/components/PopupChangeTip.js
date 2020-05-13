@@ -142,7 +142,9 @@ class PopupChangeTip extends React.Component {
     }
 
     componentWillUnmount() {
-        this.keyboardWillHide.remove();
+        this.keyboardDidShowListener.remove();;
+        this.keyboardDidHideListener.remove();
+
     }
 
 

@@ -17,7 +17,7 @@ import ViewShot, { captureRef, releaseCapture } from "react-native-view-shot";
 
 import ButtonCustom from './ButtonCustom';
 import Button from './Button';
-import { scaleSzie, localize } from '../utils';
+import { scaleSzie, localize ,PRINTER_MACHINE} from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 import PrintManager from '@lib/PrintManager';
 import ICON from "@resources";
@@ -57,7 +57,7 @@ class PopupInvoicePrint extends React.Component {
     }
 
     doPrint = async () => {
-        const { printMachine,isCheck } = this.state
+        const { printMachine, isCheck } = this.state
         try {
             await this.setState({
                 isProcessingPrint: true
@@ -65,19 +65,19 @@ class PopupInvoicePrint extends React.Component {
             const imageUri = await captureRef(this.viewShotRef, {});
             if (imageUri) {
                 let commands = [];
-                const widthPaper = printMachine === "BT:TSP100" ? 576 : 400;
+                // const widthPaper = printMachine === "BT:TSP100" ? 576 : 400;
                 commands.push({ appendLineFeed: 0 });
-                commands.push({ appendBitmap: imageUri, width: widthPaper, bothScale: true, diffusion: true, alignment: "Center" });
+                commands.push({ appendBitmap: imageUri, width:PRINTER_MACHINE[printMachine].widthPaper, bothScale: true, diffusion: true, alignment: "Center" });
                 commands.push({ appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed });
 
-                if(isCheck){
-                    for(let i = 0; i < 2; i++){
+                if (isCheck) {
+                    for (let i = 0; i < 2; i++) {
                         await PrintManager.getInstance().print(printMachine, commands);
                     }
-                }else{
+                } else {
                     await PrintManager.getInstance().print(printMachine, commands);
                 }
-              
+
 
                 const { isPrintTempt } = this.state;
                 await this.setState({
@@ -111,7 +111,7 @@ class PopupInvoicePrint extends React.Component {
         this.props.onRequestClose(isPrintTempt);
     }
 
-    switchCheckbox = () =>{
+    switchCheckbox = () => {
         this.setState(prevState => ({
             isCheck: !prevState.isCheck
         }))
@@ -169,14 +169,17 @@ class PopupInvoicePrint extends React.Component {
                             width: scaleSzie(270),
                             // height: scaleSzie(450) 
                         }} >
-                        <View style={{ height: scaleSzie(40), backgroundColor: "#0764B0", flexDirection: "row", alignItems: "center", justifyContent: "center" }} >
-                            <Button onPress={this.switchCheckbox} style={{ width: scaleSzie(40), height: scaleSzie(40), justifyContent:"center",alignItems:"center" }} >
-                                <Image source={iconCheck} style={{width: scaleSzie(20), height: scaleSzie(20)}} />
-                            </Button>
-                            <Text style={{ color: "#fff", fontSize: scaleSzie(10), fontWeight: "600" }} >
-                                Do you want to print customer's receipt?
-                            </Text>
-                        </View>
+                        {
+                            isPrintTempt ? null : <View style={{ height: scaleSzie(40), backgroundColor: "#0764B0", flexDirection: "row", alignItems: "center", justifyContent: "center" }} >
+                                <Button onPress={this.switchCheckbox} style={{ width: scaleSzie(40), height: scaleSzie(40), justifyContent: "center", alignItems: "center" }} >
+                                    <Image source={iconCheck} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
+                                </Button>
+                                <Text style={{ color: "#fff", fontSize: scaleSzie(10), fontWeight: "600" }} >
+                                    Do you want to print customer's receipt?
+                             </Text>
+                            </View>
+                        }
+
                         <View
                             style={{ height: scaleSzie(450) }}
                         >
@@ -468,12 +471,12 @@ class PopupInvoicePrint extends React.Component {
 
 }
 
-const ItemInvoice = ({ item ,index}) => {
+const ItemInvoice = ({ item, index }) => {
     return (
         <View style={{ flexDirection: "row", marginTop: scaleSzie(3) }} >
             <View style={{ flex: 1, justifyContent: "center" }} >
                 <Text style={[styleInvoice.txt_info,]} >
-                    {`${index+1}. ${item.data && item.data.name ? item.data.name : ""}`}
+                    {`${index + 1}. ${item.data && item.data.name ? item.data.name : ""}`}
                 </Text>
             </View>
             <View style={{ width: scaleSzie(35), justifyContent: "center", alignItems: "center" }} >

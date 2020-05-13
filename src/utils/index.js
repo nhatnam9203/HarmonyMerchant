@@ -731,7 +731,8 @@ export const PRINTER_MACHINE = {
         portName: "BT:mPOP",
         isCashier: true,
         isPrint: true,
-        emulation: "StarPRNT"
+        emulation: "StarPRNT",
+        widthPaper:"400",
     },
     "BT:TSP100": {
         printerModels: "TSP100",
@@ -739,6 +740,7 @@ export const PRINTER_MACHINE = {
         isCashier: false,
         isPrint: true,
         emulation: "StarGraphic",
+        widthPaper:"576"
     },
 };
 
