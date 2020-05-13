@@ -80,13 +80,14 @@ export function restockProduct(ids, quantity) {
     }
 }
 
-export function exportInventory(merchantId, fileName,isNeedToOrder = true) {
+export function exportInventory(merchantId, fileName,isNeedToOrder = true,type = "excel") {
     return {
         type: 'EXPORT_INVENTORY',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}product/export?merchantId=${merchantId}&isNeedToOrder=${isNeedToOrder}`,
-        fileName
+        api: `${apiConfigs.BASE_API}product/export?merchantId=${merchantId}&isNeedToOrder=${isNeedToOrder}&type=${type}`,
+        fileName,
+        extention: type === "excel" ? "csv" : "pdf"
     }
 }
 

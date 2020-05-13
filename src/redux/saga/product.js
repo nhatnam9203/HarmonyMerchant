@@ -224,19 +224,19 @@ function* exportInventory(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    //console.log('--- exportInventory : ', responses);
+    console.log('--- exportInventory : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             const dirs = RNFetchBlob.fs.dirs;
             const fileDownload = yield RNFetchBlob.config({
-                title: `${action.fileName}.csv`,
+                title: `${action.fileName}.${action.extention}`,
                 fileCache: true,
-                appendExt: 'csv',
+                appendExt: `${action.extention}`,
                 useDownloadManager: true,
                 mediaScannable: true,
                 notification: true,
                 description: 'File downloaded by download manager.',
-                path: `${dirs.DocumentDir}/${action.fileName}.csv`,
+                path: `${dirs.DocumentDir}/${action.fileName}.${action.extention}`,
             }).fetch('GET', responses.data.path, {});
             yield put({
                 type: 'DOWNLOAD_INVENTORY_SUCCESS',

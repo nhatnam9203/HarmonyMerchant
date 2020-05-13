@@ -221,12 +221,12 @@ export default class Layout extends React.Component {
                 }}
             >
                 <View style={styles.containerDropdownExport} >
-                    {/* <Button onPress={this.exportPDF} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+                    <Button onPress={this.exportExcel.bind(this,"pdf")} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                         <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
                             Export to pdf
                             </Text>
-                    </Button> */}
-                    <Button onPress={this.exportExcel} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+                    </Button>
+                    <Button onPress={this.exportExcel.bind(this,"excel")} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                         <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
 
                             {localize('Export to excel', language)}
