@@ -27,6 +27,9 @@ function* getBannerMerchant(action) {
             })
         }
     } catch (error) {
+        yield put({
+            type: 'GET_BANNER_MERCHANT_FAIL',
+        });
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -119,7 +122,10 @@ function* getPromotionByMerchant(action) {
             })
         }
     } catch (error) {
-        alert(`error-getPromotionByMerchant: ${error}`)
+        yield put({
+            type: 'GET_PROMOTION_BY_MERCHANT_FAIL',
+        })
+        // alert(`error-getPromotionByMerchant: ${error}`)
         yield put({ type: error });
     } finally {
         // yield put({ type: 'STOP_LOADING_ROOT' });

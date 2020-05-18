@@ -9,7 +9,8 @@ const initialState = {
     visibleModalDiscount: false,
     isApplyPromotion: false,
     appointmentIdUpdatePromotion: -1,
-    refreshingPromotion: false
+    refreshingPromotion: false,
+    refreshBannerList: false
 }
 
 function appReducer(state = initialState, action) {
@@ -25,11 +26,22 @@ function appReducer(state = initialState, action) {
                 ...state,
                 appointmentIdUpdatePromotion: -1,
             }
+        case 'GET_BANNER_MERCHANT':
+            return {
+                ...state,
+                refreshBannerList: true
+            }
         case 'GET_BANNER_MERCHANT_SUCCESS':
             return {
                 ...state,
                 listBanners: action.payload,
-                isUploadBanner: true
+                isUploadBanner: true,
+                refreshBannerList: false
+            }
+        case 'GET_BANNER_MERCHANT_FAIL':
+            return {
+                ...state,
+                refreshBannerList: false
             }
         case 'RESET_STATE_UPLOAD_BANNER':
             return {

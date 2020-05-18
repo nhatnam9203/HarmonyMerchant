@@ -42,7 +42,7 @@ class Layout extends React.Component {
     }
 
     renderLeftContent() {
-        const { listBanners } = this.props;
+        const { listBanners,refreshBannerList } = this.props;
         return (
             <View style={styles.leftContent} >
                 <FlatList
@@ -53,6 +53,8 @@ class Layout extends React.Component {
                     />}
                     keyExtractor={(item, index) => `${index}`}
                     showsVerticalScrollIndicator={false}
+                    refreshing={refreshBannerList}
+                    onRefresh={this.onRefreshBannerList}
                 />
             </View>
         );
@@ -159,9 +161,9 @@ class Layout extends React.Component {
         return (
             <View style={{ flex: 1 }} >
                 <View style={{ flex: 1 }} >
-                    <ScrollView>
-
-
+                    <ScrollView
+                        ref={this.scrollInputRef}
+                    >
                         <View style={{
                             height: scaleSzie(140), width: scaleSzie(220),
                             marginLeft: scaleSzie(40), marginTop: scaleSzie(12)
@@ -188,6 +190,7 @@ class Layout extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
                                     value={titleBanner}
                                     onChangeText={titleBanner => this.setState({ titleBanner })}
+                                    onFocus={this.scrollInputTo.bind(this,170)}
                                 />
                             </View>
                         </View>
@@ -217,6 +220,7 @@ class Layout extends React.Component {
                                     underlineColorAndroid='transparent'
                                     value={descriptionBanner}
                                     onChangeText={descriptionBanner => this.setState({ descriptionBanner })}
+                                    onFocus={this.scrollInputTo.bind(this,220)}
                                 />
                             </View>
                         </View>

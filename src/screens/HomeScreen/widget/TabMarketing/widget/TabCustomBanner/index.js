@@ -7,7 +7,7 @@ import {
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import NavigationServices from "@navigators/NavigatorServices";
-import { gotoSettingsDevice } from '@utils';
+import { gotoSettingsDevice ,scaleSzie} from '@utils';
 
 
 
@@ -28,11 +28,21 @@ class TabCustomBanner extends Layout {
             descriptionBanner: ''
         }
         this.scrollTabRef = React.createRef();
+        this.scrollInputRef = React.createRef();
     }
 
     componentDidMount() {
         const { profile } = this.props;
         this.props.actions.marketing.getBannerMerchant(profile.merchantId);
+    }
+
+    scrollInputTo = (index) =>{
+        this.scrollInputRef.current.scrollTo({x: 0, y: scaleSzie(index), animated: true})
+    }
+
+    onRefreshBannerList = () =>{
+        const { profile } = this.props;
+        this.props.actions.marketing.getBannerMerchant(profile.merchantId,false);
     }
 
     handleUploadBannerLocal = async (response) => {
@@ -150,7 +160,8 @@ const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     listBanners: state.marketing.listBanners,
     isUploadBanner: state.marketing.isUploadBanner,
-    loading: state.app.loading
+    loading: state.app.loading,
+    refreshBannerList: state.marketing.refreshBannerList
 })
 
 
