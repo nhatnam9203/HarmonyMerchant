@@ -31,6 +31,11 @@ function dataLocal(state = initialState, action) {
                 profile: action.payload.profile,
                 token: action.payload.token ? action.payload.token : state.token,
             }
+        case 'GET_MERCHANT_BY_ID_SUCCESS':
+            return {
+                ...state,
+                profile: action.payload,
+            }
         case 'CHANGE_SETTING_LOCAL_APP':
             return {
                 ...state,
@@ -95,7 +100,7 @@ function dataLocal(state = initialState, action) {
             }
 
         case "UPDATE_DEVICE_ID":
-            return{
+            return {
                 ...state,
                 deviceId: action.payload
             }

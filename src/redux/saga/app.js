@@ -7,8 +7,35 @@ import { requestAPI } from '../../utils';
 function* getMerchantByID(action) {
     try {
         const responses = yield requestAPI(action);
-        //console.log('--- responses : ', responses);
+        console.log('getMerchantByID : ', JSON.stringify(responses));
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: 'GET_MERCHANT_BY_ID_SUCCESS',
+                payload: responses.data
+            });
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            });
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            });
+            yield put({
+                type: 'GET_MERCHANT_BY_ID_FAIL',
+            });
+        }
     } catch (error) {
+        yield put({
+            type: 'GET_MERCHANT_BY_ID_FAIL',
+        });
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+
     }
 }
 
@@ -201,8 +228,8 @@ function* getPackageAndPricing(action) {
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
-                type:"GET_PACKAGE_AND_PRICING_SUCCESS",
-                payload:responses.data
+                type: "GET_PACKAGE_AND_PRICING_SUCCESS",
+                payload: responses.data
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({

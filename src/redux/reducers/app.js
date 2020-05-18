@@ -19,6 +19,7 @@ const initialState = {
     isReloadWebview: false,
     MIDStorage: "",
     packageAndPricingData: [],
+    refreshingGeneral: false
 }
 
 function appReducer(state = initialState, action) {
@@ -153,7 +154,21 @@ function appReducer(state = initialState, action) {
                 packageAndPricingData: action.payload ? action.payload : []
             }
 
-
+        case 'GET_MERCHANT_BY_ID':
+            return {
+                ...state,
+                refreshingGeneral: true
+            }
+        case 'GET_MERCHANT_BY_ID_SUCCESS':
+            return {
+                ...state,
+                refreshingGeneral: false
+            }
+        case 'GET_MERCHANT_BY_ID_FAIL':
+            return {
+                ...state,
+                refreshingGeneral: false
+            }
 
         default:
             return state

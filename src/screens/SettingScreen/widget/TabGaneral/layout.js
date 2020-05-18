@@ -3,7 +3,8 @@ import {
     View,
     ScrollView,
     StyleSheet,
-    TextInput
+    TextInput,
+    RefreshControl
 } from 'react-native';
 
 import { ButtonCustom, Text, Dropdown } from '@components';
@@ -201,13 +202,21 @@ class Layout extends React.Component {
     }
 
     renderBody() {
-        const { profile, language ,stateCity} = this.props;
+        const { profile, language ,stateCity,refreshingGeneral} = this.props;
         const { businessName, address, city, stateId, zip, taxId, phone, email,
             ein, merchantCode, businessBank,merchantId
         } = profile;
         return (
             <View style={styles.body} >
-                <ScrollView showsVerticalScrollIndicator={false} >
+                <ScrollView 
+                showsVerticalScrollIndicator={false} 
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshingGeneral}
+                        onRefresh={this.onRefreshGeneral}
+                    />
+                }
+                >
                     {this.renderSetup()}
                     {/* ------ Line ----- */}
                     <View style={{ height: scaleSzie(2), width: '100%', backgroundColor: '#C5C5C5', marginTop: scaleSzie(18) }} />

@@ -42,7 +42,7 @@ class Layout extends React.Component {
     }
 
     renderLeftContent() {
-        const { listBanners,refreshBannerList } = this.props;
+        const { listBanners, refreshBannerList } = this.props;
         return (
             <View style={styles.leftContent} >
                 <FlatList
@@ -179,7 +179,7 @@ class Layout extends React.Component {
                             <View style={{ width: scaleSzie(100), justifyContent: 'center' }} >
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
                                     {`${localize('Title', language)}:`}
-                    </Text>
+                                </Text>
                             </View>
 
                             <View style={{
@@ -190,7 +190,7 @@ class Layout extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
                                     value={titleBanner}
                                     onChangeText={titleBanner => this.setState({ titleBanner })}
-                                    onFocus={this.scrollInputTo.bind(this,170)}
+                                    onFocus={this.scrollInputTo.bind(this, 170)}
                                 />
                             </View>
                         </View>
@@ -199,7 +199,7 @@ class Layout extends React.Component {
                             <View style={{ width: scaleSzie(100), paddingTop: scaleSzie(14) }} >
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
                                     {`${localize('Description', language)}:`}
-                    </Text>
+                                </Text>
                             </View>
 
                             <View style={{
@@ -220,11 +220,11 @@ class Layout extends React.Component {
                                     underlineColorAndroid='transparent'
                                     value={descriptionBanner}
                                     onChangeText={descriptionBanner => this.setState({ descriptionBanner })}
-                                    onFocus={this.scrollInputTo.bind(this,220)}
+                                    onFocus={this.scrollInputTo.bind(this, 220)}
                                 />
                             </View>
                         </View>
-                        <View style={{height:scaleSzie(300)}} />
+                        <View style={{ height: scaleSzie(300) }} />
                     </ScrollView>
                 </View >
                 {/* ----------- Button  ------ */}

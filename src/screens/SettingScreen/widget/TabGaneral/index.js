@@ -2,7 +2,7 @@ import React from 'react';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { getNameLanguage, getPosotion,gotoSettingsDevice } from '@utils';
+import { getNameLanguage, getPosotion, gotoSettingsDevice } from '@utils';
 
 
 class TabGaneral extends Layout {
@@ -21,6 +21,11 @@ class TabGaneral extends Layout {
             businessHourStart: profile.businessHourStart ? profile.businessHourStart : '',
             businessHourEnd: profile.businessHourEnd ? profile.businessHourEnd : '',
         };
+    }
+
+    onRefreshGeneral = () => {
+        const { profile } = this.props;
+        this.props.actions.app.getMerchantByID(profile.merchantId);
     }
 
     getCurrentPosition = async () => {
@@ -63,7 +68,8 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     autoCloseAt: state.dataLocal.autoCloseAt,
     autoLockScreenAfter: state.dataLocal.autoLockScreenAfter,
-    stateCity: state.dataLocal.stateCity
+    stateCity: state.dataLocal.stateCity,
+    refreshingGeneral: state.app.refreshingGeneral
 })
 
 
