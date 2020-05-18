@@ -17,7 +17,7 @@ import ViewShot, { captureRef, releaseCapture } from "react-native-view-shot";
 
 import ButtonCustom from './ButtonCustom';
 import Button from './Button';
-import { scaleSzie, localize, PRINTER_MACHINE } from '../utils';
+import { scaleSzie, localize, PRINTER_MACHINE ,getPaymentString} from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 import PrintManager from '@lib/PrintManager';
 import ICON from "@resources";
@@ -60,7 +60,7 @@ class PopupInvoicePrint extends React.Component {
     }
 
     doPrint = async () => {
-        const { printMachine,isCheck,isSignature } = this.state;
+        const { printMachine, isCheck, isSignature } = this.state;
         try {
             await this.setState({
                 isProcessingPrint: true
@@ -85,7 +85,7 @@ class PopupInvoicePrint extends React.Component {
             await this.setState({
                 isProcessingPrint: false
             });
-        
+
         }
     }
 
@@ -96,10 +96,10 @@ class PopupInvoicePrint extends React.Component {
             await this.setState({
                 isSignature: true
             });
-            setTimeout(() =>{
+            setTimeout(() => {
                 this.doPrint();
-            },500)
-           
+            }, 500)
+
         }
     }
 
@@ -129,6 +129,14 @@ class PopupInvoicePrint extends React.Component {
         }))
     }
 
+    getPaymentMethods = () => {
+        const { paymentDetailInfo } = this.props;
+        const paidAmounts = paymentDetailInfo.paidAmounts ? paymentDetailInfo.paidAmounts : [{ paymentMethod: "" }];
+
+        return paidAmounts;
+
+    }
+
     // -------------- Render --------------
 
     renderLoadingProcessingPrint() {
@@ -150,10 +158,10 @@ class PopupInvoicePrint extends React.Component {
     }
 
     render() {
-        const {  language, visiblePrintInvoice, profile, profileStaffLogin, groupAppointment
+        const { language, visiblePrintInvoice, profile, profileStaffLogin, groupAppointment
         } = this.props;
         const { basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected, isPrintTempt,
-            isCheck,isSignature
+            isCheck, isSignature
         } = this.state;
 
         let invoiceCode = "";
@@ -377,12 +385,23 @@ class PopupInvoicePrint extends React.Component {
 
 
                                     {/* ------------- Entry Method   ----------- */}
+
                                     {
-                                        !isPrintTempt ? <View style={{ flexDirection: "row", marginBottom: scaleSzie(4) }} >
-                                            <Text style={[styleInvoice.txt_total,]} >
-                                                {`- Entry method : ${paymentSelected}`}
-                                            </Text>
-                                        </View> : <View />
+                                        !isPrintTempt ? <View>
+                                            {
+                                                (this.getPaymentMethods()).map((data, index) => <View key={index} style={{ flexDirection: "row", marginBottom: scaleSzie(4) }} >
+                                                    <Text style={[styleInvoice.txt_total,]} >
+                                                        {`- Entry method : ${getPaymentString(data.paymentMethod)}`}
+                                                    </Text>
+                                                </View>)
+                                            }
+                                            <View style={{ flexDirection: "row", marginBottom: scaleSzie(4) }} >
+                                                <Text style={[styleInvoice.txt_total,]} >
+                                                    {`- Entry method : ${paymentSelected}`}
+                                                </Text>
+                                            </View>
+                                        </View>
+                                            : <View />
                                     }
 
 
@@ -557,6 +576,7 @@ const mapStateToProps = state => ({
     profileStaffLogin: state.dataLocal.profileStaffLogin,
     profile: state.dataLocal.profile,
     groupAppointment: state.appointment.groupAppointment,
+    paymentDetailInfo: state.appointment.paymentDetailInfo
 });
 
 export default connectRedux(mapStateToProps, PopupInvoicePrint);

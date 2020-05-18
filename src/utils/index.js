@@ -752,3 +752,24 @@ export const getShortNameToPrintInvoice = (name) => {
 
     return `${shortName}...`
 }
+
+export const getPaymentString = (type) => {
+    let method = '';
+    switch (type) {
+        case 'harmony':
+            method = 'Harmony Pay';
+            break;
+        case 'cash':
+            method = 'Cash';
+            break;
+        case 'credit_card':
+            method = 'Credit Cards';
+            break;
+        case 'orther':
+            method = 'Others - Check';
+            break;
+        default:
+            method = ''
+    }
+    return method
+}
