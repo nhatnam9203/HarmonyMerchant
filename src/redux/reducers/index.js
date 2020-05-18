@@ -23,12 +23,12 @@ import network from './network';
 const rootPersistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    blacklist: ['app', 'auth', 'upload', 'network','appointment'],
+    blacklist: ['app', 'auth', 'upload', 'network', 'appointment'],
     // stateReconciler: autoMergeLevel2,
 };
 
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
     dataLocal,
     app,
     auth,
@@ -44,5 +44,15 @@ const rootReducer = combineReducers({
     marketing,
     network
 });
+
+const initialState = appReducer({}, {});
+
+const rootReducer = (state, action) => {
+    if (action.type === "LOGOUT_APP") {
+        state = initialState;
+    }
+
+    return appReducer(state, action);
+};
 
 export default persistReducer(rootPersistConfig, rootReducer);

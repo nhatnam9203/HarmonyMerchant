@@ -2,6 +2,7 @@ import _ from 'ramda';
 import CodePush from "react-native-code-push";
 import { Alert } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
+import env from 'react-native-config';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -21,14 +22,16 @@ class SplashScreen extends Layout {
         const { deviceId } = this.props;
         if (!deviceId) {
             const uniqueId = DeviceInfo.getUniqueId();
-           this.props.actions.dataLocal.updateDeviceId(uniqueId);
+            this.props.actions.dataLocal.updateDeviceId(uniqueId);
         }
 
-        
-        if (checkEnvironment() === 'DEV') {
-            this.controlFlowInitApp();
-        } else {
+        console.log(env.IS_PRODUCTION);
+        // if (checkEnvironment() === 'DEV') {
+        const tempEnv = env.IS_PRODUCTION;
+        if (tempEnv == true) {
             this.checkForUpdateCodepush();
+        } else {
+            this.controlFlowInitApp();
         }
     }
 

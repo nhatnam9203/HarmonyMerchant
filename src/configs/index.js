@@ -1,7 +1,7 @@
 import { Dimensions, Platform } from 'react-native';
 
 const configs = {
-    VERSION: "1.0.5",
+    VERSION: "1.0.6",
     BUILD: "",
     DEFAULT_WIDTH: Platform.OS === 'ios' ? 768 : 900,
     // DEFAULT_WIDTH: 736, mobile
