@@ -7,7 +7,7 @@ import { requestAPI } from '../../utils';
 function* getMerchantByID(action) {
     try {
         const responses = yield requestAPI(action);
-        console.log('getMerchantByID : ', JSON.stringify(responses));
+        // console.log('getMerchantByID : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({

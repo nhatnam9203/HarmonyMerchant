@@ -17,6 +17,7 @@ class SettingScreen extends Layout {
     }
 
     componentDidMount() {
+
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {
@@ -30,7 +31,10 @@ class SettingScreen extends Layout {
             payload => {
                 this.setState({
                     isFocus: true
-                })
+                });
+                const { profile } = this.props;
+                this.props.actions.app.getMerchantByID(profile.merchantId);
+
             }
         );
     }
