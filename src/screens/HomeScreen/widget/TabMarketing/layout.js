@@ -31,6 +31,7 @@ class Layout extends React.Component {
                             fontSize: scaleSzie(16)
                         }}
                     />}
+                    onChangeTab={this.onChangeTab}
                 >
                     <TabPromotion tabLabel={`${localize('Promotions', language)}`}
                         addPromotion={this.addPromotion}

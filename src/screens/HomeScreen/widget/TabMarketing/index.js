@@ -13,11 +13,21 @@ class TabMarketing extends Layout {
         this.scrollTabRef = React.createRef();
     }
 
-    fetchMarketingApi =(page) =>{
+    fetchMarketingApi = (page) => {
         alert(page)
     }
 
     addPromotion = async () => {
+    }
+
+    onChangeTab = (index) => {
+        const currentIndex = index.i;
+        if(currentIndex === 0){
+            this.props.actions.marketing.getPromotionByMerchant();
+        }else{
+            const { profile } = this.props;
+            this.props.actions.marketing.getBannerMerchant(profile.merchantId,false);
+        }
     }
 
 
@@ -26,7 +36,8 @@ class TabMarketing extends Layout {
 }
 
 const mapStateToProps = state => ({
-    language: state.dataLocal.language
+    language: state.dataLocal.language,
+    profile: state.dataLocal.profile,
 })
 
 

@@ -339,7 +339,7 @@ const localization = {
         'Save as':'Save as',
         'The products need to order more':'The products need to order more',
         'All product':'All product',
-        'Excell file is being created':'Excell file is being created',
+        'Excel file is being created':'Excel file is being created',
         'Reports':'Reports',
         'Compare sales of Staffs':'Compare sales of Staffs',
         'No':'No',

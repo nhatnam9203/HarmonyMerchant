@@ -1,11 +1,12 @@
 import apiConfigs from '../../configs/api';
 
-export function getBannerMerchant(merchantId) {
+export function getBannerMerchant(merchantId,isLoading =  true) {
     return {
         type: 'GET_BANNER_MERCHANT',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}merchantbanner/getbymerchant/${merchantId}`
+        api: `${apiConfigs.BASE_API}merchantbanner/getbymerchant/${merchantId}`,
+        isLoading
     }
 }
 
@@ -28,12 +29,13 @@ export function resetStateUploadBanner() {
 
 // ------------ promotion -------------
 
-export function getPromotionByMerchant() {
+export function getPromotionByMerchant(isLoading =  true) {
     return {
         type: 'GET_PROMOTION_BY_MERCHANT',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}merchantpromotion`
+        api: `${apiConfigs.BASE_API}merchantpromotion`,
+        isLoading
     }
 }
 
