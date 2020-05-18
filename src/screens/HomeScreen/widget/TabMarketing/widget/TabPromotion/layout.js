@@ -4,7 +4,9 @@ import {
     Image,
     ScrollView,
     Dimensions,
-    ActivityIndicator
+    ActivityIndicator,
+    RefreshControl
+
 } from 'react-native';
 
 import { scaleSzie, localize, updateStateChildren } from '@utils';
@@ -38,7 +40,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { language, promotions, isApplyPromotion } = this.props;
+        const { language, promotions, isApplyPromotion ,refreshingPromotion} = this.props;
         const { show, dateCalendar } = this.state;
         if (promotions.length == 0) {
             return this.renderLoadingPromotion();
@@ -46,31 +48,39 @@ class Layout extends React.Component {
         return (
             <View style={styles.container} >
                 <View style={{ flex: 1 }} >
-                    <ScrollView showsVerticalScrollIndicator={false} >
-                        {
-                            this.getDataItemPromotion(1, promotions) ?   <PromotionFirst
-                            ref={this.promotionFirstRef}
-                            language={language}
-                            data={this.getDataItemPromotion(1, promotions)}
-                            showCalendar={this.showCalendar}
-                            checkSelectPromotion={this.checkSelectPromotion}
-                            sendNotification={this.sendNotification}
-                        /> : <View />
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshingPromotion}
+                                onRefresh={this.onPressListPromotion}
+                            />
                         }
-                      
+                    >
+                        {
+                            this.getDataItemPromotion(1, promotions) ? <PromotionFirst
+                                ref={this.promotionFirstRef}
+                                language={language}
+                                data={this.getDataItemPromotion(1, promotions)}
+                                showCalendar={this.showCalendar}
+                                checkSelectPromotion={this.checkSelectPromotion}
+                                sendNotification={this.sendNotification}
+                            /> : <View />
+                        }
+
                         <View style={{ height: scaleSzie(16) }} />
                         {
                             this.getDataItemPromotion(2, promotions) ? <PromotionSecond
-                            ref={this.promotionSecondRef}
-                            language={language}
-                            data={this.getDataItemPromotion(2, promotions)}
-                            showCalendar={this.showCalendar}
-                            dataDropdown={this.getDataDropdownService()}
-                            checkSelectPromotion={this.checkSelectPromotion}
-                            sendNotification={this.sendNotification}
-                        /> :<View />
+                                ref={this.promotionSecondRef}
+                                language={language}
+                                data={this.getDataItemPromotion(2, promotions)}
+                                showCalendar={this.showCalendar}
+                                dataDropdown={this.getDataDropdownService()}
+                                checkSelectPromotion={this.checkSelectPromotion}
+                                sendNotification={this.sendNotification}
+                            /> : <View />
                         }
-                        
+
                         {
                             this.getDataItemPromotion(3, promotions) ? <PromotionThird
                                 ref={this.promotionThirdRef}

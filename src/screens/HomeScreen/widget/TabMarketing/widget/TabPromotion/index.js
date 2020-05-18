@@ -29,6 +29,10 @@ class TabPromotion extends Layout {
     this.props.actions.marketing.getPromotionByMerchant();
   }
 
+  onPressListPromotion = () =>{
+    this.props.actions.marketing.getPromotionByMerchant(false);
+  }
+
   setDateSelected = (date) => {
     const { promotionIdCalendar } = this.state;
     if (promotionIdCalendar === 1) {
@@ -95,6 +99,7 @@ class TabPromotion extends Layout {
     this.props.actions.marketing.sendNotificationByPromotionId(promotionId);
   }
 
+
 }
 
 const mapStateToProps = state => ({
@@ -102,7 +107,8 @@ const mapStateToProps = state => ({
   language: state.dataLocal.language,
   promotions: state.marketing.promotions,
   servicesByMerchant: state.service.servicesByMerchant,
-  isApplyPromotion: state.marketing.isApplyPromotion
+  isApplyPromotion: state.marketing.isApplyPromotion,
+  refreshingPromotion: state.marketing.refreshingPromotion,
 })
 
 
