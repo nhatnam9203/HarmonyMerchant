@@ -214,23 +214,6 @@ class ItemCustomerBasket extends React.Component {
                                     {`$${formatMoney(temptSubTotal)}`}
                                 </Text>
                             </View>
-                            {/* ---------- Tip ------ */}
-                            <View style={styles.payNumberTextContainer} >
-                                <Button style={{ flexDirection: "row" }} onPress={this.showModalTipAppointment.bind(this, temptTip)} >
-                                    <Text style={styles.textPay} >
-                                        {`${localize('Tip', language)}:  `}
-                                    </Text>
-                                    {
-                                        isExistService ?
-                                            <Image source={IMAGE.add_discount_checkout}
-                                                style={{ width: scaleSzie(20), height: scaleSzie(20) }}
-                                            /> : null
-                                    }
-                                </Button>
-                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$ ${formatMoney(temptTip)}`}
-                                </Text>
-                            </View>
                             {/* ---------- Discount ------ */}
                             <View style={styles.payNumberTextContainer} >
                                 <Button style={{ flexDirection: "row" }} onPress={this.showModalDiscount} >
@@ -246,6 +229,24 @@ class ItemCustomerBasket extends React.Component {
                                 </Button>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
                                     {`$ ${formatMoney(temptDiscount)}`}
+                                </Text>
+                            </View>
+
+                             {/* ---------- Tip ------ */}
+                             <View style={styles.payNumberTextContainer} >
+                                <Button style={{ flexDirection: "row" }} onPress={this.showModalTipAppointment.bind(this, temptTip)} >
+                                    <Text style={styles.textPay} >
+                                        {`${localize('Tip', language)}:  `}
+                                    </Text>
+                                    {
+                                        isExistService ?
+                                            <Image source={IMAGE.add_discount_checkout}
+                                                style={{ width: scaleSzie(20), height: scaleSzie(20) }}
+                                            /> : null
+                                    }
+                                </Button>
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                    {`$ ${formatMoney(temptTip)}`}
                                 </Text>
                             </View>
 

@@ -105,10 +105,6 @@ class SplashScreen extends Layout {
             }
         }
     }
-
-
-
-
 }
 
 const mapStateToProps = state => ({

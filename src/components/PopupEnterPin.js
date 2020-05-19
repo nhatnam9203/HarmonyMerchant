@@ -64,14 +64,7 @@ class PopupEnterPin extends React.Component {
         this.props.actions.app.closePopupEnterPin();
     }
 
-
-
-    
-
-
     // -------------- Render --------------
-
-   
 
     render() {
         const { title, visibleEnterPin, isOfflineMode, onRequestClose, confimYes, hideCloseButton, isShowButtonEnterPinCode,

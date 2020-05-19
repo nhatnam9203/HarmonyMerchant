@@ -6,7 +6,7 @@ const localization = {
         'Promotions': 'Promotions',
         'Custom Banner': 'Custom Banner',
         'Custom Marketing': 'Custom Marketing',
-        'Thank you for submitting application, one of our agent will': 'Thank you for submitting application, one of our agent will',
+        'Thank you for submitting your application, one of our agent will': 'Thank you for submitting your application, one of our agent will',
         'contact you within the next business day': 'contact you within the next business day',
         'FINISH': 'FINISH',
         'Bank Information': 'Bank Information',

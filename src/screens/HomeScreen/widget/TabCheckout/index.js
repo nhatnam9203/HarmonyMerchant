@@ -985,7 +985,7 @@ class TabCheckout extends Layout {
                         this.hanleCreditCardProcess(true, moneyUserGiveForStaff);
                     } else {
                         setTimeout(() => {
-                            alert('Please setup your pax machine in setting');
+                            alert('Please connect your Pax to take payment.');
                         }, 300)
                     }
                 } else {

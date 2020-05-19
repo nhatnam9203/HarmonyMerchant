@@ -58,7 +58,7 @@ class TabFirstSettle extends Layout {
             PosLink.setupPax(ip, port, timeout);
             PosLink.reportTransaction(message => this.handleResponseReportTransactions(message));
         } else {
-            alert('Please setup your pax machine in setting');
+            alert('Please connect your Pax to take payment.');
         }
     }
 
