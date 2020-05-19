@@ -17,8 +17,6 @@ class ParentContainer extends Component {
         }
     }
 
-
-
     getTimeOut(number) {
         let timeout = 0;
         switch (number) {
@@ -46,10 +44,10 @@ class ParentContainer extends Component {
 
     handleInactive = isActive => {
         // console.log("--- isActive : ",isActive);
-        const { activeScreen, visibleEnterPinInvoice, visibleEnterPin,isOfflineMode } = this.props;
+        const { activeScreen, visibleEnterPinInvoice, visibleEnterPin,isOfflineMode ,autoLockScreenAfter} = this.props;
         const parent = this.props.navigation.dangerouslyGetParent();
         const isDrawerOpen = parent && parent.state && parent.state.isDrawerOpen;
-        if (!isActive && activeScreen && !visibleEnterPinInvoice && !visibleEnterPin && !isDrawerOpen && !isOfflineMode) {
+        if (!isActive && activeScreen && !visibleEnterPinInvoice && !visibleEnterPin && !isDrawerOpen && !isOfflineMode && autoLockScreenAfter != "Never") {
             // console.log("--- handleLockScreen : ",isActive);
             this.props.handleLockScreen();
         }
