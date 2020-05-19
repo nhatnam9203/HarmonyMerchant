@@ -620,7 +620,7 @@ class TabCheckout extends Layout {
                 this.props.actions.appointment.resetPayment();
 
                 setTimeout(() => {
-                    alert('Please connect to your cashier ! ');
+                    alert('Please connect to your cash drawer. ! ');
                 }, 700)
             }
 
@@ -701,7 +701,7 @@ class TabCheckout extends Layout {
             }
             this.showInvoicePrint(printMachine, false);
         } else {
-            alert('Please connect to your print ! ');
+            alert('Please connect to your printer ! ');
         }
     }
 
@@ -710,7 +710,7 @@ class TabCheckout extends Layout {
         if (printMachine) {
             this.showInvoicePrint(printMachine);
         } else {
-            alert('Please connect to your print ! ');
+            alert('Please connect to your printer ! ');
         }
     }
 
@@ -719,7 +719,7 @@ class TabCheckout extends Layout {
         if (printMachine === "BT:mPOP") {
             this.openCashDrawer(printMachine);
         } else {
-            alert('Please connect to your cashier ! ');
+            alert('Please connect to your cash drawer. ! ');
         }
     }
 

@@ -238,7 +238,7 @@ class HomeScreen extends Layout {
         if (password.length === 4) {
             this.props.actions.staff.loginStaff(profile.merchantCode, password);
         } else {
-            Alert.alert(`Pin must 4 numeric`);
+            Alert.alert(`PIN must be 4 digits.`);
         }
     }
 

@@ -780,7 +780,7 @@ class Layout extends React.Component {
                 <PopupConfirm
                     visible={visibleConfirm}
                     title={localize('Confirmation', language)}
-                    message="If you exit Checkout Screen , Basket will Reset ?"
+                    message="Basket will reset if you exit Checkout. ?"
                     onRequestClose={() => { this.setState({ visibleConfirm: false }) }}
                     confimYes={this.clearDataCofrim}
                 />

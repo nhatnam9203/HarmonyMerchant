@@ -57,7 +57,7 @@ class PopupEnterPinInvoice extends React.Component {
         if (value.length === 4) {
             this.props.actions.staff.loginStaff(profile.merchantCode, value,true);
         } else {
-            Alert.alert(`Pin must 4 numeric`);
+            Alert.alert(`PIN must be 4 digits.`);
         }
     }
 

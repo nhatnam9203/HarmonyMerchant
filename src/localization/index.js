@@ -210,7 +210,7 @@ const localization = {
         'Discount':'Discount',
         'Total':'Total',
         'BOOK':'BOOK',
-        'If you exit Checkout Screen , Basket will Reset':'If you exit Checkout Screen , Basket will Reset',
+        'Basket will reset if you exit Checkout.':'Basket will reset if you exit Checkout.',
         'Change Stylist':'Change Stylist',
         'Discount':'Discount',
         'Stylist':'Stylist',
