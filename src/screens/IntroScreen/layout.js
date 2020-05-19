@@ -69,7 +69,7 @@ export default class Layout extends React.Component {
                         />
                     </View>
                     <View style={{ flex: 1 }} >
-                        <ItemSlide
+                        <ItemSlideLast
                             title={localize('Report And Management', language)}
                             desc={localize('ReportDes', language)}
                             icon={IMAGE.slider4}
@@ -130,6 +130,25 @@ const ItemSlide = props => {
                 <Text style={styles.slideTextTitle} >{title}</Text>
                 <Text style={styles.slideTextDesc} >{desc}</Text>
             </View>
+        </View>
+    );
+}
+
+const ItemSlideLast = props => {
+    const { title, desc, icon } = props;
+    return (
+        <View style={styles.slide} >
+            <View style={styles.slideImage} >
+                <Image
+                    source={icon}
+                    style={{ width: null, height: null, flex: 1 }}
+                    resizeMode="contain"
+                />
+            </View>
+            {/* <View style={styles.slideText} >
+                <Text style={styles.slideTextTitle} >{title}</Text>
+                <Text style={styles.slideTextDesc} >{desc}</Text>
+            </View> */}
         </View>
     );
 }

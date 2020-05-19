@@ -90,7 +90,7 @@ class PopupUpload extends React.Component {
                             <View style={{ flex: 1, paddingLeft: scaleSzie(30) }} >
                                 <View style={{ flex: 1 }} >
                                     <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(12) }} >
-                                        Void Check.jpg
+                                        DriverLicense.jpg
                                     </Text>
                                     <Progress.Bar progress={this.state.progress} width={scaleSzie(265)} color="#4CD964" />
                                     <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginTop: scaleSzie(8) }} >
