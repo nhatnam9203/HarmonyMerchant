@@ -33,7 +33,7 @@ class SettingScreen extends Layout {
                     isFocus: true
                 });
                 const { profile } = this.props;
-                this.props.actions.app.getMerchantByID(profile.merchantId,false);
+                this.props.actions.app.getMerchantByID(profile.merchantId, false);
 
             }
         );
@@ -60,8 +60,24 @@ class SettingScreen extends Layout {
             this.setState({
                 indexTab: index
             });
+            this.fetchAPIsInSettingTab(index);
             this.scrollTabRef.current.goToPage(index);
             Keyboard.dismiss();
+        }
+    }
+
+    fetchAPIsInSettingTab = (index) => {
+        switch (index) {
+            case 1:
+                return this.props.actions.staff.getStaffByMerchantId();
+            case 2:
+                return this.props.actions.category.getCategoriesByMerchantId();
+            case 3:
+                return this.props.actions.service.getServicesByMerchant();
+            case 4:
+                return  this.props.actions.extra.getExtraByMerchant();
+            default:
+
         }
     }
 

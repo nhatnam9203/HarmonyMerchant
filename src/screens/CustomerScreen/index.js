@@ -22,7 +22,6 @@ class CustomerScreen extends Layout {
     }
 
     componentDidMount() {
-        this.props.actions.customer.getListCustomersByMerchant();
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {
@@ -36,7 +35,8 @@ class CustomerScreen extends Layout {
             payload => {
                 this.setState({
                     isFocus: true
-                })
+                });
+                this.props.actions.customer.getListCustomersByMerchant();
             }
         );
     }

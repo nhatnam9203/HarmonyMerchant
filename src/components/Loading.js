@@ -1,6 +1,8 @@
 import React from "react";
 import { Modal, ActivityIndicator, View } from "react-native";
+
 import connectRedux from "../redux/ConnectRedux";
+import { scaleSzie } from '@utils';
 
 class Loading extends React.PureComponent {
 
@@ -18,11 +20,19 @@ class Loading extends React.PureComponent {
                             flex: 1,
                             justifyContent: "center",
                             alignItems: "center",
-                            backgroundColor: "rgba(0,0,0,0.6)"
+                            backgroundColor: "rgba(0,0,0,0.05)"
                         }
                     ]}
                 >
-                    <ActivityIndicator color="#fff" size="large" />
+                    <View style={{
+                        width: scaleSzie(70), height: scaleSzie(70), backgroundColor: "rgba(54,64,69,0.7)",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        borderRadius:scaleSzie(10)
+                    }} >
+                        <ActivityIndicator color="#fff" size="large" />
+                    </View>
+                    
                 </View>
             </Modal>
         );
