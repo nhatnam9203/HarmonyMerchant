@@ -29,7 +29,7 @@ function appReducer(state = initialState, action) {
         case 'GET_BANNER_MERCHANT':
             return {
                 ...state,
-                refreshBannerList: true
+                refreshBannerList: action.isRefresh
             }
         case 'GET_BANNER_MERCHANT_SUCCESS':
             return {

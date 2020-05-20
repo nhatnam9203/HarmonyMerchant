@@ -157,7 +157,7 @@ function appReducer(state = initialState, action) {
         case 'GET_MERCHANT_BY_ID':
             return {
                 ...state,
-                refreshingGeneral: true
+                refreshingGeneral: action.isRefresh 
             }
         case 'GET_MERCHANT_BY_ID_SUCCESS':
             return {

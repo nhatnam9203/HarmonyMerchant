@@ -13,12 +13,13 @@ export function stopLoadingApp() {
     }
 }
 
-export function getMerchantByID(merchantId) {
+export function getMerchantByID(merchantId, isRefresh = false) {
     return {
         type: 'GET_MERCHANT_BY_ID',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}merchant/${merchantId}`
+        api: `${apiConfigs.BASE_API}merchant/${merchantId}`,
+        isRefresh
     }
 }
 
@@ -82,7 +83,7 @@ export function getQuestion() {
     }
 }
 
-export function merchantSetting(body,isLoading = true) {
+export function merchantSetting(body, isLoading = true) {
     return {
         type: 'MERCHANT_SETTING',
         method: 'PUT',
@@ -207,8 +208,8 @@ export function resetStateReloadWebView(visible = true) {
     }
 }
 
-export function getPackageAndPricing(){
-    return{
+export function getPackageAndPricing() {
+    return {
         type: "GET_PACKAGE_AND_PRICING",
         method: 'GET',
         api: `${apiConfigs.BASE_API}package`

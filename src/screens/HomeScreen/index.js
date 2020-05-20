@@ -80,7 +80,6 @@ class HomeScreen extends Layout {
         }
     }
 
-
     initWatcherNetwork = () => {
         this.watcherNetwork.pipe(
             distinctUntilChanged()
@@ -291,6 +290,17 @@ class HomeScreen extends Layout {
 
     pushAppointmentIdOfflineIntoWebview = () => {
         this.tabAppointmentRef.current.connectWebview();
+    }
+
+    onChangeTab = (index) =>{
+        this.setState({ currentTab: index.i });
+        if(index.i === 0){
+            const { profile } = this.props;
+            this.props.actions.marketing.getPromotionByMerchant();
+            this.props.actions.marketing.getBannerMerchant(profile.merchantId,false);
+        }
+       
+       
     }
 
     componentWillUnmount() {
