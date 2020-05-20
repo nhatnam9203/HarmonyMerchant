@@ -10,7 +10,7 @@ export default StyleSheet.create({
         alignItems:'center',
         paddingTop:scaleSzie(30)
     },
-    logo_:{
+    logo:{
         width:scaleSzie(240),
         height:scaleSzie(60)
     },

@@ -47,7 +47,7 @@ class PopupUpload extends React.Component {
     }
 
     render() {
-        const { title, visible, onRequestClose, save } = this.props;
+        const { title, visible, onRequestClose, save,isPricipal } = this.props;
         const { progress, voidCheck, loadingUpload } = this.state;
         const temtpColorBtnSave = progress == 100 ? '#4CD964' : '#F1F1F1';
         const temtpColorTextSave = progress == 100 ? '#ffff' : '#C5C5C5';
@@ -90,7 +90,10 @@ class PopupUpload extends React.Component {
                             <View style={{ flex: 1, paddingLeft: scaleSzie(30) }} >
                                 <View style={{ flex: 1 }} >
                                     <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(12) }} >
-                                        DriverLicense.jpg
+                                       
+                                        {
+                                            isPricipal ? "DriverLicense.jpg" : "VoidCheck.jpg"
+                                        }
                                     </Text>
                                     <Progress.Bar progress={this.state.progress} width={scaleSzie(265)} color="#4CD964" />
                                     <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginTop: scaleSzie(8) }} >

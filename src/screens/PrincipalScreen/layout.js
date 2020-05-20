@@ -155,6 +155,7 @@ export default class Layout extends React.Component {
                         onRequestClose={() => this.setState({ visibleUpload: false })}
                         uri={this.state.uriUpload}
                         saveVoidCheck={this.saveVoidCheck}
+                        isPricipal={true}
                     />
                     {/* ------------- Date Picker ------ */}
                     <DatePicker

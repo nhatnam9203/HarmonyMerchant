@@ -92,8 +92,11 @@ class SplashScreen extends Layout {
     }
 
     controlFlowInitApp() {
-        const { token, profile } = this.props;
-        this.props.actions.app.getStateCity();
+        const { token, profile ,stateCity} = this.props;
+        if(stateCity.length === 0){
+            this.props.actions.app.getStateCity();
+        }
+       
         if (!token) {
             this.props.navigation.navigate('Auth');
         } else {
@@ -110,7 +113,8 @@ class SplashScreen extends Layout {
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     token: state.dataLocal.token,
-    deviceId: state.dataLocal.deviceId
+    deviceId: state.dataLocal.deviceId,
+    stateCity : state.dataLocal.stateCity
 });
 
 let codePushOptions = { checkFrequency: CodePush.CheckFrequency.MANUAL };

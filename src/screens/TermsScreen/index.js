@@ -10,7 +10,14 @@ class TermsScreen extends Layout {
         this.state = {
             isAgree: false
         }
+    }
 
+    componentDidMount(){
+        const { stateCity} = this.props;
+        if(stateCity.length === 0){
+            this.props.actions.app.getStateCity();
+        }
+       
     }
 
     agreeTerm = () => {
@@ -33,6 +40,7 @@ const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     isAgreeTerm: state.app.isAgreeTerm,
     language: state.dataLocal.language,
+    stateCity : state.dataLocal.stateCity
 })
 
 
