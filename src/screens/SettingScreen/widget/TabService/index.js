@@ -30,10 +30,6 @@ class TabService extends Layout {
         this.editServiceRef = React.createRef();
     }
 
-    componentDidMount() {
-        // this.props.actions.service.getServicesByMerchant();
-    }
-
     updateSearchFilterInfo(key, value, keyParent = '') {
         const { searchFilter } = this.state;
         if (keyParent !== '') {

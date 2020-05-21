@@ -88,8 +88,8 @@ export default class Layout extends React.Component {
                                 <TabStaff />
                                 <TabCategories />
                                 <TabService />
-                                <TabExtra />
-                                <TabTAX />
+                                <TabExtra/>
+                                <TabTAX  ref={this.taxTabRef}/>
                                 <TabHardware />
                             </ScrollableTabView>
                         </View>

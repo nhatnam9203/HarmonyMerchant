@@ -24,9 +24,6 @@ class TabExtra extends Layout {
         this.editExtraRef = React.createRef();
     }
 
-    componentDidMount() {
-        // this.props.actions.extra.getExtraByMerchant();
-    }
 
     updateSearchFilterInfo(key, value, keyParent = '') {
         const { searchFilter } = this.state;

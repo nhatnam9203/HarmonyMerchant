@@ -14,6 +14,7 @@ class SettingScreen extends Layout {
             visibleLogout: false
         }
         this.scrollTabRef = React.createRef();
+        this.taxTabRef = React.createRef();
     }
 
     componentDidMount() {
@@ -75,9 +76,24 @@ class SettingScreen extends Layout {
             case 3:
                 return this.props.actions.service.getServicesByMerchant();
             case 4:
-                return  this.props.actions.extra.getExtraByMerchant();
+                return this.props.actions.extra.getExtraByMerchant();
+            case 5:
+                return this.updateTaxFromParent();
             default:
 
+        }
+    }
+
+    updateTaxFromParent = () => {
+        const { profile } = this.props;
+        const productTAX = profile.taxProduct ? profile.taxProduct : '';
+        const serviceTAX = profile.taxService ? profile.taxService : '';
+        if (this.taxTabRef.current) {
+            this.taxTabRef.current.setStateFromParent(productTAX, serviceTAX);
+        }else{
+            setTimeout(() =>{
+                this.taxTabRef.current.setStateFromParent(productTAX, serviceTAX);
+            },500)
         }
     }
 

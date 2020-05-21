@@ -24,10 +24,6 @@ class TabStaff extends Layout {
         }
     }
 
-    componentDidMount() {
-        // this.props.actions.staff.getStaffByMerchantId();
-    }
-
     updateSearchFilterInfo(key, value, keyParent = '') {
         const { searchFilter } = this.state;
         if (keyParent !== '') {

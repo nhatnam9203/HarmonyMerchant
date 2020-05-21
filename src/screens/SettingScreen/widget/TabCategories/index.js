@@ -30,10 +30,6 @@ class TabCategories extends Layout {
         this.editCategoryRef = React.createRef();
     }
 
-    componentDidMount() {
-        // this.props.actions.category.getCategoriesByMerchantId();
-    }
-
     updateSearchFilterInfo(key, value, keyParent = '') {
         const { searchFilter } = this.state;
         if (keyParent !== '') {
@@ -80,7 +76,7 @@ class TabCategories extends Layout {
     searchCategories = () => {
         const { searchFilter } = this.state;
         const { keySearch, category, status } = searchFilter;
-    //console.log('searchFilter : ', searchFilter);
+        //console.log('searchFilter : ', searchFilter);
         if (keySearch == '' && category == '' & status == '') {
             this.props.actions.category.clearSearchCategories();
         } else {
