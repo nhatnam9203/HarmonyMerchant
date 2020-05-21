@@ -58,7 +58,10 @@ class PopupStaffInvoicePrint extends React.Component {
     }
 
     doPrint = async () => {
-        const { printMachine, isCheck, isSignature } = this.state;
+        const { 
+            // printMachine,
+             isCheck, isSignature } = this.state;
+        const printMachine = "BT:TSP100"
         try {
             await this.setState({
                 isProcessingPrint: true
@@ -80,6 +83,7 @@ class PopupStaffInvoicePrint extends React.Component {
                 }
             }
         } catch (error) {
+            console.log(error);
             await this.setState({
                 isProcessingPrint: false
             });
@@ -433,7 +437,7 @@ const ItemBorderBottom = () => {
 
 const styleInvoice = StyleSheet.create({
     txt_normal: {
-        color: "#404040",
+        color: "#000",
         fontSize: scaleSzie(13),
         alignSelf: "center",
         fontWeight: "200"

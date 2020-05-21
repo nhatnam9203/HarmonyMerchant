@@ -267,10 +267,11 @@ function* requestNetworkTimeout(action) {
 }
 
 function* timeout(action) {
-    yield put({ type: 'STOP_LOADING_ROOT' });
+    console.log("ddddddd");
+    yield put({ type: 'Server not response' });
     setTimeout(() => {
         alert('Server not response');
-    }, 300)
+    }, 500)
 
 }
 
@@ -279,7 +280,7 @@ function* showErrorMessage(action) {
     // alert(action.message);
     setTimeout(() => {
         alert(action.message ? action.message : 'Something went wrong');
-    }, 300)
+    }, 500)
 
 }
 

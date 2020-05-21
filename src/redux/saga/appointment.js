@@ -373,12 +373,18 @@ function* checkoutSubmit(action) {
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
             const dueAmount = responses.data && responses.data.checkoutPaymentResponse && responses.data.checkoutPaymentResponse.dueAmount ? parseFloat(responses.data.checkoutPaymentResponse.dueAmount) : 0;
-            //console.log('dueAmount : ', dueAmount);
-            // ----- check dueAmount === 0 --------
             if (dueAmount === 0) {
                 // ----- Transaction Completed --------
                 yield put({
                     type: "TRACSACTION_COMPLETED"
+                });
+                yield put({
+                    type: "CHECKOUT_SUBMIT_SUCCESS",
+                    payload: responses.data && responses.data.checkoutPaymentResponse ? {
+                        ...responses.data.checkoutPaymentResponse,
+                        paymentMethod: action.paymentMethod,
+                        amount: action.amount
+                    } : {}
                 })
             } else if (dueAmount < 0) {
                 yield put({

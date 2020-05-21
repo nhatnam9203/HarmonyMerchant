@@ -19,10 +19,10 @@ export default createNavigationContainer(createSwitchNavigator({
     Splash: SplashScreen,
     Drawer: DrawerStack,
     SigninStack: SigninStack,
-    ReportScreen
+    // ReportScreen
 },
     {
-        initialRouteName: 'ReportScreen'
+        initialRouteName: 'Splash'
     }
 
 ))
