@@ -173,7 +173,7 @@ class PopupStaffInvoicePrint extends React.Component {
                     <View
                         style={{
                             backgroundColor: "#fff",
-                            width: scaleSzie(270),
+                            width: scaleSzie(300),
                             // height: scaleSzie(450) 
                         }} >
 
@@ -184,17 +184,150 @@ class PopupStaffInvoicePrint extends React.Component {
                                 style={{ flex: 1 }}
                                 automaticallyAdjustContentInsets={true}
                             >
+                                <View style={{ height: scaleSzie(10) }} />
                                 <View
                                     ref={this.viewShotRef}
                                     style={{ paddingHorizontal: scaleSzie(10) }}
-
                                 >
+                                    {/* -------------- Type Invoice + Staff Name -------------- */}
+                                    <Text style={[styleInvoice.txt_normal, { fontWeight: "600" }]} >
+                                        Weekly receipts - Adrienne Miller
+                                    </Text>
+                                    {/* -------------- Date -------------- */}
+                                    <Text style={[styleInvoice.txt_normal, { fontWeight: "600", marginTop: 5 }]} >
+                                        04/01/2020 - 04/07/2020
+                                    </Text>
+                                    {/* ------------- Dot Border  ----------- */}
+                                    <ItemBorderBottom />
+                                    {/* ------------- Part 1  ----------- */}
+                                    <ItemStaffInvoice
+                                        title="Service sales"
+                                        value={`$ 1500.00`}
+                                    />
+                                    <ItemStaffInvoice
+                                        title="Total time work"
+                                        value={`20 hrs`}
+                                    />
+                                    <ItemStaffInvoice
+                                        title="Product sales"
+                                        value={`$ 1000.00`}
+                                    />
+                                    <ItemStaffInvoice
+                                        title="Cash"
+                                        value={`$ 1300.00`}
+                                    />
+                                    <ItemStaffInvoice
+                                        title="Non-cash"
+                                        value={`$ 1200.00`}
+                                    />
+                                    {/* ------------- Dot Border  ----------- */}
+                                    <ItemBorderBottom />
+                                    {/* ------------- Part 2.1  ----------- */}
+                                    <ItemStaffInvoice
+                                        title="1. Service payout (10%)"
+                                        value={`$ 1000.00`}
+                                    />
+                                    <ItemStaffInvoice
+                                        title="Cash"
+                                        value={`$ 300.00`}
+                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                    />
+                                    <ItemStaffInvoice
+                                        title="Check"
+                                        value={`$ 700.00`}
+                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                    />
+                                    {/* ------------- Part 2.2  ----------- */}
+                                    <ItemStaffInvoice
+                                        title="2. Working hour ($10)"
+                                        value={`$ 200.00`}
+                                        style={{ marginTop: scaleSzie(15) }}
+                                    />
+                                    <ItemStaffInvoice
+                                        title="Cash"
+                                        value={`$ 300.00`}
+                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                    />
+                                    <ItemStaffInvoice
+                                        title="Check"
+                                        value={`$ 700.00`}
+                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                    />
+                                    {/* ------------- Part 2.3  ----------- */}
+                                    <ItemStaffInvoice
+                                        title="3. Product payout (20%)"
+                                        value={`$ 200.00`}
+                                        style={{ marginTop: scaleSzie(15) }}
+                                    />
+                                    <ItemStaffInvoice
+                                        title="Cash"
+                                        value={`$ 300.00`}
+                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                    />
+                                    <ItemStaffInvoice
+                                        title="Check"
+                                        value={`$ 700.00`}
+                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                    />
 
+                                    {/* ------------- Part 2.4  ----------- */}
+                                    <ItemStaffInvoice
+                                        title="4. Tip payout"
+                                        value={`$ 200.00`}
+                                        style={{ marginTop: scaleSzie(15) }}
+                                    />
+                                    <ItemStaffInvoice
+                                        title="Cash"
+                                        value={`$ 300.00`}
+                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                    />
+                                    <ItemStaffInvoice
+                                        title="Tip fee (2%)"
+                                        value={`$ -4.00`}
+                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                    />
+                                    <ItemStaffInvoice
+                                        title="Check"
+                                        value={`$ 700.00`}
+                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                    />
+                                    {/* ------------- Line   ----------- */}
+                                    <View
+                                        style={{ height: 2, backgroundColor: "#000", marginVertical: scaleSzie(10) }}
+                                    />
+
+                                    {/* ------------- Part Total  ----------- */}
+                                    <ItemStaffInvoice
+                                        title="Total payout"
+                                        value={`$ 1596.00`}
+                                        subTitle=" (1+2+3+4)"
+                                        styleTilte={{ fontSize: scaleSzie(14), fontWeight: "600" }}
+                                        styleValue={{ fontSize: scaleSzie(14), fontWeight: "600" }}
+                                    />
+                                     <ItemStaffInvoice
+                                        title="Cash"
+                                        value={`$ 300.00`}
+                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                    />
+                                    <ItemStaffInvoice
+                                        title="Check"
+                                        value={`$ 700.00`}
+                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                    />
 
                                 </View>
-
-
-                                <View style={{ height: scaleSzie(30) }} />
+                                <View style={{ height: scaleSzie(100) }} />
                             </ScrollView>
                         </View>
 
@@ -253,22 +386,21 @@ class PopupStaffInvoicePrint extends React.Component {
 
 }
 
-const ItemInvoice = ({ item, index }) => {
+const ItemStaffInvoice = ({ title, value, style, styleTilte, styleValue, subTitle }) => {
     return (
-        <View style={{ flexDirection: "row", marginTop: scaleSzie(3) }} >
+        <View style={[{ flexDirection: "row", marginTop: 7 }, style]} >
             <View style={{ flex: 1, justifyContent: "center" }} >
-                <Text style={[styleInvoice.txt_info,]} >
-                    {`${index + 1}. ${item.data && item.data.name ? item.data.name : ""}`}
+                <Text style={[styleInvoice.txt_info, styleTilte]} >
+                    {title}
+                    <Text style={{fontWeight:"200"}} >
+                        {subTitle}
+                    </Text>
                 </Text>
             </View>
-            <View style={{ width: scaleSzie(35), justifyContent: "center", alignItems: "center" }} >
-                <Text style={[styleInvoice.txt_info,]} >
-                    {item.quanlitySet ? item.quanlitySet : ""}
-                </Text>
-            </View>
+
             <View style={{ flex: 0.6, justifyContent: "center", alignItems: "flex-end" }} >
-                <Text style={[styleInvoice.txt_info,]} >
-                    {`$ ${item.data && item.data.price ? item.data.price : ""}`}
+                <Text style={[styleInvoice.txt_info, styleValue]} >
+                    {value}
                 </Text>
             </View>
         </View>
@@ -289,21 +421,31 @@ const ItemTotal = ({ title, value, style }) => {
     );
 }
 
+const ItemBorderBottom = () => {
+    return (
+        <View style={{ height: 30 }} >
+            <Text style={{ fontWeight: "200", fontSize: 22 }} >
+                {`- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`}
+            </Text>
+        </View>
+    );
+}
+
 const styleInvoice = StyleSheet.create({
     txt_normal: {
-        color: "#000",
-        fontSize: 18,
+        color: "#404040",
+        fontSize: scaleSzie(13),
         alignSelf: "center",
         fontWeight: "200"
     },
     txt_info: {
         color: "#000",
-        fontSize: 18,
-        fontWeight: "200"
+        fontSize: scaleSzie(12),
+        fontWeight: "400"
     },
     txt_total: {
         color: "#000",
-        fontSize: 20,
+        fontSize: scaleSzie(16),
         fontWeight: "200"
 
     }
