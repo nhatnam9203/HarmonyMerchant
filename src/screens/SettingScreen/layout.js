@@ -84,7 +84,7 @@ export default class Layout extends React.Component {
                                 springFriction={1}
                                 renderTabBar={() => <View />}
                             >
-                                <TabGaneral />
+                                <TabGaneral ref={this.generalTabRef} />
                                 <TabStaff />
                                 <TabCategories />
                                 <TabService />

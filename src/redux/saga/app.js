@@ -6,6 +6,7 @@ import { requestAPI } from '../../utils';
 
 function* getMerchantByID(action) {
     try {
+        !action.isRefresh ? yield put({ type: 'LOADING_ROOT' }) : null;
         const responses = yield requestAPI(action);
         // console.log('getMerchantByID : ', JSON.stringify(responses));
         const { codeNumber } = responses;

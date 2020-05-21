@@ -23,9 +23,17 @@ class TabGaneral extends Layout {
         };
     }
 
+    setStateFromParent = async (webLink, businessHourStart, businessHourEnd) => {
+        await this.setState({
+            webLink,
+            businessHourStart,
+            businessHourEnd
+        })
+    }
+
     onRefreshGeneral = () => {
         const { profile } = this.props;
-        this.props.actions.app.getMerchantByID(profile.merchantId);
+        this.props.actions.app.getMerchantByID(profile.merchantId, true);
     }
 
     getCurrentPosition = async () => {
@@ -61,6 +69,18 @@ class TabGaneral extends Layout {
         });
     }
 
+    async  componentDidUpdate(prevProps, prevState) {
+        const { profile, refreshingGeneral } = this.props;
+        if (prevProps.refreshingGeneral !== refreshingGeneral && !refreshingGeneral) {
+            console.log("------ffff -----");
+            await this.setState({
+                webLink: profile.webLink ? profile.webLink : '',
+                businessHourStart: profile.businessHourStart ? profile.businessHourStart : '',
+                businessHourEnd: profile.businessHourEnd ? profile.businessHourEnd : '',
+            })
+        }
+    }
+
 }
 
 const mapStateToProps = state => ({
@@ -69,7 +89,8 @@ const mapStateToProps = state => ({
     autoCloseAt: state.dataLocal.autoCloseAt,
     autoLockScreenAfter: state.dataLocal.autoLockScreenAfter,
     stateCity: state.dataLocal.stateCity,
-    refreshingGeneral: state.app.refreshingGeneral
+    refreshingGeneral: state.app.refreshingGeneral,
+
 })
 
 

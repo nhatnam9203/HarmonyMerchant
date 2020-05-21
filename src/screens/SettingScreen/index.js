@@ -15,6 +15,7 @@ class SettingScreen extends Layout {
         }
         this.scrollTabRef = React.createRef();
         this.taxTabRef = React.createRef();
+        this.generalTabRef = React.createRef();
     }
 
     componentDidMount() {
@@ -69,6 +70,9 @@ class SettingScreen extends Layout {
 
     fetchAPIsInSettingTab = (index) => {
         switch (index) {
+            case 0:
+                const { profile } = this.props;
+                return this.props.actions.app.getMerchantByID(profile.merchantId, false);
             case 1:
                 return this.props.actions.staff.getStaffByMerchantId();
             case 2:
@@ -90,10 +94,10 @@ class SettingScreen extends Layout {
         const serviceTAX = profile.taxService ? profile.taxService : '';
         if (this.taxTabRef.current) {
             this.taxTabRef.current.setStateFromParent(productTAX, serviceTAX);
-        }else{
-            setTimeout(() =>{
+        } else {
+            setTimeout(() => {
                 this.taxTabRef.current.setStateFromParent(productTAX, serviceTAX);
-            },500)
+            }, 500)
         }
     }
 
@@ -110,6 +114,17 @@ class SettingScreen extends Layout {
         // this.props.actions.app.handleLockScreen(true);
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        const { profile, loading } = this.props;
+        if (prevProps.loading !== loading && !loading && this.state.indexTab === 0) {
+            this.generalTabRef.current.setStateFromParent(
+                profile.webLink ? profile.webLink : '',
+                profile.businessHourStart ? profile.businessHourStart : '',
+                profile.businessHourEnd ? profile.businessHourEnd : '',
+            )
+        }
+    }
+
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();
@@ -120,7 +135,8 @@ class SettingScreen extends Layout {
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
-    language: state.dataLocal.language
+    language: state.dataLocal.language,
+    loading: state.app.loading
 })
 
 
