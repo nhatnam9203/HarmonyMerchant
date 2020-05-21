@@ -12,10 +12,13 @@ export default StyleSheet.create({
     padding: 0,
     margin: 0,
     flex: 1,
+    // backgroundColor:"red"
   },
 
   row: {
     flexDirection: 'row',
+    height:scaleSzie(20),
+
   },
 
   flex: {
@@ -23,7 +26,7 @@ export default StyleSheet.create({
   },
 
   accessory: {
-    top: 2,
+    top: 4,
     justifyContent: 'center',
     alignSelf: 'flex-start',
   },

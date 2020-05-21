@@ -520,7 +520,9 @@ export default class TextField extends PureComponent {
             {this.renderAffix('prefix', active, focused)}
 
             <TextInput
-              style={[styles.input, inputStyle, inputStyleOverrides, { fontSize: scaleSzie(16) }]}
+              style={[styles.input,
+                //  inputStyle, inputStyleOverrides, 
+                 { fontSize: scaleSzie(15) }]}
               selectionColor={tintColor}
 
               {...props}
