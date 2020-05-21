@@ -72,7 +72,6 @@ class TabGaneral extends Layout {
     async  componentDidUpdate(prevProps, prevState) {
         const { profile, refreshingGeneral } = this.props;
         if (prevProps.refreshingGeneral !== refreshingGeneral && !refreshingGeneral) {
-            console.log("------ffff -----");
             await this.setState({
                 webLink: profile.webLink ? profile.webLink : '',
                 businessHourStart: profile.businessHourStart ? profile.businessHourStart : '',

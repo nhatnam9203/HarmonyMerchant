@@ -135,7 +135,7 @@ export default class Layout extends React.Component {
                                     and all applicable taxes or other governmental assessments based on your use of the Service.
                                     </Text>
 
-                                <Text style={[styles.contentTerms, { color: "rgb(196,196,196)" }]}>
+                                <Text style={[styles.contentTerms]}>
                                     We will charge you a fee of 2.0% of the total amount of each transaction processed. In the event the fees charged to us by
                                     the credit card companies to process your transaction exceeds the 2% fee we assessed, 
                                     <Text style={[styles.contentTerms, { color: "#000" }]}>

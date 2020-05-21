@@ -620,7 +620,7 @@ class TabCheckout extends Layout {
                 this.props.actions.appointment.resetPayment();
 
                 setTimeout(() => {
-                    alert('Please connect to your cash drawer. ! ');
+                    alert('Please connect to your cash drawer.');
                 }, 700)
             }
 
@@ -719,7 +719,7 @@ class TabCheckout extends Layout {
         if (printMachine === "BT:mPOP") {
             this.openCashDrawer(printMachine);
         } else {
-            alert('Please connect to your cash drawer. ! ');
+            alert('Please connect to your cash drawer.');
         }
     }
 
