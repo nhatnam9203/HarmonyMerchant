@@ -9,7 +9,7 @@ import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, PopupCale
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { HeaderTableStaffSalary, RowTableStaffSalary, RowEmptyTableStaffSalary, RowFooterStaffSalary } from './widget';
+import { HeaderTableStaffSalary, RowTableStaffSalary, RowEmptyTableStaffSalary, RowFooterStaffSalary,PopupStaffInvoicePrint } from './widget';
 import { ScrollView } from 'react-native-gesture-handler';
 
 export default class Layout extends React.Component {
@@ -153,6 +153,11 @@ export default class Layout extends React.Component {
                     visible={visibleCalendar}
                     onRequestClose={() => this.setState({ visibleCalendar: false })}
                     changeTitleTimeRange={this.changeTitleTimeRange}
+                />
+                <PopupStaffInvoicePrint
+                    // ref={this.invoicePrintRef}
+                    visiblePrintInvoice={this.state.visibleStaffInvoicePrint}
+                    onRequestClose={this.cancelStaffInvoicePrint}
                 />
             </ParentContainer>
         );

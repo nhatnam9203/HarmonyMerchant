@@ -13,7 +13,8 @@ class ReportScreen extends Layout {
             isFocus: true,
             valueSwitch: true,
             visibleCalendar: false,
-            titleRangeTime: 'This week'
+            titleRangeTime: 'This week',
+            visibleStaffInvoicePrint:true
         };
         this.modalCalendarRef = React.createRef();
     }
@@ -33,7 +34,7 @@ class ReportScreen extends Layout {
                 this.setState({
                     isFocus: true
                 });
-                this.props.actions.staff.getListStaffsSalaryTop();
+                // this.props.actions.staff.getListStaffsSalaryTop();
             }
         );
     }
@@ -96,6 +97,10 @@ class ReportScreen extends Layout {
             url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
         }
         this.props.actions.staff.getListStaffsSalaryTop(url, false)
+    }
+
+    cancelStaffInvoicePrint = () =>{
+        
     }
 
     componentWillUnmount() {

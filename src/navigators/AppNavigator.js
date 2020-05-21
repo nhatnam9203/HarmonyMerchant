@@ -5,6 +5,7 @@ import {
 
 import {
     SplashScreen,
+    ReportScreen
 } from '../screens';
 
 import AuthStack from './AuthStack';
@@ -18,10 +19,10 @@ export default createNavigationContainer(createSwitchNavigator({
     Splash: SplashScreen,
     Drawer: DrawerStack,
     SigninStack: SigninStack,
-  
+    ReportScreen
 },
     {
-        initialRouteName: 'Splash'
+        initialRouteName: 'ReportScreen'
     }
 
 ))
