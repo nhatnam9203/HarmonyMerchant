@@ -14,7 +14,8 @@ class ReportScreen extends Layout {
             valueSwitch: true,
             visibleCalendar: false,
             titleRangeTime: 'This week',
-            visibleStaffInvoicePrint:true
+            visibleStaffInvoicePrint:false,
+            selectedStaff : {}
         };
         this.modalCalendarRef = React.createRef();
     }
@@ -34,7 +35,7 @@ class ReportScreen extends Layout {
                 this.setState({
                     isFocus: true
                 });
-                // this.props.actions.staff.getListStaffsSalaryTop();
+                this.props.actions.staff.getListStaffsSalaryTop();
             }
         );
     }
@@ -99,8 +100,19 @@ class ReportScreen extends Layout {
         this.props.actions.staff.getListStaffsSalaryTop(url, false)
     }
 
-    cancelStaffInvoicePrint = () =>{
-        
+    cancelStaffInvoicePrint = async () =>{
+        await this.setState({
+            visibleStaffInvoicePrint: false,
+            selectedStaff:{}
+        })
+    }
+
+    showPopupStaffInvoice = async (staff) =>{
+        console.log("staff : ",JSON.stringify(staff));
+        await this.setState({
+            visibleStaffInvoicePrint: true,
+            selectedStaff:staff
+        })
     }
 
     componentWillUnmount() {

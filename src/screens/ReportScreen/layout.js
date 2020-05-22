@@ -105,6 +105,7 @@ export default class Layout extends React.Component {
                                 staff={item}
                                 index={index + 1}
                                 dx={this.props.dx}
+                                onPress={this.showPopupStaffInvoice.bind(this,item)}
                             />
                         }
                         keyExtractor={(item, index) => `${item.staffId}_${index}`}
@@ -130,7 +131,7 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { isFocus, visibleCalendar } = this.state;
+        const { isFocus, visibleCalendar,selectedStaff,visibleStaffInvoicePrint } = this.state;
         const { navigation } = this.props;
         return (
             <ParentContainer
@@ -156,8 +157,9 @@ export default class Layout extends React.Component {
                 />
                 <PopupStaffInvoicePrint
                     // ref={this.invoicePrintRef}
-                    visiblePrintInvoice={this.state.visibleStaffInvoicePrint}
+                    visiblePrintInvoice={visibleStaffInvoicePrint}
                     onRequestClose={this.cancelStaffInvoicePrint}
+                    selectedStaff={selectedStaff}
                 />
             </ParentContainer>
         );

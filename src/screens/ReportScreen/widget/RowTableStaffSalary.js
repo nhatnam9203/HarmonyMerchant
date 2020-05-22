@@ -49,11 +49,11 @@ class RowTableStaffSalary extends React.Component {
     }
     render() {
 
-        const { staff, index, dx } = this.props;
+        const { staff, index, dx,onPress } = this.props;
 
         return (
 
-            <View style={styles.tableHeader} >
+            <Button onPress={() =>onPress()} style={styles.tableHeader} >
                 {/* ----- 0 ------ */}
                 <View style={{
                     width: scaleSzie(40), flexDirection: 'row',
@@ -177,7 +177,7 @@ class RowTableStaffSalary extends React.Component {
                     </View>
                 </View>
 
-            </View>
+            </Button>
 
         );
     }

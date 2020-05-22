@@ -153,7 +153,7 @@ export function getListStaffsSalaryTop(params = 'quickFilter=thisWeek', isShowLo
         type: 'GET_LIST_STAFFS_SALARY_TOP',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}staff/salary/top?${params}&timezone=${new Date().getTimezoneOffset()}`,
+        api: `${apiConfigs.BASE_API}staff/salary?${params}&timezone=${new Date().getTimezoneOffset()}`,
         isShowLoading
     }
 }

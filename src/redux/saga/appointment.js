@@ -242,7 +242,6 @@ function* paymentAppointment(action) {
                 payload: responses.data
             });
             if (action.paymentMethod !== 'harmony' && action.paymentMethod !== 'credit_card') {
-                console.log("---- don't run ----");
                 yield put({
                     type: 'CHECKOUT_SUBMIT',
                     body: {},
@@ -254,7 +253,6 @@ function* paymentAppointment(action) {
                 });
             };
             if (action.paymentMethod == 'credit_card' && action.creditCardInfo) {
-                console.log("---- run ----");
                 yield put({
                     type: 'SUBMIT_PAYMENT_WITH_CREDIT_CARD',
                     body: {
