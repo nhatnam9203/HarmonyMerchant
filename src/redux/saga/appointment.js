@@ -224,7 +224,7 @@ function* checkoutAppointment(action) {
         //     alert(`error-checkoutAppointment: ${error}`)
         // },2000);
         yield put({ type: error });
-      
+
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -234,14 +234,15 @@ function* paymentAppointment(action) {
     try {
         yield put({ type: 'LOADING_ROOT' })
         const responses = yield requestAPI(action);
-        //console.log('paymentAppointment : ' + JSON.stringify(responses));
+        console.log('paymentAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: "PAY_APPOINTMENT_ID",
                 payload: responses.data
-            })
-            if (action.paymentMethod !== 'harmony') {
+            });
+            if (action.paymentMethod !== 'harmony' && action.paymentMethod !== 'credit_card') {
+                console.log("---- don't run ----");
                 yield put({
                     type: 'CHECKOUT_SUBMIT',
                     body: {},
@@ -249,10 +250,11 @@ function* paymentAppointment(action) {
                     token: true,
                     api: `${apiConfigs.BASE_API}checkout/submit/${responses.data}`,
                     paymentMethod: action.paymentMethod,
-                    amount: action.amount
+                    amount: action.amount,
                 });
-            }
-            if (action.creditCardInfo) {
+            };
+            if (action.paymentMethod == 'credit_card' && action.creditCardInfo) {
+                console.log("---- run ----");
                 yield put({
                     type: 'SUBMIT_PAYMENT_WITH_CREDIT_CARD',
                     body: {
@@ -265,19 +267,22 @@ function* paymentAppointment(action) {
                     method: 'POST',
                     token: true,
                     api: `${apiConfigs.BASE_API}paymentTransaction`,
+                    paymentMethod: action.paymentMethod,
+                    amount: action.amount,
+                    checkoutPaymentId:responses.data
                 })
-            }
+            };
         } else if (parseInt(codeNumber) === 401) {
             yield put({ type: 'STOP_LOADING_ROOT' });
             yield put({
                 type: 'UNAUTHORIZED'
-            })
+            });
         } else {
             yield put({ type: 'STOP_LOADING_ROOT' });
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
-            })
+            });
         }
     } catch (error) {
 
@@ -431,7 +436,15 @@ function* submitPaymentWithCreditCard(action) {
         //console.log('submitPaymentWithCreditCard : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-
+            yield put({
+                type: 'CHECKOUT_SUBMIT',
+                body: {},
+                method: 'PUT',
+                token: true,
+                api: `${apiConfigs.BASE_API}checkout/submit/${action.checkoutPaymentId}`,
+                paymentMethod: action.paymentMethod,
+                amount: action.amount
+            });
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
