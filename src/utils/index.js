@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import { openSettings, request, PERMISSIONS } from 'react-native-permissions';
-
+import moment from 'moment';
 
 import Configs from '../configs';
 import apiConfigs from '../configs/api';
@@ -772,4 +772,8 @@ export const getPaymentString = (type) => {
             method = ''
     }
     return method
+}
+
+export const formatWithMoment = (data, key) => {
+    return moment.parseZone(data).local().format(key);
 }

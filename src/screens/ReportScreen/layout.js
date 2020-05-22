@@ -159,7 +159,7 @@ export default class Layout extends React.Component {
                     // ref={this.invoicePrintRef}
                     visiblePrintInvoice={visibleStaffInvoicePrint}
                     onRequestClose={this.cancelStaffInvoicePrint}
-                    selectedStaff={selectedStaff}
+                    staff={selectedStaff}
                 />
             </ParentContainer>
         );
