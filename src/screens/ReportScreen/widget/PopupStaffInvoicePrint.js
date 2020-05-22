@@ -16,7 +16,7 @@ import { captureRef, releaseCapture } from "react-native-view-shot";
 import _ from "ramda";
 
 import { Button, ButtonCustom } from '@components';
-import { scaleSzie, localize, PRINTER_MACHINE, formatWithMoment } from '@utils';
+import { scaleSzie, localize, PRINTER_MACHINE, formatWithMoment, checkStatusPrint } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 import PrintManager from '@lib/PrintManager';
 import ICON from "@resources";
@@ -58,9 +58,9 @@ class PopupStaffInvoicePrint extends React.Component {
         })
     }
 
-    doPrint = async () => {
+    doPrint = async (printMachine) => {
         // const { printMachine,} = this.state;
-        const printMachine = "BT:TSP100"
+        // const printMachine = "BT:TSP100"
         try {
             await this.setState({
                 isProcessingPrint: true
@@ -89,10 +89,16 @@ class PopupStaffInvoicePrint extends React.Component {
     }
 
     processPrintInvoice = async () => {
-        await this.setState({
-            isSignature: true
-        });
-        this.doPrint();
+        const printMachine = await checkStatusPrint();
+        if (printMachine) {
+            await this.setState({
+                isSignature: true
+            });
+            this.doPrint(printMachine);
+        } else {
+            alert('Please connect to your cash drawer.');
+        }
+
     }
 
     getHour() {
@@ -150,7 +156,7 @@ class PopupStaffInvoicePrint extends React.Component {
         if (this.state.isProcessingPrint) {
             return (
                 <View style={{
-                    height: scaleSzie(530), width: scaleSzie(300),
+                    height: scaleSzie(530), width: scaleSzie(290),
                     position: "absolute", top: 0, bottom: 0, left: 0, rightL: 0, backgroundColor: "rgba(0,0,0,0.2)",
                     justifyContent: "center", alignItems: "center"
                 }} >
@@ -180,8 +186,8 @@ class PopupStaffInvoicePrint extends React.Component {
         const servicePayout = this.findReceiptType("ServicePayout");
         const workingHourReceipt = this.findReceiptType("WorkingHour");
         const productPayout = this.findReceiptType("ProductPayout");
-        const tippayout =  this.findReceiptType("Tippayout");
-        const totalReceipt =  this.findReceiptType("Total");
+        const tippayout = this.findReceiptType("Tippayout");
+        const totalReceipt = this.findReceiptType("Total");
 
         return (
             <Modal
@@ -197,7 +203,7 @@ class PopupStaffInvoicePrint extends React.Component {
                     <View
                         style={{
                             backgroundColor: "#fff",
-                            width: scaleSzie(300),
+                            width: scaleSzie(290),
                             // height: scaleSzie(450) 
                         }} >
 
@@ -211,10 +217,10 @@ class PopupStaffInvoicePrint extends React.Component {
                                 <View style={{ height: scaleSzie(10) }} />
                                 <View
                                     ref={this.viewShotRef}
-                                    style={{ paddingHorizontal: scaleSzie(10) }}
+                                    style={{ paddingHorizontal: 20 }}
                                 >
                                     {/* -------------- Type Invoice + Staff Name -------------- */}
-                                    <Text style={[styleInvoice.txt_normal, { fontWeight: "600" }]} >
+                                    <Text style={[styleInvoice.txt_normal, {fontSize:scaleSzie(17), fontWeight: "600" }]} >
                                         {`${receiptType} receipts - ${staffName}`}
                                     </Text>
                                     {/* -------------- Date -------------- */}
@@ -254,14 +260,14 @@ class PopupStaffInvoicePrint extends React.Component {
                                     <ItemStaffInvoice
                                         title="Cash"
                                         value={`$ ${servicePayout && servicePayout.cash ? servicePayout.cash : "0.00"}`}
-                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
-                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        styleTilte={{ fontSize: 15, fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
                                     />
                                     <ItemStaffInvoice
                                         title="Check"
                                         value={`$ ${servicePayout && servicePayout.check ? servicePayout.check : "0.00"}`}
-                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
-                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
                                     />
                                     {/* ------------- Working hour ----------- */}
                                     <ItemStaffInvoice
@@ -272,14 +278,14 @@ class PopupStaffInvoicePrint extends React.Component {
                                     <ItemStaffInvoice
                                         title="Cash"
                                         value={`$ ${workingHourReceipt && workingHourReceipt.cash ? workingHourReceipt.cash : "0.00"}`}
-                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
-                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
                                     />
                                     <ItemStaffInvoice
                                         title="Check"
                                         value={`$ ${workingHourReceipt && workingHourReceipt.check ? workingHourReceipt.check : "0.00"}`}
-                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
-                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
                                     />
                                     {/* ------------- Product payout  ----------- */}
                                     <ItemStaffInvoice
@@ -287,18 +293,18 @@ class PopupStaffInvoicePrint extends React.Component {
                                         value={`$ ${productPayout && productPayout.total ? productPayout.total : "0.00"}`}
                                         style={{ marginTop: scaleSzie(15) }}
                                     />
-                                    
+
                                     <ItemStaffInvoice
                                         title="Cash"
                                         value={`$ ${productPayout && productPayout.cash ? productPayout.cash : "0.00"}`}
-                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
-                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
                                     />
                                     <ItemStaffInvoice
                                         title="Check"
                                         value={`$ ${productPayout && productPayout.check ? productPayout.check : "0.00"}`}
-                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
-                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
                                     />
 
                                     {/* -------------  Tip payout  ----------- */}
@@ -307,24 +313,24 @@ class PopupStaffInvoicePrint extends React.Component {
                                         value={`$ ${tippayout && tippayout.total ? tippayout.total : "0.00"}`}
                                         style={{ marginTop: scaleSzie(15) }}
                                     />
-                                    
+
                                     <ItemStaffInvoice
                                         title="Cash"
                                         value={`$ ${tippayout && tippayout.cash ? tippayout.cash : "0.00"}`}
-                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
-                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
                                     />
                                     <ItemStaffInvoice
-                                        title={`Tip fee (${tippayout && tippayout.fee ? tippayout.fee : "0.00%"})`}
-                                        value={`$ ${tippayout && tippayout.check ? tippayout.check : "0.00"}`}
-                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
-                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        title={`Tip fee (${tippayout && tippayout.fee && tippayout.fee.value ? tippayout.fee.value : "0.00%"})`}
+                                        value={`$ ${tippayout && tippayout.fee && tippayout.fee.amount ? tippayout.fee.amount : "0.00"}`}
+                                        styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
                                     />
                                     <ItemStaffInvoice
                                         title="Check"
                                         value={`$ ${tippayout && tippayout.check ? tippayout.check : "0.00"}`}
-                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
-                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
                                     />
                                     {/* ------------- Line   ----------- */}
                                     <View
@@ -342,14 +348,14 @@ class PopupStaffInvoicePrint extends React.Component {
                                     <ItemStaffInvoice
                                         title="Cash"
                                         value={`$ ${totalReceipt && totalReceipt.cash ? totalReceipt.cash : "0.00"}`}
-                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
-                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
                                     />
                                     <ItemStaffInvoice
                                         title="Check"
                                         value={`$ ${totalReceipt && totalReceipt.check ? totalReceipt.check : "0.00"}`}
-                                        styleTilte={{ fontSize: scaleSzie(12), fontWeight: "200" }}
-                                        styleValue={{ fontSize: scaleSzie(12), fontWeight: "200" }}
+                                        styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
+                                        styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
                                     />
 
                                 </View>
@@ -433,19 +439,6 @@ const ItemStaffInvoice = ({ title, value, style, styleTilte, styleValue, subTitl
     );
 }
 
-const ItemTotal = ({ title, value, style }) => {
-    return (
-        <View style={{ flexDirection: "row", marginBottom: scaleSzie(4) }} >
-            <Text style={[styleInvoice.txt_total, { alignSelf: "flex-start", fontWeight: "600" }, style]} >
-                {title}
-            </Text>
-            <View style={{ flex: 1 }} />
-            <Text style={[styleInvoice.txt_total, { alignSelf: "flex-end", fontWeight: "400" }, style]} >
-                {`$ ${value}`}
-            </Text>
-        </View>
-    );
-}
 
 const ItemBorderBottom = () => {
     return (
@@ -460,13 +453,13 @@ const ItemBorderBottom = () => {
 const styleInvoice = StyleSheet.create({
     txt_normal: {
         color: "#000",
-        fontSize: scaleSzie(13),
+        fontSize: scaleSzie(14),
         alignSelf: "center",
         fontWeight: "200"
     },
     txt_info: {
         color: "#000",
-        fontSize: scaleSzie(12),
+        fontSize: scaleSzie(13),
         fontWeight: "400"
     },
     txt_total: {

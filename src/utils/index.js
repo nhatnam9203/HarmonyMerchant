@@ -7,6 +7,7 @@ import {
 import axios from 'axios';
 import { openSettings, request, PERMISSIONS } from 'react-native-permissions';
 import moment from 'moment';
+import PrintManager from '@lib/PrintManager';
 
 import Configs from '../configs';
 import apiConfigs from '../configs/api';
@@ -776,4 +777,24 @@ export const getPaymentString = (type) => {
 
 export const formatWithMoment = (data, key) => {
     return moment.parseZone(data).local().format(key);
+}
+
+export const  checkStatusPrint = async () => {
+    try {
+        const printer = await PrintManager.getInstance().portDiscovery();
+        if (printer.length > 0) {
+            let portName = false;
+            for (let i = 0; i < printer.length; i++) {
+                let tempt_portName = printer[i].portName ? printer[i].portName : "";
+                if (tempt_portName === "BT:mPOP" || tempt_portName === "BT:TSP100") {
+                    portName = tempt_portName;
+                    break;
+                }
+            };
+            return portName ? portName : false;
+        } else {
+            return false
+        }
+    } catch (error) {
+    }
 }

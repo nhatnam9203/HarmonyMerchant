@@ -740,10 +740,7 @@ class TabCheckout extends Layout {
                 return false
             }
         } catch (error) {
-
         }
-
-
     }
 
     openCashDrawer = async (portName) => {
@@ -1288,7 +1285,7 @@ class TabCheckout extends Layout {
 
     showModalTipAppointment = async (appointmentId, tip) => {
         this.changeTipRef.current.setStateFromParent(appointmentId, tip);
-      await  this.setState({
+        await this.setState({
             visibleChangeTip: true
         })
     }
