@@ -220,7 +220,7 @@ class PopupStaffInvoicePrint extends React.Component {
                                     style={{ paddingHorizontal: 20 }}
                                 >
                                     {/* -------------- Type Invoice + Staff Name -------------- */}
-                                    <Text style={[styleInvoice.txt_normal, {fontSize:scaleSzie(17), fontWeight: "600" }]} >
+                                    <Text style={[styleInvoice.txt_normal, {fontSize:scaleSzie(14), fontWeight: "600" }]} >
                                         {`${receiptType} receipts - ${staffName}`}
                                     </Text>
                                     {/* -------------- Date -------------- */}
@@ -260,7 +260,7 @@ class PopupStaffInvoicePrint extends React.Component {
                                     <ItemStaffInvoice
                                         title="Cash"
                                         value={`$ ${servicePayout && servicePayout.cash ? servicePayout.cash : "0.00"}`}
-                                        styleTilte={{ fontSize: 15, fontWeight: "200" }}
+                                        styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
                                         styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
                                     />
                                     <ItemStaffInvoice
@@ -315,8 +315,8 @@ class PopupStaffInvoicePrint extends React.Component {
                                     />
 
                                     <ItemStaffInvoice
-                                        title="Cash"
-                                        value={`$ ${tippayout && tippayout.cash ? tippayout.cash : "0.00"}`}
+                                        title="Tip total"
+                                        value={`$ ${tippayout && tippayout.subTotal ? tippayout.subTotal : "0.00"}`}
                                         styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
                                         styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
                                     />
@@ -453,13 +453,13 @@ const ItemBorderBottom = () => {
 const styleInvoice = StyleSheet.create({
     txt_normal: {
         color: "#000",
-        fontSize: scaleSzie(14),
+        fontSize: scaleSzie(13),
         alignSelf: "center",
         fontWeight: "200"
     },
     txt_info: {
         color: "#000",
-        fontSize: scaleSzie(13),
+        fontSize: scaleSzie(12),
         fontWeight: "400"
     },
     txt_total: {
