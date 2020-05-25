@@ -99,6 +99,7 @@ class TabPromotion extends Layout {
     this.props.actions.marketing.sendNotificationByPromotionId(promotionId);
   }
 
+  
 
 }
 
