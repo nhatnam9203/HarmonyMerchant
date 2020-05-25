@@ -33,7 +33,7 @@ export default class InputQuestionBusiness extends React.PureComponent {
 
 
     render() {
-        const { question, subYes, value,onFocus,
+        const { question, subYes, value, onFocus,
             onChangeText, secureTextEntry } = this.props;
         const { isCheck } = this.state;
         const temptIconNo = isCheck ? IMAGE.checkBoxEmpty : IMAGE.checkBox;

@@ -122,10 +122,10 @@ export default class Label extends PureComponent {
     };
 
     let containerStyle = {
-      position: 'absolute',
-      top : scaleSzie(9),
-      left: scaleSzie(10),
-      bottom:scaleSzie(10),
+      // position: 'absolute',
+      // top : scaleSzie(9),
+      // left: scaleSzie(10),
+      // bottom:scaleSzie(10),
     };
 
     return (

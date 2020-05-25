@@ -17,7 +17,10 @@ export default StyleSheet.create({
 
   row: {
     flexDirection: 'row',
-    height:scaleSzie(20),
+    // height:scaleSzie(20),
+    // flex:1,
+    // backgroundColor:"red",
+    paddingLeft:scaleSzie(10)
 
   },
 

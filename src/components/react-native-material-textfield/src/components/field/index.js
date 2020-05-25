@@ -510,46 +510,63 @@ export default class TextField extends PureComponent {
     };
 
     return (
-      <View {...containerProps}>
-        <Animated.View {...inputContainerProps}>
-          {disabled && <Line {...lineProps} />}
+      <View
+        // {...containerProps} 
+        style={{
+          // backgroundColor: "yellow",
+          height: "100%",
+          // alignItems:"center",
+          justifyContent: "center"
+        }} >
+        {/* <Animated.View {...inputContainerProps}> */}
+        {/* {disabled && <Line {...lineProps} />} */}
 
-          {value === '' ? <Label {...labelProps}>{label}</Label> : <View />}
 
-          <View style={styles.row}>
-            {this.renderAffix('prefix', active, focused)}
 
-            <TextInput
-              style={[styles.input,
-                //  inputStyle, inputStyleOverrides, 
-                 { fontSize: scaleSzie(15) }]}
-              selectionColor={tintColor}
+        <View style={styles.row}>
+          {/* {this.renderAffix('prefix', active, focused)} */}
 
-              {...props}
+          <TextInput
+            style={[styles.input,
+            //  inputStyle, inputStyleOverrides, 
+            { fontSize: scaleSzie(14) }]}
+            selectionColor={tintColor}
 
-              editable={!disabled && editable}
-              onChange={this.onChange}
-              onChangeText={this.onChangeText}
-              onContentSizeChange={this.onContentSizeChange}
-              onFocus={this.onFocus}
-              onBlur={this.onBlur}
-              value={value}
-              ref={this.updateRef}
-            />
+            {...props}
 
-            {this.renderAffix('suffix', active, focused)}
-            {this.renderAccessory()}
-          </View>
-        </Animated.View>
+            editable={!disabled && editable}
+            onChange={this.onChange}
+            onChangeText={this.onChangeText}
+            onContentSizeChange={this.onContentSizeChange}
+            onFocus={this.onFocus}
+            onBlur={this.onBlur}
+            value={value}
+            ref={this.updateRef}
+          />
 
-        <Animated.View style={helperContainerStyle}>
+          {/* {this.renderAffix('suffix', active, focused)} */}
+          {this.renderAccessory()}
+        </View>
+        {/* </Animated.View> */}
+
+        {/* <Animated.View style={helperContainerStyle}>
           <View style={styles.flex}>
             <Helper style={[errorStyle, titleTextStyle]}>{error}</Helper>
             <Helper style={[titleStyle, titleTextStyle]}>{title}</Helper>
-          </View>
+          </View> */}
 
-          <Counter {...counterProps} />
-        </Animated.View>
+        {/* <Counter {...counterProps} />
+        </Animated.View> */}
+
+        <View style={{
+          width: "100%", height: "100%", position: "absolute", top: 0, bottom: 0, left: 0, right: 0,
+          justifyContent: "center", 
+          paddingLeft:scaleSzie(10)
+          // alignItems: "center"
+        }} >
+          {value === '' ? <Label {...labelProps}>{label}</Label> : <View />}
+        </View>
+
       </View>
     );
   }

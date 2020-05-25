@@ -116,12 +116,13 @@ class SettingScreen extends Layout {
 
     componentDidUpdate(prevProps, prevState) {
         const { profile, loading } = this.props;
-        if (prevProps.loading !== loading && !loading && this.state.indexTab === 0) {
+        if (prevProps.loading !== loading && prevProps.loading && !loading && !this.generalTabRef.current.state.isUpdateInternal  && this.state.indexTab === 0) {
+            console.log("----- External ------");
             this.generalTabRef.current.setStateFromParent(
                 profile.webLink ? profile.webLink : '',
                 profile.businessHourStart ? profile.businessHourStart : '',
                 profile.businessHourEnd ? profile.businessHourEnd : '',
-            )
+            );
         }
     }
 
