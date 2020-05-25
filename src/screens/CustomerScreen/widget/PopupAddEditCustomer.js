@@ -386,7 +386,7 @@ class PopupAddEditCustomer extends React.Component {
                                         </View>
                                     </View>
                                 </View>
-                                <Text style={{ color: '#404040', fontSize: scaleSzie(16), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
                                     {localize('Attribute Level', language)}
                                 </Text>
                                 {/* ----- Attribute Level ------- */}
