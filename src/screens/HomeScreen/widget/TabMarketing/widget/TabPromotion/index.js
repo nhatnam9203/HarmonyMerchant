@@ -29,7 +29,7 @@ class TabPromotion extends Layout {
     this.props.actions.marketing.getPromotionByMerchant();
   }
 
-  onPressListPromotion = () =>{
+  onPressListPromotion = () => {
     this.props.actions.marketing.getPromotionByMerchant(false);
   }
 
@@ -95,11 +95,26 @@ class TabPromotion extends Layout {
   }
 
   sendNotification = (promotionId) => {
-    // alert(promotionId);
     this.props.actions.marketing.sendNotificationByPromotionId(promotionId);
   }
 
-  
+  updatePromotionsFromParent = () => {
+    const { promotions } = this.props;
+
+    this.promotionFirstRef.current.setStateFromParent(this.getDataItemPromotion(1, promotions));
+    this.promotionSecondRef.current.setStateFromParent(this.getDataItemPromotion(2, promotions));
+    this.promotionThirdRef.current.setStateFromParent(this.getDataItemPromotion(3, promotions));
+    this.promotionFourRef.current.setStateFromParent(this.getDataItemPromotion(4, promotions));
+    this.promotionFiveRef.current.setStateFromParent(this.getDataItemPromotion(5, promotions));
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { profile, isLoadingGetPromotionByMerchant } = this.props;
+    if (prevProps.isLoadingGetPromotionByMerchant !== isLoadingGetPromotionByMerchant && prevProps.isLoadingGetPromotionByMerchant && !isLoadingGetPromotionByMerchant) {
+      this.updatePromotionsFromParent();
+    }
+  }
+
 
 }
 
@@ -110,6 +125,7 @@ const mapStateToProps = state => ({
   servicesByMerchant: state.service.servicesByMerchant,
   isApplyPromotion: state.marketing.isApplyPromotion,
   refreshingPromotion: state.marketing.refreshingPromotion,
+  isLoadingGetPromotionByMerchant: state.marketing.isLoadingGetPromotionByMerchant
 })
 
 

@@ -114,11 +114,17 @@ function* getPromotionByMerchant(action) {
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
+            });
+            yield put({
+                type: 'GET_PROMOTION_BY_MERCHANT_FAIL',
             })
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
+            });
+            yield put({
+                type: 'GET_PROMOTION_BY_MERCHANT_FAIL',
             })
         }
     } catch (error) {

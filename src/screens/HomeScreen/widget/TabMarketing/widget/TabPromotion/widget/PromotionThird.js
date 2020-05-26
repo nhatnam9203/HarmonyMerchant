@@ -26,6 +26,11 @@ class PromotionThird extends React.Component {
         };
     }
 
+    setStateFromParent = async (data) =>{
+        await this.setState({
+            data
+        })
+    }
 
     checkSelectPromotion = () => {
         const { data } = this.state;

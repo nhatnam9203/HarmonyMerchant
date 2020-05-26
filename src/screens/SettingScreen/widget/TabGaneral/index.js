@@ -82,7 +82,7 @@ class TabGaneral extends Layout {
     async  componentDidUpdate(prevProps, prevState) {
         const { profile, refreshingGeneral, loading } = this.props;
         if (prevProps.refreshingGeneral !== refreshingGeneral && !refreshingGeneral) {
-            console.log("----- Internal ------");
+            // console.log("----- Internal ------");
             await this.setState({
                 webLink: profile.webLink ? profile.webLink : '',
                 businessHourStart: profile.businessHourStart ? profile.businessHourStart : '',
@@ -90,7 +90,7 @@ class TabGaneral extends Layout {
             })
         }
         if (prevProps.loading !== loading && prevProps.loading && !loading && this.state.isUpdateInternal) {
-            console.log("----- Internal 1 ------");
+            // console.log("----- Internal 1 ------");
             await this.setState({
                 webLink: profile.webLink ? profile.webLink : '',
                 businessHourStart: profile.businessHourStart ? profile.businessHourStart : '',

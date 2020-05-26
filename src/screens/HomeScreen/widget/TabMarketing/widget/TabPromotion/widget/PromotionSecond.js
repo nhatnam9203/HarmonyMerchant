@@ -26,6 +26,12 @@ class PromotionSecond extends React.Component {
         };
     }
 
+    setStateFromParent = async (data) =>{
+        await this.setState({
+            data
+        })
+    }
+
     setDateFromParent = (key, value) => {
         this.setState({
             data: updateStateChildren(key, value, this.state.data)

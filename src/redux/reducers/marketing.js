@@ -10,7 +10,9 @@ const initialState = {
     isApplyPromotion: false,
     appointmentIdUpdatePromotion: -1,
     refreshingPromotion: false,
-    refreshBannerList: false
+    refreshBannerList: false,
+
+    isLoadingGetPromotionByMerchant : false
 }
 
 function appReducer(state = initialState, action) {
@@ -52,17 +54,20 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 refreshingPromotion: !action.isLoading,
+                isLoadingGetPromotionByMerchant: true
             }
         case 'GET_PROMOTION_BY_MERCHANT_SUCCESS':
             return {
                 ...state,
                 promotions: action.payload,
-                refreshingPromotion: false
+                refreshingPromotion: false,
+                isLoadingGetPromotionByMerchant: false
             }
         case 'GET_PROMOTION_BY_MERCHANT_FAIL':
             return {
                 ...state,
-                refreshingPromotion: false
+                refreshingPromotion: false,
+                isLoadingGetPromotionByMerchant: false
             }
         case 'GET_PROMOTION_BY_APPOINTMENT_SUCCESS':
             return {

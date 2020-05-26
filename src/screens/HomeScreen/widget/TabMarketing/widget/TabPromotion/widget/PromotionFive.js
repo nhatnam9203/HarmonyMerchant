@@ -26,6 +26,11 @@ class PromotionFive extends React.Component {
         };
     }
 
+    setStateFromParent = async (data) => {
+        await this.setState({
+            data
+        })
+    }
 
     checkSelectPromotion = () => {
         const { data } = this.state;
@@ -68,13 +73,13 @@ class PromotionFive extends React.Component {
                             this.props.actions.marketing.setStatusApplyButton(true);
                         }}
                         style={{ marginBottom: scaleSzie(10) }}
-                        styleTitle={{fontWeight:"600"}}
+                        styleTitle={{ fontWeight: "600" }}
                     />
                     {/* ---- Row ---- */}
                     <Text style={{
                         color: '#404040',
                         fontSize: scaleSzie(14),
-                        fontWeight:"600"
+                        fontWeight: "600"
                     }} >
                         {`${localize('Promotion form', language)}:`}
                     </Text>
