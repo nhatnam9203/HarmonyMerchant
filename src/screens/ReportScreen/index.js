@@ -25,7 +25,8 @@ class ReportScreen extends Layout {
             'didBlur',
             payload => {
                 this.setState({
-                    isFocus: false
+                    isFocus: false,
+                    titleRangeTime: 'This week',
                 })
             }
         );

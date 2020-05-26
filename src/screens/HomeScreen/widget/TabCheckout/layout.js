@@ -937,9 +937,6 @@ const ShadowLineShort = ({ style }) => {
             <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.02)" }} />
             <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.04)" }} />
             <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.04)" }} />
-            {/* <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.06)" }} /> */}
-            {/* <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.08)" }} /> */}
-            {/* <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.1)" }} /> */}
         </>
     )
 }

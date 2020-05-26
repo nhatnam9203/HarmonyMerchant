@@ -137,6 +137,23 @@ class PopupInvoicePrint extends React.Component {
 
     }
 
+    getStaffNameForInvoice = () => {
+        const { profileStaffLogin } = this.props;
+        const { basket } = this.state;
+
+        const staffNameLogin = profileStaffLogin.displayName ? profileStaffLogin.displayName : "";
+
+        let temptName = "";
+        for (let i = 0; i < basket.length; i++) {
+            if (basket[i].type === "Service") {
+                temptName = basket[i].staff && basket[i].staff.displayName ? basket[i].staff.displayName : "";
+                break;
+            }
+        }
+        return temptName ? temptName : staffNameLogin;
+    }
+
+
     // -------------- Render --------------
 
     renderLoadingProcessingPrint() {
@@ -266,7 +283,7 @@ class PopupInvoicePrint extends React.Component {
                                         </View>
                                         <View style={{ flex: 1 }} >
                                             <Text style={styleInvoice.txt_info} >
-                                                {`: ${profileStaffLogin.displayName ? profileStaffLogin.displayName : ""}`}
+                                                {`: ${this.getStaffNameForInvoice()}`}
                                             </Text>
                                         </View>
                                     </View>
@@ -375,13 +392,13 @@ class PopupInvoicePrint extends React.Component {
                                     {
                                         !isPrintTempt ? <View>
                                             {
-                                                (this.getPaymentMethods()).map((data, index) => <View key={index} style={{  marginBottom: scaleSzie(4) }} >
+                                                (this.getPaymentMethods()).reverse().map((data, index) => <View key={index} style={{ marginBottom: scaleSzie(4) }} >
                                                     <Text style={[styleInvoice.txt_total,]} >
                                                         {`- Entry method : ${getPaymentString(data.paymentMethod)}`}
                                                     </Text>
                                                     {
                                                         data.paymentMethod === "credit_card" ?
-                                                            <View style={{marginTop:scaleSzie(5)}} >
+                                                            <View style={{ marginTop: scaleSzie(5) }} >
                                                                 <Text style={[styleInvoice.txt_total, { fontSize: scaleSzie(10) }]} >
                                                                     {`    ${data.paymentInformation && data.paymentInformation.type ? data.paymentInformation.type : ""}: ***********${data.paymentInformation && data.paymentInformation.number ? data.paymentInformation.number : ""}`}
                                                                 </Text>

@@ -520,12 +520,14 @@ class TabCheckout extends Layout {
         appointments.forEach((appointment) => {
             // ------ Push Service -------
             appointment.services.forEach((service) => {
+                // console.log("service : ", JSON.stringify(service));
                 arryaServicesBuy.push({
                     type: "Service",
                     data: {
                         name: service.serviceName ? service.serviceName : "",
                         price: service.price ? service.price : ""
-                    }
+                    },
+                    staff : service.staff ? service.staff : false
                 })
             });
 
@@ -688,6 +690,8 @@ class TabCheckout extends Layout {
     }
 
     printBill = async () => {
+        // this.showInvoicePrint("printMachine", false);
+
         this.pushAppointmentIdOfflineIntoWebview();
         const printMachine = await this.checkStatusPrint();
         if (printMachine) {
