@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, PopupParent, PopupConfirm } from '@components';
-import { scaleSzie, localize, getCategoryName } from '@utils';
+import { scaleSzie, localize, getCategoryName, formatMoney } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 
@@ -24,16 +24,16 @@ class PopupPaymentDetails extends React.Component {
         }
     }
 
-    nextPayment =() =>{
-       this.props.actions.appointment.closePopupPaymentDetail();
+    nextPayment = () => {
+        this.props.actions.appointment.closePopupPaymentDetail();
     }
 
 
     // ---------- Render --------
 
     render() {
-        const { title, visible, onRequestClose, language, nextPayment,paymentDetailInfo } = this.props;
-        const paidAmounts = paymentDetailInfo.paidAmounts && paymentDetailInfo.paidAmounts.length > 0 ?  paymentDetailInfo.paidAmounts[0] : {} ;
+        const { title, visible, onRequestClose, language, nextPayment, paymentDetailInfo } = this.props;
+        const paidAmounts = paymentDetailInfo.paidAmounts && paymentDetailInfo.paidAmounts.length > 0 ? paymentDetailInfo.paidAmounts[0] : {};
         return (
             <PopupParent
                 title={title}
@@ -58,35 +58,35 @@ class PopupPaymentDetails extends React.Component {
                         />
                         <ItemDetail
                             title={`${localize('Customer Name', language)}:`}
-                            value={`${paymentDetailInfo.customerName ?paymentDetailInfo.customerName : '' }`}
+                            value={`${paymentDetailInfo.customerName ? paymentDetailInfo.customerName : ''}`}
                             subText={""}
                         />
                         <ItemDetail
                             title={`${localize('Phone Number', language)}:`}
-                            value={`${paymentDetailInfo.phone ? paymentDetailInfo.phone  : ''}`}
+                            value={`${paymentDetailInfo.phone ? paymentDetailInfo.phone : ''}`}
                             subText={""}
                         />
                         <ItemDetail
                             title={`${localize('Status', language)}:`}
-                            value={`${paymentDetailInfo.status ? paymentDetailInfo.status  : ''}`}
+                            value={`${paymentDetailInfo.status ? paymentDetailInfo.status : ''}`}
                             subText={""}
                         />
                         <ItemDetail
                             title={`${localize('Grand Total', language)}:`}
-                            value={`$ ${paymentDetailInfo.grandTotal ? paymentDetailInfo.grandTotal  : ''}`}
+                            value={`$ ${paymentDetailInfo.grandTotal ? formatMoney(paymentDetailInfo.grandTotal) : ''}`}
                             isBold={true}
                             subText={""}
                         />
                         <View style={{ height: 3, backgroundColor: "rgb(238,238,238)", marginVertical: scaleSzie(10) }} />
                         <ItemDetail
                             title={`${localize('Paid Amount', language)}:`}
-                            value={`$ ${paidAmounts.amount ? paidAmounts.amount  : ''}`}
+                            value={`$ ${paidAmounts.amount ? formatMoney(paidAmounts.amount) : ''}`}
                             isBold={true}
-                            subText={` (${paidAmounts.paymentMethod ? paidAmounts.paymentMethod  : ''})`}
+                            subText={` (${paidAmounts.paymentMethod ? paidAmounts.paymentMethod : ''})`}
                         />
                         <ItemDetail
                             title={`${localize('Due Amount', language)}:`}
-                            value={`$ ${paymentDetailInfo.dueAmount ? paymentDetailInfo.dueAmount  : ''}`}
+                            value={`$ ${paymentDetailInfo.dueAmount ? formatMoney(paymentDetailInfo.dueAmount) : ''}`}
                             isBold={true}
                             subText={""}
                         />

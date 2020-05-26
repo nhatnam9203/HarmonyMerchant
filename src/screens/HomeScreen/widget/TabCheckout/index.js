@@ -690,23 +690,23 @@ class TabCheckout extends Layout {
     }
 
     printBill = async () => {
-        // this.showInvoicePrint("printMachine", false);
+        this.showInvoicePrint("printMachine", false);
 
-        this.pushAppointmentIdOfflineIntoWebview();
-        const printMachine = await this.checkStatusPrint();
-        if (printMachine) {
-            const { paymentSelected } = this.state;
-            const { connectionSignalR } = this.props;
-            if (!_.isEmpty(connectionSignalR)) {
-                connectionSignalR.stop();
-            }
-            if (paymentSelected === 'Cash' || paymentSelected === 'Others - Check') {
-                this.openCashDrawer(printMachine);
-            }
-            this.showInvoicePrint(printMachine, false);
-        } else {
-            alert('Please connect to your printer ! ');
-        }
+        // this.pushAppointmentIdOfflineIntoWebview();
+        // const printMachine = await this.checkStatusPrint();
+        // if (printMachine) {
+        //     const { paymentSelected } = this.state;
+        //     const { connectionSignalR } = this.props;
+        //     if (!_.isEmpty(connectionSignalR)) {
+        //         connectionSignalR.stop();
+        //     }
+        //     if (paymentSelected === 'Cash' || paymentSelected === 'Others - Check') {
+        //         this.openCashDrawer(printMachine);
+        //     }
+        //     this.showInvoicePrint(printMachine, false);
+        // } else {
+        //     alert('Please connect to your printer ! ');
+        // }
     }
 
     printTemptInvoice = async () => {

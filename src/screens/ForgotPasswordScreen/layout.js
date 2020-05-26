@@ -28,7 +28,7 @@ export default class Layout extends React.Component {
                     {localize('Forgot Password', language)}
                 </Text>
                 <Text style={styles.desc} >
-                    {localize(`Please enter your email address and we will send you`, language)}
+                    {localize(`Please enter your merchant ID and we will send you`, language)}
                 </Text>
                 <Text style={[styles.desc, { marginBottom: scaleSzie(10) }]} >
                     {localize('instructions on how to reset your password', language)}
@@ -37,7 +37,7 @@ export default class Layout extends React.Component {
 
                 <InputAuth
                     ref={this.idInputRef}
-                    placeholder="Email"
+                    placeholder="merchant ID"
                     onSubmitEditing={this.forgotPass}
                 />
                 <View style={{ height: scaleSzie(40) }} />

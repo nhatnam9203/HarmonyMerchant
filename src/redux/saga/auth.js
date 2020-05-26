@@ -52,7 +52,7 @@ function* forgotPassword(action) {
         if (parseInt(codeNumber) == 200) {
             NavigationServices.navigate('SignIn');
             setTimeout(() => {
-                alert(`Please check email : ${action.email}`)
+                alert(`Please check your email`)
             }, 300)
         } else if (parseInt(codeNumber) === 401) {
             yield put({

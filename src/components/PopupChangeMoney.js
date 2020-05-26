@@ -8,7 +8,7 @@ import {
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
-import { scaleSzie } from '../utils';
+import { scaleSzie,formatMoney } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupChangeMoney extends React.Component {
@@ -46,7 +46,7 @@ class PopupChangeMoney extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
-                            {`Change : $ ${moneyChanged}`}
+                            {`Change : $ ${formatMoney(moneyChanged)}`}
                         </Text>
                     </View>
                     <View style={{

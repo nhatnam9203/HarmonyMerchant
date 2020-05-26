@@ -267,7 +267,7 @@ function* paymentAppointment(action) {
                     api: `${apiConfigs.BASE_API}paymentTransaction`,
                     paymentMethod: action.paymentMethod,
                     amount: action.amount,
-                    checkoutPaymentId:responses.data
+                    checkoutPaymentId: responses.data
                 })
             };
         } else if (parseInt(codeNumber) === 401) {
@@ -371,39 +371,30 @@ function* checkoutSubmit(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        //console.log('checkoutSubmit : ' + JSON.stringify(responses));
+        console.log('checkoutSubmit : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
             const dueAmount = responses.data && responses.data.checkoutPaymentResponse && responses.data.checkoutPaymentResponse.dueAmount ? parseFloat(responses.data.checkoutPaymentResponse.dueAmount) : 0;
             if (dueAmount === 0) {
-                // ----- Transaction Completed --------
                 yield put({
                     type: "TRACSACTION_COMPLETED"
                 });
-                yield put({
-                    type: "CHECKOUT_SUBMIT_SUCCESS",
-                    payload: responses.data && responses.data.checkoutPaymentResponse ? {
-                        ...responses.data.checkoutPaymentResponse,
-                        paymentMethod: action.paymentMethod,
-                        amount: action.amount
-                    } : {}
-                })
             } else if (dueAmount < 0) {
                 yield put({
                     type: "SHOW_POPUP_CHANGED_MONEY",
                     payload: Math.abs(dueAmount)
-                })
-            } else {
-                yield put({
-                    type: "CHECKOUT_SUBMIT_SUCCESS",
-                    payload: responses.data && responses.data.checkoutPaymentResponse ? {
-                        ...responses.data.checkoutPaymentResponse,
-                        paymentMethod: action.paymentMethod,
-                        amount: action.amount
-                    } : {}
-                })
+                });
             }
+            yield put({
+                type: "CHECKOUT_SUBMIT_SUCCESS",
+                payload: responses.data && responses.data.checkoutPaymentResponse ? {
+                    ...responses.data.checkoutPaymentResponse,
+                    paymentMethod: action.paymentMethod,
+                    amount: action.amount
+                } : {},
+                visiblePopupPaymentDetails: dueAmount > 0 ? true : false
+            })
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -417,10 +408,6 @@ function* checkoutSubmit(action) {
         }
     } catch (error) {
         yield put({ type: 'STOP_LOADING_ROOT' });
-        // setTimeout(() =>{
-        //     alert(`error-checkoutSubmit: ${error}`)
-        // },2000);
-
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });

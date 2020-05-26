@@ -41,7 +41,7 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 paymentDetailInfo: action.payload,
-                visiblePopupPaymentDetails: true
+                visiblePopupPaymentDetails: action.visiblePopupPaymentDetails ?  action.visiblePopupPaymentDetails :  false
             }
         case 'CLOSE_POPUP_PAYMENT_DETAIL':
             return {
