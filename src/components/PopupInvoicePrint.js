@@ -133,7 +133,7 @@ class PopupInvoicePrint extends React.Component {
         const { paymentDetailInfo } = this.props;
         const paidAmounts = paymentDetailInfo.paidAmounts ? paymentDetailInfo.paidAmounts : [{ paymentMethod: "" }];
 
-        return paidAmounts;
+        return paidAmounts.reverse();
 
     }
 
@@ -392,7 +392,7 @@ class PopupInvoicePrint extends React.Component {
                                     {
                                         !isPrintTempt ? <View>
                                             {
-                                                (this.getPaymentMethods()).reverse().map((data, index) => <View key={index} style={{ marginBottom: scaleSzie(4) }} >
+                                                (this.getPaymentMethods()).map((data, index) => <View key={index} style={{ marginBottom: scaleSzie(4) }} >
                                                     <Text style={[styleInvoice.txt_total,]} >
                                                         {`- Entry method : ${getPaymentString(data.paymentMethod)}`}
                                                     </Text>
