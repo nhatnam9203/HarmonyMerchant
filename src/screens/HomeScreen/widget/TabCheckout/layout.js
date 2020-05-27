@@ -260,8 +260,10 @@ class Layout extends React.Component {
         const temptWidth = isShowColAmount ? 254 : 102;
         const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
 
+        const atualWidth = !isShowColAmount && ! isShowColProduct ? 122 : temptWidth;
+
         return (
-            <View style={{ width: scaleSzie(temptWidth) }} >
+            <View style={{ width: scaleSzie(atualWidth) }} >
                 {
                     !isShowColAmount ?
                         <View style={{
@@ -732,7 +734,7 @@ class Layout extends React.Component {
     renderBodyCheckout() {
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
-                <View style={{ width: scaleSzie(446) }} >
+                <View style={{ width: scaleSzie(446)}} >
                     <ScrollableTabView
                         ref={this.scrollTabRef}
                         style={{}}
