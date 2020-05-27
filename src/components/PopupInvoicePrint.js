@@ -34,7 +34,9 @@ const initalState = {
     printMachine: "",
     isProcessingPrint: false,
     isCheck: false,
-    isSignature: false
+    isSignature: false,
+
+    paymentMethods : [{ paymentMethod: "" }]
 }
 
 class PopupInvoicePrint extends React.Component {
@@ -55,7 +57,9 @@ class PopupInvoicePrint extends React.Component {
             temptTotal,
             paymentSelected,
             isPrintTempt,
-            printMachine
+            printMachine,
+
+            paymentMethods : this.getPaymentMethods()
         })
     }
 
@@ -131,9 +135,9 @@ class PopupInvoicePrint extends React.Component {
 
     getPaymentMethods = () => {
         const { paymentDetailInfo } = this.props;
-        const paidAmounts = paymentDetailInfo.paidAmounts ? paymentDetailInfo.paidAmounts : [{ paymentMethod: "" }];
+        return paymentDetailInfo.paidAmounts && paymentDetailInfo.paidAmounts.length > 0 ? (paymentDetailInfo.paidAmounts).reverse() : [{ paymentMethod: "" }];
 
-        return paidAmounts.reverse();
+        // return paidAmounts.reverse();
 
     }
 
@@ -178,7 +182,7 @@ class PopupInvoicePrint extends React.Component {
         const { language, visiblePrintInvoice, profile, profileStaffLogin, groupAppointment
         } = this.props;
         const { basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected, isPrintTempt,
-            isCheck, isSignature
+            isCheck, isSignature,paymentMethods
         } = this.state;
 
         let invoiceCode = "";
@@ -392,7 +396,7 @@ class PopupInvoicePrint extends React.Component {
                                     {
                                         !isPrintTempt ? <View>
                                             {
-                                                (this.getPaymentMethods()).map((data, index) => <View key={index} style={{ marginBottom: scaleSzie(4) }} >
+                                                paymentMethods.map((data, index) => <View key={index} style={{ marginBottom: scaleSzie(4) }} >
                                                     <Text style={[styleInvoice.txt_total,]} >
                                                         {`- Entry method : ${getPaymentString(data.paymentMethod)}`}
                                                     </Text>
