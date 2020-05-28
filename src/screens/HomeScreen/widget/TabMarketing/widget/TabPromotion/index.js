@@ -111,7 +111,7 @@ class TabPromotion extends Layout {
   componentDidUpdate(prevProps, prevState) {
     const { profile, isLoadingGetPromotionByMerchant } = this.props;
     if (prevProps.isLoadingGetPromotionByMerchant !== isLoadingGetPromotionByMerchant && prevProps.isLoadingGetPromotionByMerchant && !isLoadingGetPromotionByMerchant) {
-      this.updatePromotionsFromParent();
+      // this.updatePromotionsFromParent();
     }
   }
 

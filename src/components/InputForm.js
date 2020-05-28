@@ -47,7 +47,7 @@ export default class InputForm extends React.PureComponent {
                         /> : <TextInput
                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
                                 placeholder={placeholder}
-                                value={value}
+                                value={`${value}`}
                                 onChangeText={(value => onChangeText(value))}
                                 secureTextEntry={secureTextEntry}
                                 keyboardType={keyboardType ? keyboardType : "default"}

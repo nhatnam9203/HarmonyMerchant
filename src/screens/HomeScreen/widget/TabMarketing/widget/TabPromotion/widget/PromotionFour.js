@@ -52,6 +52,8 @@ import connectRedux from '@redux/ConnectRedux';
         const { language } = this.props;
         const { data } = this.state;
         const { campaignName } = data;
+        console.log("------ Discount for loyal customers : ", data.promotionApplyOn);
+
         return (
             <ItemPromo
                 title={data.defaultName}
@@ -78,6 +80,7 @@ import connectRedux from '@redux/ConnectRedux';
                     {/* ---- Row ---- */}
                     <View style={{ width: scaleSzie(200) }}  >
                         <InputForm
+                            isOnlyNumber={true}
                             title={localize('Promotion applied on (times)', language)}
                             subTitle=""
                             placeholder="6"
@@ -88,7 +91,6 @@ import connectRedux from '@redux/ConnectRedux';
                                 });
                                 this.props.actions.marketing.setStatusApplyButton(true);
                             }}
-                            // onChangeText={(value) => { }}
                             style={{ marginBottom: scaleSzie(10) }}
                             styleTitle={{fontWeight:"600"}}
                         />

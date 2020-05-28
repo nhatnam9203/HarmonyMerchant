@@ -171,7 +171,7 @@ class ItemBlockBasket extends React.Component {
                     height: scaleSzie(35), paddingLeft: scaleSzie(10),
                     flexDirection: "row", alignItems: "center",
                 },temptBackground]} >
-                    <Text style={[{  fontSize: scaleSzie(16), fontWeight: "bold" },{temptTextColor}]} >
+                    <Text style={[{  fontSize: scaleSzie(16), fontWeight: "bold" },temptTextColor]} >
                         {`Block 1`}
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >

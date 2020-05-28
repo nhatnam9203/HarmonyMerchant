@@ -220,7 +220,7 @@ class PopupStaffInvoicePrint extends React.Component {
                                     style={{ paddingHorizontal: 20 }}
                                 >
                                     {/* -------------- Type Invoice + Staff Name -------------- */}
-                                    <Text style={[styleInvoice.txt_normal, {fontSize:scaleSzie(14), fontWeight: "600" }]} >
+                                    <Text style={[styleInvoice.txt_normal, { fontSize: scaleSzie(14), fontWeight: "600" }]} >
                                         {`${receiptType} receipts - ${staffName}`}
                                     </Text>
                                     {/* -------------- Date -------------- */}

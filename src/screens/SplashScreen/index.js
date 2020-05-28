@@ -33,6 +33,7 @@ class SplashScreen extends Layout {
                 }
 
                 const tempEnv = env.IS_PRODUCTION;
+                console.log(tempEnv);
                 if (tempEnv == true) {
                     this.checkForUpdateCodepush();
                 } else {
