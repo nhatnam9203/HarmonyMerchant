@@ -1,8 +1,9 @@
 import _ from 'ramda';
 import CodePush from "react-native-code-push";
-import { Alert } from 'react-native';
+import { Alert, Linking } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import env from 'react-native-config';
+import VersionCheck from 'react-native-version-check';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -18,21 +19,30 @@ class SplashScreen extends Layout {
         }
     }
 
-    componentDidMount() {
-        const { deviceId } = this.props;
-        if (!deviceId) {
-            const uniqueId = DeviceInfo.getUniqueId();
-            this.props.actions.dataLocal.updateDeviceId(uniqueId);
+    async componentDidMount() {
+        try {
+            const res = await VersionCheck.needUpdate();
+            console.log("res : ",res);
+            if (res && res.isNeeded) {
+                Linking.openURL(res.storeUrl);
+            } else {
+                const { deviceId } = this.props;
+                if (!deviceId) {
+                    const uniqueId = DeviceInfo.getUniqueId();
+                    this.props.actions.dataLocal.updateDeviceId(uniqueId);
+                }
+
+                const tempEnv = env.IS_PRODUCTION;
+                if (tempEnv == true) {
+                    this.checkForUpdateCodepush();
+                } else {
+                    this.controlFlowInitApp();
+                }
+            }
+
+        } catch (error) {
         }
 
-        console.log(env.IS_PRODUCTION);
-        // if (checkEnvironment() === 'DEV') {
-        const tempEnv = env.IS_PRODUCTION;
-        if (tempEnv == true) {
-            this.checkForUpdateCodepush();
-        } else {
-            this.controlFlowInitApp();
-        }
     }
 
     checkForUpdateCodepush() {
@@ -92,11 +102,11 @@ class SplashScreen extends Layout {
     }
 
     controlFlowInitApp() {
-        const { token, profile ,stateCity} = this.props;
-        if(stateCity.length === 0){
+        const { token, profile, stateCity } = this.props;
+        if (stateCity.length === 0) {
             this.props.actions.app.getStateCity();
         }
-       
+
         if (!token) {
             this.props.navigation.navigate('Auth');
         } else {
@@ -114,7 +124,7 @@ const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     token: state.dataLocal.token,
     deviceId: state.dataLocal.deviceId,
-    stateCity : state.dataLocal.stateCity
+    stateCity: state.dataLocal.stateCity
 });
 
 let codePushOptions = { checkFrequency: CodePush.CheckFrequency.MANUAL };

@@ -13,14 +13,14 @@ import { scaleSzie, localize, formatNumberFromCurrency, formatMoney } from '@uti
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
     PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode, PopupProcessingCredit, PopupInvoicePrint,
-    PopupChangePriceAmountProduct,PopupChangeTip
+    PopupChangePriceAmountProduct, PopupChangeTip
 } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import {
     ItemCategory, ColPlaceHolder, ItemProductService, ItemAmount,
     ItemExtra, PopupDiscount, PopupBill, PopupDiscountLocal, PopupEnterInfo,
-    PopupEnterCustomerPhone, ItemCustomerBasket, PopupPaymentDetails
+    PopupEnterCustomerPhone, ItemCustomerBasket, PopupPaymentDetails, ItemBlockBasket
 } from './widget';
 
 class Layout extends React.Component {
@@ -260,7 +260,7 @@ class Layout extends React.Component {
         const temptWidth = isShowColAmount ? 254 : 102;
         const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
 
-        const atualWidth = !isShowColAmount && ! isShowColProduct ? 122 : temptWidth;
+        const atualWidth = !isShowColAmount && !isShowColProduct ? 122 : temptWidth;
 
         return (
             <View style={{ width: scaleSzie(atualWidth) }} >
@@ -350,15 +350,251 @@ class Layout extends React.Component {
 
     }
 
-    renderBasket() {
+    renderGroupAppointments() {
         const { infoUser } = this.state;
         const { language, groupAppointment, paymentDetailInfo, isOfflineMode } = this.props;
         const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
         const temptGrandTotal = groupAppointment.total ? groupAppointment.total : 0;
 
-        const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         const totalLocal = Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2);
+
+
+        return (
+            <View style={{ flex: 1 }} >
+                <ScrollView showsVerticalScrollIndicator={false} >
+                    {
+                        _.isEmpty(groupAppointment) ? (basket.length > 0 ? <ItemCustomerBasket
+                            language={language}
+                            subTotalLocal={subTotalLocal}
+                            tipLocal={tipLocal}
+                            discountTotalLocal={discountTotalLocal}
+                            taxLocal={taxLocal}
+                            removeItemBasket={this.removeItemBasket}
+                            changeStylist={this.changeStylist}
+                            changeProduct={this.changeProduct}
+                            showModalDiscount={this.showModalDiscount}
+                            basketLocal={basket}
+                            infoUser={infoUser}
+                            isOfflineMode={true}
+                            showModalTipAppointment={this.showModalTipAppointment}
+
+                        /> : <View />) : appointments.map((appointment, index) => <ItemCustomerBasket
+                            key={`${appointment.appointmentId}_${index}`}
+                            language={language}
+                            appointmentDetail={appointment}
+                            subTotalLocal={subTotalLocal}
+                            tipLocal={tipLocal}
+                            discountTotalLocal={discountTotalLocal}
+                            taxLocal={taxLocal}
+                            removeItemBasket={this.removeItemBasket}
+                            changeStylist={this.changeStylist}
+                            changeProduct={this.changeProduct}
+                            showModalDiscount={this.showModalDiscount}
+                            basketLocal={basket}
+                            infoUser={infoUser}
+                            showModalTipAppointment={this.showModalTipAppointment}
+                        />)
+                    }
+
+
+                    {/* ----------- Grand Total ----------- */}
+                    <View style={{ paddingHorizontal: scaleSzie(10) }} >
+                        <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
+                        {/* ---------- Tip ------ */}
+                        <View style={styles.payNumberTextContainer} >
+                            <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#0764B0" }]} >
+                                {`${localize('Grand Total', language)}:`}
+                            </Text>
+                            <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: 'rgb(65,184,85)' }]} >
+                                {`$${isOfflineMode ? formatMoney(totalLocal) : formatMoney(temptGrandTotal)}`}
+                            </Text>
+                        </View>
+                    </View>
+
+                    {/* ----------- Paid Amount ----------- */}
+                    {
+                        !_.isEmpty(paymentDetailInfo) ? <View style={{ paddingHorizontal: scaleSzie(10), marginBottom: scaleSzie(8) }} >
+                            <View style={{ height: 2, backgroundColor: "#DDDDDD", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
+                            {/* ---------- Paid amount ------ */}
+                            {
+                                paymentDetailInfo.paidAmounts ? paymentDetailInfo.paidAmounts.map((paidAmountInfo, index) => <View key={index} style={[styles.payNumberTextContainer, { justifyContent: 'space-between', marginBottom: scaleSzie(8) }]} >
+                                    <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#404040" }]} >
+                                        {`${localize('Paid ', language)}`}
+                                        <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "300", color: '#404040' }]} >
+                                            {` (${paidAmountInfo.paymentMethod})`}
+                                        </Text>
+                                    </Text>
+                                    <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: '#404040' }]} >
+                                        {`  $ ${formatMoney(paidAmountInfo.amount)}`}
+                                    </Text>
+
+                                </View>) : <View />
+                            }
+
+
+                            {/* ---------- Due amount ------ */}
+                            {
+                                paymentDetailInfo.dueAmount ? <View style={[styles.payNumberTextContainer, { justifyContent: 'space-between', }]} >
+                                    <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#FF3B30" }]} >
+                                        {`${localize('Due amount', language)}:`}
+                                    </Text>
+                                    <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: '#FF3B30' }]} >
+                                        {`   $ ${formatMoney(paymentDetailInfo.dueAmount)}`}
+
+                                    </Text>
+                                </View> : <View />
+                            }
+
+                        </View> : <View />
+                    }
+
+
+                    <View style={{ height: scaleSzie(50) }} />
+                </ScrollView>
+            </View>
+        );
+    }
+
+    renderBlocksAppointments() {
+        const { infoUser } = this.state;
+        const { language, groupAppointment, paymentDetailInfo, isOfflineMode } = this.props;
+        const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
+        const appointments =
+            [
+                {
+                    "appointmentId": 8831,
+                    "merchantId": 136,
+                    "userId": 0,
+                    "customerId": 2640,
+                    "tipPercent": "0.00",
+                    "createdDate": "2020-05-27T15:55:12.87899+07:00",
+                    "total": "244.92",
+                    "staffId": 0,
+                    "duration": 43,
+                    "waitingTime": 0,
+                    "fromTime": "2020-05-27T15:55:00",
+                    "toTime": "2020-05-27T16:38:00",
+                    "status": "waiting",
+                    "isDeleted": 0,
+                    "isDisabled": 0,
+                    "isRemind": 0,
+                    "tipAmount": "0.00",
+                    "discount": "0.00",
+                    "tax": "15.92",
+                    "giftCard": "0.00",
+                    "subTotal": "229.00",
+                    "isSignIn": 0,
+                    "customDiscountPercent": "0.00",
+                    "customDiscountFixed": "0.00",
+                    "code": "3232001545",
+                    "isOffline": 0,
+                    "checkoutGroupId": 2532,
+                    "firstName": "Unknow",
+                    "lastName": "Unknow",
+                    "phoneNumber": "0",
+                    "isMain": 1,
+                    "services": [
+                        // {
+                        //     "bookingServiceId": 14395,
+                        //     "appointmentId": 8831,
+                        //     "serviceId": 87,
+                        //     "duration": 23,
+                        //     "serviceName": "NO :|",
+                        //     "price": "199.00",
+                        //     "status": 1,
+                        //     "tax": "15.92",
+                        //     "staff": {
+                        //         "staffId": 0,
+                        //         "displayName": "",
+                        //         "tip": "0.00",
+                        //         "imageUrl": ""
+                        //     },
+                        //     "tipAmount": "0.00",
+                        //     "staffId": 0,
+                        //     "data": null
+                        // }
+                    ],
+                    "products": [
+                        // {
+                        //     "bookingProductId": 4460,
+                        //     "appointmentId": 8831,
+                        //     "quantity": 1,
+                        //     "productName": "Pro_admin_1",
+                        //     "price": "20.00",
+                        //     "status": 1,
+                        //     "tax": "0.00",
+                        //     "productId": 96,
+                        //     "description": null,
+                        //     "data": null
+                        // }
+                    ],
+                    "extras": [
+                        // {
+                        //     "bookingExtraId": 2520,
+                        //     "appointmentId": 8831,
+                        //     "extraId": 131,
+                        //     "extraName": "Ẽtra add",
+                        //     "price": "10.00",
+                        //     "duration": 20,
+                        //     "status": 1,
+                        //     "data": null
+                        // }
+                    ],
+                    "giftCards": [],
+                    "notes": null,
+                    "apppointmentHistory": null,
+                    "staff": null,
+                    "merchant": {
+                        "merchantId": 136,
+                        "businessName": "BUSSINESS AAA",
+                        "businessHour": "08:00 AM - 05:00 PM",
+                        "businessHourStart": "08:00 AM",
+                        "businessHourEnd": "10:30 PM",
+                        "email": "aaastore@gmail.com",
+                        "zip": "3000",
+                        "address": "123NY NY New York",
+                        "phone": "+1123-456-789",
+                        "cellPhone": "+1098-765-4213"
+                    },
+                    "paymentMethod": null,
+                    "paymentTransactionId": 0,
+                    "isVip": 0,
+                    "blockTime": 0
+                }
+            ];
+        const temptGrandTotal = groupAppointment.total ? groupAppointment.total : 0;
+        const totalLocal = Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2);
+
+        return (
+            <View style={{ flex: 1 }} >
+                <ScrollView showsVerticalScrollIndicator={false} >
+                    {appointments.map((appointment, index) => <ItemBlockBasket
+                        key={`${appointment.appointmentId}_${index}`}
+                        language={language}
+                        appointmentDetail={appointment}
+                        subTotalLocal={subTotalLocal}
+                        tipLocal={tipLocal}
+                        discountTotalLocal={discountTotalLocal}
+                        taxLocal={taxLocal}
+                        removeItemBasket={this.removeItemBasket}
+                        changeStylist={this.changeStylist}
+                        changeProduct={this.changeProduct}
+                        showModalDiscount={this.showModalDiscount}
+                        basketLocal={basket}
+                        infoUser={infoUser}
+                        showModalTipAppointment={this.showModalTipAppointment}
+                    />)}
+                    <View style={{ height: scaleSzie(50) }} />
+                </ScrollView>
+            </View>
+        );
+    }
+
+    renderBasket() {
+        const { language, groupAppointment, paymentDetailInfo } = this.props;
+
+        const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         return (
             <View style={{ flex: 1 }} >
                 {/* -------- Header Basket -------- */}
@@ -383,99 +619,8 @@ class Layout extends React.Component {
                     </View>
                 </View>
                 {/* -------- Content Basket -------- */}
-                <View style={{ flex: 1 }} >
-                    <ScrollView showsVerticalScrollIndicator={false} >
-                        {
-                            _.isEmpty(groupAppointment) ? (basket.length > 0 ? <ItemCustomerBasket
-                                language={language}
-                                subTotalLocal={subTotalLocal}
-                                tipLocal={tipLocal}
-                                discountTotalLocal={discountTotalLocal}
-                                taxLocal={taxLocal}
-                                removeItemBasket={this.removeItemBasket}
-                                changeStylist={this.changeStylist}
-                                changeProduct={this.changeProduct}
-                                showModalDiscount={this.showModalDiscount}
-                                basketLocal={basket}
-                                infoUser={infoUser}
-                                isOfflineMode={true}
-                                showModalTipAppointment={this.showModalTipAppointment}
-
-                            /> : <View />) : appointments.map((appointment, index) => <ItemCustomerBasket
-                                key={`${appointment.appointmentId}_${index}`}
-                                language={language}
-                                appointmentDetail={appointment}
-                                subTotalLocal={subTotalLocal}
-                                tipLocal={tipLocal}
-                                discountTotalLocal={discountTotalLocal}
-                                taxLocal={taxLocal}
-                                removeItemBasket={this.removeItemBasket}
-                                changeStylist={this.changeStylist}
-                                changeProduct={this.changeProduct}
-                                showModalDiscount={this.showModalDiscount}
-                                basketLocal={basket}
-                                infoUser={infoUser}
-                                showModalTipAppointment={this.showModalTipAppointment}
-                            />)
-                        }
-
-
-                        {/* ----------- Grand Total ----------- */}
-                        <View style={{ paddingHorizontal: scaleSzie(10) }} >
-                            <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
-                            {/* ---------- Tip ------ */}
-                            <View style={styles.payNumberTextContainer} >
-                                <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#0764B0" }]} >
-                                    {`${localize('Grand Total', language)}:`}
-                                </Text>
-                                <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: 'rgb(65,184,85)' }]} >
-                                    {`$${isOfflineMode ? formatMoney(totalLocal) : formatMoney(temptGrandTotal)}`}
-                                </Text>
-                            </View>
-                        </View>
-
-                        {/* ----------- Paid Amount ----------- */}
-                        {
-                            !_.isEmpty(paymentDetailInfo) ? <View style={{ paddingHorizontal: scaleSzie(10), marginBottom: scaleSzie(8) }} >
-                                <View style={{ height: 2, backgroundColor: "#DDDDDD", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
-                                {/* ---------- Paid amount ------ */}
-                                {
-                                    paymentDetailInfo.paidAmounts ? paymentDetailInfo.paidAmounts.map((paidAmountInfo, index) => <View key={index} style={[styles.payNumberTextContainer, { justifyContent: 'space-between', marginBottom: scaleSzie(8) }]} >
-                                        <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#404040" }]} >
-                                            {`${localize('Paid ', language)}`}
-                                            <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "300", color: '#404040' }]} >
-                                                {` (${paidAmountInfo.paymentMethod})`}
-                                            </Text>
-                                        </Text>
-                                        <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: '#404040' }]} >
-                                            {`  $ ${formatMoney(paidAmountInfo.amount)}`}
-                                        </Text>
-
-                                    </View>) : <View />
-                                }
-
-
-                                {/* ---------- Due amount ------ */}
-                                {
-                                    paymentDetailInfo.dueAmount ? <View style={[styles.payNumberTextContainer, { justifyContent: 'space-between', }]} >
-                                        <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#FF3B30" }]} >
-                                            {`${localize('Due amount', language)}:`}
-                                        </Text>
-                                        <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: '#FF3B30' }]} >
-                                            {`   $ ${formatMoney(paymentDetailInfo.dueAmount)}`}
-
-                                        </Text>
-                                    </View> : <View />
-                                }
-
-                            </View> : <View />
-                        }
-
-
-                        <View style={{ height: scaleSzie(50) }} />
-                    </ScrollView>
-
-                </View>
+                {/* {this.renderGroupAppointments()} */}
+                {this.renderBlocksAppointments()}
 
                 {/* -------- Footer Basket -------- */}
                 <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
@@ -635,12 +780,6 @@ class Layout extends React.Component {
                             selectedPayment={this.selectedPayment}
                             paymentSelected={this.state.paymentSelected}
                         />)
-                        // ['Cash', 'Credit Cards'].map((title, index) => <ItemPaymentMethod
-                        //     key={index}
-                        //     title={title}
-                        //     selectedPayment={this.selectedPayment}
-                        //     paymentSelected={this.state.paymentSelected}
-                        // />)
                     }
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: scaleSzie(30) }} >
@@ -652,12 +791,6 @@ class Layout extends React.Component {
                             paymentSelected={this.state.paymentSelected}
                         />)
 
-                        // ['Others - Check'].map((title, index) => <ItemPaymentMethod
-                        //     key={index}
-                        //     title={title}
-                        //     selectedPayment={this.selectedPayment}
-                        //     paymentSelected={this.state.paymentSelected}
-                        // />)
                     }
                 </View>
                 {/* ------ Footer ----- */}
@@ -734,7 +867,7 @@ class Layout extends React.Component {
     renderBodyCheckout() {
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
-                <View style={{ width: scaleSzie(446)}} >
+                <View style={{ width: scaleSzie(446) }} >
                     <ScrollableTabView
                         ref={this.scrollTabRef}
                         style={{}}
