@@ -619,8 +619,8 @@ class Layout extends React.Component {
                     </View>
                 </View>
                 {/* -------- Content Basket -------- */}
-                {/* {this.renderGroupAppointments()} */}
-                {this.renderBlocksAppointments()}
+                {this.renderGroupAppointments()}
+                {/* {this.renderBlocksAppointments()} */}
 
                 {/* -------- Footer Basket -------- */}
                 <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >

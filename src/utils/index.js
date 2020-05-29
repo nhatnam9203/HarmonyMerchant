@@ -98,7 +98,7 @@ export const uploadFromData = async (action, header = {}) => {
         baseURL: baseURL,
         url: '',
         headers: headers,
-        timeout: 10000,
+        timeout: 20000,
         validateStatus: (status) => status >= 200 && status < 600,
     };
     configs['data'] = this.createFormData(action.media);
@@ -106,7 +106,6 @@ export const uploadFromData = async (action, header = {}) => {
         let response = await axios(configs);
         return response.data;
     } catch (error) {
-        //console.log('error message : ' + JSON.stringify(error));
         if (error.request) {
             if (error.message.includes('timeout')) {
                 throw 'TIME_OUT'
@@ -733,7 +732,7 @@ export const PRINTER_MACHINE = {
         isCashier: true,
         isPrint: true,
         emulation: "StarPRNT",
-        widthPaper:"400",
+        widthPaper: "400",
     },
     "BT:TSP100": {
         printerModels: "TSP100",
@@ -741,7 +740,7 @@ export const PRINTER_MACHINE = {
         isCashier: false,
         isPrint: true,
         emulation: "StarGraphic",
-        widthPaper:"576"
+        widthPaper: "576"
     },
 };
 
@@ -779,7 +778,7 @@ export const formatWithMoment = (data, key) => {
     return moment.parseZone(data).local().format(key);
 }
 
-export const  checkStatusPrint = async () => {
+export const checkStatusPrint = async () => {
     try {
         const printer = await PrintManager.getInstance().portDiscovery();
         if (printer.length > 0) {
