@@ -113,7 +113,7 @@ function* addItemIntoAppointment(action) {
             action.isGroup ? yield put({
                 type: 'GET_GROUP_APPOINTMENT_BY_ID',
                 method: 'GET',
-                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId}`,
+                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId ? action.appointmentId : "addItemIntoAppointment"}`,
                 token: true
             }) :
                 yield put({
@@ -155,7 +155,7 @@ function* removeItemIntoAppointment(action) {
                 yield put({
                     type: 'GET_GROUP_APPOINTMENT_BY_ID',
                     method: 'GET',
-                    api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId}`,
+                    api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId ? action.appointmentId : "removeItemIntoAppointment"}`,
                     token: true
                 })
             } else {
@@ -198,7 +198,7 @@ function* checkoutAppointment(action) {
             yield put({
                 type: 'GET_GROUP_APPOINTMENT_BY_ID',
                 method: 'GET',
-                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId}`,
+                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId ? action.appointmentId : "checkoutAppointment"}`,
                 token: true,
                 appointmentId: action.appointmentId,
                 paidAmount: action.paidAmount,
@@ -559,7 +559,7 @@ function* removeAppointmentInGroup(action) {
             yield put({
                 type: 'GET_GROUP_APPOINTMENT_BY_ID',
                 method: 'GET',
-                api: `${apiConfigs.BASE_API}appointment/getGroupById/${mainAppointmentId}`,
+                api: `${apiConfigs.BASE_API}appointment/getGroupById/${mainAppointmentId ? mainAppointmentId : removeAppointmentInGroup}`,
                 token: true
             });
 
@@ -680,13 +680,13 @@ function* updateProductInAppointment(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('updateProductInAppointment : ' + JSON.stringify(responses));
+        // console.log('updateProductInAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             action.isGroup ? yield put({
                 type: 'GET_GROUP_APPOINTMENT_BY_ID',
                 method: 'GET',
-                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId}`,
+                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId ? action.appointmentId : "updateProductInAppointment"}`,
                 token: true
             }) :
                 yield put({

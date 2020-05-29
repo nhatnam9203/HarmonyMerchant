@@ -221,7 +221,7 @@ function* changeStylist(action) {
             action.isGroup ? yield put({
                 type: 'GET_GROUP_APPOINTMENT_BY_ID',
                 method: 'GET',
-                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId}`,
+                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId ? action.appointmentId : "changeStylist"}`,
                 token: true
             }) :
                 yield put({
@@ -257,7 +257,7 @@ function* customPromotion(action) {
             action.isGroup ? yield put({
                 type: 'GET_GROUP_APPOINTMENT_BY_ID',
                 method: 'GET',
-                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentid}`,
+                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentid ? action.appointmentid : "customPromotion"}`,
                 token: true
             }) :
                 yield put({

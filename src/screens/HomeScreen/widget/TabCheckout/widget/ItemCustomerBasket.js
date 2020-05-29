@@ -232,8 +232,8 @@ class ItemCustomerBasket extends React.Component {
                                 </Text>
                             </View>
 
-                             {/* ---------- Tip ------ */}
-                             <View style={styles.payNumberTextContainer} >
+                            {/* ---------- Tip ------ */}
+                            <View style={styles.payNumberTextContainer} >
                                 <Button style={{ flexDirection: "row" }} onPress={this.showModalTipAppointment.bind(this, temptTip)} >
                                     <Text style={styles.textPay} >
                                         {`${localize('Tip', language)}:  `}

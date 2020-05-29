@@ -157,7 +157,7 @@ class ItemBlockBasket extends React.Component {
 
         // ---- New -----
         const temptBackground = (this.getBasket()).length > 0 ? {backgroundColor: "#0764B0"} : {backgroundColor: "#E5E5E5"};
-        const temptTextColor = (this.getBasket()).length > 0 ? {backgroundColor: "#fff"} : {backgroundColor: "#404040"};
+        const temptTextColor = (this.getBasket()).length > 0 ? {color: "#fff"} : {color: "#404040"};
 
 
         return (
