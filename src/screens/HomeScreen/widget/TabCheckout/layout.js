@@ -585,6 +585,14 @@ class Layout extends React.Component {
                         infoUser={infoUser}
                         showModalTipAppointment={this.showModalTipAppointment}
                     />)}
+                    <Button onPress={this.createABlockAppointment} >
+                        <Text style={{
+                            color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "bold",
+                            marginLeft: scaleSzie(10)
+                        }} >
+                            + Add block
+                    </Text>
+                    </Button>
                     <View style={{ height: scaleSzie(50) }} />
                 </ScrollView>
             </View>
@@ -619,8 +627,8 @@ class Layout extends React.Component {
                     </View>
                 </View>
                 {/* -------- Content Basket -------- */}
-                {this.renderGroupAppointments()}
-                {/* {this.renderBlocksAppointments()} */}
+                {/* {this.renderGroupAppointments()} */}
+                {this.renderBlocksAppointments()}
 
                 {/* -------- Footer Basket -------- */}
                 <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >

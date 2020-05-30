@@ -323,8 +323,6 @@ function* createAnymousAppointment(action) {
                     paidAmount: action.paidAmount,
                     isPayment: action.isPayment,
                     paymentMethod: action.paymentMethod,
-
-
                 })
             } else {
                 yield put({

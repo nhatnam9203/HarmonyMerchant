@@ -1570,7 +1570,14 @@ class TabCheckout extends Layout {
         }
 
         return extrasBySort;
+    }
 
+    createABlockAppointment = () =>{
+        const { profile } = this.props;
+        this.props.actions.appointment.createAnymousAppointment(
+            profile.merchantId, 0,[],[],[],"",true,0,0,0,"","","",
+            0,false,false,
+        );
     }
 
 }
