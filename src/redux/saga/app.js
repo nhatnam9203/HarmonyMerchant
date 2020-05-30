@@ -268,7 +268,7 @@ function* requestNetworkTimeout(action) {
 }
 
 function* timeout(action) {
-    console.log("ddddddd");
+    // console.log("ddddddd");
     yield put({ type: 'Server not response' });
     setTimeout(() => {
         alert('Server not response');

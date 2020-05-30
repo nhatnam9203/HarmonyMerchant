@@ -72,3 +72,11 @@ export function updateDeviceId(uniqueId) {
         payload: uniqueId
     }
 }
+
+
+export function updateVersionApp(version) {
+    return {
+        type: 'UPDATE_VERSION_APP',
+        payload: version
+    }
+}

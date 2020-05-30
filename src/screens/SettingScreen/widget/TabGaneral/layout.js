@@ -203,7 +203,7 @@ class Layout extends React.Component {
     }
 
     renderBody() {
-        const { profile, language ,stateCity,refreshingGeneral} = this.props;
+        const { profile, language ,stateCity,refreshingGeneral,versionApp} = this.props;
         const { businessName, address, city, stateId, zip, taxId, phone, email,
             ein, merchantCode, businessBank,merchantId
         } = profile;
@@ -272,7 +272,7 @@ class Layout extends React.Component {
                 justifyContent:"flex-end",alignItems:"flex-end"
                 }} >
                         <Text style={{color:"rrgb(57,54,60)",fontSize:scaleSzie(14),fontWeight:"600"}} >
-                        {localize('Version', language)}   : {configs.VERSION}
+                        {localize('Version', language)}   : {versionApp}
                         </Text>
                     </View>
                     <View style={{ height: scaleSzie(250) }} />

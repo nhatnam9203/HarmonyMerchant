@@ -26,9 +26,9 @@ class TabGaneral extends Layout {
     }
 
     setStateFromParent = async (webLink, businessHourStart, businessHourEnd) => {
-        console.log("webLink : ", webLink);
-        console.log("businessHourStart : ", businessHourStart);
-        console.log("businessHourEnd : ", businessHourEnd);
+        // console.log("webLink : ", webLink);
+        // console.log("businessHourStart : ", businessHourStart);
+        // console.log("businessHourEnd : ", businessHourEnd);
 
         await this.setState({
             webLink,
@@ -111,7 +111,8 @@ const mapStateToProps = state => ({
     autoLockScreenAfter: state.dataLocal.autoLockScreenAfter,
     stateCity: state.dataLocal.stateCity,
     refreshingGeneral: state.app.refreshingGeneral,
-    loading: state.app.loading
+    loading: state.app.loading,
+    versionApp: state.dataLocal.versionApp
 })
 
 

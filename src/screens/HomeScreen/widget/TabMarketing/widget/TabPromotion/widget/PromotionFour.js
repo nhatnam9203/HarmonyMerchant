@@ -52,7 +52,7 @@ import connectRedux from '@redux/ConnectRedux';
         const { language } = this.props;
         const { data } = this.state;
         const { campaignName } = data;
-        console.log("------ Discount for loyal customers : ", data.promotionApplyOn);
+        // console.log("------ Discount for loyal customers : ", data.promotionApplyOn);
 
         return (
             <ItemPromo

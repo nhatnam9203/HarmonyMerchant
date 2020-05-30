@@ -39,7 +39,7 @@ class PopupCustomerDetail extends React.Component {
     }
 
     setStateFromParent = async customer => {
-        console.log("customer : ",customer);
+        // console.log("customer : ",customer);
        await this.setState({
             customerInfo: customer
         })

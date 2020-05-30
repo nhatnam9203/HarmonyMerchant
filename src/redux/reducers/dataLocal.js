@@ -16,7 +16,8 @@ const initialState = {
     isLoginStaff: false,
 
     listAppointmentsOfflineMode: [],
-    deviceId: ""
+    deviceId: "",
+    versionApp: ""
 
 }
 
@@ -104,6 +105,12 @@ function dataLocal(state = initialState, action) {
                 ...state,
                 deviceId: action.payload
             }
+        case "UPDATE_VERSION_APP":
+            return {
+                ...state,
+                versionApp: action.payload
+            }
+
         default:
             return state
     }

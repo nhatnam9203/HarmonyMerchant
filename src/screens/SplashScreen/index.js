@@ -22,35 +22,45 @@ class SplashScreen extends Layout {
     async componentDidMount() {
         try {
             const res = await VersionCheck.needUpdate();
-            console.log("res : ",res);
+            // console.log("res : ",res);
             if (res && res.isNeeded) {
                 Linking.openURL(res.storeUrl);
             } else {
-                const { deviceId } = this.props;
+                const { deviceId, versionApp } = this.props;
                 if (!deviceId) {
-                    const uniqueId = DeviceInfo.getUniqueId();
+                    const uniqueId = await DeviceInfo.getUniqueId();
                     this.props.actions.dataLocal.updateDeviceId(uniqueId);
                 }
 
+
+                let version = await DeviceInfo.getVersion();
+                if ( version !== versionApp ) {
+                    this.props.actions.dataLocal.updateVersionApp(version ? version : "1.0.7");
+                }
+
                 const tempEnv = env.IS_PRODUCTION;
-                console.log(tempEnv);
-                if (tempEnv == true) {
+                // console.log("IS_PRODUCTION : ",tempEnv);
+                if (tempEnv == "true") {
+                    // console.log("---- checkForUpdateCodepush -----");
                     this.checkForUpdateCodepush();
                 } else {
+                    // console.log("---- controlFlowInitApp -----");
                     this.controlFlowInitApp();
                 }
             }
 
         } catch (error) {
+            console.log("error  : ",error);
         }
 
     }
 
     checkForUpdateCodepush() {
+        // console.log('checkForUpdateCodepush : ');
         const deploymentKey = configs.codePushKeyIOS.production;
         CodePush.checkForUpdate(deploymentKey)
             .then(update => {
-                //console.log('update : ', update);
+                // console.log('update : ', update);
                 if (update) {
                     if (update.failedInstall) {
                         this.controlFlowInitApp();
@@ -125,7 +135,8 @@ const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     token: state.dataLocal.token,
     deviceId: state.dataLocal.deviceId,
-    stateCity: state.dataLocal.stateCity
+    stateCity: state.dataLocal.stateCity,
+    versionApp: state.dataLocal.versionApp
 });
 
 let codePushOptions = { checkFrequency: CodePush.CheckFrequency.MANUAL };

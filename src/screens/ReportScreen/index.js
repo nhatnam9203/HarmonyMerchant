@@ -109,7 +109,7 @@ class ReportScreen extends Layout {
     }
 
     showPopupStaffInvoice = async (staff) =>{
-        console.log("staff : ",JSON.stringify(staff));
+        // console.log("staff : ",JSON.stringify(staff));
         await this.setState({
             visibleStaffInvoicePrint: true,
             selectedStaff:staff
