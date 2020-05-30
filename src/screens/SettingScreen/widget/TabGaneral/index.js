@@ -26,9 +26,9 @@ class TabGaneral extends Layout {
     }
 
     setStateFromParent = async (webLink, businessHourStart, businessHourEnd) => {
-        console.log("webLink : ", webLink);
-        console.log("businessHourStart : ", businessHourStart);
-        console.log("businessHourEnd : ", businessHourEnd);
+        // console.log("webLink : ", webLink);
+        // console.log("businessHourStart : ", businessHourStart);
+        // console.log("businessHourEnd : ", businessHourEnd);
 
         await this.setState({
             webLink,

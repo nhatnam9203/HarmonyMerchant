@@ -72,7 +72,7 @@ class HomeScreen extends Layout {
     checkUpdateAppleStore = async () => {
         try {
             const res = await VersionCheck.needUpdate();
-            console.log("VersionCheck : ",res);
+            // console.log("VersionCheck : ",res);
             if (res && res.isNeeded) {
                 Linking.openURL(res.storeUrl);
             }

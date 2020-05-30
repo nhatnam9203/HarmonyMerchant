@@ -66,7 +66,7 @@ class PopupAddEditCustomer extends React.Component {
     }
 
     setStateFromParent = async customer => {
-        console.log("setStateFromParent  : " , JSON.stringify(customer));
+        // console.log("setStateFromParent  : " , JSON.stringify(customer));
         await this.setState({
             customerInfo: {
                 firstName: customer.firstName,
@@ -159,7 +159,7 @@ class PopupAddEditCustomer extends React.Component {
         const { firstName, lastName, phone, email, referrerPhone, favourite, addressPost, isVip } = this.state.customerInfo;
         const { street, city, state } = addressPost;
 
-        console.log("isVip  : ", isVip);
+        // console.log("isVip  : ", isVip);
 
         return (
             <PopupParent

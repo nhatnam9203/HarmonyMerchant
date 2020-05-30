@@ -22,7 +22,7 @@ class SplashScreen extends Layout {
     async componentDidMount() {
         try {
             const res = await VersionCheck.needUpdate();
-            console.log("res : ",res);
+            // console.log("res : ",res);
             if (res && res.isNeeded) {
                 Linking.openURL(res.storeUrl);
             } else {
@@ -33,7 +33,7 @@ class SplashScreen extends Layout {
                 }
 
                 const tempEnv = env.IS_PRODUCTION;
-                console.log(tempEnv);
+                // console.log(tempEnv);
                 if (tempEnv == true) {
                     this.checkForUpdateCodepush();
                 } else {
