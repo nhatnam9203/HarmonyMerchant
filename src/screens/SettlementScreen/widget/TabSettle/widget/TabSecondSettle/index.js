@@ -1,5 +1,5 @@
 import React from 'react';
-import { NativeModules } from 'react-native';
+import { NativeModules,Alert } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -112,8 +112,42 @@ class TabSecondSettle extends Layout {
             PosLink.setupPax(ip, port, timeout);
             PosLink.batchTransaction(message => this.handleResponseBatchTransactions(message));
         } else {
-            alert('Please connect your Pax to take payment.');
+            // alert('Please connect your Pax to take payment.');
+            Alert.alert(
+                'Unable to connect to PAX, Do you want to continue without PAX?',
+                '',
+                [
+                  
+                  {
+                    text: 'Cancel',
+                    onPress: () => {},
+                    style: 'cancel'
+                  },
+                  { text: 'OK', onPress: () =>this.proccessingSettlement() }
+                ],
+                { cancelable: false }
+              );
         }
+    }
+
+    proccessingSettlement =async  () =>{
+        const { settleWaiting } = this.props;
+        const { settleTotal } = this.state;
+        const body = { ...settleTotal, checkout: settleWaiting.checkout };
+        this.props.actions.invoice.settleBatch(body);
+        await this.setState({
+            progress: 1
+        })
+        setTimeout(() => {
+            this.setState({
+                numberFooter: 3,
+            });
+        }, 400)
+        setTimeout(() => {
+            this.setState({
+                progress: 0,
+            });
+        }, 700)
     }
 
     async handleResponseBatchTransactions(message) {
