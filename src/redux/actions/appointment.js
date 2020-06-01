@@ -157,7 +157,8 @@ export function getBlockAppointmentById(appointmentId) {
         type: 'GET_BLOCK_APPOINTMENT_BY_ID',
         method: 'GET',
         api: `${apiConfigs.BASE_API}appointment/${appointmentId}`,
-        token: true
+        token: true,
+        appointmentId
     }
 }
 

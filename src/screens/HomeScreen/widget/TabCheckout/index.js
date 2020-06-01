@@ -101,6 +101,8 @@ class TabCheckout extends Layout {
         this.invoicePrintRef = React.createRef();
         this.changePriceAmountProductRef = React.createRef();
         this.changeTipRef = React.createRef();
+
+        this.blockAppointmentRef = [];
     }
 
     resetStateFromParent = async () => {
@@ -1579,13 +1581,17 @@ class TabCheckout extends Layout {
         return extrasBySort;
     }
 
+    addBlockAppointmentRef = ref => {
+        this.blockAppointmentRef.push(ref);
+    }
+
     createABlockAppointment = () => {
         const { profile } = this.props;
         this.props.actions.appointment.createBlockAppointment(profile.merchantId);
     }
 
-    addBlockAppointment = () =>{
-        const {blockAppointments } = this.props;
+    addBlockAppointment = () => {
+        const { blockAppointments } = this.props;
         const { categoryTypeSelected, basket, productSeleted, extraSelected } = this.state;
 
         const appointmentId = blockAppointments[0].appointmentId;
@@ -1600,20 +1606,19 @@ class TabCheckout extends Layout {
                         quantity: this.amountRef.current.state.quanlity
                     }],
                     giftCards: []
-                }, appointmentId, false,true);
+                }, appointmentId, false, true);
         } else { // ------------- Buy online Extra , Service ---------
-            alert("Service");
 
-            // const temptExtra = extraSelected.extraId !== -1 ? [{ extraId: extraSelected.extraId }] : [];
-            // this.props.actions.appointment.addItemIntoAppointment(
-            //     {
-            //         services: [{
-            //             serviceId: productSeleted.serviceId
-            //         }],
-            //         extras: temptExtra,
-            //         products: [],
-            //         giftCards: []
-            //     }, appointmentId, true);
+            const temptExtra = extraSelected.extraId !== -1 ? [{ extraId: extraSelected.extraId }] : [];
+            this.props.actions.appointment.addItemIntoAppointment(
+                {
+                    services: [{
+                        serviceId: productSeleted.serviceId
+                    }],
+                    extras: temptExtra,
+                    products: [],
+                    giftCards: []
+                }, appointmentId, false,true);
         }
     }
 
@@ -1621,6 +1626,27 @@ class TabCheckout extends Layout {
         // alert()
     }
 
+    toggleCollaps = (appointmentIdSelection, isCollapsed) => {
+        for (let i = 0; i < this.blockAppointmentRef.length; i++) {
+            // console.log(`-----${i} : `,this.blockAppointmentRef[i]);
+            const appointmentDetail = this.blockAppointmentRef[i].props.appointmentDetail;
+            if (appointmentDetail.appointmentId === appointmentIdSelection) {
+                this.blockAppointmentRef[i].setStateFromParent(false);
+            } else {
+                this.blockAppointmentRef[i].setStateFromParent(true);
+            }
+        }
+        // console.log(this.blockAppointmentRef);
+    }
+
+    async  componentDidUpdate(prevProps, prevState) {
+        const {isLoadingGetBlockAppointment,blockAppointments,isOpenBlockAppointmentId} = this.props;
+        if(blockAppointments.length > 0 && prevProps.isLoadingGetBlockAppointment != isLoadingGetBlockAppointment &&  !isLoadingGetBlockAppointment){
+            console.log("isOpenBlockAppointmentId : ",isOpenBlockAppointmentId);
+        }else{
+            console.log("-------- Not -------");
+        }
+    }
 
 }
 
@@ -1652,7 +1678,9 @@ const mapStateToProps = state => ({
     webviewRef: state.appointment.webviewRef,
     appointmentIdOffline: state.appointment.appointmentIdOffline,
     deviceId: state.dataLocal.deviceId,
-    blockAppointments: state.appointment.blockAppointments
+    blockAppointments: state.appointment.blockAppointments,
+    isLoadingGetBlockAppointment: state.appointment.isLoadingGetBlockAppointment,
+    isOpenBlockAppointmentId: state.appointment.isOpenBlockAppointmentId
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);

@@ -34,14 +34,25 @@ class ItemBlockBasket extends React.Component {
         }
     }
 
+    setStateFromParent = async (isCollapsed) => {
+        await this.setState({
+            isCollapsed
+        });
+    }
+
 
     toggleCollaps = () => {
-        if( (this.getBasket()).length > 0){
-            this.setState(prevState => ({
-                isCollapsed: !prevState.isCollapsed
-            }));
-        }
-        
+        const { appointmentDetail } = this.props;
+        const { isCollapsed } = this.state;
+
+        const appointmentId = appointmentDetail && appointmentDetail.appointmentId ? appointmentDetail.appointmentId : -1;
+        // if ((this.getBasket()).length > 0) {
+        //     this.setState(prevState => ({
+        //         isCollapsed: !prevState.isCollapsed
+        //     }));
+        // }
+
+            this.props.toggleCollaps(appointmentId,isCollapsed);
     }
 
     selectCheckbox = () => {
@@ -124,7 +135,7 @@ class ItemBlockBasket extends React.Component {
     // ---------- Render --------
 
     renderHeaderCustomerBaket() {
-        const { appointmentDetail, infoUser, paymentDetailInfo, isOfflineMode } = this.props;
+        const { appointmentDetail, infoUser, paymentDetailInfo, isOfflineMode, blockIndex } = this.props;
         let firstName = '';
         let lastName = '';
 
@@ -156,8 +167,8 @@ class ItemBlockBasket extends React.Component {
         const disabledRemoveItemCustomerBasket = checkoutPayments.length === 0 ? false : true;
 
         // ---- New -----
-        const temptBackground = (this.getBasket()).length > 0 ? {backgroundColor: "#0764B0"} : {backgroundColor: "#E5E5E5"};
-        const temptTextColor = (this.getBasket()).length > 0 ? {color: "#fff"} : {color: "#404040"};
+        const temptBackground = (this.getBasket()).length > 0 ? { backgroundColor: "#0764B0" } : { backgroundColor: "#E5E5E5" };
+        const temptTextColor = (this.getBasket()).length > 0 ? { color: "#fff" } : { color: "#404040" };
 
 
         return (
@@ -170,9 +181,9 @@ class ItemBlockBasket extends React.Component {
                 <View style={[{
                     height: scaleSzie(35), paddingLeft: scaleSzie(10),
                     flexDirection: "row", alignItems: "center",
-                },temptBackground]} >
-                    <Text style={[{  fontSize: scaleSzie(16), fontWeight: "bold" },temptTextColor]} >
-                        {`Block 1`}
+                }, temptBackground]} >
+                    <Text style={[{ fontSize: scaleSzie(16), fontWeight: "bold" }, temptTextColor]} >
+                        {`Block ${blockIndex + 1}`}
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
                         <Button onPress={this.toggleCollaps} >

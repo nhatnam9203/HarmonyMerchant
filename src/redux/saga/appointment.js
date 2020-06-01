@@ -128,7 +128,8 @@ function* addItemIntoAppointment(action) {
                     type: 'GET_BLOCK_APPOINTMENT_BY_ID',
                     method: 'GET',
                     api: `${apiConfigs.BASE_API}appointment/${action.appointmentId}`,
-                    token: true
+                    token: true,
+                    appointmentId: action.appointmentId
                 })
             }
 
@@ -728,7 +729,7 @@ function* updateProductInAppointment(action) {
 
 function* createBlockAppointment(action) {
     try {
-        action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
+        yield put({ type: 'LOADING_ROOT' })
         const responses = yield requestAPI(action);
         // console.log('createBlockAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
@@ -739,7 +740,8 @@ function* createBlockAppointment(action) {
                 type: 'GET_BLOCK_APPOINTMENT_BY_ID',
                 method: 'GET',
                 api: `${apiConfigs.BASE_API}appointment/${appointmentId}`,
-                token: true
+                token: true,
+                appointmentId
             })
 
         } else if (parseInt(codeNumber) === 401) {
@@ -780,11 +782,17 @@ function* getBlockAppointmentById(action) {
             })
         } else {
             yield put({
+                type: "GET_BLOCK_APPOINTMENT_BY_ID_FAIL"
+            });
+            yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
             })
         }
     } catch (error) {
+        yield put({
+            type: "GET_BLOCK_APPOINTMENT_BY_ID_FAIL"
+        });
         yield put({ type: 'STOP_LOADING_ROOT' });
         yield put({ type: error });
     } finally {

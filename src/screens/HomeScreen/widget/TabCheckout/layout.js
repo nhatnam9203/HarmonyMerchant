@@ -467,7 +467,9 @@ class Layout extends React.Component {
             <View style={{ flex: 1 }} >
                 <ScrollView showsVerticalScrollIndicator={false} >
                     {blockAppointments.map((appointment, index) => <ItemBlockBasket
+                        ref={this.addBlockAppointmentRef}
                         key={`${appointment.appointmentId}_${index}`}
+                        blockIndex={index}
                         language={language}
                         appointmentDetail={appointment}
                         subTotalLocal={subTotalLocal}
@@ -481,6 +483,7 @@ class Layout extends React.Component {
                         basketLocal={basket}
                         infoUser={infoUser}
                         showModalTipAppointment={this.showModalTipAppointment}
+                        toggleCollaps={this.toggleCollaps}
                     />)}
                     <Button onPress={this.createABlockAppointment} >
                         <Text style={{
