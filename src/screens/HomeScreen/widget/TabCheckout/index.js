@@ -148,8 +148,15 @@ class TabCheckout extends Layout {
     }
 
     addAmount = async () => {
-        const { groupAppointment, isOfflineMode } = this.props;
+        const { groupAppointment, isOfflineMode, blockAppointments } = this.props;
         const { categoryTypeSelected, basket, productSeleted, extraSelected } = this.state;
+
+        // ------------ New code -------------
+        if (blockAppointments.length > 0) {
+            this.addBlockAppointment();
+            return;
+        }
+        // ------------------------------------
 
         if (!_.isEmpty(groupAppointment)) {  // ------------- Buy online ---------
             const appointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
@@ -1577,6 +1584,15 @@ class TabCheckout extends Layout {
         this.props.actions.appointment.createBlockAppointment(profile.merchantId);
     }
 
+    addBlockAppointment = () =>{
+
+    }
+
+    bookBlockAppointment = () => {
+        // alert()
+    }
+
+
 }
 
 const mapStateToProps = state => ({
@@ -1606,7 +1622,8 @@ const mapStateToProps = state => ({
     isCancelAppointment: state.appointment.isCancelAppointment,
     webviewRef: state.appointment.webviewRef,
     appointmentIdOffline: state.appointment.appointmentIdOffline,
-    deviceId: state.dataLocal.deviceId
+    deviceId: state.dataLocal.deviceId,
+    blockAppointments: state.appointment.blockAppointments
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);

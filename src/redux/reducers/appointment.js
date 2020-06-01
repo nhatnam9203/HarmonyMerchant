@@ -181,6 +181,11 @@ function appReducer(state = initialState, action) {
                 ...state,
                 isCheckAppointmentBeforeOffline: action.payload
             }
+        case 'GET_BLOCK_APPOINTMENT_BY_ID_SUCCESS':
+            return {
+                ...state,
+                blockAppointments: state.blockAppointments.concat([action.payload])
+            }
 
         default:
             return state

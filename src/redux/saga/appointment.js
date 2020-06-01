@@ -724,14 +724,14 @@ function* createBlockAppointment(action) {
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
-            const appointmentId = responses.data ? responses.data : 0 ;
+            const appointmentId = responses.data ? responses.data : 0;
             yield put({
                 type: 'GET_BLOCK_APPOINTMENT_BY_ID',
                 method: 'GET',
                 api: `${apiConfigs.BASE_API}appointment/${appointmentId}`,
                 token: true
             })
-            
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
@@ -759,7 +759,11 @@ function* getBlockAppointmentById(action) {
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
             // const appointmentId = responses.data ? responses.data : 0 ;
-            
+            yield put({
+                type: "GET_BLOCK_APPOINTMENT_BY_ID_SUCCESS",
+                payload: responses.data
+            })
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
