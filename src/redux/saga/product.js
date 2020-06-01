@@ -224,7 +224,7 @@ function* exportInventory(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    console.log('--- exportInventory : ', responses);
+    // console.log('--- exportInventory : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             const dirs = RNFetchBlob.fs.dirs;
