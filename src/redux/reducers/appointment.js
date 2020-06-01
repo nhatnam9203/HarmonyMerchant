@@ -184,11 +184,36 @@ function appReducer(state = initialState, action) {
         case 'GET_BLOCK_APPOINTMENT_BY_ID_SUCCESS':
             return {
                 ...state,
-                blockAppointments: state.blockAppointments.concat([action.payload])
+                // blockAppointments: state.blockAppointments.concat([action.payload])
+                blockAppointments: mergeBlockAppointment([...state.blockAppointments], { ...action.payload })
             }
 
         default:
             return state
+    }
+}
+
+const mergeBlockAppointment = (blockAppointments, newAppointment) => {
+    let indexAppointmentExist = -1;
+    for (let i = 0; i < blockAppointments.length; i++) {
+        if (blockAppointments[i].appointmentId === newAppointment.appointmentId) {
+            indexAppointmentExist = i;
+            break;
+        }
+    }
+    if (indexAppointmentExist === -1) {
+        return blockAppointments.concat([newAppointment]);
+    } else {
+        const newBlockAppointments = [];
+        for (let i = 0; i < blockAppointments.length; i++) {
+            if (indexAppointmentExist == i) {
+                newBlockAppointments.push(newAppointment);
+            } else {
+                newBlockAppointments.push(newAppointment[i]);
+            }
+        }
+
+        return newBlockAppointments;
     }
 }
 

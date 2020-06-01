@@ -1585,7 +1585,36 @@ class TabCheckout extends Layout {
     }
 
     addBlockAppointment = () =>{
+        const {blockAppointments } = this.props;
+        const { categoryTypeSelected, basket, productSeleted, extraSelected } = this.state;
 
+        const appointmentId = blockAppointments[0].appointmentId;
+        if (categoryTypeSelected === 'Product') {
+            // alert("Product");
+            this.props.actions.appointment.addItemIntoAppointment(
+                {
+                    services: [],
+                    extras: [],
+                    products: [{
+                        productId: productSeleted.productId,
+                        quantity: this.amountRef.current.state.quanlity
+                    }],
+                    giftCards: []
+                }, appointmentId, false,true);
+        } else { // ------------- Buy online Extra , Service ---------
+            alert("Service");
+
+            // const temptExtra = extraSelected.extraId !== -1 ? [{ extraId: extraSelected.extraId }] : [];
+            // this.props.actions.appointment.addItemIntoAppointment(
+            //     {
+            //         services: [{
+            //             serviceId: productSeleted.serviceId
+            //         }],
+            //         extras: temptExtra,
+            //         products: [],
+            //         giftCards: []
+            //     }, appointmentId, true);
+        }
     }
 
     bookBlockAppointment = () => {

@@ -110,18 +110,28 @@ function* addItemIntoAppointment(action) {
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            action.isGroup ? yield put({
-                type: 'GET_GROUP_APPOINTMENT_BY_ID',
-                method: 'GET',
-                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId ? action.appointmentId : "addItemIntoAppointment"}`,
-                token: true
-            }) :
+            if (!action.isBlock) {
+                action.isGroup ? yield put({
+                    type: 'GET_GROUP_APPOINTMENT_BY_ID',
+                    method: 'GET',
+                    api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId ? action.appointmentId : "addItemIntoAppointment"}`,
+                    token: true
+                }) :
+                    yield put({
+                        type: 'GET_APPOINTMENT_BY_ID',
+                        method: 'GET',
+                        api: `${apiConfigs.BASE_API}appointment/${action.appointmentId}`,
+                        token: true
+                    })
+            } else {
                 yield put({
-                    type: 'GET_APPOINTMENT_BY_ID',
+                    type: 'GET_BLOCK_APPOINTMENT_BY_ID',
                     method: 'GET',
                     api: `${apiConfigs.BASE_API}appointment/${action.appointmentId}`,
                     token: true
                 })
+            }
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
@@ -720,7 +730,7 @@ function* createBlockAppointment(action) {
     try {
         action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
-        console.log('createBlockAppointment : ' + JSON.stringify(responses));
+        // console.log('createBlockAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
@@ -754,7 +764,7 @@ function* getBlockAppointmentById(action) {
     try {
         action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
-        console.log('getBlockAppointmentById : ' + JSON.stringify(responses));
+        // console.log('getBlockAppointmentById : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
