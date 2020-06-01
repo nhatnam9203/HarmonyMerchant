@@ -127,6 +127,39 @@ export function createAnymousAppointment(merchantId, userId = 0, products = [], 
     }
 }
 
+export function createBlockAppointment(merchantId) {
+    return {
+        type: 'CREATE_BLOCK_APPOINTMENT',
+        body: {
+            merchantId,
+            userId: 0,
+            status: 'checkin',
+            services: [],
+            extras: [],
+            products: [],
+            fromTime: moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
+            staffId: 0,
+            customDiscountFixed: 0,
+            customDiscountPercent: 0,
+            firstName: "",
+            lastName: "",
+            phoneNumber: ""
+        },
+        method: 'POST',
+        token: true,
+        api: `${apiConfigs.BASE_API}appointment`,
+    }
+}
+
+export function getBlockAppointmentById(appointmentId) {
+    return {
+        type: 'GET_BLOCK_APPOINTMENT_BY_ID',
+        method: 'GET',
+        api: `${apiConfigs.BASE_API}appointment/${appointmentId}`,
+        token: true
+    }
+}
+
 export function resetPayment() {
     return {
         type: 'RESET_PAYMENT'
@@ -353,7 +386,7 @@ export function checkAppointmentBeforOffline(isCheck = true) {
     }
 }
 
-export function updateProductInAppointment(appointmentId, body,isGroup = true) {
+export function updateProductInAppointment(appointmentId, body, isGroup = true) {
     return {
         type: 'UPDATE_PRODUCT_IN_APPOINTMENT',
         method: 'PUT',

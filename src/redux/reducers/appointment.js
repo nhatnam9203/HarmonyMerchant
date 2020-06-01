@@ -21,7 +21,8 @@ const initialState = {
     webviewRef: {},
     appointmentIdOffline: 0,
 
-    isCheckAppointmentBeforeOffline: false
+    isCheckAppointmentBeforeOffline: false,
+    blockAppointments: []
 }
 
 function appReducer(state = initialState, action) {
@@ -41,7 +42,7 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 paymentDetailInfo: action.payload,
-                visiblePopupPaymentDetails: action.visiblePopupPaymentDetails ?  action.visiblePopupPaymentDetails :  false
+                visiblePopupPaymentDetails: action.visiblePopupPaymentDetails ? action.visiblePopupPaymentDetails : false
             }
         case 'CLOSE_POPUP_PAYMENT_DETAIL':
             return {

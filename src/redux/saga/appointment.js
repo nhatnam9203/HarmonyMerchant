@@ -716,7 +716,67 @@ function* updateProductInAppointment(action) {
     }
 }
 
+function* createBlockAppointment(action) {
+    try {
+        action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
+        const responses = yield requestAPI(action);
+        console.log('createBlockAppointment : ' + JSON.stringify(responses));
+        const { codeNumber } = responses;
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        if (parseInt(codeNumber) == 200) {
+            const appointmentId = responses.data ? responses.data : 0 ;
+            yield put({
+                type: 'GET_BLOCK_APPOINTMENT_BY_ID',
+                method: 'GET',
+                api: `${apiConfigs.BASE_API}appointment/${appointmentId}`,
+                token: true
+            })
+            
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
 
+function* getBlockAppointmentById(action) {
+    try {
+        action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
+        const responses = yield requestAPI(action);
+        console.log('getBlockAppointmentById : ' + JSON.stringify(responses));
+        const { codeNumber } = responses;
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        if (parseInt(codeNumber) == 200) {
+            // const appointmentId = responses.data ? responses.data : 0 ;
+            
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
 
 export default function* saga() {
     yield all([
@@ -737,5 +797,7 @@ export default function* saga() {
         takeLatest('UPDATE_CUSTOMER_IN_APPOINTMENT', updateCustomerInAppointment),
 
         takeLatest('UPDATE_PRODUCT_IN_APPOINTMENT', updateProductInAppointment),
+        takeLatest('CREATE_BLOCK_APPOINTMENT', createBlockAppointment),
+        takeLatest('GET_BLOCK_APPOINTMENT_BY_ID', getBlockAppointmentById),
     ])
 }

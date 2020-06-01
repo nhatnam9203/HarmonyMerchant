@@ -527,7 +527,7 @@ class TabCheckout extends Layout {
                         name: service.serviceName ? service.serviceName : "",
                         price: service.price ? service.price : ""
                     },
-                    staff : service.staff ? service.staff : false
+                    staff: service.staff ? service.staff : false
                 })
             });
 
@@ -1572,12 +1572,9 @@ class TabCheckout extends Layout {
         return extrasBySort;
     }
 
-    createABlockAppointment = () =>{
+    createABlockAppointment = () => {
         const { profile } = this.props;
-        this.props.actions.appointment.createAnymousAppointment(
-            profile.merchantId, 0,[],[],[],"",true,0,0,0,"","","",
-            0,false,false,
-        );
+        this.props.actions.appointment.createBlockAppointment(profile.merchantId);
     }
 
 }
