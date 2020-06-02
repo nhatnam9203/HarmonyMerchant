@@ -51,8 +51,9 @@ class ItemBlockBasket extends React.Component {
         //         isCollapsed: !prevState.isCollapsed
         //     }));
         // }
+        this.props.toggleCollaps(appointmentId);
 
-            this.props.toggleCollaps(appointmentId,isCollapsed);
+
     }
 
     selectCheckbox = () => {

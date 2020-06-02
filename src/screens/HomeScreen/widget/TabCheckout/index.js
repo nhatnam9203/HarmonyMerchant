@@ -342,6 +342,7 @@ class TabCheckout extends Layout {
 
     removeItemBasket = (item, appointmentId = -1, isGroup = false) => {
         ////console.log('appointmentId : ', appointmentId);
+        const {blockAppointments} = this.props
         const { basket } = this.state;
         if (appointmentId !== -1) {
             // ----- Remove With Appointmnet 
@@ -377,7 +378,12 @@ class TabCheckout extends Layout {
                     }
                     break;
             }
-            this.props.actions.appointment.removeItemIntoAppointment(dataRemove, appointmentId, isGroup);
+            if(blockAppointments.length > 0){
+                this.removeItemInBlockAppointment(dataRemove);
+            }else{
+                this.props.actions.appointment.removeItemIntoAppointment(dataRemove, appointmentId, isGroup);
+            }
+           
         } else {
             // -------- Remove Offline --------
             const temptBasket = basket.filter((itemBasket) => itemBasket.id !== item.id);
@@ -1594,9 +1600,18 @@ class TabCheckout extends Layout {
         const { blockAppointments } = this.props;
         const { categoryTypeSelected, basket, productSeleted, extraSelected } = this.state;
 
-        const appointmentId = blockAppointments[0].appointmentId;
+        let isAppointmentIdOpen = "";
+
+        for (let i = 0; i < this.blockAppointmentRef.length; i++) {
+            if(!this.blockAppointmentRef[i].state.isCollapsed){
+                isAppointmentIdOpen = this.blockAppointmentRef[i].props.appointmentDetail.appointmentId;
+                break;
+            }
+        }
+
+        const appointmentId = isAppointmentIdOpen ? isAppointmentIdOpen : blockAppointments[0].appointmentId;
+
         if (categoryTypeSelected === 'Product') {
-            // alert("Product");
             this.props.actions.appointment.addItemIntoAppointment(
                 {
                     services: [],
@@ -1608,7 +1623,6 @@ class TabCheckout extends Layout {
                     giftCards: []
                 }, appointmentId, false, true);
         } else { // ------------- Buy online Extra , Service ---------
-
             const temptExtra = extraSelected.extraId !== -1 ? [{ extraId: extraSelected.extraId }] : [];
             this.props.actions.appointment.addItemIntoAppointment(
                 {
@@ -1618,17 +1632,33 @@ class TabCheckout extends Layout {
                     extras: temptExtra,
                     products: [],
                     giftCards: []
-                }, appointmentId, false,true);
+                }, appointmentId, false, true);
         }
+    }
+
+    removeItemInBlockAppointment =(dataRemove) =>{
+        const { blockAppointments } = this.props;
+
+        let isAppointmentIdOpen = "";
+
+        for (let i = 0; i < this.blockAppointmentRef.length; i++) {
+            if(!this.blockAppointmentRef[i].state.isCollapsed){
+                isAppointmentIdOpen = this.blockAppointmentRef[i].props.appointmentDetail.appointmentId;
+                break;
+            }
+        }
+
+        const appointmentId = isAppointmentIdOpen ? isAppointmentIdOpen : blockAppointments[0].appointmentId;
+
+        this.props.actions.appointment.removeItemIntoAppointment(dataRemove, appointmentId, false,true);
     }
 
     bookBlockAppointment = () => {
         // alert()
     }
 
-    toggleCollaps = (appointmentIdSelection, isCollapsed) => {
+    toggleCollaps = (appointmentIdSelection) => {
         for (let i = 0; i < this.blockAppointmentRef.length; i++) {
-            // console.log(`-----${i} : `,this.blockAppointmentRef[i]);
             const appointmentDetail = this.blockAppointmentRef[i].props.appointmentDetail;
             if (appointmentDetail.appointmentId === appointmentIdSelection) {
                 this.blockAppointmentRef[i].setStateFromParent(false);
@@ -1636,14 +1666,26 @@ class TabCheckout extends Layout {
                 this.blockAppointmentRef[i].setStateFromParent(true);
             }
         }
-        // console.log(this.blockAppointmentRef);
+    }
+
+    setBlockToggleCollaps = () => {
+        const { isOpenBlockAppointmentId } = this.props;
+        for (let i = 0; i < this.blockAppointmentRef.length; i++) {
+            const appointmentDetail = this.blockAppointmentRef[i].props.appointmentDetail;
+            if (appointmentDetail.appointmentId === isOpenBlockAppointmentId) {
+                this.blockAppointmentRef[i].setStateFromParent(false);
+            } else {
+                this.blockAppointmentRef[i].setStateFromParent(true);
+            }
+        }
     }
 
     async  componentDidUpdate(prevProps, prevState) {
-        const {isLoadingGetBlockAppointment,blockAppointments,isOpenBlockAppointmentId} = this.props;
-        if(blockAppointments.length > 0 && prevProps.isLoadingGetBlockAppointment != isLoadingGetBlockAppointment &&  !isLoadingGetBlockAppointment){
-            console.log("isOpenBlockAppointmentId : ",isOpenBlockAppointmentId);
-        }else{
+        const { isLoadingGetBlockAppointment, blockAppointments, isOpenBlockAppointmentId } = this.props;
+        if (blockAppointments.length > 0 && prevProps.isLoadingGetBlockAppointment != isLoadingGetBlockAppointment && !isLoadingGetBlockAppointment) {
+            // console.log("isOpenBlockAppointmentId : ",isOpenBlockAppointmentId);
+            this.setBlockToggleCollaps();
+        } else {
             console.log("-------- Not -------");
         }
     }

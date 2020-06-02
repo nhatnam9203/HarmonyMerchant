@@ -145,9 +145,6 @@ function* addItemIntoAppointment(action) {
         }
     } catch (error) {
         yield put({ type: 'STOP_LOADING_ROOT' });
-        // setTimeout(() =>{
-        //     alert(`error-addItemIntoAppointment: ${error}`)
-        // },2000);
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -162,21 +159,32 @@ function* removeItemIntoAppointment(action) {
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            if (action.isGroup) {
-                yield put({
-                    type: 'GET_GROUP_APPOINTMENT_BY_ID',
-                    method: 'GET',
-                    api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId ? action.appointmentId : "removeItemIntoAppointment"}`,
-                    token: true
-                })
+            if (!action.isBlock) {
+                if (action.isGroup) {
+                    yield put({
+                        type: 'GET_GROUP_APPOINTMENT_BY_ID',
+                        method: 'GET',
+                        api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId ? action.appointmentId : "removeItemIntoAppointment"}`,
+                        token: true
+                    })
+                } else {
+                    yield put({
+                        type: 'GET_APPOINTMENT_BY_ID',
+                        method: 'GET',
+                        api: `${apiConfigs.BASE_API}appointment/${action.appointmentId}`,
+                        token: true
+                    })
+                }
             } else {
                 yield put({
-                    type: 'GET_APPOINTMENT_BY_ID',
+                    type: 'GET_BLOCK_APPOINTMENT_BY_ID',
                     method: 'GET',
                     api: `${apiConfigs.BASE_API}appointment/${action.appointmentId}`,
-                    token: true
+                    token: true,
+                    appointmentId: action.appointmentId
                 })
             }
+
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({
