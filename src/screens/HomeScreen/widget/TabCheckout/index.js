@@ -2,7 +2,7 @@ import React from 'react';
 import _, { ap } from 'ramda';
 import { StarPRNT } from 'react-native-star-prnt';
 const signalR = require('@aspnet/signalr');
-import { Alert, NativeModules } from 'react-native';
+import { Alert, NativeModules, TouchableHighlightBase } from 'react-native';
 import moment from 'moment';
 
 import Layout from './layout';
@@ -342,7 +342,7 @@ class TabCheckout extends Layout {
 
     removeItemBasket = (item, appointmentId = -1, isGroup = false) => {
         ////console.log('appointmentId : ', appointmentId);
-        const {blockAppointments} = this.props
+        const { blockAppointments } = this.props
         const { basket } = this.state;
         if (appointmentId !== -1) {
             // ----- Remove With Appointmnet 
@@ -378,12 +378,12 @@ class TabCheckout extends Layout {
                     }
                     break;
             }
-            if(blockAppointments.length > 0){
+            if (blockAppointments.length > 0) {
                 this.removeItemInBlockAppointment(dataRemove);
-            }else{
+            } else {
                 this.props.actions.appointment.removeItemIntoAppointment(dataRemove, appointmentId, isGroup);
             }
-           
+
         } else {
             // -------- Remove Offline --------
             const temptBasket = basket.filter((itemBasket) => itemBasket.id !== item.id);
@@ -1603,7 +1603,7 @@ class TabCheckout extends Layout {
         let isAppointmentIdOpen = "";
 
         for (let i = 0; i < this.blockAppointmentRef.length; i++) {
-            if(!this.blockAppointmentRef[i].state.isCollapsed){
+            if (!this.blockAppointmentRef[i].state.isCollapsed) {
                 isAppointmentIdOpen = this.blockAppointmentRef[i].props.appointmentDetail.appointmentId;
                 break;
             }
@@ -1636,13 +1636,13 @@ class TabCheckout extends Layout {
         }
     }
 
-    removeItemInBlockAppointment =(dataRemove) =>{
+    removeItemInBlockAppointment = (dataRemove) => {
         const { blockAppointments } = this.props;
 
         let isAppointmentIdOpen = "";
 
         for (let i = 0; i < this.blockAppointmentRef.length; i++) {
-            if(!this.blockAppointmentRef[i].state.isCollapsed){
+            if (!this.blockAppointmentRef[i].state.isCollapsed) {
                 isAppointmentIdOpen = this.blockAppointmentRef[i].props.appointmentDetail.appointmentId;
                 break;
             }
@@ -1650,7 +1650,29 @@ class TabCheckout extends Layout {
 
         const appointmentId = isAppointmentIdOpen ? isAppointmentIdOpen : blockAppointments[0].appointmentId;
 
-        this.props.actions.appointment.removeItemIntoAppointment(dataRemove, appointmentId, false,true);
+        this.props.actions.appointment.removeItemIntoAppointment(dataRemove, appointmentId, false, true);
+    }
+
+    removeBlockAppointment = (appointmentId) => {
+        const { profile } = this.props;
+        this.props.actions.appointment.cancleAppointment(appointmentId, profile.merchantId, 0, true);
+    }
+
+    updateBlockAppointmentRef = () => {
+        const { blockAppointments } = this.props;
+        const temptBlockAppointmentRef = [];
+        // console.log("blockAppointmentRef : ",this.blockAppointmentRef);
+        for (let i = 0; i < blockAppointments.length; i++) {
+            for (let j = 0; j < this.blockAppointmentRef.length; j++) {
+                const appointmentId = this.blockAppointmentRef[j].props.appointmentDetail.appointmentId;
+                if (appointmentId === blockAppointments[i].appointmentId) {
+                    temptBlockAppointmentRef.push(this.blockAppointmentRef[j]);
+                    break;
+                }
+            }
+        }
+        // console.log("---- temptBlockAppointmentRef : ",temptBlockAppointmentRef);
+        this.blockAppointmentRef = temptBlockAppointmentRef;
     }
 
     bookBlockAppointment = () => {
@@ -1658,6 +1680,7 @@ class TabCheckout extends Layout {
     }
 
     toggleCollaps = (appointmentIdSelection) => {
+        // console.log("blockAppointmentRef : ",this.blockAppointmentRef);
         for (let i = 0; i < this.blockAppointmentRef.length; i++) {
             const appointmentDetail = this.blockAppointmentRef[i].props.appointmentDetail;
             if (appointmentDetail.appointmentId === appointmentIdSelection) {
@@ -1683,10 +1706,11 @@ class TabCheckout extends Layout {
     async  componentDidUpdate(prevProps, prevState) {
         const { isLoadingGetBlockAppointment, blockAppointments, isOpenBlockAppointmentId } = this.props;
         if (blockAppointments.length > 0 && prevProps.isLoadingGetBlockAppointment != isLoadingGetBlockAppointment && !isLoadingGetBlockAppointment) {
-            // console.log("isOpenBlockAppointmentId : ",isOpenBlockAppointmentId);
             this.setBlockToggleCollaps();
-        } else {
-            console.log("-------- Not -------");
+        }
+
+        if (blockAppointments.length > 0) {
+            this.updateBlockAppointmentRef()
         }
     }
 

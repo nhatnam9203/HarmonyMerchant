@@ -24,7 +24,8 @@ const initialState = {
     isCheckAppointmentBeforeOffline: false,
     blockAppointments: [],
     isOpenBlockAppointmentId: "",
-    isLoadingGetBlockAppointment: false
+    isLoadingGetBlockAppointment: false,
+    blockAppointments_Ref:[]
 }
 
 function appReducer(state = initialState, action) {
@@ -200,6 +201,18 @@ function appReducer(state = initialState, action) {
                 ...state,
                 isLoadingGetBlockAppointment: false,
             }
+        case 'REMOVE_BLOCK_APPOINTMENT_IN_REDUX':
+            return {
+                ...state,
+                blockAppointments: removeBlockAppointment([...state.blockAppointments], action.payload),
+            }
+        case 'ADD_BLOCK_APPOINTMENT_REF':
+            return {
+                ...state,
+                blockAppointments_Ref:( [...state.blockAppointments_Ref]).push(action.payload),
+            }
+
+            
         default:
             return state
     }
@@ -227,6 +240,10 @@ const mergeBlockAppointment = (blockAppointments, newAppointment) => {
 
         return newBlockAppointments;
     }
+}
+
+const removeBlockAppointment = (blockAppointments, appointmentIdRemove) => {
+    return blockAppointments.filter((appointment) => appointment.appointmentId !== appointmentIdRemove);
 }
 
 

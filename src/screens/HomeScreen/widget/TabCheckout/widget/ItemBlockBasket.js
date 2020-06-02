@@ -133,6 +133,17 @@ class ItemBlockBasket extends React.Component {
         return basket
     }
 
+    removeAppointment = (appointmentId) => {
+        const { blockAppointments } = this.props;
+        this.props.removeBlockAppointment(appointmentId);
+        // if(blockAppointments.length > 0){
+        //     this.props.removeBlockAppointment(appointmentId);
+        // }else{
+        //     this.props.actions.appointment.removeAppointmentInGroup(appointmentId);
+        // }
+
+    }
+
     // ---------- Render --------
 
     renderHeaderCustomerBaket() {
@@ -158,25 +169,25 @@ class ItemBlockBasket extends React.Component {
         const swipeoutBtns = [
             {
                 backgroundColor: '#fff',
-                component: <Button onPress={() => this.props.actions.appointment.removeAppointmentInGroup(appointmentId)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+                component: <Button onPress={this.removeAppointment.bind(this, appointmentId)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                     <Image source={IMAGE.removeItemBasket} style={{ width: scaleSzie(24), height: scaleSzie(24) }} />
                 </Button>,
             }
         ];
-        const temptColor = isMain === 1 || isOfflineMode ? "#0764B0" : "red";
+        const temptColor = blockIndex === 0 ? "transparent" : "red";
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         const disabledRemoveItemCustomerBasket = checkoutPayments.length === 0 ? false : true;
 
         // ---- New -----
-        const temptBackground = (this.getBasket()).length > 0 ? { backgroundColor: "#0764B0" } : { backgroundColor: "#E5E5E5" };
-        const temptTextColor = (this.getBasket()).length > 0 ? { color: "#fff" } : { color: "#404040" };
-
+        const temptBackground = !isCollapsed ? { backgroundColor: "#0764B0" } : { backgroundColor: "#E5E5E5" };
+        const temptTextColor = !isCollapsed ? { color: "#fff" } : { color: "#404040" };
 
         return (
             <Swipeout
                 right={swipeoutBtns}
                 buttonWidth={scaleSzie(45)}
-                disabled={isMain === 1 || isOfflineMode ? true : disabledRemoveItemCustomerBasket}
+                // disabled={isMain === 1 || isOfflineMode ? true : disabledRemoveItemCustomerBasket}
+                disabled={blockIndex === 0 ? true : false}
                 close={true}
             >
                 <View style={[{
@@ -309,7 +320,8 @@ class ItemBlockBasket extends React.Component {
 
 const mapStateToProps = state => ({
     groupAppointment: state.appointment.groupAppointment,
-    paymentDetailInfo: state.appointment.paymentDetailInfo
+    paymentDetailInfo: state.appointment.paymentDetailInfo,
+    blockAppointments: state.appointment.blockAppointments
 });
 
 export default connectRedux(mapStateToProps, ItemBlockBasket);

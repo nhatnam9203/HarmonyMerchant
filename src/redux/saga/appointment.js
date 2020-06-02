@@ -536,9 +536,15 @@ function* cancleAppointment(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        //console.log('responses : ' + JSON.stringify(responses));
+        // console.log('cancleAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            if (action.isBlock) {
+                yield put({
+                    type: "REMOVE_BLOCK_APPOINTMENT_IN_REDUX",
+                    payload: action.appointmentId
+                })
+            }
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({

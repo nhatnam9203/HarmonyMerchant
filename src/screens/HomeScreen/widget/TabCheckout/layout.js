@@ -484,6 +484,7 @@ class Layout extends React.Component {
                         infoUser={infoUser}
                         showModalTipAppointment={this.showModalTipAppointment}
                         toggleCollaps={this.toggleCollaps}
+                        removeBlockAppointment={this.removeBlockAppointment}
                     />)}
                     <Button onPress={this.createABlockAppointment} >
                         <Text style={{

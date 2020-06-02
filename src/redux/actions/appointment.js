@@ -258,7 +258,7 @@ export function submitAppointmentOffline(body) {
 }
 
 
-export function cancleAppointment(appointmentId, merchantId, userId) {
+export function cancleAppointment(appointmentId, merchantId, userId,isBlock = false) {
     return {
         type: 'CANCEL_APPOINTMENT',
         body: {
@@ -277,6 +277,8 @@ export function cancleAppointment(appointmentId, merchantId, userId) {
         method: 'PUT',
         token: true,
         api: `${apiConfigs.BASE_API}appointment/${appointmentId}`,
+        isBlock,
+        appointmentId
     }
 }
 
@@ -401,3 +403,10 @@ export function updateProductInAppointment(appointmentId, body, isGroup = true) 
     }
 }
 
+
+export function addBlockAppointmentRef(ref){
+    return {
+        type :"ADD_BLOCK_APPOINTMENT_REF",
+        payload: ref
+    }
+}
