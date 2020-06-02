@@ -410,3 +410,11 @@ export function addBlockAppointmentRef(ref){
         payload: ref
     }
 }
+
+export function bookBlockAppointment(){
+    return {
+        type :"BOOK_BLOCK_APPOINTMENTF",
+    }
+}
+
+

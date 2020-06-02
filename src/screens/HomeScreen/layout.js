@@ -57,6 +57,7 @@ export default class Layout extends React.Component {
                             clearDataTabCheckout={this.clearDataTabCheckout}
                             checkoutAppointment={this.checkoutAppointment}
                             bookAppointment={this.bookAppointment}
+                            createABlockAppointment={this.createABlockAppointment}
                         />
                         <TabCheckout
                             ref={this.tabCheckoutRef}

@@ -501,7 +501,7 @@ class Layout extends React.Component {
     }
 
     renderBasket() {
-        const { language, groupAppointment, paymentDetailInfo } = this.props;
+        const { language, groupAppointment, paymentDetailInfo ,blockAppointments} = this.props;
 
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         return (
@@ -528,8 +528,11 @@ class Layout extends React.Component {
                     </View>
                 </View>
                 {/* -------- Content Basket -------- */}
+                {
+                    blockAppointments.length > 0 ? this.renderBlocksAppointments() : this.renderGroupAppointments()
+                }
                 {/* {this.renderGroupAppointments()} */}
-                {this.renderBlocksAppointments()}
+                {/* {this.renderBlocksAppointments()} */}
 
                 {/* -------- Footer Basket -------- */}
                 <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >

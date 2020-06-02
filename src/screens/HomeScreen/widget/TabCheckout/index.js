@@ -1638,18 +1638,14 @@ class TabCheckout extends Layout {
 
     removeItemInBlockAppointment = (dataRemove) => {
         const { blockAppointments } = this.props;
-
         let isAppointmentIdOpen = "";
-
         for (let i = 0; i < this.blockAppointmentRef.length; i++) {
             if (!this.blockAppointmentRef[i].state.isCollapsed) {
                 isAppointmentIdOpen = this.blockAppointmentRef[i].props.appointmentDetail.appointmentId;
                 break;
             }
         }
-
         const appointmentId = isAppointmentIdOpen ? isAppointmentIdOpen : blockAppointments[0].appointmentId;
-
         this.props.actions.appointment.removeItemIntoAppointment(dataRemove, appointmentId, false, true);
     }
 
@@ -1661,7 +1657,6 @@ class TabCheckout extends Layout {
     updateBlockAppointmentRef = () => {
         const { blockAppointments } = this.props;
         const temptBlockAppointmentRef = [];
-        // console.log("blockAppointmentRef : ",this.blockAppointmentRef);
         for (let i = 0; i < blockAppointments.length; i++) {
             for (let j = 0; j < this.blockAppointmentRef.length; j++) {
                 const appointmentId = this.blockAppointmentRef[j].props.appointmentDetail.appointmentId;
@@ -1671,12 +1666,14 @@ class TabCheckout extends Layout {
                 }
             }
         }
-        // console.log("---- temptBlockAppointmentRef : ",temptBlockAppointmentRef);
         this.blockAppointmentRef = temptBlockAppointmentRef;
     }
 
     bookBlockAppointment = () => {
-        // alert()
+       this.props.gotoTabAppointment();
+       this.props.actions.appointment.bookBlockAppointment();
+       this.blockAppointmentRef= [];
+       this.setState(initState)
     }
 
     toggleCollaps = (appointmentIdSelection) => {

@@ -211,7 +211,12 @@ function appReducer(state = initialState, action) {
                 ...state,
                 blockAppointments_Ref:( [...state.blockAppointments_Ref]).push(action.payload),
             }
-
+            case 'BOOK_BLOCK_APPOINTMENTF':
+                return {
+                    ...state,
+                    blockAppointments:[],
+                }
+            
             
         default:
             return state
