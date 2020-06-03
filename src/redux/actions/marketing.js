@@ -1,6 +1,6 @@
 import apiConfigs from '../../configs/api';
 
-export function getBannerMerchant(merchantId,isLoading =  true,isRefresh = false) {
+export function getBannerMerchant(merchantId, isLoading = true, isRefresh = false) {
     return {
         type: 'GET_BANNER_MERCHANT',
         method: 'GET',
@@ -30,7 +30,7 @@ export function resetStateUploadBanner() {
 
 // ------------ promotion -------------
 
-export function getPromotionByMerchant(isLoading =  true) {
+export function getPromotionByMerchant(isLoading = true) {
     return {
         type: 'GET_PROMOTION_BY_MERCHANT',
         method: 'GET',
@@ -50,13 +50,14 @@ export function updatePromotionByMerchant(body) {
     }
 }
 
-export function getPromotionByAppointment(appointmentId) {
+export function getPromotionByAppointment(appointmentId, isBlock = false) {
     return {
         type: 'GET_PROMOTION_BY_APPOINTMENT',
         method: 'GET',
         token: true,
         api: `${apiConfigs.BASE_API}appointment/promotion/${appointmentId}`,
-        appointmentId
+        appointmentId,
+        isBlock
     }
 }
 

@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import apiConfigs from '../../configs/api';
 
 export function login(email, password) {
@@ -5,7 +7,8 @@ export function login(email, password) {
         type: 'LOGIN_APP',
         body: {
             email: email,
-            password: password
+            password: password,
+            timezone: (new Date()).getTimezoneOffset()
         },
         method: 'POST',
         api: `${apiConfigs.BASE_API}merchant/login`

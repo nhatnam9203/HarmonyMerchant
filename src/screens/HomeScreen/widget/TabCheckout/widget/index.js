@@ -12,6 +12,7 @@ import PopupEnterCustomerPhone from './PopupEnterCustomerPhone';
 import ItemCustomerBasket from './ItemCustomerBasket';
 import PopupPaymentDetails from './PopupPaymentDetails';
 import ItemBlockBasket from "./ItemBlockBasket";
+import PopupBlockDiscount from "./PopupBlockDiscount";
 
 module.exports = {
     ItemCategory,
@@ -27,5 +28,6 @@ module.exports = {
     PopupEnterCustomerPhone,
     ItemCustomerBasket,
     PopupPaymentDetails,
-    ItemBlockBasket
+    ItemBlockBasket,
+    PopupBlockDiscount
 }

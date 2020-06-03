@@ -87,13 +87,8 @@ class ItemBlockBasket extends React.Component {
     }
 
     showModalDiscount = () => {
-        const { groupAppointment, paymentDetailInfo } = this.props;
-        const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
-        if (checkoutPayments.length === 0) {
-            const appointmentId = _.isEmpty(groupAppointment) ? -1 : this.props.appointmentDetail.appointmentId;
-            this.props.showModalDiscount(appointmentId);
-        }
-
+        const {appointmentDetail } = this.props;
+        this.props.actions.marketing.getPromotionByAppointment(appointmentDetail.appointmentId,true);
     }
 
     showModalTipAppointment = (tip) => {
@@ -234,12 +229,15 @@ class ItemBlockBasket extends React.Component {
                             key={index}
                             item={item}
                             removeItemBasket={(item) => removeItemBasket(item, appointmentId, true)}
-                            onPress={(service) => changeStylist(service, appointmentId)}
+                            // onPress={(service) => changeStylist(service, appointmentId)}
+                            onPress={(service) => { }}
                             changeProduct={product => changeProduct(product, appointmentId)}
                         />)
                     }
                     {/* ----------- Payment Number --------- */}
-                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                    {
+                        this.getBasket().length > 0 ?
+                        <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                         <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
                             {/* ---------- Price ------ */}
                             <View style={styles.payNumberTextContainer} >
@@ -270,17 +268,19 @@ class ItemBlockBasket extends React.Component {
 
                             {/* ---------- Tip ------ */}
                             <View style={styles.payNumberTextContainer} >
-                                <Button style={{ flexDirection: "row" }} onPress={this.showModalTipAppointment.bind(this, temptTip)} >
+                                <View style={{ flexDirection: "row" }}
+                                    // onPress={this.showModalTipAppointment.bind(this, temptTip)}
+                                >
                                     <Text style={styles.textPay} >
                                         {`${localize('Tip', language)}:  `}
                                     </Text>
-                                    {
+                                    {/* {
                                         isExistService ?
                                             <Image source={IMAGE.add_discount_checkout}
                                                 style={{ width: scaleSzie(20), height: scaleSzie(20) }}
                                             /> : null
-                                    }
-                                </Button>
+                                    } */}
+                                </View>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
                                     {`$ ${formatMoney(temptTip)}`}
                                 </Text>
@@ -310,7 +310,11 @@ class ItemBlockBasket extends React.Component {
                                 </Text>
                             </View>
                         </View>
-                    </View>
+                    </View> 
+                    : 
+                    <View />
+                    }
+                    
                 </Collapsible>
             </View>
         );

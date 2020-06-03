@@ -177,16 +177,24 @@ function* getPromotionByAppointment(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        //console.log('getPromotionByAppointment : ', JSON.stringify(responses));
+        console.log('getPromotionByAppointment : ', JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            yield put({ type: 'STOP_LOADING_ROOT' });
-            yield put({
-                type: 'GET_PROMOTION_BY_APPOINTMENT_SUCCESS',
-                payload: responses.data,
-                appointmentId: action.appointmentId
-            })
+            if(action.isBlock){
+                yield put({
+                    type: 'GET_PROMOTION_BY_BLOCK_APPOINTMENT_SUCCESS',
+                    payload: responses.data,
+                    appointmentId: action.appointmentId
+                })
+            }else{
+                yield put({
+                    type: 'GET_PROMOTION_BY_APPOINTMENT_SUCCESS',
+                    payload: responses.data,
+                    appointmentId: action.appointmentId
+                })
+            }
+           
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

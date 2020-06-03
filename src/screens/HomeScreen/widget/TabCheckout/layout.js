@@ -20,7 +20,8 @@ import IMAGE from '@resources';
 import {
     ItemCategory, ColPlaceHolder, ItemProductService, ItemAmount,
     ItemExtra, PopupDiscount, PopupBill, PopupDiscountLocal, PopupEnterInfo,
-    PopupEnterCustomerPhone, ItemCustomerBasket, PopupPaymentDetails, ItemBlockBasket
+    PopupEnterCustomerPhone, ItemCustomerBasket, PopupPaymentDetails, ItemBlockBasket,
+    PopupBlockDiscount
 } from './widget';
 
 class Layout extends React.Component {
@@ -458,7 +459,7 @@ class Layout extends React.Component {
 
     renderBlocksAppointments() {
         const { infoUser } = this.state;
-        const { language, groupAppointment, paymentDetailInfo, isOfflineMode ,blockAppointments} = this.props;
+        const { language, groupAppointment, paymentDetailInfo, isOfflineMode, blockAppointments } = this.props;
         const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         const temptGrandTotal = groupAppointment.total ? groupAppointment.total : 0;
         const totalLocal = Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2);
@@ -486,7 +487,7 @@ class Layout extends React.Component {
                         toggleCollaps={this.toggleCollaps}
                         removeBlockAppointment={this.removeBlockAppointment}
                     />)}
-                    <Button onPress={this.createABlockAppointment} >
+                    <Button onPress={this.createABlockAppointment} style={{ marginTop: scaleSzie(14) }} >
                         <Text style={{
                             color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "bold",
                             marginLeft: scaleSzie(10)
@@ -501,7 +502,7 @@ class Layout extends React.Component {
     }
 
     renderBasket() {
-        const { language, groupAppointment, paymentDetailInfo ,blockAppointments} = this.props;
+        const { language, groupAppointment, paymentDetailInfo, blockAppointments } = this.props;
 
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         return (
@@ -544,10 +545,10 @@ class Layout extends React.Component {
 
 
     renderButtonChekout() {
-        const { language, isDonePayment, groupAppointment,blockAppointments } = this.props;
+        const { language, isDonePayment, groupAppointment, blockAppointments } = this.props;
         const { tabCurrent, basket, paymentSelected, changeButtonDone, isCancelHarmonyPay
         } = this.state;
-       
+
         if (tabCurrent === 1) {
             if (changeButtonDone && isCancelHarmonyPay) {
                 if (paymentSelected === 'Harmony Pay') {
@@ -641,7 +642,7 @@ class Layout extends React.Component {
                 />
             );
         } else {
-            if(blockAppointments.length > 0){
+            if (blockAppointments.length > 0) {
                 return (
                     <ButtonCustom
                         width={`100%`}
@@ -832,6 +833,9 @@ class Layout extends React.Component {
                 {this.renderBodyCheckout()}
                 <PopupDiscount
                     ref={this.popupDiscountRef}
+                    title={localize('Discount', language)}
+                />
+                <PopupBlockDiscount
                     title={localize('Discount', language)}
                 />
                 <PopupDiscountLocal
