@@ -29,11 +29,11 @@ class PopupBlockDiscount extends React.Component {
 
 
     submitCustomPromotion = () => {
-        const { groupAppointment, appointmentIdUpdatePromotion } = this.props;
+        const {  appointmentIdUpdatePromotion } = this.props;
         const customDiscountPercent = this.customDiscountRef.current.state.percent;
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
 
-        this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentIdUpdatePromotion, true);
+        this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentIdUpdatePromotion, true,true);
         this.props.actions.marketing.closeModalDiscount();
     }
 
@@ -64,18 +64,23 @@ class PopupBlockDiscount extends React.Component {
 
     render() {
         try {
-            const { title, discount, visibleModalBlockDiscount, language, appointmentIdUpdatePromotion,
-                blockAppointments
-            } = this.props;
+            const { title, discount, visibleModalBlockDiscount, language, appointmentIdUpdatePromotion,blockAppointments} = this.props;
+            const {moneyDiscountCustom,moneyDiscountFixedAmout} = this.state;
 
             let total = 0;
             for (let i = 0; i < discount.length; i++) {
                 total = formatNumberFromCurrency(total) + formatNumberFromCurrency(discount[i].discount);
             }
-            total = Number(total).toFixed(2);
+         
             const appointmentDetail = blockAppointments.find((appointment) => appointment.appointmentId === appointmentIdUpdatePromotion);
             const customDiscountPercent = appointmentDetail && appointmentDetail.customDiscountPercent ? appointmentDetail.customDiscountPercent : 0;
             const customDiscountFixed = appointmentDetail && appointmentDetail.customDiscountFixed ? appointmentDetail.customDiscountFixed : 0;
+
+            total = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountCustom);
+            total = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountFixedAmout);
+
+
+            total = Number(total).toFixed(2);
 
             return (
                 <PopupParent

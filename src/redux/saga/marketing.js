@@ -262,18 +262,29 @@ function* customPromotion(action) {
         //console.log('responses : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            action.isGroup ? yield put({
-                type: 'GET_GROUP_APPOINTMENT_BY_ID',
-                method: 'GET',
-                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentid ? action.appointmentid : "customPromotion"}`,
-                token: true
-            }) :
+            if(!action.isBlock){
+                action.isGroup ? yield put({
+                    type: 'GET_GROUP_APPOINTMENT_BY_ID',
+                    method: 'GET',
+                    api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentid ? action.appointmentid : "customPromotion"}`,
+                    token: true
+                }) :
+                    yield put({
+                        type: 'GET_APPOINTMENT_BY_ID',
+                        method: 'GET',
+                        api: `${apiConfigs.BASE_API}appointment/${action.appointmentid}`,
+                        token: true
+                    })
+            }else{
                 yield put({
-                    type: 'GET_APPOINTMENT_BY_ID',
+                    type: 'GET_BLOCK_APPOINTMENT_BY_ID',
                     method: 'GET',
                     api: `${apiConfigs.BASE_API}appointment/${action.appointmentid}`,
-                    token: true
+                    token: true,
+                    appointmentId: action.appointmentid
                 })
+            }
+           
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
