@@ -1588,7 +1588,10 @@ class TabCheckout extends Layout {
     }
 
     addBlockAppointmentRef = ref => {
-        this.blockAppointmentRef.push(ref);
+        if (ref) {
+            this.blockAppointmentRef.push(ref);
+        }
+
     }
 
     createABlockAppointment = () => {
@@ -1654,26 +1657,12 @@ class TabCheckout extends Layout {
         this.props.actions.appointment.cancleAppointment(appointmentId, profile.merchantId, 0, true);
     }
 
-    updateBlockAppointmentRef = () => {
-        const { blockAppointments } = this.props;
-        const temptBlockAppointmentRef = [];
-        for (let i = 0; i < blockAppointments.length; i++) {
-            for (let j = 0; j < this.blockAppointmentRef.length; j++) {
-                const appointmentId = this.blockAppointmentRef[j].props.appointmentDetail.appointmentId;
-                if (appointmentId === blockAppointments[i].appointmentId) {
-                    temptBlockAppointmentRef.push(this.blockAppointmentRef[j]);
-                    break;
-                }
-            }
-        }
-        this.blockAppointmentRef = temptBlockAppointmentRef;
-    }
 
     bookBlockAppointment = () => {
-       this.props.gotoTabAppointment();
-       this.props.actions.appointment.bookBlockAppointment();
-       this.blockAppointmentRef= [];
-       this.setState(initState)
+        this.props.gotoTabAppointment();
+        this.props.actions.appointment.bookBlockAppointment();
+        this.setState(initState);
+        this.blockAppointmentRef = [];
     }
 
     toggleCollaps = (appointmentIdSelection) => {
@@ -1686,6 +1675,7 @@ class TabCheckout extends Layout {
                 this.blockAppointmentRef[i].setStateFromParent(true);
             }
         }
+        // console.log("this.blockAppointmentRef : ", this.blockAppointmentRef);
     }
 
     setBlockToggleCollaps = () => {
@@ -1698,16 +1688,36 @@ class TabCheckout extends Layout {
                 this.blockAppointmentRef[i].setStateFromParent(true);
             }
         }
+
+
+    }
+
+    updateBlockAppointmentRef = () => {
+        const { blockAppointments } = this.props;
+        const temptBlockAppointmentRef = [];
+        for (let i = 0; i < blockAppointments.length; i++) {
+            for (let j = 0; j < this.blockAppointmentRef.length; j++) {
+                const appointmentId = this.blockAppointmentRef[j].props ? this.blockAppointmentRef[j].props.appointmentDetail.appointmentId : false;
+                if (appointmentId && appointmentId === blockAppointments[i].appointmentId) {
+                    temptBlockAppointmentRef.push(this.blockAppointmentRef[j]);
+                    break;
+                }
+            }
+        }
+        if (temptBlockAppointmentRef.length > 0) {
+            this.blockAppointmentRef = temptBlockAppointmentRef;
+        }
+
+        this.setBlockToggleCollaps();
     }
 
     async  componentDidUpdate(prevProps, prevState) {
-        const { isLoadingGetBlockAppointment, blockAppointments, isOpenBlockAppointmentId } = this.props;
+        const { isLoadingGetBlockAppointment, blockAppointments } = this.props;
+        if (blockAppointments.length > 0) {
+            this.updateBlockAppointmentRef();
+        }
         if (blockAppointments.length > 0 && prevProps.isLoadingGetBlockAppointment != isLoadingGetBlockAppointment && !isLoadingGetBlockAppointment) {
             this.setBlockToggleCollaps();
-        }
-
-        if (blockAppointments.length > 0) {
-            this.updateBlockAppointmentRef()
         }
     }
 

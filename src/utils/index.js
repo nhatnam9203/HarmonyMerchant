@@ -57,7 +57,7 @@ export const requestAPI = async (action, header = {}) => {
         baseURL: baseURL,
         url: '',
         headers: headers,
-        timeout: 10000,
+        timeout: 30000,
         validateStatus: (status) => status >= 200 && status < 600,
     };
     if ((method == "POST" || method == "DELETE" || method == "PUT") && action.body) {

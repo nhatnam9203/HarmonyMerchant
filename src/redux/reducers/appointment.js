@@ -25,7 +25,6 @@ const initialState = {
     blockAppointments: [],
     isOpenBlockAppointmentId: "",
     isLoadingGetBlockAppointment: false,
-    blockAppointments_Ref:[]
 }
 
 function appReducer(state = initialState, action) {
@@ -211,7 +210,7 @@ function appReducer(state = initialState, action) {
                 ...state,
                 blockAppointments_Ref:( [...state.blockAppointments_Ref]).push(action.payload),
             }
-            case 'BOOK_BLOCK_APPOINTMENTF':
+            case 'BOOK_BLOCK_APPOINTMENT':
                 return {
                     ...state,
                     blockAppointments:[],

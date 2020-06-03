@@ -45,7 +45,9 @@ const ItemBasket = ({ item, removeItemBasket, onPress, disabled = false, changeP
                         item.type === 'Service' ? <View style={{ width: scaleSzie(30), height: scaleSzie(30), borderRadius: scaleSzie(20), overflow: 'hidden' }} >
                             {item.staff && item.staff.imageUrl ? <Image source={{ uri: item.staff.imageUrl }}
                                 style={{ width: scaleSzie(30), height: scaleSzie(30) }}
-                            /> : <View />}
+                            /> : <Image source={IMAGE.staff_basket}
+                                style={{ width: scaleSzie(30), height: scaleSzie(30) }}
+                                />}
                         </View> :
                             item.type === 'Extra' ? <View style={{
                                 width: scaleSzie(30), height: scaleSzie(30), borderRadius: scaleSzie(20), justifyContent: 'center',
@@ -58,13 +60,13 @@ const ItemBasket = ({ item, removeItemBasket, onPress, disabled = false, changeP
                                 /> : <Image source={IMAGE.blue_productBasket} style={{ width: scaleSzie(22), height: scaleSzie(20) }} />)
                     }
                 </View>
-                {/* -------- Avatar ------- */}
+                {/* -------- Name ------- */}
                 <View style={{ flex: 1, flexDirection: 'row' }} >
                     {/* ------------ */}
                     <View style={{ flex: 1, justifyContent: 'center' }} >
                         <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(13), }} numberOfLines={1} >
                             {
-                                item.type === 'Service' ? (item.staff && item.staff.displayName ? item.staff.displayName : '') : data.name
+                                item.type === 'Service' ? (item.staff && item.staff.displayName ? item.staff.displayName : 'Any staff') : data.name
                             }
                         </Text>
                     </View>

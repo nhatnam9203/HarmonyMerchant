@@ -523,9 +523,6 @@ function* submitAppointmentOffline(action) {
     } catch (error) {
 
         yield put({ type: 'STOP_LOADING_ROOT' });
-        // setTimeout(() =>{
-        //     alert(`error-submitAppointmentOffline: ${error}`)
-        // },2000);
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
