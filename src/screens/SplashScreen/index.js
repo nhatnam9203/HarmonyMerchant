@@ -114,7 +114,7 @@ class SplashScreen extends Layout {
 
     controlFlowInitApp() {
         const { token, profile, stateCity } = this.props;
-        if (stateCity.length === 0) {
+        if (!stateCity || stateCity.length === 0) {
             this.props.actions.app.getStateCity();
         }
 

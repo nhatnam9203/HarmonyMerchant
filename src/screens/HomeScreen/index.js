@@ -137,7 +137,7 @@ class HomeScreen extends Layout {
         this.scrollTabParentRef.current.goToPage(1);
     }
 
-     createABlockAppointment = () => {
+    createABlockAppointment = () => {
         const { profile } = this.props;
         this.props.actions.appointment.createBlockAppointment(profile.merchantId);
         this.scrollTabParentRef.current.goToPage(2);
@@ -145,7 +145,7 @@ class HomeScreen extends Layout {
 
     onPressHandlerChangeTab = async (index) => {
         const { currentTab } = this.state;
-        const { groupAppointment, appointmentIdOffline } = this.props;
+        const { groupAppointment, appointmentIdOffline, blockAppointments } = this.props;
         if (appointmentIdOffline !== 0) {
             this.props.actions.appointment.checkoutAppointmentOffline(0);
         }
@@ -157,7 +157,7 @@ class HomeScreen extends Layout {
                 })
                 this.tabAppointmentRef.current.setStateVisibleFromParent(true);
             } else if (currentTab === 2 && this.tabCheckoutRef.current.state.basket.length > 0) {
-                //console.log('-----2-------');
+                console.log('-----2-------');
                 await this.setState({
                     temptCurrentTap: index
                 })
@@ -166,14 +166,20 @@ class HomeScreen extends Layout {
             else {
                 //console.log('-----3-------');
                 if (currentTab === 2 && this.tabCheckoutRef.current.state.basket.length === 0) {
-                    //console.log('-----4-------');
+                    console.log('-----4-------');
                     if (!_.isEmpty(groupAppointment)) {
                         //console.log('-----5-------');
                         await this.setState({
                             temptCurrentTap: index
                         })
                         this.tabCheckoutRef.current.setStateVisibleFromParent();
-                    } else {
+                    } else if (blockAppointments && blockAppointments.length > 0) {
+                        await this.setState({
+                            temptCurrentTap: index
+                        })
+                        this.tabCheckoutRef.current.setStateVisibleFromParent();
+                    }
+                    else {
                         //console.log('-----6-------');
                         this.tabCheckoutRef.current.resetStateFromParent();
                         this.scrollTabParentRef.current.goToPage(index);
@@ -181,7 +187,7 @@ class HomeScreen extends Layout {
 
 
                 } else {
-                    //console.log('-----7-------');
+                    console.log('-----7-------');
                     this.scrollTabParentRef.current.goToPage(index);
                 }
 
@@ -299,15 +305,15 @@ class HomeScreen extends Layout {
         this.tabAppointmentRef.current.connectWebview();
     }
 
-    onChangeTab = (index) =>{
+    onChangeTab = (index) => {
         this.setState({ currentTab: index.i });
-        if(index.i === 0){
+        if (index.i === 0) {
             const { profile } = this.props;
             this.props.actions.marketing.getPromotionByMerchant();
-            this.props.actions.marketing.getBannerMerchant(profile.merchantId,false);
+            this.props.actions.marketing.getBannerMerchant(profile.merchantId, false);
         }
-       
-       
+
+
     }
 
     componentWillUnmount() {
@@ -335,7 +341,8 @@ const mapStateToProps = state => ({
     listAppointmentsOfflineMode: state.dataLocal.listAppointmentsOfflineMode,
     groupAppointment: state.appointment.groupAppointment,
     isOfflineMode: state.network.isOfflineMode,
-    isCheckAppointmentBeforeOffline: state.appointment.isCheckAppointmentBeforeOffline
+    isCheckAppointmentBeforeOffline: state.appointment.isCheckAppointmentBeforeOffline,
+    blockAppointments: state.appointment.blockAppointments,
 })
 
 
