@@ -441,7 +441,7 @@ class TabCheckout extends Layout {
     }
 
     clearDataCofrim = async () => {
-        const { connectionSignalR, groupAppointment, profile, isCancelAppointment,blockAppointments } = this.props;
+        const { connectionSignalR, groupAppointment, profile, isCancelAppointment, blockAppointments } = this.props;
         const { customerInfoByPhone } = this.state;
 
         const temptBlockAppointments = blockAppointments ? [...blockAppointments] : [];
@@ -463,12 +463,10 @@ class TabCheckout extends Layout {
             this.props.actions.appointment.cancleAppointment(mainAppointmentId, profile.merchantId, userId);
         }
 
-        if(temptBlockAppointments && temptBlockAppointments.length > 0) {
-            console.log("----- Cancel blockAppointments : ",temptBlockAppointments);
-            for(let i = 0 ; i < temptBlockAppointments.length; i++ ){
-                this.props.actions.appointment.cancleAppointment(temptBlockAppointments[i].appointmentId, profile.merchantId, 0, true,true);
+        if (temptBlockAppointments && temptBlockAppointments.length > 0) {
+            for (let i = 0; i < temptBlockAppointments.length; i++) {
+                this.props.actions.appointment.cancleAppointment(temptBlockAppointments[i].appointmentId, profile.merchantId, 0, true, true);
             }
-            // this.props.actions.appointment.cancleAppointment(appointmentId, profile.merchantId, 0, true,true);
         }
 
 
@@ -1384,14 +1382,28 @@ class TabCheckout extends Layout {
     }
 
     changeCustomerName = async () => {
+        const { blockAppointments, profile } = this.props;
+        const { infoUser, customerInfoByPhone } = this.state;
+
         const firstName = this.customerNameRef.current.state.firstName;
         const lastName = this.customerNameRef.current.state.lastName;
-        const { infoUser } = this.state;
 
         await this.setState({
             infoUser: { ...infoUser, firstName, lastName },
             visibleCustomerName: false
-        })
+        });
+
+        if (blockAppointments && blockAppointments.length > 0) {
+            const body = {
+                customerId: customerInfoByPhone.userId ? customerInfoByPhone.userId : 0,
+                firstName,
+                lastName,
+                phoneNumber: infoUser.phoneNumber,
+            };
+            for (let i = 0; i < blockAppointments.length; i++) {
+                this.props.actions.appointment.updateCustomerInAppointment(blockAppointments[i].appointmentId, body);
+            }
+        }
 
     }
 
@@ -1420,7 +1432,7 @@ class TabCheckout extends Layout {
     }
 
     changeCustomerPhone = async () => {
-        const { groupAppointment, profileStaffLogin } = this.props;
+        const { groupAppointment, profileStaffLogin, blockAppointments } = this.props;
         const { infoUser } = this.state;
         const codeAreaPhone = this.CustomerPhoneRef.current.state.codeAreaPhone;
         const phone = this.CustomerPhoneRef.current.state.phone;
@@ -1446,16 +1458,25 @@ class TabCheckout extends Layout {
                     visibleCustomerPhone: false,
                     customerInfoByPhone: responses.data
                 });
+
+                const body = {
+                    customerId: responses.data && responses.data.customerId ? responses.data.customerId : 0,
+                    firstName: responses.data && responses.data.firstName ? responses.data.firstName : '',
+                    lastName: responses.data && responses.data.lastName ? responses.data.lastName : '',
+                    phoneNumber: responses.data && responses.data.phone ? responses.data.phone : '',
+                };
+
                 if (!_.isEmpty(groupAppointment)) {
                     const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
-                    const body = {
-                        customerId: responses.data && responses.data.customerId ? responses.data.customerId : 0,
-                        firstName: responses.data && responses.data.firstName ? responses.data.firstName : '',
-                        lastName: responses.data && responses.data.lastName ? responses.data.lastName : '',
-                        phoneNumber: responses.data && responses.data.phone ? responses.data.phone : '',
-                    };
                     this.props.actions.appointment.updateCustomerInAppointment(mainAppointmentId, body);
                 }
+
+                if (blockAppointments && blockAppointments.length > 0) {
+                    for (let i = 0; i < blockAppointments.length; i++) {
+                        this.props.actions.appointment.updateCustomerInAppointment(blockAppointments[i].appointmentId, body);
+                    }
+                }
+
             } else {
                 await this.setState({
                     infoUser: { ...infoUser, phoneNumber },
@@ -1463,7 +1484,18 @@ class TabCheckout extends Layout {
                     customerInfoByPhone: {
                         userId: 0
                     }
-                })
+                });
+                if (blockAppointments && blockAppointments.length > 0) {
+                    const body = {
+                        customerId: 0,
+                        firstName: infoUser.firstName,
+                        lastName: infoUser.lastName,
+                        phoneNumber: phoneNumber,
+                    };
+                    for (let i = 0; i < blockAppointments.length; i++) {
+                        this.props.actions.appointment.updateCustomerInAppointment(blockAppointments[i].appointmentId, body);
+                    }
+                }
             }
         } catch (error) {
             //console.log('error : ', error);
@@ -1607,7 +1639,14 @@ class TabCheckout extends Layout {
 
     createABlockAppointment = () => {
         const { profile } = this.props;
-        this.props.actions.appointment.createBlockAppointment(profile.merchantId);
+        const { customerInfoByPhone, infoUser, } = this.state;
+        const userId = customerInfoByPhone.userId ? customerInfoByPhone.userId : 0;
+        this.props.actions.appointment.createBlockAppointment(profile.merchantId,
+            userId,
+            infoUser.firstName,
+            infoUser.lastName,
+            infoUser.phoneNumber,
+        );
     }
 
     addBlockAppointment = () => {

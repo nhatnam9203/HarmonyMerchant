@@ -669,7 +669,7 @@ function* updateCustomerInAppointment(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        //console.log('updateCustomerInAppointment : ' + JSON.stringify(responses));
+        // console.log('updateCustomerInAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
 
@@ -826,7 +826,7 @@ export default function* saga() {
         takeLatest('GET_GROUP_APPOINTMENT_BY_ID', getGroupAppointmentById),
         takeLatest('REMOVE_APPOINTMENT_IN_GROUP', removeAppointmentInGroup),
         takeLatest('CHECK_SERIAL_NUMBER', checkSerialNumber),
-        takeLatest('UPDATE_CUSTOMER_IN_APPOINTMENT', updateCustomerInAppointment),
+        takeEvery('UPDATE_CUSTOMER_IN_APPOINTMENT', updateCustomerInAppointment),
 
         takeLatest('UPDATE_PRODUCT_IN_APPOINTMENT', updateProductInAppointment),
         takeLatest('CREATE_BLOCK_APPOINTMENT', createBlockAppointment),

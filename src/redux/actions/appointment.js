@@ -129,12 +129,12 @@ export function createAnymousAppointment(merchantId, userId = 0, products = [], 
     }
 }
 
-export function createBlockAppointment(merchantId) {
+export function createBlockAppointment(merchantId,userId = 0,firstName = "",lastName = "",phoneNumber = "") {
     return {
         type: 'CREATE_BLOCK_APPOINTMENT',
         body: {
             merchantId,
-            userId: 0,
+            userId,
             status: 'checkin',
             services: [],
             extras: [],
@@ -143,9 +143,9 @@ export function createBlockAppointment(merchantId) {
             staffId: 0,
             customDiscountFixed: 0,
             customDiscountPercent: 0,
-            firstName: "",
-            lastName: "",
-            phoneNumber: ""
+            firstName,
+            lastName,
+            phoneNumber
         },
         method: 'POST',
         token: true,
