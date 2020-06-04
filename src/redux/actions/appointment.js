@@ -258,7 +258,7 @@ export function submitAppointmentOffline(body) {
 }
 
 
-export function cancleAppointment(appointmentId, merchantId, userId,isBlock = false) {
+export function cancleAppointment(appointmentId, merchantId, userId,isBlock = false,isCancelManyAppointment = false) {
     return {
         type: 'CANCEL_APPOINTMENT',
         body: {
@@ -278,7 +278,8 @@ export function cancleAppointment(appointmentId, merchantId, userId,isBlock = fa
         token: true,
         api: `${apiConfigs.BASE_API}appointment/${appointmentId}`,
         isBlock,
-        appointmentId
+        appointmentId,
+        isCancelManyAppointment
     }
 }
 

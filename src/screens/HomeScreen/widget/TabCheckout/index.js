@@ -441,8 +441,11 @@ class TabCheckout extends Layout {
     }
 
     clearDataCofrim = async () => {
-        const { connectionSignalR, groupAppointment, profile, isCancelAppointment } = this.props;
+        const { connectionSignalR, groupAppointment, profile, isCancelAppointment,blockAppointments } = this.props;
         const { customerInfoByPhone } = this.state;
+
+        const temptBlockAppointments = blockAppointments ? [...blockAppointments] : [];
+
         if (!_.isEmpty(connectionSignalR)) {
             connectionSignalR.stop();
         }
@@ -458,6 +461,14 @@ class TabCheckout extends Layout {
             const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
             const userId = customerInfoByPhone.userId ? customerInfoByPhone.userId : 0;
             this.props.actions.appointment.cancleAppointment(mainAppointmentId, profile.merchantId, userId);
+        }
+
+        if(temptBlockAppointments && temptBlockAppointments.length > 0) {
+            console.log("----- Cancel blockAppointments : ",temptBlockAppointments);
+            for(let i = 0 ; i < temptBlockAppointments.length; i++ ){
+                this.props.actions.appointment.cancleAppointment(temptBlockAppointments[i].appointmentId, profile.merchantId, 0, true,true);
+            }
+            // this.props.actions.appointment.cancleAppointment(appointmentId, profile.merchantId, 0, true,true);
         }
 
 
