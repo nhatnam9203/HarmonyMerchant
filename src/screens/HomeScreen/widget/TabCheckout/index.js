@@ -1649,7 +1649,7 @@ class TabCheckout extends Layout {
         );
     }
 
-    addBlockAppointment = () => {
+    addBlockAppointment = async () => {
         const { blockAppointments } = this.props;
         const { categoryTypeSelected, basket, productSeleted, extraSelected } = this.state;
 
@@ -1687,6 +1687,24 @@ class TabCheckout extends Layout {
                     giftCards: []
                 }, appointmentId, false, true);
         }
+
+        await this.setState({
+            isShowColProduct: false,
+            isShowColAmount: false,
+            categorySelected: {
+                categoryId: -1,
+                categoryType: ''
+            },
+            productSeleted: {
+                name: ''
+            },
+            categoryTypeSelected: '',
+            extraSelected: {
+                extraId: -1,
+                name: ''
+            },
+        });
+
     }
 
     removeItemInBlockAppointment = (dataRemove) => {

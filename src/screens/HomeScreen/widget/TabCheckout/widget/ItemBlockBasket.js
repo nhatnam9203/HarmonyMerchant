@@ -87,8 +87,8 @@ class ItemBlockBasket extends React.Component {
     }
 
     showModalDiscount = () => {
-        const {appointmentDetail } = this.props;
-        this.props.actions.marketing.getPromotionByAppointment(appointmentDetail.appointmentId,true);
+        const { appointmentDetail } = this.props;
+        this.props.actions.marketing.getPromotionByAppointment(appointmentDetail.appointmentId, true);
     }
 
     showModalTipAppointment = (tip) => {
@@ -100,18 +100,6 @@ class ItemBlockBasket extends React.Component {
         }
     }
 
-    checkIsExistServiceInBasket = (basket) => {
-        let isExistService = false;
-
-        for (let i = 0; i < basket.length; i++) {
-            if (basket[i].type === "Service") {
-                isExistService = true;
-                break;
-            }
-        }
-
-        return isExistService;
-    }
 
     getBasket = () => {
         const { appointmentDetail } = this.props;
@@ -129,14 +117,7 @@ class ItemBlockBasket extends React.Component {
     }
 
     removeAppointment = (appointmentId) => {
-        const { blockAppointments } = this.props;
         this.props.removeBlockAppointment(appointmentId);
-        // if(blockAppointments.length > 0){
-        //     this.props.removeBlockAppointment(appointmentId);
-        // }else{
-        //     this.props.actions.appointment.removeAppointmentInGroup(appointmentId);
-        // }
-
     }
 
     // ---------- Render --------
@@ -209,13 +190,13 @@ class ItemBlockBasket extends React.Component {
 
 
     render() {
-        const { isCollapsed } = this.state;
-        const { language, appointmentDetail, removeItemBasket, changeStylist, basketLocal, paymentDetailInfo,
-            changeProduct
+        const { language, appointmentDetail, removeItemBasket, paymentDetailInfo,
+            changeProduct,blockIndex,blockAppointments,createABlockAppointment
         } = this.props;
+        const { isCollapsed } = this.state;
+
         const appointmentId = appointmentDetail && appointmentDetail.appointmentId ? appointmentDetail.appointmentId : -1;
         const { temptSubTotal, temptTotal, temptDiscount, temptTip, temptTax } = this.getTypesOfMoneyAppointment(appointmentDetail);
-        const isExistService = this.checkIsExistServiceInBasket(this.getBasket());
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
 
         return (
@@ -237,84 +218,94 @@ class ItemBlockBasket extends React.Component {
                     {/* ----------- Payment Number --------- */}
                     {
                         this.getBasket().length > 0 ?
-                        <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
-                        <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
-                            {/* ---------- Price ------ */}
-                            <View style={styles.payNumberTextContainer} >
-                                <Text style={styles.textPay} >
-                                    {`${localize('Subtotal', language)}:`}
-                                </Text>
-                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$${formatMoney(temptSubTotal)}`}
-                                </Text>
-                            </View>
-                            {/* ---------- Discount ------ */}
-                            <View style={styles.payNumberTextContainer} >
-                                <Button style={{ flexDirection: "row" }} onPress={this.showModalDiscount} >
-                                    <Text style={styles.textPay} >
-                                        {`${localize('Discount', language)}:  `}
-                                    </Text>
-                                    {
-                                        checkoutPayments.length === 0 ?
-                                            <Image source={IMAGE.add_discount_checkout}
-                                                style={{ width: scaleSzie(20), height: scaleSzie(20) }}
-                                            /> : null
-                                    }
-                                </Button>
-                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$ ${formatMoney(temptDiscount)}`}
-                                </Text>
-                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                                <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
+                                    {/* ---------- Price ------ */}
+                                    <View style={styles.payNumberTextContainer} >
+                                        <Text style={styles.textPay} >
+                                            {`${localize('Subtotal', language)}:`}
+                                        </Text>
+                                        <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                            {`$${formatMoney(temptSubTotal)}`}
+                                        </Text>
+                                    </View>
+                                    {/* ---------- Discount ------ */}
+                                    <View style={styles.payNumberTextContainer} >
+                                        <Button style={{ flexDirection: "row" }} onPress={this.showModalDiscount} >
+                                            <Text style={styles.textPay} >
+                                                {`${localize('Discount', language)}:  `}
+                                            </Text>
+                                            {
+                                                checkoutPayments.length === 0 ?
+                                                    <Image source={IMAGE.add_discount_checkout}
+                                                        style={{ width: scaleSzie(20), height: scaleSzie(20) }}
+                                                    /> : null
+                                            }
+                                        </Button>
+                                        <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                            {`$ ${formatMoney(temptDiscount)}`}
+                                        </Text>
+                                    </View>
 
-                            {/* ---------- Tip ------ */}
-                            <View style={styles.payNumberTextContainer} >
-                                <View style={{ flexDirection: "row" }}
-                                    // onPress={this.showModalTipAppointment.bind(this, temptTip)}
-                                >
-                                    <Text style={styles.textPay} >
-                                        {`${localize('Tip', language)}:  `}
-                                    </Text>
-                                    {/* {
+                                    {/* ---------- Tip ------ */}
+                                    <View style={styles.payNumberTextContainer} >
+                                        <View style={{ flexDirection: "row" }}
+                                        // onPress={this.showModalTipAppointment.bind(this, temptTip)}
+                                        >
+                                            <Text style={styles.textPay} >
+                                                {`${localize('Tip', language)}:  `}
+                                            </Text>
+                                            {/* {
                                         isExistService ?
                                             <Image source={IMAGE.add_discount_checkout}
                                                 style={{ width: scaleSzie(20), height: scaleSzie(20) }}
                                             /> : null
                                     } */}
-                                </View>
-                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$ ${formatMoney(temptTip)}`}
-                                </Text>
-                            </View>
+                                        </View>
+                                        <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                            {`$ ${formatMoney(temptTip)}`}
+                                        </Text>
+                                    </View>
 
-                            {/* ---------- Tax ------ */}
-                            <View style={styles.payNumberTextContainer} >
-                                <Text style={styles.textPay} >
-                                    {`${localize('Tax', language)}:`}
-                                </Text>
-                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$ ${formatMoney(temptTax)}`}
-                                </Text>
+                                    {/* ---------- Tax ------ */}
+                                    <View style={styles.payNumberTextContainer} >
+                                        <Text style={styles.textPay} >
+                                            {`${localize('Tax', language)}:`}
+                                        </Text>
+                                        <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                            {`$ ${formatMoney(temptTax)}`}
+                                        </Text>
+                                    </View>
+                                    {/* ---------- Line ------ */}
+                                    <View style={{
+                                        height: 2, backgroundColor: "#DDDDDD", marginTop: scaleSzie(2),
+                                        marginBottom: scaleSzie(6)
+                                    }} />
+                                    {/* ---------- Total ------ */}
+                                    <View style={styles.payNumberTextContainer} >
+                                        <Text style={[styles.textPay, { fontSize: scaleSzie(18) }]} >
+                                            {`${localize('Total', language)}:`}
+                                        </Text>
+                                        <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(18), fontWeight: "600" }]} >
+                                            {`$${formatMoney(`${temptTotal}`)}`}
+                                        </Text>
+                                    </View>
+                                </View>
                             </View>
-                            {/* ---------- Line ------ */}
-                            <View style={{
-                                height: 2, backgroundColor: "#DDDDDD", marginTop: scaleSzie(2),
-                                marginBottom: scaleSzie(6)
-                            }} />
-                            {/* ---------- Total ------ */}
-                            <View style={styles.payNumberTextContainer} >
-                                <Text style={[styles.textPay, { fontSize: scaleSzie(18) }]} >
-                                    {`${localize('Total', language)}:`}
-                                </Text>
-                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(18), fontWeight: "600" }]} >
-                                    {`$${formatMoney(`${temptTotal}`)}`}
-                                </Text>
-                            </View>
-                        </View>
-                    </View> 
-                    : 
-                    <View />
+                            :
+                            <View />
                     }
-                    
+                    {
+                      (parseInt(blockIndex + 1) === blockAppointments.length  ) &&  this.getBasket().length > 0 ?  <Button onPress={() =>createABlockAppointment()} style={{ marginTop: scaleSzie(14) }} >
+                            <Text style={{
+                                color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "bold",
+                                marginLeft: scaleSzie(10)
+                            }} >
+                                + Add block
+                        </Text>
+                        </Button>
+                        : <View />
+                    }
                 </Collapsible>
             </View>
         );

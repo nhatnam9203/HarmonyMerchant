@@ -184,8 +184,6 @@ class HomeScreen extends Layout {
                         this.tabCheckoutRef.current.resetStateFromParent();
                         this.scrollTabParentRef.current.goToPage(index);
                     }
-
-
                 } else {
                     // console.log('-----7-------');
                     this.scrollTabParentRef.current.goToPage(index);

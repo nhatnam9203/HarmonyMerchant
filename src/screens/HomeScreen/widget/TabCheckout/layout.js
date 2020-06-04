@@ -486,15 +486,16 @@ class Layout extends React.Component {
                         showModalTipAppointment={this.showModalTipAppointment}
                         toggleCollaps={this.toggleCollaps}
                         removeBlockAppointment={this.removeBlockAppointment}
+                        createABlockAppointment={this.createABlockAppointment}
                     />)}
-                    <Button onPress={this.createABlockAppointment} style={{ marginTop: scaleSzie(14) }} >
+                    {/* <Button onPress={this.createABlockAppointment} style={{ marginTop: scaleSzie(14) }} >
                         <Text style={{
                             color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "bold",
                             marginLeft: scaleSzie(10)
                         }} >
                             + Add block
                     </Text>
-                    </Button>
+                    </Button> */}
                     <View style={{ height: scaleSzie(50) }} />
                 </ScrollView>
             </View>
