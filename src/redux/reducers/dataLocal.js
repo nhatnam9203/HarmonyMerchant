@@ -14,7 +14,6 @@ const initialState = {
     },
     profileStaffLogin: {},
     isLoginStaff: false,
-
     listAppointmentsOfflineMode: [],
     deviceId: "",
     versionApp: ""
@@ -92,13 +91,13 @@ function dataLocal(state = initialState, action) {
                 profile: { ...state.profile, ...action.payload }
             }
         }
-        case 'LOGOUT_APP':
-            return {
-                ...state,
-                profile: {},
-                profileStaffLogin: {},
-                token: false,
-            }
+        // case 'LOGOUT_APP':
+        //     return {
+        //         ...state,
+        //         profile: {},
+        //         profileStaffLogin: {},
+        //         token: false,
+        //     }
 
         case "UPDATE_DEVICE_ID":
             return {

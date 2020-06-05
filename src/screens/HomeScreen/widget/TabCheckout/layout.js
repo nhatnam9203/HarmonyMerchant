@@ -459,13 +459,16 @@ class Layout extends React.Component {
 
     renderBlocksAppointments() {
         const { infoUser } = this.state;
-        const { language, groupAppointment, paymentDetailInfo, isOfflineMode, blockAppointments } = this.props;
+        const { language, blockAppointments } = this.props;
         const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
-        const temptGrandTotal = groupAppointment.total ? groupAppointment.total : 0;
-        const totalLocal = Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2);
 
         const length_blockAppointments = blockAppointments ? blockAppointments.length : 0;
         const isShowAddBlock = length_blockAppointments > 0 && blockAppointments[length_blockAppointments - 1].total != "0.00" ? true : false;
+
+        let temptGrandTotal = 0;
+        for (let i = 0; i < blockAppointments.length; i++) {
+            temptGrandTotal =  temptGrandTotal + formatNumberFromCurrency(blockAppointments[i].total);
+        }
 
         return (
             <View style={{ flex: 1 }} >
@@ -502,7 +505,22 @@ class Layout extends React.Component {
                         </Button> : <View />
                     }
 
-                    <View style={{ height: scaleSzie(50) }} />
+                    {/* ----------- Grand Total ----------- */}
+                    <View style={{ paddingHorizontal: scaleSzie(10) ,marginTop: scaleSzie(15)}} >
+                        <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
+                        {/* ---------- Tip ------ */}
+                        <View style={styles.payNumberTextContainer} >
+                            <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#0764B0" }]} >
+                                {`${localize('Grand Total', language)}:`}
+                            </Text>
+                            <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: 'rgb(65,184,85)' }]} >
+                                {`$${formatMoney(temptGrandTotal)}`}
+                            </Text>
+                        </View>
+                    </View>
+
+
+                    <View style={{ height: scaleSzie(70) }} />
                 </ScrollView>
             </View>
         );

@@ -255,7 +255,7 @@ class HomeScreen extends Layout {
 
     loginStaffSuccess = () => {
         const { listAppointmentsOfflineMode } = this.props;
-        if (listAppointmentsOfflineMode.length > 0) {
+        if (listAppointmentsOfflineMode &&  listAppointmentsOfflineMode.length > 0) {
             this.props.actions.appointment.submitAppointmentOffline(listAppointmentsOfflineMode);
         }
         this.getCurrentLocation();

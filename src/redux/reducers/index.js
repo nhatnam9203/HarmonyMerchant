@@ -49,7 +49,23 @@ const initialState = appReducer({}, {});
 
 const rootReducer = (state, action) => {
     if (action.type === "LOGOUT_APP") {
-        state = initialState;
+        const { dataLocal } = state;
+        state = {
+            dataLocal: {
+                profile: {},
+                token: false,
+                stateCity: dataLocal.stateCity,
+                language: dataLocal.language,
+                autoCloseAt: dataLocal.autoCloseAt,
+                autoLockScreenAfter: dataLocal.autoLockScreenAfter,
+                paxMachineInfo: dataLocal.paxMachineInfo,
+                profileStaffLogin: {},
+                isLoginStaff: false,
+                listAppointmentsOfflineMode: [],
+                deviceId: "",
+                versionApp: ""
+            }
+        };
     }
 
     return appReducer(state, action);
