@@ -295,7 +295,7 @@ class ItemBlockBasket extends React.Component {
                             :
                             <View />
                     }
-                    {
+                    {/* {
                       (parseInt(blockIndex + 1) === blockAppointments.length  ) &&  this.getBasket().length > 0 ?  <Button onPress={() =>createABlockAppointment()} style={{ marginTop: scaleSzie(14) }} >
                             <Text style={{
                                 color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "bold",
@@ -305,7 +305,7 @@ class ItemBlockBasket extends React.Component {
                         </Text>
                         </Button>
                         : <View />
-                    }
+                    } */}
                 </Collapsible>
             </View>
         );

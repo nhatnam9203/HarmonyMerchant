@@ -25,6 +25,7 @@ const initialState = {
     blockAppointments: [],
     isOpenBlockAppointmentId: "",
     isLoadingGetBlockAppointment: false,
+    isLoadingRemoveBlockAppointment: false,
 }
 
 function appReducer(state = initialState, action) {
@@ -200,23 +201,34 @@ function appReducer(state = initialState, action) {
                 ...state,
                 isLoadingGetBlockAppointment: false,
             }
+        case 'CANCEL_APPOINTMENT':
+            return {
+                ...state,
+                isLoadingRemoveBlockAppointment: action.isBlock && !action.isCancelManyAppointment ? true : false,
+            }
+        case 'CANCEL_APPOINTMENT_FAIL':
+            return {
+                ...state,
+                isLoadingRemoveBlockAppointment: false,
+            }
         case 'REMOVE_BLOCK_APPOINTMENT_IN_REDUX':
             return {
                 ...state,
+                isLoadingRemoveBlockAppointment: false,
                 blockAppointments: removeBlockAppointment([...state.blockAppointments], action.payload),
             }
         case 'ADD_BLOCK_APPOINTMENT_REF':
             return {
                 ...state,
-                blockAppointments_Ref:( [...state.blockAppointments_Ref]).push(action.payload),
+                blockAppointments_Ref: ([...state.blockAppointments_Ref]).push(action.payload),
             }
-            case 'BOOK_BLOCK_APPOINTMENT':
-                return {
-                    ...state,
-                    blockAppointments:[],
-                }
-            
-            
+        case 'BOOK_BLOCK_APPOINTMENT':
+            return {
+                ...state,
+                blockAppointments: [],
+            }
+
+
         default:
             return state
     }

@@ -469,7 +469,7 @@ class TabCheckout extends Layout {
             }
         }
 
-
+        this.blockAppointmentRef = [];
 
     }
 
@@ -1737,7 +1737,7 @@ class TabCheckout extends Layout {
         // console.log("blockAppointmentRef : ",this.blockAppointmentRef);
         for (let i = 0; i < this.blockAppointmentRef.length; i++) {
             const appointmentDetail = this.blockAppointmentRef[i].props.appointmentDetail;
-            if (appointmentDetail.appointmentId === appointmentIdSelection) {
+            if (appointmentDetail && appointmentDetail.appointmentId === appointmentIdSelection) {
                 this.blockAppointmentRef[i].setStateFromParent(false);
             } else {
                 this.blockAppointmentRef[i].setStateFromParent(true);
@@ -1756,12 +1756,10 @@ class TabCheckout extends Layout {
                 this.blockAppointmentRef[i].setStateFromParent(true);
             }
         }
-
-
     }
 
     updateBlockAppointmentRef = () => {
-        const { blockAppointments } = this.props;
+        const { blockAppointments, isOpenBlockAppointmentId } = this.props;
         const temptBlockAppointmentRef = [];
         for (let i = 0; i < blockAppointments.length; i++) {
             for (let j = 0; j < this.blockAppointmentRef.length; j++) {
@@ -1774,14 +1772,30 @@ class TabCheckout extends Layout {
         }
         if (temptBlockAppointmentRef.length > 0) {
             this.blockAppointmentRef = temptBlockAppointmentRef;
+
+            let isAppointmentOpenExist = false;
+            for (let i = 0; i < this.blockAppointmentRef.length; i++) {
+                const appointmentDetail = this.blockAppointmentRef[i].props.appointmentDetail;
+                if (appointmentDetail.appointmentId === isOpenBlockAppointmentId) {
+                    isAppointmentOpenExist = true;
+                    break;
+                }
+            }
+
+            if (!isAppointmentOpenExist) {
+                this.blockAppointmentRef[0].setStateFromParent(false);
+            }
+
+        } else {
+            this.blockAppointmentRef = [];
         }
 
-        this.setBlockToggleCollaps();
+        // this.setBlockToggleCollaps();
     }
 
     async  componentDidUpdate(prevProps, prevState) {
-        const { isLoadingGetBlockAppointment, blockAppointments } = this.props;
-        if (blockAppointments.length > 0) {
+        const { isLoadingGetBlockAppointment, blockAppointments, isLoadingRemoveBlockAppointment } = this.props;
+        if (blockAppointments.length > 0 && prevProps.isLoadingRemoveBlockAppointment != isLoadingRemoveBlockAppointment && !isLoadingRemoveBlockAppointment) {
             this.updateBlockAppointmentRef();
         }
         if (blockAppointments.length > 0 && prevProps.isLoadingGetBlockAppointment != isLoadingGetBlockAppointment && !isLoadingGetBlockAppointment) {
@@ -1821,7 +1835,8 @@ const mapStateToProps = state => ({
     deviceId: state.dataLocal.deviceId,
     blockAppointments: state.appointment.blockAppointments,
     isLoadingGetBlockAppointment: state.appointment.isLoadingGetBlockAppointment,
-    isOpenBlockAppointmentId: state.appointment.isOpenBlockAppointmentId
+    isOpenBlockAppointmentId: state.appointment.isOpenBlockAppointmentId,
+    isLoadingRemoveBlockAppointment: state.appointment.isLoadingRemoveBlockAppointment
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);

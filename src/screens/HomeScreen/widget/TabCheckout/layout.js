@@ -464,6 +464,9 @@ class Layout extends React.Component {
         const temptGrandTotal = groupAppointment.total ? groupAppointment.total : 0;
         const totalLocal = Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2);
 
+        const length_blockAppointments = blockAppointments ? blockAppointments.length : 0;
+        const isShowAddBlock = length_blockAppointments > 0 && blockAppointments[length_blockAppointments - 1].total != "0.00" ? true : false;
+
         return (
             <View style={{ flex: 1 }} >
                 <ScrollView showsVerticalScrollIndicator={false} >
@@ -488,14 +491,17 @@ class Layout extends React.Component {
                         removeBlockAppointment={this.removeBlockAppointment}
                         createABlockAppointment={this.createABlockAppointment}
                     />)}
-                    {/* <Button onPress={this.createABlockAppointment} style={{ marginTop: scaleSzie(14) }} >
-                        <Text style={{
-                            color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "bold",
-                            marginLeft: scaleSzie(10)
-                        }} >
-                            + Add block
-                    </Text>
-                    </Button> */}
+                    {
+                        isShowAddBlock ? <Button onPress={this.createABlockAppointment} style={{ marginTop: scaleSzie(14) }} >
+                            <Text style={{
+                                color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "bold",
+                                marginLeft: scaleSzie(10)
+                            }} >
+                                + Add block
+                        </Text>
+                        </Button> : <View />
+                    }
+
                     <View style={{ height: scaleSzie(50) }} />
                 </ScrollView>
             </View>

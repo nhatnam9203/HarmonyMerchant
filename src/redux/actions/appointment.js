@@ -20,7 +20,7 @@ export function getGroupAppointmentById(id) {
     }
 }
 
-export function addItemIntoAppointment(body, appointmentId, isGroup = false,isBlock = false) {
+export function addItemIntoAppointment(body, appointmentId, isGroup = false, isBlock = false) {
     return {
         type: 'ADD_ITEM_INTO_APPOINTMENT',
         body: body,
@@ -34,7 +34,7 @@ export function addItemIntoAppointment(body, appointmentId, isGroup = false,isBl
 }
 
 
-export function removeItemIntoAppointment(body, appointmentId, isGroup = false,isBlock = false) {
+export function removeItemIntoAppointment(body, appointmentId, isGroup = false, isBlock = false) {
     return {
         type: 'REMOVE_ITEM_INTO_APPOINTMENT',
         body: body,
@@ -129,7 +129,7 @@ export function createAnymousAppointment(merchantId, userId = 0, products = [], 
     }
 }
 
-export function createBlockAppointment(merchantId,userId = 0,firstName = "",lastName = "",phoneNumber = "") {
+export function createBlockAppointment(merchantId, userId = 0, firstName = "", lastName = "", phoneNumber = "") {
     return {
         type: 'CREATE_BLOCK_APPOINTMENT',
         body: {
@@ -258,7 +258,7 @@ export function submitAppointmentOffline(body) {
 }
 
 
-export function cancleAppointment(appointmentId, merchantId, userId,isBlock = false,isCancelManyAppointment = false) {
+export function cancleAppointment(appointmentId, merchantId, userId, isBlock = false, isCancelManyAppointment = false) {
     return {
         type: 'CANCEL_APPOINTMENT',
         body: {
@@ -405,16 +405,16 @@ export function updateProductInAppointment(appointmentId, body, isGroup = true) 
 }
 
 
-export function addBlockAppointmentRef(ref){
+export function addBlockAppointmentRef(ref) {
     return {
-        type :"ADD_BLOCK_APPOINTMENT_REF",
+        type: "ADD_BLOCK_APPOINTMENT_REF",
         payload: ref
     }
 }
 
-export function bookBlockAppointment(){
+export function bookBlockAppointment() {
     return {
-        type :"BOOK_BLOCK_APPOINTMENT",
+        type: "BOOK_BLOCK_APPOINTMENT",
     }
 }
 

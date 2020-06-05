@@ -1,4 +1,4 @@
-import { put, takeLatest, all, select,takeEvery } from "redux-saga/effects";
+import { put, takeLatest, all, select, takeEvery } from "redux-saga/effects";
 import NavigationServices from "../../navigators/NavigatorServices";
 
 import { requestAPI, uploadFromData } from '../../utils';
@@ -532,6 +532,9 @@ function* submitAppointmentOffline(action) {
 function* cancleAppointment(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
+        if (action.isBlock && !action.isCancelManyAppointment) {
+            yield put({ type: 'LOADING_ROOT' });
+        }
         const responses = yield requestAPI(action);
         // console.log('cancleAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
@@ -548,12 +551,17 @@ function* cancleAppointment(action) {
             })
         } else {
             yield put({
+                type: "CANCEL_APPOINTMENT_FAIL"
+            });
+            yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
-            })
+            });
         }
     } catch (error) {
-
+        yield put({
+            type: "CANCEL_APPOINTMENT_FAIL"
+        });
         yield put({ type: 'STOP_LOADING_ROOT' });
         // setTimeout(() =>{
         //     alert(`error-cancleAppointment: ${error}`)

@@ -281,7 +281,7 @@ function* showErrorMessage(action) {
     // alert(action.message);
     setTimeout(() => {
         alert(action.message ? action.message : 'Something went wrong');
-    }, 500)
+    }, 100)
 
 }
 
