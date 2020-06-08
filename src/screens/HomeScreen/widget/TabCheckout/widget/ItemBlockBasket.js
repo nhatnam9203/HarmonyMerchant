@@ -2,17 +2,13 @@ import React from 'react';
 import {
     View,
     Text,
-    Dimensions,
-    StyleSheet,
-    Platform,
     Image,
-    TouchableOpacity,
 } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import Swipeout from 'react-native-swipeout';
-import _, { product } from 'ramda';
+import _ from 'ramda';
 
-import { ButtonCustom, PopupParent, Button } from '@components';
+import { Button } from '@components';
 import {
     scaleSzie, localize, formatNumberFromCurrency, formatMoney, getArrayProductsFromAppointment,
     getArrayServicesFromAppointment, getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment
@@ -22,9 +18,9 @@ import styles from '../style';
 import ItemBasket from './ItemBasket';
 import connectRedux from '@redux/ConnectRedux';
 
-const { width } = Dimensions.get('window');
-
 class ItemBlockBasket extends React.Component {
+
+    _isMounted = false;
 
     constructor(props) {
         super(props);
@@ -34,10 +30,17 @@ class ItemBlockBasket extends React.Component {
         }
     }
 
+    componentDidMount(){
+        this._isMounted = true;
+    }
+
     setStateFromParent = async (isCollapsed) => {
-        await this.setState({
-            isCollapsed
-        });
+        // console.log("-------- setStateFromParent :  ");
+        if (this._isMounted) {
+            await  this.setState({
+                isCollapsed
+            });
+        }
     }
 
 
@@ -141,7 +144,7 @@ class ItemBlockBasket extends React.Component {
 
 
         const { isCollapsed } = this.state;
-        const iconCollaps = isCollapsed ? IMAGE.open_customer_basket : IMAGE.close_customer_basket;
+        const iconCollaps =this.state.isCollapsed ? IMAGE.open_customer_basket : IMAGE.close_customer_basket;
         const swipeoutBtns = [
             {
                 backgroundColor: '#fff',
@@ -155,8 +158,8 @@ class ItemBlockBasket extends React.Component {
         const disabledRemoveItemCustomerBasket = checkoutPayments.length === 0 ? false : true;
 
         // ---- New -----
-        const temptBackground = !isCollapsed ? { backgroundColor: "#0764B0" } : { backgroundColor: "#E5E5E5" };
-        const temptTextColor = !isCollapsed ? { color: "#fff" } : { color: "#404040" };
+        const temptBackground = !this.state.isCollapsed ? { backgroundColor: "#0764B0" } : { backgroundColor: "#E5E5E5" };
+        const temptTextColor = !this.state.isCollapsed ? { color: "#fff" } : { color: "#404040" };
 
         return (
             <Swipeout
@@ -191,7 +194,7 @@ class ItemBlockBasket extends React.Component {
 
     render() {
         const { language, appointmentDetail, removeItemBasket, paymentDetailInfo,
-            changeProduct,blockIndex,blockAppointments,createABlockAppointment
+            changeProduct, blockIndex, blockAppointments, createABlockAppointment
         } = this.props;
         const { isCollapsed } = this.state;
 
@@ -202,7 +205,7 @@ class ItemBlockBasket extends React.Component {
         return (
             <View>
                 {this.renderHeaderCustomerBaket()}
-                <Collapsible collapsed={isCollapsed}>
+                <Collapsible collapsed={this.state.isCollapsed}>
                     {/* ----------- Item Product , Service , Extra --------- */}
                     {
                         this.getBasket().map((item, index) => <ItemBasket
@@ -295,11 +298,17 @@ class ItemBlockBasket extends React.Component {
                             :
                             <View />
                     }
-                   
+
                 </Collapsible>
             </View>
         );
     }
+
+    componentWillUnmount() {
+        this._isMounted = false;
+        // console.log("---- componentWillUnmount ----");
+      }
+
 }
 
 

@@ -797,20 +797,18 @@ class TabCheckout extends Layout {
     // ------------ Signal R -------
 
     setupSignalR(profile, token, checkoutGroupId, deviceId) {
-
         try {
             const connection = new signalR.HubConnectionBuilder()
-                .withUrl(`${apiConfigs.BASE_URL}notification/?merchantId=${profile.merchantId}&Title=Merchant&kind=app&deviceId=${deviceId}`, { accessTokenFactory: () => token })
-                .configureLogging({
-                    log: function (logLevel, message) {
-                    }
-                })
+                .withUrl(`${apiConfigs.BASE_URL}notification/?merchantId=${profile.merchantId}&Title=Merchant&kind=app&deviceId=${deviceId}&token=${token}`,
+                    {
+                        transport: signalR.HttpTransportType.LongPolling | signalR.HttpTransportType.WebSockets
+                    })
+                // .withAutomaticReconnect([0, 0, 10000])
+                .configureLogging(signalR.LogLevel.Information)
                 .build();
 
             connection.on("ListWaNotification", (data) => {
-
                 const temptData = JSON.parse(data);
-                // console.log('ListWaNotification : ' + JSON.stringify(temptData));
                 if (temptData.data && !_.isEmpty(temptData.data) && temptData.data.isPaymentHarmony
                     && temptData.data.checkoutGroupId == checkoutGroupId
                 ) {
@@ -824,19 +822,23 @@ class TabCheckout extends Layout {
             });
 
             connection.onclose(async (error) => {
+                console.log("------ SignalR onclose ");
                 this.props.actions.appointment.resetConnectSignalR();
             });
 
 
             connection.start()
-                .then(() => this.props.actions.appointment.referenceConnectionSignalR(connection));
-            // .catch(error => { });
+                .then(() => {
+                    console.log("------ SignalR start ");
+                    this.props.actions.appointment.referenceConnectionSignalR(connection)
+                })
+                .catch(error => {
+                    console.log("------ SignalR error :  ", error);
+                });
 
         } catch (error) {
-            //console.log('------ error : ', error);
+            console.log('------ error : ', error);
         }
-
-
     }
 
     doneAddBasketSignInAppointment = () => {
@@ -1073,7 +1075,7 @@ class TabCheckout extends Layout {
                     alert(result.message);
                 }, 300)
 
-            } else if(result.ResultTxt && result.ResultTxt == "OK" ) {
+            } else if (result.ResultTxt && result.ResultTxt == "OK") {
                 const { profile, groupAppointment } = this.props;
                 const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser, customerInfoByPhone } = this.state;
                 let method = this.getPaymentString(paymentSelected);
@@ -1095,7 +1097,7 @@ class TabCheckout extends Layout {
                         message,
                     );
                 }
-            }else{
+            } else {
                 setTimeout(() => {
                     alert(result.ResultTxt ? result.ResultTxt : "Transaction failed:");
                 }, 300)
