@@ -1,7 +1,7 @@
 import React from 'react';
 import _, { ap } from 'ramda';
 import { StarPRNT } from 'react-native-star-prnt';
-const signalR = require('@aspnet/signalr');
+const signalR = require('@microsoft/signalr');
 import { Alert, NativeModules, TouchableHighlightBase } from 'react-native';
 import moment from 'moment';
 
@@ -796,14 +796,14 @@ class TabCheckout extends Layout {
 
     // ------------ Signal R -------
 
-    setupSignalR(profile, token, checkoutGroupId, deviceId) {
+    setupSignalR(profile, token, checkoutGroupId, deviceId, method, moneyUserGiveForStaff) {
         try {
             const connection = new signalR.HubConnectionBuilder()
                 .withUrl(`${apiConfigs.BASE_URL}notification/?merchantId=${profile.merchantId}&Title=Merchant&kind=app&deviceId=${deviceId}&token=${token}`,
                     {
                         transport: signalR.HttpTransportType.LongPolling | signalR.HttpTransportType.WebSockets
                     })
-                // .withAutomaticReconnect([0, 0, 10000])
+                .withAutomaticReconnect([0, 2000, 10000, 30000])
                 .configureLogging(signalR.LogLevel.Information)
                 .build();
 
@@ -822,22 +822,37 @@ class TabCheckout extends Layout {
             });
 
             connection.onclose(async (error) => {
-                console.log("------ SignalR onclose ");
+                // console.log("------ SignalR onclose ");
                 this.props.actions.appointment.resetConnectSignalR();
             });
 
 
             connection.start()
                 .then(() => {
-                    console.log("------ SignalR start ");
-                    this.props.actions.appointment.referenceConnectionSignalR(connection)
+                    // console.log("------ SignalR start ");
+                    this.props.actions.app.stopLoadingApp();
+                    this.props.actions.appointment.referenceConnectionSignalR(connection);
+                    this.setState({
+                        isCancelHarmonyPay: true,
+                        changeButtonDone: true
+                    });
+                    this.props.actions.appointment.paymentAppointment(checkoutGroupId, method, moneyUserGiveForStaff);
                 })
                 .catch(error => {
-                    console.log("------ SignalR error :  ", error);
+                    this.props.actions.app.stopLoadingApp();
+                    setTimeout(() =>{
+                        alert(error);
+                    },1000)
+                  
+                    // console.log("------ SignalR error :  ", error);
                 });
 
         } catch (error) {
-            console.log('------ error : ', error);
+            // console.log('------ error : ', error);
+            this.props.actions.app.stopLoadingApp();
+            setTimeout(() =>{
+                alert(error);
+            },1000)
         }
     }
 
@@ -1001,12 +1016,13 @@ class TabCheckout extends Layout {
             this.modalBillRef.current.setStateFromParent(`0`);
             if (!_.isEmpty(groupAppointment)) {
                 if (method === 'harmony') {
-                    await this.setState({
-                        isCancelHarmonyPay: true,
-                        changeButtonDone: true
-                    });
-                    this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff);
-                    this.setupSignalR(profile, token, groupAppointment.checkoutGroupId, deviceId);
+                    // await this.setState({
+                    //     isCancelHarmonyPay: true,
+                    //     changeButtonDone: true
+                    // });
+                    // this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff);
+                    this.props.actions.app.loadingApp();
+                    this.setupSignalR(profile, token, groupAppointment.checkoutGroupId, deviceId, method, moneyUserGiveForStaff);
                 } else if (method === 'credit_card') {
                     if (paxMachineInfo.isSetup) {
                         this.hanleCreditCardProcess(true, moneyUserGiveForStaff);
