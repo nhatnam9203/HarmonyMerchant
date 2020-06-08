@@ -53,7 +53,7 @@ class PopupPaymentDetails extends React.Component {
                         {/* ---- start ---- */}
                         <ItemDetail
                             title={`${localize('Invoice No', language)}:`}
-                            value={`# ${paymentDetailInfo.checkoutGropId ? paymentDetailInfo.checkoutGropId : ''}`}
+                            value={`# ${paymentDetailInfo.invoiceNo ? paymentDetailInfo.invoiceNo : ''}`}
                             subText={""}
                         />
                         <ItemDetail
