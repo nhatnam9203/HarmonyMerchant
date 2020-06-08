@@ -1073,7 +1073,7 @@ class TabCheckout extends Layout {
                     alert(result.message);
                 }, 300)
 
-            } else {
+            } else if(result.ResultTxt && result.ResultTxt == "OK" ) {
                 const { profile, groupAppointment } = this.props;
                 const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser, customerInfoByPhone } = this.state;
                 let method = this.getPaymentString(paymentSelected);
@@ -1095,6 +1095,10 @@ class TabCheckout extends Layout {
                         message,
                     );
                 }
+            }else{
+                setTimeout(() => {
+                    alert(result.ResultTxt ? result.ResultTxt : "Transaction failed:");
+                }, 300)
             }
         } catch (error) {
             //console.log('error : ', error)
