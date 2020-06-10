@@ -1020,7 +1020,12 @@ class TabCheckout extends Layout {
                     this.setupSignalR(profile, token, groupAppointment.checkoutGroupId, deviceId, method, moneyUserGiveForStaff);
                 } else if (method === 'credit_card') {
                     if (paxMachineInfo.isSetup) {
-                        this.hanleCreditCardProcess(true, moneyUserGiveForStaff);
+                        if (moneyUserGiveForStaff == 0) {
+                            alert('Enter amount!');
+                        } else {
+                            this.hanleCreditCardProcess(true, moneyUserGiveForStaff);
+                        }
+
                     } else {
                         setTimeout(() => {
                             alert('Please connect your Pax to take payment.');
