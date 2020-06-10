@@ -8,7 +8,8 @@ import {
 
 export default class ModalCustom extends React.PureComponent {
 
-    componentWillMount() {
+    constructor(props){
+        super(props);
         this._panResponder = PanResponder.create({
             onStartShouldSetPanResponder: (evt, gestureState) => true,
             onPanResponderGrant: (evt, gestureState) => {

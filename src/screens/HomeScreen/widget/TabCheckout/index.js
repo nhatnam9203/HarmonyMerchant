@@ -1652,12 +1652,6 @@ class TabCheckout extends Layout {
         return extrasBySort;
     }
 
-    addBlockAppointmentRef = ref => {
-        if (ref) {
-            this.blockAppointmentRef.push(ref);
-        }
-
-    }
 
     createABlockAppointment = () => {
         const { profile } = this.props;
@@ -1769,6 +1763,7 @@ class TabCheckout extends Layout {
     }
 
     setBlockToggleCollaps = () => {
+        console.log("-------------------- setBlockToggleCollaps ----------------------");
         const { isOpenBlockAppointmentId } = this.props;
         for (let i = 0; i < this.blockAppointmentRef.length; i++) {
             const appointmentDetail = this.blockAppointmentRef[i].props.appointmentDetail;
@@ -1780,7 +1775,32 @@ class TabCheckout extends Layout {
         }
     }
 
-    updateBlockAppointmentRef = () => {
+    addBlockAppointmentRef = ref => {
+        console.log("ref : ",ref);
+        if (ref) {
+            this.blockAppointmentRef.push(ref);
+        };
+    }
+
+    updateBlockAppointmentRef = () =>{
+        // console.log("this.blockAppointmentRef : ",this.blockAppointmentRef);
+        const temptBlockAppointmentRef = [];
+        for (let j = 0; j < this.blockAppointmentRef.length; j++) {
+            if(this.blockAppointmentRef[j]._isMounted){
+                temptBlockAppointmentRef.push(this.blockAppointmentRef[j]);
+            }
+        }
+
+        if (temptBlockAppointmentRef.length > 0) {
+            this.blockAppointmentRef = temptBlockAppointmentRef;
+        }else{
+            this.blockAppointmentRef = [];
+        }
+
+        console.log("-------- After update  : ",this.blockAppointmentRef);
+    }
+
+    updateBlockAppointmentRef_1 = () => {
         const { blockAppointments, isOpenBlockAppointmentId } = this.props;
         const temptBlockAppointmentRef = [];
         for (let i = 0; i < blockAppointments.length; i++) {
@@ -1792,21 +1812,33 @@ class TabCheckout extends Layout {
                 }
             }
         }
+
         if (temptBlockAppointmentRef.length > 0) {
-            this.blockAppointmentRef = temptBlockAppointmentRef;
+            // this.blockAppointmentRef = temptBlockAppointmentRef;
+            console.log("temptBlockAppointmentRef : ",temptBlockAppointmentRef);
+            console.log("this.blockAppointmentRef : ",this.blockAppointmentRef);
 
-            let isAppointmentOpenExist = false;
-            for (let i = 0; i < this.blockAppointmentRef.length; i++) {
-                const appointmentDetail = this.blockAppointmentRef[i].props.appointmentDetail;
-                if (appointmentDetail.appointmentId === isOpenBlockAppointmentId) {
-                    isAppointmentOpenExist = true;
-                    break;
-                }
-            }
+            // setTimeout(() =>{
+            //     alert("ddd")
+            // },1000)
+            
 
-            if (!isAppointmentOpenExist) {
-                this.blockAppointmentRef[0].setStateFromParent(false);
-            }
+            // for (let i = 0; i < this.blockAppointmentRef.length; i++) {
+            //     this.blockAppointmentRef[i].setStateFromParent(true);
+            // }
+
+            // let isAppointmentOpenExist = false;
+            // for (let i = 0; i < this.blockAppointmentRef.length; i++) {
+            //     const appointmentDetail = this.blockAppointmentRef[i].props.appointmentDetail;
+            //     if (appointmentDetail.appointmentId === isOpenBlockAppointmentId) {
+            //         isAppointmentOpenExist = true;
+            //         break;
+            //     }
+            // }
+
+            // if (!isAppointmentOpenExist) {
+            //     this.blockAppointmentRef[0].setStateFromParent(false);
+            // }
 
         } else {
             this.blockAppointmentRef = [];
