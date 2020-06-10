@@ -281,17 +281,16 @@ class Layout extends React.Component {
                                     {`$${subTotal}`}
                                 </Text>
                             </View>
-                             {/* ---------- Discount ------ */}
-                             <View style={styles.payNumberTextContainer} >
-                                <Button onPress={this.showModalDiscount} >
+                            {/* ---------- Discount ------ */}
+                            <View style={styles.payNumberTextContainer} >
+                                <Button style={{ flexDirection: "row" }} onPress={this.showModalDiscount} >
                                     <Text style={styles.textPay} >
                                         {`${localize('Discount', language)}:`}
 
-                                        <Image source={IMAGE.discountBtn}
-                                            style={{ width: scaleSzie(20), height: scaleSzie(20) }}
-                                        />
-
                                     </Text>
+                                    <Image source={IMAGE.add_discount_checkout}
+                                        style={{ width: scaleSzie(20), height: scaleSzie(20) }}
+                                    />
                                 </Button>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
                                     {`$ ${discount}`}
@@ -315,7 +314,7 @@ class Layout extends React.Component {
                                     {`$ ${tax}`}
                                 </Text>
                             </View>
-                           
+
                             {/* ---------- Total ------ */}
                             <View style={styles.payNumberTextContainer} >
                                 <Text style={styles.textPay} >

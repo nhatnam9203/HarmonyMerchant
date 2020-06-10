@@ -1,18 +1,16 @@
 import React from 'react';
 import {
     View,
-    Image,
     Text,
     ScrollView,
-    StyleSheet,
     TouchableOpacity,
-    TextInput
+    Alert
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
 
 import { ButtonCustom, PopupParent } from '@components';
-import { scaleSzie, formatNumberFromCurrency, formatMoney,localize } from '@utils';
+import { scaleSzie, formatNumberFromCurrency, formatMoney, localize } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupDiscount extends React.Component {
@@ -35,13 +33,33 @@ class PopupDiscount extends React.Component {
 
 
     submitCustomPromotion() {
-        const { appointmentDetail } = this.props;
+        const { appointmentDetail, discount } = this.props;
         const customDiscountPercent = this.customDiscountRef.current.state.percent;
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
         if (!_.isEmpty(appointmentDetail)) {
-            const { appointmentDetail } = this.props;
-            this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentDetail.appointmentId);
-            this.props.actions.marketing.closeModalDiscount();
+            const subTotal = !_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
+            let totalDiscount = 0;
+            for (let i = 0; i < discount.length; i++) {
+                totalDiscount = formatNumberFromCurrency(totalDiscount) + formatNumberFromCurrency(discount[i].discount);
+            };
+            totalDiscount = formatNumberFromCurrency(totalDiscount) + formatNumberFromCurrency(customFixedAmount);
+            const moneyDiscountCustom = (formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(subTotal) / 100);
+            totalDiscount = formatNumberFromCurrency(totalDiscount) + formatNumberFromCurrency(moneyDiscountCustom);
+
+            if (formatNumberFromCurrency(totalDiscount) > formatNumberFromCurrency(subTotal)) {
+                Alert.alert(
+                    `Warning`,
+                    `Discount not bigger than appointment's subtotal.`,
+                    [
+
+                        { text: 'OK', onPress: () => { } }
+                    ],
+                    { cancelable: false }
+                );
+            } else {
+                this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentDetail.appointmentId);
+                this.props.actions.marketing.closeModalDiscount();
+            }
         }
         this.resetState();
     }
@@ -62,11 +80,6 @@ class PopupDiscount extends React.Component {
 
     onChangeTextCustomDiscount = async (discount) => {
         const { appointmentDetail } = this.props;
-        const customFixedAmount = this.customFixedAmountRef.current.state.discount;
-
-
-        const temptDiscount = formatNumberFromCurrency(discount) + formatNumberFromCurrency(customFixedAmount)
-        //console.log('discountTotal : ', temptDiscount);
 
         if (!_.isEmpty(appointmentDetail)) {
             await this.setState({
@@ -86,16 +99,14 @@ class PopupDiscount extends React.Component {
                 moneyDiscountCustom: (formatNumberFromCurrency(this.customDiscountRef.current.state.percent) * formatNumberFromCurrency(subTotal) / 100)
             })
         }
-
     }
 
     // ------ Render -----
 
     render() {
-        //console.log('------ Render 11111 -----');
         try {
             const { title, discount, visibleModalDiscount,
-                appointmentDetail,language
+                appointmentDetail, language
             } = this.props;
             const { customDiscountPercent, customDiscountFixed } = appointmentDetail;
             const {
@@ -108,34 +119,28 @@ class PopupDiscount extends React.Component {
             }
             if (visibleModalDiscount && !this.customDiscountRef.current) {
                 const subTotal = !_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
-                //console.log('----- subTotal : ',subTotal);
                 total = formatNumberFromCurrency(total) + (formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(subTotal) / 100);
             }
             if (visibleModalDiscount && !this.customFixedAmountRef.current) {
                 total = formatNumberFromCurrency(total) + formatNumberFromCurrency(customDiscountFixed);
-                //console.log('----- !customFixedAmountRef : ',total);
             }
             if (visibleModalDiscount && this.customDiscountRef.current) {
                 total = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountCustom);
-                //console.log('----- customDiscountRef : ',total);
             }
             if (visibleModalDiscount && this.customFixedAmountRef.current) {
-                //console.log('---- : ', this.customFixedAmountRef.current.state.discount);
                 total = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountFixedAmout);
-                //console.log('----- customFixedAmountRef : ',total);
             }
-    
+
             total = Number(total).toFixed(2);
-            //console.log('----- total : ',total);
-    
+
             const temptTotalDiscount = _.isEmpty(appointmentDetail) ? Number(discountTotal).toFixed(2) : Number(total).toFixed(2);
             const temptTotal = _.isEmpty(appointmentDetail) ? totalLocal : (!_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0);
             const temptCustomDiscountPercent = _.isEmpty(appointmentDetail) ? customDiscountPercentLocal : customDiscountPercent;
             const temptCustomDiscountFixed = _.isEmpty(appointmentDetail) ? customDiscountFixedLocal : customDiscountFixed;
-    
-    
+
+
             const visible = visibleModalDiscount && !_.isEmpty(appointmentDetail) ? true : false;
-    
+
             return (
                 <PopupParent
                     title={title}
@@ -177,7 +182,7 @@ class PopupDiscount extends React.Component {
                                     <View style={{ height: scaleSzie(100) }} />
                                 </TouchableOpacity>
                             </ScrollView>
-    
+
                         </View>
                         {/* ---------- Total ------- */}
                         <View style={{
@@ -186,7 +191,7 @@ class PopupDiscount extends React.Component {
                         }} >
                             <View style={{ flex: 1, justifyContent: 'center' }} >
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(30), fontWeight: 'bold' }} >
-                                    
+
                                     {localize('Total Discount', language)}
                                 </Text>
                             </View>
@@ -196,7 +201,7 @@ class PopupDiscount extends React.Component {
                                 </Text>
                             </View>
                         </View>
-    
+
                         {/* ----------- Button Add ---- */}
                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(12) }} >
                             <ButtonCustom
@@ -212,11 +217,11 @@ class PopupDiscount extends React.Component {
                     </View>
                 </PopupParent>
             );
-            
+
         } catch (error) {
-            //console.log('-------- error : ',error);
+
         }
-        
+
     }
 
 }
@@ -260,7 +265,7 @@ class CustomDiscount extends React.Component {
 
     render() {
         const { percent } = this.state;
-        const { total, onChangeText ,language} = this.props;
+        const { total, onChangeText, language } = this.props;
         const discount = Number(formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100).toFixed(2);
 
         return (
@@ -325,7 +330,7 @@ class CustomDiscountFixed extends React.Component {
     }
 
     render() {
-        const { onChangeText,language} = this.props;
+        const { onChangeText, language } = this.props;
         return (
             <View style={{
                 flexDirection: 'row', height: scaleSzie(55), borderBottomColor: '#707070', borderBottomWidth: 1
@@ -333,7 +338,7 @@ class CustomDiscountFixed extends React.Component {
                 <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }} >
                     <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
                         {localize('Custom Discount by fixed amount', language)}
-                </Text>
+                    </Text>
                 </View>
                 <View style={{ justifyContent: 'center' }} >
                     {/* ------- Text discount ----- */}
@@ -342,7 +347,7 @@ class CustomDiscountFixed extends React.Component {
                         borderColor: '#707070', borderWidth: 1, marginLeft: scaleSzie(20), borderRadius: scaleSzie(4),
                         flexDirection: 'row',
                     }} >
-                         <View style={{ justifyContent: 'center',paddingLeft: scaleSzie(5) }} >
+                        <View style={{ justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
                             <Text style={{ color: '#4CD964', fontSize: scaleSzie(20) }} >
                                 $
                             </Text>
@@ -368,7 +373,7 @@ class CustomDiscountFixed extends React.Component {
                                 maxLength={3}
                             />
                         </View>
-                       
+
                     </View>
                     {/* -------  ----- */}
                 </View>
