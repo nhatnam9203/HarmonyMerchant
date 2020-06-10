@@ -840,19 +840,19 @@ class TabCheckout extends Layout {
                 })
                 .catch(error => {
                     this.props.actions.app.stopLoadingApp();
-                    setTimeout(() =>{
+                    setTimeout(() => {
                         alert(error);
-                    },1000)
-                  
+                    }, 1000)
+
                     // console.log("------ SignalR error :  ", error);
                 });
 
         } catch (error) {
             // console.log('------ error : ', error);
             this.props.actions.app.stopLoadingApp();
-            setTimeout(() =>{
+            setTimeout(() => {
                 alert(error);
-            },1000)
+            }, 1000)
         }
     }
 
@@ -1006,7 +1006,7 @@ class TabCheckout extends Layout {
             return;
         }
 
-        if (moneyUserGiveForStaff == 0) {
+        if (moneyUserGiveForStaff == 0 && groupAppointment && formatNumberFromCurrency(groupAppointment.total) != 0) {
             alert('Enter amount!');
         } else {
             await this.setState({
@@ -1016,11 +1016,6 @@ class TabCheckout extends Layout {
             this.modalBillRef.current.setStateFromParent(`0`);
             if (!_.isEmpty(groupAppointment)) {
                 if (method === 'harmony') {
-                    // await this.setState({
-                    //     isCancelHarmonyPay: true,
-                    //     changeButtonDone: true
-                    // });
-                    // this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff);
                     this.props.actions.app.loadingApp();
                     this.setupSignalR(profile, token, groupAppointment.checkoutGroupId, deviceId, method, moneyUserGiveForStaff);
                 } else if (method === 'credit_card') {
