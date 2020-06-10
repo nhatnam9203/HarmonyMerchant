@@ -45,7 +45,6 @@ const appReducer = combineReducers({
     network
 });
 
-const initialState = appReducer({}, {});
 
 const rootReducer = (state, action) => {
     if (action.type === "LOGOUT_APP") {

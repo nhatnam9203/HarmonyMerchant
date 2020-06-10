@@ -281,6 +281,22 @@ class Layout extends React.Component {
                                     {`$${subTotal}`}
                                 </Text>
                             </View>
+                             {/* ---------- Discount ------ */}
+                             <View style={styles.payNumberTextContainer} >
+                                <Button onPress={this.showModalDiscount} >
+                                    <Text style={styles.textPay} >
+                                        {`${localize('Discount', language)}:`}
+
+                                        <Image source={IMAGE.discountBtn}
+                                            style={{ width: scaleSzie(20), height: scaleSzie(20) }}
+                                        />
+
+                                    </Text>
+                                </Button>
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                    {`$ ${discount}`}
+                                </Text>
+                            </View>
                             {/* ---------- Tip ------ */}
                             <View style={styles.payNumberTextContainer} >
                                 <Text style={styles.textPay} >
@@ -299,22 +315,7 @@ class Layout extends React.Component {
                                     {`$ ${tax}`}
                                 </Text>
                             </View>
-                            {/* ---------- Discount ------ */}
-                            <View style={styles.payNumberTextContainer} >
-                                <Button onPress={this.showModalDiscount} >
-                                    <Text style={styles.textPay} >
-                                        {`${localize('Discount', language)}:`}
-
-                                        <Image source={IMAGE.discountBtn}
-                                            style={{ width: scaleSzie(20), height: scaleSzie(20) }}
-                                        />
-
-                                    </Text>
-                                </Button>
-                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$ ${discount}`}
-                                </Text>
-                            </View>
+                           
                             {/* ---------- Total ------ */}
                             <View style={styles.payNumberTextContainer} >
                                 <Text style={styles.textPay} >
