@@ -59,9 +59,14 @@ class PopupInvoicePrint extends React.Component {
             paymentSelected,
             isPrintTempt,
             printMachine,
-
             paymentMethods: this.getPaymentMethods()
-        })
+        });
+        // this.doPrint();
+        setTimeout(() =>{
+            // alert("ddd")
+            this.doPrint();
+        },500)
+       
     }
 
     doPrint = async () => {
@@ -107,6 +112,8 @@ class PopupInvoicePrint extends React.Component {
                 }
             }
         } catch (error) {
+            // console.log("---- errror : ",);
+            alert(error)
             await this.setState({
                 isProcessingPrint: false
             });
@@ -211,7 +218,7 @@ class PopupInvoicePrint extends React.Component {
         // let invoiceCode = "";
         // if (groupAppointment.appointments && groupAppointment.appointments.length > 0) {
         //     const mainAppointment = groupAppointment.appointments.find(appointment => appointment.isMain === 1);
-            
+
         //     invoiceCode = mainAppointment.code ? mainAppointment.code : "";
         // }
 
@@ -232,7 +239,7 @@ class PopupInvoicePrint extends React.Component {
                             width: scaleSzie(290),
                             // height: scaleSzie(450) 
                         }} >
-                       
+
                         <View
                             style={{ height: scaleSzie(450) }}
                         >
@@ -330,7 +337,7 @@ class PopupInvoicePrint extends React.Component {
                                                 {`DESCRIPTION`}
                                             </Text>
                                         </View>
-                                        <View style={{  justifyContent: "center" }} >
+                                        <View style={{ justifyContent: "center" }} >
                                             <Text style={[styleInvoice.txt_info, { fontSize: 18, fontWeight: "400" }]} >
                                                 {`PRICE`}
                                             </Text>
@@ -527,7 +534,7 @@ class PopupInvoicePrint extends React.Component {
 }
 
 const ItemInvoice = ({ item, index }) => {
-    const price  = item.data && item.data.price ? item.data.price : 0;
+    const price = item.data && item.data.price ? item.data.price : 0;
     const quanlitySet = item.quanlitySet ? item.quanlitySet : 1;
     const total = formatMoney(price * quanlitySet);
 
@@ -543,14 +550,16 @@ const ItemInvoice = ({ item, index }) => {
                     {`$ ${price}`}
                 </Text>
             </View>
-            <View style={{ width: scaleSzie(50), justifyContent: "center", alignItems: "center",
-        }} >
+            <View style={{
+                width: scaleSzie(50), justifyContent: "center", alignItems: "center",
+            }} >
                 <Text style={[styleInvoice.txt_info,]} >
                     {quanlitySet}
                 </Text>
             </View>
-            <View style={{ flex: 0.5, justifyContent: "center", alignItems: "flex-end" ,
-        }} >
+            <View style={{
+                flex: 0.5, justifyContent: "center", alignItems: "flex-end",
+            }} >
                 <Text style={[styleInvoice.txt_info,]} >
                     {`$ ${total ? total : ""}`}
                 </Text>

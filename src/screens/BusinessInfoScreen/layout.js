@@ -78,7 +78,7 @@ export default class Layout extends React.Component {
 
                                 <InputQuestionBusiness
                                     question={`${localize(question4.question, language)}`}
-                                    subYes={`${localize('if yes, was program and when', language)}`}
+                                    subYes={`${localize('if yes, what was program and when', language)}`}
                                     value={question4.desc}
                                     onChangeText={(value) => this.updateBusinessInfo('desc', value, 'question4')}
                                     changeStatusCheck={(value) => this.updateBusinessInfo('isAccept', value, 'question4')}
@@ -87,7 +87,7 @@ export default class Layout extends React.Component {
 
                                 <InputQuestionBusiness
                                     question={`${localize(question5.question, language)}`}
-                                    subYes=""
+                                    subYes={`${localize('if yes, who was your previous company', language)}`}
                                     value={question5.desc}
                                     onChangeText={(value) => this.updateBusinessInfo('desc', value, 'question5')}
                                     changeStatusCheck={(value) => this.updateBusinessInfo('isAccept', value, 'question5')}

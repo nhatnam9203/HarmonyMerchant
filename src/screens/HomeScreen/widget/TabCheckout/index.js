@@ -734,14 +734,12 @@ class TabCheckout extends Layout {
     }
 
     printTemptInvoice = async () => {
-        this.showInvoicePrint("BT:mPO");
-
-        // const printMachine = await this.checkStatusPrint();
-        // if (printMachine) {
-        //     this.showInvoicePrint(printMachine);
-        // } else {
-        //     alert('Please connect to your printer ! ');
-        // }
+        const printMachine = await this.checkStatusPrint();
+        if (printMachine) {
+            this.showInvoicePrint(printMachine);
+        } else {
+            alert('Please connect to your printer ! ');
+        }
     }
 
     checkStatusCashier = async () => {
@@ -1656,7 +1654,7 @@ class TabCheckout extends Layout {
 
 
     createABlockAppointment = () => {
-        const { profile ,fromTimeBlockAppointment} = this.props;
+        const { profile, fromTimeBlockAppointment } = this.props;
         const { customerInfoByPhone, infoUser, } = this.state;
         const userId = customerInfoByPhone.userId ? customerInfoByPhone.userId : 0;
         this.props.actions.appointment.createBlockAppointment(profile.merchantId,
@@ -1783,7 +1781,7 @@ class TabCheckout extends Layout {
     }
 
     updateBlockAppointmentRef = () => {
-        const { isOpenBlockAppointmentId ,idNextToAppointmentRemove} = this.props;
+        const { isOpenBlockAppointmentId, idNextToAppointmentRemove } = this.props;
 
         const temptBlockAppointmentRef = this.blockAppointmentRef.filter((block) => block._isMounted);
 
@@ -1796,13 +1794,13 @@ class TabCheckout extends Layout {
                 if (appointmentDetail.appointmentId === isOpenBlockAppointmentId) {
                     isAppointmentOpenExist = true;
                     this.blockAppointmentRef[i].setStateFromParent(false);
-                }else{
+                } else {
                     this.blockAppointmentRef[i].setStateFromParent(true);
                 }
             }
             if (!isAppointmentOpenExist) {
-                const id =  idNextToAppointmentRemove - 1 ;
-                if(id >= 0){
+                const id = idNextToAppointmentRemove - 1;
+                if (id >= 0) {
                     this.blockAppointmentRef[id].setStateFromParent(false);
                 }
             }
