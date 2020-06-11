@@ -53,52 +53,63 @@ export default class Layout extends React.Component {
                         <View style={{ height: scaleSzie(16) }} />
                         <InputForm
                             title={`${localize('Legal Business Name', language)} * `}
-                            subTitle={`(${localize('as shown on your income tax return', language)})`}
+                            subTitle={`(${localize('for 1099k reporting', language)})`}
                             placeholder={`${localize('Legal Business Name', language)} *`}
                             value={businessName}
                             onChangeText={(value) => this.updateGeneralInfo('businessName', value)}
                             onFocus={() => this.scrollGeneralTo(85)}
                         />
                         <InputForm
-                            title={`${localize('Doing Business As Name (DBA)', language)} *`}
+                            title={`${localize('Doing Business As', language)}*(DBA)`}
                             subTitle=""
                             placeholder="DBA"
                             value={doingBusiness}
                             onChangeText={(value) => this.updateGeneralInfo('doingBusiness', value)}
                             onFocus={() => this.scrollGeneralTo(160)}
                         />
-                        <View style={{ flexDirection: 'row' }} >
+
+                        <Text style={[{ color: '#404040', fontSize: scaleSzie(14) }]} >
+                            {"Federal Tax ID* (use EIN number or SSN of owner)"}
+                        </Text>
+                        <View style={{ flexDirection: 'row', marginBottom: scaleSzie(24) }} >
                             <View style={{ width: scaleSzie(100) }} >
                                 <InputForm
-                                    title={`${localize('Federal Tax ID', language)}`}
+                                    // title={`${localize('Federal Tax ID', language)}`}
+                                    // title=" "
                                     subTitle=""
                                     placeholder=""
                                     value={prefix}
                                     onChangeText={(value) => this.updateGeneralInfo('prefix', value, 'tax')}
                                     keyboardType="numeric"
                                     onFocus={() => this.scrollGeneralTo(240)}
+                                    style={{ marginBottom: 0 }}
+                                    styleBoxInput={{ marginTop: 0 }}
                                 />
                             </View>
-                            <View style={{ width: scaleSzie(20), justifyContent: 'center', alignItems: 'center' }} >
+                            <View style={{
+                                width: scaleSzie(20), justifyContent: 'center', alignItems: 'center',
+                            }} >
                                 <Text style={{ fontSize: scaleSzie(20) }} >
                                     -
                                 </Text>
                             </View>
                             <View style={{ width: scaleSzie(250) }} >
                                 <InputForm
-                                    title="   "
+                                    // title="   "
                                     subTitle=""
                                     placeholder=""
                                     value={suffix}
                                     onChangeText={(value) => this.updateGeneralInfo('suffix', value, 'tax')}
                                     keyboardType="numeric"
                                     onFocus={() => this.scrollGeneralTo(240)}
+                                    style={{ marginBottom: 0 }}
+                                    styleBoxInput={{ marginTop: 0 }}
                                 />
                             </View>
                         </View>
                         <InputForm
-                            title={`${localize('DBA Business Address', language)} *`}
-                            subTitle="(no P.O. Box)"
+                            title={`${localize('Business Address', language)}*`}
+                            subTitle="(no P.O. Boxes)"
                             placeholder={localize('DBA address', language)}
                             style={{
                                 marginBottom: scaleSzie(10)
@@ -150,7 +161,7 @@ export default class Layout extends React.Component {
                             <View style={{ flex: 1 }} >
                                 <InputFormPhone
                                     ref={this.businessPhoneRef}
-                                    title={`${localize('Business Phone Number', language)} *`}
+                                    title={`${localize('Business Phone', language)} *`}
                                     subTitle=""
                                     placeholder=""
                                     value={businessPhone}
@@ -176,7 +187,7 @@ export default class Layout extends React.Component {
                                 <InputForm
                                     title={`${localize('Contact Name', language)} *`}
                                     subTitle=""
-                                    placeholder={localize('First name', language)}
+                                    placeholder={localize('First Name', language)}
                                     value={firstName}
                                     onChangeText={(value) => this.updateGeneralInfo('firstName', value)}
                                     onFocus={() => this.scrollGeneralTo(590)}
@@ -186,7 +197,7 @@ export default class Layout extends React.Component {
                                 <InputForm
                                     title="   "
                                     subTitle=""
-                                    placeholder={localize('Last name', language)}
+                                    placeholder={localize('Last Name', language)}
                                     value={lastName}
                                     onChangeText={(value) => this.updateGeneralInfo('lastName', value)}
                                     onFocus={() => this.scrollGeneralTo(590)}
@@ -196,7 +207,7 @@ export default class Layout extends React.Component {
                         <InputForm
                             title={`${localize('Title/Position', language)} *`}
                             subTitle=""
-                            placeholder="Manager"
+                            placeholder="President/Manager/Owner"
                             value={position}
                             onChangeText={(value) => this.updateGeneralInfo('position', value)}
                             onFocus={() => this.scrollGeneralTo(665)}

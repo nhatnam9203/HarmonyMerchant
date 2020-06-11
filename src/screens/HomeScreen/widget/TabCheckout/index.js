@@ -734,12 +734,14 @@ class TabCheckout extends Layout {
     }
 
     printTemptInvoice = async () => {
-        const printMachine = await this.checkStatusPrint();
-        if (printMachine) {
-            this.showInvoicePrint(printMachine);
-        } else {
-            alert('Please connect to your printer ! ');
-        }
+        this.showInvoicePrint("BT:mPO");
+
+        // const printMachine = await this.checkStatusPrint();
+        // if (printMachine) {
+        //     this.showInvoicePrint(printMachine);
+        // } else {
+        //     alert('Please connect to your printer ! ');
+        // }
     }
 
     checkStatusCashier = async () => {

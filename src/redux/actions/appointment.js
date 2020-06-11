@@ -135,7 +135,7 @@ export function createBlockAppointment(merchantId, fromTime = new Date(), userId
         body: {
             merchantId,
             userId,
-            status: 'checkin',
+            status: 'unconfirm',
             services: [],
             extras: [],
             products: [],
@@ -150,7 +150,7 @@ export function createBlockAppointment(merchantId, fromTime = new Date(), userId
         method: 'POST',
         token: true,
         api: `${apiConfigs.BASE_API}appointment`,
-        fromTimeBlockAppointment : fromTime
+        fromTimeBlockAppointment: fromTime
     }
 }
 

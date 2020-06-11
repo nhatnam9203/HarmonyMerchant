@@ -14,7 +14,7 @@ export default class InputForm extends React.PureComponent {
         const { title, subTitle, placeholder, style, value,
             onChangeText, secureTextEntry, keyboardType,
             isOnlyNumber, maxLength, editable, onFocus, typeInputMask, optionsInputMask,
-            styleTitle
+            styleTitle,styleBoxInput
         } = this.props;
         const temptHeight = Platform.OS === 'ios' ? 30 : 40
         return (
@@ -25,10 +25,10 @@ export default class InputForm extends React.PureComponent {
                         {subTitle}
                     </Text>
                 </Text>
-                <View style={{
+                <View style={[{
                     height: scaleSzie(temptHeight), borderWidth: 1, borderColor: '#C5C5C5',
                     marginTop: scaleSzie(5), paddingLeft: scaleSzie(8)
-                }} >
+                },styleBoxInput]} >
                     {
                         isOnlyNumber ? <TextInputMask
                             // type="only-numbers"

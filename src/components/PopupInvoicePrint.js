@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
     View,
     Text,
@@ -18,7 +18,7 @@ import ViewShot, { captureRef, releaseCapture } from "react-native-view-shot";
 
 import ButtonCustom from './ButtonCustom';
 import Button from './Button';
-import { scaleSzie, localize, PRINTER_MACHINE, getPaymentString } from '../utils';
+import { scaleSzie, localize, PRINTER_MACHINE, getPaymentString, formatMoney } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 import PrintManager from '@lib/PrintManager';
 import ICON from "@resources";
@@ -201,17 +201,19 @@ class PopupInvoicePrint extends React.Component {
     }
 
     render() {
-        const { language, visiblePrintInvoice, profile, profileStaffLogin, groupAppointment
+        const { language, visiblePrintInvoice, profile, profileStaffLogin, groupAppointment,
+            paymentDetailInfo
         } = this.props;
         const { basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected, isPrintTempt,
             isCheck, isSignature, paymentMethods
         } = this.state;
 
-        let invoiceCode = "";
-        if (groupAppointment.appointments && groupAppointment.appointments.length > 0) {
-            const mainAppointment = groupAppointment.appointments.find(appointment => appointment.isMain === 1);
-            invoiceCode = mainAppointment.code ? mainAppointment.code : "";
-        }
+        // let invoiceCode = "";
+        // if (groupAppointment.appointments && groupAppointment.appointments.length > 0) {
+        //     const mainAppointment = groupAppointment.appointments.find(appointment => appointment.isMain === 1);
+            
+        //     invoiceCode = mainAppointment.code ? mainAppointment.code : "";
+        // }
 
         return (
             <Modal
@@ -230,16 +232,7 @@ class PopupInvoicePrint extends React.Component {
                             width: scaleSzie(290),
                             // height: scaleSzie(450) 
                         }} >
-                        {/* {
-                            isPrintTempt ? null : <View style={{ height: scaleSzie(40), backgroundColor: "#0764B0", flexDirection: "row", alignItems: "center", justifyContent: "center" }} >
-                                <Button onPress={this.switchCheckbox} style={{ width: scaleSzie(40), height: scaleSzie(40), justifyContent: "center", alignItems: "center" }} >
-                                    <Image source={iconCheck} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
-                                </Button>
-                                <Text style={{ color: "#fff", fontSize: scaleSzie(10), fontWeight: "600" }} >
-                                    Do you want to print customer's receipt?
-                             </Text>
-                            </View>
-                        } */}
+                       
                         <View
                             style={{ height: scaleSzie(450) }}
                         >
@@ -319,7 +312,7 @@ class PopupInvoicePrint extends React.Component {
                                         </View>
                                         <View style={{ flex: 1 }} >
                                             <Text style={styleInvoice.txt_info} >
-                                                {`: ${invoiceCode}`}
+                                                {`: ${paymentDetailInfo.invoiceNo ? paymentDetailInfo.invoiceNo : ""}`}
                                             </Text>
                                         </View>
                                     </View>
@@ -332,19 +325,24 @@ class PopupInvoicePrint extends React.Component {
 
                                     {/* ------------- Header  ----------- */}
                                     <View style={{ flexDirection: "row", marginTop: scaleSzie(6) }} >
-                                        <View style={{ flex: 1, justifyContent: "center" }} >
+                                        <View style={{ flex: 0.8, justifyContent: "center" }} >
                                             <Text style={[styleInvoice.txt_info, { fontSize: 18, fontWeight: "400" }]} >
                                                 {`DESCRIPTION`}
                                             </Text>
                                         </View>
-                                        <View style={{ width: scaleSzie(35), justifyContent: "center", alignItems: "center" }} >
+                                        <View style={{  justifyContent: "center" }} >
+                                            <Text style={[styleInvoice.txt_info, { fontSize: 18, fontWeight: "400" }]} >
+                                                {`PRICE`}
+                                            </Text>
+                                        </View>
+                                        <View style={{ width: scaleSzie(50), justifyContent: "center", alignItems: "center" }} >
                                             <Text style={[styleInvoice.txt_info, { fontSize: 18, fontWeight: "400" }]} >
                                                 {`QTY`}
                                             </Text>
                                         </View>
-                                        <View style={{ flex: 0.6, justifyContent: "center", alignItems: "flex-end" }} >
+                                        <View style={{ flex: 0.5, justifyContent: "center", alignItems: "flex-end" }} >
                                             <Text style={[styleInvoice.txt_info, { fontSize: 18, fontWeight: "400" }]} >
-                                                {`PRICE`}
+                                                {`TOTAL`}
                                             </Text>
                                         </View>
                                     </View>
@@ -529,21 +527,32 @@ class PopupInvoicePrint extends React.Component {
 }
 
 const ItemInvoice = ({ item, index }) => {
+    const price  = item.data && item.data.price ? item.data.price : 0;
+    const quanlitySet = item.quanlitySet ? item.quanlitySet : 1;
+    const total = formatMoney(price * quanlitySet);
+
     return (
         <View style={{ flexDirection: "row", marginTop: scaleSzie(3) }} >
-            <View style={{ flex: 1, justifyContent: "center" }} >
+            <View style={{ flex: 0.8, justifyContent: "center" }} >
                 <Text style={[styleInvoice.txt_info,]} >
                     {`${index + 1}. ${item.data && item.data.name ? item.data.name : ""}`}
                 </Text>
             </View>
-            <View style={{ width: scaleSzie(35), justifyContent: "center", alignItems: "center" }} >
+            <View style={{ justifyContent: "center" }} >
                 <Text style={[styleInvoice.txt_info,]} >
-                    {item.quanlitySet ? item.quanlitySet : ""}
+                    {`$ ${price}`}
                 </Text>
             </View>
-            <View style={{ flex: 0.6, justifyContent: "center", alignItems: "flex-end" }} >
+            <View style={{ width: scaleSzie(50), justifyContent: "center", alignItems: "center",
+        }} >
                 <Text style={[styleInvoice.txt_info,]} >
-                    {`$ ${item.data && item.data.price ? item.data.price : ""}`}
+                    {quanlitySet}
+                </Text>
+            </View>
+            <View style={{ flex: 0.5, justifyContent: "center", alignItems: "flex-end" ,
+        }} >
+                <Text style={[styleInvoice.txt_info,]} >
+                    {`$ ${total ? total : ""}`}
                 </Text>
             </View>
         </View>
