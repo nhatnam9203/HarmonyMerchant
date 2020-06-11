@@ -26,6 +26,7 @@ const initialState = {
     isOpenBlockAppointmentId: "",
     isLoadingGetBlockAppointment: false,
     isLoadingRemoveBlockAppointment: false,
+    idNextToAppointmentRemove: -1
 }
 
 function appReducer(state = initialState, action) {
@@ -215,7 +216,8 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 isLoadingRemoveBlockAppointment: false,
-                blockAppointments: removeBlockAppointment([...state.blockAppointments], action.payload),
+                blockAppointments: (removeBlockAppointment([...state.blockAppointments], action.payload)).data,
+                idNextToAppointmentRemove: (removeBlockAppointment([...state.blockAppointments], action.payload)).indexExist
             }
         case 'ADD_BLOCK_APPOINTMENT_REF':
             return {
@@ -227,8 +229,11 @@ function appReducer(state = initialState, action) {
                 ...state,
                 blockAppointments: [],
             }
-
-
+        case 'UPDATE_ID__APPOINTMENT_IS_OPEN':
+            return {
+                ...state,
+                isOpenBlockAppointmentId: action.payload,
+            }
         default:
             return state
     }
@@ -259,7 +264,26 @@ const mergeBlockAppointment = (blockAppointments, newAppointment) => {
 }
 
 const removeBlockAppointment = (blockAppointments, appointmentIdRemove) => {
-    return blockAppointments.filter((appointment) => appointment.appointmentId !== appointmentIdRemove);
+    let indexExist = -1;
+    const temptBlockAppointments = [];
+
+    for (let i = 0; i < blockAppointments.length; i++) {
+
+        if (blockAppointments[i].appointmentId == appointmentIdRemove) {
+            indexExist = i;
+        } else {
+            temptBlockAppointments.push(blockAppointments[i]);
+        }
+    }
+
+
+    console.log("------ indexExist : ", indexExist);
+    console.log("------ temptBlockAppointments : ", temptBlockAppointments);
+
+    return {
+        data: temptBlockAppointments,
+        indexExist
+    };
 }
 
 

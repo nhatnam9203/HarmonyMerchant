@@ -418,4 +418,10 @@ export function bookBlockAppointment() {
     }
 }
 
+export function updateIdBlockAppointmentOpen(blockAppointmentId) {
+    return {
+        type: "UPDATE_ID__APPOINTMENT_IS_OPEN",
+        payload: blockAppointmentId
+    }
+}
 

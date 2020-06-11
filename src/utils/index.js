@@ -50,8 +50,9 @@ export const requestAPI = async (action, header = {}) => {
     let baseURL = action.api;
     let headers = Object.assign({ "Accept": "application/json", "Content-Type": "application/json" }, header);
     if (action.token) {
-        headers['Authorization'] = `Bearer ${action.token}`
+        headers['Authorization'] = `Bearer ${action.token}`;
     }
+    // headers['User-Agent'] = `HarmonyMerchant/${Version}`;
     const configs = {
         method: `${method}`.toLowerCase(),
         baseURL: baseURL,
