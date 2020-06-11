@@ -1654,10 +1654,11 @@ class TabCheckout extends Layout {
 
 
     createABlockAppointment = () => {
-        const { profile } = this.props;
+        const { profile ,fromTimeBlockAppointment} = this.props;
         const { customerInfoByPhone, infoUser, } = this.state;
         const userId = customerInfoByPhone.userId ? customerInfoByPhone.userId : 0;
         this.props.actions.appointment.createBlockAppointment(profile.merchantId,
+            fromTimeBlockAppointment,
             userId,
             infoUser.firstName,
             infoUser.lastName,
@@ -1810,53 +1811,6 @@ class TabCheckout extends Layout {
 
     }
 
-    updateBlockAppointmentRef_1 = () => {
-        const { blockAppointments, isOpenBlockAppointmentId } = this.props;
-        const temptBlockAppointmentRef = [];
-        for (let i = 0; i < blockAppointments.length; i++) {
-            for (let j = 0; j < this.blockAppointmentRef.length; j++) {
-                const appointmentId = this.blockAppointmentRef[j].props ? this.blockAppointmentRef[j].props.appointmentDetail.appointmentId : false;
-                if (appointmentId && appointmentId === blockAppointments[i].appointmentId) {
-                    temptBlockAppointmentRef.push(this.blockAppointmentRef[j]);
-                    break;
-                }
-            }
-        }
-
-        if (temptBlockAppointmentRef.length > 0) {
-            // this.blockAppointmentRef = temptBlockAppointmentRef;
-            console.log("temptBlockAppointmentRef : ", temptBlockAppointmentRef);
-            console.log("this.blockAppointmentRef : ", this.blockAppointmentRef);
-
-            // setTimeout(() =>{
-            //     alert("ddd")
-            // },1000)
-
-
-            // for (let i = 0; i < this.blockAppointmentRef.length; i++) {
-            //     this.blockAppointmentRef[i].setStateFromParent(true);
-            // }
-
-            // let isAppointmentOpenExist = false;
-            // for (let i = 0; i < this.blockAppointmentRef.length; i++) {
-            //     const appointmentDetail = this.blockAppointmentRef[i].props.appointmentDetail;
-            //     if (appointmentDetail.appointmentId === isOpenBlockAppointmentId) {
-            //         isAppointmentOpenExist = true;
-            //         break;
-            //     }
-            // }
-
-            // if (!isAppointmentOpenExist) {
-            //     this.blockAppointmentRef[0].setStateFromParent(false);
-            // }
-
-        } else {
-            this.blockAppointmentRef = [];
-        }
-
-        // this.setBlockToggleCollaps();
-    }
-
     async  componentDidUpdate(prevProps, prevState) {
         const { isLoadingGetBlockAppointment, blockAppointments, isLoadingRemoveBlockAppointment } = this.props;
         if (blockAppointments.length > 0 && prevProps.isLoadingRemoveBlockAppointment != isLoadingRemoveBlockAppointment && !isLoadingRemoveBlockAppointment) {
@@ -1901,7 +1855,8 @@ const mapStateToProps = state => ({
     isLoadingGetBlockAppointment: state.appointment.isLoadingGetBlockAppointment,
     isOpenBlockAppointmentId: state.appointment.isOpenBlockAppointmentId,
     isLoadingRemoveBlockAppointment: state.appointment.isLoadingRemoveBlockAppointment,
-    idNextToAppointmentRemove: state.appointment.idNextToAppointmentRemove
+    idNextToAppointmentRemove: state.appointment.idNextToAppointmentRemove,
+    fromTimeBlockAppointment: state.appointment.fromTimeBlockAppointment
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);

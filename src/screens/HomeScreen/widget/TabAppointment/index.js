@@ -84,7 +84,7 @@ class TabAppointment extends Layout {
         try {
             if (event.nativeEvent && event.nativeEvent.data) {
                 const data = JSON.parse(event.nativeEvent.data);
-                // console.log('data : ', JSON.stringify(data));
+                console.log('data : ', JSON.stringify(data));
                 if (validateIsNumber(data) && data < -150) {
                     this.onLoadStartWebview();
                 } else {
@@ -98,7 +98,7 @@ class TabAppointment extends Layout {
                     } else if (action == 'signinAppointment') {
                         this.props.bookAppointment(appointmentId);
                     }else if(action === 'addGroupAnyStaff'){
-                        this.props.createABlockAppointment();
+                        this.props.createABlockAppointment(data.fromTime ? data.fromTime : new Date());
                     }
                 }
             }

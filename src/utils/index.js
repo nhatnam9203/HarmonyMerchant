@@ -52,7 +52,7 @@ export const requestAPI = async (action, header = {}) => {
     if (action.token) {
         headers['Authorization'] = `Bearer ${action.token}`;
     }
-    // headers['User-Agent'] = `HarmonyMerchant/${Version}`;
+    // headers['User-Agent'] = `HarmonyMerchant/1.0.1/ios`;
     const configs = {
         method: `${method}`.toLowerCase(),
         baseURL: baseURL,

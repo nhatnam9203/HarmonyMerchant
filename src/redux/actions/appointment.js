@@ -129,7 +129,7 @@ export function createAnymousAppointment(merchantId, userId = 0, products = [], 
     }
 }
 
-export function createBlockAppointment(merchantId, userId = 0, firstName = "", lastName = "", phoneNumber = "") {
+export function createBlockAppointment(merchantId, fromTime = new Date(), userId = 0, firstName = "", lastName = "", phoneNumber = "") {
     return {
         type: 'CREATE_BLOCK_APPOINTMENT',
         body: {
@@ -139,7 +139,7 @@ export function createBlockAppointment(merchantId, userId = 0, firstName = "", l
             services: [],
             extras: [],
             products: [],
-            fromTime: moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
+            fromTime: moment.parseZone(fromTime).local().format('MM/DD/YYYY h:mm A'),
             staffId: 0,
             customDiscountFixed: 0,
             customDiscountPercent: 0,
@@ -150,6 +150,7 @@ export function createBlockAppointment(merchantId, userId = 0, firstName = "", l
         method: 'POST',
         token: true,
         api: `${apiConfigs.BASE_API}appointment`,
+        fromTimeBlockAppointment : fromTime
     }
 }
 
@@ -420,7 +421,7 @@ export function bookBlockAppointment() {
 
 export function updateIdBlockAppointmentOpen(blockAppointmentId) {
     return {
-        type: "UPDATE_ID__APPOINTMENT_IS_OPEN",
+        type: "UPDATE_ID_APPOINTMENT_IS_OPEN",
         payload: blockAppointmentId
     }
 }

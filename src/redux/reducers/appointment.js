@@ -26,7 +26,8 @@ const initialState = {
     isOpenBlockAppointmentId: "",
     isLoadingGetBlockAppointment: false,
     isLoadingRemoveBlockAppointment: false,
-    idNextToAppointmentRemove: -1
+    idNextToAppointmentRemove: -1,
+    fromTimeBlockAppointment: new Date()
 }
 
 function appReducer(state = initialState, action) {
@@ -229,11 +230,17 @@ function appReducer(state = initialState, action) {
                 ...state,
                 blockAppointments: [],
             }
-        case 'UPDATE_ID__APPOINTMENT_IS_OPEN':
+        case 'UPDATE_ID_APPOINTMENT_IS_OPEN':
             return {
                 ...state,
                 isOpenBlockAppointmentId: action.payload,
             }
+        case 'CREATE_BLOCK_APPOINTMENT':
+            return {
+                ...state,
+                fromTimeBlockAppointment: action.fromTimeBlockAppointment,
+            }
+
         default:
             return state
     }
