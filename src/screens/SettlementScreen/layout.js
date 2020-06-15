@@ -26,6 +26,9 @@ export default class Layout extends React.Component {
             }} >
                 <Text style={{ fontSize: scaleSzie(16), color: '#0764B0' }} >
                     {localize('Batch Settlements', language)}
+                    <Text style={{fontSize: scaleSzie(14), color: 'red',fontWeight:"600" }} >
+                        {`  ( Your Pos system don't have connect to PAX machine! )`}
+                </Text>
                 </Text>
             </View>
         );

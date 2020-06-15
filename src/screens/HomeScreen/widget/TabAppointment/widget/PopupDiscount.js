@@ -10,7 +10,7 @@ import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
 
 import { ButtonCustom, PopupParent } from '@components';
-import { scaleSzie, formatNumberFromCurrency, formatMoney, localize } from '@utils';
+import { scaleSzie, formatNumberFromCurrency, formatMoney, localize,roundNumber } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupDiscount extends React.Component {
@@ -259,14 +259,14 @@ class CustomDiscount extends React.Component {
     onChangeText = async (percent) => {
         await this.setState({ percent });
         const { total } = this.props;
-        const discount = Number(formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100).toFixed(2);
+        const discount = roundNumber(formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100);
         this.props.onChangeText(discount);
     }
 
     render() {
         const { percent } = this.state;
         const { total, onChangeText, language } = this.props;
-        const discount = Number(formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100).toFixed(2);
+        const discount =formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100;
 
         return (
             <View style={{
@@ -311,7 +311,7 @@ class CustomDiscount extends React.Component {
                 </View>
                 <View style={{ justifyContent: 'center' }} >
                     <Text style={{ color: '#4CD964', fontSize: scaleSzie(20) }} >
-                        {`$ ${formatMoney(discount)}`}
+                        {`$ ${formatMoney(roundNumber(discount))}`}
                     </Text>
                 </View>
             </View>

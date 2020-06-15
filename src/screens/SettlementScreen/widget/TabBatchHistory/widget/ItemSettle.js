@@ -43,12 +43,12 @@ class ItemSettle extends React.Component {
                             {`${moment.parseZone(batchHistory.settlementDate).local().format('MM/DD/YYYY')}`}
                         </Text>
                         <View style={{ height: 2 }} />
-                        <Text style={styles.textTitleLefConten} >
+                        <Text style={[styles.textTitleLefConten,{fontWeight:"600"}]} >
                             {`${moment.parseZone(batchHistory.settlementDate).local().format('h:mm A')}`}
                         </Text>
                     </View>
-                    <View style={{ flex: 0.8, }} >
-                        <Text style={styles.textTitleLefConten} >
+                    <View style={{ flex: 0.8,justifyContent:"center"}} >
+                        <Text style={[styles.textTitleLefConten,{fontWeight:"600"}]} >
                             {`${batchHistory.total}$`}
                         </Text>
                     </View>

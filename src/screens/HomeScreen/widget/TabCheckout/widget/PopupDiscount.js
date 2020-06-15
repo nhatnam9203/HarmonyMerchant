@@ -10,7 +10,7 @@ import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
 
 import { ButtonCustom, PopupParent } from '@components';
-import { scaleSzie, formatNumberFromCurrency, formatMoney, localize,roundNumber } from '@utils';
+import { scaleSzie, formatNumberFromCurrency, formatMoney, localize, roundNumber } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupDiscount extends React.Component {

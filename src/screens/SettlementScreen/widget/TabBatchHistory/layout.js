@@ -70,7 +70,6 @@ class Layout extends React.Component {
     renderFilter() {
         const { language } = this.props;
         const { searchFilter, titleRangeTime } = this.state;
-        const { paymentMethod, status } = searchFilter;
         const temptColorTextTimeRange = titleRangeTime === 'Time Range' ? 'rgb(155,155,155)' : 'rgb(38,38,38)';
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
@@ -100,13 +99,13 @@ class Layout extends React.Component {
     }
 
     renderLeftContent() {
-        const { listBatchHistory, isShowSearchBatchHistory, listBatchHistorySearch, refreshingBatchHistory,language } = this.props;
+        const { listBatchHistory, isShowSearchBatchHistory, listBatchHistorySearch, refreshingBatchHistory, language } = this.props;
         const temptData = isShowSearchBatchHistory ? listBatchHistorySearch : listBatchHistory;
         return (
             <View style={{ flex: 1, paddingRight: scaleSzie(10) }} >
                 <View style={{ flex: 1 }} >
                     <HeaderTableSettle
-                    language={language}
+                        language={language}
                     />
                     <View style={{ height: scaleSzie(5) }} />
                     <View style={styles.tableLeft} >
@@ -139,7 +138,7 @@ class Layout extends React.Component {
                 <View style={[styles.tableLeft, { paddingHorizontal: scaleSzie(18) }]} >
                     <View style={{ height: scaleSzie(45), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
-                        {`${localize('Transactions', language)}:`}
+                            {`${localize('Transactions', language)}:`}
                         </Text>
                         <Text style={{ color: '#404040', fontSize: scaleSzie(22), fontWeight: 'bold' }} >
                             {settleSelected.settlementId ? settleSelected.settlementId : ''}
@@ -150,7 +149,7 @@ class Layout extends React.Component {
                         {/* ---------- Row 1 -------- */}
                         <View style={styles.rowBox} >
                             <Text style={styles.textLeftBox} >
-                                
+
                                 {localize('Payment by Harmony account', language)}
                             </Text>
                             <Text style={styles.textRightBox} >
@@ -160,7 +159,7 @@ class Layout extends React.Component {
                         {/* ---------- Row 2 -------- */}
                         <View style={styles.rowBox} >
                             <Text style={styles.textLeftBox} >
-                                
+
                                 {localize('Payment by Credit card', language)}
                             </Text>
                             <Text style={styles.textRightBox} >
@@ -194,7 +193,7 @@ class Layout extends React.Component {
                         {/* ---------- Row 3 -------- */}
                         <View style={styles.rowBox} >
                             <Text style={styles.textLeftBox} >
-                                
+
                                 {localize('Payment by Cash', language)}
                             </Text>
                             <Text style={styles.textRightBox} >
@@ -204,7 +203,7 @@ class Layout extends React.Component {
                         {/* ---------- Row 4 -------- */}
                         <View style={styles.rowBox} >
                             <Text style={styles.textLeftBox} >
-                                
+
                                 {localize('Other payment', language)}
                             </Text>
                             <Text style={styles.textRightBox} >
@@ -218,20 +217,27 @@ class Layout extends React.Component {
                             alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: scaleSzie(10)
                         }} >
                             <Text style={{ color: '#fff', fontSize: scaleSzie(14) }} >
-                                
+
                                 {localize('Payment by Credit card', language)}
-                        </Text>
+                            </Text>
                             <Text style={{ color: '#fff', fontSize: scaleSzie(20), fontWeight: 'bold' }} >
                                 {`$ ${settleSelected.paymentByCreditCard ? settleSelected.paymentByCreditCard : ''}`}
                             </Text>
                         </View>
                     </View>
                 </View>
-                {/* ---------- Btn Log Detail -------- */}
+                {/* ---------- Card Transactions Button -------- */}
+                <View style={{ height: scaleSzie(6) }} />
+                <Button onPress={this.gotoTabCardTransactions} style={[styles.btnLogDetail, { flexDirection: 'row' }]} >
+                    <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
+                        {localize('Card Transactions', language)}
+                    </Text>
+                    <Image source={IMAGE.arrowLogDetail} />
+                </Button>
+                {/* ----------  Log Detail Button -------- */}
                 <View style={{ height: scaleSzie(6) }} />
                 <Button onPress={this.gotoTabDetail} style={[styles.btnLogDetail, { flexDirection: 'row' }]} >
                     <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
-                        
                         {localize('View Log Detail', language)}
                     </Text>
                     <Image source={IMAGE.arrowLogDetail} />
@@ -254,15 +260,15 @@ class Layout extends React.Component {
                         <Button onPress={this.backReport} style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }} >
                             <Image source={IMAGE.arrowReport} style={{ width: scaleSzie(6), height: scaleSzie(12) }} />
                             <Text style={{ color: '#0764B0', fontSize: scaleSzie(12), marginLeft: scaleSzie(7) }} >
-                                
+
                                 {localize('Report', language)}
                             </Text>
                         </Button>
                         <View>
                             <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
-                                
+
                                 {localize('Log Detail', language)}
-                             </Text>
+                            </Text>
                         </View>
                         <View style={{ flex: 1 }} />
                     </View>
@@ -294,7 +300,7 @@ class Layout extends React.Component {
                 <View style={{ flexDirection: 'row', height: scaleSzie(30) }} >
                     <View style={{ flex: 0.7, justifyContent: 'flex-end' }} >
                         <Text style={[styles.textTitleLefConten, { marginLeft: scaleSzie(10) }]} >
-                            
+
                             {localize('Settlement', language)}
                         </Text>
                     </View>

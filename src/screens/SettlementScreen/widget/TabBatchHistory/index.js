@@ -31,6 +31,10 @@ class TabBatchHistory extends Layout {
         }
     }
 
+    gotoTabCardTransactions = () =>{
+        alert("dd")
+    }
+
     gotoTabDetail = () => {
         this.scrollTabRef.current.goToPage(1);
     }
@@ -89,7 +93,7 @@ class TabBatchHistory extends Layout {
 
     changeTitleTimeRange = (title) => {
         this.setState({
-            titleRangeTime: title,
+            titleRangeTime: title === "Select"  ? "Time Range" : title,
             visibleCalendar: false
         })
     }
