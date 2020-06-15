@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from "ramda"
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -23,6 +24,19 @@ class TabBatchHistory extends Layout {
 
     componentDidMount() {
         this.props.actions.invoice.getBatchHistory();
+    }
+
+    getTotalByCardType = (cardType) =>{
+        const  {settleSelected } = this.state;
+        const paymentByCreditCards = !_.isEmpty(settleSelected) && settleSelected.paymentByCreditCards ? settleSelected.paymentByCreditCards : [];
+        let total = 0.00;
+        for(let i = 0 ;i < paymentByCreditCards.length ; i++){
+           if(paymentByCreditCards[i].cardType === cardType){
+               total  = paymentByCreditCards[i].amount;
+               break;
+           }
+        }
+        return total;
     }
 
     pushSettleIntoArray = (ref) => {

@@ -42,11 +42,11 @@ export default StyleSheet.create({
     },
     textLeftBox:{
         color: '#404040',
-         fontSize: scaleSzie(14) 
+         fontSize: scaleSzie(12) 
     },
     textRightBox:{
         color: '#404040',
-        fontSize: scaleSzie(14) ,
+        fontSize: scaleSzie(12) ,
         fontWeight:'bold'
     },
     boxChild:{

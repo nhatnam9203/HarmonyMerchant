@@ -49,7 +49,7 @@ class ItemSettle extends React.Component {
                     </View>
                     <View style={{ flex: 0.8,justifyContent:"center"}} >
                         <Text style={[styles.textTitleLefConten,{fontWeight:"600"}]} >
-                            {`${batchHistory.total}$`}
+                            {`$${batchHistory.total}`}
                         </Text>
                     </View>
                 </View>

@@ -8,8 +8,8 @@ import {
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import moment from 'moment';
 
-import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
-import { Text, Button, ButtonCustom, Dropdown, PopupCalendar } from '@components';
+import { scaleSzie, localize } from '@utils';
+import { Text, Button, ButtonCustom, PopupCalendar } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import { ItemSettle, HeaderTableSettle } from './widget';
@@ -33,7 +33,7 @@ class Layout extends React.Component {
                             <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
                                 <TextInput
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
-                                    placeholder={localize('Invoice No / SKU number/customer phone number', language)}
+                                    placeholder={localize('Search', language)}
                                     value={keySearch}
                                     onChangeText={(value) => {
                                         if (value === '') {
@@ -136,21 +136,20 @@ class Layout extends React.Component {
         return (
             <View style={{ flex: 1 }} >
                 <View style={[styles.tableLeft, { paddingHorizontal: scaleSzie(18) }]} >
-                    <View style={{ height: scaleSzie(45), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} >
-                        <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
+                    <View style={{ height: scaleSzie(40), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
                             {`${localize('Transactions', language)}:`}
                         </Text>
-                        <Text style={{ color: '#404040', fontSize: scaleSzie(22), fontWeight: 'bold' }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(16), fontWeight: 'bold' }} >
                             {settleSelected.settlementId ? settleSelected.settlementId : ''}
                         </Text>
                     </View>
                     {/* ------------ BOX ------------ */}
-                    <View style={[styles.tableLeft, { padding: scaleSzie(10) }]} >
+                    <View style={[styles.tableLeft, { padding: scaleSzie(10)}]} >
                         {/* ---------- Row 1 -------- */}
                         <View style={styles.rowBox} >
                             <Text style={styles.textLeftBox} >
-
-                                {localize('Payment by Harmony account', language)}
+                               {localize('Payment by Harmony account', language)}
                             </Text>
                             <Text style={styles.textRightBox} >
                                 {`$ ${settleSelected.paymentByHarmony ? settleSelected.paymentByHarmony : ''}`}
@@ -159,7 +158,6 @@ class Layout extends React.Component {
                         {/* ---------- Row 2 -------- */}
                         <View style={styles.rowBox} >
                             <Text style={styles.textLeftBox} >
-
                                 {localize('Payment by Credit card', language)}
                             </Text>
                             <Text style={styles.textRightBox} >
@@ -169,26 +167,26 @@ class Layout extends React.Component {
                         {/* -------- Box Child ------- */}
                         <View style={styles.boxChild} >
                             {/* ---------- Row child 1 -------- */}
-                            {/* <View style={styles.rowBoxChild} >
+                            <View style={styles.rowBoxChild} >
                                 <Image source={IMAGE.visaLogo} style={styles.boxChildLogo} />
                                 <Text style={styles.textBoxChild} >
-                                    $ 1300
+                                    {`$ ${this.getTotalByCardType("visa")}`}
                                 </Text>
-                            </View> */}
+                            </View>
                             {/* ---------- Row child 2 -------- */}
-                            {/* <View style={styles.rowBoxChild} >
+                            <View style={styles.rowBoxChild} >
                                 <Image source={IMAGE.masterCardLogo} style={styles.boxChildLogo} />
                                 <Text style={styles.textBoxChild} >
-                                    $ 1300
+                                {`$ ${this.getTotalByCardType("mastercard")}`}
                                 </Text>
-                            </View> */}
+                            </View>
                             {/* ---------- Row child 3 -------- */}
-                            {/* <View style={styles.rowBoxChild} >
-                                <Image source={IMAGE.discoverLogo} style={styles.boxChildLogo} />
+                            <View style={styles.rowBoxChild} >
+                                <Image source={IMAGE.other_cards} style={styles.boxChildLogo} />
                                 <Text style={styles.textBoxChild} >
-                                    $ 1300
+                                {`$ ${this.getTotalByCardType("other")}`}
                                 </Text>
-                            </View> */}
+                            </View>
                         </View>
                         {/* ---------- Row 3 -------- */}
                         <View style={styles.rowBox} >
@@ -211,16 +209,16 @@ class Layout extends React.Component {
                             </Text>
                         </View>
                     </View>
-                    <View style={{ height: scaleSzie(70), justifyContent: 'center' }} >
+                    <View style={{ height: scaleSzie(50), justifyContent: 'center' }} >
                         <View style={{
-                            height: scaleSzie(40), backgroundColor: '#307FBF', flexDirection: 'row',
+                            height: scaleSzie(35), backgroundColor: '#307FBF', flexDirection: 'row',
                             alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: scaleSzie(10)
                         }} >
-                            <Text style={{ color: '#fff', fontSize: scaleSzie(14) }} >
+                            <Text style={{ color: '#fff', fontSize: scaleSzie(12) }} >
 
                                 {localize('Payment by Credit card', language)}
                             </Text>
-                            <Text style={{ color: '#fff', fontSize: scaleSzie(20), fontWeight: 'bold' }} >
+                            <Text style={{ color: '#fff', fontSize: scaleSzie(14), fontWeight: 'bold' }} >
                                 {`$ ${settleSelected.paymentByCreditCard ? settleSelected.paymentByCreditCard : ''}`}
                             </Text>
                         </View>

@@ -67,13 +67,14 @@ export default {
     giftcard: require("./img/giftcard.png"),
     scancode: require("./img/scancode.png"),
     blue_productBasket: require('./img/blue_productBasket.png'),
-
     basic_icon : require('./img/basic_icon.png'),
     medium_icon: require('./img/medium_icon.png'),
     professional_icon: require('./img/professional_icon.png'),
     check_package_pricing: require('./img/check_package_pricing.png'),
     not_support: require('./img/not_support.png'),
     staff_basket: require('./img/staff_basket.png'),
+    other_cards: require('./img/other_card.png'),
+
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),
