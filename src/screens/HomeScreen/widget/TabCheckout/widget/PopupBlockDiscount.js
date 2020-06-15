@@ -6,13 +6,13 @@ import {
     ScrollView,
     StyleSheet,
     TouchableOpacity,
-    TextInput
+    Alert
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
 
 import { ButtonCustom, PopupParent } from '@components';
-import { scaleSzie, formatNumberFromCurrency, formatMoney, localize,roundNumber } from '@utils';
+import { scaleSzie, formatNumberFromCurrency, formatMoney, localize, roundNumber } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupBlockDiscount extends React.Component {
@@ -28,16 +28,48 @@ class PopupBlockDiscount extends React.Component {
     }
 
 
-    submitCustomPromotion = () => {
-        const {  appointmentIdUpdatePromotion } = this.props;
+    submitCustomPromotion = async () => {
+        const { appointmentIdUpdatePromotion, discount, blockAppointments } = this.props;
         const customDiscountPercent = this.customDiscountRef.current.state.percent;
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
 
-        this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentIdUpdatePromotion, true,true);
-        this.props.actions.marketing.closeModalDiscount();
+        const appointmentDetail = blockAppointments.find((appointment) => appointment.appointmentId === appointmentIdUpdatePromotion);
+        const subTotal = appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
+
+        // ---------- Check total ---------
+        let totalDiscount = 0;
+        for (let i = 0; i < discount.length; i++) {
+            totalDiscount = formatNumberFromCurrency(totalDiscount) + formatNumberFromCurrency(discount[i].discount);
+        };
+        totalDiscount = formatNumberFromCurrency(totalDiscount) + formatNumberFromCurrency(customFixedAmount);
+        const moneyDiscountCustom = (formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(subTotal) / 100);
+        totalDiscount = formatNumberFromCurrency(totalDiscount) + formatNumberFromCurrency(moneyDiscountCustom);
+
+        if (formatNumberFromCurrency(totalDiscount) > formatNumberFromCurrency(subTotal)) {
+            Alert.alert(
+                `Warning`,
+                `Discount not bigger than appointment's subtotal.`,
+                [
+
+                    { text: 'OK', onPress: () => { } }
+                ],
+                { cancelable: false }
+            );
+        } else {
+            this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentIdUpdatePromotion, true, true);
+            await this.setState({
+                moneyDiscountCustom: 0,
+                moneyDiscountFixedAmout: 0,
+            });
+            this.props.actions.marketing.closeModalDiscount();
+        }
     }
 
     onRequestClose = async () => {
+        await this.setState({
+            moneyDiscountCustom: 0,
+            moneyDiscountFixedAmout: 0,
+        });
         this.props.actions.marketing.closeModalDiscount();
     }
 
@@ -64,14 +96,14 @@ class PopupBlockDiscount extends React.Component {
 
     render() {
         try {
-            const { title, discount, visibleModalBlockDiscount, language, appointmentIdUpdatePromotion,blockAppointments} = this.props;
-            const {moneyDiscountCustom,moneyDiscountFixedAmout} = this.state;
+            const { title, discount, visibleModalBlockDiscount, language, appointmentIdUpdatePromotion, blockAppointments } = this.props;
+            const { moneyDiscountCustom, moneyDiscountFixedAmout } = this.state;
 
             let total = 0;
             for (let i = 0; i < discount.length; i++) {
                 total = formatNumberFromCurrency(total) + formatNumberFromCurrency(discount[i].discount);
             }
-         
+
             const appointmentDetail = blockAppointments.find((appointment) => appointment.appointmentId === appointmentIdUpdatePromotion);
             const customDiscountPercent = appointmentDetail && appointmentDetail.customDiscountPercent ? appointmentDetail.customDiscountPercent : 0;
             const customDiscountFixed = appointmentDetail && appointmentDetail.customDiscountFixed ? appointmentDetail.customDiscountFixed : 0;
@@ -80,7 +112,12 @@ class PopupBlockDiscount extends React.Component {
             total = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountFixedAmout);
 
 
-            total = Number(total).toFixed(2);
+            total = roundNumber(total);
+
+            // if(!visibleModalBlockDiscount){
+            //     console.log("------ visibleModalBlockDiscount -------");
+            //     total = 0;
+            // }
 
             return (
                 <PopupParent
@@ -199,7 +236,7 @@ class CustomDiscount extends React.Component {
     onChangeText = async (percent) => {
         await this.setState({ percent });
         const { total } = this.props;
-        const discount =roundNumber(formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100);
+        const discount = roundNumber(formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100);
         this.props.onChangeText(discount);
     }
 
