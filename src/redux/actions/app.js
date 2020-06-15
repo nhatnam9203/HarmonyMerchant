@@ -216,4 +216,16 @@ export function getPackageAndPricing() {
     }
 }
 
+export function connectPaxMachineError(error = "") {
+    return {
+        type: 'CONNECT_PAX_MACHINE_ERROR',
+        payload: error
+    }
+}
+
+export function ConnectPaxMachineSuccess() {
+    return {
+        type: 'CONNECT_PAX_MACHINE_SUCCESS',
+    }
+}
 

@@ -19,7 +19,11 @@ const initialState = {
     isReloadWebview: false,
     MIDStorage: "",
     packageAndPricingData: [],
-    refreshingGeneral: false
+    refreshingGeneral: false,
+    connectPAXStatus: {
+        status: true,
+        message:"is connecting to Pax machine ....",
+    }
 }
 
 function appReducer(state = initialState, action) {
@@ -157,7 +161,7 @@ function appReducer(state = initialState, action) {
         case 'GET_MERCHANT_BY_ID':
             return {
                 ...state,
-                refreshingGeneral: action.isRefresh 
+                refreshingGeneral: action.isRefresh
             }
         case 'GET_MERCHANT_BY_ID_SUCCESS':
             return {
@@ -169,7 +173,22 @@ function appReducer(state = initialState, action) {
                 ...state,
                 refreshingGeneral: false
             }
-
+        case 'CONNECT_PAX_MACHINE_ERROR':
+            return {
+                ...state,
+                connectPAXStatus:{
+                    status: false,
+                    message : `( Your Pos system don't have connect to PAX machine. Error : "${action.payload}" )`
+                }
+            }
+        case 'CONNECT_PAX_MACHINE_SUCCESS':
+            return {
+                ...state,
+                connectPAXStatus: {
+                    status: true,
+                    message : "( Connect to PAX machine success! )"
+                }
+            }
         default:
             return state
     }

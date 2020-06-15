@@ -18,7 +18,9 @@ import {
 export default class Layout extends React.Component {
 
     renderHeader() {
-        const { language } = this.props;
+        const { language ,connectPAXStatus} = this.props;
+        const statusConnectColor =  connectPAXStatus.status ?  "#4CD964" : "#FF6F00";
+
         return (
             <View style={{
                 height: scaleSzie(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: scaleSzie(50),
@@ -26,9 +28,9 @@ export default class Layout extends React.Component {
             }} >
                 <Text style={{ fontSize: scaleSzie(16), color: '#0764B0' }} >
                     {localize('Batch Settlements', language)}
-                    <Text style={{fontSize: scaleSzie(14), color: 'red',fontWeight:"600" }} >
-                        {`  ( Your Pos system don't have connect to PAX machine! )`}
-                </Text>
+                    <Text style={{ fontSize: scaleSzie(12), color: statusConnectColor, fontWeight: "600" ,fontStyle: 'italic'}} >
+                        {`  ${connectPAXStatus.message}`}
+                    </Text>
                 </Text>
             </View>
         );

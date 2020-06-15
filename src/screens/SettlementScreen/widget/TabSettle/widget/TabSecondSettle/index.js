@@ -42,7 +42,6 @@ class TabSecondSettle extends Layout {
             PosLink.setupPax(ip, port, timeout);
             PosLink.reportTransaction(message => this.handleResponseReportTransactions(message));
         } else {
-            // alert('Please connect your Pax to take payment.');
             Alert.alert(
                 'Unable to connect to PAX, Do you want to continue without PAX?',
                 '',
@@ -87,12 +86,13 @@ class TabSecondSettle extends Layout {
         try {
             const result = JSON.parse(message);
             if (result.status == 0) {
-                //console.log('error Second : ',messageee);
+                this.props.actions.app.connectPaxMachineError(result.message);
                 this.setState({
                     paxErrorMessage: result.message,
                     errorMessage: `-${result.message}`,
                 })
             } else {
+                this.props.actions.app.ConnectPaxMachineSuccess();
                 this.setState({
                     creditCount: result.CreditCount,
                     creditAmount: result.CreditAmount,

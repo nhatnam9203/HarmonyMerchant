@@ -66,7 +66,8 @@ const mapStateToProps = state => ({
     listCustomersSearch: state.customer.listCustomersSearch,
     isShowSearchCustomer: state.customer.isShowSearchCustomer,
     refreshListCustomer: state.customer.refreshListCustomer,
-    stateCity: state.dataLocal.stateCity
+    stateCity: state.dataLocal.stateCity,
+    connectPAXStatus: state.app.connectPAXStatus
 })
 
 
