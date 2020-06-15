@@ -798,3 +798,7 @@ export const checkStatusPrint = async () => {
     } catch (error) {
     }
 }
+
+export const roundNumber = (num) => {
+    return (Math.round(num * 100) / 100).toFixed(2);
+}

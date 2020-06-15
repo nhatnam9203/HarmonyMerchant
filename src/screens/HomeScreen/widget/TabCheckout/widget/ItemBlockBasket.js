@@ -215,7 +215,7 @@ class ItemBlockBasket extends React.Component {
                             removeItemBasket={(item) => removeItemBasket(item, appointmentId, true)}
                             // onPress={(service) => changeStylist(service, appointmentId)}
                             onPress={(service) => { }}
-                            changeProduct={product => changeProduct(product, appointmentId)}
+                            changeProduct={product => {}}
                         />)
                     }
                     {/* ----------- Payment Number --------- */}

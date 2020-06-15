@@ -2,19 +2,14 @@ import React from "react";
 import {
     View,
     Text,
-    Keyboard,
     ActivityIndicator,
-    DeviceEventEmitter,
-    Platform,
     ScrollView,
     StyleSheet,
     Modal,
-    Image,
     Alert
 } from 'react-native';
-import { TextInputMask } from 'react-native-masked-text';
-import { StarPRNT, AlignmentPosition } from 'react-native-star-prnt';
-import ViewShot, { captureRef, releaseCapture } from "react-native-view-shot";
+import { StarPRNT } from 'react-native-star-prnt';
+import { captureRef, releaseCapture } from "react-native-view-shot";
 
 import ButtonCustom from './ButtonCustom';
 import Button from './Button';
@@ -33,7 +28,7 @@ const initalState = {
     paymentSelected: "",
     isPrintTempt: true,
     printMachine: "",
-    isProcessingPrint: false,
+    isProcessingPrint: true,
     isCheck: false,
     isSignature: true,
 
@@ -61,12 +56,10 @@ class PopupInvoicePrint extends React.Component {
             printMachine,
             paymentMethods: this.getPaymentMethods()
         });
-        // this.doPrint();
-        setTimeout(() =>{
-            // alert("ddd")
+        setTimeout(() => {
             this.doPrint();
-        },500)
-       
+        }, 500)
+
     }
 
     doPrint = async () => {
@@ -214,13 +207,6 @@ class PopupInvoicePrint extends React.Component {
         const { basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected, isPrintTempt,
             isCheck, isSignature, paymentMethods
         } = this.state;
-
-        // let invoiceCode = "";
-        // if (groupAppointment.appointments && groupAppointment.appointments.length > 0) {
-        //     const mainAppointment = groupAppointment.appointments.find(appointment => appointment.isMain === 1);
-
-        //     invoiceCode = mainAppointment.code ? mainAppointment.code : "";
-        // }
 
         return (
             <Modal
