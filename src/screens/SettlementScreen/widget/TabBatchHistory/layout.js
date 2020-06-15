@@ -7,8 +7,9 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import moment from 'moment';
+import _ from "ramda";
 
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize, formatWithMoment } from '@utils';
 import { Text, Button, ButtonCustom, PopupCalendar } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
@@ -145,11 +146,11 @@ class Layout extends React.Component {
                         </Text>
                     </View>
                     {/* ------------ BOX ------------ */}
-                    <View style={[styles.tableLeft, { padding: scaleSzie(10)}]} >
+                    <View style={[styles.tableLeft, { padding: scaleSzie(10) }]} >
                         {/* ---------- Row 1 -------- */}
                         <View style={styles.rowBox} >
                             <Text style={styles.textLeftBox} >
-                               {localize('Payment by Harmony account', language)}
+                                {localize('Payment by Harmony account', language)}
                             </Text>
                             <Text style={styles.textRightBox} >
                                 {`$ ${settleSelected.paymentByHarmony ? settleSelected.paymentByHarmony : ''}`}
@@ -177,14 +178,14 @@ class Layout extends React.Component {
                             <View style={styles.rowBoxChild} >
                                 <Image source={IMAGE.masterCardLogo} style={styles.boxChildLogo} />
                                 <Text style={styles.textBoxChild} >
-                                {`$ ${this.getTotalByCardType("mastercard")}`}
+                                    {`$ ${this.getTotalByCardType("mastercard")}`}
                                 </Text>
                             </View>
                             {/* ---------- Row child 3 -------- */}
                             <View style={styles.rowBoxChild} >
                                 <Image source={IMAGE.other_cards} style={styles.boxChildLogo} />
                                 <Text style={styles.textBoxChild} >
-                                {`$ ${this.getTotalByCardType("other")}`}
+                                    {`$ ${this.getTotalByCardType("other")}`}
                                 </Text>
                             </View>
                         </View>
@@ -263,7 +264,7 @@ class Layout extends React.Component {
                             </Text>
                         </Button>
                         <View>
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
+                            <Text style={{ color: '#404040', fontSize: scaleSzie(16), fontWeight: "600" }} >
 
                                 {localize('Log Detail', language)}
                             </Text>
@@ -282,6 +283,46 @@ class Layout extends React.Component {
                             </Text>
                         </View>
 
+                    </View>
+                </View>
+                <View style={{ height: scaleSzie(6) }} />
+            </View>
+        );
+    }
+
+    renderCardTransactions() {
+        const { language } = this.props;
+        const { settleSelected } = this.state;
+
+        const paymentTransaction = !_.isEmpty(settleSelected) && settleSelected.paymentTransaction ? settleSelected.paymentTransaction : [];
+
+        return (
+            <View style={{ flex: 1 }} >
+                <View style={[styles.tableLeft, { padding: scaleSzie(10) }]} >
+                    {/* -------- Header ------ */}
+                    <View style={{ flexDirection: 'row' }} >
+                        <Button onPress={this.backReport} style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }} >
+                            <Image source={IMAGE.arrowReport} style={{ width: scaleSzie(6), height: scaleSzie(12) }} />
+                            <Text style={{ color: '#0764B0', fontSize: scaleSzie(12), marginLeft: scaleSzie(7) }} >
+
+                                {localize('Report', language)}
+                            </Text>
+                        </Button>
+                        <View>
+                            <Text style={{ color: '#404040', fontSize: scaleSzie(14), fontWeight: "600" }} >
+
+                                {localize('Card Transactions', language)}
+                            </Text>
+                        </View>
+                        <View style={{ flex: 1 }} />
+                    </View>
+                    {/* -------- Content ------ */}
+                    <View style={{ flex: 1, paddingHorizontal: scaleSzie(14), marginTop: scaleSzie(20) }} >
+                        <FlatList
+                            data={paymentTransaction}
+                            renderItem={({ item, index }) => <ItemCreditInfo data={item} />}
+                            keyExtractor={(item, index) => `${item.createdDate ? item.createdDate : index}`}
+                        />
                     </View>
                 </View>
                 <View style={{ height: scaleSzie(6) }} />
@@ -315,6 +356,7 @@ class Layout extends React.Component {
                         renderTabBar={() => <View />}
                     >
                         {this.renderTabReport()}
+                        {this.renderCardTransactions()}
                         {this.renderTabDetail()}
                     </ScrollableTabView>
                 </View>
@@ -356,6 +398,67 @@ class Layout extends React.Component {
     }
 
 }
+
+
+const ItemCreditInfo = ({ data }) => {
+    return (
+        <View>
+            {/* <RowCreditInfo
+                title={"Trans ID"}
+                value={"#2622"}
+            /> */}
+            <RowCreditInfo
+                title={"CC Type"}
+                value={data.paymentData && data.paymentData.card_type ? data.paymentData.card_type : ""}
+            />
+            <RowCreditInfo
+                title={"CC Number"}
+                value={""}
+                value={data.paymentData && data.paymentData.card_number ? `**** **** **** ${data.paymentData.card_number}` : ""}
+            />
+            <RowCreditInfo
+                title={"Name on card"}
+                value={data.paymentData && data.paymentData.name_on_card ? data.paymentData.name_on_card : ""}
+            />
+            <RowCreditInfo
+                title={"Date"}
+                value={data.createdDate ? formatWithMoment(data.createdDate, "MM/DD/YYYY") : ""}
+            />
+            <RowCreditInfo
+                title={"Status"}
+                value={data.status ? data.status : ""}
+            />
+            <RowCreditInfo
+                title={"Checkout ID"}
+                value={data.checkoutId ? data.checkoutId : ""}
+            />
+            <RowCreditInfo
+                title={"Amount"}
+                value={data.amount ? `$${data.amount}` : ""}
+            />
+            <View style={{ height: 2, backgroundColor: "rgba(155,155,155,0.4)", marginVertical: scaleSzie(10) }} />
+        </View>
+    );
+}
+
+const RowCreditInfo = ({ title, value }) => {
+    return (
+        <View style={{ flexDirection: "row", marginBottom: scaleSzie(6) }} >
+            <View style={{ flex: 1 }} >
+                <Text style={{ color: "#404040", fontSize: scaleSzie(12) }} >
+                    {title}
+                </Text>
+            </View>
+            <View style={{ flex: 1.5 }} >
+                <Text style={{ color: "#404040", fontSize: scaleSzie(12), fontWeight: "600" }} >
+                    {value}
+                </Text>
+            </View>
+        </View>
+    );
+}
+
+
 
 export default Layout;
 

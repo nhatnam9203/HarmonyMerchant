@@ -46,11 +46,11 @@ class TabBatchHistory extends Layout {
     }
 
     gotoTabCardTransactions = () =>{
-        alert("dd")
+        this.scrollTabRef.current.goToPage(1);
     }
 
     gotoTabDetail = () => {
-        this.scrollTabRef.current.goToPage(1);
+        this.scrollTabRef.current.goToPage(2);
     }
 
     backReport = () => {
