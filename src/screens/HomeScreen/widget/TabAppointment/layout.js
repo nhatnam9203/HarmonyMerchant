@@ -30,7 +30,7 @@ class Layout extends React.Component {
                     {`${localize('Customer', language)}:`}
                 </Text>
                 <Text style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(90) }]} >
-                    {`${firstName} ${lastName}`}
+                    {`${lastName} ${firstName}`}
                 </Text>
                 <Text style={styles.textHeader} >
                     {`${localize('Phone', language)}:`}

@@ -46,7 +46,7 @@ class Layout extends React.Component {
         lastName = infoUser.lastName !== '' ? infoUser.lastName : lastName;
         phoneNumber = infoUser.phoneNumber !== '' ? infoUser.phoneNumber : phoneNumber;
 
-        const name = `${firstName} ${lastName}`;
+        const name = `${lastName} ${firstName}`;
         return (
             <View style={styles.headerContainer} >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }} >
@@ -72,7 +72,7 @@ class Layout extends React.Component {
                                 styleText={{ fontSize: scaleSzie(12), }}
                             />
                             : <Text onPress={this.displayPopupCustomerName} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(30) }]} >
-                                {`${firstName} ${lastName}`}
+                                {`${name}`}
                             </Text>
                     }
 
