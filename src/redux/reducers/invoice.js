@@ -22,7 +22,8 @@ const initialState = {
 
     refreshingSettle: false,
     refreshingTransaction: false,
-    refreshingBatchHistory: false
+    refreshingBatchHistory: false,
+    isGettingSettlement: ""
 
 }
 
@@ -72,18 +73,27 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 refreshingSettle: !action.isShowLoading,
+                isGettingSettlement: "loading"
             }
         case 'GET_SETTLEMENT_WAITING_SUCCESS':
             return {
                 ...state,
                 settleWaiting: action.payload,
                 refreshingSettle: false,
+                isGettingSettlement: "success"
             }
         case 'GET_SETTLEMENT_WAITING_FAIL':
             return {
                 ...state,
                 refreshingSettle: false,
+                isGettingSettlement: "fail"
             }
+        case 'RESET_STATE_IS_GETTING_SETTLEMENT':
+            return {
+                ...state,
+                isGettingSettlement: ""
+            }
+
         case 'RESET_SETTLE':
             return {
                 ...state,

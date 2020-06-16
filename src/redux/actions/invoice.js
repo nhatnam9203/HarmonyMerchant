@@ -124,3 +124,8 @@ export function settleBatch(body) {
     }
 }
 
+export function resetStateIsGettingSettlement() {
+    return {
+        type: 'RESET_STATE_IS_GETTING_SETTLEMENT'
+    }
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { NativeModules } from 'react-native';
+import _ from "ramda";
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -15,14 +16,15 @@ class TabFirstSettle extends Layout {
         this.state = {
             creditCount: 0,
             creditAmount: 0,
-            settleTotal: {
-                paymentByHarmony: 0.00,
-                paymentByCreditCard: 0.00,
-                paymentByCash: 0.00,
-                otherPayment: 0.00,
-                total: 0.00,
-            },
+            // settleTotal: {
+            editPaymentByHarmony: 0.00,
+            editPaymentByCreditCard: 0.00,
+            editPaymentByCash: 0.00,
+            editOtherPayment: 0.00,
+            total: 0.00,
             note: ''
+            // },
+
         };
         this.arrayStaffRef = [];
         this.inputHarmonyPaymentRef = React.createRef();
@@ -91,14 +93,14 @@ class TabFirstSettle extends Layout {
         const otherPayment = formatNumberFromCurrency(this.inputOtherPaymentRef.current.state.value);
         const total = formatMoney(parseFloat(harmonyPayment) + parseFloat(creditPayment) + parseFloat(cashPayment) + parseFloat(otherPayment));
         await this.setState({
-            settleTotal: {
-                paymentByHarmony: this.inputHarmonyPaymentRef.current.state.value,
-                paymentByCreditCard: this.inputCreditPaymentRef.current.state.value,
-                paymentByCash: this.inputCashPaymentRef.current.state.value,
-                otherPayment: this.inputOtherPaymentRef.current.state.value,
-                total: total,
-                note: this.state.note
-            }
+            // settleTotal: {
+            paymentByHarmony: this.inputHarmonyPaymentRef.current.state.value,
+            paymentByCreditCard: this.inputCreditPaymentRef.current.state.value,
+            paymentByCash: this.inputCashPaymentRef.current.state.value,
+            otherPayment: this.inputOtherPaymentRef.current.state.value,
+            total: total,
+            note: this.state.note
+            // }
         });
         this.props.gotoTabSecondSettle();
     }
@@ -128,6 +130,24 @@ class TabFirstSettle extends Layout {
         this.handleReportTabFirst();
     }
 
+    setStateFromParent = () => {
+
+    }
+
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        const { isGettingSettlement, settleWaiting } = this.props;
+        if (prevProps.isGettingSettlement === "loading" && isGettingSettlement === "success" && !_.isEmpty(settleWaiting)) {
+            await this.setState({
+                editPaymentByHarmony: settleWaiting.paymentByHarmony ? settleWaiting.paymentByHarmony : 0.00,
+                editPaymentByCreditCard: settleWaiting.paymentByCreditCard ? settleWaiting.paymentByCreditCard : 0.00,
+                editPaymentByCash: settleWaiting.paymentByCash ? settleWaiting.paymentByCash : 0.00,
+                editOtherPayment: settleWaiting.otherPayment ? settleWaiting.otherPayment : 0.00,
+                total: settleWaiting.total ? settleWaiting.total : 0.00,
+            });
+            this.props.actions.invoice.resetStateIsGettingSettlement();
+        }
+    }
+
 }
 
 const mapStateToProps = state => ({
@@ -135,9 +155,9 @@ const mapStateToProps = state => ({
     paxMachineInfo: state.dataLocal.paxMachineInfo,
     settleWaiting: state.invoice.settleWaiting,
     invoicesOfStaff: state.invoice.invoicesOfStaff,
-    isGetSettleWaiting: state.invoice.isGetSettleWaiting,
     loading: state.app.loading,
-    refreshingSettle: state.invoice.refreshingSettle
+    refreshingSettle: state.invoice.refreshingSettle,
+    isGettingSettlement: state.invoice.isGettingSettlement
 })
 
 

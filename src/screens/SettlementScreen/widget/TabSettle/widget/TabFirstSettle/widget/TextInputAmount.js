@@ -17,41 +17,8 @@ import IMAGE from '@resources';
 
 export default class TextInputAmount extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: 0,
-            initState: true
-        }
-    }
-
-    static getDerivedStateFromProps(props, state) {
-        if (props.value != "0.00" && props.value && state.initState) {
-            // console.log("-------getDerivedStateFromProps : ", formatMoney(props.value));
-            return { value: formatMoney(props.value), initState: false };
-        }
-        return null
-    }
-
-    resetStateFromParent = async () => {
-        await this.setState({
-            initState: true
-        })
-    }
-
-    setValueFromParent = async (value) => {
-        await this.setState({
-            value
-        })
-    }
-
-    onChangeText = async (value) => {
-        await this.setState({ value });
-        this.props.onChangeText();
-    }
-
     render() {
-        const { onFocus } = this.props;
+        const { value,onFocus ,onChangeText} = this.props;
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
                 <View style={{ justifyContent: 'center', width: scaleSzie(13) }} >
@@ -73,8 +40,8 @@ export default class TextInputAmount extends React.Component {
                             fontSize: scaleSzie(20), color: '#404040',
                             flex: 1,
                         }}
-                        value={`${this.state.value}`}
-                        onChangeText={this.onChangeText}
+                        value={`${value}`}
+                        onChangeText={(value) =>onChangeText(value)}
                         onFocus={() => onFocus && onFocus()}
                     />
                 </View>

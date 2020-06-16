@@ -214,18 +214,125 @@ class Layout extends React.Component {
         );
     }
 
+    renderEditReportAmount() {
+        const { settleWaiting, language } = this.props;
+        const { creditAmount, creditCount,
+            editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment
+        } = this.state;
+
+        const temptCreditAmount = creditAmount === 0 || creditAmount === "" ? 0 : creditAmount / 100;
+        const temtpTotal = formatMoney((formatNumberFromCurrency(settleWaiting.total) - formatNumberFromCurrency(settleWaiting.paymentByCreditCard) + formatNumberFromCurrency(temptCreditAmount)));
+
+        return (
+            <View style={{ flex: 1.1 }} >
+                <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
+                    {localize('Editable Actual Amount', language)}
+                </Text>
+                {/* ------------ Row 1 ------------ */}
+                <View style={{
+                    height: scaleSzie(35), marginTop: scaleSzie(8), marginBottom: scaleSzie(2),
+                    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+                }} >
+                    <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
+
+                        {localize('Payment by Harmony account', language)}
+                    </Text>
+                    <View style={{
+                        height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
+                        paddingHorizontal: scaleSzie(6),
+                    }} >
+                        {/* ------------ Text Input ---- */}
+                        <TextInputAmount
+                            value={editPaymentByHarmony}
+                            onChangeText={this.updateTotalCustom}
+                            onFocus={() => this.scrollTo(450)}
+                        />
+                    </View>
+                </View>
+                {/* ------------ Row 2 ------------ */}
+                <View style={{
+                    height: scaleSzie(35), marginBottom: scaleSzie(2),
+                    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+                }} >
+                    <View>
+                        <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
+
+                            {`${localize('Payment by Credit card', language)}`}
+                        </Text>
+                        <Text style={{ fontSize: scaleSzie(10), color: '#404040' }} >
+                            {`(Credit Count: ${creditCount})`}
+                        </Text>
+
+                    </View>
+
+                    <View style={{
+                        height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
+                        paddingHorizontal: scaleSzie(6),
+                    }} >
+
+                        <TextInputAmount
+                            ref={this.inputCreditPaymentRef}
+                            value={temptCreditAmount}
+                            onChangeText={this.updateTotalCustom}
+                            onFocus={() => this.scrollTo(450)}
+                        />
+                    </View>
+                </View>
+                {/* ------------ Row 3 ------------ */}
+                <View style={{
+                    height: scaleSzie(35), marginBottom: scaleSzie(2),
+                    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+                }} >
+                    <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
+
+                        {localize('Payment by Cash', language)}
+                    </Text>
+                    <View style={{
+                        height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
+                        paddingHorizontal: scaleSzie(6)
+                    }} >
+                        <TextInputAmount
+                            value={editPaymentByCash}
+                            onChangeText={this.updateTotalCustom}
+                            onFocus={() => this.scrollTo(450)}
+                        />
+                    </View>
+                </View>
+                {/* ------------ Row 4 ------------ */}
+                <View style={{
+                    height: scaleSzie(35), marginBottom: scaleSzie(2),
+                    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+                }} >
+                    <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
+
+                        {localize('Other payment', language)}
+                    </Text>
+                    <View style={{
+                        height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
+                        paddingHorizontal: scaleSzie(6),
+                    }} >
+                        <TextInputAmount
+                            value={editOtherPayment}
+                            onChangeText={this.updateTotalCustom}
+                            onFocus={() => this.scrollTo(450)}
+                        />
+                    </View>
+                </View>
+                {/* -------- Total Custom ------- */}
+                <TotalCustom
+                    ref={this.totalCustomRef}
+                    total={temtpTotal}
+                />
+            </View>
+        );
+    }
+
     renderReportAmount() {
         const { settleWaiting, language } = this.props;
         const { creditAmount, creditCount } = this.state;
 
-        const temptCreditAmount = creditAmount === 0 || creditAmount === "" ? 0 : creditAmount/100;
+        const temptCreditAmount = creditAmount === 0 || creditAmount === "" ? 0 : creditAmount / 100;
         const temtpTotal = formatMoney((formatNumberFromCurrency(settleWaiting.total) - formatNumberFromCurrency(settleWaiting.paymentByCreditCard) + formatNumberFromCurrency(temptCreditAmount)));
-
-        // console.log("temptCreditAmount : ", temptCreditAmount);
-        // console.log("temtpTotal : ", temtpTotal);
-        // console.log("settleWaiting.total : ", settleWaiting.total);
-        // console.log("settleWaiting.paymentByCreditCard : ", settleWaiting.paymentByCreditCard);
-        // console.log("creditAmount : ", creditAmount);
 
         return (
             <View style={{ paddingHorizontal: scaleSzie(10), flexDirection: 'row' }} >
@@ -301,110 +408,7 @@ class Layout extends React.Component {
                     </View>
                 </View>
                 {/* --------- Right --------- */}
-                <View style={{ flex: 1.1 }} >
-                    <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
-
-                        {localize('Editable Actual Amount', language)}
-                    </Text>
-                    {/* ------------ Row 1 ------------ */}
-                    <View style={{
-                        height: scaleSzie(35), marginTop: scaleSzie(8), marginBottom: scaleSzie(2),
-                        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
-                    }} >
-                        <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
-
-                            {localize('Payment by Harmony account', language)}
-                        </Text>
-                        <View style={{
-                            height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
-                            paddingHorizontal: scaleSzie(6),
-                        }} >
-                            {/* ------------ Text Input ---- */}
-                            <TextInputAmount
-                                ref={this.inputHarmonyPaymentRef}
-                                value={settleWaiting.paymentByHarmony}
-                                onChangeText={this.updateTotalCustom}
-                                onFocus={() => this.scrollTo(450)}
-                            /> 
-                        </View>
-                    </View>
-                    {/* ------------ Row 2 ------------ */}
-                    <View style={{
-                        height: scaleSzie(35), marginBottom: scaleSzie(2),
-                        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
-                    }} >
-                        <View>
-                            <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
-
-                                {`${localize('Payment by Credit card', language)}`}
-                            </Text>
-                            <Text style={{ fontSize: scaleSzie(10), color: '#404040' }} >
-                                {`(Credit Count: ${creditCount})`}
-                            </Text>
-
-                        </View>
-
-                        <View style={{
-                            height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
-                            paddingHorizontal: scaleSzie(6),
-                        }} >
-
-                            <TextInputAmount
-                                ref={this.inputCreditPaymentRef}
-                                value={temptCreditAmount}
-                                onChangeText={this.updateTotalCustom}
-                                onFocus={() => this.scrollTo(450)}
-                            />
-                        </View>
-                    </View>
-                    {/* ------------ Row 3 ------------ */}
-                    <View style={{
-                        height: scaleSzie(35), marginBottom: scaleSzie(2),
-                        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
-                    }} >
-                        <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
-
-                            {localize('Payment by Cash', language)}
-                        </Text>
-                        <View style={{
-                            height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
-                            paddingHorizontal: scaleSzie(6)
-                        }} >
-                            <TextInputAmount
-                                ref={this.inputCashPaymentRef}
-                                value={settleWaiting.paymentByCash}
-                                onChangeText={this.updateTotalCustom}
-                                onFocus={() => this.scrollTo(450)}
-                            />
-                        </View>
-                    </View>
-                    {/* ------------ Row 4 ------------ */}
-                    <View style={{
-                        height: scaleSzie(35), marginBottom: scaleSzie(2),
-                        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
-                    }} >
-                        <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
-
-                            {localize('Other payment', language)}
-                        </Text>
-                        <View style={{
-                            height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
-                            paddingHorizontal: scaleSzie(6),
-                        }} >
-                            <TextInputAmount
-                                ref={this.inputOtherPaymentRef}
-                                value={settleWaiting.otherPayment}
-                                onChangeText={this.updateTotalCustom}
-                                onFocus={() => this.scrollTo(450)}
-                            />
-                        </View>
-                    </View>
-                    {/* -------- Total Custom ------- */}
-                    <TotalCustom
-                        ref={this.totalCustomRef}
-                        total={temtpTotal}
-                    />
-                </View>
+                {this.renderEditReportAmount()}
             </View>
         );
     }
@@ -495,7 +499,7 @@ class Layout extends React.Component {
                         </ScrollView>
                         :
                         <ScrollView
-                                ref={this.scrollSRef}
+                            ref={this.scrollSRef}
                             refreshControl={
                                 <RefreshControl
                                     refreshing={this.props.refreshingSettle}
