@@ -121,8 +121,8 @@ class PopupActiveGiftCard extends React.Component {
                             }} >
                                 <TextInput
                                     style={{
-                                        flex: 1, fontSize: scaleSzie(18),
-                                        fontWeight: 'bold',
+                                        flex: 1, fontSize: scaleSzie(15),
+                                        fontWeight: '500',
                                         textAlign: 'center',
                                         padding: 0, margin: 0
                                     }}
@@ -130,9 +130,7 @@ class PopupActiveGiftCard extends React.Component {
                                     keyboardType="numeric"
                                     value={scancode}
                                     onChangeText={(scancode) => this.setState({ scancode })}
-                                    onSubmitEditing={() => {
-                                        confimYes();
-                                    }}
+                                    onSubmitEditing={this.submitSerialCode}
                                 />
                             </View>
                             <Button
@@ -205,3 +203,4 @@ const mapStateToProps = state => ({
 
 export default connectRedux(mapStateToProps, PopupActiveGiftCard);
 
+// 10120061202600003

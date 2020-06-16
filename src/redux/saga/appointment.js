@@ -818,6 +818,49 @@ function* getBlockAppointmentById(action) {
     }
 }
 
+function* addGiftCardIntoBlockAppointment(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        //console.log('checkSerialNumber : ' + JSON.stringify(responses));
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: 'ADD_ITEM_INTO_APPOINTMENT',
+                body: {
+                    giftCards: [{
+                        bookingGiftCardId: 0,
+                        giftCardId: responses.data && responses.data.giftCardId ? responses.data.giftCardId : 0
+                    }],
+                    services: [],
+                    extras: [],
+                    products: [],
+                },
+                method: 'PUT',
+                token: true,
+                api: `${apiConfigs.BASE_API}appointment/additem/${action.appointmentId}`,
+                appointmentId: action.appointmentId,
+                isBlock: true
+            })
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 export default function* saga() {
     yield all([
         takeLatest('GET_APPOINTMENT_BY_ID', getAppointmentById),
@@ -835,9 +878,10 @@ export default function* saga() {
         takeLatest('REMOVE_APPOINTMENT_IN_GROUP', removeAppointmentInGroup),
         takeLatest('CHECK_SERIAL_NUMBER', checkSerialNumber),
         takeEvery('UPDATE_CUSTOMER_IN_APPOINTMENT', updateCustomerInAppointment),
-
         takeLatest('UPDATE_PRODUCT_IN_APPOINTMENT', updateProductInAppointment),
         takeLatest('CREATE_BLOCK_APPOINTMENT', createBlockAppointment),
         takeLatest('GET_BLOCK_APPOINTMENT_BY_ID', getBlockAppointmentById),
+        takeLatest('ADD_GIFT_CARD_INTO_BLOCK_APPOINTMENT', addGiftCardIntoBlockAppointment),
+
     ])
 }

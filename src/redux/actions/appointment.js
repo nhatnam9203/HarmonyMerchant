@@ -352,6 +352,17 @@ export function checkSerialNumber(serialId, bodyAction = false, optionAction = f
     }
 }
 
+export function addGiftCardIntoBlockAppointment(serialId, appointmentId) {
+    return {
+        type: 'ADD_GIFT_CARD_INTO_BLOCK_APPOINTMENT',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}giftcard/serialNumber/${serialId}`,
+        appointmentId
+
+    }
+}
+
 export function updateCustomerInAppointment(appointmentId, body) {
     return {
         type: 'UPDATE_CUSTOMER_IN_APPOINTMENT',

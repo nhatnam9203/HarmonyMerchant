@@ -1566,11 +1566,19 @@ class TabCheckout extends Layout {
         })
     }
 
-    submitSerialCode = (code) => {
-        const { groupAppointment, profile, token, profileStaffLogin } = this.props;
-        const { categoryTypeSelected, basket, productSeleted, extraSelected, customerInfoByPhone, infoUser,
+   
+
+    submitSerialCode = async (code) => {
+        const { groupAppointment, profile, token, profileStaffLogin ,blockAppointments} = this.props;
+        const { customerInfoByPhone, infoUser,
             paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
         } = this.state;
+
+        if(blockAppointments.length > 0){
+            this.addGiftCardIntoBlockAppointment(code);
+            return;
+        }
+
         if (!_.isEmpty(groupAppointment)) {
             this.props.actions.appointment.checkSerialNumber(code);
         } else {
@@ -1609,6 +1617,23 @@ class TabCheckout extends Layout {
 
             this.props.actions.appointment.checkSerialNumber(code, bodyAction, optionAction);
         }
+
+        await this.setState({
+            isShowColProduct: false,
+            isShowColAmount: false,
+            categorySelected: {
+                categoryId: -1,
+                categoryType: ''
+            },
+            productSeleted: {
+                name: ''
+            },
+            categoryTypeSelected: '',
+            extraSelected: {
+                extraId: -1,
+                name: ''
+            },
+        });
 
     }
 
@@ -1667,7 +1692,7 @@ class TabCheckout extends Layout {
     }
 
     addBlockAppointment = async () => {
-        const { blockAppointments } = this.props;
+        const { blockAppointments ,isOpenBlockAppointmentId} = this.props;
         const { categoryTypeSelected, basket, productSeleted, extraSelected } = this.state;
 
         let isAppointmentIdOpen = "";
@@ -1679,7 +1704,7 @@ class TabCheckout extends Layout {
             }
         }
 
-        const appointmentId = isAppointmentIdOpen ? isAppointmentIdOpen : blockAppointments[0].appointmentId;
+        const appointmentId = isAppointmentIdOpen ? isAppointmentIdOpen : isOpenBlockAppointmentId;
 
         if (categoryTypeSelected === 'Product') {
             this.props.actions.appointment.addItemIntoAppointment(
@@ -1722,6 +1747,20 @@ class TabCheckout extends Layout {
             },
         });
 
+    }
+
+    addGiftCardIntoBlockAppointment = (code) =>{
+        const {isOpenBlockAppointmentId,blockAppointments} = this.props;
+        let isAppointmentIdOpen = "";
+        for (let i = 0; i < this.blockAppointmentRef.length; i++) {
+            if (!this.blockAppointmentRef[i].state.isCollapsed) {
+                isAppointmentIdOpen = this.blockAppointmentRef[i].props.appointmentDetail.appointmentId;
+                break;
+            }
+        }
+
+        const appointmentId = isAppointmentIdOpen ? isAppointmentIdOpen : isOpenBlockAppointmentId;
+        this.props.actions.appointment.addGiftCardIntoBlockAppointment(code,appointmentId);
     }
 
     removeItemInBlockAppointment = (dataRemove) => {
