@@ -215,13 +215,15 @@ class Layout extends React.Component {
     }
 
     renderEditReportAmount() {
-        const { settleWaiting, language } = this.props;
-        const { creditAmount, creditCount,
-            editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment
-        } = this.state;
+        const { language } = this.props;
+        const { creditCount,editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment} = this.state;
 
-        const temptCreditAmount = creditAmount === 0 || creditAmount === "" ? 0 : creditAmount / 100;
-        const temtpTotal = formatMoney((formatNumberFromCurrency(settleWaiting.total) - formatNumberFromCurrency(settleWaiting.paymentByCreditCard) + formatNumberFromCurrency(temptCreditAmount)));
+        const temtpTotal = roundFloatNumber(
+            formatNumberFromCurrency(editPaymentByHarmony) +
+            formatNumberFromCurrency(editPaymentByCreditCard) +
+            formatNumberFromCurrency(editPaymentByCash) +
+            formatNumberFromCurrency(editOtherPayment)
+        );
 
         return (
             <View style={{ flex: 1.1 }} >
@@ -244,7 +246,7 @@ class Layout extends React.Component {
                         {/* ------------ Text Input ---- */}
                         <TextInputAmount
                             value={editPaymentByHarmony}
-                            onChangeText={this.updateTotalCustom}
+                            onChangeText={(value) =>this.updateTotalCustom("editPaymentByHarmony",value)}
                             onFocus={() => this.scrollTo(450)}
                         />
                     </View>
@@ -272,8 +274,8 @@ class Layout extends React.Component {
 
                         <TextInputAmount
                             ref={this.inputCreditPaymentRef}
-                            value={temptCreditAmount}
-                            onChangeText={this.updateTotalCustom}
+                            value={editPaymentByCreditCard}
+                            onChangeText={(value) =>this.updateTotalCustom("editPaymentByCreditCard",value)}
                             onFocus={() => this.scrollTo(450)}
                         />
                     </View>
@@ -293,7 +295,7 @@ class Layout extends React.Component {
                     }} >
                         <TextInputAmount
                             value={editPaymentByCash}
-                            onChangeText={this.updateTotalCustom}
+                            onChangeText={(value) =>this.updateTotalCustom("editPaymentByCash",value)}
                             onFocus={() => this.scrollTo(450)}
                         />
                     </View>
@@ -313,15 +315,14 @@ class Layout extends React.Component {
                     }} >
                         <TextInputAmount
                             value={editOtherPayment}
-                            onChangeText={this.updateTotalCustom}
+                            onChangeText={(value) =>this.updateTotalCustom("editOtherPayment",value)}
                             onFocus={() => this.scrollTo(450)}
                         />
                     </View>
                 </View>
                 {/* -------- Total Custom ------- */}
                 <TotalCustom
-                    ref={this.totalCustomRef}
-                    total={temtpTotal}
+                    total={formatMoney(temtpTotal)}
                 />
             </View>
         );

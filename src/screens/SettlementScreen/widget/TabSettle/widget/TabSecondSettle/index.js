@@ -28,8 +28,9 @@ class TabSecondSettle extends Layout {
         };
     }
 
-    setStateFromParent = (settleTotal, creditCount) => {
-        this.setState({
+    setStateFromParent = async (settleTotal, creditCount) => {
+        console.log("------ settleTotal  : ",settleTotal);
+       await this.setState({
             settleTotal,
             creditCount
         })

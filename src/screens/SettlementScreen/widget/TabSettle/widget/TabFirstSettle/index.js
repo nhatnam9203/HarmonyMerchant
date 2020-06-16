@@ -1,10 +1,10 @@
 import React from 'react';
 import { NativeModules } from 'react-native';
-import _ from "ramda";
+import _, { values } from "ramda";
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { formatNumberFromCurrency, formatMoney, scaleSzie } from '@utils';
+import { formatNumberFromCurrency, formatMoney, scaleSzie, roundFloatNumber } from '@utils';
 
 
 const PosLink = NativeModules.MyApp;
@@ -71,14 +71,12 @@ class TabFirstSettle extends Layout {
                 this.props.actions.app.connectPaxMachineError(result.message);
             } else {
                 this.props.actions.app.ConnectPaxMachineSuccess();
-                this.setState({
+                const moneyInPax = formatMoney(roundFloatNumber(result.CreditAmount / 100))
+                await this.setState({
                     creditCount: result.CreditCount,
-                    creditAmount: result.CreditAmount
+                    creditAmount: result.CreditAmount,
+                    editPaymentByCreditCard: moneyInPax
                 });
-                if (this.inputCreditPaymentRef.current) {
-                    const creditAmount = formatMoney(result.CreditAmount / 100);
-                    this.inputCreditPaymentRef.current.setValueFromParent(creditAmount);
-                }
 
             }
         } catch (error) {
@@ -87,22 +85,20 @@ class TabFirstSettle extends Layout {
     }
 
     gotoTabSecondSettle = async () => {
-        const harmonyPayment = formatNumberFromCurrency(this.inputHarmonyPaymentRef.current.state.value);
-        const creditPayment = formatNumberFromCurrency(this.inputCreditPaymentRef.current.state.value);
-        const cashPayment = formatNumberFromCurrency(this.inputCashPaymentRef.current.state.value);
-        const otherPayment = formatNumberFromCurrency(this.inputOtherPaymentRef.current.state.value);
-        const total = formatMoney(parseFloat(harmonyPayment) + parseFloat(creditPayment) + parseFloat(cashPayment) + parseFloat(otherPayment));
-        await this.setState({
-            // settleTotal: {
-            paymentByHarmony: this.inputHarmonyPaymentRef.current.state.value,
-            paymentByCreditCard: this.inputCreditPaymentRef.current.state.value,
-            paymentByCash: this.inputCashPaymentRef.current.state.value,
-            otherPayment: this.inputOtherPaymentRef.current.state.value,
-            total: total,
-            note: this.state.note
-            // }
-        });
-        this.props.gotoTabSecondSettle();
+        const { creditCount, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment, note } = this.state;
+        this.props.gotoTabSecondSettle({
+            paymentByHarmony: editPaymentByHarmony,
+            paymentByCreditCard: editPaymentByCreditCard,
+            paymentByCash: editPaymentByCash,
+            otherPayment: editOtherPayment,
+            total: roundFloatNumber(
+                formatNumberFromCurrency(editPaymentByHarmony) +
+                formatNumberFromCurrency(editPaymentByCreditCard) +
+                formatNumberFromCurrency(editPaymentByCash) +
+                formatNumberFromCurrency(editOtherPayment)
+            ),
+            note
+        },creditCount);
     }
 
     getInvoicesOfStaff = async (staffId) => {
@@ -116,13 +112,11 @@ class TabFirstSettle extends Layout {
         }
     }
 
-    updateTotalCustom = () => {
-        const harmonyPayment = formatNumberFromCurrency(this.inputHarmonyPaymentRef.current.state.value);
-        const creditPayment = formatNumberFromCurrency(this.inputCreditPaymentRef.current.state.value);
-        const cashPayment = formatNumberFromCurrency(this.inputCashPaymentRef.current.state.value);
-        const otherPayment = formatNumberFromCurrency(this.inputOtherPaymentRef.current.state.value);
-        const total = formatMoney(parseFloat(harmonyPayment) + parseFloat(creditPayment) + parseFloat(cashPayment) + parseFloat(otherPayment));
-        this.totalCustomRef.current.setStateFromParent(total);
+    updateTotalCustom = async (key, value) => {
+        await this.setState({
+            [key]: value
+        });
+
     }
 
     onRefreshSettle = () => {
@@ -139,7 +133,7 @@ class TabFirstSettle extends Layout {
         if (prevProps.isGettingSettlement === "loading" && isGettingSettlement === "success" && !_.isEmpty(settleWaiting)) {
             await this.setState({
                 editPaymentByHarmony: settleWaiting.paymentByHarmony ? settleWaiting.paymentByHarmony : 0.00,
-                editPaymentByCreditCard: settleWaiting.paymentByCreditCard ? settleWaiting.paymentByCreditCard : 0.00,
+                // editPaymentByCreditCard: settleWaiting.paymentByCreditCard ? settleWaiting.paymentByCreditCard : 0.00,
                 editPaymentByCash: settleWaiting.paymentByCash ? settleWaiting.paymentByCash : 0.00,
                 editOtherPayment: settleWaiting.otherPayment ? settleWaiting.otherPayment : 0.00,
                 total: settleWaiting.total ? settleWaiting.total : 0.00,

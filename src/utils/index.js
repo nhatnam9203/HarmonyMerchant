@@ -399,10 +399,6 @@ export const formatNumberFromCurrency = currency => {
     return Number(`${currency}`.replace(/[^0-9.-]+/g, ""));
 }
 
-export const roundFloatNumber = number => {
-    //console.log('roundFloatNumber : ',number);
-    return Number(number).toFixed(2);
-}
 
 export const formatMoney = (number1, decPlaces, decSep, thouSep) => {
     let number = `${number}`.includes(',') || `${number}`.includes('.') ? parseFloat(number1) : number1;
@@ -800,5 +796,9 @@ export const checkStatusPrint = async () => {
 }
 
 export const roundNumber = (num) => {
+    return (Math.round(num * 100) / 100).toFixed(2);
+}
+
+export const roundFloatNumber = num => {
     return (Math.round(num * 100) / 100).toFixed(2);
 }
