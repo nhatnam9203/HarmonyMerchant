@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import * as Progress from 'react-native-progress';
 
-import { scaleSzie, localize, formatMoney } from '@utils';
+import { scaleSzie, localize, formatMoney,formatNumberFromCurrency } from '@utils';
 import {
     Text, Button, ButtonCustom,
 } from '@components';
@@ -256,8 +256,11 @@ class Layout extends React.Component {
 
     render() {
         const { settleWaiting, language } = this.props;
-        const { creditAmount, settleTotal, paxErrorMessage } = this.state;
+        const {  settleTotal, paxErrorMessage } = this.state;
         const { paymentByHarmony, paymentByCreditCard, paymentByCash, otherPayment, total, note } = settleTotal;
+
+        console.log("---- otherPayment : ",otherPayment);
+
         return (
             <View style={[styles.container, { backgroundColor: '#F6F6F6' }]} >
                 <View style={{ height: scaleSzie(20) }} />
@@ -316,7 +319,7 @@ class Layout extends React.Component {
                                 {localize('Other payment', language)}
                             </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: '#6A6A6A' }} >
-                                {`$ ${formatMoney(otherPayment)}`}
+                                {`$ ${formatMoney(formatNumberFromCurrency(otherPayment))}`}
                             </Text>
                         </View>
                         {/* -------- Total ------- */}
