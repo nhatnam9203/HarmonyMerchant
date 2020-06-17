@@ -28,7 +28,7 @@ class ItemHistory extends React.Component {
                             {formatWithMoment(data.createdAt,'MM/DD/YYYY')}
                         </Text>
                         <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginLeft: scaleSzie(16) }} >
-                            {formatWithMoment(data.createdAt,'h:mm A')}
+                            {formatWithMoment(data.createdAt,'hh:mm A')}
                         </Text>
                     </View>
                     <View style={{ justifyContent: 'center' }}>

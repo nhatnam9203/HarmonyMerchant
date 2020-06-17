@@ -36,7 +36,7 @@ class Layout extends React.Component {
                     {formatWithMoment(settlementDate,'MM/DD/YYYY')}
                 </Text>
                 <Text style={{ color: '#0764B0', fontSize: scaleSzie(16), fontWeight: 'bold', marginRight: scaleSzie(20) }} >
-                    {formatWithMoment(settlementDate,'h:mm A')}
+                    {formatWithMoment(settlementDate,'hh:mm A')}
                 </Text>
             </View>
         );

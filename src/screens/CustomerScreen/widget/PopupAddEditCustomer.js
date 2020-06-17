@@ -66,12 +66,10 @@ class PopupAddEditCustomer extends React.Component {
     }
 
     setStateFromParent = async customer => {
-        // console.log("setStateFromParent  : " , JSON.stringify(customer));
         await this.setState({
             customerInfo: {
                 firstName: customer.firstName,
                 lastName: customer.lastName,
-                // phone: customer.phone,
                 phone: getCodeAreaPhone(customer.phone).phone,
                 email: customer.email,
                 addressPost: {
@@ -133,7 +131,6 @@ class PopupAddEditCustomer extends React.Component {
                 addressPost: temptAddress,
                 isVip: customerInfo.isVip === "Normal" ? 0 : 1
             };
-            //console.log('temptCustomerInfo : ' ,temptCustomerInfo);
             if (this.props.isSave) {
                 this.props.editCustomer(this.state.customerId, temptCustomerInfo);
             } else {
@@ -159,8 +156,6 @@ class PopupAddEditCustomer extends React.Component {
         const { firstName, lastName, phone, email, referrerPhone, favourite, addressPost, isVip } = this.state.customerInfo;
         const { street, city, state } = addressPost;
 
-        // console.log("isVip  : ", isVip);
-
         return (
             <PopupParent
                 title={title}
@@ -185,7 +180,7 @@ class PopupAddEditCustomer extends React.Component {
                                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6) }} >
-                                            {`${localize('First Name', language)} *`}
+                                            {`${localize('First Name', language)}*`}
                                         </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
@@ -200,7 +195,7 @@ class PopupAddEditCustomer extends React.Component {
                                     </View>
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6) }} >
-                                            {`${localize('Last Name', language)} *`}
+                                            {`${localize('Last Name', language)}*`}
                                         </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
@@ -216,7 +211,7 @@ class PopupAddEditCustomer extends React.Component {
                                 </View>
                                 {/* ---- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
-                                    {`${localize('Phone Number', language)} *`}
+                                    {`${localize('Phone Number', language)}*`}
                                 </Text>
                                 <View style={{ height: scaleSzie(30), flexDirection: 'row' }} >
                                     <View style={{ width: scaleSzie(70) }} >
@@ -252,7 +247,7 @@ class PopupAddEditCustomer extends React.Component {
                                 </View>
                                 {/* ---- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
-                                    {localize('Contact email', language)}
+                                    {localize('Contact Email', language)}
                                 </Text>
                                 <View style={{
                                     height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
@@ -339,7 +334,6 @@ class PopupAddEditCustomer extends React.Component {
                                     <View style={{ width: scaleSzie(8) }} />
                                     <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(10) }} >
                                         <TextInputMask
-                                            // type="only-numbers"
                                             type={'custom'}
                                             options={{
                                                 mask: '999-999-9999'

@@ -25,7 +25,7 @@ const HeaderTableTransaction = ({ language}) => {
         <View style={{ width: scaleSzie(130), justifyContent: 'flex-end' }} >
             <Text style={styles.textHeaderContent} >
                 
-                {localize('Datetime', language)}
+                {localize('Date Time', language)}
                 </Text>
         </View>
         {/* --------- Col 3 --------- */}

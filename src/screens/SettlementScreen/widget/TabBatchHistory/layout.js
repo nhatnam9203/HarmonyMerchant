@@ -8,7 +8,7 @@ import {
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import _ from "ramda";
 
-import { scaleSzie, localize, formatWithMoment,formatWithMoment } from '@utils';
+import { scaleSzie, localize, formatWithMoment } from '@utils';
 import { Text, Button, ButtonCustom, PopupCalendar } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
@@ -248,7 +248,7 @@ class Layout extends React.Component {
     renderTabDetail() {
         const { language } = this.props;
         const { settleSelected } = this.state;
-        const dateDetail = settleSelected.settlementDate ? `${formatWithMoment(settleSelected.settlementDate,'MM/DD/YYYY h:mm A')}` : '';
+        const dateDetail = settleSelected.settlementDate ? `${formatWithMoment(settleSelected.settlementDate,'MM/DD/YYYY hh:mm A')}` : '';
 
         return (
             <View style={{ flex: 1 }} >

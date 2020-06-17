@@ -43,7 +43,7 @@ class ItemSettle extends React.Component {
                         </Text>
                         <View style={{ height: 2 }} />
                         <Text style={[styles.textTitleLefConten,{fontWeight:"600"}]} >
-                            {`${formatWithMoment(batchHistory.settlementDate,'h:mm A')}`}
+                            {`${formatWithMoment(batchHistory.settlementDate,'hh:mm A')}`}
                         </Text>
                     </View>
                     <View style={{ flex: 0.8,justifyContent:"center"}} >

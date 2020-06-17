@@ -2,17 +2,13 @@ import React from 'react';
 import {
     View,
     Text,
-    TextInput,
-    Alert,
     Dimensions,
     ScrollView,
     TouchableOpacity
 } from 'react-native';
-import { TextInputMask } from 'react-native-masked-text';
 
-import { ButtonCustom, PopupParent, Dropdown } from '@components';
-import { scaleSzie, localize, getNameStateById } from '@utils';
-import IMAGE from '@resources';
+import { ButtonCustom, PopupParent } from '@components';
+import { scaleSzie, localize } from '@utils';
 
 const { width } = Dimensions.get('window');
 
@@ -39,18 +35,15 @@ class PopupCustomerDetail extends React.Component {
     }
 
     setStateFromParent = async customer => {
-        // console.log("customer : ",customer);
        await this.setState({
             customerInfo: customer
         })
     }
 
     render() {
-        const { title, visible, onRequestClose, language
-        } = this.props;
-        const temptHeight = width - scaleSzie(500);
+        const { title, visible, onRequestClose, language} = this.props;
         const {firstName,lastName,phone,email,referrerPhone,favourite,addressPost,isVip} = this.state.customerInfo;
-        const {street,city,state} = addressPost;
+        const {street,city} = addressPost;
         return (
             <PopupParent
                 title={title}
@@ -74,13 +67,13 @@ class PopupCustomerDetail extends React.Component {
                                 <View style={{ marginTop: scaleSzie(14), flexDirection: 'row' }} >
                                     <View style={{ flex: 1 }} >
                                         <ItemDetail
-                                            title={`${localize('First Name', language)} *`}
+                                            title={`${localize('First Name', language)}*`}
                                             value={firstName ? firstName : ""}
                                         />
                                     </View>
                                     <View style={{ flex: 1 }} >
                                         <ItemDetail
-                                            title={`${localize('Last Name', language)} *`}
+                                            title={`${localize('Last Name', language)}*`}
                                             value={lastName ? lastName : ""}
                                         />
                                     </View>
@@ -88,14 +81,14 @@ class PopupCustomerDetail extends React.Component {
                                 {/* -------------------- */}
                                 <ItemDetail
                                     style={{ marginTop: scaleSzie(12) }}
-                                    title={`${localize('Phone Number', language)} *`}
+                                    title={`${localize('Phone Number', language)}*`}
                                     value={phone ? phone : ""}
                                 />
 
                                 {/* -------------------- */}
                                 <ItemDetail
                                     style={{ marginTop: scaleSzie(12) }}
-                                    title={`${localize('Contact email', language)}:`}
+                                    title={`${localize('Contact Email', language)}:`}
                                     value={email ? email : ""}
                                 />
 

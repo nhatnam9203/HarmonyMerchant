@@ -68,7 +68,7 @@ class ItemInvoice extends React.Component {
                     </View>
                     <View style={{ width: scaleSzie(80), justifyContent: 'center', alignItems: 'flex-end' }} >
                         <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A' }} >
-                            {`${formatWithMoment(invoice.createdDate,'h:mm A')}`}
+                            {`${formatWithMoment(invoice.createdDate,'hh:mm A')}`}
                         </Text>
                     </View>
                 </View>
