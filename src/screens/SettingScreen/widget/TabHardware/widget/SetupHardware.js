@@ -44,7 +44,7 @@ class SetupHardware extends React.Component {
     setupPax = () => {
         const { name, ip, port, timeout } = this.state;
         if (name == '' || ip == '' || port == '' || timeout == '') {
-            alert('Please enter full infomation !');
+            alert('Please enter full infomation!');
         } else {
             this.props.actions.dataLocal.setupPaxMachine({ name, ip, port, timeout ,isSetup: true});
             this.props.backListDevices();
@@ -92,7 +92,7 @@ class SetupHardware extends React.Component {
                     marginBottom: scaleSzie(10)
                 }} >
                     
-                    {localize('Terminal configuration', language)}
+                    {localize('Terminal Configuration', language)}
                         </Text>
 
                 {/* ----------- Line ------------ */}

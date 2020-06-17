@@ -138,7 +138,7 @@ class Layout extends React.Component {
                 <View style={[styles.tableLeft, { paddingHorizontal: scaleSzie(18) }]} >
                     <View style={{ height: scaleSzie(40), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
-                            {`${localize('Transactions', language)}:`}
+                            {`${localize('Batch ID', language)}:`}
                         </Text>
                         <Text style={{ color: '#404040', fontSize: scaleSzie(16), fontWeight: 'bold' }} >
                             {settleSelected.settlementId ? settleSelected.settlementId : ''}

@@ -278,14 +278,14 @@ export default class Layout extends React.Component {
                         />
                          <ItemInfo
                             title={localize('Amount', language)}
-                            value={payment.amount && payment.amount ? payment.amount : ''}
+                            value={payment.amount && payment.amount ? `$ ${payment.amount}` : '$0.00'}
                         />
                            <ItemInfo
                             title={localize('Status', language)}
                             value={payment.status && payment.status ? payment.status : ''}
                         />
                          <ItemInfo
-                            title={localize('Date', language)}
+                            title={localize('Date Time', language)}
                             value={payment.createdDate && payment.createdDate ? `${formatWithMoment(payment.createdDate,'MM/DD/YYYY hh:mm A')}` : ''}
                         />
                         {

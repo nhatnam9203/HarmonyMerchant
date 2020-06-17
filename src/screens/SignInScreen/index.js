@@ -19,7 +19,7 @@ class SignInScreen extends Layout {
         const email = this.idInputRef.current.state.value;
         const password = this.passwordInputRef.current.state.value;
         if (email === '' || password === '') {
-            alert('Please enter full information !');
+            alert('Please enter full information!');
         } else {
             this.props.actions.auth.login(email, password);
         }

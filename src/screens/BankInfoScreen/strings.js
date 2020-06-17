@@ -1,8 +1,8 @@
 const strings = {
-    bankName: 'Missing info : Bank Name',
-    routingNumber: 'Missing info :  Routing Number',
-    accountNumber: 'Missing info : Checking Account Number (DDA)',
-    accountHolderName:  'Missing info : Account Holder Name',
+    bankName: 'Missing Info: Bank Name',
+    routingNumber: 'Missing Info:  Routing Number',
+    accountNumber: 'Missing Info: Checking Account Number (DDA)',
+    accountHolderName:  'Missing Info: Account Holder Name',
     routingNumberNotNumber: 'Routing Number Invalid',
     accountNumberNotNumber:'Account Number Invalid'
 }

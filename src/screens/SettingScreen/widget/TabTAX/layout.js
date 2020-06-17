@@ -27,7 +27,7 @@ class Layout extends React.Component {
                     fontWeight: '600',
                     color: '#0764B0'
                 }} >
-                    TAX Settings
+                    {`Tax Settings`}
                 </Text>
                 <ScrollView  >
                     <ItemSetup

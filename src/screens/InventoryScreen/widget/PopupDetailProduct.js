@@ -116,7 +116,7 @@ class PopupDetailProduct extends React.Component {
                                     value={name}
                                 />
                                 <ItemDetail
-                                    title={localize('SKU number', language)}
+                                    title={localize('SKU Number', language)}
                                     value={sku}
                                 />
                                 <ItemDetail
@@ -128,15 +128,15 @@ class PopupDetailProduct extends React.Component {
                                     value={quantity}
                                 />
                                 <ItemDetail
-                                    title={localize('Need to order', language)}
+                                    title={localize('Need To Order', language)}
                                     value={needToorDer}
                                 />
                                 <ItemDetail
-                                    title={localize('Low theshold', language)}
+                                    title={localize('Low Theshold', language)}
                                     value={minThreshold}
                                 />
                                 <ItemDetail
-                                    title={localize('Max theshold', language)}
+                                    title={localize('Max Theshold', language)}
                                     value={maxThreshold}
                                 />
                                 <ItemDetail

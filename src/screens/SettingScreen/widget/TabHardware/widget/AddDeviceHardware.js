@@ -110,7 +110,7 @@ class AddDeviceHardware extends React.Component {
                     marginTop: scaleSzie(26)
                 }} >
                     
-                    {localize('Connected device', language)}
+                    {localize('Connected Device', language)}
             </Text>
                 {!paxMachineInfo.isSetup ? this.renderNoConnected() : this.renderConnected() }
 

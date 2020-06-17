@@ -344,7 +344,7 @@ class PopupAddEditService extends React.Component {
                                     />
                                 </View>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                    {`${localize('Description', language)} *`}
+                                    {`${localize('Description', language)}`}
                                 </Text>
                                 <View style={{
                                     height: scaleSzie(60), borderWidth: 1, borderColor: '#C5C5C5',
@@ -408,7 +408,7 @@ class PopupAddEditService extends React.Component {
                                                     suffixUnit: ''
                                                 }}
                                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                                placeholder="$ 100"
+                                                placeholder="$ 0.00"
                                                 value={price}
                                                 onChangeText={value => this.updateServiceInfo('price', value)}
                                                 onFocus={() =>this.scrollServiceTo(320)}
@@ -466,7 +466,7 @@ class PopupAddEditService extends React.Component {
                                         width={'100%'}
                                         height={35}
                                         backgroundColor="#4CD964"
-                                        title={`${localize('Add more extra', language)}`}
+                                        title={`${localize('Add More Extra', language)}`}
                                         textColor="#fff"
                                         onPress={this.addMoreExtra}
                                         style={{ borderRadius: scaleSzie(2) }}
@@ -740,20 +740,20 @@ class ItemTime extends React.Component {
 }
 
 const strings = {
-    categoryId: 'Mising info : Category',
-    name: 'Mising info : Name service',
-    description: 'Mising info : Description',
-    duration: 'Mising info : Duration',
-    openTime: 'Mising info : Open time',
-    secondTime: 'Mising info : Second time',
-    price: 'Mising info : Price',
-    status: 'Mising info :Status',
+    categoryId: 'Missing Info: Category',
+    name: 'Missing Info: Name service',
+    description: 'Missing Info: Description',
+    duration: 'Missing Info: Duration',
+    openTime: 'Missing Info: Open time',
+    secondTime: 'Missing Info: Second time',
+    price: 'Missing Info: Price',
+    status: 'Missing Info:Status',
 
     // --- Extra ---
-    name_extra: 'Mising info : Name extra',
-    description_extra: 'Mising info : Description extra',
-    duration_extra: 'Mising info : Duration Extra ',
-    price_extra: 'Mising info : Price extra',
+    name_extra: 'Missing Info: Name extra',
+    description_extra: 'Missing Info: Description extra',
+    duration_extra: 'Missing Info: Duration Extra ',
+    price_extra: 'Missing Info: Price extra',
     status: 'Active'
 }
 

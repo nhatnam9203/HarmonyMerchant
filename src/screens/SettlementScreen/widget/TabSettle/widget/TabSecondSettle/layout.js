@@ -150,7 +150,7 @@ class Layout extends React.Component {
                 <View style={[styles.tableLeft, { paddingHorizontal: scaleSzie(18) }]} >
                     <View style={{ height: scaleSzie(45), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
-                            {`${localize('Transactions', language)}:`}
+                            {`${localize('Credit/Debit Transactions', language)}:`}
                         </Text>
                         <Text style={{ color: '#404040', fontSize: scaleSzie(22), fontWeight: 'bold' }} >
                             {creditCount}

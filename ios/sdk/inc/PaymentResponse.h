@@ -30,7 +30,7 @@
  * <p>Two conditions:<br>
  * 1.    Displays the last 4.<br>
  * 2.    Display the full account number<br>
- * It depends on terminal configuration<br>
+ * It depends on Terminal Configuration<br>
  */
 @property NSString* BogusAccountNum;
 /**

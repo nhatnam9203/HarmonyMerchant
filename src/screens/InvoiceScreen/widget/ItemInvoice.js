@@ -72,7 +72,7 @@ class ItemInvoice extends React.Component {
                         </Text>
                     </View>
                 </View>
-                <View style={{ flex: 1, flexDirection: 'row' }} >
+                <View style={{ flex: 1, flexDirection: 'row',backgroundColor:"yellow" }} >
                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }} >
                         <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A', marginRight: scaleSzie(20) }} >
                             {`# ${invoice.code}`}
@@ -83,7 +83,7 @@ class ItemInvoice extends React.Component {
                         </Text>
 
                     </View>
-                    <View style={{}} >
+                    <View style={{backgroundColor:"red"}} >
                         <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
                             {`$ ${invoice.total}`}
                         </Text>

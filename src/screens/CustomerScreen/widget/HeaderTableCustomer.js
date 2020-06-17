@@ -79,7 +79,7 @@ class HeaderTableCustomer extends React.Component {
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                         
-                        {localize('Phone number', language)}
+                        {localize('Phone Number', language)}
                             </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >

@@ -26,7 +26,7 @@ class HomeHardware extends React.Component {
 
     render() {
         const {paxMachineInfo,language} = this.props;
-        const temptTitle = !paxMachineInfo.isSetup  ? 'No device' : paxMachineInfo.name;
+        const temptTitle = !paxMachineInfo.isSetup  ? 'No Device' : paxMachineInfo.name;
         return (
             <View style={{ flex: 1 }} >
                 <View style={{

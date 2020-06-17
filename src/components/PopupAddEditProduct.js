@@ -232,7 +232,7 @@ class PopupAddEditProduct extends React.Component {
                         >
                             <TouchableOpacity activeOpacity={1}>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginTop: scaleSzie(10), marginBottom: scaleSzie(10) }} >
-                                    {`${localize('Category', language)} *`}
+                                    {`${localize('Category', language)}*`}
                             </Text>
                                 <View style={{ width: scaleSzie(200), height: scaleSzie(30), }} >
                                     <Dropdown
@@ -249,7 +249,7 @@ class PopupAddEditProduct extends React.Component {
                                     />
                                 </View>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                    {`${localize('Product', language)} *`}
+                                    {`${localize('Product', language)}*`}
                             </Text>
                                 <View style={{
                                     height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
@@ -265,7 +265,7 @@ class PopupAddEditProduct extends React.Component {
                                 </View>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                     
-                                    {`${localize('Description', language)} *`}
+                                    {`${localize('Description', language)}`}
                             </Text>
                                 <View style={{
                                     height: scaleSzie(70), borderWidth: 1, borderColor: '#C5C5C5',
@@ -284,7 +284,7 @@ class PopupAddEditProduct extends React.Component {
                                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                            {`${localize('SKU number', language)} *`}
+                                            {`${localize('SKU Number', language)}*`}
                                     </Text>
                                         <View style={{
                                             height: scaleSzie(30),
@@ -305,7 +305,7 @@ class PopupAddEditProduct extends React.Component {
                                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                            {`${localize('Items in stock', language)} *`}
+                                            {`${localize('Items In Stock', language)}*`}
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
@@ -328,7 +328,7 @@ class PopupAddEditProduct extends React.Component {
                                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                            {`${localize('Low theshold', language)} *`}
+                                            {`${localize('Low Theshold', language)}*`}
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
@@ -345,7 +345,7 @@ class PopupAddEditProduct extends React.Component {
                                     </View>
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                            {`${localize('Max theshold', language)} *`}
+                                            {`${localize('Max Theshold', language)}*`}
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
@@ -365,12 +365,11 @@ class PopupAddEditProduct extends React.Component {
                                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                            {`${localize('Priced', language)} *`}
+                                            {`${localize('Price', language)}*`}
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
                                                 <TextInputMask
-                                                    // type="only-numbers"
                                                     type={'money'}
                                                     options={{
                                                         precision: 2,
@@ -390,7 +389,7 @@ class PopupAddEditProduct extends React.Component {
                                     </View>
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                            {`${localize('Status', language)} *`}
+                                            {`${localize('Status', language)}*`}
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ width: scaleSzie(100), height: scaleSzie(30) }} >
@@ -434,14 +433,14 @@ class PopupAddEditProduct extends React.Component {
 
 
 const strings = {
-    categoryId: 'Mising info : Category',
-    name: 'Mising info : Name Product',
-    description: 'Mising info : Description',
-    sku: 'Mising info : SKU Number',
-    quantity: 'Mising info : Item In Stock',
-    minThreshold: 'Mising info : Low Theshold',
-    maxThreshold: 'Mising info : Max Theshold',
-    price: 'Mising info : Price',
+    categoryId: 'Missing Info: Category',
+    name: 'Missing Info: Name Product',
+    description: 'Missing Info: Description',
+    sku: 'Missing Info: SKU Number',
+    quantity: 'Missing Info: Item In Stock',
+    minThreshold: 'Missing Info: Low Theshold',
+    maxThreshold: 'Missing Info: Max Theshold',
+    price: 'Missing Info: Price',
     status: 'Active',
 }
 

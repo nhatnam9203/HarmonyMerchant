@@ -102,8 +102,15 @@ class PopupCustomerDetail extends React.Component {
                                 {/* -------------------- */}
                                 <ItemDetail
                                     style={{ marginTop: scaleSzie(12) }}
-                                    title={`${localize('Referrer Phone Number', language)}`}
+                                    title={`${localize('Referral Phone', language)}`}
                                     value={referrerPhone ? referrerPhone : ""}
+                                />
+
+                                {/* -------------------- */}
+                                <ItemDetail
+                                    style={{ marginTop: scaleSzie(12) }}
+                                    title={`${localize('Attribute Level', language)}:`}
+                                    value={isVip === 0  ? "Normal" : "VIP"  }
                                 />
 
                                 {/* -------------------- */}
@@ -113,12 +120,6 @@ class PopupCustomerDetail extends React.Component {
                                     value={favourite ? favourite : ""}
                                 />
 
-                                {/* -------------------- */}
-                                <ItemDetail
-                                    style={{ marginTop: scaleSzie(12) }}
-                                    title={`${localize('Attribute Level', language)}:`}
-                                    value={isVip === 0  ? "Normal" : "VIP"  }
-                                />
 
                                 {/* -----  */}
                                 <View style={{ height: scaleSzie(250) }} />

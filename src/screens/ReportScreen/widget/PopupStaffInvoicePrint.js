@@ -231,15 +231,15 @@ class PopupStaffInvoicePrint extends React.Component {
                                     <ItemBorderBottom />
                                     {/* ------------- Part 1  ----------- */}
                                     <ItemStaffInvoice
-                                        title="Service sales"
+                                        title="Service Sales"
                                         value={`$ ${sales}`}
                                     />
                                     <ItemStaffInvoice
-                                        title="Total time work"
+                                        title="Total Time Work"
                                         value={`${workingHour} hrs`}
                                     />
                                     <ItemStaffInvoice
-                                        title="Product sales"
+                                        title="Product Sales"
                                         value={`$ ${product}`}
                                     />
                                     <ItemStaffInvoice
@@ -247,14 +247,14 @@ class PopupStaffInvoicePrint extends React.Component {
                                         value={`$ ${cash}`}
                                     />
                                     <ItemStaffInvoice
-                                        title="Non-cash"
+                                        title="Non-Cash"
                                         value={`$ ${nonCash}`}
                                     />
                                     {/* ------------- Dot Border  ----------- */}
                                     <ItemBorderBottom />
                                     {/* ------------- Service payout  ----------- */}
                                     <ItemStaffInvoice
-                                        title={`1. Service payout (${servicePayout && servicePayout.commission ? servicePayout.commission : "0.00"}%)`}
+                                        title={`1. Service Payout (${servicePayout && servicePayout.commission ? servicePayout.commission : "0.00"}%)`}
                                         value={`$ ${servicePayout && servicePayout.total ? servicePayout.total : "0.00"}`}
                                     />
                                     <ItemStaffInvoice
@@ -271,7 +271,7 @@ class PopupStaffInvoicePrint extends React.Component {
                                     />
                                     {/* ------------- Working hour ----------- */}
                                     <ItemStaffInvoice
-                                        title={`2. Working hour ($${workingHourReceipt && workingHourReceipt.commission ? workingHourReceipt.commission : "0.00"})`}
+                                        title={`2. Working Hour ($${workingHourReceipt && workingHourReceipt.commission ? workingHourReceipt.commission : "0.00"})`}
                                         value={`$ ${workingHourReceipt && workingHourReceipt.total ? workingHourReceipt.total : "0.00"}`}
                                         style={{ marginTop: scaleSzie(15) }}
                                     />
@@ -289,7 +289,7 @@ class PopupStaffInvoicePrint extends React.Component {
                                     />
                                     {/* ------------- Product payout  ----------- */}
                                     <ItemStaffInvoice
-                                        title={`3. Product payout (${productPayout && productPayout.commission ? productPayout.commission : "0.00"}%)`}
+                                        title={`3. Product Payout (${productPayout && productPayout.commission ? productPayout.commission : "0.00"}%)`}
                                         value={`$ ${productPayout && productPayout.total ? productPayout.total : "0.00"}`}
                                         style={{ marginTop: scaleSzie(15) }}
                                     />
@@ -309,19 +309,19 @@ class PopupStaffInvoicePrint extends React.Component {
 
                                     {/* -------------  Tip payout  ----------- */}
                                     <ItemStaffInvoice
-                                        title="4. Tip payout"
+                                        title="4. Tip Payout"
                                         value={`$ ${tippayout && tippayout.total ? tippayout.total : "0.00"}`}
                                         style={{ marginTop: scaleSzie(15) }}
                                     />
 
                                     <ItemStaffInvoice
-                                        title="Tip total"
+                                        title="Tip Total"
                                         value={`$ ${tippayout && tippayout.subTotal ? tippayout.subTotal : "0.00"}`}
                                         styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
                                         styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
                                     />
                                     <ItemStaffInvoice
-                                        title={`Tip fee (${tippayout && tippayout.fee && tippayout.fee.value ? tippayout.fee.value : "0.00%"})`}
+                                        title={`Tip Fee (${tippayout && tippayout.fee && tippayout.fee.value ? tippayout.fee.value : "0.00%"})`}
                                         value={`$ ${tippayout && tippayout.fee && tippayout.fee.amount ? tippayout.fee.amount : "0.00"}`}
                                         styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
                                         styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
@@ -339,7 +339,7 @@ class PopupStaffInvoicePrint extends React.Component {
 
                                     {/* ------------- Total payout  ----------- */}
                                     <ItemStaffInvoice
-                                        title="Total payout"
+                                        title="Total Payout"
                                         value={`$ ${totalReceipt && totalReceipt.total ? totalReceipt.total : "0.00"}`}
                                         subTitle=" (1+2+3+4)"
                                         styleTilte={{ fontSize: scaleSzie(14), fontWeight: "600" }}

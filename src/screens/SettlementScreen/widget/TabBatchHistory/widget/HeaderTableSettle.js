@@ -22,7 +22,7 @@ const HeaderTableSettle = ({language }) => {
             <View style={{ flex: 1, justifyContent: 'flex-end', }} >
                 <Text style={[styles.textTitleLefConten, { marginLeft: scaleSzie(10) }]} >
                     
-                    {localize('Datetime', language)}
+                    {localize('Date Time', language)}
                 </Text>
             </View>
             <View style={{ flex: 0.8, justifyContent: 'flex-end' }} >

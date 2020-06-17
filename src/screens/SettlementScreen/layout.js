@@ -60,7 +60,7 @@ export default class Layout extends React.Component {
                         reviewBatchHistory={this.reviewBatchHistory}
                     />
                     <TabTransaction
-                        tabLabel={localize('Transactions', language)}
+                        tabLabel={localize('Credit/Debit Transactions', language)}
                     />
                     <TabBatchHistory
                         tabLabel={localize('Batch History', language)}

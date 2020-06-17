@@ -83,7 +83,7 @@ class HeaderTableProducts extends React.Component {
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                         
-                        {localize('SKU number', language)}
+                        {localize('SKU Number', language)}
                             </Text>
                     </View>
                     <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
@@ -134,7 +134,7 @@ class HeaderTableProducts extends React.Component {
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                         
-                        {localize('Need to order', language)}
+                        {localize('Need To Order', language)}
                             </Text>
                     </View>
                     <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     },
     textTableHeader: {
         color: '#0764B0',
-        fontSize: scaleSzie(16)
+        fontSize: scaleSzie(15)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',

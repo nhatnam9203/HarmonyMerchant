@@ -314,7 +314,7 @@ class PopupAddEditCustomer extends React.Component {
 
                                 {/* ---- Referrer Phone Number */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
-                                    {localize('Referrer Phone Number', language)}
+                                    {localize('Referral Phone', language)}
                                 </Text>
                                 <View style={{ height: scaleSzie(30), flexDirection: 'row' }} >
                                     <View style={{ width: scaleSzie(70) }} >
@@ -435,9 +435,9 @@ class PopupAddEditCustomer extends React.Component {
 
 
 const strings = {
-    firstName: 'Mising info : First Name',
-    lastName: 'Mising info : Last Name',
-    phone: 'Mising info : Phone',
+    firstName: 'Missing Info: First Name',
+    lastName: 'Missing Info: Last Name',
+    phone: 'Missing Info: Phone',
 }
 
 export default PopupAddEditCustomer;

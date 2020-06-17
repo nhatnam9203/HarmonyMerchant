@@ -352,11 +352,11 @@ class ItemTime extends React.Component {
 }
 
 const strings = {
-    name: 'Mising info : Name service',
-    description: 'Mising info : Description',
-    duration: 'Mising info : Duration',
-    price: 'Mising info : Price',
-    status: 'Mising info :Status',
+    name: 'Missing Info: Name service',
+    description: 'Missing Info: Description',
+    duration: 'Missing Info: Duration',
+    price: 'Missing Info: Price',
+    status: 'Missing Info:Status',
 }
 
 const mapStateToProps = state => ({

@@ -175,7 +175,7 @@ class InventoryScreen extends Layout {
                 visibleRestock: true
             })
         } else {
-            alert('Please select products restock !')
+            alert('Please select products restock!')
         }
     }
 

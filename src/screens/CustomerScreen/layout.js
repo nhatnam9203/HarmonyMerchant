@@ -47,7 +47,7 @@ export default class Layout extends React.Component {
                             <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
                                 <TextInput
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
-                                    placeholder={`${localize('Phone number', language)}/ ${localize('Customer Name', language)}`}
+                                    placeholder={`${localize('Phone Number', language)}/ ${localize('Customer Name', language)}`}
                                     value={keySearch}
                                     onChangeText={(keySearch) => {
                                         if (keySearch == '') {

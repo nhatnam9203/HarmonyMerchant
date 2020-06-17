@@ -131,7 +131,7 @@ class TabCustomBanner extends Layout {
                 description: descriptionBanner
             }, profile.merchantId)
         } else {
-            alert('Please enter full infomation')
+            alert('Please enter full infomation!')
         }
     }
 
