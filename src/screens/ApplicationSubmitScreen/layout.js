@@ -26,7 +26,7 @@ export default class Layout extends React.Component {
                     color: '#fff', fontSize: scaleSzie(20), fontWeight: 'bold',
                     marginBottom: scaleSzie(10)
                 }} >
-                    {`${localize('Thank you for submitting your application, one of our agent will', language)}`}
+                    {`${localize('Thank for submitting your application! One of our agents will ', language)}`}
                 </Text>
                 <Text style={{
                     color: '#fff', fontSize: scaleSzie(20), fontWeight: 'bold',

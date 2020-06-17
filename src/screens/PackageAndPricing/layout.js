@@ -23,7 +23,7 @@ export default class Layout extends React.Component {
         return (
             <View style={{ height: scaleSzie(45), flexDirection: "row" }} >
                 <ItemHeader
-                    title={"Package"}
+                    title={""}
                     style={{
                         backgroundColor: "#E5E5E5",
                         justifyContent: "center",
@@ -82,26 +82,29 @@ export default class Layout extends React.Component {
         const thirstPackage = this.findPackage(3);
 
         return (
-            <View style={{ height: scaleSzie(250), flexDirection: "row", }} >
+            <View style={{ height: scaleSzie(280), flexDirection: "row", }} >
                 <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
                 <View style={{ flex: 1, }} >
                     <ItemTextPackage
-                        title="Staff"
+                        title="Number of Staff"
                     />
                     <ItemTextPackage
                         title="POS"
                     />
                     <ItemTextPackage
-                        title="Sign in app"
+                        title="Interactive Scheduling"
                     />
                     <ItemTextPackage
-                        title="App for staff"
+                        title="Sign-In App"
                     />
                     <ItemTextPackage
-                        title="Marketing"
+                        title="Staff App"
                     />
                     <ItemTextPackage
-                        title="Report"
+                        title="Staff App"
+                    />
+                    <ItemTextPackage
+                        title="Reporting"
                     />
                 </View>
                 <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
@@ -113,6 +116,9 @@ export default class Layout extends React.Component {
                     {/* ------------ Support ---------- */}
                     <ItemValuePackage
                         isDisabled={firstPackage && firstPackage.pos ? firstPackage.pos : 0}
+                    />
+                    <ItemValuePackage
+                        isDisabled={firstPackage && firstPackage.interactiveScheduling ? firstPackage.interactiveScheduling : 0}
                     />
                     <ItemValuePackage
                         isDisabled={firstPackage && firstPackage.signinApp ? firstPackage.signinApp : 0}
@@ -138,6 +144,9 @@ export default class Layout extends React.Component {
                     <ItemValuePackage
                         isDisabled={secondPackage && secondPackage.pos ? secondPackage.pos : 0}
                     />
+                     <ItemValuePackage
+                        isDisabled={firstPackage && firstPackage.interactiveScheduling ? firstPackage.interactiveScheduling : 0}
+                    />
                     <ItemValuePackage
                         isDisabled={secondPackage && secondPackage.signinApp ? secondPackage.signinApp : 0}
                     />
@@ -160,6 +169,9 @@ export default class Layout extends React.Component {
                     {/* ------------ Support ---------- */}
                     <ItemValuePackage
                         isDisabled={thirstPackage && thirstPackage.pos ? thirstPackage.pos : 0}
+                    />
+                     <ItemValuePackage
+                        isDisabled={firstPackage && firstPackage.interactiveScheduling ? firstPackage.interactiveScheduling : 0}
                     />
                     <ItemValuePackage
                         isDisabled={thirstPackage && thirstPackage.signinApp ? thirstPackage.signinApp : 0}
@@ -223,7 +235,7 @@ export default class Layout extends React.Component {
                 <Text style={{
                     color: "#6A6A6A", fontSize: scaleSzie(20), alignSelf: "center", marginTop: scaleSzie(6)
                 }} >
-                    {`Try HarmonyPay Merchants free for 3 months, no credit card required`}
+                    {`Try HarmonyPay apps free for 30 days! No payment information required `}
                 </Text>
 
                 {/* ------------------ Table ---------------- */}
@@ -341,24 +353,24 @@ class ItemFirstPricing extends React.Component {
         const { toogle } = this.state;
 
         return (
-            <View style={{ flex: 1, backgroundColor: "#0764B0" }} >
-                <View style={{ flex: 1, justifyContent: "center" }} >
+            <View style={{ flex: 1, backgroundColor: "#0764B0" ,justifyContent:"center"}} >
+                {/* <View style={{ flex: 1, justifyContent: "center" }} >
                     <View style={{
                         flexDirection: "row", height: scaleSzie(26),
                         // justifyContent: "center",
                         marginLeft: scaleSzie(12)
                     }} >
                         <Text style={{ color: "#fff", fontSize: scaleSzie(18), fontWeight: "600" }} >
-                            {`Pricing`}
+                            {``}
                         </Text>
 
 
                     </View>
 
-                </View>
+                </View> */}
                 <View style={{
-                    height: scaleSzie(52), paddingHorizontal: scaleSzie(12), flexDirection: "row",
-                    justifyContent: "space-between"
+                   paddingHorizontal: scaleSzie(12), flexDirection: "row",
+                    justifyContent: "space-between",
                 }} >
                     <View>
                         <Text style={styles.txtPricing} >

@@ -12,7 +12,7 @@ class PackageAndPricing extends Layout {
         this.state = {
         };
 
-        this.billRef = React.forwardRef();
+        this.billRef = React.createRef();
     }
 
     componentDidMount() {

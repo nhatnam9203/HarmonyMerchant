@@ -25,13 +25,13 @@ const AuthStack = createStackNavigator(
         BusinessInfo: BusinessInfoScreen,
         BankInfo: BankInfoScreen,
         PrincipalInfo: PrincipalScreen,
-        ApplicationSubmit: ApplicationSubmitScreen,
         Intro: IntroScreen,
         UserGuide: UserGuideScreen,
-        PackageAndPricing
+        PackageAndPricing,
+        ApplicationSubmit: ApplicationSubmitScreen,
     },
     {
-        initialRouteName: 'BankInfo',
+        initialRouteName: 'Intro',
         headerMode: 'none',
         transitionConfig: getSlideFromRightTransition
     }

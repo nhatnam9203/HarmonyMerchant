@@ -31,7 +31,7 @@ class Layout extends React.Component {
                             <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
                                 <TextInput
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
-                                    placeholder={localize('Invoice No / SKU number/customer phone number', language)}
+                                    placeholder={localize('Invoice No / SKU Number/Customer Phone Number', language)}
                                     value={keySearch}
                                     onChangeText={(value) => {
                                         if (value === '') {
