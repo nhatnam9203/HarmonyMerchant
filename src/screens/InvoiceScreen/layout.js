@@ -14,7 +14,7 @@ import {
     Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupCalendar, PopupEnterPinInvoice,
     PopupConfirmInvoiceStatus,PopupProcessingCredit
 } from '@components';
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize ,formatWithMoment} from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import {
@@ -49,7 +49,7 @@ export default class Layout extends React.Component {
                             <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
                                 <TextInput
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                    placeholder={`${localize('Invoice No / SKU number/Phone number / Customer Name', language)}`}
+                                    placeholder={`${localize('Invoice No / SKU Number/Phone Number / Customer Name', language)}`}
                                     value={keySearch}
                                     onChangeText={(keySearch) => {
                                         if (keySearch == '') {
@@ -131,9 +131,9 @@ export default class Layout extends React.Component {
                     {/* ------------- */}
                     <View style={{ width: scaleSzie(140), marginLeft: scaleSzie(16) }} >
                         <Dropdown
-                            label={localize('Statuses', language)}
-                            data={[{ value: '' }, { value: 'Pending' }, { value: 'Paid' }, { value: 'Voided' },
-                            { value: 'Refunded' }
+                            label={localize('Status', language)}
+                            data={[{ value: '' }, { value: 'Pending' }, { value: 'Paid' }, { value: 'Void' },
+                            { value: 'Refund' }
                             ]}
                             value={status}
                             onChangeText={(value) => this.updateSearchFilterInfo('status', value)}
@@ -199,7 +199,7 @@ export default class Layout extends React.Component {
                         value={invoiceDetail.checkoutId ? `# ${invoiceDetail.checkoutId}` : ''}
                     />
                     <ItemInfo
-                        title={localize('Customer name', language)}
+                        title={localize('Customer Name', language)}
                         value={invoiceDetail.user ? `${invoiceDetail.user.firstName} ${invoiceDetail.user.lastName}` : ''}
                     />
                     <ItemInfo
@@ -208,36 +208,39 @@ export default class Layout extends React.Component {
                     />
                     <ItemInfo
                         title={localize('Date', language)}
-                        value={invoiceDetail.createdDate ? `${moment.parseZone(invoiceDetail.createdDate).local().format('MM/DD/YYYY')}` : ''}
+                        // value={invoiceDetail.createdDate ? `${moment.parseZone(invoiceDetail.createdDate).local().format('MM/DD/YYYY')}` : ''}
+                        value={invoiceDetail.createdDate ? `${formatWithMoment(invoiceDetail.createdDate,"MM/DD/YYYY")}` : ''}
+
                     />
                     <ItemInfo
                         title={localize('Time', language)}
-                        value={invoiceDetail.createdDate ? `${moment.parseZone(invoiceDetail.createdDate).local().format('h:mm A')}` : ''}
+                        value={invoiceDetail.createdDate ? `${formatWithMoment(invoiceDetail.createdDate,"hh:mm A")}` : ''}
+
                     />
                     <ItemInfo
                         title={localize('Status', language)}
                         value={invoiceDetail.status ? invoiceDetail.status : ''}
                     />
                     <ItemInfo
-                        title={localize('Payment method', language)}
+                        title={localize('Payment Method', language)}
                         value={invoiceDetail.paymentMethod ? invoiceDetail.paymentMethod : ''}
                     />
                     <ItemInfo
-                        title={localize('Total amount', language)}
+                        title={localize('Total Amount', language)}
                         value={invoiceDetail.total ? `$ ${invoiceDetail.total}` : ''}
                     />
                     <ItemInfo
-                        title={localize('Created by', language)}
+                        title={localize('Created By', language)}
                         value={invoiceDetail.createdBy ? invoiceDetail.createdBy : ''}
                     />
                     <ItemInfo
-                        title={localize('Modified by', language)}
+                        title={localize('Modified By', language)}
                         value={invoiceDetail.modifiedBy ? invoiceDetail.modifiedBy : ''}
                     />
                     <View style={{ height: scaleSzie(2) }} />
                     {/* ------- button ------ */}
                     <ItemButton
-                        title={'Payment information'}
+                        title={'Payment Information'}
                         onPress={this.gotoTabPaymentInfomation}
                     />
                     <ItemButton
@@ -272,7 +275,7 @@ export default class Layout extends React.Component {
                         <View style={{ height: scaleSzie(16) }} />
 
                         <ItemInfo
-                            title={localize('Payment method', language)}
+                            title={localize('Payment Method', language)}
                             value={payment.paymentMethod && payment.paymentMethod ? payment.paymentMethod : ''}
                         />
                          <ItemInfo
@@ -338,7 +341,7 @@ export default class Layout extends React.Component {
                     <View style={{}} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
                             
-                            {localize('Payment information', language)}
+                            {localize('Payment Information', language)}
                         </Text>
                     </View>
                     <View style={{ flex: 1 }} >

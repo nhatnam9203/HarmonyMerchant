@@ -18,8 +18,8 @@ import {
 export default class Layout extends React.Component {
 
     renderHeader() {
-        const { language ,connectPAXStatus} = this.props;
-        const statusConnectColor =  connectPAXStatus.status ?  "#4CD964" : "#FF6F00";
+        const { language, connectPAXStatus } = this.props;
+        const statusConnectColor = connectPAXStatus.status ? "#4CD964" : "#FF6F00";
 
         return (
             <View style={{
@@ -28,7 +28,7 @@ export default class Layout extends React.Component {
             }} >
                 <Text style={{ fontSize: scaleSzie(16), color: '#0764B0' }} >
                     {localize('Batch Settlements', language)}
-                    <Text style={{ fontSize: scaleSzie(12), color: statusConnectColor, fontWeight: "600" ,fontStyle: 'italic'}} >
+                    <Text numberOflines={1} style={{ fontSize: scaleSzie(11), color: statusConnectColor, fontWeight: "600", fontStyle: 'italic' }} >
                         {`  ${connectPAXStatus.message}`}
                     </Text>
                 </Text>
@@ -63,7 +63,7 @@ export default class Layout extends React.Component {
                         tabLabel={localize('Transactions', language)}
                     />
                     <TabBatchHistory
-                        tabLabel={localize('Batch history', language)}
+                        tabLabel={localize('Batch History', language)}
                     />
 
                 </ScrollableTabView>

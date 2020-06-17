@@ -237,7 +237,7 @@ class Layout extends React.Component {
                 }} >
                     <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
 
-                        {localize('Payment by Harmony account', language)}
+                        {localize('Payment by HarmonyPay', language)}
                     </Text>
                     <View style={{
                         height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
@@ -259,7 +259,7 @@ class Layout extends React.Component {
                     <View>
                         <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
 
-                            {`${localize('Payment by Credit card', language)}`}
+                            {`${localize('Payment by Credit Card', language)}`}
                         </Text>
                         <Text style={{ fontSize: scaleSzie(10), color: '#404040' }} >
                             {`(Credit Count: ${creditCount})`}
@@ -307,7 +307,7 @@ class Layout extends React.Component {
                 }} >
                     <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: '600' }} >
 
-                        {localize('Other payment', language)}
+                        {localize('Other Payment', language)}
                     </Text>
                     <View style={{
                         height: '100%', width: scaleSzie(140), borderColor: '#707070', borderWidth: 1,
@@ -349,7 +349,7 @@ class Layout extends React.Component {
                         paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
                     }} >
                         <Text style={{ fontSize: scaleSzie(13), color: '#fff' }} >
-                            {localize('Payment by Harmony account', language)}
+                            {localize('Payment by HarmonyPay', language)}
                         </Text>
                         <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
                             {`$ ${settleWaiting.paymentByHarmony}`}
@@ -362,7 +362,7 @@ class Layout extends React.Component {
                     }} >
                         <Text style={{ fontSize: scaleSzie(13), color: '#fff' }} >
 
-                            {localize('Payment by Credit card', language)}
+                            {localize('Payment by Credit Card', language)}
                         </Text>
                         <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
                             {`$ ${settleWaiting.paymentByCreditCard}`}
@@ -388,7 +388,7 @@ class Layout extends React.Component {
                     }} >
                         <Text style={{ fontSize: scaleSzie(13), color: '#6A6A6A' }} >
 
-                            {localize('Other payment', language)}
+                            {localize('Other Payment', language)}
                         </Text>
                         <Text style={{ fontSize: scaleSzie(20), color: '#6A6A6A' }} >
                             {`$ ${settleWaiting.otherPayment}`}

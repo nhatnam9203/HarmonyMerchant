@@ -151,10 +151,10 @@ class InvoiceScreen extends Layout {
             case 'Cancel':
                 status = 'cancel';
                 break;
-            case 'Voided':
+            case 'Void':
                 status = 'void';
                 break;
-            case 'Refunded':
+            case 'Refund':
                 status = 'refund';
                 break;
             default:

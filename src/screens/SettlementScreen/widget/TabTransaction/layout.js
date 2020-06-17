@@ -95,9 +95,9 @@ class Layout extends React.Component {
                     {/* ------------- */}
                     <View style={{ width: scaleSzie(170) }} >
                         <Dropdown
-                            label={localize('Statuses', language)}
-                            data={[{ value: '' }, { value: 'Pending' }, { value: 'Paid' }, { value: 'Voided' },
-                            { value: 'Refunded' }
+                            label={localize('Status', language)}
+                            data={[{ value: '' }, { value: 'Pending' }, { value: 'Paid' }, { value: 'Void' },
+                            { value: 'Refund' }
                                 // , { value: 'Fail' }, { value: 'Cancel' }
                             ]}
                             value={status}

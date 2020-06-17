@@ -399,7 +399,7 @@ class TabCheckout extends Layout {
     selectedPayment = (payment) => {
         const { paymentSelected, changeButtonDone } = this.state;
         const { isDonePayment } = this.props;
-        if (changeButtonDone && !isDonePayment && paymentSelected === 'Harmony Pay') {
+        if (changeButtonDone && !isDonePayment && paymentSelected === 'HarmonyPay') {
         } else {
             this.setState(prevState => ({
                 paymentSelected: payment === prevState.paymentSelected ? '' : payment
@@ -480,7 +480,7 @@ class TabCheckout extends Layout {
     getPaymentString(type) {
         let method = '';
         switch (type) {
-            case 'Harmony Pay':
+            case 'HarmonyPay':
                 method = 'harmony';
                 break;
             case 'Cash':

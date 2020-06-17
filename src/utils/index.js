@@ -752,7 +752,7 @@ export const getPaymentString = (type) => {
     let method = '';
     switch (type) {
         case 'harmony':
-            method = 'Harmony Pay';
+            method = 'HarmonyPay';
             break;
         case 'cash':
             method = 'Cash';
@@ -760,7 +760,7 @@ export const getPaymentString = (type) => {
         case 'credit_card':
             method = 'Credit Cards';
             break;
-        case 'orther':
+        case 'other':
             method = 'Others - Check';
             break;
         default:

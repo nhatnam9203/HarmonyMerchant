@@ -49,7 +49,7 @@ export default class Layout extends React.Component {
                     <View style={{ flex: 1, paddingHorizontal: scaleSzie(25) }} >
                         <View style={{ height: scaleSzie(16) }} />
                         <InputForm
-                            title={`${localize('Account Holder Name', language)} *`}
+                            title={`${localize('Account Holder Name', language)}*`}
                             subTitle=""
                             placeholder=""
                             value={accountHolderName}
@@ -57,7 +57,7 @@ export default class Layout extends React.Component {
                             onFocus={() => this.scrollBankInfoTo(85)}
                         />
                         <InputForm
-                            title={`${localize('Bank Name', language)} *`}
+                            title={`${localize('Bank Name', language)}*`}
                             subTitle=""
                             placeholder=""
                             value={bankName}
@@ -67,7 +67,7 @@ export default class Layout extends React.Component {
 
                         <InputForm
                             isOnlyNumber={true}
-                            title={`${localize('ABA Routing Number', language)} *`}
+                            title={`${localize('ABA Routing Number', language)}*`}
                             subTitle=""
                             placeholder=""
                             value={routingNumber}
@@ -78,7 +78,7 @@ export default class Layout extends React.Component {
 
                         <InputForm
                             isOnlyNumber={true}
-                            title={`${localize('Checking Account Number (DDA)', language)} *`}
+                            title={`${localize('Checking Account Number (DDA)', language)}*`}
                             subTitle=""
                             placeholder=""
                             value={accountNumber}
@@ -88,7 +88,7 @@ export default class Layout extends React.Component {
                         />
 
                         <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
-                            {`${localize('Void Check', language)} *`}
+                            {`${localize('Void Check', language)}*`}
                         </Text>
                         <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginTop: scaleSzie(10) }} >
                             {`${localize('Please take or upload photos of void check', language)}`}

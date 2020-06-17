@@ -44,7 +44,7 @@ class TabSecondSettle extends Layout {
             PosLink.reportTransaction(message => this.handleResponseReportTransactions(message));
         } else {
             Alert.alert(
-                'Unable to connect to PAX, Do you want to continue without PAX?',
+                'Unable to connect to PAX. Do you want to continue without PAX?',
                 '',
                 [
 

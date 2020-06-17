@@ -162,7 +162,7 @@ class Layout extends React.Component {
                         <View style={styles.rowBox} >
                             <Text style={styles.textLeftBox} >
 
-                                {`${localize('Payment by Harmony account', language)}`}
+                                {`${localize('Payment by HarmonyPay', language)}`}
                             </Text>
                             <Text style={styles.textRightBox} >
                                 {`$ ${formatMoney(paymentByHarmony)}`}
@@ -172,7 +172,7 @@ class Layout extends React.Component {
                         <View style={styles.rowBox} >
                             <Text style={styles.textLeftBox} >
 
-                                {`${localize('Payment by Credit card', language)}`}
+                                {`${localize('Payment by Credit Card', language)}`}
                             </Text>
                             <Text style={styles.textRightBox} >
                                 {`$ ${formatMoney(paymentByCreditCard)}`}
@@ -230,10 +230,9 @@ class Layout extends React.Component {
                         }} >
                             <Text style={{ color: '#fff', fontSize: scaleSzie(14) }} >
 
-                                {`${localize('Payment by Credit card', language)}`}
+                                {`${localize('Payment by Credit Card', language)}`}
                             </Text>
                             <Text style={{ color: '#fff', fontSize: scaleSzie(20), fontWeight: 'bold' }} >
-                                {/* {`$ ${total}`} */}
                                 {`$ ${formatMoney(paymentByCreditCard)}`}
                             </Text>
                         </View>
@@ -277,7 +276,7 @@ class Layout extends React.Component {
                         }} >
                             <Text style={{ fontSize: scaleSzie(13), color: '#fff' }} >
 
-                                {localize('Payment by Harmony account', language)}
+                                {localize('Payment by HarmonyPay', language)}
                             </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
                                 {`$ ${formatMoney(paymentByHarmony)}`}
@@ -290,7 +289,7 @@ class Layout extends React.Component {
                         }} >
                             <Text style={{ fontSize: scaleSzie(13), color: '#fff' }} >
 
-                                {localize('Payment by Credit card', language)}
+                                {localize('Payment by Credit Card', language)}
                             </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
                                 {`$ ${formatMoney(paymentByCreditCard)}`}
@@ -316,7 +315,7 @@ class Layout extends React.Component {
                         }} >
                             <Text style={{ fontSize: scaleSzie(13), color: '#6A6A6A' }} >
 
-                                {localize('Other payment', language)}
+                                {localize('Other Payment', language)}
                             </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: '#6A6A6A' }} >
                                 {`$ ${formatMoney(formatNumberFromCurrency(otherPayment))}`}
@@ -343,7 +342,7 @@ class Layout extends React.Component {
                             justifyContent: 'space-between'
                         }} >
                             <Text style={{ fontSize: scaleSzie(20), color: '#0764B0' }} >
-                                {`${localize('Gift card revenue', language)}:`}
+                                {`${localize('Gift Card', language)}:`}
                             </Text>
                             <Text style={{ fontSize: scaleSzie(20), color: 'rgb(217,82,69)', fontWeight: 'bold' }} >
                                 {`$ ${formatMoney(settleWaiting.giftCard ? settleWaiting.giftCard : 0.00)}`}

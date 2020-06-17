@@ -81,7 +81,7 @@ class PopupEnterPinInvoice extends React.Component {
                 }} >
                     <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: scaleSzie(10), marginBottom: scaleSzie(4) }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
-                            {'Please key in VOID authorized PIN number'}
+                            {'Please enter the authorized PIN number'}
                         </Text>
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >

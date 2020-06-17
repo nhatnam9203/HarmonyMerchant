@@ -74,7 +74,7 @@ class PopupConfirmInvoiceStatus extends React.Component {
                               {`Please confirm you want to ${temptStatus}`}
                             </Text>
                             <Text style={{ color: '#000', fontSize: scaleSzie(20), fontWeight: 'bold' }} >
-                                this invoice !
+                                this invoice!
                             </Text>
                         </View>
                         <Text style={{ color: '#000', fontSize: scaleSzie(20), textAlign: 'center', }} >
@@ -96,7 +96,7 @@ class PopupConfirmInvoiceStatus extends React.Component {
                                         value={invoiceDetail.checkoutId ? `# ${invoiceDetail.checkoutId}` : ''}
                                     />
                                     <ItemDetail
-                                        title={'Customer name:'}
+                                        title={'Customer Name:'}
                                         value={invoiceDetail.user ? `${invoiceDetail.user.firstName} ${invoiceDetail.user.lastName}` : ''}
                                     />
                                     <ItemDetail
@@ -116,19 +116,19 @@ class PopupConfirmInvoiceStatus extends React.Component {
                                         value={invoiceDetail.status ? invoiceDetail.status : ''}
                                     />
                                     <ItemDetail
-                                        title={'Payment method:'}
+                                        title={'Payment Method:'}
                                         value={invoiceDetail.paymentMethod ? invoiceDetail.paymentMethod : ''}
                                     />
                                     <ItemDetail
-                                        title={'Total amount:'}
+                                        title={'Total Amount:'}
                                         value={invoiceDetail.total ? `$ ${invoiceDetail.total}` : ''}
                                     />
                                     <ItemDetail
-                                        title={'Created by:'}
+                                        title={'Created By:'}
                                         value={invoiceDetail.createdBy ? invoiceDetail.createdBy : ''}
                                     />
                                     <ItemDetail
-                                        title={'Modified by:'}
+                                        title={'Modified By:'}
                                         value={invoiceDetail.modifiedBy ? invoiceDetail.modifiedBy : ''}
                                     />
                                     <View style={{ height: scaleSzie(200) }} />

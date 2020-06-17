@@ -178,7 +178,7 @@ function appReducer(state = initialState, action) {
                 ...state,
                 connectPAXStatus:{
                     status: false,
-                    message : `( Your Pos system don't have connect to PAX machine. Error : "${action.payload}" )`
+                    message : `( Your POS system don't have connect to PAX machine. Error : "${action.payload}" )`
                 }
             }
         case 'CONNECT_PAX_MACHINE_SUCCESS':

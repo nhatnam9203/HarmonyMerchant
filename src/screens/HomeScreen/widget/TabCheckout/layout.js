@@ -576,7 +576,7 @@ class Layout extends React.Component {
 
         if (tabCurrent === 1) {
             if (changeButtonDone && isCancelHarmonyPay) {
-                if (paymentSelected === 'Harmony Pay') {
+                if (paymentSelected === 'HarmonyPay') {
                     return (
                         <ButtonCustom
                             width={`100%`}
