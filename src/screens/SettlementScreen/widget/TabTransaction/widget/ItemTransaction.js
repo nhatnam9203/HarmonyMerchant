@@ -2,37 +2,14 @@ import React from 'react';
 import {
     View,
     Image,
-    TextInput,
-    FlatList,
     StyleSheet
 } from 'react-native';
-import moment from 'moment';
 
-import { scaleSzie } from '@utils';
+import { scaleSzie,formatWithMoment } from '@utils';
 import { Text } from '@components';
 import IMAGE from '@resources';
 
-function getNameLogo(type) {
-    let logoName = '';
-    switch (type) {
-        case 'Pax':
-            logoName = 'paxLogo';
-            break;
-        case 'Pax':
-            logoName = 'paxLogo';
-            break;
-        case 'Pax':
-            logoName = 'paxLogo';
-            break;
-        case 'Pax':
-            logoName = 'paxLogo';
-            break;
-        case 'Pax':
-            logoName = 'paxLogo';
-            break;
 
-    }
-}
 
 const ItemTransaction = (props) => {
     const { data } = props;
@@ -53,10 +30,10 @@ const ItemTransaction = (props) => {
             {/* --------- Col 2 --------- */}
             <View style={{ width: scaleSzie(130), justifyContent: 'center' }} >
                 <Text style={styles.textHeaderContent} >
-                    {moment(data.createdDate).format('MM/DD/YYYY')}
+                    {formatWithMoment(data.createdDate,'MM/DD/YYYY')}
                 </Text>
                 <Text style={styles.textHeaderContent} >
-                    {moment(data.createdDate).format('h:mm A')}
+                    {formatWithMoment(data.createdDate,'h:mm A')}
                 </Text>
 
             </View>
@@ -87,7 +64,7 @@ const ItemTransaction = (props) => {
             {/* --------- Col 5 --------- */}
             <View style={{ flex: 1, justifyContent: 'center' }} >
                 <Text style={styles.textHeaderContent} >
-                    {`${data.amount} $`}
+                    {`$ ${data.amount}`}
                 </Text>
             </View>
         </View>

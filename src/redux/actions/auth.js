@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 import apiConfigs from '../../configs/api';
 
 export function login(email, password) {

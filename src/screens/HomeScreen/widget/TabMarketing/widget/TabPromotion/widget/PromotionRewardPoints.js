@@ -6,7 +6,6 @@ import {
     Dimensions,
     ActivityIndicator
 } from 'react-native';
-import moment from 'moment';
 
 import { scaleSzie, localize, updateStateChildren } from '@utils';
 import IMAGE from '@resources';
@@ -75,28 +74,6 @@ class PromotionRewardPoints extends React.Component {
                         styleTitle={{ fontWeight: "600" }}
                         editable={false}
                     />
-                    {/* <Text style={{
-                        color: '#404040',
-                        fontSize: scaleSzie(14),
-                        fontWeight: "600"
-                    }} >
-                        {`${localize('Campaign Time', language)}:`}
-                    </Text> */}
-                    {/* ---- Row ---- */}
-                    {/* <View style={{ flexDirection: 'row' }} >
-                        <ItemCalendar
-                            title={localize('Start Date', language)}
-                            value={`${moment(data.fromDate).format('MM/DD/YYYY')}`}
-                            onPress={() => showCalendar('fromDate', data.fromDate, 6)}
-                        />
-                        <View style={{ width: scaleSzie(50) }} />
-                        <ItemCalendar
-                            title={localize('End Date', language)}
-                            value={`${moment(data.toDate).format('MM/DD/YYYY')}`}
-                            onPress={() => showCalendar('toDate', data.toDate, 6)}
-
-                        />
-                    </View> */}
 
                     {/* ---- Row ---- */}
                     <Text style={{

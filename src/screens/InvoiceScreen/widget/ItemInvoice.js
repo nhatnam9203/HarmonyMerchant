@@ -5,10 +5,9 @@ import {
     Text,
     StyleSheet
 } from 'react-native';
-import moment from 'moment';
 
 import { Button } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie, formatWithMoment } from '@utils';
 import IMAGE from '@resources';
 
 class ItemInvoice extends React.Component {
@@ -20,12 +19,12 @@ class ItemInvoice extends React.Component {
         }
     }
 
-    setStateFromParent = isSlect =>{
+    setStateFromParent = isSlect => {
         this.setState({
             isSelected: isSlect
         })
     }
- 
+
     getColorStatus(status) {
         let color = '';
         switch (status) {
@@ -44,7 +43,7 @@ class ItemInvoice extends React.Component {
     render() {
         const { invoice, onPress } = this.props;
         const { user } = invoice;
-        const tempDate = `${moment.parseZone(invoice.createdDate).local().format('MM/DD/YYYY')}` === `${moment.parseZone().local().format('MM/DD/YYYY')}` ? 'Today' : moment.parseZone(invoice.createdDate).local().format('MM/DD/YYYY');
+        const tempDate = `${formatWithMoment(invoice.createdDate, 'MM/DD/YYYY')}` === `${formatWithMoment(new Date(), 'MM/DD/YYYY')}` ? 'Today' : formatWithMoment(invoice.createdDate,'MM/DD/YYYY');
         const temptFirstName = user ? user.firstName : '';
         const temptLastName = user ? user.lastName : '';
         const colorStaus = this.getColorStatus(invoice.status);
@@ -69,7 +68,7 @@ class ItemInvoice extends React.Component {
                     </View>
                     <View style={{ width: scaleSzie(80), justifyContent: 'center', alignItems: 'flex-end' }} >
                         <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A' }} >
-                            {`${moment.parseZone(invoice.createdDate).local().format('h:mm A')}`}
+                            {`${formatWithMoment(invoice.createdDate,'h:mm A')}`}
                         </Text>
                     </View>
                 </View>

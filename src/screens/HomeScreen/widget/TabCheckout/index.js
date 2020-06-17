@@ -3,14 +3,13 @@ import _, { ap } from 'ramda';
 import { StarPRNT } from 'react-native-star-prnt';
 const signalR = require('@microsoft/signalr');
 import { Alert, NativeModules, TouchableHighlightBase } from 'react-native';
-import moment from 'moment';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment, requestAPI,
     getArrayExtrasFromAppointment, formatNumberFromCurrency, formatMoney, getStaffInfoById, splitPlusInPhoneNumber,
-    PRINTER_MACHINE, getShortNameToPrintInvoice
+    formatWithMoment
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 import apiConfigs from '@configs/api';
@@ -911,7 +910,7 @@ class TabCheckout extends Layout {
             services: arryaServicesBuy,
             extras: arrayExtrasBuy,
             products: arrayProductBuy,
-            fromTime: fromTime !== "" ? fromTime : moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
+            fromTime: fromTime !== "" ? fromTime : formatWithMoment(new Date(),'MM/DD/YYYY h:mm A'),
             staffId: staffIdOfline !== 0 ? staffIdOfline : profileStaffLogin.staffId,
             customDiscountFixed: customDiscountPercentLocal,
             customDiscountPercent: customDiscountFixedLocal,
@@ -1595,7 +1594,7 @@ class TabCheckout extends Layout {
                 services: [],
                 extras: [],
                 products: [],
-                fromTime: moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
+                fromTime: formatWithMoment(new Date(),'MM/DD/YYYY h:mm A'),
                 staffId: profileStaffLogin.staffId ? profileStaffLogin.staffId : 0,
                 customDiscountFixed: customDiscountFixedLocal,
                 customDiscountPercent: customDiscountPercentLocal,

@@ -6,10 +6,9 @@ import {
     FlatList,
     StyleSheet
 } from 'react-native';
-import moment from 'moment';
 
-import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
-import { Text, Button, ButtonCustom, } from '@components';
+import { scaleSzie, formatWithMoment } from '@utils';
+import { Text, Button} from '@components';
 
 class ItemSettle extends React.Component {
 
@@ -40,11 +39,11 @@ class ItemSettle extends React.Component {
                     </View>
                     <View style={{ flex: 1, }} >
                         <Text style={styles.textTitleLefConten} >
-                            {`${moment.parseZone(batchHistory.settlementDate).local().format('MM/DD/YYYY')}`}
+                            {`${formatWithMoment(batchHistory.settlementDate,'MM/DD/YYYY')}`}
                         </Text>
                         <View style={{ height: 2 }} />
                         <Text style={[styles.textTitleLefConten,{fontWeight:"600"}]} >
-                            {`${moment.parseZone(batchHistory.settlementDate).local().format('h:mm A')}`}
+                            {`${formatWithMoment(batchHistory.settlementDate,'h:mm A')}`}
                         </Text>
                     </View>
                     <View style={{ flex: 0.8,justifyContent:"center"}} >

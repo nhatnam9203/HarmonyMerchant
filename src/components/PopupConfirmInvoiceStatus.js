@@ -6,11 +6,10 @@ import {
     StyleSheet,
     TouchableOpacity
 } from 'react-native';
-import moment from 'moment';
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
-import { scaleSzie, localize, getCategoryName } from '@utils';
+import { scaleSzie, formatWithMoment} from '@utils';
 
 
 class PopupConfirmInvoiceStatus extends React.Component {
@@ -105,11 +104,11 @@ class PopupConfirmInvoiceStatus extends React.Component {
                                     />
                                     <ItemDetail
                                         title={'Date:'}
-                                        value={invoiceDetail.createdDate ? `${moment.parseZone(invoiceDetail.createdDate).local().format('MM/DD/YYYY')}` : ''}
+                                        value={invoiceDetail.createdDate ? `${formatWithMoment(invoiceDetail.createdDate,'MM/DD/YYYY')}` : ''}
                                     />
                                     <ItemDetail
                                         title={'Time:'}
-                                        value={invoiceDetail.createdDate ? `${moment.parseZone(invoiceDetail.createdDate).local().format('h:mm A')}` : ''}
+                                        value={invoiceDetail.createdDate ? `${formatWithMoment(invoiceDetail.createdDate,'hh:mm A')}` : ''}
                                     />
                                     <ItemDetail
                                         title={'Status:'}

@@ -5,7 +5,7 @@ import {
     Alert
 } from 'react-native';
 import axios from 'axios';
-import { openSettings, request, PERMISSIONS } from 'react-native-permissions';
+import { openSettings} from 'react-native-permissions';
 import moment from 'moment';
 import PrintManager from '@lib/PrintManager';
 

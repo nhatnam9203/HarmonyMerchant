@@ -8,13 +8,11 @@ import {
     Dimensions,
     RefreshControl,
 } from 'react-native';
-import { NavigationEvents } from 'react-navigation';
-import moment from 'moment';
 import _ from 'ramda';
 
-import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber } from '@utils';
+import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber,formatWithMoment } from '@utils';
 import {
-    Text, Button, ButtonCustom,
+    Text, ButtonCustom,
 } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
@@ -35,10 +33,10 @@ class Layout extends React.Component {
                     {`${localize('Last Settlement', language)}:`}
                 </Text>
                 <Text style={{ color: '#0764B0', fontSize: scaleSzie(16), fontWeight: 'bold', marginRight: scaleSzie(20) }} >
-                    {moment.parseZone(settlementDate).local().format('MM/DD/YYYY')}
+                    {formatWithMoment(settlementDate,'MM/DD/YYYY')}
                 </Text>
                 <Text style={{ color: '#0764B0', fontSize: scaleSzie(16), fontWeight: 'bold', marginRight: scaleSzie(20) }} >
-                    {moment.parseZone(settlementDate).local().format('h:mm A')}
+                    {formatWithMoment(settlementDate,'h:mm A')}
                 </Text>
             </View>
         );
@@ -465,9 +463,6 @@ class Layout extends React.Component {
         const { settleWaiting, language } = this.props
         return (
             <View style={{ flex: 1 }} >
-                {/* <NavigationEvents
-                    onDidFocus={this.onDidFocus}
-                /> */}
                 {
                     _.isEmpty(settleWaiting) || settleWaiting.checkout.length === 0 ?
                         <ScrollView

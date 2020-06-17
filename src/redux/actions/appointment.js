@@ -1,6 +1,5 @@
-import moment from 'moment';
-
 import apiConfigs from '../../configs/api';
+import {formatWithMoment} from "@utils";
 
 export function getAppointmentById(id) {
     return {
@@ -109,7 +108,7 @@ export function createAnymousAppointment(merchantId, userId = 0, products = [], 
             services: services,
             extras: extras,
             products: products,
-            fromTime: moment.parseZone(new Date()).local().format('MM/DD/YYYY h:mm A'),
+            fromTime: formatWithMoment(new Date(),'MM/DD/YYYY h:mm A'),
             staffId,
             customDiscountFixed,
             customDiscountPercent,
@@ -139,7 +138,7 @@ export function createBlockAppointment(merchantId, fromTime = new Date(), userId
             services: [],
             extras: [],
             products: [],
-            fromTime: moment.parseZone(fromTime).local().format('MM/DD/YYYY h:mm A'),
+            fromTime: formatWithMoment(fromTime,'MM/DD/YYYY h:mm A'),
             staffId: 0,
             customDiscountFixed: 0,
             customDiscountPercent: 0,

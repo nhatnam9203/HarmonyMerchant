@@ -4,14 +4,12 @@ import {
     Image,
     Dimensions
 } from 'react-native';
-import moment from 'moment';
-
 
 import {
     InputForm, Text, Button,
     InputFormPhone, TextInputSuggestion
 } from '@components';
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize ,formatWithMoment} from '@utils';
 import IMAGE from '@resources';
 import styles from '../style';
 
@@ -216,7 +214,7 @@ export default class Layout extends React.Component {
                         }} >
                         <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(8) }} >
                             <Text style={styles.textNormal} >
-                                {`${moment(dateOfBirth).format('MM/DD/YYYY')}`}
+                                {`${formatWithMoment(dateOfBirth,'MM/DD/YYYY')}`}
                             </Text>
                         </View>
                         <View style={{ width: 1, paddingVertical: scaleSzie(2) }} >

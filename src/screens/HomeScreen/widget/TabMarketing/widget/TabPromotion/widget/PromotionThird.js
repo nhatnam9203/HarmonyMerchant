@@ -6,7 +6,6 @@ import {
     Dimensions,
     ActivityIndicator
 } from 'react-native';
-import moment from 'moment';
 
 import { scaleSzie, localize, updateStateChildren } from '@utils';
 import IMAGE from '@resources';

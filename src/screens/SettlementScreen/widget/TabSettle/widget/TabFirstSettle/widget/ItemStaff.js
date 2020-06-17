@@ -7,8 +7,6 @@ import {
     ScrollView,
     Dimensions
 } from 'react-native';
-import { NavigationEvents } from 'react-navigation';
-import moment from 'moment';
 
 import { scaleSzie, localize } from '@utils';
 import {

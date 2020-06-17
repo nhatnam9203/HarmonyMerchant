@@ -5,10 +5,9 @@ import {
     Text,
     StyleSheet
 } from 'react-native';
-import moment from 'moment';
 
 import { Button } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie,formatWithMoment } from '@utils';
 import IMAGE from '@resources';
 
 class ItemHistory extends React.Component {
@@ -26,12 +25,10 @@ class ItemHistory extends React.Component {
                 <View style={{ flex: 1.4, flexDirection: 'row' }} >
                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
-                            {/* 11-Jan-2019 */}
-                            {moment.parseZone(data.createdAt).local().format('MM/DD/YYYY')}
+                            {formatWithMoment(data.createdAt,'MM/DD/YYYY')}
                         </Text>
                         <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginLeft: scaleSzie(16) }} >
-                            {/* 4:27 pm */}
-                            {moment.parseZone(data.createdAt).local().format('h:mm A')}
+                            {formatWithMoment(data.createdAt,'h:mm A')}
                         </Text>
                     </View>
                     <View style={{ justifyContent: 'center' }}>

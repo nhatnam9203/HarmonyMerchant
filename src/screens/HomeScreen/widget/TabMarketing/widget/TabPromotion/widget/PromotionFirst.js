@@ -6,9 +6,8 @@ import {
     Dimensions,
     ActivityIndicator
 } from 'react-native';
-import moment from 'moment';
 
-import { scaleSzie, localize, updateStateChildren } from '@utils';
+import { scaleSzie, localize, updateStateChildren ,formatWithMoment} from '@utils';
 import IMAGE from '@resources';
 import { Text, InputForm, ButtonCustom } from '@components';
 import ItemCalendar from './ItemCalendar';
@@ -91,13 +90,13 @@ class PromotionFirst extends React.Component {
                     <View style={{ flexDirection: 'row' }} >
                         <ItemCalendar
                             title={localize('Start Date', language)}
-                            value={`${moment(data.fromDate).format('MM/DD/YYYY')}`}
+                            value={`${formatWithMoment(data.fromDate,'MM/DD/YYYY')}`}
                             onPress={() => showCalendar('fromDate', data.fromDate, 1)}
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemCalendar
                             title={localize('End Date', language)}
-                            value={`${moment(data.toDate).format('MM/DD/YYYY')}`}
+                            value={`${formatWithMoment(data.toDate,'MM/DD/YYYY')}`}
                             onPress={() => showCalendar('toDate', data.toDate, 1)}
 
                         />

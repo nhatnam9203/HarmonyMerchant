@@ -5,8 +5,6 @@ import {
     ScrollView,
     Dimensions
 } from 'react-native';
-import moment from 'moment';
-
 
 import {
      FormInfoParent, Text, Button, PopupUpload, DatePicker,

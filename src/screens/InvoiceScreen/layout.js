@@ -7,7 +7,6 @@ import {
     ScrollView
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import moment from 'moment';
 import _ from 'ramda';
 
 import {
@@ -208,7 +207,6 @@ export default class Layout extends React.Component {
                     />
                     <ItemInfo
                         title={localize('Date', language)}
-                        // value={invoiceDetail.createdDate ? `${moment.parseZone(invoiceDetail.createdDate).local().format('MM/DD/YYYY')}` : ''}
                         value={invoiceDetail.createdDate ? `${formatWithMoment(invoiceDetail.createdDate,"MM/DD/YYYY")}` : ''}
 
                     />
@@ -288,7 +286,7 @@ export default class Layout extends React.Component {
                         />
                          <ItemInfo
                             title={localize('Date', language)}
-                            value={payment.createdDate && payment.createdDate ? `${moment.parseZone(payment.createdDate).local().format('MM/DD/YYYY h:mm A')}` : ''}
+                            value={payment.createdDate && payment.createdDate ? `${formatWithMoment(payment.createdDate,'MM/DD/YYYY hh:mm A')}` : ''}
                         />
                         {
                             payment.paymentInformation ? <>

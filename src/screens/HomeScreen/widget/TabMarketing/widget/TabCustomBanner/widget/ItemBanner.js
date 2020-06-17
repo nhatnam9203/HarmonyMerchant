@@ -4,9 +4,8 @@ import {
     Image,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import moment from 'moment';
 
-import { scaleSzie } from '@utils';
+import { scaleSzie ,formatWithMoment} from '@utils';
 import IMAGE from '@resources';
 import { Button, Text } from '@components';
 
@@ -49,7 +48,7 @@ const ItemBanner = ({ banner, deleteBanner }) => {
                         {title}
                     </Text>
                     <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginVertical: scaleSzie(2) }} >
-                        {`Date: ${moment(createdDate).format('MM/DD/YYYY')}`}
+                        {`Date: ${formatWithMoment(createdDate,'MM/DD/YYYY')}`}
                     </Text>
                     <Text style={{ color: '#404040', fontSize: scaleSzie(12) }} numberOfLines={2} >
                         {description}

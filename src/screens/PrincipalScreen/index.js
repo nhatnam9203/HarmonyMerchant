@@ -1,12 +1,12 @@
 import React from 'react';
 import ImagePicker from 'react-native-image-picker';
 import { Alert, Platform } from 'react-native';
-import moment from 'moment';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateIsNumber, getIdStateByName, gotoSettingsDevice, validateEmail, scaleSzie, checkStateIsValid } from '@utils';
+import { validateIsNumber, getIdStateByName, gotoSettingsDevice, 
+    validateEmail, scaleSzie, checkStateIsValid,formatWithMoment } from '@utils';
 
 const initalStatePrincipal2 = {
     principalInfo2: {
@@ -321,7 +321,7 @@ class PrincipalScreen extends Layout {
                     ...principalInfo,
                     homePhone: `${phoneCodePrincipal1.homePhone}${principalInfo.homePhone}`,
                     mobilePhone: `${phoneCodePrincipal1.mobilePhone}${principalInfo.mobilePhone}`,
-                    dateOfBirth: `${moment(this.state.dateOfBirth).format('MM/DD/YYYY')}`,
+                    dateOfBirth: `${formatWithMoment(this.state.dateOfBirth,'MM/DD/YYYY')}`,
                     fileId: this.state.fileId,
                     addressPrincipal: temptAddressPrincipal
                 };
@@ -340,7 +340,7 @@ class PrincipalScreen extends Layout {
                         ...principalInfo2,
                         homePhone: `${phoneCodePrincipal2.homePhone}${principalInfo2.homePhone}`,
                         mobilePhone: `${phoneCodePrincipal2.mobilePhone}${principalInfo2.mobilePhone}`,
-                        dateOfBirth: `${moment(this.state.dateOfBirthPrincipal2).format('MM/DD/YYYY')}`,
+                        dateOfBirth: `${formatWithMoment(this.state.dateOfBirthPrincipal2,'MM/DD/YYYY')}`,
                         fileId: this.state.fileIdPrincipal2,
                         addressPrincipal: temptAddressPrincipalSecond
                     };
