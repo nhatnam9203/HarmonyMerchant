@@ -279,7 +279,7 @@ class Layout extends React.Component {
                 <PopupConfirm
                     visible={visibleDeleteBanner}
                     title={localize('Confirmation', language)}
-                    message={`${localize('Do you want to Delete this Banner', language)} ?`}
+                    message={`${localize('Do you want to Delete this Banner', language)}?`}
                     onRequestClose={() => this.setState({ visibleDeleteBanner: false })}
                     confimYes={this.submitDeleteBanner}
                 />

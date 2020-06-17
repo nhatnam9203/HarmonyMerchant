@@ -72,7 +72,9 @@ const ItemBasket = ({ item, removeItemBasket, onPress, disabled = false, changeP
                     </View>
 
                     {/* ------------ */}
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+                    <View style={{ flex: 1, justifyContent: 'center', 
+                    alignItems: 'center' 
+                    }} >
 
                         <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(13), }} >
                             {item.type === 'Product' || item.type === "GiftCards" ? item.quanlitySet : item.data.name}

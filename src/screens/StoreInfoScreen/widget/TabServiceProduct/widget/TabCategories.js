@@ -155,14 +155,14 @@ class TabCategories extends React.Component {
                 <PopupConfirm
                     visible={visibleArchive}
                     title={localize('Confirmation', language)}
-                    message={`${localize('Do you want to Archive this Category', language)} ?`}
+                    message={`${localize('Do you want to Archive this Category', language)}?`}
                     onRequestClose={() => this.togglePopupArchive(false)}
                     confimYes={() => this.archirveServiceYess()}
                 />
                 <PopupConfirm
                     visible={visibleRestore}
                     title={localize('Confirmation', language)}
-                    message={`${localize('Do you want to Restore this Category', language)} ?`}
+                    message={`${localize('Do you want to Restore this Category', language)}?`}
                     onRequestClose={() => this.togglePopupRestore(false)}
                     confimYes={() => this.restoreStaffYess()}
                 />

@@ -126,7 +126,7 @@ class PopupEnterPin extends React.Component {
                                 color: 'rgb(246,195,49)', fontWeight: 'bold', fontSize: scaleSzie(14),
                                 textAlign: 'center'
                             }} >
-                                {`${localize('Do you want use offline mode', language)} ?`}
+                                {`${localize('Do you want use offline mode', language)}?`}
                             </Text>
                             <View style={{
                                 flex: 1, flexDirection: 'row', justifyContent: 'space-around',

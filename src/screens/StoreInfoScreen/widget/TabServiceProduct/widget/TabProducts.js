@@ -154,14 +154,14 @@ class TabProducts extends React.Component {
                     ref={this.addProductRef}
                     visible={visibleArchive}
                     title={localize('Confirmation', language)}
-                    message={`${localize('Do you want to Archive this Product', language)} ?`}
+                    message={`${localize('Do you want to Archive this Product', language)}?`}
                     onRequestClose={() => this.togglePopupArchive(false)}
                     confimYes={() => this.archirveServiceYess()}
                 />
                 <PopupConfirm
                     visible={visibleRestore}
                     title={localize('Confirmation', language)}
-                    message={`${localize('Do you want to Restore this Product', language)} ?`}
+                    message={`${localize('Do you want to Restore this Product', language)}?`}
                     onRequestClose={() => this.togglePopupRestore(false)}
                     confimYes={() => this.restoreStaffYess()}
                 />

@@ -438,7 +438,7 @@ class Layout extends React.Component {
                             {
                                 paymentDetailInfo.dueAmount ? <View style={[styles.payNumberTextContainer, { justifyContent: 'space-between', }]} >
                                     <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#FF3B30" }]} >
-                                        {`${localize('Due amount', language)}:`}
+                                        {`${localize('Amount Due', language)}:`}
                                     </Text>
                                     <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: '#FF3B30' }]} >
                                         {`   $ ${formatMoney(paymentDetailInfo.dueAmount)}`}
@@ -725,11 +725,11 @@ class Layout extends React.Component {
                 paddingHorizontal: scaleSzie(22)
             }} >
                 <Text style={[styles.textHeader, { fontSize: scaleSzie(18), marginTop: scaleSzie(40), marginBottom: scaleSzie(50) }]} >
-                    {localize('Select payment method', language)}
+                    {localize('Select Payment Method', language)}
                 </Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
                     {
-                        ['Harmony Pay', 'Cash'].map((title, index) => <ItemPaymentMethod
+                        ['HarmonyPay', 'Cash'].map((title, index) => <ItemPaymentMethod
                             key={index}
                             title={title}
                             selectedPayment={this.selectedPayment}
@@ -873,7 +873,7 @@ class Layout extends React.Component {
                 <PopupConfirm
                     visible={visibleConfirm}
                     title={localize('Confirmation', language)}
-                    message="Are You Sure You Want To Exit Checkout?"
+                    message="Are You Sure You Want To Exit Check-out?"
                     onRequestClose={() => { this.setState({ visibleConfirm: false }) }}
                     confimYes={this.clearDataCofrim}
                 />
@@ -920,7 +920,7 @@ class Layout extends React.Component {
                 />
                 <PopupBill
                     ref={this.modalBillRef}
-                    title={localize('Bill of payment', language)}
+                    title={localize('Enter Amount', language)}
                     visible={this.state.visibleBillOfPayment}
                     onRequestClose={this.onRequestCloseBillModal}
                     language={language}

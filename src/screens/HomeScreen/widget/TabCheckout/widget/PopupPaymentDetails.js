@@ -79,13 +79,13 @@ class PopupPaymentDetails extends React.Component {
                         />
                         <View style={{ height: 3, backgroundColor: "rgb(238,238,238)", marginVertical: scaleSzie(10) }} />
                         <ItemDetail
-                            title={`${localize('Paid Amount', language)}:`}
+                            title={`${localize('Paid', language)} (${paidAmounts.paymentMethod ? paidAmounts.paymentMethod : ''}):`}
                             value={`$ ${paidAmounts.amount ? formatMoney(paidAmounts.amount) : ''}`}
                             isBold={true}
-                            subText={` (${paidAmounts.paymentMethod ? paidAmounts.paymentMethod : ''})`}
+                            subText={``}
                         />
                         <ItemDetail
-                            title={`${localize('Due Amount', language)}:`}
+                            title={`${localize('Amount Due', language)}:`}
                             value={`$ ${paymentDetailInfo.dueAmount ? formatMoney(paymentDetailInfo.dueAmount) : ''}`}
                             isBold={true}
                             subText={""}

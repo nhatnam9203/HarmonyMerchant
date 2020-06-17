@@ -128,7 +128,7 @@ class InvoiceScreen extends Layout {
                 method = 'credit_card';
                 break;
             case 'Cheque/Bank Transfer':
-                method = 'orther';
+                method = 'other';
                 break;
             default:
                 method = ''

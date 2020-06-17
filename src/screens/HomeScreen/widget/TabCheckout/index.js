@@ -490,7 +490,7 @@ class TabCheckout extends Layout {
                 method = 'credit_card';
                 break;
             case 'Others - Check':
-                method = 'orther';
+                method = 'other';
                 break;
             default:
                 method = ''
@@ -729,17 +729,18 @@ class TabCheckout extends Layout {
             }
             this.showInvoicePrint(printMachine, false);
         } else {
-            alert('Please connect to your printer ! ');
+            alert('Please connect to your printer! ');
         }
     }
 
     printTemptInvoice = async () => {
-        const printMachine = await this.checkStatusPrint();
-        if (printMachine) {
-            this.showInvoicePrint(printMachine);
-        } else {
-            alert('Please connect to your printer ! ');
-        }
+        this.showInvoicePrint("BT:mPOP");
+        // const printMachine = await this.checkStatusPrint();
+        // if (printMachine) {
+        //     this.showInvoicePrint(printMachine);
+        // } else {
+        //     alert('Please connect to your printer! ');
+        // }
     }
 
     checkStatusCashier = async () => {

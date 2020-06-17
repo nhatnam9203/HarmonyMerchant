@@ -167,7 +167,7 @@ class TabServices extends React.Component {
                 <PopupConfirm
                     visible={visibleArchive}
                     title={localize('Confirmation', language)}
-                    message={`${localize('Do you want to Archive this Service', language)} ?`}
+                    message={`${localize('Do you want to Archive this Service', language)}?`}
                     onRequestClose={() => this.togglePopupArchive(false)}
                     confimYes={() => this.archirveServiceYess()}
                 />
@@ -175,7 +175,7 @@ class TabServices extends React.Component {
                     ref={this.addServiceRef}
                     visible={visibleRestore}
                     title={localize('Confirmation', language)}
-                    message={`${localize('Do you want to Restore this Service', language)} ?`}
+                    message={`${localize('Do you want to Restore this Service', language)}?`}
                     onRequestClose={() => this.togglePopupRestore(false)}
                     confimYes={() => this.restoreStaffYess()}
                 />

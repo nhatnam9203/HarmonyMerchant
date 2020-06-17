@@ -31,7 +31,7 @@ class PopupBlockDiscount extends React.Component {
 
     submitCustomPromotion = async () => {
         const { appointmentIdUpdatePromotion, discount, blockAppointments } = this.props;
-        const {percentDiscountCustom,moneyDiscountFixedAmout} = this.state;
+        const { percentDiscountCustom, moneyDiscountFixedAmout } = this.state;
 
         const appointmentDetail = blockAppointments.find((appointment) => appointment.appointmentId === appointmentIdUpdatePromotion);
         const subTotal = appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
@@ -68,7 +68,7 @@ class PopupBlockDiscount extends React.Component {
     }
 
 
-   
+
     // ------ Render -----
 
     render() {
@@ -194,7 +194,7 @@ class PopupBlockDiscount extends React.Component {
                                                         }}
                                                         style={{ flex: 1, fontSize: scaleSzie(16) }}
                                                         value={`${moneyDiscountFixedAmout}`}
-                                                        onChangeText={moneyDiscountFixedAmout => {this.setState({ moneyDiscountFixedAmout });}}
+                                                        onChangeText={moneyDiscountFixedAmout => { this.setState({ moneyDiscountFixedAmout }); }}
                                                         keyboardType="numeric"
                                                         placeholderTextColor="#A9A9A9"
                                                         maxLength={3}
@@ -262,7 +262,6 @@ class PopupBlockDiscount extends React.Component {
 }
 
 const ItemCampaign = ({ title, discount }) => {
-
     return (
         <View style={{
             flexDirection: 'row', height: scaleSzie(55),

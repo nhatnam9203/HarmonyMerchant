@@ -187,14 +187,14 @@ class Layout extends React.Component {
                 <PopupConfirm
                     visible={visibleArchive}
                     title={localize('Confirmation', language)}
-                    message={`${localize('Do you want to Archive this Extra', language)} ?`}
+                    message={`${localize('Do you want to Archive this Extra', language)}?`}
                     onRequestClose={() => this.togglePopupArchive(false)}
                     confimYes={() => this.archiveExtraYess()}
                 />
                 <PopupConfirm
                     visible={visibleRestore}
                     title={localize('Confirmation', language)}
-                    message={`${localize('Do you want to Restore this Extra', language)} ?`}
+                    message={`${localize('Do you want to Restore this Extra', language)}?`}
                     onRequestClose={() => this.togglePopupRestore(false)}
                     confimYes={() => this.restoreExtraYess()}
                 />

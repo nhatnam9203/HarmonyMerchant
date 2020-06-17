@@ -28,7 +28,7 @@ class PopupPayCompleted extends React.Component {
                         alignItems: 'center', paddingTop: scaleSzie(16), paddingBottom: scaleSzie(12),
                     }} >
                         <Text style={{ color: '#0764B0', fontSize: scaleSzie(28), fontWeight: 'bold' }}  >
-                            Transaction completed !
+                            Transaction completed!
                     </Text>
                     </View>
                     {/* ------------ content ----- */}
@@ -36,7 +36,7 @@ class PopupPayCompleted extends React.Component {
                         alignItems: 'center'
                     }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(20) }}  >
-                            Do you want to print receipt ?
+                            Do you want to print receipt?
                     </Text>
                     </View>
 

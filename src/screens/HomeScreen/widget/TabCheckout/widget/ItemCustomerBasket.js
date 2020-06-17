@@ -147,7 +147,7 @@ class ItemCustomerBasket extends React.Component {
                     height: scaleSzie(35), backgroundColor: "#0764B0", paddingLeft: scaleSzie(10),
                     flexDirection: "row", alignItems: "center",
                 }} >
-                    <Text style={{ color: "#fff", fontSize: scaleSzie(16), fontWeight: "bold" }} >
+                    <Text style={{ color: "#fff", fontSize: scaleSzie(14), fontWeight: "bold" }} >
                         {`#${codeAppointment} - ${firstName} ${lastName}`}
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >

@@ -162,7 +162,7 @@ export default class Layout extends React.Component {
                     ref={this.uploadVoidCheckRef}
                     visible={this.state.visibleUpload}
                     title={`${localize('File Upload', language)}`}
-                    message={`${localize('Do you want to Archive this Category ?', language)}`}
+                    message={`${localize('Do you want to Archive this Category?', language)}`}
                     onRequestClose={() => this.setState({ visibleUpload: false })}
                     uri={this.state.uriUpload}
                     saveVoidCheck={this.saveVoidCheck}

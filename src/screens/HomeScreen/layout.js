@@ -61,7 +61,7 @@ export default class Layout extends React.Component {
                         />
                         <TabCheckout
                             ref={this.tabCheckoutRef}
-                            tabLabel={`${localize('CHECKOUT', language)}`}
+                            tabLabel={`${localize('CHECK-OUT', language)}`}
                             navigation={this.props.navigation}
                             gotoPageCurentParent={this.gotoPageCurentParent}
                             gotoTabAppointment={this.gotoTabAppointment}

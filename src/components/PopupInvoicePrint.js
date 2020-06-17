@@ -13,7 +13,7 @@ import { captureRef, releaseCapture } from "react-native-view-shot";
 
 import ButtonCustom from './ButtonCustom';
 import Button from './Button';
-import { scaleSzie, localize, PRINTER_MACHINE, getPaymentString, formatMoney } from '../utils';
+import { scaleSzie, localize, PRINTER_MACHINE, getPaymentString, formatMoney ,formatWithMoment} from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 import PrintManager from '@lib/PrintManager';
 import ICON from "@resources";
@@ -138,7 +138,8 @@ class PopupInvoicePrint extends React.Component {
     }
 
     getDate() {
-        return `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`;
+        return formatWithMoment(new Date(),"MM/DD/YYYY");
+        // return `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`;
     }
 
     cancelInvoicePrint = async () => {
