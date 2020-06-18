@@ -311,7 +311,7 @@ class PopupAddEditService extends React.Component {
                         >
                             <TouchableOpacity activeOpacity={1}>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginTop: scaleSzie(10), marginBottom: scaleSzie(10) }} >
-                                    {`${localize('Category', language)} *`}
+                                    {`${localize('Category', language)}*`}
                             </Text>
                                 <View style={{ width: scaleSzie(200), height: scaleSzie(30), }} >
                                     <Dropdown
@@ -328,7 +328,7 @@ class PopupAddEditService extends React.Component {
                                     />
                                 </View>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                    {`${localize('Service', language)} *`}
+                                    {`${localize('Service', language)}*`}
                             </Text>
                                 <View style={{
                                     height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
@@ -362,7 +362,7 @@ class PopupAddEditService extends React.Component {
                                 </View>
                                 {/* -------------------------- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                    {`${localize('Duration', language)} *`}
+                                    {`${localize('Duration', language)}*`}
                                 </Text>
                                 <View style={{ height: scaleSzie(70), flexDirection: 'row', justifyContent: 'space-between' }} >
                                     <ItemTime
@@ -418,7 +418,7 @@ class PopupAddEditService extends React.Component {
                                     {/* ------ */}
                                     <View>
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                            {`${localize('Status', language)} *`}
+                                            {`${localize('Status', language)}*`}
                                     </Text>
                                         <View style={{
                                             height: scaleSzie(30), width: scaleSzie(90),
@@ -580,14 +580,14 @@ class ItemExtra extends React.Component {
                 {/* ------ Extra ---- */}
                 <View style={{ flexDirection: 'row', justifyContent: "space-between" }} >
                     <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                        Extra name
+                        {`Extra name`}
                     </Text>
                     {/* --------------- */}
 
                     <Button onPress={() => removeExtra()} >
                         <Text style={{ color: 'red', fontSize: scaleSzie(12), fontWeight: 'bold', marginBottom: scaleSzie(10), marginTop: scaleSzie(7), textDecorationLine: "underline" }}
                         >
-                            Remove Extra
+                            {`Remove Extra`}
                     </Text>
                     </Button>
                 </View>
@@ -604,7 +604,7 @@ class ItemExtra extends React.Component {
                     />
                 </View>
                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                    Description
+                    {`Description`}
                             </Text>
                 <View style={{
                     height: scaleSzie(60), borderWidth: 1, borderColor: '#C5C5C5',
@@ -619,24 +619,23 @@ class ItemExtra extends React.Component {
                     />
                 </View>
                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                    Duration
+                    {`Duration*`}
                 </Text>
                 <ItemTime
                     ref={this.durationExtraRef}
-                    title="Minutes *"
+                    title="Minutes*"
                     value={duration}
                 />
                 <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
                     <View style={{ flex: 1, paddingRight: scaleSzie(50) }}  >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                            Price *
+                            {`Price*`}
                         </Text>
                         <View style={{
                             height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
                             borderWidth: 1, borderColor: '#C5C5C5', flexDirection: 'row'
                         }} >
                             <TextInputMask
-                                // type="only-numbers"
                                 type={'money'}
                                 options={{
                                     precision: 2,
@@ -655,7 +654,7 @@ class ItemExtra extends React.Component {
                     {/* ------ */}
                     <View>
                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                            Status *
+                            {`Status*`}
                                     </Text>
                         <View style={{
                             height: scaleSzie(30), width: scaleSzie(90),

@@ -197,7 +197,7 @@ class PopupEditAddExtra extends React.Component {
                             <TouchableOpacity activeOpacity={1}>
                                 {/* ------ Extra ---- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(20) }} >
-                                    {`${localize('Extra name', language)} *`}
+                                    {`${localize('Extra name', language)}*`}
                             </Text>
                                 <View style={{
                                     height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
@@ -229,18 +229,18 @@ class PopupEditAddExtra extends React.Component {
                                 {/* -------------------------- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                     
-                                    {localize('Duration', language)}
+                                    {`${localize('Duration', language)}*`}
                             </Text>
                                 <ItemTime
                                     ref={this.durationRef}
-                                    title="Minutes *"
+                                    title="Minutes*"
                                     value={this.state.extraInfo.duration}
                                     onFocus={() =>this.scrollExtraTo(200)}
                                 />
                                 <View style={{ height: scaleSzie(70), flexDirection: 'row',marginTop:scaleSzie(6) }} >
                                     <View style={{ flex: 1, paddingRight: scaleSzie(50) }}  >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                            {`${localize('Price', language)} *`}
+                                            {`${localize('Price', language)}*`}
                                     </Text>
                                         <View style={{
                                             height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
@@ -266,7 +266,7 @@ class PopupEditAddExtra extends React.Component {
                                     {/* ------ */}
                                     <View>
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                            {`${localize('Status', language)} *`}
+                                            {`${localize('Status', language)}*`}
                                     </Text>
                                         <View style={{
                                             height: scaleSzie(30), width: scaleSzie(90),

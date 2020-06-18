@@ -109,8 +109,8 @@ export default {
     Barcode: require('./setting/barcode.png'),
     Print: require('./setting/print.png'),
     logoAbout: require('./setting/logoAbout.png'),
-    TAX: require('./setting/TAX.png'),
-    TAX_in: require('./setting/TAX_in.png'),
+    Tax: require('./setting/TAX.png'),
+    Tax_in: require('./setting/TAX_in.png'),
 
 
     // --- Place holder --

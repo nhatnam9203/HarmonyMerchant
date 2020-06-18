@@ -109,12 +109,15 @@ class AddStaff extends Layout {
         }
         // ---- Refs ----
         this.inputRefsTime = [];
-        this.inputRefsSalary = [];
-        this.inputRefsTip = [];
-        this.inputProductSalaryRef = [];
         this.browserFileRef = React.createRef();
         this.cellphoneRef = React.createRef();
         this.scrollStaffRef = React.createRef();
+        this.perHourServiceSalaryRef = React.createRef();
+        this.commissionSalaryRef = React.createRef();
+        this.percentTipFeeRef = React.createRef();
+        this.fixedAmountTipFeeRef = React.createRef();
+        this.commisionProductScalaryRef = React.createRef();
+
     }
 
     scrollStaffTo(position) {
@@ -154,7 +157,6 @@ class AddStaff extends Layout {
             this.browserFileRef.current.setImageUrlFromParent(infoStaffHandle.imageUrl);
             this.cellphoneRef.current.setcodeAreaPhoneFromParent(getCodeAreaPhone(infoStaffHandle.phone).areaCode);
         }
-
     }
 
     editButtonSubmit = async (isSubmit) => {
@@ -164,7 +166,6 @@ class AddStaff extends Layout {
     }
 
     setStaffInfoFromParent = staff => {
-    //console.log('setStaffInfoFromParent : ', staff);
     }
 
     setRefTimeWorking = (ref) => {
@@ -174,28 +175,7 @@ class AddStaff extends Layout {
 
     };
 
-    setRefSalary = (ref) => {
-        if (ref) {
-            this.inputRefsSalary.push(ref);
-        }
-
-    };
-
-    setRefProductSalary = (ref) => {
-        if (ref) {
-            this.inputProductSalaryRef.push(ref);
-        }
-    }
-
-    setRefTip = (ref) => {
-        if (ref) {
-            this.inputRefsTip.push(ref);
-        }
-
-    };
-
     updateFileId = async (fileId) => {
-    //console.log('---- fileId : ', fileId);
         await this.setState({
             fileId
         })
@@ -208,20 +188,6 @@ class AddStaff extends Layout {
         let keyError = '';
         for (let i = 0; i < arrayKey.length; i++) {
             if (arrayKey[i] == 'address') {
-                // continue;
-                // if (user.address.street == '') {
-                //     keyError = 'street';
-                //     break;
-                // }
-                // if (user.address.city == '') {
-
-                //     keyError = 'city';
-                //     break;
-                // }
-                // if (user.address.state == '') {
-                //     keyError = 'state';
-                //     break;
-                // }
                 if (user.address.state !== '' && !checkStateIsValid(stateCity, user.address.state)) {
                     keyError = 'stateInvalid';
                     break;
@@ -253,9 +219,6 @@ class AddStaff extends Layout {
             Alert.alert(`${strings[keyError]}`);
         } else {
             let objWorkingTime = [];
-            let objSalary = {};
-            let objProjectSalary = {};
-            let objTipFee = {};
             this.inputRefsTime.forEach(ref => {
                 objWorkingTime = {
                     ...objWorkingTime,
@@ -266,33 +229,7 @@ class AddStaff extends Layout {
                     }
                 }
             });
-            this.inputRefsSalary.forEach(ref => {
-                objSalary = {
-                    ...objSalary,
-                    [this.convertKeyToName(ref.props.title)]: {
-                        value: parseInt(ref.state.value ? ref.state.value : 0),
-                        isCheck: ref.state.isCheck
-                    }
-                }
-            });
-            this.inputProductSalaryRef.forEach(ref => {
-                objProjectSalary = {
-                    ...objProjectSalary,
-                    [this.convertKeyToName(ref.props.title)]: {
-                        value: parseInt(ref.state.value ? ref.state.value : 0),
-                        isCheck: ref.state.isCheck
-                    }
-                }
-            });
-            this.inputRefsTip.forEach(ref => {
-                objTipFee = {
-                    ...objTipFee,
-                    [this.convertKeyToName(ref.props.title)]: {
-                        value: parseInt(ref.state.value ? ref.state.value : 0),
-                        isCheck: ref.state.isCheck
-                    }
-                }
-            });
+
             const { address } = user;
             const temptAddress = { ...address, state: getIdStateByName(stateCity, address.state) };
             const temptStaff = {
@@ -301,10 +238,34 @@ class AddStaff extends Layout {
                 address: temptAddress,
                 isDisabled: (user.isDisabled === 'Active' ? 0 : 1),
                 workingTime: objWorkingTime,
-                salary: objSalary,
-                tipFee: objTipFee,
+                salary: {
+                    perHour: {
+                        value: parseInt(this.perHourServiceSalaryRef.current.state.value ? this.perHourServiceSalaryRef.current.state.value : 0),
+                        isCheck: this.perHourServiceSalaryRef.current.state.isCheck
+                    },
+                    commission: {
+                        value: parseInt(this.commissionSalaryRef.current.state.value ? this.commissionSalaryRef.current.state.value : 0),
+                        isCheck: this.commissionSalaryRef.current.state.isCheck
+                    }
+                },
+                tipFee: {
+                    percent: {
+                        value: parseInt(this.percentTipFeeRef.current.state.value ? this.percentTipFeeRef.current.state.value : 0),
+                        isCheck: this.percentTipFeeRef.current.state.isCheck
+                    },
+                    fixedAmount: {
+                        value: parseInt(this.fixedAmountTipFeeRef.current.state.value ? this.fixedAmountTipFeeRef.current.state.value : 0),
+                        isCheck: this.fixedAmountTipFeeRef.current.state.isCheck
+                    }
+                },
                 fileId: this.state.fileId,
-                productSalary: objProjectSalary
+                productSalary: {
+                    commission: {
+                        value: parseInt(this.commisionProductScalaryRef.current.state.value ? this.commisionProductScalaryRef.current.state.value : 0),
+                        isCheck: this.commisionProductScalaryRef.current.state.isCheck
+                    }
+
+                }
             };
             if (this.props.isEditStaff) {
                 this.props.editStaff(temptStaff, this.state.staffId)
@@ -316,7 +277,6 @@ class AddStaff extends Layout {
 
     convertKeyToName(key) {
         let name = '';
-    //console.log('convertKeyToName : ',key);
         switch (key) {
             case 'Percent (%)':
                 name = 'percent';
@@ -356,9 +316,6 @@ class AddStaff extends Layout {
 
     componentWillUnmount() {
         this.inputRefsTime = [];
-        this.inputRefsSalary = [];
-        this.inputRefsTip = [];
-        this.inputProductSalaryRef = [];
     }
 
 

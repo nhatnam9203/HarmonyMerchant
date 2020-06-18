@@ -33,7 +33,17 @@ class Layout extends React.Component {
         const temptDataTipFee = isEditStaff ? infoStaffHandle.tipFees : this.state.tipFee;
         const temptDataSalary = isEditStaff ? infoStaffHandle.salaries : this.state.salary;
         const temptDataProductScalary = isEditStaff ? infoStaffHandle.productSalaries : this.state.productSalary;
-    //console.log('infoStaffHandle : '+ JSON.stringify(infoStaffHandle));
+
+
+        console.log("temptDataProductScalary : ",JSON.stringify(temptDataProductScalary));
+
+        const perHour_ServiceSalary = temptDataSalary["perHour"] ? temptDataSalary["perHour"] : { value: 0, isCheck: false };
+        const commision_ServiceSalary = temptDataSalary["commission"] ? temptDataSalary["commission"] : { value: 0, isCheck: false };
+        const percent_TipFee = temptDataTipFee["percent"] ? temptDataTipFee["percent"] : { value: 0, isCheck: false };
+        const fixedAmount_TipFee = temptDataTipFee["fixedAmount"] ? temptDataTipFee["fixedAmount"] : { value: 0, isCheck: false };
+        const commision_ProductScalary = temptDataProductScalary["commission"] ? temptDataProductScalary["commission"] : { value: 0, isCheck: false };
+
+
         return (
             <View style={styles.body} >
                 <ScrollView
@@ -44,7 +54,7 @@ class Layout extends React.Component {
                 >
                     <View style={{ height: scaleSzie(30) }} />
                     <ItemAdminInfoDoubleItem
-                        title={`${localize('Name', language)} *`}
+                        title={`${localize('Name', language)}*`}
                         placeholder={localize('First Name', language)}
                         value={firstName}
                         onChangeText={(value) => this.updateUserInfo('firstName', value)}
@@ -63,7 +73,7 @@ class Layout extends React.Component {
                     </ItemAdminInfoDoubleItem>
 
                     <ItemAdminInfoDoubleItem
-                        title={`${localize('Display Name', language)} *`}
+                        title={`${localize('Display Name', language)}*`}
                         placeholder={localize('Display Name', language)}
                         value={displayName}
                         onChangeText={(value) => this.updateUserInfo('displayName', value)}
@@ -87,13 +97,6 @@ class Layout extends React.Component {
                             flex: 1,
                             marginLeft: scaleSzie(5)
                         }} >
-                            {/* <Dropdown
-                                label={localize('State', language)}
-                                data={getArrayNameStateCity(stateCity)}
-                                value={state}
-                                onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
-                                containerStyle={styles.dropdown}
-                            /> */}
                             <TextInputSuggestion
                                 value={state}
                                 onChangeText={value => this.updateUserInfo('state', value, 'address')}
@@ -114,8 +117,8 @@ class Layout extends React.Component {
 
                     <ItemAdminCellPhone
                         ref={this.cellphoneRef}
-                        title={`${localize('Cell phone', language)}`}
-                        placeholder={localize('Phone number', language)}
+                        title={`${localize('Cell Phone', language)}`}
+                        placeholder={localize('Phone Number', language)}
                         value={cellphone}
                         onChangeText={(value) => this.updateUserInfo('cellphone', value)}
                         type={true}
@@ -123,14 +126,14 @@ class Layout extends React.Component {
 
                     />
                     <ItemAdminInfo
-                        title={`${localize('Contact email', language)}`}
+                        title={`${localize('Contact Email', language)}`}
                         placeholder={localize('Email')}
                         value={email}
                         onChangeText={(value) => this.updateUserInfo('email', value)}
                         onFocus={() => this.scrollStaffTo(370)}
                     />
                     <ItemAdminInfo
-                        title={`${localize('Create PIN', language)} *`}
+                        title={`${localize('Create PIN', language)}*`}
                         placeholder="****"
                         value={pin}
                         onChangeText={(value) => this.updateUserInfo('pin', value)}
@@ -140,7 +143,7 @@ class Layout extends React.Component {
                         onFocus={() => this.scrollStaffTo(430)}
                     />
                     <ItemAdminInfo
-                        title={`${localize('Confirm PIN', language)} *`}
+                        title={`${localize('Confirm PIN', language)}*`}
                         placeholder="****"
                         value={confirmPin}
                         onChangeText={(value) => this.updateUserInfo('confirmPin', value)}
@@ -198,60 +201,61 @@ class Layout extends React.Component {
                     <TitleTabAdminInfo
                         title={localize('Service Salary', language)}
                     />
-                    {
-                        Object.keys(temptDataSalary).map((tip, index) => {
-                            const temptTitle = tip == 'perHour' ? 'Per hour' : 'Commission';
-                            const temptChar = tip == 'perHour' ? '($)' : '(%)';
-                            return <ItemScalary
-                                key={index}
-                                ref={this.setRefSalary}
-                                title={`${localize(temptTitle, language)} ${temptChar}`}
-                                placeholder={'10'}
-                                dataInit={temptDataSalary[tip]}
-                                onFocus={() => this.scrollStaffTo(1100)}
-                            />
-                        })
-                    }
+
+                    {/* ----- Per Hour ServiceSalary ---- */}
+                    <ItemScalary
+                        ref={this.perHourServiceSalaryRef}
+                        title={`${localize("Per hour", language)} ($)`}
+                        placeholder={'10'}
+                        dataInit={perHour_ServiceSalary}
+                        onFocus={() => this.scrollStaffTo(1100)}
+                    />
+
+                    {/* ----- Commission ServiceSalary ---- */}
+                    <ItemScalary
+                        ref={this.commissionSalaryRef}
+                        title={`${localize("Commission", language)} (%)`}
+                        placeholder={'10'}
+                        dataInit={commision_ServiceSalary}
+                        onFocus={() => this.scrollStaffTo(1100)}
+                    />
+
 
                     {/* ----- Product Salary ---- */}
                     <TitleTabAdminInfo
                         title={localize('Product Salary', language)}
                     />
-                    {
-                        Object.keys(temptDataProductScalary).map((tip, index) => {
-                        //console.log('tip : ',temptDataProductScalary[tip]);
-                            const temptTitle = tip == 'perHour' ? 'Per hour' : 'Commission';
-                            const temptChar = tip == 'perHour' ? '($)' : '(%)';
 
-                            return <ItemScalary
-                                key={index}
-                                ref={this.setRefProductSalary}
-                                title={`${localize(temptTitle, language)} ${temptChar}`}
-                                placeholder={'10'}
-                                dataInit={temptDataProductScalary[tip]}
-                                onFocus={() => this.scrollStaffTo(1230)}
-                            />
-                        })
-                    }
+                    <ItemScalary
+                        ref={this.commisionProductScalaryRef}
+                        title={`${localize("Commission", language)} (%)`}
+                        placeholder={'10'}
+                        dataInit={commision_ProductScalary}
+                        onFocus={() => this.scrollStaffTo(1230)}
+                    />
 
                     {/* ----- Tip fee ---- */}
                     <TitleTabAdminInfo
-                        title={localize('Tip fee', language)}
+                        title={localize('Tip', language)}
                     />
-                    {
-                        Object.keys(temptDataTipFee).map((tip, index) => {
-                            const temptTitle = tip == 'percent' ? 'Percent' : 'Fixed amount';
-                            const temptChar = tip == 'percent' ? '(%)' : '($)';
-                            return <ItemScalary
-                                key={index}
-                                ref={this.setRefTip}
-                                title={`${localize(temptTitle, language)} ${temptChar}`}
-                                placeholder={'10'}
-                                dataInit={temptDataTipFee[tip]}
-                                onFocus={() => this.scrollStaffTo(1300)}
-                            />
-                        })
-                    }
+
+                    {/* ----- Percent Tip Fee ---- */}
+                    <ItemScalary
+                        ref={this.percentTipFeeRef}
+                        title={`${localize("Percent", language)} (%)`}
+                        placeholder={'10'}
+                        dataInit={percent_TipFee}
+                        onFocus={() => this.scrollStaffTo(1300)}
+                    />
+
+                    {/* ----- Fix amount Tip Fee ---- */}
+                    <ItemScalary
+                        ref={this.fixedAmountTipFeeRef}
+                        title={`${localize("Fixed amount", language)} ($)`}
+                        placeholder={'10'}
+                        dataInit={fixedAmount_TipFee}
+                        onFocus={() => this.scrollStaffTo(1300)}
+                    />
 
 
                     {/* ---- Address ---- */}
@@ -274,7 +278,7 @@ class Layout extends React.Component {
                         mark="999-99-9999"
                     />
                     <ItemAdminInfo
-                        title={localize('Professional license', language)}
+                        title={localize('Professional License', language)}
                         // placeholder="0000-0000-0000"
                         value={professionalLicense}
                         onChangeText={(value) => this.updateUserInfo('professionalLicense', value)}
