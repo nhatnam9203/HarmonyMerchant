@@ -8,7 +8,7 @@ function* getListInvoicesByMerchant(action) {
     try {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
-    //console.log('getListInvoicesByMerchant : ', responses);
+        //console.log('getListInvoicesByMerchant : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -17,7 +17,14 @@ function* getListInvoicesByMerchant(action) {
                 payload: responses.data,
                 totalPages: responses.pages,
                 currentPage: action.currentPage
-            })
+            });
+
+            if (action.isShowPopupConfirmPrintInvoice) {
+                yield put({
+                    type: "VISIBLE_POPUP_CONFIRM_PRINT_INVOICE",
+                    payload: true
+                })
+            }
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -39,7 +46,7 @@ function* getListInvoicesByMerchant(action) {
 }
 
 function* searchInvoice(action) {
-//console.log(action)
+    //console.log(action)
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
@@ -76,7 +83,7 @@ function* getSettlementWating(action) {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-    //console.log('getSettlementWating  : ', responses);
+        //console.log('getSettlementWating  : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -113,7 +120,7 @@ function* invoicesOfStaff(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-    //console.log('getSettlementWating  : ', responses);
+        //console.log('getSettlementWating  : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -144,7 +151,7 @@ function* getTransactionSettlement(action) {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-    //console.log('getTransactionSettlement  : ' + JSON.stringify(responses.data));
+        //console.log('getTransactionSettlement  : ' + JSON.stringify(responses.data));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -180,7 +187,7 @@ function* searchTransactionSettlement(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-    //console.log('searchTransactionSettlement  : ' + JSON.stringify(responses));
+        //console.log('searchTransactionSettlement  : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -210,7 +217,7 @@ function* getBatchHistory(action) {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-    //console.log('getBatchHistory  : ' + JSON.stringify(responses));
+        //console.log('getBatchHistory  : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -246,7 +253,7 @@ function* searchBatchHistory(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-    //console.log('searchBatchHistory  : ' + JSON.stringify(responses));
+        //console.log('searchBatchHistory  : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -277,7 +284,7 @@ function* changeStatustransaction(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-    // console.log('changeStatustransaction  : ' + JSON.stringify(responses));
+        // console.log('changeStatustransaction  : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -285,14 +292,10 @@ function* changeStatustransaction(action) {
                 method: 'GET',
                 api: `${apiConfigs.BASE_API}checkout?page=1`,
                 token: true,
-                isShowLoading: false,
+                isShowLoading: true,
                 currentPage: 1,
+                isShowPopupConfirmPrintInvoice: true
             });
-
-            yield put({
-                type : "VISIBLE_POPUP_CONFIRM_PRINT_INVOICE",
-                payload: true
-            })
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -317,10 +320,10 @@ function* settleBatch(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-    //console.log('settleBatch  : ' + JSON.stringify(responses));
+        //console.log('settleBatch  : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-           
+
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({

@@ -1,8 +1,7 @@
 import React from 'react';
-import _, { ap } from 'ramda';
-import { StarPRNT } from 'react-native-star-prnt';
+import _ from 'ramda';
 const signalR = require('@microsoft/signalr');
-import { Alert, NativeModules, TouchableHighlightBase } from 'react-native';
+import { NativeModules } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -728,7 +727,7 @@ class TabCheckout extends Layout {
             }
             this.showInvoicePrint(printMachine, false);
         } else {
-            alert('Please connect to your printer! ');
+            alert('Please connect to your printer!');
         }
     }
 

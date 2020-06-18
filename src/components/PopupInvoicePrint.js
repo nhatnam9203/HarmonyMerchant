@@ -13,7 +13,7 @@ import { captureRef, releaseCapture } from "react-native-view-shot";
 
 import ButtonCustom from './ButtonCustom';
 import Button from './Button';
-import { scaleSzie, localize, PRINTER_MACHINE, getPaymentString, formatMoney ,formatWithMoment} from '../utils';
+import { scaleSzie, localize, PRINTER_MACHINE, getPaymentString, formatMoney, formatWithMoment } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 import PrintManager from '@lib/PrintManager';
 import ICON from "@resources";
@@ -32,7 +32,9 @@ const initalState = {
     isCheck: false,
     isSignature: true,
 
-    paymentMethods: [{ paymentMethod: "" }]
+    paymentMethods: [{ paymentMethod: "" }],
+    titleInvoice: "SALE",
+    invoiceNo: ""
 }
 
 class PopupInvoicePrint extends React.Component {
@@ -43,7 +45,7 @@ class PopupInvoicePrint extends React.Component {
         this.viewShotRef = React.createRef();
     }
 
-    setStateFromParent = async (basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected, isPrintTempt, printMachine) => {
+    setStateFromParent = async (basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected, isPrintTempt, printMachine, titleInvoice = "SALE", invoiceNo = "") => {
         await this.setState({
             basket,
             temptSubTotal,
@@ -54,11 +56,13 @@ class PopupInvoicePrint extends React.Component {
             paymentSelected,
             isPrintTempt,
             printMachine,
-            paymentMethods: this.getPaymentMethods()
+            paymentMethods: this.getPaymentMethods(),
+            titleInvoice,
+            invoiceNo
         });
         setTimeout(() => {
             this.doPrint();
-        }, 500)
+        }, 1000)
 
     }
 
@@ -138,8 +142,7 @@ class PopupInvoicePrint extends React.Component {
     }
 
     getDate() {
-        return formatWithMoment(new Date(),"MM/DD/YYYY");
-        // return `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`;
+        return formatWithMoment(new Date(), "MM/DD/YYYY");
     }
 
     cancelInvoicePrint = async () => {
@@ -202,11 +205,9 @@ class PopupInvoicePrint extends React.Component {
     }
 
     render() {
-        const { language, visiblePrintInvoice, profile, profileStaffLogin, groupAppointment,
-            paymentDetailInfo
-        } = this.props;
+        const { language, visiblePrintInvoice, profile, paymentDetailInfo } = this.props;
         const { basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected, isPrintTempt,
-            isCheck, isSignature, paymentMethods
+            isSignature, paymentMethods, titleInvoice, invoiceNo
         } = this.state;
 
         return (
@@ -237,7 +238,6 @@ class PopupInvoicePrint extends React.Component {
                                 <View
                                     ref={this.viewShotRef}
                                     style={{ paddingHorizontal: scaleSzie(10) }}
-                                // collapsable={false}
                                 >
                                     {/* ------------- Store Name ----------- */}
                                     <Text style={[styleInvoice.txt_normal, { fontSize: 24, fontWeight: "600", marginTop: scaleSzie(8) }]} >
@@ -263,8 +263,8 @@ class PopupInvoicePrint extends React.Component {
                                         fontSize: 20, fontWeight: "600",
                                         marginTop: scaleSzie(6), marginBottom: scaleSzie(6)
                                     }]} >
-                                        SALE
-                                </Text>
+                                        {titleInvoice}
+                                    </Text>
                                     {/* ------------- Dot Border  ----------- */}
                                     <View style={{ height: scaleSzie(8), marginBottom: scaleSzie(8), }} >
                                         <Text style={{ fontWeight: "300" }} >
@@ -275,8 +275,8 @@ class PopupInvoicePrint extends React.Component {
                                     <View style={{ flexDirection: "row" }} >
                                         <View style={{ width: scaleSzie(90) }} >
                                             <Text style={styleInvoice.txt_info} >
-                                                Invoice Date
-                                        </Text>
+                                                {`Invoice Date`}
+                                            </Text>
                                         </View>
                                         <View style={{ flex: 1 }} >
                                             <Text style={styleInvoice.txt_info} >
@@ -288,8 +288,8 @@ class PopupInvoicePrint extends React.Component {
                                     <View style={{ flexDirection: "row" }} >
                                         <View style={{ width: scaleSzie(90) }} >
                                             <Text style={styleInvoice.txt_info} >
-                                                Staff Name
-                                        </Text>
+                                                {`Staff Name`}
+                                            </Text>
                                         </View>
                                         <View style={{ flex: 1 }} >
                                             <Text style={styleInvoice.txt_info} >
@@ -301,12 +301,12 @@ class PopupInvoicePrint extends React.Component {
                                     <View style={{ flexDirection: "row" }} >
                                         <View style={{ width: scaleSzie(90) }} >
                                             <Text style={styleInvoice.txt_info} >
-                                                Invoice No
-                                        </Text>
+                                                {`Invoice No`}
+                                            </Text>
                                         </View>
                                         <View style={{ flex: 1 }} >
                                             <Text style={styleInvoice.txt_info} >
-                                                {`: ${paymentDetailInfo.invoiceNo ? paymentDetailInfo.invoiceNo : ""}`}
+                                                {`: ${invoiceNo ? invoiceNo : (paymentDetailInfo.invoiceNo ? paymentDetailInfo.invoiceNo : "")}`}
                                             </Text>
                                         </View>
                                     </View>
@@ -447,11 +447,11 @@ class PopupInvoicePrint extends React.Component {
                                     {/* ----------- Thanks , see you again -------- */}
                                     <View style={{ height: scaleSzie(20) }} />
                                     <Text style={[styleInvoice.txt_total, { alignSelf: "center", }]} >
-                                        Thank you !
-                                </Text>
+                                        {`Thank you !`}
+                                    </Text>
                                     <Text style={[styleInvoice.txt_total, { alignSelf: "center", }]} >
-                                        Please come again
-                                </Text>
+                                        {`Please come again`}
+                                    </Text>
                                     <View style={{ height: scaleSzie(8) }} />
                                     {/* ------------- This is not a bill   ----------- */}
                                     <Text style={[styleInvoice.txt_total, { fontSize: scaleSzie(10), fontWeight: "300", alignSelf: "center" }]} >

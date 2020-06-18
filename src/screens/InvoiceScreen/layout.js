@@ -18,7 +18,6 @@ import styles from './style';
 import IMAGE from '@resources';
 import {
     ItemInvoice, ItemInfo, ItemButton, ItemBasket, ItemHistory, 
-    // PopupInvoicePrint
 } from './widget';
 
 export default class Layout extends React.Component {

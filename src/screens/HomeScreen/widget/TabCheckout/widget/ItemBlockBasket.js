@@ -306,7 +306,6 @@ class ItemBlockBasket extends React.Component {
 
     componentWillUnmount() {
         this._isMounted = false;
-        // console.log("---- componentWillUnmount ----");
       }
 
 }

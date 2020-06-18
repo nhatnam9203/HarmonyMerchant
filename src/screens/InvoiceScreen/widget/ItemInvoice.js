@@ -12,6 +12,8 @@ import IMAGE from '@resources';
 
 class ItemInvoice extends React.Component {
 
+    _isMounted = false;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -19,10 +21,17 @@ class ItemInvoice extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this._isMounted = true;
+    }
+
     setStateFromParent = isSlect => {
-        this.setState({
-            isSelected: isSlect
-        })
+        if (this._isMounted) {
+            this.setState({
+                isSelected: isSlect
+            });
+        };
+
     }
 
     getColorStatus(status) {
@@ -81,21 +90,25 @@ class ItemInvoice extends React.Component {
                             {tempDate}
                         </Text>
                     </View>
-                    <View style={{ flex:1, justifyContent: 'center',}} >
-                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A',fontWeight:"bold" }} >
-                            {`${formatWithMoment(invoice.createdDate,'hh:mm A')}`}
+                    <View style={{ flex: 1, justifyContent: 'center', }} >
+                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A', fontWeight: "bold" }} >
+                            {`${formatWithMoment(invoice.createdDate, 'hh:mm A')}`}
                         </Text>
                     </View>
                 </View>
                 {/* ----------- Col 3 --------- */}
-                <View style={{ flex: 0.7 ,justifyContent: 'center', alignItems: 'flex-end'}} >
-                <Text style={{ fontSize: scaleSzie(16), color: '#404040' ,fontWeight:"600" }} >
-                            {`$ ${invoice.total}`}
-                        </Text>
+                <View style={{ flex: 0.7, justifyContent: 'center', alignItems: 'flex-end' }} >
+                    <Text style={{ fontSize: scaleSzie(16), color: '#404040', fontWeight: "600" }} >
+                        {`$ ${invoice.total}`}
+                    </Text>
                 </View>
             </Button>
 
         );
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 }
 

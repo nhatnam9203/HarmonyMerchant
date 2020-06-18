@@ -8,6 +8,7 @@ import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment,
     getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment
 } from '@utils';
+import PrintManager from '@lib/PrintManager';
 
 const PosLink = NativeModules.MyApp;
 
@@ -31,7 +32,8 @@ class InvoiceScreen extends Layout {
             visibleConfirmInvoiceStatus: false,
             visibleProcessingCredit: false,
             transactionId: false,
-            visiblePrintInvoice: false
+            visiblePrintInvoice: false,
+            titleInvoice: ""
         }
         this.scrollTabInvoiceRef = React.createRef();
         this.modalCalendarRef = React.createRef();
@@ -241,7 +243,6 @@ class InvoiceScreen extends Layout {
         const arrayGiftCards = getArrayGiftCardsFromAppointment(basket.giftCards);
 
         const temptBasket = arrayProducts.concat(arryaServices, arrayExtras, arrayGiftCards);
-        //console.log('temptBasket : ', JSON.stringify(temptBasket));
         return temptBasket;
     }
 
@@ -315,17 +316,9 @@ class InvoiceScreen extends Layout {
         } else {
             await this.setState({
                 visibleConfirmInvoiceStatus: false,
+                titleInvoice: invoiceDetail.status === 'paid' ? "Refund" : "Void"
             })
-
             this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId);
-            await this.setState({
-                invoiceDetail: {
-                    history: []
-                },
-            });
-            for (let i = 0; i < this.listInvoiceRef.length; i++) {
-                this.listInvoiceRef[i].setStateFromParent(false);
-            }
         }
     }
 
@@ -462,40 +455,87 @@ class InvoiceScreen extends Layout {
         }
     }
 
+    checkStatusPrint = async () => {
+        try {
+            const printer = await PrintManager.getInstance().portDiscovery();
+            if (printer.length > 0) {
+                let portName = false;
+                for (let i = 0; i < printer.length; i++) {
+                    let tempt_portName = printer[i].portName ? printer[i].portName : "";
+                    if (tempt_portName === "BT:mPOP" || tempt_portName === "BT:TSP100") {
+                        portName = tempt_portName;
+                        break;
+                    }
+                };
+                return portName ? portName : false;
+            } else {
+                return false
+            }
+        } catch (error) {
+        }
+    }
+
+
     printInvoice = async () => {
-        this.props.actions.invoice.togglPopupConfirmPrintInvoice(false);
-        const { invoiceDetail } = this.state;
+        const { invoiceDetail, titleInvoice } = this.state;
+
         if (!invoiceDetail.appointmentId) {
-
+            alert("You don't select invoice!")
         } else {
-            const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards } = this.getBasket(invoiceDetail.basket);
-            const basket = [...arryaServicesBuy, ...arrayProductBuy, ...arrayExtrasBuy, ...arrayGiftCards];
-            const { subTotal, total, discount, tipAmount, tax, paymentMethod } = invoiceDetail;
+            const printMachine = await this.checkStatusPrint();
+            if (printMachine) {
+                this.props.actions.invoice.togglPopupConfirmPrintInvoice(false);
 
-            this.invoicePrintRef.current.setStateFromParent(
-                basket,
-                subTotal,
-                tax,
-                discount,
-                tipAmount,
-                total,
-                paymentMethod,
-                false,
-                "BT:mPOP"
-            );
+                const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards } = this.getBasket(invoiceDetail.basket);
+                const basket = [...arryaServicesBuy, ...arrayProductBuy, ...arrayExtrasBuy, ...arrayGiftCards];
+                const { subTotal, total, discount, tipAmount, tax, paymentMethod } = invoiceDetail;
 
-            await this.setState({
-                visiblePrintInvoice: true
-            })
+                this.invoicePrintRef.current.setStateFromParent(
+                    basket,
+                    subTotal,
+                    tax,
+                    discount,
+                    tipAmount,
+                    total,
+                    paymentMethod,
+                    false,
+                    printMachine,
+                    titleInvoice,
+                    invoiceDetail.checkoutId ?  invoiceDetail.checkoutId : ""
+                );
+
+                this.setState({
+                    visiblePrintInvoice: true
+                })
+            }else{
+                alert('Please connect to your printer!');
+            }
+
+
+
         };
     }
 
     cancelInvoicePrint = async (isPrintTempt) => {
         await this.setState({ visiblePrintInvoice: false });
+        this.updateInvoiceDetailAfterCallServer();
     }
 
-    closePopupConfirmPrintInvoice =() =>{
+    closePopupConfirmPrintInvoice = () => {
         this.props.actions.invoice.togglPopupConfirmPrintInvoice(false);
+        this.updateInvoiceDetailAfterCallServer();
+    }
+
+    updateInvoiceDetailAfterCallServer = async () =>{
+        const {invoiceDetail} = this.state;
+        for (let i = 0; i < this.listInvoiceRef.length; i++) {
+            if (this.listInvoiceRef[i].props.invoice.checkoutId === invoiceDetail.checkoutId) {
+                await this.setState({
+                    invoiceDetail : this.listInvoiceRef[i].props.invoice
+                });
+                break;
+            } 
+        }
     }
 
     componentWillUnmount() {
@@ -517,7 +557,7 @@ const mapStateToProps = state => ({
     currentPage: state.invoice.currentPage,
     visibleEnterPinInvoice: state.app.visibleEnterPinInvoice,
     paxMachineInfo: state.dataLocal.paxMachineInfo,
-    visibleConfirmPrintInvoice : state.invoice.visibleConfirmPrintInvoice
+    visibleConfirmPrintInvoice: state.invoice.visibleConfirmPrintInvoice
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);
