@@ -43,7 +43,7 @@ class ItemInvoice extends React.Component {
     render() {
         const { invoice, onPress } = this.props;
         const { user } = invoice;
-        const tempDate = `${formatWithMoment(invoice.createdDate, 'MM/DD/YYYY')}` === `${formatWithMoment(new Date(), 'MM/DD/YYYY')}` ? 'Today' : formatWithMoment(invoice.createdDate,'MM/DD/YYYY');
+        const tempDate = `${formatWithMoment(invoice.createdDate, 'MM/DD/YYYY')}` === `${formatWithMoment(new Date(), 'MM/DD/YYYY')}` ? 'Today' : formatWithMoment(invoice.createdDate, 'MM/DD/YYYY');
         const temptFirstName = user ? user.firstName : '';
         const temptLastName = user ? user.lastName : '';
         const colorStaus = this.getColorStatus(invoice.status);
@@ -53,9 +53,49 @@ class ItemInvoice extends React.Component {
             <Button onPress={() => onPress()} style={[{
                 height: scaleSzie(62), paddingHorizontal: scaleSzie(10),
                 borderBottomColor: '#C5C5C5', borderBottomWidth: 1,
-                backgroundColor: '#FAFAFA'
+                backgroundColor: '#FAFAFA',
+                flexDirection: "row"
             }, temptBackground]} >
-                <View style={{ flex: 1, flexDirection: 'row' }} >
+                {/* ----------- Col 1 --------- */}
+                <View style={{ flex: 1.7 }} >
+                    <View style={{ flex: 1, justifyContent: 'center' }} >
+                        <Text style={{ fontSize: scaleSzie(14), color: '#404040' }} >
+                            {`${temptFirstName} ${temptLastName}`}
+                        </Text>
+                    </View>
+                    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }} >
+                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A', marginRight: scaleSzie(20) }} >
+                            {`# ${invoice.code}`}
+                        </Text>
+                        <View style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: colorStaus }} />
+                        <Text style={{ fontSize: scaleSzie(14), color: colorStaus, marginLeft: scaleSzie(5) }} >
+                            {invoice.status}
+                        </Text>
+
+                    </View>
+                </View>
+                {/* ----------- Col 2 --------- */}
+                <View style={{ flex: 1 }} >
+                    <View style={{ flex: 1, justifyContent: 'center' }} >
+                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A' }} >
+                            {tempDate}
+                        </Text>
+                    </View>
+                    <View style={{ flex:1, justifyContent: 'center',}} >
+                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A',fontWeight:"bold" }} >
+                            {`${formatWithMoment(invoice.createdDate,'hh:mm A')}`}
+                        </Text>
+                    </View>
+                </View>
+                {/* ----------- Col 3 --------- */}
+                <View style={{ flex: 0.7 ,justifyContent: 'center', alignItems: 'flex-end'}} >
+                <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
+                            {`$ ${invoice.total}`}
+                        </Text>
+                </View>
+
+                {/* ------------ Row 1 ------------ */}
+                {/* <View style={{ flex: 1, flexDirection: 'row' , backgroundColor:"blue"}} >
                     <View style={{ flex: 1, justifyContent: 'center' }} >
                         <Text style={{ fontSize: scaleSzie(14), color: '#404040' }} >
                             {`${temptFirstName} ${temptLastName}`}
@@ -71,8 +111,10 @@ class ItemInvoice extends React.Component {
                             {`${formatWithMoment(invoice.createdDate,'hh:mm A')}`}
                         </Text>
                     </View>
-                </View>
-                <View style={{ flex: 1, flexDirection: 'row',backgroundColor:"yellow" }} >
+                </View> */}
+
+                {/* ------------ Row 2 ------------ */}
+                {/* <View style={{ flex: 1, flexDirection: 'row',backgroundColor:"yellow" }} >
                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }} >
                         <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A', marginRight: scaleSzie(20) }} >
                             {`# ${invoice.code}`}
@@ -88,7 +130,7 @@ class ItemInvoice extends React.Component {
                             {`$ ${invoice.total}`}
                         </Text>
                     </View>
-                </View>
+                </View> */}
             </Button>
 
         );
