@@ -1,18 +1,10 @@
 import React from 'react';
-import {
-    View,
-    Image,
-    TextInput,
-    FlatList,
-    ScrollView,
-    Dimensions
-} from 'react-native';
 
-import { scaleSzie, localize } from '@utils';
+
+import { scaleSzie } from '@utils';
 import {
-    Text, Button, ButtonCustom,
+    Text, Button
 } from '@components';
-import IMAGE from '@resources';
 
 export default class ItemStaff extends React.Component {
 

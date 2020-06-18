@@ -10,11 +10,10 @@ import {
 } from 'react-native';
 import _ from 'ramda';
 
-import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber,formatWithMoment } from '@utils';
+import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, formatWithMoment } from '@utils';
 import {
     Text, ButtonCustom,
 } from '@components';
-import styles from './style';
 import IMAGE from '@resources';
 import TextInputAmount from './widget/TextInputAmount';
 import ItemStaff from './widget/ItemStaff';
@@ -33,10 +32,10 @@ class Layout extends React.Component {
                     {`${localize('Last Settlement', language)}:`}
                 </Text>
                 <Text style={{ color: '#0764B0', fontSize: scaleSzie(16), fontWeight: 'bold', marginRight: scaleSzie(20) }} >
-                    {formatWithMoment(settlementDate,'MM/DD/YYYY')}
+                    {formatWithMoment(settlementDate, 'MM/DD/YYYY')}
                 </Text>
                 <Text style={{ color: '#0764B0', fontSize: scaleSzie(16), fontWeight: 'bold', marginRight: scaleSzie(20) }} >
-                    {formatWithMoment(settlementDate,'hh:mm A')}
+                    {formatWithMoment(settlementDate, 'hh:mm A')}
                 </Text>
             </View>
         );
@@ -100,26 +99,15 @@ class Layout extends React.Component {
             <View style={{
                 height: scaleSzie(62), paddingHorizontal: scaleSzie(10),
                 borderColor: '#C5C5C5', borderWidth: 1,
-                backgroundColor: '#FAFAFA'
+                backgroundColor: '#FAFAFA', flexDirection: "row",
             }} >
-                <View style={{ flex: 1, flexDirection: 'row' }} >
+                {/* ----------- Col 1 --------- */}
+                <View style={{ flex: 1.7 }} >
                     <View style={{ flex: 1, justifyContent: 'center' }} >
                         <Text style={{ fontSize: scaleSzie(14), color: '#404040' }} >
                             {item.customerName}
                         </Text>
                     </View>
-                    <View style={{ width: scaleSzie(120), justifyContent: 'center' }} >
-                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A' }} >
-                            {item.date}
-                        </Text>
-                    </View>
-                    <View style={{ width: scaleSzie(80), justifyContent: 'center', alignItems: 'flex-end' }} >
-                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A' }} >
-                            {item.time}
-                        </Text>
-                    </View>
-                </View>
-                <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }} >
                         <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A', marginRight: scaleSzie(20) }} >
                             {`#${item.checkoutId}`}
@@ -130,11 +118,27 @@ class Layout extends React.Component {
                         </Text>
 
                     </View>
-                    <View style={{}} >
-                        <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
-                            {`$ ${item.amount}`}
+
+                </View>
+                {/* ----------- Col 2 --------- */}
+                <View style={{ flex: 1 }} >
+                    <View style={{ flex: 1, justifyContent: 'center' }} >
+                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A' }} >
+                            {item.date}
                         </Text>
                     </View>
+                    <View style={{ flex: 1, justifyContent: 'center', }} >
+                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A',fontWeight:"bold" }} >
+                            {item.time}
+                        </Text>
+                    </View>
+                </View>
+
+                {/* ----------- Col 3 --------- */}
+                <View style={{ flex: 0.7, justifyContent: 'center', alignItems: 'flex-end' }} >
+                    <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
+                        {`$ ${item.amount}`}
+                    </Text>
                 </View>
             </View>
         );
@@ -214,7 +218,7 @@ class Layout extends React.Component {
 
     renderEditReportAmount() {
         const { language } = this.props;
-        const { creditCount,editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment} = this.state;
+        const { creditCount, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment } = this.state;
 
         const temtpTotal = roundFloatNumber(
             formatNumberFromCurrency(editPaymentByHarmony) +
@@ -244,7 +248,7 @@ class Layout extends React.Component {
                         {/* ------------ Text Input ---- */}
                         <TextInputAmount
                             value={editPaymentByHarmony}
-                            onChangeText={(value) =>this.updateTotalCustom("editPaymentByHarmony",value)}
+                            onChangeText={(value) => this.updateTotalCustom("editPaymentByHarmony", value)}
                             onFocus={() => this.scrollTo(450)}
                         />
                     </View>
@@ -273,7 +277,7 @@ class Layout extends React.Component {
                         <TextInputAmount
                             ref={this.inputCreditPaymentRef}
                             value={editPaymentByCreditCard}
-                            onChangeText={(value) =>this.updateTotalCustom("editPaymentByCreditCard",value)}
+                            onChangeText={(value) => this.updateTotalCustom("editPaymentByCreditCard", value)}
                             onFocus={() => this.scrollTo(450)}
                         />
                     </View>
@@ -293,7 +297,7 @@ class Layout extends React.Component {
                     }} >
                         <TextInputAmount
                             value={editPaymentByCash}
-                            onChangeText={(value) =>this.updateTotalCustom("editPaymentByCash",value)}
+                            onChangeText={(value) => this.updateTotalCustom("editPaymentByCash", value)}
                             onFocus={() => this.scrollTo(450)}
                         />
                     </View>
@@ -313,7 +317,7 @@ class Layout extends React.Component {
                     }} >
                         <TextInputAmount
                             value={editOtherPayment}
-                            onChangeText={(value) =>this.updateTotalCustom("editOtherPayment",value)}
+                            onChangeText={(value) => this.updateTotalCustom("editOtherPayment", value)}
                             onFocus={() => this.scrollTo(450)}
                         />
                     </View>
