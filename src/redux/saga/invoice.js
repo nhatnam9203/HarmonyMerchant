@@ -285,8 +285,13 @@ function* changeStatustransaction(action) {
                 method: 'GET',
                 api: `${apiConfigs.BASE_API}checkout?page=1`,
                 token: true,
-                isShowLoading: true,
-                currentPage: 1
+                isShowLoading: false,
+                currentPage: 1,
+            });
+
+            yield put({
+                type : "VISIBLE_POPUP_CONFIRM_PRINT_INVOICE",
+                payload: true
             })
 
         } else if (parseInt(codeNumber) === 401) {
@@ -315,14 +320,7 @@ function* settleBatch(action) {
     //console.log('settleBatch  : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            // yield put({
-            //     type: 'GET_LIST_INVOICE_BY_MERCHANT',
-            //     method: 'GET',
-            //     api: `${apiConfigs.BASE_API}checkout?page=1`,
-            //     token: true,
-            //     isShowLoading: true,
-            //     currentPage: 1
-            // })
+           
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({

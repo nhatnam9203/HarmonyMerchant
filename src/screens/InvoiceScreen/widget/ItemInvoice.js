@@ -89,48 +89,10 @@ class ItemInvoice extends React.Component {
                 </View>
                 {/* ----------- Col 3 --------- */}
                 <View style={{ flex: 0.7 ,justifyContent: 'center', alignItems: 'flex-end'}} >
-                <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
+                <Text style={{ fontSize: scaleSzie(16), color: '#404040' ,fontWeight:"600" }} >
                             {`$ ${invoice.total}`}
                         </Text>
                 </View>
-
-                {/* ------------ Row 1 ------------ */}
-                {/* <View style={{ flex: 1, flexDirection: 'row' , backgroundColor:"blue"}} >
-                    <View style={{ flex: 1, justifyContent: 'center' }} >
-                        <Text style={{ fontSize: scaleSzie(14), color: '#404040' }} >
-                            {`${temptFirstName} ${temptLastName}`}
-                        </Text>
-                    </View>
-                    <View style={{ width: scaleSzie(120), justifyContent: 'center' }} >
-                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A' }} >
-                            {tempDate}
-                        </Text>
-                    </View>
-                    <View style={{ width: scaleSzie(80), justifyContent: 'center', alignItems: 'flex-end' }} >
-                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A' }} >
-                            {`${formatWithMoment(invoice.createdDate,'hh:mm A')}`}
-                        </Text>
-                    </View>
-                </View> */}
-
-                {/* ------------ Row 2 ------------ */}
-                {/* <View style={{ flex: 1, flexDirection: 'row',backgroundColor:"yellow" }} >
-                    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }} >
-                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A', marginRight: scaleSzie(20) }} >
-                            {`# ${invoice.code}`}
-                        </Text>
-                        <View style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: colorStaus }} />
-                        <Text style={{ fontSize: scaleSzie(14), color: colorStaus, marginLeft: scaleSzie(5) }} >
-                            {invoice.status}
-                        </Text>
-
-                    </View>
-                    <View style={{backgroundColor:"red"}} >
-                        <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
-                            {`$ ${invoice.total}`}
-                        </Text>
-                    </View>
-                </View> */}
             </Button>
 
         );

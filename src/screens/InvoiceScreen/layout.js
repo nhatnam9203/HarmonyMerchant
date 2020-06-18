@@ -11,13 +11,14 @@ import _ from 'ramda';
 
 import {
     Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupCalendar, PopupEnterPinInvoice,
-    PopupConfirmInvoiceStatus,PopupProcessingCredit
+    PopupConfirmInvoiceStatus, PopupProcessingCredit,PopupInvoicePrint,PopupConfirmPrintInvoice
 } from '@components';
-import { scaleSzie, localize ,formatWithMoment} from '@utils';
+import { scaleSzie, localize, formatWithMoment } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import {
-    ItemInvoice, ItemInfo, ItemButton, ItemBasket, ItemHistory
+    ItemInvoice, ItemInfo, ItemButton, ItemBasket, ItemHistory, 
+    // PopupInvoicePrint
 } from './widget';
 
 export default class Layout extends React.Component {
@@ -154,7 +155,7 @@ export default class Layout extends React.Component {
         const { language } = this.props;
         const { invoiceDetail } = this.state;
         const status = invoiceDetail.status ? invoiceDetail.status : '';
-        if (status === 'paid' ) {
+        if (status === 'paid') {
             return (
                 <ButtonCustom
                     width={'100%'}
@@ -207,12 +208,12 @@ export default class Layout extends React.Component {
                     />
                     <ItemInfo
                         title={localize('Date', language)}
-                        value={invoiceDetail.createdDate ? `${formatWithMoment(invoiceDetail.createdDate,"MM/DD/YYYY")}` : ''}
+                        value={invoiceDetail.createdDate ? `${formatWithMoment(invoiceDetail.createdDate, "MM/DD/YYYY")}` : ''}
 
                     />
                     <ItemInfo
                         title={localize('Time', language)}
-                        value={invoiceDetail.createdDate ? `${formatWithMoment(invoiceDetail.createdDate,"hh:mm A")}` : ''}
+                        value={invoiceDetail.createdDate ? `${formatWithMoment(invoiceDetail.createdDate, "hh:mm A")}` : ''}
 
                     />
                     <ItemInfo
@@ -276,17 +277,17 @@ export default class Layout extends React.Component {
                             title={localize('Payment Method', language)}
                             value={payment.paymentMethod && payment.paymentMethod ? payment.paymentMethod : ''}
                         />
-                         <ItemInfo
+                        <ItemInfo
                             title={localize('Amount', language)}
                             value={payment.amount && payment.amount ? `$ ${payment.amount}` : '$0.00'}
                         />
-                           <ItemInfo
+                        <ItemInfo
                             title={localize('Status', language)}
                             value={payment.status && payment.status ? payment.status : ''}
                         />
-                         <ItemInfo
+                        <ItemInfo
                             title={localize('Date Time', language)}
-                            value={payment.createdDate && payment.createdDate ? `${formatWithMoment(payment.createdDate,'MM/DD/YYYY hh:mm A')}` : ''}
+                            value={payment.createdDate && payment.createdDate ? `${formatWithMoment(payment.createdDate, 'MM/DD/YYYY hh:mm A')}` : ''}
                         />
                         {
                             payment.paymentInformation ? <>
@@ -306,8 +307,8 @@ export default class Layout extends React.Component {
                         }
 
                         {/* ------------ Line ----------- */}
-                        <View style={{height:1 ,marginTop:scaleSzie(10),paddingHorizontal:scaleSzie(30)}} >
-                                <View style={{flex:1,backgroundColor:"rgba(64,64,64,0.3)"}} />
+                        <View style={{ height: 1, marginTop: scaleSzie(10), paddingHorizontal: scaleSzie(30) }} >
+                            <View style={{ flex: 1, backgroundColor: "rgba(64,64,64,0.3)" }} />
                         </View>
 
                     </View>)
@@ -330,15 +331,15 @@ export default class Layout extends React.Component {
                                 marginRight: scaleSzie(6)
                             }} />
                             <Text style={{ color: '#0764B0', fontSize: scaleSzie(14) }} >
-                                
+
                                 {localize('Back', language)}
-                        </Text>
+                            </Text>
                         </Button>
 
                     </View>
                     <View style={{}} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
-                            
+
                             {localize('Payment Information', language)}
                         </Text>
                     </View>
@@ -369,13 +370,13 @@ export default class Layout extends React.Component {
                             }} />
                             <Text style={{ color: '#0764B0', fontSize: scaleSzie(14) }} >
                                 {localize('Back', language)}
-                        </Text>
+                            </Text>
                         </Button>
 
                     </View>
                     <View style={{}} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
-                            
+
                             {localize('Basket', language)}
                         </Text>
                     </View>
@@ -472,8 +473,8 @@ export default class Layout extends React.Component {
                                 marginRight: scaleSzie(6)
                             }} />
                             <Text style={{ color: '#0764B0', fontSize: scaleSzie(14) }} >
-                            {localize('Back', language)}
-                        </Text>
+                                {localize('Back', language)}
+                            </Text>
                         </Button>
 
                     </View>
@@ -514,7 +515,7 @@ export default class Layout extends React.Component {
                         borderBottomColor: '#C5C5C5', borderBottomWidth: 1, paddingBottom: scaleSzie(6)
                     }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
-                            
+
                             {localize('Invoice List', language)}
                         </Text>
                     </View>
@@ -532,7 +533,7 @@ export default class Layout extends React.Component {
                             refreshing={refreshListInvoice}
                             ListEmptyComponent={() => <View style={{ width: '100%', alignItems: 'center', paddingTop: scaleSzie(20) }} >
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
-                                    
+
                                     {localize('List Empty', language)}
                                 </Text>
                             </View>}
@@ -549,7 +550,7 @@ export default class Layout extends React.Component {
                         borderBottomColor: '#C5C5C5', borderBottomWidth: 1, paddingBottom: scaleSzie(6)
                     }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
-                            
+
                             {localize('Invoice Detail', language)}
                         </Text>
                     </View>
@@ -570,6 +571,14 @@ export default class Layout extends React.Component {
                             {this.renderBasket()}
                             {this.renderHistoryInvoice()}
                         </ScrollableTabView>
+                        {/* ---------- Print Invoice Button --------- */}
+                        <Button onPress={this.printInvoice} style={{
+                            height: scaleSzie(30), width: scaleSzie(30), backgroundColor: "#0764B0",
+                            position: "absolute", top: scaleSzie(10), right: scaleSzie(10), justifyContent: "center", alignItems: "center",
+                            borderRadius: 6
+                        }} >
+                            <Image source={IMAGE.print_btn} style={{ height: scaleSzie(20), width: scaleSzie(20) }} />
+                        </Button>
                     </View>
                 </View>
             </View>
@@ -577,8 +586,8 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { language, navigation } = this.props;
-        const { visibleCalendar, isFocus, visibleConfirmInvoiceStatus,transactionId } = this.state;
+        const { language, navigation,visibleConfirmPrintInvoice } = this.props;
+        const { visibleCalendar, isFocus, visibleConfirmInvoiceStatus, transactionId, visiblePrintInvoice } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -598,13 +607,6 @@ export default class Layout extends React.Component {
                     <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
-
-                    {/* <Button onPress={this.showLockScreen} style={{
-                        position: 'absolute', top: 20, right: 0,
-                        width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
-                    }} >
-                        <Image source={IMAGE.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
-                    </Button> */}
                 </View>
                 <PopupCalendar
                     ref={this.modalCalendarRef}
@@ -624,12 +626,25 @@ export default class Layout extends React.Component {
                     confirmChangeInvoiceStatus={this.confirmChangeInvoiceStatus}
                     onRequestClose={() => this.setState({ visibleConfirmInvoiceStatus: false })}
                 />
-                 <PopupProcessingCredit
+                <PopupProcessingCredit
                     ref={this.popupProcessingCreditRef}
                     visible={this.state.visibleProcessingCredit}
                     onRequestClose={this.cancelTransaction}
                     language={language}
                     transactionId={transactionId}
+                />
+                <PopupConfirmPrintInvoice
+                    visible={visibleConfirmPrintInvoice}
+                    title={localize('Confirmation', language)}
+                    message={`${localize('Do you want to print receipt ', language)}?`}
+                    onRequestClose={this.closePopupConfirmPrintInvoice}
+                    confimYes={this.printInvoice}
+                    language={language}
+                />
+                <PopupInvoicePrint
+                    ref={this.invoicePrintRef}
+                    visiblePrintInvoice={visiblePrintInvoice}
+                    onRequestClose={this.cancelInvoicePrint}
                 />
             </ParentContainer>
         );

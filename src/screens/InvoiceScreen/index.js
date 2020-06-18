@@ -30,7 +30,8 @@ class InvoiceScreen extends Layout {
             visibleEnterPin: true,
             visibleConfirmInvoiceStatus: false,
             visibleProcessingCredit: false,
-            transactionId: false
+            transactionId: false,
+            visiblePrintInvoice: false
         }
         this.scrollTabInvoiceRef = React.createRef();
         this.modalCalendarRef = React.createRef();
@@ -39,6 +40,8 @@ class InvoiceScreen extends Layout {
         this.visibleEnterPinRef = React.createRef();
         this.confirmInvoiceStatusRef = React.createRef();
         this.popupProcessingCreditRef = React.createRef();
+        this.invoicePrintRef = React.createRef();
+        this.invoicePrintRef = React.createRef();
     }
 
     componentDidMount() {
@@ -272,8 +275,6 @@ class InvoiceScreen extends Layout {
         const { invoiceDetail } = this.state;
         this.confirmInvoiceStatusRef.current.setStateFromParent(invoiceDetail);
 
-        // console.log("---- invoiceDetail :  ", JSON.stringify(invoiceDetail));
-
         await this.setState({
             visibleConfirmInvoiceStatus: true
         })
@@ -395,9 +396,106 @@ class InvoiceScreen extends Layout {
 
     }
 
-    closePopupEnterPinInvoice = () =>{
+    closePopupEnterPinInvoice = () => {
         this.props.actions.app.setVisibleEnterPincodeInvoice(false);
         this.props.navigation.navigate("Home");
+    }
+
+    getBasket = (appointment) => {
+        const arrayProductBuy = [];
+        const arryaServicesBuy = [];
+        const arrayExtrasBuy = [];
+        const arrayGiftCards = [];
+
+        // ------ Push Service -------
+        appointment.services.forEach((service) => {
+            arryaServicesBuy.push({
+                type: "Service",
+                data: {
+                    name: service.serviceName ? service.serviceName : "",
+                    price: service.price ? service.price : ""
+                },
+                staff: service.staff ? service.staff : false
+            })
+        });
+
+        // ------ Push Product -------
+        appointment.products.forEach((product) => {
+            arrayProductBuy.push({
+                type: "Product",
+                data: {
+                    name: product.productName ? product.productName : "",
+                    price: product.price ? product.price : ""
+                },
+                quanlitySet: product.quantity ? product.quantity : ""
+            })
+        });
+
+        // ------ Push Product -------
+        appointment.extras.forEach((extra) => {
+            arrayExtrasBuy.push({
+                type: 'Extra',
+                data: {
+                    name: extra.extraName ? extra.extraName : "",
+                    price: extra.price ? extra.price : ""
+                }
+            })
+        });
+
+        // ------ Push Gift Card -------
+        appointment.giftCards.forEach((gift) => {
+            arrayGiftCards.push({
+                type: 'GiftCards',
+                data: {
+                    name: gift.name ? gift.name : "Gift Card",
+                    price: gift.price ? gift.price : ""
+                },
+                quanlitySet: gift.quantity ? gift.quantity : ""
+            })
+        });
+
+        return {
+            arryaServicesBuy,
+            arrayProductBuy,
+            arrayExtrasBuy,
+            arrayGiftCards
+        }
+    }
+
+    printInvoice = async () => {
+        this.props.actions.invoice.togglPopupConfirmPrintInvoice(false);
+        const { invoiceDetail } = this.state;
+        if (!invoiceDetail.appointmentId) {
+
+        } else {
+            const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards } = this.getBasket(invoiceDetail.basket);
+            const basket = [...arryaServicesBuy, ...arrayProductBuy, ...arrayExtrasBuy, ...arrayGiftCards];
+            const { subTotal, total, discount, tipAmount, tax, paymentMethod } = invoiceDetail;
+
+            this.invoicePrintRef.current.setStateFromParent(
+                basket,
+                subTotal,
+                tax,
+                discount,
+                tipAmount,
+                total,
+                paymentMethod,
+                false,
+                "BT:mPOP"
+            );
+
+            await this.setState({
+                visiblePrintInvoice: true
+            })
+        };
+    }
+
+    cancelInvoicePrint = async (isPrintTempt) => {
+        await this.setState({ visiblePrintInvoice: false });
+    }
+
+    closePopupConfirmPrintInvoice =() =>{
+        this.props.actions.invoice.togglPopupConfirmPrintInvoice(false);
     }
 
     componentWillUnmount() {
@@ -418,8 +516,8 @@ const mapStateToProps = state => ({
     totalPages: state.invoice.totalPages,
     currentPage: state.invoice.currentPage,
     visibleEnterPinInvoice: state.app.visibleEnterPinInvoice,
-
     paxMachineInfo: state.dataLocal.paxMachineInfo,
+    visibleConfirmPrintInvoice : state.invoice.visibleConfirmPrintInvoice
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);

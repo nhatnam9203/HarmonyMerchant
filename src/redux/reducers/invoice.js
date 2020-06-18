@@ -23,7 +23,8 @@ const initialState = {
     refreshingSettle: false,
     refreshingTransaction: false,
     refreshingBatchHistory: false,
-    isGettingSettlement: ""
+    isGettingSettlement: "",
+    visibleConfirmPrintInvoice: false
 
 }
 
@@ -155,6 +156,11 @@ function appReducer(state = initialState, action) {
                 ...state,
                 listBatchHistorySearch: [],
                 isShowSearchBatchHistory: false
+            }
+        case 'VISIBLE_POPUP_CONFIRM_PRINT_INVOICE':
+            return {
+                ...state,
+                visibleConfirmPrintInvoice: action.payload
             }
         default:
             return state

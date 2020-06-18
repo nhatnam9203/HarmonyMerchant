@@ -129,3 +129,11 @@ export function resetStateIsGettingSettlement() {
         type: 'RESET_STATE_IS_GETTING_SETTLEMENT'
     }
 }
+
+export function togglPopupConfirmPrintInvoice(visible = false) {
+    return {
+        type: 'VISIBLE_POPUP_CONFIRM_PRINT_INVOICE',
+        payload : visible
+    }
+}
+
