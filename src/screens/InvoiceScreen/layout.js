@@ -571,13 +571,13 @@ export default class Layout extends React.Component {
                             {this.renderHistoryInvoice()}
                         </ScrollableTabView>
                         {/* ---------- Print Invoice Button --------- */}
-                        <Button onPress={this.printInvoice} style={{
+                        {/* <Button onPress={this.printInvoice} style={{
                             height: scaleSzie(30), width: scaleSzie(30), backgroundColor: "#0764B0",
                             position: "absolute", top: scaleSzie(10), right: scaleSzie(10), justifyContent: "center", alignItems: "center",
                             borderRadius: 6
                         }} >
                             <Image source={IMAGE.print_btn} style={{ height: scaleSzie(20), width: scaleSzie(20) }} />
-                        </Button>
+                        </Button> */}
                     </View>
                 </View>
             </View>

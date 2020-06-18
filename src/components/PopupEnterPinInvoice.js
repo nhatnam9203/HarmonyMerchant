@@ -39,7 +39,7 @@ class PopupEnterPinInvoice extends React.Component {
         await this.setState({
             customStyle: {
                 justifyContent: 'flex-start',
-                paddingTop: scaleSzie(80)
+                paddingTop: scaleSzie(50)
             }
         });
     }

@@ -22,7 +22,7 @@ export default createNavigationContainer(createSwitchNavigator({
     // ReportScreen
 },
     {
-        initialRouteName: 'Splash'
+        initialRouteName: 'Auth'
     }
 
 ))
