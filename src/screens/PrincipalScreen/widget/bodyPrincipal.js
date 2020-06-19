@@ -2,7 +2,6 @@ import React from 'react';
 import {
     View,
     Image,
-    Dimensions
 } from 'react-native';
 
 import {
@@ -12,8 +11,6 @@ import {
 import { scaleSzie, localize ,formatWithMoment} from '@utils';
 import IMAGE from '@resources';
 import styles from '../style';
-
-const { width } = Dimensions.get('window');
 
 export default class Layout extends React.Component {
 
@@ -264,7 +261,6 @@ export default class Layout extends React.Component {
                 <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginTop: scaleSzie(10) }} >
                     {`${localize('Please take or upload photos of Driver License', language)}*`}
                 </Text>
-
                 <View style={{
                     alignItems: 'center',
                     padding: scaleSzie(10), marginTop: scaleSzie(18)
@@ -321,10 +317,8 @@ export default class Layout extends React.Component {
                                 </Text>
                             </Button>
                         </View>
-
                     </View>
                 </View>
-
             </View>
 
         );

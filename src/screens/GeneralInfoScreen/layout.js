@@ -54,7 +54,7 @@ export default class Layout extends React.Component {
                         <InputForm
                             title={`${localize('Legal Business Name', language)}* `}
                             subTitle={``}
-                            placeholder={`${localize('Legal Business Name', language)} *`}
+                            placeholder={`${localize('Legal Business Name', language)}*`}
                             value={businessName}
                             onChangeText={(value) => this.updateGeneralInfo('businessName', value)}
                             onFocus={() => this.scrollGeneralTo(85)}

@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import {
-     FormInfoParent, Text, Button, PopupUpload, DatePicker,
+    FormInfoParent, Text, Button, PopupUpload, DatePicker,
 } from '@components';
 import { scaleSzie, localize } from '@utils';
 import IMAGE from '@resources';
@@ -162,6 +162,7 @@ export default class Layout extends React.Component {
                         title={localize('Date of Birth ', language)}
                         dateCalendar={isShowPrincipal1 ? dateOfBirth : dateOfBirthPrincipal2}
                         setDateSelected={this.setDateSelected}
+                        heightPicker={scaleSzie(190)}
                     />
                     <View style={{ height: scaleSzie(250) }} />
                 </ScrollView>

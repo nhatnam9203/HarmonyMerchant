@@ -5,13 +5,14 @@ import {
     Dimensions,
     View,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 
 import { scaleSzie } from '../utils';
 import Modal from "./ModalCustom"
+import Button from "./Button";
 
 const { width } = Dimensions.get('window');
 
@@ -54,6 +55,18 @@ export default class DatePicker extends Component {
                         />
                     </TouchableOpacity>
 
+                    {/* ----------- Done ------------  */}
+                    <Button
+                        onPress={() => onRequestClose()}
+                        style={{
+                            width: scaleSzie(60), height: scaleSzie(40),
+                            position: "absolute", top: 0, right: 0, justifyContent: "center",
+                            alignItems: "center"
+                        }} >
+                        <Text style={{ fontSize: scaleSzie(14), color: '#0764B0', fontWeight: "bold" }} >
+                            {`Done`}
+                        </Text>
+                    </Button>
                 </View>
             </Modal>
         );

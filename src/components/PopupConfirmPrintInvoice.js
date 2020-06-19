@@ -52,8 +52,8 @@ class PopupConfirmPrintInvoice extends React.Component {
                             <ButtonCustom
                                 width={'60%'}
                                 height={35}
-                                backgroundColor="#EC1818"
-                                title={localize('LOG OUT', language)}
+                                backgroundColor="#0764B0"
+                                title={localize('PRINT', language)}
                                 textColor="#fff"
                                 onPress={() => confimYes()}
                                 styleText={{
