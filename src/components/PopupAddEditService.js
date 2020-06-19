@@ -743,14 +743,14 @@ const strings = {
     name: 'Missing Info: Name service',
     description: 'Missing Info: Description',
     duration: 'Missing Info: Duration',
-    openTime: 'Missing Info: Open time',
-    secondTime: 'Missing Info: Second time',
+    openTime: 'Missing Info: Open Time',
+    secondTime: 'Missing Info: Second Time',
     price: 'Missing Info: Price',
     status: 'Missing Info:Status',
 
     // --- Extra ---
-    name_extra: 'Missing Info: Name extra',
-    description_extra: 'Missing Info: Description extra',
+    name_extra: 'Missing Info: Name Extra',
+    description_extra: 'Missing Info: Description Extra',
     duration_extra: 'Missing Info: Duration Extra ',
     price_extra: 'Missing Info: Price extra',
     status: 'Active'

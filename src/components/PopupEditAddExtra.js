@@ -352,7 +352,7 @@ class ItemTime extends React.Component {
 }
 
 const strings = {
-    name: 'Missing Info: Name service',
+    name: 'Missing Info: Name Service',
     description: 'Missing Info: Description',
     duration: 'Missing Info: Duration',
     price: 'Missing Info: Price',

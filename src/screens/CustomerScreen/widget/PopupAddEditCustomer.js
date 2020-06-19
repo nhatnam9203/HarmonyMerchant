@@ -348,6 +348,33 @@ class PopupAddEditCustomer extends React.Component {
                                     </View>
 
                                 </View>
+                                {/* ----- Attribute Level ------- */}
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(2), marginTop: scaleSzie(15) }} >
+                                    {localize('Attribute Level', language)}
+                                </Text>
+                                <View style={{ flexDirection: 'row', marginTop: scaleSzie(5) }} >
+                                    <View style={{ flex: 1, paddingRight: scaleSzie(10) }} >
+                                        <View style={{ height: scaleSzie(30), }} >
+                                            <View style={{ flex: 1 }} >
+                                                <Dropdown
+                                                    label={""}
+                                                    data={[{ value: "Normal" }, { value: "VIP" }]}
+                                                    value={isVip}
+                                                    onChangeText={(value) => this.updateCustomerInfo('isVip', value)}
+                                                    containerStyle={{
+                                                        backgroundColor: '#F1F1F1',
+                                                        borderWidth: 1,
+                                                        borderColor: '#C5C5C5',
+                                                        flex: 1
+                                                    }}
+                                                />
+                                            </View>
+                                        </View>
+
+                                    </View>
+                                    <View style={{ flex: 1 }} />
+                                </View>
+
                                 {/* ---- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                     {localize('Note', language)}
@@ -379,32 +406,6 @@ class PopupAddEditCustomer extends React.Component {
                                             </View>
                                         </View>
                                     </View>
-                                </View>
-                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
-                                    {localize('Attribute Level', language)}
-                                </Text>
-                                {/* ----- Attribute Level ------- */}
-                                <View style={{ flexDirection: 'row', marginTop: scaleSzie(5) }} >
-                                    <View style={{ flex: 1, paddingRight: scaleSzie(10) }} >
-                                        <View style={{ height: scaleSzie(30), }} >
-                                            <View style={{ flex: 1 }} >
-                                                <Dropdown
-                                                    label={""}
-                                                    data={[{ value: "Normal" }, { value: "VIP" }]}
-                                                    value={isVip}
-                                                    onChangeText={(value) => this.updateCustomerInfo('isVip', value)}
-                                                    containerStyle={{
-                                                        backgroundColor: '#F1F1F1',
-                                                        borderWidth: 1,
-                                                        borderColor: '#C5C5C5',
-                                                        flex: 1
-                                                    }}
-                                                />
-                                            </View>
-                                        </View>
-
-                                    </View>
-                                    <View style={{ flex: 1 }} />
                                 </View>
                                 {/* -----  */}
                                 <View style={{ height: scaleSzie(250) }} />

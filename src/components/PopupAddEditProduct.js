@@ -434,12 +434,12 @@ class PopupAddEditProduct extends React.Component {
 
 const strings = {
     categoryId: 'Missing Info: Category',
-    name: 'Missing Info: Name Product',
+    name: 'Missing Info: Product Name',
     description: 'Missing Info: Description',
     sku: 'Missing Info: SKU Number',
-    quantity: 'Missing Info: Item In Stock',
-    minThreshold: 'Missing Info: Low Theshold',
-    maxThreshold: 'Missing Info: Max Theshold',
+    quantity: 'Missing Info: Items In Stock',
+    minThreshold: 'Missing Info: Low Threshold',
+    maxThreshold: 'Missing Info: High Threshold',
     price: 'Missing Info: Price',
     status: 'Active',
 }
