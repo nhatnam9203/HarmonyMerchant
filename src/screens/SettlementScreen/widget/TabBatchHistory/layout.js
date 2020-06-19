@@ -416,7 +416,7 @@ const ItemCreditInfo = ({ data }) => {
                 value={data.paymentData && data.paymentData.card_number ? `**** **** **** ${data.paymentData.card_number}` : ""}
             />
             <RowCreditInfo
-                title={"Name on card"}
+                title={"Name on Card"}
                 value={data.paymentData && data.paymentData.name_on_card ? data.paymentData.name_on_card : ""}
             />
             <RowCreditInfo
@@ -428,7 +428,7 @@ const ItemCreditInfo = ({ data }) => {
                 value={data.status ? data.status : ""}
             />
             <RowCreditInfo
-                title={"Checkout ID"}
+                title={"Check-Out ID"}
                 value={data.checkoutId ? data.checkoutId : ""}
             />
             <RowCreditInfo

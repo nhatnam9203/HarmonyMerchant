@@ -74,7 +74,7 @@ class Layout extends React.Component {
 
                             {localize('Total Amount', language)}
                         </Text>
-                        <Image source={IMAGE.arrowDownAmount} style={{ marginRight: scaleSzie(14) }} />
+                        {/* <Image source={IMAGE.arrowDownAmount} style={{ marginRight: scaleSzie(14) }} /> */}
                     </View>
                 </View>
                 <View style={{ width: scaleSzie(2) }} />

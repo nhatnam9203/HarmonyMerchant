@@ -148,7 +148,7 @@ export default class Layout extends React.Component {
                                 <InputForm
                                     title=""
                                     subTitle=""
-                                    placeholder="Zip"
+                                    placeholder="Zip Code"
                                     style={{
                                         marginBottom: 0
                                     }}

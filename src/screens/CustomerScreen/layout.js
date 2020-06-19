@@ -88,7 +88,7 @@ export default class Layout extends React.Component {
                 <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={{ flex: 1, justifyContent: 'flex-end' }} >
                         <Text style={{ color: '#0764B0', fontSize: scaleSzie(18), fontWeight: 'bold' }} >
-                            {localize('Customer list', language)}
+                            {localize('Customer List', language)}
                         </Text>
                     </View>
                     <View style={{ width: scaleSzie(170), alignItems: 'flex-end' }} >

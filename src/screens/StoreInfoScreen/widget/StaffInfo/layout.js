@@ -105,7 +105,7 @@ class Layout extends React.Component {
 
                     <ItemAdminInfoDoubleItem
                         title={``}
-                        placeholder={localize('Zip', language)}
+                        placeholder={localize('Zip Code', language)}
                         value={zip}
                         onChangeText={(value) => this.updateUserInfo('zip', value, 'address')}
                     />

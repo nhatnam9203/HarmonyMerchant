@@ -328,7 +328,7 @@ class PopupAddEditProduct extends React.Component {
                                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                            {`${localize('Low Theshold', language)}*`}
+                                            {`${localize('Low Threshold', language)}*`}
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
@@ -345,7 +345,7 @@ class PopupAddEditProduct extends React.Component {
                                     </View>
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
-                                            {`${localize('Max Theshold', language)}*`}
+                                            {`${localize('High Threshold', language)}*`}
                                     </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >

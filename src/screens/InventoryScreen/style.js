@@ -23,6 +23,7 @@ export default StyleSheet.create({
         width: scaleSzie(110),
          height: scaleSzie(50),
         backgroundColor: '#fff', borderRadius: scaleSzie(4),
+        paddingLeft:scaleSzie(10),
         ...Platform.select({
             ios: {
                 shadowColor: 'rgba(0, 0, 0,0.3)',

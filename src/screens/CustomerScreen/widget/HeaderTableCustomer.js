@@ -65,9 +65,9 @@ class HeaderTableCustomer extends React.Component {
                         {localize('Name', language)}
                         </Text>
                     </View>
-                    <Button onPress={this.sortStaffName} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
+                    {/* <Button onPress={this.sortStaffName} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
                         <Image source={iconSortStaffName} style={styles.iconSort} />
-                    </Button>
+                    </Button> */}
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>

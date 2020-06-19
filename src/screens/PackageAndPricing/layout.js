@@ -101,7 +101,7 @@ export default class Layout extends React.Component {
                         title="Staff App"
                     />
                     <ItemTextPackage
-                        title="Staff App"
+                        title="Live Marketing"
                     />
                     <ItemTextPackage
                         title="Reporting"
@@ -230,7 +230,7 @@ export default class Layout extends React.Component {
                     color: "#404040", fontSize: scaleSzie(30), fontWeight: "600",
                     alignSelf: "center", marginTop: scaleSzie(25)
                 }} >
-                    {`Package & Pricing`}
+                    {`Packages & Pricing`}
                 </Text>
                 <Text style={{
                     color: "#6A6A6A", fontSize: scaleSzie(20), alignSelf: "center", marginTop: scaleSzie(6)

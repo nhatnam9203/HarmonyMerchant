@@ -64,7 +64,7 @@ class PopupEditAddCategories extends React.Component {
             return;
         }
         if (name === '') {
-            Alert.alert(`Please enter Category Name!`);
+            Alert.alert(`Please enter Category Name.`);
             return;
         } else {
             this.props.confimYes(this.state.category);
