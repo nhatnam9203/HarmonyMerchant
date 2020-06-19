@@ -47,7 +47,7 @@ export default class Layout extends React.Component {
                         nextTab={this.gotoTabService}
                     />
                     <TabServiceProduct
-                        tabLabel={`4. ${localize('Services / Products', language)}`}
+                        tabLabel={`4. ${localize('Services/Products', language)}`}
                         backTab={() => this.scrollTabRef.current.goToPage(2)}
                     />
                 </ScrollableTabView>

@@ -132,11 +132,11 @@ class PopupDetailProduct extends React.Component {
                                     value={needToorDer}
                                 />
                                 <ItemDetail
-                                    title={localize('Low Theshold', language)}
+                                    title={localize('Low Threshold', language)}
                                     value={minThreshold}
                                 />
                                 <ItemDetail
-                                    title={localize('Max Theshold', language)}
+                                    title={localize('High Threshold', language)}
                                     value={maxThreshold}
                                 />
                                 <ItemDetail

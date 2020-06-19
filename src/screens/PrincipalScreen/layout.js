@@ -159,7 +159,7 @@ export default class Layout extends React.Component {
                     <DatePicker
                         visible={this.state.showCalendar}
                         onRequestClose={() => this.setState({ showCalendar: false })}
-                        title={localize('Day Of Birth', language)}
+                        title={localize('Date of Birth ', language)}
                         dateCalendar={isShowPrincipal1 ? dateOfBirth : dateOfBirthPrincipal2}
                         setDateSelected={this.setDateSelected}
                     />

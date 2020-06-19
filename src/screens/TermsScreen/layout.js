@@ -473,7 +473,7 @@ export default class Layout extends React.Component {
                         </Button>
                         <View style={{ justifyContent: 'center' }} >
                             <Text style={{ color: '#0764B0', fontSize: scaleSzie(16) }} >
-                                {localize('I have read the terms of service', language)}
+                                {localize('I agree to the Terms of Service.', language)}
                             </Text>
                         </View>
                     </View>

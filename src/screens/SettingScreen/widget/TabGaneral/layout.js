@@ -120,68 +120,8 @@ class Layout extends React.Component {
                             />
                         </View>
                     </View>
-                    {/* -------- Longtitude --------- */}
-                    {/* <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
-                        <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
-                            <Text style={{
-                                color: '#404040',
-                                fontSize: scaleSzie(16),
-                                fontWeight: '600',
-                            }}  >
-                                {`${localize('Longtitude', language)}:`}
-                            </Text>
-                        </View>
-                        <View style={{
-                            height: scaleSzie(40), width: scaleSzie(240), borderWidth: 1, borderColor: '#C5C5C5',
-                            paddingHorizontal: scaleSzie(10)
-                        }} >
-                            <TextInput
-                                style={{ flex: 1, fontSize: scaleSzie(18) }}
-                                placeholder=""
-                                value={longitude}
-                                onChangeText={value => this.setState({ longitude: value })}
-                            />
-                        </View>
-                    </View> */}
-                    {/* -------- Lattitude --------- */}
-                    {/* <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
-                        <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
-                            <Text style={{
-                                color: '#404040',
-                                fontSize: scaleSzie(16),
-                                fontWeight: '600',
-                            }}  >
-                                {`${localize('Latitude', language)}:`}
-                            </Text>
-                        </View>
-                        <View style={{
-                            height: scaleSzie(40), width: scaleSzie(240), borderWidth: 1, borderColor: '#C5C5C5',
-                            paddingHorizontal: scaleSzie(10)
-                        }} >
-                            <TextInput
-                                style={{ flex: 1, fontSize: scaleSzie(18) }}
-                                placeholder=""
-                                value={latitude}
-                                onChangeText={value => this.setState({ latitude: value })}
-                            />
-                        </View>
-                    </View> */}
                     {/* ------ Button Save --- */}
                     <View style={{ justifyContent: 'flex-end', marginTop: scaleSzie(20), flexDirection: 'row' }} >
-                        {/* <ButtonCustom
-                            width={scaleSzie(250)}
-                            height={50}
-                            backgroundColor="#F1F1F1"
-                            title={localize('Get current your position', language)}
-                            textColor="#6A6A6A"
-                            onPress={this.getCurrentPosition}
-                            style={{
-                                borderWidth: 1, borderColor: '#C5C5C5',
-                                backgroundColor: '#0764B0'
-                            }}
-                            styleText={{ fontSize: scaleSzie(18), fontWeight: '500', color: '#fff' }}
-                        />
-                        <View style={{ width: scaleSzie(20) }} /> */}
                         <ButtonCustom
                             width={scaleSzie(120)}
                             height={50}
@@ -272,7 +212,7 @@ class Layout extends React.Component {
                 justifyContent:"flex-end",alignItems:"flex-end"
                 }} >
                         <Text style={{color:"rrgb(57,54,60)",fontSize:scaleSzie(14),fontWeight:"600"}} >
-                        {localize('Version', language)}   : {versionApp}
+                       {`${localize('Version', language)}: ${versionApp}`}
                         </Text>
                     </View>
                     <View style={{ height: scaleSzie(250) }} />

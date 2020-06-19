@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateEmail, getIdStateByName ,scaleSzie,checkStateIsValid} from '@utils';
+import { getIdStateByName ,scaleSzie} from '@utils';
 
 const initState = {
     user: {
@@ -93,24 +93,6 @@ class StoreInfoScreen extends Layout {
         const arrayKey = Object.keys(user);
         let keyError = '';
         for (let i = 0; i < arrayKey.length; i++) {
-            // if (arrayKey[i] == 'address') {
-               
-            //     if (user.address.state !== '' && !checkStateIsValid(stateCity,user.address.state))  {
-            //         keyError = 'stateInvalid';
-            //         break;
-            //     }
-            // } else if (arrayKey[i] == 'roles') {
-            //     if (user.roles.nameRole == '') {
-            //         keyError = 'nameRole';
-            //         break;
-            //     }
-            // }
-            // else if (arrayKey[i] == 'email') {
-            //     if (!validateEmail(user[arrayKey[i]])) {
-            //         keyError = 'emailInvalid';
-            //         break;
-            //     }
-            // } else 
             if (arrayKey[i] === 'firstName' || arrayKey[i] === 'lastName' || arrayKey[i] === 'displayName' || arrayKey[i] === 'pin' || arrayKey[i] === 'confirmPin') {
                 if (user[arrayKey[i]] === '') {
                     keyError = arrayKey[i];

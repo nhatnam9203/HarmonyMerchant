@@ -279,9 +279,25 @@ function* timeout(action) {
 function* showErrorMessage(action) {
     yield put({ ...action, type: 'STOP_LOADING_ROOT' });
     // alert(action.message);
-    setTimeout(() => {
-        alert(action.message ? action.message : 'Something went wrong');
-    }, 100)
+    if(action.message === "The pincode is exsits."){
+        setTimeout(() => {
+            Alert.alert(
+                'Oops!',
+                `This PIN already exists for another staff. Please enter a different 4-digit PIN.`,
+                [
+                    {
+                        text: 'OK', onPress: () => { }
+                    },
+                ],
+                { cancelable: false },
+            );
+        }, 300)
+    }else{
+        setTimeout(() => {
+            alert(action.message ? action.message : 'Something went wrong');
+        }, 300)
+    }
+    
 
 }
 

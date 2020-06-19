@@ -124,7 +124,7 @@ class Layout extends React.Component {
                             style={{ width: scaleSzie(16), height: scaleSzie(13) }}
                         />
                         <Text style={styles.textBtnCashier} >
-                            {localize('Open Cashier', language)}
+                            {localize('Open Cash Drawer', language)}
                         </Text>
                     </Button>
 

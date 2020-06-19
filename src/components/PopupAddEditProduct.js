@@ -378,7 +378,7 @@ class PopupAddEditProduct extends React.Component {
                                                         unit: '',
                                                         suffixUnit: ''
                                                     }}
-                                                    placeholder="10$"
+                                                    placeholder="$ 0.00"
                                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
                                                     value={price}
                                                     onChangeText={value => this.updateProductInfo('price', value)}

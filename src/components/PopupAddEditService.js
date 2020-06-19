@@ -645,7 +645,7 @@ class ItemExtra extends React.Component {
                                     suffixUnit: ''
                                 }}
                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                placeholder="$ 100"
+                                placeholder="$ 0.00"
                                 value={price}
                                 onChangeText={value => this.updateExtraInfo('price', value)}
                             />

@@ -184,7 +184,7 @@ export default class Layout extends React.Component {
                     value={yearAtThisAddress}
                     onChangeText={(value) => updatePrincipalInfo('yearAtThisAddress', value, '', isPrincipalSecond)}
                     keyboardType="numeric"
-                    maxLength={4}
+                    maxLength={2}
                     onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 665 : 625)}
                 />
                 <InputFormPhone

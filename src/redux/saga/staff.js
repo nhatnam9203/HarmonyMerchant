@@ -1,6 +1,6 @@
 import { put, takeLatest, all, join } from "redux-saga/effects";
+import { Alert } from "react-native";
 
-import NavigationServices from "../../navigators/NavigatorServices";
 import { requestAPI } from '../../utils';
 import apiConfigs from '../../configs/api';
 
@@ -69,8 +69,16 @@ function* getStaffByMerchantId(action) {
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (action.isCreateAdmin && action.isCreateAdmin) {
             setTimeout(() => {
-                alert(`Create admin success `);
-
+                Alert.alert(
+                    'Great!',
+                    `You've successfully created your Admin Info`,
+                    [
+                        {
+                            text: 'OK', onPress: () => { }
+                        },
+                    ],
+                    { cancelable: false },
+                );
             }, 200)
         }
     }
@@ -343,7 +351,7 @@ function* updateStaffsPosition(action) {
 }
 
 function* getListStaffsSalaryTop(action) {
-        //console.log(action)
+    //console.log(action)
     try {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);

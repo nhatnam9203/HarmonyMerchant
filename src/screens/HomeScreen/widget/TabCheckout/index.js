@@ -1058,7 +1058,7 @@ class TabCheckout extends Layout {
                     this.props.actions.appointment.createAnymousAppointment(profile.merchantId, userId,
                         profileStaffLogin.staffId,
                         arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
-                        customDiscountFixedLocal, customDiscountPercentLocal, 
+                        customDiscountFixedLocal, customDiscountPercentLocal,
                         // staffId,
                         infoUser.firstName,
                         infoUser.lastName,

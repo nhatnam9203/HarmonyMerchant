@@ -233,10 +233,11 @@ class PrincipalScreen extends Layout {
                         break;
                     } else {
                         if (arrayKey[i] === 'yearAtThisAddress') {
-                            if (!validateIsNumber(principalInfo2[arrayKey[i]])) {
-                                keyError = 'yearAtThisAddressInvalid';
-                                break;
-                            }
+                            // if (!validateIsNumber(principalInfo2[arrayKey[i]])) {
+                            //     keyError = 'yearAtThisAddressInvalid';
+                            //     break;
+                            // }
+                            break;
                         }
                     }
                 }
