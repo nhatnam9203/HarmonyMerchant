@@ -197,14 +197,14 @@ class PopupEditAddExtra extends React.Component {
                             <TouchableOpacity activeOpacity={1}>
                                 {/* ------ Extra ---- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(20) }} >
-                                    {`${localize('Extra name', language)}*`}
+                                    {`${localize('Extra Name', language)}*`}
                             </Text>
                                 <View style={{
                                     height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
                                     paddingLeft: scaleSzie(10),
                                 }} >
                                     <TextInput
-                                        placeholder={`${localize('Extra name', language)}`}
+                                        placeholder={`${localize('Extra Name', language)}`}
                                         style={{ flex: 1, fontSize: scaleSzie(16) }}
                                         value={name}
                                         onChangeText={(value) => this.updateExtraInfo('name', value)}

@@ -181,7 +181,7 @@ class Layout extends React.Component {
                     </View>
 
                     <TitleTabAdminInfo
-                        title={localize('Working time', language)}
+                        title={localize('Working Time', language)}
                     />
                     {
                         Object.keys(temptDataWorkingTime).map((day, index) => {
@@ -202,7 +202,7 @@ class Layout extends React.Component {
                     {/* ----- Per Hour ServiceSalary ---- */}
                     <ItemScalary
                         ref={this.perHourServiceSalaryRef}
-                        title={`${localize("Per hour", language)} ($)`}
+                        title={`${localize("Per Hour", language)} ($)`}
                         placeholder={'10'}
                         dataInit={perHour_ServiceSalary}
                         onFocus={() => this.scrollStaffTo(1100)}
@@ -248,7 +248,7 @@ class Layout extends React.Component {
                     {/* ----- Fix amount Tip Fee ---- */}
                     <ItemScalary
                         ref={this.fixedAmountTipFeeRef}
-                        title={`${localize("Fixed amount", language)} ($)`}
+                        title={`${localize("Fixed Amount", language)} ($)`}
                         placeholder={'10'}
                         dataInit={fixedAmount_TipFee}
                         onFocus={() => this.scrollStaffTo(1300)}
@@ -257,7 +257,7 @@ class Layout extends React.Component {
 
                     {/* ---- Address ---- */}
                     <ItemAdminInfo
-                        title={localize('Driver license', language)}
+                        title={localize('Driver License', language)}
                         // placeholder="0000-0000-0000"
                         value={driverlicense}
                         onChangeText={(value) => this.updateUserInfo('driverlicense', value)}

@@ -233,7 +233,7 @@ const ItemTextStoreInfoNotTilte = ({ city, state, zipcode }) => {
                     color: '#404040',
                     fontSize: scaleSzie(16),
                 }}  >
-                    {`Zip code: ${zipcode}`}
+                    {`Zip Code: ${zipcode}`}
                 </Text>
             </View>
 

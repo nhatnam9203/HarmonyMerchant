@@ -176,7 +176,7 @@ class Layout extends React.Component {
                         />
                     </View>
                     <TitleTabAdminInfo
-                        title={localize('Working time', language)}
+                        title={localize('Working Time', language)}
                     />
                     {
                         Object.keys(temptDataWorkingTime).map((day, index) => {
@@ -195,7 +195,7 @@ class Layout extends React.Component {
                     />
                     {
                         Object.keys(temptDataSalary).map((tip, index) => {
-                            const temptTitle = tip == 'perHour' ? 'Per hour' : 'Commission';
+                            const temptTitle = tip == 'perHour' ? 'Per Hour' : 'Commission';
                             const temptChar = tip == 'perHour' ? '($)' : '(%)';
                             return <ItemScalary
                                 key={index}
@@ -215,7 +215,7 @@ class Layout extends React.Component {
                     {
                         Object.keys(temptDataProductScalary).map((tip, index) => {
                         //console.log('tip : ',temptDataProductScalary[tip]);
-                            const temptTitle = tip == 'perHour' ? 'Per hour' : 'Commission';
+                            const temptTitle = tip == 'perHour' ? 'Per Hour' : 'Commission';
                             const temptChar = tip == 'perHour' ? '($)' : '(%)';
 
                             return <ItemScalary
@@ -236,7 +236,7 @@ class Layout extends React.Component {
                     />
                     {
                         Object.keys(temptDataTipFee).map((tip, index) => {
-                            const temptTitle = tip == 'percent' ? 'Percent' : 'Fixed amount';
+                            const temptTitle = tip == 'percent' ? 'Percent' : 'Fixed Amount';
                             const temptChar = tip == 'percent' ? '(%)' : '($)';
                             return <ItemScalary
                                 key={index}
@@ -252,7 +252,7 @@ class Layout extends React.Component {
 
                     {/* ---- Address ---- */}
                     <ItemAdminInfo
-                        title={localize('Driver license', language)}
+                        title={localize('Driver License', language)}
                         placeholder="0000-0000-0000"
                         value={driverlicense}
                         onChangeText={(value) => this.updateUserInfo('driverlicense', value)}

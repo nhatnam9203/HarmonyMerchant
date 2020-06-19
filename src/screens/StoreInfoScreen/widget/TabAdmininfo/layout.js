@@ -168,7 +168,7 @@ class Layout extends React.Component {
                         />
                     </View>
                     <TitleTabAdminInfo
-                        title={localize('Working time', language)}
+                        title={localize('Working Time', language)}
                     />
                     {
                         ['Monday', 'Tuesday', 'Wednesday', 'Thursday',
@@ -192,7 +192,7 @@ class Layout extends React.Component {
                         title={localize('Service Salary', language)}
                     />
                     {
-                        [{ title: `${localize('Per hour', language)} ($)`, placeholder: '100' },
+                        [{ title: `${localize('Per Hour', language)} ($)`, placeholder: '100' },
                         { title: `${localize('Commission')} (%)`, placeholder: '10' }
                         ].map((salary, index) => {
                             return <ItemScalary
@@ -235,7 +235,7 @@ class Layout extends React.Component {
                     />
                     {
                         [{ title: `${localize('Percent', language)} (%)`, placeholder: '100' },
-                        { title: `${localize('Fixed amount')} ($)`, placeholder: '10' }
+                        { title: `${localize('Fixed Amount')} ($)`, placeholder: '10' }
                         ].map((salary, index) => {
                             return <ItemScalary
                                 key={index}
@@ -254,7 +254,7 @@ class Layout extends React.Component {
 
                     {/* ---- Address ---- */}
                     <ItemAdminInfo
-                        title={localize('Driver license', language)}
+                        title={localize('Driver License', language)}
                         placeholder="0000-0000-0000"
                         value={driverlicense}
                         onChangeText={(value) => this.updateUserInfo('driverlicense', value)}
@@ -262,7 +262,7 @@ class Layout extends React.Component {
                         onFocus={() => this.scrollStaffTo(1450)}
                     />
                     <ItemAdminInfo
-                        title={localize('Social security number', language)}
+                        title={localize('Social Security Number', language)}
                         placeholder="000-00-0000"
                         value={socialSecurityNumber}
                         onChangeText={(value) => this.updateUserInfo('socialSecurityNumber', value)}
@@ -272,7 +272,7 @@ class Layout extends React.Component {
                         mark="999-99-9999"
                     />
                     <ItemAdminInfo
-                        title={localize('Professional license', language)}
+                        title={localize('Professional License', language)}
                         placeholder="0000-0000-0000"
                         value={professionalLicense}
                         onChangeText={(value) => this.updateUserInfo('professionalLicense', value)}

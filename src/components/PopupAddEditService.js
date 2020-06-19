@@ -580,7 +580,7 @@ class ItemExtra extends React.Component {
                 {/* ------ Extra ---- */}
                 <View style={{ flexDirection: 'row', justifyContent: "space-between" }} >
                     <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                        {`Extra name`}
+                        {`Extra Name`}
                     </Text>
                     {/* --------------- */}
 
@@ -597,7 +597,7 @@ class ItemExtra extends React.Component {
                     paddingLeft: scaleSzie(10),
                 }} >
                     <TextInput
-                        placeholder="Extra name"
+                        placeholder="Extra Name"
                         style={{ flex: 1, fontSize: scaleSzie(16) }}
                         value={name}
                         onChangeText={value => this.updateExtraInfo('name', value)}
