@@ -5,6 +5,7 @@ import NetInfo from "@react-native-community/netinfo";
 import { Subject } from 'rxjs';
 import { last, distinctUntilChanged, finalize } from 'rxjs/operators';
 import VersionCheck from 'react-native-version-check';
+import moment from "moment-timezone";
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -36,6 +37,13 @@ class HomeScreen extends Layout {
     }
 
     componentDidMount() {
+        const defaultTimeZone = moment.tz.guess();
+        const timeZonesList = moment.tz.names();
+
+        // console.log("---- defaultTimeZone : ",defaultTimeZone);
+        // console.log("---- timeZonesList : ",timeZonesList);
+
+
         this.checkUpdateAppleStore();
         this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
         this.didBlurSubscription = this.props.navigation.addListener(
@@ -139,7 +147,7 @@ class HomeScreen extends Layout {
 
     createABlockAppointment = (fromTime) => {
         const { profile } = this.props;
-        this.props.actions.appointment.createBlockAppointment(profile.merchantId,fromTime);
+        this.props.actions.appointment.createBlockAppointment(profile.merchantId, fromTime);
         this.scrollTabParentRef.current.goToPage(2);
     }
 
@@ -255,7 +263,7 @@ class HomeScreen extends Layout {
 
     loginStaffSuccess = () => {
         const { listAppointmentsOfflineMode } = this.props;
-        if (listAppointmentsOfflineMode &&  listAppointmentsOfflineMode.length > 0) {
+        if (listAppointmentsOfflineMode && listAppointmentsOfflineMode.length > 0) {
             this.props.actions.appointment.submitAppointmentOffline(listAppointmentsOfflineMode);
         }
         this.getCurrentLocation();

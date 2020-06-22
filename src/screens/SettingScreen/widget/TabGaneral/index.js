@@ -20,21 +20,19 @@ class TabGaneral extends Layout {
             autoLockScreenAfter: autoLockScreenAfter,
             businessHourStart: profile.businessHourStart ? profile.businessHourStart : '',
             businessHourEnd: profile.businessHourEnd ? profile.businessHourEnd : '',
-
+            timezone:profile.timezone ? profile.timezone : '',
             isUpdateInternal: false
         };
     }
 
-    setStateFromParent = async (webLink, businessHourStart, businessHourEnd) => {
-        // console.log("webLink : ", webLink);
-        // console.log("businessHourStart : ", businessHourStart);
-        // console.log("businessHourEnd : ", businessHourEnd);
-
+    setStateFromParent = async (webLink, businessHourStart, businessHourEnd,timezone) => {
         await this.setState({
             webLink,
             businessHourStart,
             businessHourEnd,
-            isUpdateInternal: false
+            timezone,
+            isUpdateInternal: false,
+           
         })
     }
 
@@ -60,7 +58,7 @@ class TabGaneral extends Layout {
     saveSettngApp = async () => {
         const { languageApp, longitude, latitude, webLink,
             autoCloseAt, autoLockScreenAfter,
-            businessHourStart, businessHourEnd
+            businessHourStart, businessHourEnd,timezone
         } = this.state;
         const { profile } = this.props;
         const temptLanguage = languageApp === 'English' ? 'en' : 'vi';
@@ -76,6 +74,7 @@ class TabGaneral extends Layout {
             longitude: longitude,
             taxService: profile.taxService,
             taxProduct: profile.taxProduct,
+            timezone
         });
     }
 
@@ -87,6 +86,7 @@ class TabGaneral extends Layout {
                 webLink: profile.webLink ? profile.webLink : '',
                 businessHourStart: profile.businessHourStart ? profile.businessHourStart : '',
                 businessHourEnd: profile.businessHourEnd ? profile.businessHourEnd : '',
+                timezone:profile.timezone ? profile.timezone : '',
             })
         }
         if (prevProps.loading !== loading && prevProps.loading && !loading && this.state.isUpdateInternal) {
@@ -95,6 +95,7 @@ class TabGaneral extends Layout {
                 webLink: profile.webLink ? profile.webLink : '',
                 businessHourStart: profile.businessHourStart ? profile.businessHourStart : '',
                 businessHourEnd: profile.businessHourEnd ? profile.businessHourEnd : '',
+                timezone:profile.timezone ? profile.timezone : '',
                 isUpdateInternal: false
             })
         }

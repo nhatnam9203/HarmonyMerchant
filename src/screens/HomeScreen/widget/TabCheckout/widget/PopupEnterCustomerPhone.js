@@ -117,6 +117,7 @@ class PopupEnterCustomerPhone extends React.Component {
                                     onSubmitEditing={() => {
                                         confimYes();
                                     }}
+                                    keyboardType="phone-pad"
                                 />
                             </View>
 

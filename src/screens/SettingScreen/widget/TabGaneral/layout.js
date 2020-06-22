@@ -8,16 +8,15 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, Text, Dropdown } from '@components';
-import { scaleSzie, localize, WorkingTime, getNameStateById } from '@utils';
-import IMAGE from '@resources';
-import configs from '@configs';
+import { scaleSzie, localize, WorkingTime, getNameStateById,TimeZones } from '@utils';
+
 
 class Layout extends React.Component {
 
     renderSetup() {
         const { language } = this.props;
-        const { languageApp, longitude, latitude, webLink,
-            autoCloseAt, autoLockScreenAfter, businessHourStart, businessHourEnd
+        const { languageApp, webLink,
+            autoCloseAt, autoLockScreenAfter, businessHourStart, businessHourEnd,timezone
         } = this.state;
         return (
             <View style={{ width: '100%', marginTop: scaleSzie(6) }} >
@@ -28,7 +27,7 @@ class Layout extends React.Component {
                         data={[{ value: 'English' }, { value: 'Viet Nam' }]}
                         value={languageApp}
                         onChangeText={value => {
-                        //console.log(value);
+                            //console.log(value);
                             this.setState({ languageApp: value })
                         }}
                         placeHolder={localize('Language', language)}
@@ -44,8 +43,8 @@ class Layout extends React.Component {
                     {/* ------- Item Auto lock screen after:  ------ */}
                     <ItemSetupGeneral
                         title={`${localize('Auto lock screen after', language)}:`}
-                        data={[{ value: '00:30 s' },{ value: '05:00 min' }, { value: '10:00 min' },
-                         { value: '15:00 min' }, { value: '30:00 min' },{value:"Never"}]}
+                        data={[{ value: '00:30 s' }, { value: '05:00 min' }, { value: '10:00 min' },
+                        { value: '15:00 min' }, { value: '30:00 min' }, { value: "Never" }]}
                         value={autoLockScreenAfter}
                         onChangeText={value => this.setState({ autoLockScreenAfter: value })}
                         placeHolder='15:00 min'
@@ -70,6 +69,34 @@ class Layout extends React.Component {
                                 placeholder="yoursite.com"
                                 value={webLink}
                                 onChangeText={value => this.setState({ webLink: value })}
+                            />
+                        </View>
+                    </View>
+                    {/* -------- Time Zone --------- */}
+                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
+                        <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
+                            <Text style={{
+                                color: '#404040',
+                                fontSize: scaleSzie(16),
+                                fontWeight: '600',
+                            }}  >
+                                {`${localize('Time Zone', language)}:`}
+                            </Text>
+                        </View>
+                        <View style={{
+                            height: scaleSzie(40), width: scaleSzie(400),
+                        }} >
+                            <Dropdown
+                                label={"Time Zone"}
+                                data={TimeZones}
+                                value={timezone}
+                                onChangeText={(timezone) => this.setState({timezone})}
+                                containerStyle={{
+                                    backgroundColor: '#F1F1F1',
+                                    borderWidth: 1,
+                                    borderColor: '#C5C5C5',
+                                    flex: 1
+                                }}
                             />
                         </View>
                     </View>
@@ -102,7 +129,7 @@ class Layout extends React.Component {
                             />
                             <View style={{ marginHorizontal: scaleSzie(15), justifyContent: 'center' }} >
                                 <Text style={{ fontSize: scaleSzie(18), color: '#404040', }} >
-                                    
+
                                     {localize('To', language)}
                                 </Text>
                             </View>
@@ -143,20 +170,20 @@ class Layout extends React.Component {
     }
 
     renderBody() {
-        const { profile, language ,stateCity,refreshingGeneral,versionApp} = this.props;
+        const { profile, language, stateCity, refreshingGeneral, versionApp } = this.props;
         const { businessName, address, city, stateId, zip, taxId, phone, email,
-            ein, merchantCode, businessBank,merchantId
+            ein, merchantCode, businessBank, merchantId
         } = profile;
         return (
             <View style={styles.body} >
-                <ScrollView 
-                showsVerticalScrollIndicator={false} 
-                refreshControl={
-                    <RefreshControl
-                        refreshing={refreshingGeneral}
-                        onRefresh={this.onRefreshGeneral}
-                    />
-                }
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshingGeneral}
+                            onRefresh={this.onRefreshGeneral}
+                        />
+                    }
                 >
                     {this.renderSetup()}
                     {/* ------ Line ----- */}
@@ -168,7 +195,7 @@ class Layout extends React.Component {
                     />
                     <ItemTextStoreInfoNotTilte
                         city={city}
-                        state={getNameStateById(stateCity,stateId)}
+                        state={getNameStateById(stateCity, stateId)}
                         zipcode={zip}
                     />
                     <ItemTextStoreInfo
@@ -208,11 +235,12 @@ class Layout extends React.Component {
                         value={merchantCode}
                     />
 
-                    <View style={{height:scaleSzie(50),
-                justifyContent:"flex-end",alignItems:"flex-end"
-                }} >
-                        <Text style={{color:"rrgb(57,54,60)",fontSize:scaleSzie(14),fontWeight:"600"}} >
-                       {`${localize('Version', language)}: ${versionApp}`}
+                    <View style={{
+                        height: scaleSzie(50),
+                        justifyContent: "flex-end", alignItems: "flex-end"
+                    }} >
+                        <Text style={{ color: "rrgb(57,54,60)", fontSize: scaleSzie(14), fontWeight: "600" }} >
+                            {`${localize('Version', language)}: ${versionApp}`}
                         </Text>
                     </View>
                     <View style={{ height: scaleSzie(250) }} />

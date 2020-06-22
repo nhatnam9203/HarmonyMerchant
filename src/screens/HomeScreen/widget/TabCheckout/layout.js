@@ -50,7 +50,7 @@ class Layout extends React.Component {
         return (
             <View style={styles.headerContainer} >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                    <Text onPress={this.displayPopupCustomerName} style={styles.textHeader} >
+                    <Text onPress={this.displayPopupCustomerName} style={[styles.textHeader,{fontSize:scaleSzie(14)}]} >
                         {`${localize('Customer', language)}:`}
                     </Text>
                     {
@@ -71,7 +71,7 @@ class Layout extends React.Component {
                                 }}
                                 styleText={{ fontSize: scaleSzie(12), }}
                             />
-                            : <Text onPress={this.displayPopupCustomerName} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(30) }]} >
+                            : <Text onPress={this.displayPopupCustomerName} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(30),fontSize:scaleSzie(14) }]} >
                                 {`${name}`}
                             </Text>
                     }
@@ -123,7 +123,7 @@ class Layout extends React.Component {
                         <Image source={IMAGE.cashier_btn}
                             style={{ width: scaleSzie(16), height: scaleSzie(13) }}
                         />
-                        <Text style={styles.textBtnCashier} >
+                        <Text style={[styles.textBtnCashier,{fontSize:scaleSzie(9),fontWeight:"500"}]} >
                             {localize('Open Cash Drawer', language)}
                         </Text>
                     </Button>

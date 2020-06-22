@@ -99,7 +99,7 @@ export default StyleSheet.create({
     },
     btnCashier: {
         height: scaleSzie(30),
-        width: scaleSzie(100),
+        width: scaleSzie(120),
         backgroundColor: '#0764B0',
         borderRadius: scaleSzie(3),
         flexDirection: "row",

@@ -5,7 +5,7 @@ import {
     Alert
 } from 'react-native';
 import axios from 'axios';
-import { openSettings} from 'react-native-permissions';
+import { openSettings } from 'react-native-permissions';
 import moment from 'moment';
 import PrintManager from '@lib/PrintManager';
 
@@ -405,16 +405,16 @@ export const formatMoney = (number, decimalCount = 2, decimal = ".", thousands =
     try {
         decimalCount = Math.abs(decimalCount);
         decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
-    
+
         const negativeSign = amount < 0 ? "-" : "";
-    
+
         let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
         let j = (i.length > 3) ? i.length % 3 : 0;
-    
+
         return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
-      } catch (e) {
+    } catch (e) {
         console.log(e)
-      }
+    }
 }
 
 
@@ -800,3 +800,20 @@ export const roundNumber = (num) => {
 export const roundFloatNumber = num => {
     return (Math.round(num * 100) / 100).toFixed(2);
 }
+
+export const TimeZones = [
+    { value: "(UTC +07:00) Bangkok,HaNoi,Jakarta" },
+    { value: "(UTC -09:00) US/Alaska" },
+    { value: "(UTC -10:00) US/Aleutian" },
+    { value: "(UTC -07:00) US/Arizona" },
+    { value: "(UTC -06:00) US/Central" },
+    { value: "(UTC -06:00) US/East-Indiana" },
+    { value: "(UTC -05:00) US/Eastern" },
+    { value: "(UTC -10:00) US/Hawaii" },
+    { value: "(UTC -06:00) US/Indiana-Starke" },
+    { value: "(UTC -05:00) US/Michigan" },
+    { value: "(UTC -07:00) US/Mountain" },
+    { value: "(UTC -08:00) US/Pacific" },
+    { value: "(UTC -08:00) US/Pacific-New" },
+    { value: "(UTC -11:00) US/Samoa" },
+]
