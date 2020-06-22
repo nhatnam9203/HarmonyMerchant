@@ -278,7 +278,7 @@ class Layout extends React.Component {
                                     {`${localize('Subtotal', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$${subTotal}`}
+                                    {`$ ${subTotal}`}
                                 </Text>
                             </View>
                             {/* ---------- Discount ------ */}
@@ -302,7 +302,7 @@ class Layout extends React.Component {
                                     {`${localize('Tip', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$${tempTipAmount}`}
+                                    {`$ ${tempTipAmount}`}
                                 </Text>
                             </View>
                             {/* ---------- Tax ------ */}
@@ -321,7 +321,7 @@ class Layout extends React.Component {
                                     {`${localize('Total', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(20) }]} >
-                                    {`$${parseFloat(Math.round(total * 100) / 100).toFixed(2)}`}
+                                    {`$ ${parseFloat(Math.round(total * 100) / 100).toFixed(2)}`}
                                 </Text>
                             </View>
                         </View>

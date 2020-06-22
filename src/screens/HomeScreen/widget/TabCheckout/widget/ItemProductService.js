@@ -44,7 +44,7 @@ const ItemProductService = ({ item, showColAmount, colorText, itemSelected, cate
                     </View>
                     <View style={{ flex: 1, justifyContent: "flex-end" }} >
                         <Text style={[{ fontSize: scaleSzie(11), color: '#6A6A6A' },]} >
-                            {`Price : $`}
+                            {`Price : $ `}
                             <Text style={[{ fontWeight: "bold" },]} >
                                 {`${item.price ? item.price : ""}`}
                             </Text>

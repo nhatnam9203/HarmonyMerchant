@@ -257,7 +257,7 @@ const ItemCampaign = ({ title, discount }) => {
             </View>
             <View style={{ justifyContent: 'center' }} >
                 <Text style={{ color: '#4CD964', fontSize: scaleSzie(20) }} >
-                    {`$${discount}`}
+                    {`$ ${discount}`}
                 </Text>
             </View>
         </View>
@@ -328,7 +328,7 @@ class CustomDiscount extends React.Component {
                 </View>
                 <View style={{ justifyContent: 'center' }} >
                     <Text style={{ color: '#4CD964', fontSize: scaleSzie(20) }} >
-                        {`$${formatMoney(roundNumber(discount))}`}
+                        {`$ ${formatMoney(roundNumber(discount))}`}
                     </Text>
                 </View>
             </View>

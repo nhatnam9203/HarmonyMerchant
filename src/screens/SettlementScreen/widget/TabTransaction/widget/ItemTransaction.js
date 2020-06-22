@@ -5,7 +5,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { scaleSzie,formatWithMoment } from '@utils';
+import { scaleSzie, formatWithMoment } from '@utils';
 import { Text } from '@components';
 import IMAGE from '@resources';
 
@@ -20,37 +20,39 @@ const ItemTransaction = (props) => {
             borderBottomColor: '#C5C5C5', borderBottomWidth: 1, flexDirection: 'row'
         }} >
             {/* --------- Col 1 --------- */}
-            <View style={{ width: scaleSzie(150), justifyContent: 'center', paddingRight: scaleSzie(10) }} >
-                <Text style={[styles.textHeaderContent, { marginLeft: scaleSzie(10) }]}
+            <View style={{
+                width: scaleSzie(220), justifyContent: 'center', paddingRight: scaleSzie(10),
+            }} >
+                <Text style={[styles.textHeaderContent, { marginLeft: scaleSzie(10), fontSize: scaleSzie(9) }]}
                     numberOfLines={1}
                 >
                     {`#${data.paymentData.transaction_id}`}
                 </Text>
             </View>
             {/* --------- Col 2 --------- */}
-            <View style={{ width: scaleSzie(130), justifyContent: 'center' }} >
+            <View style={{ width: scaleSzie(100), justifyContent: 'center' }} >
                 <Text style={styles.textHeaderContent} >
-                    {formatWithMoment(data.createdDate,'MM/DD/YYYY')}
+                    {formatWithMoment(data.createdDate, 'MM/DD/YYYY')}
                 </Text>
                 <Text style={styles.textHeaderContent} >
-                    {formatWithMoment(data.createdDate,'hh:mm A')}
+                    {formatWithMoment(data.createdDate, 'hh:mm A')}
                 </Text>
 
             </View>
             {/* --------- Col 3 --------- */}
-            <View style={{ width: scaleSzie(150), justifyContent: 'center' }} >
-                <Text style={styles.textHeaderContent} >
+            <View style={{ width: scaleSzie(130), justifyContent: 'center' }} >
+                <Text style={[styles.textHeaderContent, { fontWeight: "600" }]} >
                     {`#${data.checkoutId}`}
                 </Text>
             </View>
             {/* --------- Col 4 --------- */}
-            <View style={{ width: scaleSzie(110), justifyContent: 'center' }} >
+            <View style={{ width: scaleSzie(85), justifyContent: 'center' }} >
                 <Text style={styles.textHeaderContent} >
                     {data.status}
                 </Text>
             </View>
             {/* --------- Col 5 --------- */}
-            <View style={{ width: scaleSzie(130), alignItems: 'center', flexDirection: 'row' }} >
+            <View style={{ width: scaleSzie(110), alignItems: 'center', flexDirection: 'row' }} >
                 {
                     data.paymentData.card_type === 'Mastercard' ? <Image source={IMAGE.masterCardLogo}
                         style={{ width: scaleSzie(30), height: scaleSzie(20) }}
@@ -63,7 +65,7 @@ const ItemTransaction = (props) => {
             </View>
             {/* --------- Col 5 --------- */}
             <View style={{ flex: 1, justifyContent: 'center' }} >
-                <Text style={styles.textHeaderContent} >
+                <Text style={[styles.textHeaderContent, { fontWeight: "600" }]} >
                     {`$ ${data.amount}`}
                 </Text>
             </View>
@@ -74,7 +76,7 @@ const ItemTransaction = (props) => {
 const styles = StyleSheet.create({
     textHeaderContent: {
         color: '#404040',
-        fontSize: scaleSzie(14)
+        fontSize: scaleSzie(12)
     },
 });
 

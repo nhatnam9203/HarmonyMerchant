@@ -211,7 +211,7 @@ class ItemCustomerBasket extends React.Component {
                                     {`${localize('Subtotal', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$${formatMoney(temptSubTotal)}`}
+                                    {`$ ${formatMoney(temptSubTotal)}`}
                                 </Text>
                             </View>
                             {/* ---------- Discount ------ */}
@@ -270,7 +270,7 @@ class ItemCustomerBasket extends React.Component {
                                     {`${localize('Total', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(18), fontWeight: "600" }]} >
-                                    {`$${formatMoney(`${temptTotal}`)}`}
+                                    {`$ ${formatMoney(`${temptTotal}`)}`}
                                 </Text>
                             </View>
                         </View>

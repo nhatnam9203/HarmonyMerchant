@@ -433,7 +433,7 @@ const ItemCreditInfo = ({ data }) => {
             />
             <RowCreditInfo
                 title={"Amount"}
-                value={data.amount ? `$${data.amount}` : ""}
+                value={data.amount ? `$ ${data.amount}` : ""}
             />
             <View style={{ height: 2, backgroundColor: "rgba(155,155,155,0.4)", marginVertical: scaleSzie(10) }} />
         </View>

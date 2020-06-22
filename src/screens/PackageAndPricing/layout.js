@@ -305,7 +305,7 @@ const ItemPricing = ({ price, onPress }) => {
                     justifyContent: "center"
                 }} >
                     <Text style={{ color: "#fff", fontSize: scaleSzie(18), fontWeight: "600" }} >
-                        {`$${price}`}
+                        {`$ ${price}`}
                     </Text>
                     <View style={{ justifyContent: "flex-end" }} >
                         <Text style={{ color: "#fff", fontSize: scaleSzie(12), fontWeight: "600" }} >

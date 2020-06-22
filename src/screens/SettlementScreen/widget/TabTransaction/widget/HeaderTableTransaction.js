@@ -15,35 +15,34 @@ const HeaderTableTransaction = ({ language}) => {
     return (
         <View style={styles.headerContent} >
         {/* --------- Col 1 --------- */}
-        <View style={{ width: scaleSzie(150), justifyContent: 'flex-end' }} >
+        <View style={{ width: scaleSzie(220), justifyContent: 'flex-end' }} >
             <Text style={styles.textHeaderContent} >
                 
                 {localize('Transactions ID', language)}
                 </Text>
         </View>
         {/* --------- Col 2 --------- */}
-        <View style={{ width: scaleSzie(130), justifyContent: 'flex-end' }} >
+        <View style={{ width: scaleSzie(100), justifyContent: 'flex-end' }} >
             <Text style={styles.textHeaderContent} >
                 
                 {localize('Date Time', language)}
                 </Text>
         </View>
         {/* --------- Col 3 --------- */}
-        <View style={{ width: scaleSzie(150), justifyContent: 'flex-end' }} >
+        <View style={{ width: scaleSzie(130), justifyContent: 'flex-end' }} >
             <Text style={styles.textHeaderContent} >
                 
                 {localize('Invoice Number', language)}
                 </Text>
         </View>
         {/* --------- Col 4 --------- */}
-        <View style={{ width: scaleSzie(110), justifyContent: 'flex-end' }} >
+        <View style={{ width: scaleSzie(85), justifyContent: 'flex-end' }} >
             <Text style={styles.textHeaderContent} >
-                
                 {localize('Status', language)}
                 </Text>
         </View>
         {/* --------- Col 5 --------- */}
-        <View style={{ width: scaleSzie(130), justifyContent: 'flex-end' }} >
+        <View style={{ width: scaleSzie(110), justifyContent: 'flex-end' }} >
             <Text style={styles.textHeaderContent} >
             {localize('Payment', language)}
                 
@@ -63,7 +62,8 @@ const HeaderTableTransaction = ({ language}) => {
 const styles = StyleSheet.create({
     textHeaderContent:{
         color:'#404040',
-        fontSize:scaleSzie(14)
+        fontSize:scaleSzie(13),
+        fontWeight:"600"
     },
     headerContent: {
         height: scaleSzie(30),

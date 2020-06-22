@@ -408,7 +408,7 @@ class Layout extends React.Component {
                                 {`${localize('Grand Total', language)}:`}
                             </Text>
                             <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: 'rgb(65,184,85)' }]} >
-                                {`$${isOfflineMode ? formatMoney(totalLocal) : formatMoney(temptGrandTotal)}`}
+                                {`$ ${isOfflineMode ? formatMoney(totalLocal) : formatMoney(temptGrandTotal)}`}
                             </Text>
                         </View>
                     </View>
@@ -514,7 +514,7 @@ class Layout extends React.Component {
                                 {`${localize('Grand Total', language)}:`}
                             </Text>
                             <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: 'rgb(65,184,85)' }]} >
-                                {`$${formatMoney(temptGrandTotal)}`}
+                                {`$ ${formatMoney(temptGrandTotal)}`}
                             </Text>
                         </View>
                     </View>

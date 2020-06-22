@@ -38,7 +38,7 @@ const ItemExtra = ({ extra, onPressSelectExtra, extraSelected }) => {
                     </View>
                     <View style={{ flex: 1, justifyContent: "flex-end" }} >
                         <Text style={[{ fontSize: scaleSzie(11), color: '#6A6A6A' },temptTextColor]} >
-                            {`Price : $`}
+                            {`Price : $ `}
                             <Text style={[{ fontWeight: "bold" },]} >
                                 {`${extra.price ? extra.price : ""}`}
                             </Text>
@@ -46,12 +46,6 @@ const ItemExtra = ({ extra, onPressSelectExtra, extraSelected }) => {
                     </View>
                 </View>
             </View>
-
-            {/* <Text numberOfLines={1} style={[{ fontSize: scaleSzie(20), color: '#404040' },
-                temptTextColor
-            ]} >
-                {extra.name}
-            </Text> */}
         </Button>
     );
 }

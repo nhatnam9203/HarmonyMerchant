@@ -271,7 +271,7 @@ class PopupStaffInvoicePrint extends React.Component {
                                     />
                                     {/* ------------- Working hour ----------- */}
                                     <ItemStaffInvoice
-                                        title={`2. Working Hour ($${workingHourReceipt && workingHourReceipt.commission ? workingHourReceipt.commission : "0.00"})`}
+                                        title={`2. Working Hour ($ ${workingHourReceipt && workingHourReceipt.commission ? workingHourReceipt.commission : "0.00"})`}
                                         value={`$ ${workingHourReceipt && workingHourReceipt.total ? workingHourReceipt.total : "0.00"}`}
                                         style={{ marginTop: scaleSzie(15) }}
                                     />
