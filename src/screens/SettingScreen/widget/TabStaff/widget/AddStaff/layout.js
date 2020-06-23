@@ -6,6 +6,7 @@ import {
     TextInput,
     ActivityIndicator
 } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 
 import {
     Dropdown,
@@ -105,12 +106,28 @@ class Layout extends React.Component {
                         </View>
                     </ItemAdminInfoDoubleItem>
 
-                    <ItemAdminInfoDoubleItem
-                        title={``}
-                        placeholder={localize('Zip Code', language)}
-                        value={zip}
-                        onChangeText={(value) => this.updateUserInfo('zip', value, 'address')}
-                    />
+                    {/* ------------ Zip code ----------- */}
+                    <View style={{
+                        flexDirection: "row", height: scaleSzie(36), paddingHorizontal: scaleSzie(25),
+                        marginTop: scaleSzie(14)
+                    }} >
+                        <View style={{ width: scaleSzie(150), }} />
+                        <View style={{ flex: 1, flexDirection: 'row' }} >
+                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSzie(5) }} >
+                                <TextInputMask
+                                    type="only-numbers"
+                                    style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
+                                    placeholder={localize('Zip Code', language)}
+                                    value={zip}
+                                    onChangeText={(value) => this.updateUserInfo('zip', value, 'address')}
+                                    maxLength={5}
+                                    keyboardType="numeric"
+                                />
+                            </View>
+                            <View style={{ flex: 1, }} />
+                        </View>
+                    </View>
+
 
                     <ItemAdminCellPhone
                         ref={this.cellphoneRef}
@@ -368,6 +385,7 @@ const ItemAdminInfoDoubleItem = ({ title, placeholder, children, value, onChange
                         placeholder={placeholder}
                         value={value}
                         onChangeText={(value => onChangeText(value))}
+
                     />
                 </View>
 

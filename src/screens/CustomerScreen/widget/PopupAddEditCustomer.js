@@ -13,8 +13,8 @@ import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent, Dropdown, TextInputSuggestion } from '@components';
 import {
-    scaleSzie, localize, getArrayNameStateCity, getIdStateByName, getNameStateById, ListCodeAreaPhone,
-    getCodeAreaPhone
+    scaleSzie, localize, getIdStateByName, getNameStateById, ListCodeAreaPhone,
+    getCodeAreaPhone,checkStateIsValid
 } from '@utils';
 import IMAGE from '@resources';
 
@@ -33,7 +33,8 @@ class PopupAddEditCustomer extends React.Component {
                 addressPost: {
                     street: '',
                     city: '',
-                    state: ''
+                    state: '',
+                    zip:""
                 },
                 referrerPhone: '',
                 favourite: '',
@@ -73,9 +74,10 @@ class PopupAddEditCustomer extends React.Component {
                 phone: getCodeAreaPhone(customer.phone).phone,
                 email: customer.email,
                 addressPost: {
-                    street: customer.addressPost.street,
-                    city: customer.addressPost.city,
-                    state: customer.addressPost.state === 0 ? '' : getNameStateById(this.props.stateCity, customer.addressPost.state)
+                    street: customer.addressPost.street ? customer.addressPost.street :"",
+                    city: customer.addressPost.city ? customer.addressPost.city :"",
+                    state: customer.addressPost.state === 0 ? '' : getNameStateById(this.props.stateCity, customer.addressPost.state),
+                    zip :customer.addressPost.zip ? customer.addressPost.zip : "" ,
                 },
                 referrerPhone: getCodeAreaPhone(customer.referrerPhone).phone,
                 favourite: customer.favourite,
@@ -97,7 +99,8 @@ class PopupAddEditCustomer extends React.Component {
                 addressPost: {
                     street: '',
                     city: '',
-                    state: ''
+                    state: '',
+                    zip:""
                 },
                 referrerPhone: '',
                 favourite: '',
@@ -107,6 +110,7 @@ class PopupAddEditCustomer extends React.Component {
     }
 
     doneAddProduct = () => {
+        const {stateCity} = this.props;
         const { customerInfo } = this.state;
         const arrayKey = Object.keys(customerInfo);
         let keyError = "";
@@ -115,7 +119,14 @@ class PopupAddEditCustomer extends React.Component {
                 keyError = arrayKey[i];
                 break;
             }
+
+            if(customerInfo.addressPost.state !== "" && !checkStateIsValid(stateCity,customerInfo.addressPost.state) ){
+                keyError = "StateInvalid";
+                break
+            }
         }
+
+
         if (keyError != '') {
             Alert.alert(`${strings[keyError]}`);
         } else {
@@ -154,7 +165,7 @@ class PopupAddEditCustomer extends React.Component {
         const temptTitleButton = isSave ? 'Save' : 'Add';
 
         const { firstName, lastName, phone, email, referrerPhone, favourite, addressPost, isVip } = this.state.customerInfo;
-        const { street, city, state } = addressPost;
+        const { street, city, state,zip } = addressPost;
 
         return (
             <PopupParent
@@ -311,12 +322,33 @@ class PopupAddEditCustomer extends React.Component {
                                                 <TextInputSuggestion
                                                     value={state}
                                                     onChangeText={(value) => this.updateCustomerInfo('state', value, 'addressPost')}
-                                                    // onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 540 : 500)}
+                                                    onFocus={() => this.scrollCustomerTo(180)}
                                                 />
                                             </View>
                                         </View>
                                     </View>
                                 </View>
+
+                                {/* ----------------- Zip Code --------------- */}
+                                <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                                    <View style={{ flex: 1 }} >
+                                        <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(10) }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
+                                                <TextInput
+                                                    placeholder={localize('Zip Code', language)}
+                                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                    value={zip}
+                                                    onChangeText={value => this.updateCustomerInfo('zip', value, 'addressPost')}
+                                                    onFocus={() => this.scrollCustomerTo(220)}
+                                                    maxLength={5}
+                                                    keyboardType="numeric"
+                                                />
+                                            </View>
+                                        </View>
+                                    </View>
+                                    <View style={{ flex: 1 }} />
+                                </View>
+
 
                                 {/* ---- Referrer Phone Number */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
@@ -445,6 +477,7 @@ const strings = {
     firstName: 'Missing Info: First Name',
     lastName: 'Missing Info: Last Name',
     phone: 'Missing Info: Phone',
+    StateInvalid:"State Invalid"
 }
 
 export default PopupAddEditCustomer;

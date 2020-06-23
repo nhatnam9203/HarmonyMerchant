@@ -156,6 +156,7 @@ export default class Layout extends React.Component {
                                     value={zip}
                                     onChangeText={(value) => this.updateGeneralInfo('zip', value, 'businessAddress')}
                                     keyboardType="numeric"
+                                    maxLength={5}
                                     onFocus={() => this.scrollGeneralTo(310)}
                                 />
                             </View>

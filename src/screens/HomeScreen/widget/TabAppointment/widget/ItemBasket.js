@@ -10,9 +10,9 @@ import { scaleSzie, localize } from '@utils';
 import { Text, Button } from '@components';
 import IMAGE from '@resources';
 
-const ItemBasket = ({ item, removeItemBasket, onPress,changeProductInBasket }) => {
+const ItemBasket = ({ item, removeItemBasket, onPress, changeProductInBasket }) => {
     const { data } = item;
-//console.log('---- item : ', item);
+    //console.log('---- item : ', item);
     const swipeoutBtns = [
         {
             backgroundColor: '#fff',
@@ -31,7 +31,7 @@ const ItemBasket = ({ item, removeItemBasket, onPress,changeProductInBasket }) =
             <Button onPress={() => {
                 if (item.type === 'Service') {
                     onPress(item);
-                }else if(item.type === 'Product'){
+                } else if (item.type === 'Product') {
                     changeProductInBasket(item);
                 }
             }} style={{
@@ -67,8 +67,10 @@ const ItemBasket = ({ item, removeItemBasket, onPress,changeProductInBasket }) =
                     </View>
 
                     {/* ------------ */}
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
-
+                    <View style={{
+                        flex: 1, justifyContent: 'center',
+                        //  alignItems: 'center'
+                    }} >
                         <Text style={{ color: '#fff', fontSize: scaleSzie(13), }} >
                             {item.type === 'Product' ? item.quanlitySet : item.data.name}
                         </Text>

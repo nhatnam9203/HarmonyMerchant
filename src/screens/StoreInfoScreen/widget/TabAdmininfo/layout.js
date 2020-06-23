@@ -6,13 +6,14 @@ import {
     TextInput,
     ActivityIndicator
 } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 
 import {
     Dropdown,
-    ButtonCustom, Text, BrowserFile,TextInputSuggestion
+    ButtonCustom, Text, BrowserFile, TextInputSuggestion
 } from '@components';
 import { scaleSzie, localize } from '@utils';
-import { ItemAdminInfo,ItemAdminCellPhone } from '../componentTab';
+import { ItemAdminInfo, ItemAdminCellPhone } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
 
@@ -20,7 +21,7 @@ import ItemScalary from '../ItemScalary';
 class Layout extends React.Component {
 
     renderBody() {
-        const { language,profile } = this.props;
+        const { language, profile } = this.props;
         const { address, firstName, lastName, displayName,
             cellphone, email, pin, confirmPin, roles,
             driverlicense, socialSecurityNumber, professionalLicense,
@@ -31,11 +32,11 @@ class Layout extends React.Component {
 
         const businessHourStart = profile.businessHourStart ? profile.businessHourStart : '';
         const businessHourEnd = profile.businessHourEnd ? profile.businessHourEnd : '';
-        
+
         return (
             <View style={styles.body} >
                 <ScrollView
-                 ref={this.scrollStaffRef}
+                    ref={this.scrollStaffRef}
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps="always"
                 >
@@ -84,23 +85,42 @@ class Layout extends React.Component {
                             flex: 1,
                             marginLeft: scaleSzie(5),
                         }} >
-                             <TextInputSuggestion
-                                    value={state}
-                                    onChangeText={value => this.updateUserInfo('state', value, 'address')}
-                                    onFocus={() => {}}
-                                    inputContainerStyle={{
-                                        height: scaleSzie(35),
-                                    }}
-                                />
+                            <TextInputSuggestion
+                                value={state}
+                                onChangeText={value => this.updateUserInfo('state', value, 'address')}
+                                onFocus={() => { }}
+                                inputContainerStyle={{
+                                    height: scaleSzie(35),
+                                }}
+                            />
                         </View>
                     </ItemAdminInfoDoubleItem>
 
-                    <ItemAdminInfoDoubleItem
-                        title={``}
-                        placeholder={localize('Zip Code', language)}
-                        value={zip}
-                        onChangeText={(value) => this.updateUserInfo('zip', value, 'address')}
-                    />
+                    {/* ------------ Zip code ----------- */}
+                    <View style={{
+                        flexDirection: 'row',
+                        height: scaleSzie(36),
+                        paddingLeft: scaleSzie(90),
+                        paddingRight: scaleSzie(90),
+                        marginTop: scaleSzie(14)
+                    }} >
+                        <View style={{ width: scaleSzie(150), }} />
+                        <View style={{ flex: 1, flexDirection: 'row' }} >
+                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSzie(5) }} >
+                                <TextInputMask
+                                    type="only-numbers"
+                                    style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
+                                    placeholder={localize('Zip Code', language)}
+                                    value={zip}
+                                    onChangeText={(value) => this.updateUserInfo('zip', value, 'address')}
+                                    maxLength={5}
+                                    keyboardType="numeric"
+                                    onFocus={() => this.scrollStaffTo(150)}
+                                />
+                            </View>
+                            <View style={{ flex: 1, }} />
+                        </View>
+                    </View>
 
                     <ItemAdminCellPhone
                         ref={this.cellphoneRef}
@@ -210,12 +230,12 @@ class Layout extends React.Component {
                         })
                     }
 
-                     {/* ----- Product Salary ---- */}
-                     <TitleTabAdminInfo
+                    {/* ----- Product Salary ---- */}
+                    <TitleTabAdminInfo
                         title={localize('Product Salary', language)}
                     />
                     {
-                        [ { title: `${localize('Commission')} (%)`, placeholder: '10' }].map((salary, index) => {
+                        [{ title: `${localize('Commission')} (%)`, placeholder: '10' }].map((salary, index) => {
                             return <ItemScalary
                                 key={index}
                                 ref={this.setProductSalary}

@@ -6,10 +6,11 @@ import {
     TextInput,
     ActivityIndicator
 } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 
 import {
     Dropdown,
-    ButtonCustom, Text, BrowserFile,TextInputSuggestion
+    ButtonCustom, Text, BrowserFile, TextInputSuggestion
 } from '@components';
 import { scaleSzie, localize, getArrayNameStateCity } from '@utils';
 import { ItemAdminInfo, ItemAdminCellPhone } from '../componentTab';
@@ -86,30 +87,42 @@ class Layout extends React.Component {
                             flex: 1,
                             marginLeft: scaleSzie(5)
                         }} >
-                            {/* <Dropdown
-                                label={localize('State', language)}
-                                data={getArrayNameStateCity(stateCity)}
+                            <TextInputSuggestion
                                 value={state}
-                                onChangeText={(value) => this.updateUserInfo('state', value, 'address')}
-                                containerStyle={styles.dropdown}
-                            /> */}
-                              <TextInputSuggestion
-                                    value={state}
-                                    onChangeText={value => this.updateUserInfo('state', value, 'address')}
-                                    onFocus={() => {}}
-                                    inputContainerStyle={{
-                                        height: scaleSzie(35),
-                                    }}
-                                />
+                                onChangeText={value => this.updateUserInfo('state', value, 'address')}
+                                onFocus={() => { }}
+                                inputContainerStyle={{
+                                    height: scaleSzie(35),
+                                }}
+                            />
                         </View>
                     </ItemAdminInfoDoubleItem>
 
-                    <ItemAdminInfoDoubleItem
-                        title={``}
-                        placeholder={localize('Zip Code', language)}
-                        value={zip}
-                        onChangeText={(value) => this.updateUserInfo('zip', value, 'address')}
-                    />
+                    {/* ------------ Zip code ----------- */}
+                    <View style={{
+                       flexDirection: 'row',
+                       height: scaleSzie(36),
+                       paddingLeft: scaleSzie(90),
+                       paddingRight: scaleSzie(90),
+                       marginTop: scaleSzie(14)
+                    }} >
+                        <View style={{ width: scaleSzie(150), }} />
+                        <View style={{ flex: 1, flexDirection: 'row' }} >
+                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSzie(5) }} >
+                                <TextInputMask
+                                    type="only-numbers"
+                                    style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
+                                    placeholder={localize('Zip Code', language)}
+                                    value={zip}
+                                    onChangeText={(value) => this.updateUserInfo('zip', value, 'address')}
+                                    maxLength={5}
+                                    keyboardType="numeric"
+                                    onFocus={() => this.scrollStaffTo(150)}
+                                />
+                            </View>
+                            <View style={{ flex: 1, }} />
+                        </View>
+                    </View>
 
                     <ItemAdminCellPhone
                         ref={this.cellphoneRef}
@@ -209,13 +222,13 @@ class Layout extends React.Component {
                         })
                     }
 
-                     {/* ----- Product Salary ---- */}
-                     <TitleTabAdminInfo
+                    {/* ----- Product Salary ---- */}
+                    <TitleTabAdminInfo
                         title={localize('Product Salary', language)}
                     />
                     {
                         Object.keys(temptDataProductScalary).map((tip, index) => {
-                        //console.log('tip : ',temptDataProductScalary[tip]);
+                            //console.log('tip : ',temptDataProductScalary[tip]);
                             const temptTitle = tip == 'perHour' ? 'Per Hour' : 'Commission';
                             const temptChar = tip == 'perHour' ? '($)' : '(%)';
 

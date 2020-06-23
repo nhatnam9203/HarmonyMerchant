@@ -4,21 +4,13 @@ import {
     Text,
     Keyboard,
     ActivityIndicator,
-    DeviceEventEmitter,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Modal
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
-import { StarPRNT, AlignmentPosition } from 'react-native-star-prnt';
-import ViewShot, { captureRef } from "react-native-view-shot";
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import { scaleSzie, localize } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
-import PrintManager from '@lib/PrintManager';
 
 class PopupEnterPin extends React.Component {
 

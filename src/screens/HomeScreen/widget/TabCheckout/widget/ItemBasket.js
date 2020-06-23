@@ -73,7 +73,7 @@ const ItemBasket = ({ item, removeItemBasket, onPress, disabled = false, changeP
 
                     {/* ------------ */}
                     <View style={{ flex: 1, justifyContent: 'center', 
-                    alignItems: 'center' 
+                    // alignItems: 'center' 
                     }} >
 
                         <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(13), }} >
