@@ -59,7 +59,7 @@ class TextInputSuggestion extends React.PureComponent {
     }
 
     render() {
-        const { value, onChangeText, onFocus ,inputContainerStyle} = this.props;
+        const { value, onChangeText, onFocus, inputContainerStyle } = this.props;
         const { data } = this.state;
         return (
             <Autocomplete

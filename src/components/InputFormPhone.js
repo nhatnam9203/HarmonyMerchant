@@ -38,7 +38,7 @@ export default class InputFormPhone extends React.PureComponent {
         const temptHeight = Platform.OS === 'ios' ? 30 : 40
         return (
             <View style={[{ marginBottom: scaleSzie(24) }, style]} >
-                <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
+                <Text style={{ color: '#404040', fontSize: scaleSzie(14),fontWeight:"600" }} >
                     {title}
                     <Text style={{ color: '#404040', fontSize: scaleSzie(12) }} >
                         {subTitle}

@@ -88,7 +88,7 @@ export default class Layout extends React.Component {
                             onFocus={() => this.scrollBankInfoTo(310)}
                         />
 
-                        <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(14),fontWeight:"600" }} >
                             {`${localize('Void Check', language)}*`}
                         </Text>
                         <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginTop: scaleSzie(10) }} >

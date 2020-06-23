@@ -14,21 +14,24 @@ export default class InputForm extends React.PureComponent {
         const { title, subTitle, placeholder, style, value,
             onChangeText, secureTextEntry, keyboardType,
             isOnlyNumber, maxLength, editable, onFocus, typeInputMask, optionsInputMask,
-            styleTitle,styleBoxInput
+            styleTitle, styleBoxInput
         } = this.props;
         const temptHeight = Platform.OS === 'ios' ? 30 : 40
         return (
             <View style={[{ marginBottom: scaleSzie(24) }, style]} >
-                <Text style={[{ color: '#404040', fontSize: scaleSzie(14) },styleTitle]} >
-                    {title}
-                    <Text style={{ color: '#404040', fontSize: scaleSzie(12) }} >
-                        {subTitle}
-                    </Text>
-                </Text>
+                {
+                    title ? <Text style={[{ color: '#404040', fontSize: scaleSzie(14), fontWeight: "600" }, styleTitle]} >
+                        {title}
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(12) }} >
+                            {subTitle}
+                        </Text>
+                    </Text> : null
+                }
+
                 <View style={[{
                     height: scaleSzie(temptHeight), borderWidth: 1, borderColor: '#C5C5C5',
                     marginTop: scaleSzie(5), paddingLeft: scaleSzie(8)
-                },styleBoxInput]} >
+                }, styleBoxInput]} >
                     {
                         isOnlyNumber ? <TextInputMask
                             // type="only-numbers"

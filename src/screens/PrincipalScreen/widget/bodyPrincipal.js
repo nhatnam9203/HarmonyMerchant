@@ -197,7 +197,7 @@ export default class Layout extends React.Component {
                     onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 745 : 705)}
                 />
                 {/* ------ Date of Birth ----- */}
-                <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(6) }} >
+                <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(6),fontWeight:"600" }} >
                     {`${localize('Date of Birth', language)} (mm/dd/yyyy)*`}
                 </Text>
 
@@ -245,19 +245,8 @@ export default class Layout extends React.Component {
                             onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 980 : 940)}
                         />
                     </View>
-                    {/* <View style={{ width: scaleSzie(180) }} >
-                        <InputForm
-                            title={`${localize('State Issued', language)}*`}
-                            subTitle=""
-                            placeholder=""
-                            value={stateIssued}
-                            onChangeText={(value) => updatePrincipalInfo('stateIssued', value, '', isPrincipalSecond)}
-                            onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 980 : 940)}
-                        />
-                       
-                    </View> */}
                     <View style={{ width: scaleSzie(180), }} >
-                        <Text style={[{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(5) }]} >
+                        <Text style={[{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(5) ,fontWeight:"600"}]} >
                             {`${localize('State Issued', language)}*`}
                         </Text>
                         <TextInputSuggestion
@@ -270,7 +259,7 @@ export default class Layout extends React.Component {
 
                 {/* ------ Take Photo ---- */}
 
-                <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginTop: scaleSzie(10) }} >
+                <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginTop: scaleSzie(10),fontWeight:"600" }} >
                     {`${localize('Please take or upload photos of Driver License', language)}*`}
                 </Text>
                 <View style={{

@@ -20,7 +20,7 @@ export default createNavigationContainer(createSwitchNavigator({
     SigninStack: SigninStack,
 },
     {
-        initialRouteName: 'Splash'
+        initialRouteName: 'Auth'
     }
 
 ))

@@ -69,14 +69,12 @@ export default class Layout extends React.Component {
                             onFocus={() => this.scrollGeneralTo(160)}
                         />
 
-                        <Text style={[{ color: '#404040', fontSize: scaleSzie(14) }]} >
+                        <Text style={[{ color: '#404040', fontSize: scaleSzie(14), fontWeight: "600" }]} >
                             {"Federal Tax ID*"}
                         </Text>
                         <View style={{ flexDirection: 'row', marginBottom: scaleSzie(24) }} >
                             <View style={{ width: scaleSzie(100) }} >
                                 <InputForm
-                                    // title={`${localize('Federal Tax ID', language)}`}
-                                    // title=" "
                                     subTitle=""
                                     placeholder=""
                                     value={prefix}
@@ -84,7 +82,7 @@ export default class Layout extends React.Component {
                                     keyboardType="numeric"
                                     onFocus={() => this.scrollGeneralTo(240)}
                                     style={{ marginBottom: 0 }}
-                                    styleBoxInput={{ marginTop: 0 }}
+                                    // styleBoxInput={{ marginTop: 0 }}
                                     maxLength={2}
                                 />
                             </View>
@@ -97,7 +95,6 @@ export default class Layout extends React.Component {
                             </View>
                             <View style={{ width: scaleSzie(250) }} >
                                 <InputForm
-                                    // title="   "
                                     subTitle=""
                                     placeholder=""
                                     value={suffix}
@@ -110,6 +107,8 @@ export default class Layout extends React.Component {
                                 />
                             </View>
                         </View>
+
+                        {/* ---------------  Business Address --------------- */}
                         <InputForm
                             title={`${localize('Business Address', language)}*`}
                             subTitle="(no P.O. Boxes)"
@@ -161,6 +160,64 @@ export default class Layout extends React.Component {
                                 />
                             </View>
                         </View>
+
+                        {/* ---------------  DBA Address --------------- */}
+                        <Text style={[{ color: '#404040', fontSize: scaleSzie(14), fontWeight: "600" }]} >
+                            {`DBA Address*`}
+                        </Text>
+                        <InputForm
+                            title={null}
+                            subTitle={null}
+                            placeholder={localize('Business Address', language)}
+                            style={{
+                                marginBottom: scaleSzie(10),
+                            }}
+                            value={address}
+                            onChangeText={(value) => this.updateGeneralInfo('address', value, 'businessAddress')}
+                            onFocus={() => this.scrollGeneralTo(310)}
+                        />
+                        <View style={{
+                            height: scaleSzie(30), marginBottom: scaleSzie(24), justifyContent: 'space-between',
+                            flexDirection: 'row', alignItems: 'flex-end'
+                        }} >
+                            <View style={{ width: scaleSzie(180) }} >
+                                <InputForm
+                                    title=""
+                                    subTitle=""
+                                    placeholder={localize('City', language)}
+                                    style={{
+                                        marginBottom: 0
+                                    }}
+                                    value={city}
+                                    onChangeText={(value) => this.updateGeneralInfo('city', value, 'businessAddress')}
+                                    onFocus={() => this.scrollGeneralTo(310)}
+                                />
+                            </View>
+                            <View style={{ width: scaleSzie(180), height: scaleSzie(30) }} >
+                                <TextInputSuggestion
+                                    value={state}
+                                    onChangeText={value => this.updateGeneralInfo('state', value, 'businessAddress')}
+                                    onFocus={() => this.scrollGeneralTo(310)}
+                                />
+                            </View>
+                            <View style={{ width: scaleSzie(180) }} >
+                                <InputForm
+                                    title=""
+                                    subTitle=""
+                                    placeholder="Zip Code"
+                                    style={{
+                                        marginBottom: 0
+                                    }}
+                                    value={zip}
+                                    onChangeText={(value) => this.updateGeneralInfo('zip', value, 'businessAddress')}
+                                    keyboardType="numeric"
+                                    maxLength={5}
+                                    onFocus={() => this.scrollGeneralTo(310)}
+                                />
+                            </View>
+                        </View>
+
+
                         <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
                             <View style={{ flex: 1 }} >
                                 <InputFormPhone
