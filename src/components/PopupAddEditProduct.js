@@ -229,6 +229,7 @@ class PopupAddEditProduct extends React.Component {
                         <ScrollView
                             ref={this.scrollProductRef}
                             showsVerticalScrollIndicator={false}
+                            keyboardShouldPersistTaps="always"
                         >
                             <TouchableOpacity activeOpacity={1}>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginTop: scaleSzie(10), marginBottom: scaleSzie(10) }} >

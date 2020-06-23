@@ -29,7 +29,7 @@ class Layout extends React.Component {
                 }} >
                     {`Tax Settings`}
                 </Text>
-                <ScrollView  >
+                <ScrollView  keyboardShouldPersistTaps="always" >
                     <ItemSetup
                         title={"Service Tax (%) :"}
                         placeholder={"10"}

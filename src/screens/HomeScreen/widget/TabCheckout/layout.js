@@ -153,7 +153,10 @@ class Layout extends React.Component {
                 </View>
                 {/* ------- Body ----- */}
                 <View style={styles.categoriesBody} >
-                    <ScrollView showsVerticalScrollIndicator={false} >
+                    <ScrollView 
+                    showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps="always"
+                    >
                         {
                             categoriesFilter.map((category, index) => <ItemCategory
                                 key={index}
@@ -233,7 +236,10 @@ class Layout extends React.Component {
                                 </View>
                                 {/* --------- List ------- */}
                                 <View style={{ flex: 1 }} >
-                                    <ScrollView showsVerticalScrollIndicator={false} >
+                                    <ScrollView 
+                                    showsVerticalScrollIndicator={false} 
+                                    keyboardShouldPersistTaps="always"
+                                    >
                                         {
                                             data.map((item, index) => <ItemProductService
                                                 key={index}
@@ -304,7 +310,7 @@ class Layout extends React.Component {
                                         categoryTypeSelected === 'Product' ? <ItemAmount
                                             ref={this.amountRef}
                                             price={productSeleted.price}
-                                        /> : <ScrollView>
+                                        /> : <ScrollView  keyboardShouldPersistTaps="always" >
                                                 {
                                                     (this.getExtrasFromRedux(productSeleted)).map((extra, index) => <ItemExtra
                                                         key={index}
@@ -363,7 +369,10 @@ class Layout extends React.Component {
 
         return (
             <View style={{ flex: 1 }} >
-                <ScrollView showsVerticalScrollIndicator={false} >
+                <ScrollView 
+                showsVerticalScrollIndicator={false} 
+                keyboardShouldPersistTaps="always"
+                >
                     {
                         _.isEmpty(groupAppointment) ? (basket.length > 0 ? <ItemCustomerBasket
                             language={language}
@@ -472,7 +481,10 @@ class Layout extends React.Component {
 
         return (
             <View style={{ flex: 1 }} >
-                <ScrollView showsVerticalScrollIndicator={false} >
+                <ScrollView 
+                showsVerticalScrollIndicator={false} 
+                keyboardShouldPersistTaps="always"
+                >
                     {blockAppointments.map((appointment, index) => <ItemBlockBasket
                         ref={this.addBlockAppointmentRef}
                         key={`${appointment.appointmentId}_${index}`}

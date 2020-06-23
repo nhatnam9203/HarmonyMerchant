@@ -178,6 +178,7 @@ class Layout extends React.Component {
             <View style={styles.body} >
                 <ScrollView
                     showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps="always"
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshingGeneral}

@@ -27,6 +27,7 @@ export default class Layout extends React.Component {
                 <ScrollView
                     ref={this.srollBankInfoRef}
                     showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps="always"
                 >
                       {/* ------ Header ------ */}
                       <View style={{

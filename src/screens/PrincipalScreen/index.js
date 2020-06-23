@@ -359,7 +359,6 @@ class PrincipalScreen extends Layout {
     }
 
     setDateSelected = (date) => {
-        // console.log("--- setDateSelected : ", validBirthday(date));
         if(validBirthday(date)){
             if (this.state.isShowPrincipal1) {
                 this.setState({

@@ -28,7 +28,10 @@ class TabAdminInfo extends React.Component {
 
         return (
             <View style={styles.body} >
-                <ScrollView>
+                <ScrollView  
+                keyboardShouldPersistTaps="always" 
+                keyboardShouldPersistTaps="always"
+                >
                     <ItemTextStoreInfo
                         title={localize('Business Name', language)}
                         value={businessName}

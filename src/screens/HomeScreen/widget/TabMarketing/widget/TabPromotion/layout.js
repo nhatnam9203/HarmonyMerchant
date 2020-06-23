@@ -50,6 +50,7 @@ class Layout extends React.Component {
                 <View style={{ flex: 1 }} >
                     <ScrollView
                         showsVerticalScrollIndicator={false}
+                        keyboardShouldPersistTaps="always"
                         refreshControl={
                             <RefreshControl
                                 refreshing={refreshingPromotion}

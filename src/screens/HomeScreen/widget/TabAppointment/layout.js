@@ -61,7 +61,10 @@ class Layout extends React.Component {
                     </View>
                     {/* ------- Body ----- */}
                     <View style={styles.categoriesBody} >
-                        <ScrollView showsVerticalScrollIndicator={false} >
+                        <ScrollView 
+                        showsVerticalScrollIndicator={false} 
+                        keyboardShouldPersistTaps="always"
+                        >
                             {
                                 categoriesFilter.map((category, index) => <ItemCategory
                                     key={index}
@@ -130,7 +133,10 @@ class Layout extends React.Component {
                             </View>
                             {/* --------- List ------- */}
                             <View style={{ flex: 1 }} >
-                                <ScrollView showsVerticalScrollIndicator={false} >
+                                <ScrollView 
+                                showsVerticalScrollIndicator={false} 
+                                keyboardShouldPersistTaps="always"
+                                >
                                     {
                                         data.map((item, index) => <ItemProductService
                                             key={index}
@@ -192,7 +198,7 @@ class Layout extends React.Component {
                                     categoryTypeSelected === 'Product' ? <ItemAmount
                                         ref={this.amountRef}
                                         price={productSeleted.price}
-                                    /> : <ScrollView>
+                                    /> : <ScrollView  keyboardShouldPersistTaps="always" >
                                             {
                                                 productSeleted.extras.map((extra, index) => <ItemExtra
                                                     key={index}

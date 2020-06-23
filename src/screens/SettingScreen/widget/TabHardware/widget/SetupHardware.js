@@ -100,6 +100,7 @@ class SetupHardware extends React.Component {
                 <ScrollView  
                     ref={this.scrollRef}
                     showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps="always"
                 >
                     <ItemSetup
                         title={localize('Name', language)}

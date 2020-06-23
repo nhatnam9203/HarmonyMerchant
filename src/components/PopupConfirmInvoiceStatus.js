@@ -87,6 +87,7 @@ class PopupConfirmInvoiceStatus extends React.Component {
                         <View style={{ flex: 1, paddingHorizontal: scaleSzie(20) }} >
                             <ScrollView
                                 showsVerticalScrollIndicator={false}
+                                keyboardShouldPersistTaps="always"
                             >
                                 <TouchableOpacity activeOpacity={1}>
                                     <View style={{ height: scaleSzie(10) }} />

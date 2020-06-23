@@ -191,7 +191,10 @@ export default class Layout extends React.Component {
         const { invoiceDetail } = this.state;
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(8) }} >
-                <ScrollView showsVerticalScrollIndicator={false} >
+                <ScrollView 
+                showsVerticalScrollIndicator={false} 
+                keyboardShouldPersistTaps="always"
+                >
                     {/* ------- */}
                     <ItemInfo
                         title={localize('Invoice No', language)}
@@ -387,7 +390,10 @@ export default class Layout extends React.Component {
                 <View style={{ flex: 1 }} >
                     <View style={{ height: scaleSzie(16) }} />
                     <View style={{ flex: 1 }} >
-                        <ScrollView showsVerticalScrollIndicator={false} >
+                        <ScrollView 
+                        showsVerticalScrollIndicator={false} 
+                        keyboardShouldPersistTaps="always"
+                        >
                             {
                                 basket.map((item, index) => <ItemBasket
                                     key={index}

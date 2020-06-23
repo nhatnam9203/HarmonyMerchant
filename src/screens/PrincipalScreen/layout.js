@@ -38,6 +38,7 @@ export default class Layout extends React.Component {
                 <ScrollView
                     ref={this.srollPrincipalRef}
                     showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps="always"
                 >
                     {/* ------ Header ------ */}
                     <View style={{

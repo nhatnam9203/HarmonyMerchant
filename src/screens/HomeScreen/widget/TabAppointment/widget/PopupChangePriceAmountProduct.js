@@ -113,7 +113,9 @@ class PopupChangePriceAmountProduct extends React.Component {
                     <View style={{ flex: 1 }} >
                         <ScrollView
                             ref={this.scrollRef}
-                            showsVerticalScrollIndicator={false} >
+                            showsVerticalScrollIndicator={false}
+                            keyboardShouldPersistTaps="always"
+                            >
                             <View style={{ height: scaleSzie(20) }} />
                             <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
                                 Name

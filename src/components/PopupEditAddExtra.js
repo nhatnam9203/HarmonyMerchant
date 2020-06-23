@@ -193,6 +193,7 @@ class PopupEditAddExtra extends React.Component {
                         <ScrollView
                             ref={this.scrollExtraRef}
                             showsVerticalScrollIndicator={false}
+                            keyboardShouldPersistTaps="always"
                         >
                             <TouchableOpacity activeOpacity={1}>
                                 {/* ------ Extra ---- */}

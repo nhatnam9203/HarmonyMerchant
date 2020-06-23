@@ -90,6 +90,7 @@ export default class Layout extends React.Component {
             <ScrollView
                 contentContainerStyle={listStaffsCalendar.length > 0 ? null : { flex: 1 }}
                 showsHorizontalScrollIndicator={false}
+                keyboardShouldPersistTaps="always"
                 horizontal>
                 <View style={{ flex: 1, width: '100%' }}>
                     <HeaderTableStaffSalary

@@ -31,6 +31,7 @@ export default class Layout extends React.Component {
                         <View style={{ flex: 1, }} >
                             <ScrollView
                                 showsVerticalScrollIndicato={false}
+                                keyboardShouldPersistTaps="always"
                             >
                                 <View style={{ alignItems: 'center', marginVertical: scaleSzie(10) }} >
                                     <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: scaleSzie(14) }]}>

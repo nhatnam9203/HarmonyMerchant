@@ -104,7 +104,7 @@ class PopupBlockDiscount extends React.Component {
                         borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
                     }} >
                         <View style={{ height: scaleSzie(260) }} >
-                            <ScrollView >
+                            <ScrollView  keyboardShouldPersistTaps="always" >
                                 <TouchableOpacity activeOpacity={1} style={{ paddingHorizontal: scaleSzie(25) }} >
                                     {
                                         discount.map((promo, index) => <ItemCampaign

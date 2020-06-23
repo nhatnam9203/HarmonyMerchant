@@ -802,20 +802,20 @@ export const roundFloatNumber = num => {
 }
 
 export const TimeZones = [
-    { value: "(UTC +07:00) Bangkok,HaNoi,Jakarta" },
-    { value: "(UTC -09:00) US/Alaska" },
-    { value: "(UTC -10:00) US/Aleutian" },
-    { value: "(UTC -07:00) US/Arizona" },
-    { value: "(UTC -06:00) US/Central" },
-    { value: "(UTC -06:00) US/East-Indiana" },
-    { value: "(UTC -05:00) US/Eastern" },
-    { value: "(UTC -10:00) US/Hawaii" },
-    { value: "(UTC -06:00) US/Indiana-Starke" },
-    { value: "(UTC -05:00) US/Michigan" },
-    { value: "(UTC -07:00) US/Mountain" },
-    { value: "(UTC -08:00) US/Pacific" },
-    { value: "(UTC -08:00) US/Pacific-New" },
-    { value: "(UTC -11:00) US/Samoa" },
+    { value: "(UTC+07:00) Asia/Bangkok" },
+    { value: "(UTC-09:00) US/Alaska" },
+    { value: "(UTC-10:00) US/Aleutian" },
+    { value: "(UTC-07:00) US/Arizona" },
+    { value: "(UTC-06:00) US/Central" },
+    { value: "(UTC-06:00) US/East-Indiana" },
+    { value: "(UTC-05:00) US/Eastern" },
+    { value: "(UTC-10:00) US/Hawaii" },
+    { value: "(UTC-06:00) US/Indiana-Starke" },
+    { value: "(UTC-05:00) US/Michigan" },
+    { value: "(UTC-07:00) US/Mountain" },
+    { value: "(UTC-08:00) US/Pacific" },
+    { value: "(UTC-08:00) US/Pacific-New" },
+    { value: "(UTC-11:00) US/Samoa" },
 ];
 
 export const validBirthday = (birthday) => {

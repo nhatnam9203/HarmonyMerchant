@@ -37,6 +37,7 @@ class Layout extends React.Component {
                 <ScrollView
                  ref={this.scrollStaffRef}
                     showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps="always"
                 >
                     <View style={{ height: scaleSzie(30) }} />
                     <ItemAdminInfoDoubleItem

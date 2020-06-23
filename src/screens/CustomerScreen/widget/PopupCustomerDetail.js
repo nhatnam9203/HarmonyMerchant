@@ -61,6 +61,7 @@ class PopupCustomerDetail extends React.Component {
                     <View style={{ flex: 1 }} >
                         <ScrollView
                             showsVerticalScrollIndicator={false}
+                            keyboardShouldPersistTaps="always"
                         >
                             <TouchableOpacity activeOpacity={1}>
                                 {/* -------------------- */}

@@ -6,7 +6,6 @@ export function login(email, password) {
         body: {
             email: email,
             password: password,
-            timezone: (new Date()).getTimezoneOffset()
         },
         method: 'POST',
         api: `${apiConfigs.BASE_API}merchant/login`

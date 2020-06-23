@@ -84,6 +84,7 @@ class RowTableStaffSalary extends React.Component {
                         contentContainerStyle={{ flex: 1 }}
                         // keyExtractor={(item, index) => index + ''}
                         horizontal
+                        keyboardShouldPersistTaps="always"
                     // showsHorizontalScrollIndicator={false}
                     // data={staff.salariesByDate}
                     // renderItem={({ item }) => {

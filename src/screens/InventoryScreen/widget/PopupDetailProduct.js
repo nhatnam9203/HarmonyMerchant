@@ -107,6 +107,7 @@ class PopupDetailProduct extends React.Component {
                     <View style={{ flex: 1 }} >
                         <ScrollView
                             showsVerticalScrollIndicator={false}
+                            keyboardShouldPersistTaps="always"
                         >
                             <View style={{ height: scaleSzie(13) }} />
                             {/* ---- start ---- */}

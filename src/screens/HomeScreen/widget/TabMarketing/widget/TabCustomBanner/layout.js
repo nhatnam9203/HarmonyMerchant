@@ -163,6 +163,7 @@ class Layout extends React.Component {
                 <View style={{ flex: 1 }} >
                     <ScrollView
                         ref={this.scrollInputRef}
+                        keyboardShouldPersistTaps="always"
                     >
                         <View style={{
                             height: scaleSzie(140), width: scaleSzie(220),

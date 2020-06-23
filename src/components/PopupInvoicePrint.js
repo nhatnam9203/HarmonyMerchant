@@ -234,6 +234,7 @@ class PopupInvoicePrint extends React.Component {
                             <ScrollView
                                 style={{ flex: 1 }}
                                 automaticallyAdjustContentInsets={true}
+                                keyboardShouldPersistTaps="always"
                             >
                                 <View
                                     ref={this.viewShotRef}

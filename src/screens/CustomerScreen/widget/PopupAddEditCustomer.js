@@ -174,6 +174,7 @@ class PopupAddEditCustomer extends React.Component {
                         <ScrollView
                             ref={this.scrollCustomerRef}
                             showsVerticalScrollIndicator={false}
+                            keyboardShouldPersistTaps="always"
                         >
                             <TouchableOpacity activeOpacity={1}>
                                 {/* ----- */}

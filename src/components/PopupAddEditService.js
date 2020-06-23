@@ -308,6 +308,7 @@ class PopupAddEditService extends React.Component {
                         <ScrollView
                             ref={this.scrollServiceRef}
                             showsVerticalScrollIndicator={false}
+                            keyboardShouldPersistTaps="always"
                         >
                             <TouchableOpacity activeOpacity={1}>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginTop: scaleSzie(10), marginBottom: scaleSzie(10) }} >

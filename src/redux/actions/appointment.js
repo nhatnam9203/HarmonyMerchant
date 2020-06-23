@@ -412,7 +412,7 @@ export function updateProductInAppointment(appointmentId, body, isGroup = true) 
         method: 'PUT',
         body,
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/updateProduct/${appointmentId}?timezone=-420`,
+        api: `${apiConfigs.BASE_API}appointment/updateProduct/${appointmentId}`,
         appointmentId,
         isGroup
     }

@@ -93,7 +93,8 @@ class PopupChangeTip extends React.Component {
 
                 }} >
                     <View style={{ flex: 1 }} >
-                    <ScrollView keyboardShouldPersistTaps="always" >
+                    <ScrollView keyboardShouldPersistTaps="always"
+                    >
                         <View style={{ height: scaleSzie(20) }} />
                         <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
                             Tip ($)

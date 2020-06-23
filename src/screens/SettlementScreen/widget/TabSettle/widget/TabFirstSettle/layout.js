@@ -470,6 +470,7 @@ class Layout extends React.Component {
                 {
                     _.isEmpty(settleWaiting) || settleWaiting.checkout.length === 0 ?
                         <ScrollView
+                        keyboardShouldPersistTaps="always"
                             refreshControl={
                                 <RefreshControl
                                     refreshing={this.props.refreshingSettle}
@@ -500,6 +501,7 @@ class Layout extends React.Component {
                         :
                         <ScrollView
                             ref={this.scrollSRef}
+                            keyboardShouldPersistTaps="always"
                             refreshControl={
                                 <RefreshControl
                                     refreshing={this.props.refreshingSettle}
