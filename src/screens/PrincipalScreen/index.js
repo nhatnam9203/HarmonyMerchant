@@ -6,7 +6,7 @@ import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
 import { validateIsNumber, getIdStateByName, gotoSettingsDevice, 
-    validateEmail, scaleSzie, checkStateIsValid,formatWithMoment } from '@utils';
+    validateEmail, scaleSzie, checkStateIsValid,formatWithMoment ,validBirthday} from '@utils';
 
 const initalStatePrincipal2 = {
     principalInfo2: {
@@ -359,16 +359,20 @@ class PrincipalScreen extends Layout {
     }
 
     setDateSelected = (date) => {
-        if (this.state.isShowPrincipal1) {
-            this.setState({
-                dateOfBirth: date
-            })
-        } else {
-            this.setState({
-                dateOfBirthPrincipal2: date
-            })
+        // console.log("--- setDateSelected : ", validBirthday(date));
+        if(validBirthday(date)){
+            if (this.state.isShowPrincipal1) {
+                this.setState({
+                    dateOfBirth: date
+                })
+            } else {
+                this.setState({
+                    dateOfBirthPrincipal2: date
+                })
+            }
+        }else{
+            alert("Invalid Birthday!")
         }
-
     }
 
 

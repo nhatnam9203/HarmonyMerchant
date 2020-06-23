@@ -17,7 +17,7 @@ export default class Layout extends React.Component {
         return (
             <View style={styles.header} >
                 <View style={styles.headerLeft} >
-                    <Image source={IMAGE.logo}
+                    <Image source={IMAGE.logo_small}
                         style={{
                             height: scaleSzie(50),
                             width: scaleSzie(222)

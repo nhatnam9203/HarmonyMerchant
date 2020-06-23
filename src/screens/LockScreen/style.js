@@ -11,7 +11,7 @@ export default StyleSheet.create({
         paddingTop:scaleSzie(30)
     },
     logo:{
-        width:scaleSzie(210),
-        height:scaleSzie(50)
+        // width:scaleSzie(210),
+        // height:scaleSzie(50)
     }
 })

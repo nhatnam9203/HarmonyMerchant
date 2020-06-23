@@ -1,5 +1,6 @@
 export default {
     splashScreen: require('./img/intro.png'),
+    logo_small: require('./img/logo_small.png'),
     logo: require('./img/logo.png'),
     slider1: require('./img/slider1.png'),
     slider2: require('./img/slider2.png'),

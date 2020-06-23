@@ -47,7 +47,6 @@ export default class Layout extends React.Component {
                         onPress={this.signIn}
                     />
                 </View>
-
             </ImageBackground>
 
         );

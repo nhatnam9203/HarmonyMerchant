@@ -34,7 +34,7 @@ export function getSettlementWating(isShowLoading = true) {
         method: 'GET',
         api: `${apiConfigs.BASE_API}settlement/waiting`,
         token: true,
-        isShowLoading 
+        isShowLoading
     }
 }
 
@@ -78,13 +78,14 @@ export function clearSearTransaction() {
     }
 }
 
-export function getBatchHistory(isShowLoading = true) {
+export function getBatchHistory(isShowLoading = true, page) {
     return {
         type: 'GET_BATCH_HISTORY',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}settlement/search?from=&to=&key`,
+        api: `${apiConfigs.BASE_API}settlement/search?timeStart=&timeEnd=&quickFilter&key&page=${page}`,
         token: true,
-        isShowLoading
+        isShowLoading,
+        currentPage: page
     }
 }
 
@@ -92,7 +93,8 @@ export function searchBatchHistory(url) {
     return {
         type: 'SEARCH_BATCH_HISTORY',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}settlement/search?${url}`,
+        // api: `${apiConfigs.BASE_API}settlement/search?${url}`,
+        api: `${apiConfigs.BASE_API}settlement/search?key=&timeStart=&timeEnd=&quickFilter=&page=1`,
         token: true
     }
 }
@@ -133,7 +135,7 @@ export function resetStateIsGettingSettlement() {
 export function togglPopupConfirmPrintInvoice(visible = false) {
     return {
         type: 'VISIBLE_POPUP_CONFIRM_PRINT_INVOICE',
-        payload : visible
+        payload: visible
     }
 }
 

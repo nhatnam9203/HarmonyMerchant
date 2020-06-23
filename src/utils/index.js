@@ -816,4 +816,14 @@ export const TimeZones = [
     { value: "(UTC -08:00) US/Pacific" },
     { value: "(UTC -08:00) US/Pacific-New" },
     { value: "(UTC -11:00) US/Samoa" },
-]
+];
+
+export const validBirthday = (birthday) => {
+    const temptBirthday = new Date(birthday);
+    const currentDay = new Date();
+
+    if (currentDay.getTime() < temptBirthday.getTime()) {
+        return false;
+    }
+    return true
+}
