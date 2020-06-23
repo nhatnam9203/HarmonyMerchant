@@ -86,7 +86,7 @@ class TextInputSuggestion extends React.PureComponent {
                     ...inputContainerStyle
                 }}
                 style={{ fontSize: scaleSzie(16) }}
-                onFocus={this.onFocus}
+                onFocus={onFocus && this.onFocus}
                 onBlur={this.onBlur}
                 keyExtractor={(item, index) => `${item}_${index}`}
                 listStyle={{ height: scaleSzie(50) }}

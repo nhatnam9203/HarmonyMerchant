@@ -770,7 +770,9 @@ export const getPaymentString = (type) => {
 }
 
 export const formatWithMoment = (data, key) => {
-    return moment.parseZone(data).local().format(key);
+    // return moment.parseZone(data).local().format(key);
+    return moment.parseZone(data).format(key);
+
 }
 
 export const checkStatusPrint = async () => {

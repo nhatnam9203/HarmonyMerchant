@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
-import { ButtonCustom, PopupParent, Dropdown } from '@components';
+import { ButtonCustom, PopupParent, Dropdown, TextInputSuggestion } from '@components';
 import {
     scaleSzie, localize, getArrayNameStateCity, getIdStateByName, getNameStateById, ListCodeAreaPhone,
     getCodeAreaPhone
@@ -79,7 +79,7 @@ class PopupAddEditCustomer extends React.Component {
                 },
                 referrerPhone: getCodeAreaPhone(customer.referrerPhone).phone,
                 favourite: customer.favourite,
-                isVip : customer.isVip === 0 ? "Normal" : "VIP"
+                isVip: customer.isVip === 0 ? "Normal" : "VIP"
             },
             customerId: customer.customerId,
             codeAreaPhone: getCodeAreaPhone(customer.phone).areaCode,
@@ -296,7 +296,7 @@ class PopupAddEditCustomer extends React.Component {
                                     <View style={{ flex: 1 }} >
                                         <View style={{ height: scaleSzie(30), }} >
                                             <View style={{ flex: 1 }} >
-                                                <Dropdown
+                                                {/* <Dropdown
                                                     label={localize('State', language)}
                                                     data={getArrayNameStateCity(stateCity)}
                                                     value={state}
@@ -307,6 +307,11 @@ class PopupAddEditCustomer extends React.Component {
                                                         borderColor: '#C5C5C5',
                                                         flex: 1
                                                     }}
+                                                /> */}
+                                                <TextInputSuggestion
+                                                    value={state}
+                                                    onChangeText={(value) => this.updateCustomerInfo('state', value, 'addressPost')}
+                                                    // onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 540 : 500)}
                                                 />
                                             </View>
                                         </View>

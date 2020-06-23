@@ -78,7 +78,7 @@ export function clearSearTransaction() {
     }
 }
 
-export function getBatchHistory(isShowLoading = true, page) {
+export function getBatchHistory(isShowLoading = true, page =  1) {
     return {
         type: 'GET_BATCH_HISTORY',
         method: 'GET',

@@ -18,6 +18,8 @@ import {
 
 const AuthStack = createStackNavigator(
     {
+        Intro: IntroScreen,
+        UserGuide: UserGuideScreen,
         SignIn: SignInScreen,
         ForgotPassword: ForgotPasswordScreen,
         Terms: TermsScreen,
@@ -25,13 +27,11 @@ const AuthStack = createStackNavigator(
         BusinessInfo: BusinessInfoScreen,
         BankInfo: BankInfoScreen,
         PrincipalInfo: PrincipalScreen,
-        Intro: IntroScreen,
-        UserGuide: UserGuideScreen,
         PackageAndPricing,
         ApplicationSubmit: ApplicationSubmitScreen,
     },
     {
-        initialRouteName: 'PrincipalInfo',
+        initialRouteName: 'Intro',
         headerMode: 'none',
         transitionConfig: getSlideFromRightTransition
     }
