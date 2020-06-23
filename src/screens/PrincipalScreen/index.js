@@ -5,8 +5,10 @@ import { Alert, Platform } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateIsNumber, getIdStateByName, gotoSettingsDevice, 
-    validateEmail, scaleSzie, checkStateIsValid,formatWithMoment ,validBirthday} from '@utils';
+import {
+    validateIsNumber, getIdStateByName, gotoSettingsDevice,
+    validateEmail, scaleSzie, checkStateIsValid, formatWithMoment, validBirthday
+} from '@utils';
 
 const initalStatePrincipal2 = {
     principalInfo2: {
@@ -183,7 +185,7 @@ class PrincipalScreen extends Layout {
         }
     }
 
-    checkPrincipalInfo2Valid =  () => {
+    checkPrincipalInfo2Valid = () => {
         const { principalInfo2, uriUploadPrincipal2 } = this.state;
         const arrayKey = Object.keys(principalInfo2);
         const { stateCity } = this.props;
@@ -223,6 +225,11 @@ class PrincipalScreen extends Layout {
                 else if (arrayKey[i] == 'email') {
                     if (!validateEmail(principalInfo2[arrayKey[i]])) {
                         keyError = 'emailInvalid';
+                        break;
+                    }
+                } else if (arrayKey[i] == 'stateIssued') {
+                    if (!checkStateIsValid(stateCity, principalInfo2.stateIssued)) {
+                        keyError = 'stateIssuedInvalid';
                         break;
                     }
                 }
@@ -296,6 +303,11 @@ class PrincipalScreen extends Layout {
                     keyError = 'emailInvalid';
                     break;
                 }
+            } else if (arrayKey[i] == 'stateIssued') {
+                if (!checkStateIsValid(stateCity, principalInfo.stateIssued)) {
+                    keyError = 'stateIssuedInvalid';
+                    break;
+                }
             }
 
             else {
@@ -322,16 +334,16 @@ class PrincipalScreen extends Layout {
                     ...principalInfo,
                     homePhone: `${phoneCodePrincipal1.homePhone}${principalInfo.homePhone}`,
                     mobilePhone: `${phoneCodePrincipal1.mobilePhone}${principalInfo.mobilePhone}`,
-                    dateOfBirth: `${formatWithMoment(this.state.dateOfBirth,'MM/DD/YYYY')}`,
+                    dateOfBirth: `${formatWithMoment(this.state.dateOfBirth, 'MM/DD/YYYY')}`,
                     fileId: this.state.fileId,
                     addressPrincipal: temptAddressPrincipal
                 };
 
                 // -------- handle principal 2 -------
                 const result = this.checkPrincipalInfo2Valid();
-            //console.log('result : ',result);
+                //console.log('result : ',result);
                 if (result === 1) {
-                    
+
                     this.props.actions.app.setPrincipalInfo([temptPrincipalInfo]);
                     this.props.navigation.navigate('PackageAndPricing');
                 } else if (result === 2) {
@@ -341,7 +353,7 @@ class PrincipalScreen extends Layout {
                         ...principalInfo2,
                         homePhone: `${phoneCodePrincipal2.homePhone}${principalInfo2.homePhone}`,
                         mobilePhone: `${phoneCodePrincipal2.mobilePhone}${principalInfo2.mobilePhone}`,
-                        dateOfBirth: `${formatWithMoment(this.state.dateOfBirthPrincipal2,'MM/DD/YYYY')}`,
+                        dateOfBirth: `${formatWithMoment(this.state.dateOfBirthPrincipal2, 'MM/DD/YYYY')}`,
                         fileId: this.state.fileIdPrincipal2,
                         addressPrincipal: temptAddressPrincipalSecond
                     };
@@ -359,7 +371,7 @@ class PrincipalScreen extends Layout {
     }
 
     setDateSelected = (date) => {
-        if(validBirthday(date)){
+        if (validBirthday(date)) {
             if (this.state.isShowPrincipal1) {
                 this.setState({
                     dateOfBirth: date
@@ -369,7 +381,7 @@ class PrincipalScreen extends Layout {
                     dateOfBirthPrincipal2: date
                 })
             }
-        }else{
+        } else {
             alert("Invalid Birthday!")
         }
     }

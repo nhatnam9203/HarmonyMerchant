@@ -8,7 +8,7 @@ import {
     InputForm, Text, Button,
     InputFormPhone, TextInputSuggestion
 } from '@components';
-import { scaleSzie, localize ,formatWithMoment} from '@utils';
+import { scaleSzie, localize, formatWithMoment } from '@utils';
 import IMAGE from '@resources';
 import styles from '../style';
 
@@ -30,7 +30,7 @@ export default class Layout extends React.Component {
     }
 
     componentDidMount() {
-        const {homePhone,mobilePhone} = this.props.phoneCodePrincipal;
+        const { homePhone, mobilePhone } = this.props.phoneCodePrincipal;
         this.homePhoneRef.current.setStateFromParent(homePhone);
         this.mobilePhoneRef.current.setStateFromParent(mobilePhone);
     }
@@ -211,7 +211,7 @@ export default class Layout extends React.Component {
                         }} >
                         <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(8) }} >
                             <Text style={styles.textNormal} >
-                                {`${formatWithMoment(dateOfBirth,'MM/DD/YYYY')}`}
+                                {`${formatWithMoment(dateOfBirth, 'MM/DD/YYYY')}`}
                             </Text>
                         </View>
                         <View style={{ width: 1, paddingVertical: scaleSzie(2) }} >
@@ -244,11 +244,22 @@ export default class Layout extends React.Component {
                             onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 980 : 940)}
                         />
                     </View>
-                    <View style={{ width: scaleSzie(180) }} >
+                    {/* <View style={{ width: scaleSzie(180) }} >
                         <InputForm
                             title={`${localize('State Issued', language)}*`}
                             subTitle=""
                             placeholder=""
+                            value={stateIssued}
+                            onChangeText={(value) => updatePrincipalInfo('stateIssued', value, '', isPrincipalSecond)}
+                            onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 980 : 940)}
+                        />
+                       
+                    </View> */}
+                    <View style={{ width: scaleSzie(180), }} >
+                        <Text style={[{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(5) }]} >
+                            {`${localize('State Issued', language)}*`}
+                        </Text>
+                        <TextInputSuggestion
                             value={stateIssued}
                             onChangeText={(value) => updatePrincipalInfo('stateIssued', value, '', isPrincipalSecond)}
                             onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 980 : 940)}

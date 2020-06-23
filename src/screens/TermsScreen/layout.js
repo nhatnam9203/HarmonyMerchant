@@ -128,7 +128,7 @@ export default class Layout extends React.Component {
                                 {/* --------- Row ------- */}
                                 <View style={{ alignItems: 'center', marginVertical: scaleSzie(10) }} >
                                     <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: scaleSzie(14) }]}>
-                                    Fees
+                                        Fees
                                     </Text>
                                 </View>
                                 <Text style={styles.contentTerms}>
@@ -138,7 +138,7 @@ export default class Layout extends React.Component {
 
                                 <Text style={[styles.contentTerms]}>
                                     We will charge you a fee of 2.0% of the total amount of each transaction processed. In the event the fees charged to us by
-                                    the credit card companies to process your transaction exceeds the 2% fee we assessed, 
+                                    the credit card companies to process your transaction exceeds the 2% fee we assessed,
                                     <Text style={[styles.contentTerms, { color: "#000" }]}>
                                         {` we will charge you the excess imposed by the credit card company without regard to whether this Agreement has expired or been terminated, rescinded or cancelled.`}
                                     </Text>
@@ -456,11 +456,11 @@ export default class Layout extends React.Component {
                                 {/* --------- Row ------- */}
                                 <View style={{ alignItems: 'center', marginVertical: scaleSzie(10) }} >
                                     <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: scaleSzie(14) }]}>
-                                    Contacting Harmony Pay
+                                        Contacting Harmony Pay
                                     </Text>
                                 </View>
                                 <Text style={styles.contentTerms}>
-                                If you have any questions about these Terms, please contact Harmony Pay at
+                                    If you have any questions about these Terms, please contact Harmony Pay at
                                     team@harmonypayment.com.
 
                                 </Text>
@@ -508,10 +508,10 @@ export default class Layout extends React.Component {
                         textDecorationLine: 'underline'
                     }} >
                         {localize('Back', language)}
-                        </Text>
+                    </Text>
                 </Button>
 
-                
+
             </View>
 
 
