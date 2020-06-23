@@ -21,7 +21,8 @@ function* login(action) {
             });
             yield put({
                 type: 'LOGIN_APP_SUCCESS',
-                payload: action.body && action.body.email ? action.body.email : ""
+                payload: action.body && action.body.email ? action.body.email : "",
+                isRememberMID : action.isRememberMID
             });
             yield put({ type: 'STOP_LOADING_ROOT' });
             NavigationServices.navigate('Splash');

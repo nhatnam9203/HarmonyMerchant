@@ -1,6 +1,6 @@
 import apiConfigs from '../../configs/api';
 
-export function login(email, password) {
+export function login(email, password,isRememberMID = false) {
     return {
         type: 'LOGIN_APP',
         body: {
@@ -8,7 +8,8 @@ export function login(email, password) {
             password: password,
         },
         method: 'POST',
-        api: `${apiConfigs.BASE_API}merchant/login`
+        api: `${apiConfigs.BASE_API}merchant/login`,
+        isRememberMID
     }
 }
 

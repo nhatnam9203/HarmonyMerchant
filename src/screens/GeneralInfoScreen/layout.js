@@ -3,24 +3,30 @@ import {
     View,
     ScrollView,
     Dimensions,
+    Image
 } from 'react-native';
 
-import { InputForm, FormInfoParent, Text, InputFormPhone, TextInputSuggestion } from '@components';
+import { InputForm, FormInfoParent, Text, InputFormPhone, TextInputSuggestion, Button } from '@components';
 import { scaleSzie, localize } from '@utils';
+import ICON from '@resources';
 
 const { width } = Dimensions.get('window');
 
 export default class Layout extends React.Component {
 
     render() {
-        const { generalInfo } = this.state;
+        const { language } = this.props;
+        const { generalInfo, isDBAAddress } = this.state;
         const {
             businessName, doingBusiness, tax, businessAddress, businessPhone, email,
-            firstName, lastName, position, contactPhone
+            firstName, lastName, position, contactPhone, dbaAddress
         } = generalInfo;
         const { prefix, suffix } = tax;
         const { address, city, state, zip } = businessAddress;
-        const { language } = this.props;
+        const { address: addressDBA, city: cityDBA, state: stateDBA, zip: zipDBA } = dbaAddress;
+
+        const temptIconCheck = isDBAAddress ? ICON.checkBox : ICON.checkBoxEmpty;
+
         return (
             <FormInfoParent
                 back={() => this.props.navigation.goBack()}
@@ -112,7 +118,7 @@ export default class Layout extends React.Component {
                         <InputForm
                             title={`${localize('Business Address', language)}*`}
                             subTitle="(no P.O. Boxes)"
-                            placeholder={localize('Business Address', language)}
+                            placeholder={localize('Street Address', language)}
                             style={{
                                 marginBottom: scaleSzie(10)
                             }}
@@ -162,19 +168,33 @@ export default class Layout extends React.Component {
                         </View>
 
                         {/* ---------------  DBA Address --------------- */}
-                        <Text style={[{ color: '#404040', fontSize: scaleSzie(14), fontWeight: "600" }]} >
-                            {`DBA Address*`}
-                        </Text>
+                        <View style={{ flexDirection: "row",marginTop:scaleSzie(10) }} >
+                            <Text style={[{ color: '#404040', fontSize: scaleSzie(14), fontWeight: "600" }]} >
+                                {`DBA Address*`}
+                            </Text>
+                            <Button onPress={this.toggleDBAAddress} style={{
+                                marginLeft: scaleSzie(15),
+                                marginRight: scaleSzie(5)
+                            }} >
+                                <Image source={temptIconCheck} />
+                            </Button>
+
+                            <Text style={[{ color: '#404040', fontSize: scaleSzie(12) }]} >
+                                {`Same as Business Address`}
+                            </Text>
+                        </View>
+
                         <InputForm
                             title={null}
                             subTitle={null}
-                            placeholder={localize('Business Address', language)}
+                            placeholder={localize('Street Address', language)}
                             style={{
                                 marginBottom: scaleSzie(10),
                             }}
-                            value={address}
-                            onChangeText={(value) => this.updateGeneralInfo('address', value, 'businessAddress')}
-                            onFocus={() => this.scrollGeneralTo(310)}
+                            value={addressDBA}
+                            onChangeText={(value) => this.updateGeneralInfo('address', value, 'dbaAddress')}
+                            onFocus={() => this.scrollGeneralTo(425)}
+                            editable={!isDBAAddress}
                         />
                         <View style={{
                             height: scaleSzie(30), marginBottom: scaleSzie(24), justifyContent: 'space-between',
@@ -188,16 +208,18 @@ export default class Layout extends React.Component {
                                     style={{
                                         marginBottom: 0
                                     }}
-                                    value={city}
-                                    onChangeText={(value) => this.updateGeneralInfo('city', value, 'businessAddress')}
-                                    onFocus={() => this.scrollGeneralTo(310)}
+                                    value={cityDBA}
+                                    onChangeText={(value) => this.updateGeneralInfo('city', value, 'dbaAddress')}
+                                    onFocus={() => this.scrollGeneralTo(425)}
+                                    editable={!isDBAAddress}
                                 />
                             </View>
                             <View style={{ width: scaleSzie(180), height: scaleSzie(30) }} >
                                 <TextInputSuggestion
-                                    value={state}
-                                    onChangeText={value => this.updateGeneralInfo('state', value, 'businessAddress')}
-                                    onFocus={() => this.scrollGeneralTo(310)}
+                                    value={stateDBA}
+                                    onChangeText={value => this.updateGeneralInfo('state', value, 'dbaAddress')}
+                                    onFocus={() => this.scrollGeneralTo(425)}
+                                    editable={!isDBAAddress}
                                 />
                             </View>
                             <View style={{ width: scaleSzie(180) }} >
@@ -208,11 +230,12 @@ export default class Layout extends React.Component {
                                     style={{
                                         marginBottom: 0
                                     }}
-                                    value={zip}
-                                    onChangeText={(value) => this.updateGeneralInfo('zip', value, 'businessAddress')}
+                                    value={zipDBA}
+                                    onChangeText={(value) => this.updateGeneralInfo('zip', value, 'dbaAddress')}
                                     keyboardType="numeric"
                                     maxLength={5}
-                                    onFocus={() => this.scrollGeneralTo(310)}
+                                    onFocus={() => this.scrollGeneralTo(425)}
+                                    editable={!isDBAAddress}
                                 />
                             </View>
                         </View>

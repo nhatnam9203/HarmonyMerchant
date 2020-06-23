@@ -6,23 +6,25 @@ import {
 } from 'react-native';
 
 import { Text, InputAuth, ButtonCustom, Button } from '@components';
-import { scaleSzie,localize } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 
 export default class Layout extends React.Component {
 
     render() {
-        const { errorLogin ,language,MIDStorage} = this.props;
-        const {isSecureTextEntry} = this.state;
-        const iconShowPass = isSecureTextEntry ? IMAGE.showPass  :  IMAGE.notShowPass ;
+        const { errorLogin, language, MIDStorage } = this.props;
+        const { isSecureTextEntry,isRememberMID } = this.state;
+        const iconShowPass = isSecureTextEntry ? IMAGE.showPass : IMAGE.notShowPass;
+        const temptIconCheck = isRememberMID ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
+
         return (
             <ImageBackground
                 style={styles.container}
                 source={IMAGE.backgroundLogin}
             >
                 <Image source={IMAGE.logo} style={styles.logo} />
-                <View style={{ height: scaleSzie(60),justifyContent:'center',alignItems:'center' }} >
+                <View style={{ height: scaleSzie(60), justifyContent: 'center', alignItems: 'center' }} >
                     <Text style={{ color: 'red', fontSize: scaleSzie(16), fontWeight: '600' }} >
                         {errorLogin}
                     </Text>
@@ -36,7 +38,7 @@ export default class Layout extends React.Component {
                 <View style={{ height: scaleSzie(20) }} />
                 <InputAuth
                     ref={this.passwordInputRef}
-                    placeholder={localize('password',language)}
+                    placeholder={localize('password', language)}
                     secureTextEntry={isSecureTextEntry}
                     onSubmitEditing={this.signIn}
                     isShowPass={true}
@@ -45,29 +47,47 @@ export default class Layout extends React.Component {
                 />
                 <View style={{
                     width: scaleSzie(400), height: scaleSzie(60),
-                    justifyContent: 'center', alignItems: 'flex-end'
+                     flexDirection: "row",paddingLeft:scaleSzie(10)
                 }} >
+                    <View style={{ flex: 1 , flexDirection:"row",alignItems:"center"}} >
+                        <Button onPress={this.toggleRememberMID} style={{width:scaleSzie(30),height:scaleSzie(30),
+                    justifyContent:"center",alignItems:"center"
+                    }} >
+                        <Image source={temptIconCheck} style={{width:scaleSzie(22),height:scaleSzie(22)}} />
+                        </Button>
+                        
+                        <Text style={{ color: '#fff', fontSize: scaleSzie(16), fontWeight: 'bold',
+                    marginLeft:scaleSzie(10)
+                    }} >
+                            {localize('Remember MID', language)}
+                        </Text>
+                    </View>
+
+                    <View style={{ flex: 1,justifyContent:"center",alignItems:"flex-end" }} >
                     <Button onPress={this.forgotPassword} >
                         <Text style={{ color: '#fff', fontSize: scaleSzie(16), fontWeight: 'bold' }} >
-                            {localize('Forgot password',language)}
+                            {localize('Forgot password', language)}
                         </Text>
                     </Button>
+                    </View>
+
+                   
                 </View>
                 <ButtonCustom
                     width={scaleSzie(400)}
                     backgroundColor="#4CD964"
-                    title={localize('SIGN IN',language)}
+                    title={localize('SIGN IN', language)}
                     textColor="#fff"
                     onPress={this.signIn}
                 />
-                <Button  onPress={this.signUp} style={{marginTop: scaleSzie(18)}} >
-                <Text style={{
-                    color: '#fff', fontSize: scaleSzie(16), fontWeight: 'bold',
-                }} >
-                    {`${localize('Don’t have an account',language)}? `}<Text style={{
-                        color: '#5AC8FA', fontSize: scaleSzie(16), fontWeight: 'bold',
-                    }} > {localize('Sign up')}</Text>
-                </Text>
+                <Button onPress={this.signUp} style={{ marginTop: scaleSzie(18) }} >
+                    <Text style={{
+                        color: '#fff', fontSize: scaleSzie(16), fontWeight: 'bold',
+                    }} >
+                        {`${localize('Don’t have an account', language)}? `}<Text style={{
+                            color: '#5AC8FA', fontSize: scaleSzie(16), fontWeight: 'bold',
+                        }} > {localize('Sign up')}</Text>
+                    </Text>
                 </Button>
             </ImageBackground>
 

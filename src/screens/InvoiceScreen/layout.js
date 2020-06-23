@@ -641,7 +641,7 @@ export default class Layout extends React.Component {
                 <PopupConfirmPrintInvoice
                     visible={visibleConfirmPrintInvoice}
                     title={localize('Confirmation', language)}
-                    message={`${localize('Do you want to print receipt ', language)}?`}
+                    message={`${localize('Do you want to print receipt', language)}?`}
                     onRequestClose={this.closePopupConfirmPrintInvoice}
                     confimYes={this.printInvoice}
                     language={language}

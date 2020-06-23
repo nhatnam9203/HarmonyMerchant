@@ -8,7 +8,8 @@ class SignInScreen extends Layout {
     constructor(props) {
         super(props);
         this.state = {
-            isSecureTextEntry: true
+            isSecureTextEntry: true,
+            isRememberMID : true
         }
         this.idInputRef = React.createRef();
         this.passwordInputRef = React.createRef();
@@ -16,12 +17,13 @@ class SignInScreen extends Layout {
     }
 
     signIn = () => {
+        const {isRememberMID} =this.state;
         const email = this.idInputRef.current.state.value;
         const password = this.passwordInputRef.current.state.value;
         if (email === '' || password === '') {
             alert('Please enter full information!');
         } else {
-            this.props.actions.auth.login(email, password);
+            this.props.actions.auth.login(email, password,isRememberMID);
         }
 
     }
@@ -36,6 +38,12 @@ class SignInScreen extends Layout {
 
     changeShowPass = () => {
         this.setState(prevState => ({ isSecureTextEntry: !prevState.isSecureTextEntry }))
+    }
+
+    toggleRememberMID =() =>{
+        this.setState(prevState =>({
+            isRememberMID: !prevState.isRememberMID
+        }))
     }
 
 }

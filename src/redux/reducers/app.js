@@ -31,7 +31,7 @@ function appReducer(state = initialState, action) {
         case 'LOGIN_APP_SUCCESS':
             return {
                 ...state,
-                MIDStorage: action.payload
+                MIDStorage: action.isRememberMID ?  action.payload : ""
             }
         case 'AGREE_TERM':
             return {

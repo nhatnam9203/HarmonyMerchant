@@ -59,7 +59,7 @@ class TextInputSuggestion extends React.PureComponent {
     }
 
     render() {
-        const { value, onChangeText, onFocus, inputContainerStyle } = this.props;
+        const { value, onChangeText, onFocus, inputContainerStyle,editable } = this.props;
         const { data } = this.state;
         return (
             <Autocomplete
@@ -69,7 +69,8 @@ class TextInputSuggestion extends React.PureComponent {
                 renderItem={({ item, i }) => (
                     <TouchableOpacity style={{
                         height: scaleSzie(25), paddingHorizontal: scaleSzie(8),
-                        justifyContent: "center"
+                        justifyContent: "center",
+                        zIndex:1000
                     }} onPress={() => this.selectSuggestion(item)}>
                         <Text>{item}</Text>
                     </TouchableOpacity>
@@ -90,6 +91,7 @@ class TextInputSuggestion extends React.PureComponent {
                 onBlur={this.onBlur}
                 keyExtractor={(item, index) => `${item}_${index}`}
                 listStyle={{ height: scaleSzie(50) }}
+                editable={editable}
             />
 
         );

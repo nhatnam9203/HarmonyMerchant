@@ -148,7 +148,7 @@ class ItemCustomerBasket extends React.Component {
                     flexDirection: "row", alignItems: "center",
                 }} >
                     <Text style={{ color: "#fff", fontSize: scaleSzie(14), fontWeight: "bold" }} >
-                        {`#${codeAppointment} - ${firstName} ${lastName}`}
+                        {`#${codeAppointment} - ${lastName} ${firstName}`}
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
                         <Button onPress={this.toggleCollaps} >

@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateEmail, validateIsNumber, getIdStateByName, requestAPI ,scaleSzie,checkStateIsValid} from '@utils';
+import { validateEmail, validateIsNumber, getIdStateByName, requestAPI, scaleSzie, checkStateIsValid } from '@utils';
 import apiConfigs from '@configs/api';
 
 
@@ -26,29 +26,42 @@ class GeneralInfoScreen extends Layout {
                     state: '',
                     zip: ''
                 },
+                dbaAddress: {
+                    address: '',
+                    city: '',
+                    state: '',
+                    zip: ''
+                },
                 businessPhone: '',
                 email: '',
                 firstName: '',
                 lastName: '',
                 position: '',
                 contactPhone: ''
-            }
+            },
+            isDBAAddress: true
         };
         this.businessPhoneRef = React.createRef();
         this.contactPhoneRef = React.createRef();
         this.srollGeneralRef = React.createRef();
     }
 
-    scrollGeneralTo(position){
-        this.srollGeneralRef.current.scrollTo({x: 0, y: scaleSzie(position), animated: true})
+    scrollGeneralTo(position) {
+        this.srollGeneralRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
     }
 
     updateGeneralInfo(key, value, keyParent = '') {
-        const { generalInfo } = this.state;
+        const { generalInfo, isDBAAddress } = this.state;
         if (keyParent !== '') {
             const temptParent = generalInfo[keyParent];
             const temptChild = { ...temptParent, [key]: value };
-            const temptUpdate = { ...generalInfo, [keyParent]: temptChild };
+            let temptUpdate;
+            if (keyParent === "businessAddress" && isDBAAddress) {
+                temptUpdate = { ...generalInfo, [keyParent]: temptChild, "dbaAddress": temptChild };
+            } else {
+                temptUpdate = { ...generalInfo, [keyParent]: temptChild };
+            }
+
             this.setState({
                 generalInfo: temptUpdate
             })
@@ -62,9 +75,9 @@ class GeneralInfoScreen extends Layout {
 
 
     nextTab = async () => {
-        const { generalInfo } = this.state;
+        const { generalInfo ,isDBAAddress} = this.state;
         const arrayKey = Object.keys(generalInfo);
-        const {stateCity} = this.props;
+        const { stateCity } = this.props;
         let keyError = '';
         for (let i = 0; i < arrayKey.length; i++) {
             if (arrayKey[i] == 'tax') {
@@ -90,12 +103,38 @@ class GeneralInfoScreen extends Layout {
                     break;
                 }
 
-                if (!checkStateIsValid(stateCity,generalInfo.businessAddress.state)) {
+                if (!checkStateIsValid(stateCity, generalInfo.businessAddress.state)) {
                     keyError = 'stateInvalid';
                     break;
                 }
-                
+
                 if (generalInfo.businessAddress.zip == '') {
+                    keyError = 'zip';
+                    break;
+                }
+
+            }
+            // ------------- Check DBA Address --------
+            else if (arrayKey[i] == 'dbaAddress' && !isDBAAddress) {
+                if (generalInfo.dbaAddress.address == '') {
+                    keyError = 'address';
+                    break;
+                }
+                if (generalInfo.dbaAddress.city == '') {
+                    keyError = 'city';
+                    break;
+                }
+                if (generalInfo.dbaAddress.state == '') {
+                    keyError = 'state';
+                    break;
+                }
+
+                if (!checkStateIsValid(stateCity, generalInfo.dbaAddress.state)) {
+                    keyError = 'stateInvalid';
+                    break;
+                }
+
+                if (generalInfo.dbaAddress.zip == '') {
                     keyError = 'zip';
                     break;
                 }
@@ -130,14 +169,16 @@ class GeneralInfoScreen extends Layout {
         if (keyError !== '') {
             Alert.alert(`${strings[keyError]}`);
         } else {
-            const { businessAddress } = generalInfo;
+            const { businessAddress,dbaAddress } = generalInfo;
             const temptBusinessAddress = { ...businessAddress, state: getIdStateByName(stateCity, businessAddress.state) };
+            const temptDBAAddress = { ...dbaAddress, state: getIdStateByName(stateCity, dbaAddress.state) };
             const temptGeneralInfo = {
                 ...generalInfo,
                 tax: `${generalInfo.tax.prefix}-${generalInfo.tax.suffix}`,
                 businessPhone: `${this.businessPhoneRef.current.state.codeAreaPhone}${generalInfo.businessPhone}`,
                 contactPhone: `${this.contactPhoneRef.current.state.codeAreaPhone}${generalInfo.contactPhone}`,
-                businessAddress: temptBusinessAddress
+                businessAddress: temptBusinessAddress,
+                dbaAddress:temptDBAAddress
             };
 
             this.props.actions.app.setGeneralInfo(temptGeneralInfo);
@@ -162,6 +203,29 @@ class GeneralInfoScreen extends Layout {
             //     this.props.actions.app.stopLoadingApp();
             //     this.props.actions.app.catchError(error);
             // }
+        }
+    }
+
+    toggleDBAAddress = async () => {
+        await this.setState({
+            isDBAAddress: !this.state.isDBAAddress
+        });
+
+        if (this.state.isDBAAddress) {
+            this.setState({
+                generalInfo : {...this.state.generalInfo,dbaAddress: this.state.generalInfo.businessAddress}
+            });
+        } else {
+            this.setState({
+                generalInfo: {
+                    ...this.state.generalInfo, dbaAddress: {
+                        address: '',
+                        city: '',
+                        state: '',
+                        zip: ''
+                    }
+                }
+            });
         }
     }
 
