@@ -829,3 +829,78 @@ export const validBirthday = (birthday) => {
     }
     return true
 }
+
+export const getPaymentStringInvoice = (type) => {
+    let method = '';
+    switch (type) {
+        case 'HP-Harmony Account':
+            method = 'harmony';
+            break;
+        case 'Cash':
+            method = 'cash';
+            break;
+        case 'Credit Card':
+            method = 'credit_card';
+            break;
+        case 'Cheque/Bank Transfer':
+            method = 'other';
+            break;
+        default:
+            method = ''
+    }
+    return method
+}
+
+export const getStatusStringInvoice = (type) => {
+    let status = '';
+    switch (type) {
+        case 'Pending':
+            status = 'pending';
+            break;
+        case 'Paid':
+            status = 'paid';
+            break;
+        case 'Fail':
+            status = 'fail';
+            break;
+        case 'Cancel':
+            status = 'cancel';
+            break;
+        case 'Void':
+            status = 'void';
+            break;
+        case 'Refund':
+            status = 'refund';
+            break;
+        default:
+            status = 'pending'
+    }
+    return status
+}
+
+export const getQuickFilterStringInvoice = (type) => {
+    let quickFilter = '';
+    switch (type) {
+        case 'Today':
+            quickFilter = 'today';
+            break;
+        case 'Yesterday':
+            quickFilter = 'yesterday';
+            break;
+        case 'This Week':
+            quickFilter = 'thisWeek';
+            break;
+        case 'Last Week':
+            quickFilter = 'lastWeek';
+            break;
+        case 'This Month':
+            quickFilter = 'thisMonth';
+            break;
+        case 'Last Month':
+            quickFilter = 'lastMonth';
+            break;
+        default:
+            quickFilter = ''
+    }
+    return quickFilter
+}

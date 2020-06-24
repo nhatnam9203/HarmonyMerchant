@@ -1,13 +1,14 @@
 import apiConfigs from '../../configs/api';
 
-export function getListInvoicesByMerchant(isShowLoading = true, page = 1) {
+export function getListInvoicesByMerchant(key = "",method = "",status = "",timeStart = "",timeEnd = "",quickFilter = "",page = 1, isShowLoading = true,isLoadMore = false) {
     return {
         type: 'GET_LIST_INVOICE_BY_MERCHANT',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}checkout?page=${page}&method=&status=&timeStart=&timeEnd=&key=`,
+        api: `${apiConfigs.BASE_API}checkout?page=${page}&method=${method}&status=${status}&timeStart=${timeStart}&timeEnd=${timeEnd}&key=${key}&quickFilter=${quickFilter}`,
         token: true,
         isShowLoading,
-        currentPage: page
+        currentPage: page,
+        isLoadMore
     }
 }
 

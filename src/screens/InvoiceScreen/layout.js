@@ -509,7 +509,7 @@ export default class Layout extends React.Component {
 
     renderInvoice() {
         const { language, listInvoicesByMerchant, refreshListInvoice,
-            listInvoicesSearch, isShowSearchInvoice
+            listInvoicesSearch, isShowSearchInvoice,isLoadMoreInvoiceList
         } = this.props;
         const tempData = isShowSearchInvoice ? listInvoicesSearch : listInvoicesByMerchant;
         return (
@@ -535,7 +535,7 @@ export default class Layout extends React.Component {
                                 onPress={() => this.setInvoiceDetail(item)}
                             />}
                             keyExtractor={(item, index) => `${item.checkoutId}`}
-                            onRefresh={() => this.props.actions.invoice.getListInvoicesByMerchant(false, 1)}
+                            onRefresh={this.onRefreshInvoiceList}
                             refreshing={refreshListInvoice}
                             ListEmptyComponent={() => <View style={{ width: '100%', alignItems: 'center', paddingTop: scaleSzie(20) }} >
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
@@ -550,10 +550,13 @@ export default class Layout extends React.Component {
                             initialNumToRender={20}
                             maxToRenderPerBatch={5}
                             ListFooterComponent={() => <View style={{height:scaleSzie(30),alignItems:"center",justifyContent:"center"}} >
-                                    <ActivityIndicator 
-                                        size="large"
-                                        color="#0764B0"
-                                    />
+                                {
+                                    isLoadMoreInvoiceList ? <ActivityIndicator 
+                                    size="large"
+                                    color="#0764B0"
+                                /> : null
+                                }
+                               
 
                             </View>}
                         />

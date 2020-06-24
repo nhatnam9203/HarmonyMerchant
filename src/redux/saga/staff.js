@@ -261,10 +261,11 @@ function* loginStaff(action) {
             action.isPincodeInvoice ? yield put({
                 type: 'GET_LIST_INVOICE_BY_MERCHANT',
                 method: 'GET',
-                api: `${apiConfigs.BASE_API}checkout?page=1&method=&status=&timeStart=&timeEnd=&key=`,
+                api: `${apiConfigs.BASE_API}checkout?page=1&method=&status=&timeStart=&timeEnd=&key=&quickFilter=`,
                 token: true,
                 isShowLoading: true,
-                currentPage: 1
+                currentPage: 1,
+                isLoadMore: true
             }) : yield put({
                 type: 'UPDATE_PROFILE_STAFF_SUCCESS',
                 payload: responses.data

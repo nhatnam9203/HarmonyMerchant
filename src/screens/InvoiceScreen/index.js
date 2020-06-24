@@ -6,7 +6,8 @@ import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment,
-    getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment
+    getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment,
+    getPaymentStringInvoice, getQuickFilterStringInvoice
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 
@@ -51,7 +52,13 @@ class InvoiceScreen extends Layout {
             'didBlur',
             payload => {
                 this.setState({
-                    isFocus: false
+                    isFocus: false,
+                    searchFilter: {
+                        keySearch: '',
+                        paymentMethod: '',
+                        status: '',
+                    },
+                    titleRangeTime: 'Time Range',
                 });
             }
         );
@@ -67,21 +74,25 @@ class InvoiceScreen extends Layout {
         );
     }
 
-    updateSearchFilterInfo(key, value, keyParent = '') {
+  async  updateSearchFilterInfo(key, value, keyParent = '') {
         const { searchFilter } = this.state;
         if (keyParent !== '') {
             const temptParent = searchFilter[keyParent];
             const temptChild = { ...temptParent, [key]: value };
             const temptUpdate = { ...searchFilter, [keyParent]: temptChild };
-            this.setState({
+          await  this.setState({
                 searchFilter: temptUpdate
             })
         } else {
             const temptUpdate = { ...searchFilter, [key]: value };
-            this.setState({
+          await  this.setState({
                 searchFilter: temptUpdate
             })
-        }
+        };
+        setTimeout(() =>{
+            this.searchInvoice();
+        },500);
+        
     }
 
     setListInvoiceRef = ref => {
@@ -112,111 +123,15 @@ class InvoiceScreen extends Layout {
         })
     }
 
-    changeTitleTimeRange = (title) => {
-        this.setState({
-            titleRangeTime: title === "Select" ? "Time Range" : title ,
+    changeTitleTimeRange = async (title) => {
+       await this.setState({
+            titleRangeTime: title === "Select" ? "Time Range" : title,
             visibleCalendar: false
-        })
+        });
+        setTimeout(() =>{
+            this.searchInvoice();
+        },500);
     }
-
-    getPaymentString(type) {
-        let method = '';
-        switch (type) {
-            case 'HP-Harmony Account':
-                method = 'harmony';
-                break;
-            case 'Cash':
-                method = 'cash';
-                break;
-            case 'Credit Card':
-                method = 'credit_card';
-                break;
-            case 'Cheque/Bank Transfer':
-                method = 'other';
-                break;
-            default:
-                method = ''
-        }
-        return method
-    }
-
-    getStatusString(type) {
-        let status = '';
-        switch (type) {
-            case 'Pending':
-                status = 'pending';
-                break;
-            case 'Paid':
-                status = 'paid';
-                break;
-            case 'Fail':
-                status = 'fail';
-                break;
-            case 'Cancel':
-                status = 'cancel';
-                break;
-            case 'Void':
-                status = 'void';
-                break;
-            case 'Refund':
-                status = 'refund';
-                break;
-            default:
-                status = 'pending'
-        }
-        return status
-    }
-
-    getQuickFilterString(type) {
-        let quickFilter = '';
-        switch (type) {
-            case 'Today':
-                quickFilter = 'today';
-                break;
-            case 'Yesterday':
-                quickFilter = 'yesterday';
-                break;
-            case 'This Week':
-                quickFilter = 'thisWeek';
-                break;
-            case 'Last Week':
-                quickFilter = 'lastWeek';
-                break;
-            case 'This Month':
-                quickFilter = 'thisMonth';
-                break;
-            case 'Last Month':
-                quickFilter = 'lastMonth';
-                break;
-            default:
-                quickFilter = ''
-        }
-        return quickFilter
-    }
-
-    searchInvoice = () => {
-        const { searchFilter } = this.state;
-        const { keySearch, paymentMethod, status } = searchFilter;
-        const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
-        const isTimeRange = isCustomizeDate ? true : (quickFilter ? true : false);
-        if (keySearch == '' && paymentMethod == '' && status == '' && !isTimeRange) {
-            this.props.actions.invoice.clearSearInvoice();
-        } else {
-            if (isCustomizeDate) {
-                const url = `method=${this.getPaymentString(paymentMethod)}&status=${status}&timeStart=${startDate}&timeEnd=${endDate}&key=${keySearch}`
-                this.props.actions.invoice.searchInvoice(url);
-            } else if (quickFilter) {
-                const url = `method=${this.getPaymentString(paymentMethod)}&status=${status}&quickFilter=${this.getQuickFilterString(quickFilter)}&key=${keySearch}`
-                this.props.actions.invoice.searchInvoice(url);
-            } else {
-                const url = `method=${this.getPaymentString(paymentMethod)}&status=${status}&key=${keySearch}`
-                this.props.actions.invoice.searchInvoice(url);
-            }
-        }
-
-    }
-
-
 
     handleLockScreen = () => {
         const { isFocus } = this.state;
@@ -228,11 +143,6 @@ class InvoiceScreen extends Layout {
 
     openDrawer = () => {
         this.props.navigation.openDrawer();
-    }
-
-    showLockScreen = () => {
-        // this.props.actions.app.handleLockScreen(true);
-        // alert('ddd')
     }
 
     convertBasket(basket) {
@@ -256,15 +166,35 @@ class InvoiceScreen extends Layout {
         await this.setState({
             invoiceDetail: invoice
         });
+    }
 
+    onRefreshInvoiceList = () => {
+        this.searchInvoice(1,false);
+    }
 
+    searchInvoice = (page = 1, isShowLoading = true,isLoadMore = false) => {
+        const { searchFilter } = this.state;
+        const { keySearch, paymentMethod, status } = searchFilter;
+        const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
+
+        this.props.actions.invoice.getListInvoicesByMerchant(
+            keySearch,
+            getPaymentStringInvoice(paymentMethod),
+            status,
+            isCustomizeDate ? startDate : "",
+            isCustomizeDate ? endDate : "",
+            quickFilter ? getQuickFilterStringInvoice(quickFilter) : "",
+            page,
+            isShowLoading,
+            isLoadMore
+        );
     }
 
     loadMoreInvoiceList = ({ distanceFromEnd }) => {
         if (!this.onEndReachedCalledDuringMomentum) {
             const { totalPages, currentPage } = this.props;
             if (currentPage < totalPages) {
-                this.props.actions.invoice.getListInvoicesByMerchant(false, parseInt(currentPage + 1));
+                this.searchInvoice(parseInt(currentPage + 1), false,true)
                 this.onEndReachedCalledDuringMomentum = true;
             }
 
@@ -500,13 +430,13 @@ class InvoiceScreen extends Layout {
                     false,
                     printMachine,
                     titleInvoice,
-                    invoiceDetail.checkoutId ?  invoiceDetail.checkoutId : ""
+                    invoiceDetail.checkoutId ? invoiceDetail.checkoutId : ""
                 );
 
                 this.setState({
                     visiblePrintInvoice: true
                 })
-            }else{
+            } else {
                 alert('Please connect to your printer!');
             }
 
@@ -525,15 +455,15 @@ class InvoiceScreen extends Layout {
         this.updateInvoiceDetailAfterCallServer();
     }
 
-    updateInvoiceDetailAfterCallServer = async () =>{
-        const {invoiceDetail} = this.state;
+    updateInvoiceDetailAfterCallServer = async () => {
+        const { invoiceDetail } = this.state;
         for (let i = 0; i < this.listInvoiceRef.length; i++) {
             if (this.listInvoiceRef[i].props.invoice.checkoutId === invoiceDetail.checkoutId) {
                 await this.setState({
-                    invoiceDetail : this.listInvoiceRef[i].props.invoice
+                    invoiceDetail: this.listInvoiceRef[i].props.invoice
                 });
                 break;
-            } 
+            }
         }
     }
 
@@ -556,7 +486,8 @@ const mapStateToProps = state => ({
     currentPage: state.invoice.currentPage,
     visibleEnterPinInvoice: state.app.visibleEnterPinInvoice,
     paxMachineInfo: state.dataLocal.paxMachineInfo,
-    visibleConfirmPrintInvoice: state.invoice.visibleConfirmPrintInvoice
+    visibleConfirmPrintInvoice: state.invoice.visibleConfirmPrintInvoice,
+    isLoadMoreInvoiceList: state.invoice.isLoadMoreInvoiceList
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);

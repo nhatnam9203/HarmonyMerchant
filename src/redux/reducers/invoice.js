@@ -6,6 +6,7 @@ const initialState = {
     totalPages: 0,
     currentPage: 0,
     refreshListInvoice: false,
+    isLoadMoreInvoiceList : false,
     listInvoicesSearch: [],
     isShowSearchInvoice: false,
     settleWaiting: {},
@@ -46,6 +47,7 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 refreshListInvoice: !action.isShowLoading,
+                isLoadMoreInvoiceList: action.isLoadMore
             }
         case 'GET_LIST_INVOICE_BY_MERCHANT_SUCCESS':
             return {
@@ -53,12 +55,14 @@ function appReducer(state = initialState, action) {
                 listInvoicesByMerchant: action.currentPage === 1 ? action.payload : state.listInvoicesByMerchant.concat(action.payload),
                 totalPages: action.totalPages,
                 currentPage: action.currentPage,
-                refreshListInvoice: false
+                refreshListInvoice: false,
+                isLoadMoreInvoiceList: false
             }
         case 'GET_LIST_INVOICE_BY_MERCHANT_FAIL':
             return {
                 ...state,
-                refreshListInvoice: false
+                refreshListInvoice: false,
+                isLoadMoreInvoiceList: false
             }
         case 'SEARCH_INVOICE_SUCCESS':
             return {
