@@ -7,7 +7,7 @@ import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment, requestAPI,
-    getArrayExtrasFromAppointment, formatNumberFromCurrency, formatMoney, getStaffInfoById, splitPlusInPhoneNumber,
+    getArrayExtrasFromAppointment, formatNumberFromCurrency, getStaffInfoById, splitPlusInPhoneNumber,
     formatWithMoment
 } from '@utils';
 import PrintManager from '@lib/PrintManager';

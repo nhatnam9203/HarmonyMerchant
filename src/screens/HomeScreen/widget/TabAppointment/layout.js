@@ -430,7 +430,7 @@ class Layout extends React.Component {
                 <PopupConfirm
                     visible={visibleConfirm}
                     title={localize('Confirmation', language)}
-                    message={`${localize('Are You Sure You Want To Exit Check-out? ', language)}`}
+                    message={`${localize('Are You Sure You Want To Exit Check-Out? ', language)}`}
                     onRequestClose={() => this.setState({ visibleConfirm: false })}
                     confimYes={this.clearDataCofrim}
                 />

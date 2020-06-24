@@ -282,7 +282,7 @@ class Layout extends React.Component {
                         onFocus={() => this.scrollStaffTo(1450)}
                     />
                     <ItemAdminInfo
-                        title={localize('Social security number', language)}
+                        title={localize('Social Security Number', language)}
                         placeholder="000-00-0000"
                         value={socialSecurityNumber}
                         onChangeText={(value) => this.updateUserInfo('socialSecurityNumber', value)}

@@ -42,7 +42,7 @@ class Layout extends React.Component {
                 >
                     <View style={{ height: scaleSzie(30) }} />
                     <ItemAdminInfoDoubleItem
-                        title={`${localize('Name', language)} *`}
+                        title={`${localize('Name', language)}*`}
                         placeholder={localize('First Name', language)}
                         value={firstName}
                         onChangeText={(value) => this.updateUserInfo('firstName', value)}
@@ -61,7 +61,7 @@ class Layout extends React.Component {
                     </ItemAdminInfoDoubleItem>
 
                     <ItemAdminInfoDoubleItem
-                        title={`${localize('Display Name', language)} *`}
+                        title={`${localize('Display Name', language)}*`}
                         placeholder={localize('Display Name', language)}
                         value={displayName}
                         onChangeText={(value) => this.updateUserInfo('displayName', value)}
@@ -139,7 +139,7 @@ class Layout extends React.Component {
                         onFocus={() => this.scrollStaffTo(370)}
                     />
                     <ItemAdminInfo
-                        title={`${localize('Create PIN', language)} *`}
+                        title={`${localize('Create PIN', language)}*`}
                         placeholder="****"
                         value={pin}
                         onChangeText={(value) => this.updateUserInfo('pin', value)}
@@ -149,7 +149,7 @@ class Layout extends React.Component {
                         onFocus={() => this.scrollStaffTo(430)}
                     />
                     <ItemAdminInfo
-                        title={`${localize('Confirm PIN', language)} *`}
+                        title={`${localize('Confirm PIN', language)}*`}
                         placeholder="****"
                         value={confirmPin}
                         onChangeText={(value) => this.updateUserInfo('confirmPin', value)}
