@@ -9,7 +9,7 @@ class SignInScreen extends Layout {
         super(props);
         this.state = {
             isSecureTextEntry: true,
-            isRememberMID : true
+            isRememberMID : false
         }
         this.idInputRef = React.createRef();
         this.passwordInputRef = React.createRef();

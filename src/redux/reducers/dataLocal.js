@@ -16,15 +16,26 @@ const initialState = {
     isLoginStaff: false,
     listAppointmentsOfflineMode: [],
     deviceId: "",
-    versionApp: ""
-
+    versionApp: "",
+    checkEmailToResetPax: ""
 }
 
 function dataLocal(state = initialState, action) {
     switch (action.type) {
         case 'REHYDRATE_ROOT':
-            //console.log('action.payload.dataLocal : ',action.payload.dataLocal);
             return action.payload.dataLocal
+        case 'LOGIN_APP_SUCCESS':
+            return {
+                ...state,
+                checkEmailToResetPax: action.payload,
+                paxMachineInfo: state.checkEmailToResetPax && state.checkEmailToResetPax === action.payload ? state.paxMachineInfo : {
+                    name: '',
+                    ip: '',
+                    port: '',
+                    timeout: 60000,
+                    isSetup: false
+                }
+            }
         case 'SAVE_PROFILE_LOCAL':
             return {
                 ...state,

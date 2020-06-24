@@ -13,7 +13,6 @@ import {
     Text, Button, ButtonCustom,
 } from '@components';
 import styles from './style';
-import IMAGE from '@resources';
 
 const { width } = Dimensions.get('window');
 

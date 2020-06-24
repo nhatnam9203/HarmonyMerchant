@@ -26,7 +26,7 @@ const ItemTransaction = (props) => {
                 <Text style={[styles.textHeaderContent, { marginLeft: scaleSzie(10), fontSize: scaleSzie(9) }]}
                     numberOfLines={1}
                 >
-                    {`#${data.paymentData.transaction_id}`}
+                    {`# ${data.paymentData.transaction_id}`}
                 </Text>
             </View>
             {/* --------- Col 2 --------- */}
@@ -42,7 +42,7 @@ const ItemTransaction = (props) => {
             {/* --------- Col 3 --------- */}
             <View style={{ width: scaleSzie(130), justifyContent: 'center' }} >
                 <Text style={[styles.textHeaderContent, { fontWeight: "600" }]} >
-                    {`#${data.checkoutId}`}
+                    {`# ${data.checkoutId}`}
                 </Text>
             </View>
             {/* --------- Col 4 --------- */}

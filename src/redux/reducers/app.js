@@ -22,8 +22,8 @@ const initialState = {
     refreshingGeneral: false,
     connectPAXStatus: {
         status: true,
-        message:"is connecting to Pax machine ....",
-    }
+        message: "is connecting to Pax machine ....",
+    },
 }
 
 function appReducer(state = initialState, action) {
@@ -31,7 +31,7 @@ function appReducer(state = initialState, action) {
         case 'LOGIN_APP_SUCCESS':
             return {
                 ...state,
-                MIDStorage: action.isRememberMID ?  action.payload : ""
+                MIDStorage: action.isRememberMID ? action.payload : "",
             }
         case 'AGREE_TERM':
             return {
@@ -176,9 +176,9 @@ function appReducer(state = initialState, action) {
         case 'CONNECT_PAX_MACHINE_ERROR':
             return {
                 ...state,
-                connectPAXStatus:{
+                connectPAXStatus: {
                     status: false,
-                    message : `( Your POS system don't have connect to PAX machine. Error : "${action.payload}" )`
+                    message: `( Your POS system don't have connect to PAX machine. Error : "${action.payload}" )`
                 }
             }
         case 'CONNECT_PAX_MACHINE_SUCCESS':
@@ -186,7 +186,7 @@ function appReducer(state = initialState, action) {
                 ...state,
                 connectPAXStatus: {
                     status: true,
-                    message : "( Connect to PAX machine success! )"
+                    message: "( Connect to PAX machine success! )"
                 }
             }
         default:
