@@ -80,3 +80,9 @@ export function updateVersionApp(version) {
         payload: version
     }
 }
+
+export function deleteHardware() {
+    return {
+        type: 'DELETE_HARDWARE',
+    }
+}

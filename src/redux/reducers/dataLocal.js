@@ -91,13 +91,17 @@ function dataLocal(state = initialState, action) {
                 profile: { ...state.profile, ...action.payload }
             }
         }
-        // case 'LOGOUT_APP':
-        //     return {
-        //         ...state,
-        //         profile: {},
-        //         profileStaffLogin: {},
-        //         token: false,
-        //     }
+        case 'DELETE_HARDWARE':
+            return {
+                ...state,
+                paxMachineInfo: {
+                    name: '',
+                    ip: '',
+                    port: '',
+                    timeout: 60000,
+                    isSetup: false
+                }
+            }
 
         case "UPDATE_DEVICE_ID":
             return {

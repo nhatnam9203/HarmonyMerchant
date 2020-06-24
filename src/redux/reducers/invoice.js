@@ -17,6 +17,8 @@ const initialState = {
 
     listBatchHistory: [],
     listBatchHistorySearch: [],
+    batchHistoryPagesTotal: 0,
+    batchHistoryPagesCurrent: 0,
     isShowSearchBatchHistory: false,
 
 
@@ -137,7 +139,9 @@ function appReducer(state = initialState, action) {
         case 'GET_BATCH_HISTORY_SUCCESS':
             return {
                 ...state,
-                listBatchHistory: action.payload,
+                listBatchHistory: action.currentPage === 1 ? action.payload : state.listBatchHistory.concat(action.payload),
+                batchHistoryPagesTotal: action.totalPages,
+                batchHistoryPagesCurrent: action.currentPage,
                 refreshingBatchHistory: false
             }
         case 'GET_BATCH_HISTORY_FAIL':

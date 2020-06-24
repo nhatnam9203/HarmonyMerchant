@@ -261,7 +261,7 @@ function* loginStaff(action) {
             action.isPincodeInvoice ? yield put({
                 type: 'GET_LIST_INVOICE_BY_MERCHANT',
                 method: 'GET',
-                api: `${apiConfigs.BASE_API}checkout?page=1`,
+                api: `${apiConfigs.BASE_API}checkout?page=1&method=&status=&timeStart=&timeEnd=&key=`,
                 token: true,
                 isShowLoading: true,
                 currentPage: 1

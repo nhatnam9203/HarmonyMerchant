@@ -47,7 +47,6 @@ class InvoiceScreen extends Layout {
     }
 
     componentDidMount() {
-        // this.props.actions.invoice.getListInvoicesByMerchant(true, 1);
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {
@@ -115,7 +114,7 @@ class InvoiceScreen extends Layout {
 
     changeTitleTimeRange = (title) => {
         this.setState({
-            titleRangeTime: title,
+            titleRangeTime: title === "Select" ? "Time Range" : title ,
             visibleCalendar: false
         })
     }

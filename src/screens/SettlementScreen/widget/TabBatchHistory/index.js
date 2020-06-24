@@ -26,15 +26,15 @@ class TabBatchHistory extends Layout {
         this.props.actions.invoice.getBatchHistory();
     }
 
-    getTotalByCardType = (cardType) =>{
-        const  {settleSelected } = this.state;
+    getTotalByCardType = (cardType) => {
+        const { settleSelected } = this.state;
         const paymentByCreditCards = !_.isEmpty(settleSelected) && settleSelected.paymentByCreditCards ? settleSelected.paymentByCreditCards : [];
         let total = 0.00;
-        for(let i = 0 ;i < paymentByCreditCards.length ; i++){
-           if(paymentByCreditCards[i].cardType === cardType){
-               total  = paymentByCreditCards[i].amount;
-               break;
-           }
+        for (let i = 0; i < paymentByCreditCards.length; i++) {
+            if (paymentByCreditCards[i].cardType === cardType) {
+                total = paymentByCreditCards[i].amount;
+                break;
+            }
         }
         return total;
     }
@@ -45,7 +45,7 @@ class TabBatchHistory extends Layout {
         }
     }
 
-    gotoTabCardTransactions = () =>{
+    gotoTabCardTransactions = () => {
         this.scrollTabRef.current.goToPage(1);
     }
 
@@ -107,7 +107,7 @@ class TabBatchHistory extends Layout {
 
     changeTitleTimeRange = (title) => {
         this.setState({
-            titleRangeTime: title === "Select"  ? "Time Range" : title,
+            titleRangeTime: title === "Select" ? "Time Range" : title,
             visibleCalendar: false
         })
     }
@@ -138,6 +138,16 @@ class TabBatchHistory extends Layout {
         });
     }
 
+    loadMoreBatchHistoryList = () => {
+        if (!this.onEndReachedCalledDuringMomentum) {
+            const { batchHistoryPagesTotal, batchHistoryPagesCurrent } = this.props;
+            if (batchHistoryPagesCurrent < batchHistoryPagesTotal) {
+                this.props.actions.invoice.getBatchHistory(false, batchHistoryPagesCurrent + 1);
+                this.onEndReachedCalledDuringMomentum = true;
+            }
+        }
+    }
+
 
 }
 
@@ -146,7 +156,9 @@ const mapStateToProps = state => ({
     listBatchHistory: state.invoice.listBatchHistory,
     listBatchHistorySearch: state.invoice.listBatchHistorySearch,
     isShowSearchBatchHistory: state.invoice.isShowSearchBatchHistory,
-    refreshingBatchHistory : state.invoice.refreshingBatchHistory
+    refreshingBatchHistory: state.invoice.refreshingBatchHistory,
+    batchHistoryPagesTotal: state.invoice.batchHistoryPagesTotal,
+    batchHistoryPagesCurrent: state.invoice.batchHistoryPagesCurrent
 })
 
 

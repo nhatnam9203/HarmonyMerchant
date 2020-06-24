@@ -7,30 +7,34 @@ import {
 } from 'react-native';
 
 import { Button, Text } from '@components';
-import { scaleSzie, localize} from '@utils';
+import { scaleSzie, localize } from '@utils';
 import IMAGE from '@resources';
 import connectRedux from '@redux/ConnectRedux';
 
 class HomeHardware extends React.Component {
 
-    onPressBox=(type)=>{
-        if(type === 'Pax'){
+    onPressBox = (type) => {
+        if (type === 'Pax') {
             this.props.gotoListDevices(type);
-        }else{
+        } else {
             alert('Coming Soon')
         }
-       
+
+    }
+
+    deleteHardware = () =>{
+       this.props.actions.dataLocal.deleteHardware();
     }
 
     // -------- Render ------
 
     render() {
-        const {paxMachineInfo,language} = this.props;
-        const temptTitle = !paxMachineInfo.isSetup  ? 'No Device' : paxMachineInfo.name;
+        const { paxMachineInfo, language } = this.props;
+        const temptTitle = !paxMachineInfo.isSetup ? 'No Device' : paxMachineInfo.name;
         return (
             <View style={{ flex: 1 }} >
                 <View style={{
-                    width: '100%', flexDirection: 'row', marginTop: scaleSzie(20), 
+                    width: '100%', flexDirection: 'row', marginTop: scaleSzie(20),
                     // justifyContent: 'space-around',
                     paddingHorizontal: scaleSzie(10)
                 }} >
@@ -61,13 +65,26 @@ class HomeHardware extends React.Component {
                         </View>
                         <View style={styles.containerTextBox} >
                             <Text style={styles.textBox} >
-                                
+
                                 {localize('Payment terminal', language)}
-                        </Text>
+                            </Text>
                             <Text style={[styles.textBox, { fontWeight: 'normal', fontSize: scaleSzie(11), marginTop: scaleSzie(10) }]} >
                                 {temptTitle}
-                        </Text>
+                            </Text>
                         </View>
+
+                        {
+                            paxMachineInfo.isSetup  ?  <Button onPress={this.deleteHardware} style={{
+                                width: scaleSzie(20), height: scaleSzie(20),
+                                backgroundColor: "rgb(233,55,49)",position:"absolute",top:10,right:10,
+                                borderRadius:scaleSzie(10),justifyContent:"center",alignItems:"center"
+                            }} >
+                                <Text style={{color:"#fff",fontSize:20 ,fontWeight:"900"}} >
+                                    X
+                                </Text>
+                            </Button> : null
+                        }
+                       
                     </Button>
                     {/* ------------- Box 3 ----------- */}
                     {/* <Button onPress={() => this.onPressBox('Print')} style={[styles.box,{marginLeft:scaleSzie(20)}]} >
@@ -114,18 +131,18 @@ const styles = StyleSheet.create({
         }),
 
     },
-    containerIconBox:{
-        paddingLeft :scaleSzie(14),
+    containerIconBox: {
+        paddingLeft: scaleSzie(14),
         paddingRight: scaleSzie(16),
-        justifyContent:'center'
+        justifyContent: 'center'
     },
-    containerTextBox:{
+    containerTextBox: {
         paddingTop: scaleSzie(16),
     },
-    textBox:{
-        fontSize:scaleSzie(12),
+    textBox: {
+        fontSize: scaleSzie(12),
         fontWeight: '600',
-        color:'#0764B0'
+        color: '#0764B0'
     }
 })
 

@@ -222,7 +222,9 @@ function* getBatchHistory(action) {
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'GET_BATCH_HISTORY_SUCCESS',
-                payload: responses.data
+                payload: responses.data,
+                totalPages: responses.pages,
+                currentPage: action.currentPage
             })
 
         } else if (parseInt(codeNumber) === 401) {

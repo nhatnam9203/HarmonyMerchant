@@ -120,6 +120,9 @@ class Layout extends React.Component {
                             keyExtractor={(item, index) => `${index}`}
                             refreshing={refreshingBatchHistory}
                             onRefresh={() => this.props.actions.invoice.getBatchHistory(false)}
+                            onEndReached={this.loadMoreBatchHistoryList}
+                            onEndReachedThreshold={0.5}
+                            onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
                         />
 
                     </View>

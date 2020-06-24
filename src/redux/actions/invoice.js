@@ -4,7 +4,7 @@ export function getListInvoicesByMerchant(isShowLoading = true, page = 1) {
     return {
         type: 'GET_LIST_INVOICE_BY_MERCHANT',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}checkout?page=${page}`,
+        api: `${apiConfigs.BASE_API}checkout?page=${page}&method=&status=&timeStart=&timeEnd=&key=`,
         token: true,
         isShowLoading,
         currentPage: page
@@ -82,7 +82,7 @@ export function getBatchHistory(isShowLoading = true, page =  1) {
     return {
         type: 'GET_BATCH_HISTORY',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}settlement/search?timeStart=&timeEnd=&quickFilter&key&page=${page}`,
+        api: `${apiConfigs.BASE_API}settlement/search?timeStart=&timeEnd=&quickFilter&key&page=${page}&row=5`,
         token: true,
         isShowLoading,
         currentPage: page
