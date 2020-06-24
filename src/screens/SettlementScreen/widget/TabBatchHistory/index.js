@@ -26,6 +26,11 @@ class TabBatchHistory extends Layout {
         this.props.actions.invoice.getBatchHistory();
     }
 
+    searchBatchHistoryWithSearch = () => {
+        this.props.actions.invoice.updateBatchHistorySearchKeyword(this.state.searchFilter.keySearch);
+        this.searchBatchHistory();
+    }
+
     getTotalByCardType = (cardType) => {
         const { settleSelected } = this.state;
         const paymentByCreditCards = !_.isEmpty(settleSelected) && settleSelected.paymentByCreditCards ? settleSelected.paymentByCreditCards : [];
@@ -57,17 +62,18 @@ class TabBatchHistory extends Layout {
         this.scrollTabRef.current.goToPage(0);
     }
 
-    onRefresBathHistoryList =() =>{
-        this.searchBatchHistory(1,false);
+    onRefresBathHistoryList = () => {
+        this.searchBatchHistory(1, false);
     }
 
-    searchBatchHistory = (page = 1, isShowLoading = true,isShowLoadMore = false) => {
+    searchBatchHistory = (page = 1, isShowLoading = true, isShowLoadMore = false) => {
+        const { searchBatchHistoryKeyword } = this.props;
         const { searchFilter } = this.state;
         const { keySearch } = searchFilter;
         const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
 
         this.props.actions.invoice.getBatchHistory(
-            keySearch,
+            searchBatchHistoryKeyword === keySearch ? keySearch : "",
             isCustomizeDate ? startDate : "",
             isCustomizeDate ? endDate : "",
             quickFilter ? getQuickFilterStringInvoice(quickFilter) : "",
@@ -94,11 +100,12 @@ class TabBatchHistory extends Layout {
         })
     }
 
-    updateSearchFilterInfo = (key, value) => {
+    updateSearchFilterInfo = async (key, value) => {
         const temptState = updateStateChildren(key, value, this.state.searchFilter);
-        this.setState({
+        await this.setState({
             searchFilter: temptState
-        })
+        });
+        this.props.actions.invoice.updateBatchHistorySearchKeyword(this.state.searchFilter.keySearch);
     }
 
     selectSette = async (settle) => {
@@ -118,8 +125,7 @@ class TabBatchHistory extends Layout {
         if (!this.onEndReachedCalledDuringMomentum) {
             const { batchHistoryPagesTotal, batchHistoryPagesCurrent } = this.props;
             if (batchHistoryPagesCurrent < batchHistoryPagesTotal) {
-                // this.props.actions.invoice.getBatchHistory(false, batchHistoryPagesCurrent + 1);
-                this.searchBatchHistory(parseInt( batchHistoryPagesCurrent + 1),false,true)
+                this.searchBatchHistory(parseInt(batchHistoryPagesCurrent + 1), false, true)
                 this.onEndReachedCalledDuringMomentum = true;
             }
         }
@@ -136,7 +142,8 @@ const mapStateToProps = state => ({
     refreshingBatchHistory: state.invoice.refreshingBatchHistory,
     batchHistoryPagesTotal: state.invoice.batchHistoryPagesTotal,
     batchHistoryPagesCurrent: state.invoice.batchHistoryPagesCurrent,
-    isLoadMoreBatchHistoryList: state.invoice.isLoadMoreBatchHistoryList
+    isLoadMoreBatchHistoryList: state.invoice.isLoadMoreBatchHistoryList,
+    searchBatchHistoryKeyword: state.invoice.searchBatchHistoryKeyword
 })
 
 

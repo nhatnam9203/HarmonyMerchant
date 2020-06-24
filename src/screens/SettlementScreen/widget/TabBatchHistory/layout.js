@@ -36,16 +36,11 @@ class Layout extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
                                     placeholder={localize('Search', language)}
                                     value={keySearch}
-                                    onChangeText={(value) => {
-                                        if (value === '') {
-                                            this.props.actions.invoice.clearSearchBatchHistory();
-                                        }
-                                        this.updateSearchFilterInfo('keySearch', value)
-                                    }}
-                                    onSubmitEditing={this.searchBatchHistory}
+                                    onChangeText={(value) => this.updateSearchFilterInfo('keySearch', value)}
+                                    onSubmitEditing={this.searchBatchHistoryWithSearch}
                                 />
                             </View>
-                            <Button onPress={this.searchBatchHistory} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
+                            <Button onPress={this.searchBatchHistoryWithSearch} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
                                 <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
                             </Button>
 
@@ -58,7 +53,7 @@ class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Search', language)}
                             textColor="#6A6A6A"
-                            onPress={this.searchBatchHistory}
+                            onPress={this.searchBatchHistoryWithSearch}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />

@@ -148,3 +148,12 @@ export function updateSearchKeyword(keyword = "") {
         payload: keyword
     }
 }
+
+export function updateBatchHistorySearchKeyword(keyword = "") {
+    return {
+        type: 'UPDATE_BATCH_HISTORY_SEARCH_KEYWORD',
+        payload: keyword
+    }
+}
+
+

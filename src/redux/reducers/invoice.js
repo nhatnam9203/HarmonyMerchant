@@ -8,7 +8,8 @@ const initialState = {
     refreshListInvoice: false,
     isLoadMoreInvoiceList: false,
     isLoadMoreBatchHistoryList: false,
-    searchKeyword:"",
+    searchKeyword: "",
+    searchBatchHistoryKeyword:"",
     listInvoicesSearch: [],
     isShowSearchInvoice: false,
     settleWaiting: {},
@@ -141,7 +142,7 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 refreshingBatchHistory: !action.isShowLoading,
-                isLoadMoreBatchHistoryList : action.isShowLoadMore
+                isLoadMoreBatchHistoryList: action.isShowLoadMore
             }
         case 'GET_BATCH_HISTORY_SUCCESS':
             return {
@@ -179,6 +180,11 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 searchKeyword: action.payload
+            }
+        case 'UPDATE_BATCH_HISTORY_SEARCH_KEYWORD':
+            return {
+                ...state,
+                searchBatchHistoryKeyword: action.payload
             }
         default:
             return state
