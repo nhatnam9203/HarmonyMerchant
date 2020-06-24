@@ -119,10 +119,19 @@ class Layout extends React.Component {
                             />}
                             keyExtractor={(item, index) => `${index}`}
                             refreshing={refreshingBatchHistory}
-                            onRefresh={() => this.props.actions.invoice.getBatchHistory(false)}
+                            onRefresh={this.onRefresBathHistoryList}
                             onEndReached={this.loadMoreBatchHistoryList}
                             onEndReachedThreshold={0.5}
                             onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
+                            removeClippedSubviews={true}
+                            initialNumToRender={20}
+                            maxToRenderPerBatch={5}
+                            ListEmptyComponent={() => <View style={{ width: '100%', alignItems: 'center', paddingTop: scaleSzie(20) }} >
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
+
+                                    {localize('List Empty', language)}
+                                </Text>
+                            </View>}
                         />
 
                     </View>

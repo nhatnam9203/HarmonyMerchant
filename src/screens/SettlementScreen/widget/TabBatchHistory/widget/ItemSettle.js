@@ -12,6 +12,8 @@ import { Text, Button} from '@components';
 
 class ItemSettle extends React.Component {
 
+    _isMounted = false;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -19,10 +21,16 @@ class ItemSettle extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this._isMounted = true;
+    }
+
     setStateFromParent = async (isSelected) => {
-        await this.setState({
-            isSelected
-        })
+        if (this._isMounted) {
+            await this.setState({
+                isSelected
+            })
+        }
     }
 
     render() {
@@ -54,6 +62,10 @@ class ItemSettle extends React.Component {
                 </View>
             </Button>
         );
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
 

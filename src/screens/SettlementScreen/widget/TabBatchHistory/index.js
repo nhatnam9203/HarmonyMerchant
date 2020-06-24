@@ -3,7 +3,7 @@ import _ from "ramda"
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { updateStateChildren } from '@utils';
+import { updateStateChildren, getQuickFilterStringInvoice } from '@utils';
 
 class TabBatchHistory extends Layout {
 
@@ -57,59 +57,34 @@ class TabBatchHistory extends Layout {
         this.scrollTabRef.current.goToPage(0);
     }
 
-    getQuickFilterString(type) {
-        let quickFilter = '';
-        switch (type) {
-            case 'Today':
-                quickFilter = 'today';
-                break;
-            case 'Yesterday':
-                quickFilter = 'yesterday';
-                break;
-            case 'This Week':
-                quickFilter = 'thisWeek';
-                break;
-            case 'Last Week':
-                quickFilter = 'lastWeek';
-                break;
-            case 'This Month':
-                quickFilter = 'thisMonth';
-                break;
-            case 'Last Month':
-                quickFilter = 'lastMonth';
-                break;
-            default:
-                quickFilter = 'today'
-        }
-        return quickFilter
+    onRefresBathHistoryList =() =>{
+        this.searchBatchHistory(1,false);
     }
 
-    searchBatchHistory = () => {
+    searchBatchHistory = (page = 1, isShowLoading = true) => {
         const { searchFilter } = this.state;
         const { keySearch } = searchFilter;
         const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
-        const isTimeRange = isCustomizeDate ? true : (quickFilter ? true : false);
-        if (keySearch == '' && !isTimeRange) {
-            this.props.actions.invoice.clearSearchBatchHistory();
-        } else {
-            if (isCustomizeDate) {
-                const url = `timeStart=${startDate}&timeEnd=${endDate}&key=${keySearch}`
-                this.props.actions.invoice.searchBatchHistory(url);
-            } else if (quickFilter) {
-                const url = `quickFilter=${this.getQuickFilterString(quickFilter)}&${endDate}&key=${keySearch}`
-                this.props.actions.invoice.searchBatchHistory(url);
-            } else {
-                const url = `key=${keySearch}`
-                this.props.actions.invoice.searchBatchHistory(url);
-            }
-        }
+
+        this.props.actions.invoice.getBatchHistory(
+            keySearch,
+            isCustomizeDate ? startDate : "",
+            isCustomizeDate ? endDate : "",
+            quickFilter ? getQuickFilterStringInvoice(quickFilter) : "",
+            page,
+            isShowLoading
+        );
     }
 
-    changeTitleTimeRange = (title) => {
-        this.setState({
+    changeTitleTimeRange = async (title) => {
+        await this.setState({
             titleRangeTime: title === "Select" ? "Time Range" : title,
             visibleCalendar: false
-        })
+        });
+        setTimeout(() => {
+            this.searchBatchHistory();
+        }, 500);
+
     }
 
     showCalendar = () => {

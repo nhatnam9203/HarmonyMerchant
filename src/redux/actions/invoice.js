@@ -1,6 +1,6 @@
 import apiConfigs from '../../configs/api';
 
-export function getListInvoicesByMerchant(key = "",method = "",status = "",timeStart = "",timeEnd = "",quickFilter = "",page = 1, isShowLoading = true,isLoadMore = false) {
+export function getListInvoicesByMerchant(key = "", method = "", status = "", timeStart = "", timeEnd = "", quickFilter = "", page = 1, isShowLoading = true, isLoadMore = false) {
     return {
         type: 'GET_LIST_INVOICE_BY_MERCHANT',
         method: 'GET',
@@ -79,11 +79,11 @@ export function clearSearTransaction() {
     }
 }
 
-export function getBatchHistory(isShowLoading = true, page =  1) {
+export function getBatchHistory(key = "", timeStart = "", timeEnd = "", quickFilter = "", page = 1, isShowLoading = true) {
     return {
         type: 'GET_BATCH_HISTORY',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}settlement/search?timeStart=&timeEnd=&quickFilter&key&page=${page}&row=5`,
+        api: `${apiConfigs.BASE_API}settlement/search?key=${key}&timeStart=${timeStart}&timeEnd=${timeEnd}&quickFilter=${quickFilter}&page=${page}`,
         token: true,
         isShowLoading,
         currentPage: page
@@ -106,7 +106,7 @@ export function clearSearchBatchHistory() {
     }
 }
 
-export function changeStatustransaction(checkoutId,params) {
+export function changeStatustransaction(checkoutId, params) {
     return {
         type: 'CHANGE_STATUS_TRANSACTION',
         method: 'PUT',
@@ -141,7 +141,7 @@ export function togglPopupConfirmPrintInvoice(visible = false) {
     }
 }
 
-export function updateSearchKeyword(keyword ="") {
+export function updateSearchKeyword(keyword = "") {
     return {
         type: 'UPDATE_SEARCH_KEYWORD',
         payload: keyword
