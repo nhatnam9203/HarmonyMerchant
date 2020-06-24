@@ -6,7 +6,8 @@ const initialState = {
     totalPages: 0,
     currentPage: 0,
     refreshListInvoice: false,
-    isLoadMoreInvoiceList : false,
+    isLoadMoreInvoiceList: false,
+    searchKeyword:"",
     listInvoicesSearch: [],
     isShowSearchInvoice: false,
     settleWaiting: {},
@@ -169,6 +170,11 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 visibleConfirmPrintInvoice: action.payload
+            }
+        case 'UPDATE_SEARCH_KEYWORD':
+            return {
+                ...state,
+                searchKeyword: action.payload
             }
         default:
             return state

@@ -48,12 +48,13 @@ class ItemInvoice extends React.Component {
         }
         return color;
     }
-    
-    shouldComponentUpdate(nextProps,nextState) {
+
+    shouldComponentUpdate(nextProps, nextState) {
         const { invoice } = this.props;
-        const {isSelected} = this.state
-        return invoice.code !== nextProps.invoice.code || isSelected !== nextState.isSelected;
-      }
+        const { isSelected } = this.state
+        return invoice.code !== nextProps.invoice.code || isSelected !== nextState.isSelected ||
+            invoice.status !== nextProps.invoice.status;
+    }
 
     render() {
         const { invoice, onPress } = this.props;

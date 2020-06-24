@@ -106,13 +106,14 @@ export function clearSearchBatchHistory() {
     }
 }
 
-export function changeStatustransaction(checkoutId) {
+export function changeStatustransaction(checkoutId,params) {
     return {
         type: 'CHANGE_STATUS_TRANSACTION',
         method: 'PUT',
         body: {},
         api: `${apiConfigs.BASE_API}checkout/paymentvoidrefundtransaction/${checkoutId}`,
-        token: true
+        token: true,
+        params
     }
 }
 
@@ -140,3 +141,9 @@ export function togglPopupConfirmPrintInvoice(visible = false) {
     }
 }
 
+export function updateSearchKeyword(keyword ="") {
+    return {
+        type: 'UPDATE_SEARCH_KEYWORD',
+        payload: keyword
+    }
+}

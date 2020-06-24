@@ -51,16 +51,11 @@ export default class Layout extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
                                     placeholder={`${localize('Invoice No / SKU Number/Phone Number / Customer Name', language)}`}
                                     value={keySearch}
-                                    onChangeText={(keySearch) => {
-                                        if (keySearch == '') {
-                                            this.props.actions.invoice.clearSearInvoice();
-                                        }
-                                        this.updateSearchFilterInfo('keySearch', keySearch)
-                                    }}
-                                    onSubmitEditing={this.searchInvoice}
+                                    onChangeText={(keySearch) =>  this.updateSearchFilterInfo('keySearch', keySearch)}
+                                    onSubmitEditing={this.searchInvoiceWithKeyword}
                                 />
                             </View>
-                            <Button onPress={this.searchInvoice} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
+                            <Button onPress={this.searchInvoiceWithKeyword} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
                                 <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
                             </Button>
 
@@ -73,7 +68,7 @@ export default class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Search', language)}
                             textColor="#6A6A6A"
-                            onPress={this.searchInvoice}
+                            onPress={this.searchInvoiceWithKeyword}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
@@ -511,7 +506,8 @@ export default class Layout extends React.Component {
         const { language, listInvoicesByMerchant, refreshListInvoice,
             listInvoicesSearch, isShowSearchInvoice,isLoadMoreInvoiceList
         } = this.props;
-        const tempData = isShowSearchInvoice ? listInvoicesSearch : listInvoicesByMerchant;
+        // const tempData = isShowSearchInvoice ? listInvoicesSearch : listInvoicesByMerchant;
+
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
                 {/* ---------- Left ------ */}
@@ -528,7 +524,7 @@ export default class Layout extends React.Component {
                     <View style={{ flex: 1 }} >
                         {/* ----- Item Invoice ----- */}
                         <FlatList
-                            data={tempData}
+                            data={listInvoicesByMerchant}
                             renderItem={({ item, index }) => <ItemInvoice
                                 ref={this.setListInvoiceRef}
                                 invoice={item}

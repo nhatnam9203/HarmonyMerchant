@@ -74,25 +74,30 @@ class InvoiceScreen extends Layout {
         );
     }
 
-  async  updateSearchFilterInfo(key, value, keyParent = '') {
+    async updateSearchFilterInfo(key, value, keyParent = '') {
         const { searchFilter } = this.state;
         if (keyParent !== '') {
             const temptParent = searchFilter[keyParent];
             const temptChild = { ...temptParent, [key]: value };
             const temptUpdate = { ...searchFilter, [keyParent]: temptChild };
-          await  this.setState({
+            await this.setState({
                 searchFilter: temptUpdate
             })
         } else {
             const temptUpdate = { ...searchFilter, [key]: value };
-          await  this.setState({
+            await this.setState({
                 searchFilter: temptUpdate
             })
         };
-        setTimeout(() =>{
-            this.searchInvoice();
-        },500);
-        
+        if (key !== "keySearch") {
+            setTimeout(() => {
+                this.searchInvoice();
+            }, 500);
+        }else{
+            this.props.actions.invoice.updateSearchKeyword(this.state.searchFilter.keySearch);
+        }
+
+
     }
 
     setListInvoiceRef = ref => {
@@ -124,13 +129,13 @@ class InvoiceScreen extends Layout {
     }
 
     changeTitleTimeRange = async (title) => {
-       await this.setState({
+        await this.setState({
             titleRangeTime: title === "Select" ? "Time Range" : title,
             visibleCalendar: false
         });
-        setTimeout(() =>{
+        setTimeout(() => {
             this.searchInvoice();
-        },500);
+        }, 500);
     }
 
     handleLockScreen = () => {
@@ -169,16 +174,22 @@ class InvoiceScreen extends Layout {
     }
 
     onRefreshInvoiceList = () => {
-        this.searchInvoice(1,false);
+        this.searchInvoice(1, false);
     }
 
-    searchInvoice = (page = 1, isShowLoading = true,isLoadMore = false) => {
+    searchInvoiceWithKeyword =() =>{
+        this.props.actions.invoice.updateSearchKeyword(this.state.searchFilter.keySearch);
+        this.searchInvoice();
+    }
+
+    searchInvoice = (page = 1, isShowLoading = true, isLoadMore = false) => {
+        const {searchKeyword} = this.props
         const { searchFilter } = this.state;
         const { keySearch, paymentMethod, status } = searchFilter;
         const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
 
         this.props.actions.invoice.getListInvoicesByMerchant(
-            keySearch,
+            searchKeyword === keySearch ?  keySearch : "",
             getPaymentStringInvoice(paymentMethod),
             status,
             isCustomizeDate ? startDate : "",
@@ -194,7 +205,7 @@ class InvoiceScreen extends Layout {
         if (!this.onEndReachedCalledDuringMomentum) {
             const { totalPages, currentPage } = this.props;
             if (currentPage < totalPages) {
-                this.searchInvoice(parseInt(currentPage + 1), false,true)
+                this.searchInvoice(parseInt(currentPage + 1), false, true)
                 this.onEndReachedCalledDuringMomentum = true;
             }
 
@@ -247,8 +258,18 @@ class InvoiceScreen extends Layout {
                 visibleConfirmInvoiceStatus: false,
                 titleInvoice: invoiceDetail.status === 'paid' ? "Refund" : "Void"
             })
-            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId);
+            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId,this.getParamsSearch());
         }
+    }
+
+    getParamsSearch = () => {
+        const {searchKeyword} = this.props
+        const { searchFilter } = this.state;
+        const { keySearch, paymentMethod, status } = searchFilter;
+        const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
+
+        return `page=1&method=${ getPaymentStringInvoice(paymentMethod)}&status=${status}&timeStart=${isCustomizeDate ? startDate : ""}&timeEnd=${isCustomizeDate ? endDate : ""}&key=${searchKeyword === keySearch ?  keySearch : ""}&quickFilter=${quickFilter ? getQuickFilterStringInvoice(quickFilter) : ""}`;
+      
     }
 
     handleResultVoidTransaction = async result => {
@@ -260,7 +281,7 @@ class InvoiceScreen extends Layout {
         });
 
         if (data.status === 1) {
-            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId);
+            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId,this.getParamsSearch());
             await this.setState({
                 invoiceDetail: {
                     history: []
@@ -288,7 +309,7 @@ class InvoiceScreen extends Layout {
 
         const data = JSON.parse(result);
         if (data.status === 1 && data.ResultTxt === "OK") {
-            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId);
+            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId,this.getParamsSearch());
             await this.setState({
                 invoiceDetail: {
                     history: []
@@ -487,7 +508,8 @@ const mapStateToProps = state => ({
     visibleEnterPinInvoice: state.app.visibleEnterPinInvoice,
     paxMachineInfo: state.dataLocal.paxMachineInfo,
     visibleConfirmPrintInvoice: state.invoice.visibleConfirmPrintInvoice,
-    isLoadMoreInvoiceList: state.invoice.isLoadMoreInvoiceList
+    isLoadMoreInvoiceList: state.invoice.isLoadMoreInvoiceList,
+    searchKeyword: state.invoice.searchKeyword
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);

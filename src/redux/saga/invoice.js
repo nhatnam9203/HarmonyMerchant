@@ -292,7 +292,7 @@ function* changeStatustransaction(action) {
             yield put({
                 type: 'GET_LIST_INVOICE_BY_MERCHANT',
                 method: 'GET',
-                api: `${apiConfigs.BASE_API}checkout?page=1`,
+                api: `${apiConfigs.BASE_API}checkout?${action.params ? action.params : "page=1"}`,
                 token: true,
                 isShowLoading: true,
                 currentPage: 1,
