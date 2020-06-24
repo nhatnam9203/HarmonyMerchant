@@ -79,14 +79,15 @@ export function clearSearTransaction() {
     }
 }
 
-export function getBatchHistory(key = "", timeStart = "", timeEnd = "", quickFilter = "", page = 1, isShowLoading = true) {
+export function getBatchHistory(key = "", timeStart = "", timeEnd = "", quickFilter = "", page = 1, isShowLoading = true,isShowLoadMore = false) {
     return {
         type: 'GET_BATCH_HISTORY',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}settlement/search?key=${key}&timeStart=${timeStart}&timeEnd=${timeEnd}&quickFilter=${quickFilter}&page=${page}`,
+        api: `${apiConfigs.BASE_API}settlement/search?key=${key}&timeStart=${timeStart}&timeEnd=${timeEnd}&quickFilter=${quickFilter}&page=${page}&row=3`,
         token: true,
         isShowLoading,
-        currentPage: page
+        currentPage: page,
+        isShowLoadMore
     }
 }
 

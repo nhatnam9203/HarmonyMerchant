@@ -61,7 +61,7 @@ class TabBatchHistory extends Layout {
         this.searchBatchHistory(1,false);
     }
 
-    searchBatchHistory = (page = 1, isShowLoading = true) => {
+    searchBatchHistory = (page = 1, isShowLoading = true,isShowLoadMore = false) => {
         const { searchFilter } = this.state;
         const { keySearch } = searchFilter;
         const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
@@ -72,7 +72,8 @@ class TabBatchHistory extends Layout {
             isCustomizeDate ? endDate : "",
             quickFilter ? getQuickFilterStringInvoice(quickFilter) : "",
             page,
-            isShowLoading
+            isShowLoading,
+            isShowLoadMore
         );
     }
 
@@ -117,7 +118,8 @@ class TabBatchHistory extends Layout {
         if (!this.onEndReachedCalledDuringMomentum) {
             const { batchHistoryPagesTotal, batchHistoryPagesCurrent } = this.props;
             if (batchHistoryPagesCurrent < batchHistoryPagesTotal) {
-                this.props.actions.invoice.getBatchHistory(false, batchHistoryPagesCurrent + 1);
+                // this.props.actions.invoice.getBatchHistory(false, batchHistoryPagesCurrent + 1);
+                this.searchBatchHistory(parseInt( batchHistoryPagesCurrent + 1),false,true)
                 this.onEndReachedCalledDuringMomentum = true;
             }
         }
@@ -133,7 +135,8 @@ const mapStateToProps = state => ({
     isShowSearchBatchHistory: state.invoice.isShowSearchBatchHistory,
     refreshingBatchHistory: state.invoice.refreshingBatchHistory,
     batchHistoryPagesTotal: state.invoice.batchHistoryPagesTotal,
-    batchHistoryPagesCurrent: state.invoice.batchHistoryPagesCurrent
+    batchHistoryPagesCurrent: state.invoice.batchHistoryPagesCurrent,
+    isLoadMoreBatchHistoryList: state.invoice.isLoadMoreBatchHistoryList
 })
 
 

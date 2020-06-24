@@ -7,6 +7,7 @@ const initialState = {
     currentPage: 0,
     refreshListInvoice: false,
     isLoadMoreInvoiceList: false,
+    isLoadMoreBatchHistoryList: false,
     searchKeyword:"",
     listInvoicesSearch: [],
     isShowSearchInvoice: false,
@@ -139,7 +140,8 @@ function appReducer(state = initialState, action) {
         case 'GET_BATCH_HISTORY':
             return {
                 ...state,
-                refreshingBatchHistory: !action.isShowLoading
+                refreshingBatchHistory: !action.isShowLoading,
+                isLoadMoreBatchHistoryList : action.isShowLoadMore
             }
         case 'GET_BATCH_HISTORY_SUCCESS':
             return {
@@ -147,12 +149,14 @@ function appReducer(state = initialState, action) {
                 listBatchHistory: action.currentPage === 1 ? action.payload : state.listBatchHistory.concat(action.payload),
                 batchHistoryPagesTotal: action.totalPages,
                 batchHistoryPagesCurrent: action.currentPage,
-                refreshingBatchHistory: false
+                refreshingBatchHistory: false,
+                isLoadMoreBatchHistoryList: false
             }
         case 'GET_BATCH_HISTORY_FAIL':
             return {
                 ...state,
-                refreshingBatchHistory: false
+                refreshingBatchHistory: false,
+                isLoadMoreBatchHistoryList: false
             }
         case 'SEARCH_BATCH_HISTORY_SUCCESS':
             return {

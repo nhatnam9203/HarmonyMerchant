@@ -4,6 +4,7 @@ import {
     Image,
     TextInput,
     FlatList,
+    ActivityIndicator
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import _ from "ramda";
@@ -99,8 +100,9 @@ class Layout extends React.Component {
     }
 
     renderLeftContent() {
-        const { listBatchHistory, isShowSearchBatchHistory, listBatchHistorySearch, refreshingBatchHistory, language } = this.props;
-        const temptData = isShowSearchBatchHistory ? listBatchHistorySearch : listBatchHistory;
+        const { listBatchHistory, isShowSearchBatchHistory, listBatchHistorySearch, refreshingBatchHistory, language,isLoadMoreBatchHistoryList } = this.props;
+        // const temptData = isShowSearchBatchHistory ? listBatchHistorySearch : listBatchHistory;
+
         return (
             <View style={{ flex: 1, paddingRight: scaleSzie(10) }} >
                 <View style={{ flex: 1 }} >
@@ -111,7 +113,7 @@ class Layout extends React.Component {
                     <View style={styles.tableLeft} >
                         <FlatList
                             showsVerticalScrollIndicator={false}
-                            data={temptData}
+                            data={listBatchHistory}
                             renderItem={({ item, index }) => <ItemSettle
                                 ref={this.pushSettleIntoArray}
                                 batchHistory={item}
@@ -131,6 +133,14 @@ class Layout extends React.Component {
 
                                     {localize('List Empty', language)}
                                 </Text>
+                            </View>}
+                            ListFooterComponent={() => <View style={{ height: scaleSzie(30), alignItems: "center", justifyContent: "center" }} >
+                                {
+                                    isLoadMoreBatchHistoryList ? <ActivityIndicator
+                                        size="large"
+                                        color="#0764B0"
+                                    /> : null
+                                }
                             </View>}
                         />
 
@@ -260,7 +270,7 @@ class Layout extends React.Component {
     renderTabDetail() {
         const { language } = this.props;
         const { settleSelected } = this.state;
-        const dateDetail = settleSelected.settlementDate ? `${formatWithMoment(settleSelected.settlementDate,'MM/DD/YYYY hh:mm A')}` : '';
+        const dateDetail = settleSelected.settlementDate ? `${formatWithMoment(settleSelected.settlementDate, 'MM/DD/YYYY hh:mm A')}` : '';
 
         return (
             <View style={{ flex: 1 }} >

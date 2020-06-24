@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import { scaleSzie, formatWithMoment } from '@utils';
-import { Text, Button} from '@components';
+import { Text, Button } from '@components';
 
 class ItemSettle extends React.Component {
 
@@ -34,7 +34,7 @@ class ItemSettle extends React.Component {
     }
 
     render() {
-        const { batchHistory,onPress } = this.props;
+        const { batchHistory, onPress } = this.props;
         const { isSelected } = this.state;
         const temptColorSelected = !isSelected ? {} : { backgroundColor: '#F1F1F1' };
         return (
@@ -47,15 +47,15 @@ class ItemSettle extends React.Component {
                     </View>
                     <View style={{ flex: 1, }} >
                         <Text style={styles.textTitleLefConten} >
-                            {`${formatWithMoment(batchHistory.settlementDate,'MM/DD/YYYY')}`}
+                            {`${formatWithMoment(batchHistory.settlementDate, 'MM/DD/YYYY')}`}
                         </Text>
                         <View style={{ height: 2 }} />
-                        <Text style={[styles.textTitleLefConten,{fontWeight:"600"}]} >
-                            {`${formatWithMoment(batchHistory.settlementDate,'hh:mm A')}`}
+                        <Text style={[styles.textTitleLefConten, { fontWeight: "600" }]} >
+                            {`${formatWithMoment(batchHistory.settlementDate, 'hh:mm A')}`}
                         </Text>
                     </View>
-                    <View style={{ flex: 0.8,justifyContent:"center"}} >
-                        <Text style={[styles.textTitleLefConten,{fontWeight:"600"}]} >
+                    <View style={{ flex: 0.8, justifyContent: "center" }} >
+                        <Text style={[styles.textTitleLefConten, { fontWeight: "600" }]} >
                             {`$ ${batchHistory.total}`}
                         </Text>
                     </View>

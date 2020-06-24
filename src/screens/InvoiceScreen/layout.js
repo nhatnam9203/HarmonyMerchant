@@ -552,8 +552,6 @@ export default class Layout extends React.Component {
                                     color="#0764B0"
                                 /> : null
                                 }
-                               
-
                             </View>}
                         />
                     </View>
