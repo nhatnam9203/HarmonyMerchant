@@ -792,6 +792,7 @@ export const checkStatusPrint = async () => {
             return false
         }
     } catch (error) {
+        throw error
     }
 }
 

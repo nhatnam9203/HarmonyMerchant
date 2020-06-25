@@ -1,6 +1,8 @@
 import React from 'react';
 import { NativeModules } from 'react-native';
 import _ from "ramda";
+import { captureRef, releaseCapture } from "react-native-view-shot";
+import { StarPRNT } from 'react-native-star-prnt';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -8,9 +10,10 @@ import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment,
     getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment,
     getPaymentStringInvoice, getQuickFilterStringInvoice,
-    checkStatusPrint
+    checkStatusPrint, PRINTER_MACHINE
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
+
 
 const PosLink = NativeModules.MyApp;
 
@@ -46,6 +49,7 @@ class InvoiceScreen extends Layout {
         this.popupProcessingCreditRef = React.createRef();
         this.invoicePrintRef = React.createRef();
         this.invoicePrintRef = React.createRef();
+        this.viewShotRef = React.createRef();
     }
 
     componentDidMount() {
@@ -468,7 +472,30 @@ class InvoiceScreen extends Layout {
         }
     }
 
-    printCustomerInvoice = () => {
+    printCustomerInvoice = async () => {
+        try {
+            const printMachine = await checkStatusPrint();
+            if (printMachine) {
+                this.props.actions.app.loadingApp();
+                const imageUri = await captureRef(this.viewShotRef, {});
+                if (imageUri) {
+                    let commands = [];
+                    commands.push({ appendLineFeed: 0 });
+                    commands.push({ appendBitmap: imageUri, width: PRINTER_MACHINE[printMachine].widthPaper, bothScale: true, diffusion: true, alignment: "Center" });
+                    commands.push({ appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed });
+
+                    await PrintManager.getInstance().print(printMachine, commands);
+                    releaseCapture(imageUri);
+                }
+                this.props.actions.app.stopLoadingApp();
+
+            } else {
+                alert('Please connect to your printer!');
+            }
+        } catch (error) {
+            this.props.actions.app.stopLoadingApp();
+            // alert(error)
+        }
 
     }
 

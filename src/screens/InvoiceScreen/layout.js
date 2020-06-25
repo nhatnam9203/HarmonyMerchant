@@ -197,7 +197,7 @@ export default class Layout extends React.Component {
                     keyboardShouldPersistTaps="always"
                 >
                     <View
-                        // ref={this.viewShotRef}
+                        ref={this.viewShotRef}
                         style={{
                             paddingHorizontal: scaleSzie(20)
                         }}
