@@ -17,7 +17,7 @@ const initialState = {
     visibleDisconnect: false,
     visibleConnected: false,
     isReloadWebview: false,
-    MIDStorage: "",
+    // MIDStorage: "",
     packageAndPricingData: [],
     refreshingGeneral: false,
     connectPAXStatus: {
@@ -28,11 +28,11 @@ const initialState = {
 
 function appReducer(state = initialState, action) {
     switch (action.type) {
-        case 'LOGIN_APP_SUCCESS':
-            return {
-                ...state,
-                MIDStorage: action.isRememberMID ? action.payload : "",
-            }
+        // case 'LOGIN_APP_SUCCESS':
+        //     return {
+        //         ...state,
+        //         MIDStorage: action.isRememberMID ? action.payload : "",
+        //     }
         case 'AGREE_TERM':
             return {
                 ...state,

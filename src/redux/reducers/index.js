@@ -58,11 +58,12 @@ const rootReducer = (state, action) => {
                 autoCloseAt: dataLocal.autoCloseAt,
                 autoLockScreenAfter: dataLocal.autoLockScreenAfter,
                 paxMachineInfo: dataLocal.paxMachineInfo,
+                MIDStorage:dataLocal.MIDStorage,
                 profileStaffLogin: {},
                 isLoginStaff: false,
                 listAppointmentsOfflineMode: [],
                 deviceId: "",
-                versionApp: ""
+                versionApp: "",
             }
         };
     }

@@ -17,7 +17,8 @@ const initialState = {
     listAppointmentsOfflineMode: [],
     deviceId: "",
     versionApp: "",
-    checkEmailToResetPax: ""
+    checkEmailToResetPax: "",
+    MIDStorage: "",
 }
 
 function dataLocal(state = initialState, action) {
@@ -34,7 +35,8 @@ function dataLocal(state = initialState, action) {
                     port: '',
                     timeout: 60000,
                     isSetup: false
-                }
+                },
+                MIDStorage: action.isRememberMID ? action.payload : "",
             }
         case 'SAVE_PROFILE_LOCAL':
             return {

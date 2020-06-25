@@ -1,5 +1,7 @@
+import moment from 'moment';
+
 import apiConfigs from '../../configs/api';
-import {formatWithMoment} from "@utils";
+import { formatWithMoment } from "@utils";
 
 export function getAppointmentById(id) {
     return {
@@ -96,8 +98,8 @@ export function closeModalPaymentCompleted() {
     }
 }
 
-export function createAnymousAppointment(merchantId, userId = 0,staffId = 0, products = [], services = [], extras = [],
-     paymentMethod, isLoading = true, customDiscountFixed, customDiscountPercent,
+export function createAnymousAppointment(merchantId, userId = 0, staffId = 0, products = [], services = [], extras = [],
+    paymentMethod, isLoading = true, customDiscountFixed, customDiscountPercent,
     //   staffId = 0,
     firstName, lastName, phoneNumber, paidAmount = 0, creditCardInfo = false, isPayment = true,
 ) {
@@ -111,7 +113,7 @@ export function createAnymousAppointment(merchantId, userId = 0,staffId = 0, pro
             services: services,
             extras: extras,
             products: products,
-            fromTime: formatWithMoment(new Date(),'MM/DD/YYYY hh:mm A'),
+            fromTime: formatWithMoment(new Date(), 'MM/DD/YYYY hh:mm A'),
             // staffId,
             customDiscountFixed,
             customDiscountPercent,
@@ -141,7 +143,8 @@ export function createBlockAppointment(merchantId, fromTime = new Date(), userId
             services: [],
             extras: [],
             products: [],
-            fromTime: formatWithMoment(fromTime,'MM/DD/YYYY hh:mm A'),
+            // fromTime: formatWithMoment(fromTime,'MM/DD/YYYY hh:mm A'),
+            fromTime: moment.parseZone(fromTime).local().format('MM/DD/YYYY hh:mm A'),
             staffId: 0,
             customDiscountFixed: 0,
             customDiscountPercent: 0,
