@@ -143,7 +143,6 @@ export function createBlockAppointment(merchantId, fromTime = new Date(), userId
             services: [],
             extras: [],
             products: [],
-            // fromTime: formatWithMoment(fromTime,'MM/DD/YYYY hh:mm A'),
             fromTime: moment.parseZone(fromTime).local().format('MM/DD/YYYY hh:mm A'),
             staffId: 0,
             customDiscountFixed: 0,

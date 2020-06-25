@@ -918,3 +918,4 @@ export const getStaffNameForInvoice = (profileStaffLogin = {}, basket = []) => {
     }
     return temptName ? temptName : staffNameLogin;
 }
+

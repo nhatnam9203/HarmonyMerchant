@@ -8,7 +8,7 @@ import connectRedux from '@redux/ConnectRedux';
 import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment, requestAPI,
     getArrayExtrasFromAppointment, formatNumberFromCurrency, getStaffInfoById, splitPlusInPhoneNumber,
-    formatWithMoment
+    formatWithMoment,checkStatusPrint
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 import apiConfigs from '@configs/api';
@@ -636,7 +636,7 @@ class TabCheckout extends Layout {
             connectionSignalR.stop();
         }
         if (paymentSelected === 'Cash' || paymentSelected === 'Others - Check') {
-            const printMachine = await this.checkStatusPrint();
+            const printMachine = await checkStatusPrint();
             if (printMachine) {
                 this.openCashDrawer(printMachine);
                 this.scrollTabRef.current.goToPage(0);
@@ -725,7 +725,7 @@ class TabCheckout extends Layout {
         // this.showInvoicePrint("printMachine", false);
 
         this.pushAppointmentIdOfflineIntoWebview();
-        const printMachine = await this.checkStatusPrint();
+        const printMachine = await checkStatusPrint();
         if (printMachine) {
             const { paymentSelected } = this.state;
             const { connectionSignalR } = this.props;
@@ -742,7 +742,7 @@ class TabCheckout extends Layout {
     }
 
     printTemptInvoice = async () => {
-        const printMachine = await this.checkStatusPrint();
+        const printMachine = await checkStatusPrint();
         if (printMachine) {
             this.showInvoicePrint(printMachine);
         } else {
@@ -751,31 +751,11 @@ class TabCheckout extends Layout {
     }
 
     checkStatusCashier = async () => {
-        const printMachine = await this.checkStatusPrint(true);
+        const printMachine = await checkStatusPrint(true);
         if (printMachine === "BT:mPOP") {
             this.openCashDrawer(printMachine);
         } else {
             alert('Please connect to your cash drawer.');
-        }
-    }
-
-    checkStatusPrint = async () => {
-        try {
-            const printer = await PrintManager.getInstance().portDiscovery();
-            if (printer.length > 0) {
-                let portName = false;
-                for (let i = 0; i < printer.length; i++) {
-                    let tempt_portName = printer[i].portName ? printer[i].portName : "";
-                    if (tempt_portName === "BT:mPOP" || tempt_portName === "BT:TSP100") {
-                        portName = tempt_portName;
-                        break;
-                    }
-                };
-                return portName ? portName : false;
-            } else {
-                return false
-            }
-        } catch (error) {
         }
     }
 

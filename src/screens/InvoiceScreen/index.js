@@ -7,7 +7,8 @@ import connectRedux from '@redux/ConnectRedux';
 import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment,
     getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment,
-    getPaymentStringInvoice, getQuickFilterStringInvoice
+    getPaymentStringInvoice, getQuickFilterStringInvoice,
+    checkStatusPrint
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 
@@ -93,7 +94,7 @@ class InvoiceScreen extends Layout {
             setTimeout(() => {
                 this.searchInvoice();
             }, 500);
-        }else{
+        } else {
             this.props.actions.invoice.updateSearchKeyword(this.state.searchFilter.keySearch);
         }
 
@@ -177,19 +178,19 @@ class InvoiceScreen extends Layout {
         this.searchInvoice(1, false);
     }
 
-    searchInvoiceWithKeyword =() =>{
+    searchInvoiceWithKeyword = () => {
         this.props.actions.invoice.updateSearchKeyword(this.state.searchFilter.keySearch);
         this.searchInvoice();
     }
 
     searchInvoice = (page = 1, isShowLoading = true, isLoadMore = false) => {
-        const {searchKeyword} = this.props
+        const { searchKeyword } = this.props
         const { searchFilter } = this.state;
         const { keySearch, paymentMethod, status } = searchFilter;
         const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
 
         this.props.actions.invoice.getListInvoicesByMerchant(
-            searchKeyword === keySearch ?  keySearch : "",
+            searchKeyword === keySearch ? keySearch : "",
             getPaymentStringInvoice(paymentMethod),
             status,
             isCustomizeDate ? startDate : "",
@@ -258,18 +259,18 @@ class InvoiceScreen extends Layout {
                 visibleConfirmInvoiceStatus: false,
                 titleInvoice: invoiceDetail.status === 'paid' ? "Refund" : "Void"
             })
-            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId,this.getParamsSearch());
+            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch());
         }
     }
 
     getParamsSearch = () => {
-        const {searchKeyword} = this.props
+        const { searchKeyword } = this.props
         const { searchFilter } = this.state;
         const { keySearch, paymentMethod, status } = searchFilter;
         const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
 
-        return `page=1&method=${ getPaymentStringInvoice(paymentMethod)}&status=${status}&timeStart=${isCustomizeDate ? startDate : ""}&timeEnd=${isCustomizeDate ? endDate : ""}&key=${searchKeyword === keySearch ?  keySearch : ""}&quickFilter=${quickFilter ? getQuickFilterStringInvoice(quickFilter) : ""}`;
-      
+        return `page=1&method=${getPaymentStringInvoice(paymentMethod)}&status=${status}&timeStart=${isCustomizeDate ? startDate : ""}&timeEnd=${isCustomizeDate ? endDate : ""}&key=${searchKeyword === keySearch ? keySearch : ""}&quickFilter=${quickFilter ? getQuickFilterStringInvoice(quickFilter) : ""}`;
+
     }
 
     handleResultVoidTransaction = async result => {
@@ -281,7 +282,7 @@ class InvoiceScreen extends Layout {
         });
 
         if (data.status === 1) {
-            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId,this.getParamsSearch());
+            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch());
             await this.setState({
                 invoiceDetail: {
                     history: []
@@ -309,7 +310,7 @@ class InvoiceScreen extends Layout {
 
         const data = JSON.parse(result);
         if (data.status === 1 && data.ResultTxt === "OK") {
-            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId,this.getParamsSearch());
+            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch());
             await this.setState({
                 invoiceDetail: {
                     history: []
@@ -405,34 +406,13 @@ class InvoiceScreen extends Layout {
         }
     }
 
-    checkStatusPrint = async () => {
-        try {
-            const printer = await PrintManager.getInstance().portDiscovery();
-            if (printer.length > 0) {
-                let portName = false;
-                for (let i = 0; i < printer.length; i++) {
-                    let tempt_portName = printer[i].portName ? printer[i].portName : "";
-                    if (tempt_portName === "BT:mPOP" || tempt_portName === "BT:TSP100") {
-                        portName = tempt_portName;
-                        break;
-                    }
-                };
-                return portName ? portName : false;
-            } else {
-                return false
-            }
-        } catch (error) {
-        }
-    }
-
-
     printInvoice = async () => {
         const { invoiceDetail, titleInvoice } = this.state;
 
         if (!invoiceDetail.appointmentId) {
             alert("You don't select invoice!")
         } else {
-            const printMachine = await this.checkStatusPrint();
+            const printMachine = await checkStatusPrint();
             if (printMachine) {
                 this.props.actions.invoice.togglPopupConfirmPrintInvoice(false);
 
@@ -486,6 +466,10 @@ class InvoiceScreen extends Layout {
                 break;
             }
         }
+    }
+
+    printCustomerInvoice = () => {
+
     }
 
     componentWillUnmount() {

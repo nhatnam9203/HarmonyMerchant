@@ -290,12 +290,12 @@ export default class Layout extends React.Component {
                                     {`DESCRIPTION`}
                                 </Text>
                             </View>
-                            <View style={{ justifyContent: "center" }} >
+                            <View style={{ justifyContent: "center", width: scaleSzie(70) }} >
                                 <Text style={[styles.txt_info, { fontSize: 18, fontWeight: "400" }]} >
                                     {`PRICE`}
                                 </Text>
                             </View>
-                            <View style={{ width: scaleSzie(50), justifyContent: "center", alignItems: "center" }} >
+                            <View style={{ width: scaleSzie(30), justifyContent: "center", alignItems: "center" }} >
                                 <Text style={[styles.txt_info, { fontSize: 18, fontWeight: "400" }]} >
                                     {`QTY`}
                                 </Text>
@@ -721,7 +721,6 @@ export default class Layout extends React.Component {
                             refreshing={refreshListInvoice}
                             ListEmptyComponent={() => <View style={{ width: '100%', alignItems: 'center', paddingTop: scaleSzie(20) }} >
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
-
                                     {localize('List Empty', language)}
                                 </Text>
                             </View>}
@@ -772,8 +771,14 @@ export default class Layout extends React.Component {
                         </ScrollableTabView>
                     </View>
 
-                    <Button onPress={this.openDrawer} style={{ position: 'absolute', left: 0, left: 0 }} >
-                        <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
+                    <Button onPress={this.printCustomerInvoice} style={{
+                        position: 'absolute', top: -20, right: 10,
+                        width: scaleSzie(35), height: scaleSzie(35), backgroundColor: "#0764B0", justifyContent: "center",
+                        alignItems: "center", borderRadius: scaleSzie(4)
+                    }} >
+                        <Image source={IMAGE.print_btn}
+                            style={{ width: scaleSzie(20), height: scaleSzie(20) }}
+                        />
                     </Button>
                 </View>
             </View>
@@ -858,13 +863,13 @@ const ItemPrintBasket = ({ item, index }) => {
                     {`${index + 1}. ${item.data && item.data.name ? item.data.name : ""}`}
                 </Text>
             </View>
-            <View style={{ justifyContent: "center" }} >
+            <View style={{ justifyContent: "center", width: scaleSzie(70) }} >
                 <Text style={[styles.txt_info,]} >
                     {`$ ${price}`}
                 </Text>
             </View>
             <View style={{
-                width: scaleSzie(50), justifyContent: "center", alignItems: "center",
+                width: scaleSzie(30), justifyContent: "center", alignItems: "center",
             }} >
                 <Text style={[styles.txt_info,]} >
                     {quanlitySet}
