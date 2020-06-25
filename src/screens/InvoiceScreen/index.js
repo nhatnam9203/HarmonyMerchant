@@ -509,7 +509,8 @@ const mapStateToProps = state => ({
     paxMachineInfo: state.dataLocal.paxMachineInfo,
     visibleConfirmPrintInvoice: state.invoice.visibleConfirmPrintInvoice,
     isLoadMoreInvoiceList: state.invoice.isLoadMoreInvoiceList,
-    searchKeyword: state.invoice.searchKeyword
+    searchKeyword: state.invoice.searchKeyword,
+    profileStaffLogin: state.dataLocal.profileStaffLogin
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);

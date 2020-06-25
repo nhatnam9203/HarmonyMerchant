@@ -250,6 +250,7 @@ class Layout extends React.Component {
                             value={editPaymentByHarmony}
                             onChangeText={(value) => this.updateTotalCustom("editPaymentByHarmony", value)}
                             onFocus={() => this.scrollTo(450)}
+                            editable={false}
                         />
                     </View>
                 </View>
@@ -279,6 +280,7 @@ class Layout extends React.Component {
                             value={editPaymentByCreditCard}
                             onChangeText={(value) => this.updateTotalCustom("editPaymentByCreditCard", value)}
                             onFocus={() => this.scrollTo(450)}
+                            editable={false}
                         />
                     </View>
                 </View>

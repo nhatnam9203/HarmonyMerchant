@@ -18,7 +18,7 @@ import IMAGE from '@resources';
 export default class TextInputAmount extends React.Component {
 
     render() {
-        const { value,onFocus ,onChangeText} = this.props;
+        const { value,onFocus ,onChangeText,editable} = this.props;
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
                 <View style={{ justifyContent: 'center', width: scaleSzie(13) }} >
@@ -43,6 +43,7 @@ export default class TextInputAmount extends React.Component {
                         value={`${value}`}
                         onChangeText={(value) =>onChangeText(value)}
                         onFocus={() => onFocus && onFocus()}
+                        editable={editable}
                     />
                 </View>
             </View>

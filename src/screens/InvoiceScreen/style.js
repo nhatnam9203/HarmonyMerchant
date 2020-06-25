@@ -24,4 +24,20 @@ export default StyleSheet.create({
         fontSize: scaleSzie(14),
         color: '#404040'
     },
+    txt_normal: {
+        color: "#000",
+        fontSize: 18,
+        alignSelf: "center",
+        fontWeight: "200"
+    },
+    txt_info: {
+        color: "#000",
+        fontSize: 18,
+        fontWeight: "200"
+    },
+    txt_total: {
+        color: "#000",
+        fontSize: 20,
+        fontWeight: "200"
+    }
 })

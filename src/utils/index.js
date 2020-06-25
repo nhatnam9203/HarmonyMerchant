@@ -904,3 +904,17 @@ export const getQuickFilterStringInvoice = (type) => {
     }
     return quickFilter
 }
+
+export const getStaffNameForInvoice = (profileStaffLogin = {}, basket = []) => {
+
+    const staffNameLogin = profileStaffLogin.displayName ? profileStaffLogin.displayName : "";
+
+    let temptName = "";
+    for (let i = 0; i < basket.length; i++) {
+        if (basket[i].type === "Service") {
+            temptName = basket[i].staff && basket[i].staff.displayName ? basket[i].staff.displayName : "";
+            break;
+        }
+    }
+    return temptName ? temptName : staffNameLogin;
+}

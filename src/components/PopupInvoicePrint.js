@@ -13,7 +13,10 @@ import { captureRef, releaseCapture } from "react-native-view-shot";
 
 import ButtonCustom from './ButtonCustom';
 import Button from './Button';
-import { scaleSzie, localize, PRINTER_MACHINE, getPaymentString, formatMoney, formatWithMoment } from '../utils';
+import {
+    scaleSzie, localize, PRINTER_MACHINE, getPaymentString, formatMoney, formatWithMoment,
+    getStaffNameForInvoice
+} from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 import PrintManager from '@lib/PrintManager';
 import ICON from "@resources";
@@ -167,25 +170,8 @@ class PopupInvoicePrint extends React.Component {
 
     }
 
-    getStaffNameForInvoice = () => {
-        const { profileStaffLogin } = this.props;
-        const { basket } = this.state;
-
-        const staffNameLogin = profileStaffLogin.displayName ? profileStaffLogin.displayName : "";
-
-        let temptName = "";
-        for (let i = 0; i < basket.length; i++) {
-            if (basket[i].type === "Service") {
-                temptName = basket[i].staff && basket[i].staff.displayName ? basket[i].staff.displayName : "";
-                break;
-            }
-        }
-        return temptName ? temptName : staffNameLogin;
-    }
-
 
     // -------------- Render --------------
-
     renderLoadingProcessingPrint() {
         if (this.state.isProcessingPrint) {
             return (
@@ -205,7 +191,7 @@ class PopupInvoicePrint extends React.Component {
     }
 
     render() {
-        const { language, visiblePrintInvoice, profile, paymentDetailInfo } = this.props;
+        const { language, visiblePrintInvoice, profile, paymentDetailInfo, profileStaffLogin } = this.props;
         const { basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected, isPrintTempt,
             isSignature, paymentMethods, titleInvoice, invoiceNo
         } = this.state;
@@ -281,7 +267,7 @@ class PopupInvoicePrint extends React.Component {
                                         </View>
                                         <View style={{ flex: 1 }} >
                                             <Text style={styleInvoice.txt_info} >
-                                                {`: ${this.getDate()} ${this.getHour()}`}
+                                                {`: ${formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A")}`}
                                             </Text>
                                         </View>
                                     </View>
@@ -294,7 +280,7 @@ class PopupInvoicePrint extends React.Component {
                                         </View>
                                         <View style={{ flex: 1 }} >
                                             <Text style={styleInvoice.txt_info} >
-                                                {`: ${this.getStaffNameForInvoice()}`}
+                                                {`: ${getStaffNameForInvoice(profileStaffLogin, basket)}`}
                                             </Text>
                                         </View>
                                     </View>
@@ -358,7 +344,6 @@ class PopupInvoicePrint extends React.Component {
                                     }
 
                                     {/* ------------- Line end item invoice   ----------- */}
-
                                     <View
                                         style={{ height: 2, backgroundColor: "#000", marginVertical: scaleSzie(10) }}
                                     />
@@ -586,7 +571,6 @@ const styleInvoice = StyleSheet.create({
         color: "#000",
         fontSize: 20,
         fontWeight: "200"
-
     }
 })
 
