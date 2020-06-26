@@ -1,8 +1,9 @@
 import React from 'react';
-import { NativeModules } from 'react-native';
+import { NativeModules ,Platform} from 'react-native';
 import _ from "ramda";
 import { captureRef, releaseCapture } from "react-native-view-shot";
 import { StarPRNT } from 'react-native-star-prnt';
+import RNFetchBlob from 'rn-fetch-blob';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -496,7 +497,20 @@ class InvoiceScreen extends Layout {
             this.props.actions.app.stopLoadingApp();
             // alert(error)
         }
+    }
 
+    shareCustomerInvoice = async () =>{
+        try {
+            const imageUri = await captureRef(this.viewShotRef, {});
+            if (Platform.OS === 'ios') {
+                RNFetchBlob.ios.previewDocument(imageUri)
+            } else {
+                const android = RNFetchBlob.android;
+                android.actionViewIntent(imageUri, 'application/vnd.android.package-archive')
+            }
+        } catch (error) {
+            alert(error)
+        }
     }
 
     componentWillUnmount() {

@@ -75,7 +75,8 @@ export default {
     not_support: require('./img/not_support.png'),
     staff_basket: require('./img/staff_basket.png'),
     other_cards: require('./img/other_card.png'),
-
+    share_icon :require('./img/share_icon.png'),
+    happy_face:require('./img/happy_face.png'),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),

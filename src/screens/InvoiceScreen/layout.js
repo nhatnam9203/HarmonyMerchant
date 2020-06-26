@@ -692,6 +692,7 @@ export default class Layout extends React.Component {
         const { language, listInvoicesByMerchant, refreshListInvoice,
             listInvoicesSearch, isShowSearchInvoice, isLoadMoreInvoiceList
         } = this.props;
+        const {invoiceDetail} = this.state;
         // const tempData = isShowSearchInvoice ? listInvoicesSearch : listInvoicesByMerchant;
 
         return (
@@ -771,15 +772,32 @@ export default class Layout extends React.Component {
                         </ScrollableTabView>
                     </View>
 
-                    <Button onPress={this.printCustomerInvoice} style={{
-                        position: 'absolute', top: -20, right: 10,
-                        width: scaleSzie(35), height: scaleSzie(35), backgroundColor: "#0764B0", justifyContent: "center",
-                        alignItems: "center", borderRadius: scaleSzie(4)
-                    }} >
-                        <Image source={IMAGE.print_btn}
-                            style={{ width: scaleSzie(20), height: scaleSzie(20) }}
-                        />
-                    </Button>
+                    {
+                        invoiceDetail.checkoutId ?  <Button onPress={this.shareCustomerInvoice} style={{
+                            position: 'absolute', top: scaleSzie(-12), right: scaleSzie(50),
+                            width: scaleSzie(35), height: scaleSzie(35), backgroundColor: "#0764B0", justifyContent: "center",
+                            alignItems: "center", borderRadius: scaleSzie(4)
+                        }} >
+                            <Image source={IMAGE.share_icon}
+                                style={{ width: scaleSzie(18), height: scaleSzie(18) }}
+                            />
+                        </Button> : null
+                    }
+
+                    {
+                        invoiceDetail.checkoutId ? <Button onPress={this.printCustomerInvoice} style={{
+                            position: 'absolute', top: scaleSzie(-12), right: scaleSzie(8),
+                            width: scaleSzie(35), height: scaleSzie(35), backgroundColor: "#0764B0", justifyContent: "center",
+                            alignItems: "center", borderRadius: scaleSzie(4)
+                        }} >
+                            <Image source={IMAGE.print_btn}
+                                style={{ width: scaleSzie(20), height: scaleSzie(20) }}
+                            />
+                        </Button> : null
+                    }
+                   
+
+                    
                 </View>
             </View>
         );
