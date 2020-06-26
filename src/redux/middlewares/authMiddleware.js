@@ -65,23 +65,26 @@ const authMiddleware = store => next => action => {
         })
     }
 
+    const appState = store.getState();
+    const versionApp = appState.dataLocal.versionApp;
+    const action_tempt = { ...action, versionApp };
+
 
     if (action.token) {
-        const appState = store.getState();
-        return next({ ...action, token: appState.dataLocal.profileStaffLogin.token });
+        return next({ ...action_tempt, token: appState.dataLocal.profileStaffLogin.token });
 
     }
 
     if (action.type && action.type.includes("_SUCCESS")) {
-        return next({ ...action, typeNetwork: 'IS_CONNECTED_INTERNET' });
+        return next({ ...action_tempt, typeNetwork: 'IS_CONNECTED_INTERNET' });
     }
 
     if (action.type && action.type.includes("NET_WORK_REQUEST_FAIL")) {
-        return next({ ...action, typeNetwork: 'NET_WORK_REQUEST_FAIL' });
+        return next({ ...action_tempt, typeNetwork: 'NET_WORK_REQUEST_FAIL' });
     }
 
 
-    return next(action);
+    return next(action_tempt);
 
 }
 
