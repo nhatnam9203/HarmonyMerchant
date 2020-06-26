@@ -84,7 +84,7 @@ class TabAppointment extends Layout {
         try {
             if (event.nativeEvent && event.nativeEvent.data) {
                 const data = JSON.parse(event.nativeEvent.data);
-                console.log('data : ', JSON.stringify(data));
+                // console.log('data : ', JSON.stringify(data));
                 if (validateIsNumber(data) && data < -150) {
                     this.onLoadStartWebview();
                 } else {

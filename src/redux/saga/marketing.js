@@ -220,10 +220,9 @@ function* getPromotionByAppointment(action) {
 function* changeStylist(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
-        //console.log('responses : ', JSON.stringify(action.body));
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-        //console.log('responses : ', JSON.stringify(responses));
+        // console.log('responses : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             action.isGroup ? yield put({

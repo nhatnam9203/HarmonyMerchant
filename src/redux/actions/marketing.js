@@ -74,7 +74,7 @@ export function changeStylist(staffId, bookingServiceId, tipAmount, appointmentI
         method: 'PUT',
         token: true,
         body: {
-            staffId,
+            staffId: staffId ? staffId : 0,
             bookingServiceId,
             tipAmount,
             price

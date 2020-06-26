@@ -34,7 +34,7 @@ class SplashScreen extends Layout {
 
 
                 let version = await DeviceInfo.getVersion();
-                if ( version !== versionApp ) {
+                if (version !== versionApp) {
                     this.props.actions.dataLocal.updateVersionApp(version ? version : "1.0.7");
                 }
 
@@ -105,7 +105,7 @@ class SplashScreen extends Layout {
         //console.log('progress : ' ,syncStatus);
     }
 
-    async  codePushDownloadDidProgress(progress) {
+    async codePushDownloadDidProgress(progress) {
         let temp = parseInt(progress.receivedBytes / progress.totalBytes);
         await this.setState({
             progress: temp * 100

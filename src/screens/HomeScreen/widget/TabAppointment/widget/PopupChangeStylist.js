@@ -127,7 +127,7 @@ class PopupChangeStylist extends React.Component {
                             {/* ------- Dropdown -------- */}
                             <View style={{ height: scaleSzie(40), marginBottom: scaleSzie(10) }} >
                                 <Dropdown
-                                    label={`${localize('Name', language)}:`}
+                                    label={`${localize('Name', language)}`}
                                     data={dataDropdown}
                                     value={name}
                                     onChangeText={(value, index) => this.changeStylist(value, dataDropdown[index].staffId)}
