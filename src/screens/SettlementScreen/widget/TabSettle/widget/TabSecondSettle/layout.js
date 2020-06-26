@@ -257,7 +257,7 @@ class Layout extends React.Component {
         const {  settleTotal, paxErrorMessage } = this.state;
         const { paymentByHarmony, paymentByCreditCard, paymentByCash, otherPayment, total, note } = settleTotal;
 
-        console.log("---- otherPayment : ",otherPayment);
+        // console.log("---- otherPayment : ",otherPayment);
 
         return (
             <View style={[styles.container, { backgroundColor: '#F6F6F6' }]} >

@@ -12,6 +12,8 @@ const ItemProductService = ({ item, showColAmount, colorText, itemSelected, cate
     const temptKeyId = categoryTypeSelected === 'Service' ? 'serviceId' : 'productId';
     const temptBackgrounColor = item[temptKeyId] === itemSelected[temptKeyId] ? '#0764B0' : '#FAFAFA';
     const temptTextColor = item[temptKeyId] === itemSelected[temptKeyId] ? { color: '#fff' } : {};
+    const temptTextPriceColor = item[temptKeyId] === itemSelected[temptKeyId] ? { color: '#fff' } : {};
+
 
     return (
         <Button onPress={() => showColAmount(item)} style={{
@@ -43,7 +45,7 @@ const ItemProductService = ({ item, showColAmount, colorText, itemSelected, cate
                         </Text>
                     </View>
                     <View style={{ flex: 1, justifyContent: "flex-end" }} >
-                        <Text style={[{ fontSize: scaleSzie(11), color: '#6A6A6A' },]} >
+                        <Text style={[{ fontSize: scaleSzie(11), color: '#6A6A6A' },temptTextPriceColor]} >
                             {`Price : $ `}
                             <Text style={[{ fontWeight: "bold" },]} >
                                 {`${item.price ? item.price : ""}`}

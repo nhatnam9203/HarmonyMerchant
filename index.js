@@ -1,6 +1,6 @@
 /** @format */
 import React from 'react'
-import { AppRegistry, View, Modal, ActivityIndicator, ImageBackground } from 'react-native';
+import { AppRegistry,View } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 
@@ -26,17 +26,16 @@ class App extends React.Component {
         return (
             <Provider store={this.state.store}>
                 <PersistGate
-                    loading={<ImageBackground style={{ flex: 1, }} source={IMAGE.splashScreen} >
-                    </ImageBackground>}
+                    loading={<View />}
                     persistor={this.state.persistor}>
-                    <AppNavigators
-                        ref={navigatorRef => {
-                            NavigatorServices.setContainer(navigatorRef);
-                        }}
-                    />
-                    <Loading />
-                    <PopupDisconnected />
-                    <PopupConnected />
+                        <AppNavigators
+                            ref={navigatorRef => {
+                                NavigatorServices.setContainer(navigatorRef);
+                            }}
+                        />
+                        <Loading />
+                        <PopupDisconnected />
+                        <PopupConnected />
                 </PersistGate>
             </Provider>
         );

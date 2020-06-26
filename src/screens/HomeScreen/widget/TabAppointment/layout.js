@@ -30,7 +30,7 @@ class Layout extends React.Component {
                     {`${localize('Customer', language)}:`}
                 </Text>
                 <Text style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(90) }]} >
-                    {`${lastName} ${firstName}`}
+                    {`${firstName} ${lastName}`}
                 </Text>
                 <Text style={styles.textHeader} >
                     {`${localize('Phone', language)}:`}
@@ -430,7 +430,7 @@ class Layout extends React.Component {
                 <PopupConfirm
                     visible={visibleConfirm}
                     title={localize('Confirmation', language)}
-                    message={`${localize('Are you sure you want To exit Check-Out? ', language)}`}
+                    message={`${localize('Are you sure you want to exit Check-Out? ', language)}`}
                     onRequestClose={() => this.setState({ visibleConfirm: false })}
                     confimYes={this.clearDataCofrim}
                 />

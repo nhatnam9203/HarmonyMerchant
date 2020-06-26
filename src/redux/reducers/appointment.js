@@ -284,8 +284,8 @@ const removeBlockAppointment = (blockAppointments, appointmentIdRemove) => {
     }
 
 
-    console.log("------ indexExist : ", indexExist);
-    console.log("------ temptBlockAppointments : ", temptBlockAppointments);
+    // console.log("------ indexExist : ", indexExist);
+    // console.log("------ temptBlockAppointments : ", temptBlockAppointments);
 
     return {
         data: temptBlockAppointments,

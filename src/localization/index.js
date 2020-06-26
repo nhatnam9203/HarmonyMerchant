@@ -210,7 +210,7 @@ const localization = {
         'Discount':'Discount',
         'Total':'Total',
         'BOOK':'BOOK',
-        'Are you sure you want To exit Check-Out? ':'Are you sure you want To exit Check-Out? ',
+        'Are you sure you want to exit Check-Out? ':'Are you sure you want to exit Check-Out? ',
         'Change Stylist':'Change Stylist',
         'Discount':'Discount',
         'Stylist':'Stylist',

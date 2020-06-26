@@ -46,7 +46,7 @@ class Layout extends React.Component {
         lastName = infoUser.lastName !== '' ? infoUser.lastName : lastName;
         phoneNumber = infoUser.phoneNumber !== '' ? infoUser.phoneNumber : phoneNumber;
 
-        const name = `${lastName} ${firstName}`;
+        const name = `${firstName} ${lastName}`;
         return (
             <View style={styles.headerContainer} >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }} >
@@ -885,7 +885,7 @@ class Layout extends React.Component {
                 <PopupConfirm
                     visible={visibleConfirm}
                     title={localize('Confirmation', language)}
-                    message="Are you sure you want To exit Check-Out?"
+                    message="Are you sure you want to exit Check-Out?"
                     onRequestClose={() => { this.setState({ visibleConfirm: false }) }}
                     confimYes={this.clearDataCofrim}
                 />
