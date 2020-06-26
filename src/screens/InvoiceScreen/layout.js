@@ -186,184 +186,194 @@ export default class Layout extends React.Component {
         const { language, profile, profileStaffLogin } = this.props;
         const { invoiceDetail } = this.state;
         const basket = invoiceDetail.basket ? this.convertBasket(invoiceDetail.basket) : [];
-        // console.log("----- invoiceDetail : ", JSON.stringify(invoiceDetail));
-        // console.log("----- basket : ", JSON.stringify(basket));
 
         return (
-            <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(8) }} >
-                <ScrollView
-                    style={{ flex: 1 }}
-                    automaticallyAdjustContentInsets={true}
-                    keyboardShouldPersistTaps="always"
-                >
-                    <View
-                        ref={this.viewShotRef}
-                        style={{
-                            paddingHorizontal: scaleSzie(20)
-                        }}
+            <View style={{ flex: 1 }} >
+                <View style={{ flex: 1, paddingHorizontal: scaleSzie(20), paddingTop: scaleSzie(8) }} >
+                    <ScrollView
+                        style={{ flex: 1 }}
+                        automaticallyAdjustContentInsets={true}
+                        keyboardShouldPersistTaps="always"
                     >
-                        {/* ------------- Store Name ----------- */}
-                        <Text style={[styles.txt_normal, { fontSize: 24, fontWeight: "600", marginTop: scaleSzie(8) }]} >
-                            {profile.businessName ? profile.businessName : ""}
-                        </Text>
-                        {/* ------------- Store Address ----------- */}
-                        <Text numberOfLines={1} style={[styles.txt_normal, { paddingHorizontal: scaleSzie(10), marginTop: scaleSzie(4) }]} >
-                            {profile.addressFull ? profile.addressFull : ''}
-                        </Text>
-                        {/* ------------- Phone Address ----------- */}
-                        <Text style={[styles.txt_normal, { paddingHorizontal: scaleSzie(10) }]} >
-                            {`Tel : ${profile.phone ? profile.phone : ""}`}
-                        </Text>
-                        {/* ------------- Company Website ----------- */}
-                        {
-                            profile.webLink ? <Text style={[styles.txt_normal, { paddingHorizontal: scaleSzie(10) }]} >
-                                {profile.webLink ? profile.webLink : ""}
-                            </Text> : <View />
-                        }
-                        {/* ------------- SALE/VOID/REFUND  ----------- */}
-                        <Text style={[styles.txt_normal, {
-                            fontSize: 20, fontWeight: "600",
-                            marginTop: scaleSzie(6), marginBottom: scaleSzie(6)
-                        }]} >
-                            {`SALE`}
-                        </Text>
-                        {/* ------------- Dot Border  ----------- */}
-                        <View style={{ height: scaleSzie(8), marginBottom: scaleSzie(8), }} >
-                            <Text style={{ fontWeight: "300" }} >
-                                {`- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`}
-                            </Text>
-                        </View>
-
-                        {/* ------------- Invoice Date ----------- */}
-                        <View style={{ flexDirection: "row" }} >
-                            <View style={{ width: scaleSzie(90) }} >
-                                <Text style={styles.txt_info} >
-                                    {`Invoice Date `}
-                                </Text>
-                            </View>
-                            <View style={{ flex: 1 }} >
-                                <Text style={styles.txt_info} >
-                                    {`: ${invoiceDetail.createdDate ? formatWithMoment(invoiceDetail.createdDate, "MM/DD/YYYY hh:mm A") : ""}`}
-                                </Text>
-                            </View>
-                        </View>
-
-                        {/* ------------- Staff ----------- */}
-                        <View style={{ flexDirection: "row" }} >
-                            <View style={{ width: scaleSzie(90) }} >
-                                <Text style={styles.txt_info} >
-                                    {`Staff Name`}
-                                </Text>
-                            </View>
-                            <View style={{ flex: 1 }} >
-                                <Text style={styles.txt_info} >
-                                    {`: ${getStaffNameForInvoice(profileStaffLogin, basket)}`}
-                                </Text>
-                            </View>
-                        </View>
-
-                        {/* ------------- Invoice No ----------- */}
-                        <View style={{ flexDirection: "row" }} >
-                            <View style={{ width: scaleSzie(90) }} >
-                                <Text style={styles.txt_info} >
-                                    {`Invoice No`}
-                                </Text>
-                            </View>
-                            <View style={{ flex: 1 }} >
-                                <Text style={styles.txt_info} >
-                                    {`: ${invoiceDetail.checkoutId ? invoiceDetail.checkoutId : ""}`}
-                                </Text>
-                            </View>
-                        </View>
-
-                        {/* ------------- Dot Border  ----------- */}
-                        <View style={{ height: scaleSzie(8), marginTop: scaleSzie(4) }} >
-                            <Text style={{ fontWeight: "300" }} >
-                                {`- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`}
-                            </Text>
-                        </View>
-
-                        {/* ------------- Header  ----------- */}
-                        <View style={{ flexDirection: "row", marginTop: scaleSzie(6) }} >
-                            <View style={{ flex: 0.8, justifyContent: "center" }} >
-                                <Text style={[styles.txt_info, { fontSize: 18, fontWeight: "400" }]} >
-                                    {`DESCRIPTION`}
-                                </Text>
-                            </View>
-                            <View style={{ justifyContent: "center", width: scaleSzie(70) }} >
-                                <Text style={[styles.txt_info, { fontSize: 18, fontWeight: "400" }]} >
-                                    {`PRICE`}
-                                </Text>
-                            </View>
-                            <View style={{ width: scaleSzie(30), justifyContent: "center", alignItems: "center" }} >
-                                <Text style={[styles.txt_info, { fontSize: 18, fontWeight: "400" }]} >
-                                    {`QTY`}
-                                </Text>
-                            </View>
-                            <View style={{ flex: 0.5, justifyContent: "center", alignItems: "flex-end" }} >
-                                <Text style={[styles.txt_info, { fontSize: 18, fontWeight: "400" }]} >
-                                    {`TOTAL`}
-                                </Text>
-                            </View>
-                        </View>
-                        {/* ------------- Dot Border  ----------- */}
-                        <View style={{ height: scaleSzie(8), marginBottom: scaleSzie(4) }} >
-                            <Text style={{ fontWeight: "300" }} >
-                                {`- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`}
-                            </Text>
-                        </View>
-
-                        {/* ------------- Item Invoice   ----------- */}
-                        {
-                            basket.map((item, index) => <ItemPrintBasket
-                                key={index}
-                                item={item}
-                                index={index}
-                            />)
-                        }
-
-                        {/* ------------- Line end item invoice   ----------- */}
                         <View
-                            style={{ height: 2, backgroundColor: "#000", marginVertical: scaleSzie(10) }}
-                        />
-                        {/* ------------- SubTotal   ----------- */}
-                        <ItemTotal
-                            title={"Subtotal"}
-                            value={invoiceDetail.subTotal ? invoiceDetail.subTotal : "0.00"}
-                        />
-                        <ItemTotal
-                            title={"Discount"}
-                            value={invoiceDetail.discount ? invoiceDetail.discount : "0.00"}
-                        />
-                        <ItemTotal
-                            title={"Tip"}
-                            value={invoiceDetail.tipAmount ? invoiceDetail.tipAmount : "0.00"}
-                        />
-                        <ItemTotal
-                            title={"Tax"}
-                            value={invoiceDetail.tax ? invoiceDetail.tax : "0.00"}
-                        />
-                        <ItemTotal
-                            title={"Total"}
-                            value={invoiceDetail.total ? invoiceDetail.total : "0.00"}
-                        />
-                        {/* ----------- Thanks , see you again -------- */}
-                        <View style={{ height: scaleSzie(20) }} />
-                        <Text style={[styles.txt_total, { alignSelf: "center", }]} >
-                            {`Thank you !`}
-                        </Text>
-                        <Text style={[styles.txt_total, { alignSelf: "center", }]} >
-                            {`Please come again`}
-                        </Text>
-                        <View style={{ height: scaleSzie(8) }} />
-                        {/* ------------- This is not a bill   ----------- */}
-                        <Text style={[styles.txt_total, { fontSize: scaleSzie(10), fontWeight: "300", alignSelf: "center" }]} >
-                            {`*********** Customer's Receipt ***********`}
-                        </Text>
+                            ref={this.viewShotRef}
+                            style={{
+                                paddingHorizontal: scaleSzie(10)
+                            }}
+                        >
+                            {/* ------------- Store Name ----------- */}
+                            <Text style={[styles.txt_normal, { fontSize: 24, fontWeight: "600", marginTop: scaleSzie(8) }]} >
+                                {profile.businessName ? profile.businessName : ""}
+                            </Text>
+                            {/* ------------- Store Address ----------- */}
+                            <Text numberOfLines={1} style={[styles.txt_normal, { paddingHorizontal: scaleSzie(10), marginTop: scaleSzie(4) }]} >
+                                {profile.addressFull ? profile.addressFull : ''}
+                            </Text>
+                            {/* ------------- Phone Address ----------- */}
+                            <Text style={[styles.txt_normal, { paddingHorizontal: scaleSzie(10) }]} >
+                                {`Tel : ${profile.phone ? profile.phone : ""}`}
+                            </Text>
+                            {/* ------------- Company Website ----------- */}
+                            {
+                                profile.webLink ? <Text style={[styles.txt_normal, { paddingHorizontal: scaleSzie(10) }]} >
+                                    {profile.webLink ? profile.webLink : ""}
+                                </Text> : <View />
+                            }
+                            {/* ------------- SALE/VOID/REFUND  ----------- */}
+                            <Text style={[styles.txt_normal, {
+                                fontSize: 20, fontWeight: "600",
+                                marginTop: scaleSzie(6), marginBottom: scaleSzie(6)
+                            }]} >
+                                {`SALE`}
+                            </Text>
+                            {/* ------------- Dot Border  ----------- */}
+                            <View style={{ height: scaleSzie(8), marginBottom: scaleSzie(8), }} >
+                                <Text style={{ fontWeight: "300" }} >
+                                    {`- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`}
+                                </Text>
+                            </View>
 
-                    </View>
-                    <View style={{ height: scaleSzie(60) }} />
-                </ScrollView>
+                            {/* ------------- Invoice Date ----------- */}
+                            <View style={{ flexDirection: "row" }} >
+                                <View style={{ width: scaleSzie(90) }} >
+                                    <Text style={styles.txt_info} >
+                                        {`Invoice Date `}
+                                    </Text>
+                                </View>
+                                <View style={{ flex: 1 }} >
+                                    <Text style={styles.txt_info} >
+                                        {`: ${invoiceDetail.createdDate ? formatWithMoment(invoiceDetail.createdDate, "MM/DD/YYYY hh:mm A") : ""}`}
+                                    </Text>
+                                </View>
+                            </View>
+
+                            {/* ------------- Staff ----------- */}
+                            <View style={{ flexDirection: "row" }} >
+                                <View style={{ width: scaleSzie(90) }} >
+                                    <Text style={styles.txt_info} >
+                                        {`Staff Name`}
+                                    </Text>
+                                </View>
+                                <View style={{ flex: 1 }} >
+                                    <Text style={styles.txt_info} >
+                                        {`: ${getStaffNameForInvoice(profileStaffLogin, basket)}`}
+                                    </Text>
+                                </View>
+                            </View>
+
+                            {/* ------------- Invoice No ----------- */}
+                            <View style={{ flexDirection: "row" }} >
+                                <View style={{ width: scaleSzie(90) }} >
+                                    <Text style={styles.txt_info} >
+                                        {`Invoice No`}
+                                    </Text>
+                                </View>
+                                <View style={{ flex: 1 }} >
+                                    <Text style={styles.txt_info} >
+                                        {`: ${invoiceDetail.checkoutId ? invoiceDetail.checkoutId : ""}`}
+                                    </Text>
+                                </View>
+                            </View>
+
+                            {/* ------------- Dot Border  ----------- */}
+                            <View style={{ height: scaleSzie(8), marginTop: scaleSzie(4) }} >
+                                <Text style={{ fontWeight: "300" }} >
+                                    {`- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`}
+                                </Text>
+                            </View>
+
+                            {/* ------------- Header  ----------- */}
+                            <View style={{ flexDirection: "row", marginTop: scaleSzie(6) }} >
+                                <View style={{ flex: 0.8, justifyContent: "center" }} >
+                                    <Text style={[styles.txt_info, { fontSize: 18, fontWeight: "400" }]} >
+                                        {`DESCRIPTION`}
+                                    </Text>
+                                </View>
+                                <View style={{ justifyContent: "center", width: scaleSzie(70) }} >
+                                    <Text style={[styles.txt_info, { fontSize: 18, fontWeight: "400" }]} >
+                                        {`PRICE`}
+                                    </Text>
+                                </View>
+                                <View style={{ width: scaleSzie(30), justifyContent: "center", alignItems: "center" }} >
+                                    <Text style={[styles.txt_info, { fontSize: 18, fontWeight: "400" }]} >
+                                        {`QTY`}
+                                    </Text>
+                                </View>
+                                <View style={{ flex: 0.5, justifyContent: "center", alignItems: "flex-end" }} >
+                                    <Text style={[styles.txt_info, { fontSize: 18, fontWeight: "400" }]} >
+                                        {`TOTAL`}
+                                    </Text>
+                                </View>
+                            </View>
+                            {/* ------------- Dot Border  ----------- */}
+                            <View style={{ height: scaleSzie(8), marginBottom: scaleSzie(4) }} >
+                                <Text style={{ fontWeight: "300" }} >
+                                    {`- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`}
+                                </Text>
+                            </View>
+
+                            {/* ------------- Item Invoice   ----------- */}
+                            {
+                                basket.map((item, index) => <ItemPrintBasket
+                                    key={index}
+                                    item={item}
+                                    index={index}
+                                />)
+                            }
+
+                            {/* ------------- Line end item invoice   ----------- */}
+                            <View
+                                style={{ height: 2, backgroundColor: "#000", marginVertical: scaleSzie(10) }}
+                            />
+                            {/* ------------- SubTotal   ----------- */}
+                            <ItemTotal
+                                title={"Subtotal"}
+                                value={invoiceDetail.subTotal ? invoiceDetail.subTotal : "0.00"}
+                            />
+                            <ItemTotal
+                                title={"Discount"}
+                                value={invoiceDetail.discount ? invoiceDetail.discount : "0.00"}
+                            />
+                            <ItemTotal
+                                title={"Tip"}
+                                value={invoiceDetail.tipAmount ? invoiceDetail.tipAmount : "0.00"}
+                            />
+                            <ItemTotal
+                                title={"Tax"}
+                                value={invoiceDetail.tax ? invoiceDetail.tax : "0.00"}
+                            />
+                            <ItemTotal
+                                title={"Total"}
+                                value={invoiceDetail.total ? invoiceDetail.total : "0.00"}
+                            />
+                            {/* ----------- Thanks , see you again -------- */}
+                            <View style={{ height: scaleSzie(20) }} />
+                            <Text style={[styles.txt_total, { alignSelf: "center", }]} >
+                                {`Thank you !`}
+                            </Text>
+                            <Text style={[styles.txt_total, { alignSelf: "center", }]} >
+                                {`Please come again`}
+                            </Text>
+                            <View style={{ height: scaleSzie(8) }} />
+                            {/* ------------- This is not a bill   ----------- */}
+                            <Text style={[styles.txt_total, { fontSize: scaleSzie(10), fontWeight: "300", alignSelf: "center" }]} >
+                                {`*********** Customer's Receipt ***********`}
+                            </Text>
+                        </View>
+                        <View style={{ height: scaleSzie(90) }} />
+                    </ScrollView>
+                </View>
+
+                {/* ------- button void  ------ */}
+                <View style={{ marginBottom: scaleSzie(5), paddingHorizontal: scaleSzie(10) }}  >
+                    {
+                        invoiceDetail.checkoutId ? <ItemButton
+                            title={'History'}
+                            onPress={this.gotoHistory}
+                        /> : null
+                    }
+                    {this.renderButtonVoid()}
+                </View>
             </View>
         );
     }
@@ -502,149 +512,149 @@ export default class Layout extends React.Component {
 
     }
 
-    renderPaymentInfomation() {
-        const { language } = this.props;
-        return (
-            <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(8) }} >
-                {/* ---------------- Header ---------------- */}
-                <View style={{ flexDirection: 'row' }} >
-                    <View style={{ flex: 1, paddingTop: scaleSzie(2) }} >
-                        <Button onPress={this.backTab} style={{ flexDirection: 'row', alignItems: 'center' }} >
-                            <Image source={IMAGE.back} style={{
-                                width: scaleSzie(7), height: scaleSzie(13),
-                                marginRight: scaleSzie(6)
-                            }} />
-                            <Text style={{ color: '#0764B0', fontSize: scaleSzie(14) }} >
+    // renderPaymentInfomation() {
+    //     const { language } = this.props;
+    //     return (
+    //         <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(8) }} >
+    //             {/* ---------------- Header ---------------- */}
+    //             <View style={{ flexDirection: 'row' }} >
+    //                 <View style={{ flex: 1, paddingTop: scaleSzie(2) }} >
+    //                     <Button onPress={this.backTab} style={{ flexDirection: 'row', alignItems: 'center' }} >
+    //                         <Image source={IMAGE.back} style={{
+    //                             width: scaleSzie(7), height: scaleSzie(13),
+    //                             marginRight: scaleSzie(6)
+    //                         }} />
+    //                         <Text style={{ color: '#0764B0', fontSize: scaleSzie(14) }} >
 
-                                {localize('Back', language)}
-                            </Text>
-                        </Button>
+    //                             {localize('Back', language)}
+    //                         </Text>
+    //                     </Button>
 
-                    </View>
-                    <View style={{}} >
-                        <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
+    //                 </View>
+    //                 <View style={{}} >
+    //                     <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
 
-                            {localize('Payment Information', language)}
-                        </Text>
-                    </View>
-                    <View style={{ flex: 1 }} >
+    //                         {localize('Payment Information', language)}
+    //                     </Text>
+    //                 </View>
+    //                 <View style={{ flex: 1 }} >
 
-                    </View>
-                </View>
-                {/* ----------- Body --------- */}
-                {this.renderCardInfo()}
+    //                 </View>
+    //             </View>
+    //             {/* ----------- Body --------- */}
+    //             {this.renderCardInfo()}
 
-            </View>
-        );
-    }
+    //         </View>
+    //     );
+    // }
 
-    renderBasket() {
-        const { language } = this.props;
-        const { invoiceDetail } = this.state;
-        const basket = invoiceDetail.basket ? this.convertBasket(invoiceDetail.basket) : [];
-        return (
-            <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(8) }} >
-                {/* ---------------- Header ---------------- */}
-                <View style={{ flexDirection: 'row' }} >
-                    <View style={{ flex: 1, paddingTop: scaleSzie(2) }} >
-                        <Button onPress={this.backTab} style={{ flexDirection: 'row', alignItems: 'center' }} >
-                            <Image source={IMAGE.back} style={{
-                                width: scaleSzie(7), height: scaleSzie(13),
-                                marginRight: scaleSzie(6)
-                            }} />
-                            <Text style={{ color: '#0764B0', fontSize: scaleSzie(14) }} >
-                                {localize('Back', language)}
-                            </Text>
-                        </Button>
+    // renderBasket() {
+    //     const { language } = this.props;
+    //     const { invoiceDetail } = this.state;
+    //     const basket = invoiceDetail.basket ? this.convertBasket(invoiceDetail.basket) : [];
+    //     return (
+    //         <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(8) }} >
+    //             {/* ---------------- Header ---------------- */}
+    //             <View style={{ flexDirection: 'row' }} >
+    //                 <View style={{ flex: 1, paddingTop: scaleSzie(2) }} >
+    //                     <Button onPress={this.backTab} style={{ flexDirection: 'row', alignItems: 'center' }} >
+    //                         <Image source={IMAGE.back} style={{
+    //                             width: scaleSzie(7), height: scaleSzie(13),
+    //                             marginRight: scaleSzie(6)
+    //                         }} />
+    //                         <Text style={{ color: '#0764B0', fontSize: scaleSzie(14) }} >
+    //                             {localize('Back', language)}
+    //                         </Text>
+    //                     </Button>
 
-                    </View>
-                    <View style={{}} >
-                        <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
+    //                 </View>
+    //                 <View style={{}} >
+    //                     <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
 
-                            {localize('Basket', language)}
-                        </Text>
-                    </View>
-                    <View style={{ flex: 1 }} >
+    //                         {localize('Basket', language)}
+    //                     </Text>
+    //                 </View>
+    //                 <View style={{ flex: 1 }} >
 
-                    </View>
-                </View>
-                {/* ----------- Body --------- */}
-                <View style={{ flex: 1 }} >
-                    <View style={{ height: scaleSzie(16) }} />
-                    <View style={{ flex: 1 }} >
-                        <ScrollView
-                            showsVerticalScrollIndicator={false}
-                            keyboardShouldPersistTaps="always"
-                        >
-                            {
-                                basket.map((item, index) => <ItemBasket
-                                    key={index}
-                                    item={item}
-                                />)
-                            }
-                        </ScrollView>
-                    </View>
+    //                 </View>
+    //             </View>
+    //             {/* ----------- Body --------- */}
+    //             <View style={{ flex: 1 }} >
+    //                 <View style={{ height: scaleSzie(16) }} />
+    //                 <View style={{ flex: 1 }} >
+    //                     <ScrollView
+    //                         showsVerticalScrollIndicator={false}
+    //                         keyboardShouldPersistTaps="always"
+    //                     >
+    //                         {
+    //                             basket.map((item, index) => <ItemBasket
+    //                                 key={index}
+    //                                 item={item}
+    //                             />)
+    //                         }
+    //                     </ScrollView>
+    //                 </View>
 
 
-                    {/* ----------- Payment Number --------- */}
-                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
-                        <View style={{ flex: 1 }} />
+    //                 {/* ----------- Payment Number --------- */}
+    //                 <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+    //                     <View style={{ flex: 1 }} />
 
-                        <View style={{ flex: 1.3, paddingRight: scaleSzie(12) }} >
-                            {/* ---------- Price ------ */}
-                            <View style={styles.payNumberTextContainer} >
-                                <Text style={styles.textPay} >
-                                    {`${localize('Subtotal', language)}:`}
-                                </Text>
-                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$ ${!_.isEmpty(invoiceDetail) && invoiceDetail && invoiceDetail.subTotal ? `${invoiceDetail.subTotal}` : '0.00'}`}
-                                </Text>
-                            </View>
-                            {/* ---------- Tip ------ */}
-                            <View style={styles.payNumberTextContainer} >
-                                <Text style={styles.textPay} >
-                                    {`${localize('Tip', language)}:`}
-                                </Text>
-                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$ ${invoiceDetail.tipAmount ? `${invoiceDetail.tipAmount}` : '0.00'}`}
-                                </Text>
-                            </View>
-                            {/* ---------- Tax ------ */}
-                            <View style={styles.payNumberTextContainer} >
-                                <Text style={styles.textPay} >
-                                    {`${localize('Tax', language)}:`}
-                                </Text>
-                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$ ${invoiceDetail.tax ? `${invoiceDetail.tax}` : '0.00'}`}
-                                </Text>
-                            </View>
-                            {/* ---------- Discount ------ */}
-                            <View style={styles.payNumberTextContainer} >
-                                <Text style={styles.textPay} >
-                                    {`${localize('Discount', language)}:`}
+    //                     <View style={{ flex: 1.3, paddingRight: scaleSzie(12) }} >
+    //                         {/* ---------- Price ------ */}
+    //                         <View style={styles.payNumberTextContainer} >
+    //                             <Text style={styles.textPay} >
+    //                                 {`${localize('Subtotal', language)}:`}
+    //                             </Text>
+    //                             <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+    //                                 {`$ ${!_.isEmpty(invoiceDetail) && invoiceDetail && invoiceDetail.subTotal ? `${invoiceDetail.subTotal}` : '0.00'}`}
+    //                             </Text>
+    //                         </View>
+    //                         {/* ---------- Tip ------ */}
+    //                         <View style={styles.payNumberTextContainer} >
+    //                             <Text style={styles.textPay} >
+    //                                 {`${localize('Tip', language)}:`}
+    //                             </Text>
+    //                             <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+    //                                 {`$ ${invoiceDetail.tipAmount ? `${invoiceDetail.tipAmount}` : '0.00'}`}
+    //                             </Text>
+    //                         </View>
+    //                         {/* ---------- Tax ------ */}
+    //                         <View style={styles.payNumberTextContainer} >
+    //                             <Text style={styles.textPay} >
+    //                                 {`${localize('Tax', language)}:`}
+    //                             </Text>
+    //                             <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+    //                                 {`$ ${invoiceDetail.tax ? `${invoiceDetail.tax}` : '0.00'}`}
+    //                             </Text>
+    //                         </View>
+    //                         {/* ---------- Discount ------ */}
+    //                         <View style={styles.payNumberTextContainer} >
+    //                             <Text style={styles.textPay} >
+    //                                 {`${localize('Discount', language)}:`}
 
-                                </Text>
-                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                    {`$ ${invoiceDetail.discount ? `${invoiceDetail.discount}` : '0.00'}`}
-                                </Text>
-                            </View>
-                            {/* ---------- Total ------ */}
-                            <View style={styles.payNumberTextContainer} >
-                                <Text style={styles.textPay} >
-                                    {`${localize('Total', language)}:`}
-                                </Text>
-                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(16) }]} >
-                                    {`$ ${invoiceDetail.total ? `${invoiceDetail.total}` : '0.00'}`}
-                                </Text>
-                            </View>
-                        </View>
-                    </View>
-                    {/* -------- */}
-                    <View style={{ height: scaleSzie(10) }} />
-                </View>
-            </View>
-        );
-    }
+    //                             </Text>
+    //                             <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+    //                                 {`$ ${invoiceDetail.discount ? `${invoiceDetail.discount}` : '0.00'}`}
+    //                             </Text>
+    //                         </View>
+    //                         {/* ---------- Total ------ */}
+    //                         <View style={styles.payNumberTextContainer} >
+    //                             <Text style={styles.textPay} >
+    //                                 {`${localize('Total', language)}:`}
+    //                             </Text>
+    //                             <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(16) }]} >
+    //                                 {`$ ${invoiceDetail.total ? `${invoiceDetail.total}` : '0.00'}`}
+    //                             </Text>
+    //                         </View>
+    //                     </View>
+    //                 </View>
+    //                 {/* -------- */}
+    //                 <View style={{ height: scaleSzie(10) }} />
+    //             </View>
+    //         </View>
+    //     );
+    // }
 
     renderHistoryInvoice() {
         const { language } = this.props;
@@ -692,8 +702,7 @@ export default class Layout extends React.Component {
         const { language, listInvoicesByMerchant, refreshListInvoice,
             listInvoicesSearch, isShowSearchInvoice, isLoadMoreInvoiceList
         } = this.props;
-        const {invoiceDetail} = this.state;
-        // const tempData = isShowSearchInvoice ? listInvoicesSearch : listInvoicesByMerchant;
+        const { invoiceDetail } = this.state;
 
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
@@ -766,14 +775,14 @@ export default class Layout extends React.Component {
                             }}
                         >
                             {this.renderDetailInvoice()}
-                            {this.renderPaymentInfomation()}
-                            {this.renderBasket()}
+                            {/* {this.renderPaymentInfomation()}
+                            {this.renderBasket()} */}
                             {this.renderHistoryInvoice()}
                         </ScrollableTabView>
                     </View>
 
                     {
-                        invoiceDetail.checkoutId ?  <Button onPress={this.shareCustomerInvoice} style={{
+                        invoiceDetail.checkoutId ? <Button onPress={this.shareCustomerInvoice} style={{
                             position: 'absolute', top: scaleSzie(-12), right: scaleSzie(50),
                             width: scaleSzie(35), height: scaleSzie(35), backgroundColor: "#0764B0", justifyContent: "center",
                             alignItems: "center", borderRadius: scaleSzie(4)
@@ -795,9 +804,9 @@ export default class Layout extends React.Component {
                             />
                         </Button> : null
                     }
-                   
 
-                    
+
+
                 </View>
             </View>
         );

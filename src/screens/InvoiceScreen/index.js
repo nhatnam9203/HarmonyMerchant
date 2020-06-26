@@ -1,5 +1,5 @@
 import React from 'react';
-import { NativeModules ,Platform} from 'react-native';
+import { NativeModules, Platform } from 'react-native';
 import _ from "ramda";
 import { captureRef, releaseCapture } from "react-native-view-shot";
 import { StarPRNT } from 'react-native-star-prnt';
@@ -18,29 +18,31 @@ import PrintManager from '@lib/PrintManager';
 
 const PosLink = NativeModules.MyApp;
 
+const initalState = {
+    isFocus: false,
+    visibleCalendar: false,
+    invoiceDetail: {
+        history: []
+    },
+    searchFilter: {
+        keySearch: '',
+        paymentMethod: '',
+        status: '',
+    },
+    titleRangeTime: 'Time Range',
+    visibleEnterPin: true,
+    visibleConfirmInvoiceStatus: false,
+    visibleProcessingCredit: false,
+    transactionId: false,
+    visiblePrintInvoice: false,
+    titleInvoice: ""
+};
+
 class InvoiceScreen extends Layout {
 
     constructor(props) {
         super(props);
-        this.state = {
-            isFocus: true,
-            visibleCalendar: false,
-            invoiceDetail: {
-                history: []
-            },
-            searchFilter: {
-                keySearch: '',
-                paymentMethod: '',
-                status: '',
-            },
-            titleRangeTime: 'Time Range',
-            visibleEnterPin: true,
-            visibleConfirmInvoiceStatus: false,
-            visibleProcessingCredit: false,
-            transactionId: false,
-            visiblePrintInvoice: false,
-            titleInvoice: ""
-        }
+        this.state = initalState;
         this.scrollTabInvoiceRef = React.createRef();
         this.modalCalendarRef = React.createRef();
         this.listInvoiceRef = [];
@@ -57,15 +59,7 @@ class InvoiceScreen extends Layout {
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {
-                this.setState({
-                    isFocus: false,
-                    searchFilter: {
-                        keySearch: '',
-                        paymentMethod: '',
-                        status: '',
-                    },
-                    titleRangeTime: 'Time Range',
-                });
+                this.setState(initalState);
             }
         );
         this.didFocusSubscription = this.props.navigation.addListener(
@@ -121,7 +115,7 @@ class InvoiceScreen extends Layout {
     }
 
     gotoHistory = () => {
-        this.scrollTabInvoiceRef.current.goToPage(3);
+        this.scrollTabInvoiceRef.current.goToPage(1);
     }
 
     backTab = () => {
@@ -499,7 +493,7 @@ class InvoiceScreen extends Layout {
         }
     }
 
-    shareCustomerInvoice = async () =>{
+    shareCustomerInvoice = async () => {
         try {
             const imageUri = await captureRef(this.viewShotRef, {});
             if (Platform.OS === 'ios') {
