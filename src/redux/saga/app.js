@@ -71,10 +71,10 @@ function* getStateCity(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        //console.log('--- responses : ', responses);
+        // console.log('--- responses : ', responses);
         yield put({
             type: 'GET_STATE_CITY_SUCCESS',
-            payload: responses.data
+            payload: responses.data ? responses.data : []
 
         });
     } catch (error) {
@@ -91,7 +91,7 @@ function* getQuestion(action) {
         //console.log('--- responses 2222 : ', responses);
         yield put({
             type: 'GET_QUESTION_SUCCESS',
-            payload: responses.data
+            payload: responses.data ? responses.data : []
 
         });
     } catch (error) {
@@ -279,7 +279,7 @@ function* timeout(action) {
 function* showErrorMessage(action) {
     yield put({ ...action, type: 'STOP_LOADING_ROOT' });
     // alert(action.message);
-    if(action.message === "The pincode is exsits."){
+    if (action.message === "The pincode is exsits.") {
         setTimeout(() => {
             Alert.alert(
                 'Oops!',
@@ -292,12 +292,12 @@ function* showErrorMessage(action) {
                 { cancelable: false },
             );
         }, 300)
-    }else{
+    } else {
         setTimeout(() => {
             alert(action.message ? action.message : 'Something went wrong');
         }, 300)
     }
-    
+
 
 }
 

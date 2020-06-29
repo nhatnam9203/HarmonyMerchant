@@ -98,6 +98,7 @@ class PopupAddEditProduct extends React.Component {
     }
 
     doneAddProduct = async () => {
+        const {versionApp} = this.props;
         const { productInfo } = this.state;
         const temptProductInfo = {
             ...productInfo,
@@ -128,6 +129,7 @@ class PopupAddEditProduct extends React.Component {
                         method: 'GET',
                         token: this.props.token,
                         api: `${apiConfigs.BASE_API}product/checksku?sku=${temptProductInfo.sku}`,
+                        versionApp: versionApp
                     });
                     if (checkSKUIsExist.codeNumber === 200) {
                         this.props.confimYes({
@@ -450,6 +452,7 @@ const mapStateToProps = state => ({
     loading: state.app.loading,
     token: state.dataLocal.token,
     language: state.dataLocal.language,
+    versionApp:state.dataLocal.versionApp
 })
 
 

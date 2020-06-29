@@ -1448,7 +1448,7 @@ class TabCheckout extends Layout {
     }
 
     changeCustomerPhone = async () => {
-        const { groupAppointment, profileStaffLogin, blockAppointments } = this.props;
+        const { groupAppointment, profileStaffLogin, blockAppointments,versionApp } = this.props;
         const { infoUser } = this.state;
         const codeAreaPhone = this.CustomerPhoneRef.current.state.codeAreaPhone;
         const phone = this.CustomerPhoneRef.current.state.phone;
@@ -1460,9 +1460,10 @@ class TabCheckout extends Layout {
             const responses = await requestAPI({
                 method: 'GET',
                 api: `${apiConfigs.BASE_API}customer/getbyphone/${splitPlusInPhoneNumber(phoneNumber)}`,
-                token: profileStaffLogin.token
+                token: profileStaffLogin.token,
+                versionApp: versionApp
             });
-            //console.log("changeCustomerPhone : " + JSON.stringify(responses));
+            console.log("-----changeCustomerPhone : " + JSON.stringify(responses));
             this.props.actions.app.stopLoadingApp();
             if (responses.codeNumber === 200) {
                 await this.setState({
@@ -1889,7 +1890,8 @@ const mapStateToProps = state => ({
     isOpenBlockAppointmentId: state.appointment.isOpenBlockAppointmentId,
     isLoadingRemoveBlockAppointment: state.appointment.isLoadingRemoveBlockAppointment,
     idNextToAppointmentRemove: state.appointment.idNextToAppointmentRemove,
-    fromTimeBlockAppointment: state.appointment.fromTimeBlockAppointment
+    fromTimeBlockAppointment: state.appointment.fromTimeBlockAppointment,
+    versionApp:state.dataLocal.versionApp
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);
