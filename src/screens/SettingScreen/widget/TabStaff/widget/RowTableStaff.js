@@ -4,7 +4,8 @@ import {
     Image,
     Text,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity,
+    Switch
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
@@ -34,8 +35,10 @@ class RowTable extends React.Component {
     }
 
     render() {
-        const { staff, index, archiveStaff, editStaff, restoreStaff, move, moveEnd } = this.props;
-        const { isArchive } = this.state;
+        const { staff, index, archiveStaff, editStaff, restoreStaff, move, moveEnd,
+            toggleStaffActive
+        } = this.props;
+
         return (
             <TouchableOpacity
                 onLongPress={move}
@@ -57,7 +60,7 @@ class RowTable extends React.Component {
                 </View>
                 {/* ----- 2 ------ */}
                 <View style={{
-                    width: scaleSzie(180), flexDirection: 'row',
+                    width: scaleSzie(200), flexDirection: 'row',
                 }} >
                     <View style={{ justifyContent: 'center' }} >
                         {
@@ -66,7 +69,7 @@ class RowTable extends React.Component {
                                 source={{
                                     uri: staff.imageUrl,
                                     priority: FastImage.priority.low,
-                                    cache:FastImage.cacheControl.immutable
+                                    cache: FastImage.cacheControl.immutable
                                 }}
                             /> : <Image source={IMAGE.staff_holder} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
                         }
@@ -96,15 +99,22 @@ class RowTable extends React.Component {
                 </View>
                 {/* ----- 5 ----- */}
                 <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
+                    width: scaleSzie(90), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: "center" }} >
+                        {/* <Text style={styles.textTableHeader} >
 
                             {
                                 staff.isDisabled === 0 ? 'Active' : 'Disable'
                             }
-                        </Text>
+                        </Text> */}
+                        <Switch
+                            trackColor={{ false: "#767577", true: "#0764B0" }}
+                            // thumbColor={toogle ? "#f5dd4b" : "#f4f3f4"}
+                            ios_backgroundColor="#E5E5E5"
+                            onValueChange={(isActive) => toggleStaffActive(staff, isActive)}
+                            value={staff.isActive ? staff.isActive : false}
+                        />
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />

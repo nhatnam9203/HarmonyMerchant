@@ -69,13 +69,13 @@ class TabStaff extends Layout {
 
     searchStaff = () => {
         const { searchFilter } = this.state;
-        const { keySearch,role,status} = searchFilter;
-        if(keySearch == '' && role == '' & status == ''){
+        const { keySearch, role, status } = searchFilter;
+        if (keySearch == '' && role == '' & status == '') {
             this.props.actions.staff.clearSearch();
-        }else{
-            this.props.actions.staff.searchStaffByName(keySearch,role,status);
+        } else {
+            this.props.actions.staff.searchStaffByName(keySearch, role, status);
         }
-        
+
     }
 
     addStaff = async () => {
@@ -116,8 +116,8 @@ class TabStaff extends Layout {
         this.props.actions.staff.editStaff(staff, id)
     }
 
-    updateStaffsPosition =(data ,isShowSearch) =>{
-        if(!isShowSearch){
+    updateStaffsPosition = (data, isShowSearch) => {
+        if (!isShowSearch) {
             const staffsUpdate = data.map((staff, index) => {
                 return {
                     ...staff,
@@ -135,12 +135,26 @@ class TabStaff extends Layout {
         }
     }
 
+    toggleStaffActive = (staff, isActive) => {
+        this.props.actions.staff.editStaff({ 
+            ...staff,
+            workingTime: staff.workingTimes,
+            salary: staff.salaries,
+            tipFee: staff.tipFees,
+            productSalary:staff.productSalaries,
+            roles: {
+                nameRole: staff.roleName ?  staff.roleName : ""
+            }
+            , 
+            isActive }, staff.staffId ? staff.staffId : 0)
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const { isShowSearch,isGetListSearchStaff } = this.props;
-        if(isShowSearch && isGetListSearchStaff){
+        const { isShowSearch, isGetListSearchStaff } = this.props;
+        if (isShowSearch && isGetListSearchStaff) {
             this.searchStaff();
         }
-        
+
     }
 
 }

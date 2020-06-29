@@ -162,6 +162,7 @@ class Layout extends React.Component {
                             restoreStaff={() => this.restoreStaff(item)}
                             move={move}
                             moveEnd={moveEnd}
+                            toggleStaffActive={this.toggleStaffActive}
                         />}
                         keyExtractor={(item, index) => `${index}`}
                         ListEmptyComponent={<RowTableEmptyStaff />}
