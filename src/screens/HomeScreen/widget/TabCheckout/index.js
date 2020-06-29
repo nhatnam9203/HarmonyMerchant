@@ -1546,6 +1546,11 @@ class TabCheckout extends Layout {
     }
 
     addAppointmentCheckout = () => {
+        const {blockAppointments} = this.props;
+        if(blockAppointments.length > 0){
+            this.createABlockAppointment();
+            return;
+        }
         this.props.gotoAppointmentTabToGroup();
     }
 

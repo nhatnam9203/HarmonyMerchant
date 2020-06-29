@@ -3,7 +3,6 @@ import {
     View,
     Image,
     ScrollView,
-    FlatList,
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import QRCode from 'react-native-qrcode-svg';
@@ -18,7 +17,7 @@ import {
 import styles from './style';
 import IMAGE from '@resources';
 import {
-    ItemCategory, ColPlaceHolder, ItemProductService, ItemAmount,
+    ItemCategory, ItemProductService, ItemAmount,
     ItemExtra, PopupDiscount, PopupBill, PopupDiscountLocal, PopupEnterInfo,
     PopupEnterCustomerPhone, ItemCustomerBasket, PopupPaymentDetails, ItemBlockBasket,
     PopupBlockDiscount
@@ -471,9 +470,6 @@ class Layout extends React.Component {
         const { language, blockAppointments } = this.props;
         const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
 
-        const length_blockAppointments = blockAppointments ? blockAppointments.length : 0;
-        const isShowAddBlock = length_blockAppointments > 0 && blockAppointments[length_blockAppointments - 1].total != "0.00" ? true : false;
-
         let temptGrandTotal = 0;
         for (let i = 0; i < blockAppointments.length; i++) {
             temptGrandTotal =  temptGrandTotal + formatNumberFromCurrency(blockAppointments[i].total);
@@ -506,16 +502,6 @@ class Layout extends React.Component {
                         removeBlockAppointment={this.removeBlockAppointment}
                         createABlockAppointment={this.createABlockAppointment}
                     />)}
-                    {
-                        isShowAddBlock ? <Button onPress={this.createABlockAppointment} style={{ marginTop: scaleSzie(14) }} >
-                            <Text style={{
-                                color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "bold",
-                                marginLeft: scaleSzie(10)
-                            }} >
-                                + Add block
-                        </Text>
-                        </Button> : <View />
-                    }
 
                     {/* ----------- Grand Total ----------- */}
                     <View style={{ paddingHorizontal: scaleSzie(10) ,marginTop: scaleSzie(15)}} >
@@ -540,8 +526,10 @@ class Layout extends React.Component {
 
     renderBasket() {
         const { language, groupAppointment, paymentDetailInfo, blockAppointments } = this.props;
-
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
+        const length_blockAppointments = blockAppointments ? blockAppointments.length : 0;
+        const isShowAddBlock = length_blockAppointments > 0 && blockAppointments[length_blockAppointments - 1].total != "0.00" ? true : false;
+        
         return (
             <View style={{ flex: 1 }} >
                 {/* -------- Header Basket -------- */}
@@ -554,7 +542,9 @@ class Layout extends React.Component {
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
                         {
-                            !_.isEmpty(groupAppointment) && checkoutPayments.length === 0 ? <Button onPress={this.addAppointmentCheckout} >
+                            (!_.isEmpty(groupAppointment) && checkoutPayments.length === 0) 
+                            || (blockAppointments.length &&  isShowAddBlock ) > 0
+                            ? <Button onPress={this.addAppointmentCheckout} >
                                 <Image
                                     source={IMAGE.add_appointment_checkout}
                                     style={{ width: scaleSzie(25), height: scaleSzie(25) }}
@@ -569,8 +559,6 @@ class Layout extends React.Component {
                 {
                     blockAppointments.length > 0 ? this.renderBlocksAppointments() : this.renderGroupAppointments()
                 }
-                {/* {this.renderGroupAppointments()} */}
-                {/* {this.renderBlocksAppointments()} */}
 
                 {/* -------- Footer Basket -------- */}
                 <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
