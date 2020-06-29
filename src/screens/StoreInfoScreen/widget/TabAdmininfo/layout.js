@@ -4,7 +4,8 @@ import {
     ScrollView,
     StyleSheet,
     TextInput,
-    ActivityIndicator
+    ActivityIndicator,
+    Switch
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
@@ -25,7 +26,7 @@ class Layout extends React.Component {
         const { address, firstName, lastName, displayName,
             cellphone, email, pin, confirmPin, roles,
             driverlicense, socialSecurityNumber, professionalLicense,
-            isDisabled
+            isDisabled,isActive
         } = this.state.user;
         const { street, city, state, zip } = address;
         const { nameRole } = roles;
@@ -174,6 +175,37 @@ class Layout extends React.Component {
                             containerStyle={styles.dropdown}
                         />}
                     />
+
+                    {/* ----------- Active -------- */}
+                    <View style={{
+                         flexDirection: 'row',
+                         height: scaleSzie(36),
+                         paddingLeft: scaleSzie(90),
+                         paddingRight: scaleSzie(90),
+                         marginTop: scaleSzie(25)
+                    }} >
+                        <View style={{ width: scaleSzie(150), justifyContent: 'center' }} >
+                            <Text style={{
+                                color: '#404040',
+                                fontSize: scaleSzie(14),
+                                fontWeight: '600',
+
+                            }}  >
+                                {`Visible`}
+                            </Text>
+                        </View>
+
+                        <View style={{ flex: 1, justifyContent: "center" }} >
+                            <Switch
+                                trackColor={{ false: "#767577", true: "#0764B0" }}
+                                // thumbColor={toogle ? "#f5dd4b" : "#f4f3f4"}
+                                ios_backgroundColor="#E5E5E5"
+                                onValueChange={(isActive) => this.updateUserInfo("isActive", isActive)}
+                                value={isActive ? isActive : false}
+                            />
+                        </View>
+                    </View>
+
                     {/* ------- Upload Image ----- */}
                     <View style={{ paddingHorizontal: scaleSzie(90) }} >
                         <BrowserFile

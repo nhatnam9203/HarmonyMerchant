@@ -29,6 +29,7 @@ class StaffInfo extends Layout {
                 email: '',
                 pin: '',
                 confirmPin: '',
+                isActive: true,
                 isDisabled: 'Active',
                 roles: {
                     nameRole: 'Admin',
@@ -139,6 +140,7 @@ class StaffInfo extends Layout {
                     email: infoStaffHandle.email,
                     pin: infoStaffHandle.pin,
                     confirmPin: infoStaffHandle.pin,
+                    isActive: infoStaffHandle.isActive ? infoStaffHandle.isActive : false,
                     isDisabled: infoStaffHandle.isDisabled === 0 ? 'Active' : 'Disable',
                     roles: {
                         nameRole: infoStaffHandle.roleName,

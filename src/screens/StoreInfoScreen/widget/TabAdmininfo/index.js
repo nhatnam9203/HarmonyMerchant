@@ -21,6 +21,7 @@ const initState = {
         email: '',
         pin: '',
         confirmPin: '',
+        isActive: true,
         isDisabled: 'Active',
         roles: {
             nameRole: 'Admin',
