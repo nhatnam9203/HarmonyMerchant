@@ -4,7 +4,9 @@ import _ from 'ramda';
 
 import Layout from './layout';
 import strings from './strings';
-import { validateEmail, getIdStateByName, getNameStateById, getCodeAreaPhone, scaleSzie, checkStateIsValid } from '@utils';
+import { validateEmail, getIdStateByName, getNameStateById, getCodeAreaPhone, scaleSzie, checkStateIsValid,
+    BusinessWorkingTime
+} from '@utils';
 
 class AddStaff extends Layout {
 
@@ -12,8 +14,6 @@ class AddStaff extends Layout {
         super(props);
 
         const { profile } = this.props;
-        const businessHourStart = profile.businessHourStart ? profile.businessHourStart : '';
-        const businessHourEnd = profile.businessHourEnd ? profile.businessHourEnd : '';
 
         this.state = {
             user: {
@@ -40,43 +40,7 @@ class AddStaff extends Layout {
                 professionalLicense: '',
             },
             staffId: '',
-            workingTime: {
-                Monday: {
-                    timeStart: businessHourStart,
-                    timeEnd: businessHourEnd,
-                    isCheck: true
-                },
-                Tuesday: {
-                    timeStart: businessHourStart,
-                    timeEnd: businessHourEnd,
-                    isCheck: true
-                },
-                Wednesday: {
-                    timeStart: businessHourStart,
-                    timeEnd: businessHourEnd,
-                    isCheck: true
-                },
-                Thursday: {
-                    timeStart: businessHourStart,
-                    timeEnd: businessHourEnd,
-                    isCheck: true
-                },
-                Friday: {
-                    timeStart: businessHourStart,
-                    timeEnd: businessHourEnd,
-                    isCheck: true
-                },
-                Saturday: {
-                    timeStart: businessHourStart,
-                    timeEnd: businessHourEnd,
-                    isCheck: true
-                },
-                Sunday: {
-                    timeStart: businessHourStart,
-                    timeEnd: businessHourEnd,
-                    isCheck: true
-                }
-            },
+            workingTime: profile.businessHour ? profile.businessHour : BusinessWorkingTime,
             tipFee: {
                 percent: {
                     value: '',

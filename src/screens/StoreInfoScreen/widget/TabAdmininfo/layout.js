@@ -13,7 +13,7 @@ import {
     Dropdown,
     ButtonCustom, Text, BrowserFile, TextInputSuggestion
 } from '@components';
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize,BusinessWorkingTime} from '@utils';
 import { ItemAdminInfo, ItemAdminCellPhone } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
@@ -30,9 +30,7 @@ class Layout extends React.Component {
         } = this.state.user;
         const { street, city, state, zip } = address;
         const { nameRole } = roles;
-
-        const businessHourStart = profile.businessHourStart ? profile.businessHourStart : '';
-        const businessHourEnd = profile.businessHourEnd ? profile.businessHourEnd : '';
+        const businessHour =  profile.businessHour ?  profile.businessHour : BusinessWorkingTime;
 
         return (
             <View style={styles.body} >
@@ -224,18 +222,12 @@ class Layout extends React.Component {
                         title={localize('Working Time', language)}
                     />
                     {
-                        ['Monday', 'Tuesday', 'Wednesday', 'Thursday',
-                            'Friday', 'Saturday', 'Sunday'
-                        ].map((day, index) => {
+                        Object.keys(businessHour).map((day, index) => {
                             return <ItemWorkingTime
                                 key={index}
                                 ref={this.setRefTimeWorking}
                                 title={day}
-                                dataInit={{
-                                    timeStart: businessHourStart,
-                                    timeEnd: businessHourEnd,
-                                    isCheck: true
-                                }}
+                                dataInit={businessHour[day]}
                             />
                         })
                     }

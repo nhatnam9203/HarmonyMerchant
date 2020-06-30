@@ -13,7 +13,7 @@ import {
     Dropdown,
     ButtonCustom, Text, BrowserFile, TextInputSuggestion
 } from '@components';
-import { scaleSzie, localize, getArrayNameStateCity } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import { ItemAdminInfo, ItemAdminCellPhone } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
@@ -29,9 +29,8 @@ class Layout extends React.Component {
         } = this.state.user;
         const { street, city, state, zip } = address;
         const { nameRole } = roles;
-        const { language, isEditStaff, infoStaffHandle, stateCity } = this.props;
+        const { language, isEditStaff, infoStaffHandle } = this.props;
 
-        const titleButton = this.props.isEditStaff ? 'SAVE' : 'ADD';
         const temptDataWorkingTime = isEditStaff ? infoStaffHandle.workingTimes : this.state.workingTime;
         const temptDataTipFee = isEditStaff ? infoStaffHandle.tipFees : this.state.tipFee;
         const temptDataSalary = isEditStaff ? infoStaffHandle.salaries : this.state.salary;
