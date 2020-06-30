@@ -21,9 +21,16 @@ export default class ItemWorkingTime extends React.Component {
         }
     }
 
+    setStateFromParent = async ({isCheck, timeStart, timeEnd}) => {
+        await this.setState({
+            isCheck,
+            timeStart,
+            timeEnd
+        })
+    }
+
     async componentDidMount() {
         const { dataInit } = this.props;
-        //console.log('dataInit : '+ JSON.stringify(dataInit));
         await this.setState({
             isCheck: dataInit.isCheck,
             timeStart: dataInit.timeStart,

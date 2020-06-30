@@ -2,7 +2,7 @@ import React from 'react';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { getNameLanguage, getPosotion, gotoSettingsDevice } from '@utils';
+import { getNameLanguage, getPosotion, gotoSettingsDevice, BusinessWorkingTime } from '@utils';
 
 
 class TabGaneral extends Layout {
@@ -10,9 +10,6 @@ class TabGaneral extends Layout {
     constructor(props) {
         super(props);
         const { profile, autoCloseAt, autoLockScreenAfter } = this.props;
-
-        const businessHourStart = profile.businessHourStart ? profile.businessHourStart : '';
-        const businessHourEnd = profile.businessHourEnd ? profile.businessHourEnd : '';
 
         this.state = {
             languageApp: getNameLanguage(this.props.language),
@@ -22,48 +19,9 @@ class TabGaneral extends Layout {
             businessHour: profile.businessHour ? profile.businessHour : '',
             autoCloseAt: autoCloseAt,
             autoLockScreenAfter: autoLockScreenAfter,
-            businessHourStart: businessHourStart,
-            businessHourEnd: businessHourEnd,
             timezone: profile.timezone ? profile.timezone : '',
             isUpdateInternal: false,
-
-            businessWorkingTime: {
-                Monday: {
-                    timeStart: businessHourStart,
-                    timeEnd: businessHourEnd,
-                    isCheck: true
-                },
-                Tuesday: {
-                    timeStart: businessHourStart,
-                    timeEnd: businessHourEnd,
-                    isCheck: true
-                },
-                Wednesday: {
-                    timeStart: businessHourStart,
-                    timeEnd: businessHourEnd,
-                    isCheck: true
-                },
-                Thursday: {
-                    timeStart: businessHourStart,
-                    timeEnd: businessHourEnd,
-                    isCheck: true
-                },
-                Friday: {
-                    timeStart: businessHourStart,
-                    timeEnd: businessHourEnd,
-                    isCheck: true
-                },
-                Saturday: {
-                    timeStart: businessHourStart,
-                    timeEnd: businessHourEnd,
-                    isCheck: true
-                },
-                Sunday: {
-                    timeStart: businessHourStart,
-                    timeEnd: businessHourEnd,
-                    isCheck: true
-                }
-            }
+            businessHour: profile.businessHour ? profile.businessHour : BusinessWorkingTime
         };
         this.inputRefsTime = [];
     }
@@ -74,15 +32,22 @@ class TabGaneral extends Layout {
         }
     };
 
-    setStateFromParent = async (webLink, businessHourStart, businessHourEnd, timezone) => {
+
+    setStateFromParent = async (webLink,timezone) => {
         await this.setState({
             webLink,
-            businessHourStart,
-            businessHourEnd,
             timezone,
             isUpdateInternal: false,
+        });
+        this.updateWorkTime();
+    }
 
-        })
+    updateWorkTime = () =>{
+        const {profile} = this.props;
+        const businessHour = profile.businessHour ? profile.businessHour : BusinessWorkingTime;
+        for(let i = 0; i< this.inputRefsTime.length; i++ ){
+         this.inputRefsTime[i].setStateFromParent(businessHour[this.inputRefsTime[i].props.title]);
+        }
     }
 
     onRefreshGeneral = () => {
@@ -114,10 +79,20 @@ class TabGaneral extends Layout {
         this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoLockScreenAfter, autoCloseAt);
         await this.setState({
             isUpdateInternal: true
-        })
+        });
+        let objWorkingTime = [];
+        this.inputRefsTime.forEach(ref => {
+            objWorkingTime = {
+                ...objWorkingTime,
+                [ref.props.title]: {
+                    timeStart: ref.state.timeStart,
+                    timeEnd: ref.state.timeEnd,
+                    isCheck: ref.state.isCheck
+                }
+            }
+        });
         this.props.actions.app.merchantSetting({
-            businessHourStart: businessHourStart,
-            businessHourEnd: businessHourEnd,
+            businessHour:objWorkingTime,
             webLink: webLink,
             latitude: latitude,
             longitude: longitude,
@@ -134,20 +109,18 @@ class TabGaneral extends Layout {
             // console.log("----- Internal ------");
             await this.setState({
                 webLink: profile.webLink ? profile.webLink : '',
-                businessHourStart: profile.businessHourStart ? profile.businessHourStart : '',
-                businessHourEnd: profile.businessHourEnd ? profile.businessHourEnd : '',
                 timezone: profile.timezone ? profile.timezone : '',
-            })
+            });
+            this.updateWorkTime();
         }
         if (prevProps.loading !== loading && prevProps.loading && !loading && this.state.isUpdateInternal) {
             // console.log("----- Internal 1 ------");
             await this.setState({
                 webLink: profile.webLink ? profile.webLink : '',
-                businessHourStart: profile.businessHourStart ? profile.businessHourStart : '',
-                businessHourEnd: profile.businessHourEnd ? profile.businessHourEnd : '',
                 timezone: profile.timezone ? profile.timezone : '',
                 isUpdateInternal: false
-            })
+            });
+            this.updateWorkTime();
         }
     }
 

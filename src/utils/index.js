@@ -35,14 +35,6 @@ export const scaleSzie = size => {
     return width * size / Configs.DEFAULT_WIDTH;
 }
 
-function fetchWithTimeout(url, options, timeout = 10000) {
-    return Promise.race([
-        fetch(url, options),
-        new Promise((_, reject) =>
-            setTimeout(() => reject('timeout'), timeout)
-        )
-    ]);
-}
 
 export const requestAPI = async (action, header = {}) => {
     //console.log('action : ',action);
@@ -132,9 +124,7 @@ createFormData = (media) => {
             type: media[i].type ? media[i].type : "image/jpeg"
         });
     }
-    // Object.keys(body).forEach(key => {
-    //     data.append(key, body[key]);
-    // });
+  
     return data;
 };
 
@@ -528,36 +518,36 @@ export const splitPlusInPhoneNumber = (phone) => {
 }
 
 export const WorkingTime = [
-    {
-        value: '00:00 AM',
-    },
-    {
-        value: '00:30 AM',
-    },
-    {
-        value: '01:00 AM',
-    },
-    {
-        value: '01:30 AM',
-    },
-    {
-        value: '02:00 AM',
-    },
-    {
-        value: '02:30 AM',
-    },
-    {
-        value: '03:00 AM',
-    },
-    {
-        value: '03:30 AM',
-    },
-    {
-        value: '04:00 AM',
-    },
-    {
-        value: '04:30 AM',
-    },
+    // {
+    //     value: '00:00 AM',
+    // },
+    // {
+    //     value: '00:30 AM',
+    // },
+    // {
+    //     value: '01:00 AM',
+    // },
+    // {
+    //     value: '01:30 AM',
+    // },
+    // {
+    //     value: '02:00 AM',
+    // },
+    // {
+    //     value: '02:30 AM',
+    // },
+    // {
+    //     value: '03:00 AM',
+    // },
+    // {
+    //     value: '03:30 AM',
+    // },
+    // {
+    //     value: '04:00 AM',
+    // },
+    // {
+    //     value: '04:30 AM',
+    // },
     {
         value: '05:00 AM',
     },
@@ -770,9 +760,7 @@ export const getPaymentString = (type) => {
 }
 
 export const formatWithMoment = (data, key) => {
-    // return moment.parseZone(data).local().format(key);
     return moment.parseZone(data).format(key);
-
 }
 
 export const checkStatusPrint = async () => {
@@ -920,3 +908,53 @@ export const getStaffNameForInvoice = (profileStaffLogin = {}, basket = []) => {
     return temptName ? temptName : staffNameLogin;
 }
 
+export const hideCharactes = (str, numShow = 4) => {
+    let temptStr = [];
+    for (let i = parseInt(str.length - 1); i >= 0; i--) {
+        if (temptStr.length < numShow) {
+            temptStr.unshift(str[i]);
+        } else {
+            str[i] === "-" || str[i] === " " ? temptStr.unshift(str[i]) : temptStr.unshift("*");
+        }
+    }
+
+    return temptStr.join("");
+}
+
+export const BusinessWorkingTime = {
+    Monday: {
+        timeStart: '10:00 AM',
+        timeEnd: '08:00 PM',
+        isCheck: true
+    },
+    Tuesday: {
+        timeStart: '10:00 AM',
+        timeEnd: '08:00 PM',
+        isCheck: true
+    },
+    Wednesday: {
+        timeStart: '08:00 AM',
+        timeEnd: '08:00 PM',
+        isCheck: false
+    },
+    Thursday: {
+        timeStart: '10:00 AM',
+        timeEnd: '08:00 PM',
+        isCheck: false
+    },
+    Friday: {
+        timeStart: '08:00 AM',
+        timeEnd: '08:00 PM',
+        isCheck: true
+    },
+    Saturday: {
+        timeStart: '08:00 AM',
+        timeEnd: '08:00 PM',
+        isCheck: true
+    },
+    Sunday: {
+        timeStart: '08:00 AM',
+        timeEnd: '08:00 PM',
+        isCheck: true
+    }
+}

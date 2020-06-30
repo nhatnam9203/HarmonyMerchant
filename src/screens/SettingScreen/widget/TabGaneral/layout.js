@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, Text, Dropdown ,ItemWorkingTime} from '@components';
-import { scaleSzie, localize, WorkingTime, getNameStateById, TimeZones } from '@utils';
+import { scaleSzie, localize, WorkingTime, getNameStateById, TimeZones,hideCharactes } from '@utils';
 
 
 class Layout extends React.Component {
@@ -16,8 +16,7 @@ class Layout extends React.Component {
     renderSetup() {
         const { language } = this.props;
         const { languageApp, webLink,
-            autoCloseAt, autoLockScreenAfter, businessHourStart, businessHourEnd, timezone,
-            businessWorkingTime
+            autoCloseAt, autoLockScreenAfter, timezone, businessHour
         } = this.state;
         return (
             <View style={{ width: '100%', marginTop: scaleSzie(6) }} >
@@ -118,12 +117,12 @@ class Layout extends React.Component {
                     {/* -------- Bussiness Working Time --------- */}
                     
                     {
-                        Object.keys(businessWorkingTime).map((day, index) => {
+                        Object.keys(businessHour).map((day, index) => {
                             return <ItemWorkingTime
                                 key={index}
                                 ref={this.setRefTimeWorking}
                                 title={day}
-                                dataInit={businessWorkingTime[day]}
+                                dataInit={businessHour[day]}
                             />
                         })
                     }
@@ -203,15 +202,15 @@ class Layout extends React.Component {
                     />
                     <ItemTextStoreInfo
                         title={localize('Account Number', language)}
-                        value={businessBank && businessBank.accountNumber ? businessBank.accountNumber : ''}
+                        value={businessBank && businessBank.accountNumber ? hideCharactes(businessBank.accountNumber) : ''}
                     />
                     <ItemTextStoreInfo
                         title={localize('Routing Number', language)}
-                        value={businessBank && businessBank.routingNumber ? businessBank.routingNumber : ''}
+                        value={businessBank && businessBank.routingNumber ? hideCharactes(businessBank.routingNumber) : ''}
                     />
                     <ItemTextStoreInfo
                         title="EIN"
-                        value={taxId ? taxId : ''}
+                        value={taxId ? hideCharactes(taxId) : ''}
                     />
                     <ItemTextStoreInfo
                         title={localize('Merchant ID', language)}
