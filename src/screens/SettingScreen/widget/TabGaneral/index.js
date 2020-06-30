@@ -10,6 +10,10 @@ class TabGaneral extends Layout {
     constructor(props) {
         super(props);
         const { profile, autoCloseAt, autoLockScreenAfter } = this.props;
+
+        const businessHourStart = profile.businessHourStart ? profile.businessHourStart : '';
+        const businessHourEnd = profile.businessHourEnd ? profile.businessHourEnd : '';
+
         this.state = {
             languageApp: getNameLanguage(this.props.language),
             longitude: profile.longitude ? profile.longitude : '',
@@ -18,12 +22,57 @@ class TabGaneral extends Layout {
             businessHour: profile.businessHour ? profile.businessHour : '',
             autoCloseAt: autoCloseAt,
             autoLockScreenAfter: autoLockScreenAfter,
-            businessHourStart: profile.businessHourStart ? profile.businessHourStart : '',
-            businessHourEnd: profile.businessHourEnd ? profile.businessHourEnd : '',
+            businessHourStart: businessHourStart,
+            businessHourEnd: businessHourEnd,
             timezone: profile.timezone ? profile.timezone : '',
-            isUpdateInternal: false
+            isUpdateInternal: false,
+
+            businessWorkingTime: {
+                Monday: {
+                    timeStart: businessHourStart,
+                    timeEnd: businessHourEnd,
+                    isCheck: true
+                },
+                Tuesday: {
+                    timeStart: businessHourStart,
+                    timeEnd: businessHourEnd,
+                    isCheck: true
+                },
+                Wednesday: {
+                    timeStart: businessHourStart,
+                    timeEnd: businessHourEnd,
+                    isCheck: true
+                },
+                Thursday: {
+                    timeStart: businessHourStart,
+                    timeEnd: businessHourEnd,
+                    isCheck: true
+                },
+                Friday: {
+                    timeStart: businessHourStart,
+                    timeEnd: businessHourEnd,
+                    isCheck: true
+                },
+                Saturday: {
+                    timeStart: businessHourStart,
+                    timeEnd: businessHourEnd,
+                    isCheck: true
+                },
+                Sunday: {
+                    timeStart: businessHourStart,
+                    timeEnd: businessHourEnd,
+                    isCheck: true
+                }
+            }
         };
+        this.inputRefsTime = [];
     }
+
+    setRefTimeWorking = (ref) => {
+        if (ref) {
+            this.inputRefsTime.push(ref);
+        }
+    };
 
     setStateFromParent = async (webLink, businessHourStart, businessHourEnd, timezone) => {
         await this.setState({
@@ -75,7 +124,7 @@ class TabGaneral extends Layout {
             taxService: profile.taxService,
             taxProduct: profile.taxProduct,
             timezone,
-            autoLockscreen:""
+            autoLockscreen: ""
         });
     }
 
@@ -100,8 +149,10 @@ class TabGaneral extends Layout {
                 isUpdateInternal: false
             })
         }
+    }
 
-
+    componentWillUnmount() {
+        this.inputRefsTime = [];
     }
 
 }

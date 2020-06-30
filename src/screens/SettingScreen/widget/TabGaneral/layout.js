@@ -7,8 +7,8 @@ import {
     RefreshControl
 } from 'react-native';
 
-import { ButtonCustom, Text, Dropdown } from '@components';
-import { scaleSzie, localize, WorkingTime, getNameStateById,TimeZones } from '@utils';
+import { ButtonCustom, Text, Dropdown ,ItemWorkingTime} from '@components';
+import { scaleSzie, localize, WorkingTime, getNameStateById, TimeZones } from '@utils';
 
 
 class Layout extends React.Component {
@@ -16,7 +16,8 @@ class Layout extends React.Component {
     renderSetup() {
         const { language } = this.props;
         const { languageApp, webLink,
-            autoCloseAt, autoLockScreenAfter, businessHourStart, businessHourEnd,timezone
+            autoCloseAt, autoLockScreenAfter, businessHourStart, businessHourEnd, timezone,
+            businessWorkingTime
         } = this.state;
         return (
             <View style={{ width: '100%', marginTop: scaleSzie(6) }} >
@@ -90,7 +91,7 @@ class Layout extends React.Component {
                                 label={"Time Zone"}
                                 data={TimeZones}
                                 value={timezone}
-                                onChangeText={(timezone) => this.setState({timezone})}
+                                onChangeText={(timezone) => this.setState({ timezone })}
                                 containerStyle={{
                                     backgroundColor: '#F1F1F1',
                                     borderWidth: 1,
@@ -111,46 +112,27 @@ class Layout extends React.Component {
                                 {`${localize('Business Hour', language)}:`}
                             </Text>
                         </View>
-                        <View style={{
-                            height: scaleSzie(40), width: scaleSzie(400),
-                            flexDirection: 'row'
-                        }} >
-                            <Dropdown
-                                label={'08:00 AM'}
-                                data={WorkingTime}
-                                value={businessHourStart}
-                                onChangeText={(value) => this.setState({ businessHourStart: value })}
-                                containerStyle={{
-                                    backgroundColor: '#F1F1F1',
-                                    borderWidth: 1,
-                                    borderColor: '#C5C5C5',
-                                    width: scaleSzie(140)
-                                }}
-                            />
-                            <View style={{ marginHorizontal: scaleSzie(15), justifyContent: 'center' }} >
-                                <Text style={{ fontSize: scaleSzie(18), color: '#404040', }} >
-
-                                    {localize('To', language)}
-                                </Text>
-                            </View>
-                            <Dropdown
-                                label={'08:00 AM'}
-                                data={WorkingTime}
-                                value={businessHourEnd}
-                                onChangeText={(businessHourEnd) => this.setState({ businessHourEnd })}
-                                containerStyle={{
-                                    backgroundColor: '#F1F1F1',
-                                    borderWidth: 1,
-                                    borderColor: '#C5C5C5',
-                                    width: scaleSzie(140)
-                                }}
-                            />
-                        </View>
+                        <View style={{ height: scaleSzie(40), width: scaleSzie(400), flexDirection: 'row' }} />
                     </View>
+
+                    {/* -------- Bussiness Working Time --------- */}
+                    
+                    {
+                        Object.keys(businessWorkingTime).map((day, index) => {
+                            return <ItemWorkingTime
+                                key={index}
+                                ref={this.setRefTimeWorking}
+                                title={day}
+                                dataInit={businessWorkingTime[day]}
+                            />
+                        })
+                    }
+
+
                     {/* ------ Button Save --- */}
-                    <View style={{ justifyContent: 'flex-end', marginTop: scaleSzie(20), flexDirection: 'row' }} >
+                    <View style={{ justifyContent: 'center', marginTop: scaleSzie(35), flexDirection: 'row' }} >
                         <ButtonCustom
-                            width={scaleSzie(120)}
+                            width={scaleSzie(150)}
                             height={50}
                             backgroundColor="#F1F1F1"
                             title={localize('SAVE', language)}

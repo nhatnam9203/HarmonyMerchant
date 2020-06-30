@@ -13,7 +13,7 @@ import {
     Dropdown,
     ButtonCustom, Text, BrowserFile, TextInputSuggestion
 } from '@components';
-import { scaleSzie, localize, getArrayNameStateCity } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import { ItemAdminInfo, ItemAdminCellPhone } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';

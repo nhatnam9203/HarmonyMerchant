@@ -174,7 +174,6 @@ class AddStaff extends Layout {
         if (ref) {
             this.inputRefsTime.push(ref);
         }
-
     };
 
     updateFileId = async (fileId) => {
@@ -319,8 +318,6 @@ class AddStaff extends Layout {
     componentWillUnmount() {
         this.inputRefsTime = [];
     }
-
-
 }
 
 export default AddStaff;
