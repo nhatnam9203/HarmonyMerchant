@@ -66,13 +66,15 @@ class TabGaneral extends Layout {
         } catch (error) {
             gotoSettingsDevice();
         }
+    }
 
+    changeAutoLockTime =(value) =>{
+       this.props.actions.dataLocal.updateAutoLockTime(value);
     }
 
     saveSettngApp = async () => {
         const { languageApp, longitude, latitude, webLink,
-            autoCloseAt, autoLockScreenAfter,
-            businessHourStart, businessHourEnd, timezone
+            autoCloseAt, autoLockScreenAfter, timezone
         } = this.state;
         const { profile } = this.props;
         const temptLanguage = languageApp === 'English' ? 'en' : 'vi';

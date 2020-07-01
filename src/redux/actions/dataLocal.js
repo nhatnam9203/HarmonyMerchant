@@ -38,17 +38,17 @@ export function setupPaxMachine(paxInfo) {
     }
 }
 
-export function resetStateLoginStaff(flag = false){
-    return{
-        type :'RESET_STATE_LOGIN_STAFF',
-        payload :flag
+export function resetStateLoginStaff(flag = false) {
+    return {
+        type: 'RESET_STATE_LOGIN_STAFF',
+        payload: flag
     }
 }
 
 
-export function resetNeddSettingStore(){
-    return{
-        type :'RESET_NEED_SETTING_STORE',
+export function resetNeddSettingStore() {
+    return {
+        type: 'RESET_NEED_SETTING_STORE',
     }
 }
 
@@ -87,9 +87,17 @@ export function deleteHardware() {
     }
 }
 
-export function toggleSaveMID(status =  true) {
+export function toggleSaveMID(status = true) {
     return {
         type: 'TOGGLE_SAVE_MID',
         payload: status
     }
 }
+
+export function updateAutoLockTime(value) {
+    return {
+        type: 'UPDATE_AUTO_LOCK_TIME',
+        payload: value
+    }
+}
+

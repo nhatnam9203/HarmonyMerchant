@@ -11,7 +11,6 @@ import {
 } from '@components';
 import { scaleSzie, localize } from '@utils';
 import IMAGE from '@resources';
-import styles from './style';
 import BodyPrincipal from './widget/bodyPrincipal';
 
 const { width } = Dimensions.get('window');

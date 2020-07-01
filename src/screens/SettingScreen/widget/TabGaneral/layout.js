@@ -4,19 +4,22 @@ import {
     ScrollView,
     StyleSheet,
     TextInput,
-    RefreshControl
+    RefreshControl,
+    Image,
 } from 'react-native';
 
-import { ButtonCustom, Text, Dropdown ,ItemWorkingTime} from '@components';
-import { scaleSzie, localize, WorkingTime, getNameStateById, TimeZones,hideCharactes } from '@utils';
+import { ButtonCustom, Text, Dropdown, ItemWorkingTime,Button } from '@components';
+import { scaleSzie, localize, getNameStateById, TimeZones, hideCharactes } from '@utils';
+import ICON from "@resources";
 
+const AUTO_LOCK = ["2 Minutes", "5 Minutes", "10 Minutes", "15 Minutes", "Never"];
 
 class Layout extends React.Component {
 
     renderSetup() {
-        const { language } = this.props;
+        const { language ,autoLockScreenAfter} = this.props;
         const { languageApp, webLink,
-            autoCloseAt, autoLockScreenAfter, timezone, businessHour
+            autoCloseAt, timezone, businessHour
         } = this.state;
         return (
             <View style={{ width: '100%', marginTop: scaleSzie(6) }} >
@@ -49,6 +52,35 @@ class Layout extends React.Component {
                         onChangeText={value => this.setState({ autoLockScreenAfter: value })}
                         placeHolder='15:00 min'
                     /> */}
+                    
+                    {/* ------------ Item Auto lock ------------- */}
+                    <View style={{ flexDirection: 'row', marginVertical: scaleSzie(15) }} >
+                        <View style={{ width: scaleSzie(180) }} >
+                            <Text style={{
+                                color: '#404040',
+                                fontSize: scaleSzie(16),
+                                fontWeight: '600', marginTop: scaleSzie(10)
+                            }}  >
+                                {`${localize('Auto lock screen after', language)}:`}
+                            </Text>
+                        </View>
+                        <View style={{
+                            height: scaleSzie(40 * 5), flex: 1, paddingHorizontal: scaleSzie(10),
+                            backgroundColor: "#fff", borderWidth: 1, borderColor: '#C5C5C5',
+                            borderRadius: scaleSzie(6)
+                        }} >
+                            {
+                                AUTO_LOCK.map((item, index) => <ItemAutoLock
+                                    key={item}
+                                    title={item}
+                                    isShowIcon={item == autoLockScreenAfter ? true : false}
+                                    isHideBorderBottom={index === 4 ? true : false }
+                                    onPress={this.changeAutoLockTime}
+                                />)
+                            }
+                        </View>
+                    </View>
+
                     {/* -------- Link website --------- */}
                     <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
                         <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
@@ -61,7 +93,7 @@ class Layout extends React.Component {
                             </Text>
                         </View>
                         <View style={{
-                            height: scaleSzie(40), width: scaleSzie(400), borderWidth: 1, borderColor: '#C5C5C5',
+                            height: scaleSzie(40), flex: 1, borderWidth: 1, borderColor: '#C5C5C5',
                             paddingHorizontal: scaleSzie(10)
                         }} >
                             <TextInput
@@ -84,7 +116,7 @@ class Layout extends React.Component {
                             </Text>
                         </View>
                         <View style={{
-                            height: scaleSzie(40), width: scaleSzie(400),
+                            height: scaleSzie(40), flex: 1,
                         }} >
                             <Dropdown
                                 label={"Time Zone"}
@@ -115,7 +147,7 @@ class Layout extends React.Component {
                     </View>
 
                     {/* -------- Bussiness Working Time --------- */}
-                    
+
                     {
                         Object.keys(businessHour).map((day, index) => {
                             return <ItemWorkingTime
@@ -333,6 +365,26 @@ const ItemTextStoreInfo = ({ title, value }) => {
                 {value}
             </Text>
         </View>
+    );
+}
+
+const ItemAutoLock = ({ title, isHideBorderBottom,onPress,isShowIcon }) => {
+    const styleBorder = !isHideBorderBottom ? { borderBottomWidth: 1, borderBottomColor: '#C5C5C5', } : {};
+
+    return (
+        <Button onPress={() => onPress(title) } style={[{
+            height: scaleSzie(40),
+            flexDirection: "row", justifyContent: "space-between",
+            alignItems: "center"
+        }, styleBorder]} >
+            <Text style={{ color: "rgb(0,2,2)", fontSize: scaleSzie(16), fontWeight: "500" }} >
+                {title}
+            </Text>
+
+           {
+               isShowIcon ? <Image source={ICON.check_package_pricing} /> : <View/>
+           } 
+        </Button>
     );
 }
 

@@ -44,6 +44,11 @@ function dataLocal(state = initialState, action) {
                 ...state,
                 isRememberMID: action.payload,
             }
+        case 'UPDATE_AUTO_LOCK_TIME':
+            return {
+                ...state,
+                autoLockScreenAfter: action.payload,
+            }
         case 'SAVE_PROFILE_LOCAL':
             return {
                 ...state,
