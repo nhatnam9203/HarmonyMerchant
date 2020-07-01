@@ -13,8 +13,8 @@ import IMAGE from '@resources';
 export default class Layout extends React.Component {
 
     render() {
-        const { errorLogin, language, MIDStorage } = this.props;
-        const { isSecureTextEntry,isRememberMID } = this.state;
+        const { errorLogin, language, MIDStorage,isRememberMID} = this.props;
+        const { isSecureTextEntry } = this.state;
         const iconShowPass = isSecureTextEntry ? IMAGE.showPass : IMAGE.notShowPass;
         const temptIconCheck = isRememberMID ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
 

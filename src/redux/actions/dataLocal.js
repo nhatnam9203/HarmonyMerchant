@@ -86,3 +86,10 @@ export function deleteHardware() {
         type: 'DELETE_HARDWARE',
     }
 }
+
+export function toggleSaveMID(status =  true) {
+    return {
+        type: 'TOGGLE_SAVE_MID',
+        payload: status
+    }
+}

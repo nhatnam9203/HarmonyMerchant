@@ -19,6 +19,7 @@ const initialState = {
     versionApp: "",
     checkEmailToResetPax: "",
     MIDStorage: "",
+    isRememberMID: false
 }
 
 function dataLocal(state = initialState, action) {
@@ -37,6 +38,11 @@ function dataLocal(state = initialState, action) {
                     isSetup: false
                 },
                 MIDStorage: action.isRememberMID ? action.payload : "",
+            }
+        case 'TOGGLE_SAVE_MID':
+            return {
+                ...state,
+                isRememberMID: action.payload,
             }
         case 'SAVE_PROFILE_LOCAL':
             return {

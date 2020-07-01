@@ -41,14 +41,14 @@ class Layout extends React.Component {
                         placeHolder='08:00 AM'
                     />
                     {/* ------- Item Auto lock screen after:  ------ */}
-                    <ItemSetupGeneral
+                    {/* <ItemSetupGeneral
                         title={`${localize('Auto lock screen after', language)}:`}
                         data={[{ value: '00:30 s' }, { value: '05:00 min' }, { value: '10:00 min' },
                         { value: '15:00 min' }, { value: '30:00 min' }, { value: "Never" }]}
                         value={autoLockScreenAfter}
                         onChangeText={value => this.setState({ autoLockScreenAfter: value })}
                         placeHolder='15:00 min'
-                    />
+                    /> */}
                     {/* -------- Link website --------- */}
                     <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
                         <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >

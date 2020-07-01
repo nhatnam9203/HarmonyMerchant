@@ -9,7 +9,6 @@ class SignInScreen extends Layout {
         super(props);
         this.state = {
             isSecureTextEntry: true,
-            isRememberMID : false
         }
         this.idInputRef = React.createRef();
         this.passwordInputRef = React.createRef();
@@ -17,7 +16,7 @@ class SignInScreen extends Layout {
     }
 
     signIn = () => {
-        const {isRememberMID} =this.state;
+        const {isRememberMID} =this.props;
         const email = this.idInputRef.current.state.value;
         const password = this.passwordInputRef.current.state.value;
         if (email === '' || password === '') {
@@ -41,9 +40,8 @@ class SignInScreen extends Layout {
     }
 
     toggleRememberMID =() =>{
-        this.setState(prevState =>({
-            isRememberMID: !prevState.isRememberMID
-        }))
+        const {isRememberMID} = this.props;
+        this.props.actions.dataLocal.toggleSaveMID(!isRememberMID);
     }
 
 }
@@ -51,7 +49,8 @@ class SignInScreen extends Layout {
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     errorLogin: state.auth.errorLogin,
-    MIDStorage: state.dataLocal.MIDStorage
+    MIDStorage: state.dataLocal.MIDStorage,
+    isRememberMID: state.dataLocal.isRememberMID
 })
 
 
