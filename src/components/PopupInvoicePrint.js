@@ -386,6 +386,19 @@ class PopupInvoicePrint extends React.Component {
                                         </View> : <View />
                                     }
 
+                                      {/* ------------- Enter Total   ----------- */}
+                                      {
+                                        isPrintTempt ? <View style={{ height: scaleSzie(25), flexDirection: "row", marginBottom: scaleSzie(12) }} >
+                                            <View style={{ width: scaleSzie(70), justifyContent: "flex-end" }} >
+                                                <Text style={[styleInvoice.txt_total, { fontSize: 20, fontWeight: "600" }]} >
+                                                    {"Total :"}
+                                                </Text>
+                                            </View>
+                                            <View style={{ width: scaleSzie(50) }} />
+                                            <View style={{ flex: 1, borderBottomColor: "#000", borderBottomWidth: 1, }} />
+                                        </View> : <View />
+                                    }
+
 
 
                                     {/* ------------- Entry Method   ----------- */}

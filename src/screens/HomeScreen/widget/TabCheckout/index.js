@@ -8,7 +8,7 @@ import connectRedux from '@redux/ConnectRedux';
 import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment, requestAPI,
     getArrayExtrasFromAppointment, formatNumberFromCurrency, getStaffInfoById, splitPlusInPhoneNumber,
-    formatWithMoment,checkStatusPrint
+    formatWithMoment, checkStatusPrint
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 import apiConfigs from '@configs/api';
@@ -438,9 +438,7 @@ class TabCheckout extends Layout {
         this.scrollTabRef.current.goToPage(1);
     }
 
-    backAddBasket = () => {
-        this.scrollTabRef.current.goToPage(0);
-    }
+
 
     closeModalDiscount = () => {
         this.setState({
@@ -810,7 +808,7 @@ class TabCheckout extends Layout {
             });
 
             connection.onclose(async (error) => {
-                // console.log("------ SignalR onclose ");
+                console.log("------ SignalR onclose ");
                 this.props.actions.appointment.resetConnectSignalR();
             });
 
@@ -953,13 +951,19 @@ class TabCheckout extends Layout {
             isCancelHarmonyPay: false,
             paymentSelected: '',
         });
-        const { groupAppointment, payAppointmentId } = this.props;
-        this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);
-        // this.props.actions.appointment.resetPayment();
-        const { connectionSignalR } = this.props;
+        const { connectionSignalR, payAppointmentId } = this.props;
+
+        if (payAppointmentId) {
+            this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);
+        }
         if (!_.isEmpty(connectionSignalR)) {
             connectionSignalR.stop();
         }
+    }
+
+    backAddBasket = async () => {
+        this.cancelHarmonyPayment();
+        this.scrollTabRef.current.goToPage(0);
     }
 
 
@@ -1448,7 +1452,7 @@ class TabCheckout extends Layout {
     }
 
     changeCustomerPhone = async () => {
-        const { groupAppointment, profileStaffLogin, blockAppointments,versionApp } = this.props;
+        const { groupAppointment, profileStaffLogin, blockAppointments, versionApp } = this.props;
         const { infoUser } = this.state;
         const codeAreaPhone = this.CustomerPhoneRef.current.state.codeAreaPhone;
         const phone = this.CustomerPhoneRef.current.state.phone;
@@ -1546,8 +1550,8 @@ class TabCheckout extends Layout {
     }
 
     addAppointmentCheckout = () => {
-        const {blockAppointments} = this.props;
-        if(blockAppointments.length > 0){
+        const { blockAppointments } = this.props;
+        if (blockAppointments.length > 0) {
             this.createABlockAppointment();
             return;
         }
@@ -1896,7 +1900,7 @@ const mapStateToProps = state => ({
     isLoadingRemoveBlockAppointment: state.appointment.isLoadingRemoveBlockAppointment,
     idNextToAppointmentRemove: state.appointment.idNextToAppointmentRemove,
     fromTimeBlockAppointment: state.appointment.fromTimeBlockAppointment,
-    versionApp:state.dataLocal.versionApp
+    versionApp: state.dataLocal.versionApp
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);

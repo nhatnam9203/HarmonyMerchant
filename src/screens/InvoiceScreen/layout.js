@@ -14,7 +14,7 @@ import {
     Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupCalendar, PopupEnterPinInvoice,
     PopupConfirmInvoiceStatus, PopupProcessingCredit, PopupInvoicePrint, PopupConfirmPrintInvoice
 } from '@components';
-import { scaleSzie, localize, formatWithMoment, getStaffNameForInvoice, formatMoney } from '@utils';
+import { scaleSzie, localize, formatWithMoment, getStaffNameForInvoice, formatMoney,getPaymentString } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import {
@@ -346,6 +346,33 @@ export default class Layout extends React.Component {
                                 title={"Total"}
                                 value={invoiceDetail.total ? invoiceDetail.total : "0.00"}
                             />
+                            {
+
+                                !invoiceDetail.checkoutPayments ? <View /> :
+                                    < View >
+                                        {
+                                            invoiceDetail.checkoutPayments.map((data, index) => <View key={index} style={{ marginBottom: scaleSzie(4) }} >
+                                                <Text style={[styles.txt_total,]} >
+                                                    {`- Entry method : ${getPaymentString(data.paymentMethod)}`}
+                                                </Text>
+                                                {
+                                                    data.paymentMethod === "credit_card" ?
+                                                        <View style={{ marginTop: scaleSzie(5) }} >
+                                                            <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
+                                                                {`    ${data.paymentInformation && data.paymentInformation.type ? data.paymentInformation.type : ""}: ***********${data.paymentInformation && data.paymentInformation.number ? data.paymentInformation.number : ""}`}
+                                                            </Text>
+                                                            <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
+                                                                {`    ${data.paymentInformation && data.paymentInformation.name ? data.paymentInformation.name : ""}`}
+                                                            </Text>
+                                                        </View>
+                                                        : null
+                                                }
+                                            </View>)
+                                        }
+                                    </View>
+
+                            }
+
                             {/* ----------- Thanks , see you again -------- */}
                             <View style={{ height: scaleSzie(20) }} />
                             <Text style={[styles.txt_total, { alignSelf: "center", }]} >
@@ -374,7 +401,7 @@ export default class Layout extends React.Component {
                     }
                     {this.renderButtonVoid()}
                 </View>
-            </View>
+            </View >
         );
     }
 
