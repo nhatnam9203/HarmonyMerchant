@@ -10,8 +10,13 @@ class StoreInfoScreen extends Layout {
     constructor(props) {
         super(props);
         this.state = {
+            tabCurrent: 0
         }
         this.scrollTabRef = React.createRef();
+    }
+
+    onChangeTab = async (index) => {
+        await this.setState({ tabCurrent: index.i });
     }
 
     gotoTabStaffManagement = () => {

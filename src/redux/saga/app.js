@@ -105,19 +105,25 @@ function* merchantSetting(action) {
     try {
         action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : null;
         const responses = yield requestAPI(action);
-        // console.log('--- merchantSetting : ', responses);
+        console.log('--- merchantSetting : ', responses);
         const { codeNumber } = responses;
         // yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
             yield put({
+                type: 'MERCHANT_SETTING_SUCCESS',
+            });
+            yield put({
                 type: 'UPDATE_MERCHANT_PROFILE',
                 payload: responses.data
-            })
+            });
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
         } else {
+            yield put({
+                type: 'MERCHANT_SETTING_FAIL',
+            });
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -125,6 +131,9 @@ function* merchantSetting(action) {
         }
     } catch (error) {
         yield put({ type: 'STOP_LOADING_ROOT' });
+        yield put({
+            type: 'MERCHANT_SETTING_FAIL',
+        });
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });

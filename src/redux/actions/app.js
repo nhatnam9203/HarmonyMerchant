@@ -229,3 +229,10 @@ export function ConnectPaxMachineSuccess() {
     }
 }
 
+export function resetStateUpdateMerchantSetting(status = false) {
+    return {
+        type: 'RESET_STATE_UPDATE_MERCHANT_SETTING',
+        payload: status
+    }
+}
+

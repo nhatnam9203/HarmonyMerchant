@@ -13,7 +13,7 @@ import {
     Dropdown,
     ButtonCustom, Text, BrowserFile, TextInputSuggestion
 } from '@components';
-import { scaleSzie, localize,BusinessWorkingTime} from '@utils';
+import { scaleSzie, localize } from '@utils';
 import { ItemAdminInfo, ItemAdminCellPhone } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
@@ -26,11 +26,11 @@ class Layout extends React.Component {
         const { address, firstName, lastName, displayName,
             cellphone, email, pin, confirmPin, roles,
             driverlicense, socialSecurityNumber, professionalLicense,
-            isDisabled,isActive
+            isDisabled, isActive
         } = this.state.user;
         const { street, city, state, zip } = address;
         const { nameRole } = roles;
-        const businessHour =  profile.businessHour ?  profile.businessHour : BusinessWorkingTime;
+        const { businessHour } = this.state;
 
         return (
             <View style={styles.body} >
@@ -176,11 +176,11 @@ class Layout extends React.Component {
 
                     {/* ----------- Active -------- */}
                     <View style={{
-                         flexDirection: 'row',
-                         height: scaleSzie(36),
-                         paddingLeft: scaleSzie(90),
-                         paddingRight: scaleSzie(90),
-                         marginTop: scaleSzie(25)
+                        flexDirection: 'row',
+                        height: scaleSzie(36),
+                        paddingLeft: scaleSzie(90),
+                        paddingRight: scaleSzie(90),
+                        marginTop: scaleSzie(25)
                     }} >
                         <View style={{ width: scaleSzie(150), justifyContent: 'center' }} >
                             <Text style={{

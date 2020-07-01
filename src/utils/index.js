@@ -935,12 +935,12 @@ export const BusinessWorkingTime = {
     Wednesday: {
         timeStart: '08:00 AM',
         timeEnd: '08:00 PM',
-        isCheck: false
+        isCheck: true
     },
     Thursday: {
         timeStart: '10:00 AM',
         timeEnd: '08:00 PM',
-        isCheck: false
+        isCheck: true
     },
     Friday: {
         timeStart: '08:00 AM',

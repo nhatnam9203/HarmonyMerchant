@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { getIdStateByName ,scaleSzie} from '@utils';
+import { getIdStateByName, scaleSzie,BusinessWorkingTime } from '@utils';
 
 const initState = {
     user: {
@@ -39,7 +39,11 @@ class StoreInfoScreen extends Layout {
 
     constructor(props) {
         super(props);
-        this.state = initState;
+        const { profile } = this.props;
+        this.state = {
+            ...initState,
+            businessHour: profile.businessHour ? profile.businessHour : BusinessWorkingTime
+        };
         // ---- Refs ----
         this.inputRefsTime = [];
         this.inputRefsSalary = [];
@@ -50,8 +54,8 @@ class StoreInfoScreen extends Layout {
         this.scrollStaffRef = React.createRef();
     }
 
-    scrollStaffTo(position){
-        this.scrollStaffRef.current.scrollTo({x: 0, y: scaleSzie(position), animated: true})
+    scrollStaffTo(position) {
+        this.scrollStaffRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
     }
 
     editButtonSubmit = async (isSubmit) => {
@@ -90,7 +94,7 @@ class StoreInfoScreen extends Layout {
 
     addAdmin = () => {
         const { user } = this.state;
-        const {stateCity} = this.props;
+        const { stateCity } = this.props;
         const arrayKey = Object.keys(user);
         let keyError = '';
         for (let i = 0; i < arrayKey.length; i++) {
@@ -163,13 +167,13 @@ class StoreInfoScreen extends Layout {
                 tipFee: objTipFee,
                 fileId: this.state.fileId
             };
-        //console.log('productSalary : ' + JSON.stringify(objProjectSalary));
+            //console.log('productSalary : ' + JSON.stringify(objProjectSalary));
             this.props.actions.staff.createAdmin(temptStaff);
         }
     }
 
     convertKeyToName(key) {
-    //console.log('key : ', key);
+        //console.log('key : ', key);
         let name = '';
         switch (key) {
             case 'Percent (%)':

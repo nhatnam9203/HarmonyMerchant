@@ -24,15 +24,31 @@ const initialState = {
         status: true,
         message: "is connecting to Pax machine ....",
     },
+    isUpdateMerchantSetting: false
 }
 
 function appReducer(state = initialState, action) {
     switch (action.type) {
-        // case 'LOGIN_APP_SUCCESS':
-        //     return {
-        //         ...state,
-        //         MIDStorage: action.isRememberMID ? action.payload : "",
-        //     }
+        case 'MERCHANT_SETTING':
+            return {
+                ...state,
+                isUpdateMerchantSetting: false,
+            }
+        case 'MERCHANT_SETTING_SUCCESS':
+            return {
+                ...state,
+                isUpdateMerchantSetting: true,
+            }
+        case 'MERCHANT_SETTING_FAIL':
+            return {
+                ...state,
+                isUpdateMerchantSetting: false,
+            }
+            case 'RESET_STATE_UPDATE_MERCHANT_SETTING':
+                return {
+                    ...state,
+                    isUpdateMerchantSetting: false,
+                }
         case 'AGREE_TERM':
             return {
                 ...state,

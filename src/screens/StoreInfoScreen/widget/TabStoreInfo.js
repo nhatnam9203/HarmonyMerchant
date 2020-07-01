@@ -6,31 +6,73 @@ import {
     Image
 } from 'react-native';
 
-import { ButtonCustom, Text, Dropdown } from '@components';
-import { scaleSzie, localize, WorkingTime } from '@utils';
+import { ButtonCustom, Text, ItemWorkingTime } from '@components';
+import { scaleSzie, localize, BusinessWorkingTime, } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class TabAdminInfo extends React.Component {
 
     constructor(props) {
         super(props);
-
+        const {profile} = this.props;
+        this.state= {
+            businessHour: profile.businessHour ? profile.businessHour : BusinessWorkingTime
+        }
+        this.inputRefsTime = [];
     }
+
+    setRefTimeWorking = (ref) => {
+        if (ref) {
+            this.inputRefsTime.push(ref);
+        }
+    };
+
+    
+
+    nextTab = () => {
+        const { profile } = this.props;
+        let objWorkingTime = [];
+        this.inputRefsTime.forEach(ref => {
+            objWorkingTime = {
+                ...objWorkingTime,
+                [ref.props.title]: {
+                    timeStart: ref.state.timeStart,
+                    timeEnd: ref.state.timeEnd,
+                    isCheck: ref.state.isCheck
+                }
+            }
+        });
+
+        const body = {
+            businessHour: objWorkingTime,
+            webLink: '',
+            latitude: '',
+            longitude: '',
+            taxService: 0,
+            taxProduct: 0
+        };
+        this.props.actions.app.merchantSetting(body, true);
+        // this.props.nextTab();
+    };
+
+
+    // --------------- Render ------------
 
     renderBody() {
         const { profile, language } = this.props;
+        const {businessHour} = this.state;
         const { businessName, address, city, zip, taxId, phone, email,
             state, businessBank
         } = profile;
 
-        const businessHourStart = profile.businessHourStart ? profile.businessHourStart : '';
-        const businessHourEnd = profile.businessHourEnd ? profile.businessHourEnd : '';
+        // const businessHour =  profile.businessHour ? profile.businessHour : BusinessWorkingTime;
+        // console.log("businessHour : ",businessHour);
 
         return (
             <View style={styles.body} >
-                <ScrollView  
-                keyboardShouldPersistTaps="always" 
-                keyboardShouldPersistTaps="always"
+                <ScrollView
+                    keyboardShouldPersistTaps="always"
+                    keyboardShouldPersistTaps="always"
                 >
                     <ItemTextStoreInfo
                         title={localize('Business Name', language)}
@@ -72,66 +114,33 @@ class TabAdminInfo extends React.Component {
                     />
 
                     {/* -------- Business Hour --------- */}
-                    <View style={{
-                        flexDirection: 'row',
-                        paddingLeft: scaleSzie(90),
-                        paddingRight: scaleSzie(52),
-                        marginTop: scaleSzie(25)
-                    }} >
-                        <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
-                            <Text style={{
-                                color: '#404040',
-                                fontSize: scaleSzie(16),
-                                fontWeight: '600',
-                            }}  >
-                                {`${localize('Business Hour', language)}:`}
-                            </Text>
-                        </View>
-                        <View style={{
-                            height: scaleSzie(40), width: scaleSzie(400),
-                            flexDirection: 'row'
-                        }} >
-                            <Dropdown
-                                label={'08:00 AM'}
-                                data={WorkingTime}
-                                value={businessHourStart}
-                                onChangeText={(value) => {
-                                    this.props.actions.dataLocal.updateBusinessHour({
-                                        businessHourStart: value,
-                                        businessHourEnd
-                                    })
-                                }}
-                                containerStyle={{
-                                    backgroundColor: '#F1F1F1',
-                                    borderWidth: 1,
-                                    borderColor: '#C5C5C5',
-                                    width: scaleSzie(140)
-                                }}
-                            />
-                            <View style={{ marginHorizontal: scaleSzie(15), justifyContent: 'center' }} >
-                                <Text style={{ fontSize: scaleSzie(18), color: '#404040', }} >
+                    <View style={{ paddingLeft: scaleSzie(90),   marginTop: scaleSzie(25)}} >
+                        <Text style={{
+                            color: '#404040',
+                            fontSize: scaleSzie(16),
+                            fontWeight: '600',
+                        }}  >
+                            {`${localize('Business Hour', language)}`}
+                        </Text>
+                    </View>
 
-                                    {localize('To', language)}
-                                </Text>
-                            </View>
-                            <Dropdown
-                                label={'08:00 AM'}
-                                data={WorkingTime}
-                                value={businessHourEnd}
-                                onChangeText={(value) => {
-                                    this.props.actions.dataLocal.updateBusinessHour({
-                                        businessHourStart,
-                                        businessHourEnd: value
-                                    })
-                                }}
-                                containerStyle={{
-                                    backgroundColor: '#F1F1F1',
-                                    borderWidth: 1,
-                                    borderColor: '#C5C5C5',
-                                    width: scaleSzie(140)
-                                }}
-                            />
-                        </View>
+
+                    <View style={{
+                        paddingLeft: scaleSzie(100),
+                        marginTop: scaleSzie(15)
+                    }} >
+                        {/* ---------- List Business Time -------- */}
+                        {
+                            Object.keys(businessHour).map((day, index) => {
+                                return <ItemWorkingTime
+                                    key={index}
+                                    ref={this.setRefTimeWorking}
+                                    title={day}
+                                    dataInit={businessHour[day]}
+                                />
+                            })
+                        }
+
                     </View>
                     {/* --------------- End -------------- */}
 
@@ -154,27 +163,6 @@ class TabAdminInfo extends React.Component {
         );
     }
 
-    nextTab = () => {
-        const { profile } = this.props;
-        const businessHourStart = profile.businessHourStart ? profile.businessHourStart : '';
-        const businessHourEnd = profile.businessHourEnd ? profile.businessHourEnd : '';
-
-        if (businessHourStart === "" || businessHourEnd === "") {
-            alert("Pleas setup your business hour start and business hour start end !");
-        } else {
-            const body = {
-                businessHourStart,
-                businessHourEnd,
-                webLink: '',
-                latitude: '',
-                longitude: '',
-                taxService: 0,
-                taxProduct: 0
-            };
-            this.props.actions.app.merchantSetting(body,false);
-            this.props.nextTab();
-        }
-    }
 
     renderFooter() {
         const { language } = this.props;
@@ -202,6 +190,19 @@ class TabAdminInfo extends React.Component {
 
         );
     }
+
+    componentDidUpdate(prevProps,prevState){
+        const {tabCurrent,loading,isUpdateMerchantSetting} = this.props;
+        if(tabCurrent === 0 && prevProps.loading !== loading &&  !loading && isUpdateMerchantSetting ){
+            this.props.nextTab();
+            this.props.actions.app.resetStateUpdateMerchantSetting(false);
+        }
+    }
+
+    componentWillUnmount() {
+        this.inputRefsTime = [];
+    }
+
 }
 
 const ItemTextStoreInfoNotTilte = ({ city, state, zipcode }) => {
@@ -287,6 +288,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     language: state.dataLocal.language,
+    loading: state.app.loading,
+    isUpdateMerchantSetting: state.app.isUpdateMerchantSetting
 })
 
 

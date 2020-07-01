@@ -15,6 +15,8 @@ export default class Layout extends React.Component {
 
     render() {
         const { language } = this.props;
+        const {tabCurrent} = this.state;
+
         return (
             <View style={styles.container} >
                 <StatusBarHeader />
@@ -32,9 +34,11 @@ export default class Layout extends React.Component {
                             fontSize: scaleSzie(14)
                         }}
                     />}
+                    // onChangeTab={this.onChangeTab}
                 >
                     <TabStoreInfo tabLabel={`1. ${localize('Store Info', language)}`}
                         nextTab={() => this.scrollTabRef.current.goToPage(1)}
+                        tabCurrent={tabCurrent}
                     />
                     <TabAdminInfo
                         tabLabel={`2. ${localize('Admin Info', language)}`}
