@@ -19,12 +19,12 @@ export function saveTokenFCM(payload) {
     }
 }
 
-export function changeSettingLocal(language, autoLockScreenAfter, autoCloseAt) {
+export function changeSettingLocal(language, autoCloseAt) {
     return {
         type: 'CHANGE_SETTING_LOCAL_APP',
         payload: {
             language: language,
-            autoLockScreenAfter: autoLockScreenAfter,
+            // autoLockScreenAfter: autoLockScreenAfter,
             autoCloseAt: autoCloseAt
         }
     }

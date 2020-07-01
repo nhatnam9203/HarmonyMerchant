@@ -73,12 +73,11 @@ class TabGaneral extends Layout {
     }
 
     saveSettngApp = async () => {
-        const { languageApp, longitude, latitude, webLink,
-            autoCloseAt, autoLockScreenAfter, timezone
-        } = this.state;
         const { profile } = this.props;
+        const { languageApp, longitude, latitude, webLink,autoCloseAt, timezone } = this.state;
+       
         const temptLanguage = languageApp === 'English' ? 'en' : 'vi';
-        this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoLockScreenAfter, autoCloseAt);
+        this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
         await this.setState({
             isUpdateInternal: true
         });

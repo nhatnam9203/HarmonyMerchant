@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
-import {
-    PanResponder, View, StyleSheet
-} from 'react-native';
 import UserInactivity from 'react-native-user-inactivity';
 
 import connectRedux from '@redux/ConnectRedux';
-
-const TIME_TO_WAIT_FOR_INACTIVITY_MS = 2000;
-const INACTIVITY_CHECK_INTERVAL_MS = 500;
 
 class ParentContainer extends Component {
     constructor(props) {
@@ -20,20 +14,17 @@ class ParentContainer extends Component {
     getTimeOut(number) {
         let timeout = 0;
         switch (number) {
-            case '00:30 s':
-                timeout = 30000;
+            case '2 Minutes':
+                timeout = parseInt(2 * 60 * 1000);
                 break;
-            case '05:00 min':
-                timeout = 300000;
+            case '5 Minutes':
+                timeout = parseInt(5 * 60 * 1000);
                 break;
-            case '10:00 min':
-                timeout = 600000;
+            case '10 Minutes':
+                timeout = parseInt(10 * 60 * 1000);
                 break;
-            case '15:00 min':
-                timeout = 900000;
-                break;
-            case '30:00 min':
-                timeout = 1800000;
+            case '15 Minutes':
+                timeout = parseInt(15 * 60 * 1000);
                 break;
             default:
                 timeout = 1 * 1000 * 60;
@@ -43,12 +34,10 @@ class ParentContainer extends Component {
     }
 
     handleInactive = isActive => {
-        // console.log("--- isActive : ",isActive);
-        const { activeScreen, visibleEnterPinInvoice, visibleEnterPin,isOfflineMode ,autoLockScreenAfter} = this.props;
+        const { activeScreen, visibleEnterPinInvoice, visibleEnterPin, isOfflineMode, autoLockScreenAfter } = this.props;
         const parent = this.props.navigation.dangerouslyGetParent();
         const isDrawerOpen = parent && parent.state && parent.state.isDrawerOpen;
         if (!isActive && activeScreen && !visibleEnterPinInvoice && !visibleEnterPin && !isDrawerOpen && !isOfflineMode && autoLockScreenAfter != "Never") {
-            // console.log("--- handleLockScreen : ",isActive);
             this.props.handleLockScreen();
         }
     }

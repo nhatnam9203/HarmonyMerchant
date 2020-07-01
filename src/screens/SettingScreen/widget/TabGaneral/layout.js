@@ -8,7 +8,7 @@ import {
     Image,
 } from 'react-native';
 
-import { ButtonCustom, Text, Dropdown, ItemWorkingTime,Button } from '@components';
+import { ButtonCustom, Text, Dropdown, ItemWorkingTime, Button } from '@components';
 import { scaleSzie, localize, getNameStateById, TimeZones, hideCharactes } from '@utils';
 import ICON from "@resources";
 
@@ -17,10 +17,9 @@ const AUTO_LOCK = ["2 Minutes", "5 Minutes", "10 Minutes", "15 Minutes", "Never"
 class Layout extends React.Component {
 
     renderSetup() {
-        const { language ,autoLockScreenAfter} = this.props;
-        const { languageApp, webLink,
-            autoCloseAt, timezone, businessHour
-        } = this.state;
+        const { language, autoLockScreenAfter } = this.props;
+        const { languageApp, webLink,autoCloseAt, timezone, businessHour } = this.state;
+
         return (
             <View style={{ width: '100%', marginTop: scaleSzie(6) }} >
                 <View style={{ flex: 1 }} >
@@ -30,7 +29,6 @@ class Layout extends React.Component {
                         data={[{ value: 'English' }, { value: 'Viet Nam' }]}
                         value={languageApp}
                         onChangeText={value => {
-                            //console.log(value);
                             this.setState({ languageApp: value })
                         }}
                         placeHolder={localize('Language', language)}
@@ -43,16 +41,7 @@ class Layout extends React.Component {
                         onChangeText={value => this.setState({ autoCloseAt: value })}
                         placeHolder='08:00 AM'
                     />
-                    {/* ------- Item Auto lock screen after:  ------ */}
-                    {/* <ItemSetupGeneral
-                        title={`${localize('Auto lock screen after', language)}:`}
-                        data={[{ value: '00:30 s' }, { value: '05:00 min' }, { value: '10:00 min' },
-                        { value: '15:00 min' }, { value: '30:00 min' }, { value: "Never" }]}
-                        value={autoLockScreenAfter}
-                        onChangeText={value => this.setState({ autoLockScreenAfter: value })}
-                        placeHolder='15:00 min'
-                    /> */}
-                    
+
                     {/* ------------ Item Auto lock ------------- */}
                     <View style={{ flexDirection: 'row', marginVertical: scaleSzie(15) }} >
                         <View style={{ width: scaleSzie(180) }} >
@@ -74,7 +63,7 @@ class Layout extends React.Component {
                                     key={item}
                                     title={item}
                                     isShowIcon={item == autoLockScreenAfter ? true : false}
-                                    isHideBorderBottom={index === 4 ? true : false }
+                                    isHideBorderBottom={index === 4 ? true : false}
                                     onPress={this.changeAutoLockTime}
                                 />)
                             }
@@ -368,11 +357,11 @@ const ItemTextStoreInfo = ({ title, value }) => {
     );
 }
 
-const ItemAutoLock = ({ title, isHideBorderBottom,onPress,isShowIcon }) => {
+const ItemAutoLock = ({ title, isHideBorderBottom, onPress, isShowIcon }) => {
     const styleBorder = !isHideBorderBottom ? { borderBottomWidth: 1, borderBottomColor: '#C5C5C5', } : {};
 
     return (
-        <Button onPress={() => onPress(title) } style={[{
+        <Button onPress={() => onPress(title)} style={[{
             height: scaleSzie(40),
             flexDirection: "row", justifyContent: "space-between",
             alignItems: "center"
@@ -381,9 +370,9 @@ const ItemAutoLock = ({ title, isHideBorderBottom,onPress,isShowIcon }) => {
                 {title}
             </Text>
 
-           {
-               isShowIcon ? <Image source={ICON.check_package_pricing} /> : <View/>
-           } 
+            {
+                isShowIcon ? <Image source={ICON.check_package_pricing} /> : <View />
+            }
         </Button>
     );
 }
