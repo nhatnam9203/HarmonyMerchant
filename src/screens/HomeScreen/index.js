@@ -3,9 +3,8 @@ import _ from 'ramda';
 import { Alert, Linking } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import { Subject } from 'rxjs';
-import { last, distinctUntilChanged, finalize } from 'rxjs/operators';
+import { distinctUntilChanged, finalize } from 'rxjs/operators';
 import VersionCheck from 'react-native-version-check';
-import moment from "moment-timezone";
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -37,13 +36,6 @@ class HomeScreen extends Layout {
     }
 
     componentDidMount() {
-        const defaultTimeZone = moment.tz.guess();
-        const timeZonesList = moment.tz.names();
-
-        // console.log("---- defaultTimeZone : ",defaultTimeZone);
-        // console.log("---- timeZonesList : ",timeZonesList);
-
-
         this.checkUpdateAppleStore();
         this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
         this.didBlurSubscription = this.props.navigation.addListener(

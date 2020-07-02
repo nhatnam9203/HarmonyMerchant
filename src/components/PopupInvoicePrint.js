@@ -136,14 +136,6 @@ class PopupInvoicePrint extends React.Component {
         }, 500)
     }
 
-    getHour() {
-        const hours = parseInt(new Date().getHours()) - 12 > 0 ? `0${parseInt(new Date().getHours()) - 12}` : parseInt(new Date().getHours());
-        const surfix = parseInt(new Date().getHours()) - 12 > 0 ? 'PM' : 'AM'
-        const temptDate = `${hours}:${(new Date().getMinutes()) > 10 ? (new Date().getMinutes()) : `0${(new Date().getMinutes())}`} ${surfix}`;
-
-        return temptDate;
-    }
-
     getDate() {
         return formatWithMoment(new Date(), "MM/DD/YYYY");
     }
@@ -192,7 +184,7 @@ class PopupInvoicePrint extends React.Component {
 
     render() {
         const { language, visiblePrintInvoice, profile, paymentDetailInfo, profileStaffLogin } = this.props;
-        const { basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected, isPrintTempt,
+        const { basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, isPrintTempt,
             isSignature, paymentMethods, titleInvoice, invoiceNo
         } = this.state;
 

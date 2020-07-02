@@ -12,15 +12,19 @@ import FastImage from 'react-native-fast-image';
 import { ButtonCustom } from '@components';
 import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
+import connectRedux from '@redux/ConnectRedux';
 
 class RowTable extends React.Component {
 
     constructor(props) {
         super(props);
+        const { staff } = this.props
         this.state = {
-            isArchive: true
+            isArchive: true,
+            isActive: staff.isActive ? staff.isActive : false
         }
     }
+
 
     handleArchirveStaff = () => {
         this.setState({
@@ -34,10 +38,23 @@ class RowTable extends React.Component {
         })
     }
 
+    toggleIsActive = async (isActive) => {
+        const { staff } = this.props;
+        if (this.state.isActive !== isActive) {
+            await this.setState({
+                isActive: isActive
+            });
+            this.props.toggleStaffActive(staff, isActive);
+        }
+
+
+    }
+
     render() {
         const { staff, index, archiveStaff, editStaff, restoreStaff, move, moveEnd,
             toggleStaffActive
         } = this.props;
+        const { isActive } = this.state;
 
         return (
             <TouchableOpacity
@@ -102,18 +119,14 @@ class RowTable extends React.Component {
                     width: scaleSzie(90), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: "center" }} >
-                        {/* <Text style={styles.textTableHeader} >
 
-                            {
-                                staff.isDisabled === 0 ? 'Active' : 'Disable'
-                            }
-                        </Text> */}
                         <Switch
                             trackColor={{ false: "#767577", true: "#0764B0" }}
                             // thumbColor={toogle ? "#f5dd4b" : "#f4f3f4"}
                             ios_backgroundColor="#E5E5E5"
-                            onValueChange={(isActive) => toggleStaffActive(staff, isActive)}
-                            value={staff.isActive ? staff.isActive : false}
+                            onValueChange={this.toggleIsActive}
+                            // value={staff.isActive ? staff.isActive : false}
+                            value={isActive}
                         />
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -172,6 +185,17 @@ class RowTable extends React.Component {
             </TouchableOpacity>
         );
     }
+
+    async componentDidUpdate(prevProps, prevState) {
+        const { staff, loading } = this.props;
+
+        if (prevProps.loading !== loading && !loading && staff.isActive !== this.state.isActive) {
+            await this.setState({
+                isActive: staff.isActive
+            })
+        }
+    }
+
 }
 
 const styles = StyleSheet.create({
@@ -201,5 +225,13 @@ const styles = StyleSheet.create({
 
 })
 
-export default RowTable;
+const mapStateToProps = state => ({
+    loading: state.app.loading
+})
+
+
+
+export default connectRedux(mapStateToProps, RowTable);
+
+// export default RowTable;
 

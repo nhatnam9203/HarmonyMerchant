@@ -41,7 +41,7 @@ function* getStaffByMerchantId(action) {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-        yield put({ type: 'STOP_LOADING_ROOT' });
+        // yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'GET_STAFF_BY_MERCHANR_ID_SUCCESS',
@@ -243,9 +243,10 @@ function* editStaff(action) {
             })
         }
     } catch (error) {
+        yield put({ type: 'STOP_LOADING_ROOT' });
         yield put({ type: error });
     } finally {
-        yield put({ type: 'STOP_LOADING_ROOT' });
+        // yield put({ type: 'STOP_LOADING_ROOT' });
     }
 }
 

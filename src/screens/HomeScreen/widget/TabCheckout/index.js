@@ -447,7 +447,7 @@ class TabCheckout extends Layout {
     }
 
     clearDataCofrim = async () => {
-        const { connectionSignalR, groupAppointment, profile, isCancelAppointment, blockAppointments } = this.props;
+        const { connectionSignalR, groupAppointment, profile, isCancelAppointment, blockAppointments, payAppointmentId } = this.props;
         const { customerInfoByPhone } = this.state;
 
         const temptBlockAppointments = blockAppointments ? [...blockAppointments] : [];
@@ -455,6 +455,11 @@ class TabCheckout extends Layout {
         if (!_.isEmpty(connectionSignalR)) {
             connectionSignalR.stop();
         }
+
+        if (payAppointmentId) {
+            this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);
+        }
+
         this.props.gotoPageCurentParent();
         await this.setState({ ...initState, isInitBasket: true });
         this.scrollTabRef.current.goToPage(0);
@@ -677,7 +682,7 @@ class TabCheckout extends Layout {
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
 
         const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards } = this.getBasketOnline(appointments);
-        const basket = isOfflineMode ? this.state.basket : [...arryaServicesBuy, ...arrayProductBuy, ...arrayExtrasBuy, ...arrayGiftCards];
+        const basket = isOfflineMode ? this.state.basket : arrayProductBuy.concat(arryaServicesBuy, arrayExtrasBuy, arrayGiftCards);
 
         const tipAmount = groupAppointment.tipAmount ? groupAppointment.tipAmount : 0;
         const subTotal = groupAppointment.subTotal ? groupAppointment.subTotal : 0;
@@ -808,7 +813,7 @@ class TabCheckout extends Layout {
             });
 
             connection.onclose(async (error) => {
-                console.log("------ SignalR onclose ");
+                // console.log("------ SignalR onclose ");
                 this.props.actions.appointment.resetConnectSignalR();
             });
 
