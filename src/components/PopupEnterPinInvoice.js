@@ -52,17 +52,19 @@ class PopupEnterPinInvoice extends React.Component {
     }
 
     submitPin = () => {
+        const { profile,tabName } = this.props;
         const { value } = this.state;
-        const { profile } = this.props;
+       
         if (value.length === 4) {
-            this.props.actions.staff.loginStaff(profile.merchantCode, value,true);
+            // this.props.actions.staff.loginStaff(profile.merchantCode, value,true);
+            this.props.actions.auth.checkStaffPermission(profile.merchantCode, value,tabName);
         } else {
             Alert.alert(`PIN must be 4 digits.`);
         }
     }
 
     render() {
-        const { title, isShowButtonEnterPinCode, onRequestClose, hideCloseButton,
+        const { title, isLoadingCheckStaffPermission, onRequestClose, hideCloseButton,
             visibleEnterPinInvoice
         } = this.props;
         const { value, customStyle } = this.state;
@@ -109,7 +111,7 @@ class PopupEnterPinInvoice extends React.Component {
                         height: scaleSzie(45), alignItems: 'center'
                     }} >
                         {
-                            isShowButtonEnterPinCode ? <View style={{
+                            isLoadingCheckStaffPermission ? <View style={{
                                 width: '30%', height: scaleSzie(35), backgroundColor: '#0764B0',
                                 justifyContent: 'center', alignItems: 'center'
                             }} >
@@ -151,7 +153,7 @@ class PopupEnterPinInvoice extends React.Component {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    isShowButtonEnterPinCode: state.staff.isShowButtonEnterPinCode,
+    isLoadingCheckStaffPermission: state.auth.isLoadingCheckStaffPermission,
     visibleEnterPinInvoice: state.app.visibleEnterPinInvoice,
     profile: state.dataLocal.profile
 });

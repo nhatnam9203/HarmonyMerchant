@@ -226,7 +226,7 @@ export default class Layout extends React.Component {
                                 fontSize: 20, fontWeight: "600",
                                 marginTop: scaleSzie(6), marginBottom: scaleSzie(6)
                             }]} >
-                                {`${invoiceDetail.status ? `${invoiceDetail.status}`.toUpperCase() : "SALE"}`}
+                                {`${invoiceDetail.status && invoiceDetail.status !== "paid" ? `${invoiceDetail.status}`.toUpperCase() : "SALE"}`}
                             </Text>
                             {/* ------------- Dot Border  ----------- */}
                             <View style={{ height: scaleSzie(8), marginBottom: scaleSzie(8), }} >
@@ -728,6 +728,7 @@ export default class Layout extends React.Component {
                     ref={this.visibleEnterPinRef}
                     title={localize('Input PIN Number', language)}
                     onRequestClose={this.closePopupEnterPinInvoice}
+                    tabName="Invoice"
                 />
                 <PopupConfirmInvoiceStatus
                     ref={this.confirmInvoiceStatusRef}

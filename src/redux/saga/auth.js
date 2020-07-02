@@ -22,7 +22,7 @@ function* login(action) {
             yield put({
                 type: 'LOGIN_APP_SUCCESS',
                 payload: action.body && action.body.email ? action.body.email : "",
-                isRememberMID : action.isRememberMID
+                isRememberMID: action.isRememberMID
             });
             yield put({ type: 'STOP_LOADING_ROOT' });
             NavigationServices.navigate('Splash');
@@ -72,6 +72,60 @@ function* forgotPassword(action) {
     }
 }
 
+function* checkStaffPermission(action) {
+    try {
+        // yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        //console.log('responses : ', responses);
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "CHECK_STAFF_PERMISSION_SUCCESS"
+            });
+            yield put({ type: 'LOADING_ROOT' });
+
+            if (action.tabName === "Invoice") {
+                yield put({
+                    type: 'GET_LIST_INVOICE_BY_MERCHANT',
+                    method: 'GET',
+                    api: `${apiConfigs.BASE_API}checkout?page=1&method=&status=&timeStart=&timeEnd=&key=&quickFilter=`,
+                    token: true,
+                    isShowLoading: true,
+                    currentPage: 1,
+                    isLoadMore: true
+                })
+            }
+
+
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'CHECK_STAFF_PERMISSION_FAIL',
+                message: responses.message
+            });
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        yield put({
+            type: 'CHECK_STAFF_PERMISSION_FAIL',
+            message: responses.message
+        });
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+
+
+
 function* expiredToken(action) {
     NavigationServices.navigate('SignIn');
     yield put({ type: 'LOGOUT_APP' });
@@ -83,6 +137,6 @@ export default function* saga() {
         takeLatest('LOGIN_APP', login),
         takeLatest('UNAUTHORIZED', expiredToken),
         takeLatest('FORGOT_PASSWORD', forgotPassword),
-
+        takeLatest('CHECK_STAFF_PERMISSION', checkStaffPermission),
     ])
 }

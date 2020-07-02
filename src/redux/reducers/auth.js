@@ -1,5 +1,6 @@
 const initialState = {
-    errorLogin: ''
+    errorLogin: '',
+    isLoadingCheckStaffPermission : false
 }
 
 function appReducer(state = initialState, action) {
@@ -13,6 +14,21 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 errorLogin: action.payload.message
+            }
+        case 'CHECK_STAFF_PERMISSION':
+            return {
+                ...state,
+                isLoadingCheckStaffPermission: true
+            }
+        case 'CHECK_STAFF_PERMISSION_SUCCESS':
+            return {
+                ...state,
+                isLoadingCheckStaffPermission: false
+            }
+        case 'CHECK_STAFF_PERMISSION_FAIL':
+            return {
+                ...state,
+                isLoadingCheckStaffPermission: false
             }
         default:
             return state

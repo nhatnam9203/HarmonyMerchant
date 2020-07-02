@@ -44,11 +44,11 @@ function appReducer(state = initialState, action) {
                 ...state,
                 isUpdateMerchantSetting: false,
             }
-            case 'RESET_STATE_UPDATE_MERCHANT_SETTING':
-                return {
-                    ...state,
-                    isUpdateMerchantSetting: false,
-                }
+        case 'RESET_STATE_UPDATE_MERCHANT_SETTING':
+            return {
+                ...state,
+                isUpdateMerchantSetting: false,
+            }
         case 'AGREE_TERM':
             return {
                 ...state,
@@ -130,6 +130,11 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 visibleEnterPinInvoice: action.isPincodeInvoice ? false : state.visibleEnterPinInvoice
+            }
+        case "CHECK_STAFF_PERMISSION_SUCCESS":
+            return {
+                ...state,
+                visibleEnterPinInvoice: false
             }
         case 'SET_VISIBLE_ENTER_CODE_INVOICE':
             return {

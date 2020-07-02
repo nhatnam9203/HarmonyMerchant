@@ -1,6 +1,6 @@
 import apiConfigs from '../../configs/api';
 
-export function login(email, password,isRememberMID = false) {
+export function login(email, password, isRememberMID = false) {
     return {
         type: 'LOGIN_APP',
         body: {
@@ -26,5 +26,19 @@ export function forgotPassword(email) {
         method: 'GET',
         api: `${apiConfigs.BASE_API}merchant/forgotpassword/?email=${email}`,
         email
+    }
+}
+
+export function checkStaffPermission(merchantCode, staffPin, tabName = "Invoice") {
+    return {
+        type: 'CHECK_STAFF_PERMISSION',
+        body: {
+            merchantCode,
+            staffPin
+        },
+        method: 'POST',
+        api: `${apiConfigs.BASE_API}staff/login`,
+        tabName
+
     }
 }
