@@ -42,3 +42,10 @@ export function checkStaffPermission(merchantCode, staffPin, tabName = "Invoice"
 
     }
 }
+
+export function toggleVisiblePopupCheckStaffPermission(visible = true) {
+    return {
+        type: 'TOGGLE_VISIBLE_POPUP_CHECK_STAFF_PERMISSION',
+        payload: visible
+    }
+}

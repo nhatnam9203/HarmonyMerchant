@@ -12,6 +12,7 @@ class SettlementScreen extends Layout {
         };
         this.scrollTabRef = React.createRef();
         this.tabSettleRef = React.createRef();
+        this.visibleEnterPinRef = React.createRef();
     }
 
     componentDidMount() {
@@ -34,6 +35,25 @@ class SettlementScreen extends Layout {
         );
     }
 
+    // componentDidMount_1() {
+    //     this.didBlurSubscription = this.props.navigation.addListener(
+    //         'didBlur',
+    //         payload => {
+    //             this.setState(initalState);
+    //         }
+    //     );
+    //     this.didFocusSubscription = this.props.navigation.addListener(
+    //         'didFocus',
+    //         payload => {
+    //             this.setState({
+    //                 isFocus: true
+    //             });
+    //             this.props.actions.app.setVisibleEnterPincodeInvoice();
+    //             this.visibleEnterPinRef.current.setStateFromParent('');
+    //         }
+    //     );
+    // }
+
     reviewBatchHistory = () => {
         this.scrollTabRef.current.goToPage(2);
     }
@@ -49,6 +69,11 @@ class SettlementScreen extends Layout {
 
     openDrawer = () => {
         this.props.navigation.openDrawer();
+    }
+
+    closePopupCheckStaffPermission = () => {
+        this.props.actions.app.setVisibleEnterPincodeInvoice(false);
+        this.props.navigation.navigate("Home");
     }
 
     componentWillUnmount() {

@@ -68,7 +68,7 @@ class InvoiceScreen extends Layout {
                 this.setState({
                     isFocus: true
                 });
-                this.props.actions.app.setVisibleEnterPincodeInvoice();
+                this.props.actions.auth.toggleVisiblePopupCheckStaffPermission();
                 this.visibleEnterPinRef.current.setStateFromParent('');
             }
         );
@@ -339,8 +339,8 @@ class InvoiceScreen extends Layout {
 
     }
 
-    closePopupEnterPinInvoice = () => {
-        this.props.actions.app.setVisibleEnterPincodeInvoice(false);
+    closePopupCheckStaffPermission = () => {
+        this.props.actions.auth.toggleVisiblePopupCheckStaffPermission(false);
         this.props.navigation.navigate("Home");
     }
 

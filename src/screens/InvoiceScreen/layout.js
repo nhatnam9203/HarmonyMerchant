@@ -11,7 +11,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import _ from 'ramda';
 
 import {
-    Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupCalendar, PopupEnterPinInvoice,
+    Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupCalendar, PopupCheckStaffPermission,
     PopupConfirmInvoiceStatus, PopupProcessingCredit, PopupInvoicePrint, PopupConfirmPrintInvoice
 } from '@components';
 import { scaleSzie, localize, formatWithMoment, getStaffNameForInvoice, formatMoney, getPaymentString } from '@utils';
@@ -186,8 +186,6 @@ export default class Layout extends React.Component {
         const { language, profile, profileStaffLogin } = this.props;
         const { invoiceDetail } = this.state;
         const basket = invoiceDetail.basket ? this.convertBasket(invoiceDetail.basket) : [];
-
-        console.log("-----invoiceDetail : ", invoiceDetail);
 
         return (
             <View style={{ flex: 1 }} >
@@ -724,10 +722,10 @@ export default class Layout extends React.Component {
                     onRequestClose={() => this.setState({ visibleCalendar: false })}
                     changeTitleTimeRange={this.changeTitleTimeRange}
                 />
-                <PopupEnterPinInvoice
+                <PopupCheckStaffPermission
                     ref={this.visibleEnterPinRef}
                     title={localize('Input PIN Number', language)}
-                    onRequestClose={this.closePopupEnterPinInvoice}
+                    onRequestClose={this.closePopupCheckStaffPermission}
                     tabName="Invoice"
                 />
                 <PopupConfirmInvoiceStatus

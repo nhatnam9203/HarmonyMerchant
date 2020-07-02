@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, DefaultTabBar } from '@components';
+import { Text, StatusBarHeader, Button, ParentContainer, PopupCheckStaffPermission, DefaultTabBar } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
@@ -72,7 +72,7 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { navigation } = this.props;
+        const { navigation,language } = this.props;
         const { isFocus } = this.state;
         return (
             <ParentContainer
@@ -87,6 +87,13 @@ export default class Layout extends React.Component {
                     <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
+
+                    <PopupCheckStaffPermission
+                        ref={this.visibleEnterPinRef}
+                        title={localize('Input PIN Number', language)}
+                        onRequestClose={this.closePopupCheckStaffPermission}
+                        tabName="Settlement"
+                    />
                 </View>
             </ParentContainer>
         );

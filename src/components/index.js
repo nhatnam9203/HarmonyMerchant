@@ -34,7 +34,7 @@ import InputFormPhone from './InputFormPhone';
 import PopupChangeMoney from './PopupChangeMoney';
 import PopupEnterPin from './PopupEnterPin';
 import PopupSendLinkInstall from './PopupSendLinkInstall';
-import PopupEnterPinInvoice from './PopupEnterPinInvoice';
+import PopupCheckStaffPermission from './PopupCheckStaffPermission';
 import PopupConfirmInvoiceStatus from './PopupConfirmInvoiceStatus';
 import NetworkListener from './NetworkListener';
 import TextInputSuggestion from './TextInputSuggestion';
@@ -86,7 +86,7 @@ module.exports = {
     PopupChangeMoney,
     PopupEnterPin,
     PopupSendLinkInstall,
-    PopupEnterPinInvoice,
+    PopupCheckStaffPermission,
     PopupConfirmInvoiceStatus,
     NetworkListener,
     TextInputSuggestion,

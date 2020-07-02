@@ -1,6 +1,7 @@
 const initialState = {
     errorLogin: '',
-    isLoadingCheckStaffPermission : false
+    isLoadingCheckStaffPermission: false,
+    visiblePopupCheckStaffPermission: false
 }
 
 function appReducer(state = initialState, action) {
@@ -23,13 +24,20 @@ function appReducer(state = initialState, action) {
         case 'CHECK_STAFF_PERMISSION_SUCCESS':
             return {
                 ...state,
-                isLoadingCheckStaffPermission: false
+                isLoadingCheckStaffPermission: false,
+                visiblePopupCheckStaffPermission: false
             }
         case 'CHECK_STAFF_PERMISSION_FAIL':
             return {
                 ...state,
                 isLoadingCheckStaffPermission: false
             }
+        case 'TOGGLE_VISIBLE_POPUP_CHECK_STAFF_PERMISSION':
+            return {
+                ...state,
+                visiblePopupCheckStaffPermission: action.payload
+            }
+
         default:
             return state
     }

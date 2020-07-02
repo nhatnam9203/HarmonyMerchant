@@ -13,7 +13,7 @@ import PopupParent from './PopupParent';
 import { scaleSzie } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 
-class PopupEnterPinInvoice extends React.Component {
+class PopupCheckStaffPermission extends React.Component {
 
     constructor(props) {
         super(props);
@@ -65,13 +65,13 @@ class PopupEnterPinInvoice extends React.Component {
 
     render() {
         const { title, isLoadingCheckStaffPermission, onRequestClose, hideCloseButton,
-            visibleEnterPinInvoice
+            visiblePopupCheckStaffPermission
         } = this.props;
         const { value, customStyle } = this.state;
         return (
             <PopupParent
                 title={title}
-                visible={visibleEnterPinInvoice}
+                visible={visiblePopupCheckStaffPermission}
                 onRequestClose={() => onRequestClose()}
                 hideCloseButton={hideCloseButton}
                 style={customStyle}
@@ -154,9 +154,9 @@ class PopupEnterPinInvoice extends React.Component {
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     isLoadingCheckStaffPermission: state.auth.isLoadingCheckStaffPermission,
-    visibleEnterPinInvoice: state.app.visibleEnterPinInvoice,
+    visiblePopupCheckStaffPermission: state.auth.visiblePopupCheckStaffPermission,
     profile: state.dataLocal.profile
 });
 
-export default connectRedux(mapStateToProps, PopupEnterPinInvoice);
+export default connectRedux(mapStateToProps, PopupCheckStaffPermission);
 
