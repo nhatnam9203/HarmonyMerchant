@@ -310,18 +310,18 @@ class InvoiceScreen extends Layout {
         const data = JSON.parse(result);
         if (data.status === 1 && data.ResultTxt === "OK") {
             this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch());
-            await this.setState({
-                invoiceDetail: {
-                    history: []
-                },
-            });
-            for (let i = 0; i < this.listInvoiceRef.length; i++) {
-                this.listInvoiceRef[i].setStateFromParent(false);
-            }
+            // await this.setState({
+            //     invoiceDetail: {
+            //         history: []
+            //     },
+            // });
+            // for (let i = 0; i < this.listInvoiceRef.length; i++) {
+            //     this.listInvoiceRef[i].setStateFromParent(false);
+            // }
 
-        } else if (data.status === 1 && data.ResultTxt === "DUP TRANSACTION") {
+        } else if (data.status === 1 && data.ResultTxt !== "OK") {
             setTimeout(() => {
-                alert("DUP TRANSACTION !")
+                alert(`${data.ResultTxt}`)
             }, 300)
         } else {
             setTimeout(() => {
@@ -416,7 +416,7 @@ class InvoiceScreen extends Layout {
                 this.props.actions.invoice.togglPopupConfirmPrintInvoice(false);
 
                 const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards } = this.getBasket(invoiceDetail.basket);
-                const basket = [...arryaServicesBuy, ...arrayProductBuy, ...arrayExtrasBuy, ...arrayGiftCards];
+                const basket = arrayProductBuy.concat(arryaServicesBuy,arrayExtrasBuy,arrayGiftCards);
                 const { subTotal, total, discount, tipAmount, tax, paymentMethod } = invoiceDetail;
 
                 this.invoicePrintRef.current.setStateFromParent(

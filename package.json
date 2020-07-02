@@ -43,6 +43,7 @@
     "react-native-qrcode-svg": "^5.1.2",
     "react-native-scrollable-tab-view": "^0.10.0",
     "react-native-sortable-listview": "^0.2.9",
+    "react-native-splash-screen": "^3.2.0",
     "react-native-star-prnt": "^1.1.0",
     "react-native-svg": "^10.0.0",
     "react-native-swipeout": "^2.3.6",

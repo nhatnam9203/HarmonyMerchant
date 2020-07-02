@@ -4,7 +4,7 @@ const initialState = {
     stateCity: [],
     language: 'en',
     autoCloseAt: '',
-    autoLockScreenAfter: '15:00 min',
+    autoLockScreenAfter: 'Never',
     paxMachineInfo: {
         name: '',
         ip: '',

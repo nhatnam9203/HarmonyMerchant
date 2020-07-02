@@ -14,6 +14,7 @@
 #import <React/RCTRootView.h>
 #import <AVFoundation/AVFoundation.h>
 #import <CodePush/CodePush.h>
+#import "RNSplashScreen.h"
 
 
 @implementation AppDelegate
@@ -33,7 +34,9 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
       [Fabric with:@[[Crashlytics class]]];
-  [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error: nil]; 
+  [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error: nil];
+  
+    [RNSplashScreen show];
   return YES;
 }
 

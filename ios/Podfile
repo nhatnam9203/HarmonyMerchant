@@ -65,6 +65,8 @@ pod 'react-native-config', :path => '../node_modules/react-native-config'
 pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
 
+pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     if target.name == "React"
