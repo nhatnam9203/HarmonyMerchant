@@ -36,10 +36,7 @@ class SettingScreen extends Layout {
                 this.setState({
                     isFocus: true
                 });
-                // const { profile } = this.props;
-                // this.props.actions.app.getMerchantByID(profile.merchantId, false);
                 this.props.actions.auth.toggleVisiblePopupCheckStaffPermission();
-
             }
         );
     }

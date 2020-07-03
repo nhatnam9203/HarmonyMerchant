@@ -75,7 +75,7 @@ export default class Layout extends React.Component {
                             onFocus={() => this.scrollGeneralTo(160)}
                         />
 
-                        <Text style={[{ color: '#404040', fontSize: scaleSzie(14), fontWeight: "600" }]} >
+                        <Text style={[{ color: '#404040', fontSize: scaleSzie(14), fontWeight: "600" ,marginBottom:scaleSzie(5)}]} >
                             {"Federal Tax ID*"}
                         </Text>
                         <View style={{ flexDirection: 'row', marginBottom: scaleSzie(24) }} >
@@ -88,7 +88,7 @@ export default class Layout extends React.Component {
                                     keyboardType="numeric"
                                     onFocus={() => this.scrollGeneralTo(240)}
                                     style={{ marginBottom: 0 }}
-                                    // styleBoxInput={{ marginTop: 0 }}
+                                    styleBoxInput={{ marginTop: 0 }}
                                     maxLength={2}
                                 />
                             </View>

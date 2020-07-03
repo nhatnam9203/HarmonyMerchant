@@ -270,7 +270,7 @@ export default class Layout extends React.Component {
                                 </View>
                                 <View style={{ flex: 1 }} >
                                     <Text style={styles.txt_info} >
-                                        {`: ${invoiceDetail.checkoutId ? `#${invoiceDetail.checkoutId}` : ""}`}
+                                        {`: ${invoiceDetail.checkoutId ? `# ${invoiceDetail.checkoutId}` : ""}`}
                                     </Text>
                                 </View>
                             </View>

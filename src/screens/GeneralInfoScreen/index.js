@@ -4,8 +4,7 @@ import { Alert } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateEmail, validateIsNumber, getIdStateByName, requestAPI, scaleSzie, checkStateIsValid } from '@utils';
-import apiConfigs from '@configs/api';
+import { validateEmail, getIdStateByName, scaleSzie, checkStateIsValid } from '@utils';
 
 
 class GeneralInfoScreen extends Layout {
@@ -75,7 +74,7 @@ class GeneralInfoScreen extends Layout {
 
 
     nextTab = async () => {
-        const { generalInfo ,isDBAAddress} = this.state;
+        const { generalInfo, isDBAAddress } = this.state;
         const arrayKey = Object.keys(generalInfo);
         const { stateCity } = this.props;
         let keyError = '';
@@ -150,18 +149,6 @@ class GeneralInfoScreen extends Layout {
                 if (generalInfo[arrayKey[i]] === '') {
                     keyError = arrayKey[i];
                     break;
-                } else {
-                    // if (arrayKey[i] === 'businessPhone') {
-                    //     if (!validateIsNumber(generalInfo[arrayKey[i]])) {
-                    //         keyError = 'businessPhoneNotNumber';
-                    //         break;
-                    //     }
-                    // } else if (arrayKey[i] === 'contactPhone') {
-                    //     if (!validateIsNumber(generalInfo[arrayKey[i]])) {
-                    //         keyError = 'contactPhoneNotNumber';
-                    //         break;
-                    //     }
-                    // }
                 }
             }
         }
@@ -169,7 +156,7 @@ class GeneralInfoScreen extends Layout {
         if (keyError !== '') {
             Alert.alert(`${strings[keyError]}`);
         } else {
-            const { businessAddress,dbaAddress } = generalInfo;
+            const { businessAddress, dbaAddress } = generalInfo;
             const temptBusinessAddress = { ...businessAddress, state: getIdStateByName(stateCity, businessAddress.state) };
             const temptDBAAddress = { ...dbaAddress, state: getIdStateByName(stateCity, dbaAddress.state) };
             const temptGeneralInfo = {
@@ -178,31 +165,10 @@ class GeneralInfoScreen extends Layout {
                 businessPhone: `${this.businessPhoneRef.current.state.codeAreaPhone}${generalInfo.businessPhone}`,
                 contactPhone: `${this.contactPhoneRef.current.state.codeAreaPhone}${generalInfo.contactPhone}`,
                 businessAddress: temptBusinessAddress,
-                dbaAddress:temptDBAAddress
+                dbaAddress: temptDBAAddress
             };
-
             this.props.actions.app.setGeneralInfo(temptGeneralInfo);
             this.props.navigation.navigate('BusinessInfo');
-
-            //  ---- Check Email Exist ----
-            // this.props.actions.app.loadingApp();
-            // try {
-            //     const responses = await requestAPI({
-            //         method: 'GET',
-            //         api: `${apiConfigs.BASE_API}merchant/checkEmail?email=${generalInfo.email}`
-            //     });
-            //     this.props.actions.app.stopLoadingApp();
-            //     const { codeNumber } = responses;
-            //     if (parseInt(codeNumber) == 200) {
-            //         this.props.actions.app.setGeneralInfo(temptGeneralInfo);
-            //         this.props.navigation.navigate('BusinessInfo');
-            //     } else {
-            //         this.props.actions.app.showMessageError(responses.message);
-            //     }
-            // } catch (error) {
-            //     this.props.actions.app.stopLoadingApp();
-            //     this.props.actions.app.catchError(error);
-            // }
         }
     }
 
@@ -213,7 +179,7 @@ class GeneralInfoScreen extends Layout {
 
         if (this.state.isDBAAddress) {
             this.setState({
-                generalInfo : {...this.state.generalInfo,dbaAddress: this.state.generalInfo.businessAddress}
+                generalInfo: { ...this.state.generalInfo, dbaAddress: this.state.generalInfo.businessAddress }
             });
         } else {
             this.setState({
