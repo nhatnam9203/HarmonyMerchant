@@ -1,4 +1,4 @@
-import { put, takeLatest, all, join } from "redux-saga/effects";
+import { put, takeLatest, all, select } from "redux-saga/effects";
 import NavigationServices from "../../navigators/NavigatorServices";
 
 import apiConfigs from '../../configs/api';
@@ -127,7 +127,18 @@ function* checkStaffPermission(action) {
                     api: `${apiConfigs.BASE_API}staff/salary?quickFilter=thisWeek`,
                     isShowLoading: true
                 })
+            } else if (action.tabName === "Settings") {
+                 const state = yield select();
+                //  console.log("----state : ",state);
+                yield put({
+                    type: 'GET_MERCHANT_BY_ID',
+                    method: 'GET',
+                    token: true,
+                    api: `${apiConfigs.BASE_API}merchant/${state.dataLocal.profile.merchantId}`,
+                    isRefresh:false
+                })
             }
+
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({

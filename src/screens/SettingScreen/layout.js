@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { StatusBarHeader, Button, ParentContainer, Text, PopupLogout } from '@components';
+import { StatusBarHeader, Button, ParentContainer, Text, PopupLogout,PopupCheckStaffPermission } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
@@ -116,6 +116,12 @@ export default class Layout extends React.Component {
                     onRequestClose={() => this.setState({ visibleLogout: false })}
                     confimYes={this.logout}
                     language={language}
+                />
+                <PopupCheckStaffPermission
+                    ref={this.checkPermissionRef}
+                    title={localize('Input PIN Number', language)}
+                    navigation={navigation}
+                    tabName="Settings"
                 />
             </ParentContainer>
         );

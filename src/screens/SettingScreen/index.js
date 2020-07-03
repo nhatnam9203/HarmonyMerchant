@@ -16,6 +16,7 @@ class SettingScreen extends Layout {
         this.scrollTabRef = React.createRef();
         this.taxTabRef = React.createRef();
         this.generalTabRef = React.createRef();
+        this.checkPermissionRef = React.createRef();
     }
 
     componentDidMount() {
@@ -25,7 +26,8 @@ class SettingScreen extends Layout {
             payload => {
                 this.setState({
                     isFocus: false
-                })
+                });
+                this.checkPermissionRef.current.setStateFromParent('');
             }
         );
         this.didFocusSubscription = this.props.navigation.addListener(
@@ -34,8 +36,9 @@ class SettingScreen extends Layout {
                 this.setState({
                     isFocus: true
                 });
-                const { profile } = this.props;
-                this.props.actions.app.getMerchantByID(profile.merchantId, false);
+                // const { profile } = this.props;
+                // this.props.actions.app.getMerchantByID(profile.merchantId, false);
+                this.props.actions.auth.toggleVisiblePopupCheckStaffPermission();
 
             }
         );
