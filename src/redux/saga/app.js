@@ -44,21 +44,26 @@ function* registerUser(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        //console.log('--- registerUser : ', responses);
-        //console.log('----- body register : ' + JSON.stringify(action.body));
+        console.log('--- registerUser : ', responses);
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: "RESET_AGREE_TERM"
+            });
+            yield put({
+                type: "REGISTER_USER_SUCCESS"
             })
             NavigationServices.navigate('SignIn');
         } else {
             yield put({
+                type: "REGISTER_USER_FAIL"
+            });
+            yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
-            })
-            NavigationServices.navigate('GeneralInfo');
+            });
+            // NavigationServices.navigate('GeneralInfo');
         }
     } catch (error) {
         yield put({ type: error });

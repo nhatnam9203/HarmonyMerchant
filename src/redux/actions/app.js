@@ -60,6 +60,14 @@ export function setPrincipalInfo(payload) {
     }
 }
 
+export function setPackagePricing(payload) {
+    return {
+        type: 'SET_PACKAGE_PRICING',
+        payload
+    }
+}
+
+
 export function handleLockScreen(visible) {
     return {
         type: 'HANDLE_LOCK_SCREEN',
@@ -236,3 +244,9 @@ export function resetStateUpdateMerchantSetting(status = false) {
     }
 }
 
+export function resetStateRegisterMerchantError(status = false) {
+    return {
+        type: 'RESET_STATE_REGISTER_MERCHANT_ERROR',
+        payload: status
+    }
+}

@@ -358,7 +358,7 @@ class PrincipalScreen extends Layout {
                 if (result === 1) {
 
                     this.props.actions.app.setPrincipalInfo([temptPrincipalInfo]);
-                    this.props.navigation.navigate('PackageAndPricing');
+                    this.props.goToPage(4);
                 } else if (result === 2) {
                     const { addressPrincipal: addressPrincipalSecond } = principalInfo2;
                     const temptAddressPrincipalSecond = { ...addressPrincipalSecond, state: getIdStateByName(stateCity, addressPrincipalSecond.state) };
@@ -371,7 +371,7 @@ class PrincipalScreen extends Layout {
                         addressPrincipal: temptAddressPrincipalSecond
                     };
                     this.props.actions.app.setPrincipalInfo([temptPrincipalInfo, temptPrincipalSecondInfo]);
-                    this.props.navigation.navigate('PackageAndPricing');
+                    this.props.goToPage(4);
                 }
 
 

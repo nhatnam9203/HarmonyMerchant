@@ -4,6 +4,11 @@ const initialState = {
     businessInfo: '',
     bankInfo: '',
     principalInfo: '',
+    registerMerchantError: false,
+    selectPackageAndPricing: {
+        pricingType: "annualy",
+        packagePricing: 0
+    },
     visibleModalLock: false,
     timeOutLockScreen: 15 * 1000 * 60,
     question: [],
@@ -33,6 +38,26 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 isUpdateMerchantSetting: false,
+            }
+        case 'REGISTER_USER':
+            return {
+                ...state,
+                registerMerchantError: false,
+            }
+        case 'REGISTER_USER_SUCCESS':
+            return {
+                ...state,
+                registerMerchantError: false,
+            }
+        case 'REGISTER_USER_FAIL':
+            return {
+                ...state,
+                registerMerchantError: true,
+            }
+        case 'RESET_STATE_REGISTER_MERCHANT_ERROR':
+            return {
+                ...state,
+                registerMerchantError: false,
             }
         case 'MERCHANT_SETTING_SUCCESS':
             return {
@@ -89,7 +114,11 @@ function appReducer(state = initialState, action) {
                 ...state,
                 principalInfo: action.payload
             }
-
+        case 'SET_PACKAGE_PRICING':
+            return {
+                ...state,
+                selectPackageAndPricing: action.payload
+            }
         case 'HANDLE_LOCK_SCREEN':
             return {
                 ...state,

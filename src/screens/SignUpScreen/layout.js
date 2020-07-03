@@ -30,7 +30,7 @@ export default class Layout extends React.Component {
                             style={{}}
                             initialPage={0}
                             tabBarPosition="bottom"
-                            // locked={true}
+                            locked={true}
                             springTension={1}
                             springFriction={1}
                             renderTabBar={() => <View />}
@@ -41,10 +41,14 @@ export default class Layout extends React.Component {
                             />
                             <BusinessInfo goToPage={this.goToPage} />
                             <BankInfo
+                                ref={this.bankInfoRef}
                                 goToPage={this.goToPage}
                             />
-                            <PrincipalInfo goToPage={this.goToPage} />
-                            <PackageAndPricing  goToPage={this.goToPage} />
+                            <PrincipalInfo
+                                ref={this.principalInfoRef}
+                                goToPage={this.goToPage}
+                            />
+                            <PackageAndPricing goToPage={this.goToPage} />
                             <ApplicationSubmit />
                         </ScrollableTabView>
                     </View>

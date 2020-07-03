@@ -13,17 +13,17 @@ class ApplicationSubmitScreen extends Layout {
     }
 
     submit = () => {
-        const { navigation, generalInfo, businessInfo, bankInfo, principalInfo } = this.props;
-        const pricingType = navigation.getParam('pricingType', "annualy");
-        const packagePricing = navigation.getParam('packagePricing', 1);
+        const { navigation, generalInfo, businessInfo, bankInfo, principalInfo, selectPackageAndPricing } = this.props;
+        // const pricingType = navigation.getParam('pricingType', "annualy");
+        // const packagePricing = navigation.getParam('packagePricing', 1);
 
         this.props.actions.app.registerUser({
             generalInfo,
             businessInfo,
             bankInfo,
             principalInfo,
-            pricingType,
-            packagePricing
+            pricingType: selectPackageAndPricing.pricingType,
+            packagePricing: selectPackageAndPricing.packagePricing
         });
     }
 
@@ -35,6 +35,7 @@ const mapStateToProps = state => ({
     businessInfo: state.app.businessInfo,
     bankInfo: state.app.bankInfo,
     principalInfo: state.app.principalInfo,
+    selectPackageAndPricing: state.app.selectPackageAndPricing,
     language: state.dataLocal.language
 })
 

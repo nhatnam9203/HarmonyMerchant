@@ -32,7 +32,11 @@ class PackageAndPricing extends Layout {
         //     pricingType,
         //     packagePricing
         // });
-        this.props.goToPage(4);
+        this.props.actions.app.setPackagePricing({
+            pricingType,
+            packagePricing
+        })
+        this.props.goToPage(5);
     }
 
 }
