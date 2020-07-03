@@ -53,7 +53,7 @@ class TabFirstSettle extends Layout {
     }
 
     handleReportTabFirst = () => {
-        this.props.actions.invoice.getSettlementWating(false);
+        // this.props.actions.invoice.getSettlementWating(false);
         const { paxMachineInfo } = this.props;
         const { ip, port, timeout, isSetup } = paxMachineInfo;
         if (isSetup) {

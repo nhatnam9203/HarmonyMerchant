@@ -56,7 +56,6 @@ class PopupCheckStaffPermission extends React.Component {
         const { value } = this.state;
        
         if (value.length === 4) {
-            // this.props.actions.staff.loginStaff(profile.merchantCode, value,true);
             this.props.actions.auth.checkStaffPermission(profile.merchantCode, value,tabName);
         } else {
             Alert.alert(`PIN must be 4 digits.`);

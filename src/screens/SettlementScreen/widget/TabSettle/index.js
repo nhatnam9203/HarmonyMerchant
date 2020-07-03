@@ -15,12 +15,6 @@ class TabSettle extends Layout {
         this.tabsecondSettleRef = React.createRef();
     }
 
-    componentDidMount() {
-        this.scrollTabRef.current.goToPage(0);
-        this.props.actions.invoice.getSettlementWating();
-    }
-
-
 
     onDidFocus = () => {
         this.tabFirstSettleRef.current.handleReportTabFirst();

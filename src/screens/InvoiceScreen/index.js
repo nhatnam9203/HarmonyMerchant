@@ -47,7 +47,7 @@ class InvoiceScreen extends Layout {
         this.modalCalendarRef = React.createRef();
         this.listInvoiceRef = [];
         this.onEndReachedCalledDuringMomentum = true;
-        this.visibleEnterPinRef = React.createRef();
+        this.checkPermissionRef = React.createRef();
         this.confirmInvoiceStatusRef = React.createRef();
         this.popupProcessingCreditRef = React.createRef();
         this.invoicePrintRef = React.createRef();
@@ -69,7 +69,7 @@ class InvoiceScreen extends Layout {
                     isFocus: true
                 });
                 this.props.actions.auth.toggleVisiblePopupCheckStaffPermission();
-                this.visibleEnterPinRef.current.setStateFromParent('');
+                this.checkPermissionRef.current.setStateFromParent('');
             }
         );
     }
@@ -416,7 +416,7 @@ class InvoiceScreen extends Layout {
                 this.props.actions.invoice.togglPopupConfirmPrintInvoice(false);
 
                 const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards } = this.getBasket(invoiceDetail.basket);
-                const basket = arrayProductBuy.concat(arryaServicesBuy,arrayExtrasBuy,arrayGiftCards);
+                const basket = arrayProductBuy.concat(arryaServicesBuy, arrayExtrasBuy, arrayGiftCards);
                 const { subTotal, total, discount, tipAmount, tax, paymentMethod } = invoiceDetail;
 
                 this.invoicePrintRef.current.setStateFromParent(

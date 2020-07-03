@@ -12,7 +12,7 @@ class SettlementScreen extends Layout {
         };
         this.scrollTabRef = React.createRef();
         this.tabSettleRef = React.createRef();
-        this.visibleEnterPinRef = React.createRef();
+        this.checkPermissionRef = React.createRef();
     }
 
     componentDidMount() {
@@ -21,7 +21,8 @@ class SettlementScreen extends Layout {
             payload => {
                 this.setState({
                     isFocus: false
-                })
+                });
+                this.scrollTabRef.current.goToPage(0);
             }
         );
         this.didFocusSubscription = this.props.navigation.addListener(
@@ -31,28 +32,11 @@ class SettlementScreen extends Layout {
                     isFocus: true
                 });
                 this.tabSettleRef.current.onDidFocus();
+                this.props.actions.auth.toggleVisiblePopupCheckStaffPermission();
+                this.checkPermissionRef.current.setStateFromParent('');
             }
         );
     }
-
-    // componentDidMount_1() {
-    //     this.didBlurSubscription = this.props.navigation.addListener(
-    //         'didBlur',
-    //         payload => {
-    //             this.setState(initalState);
-    //         }
-    //     );
-    //     this.didFocusSubscription = this.props.navigation.addListener(
-    //         'didFocus',
-    //         payload => {
-    //             this.setState({
-    //                 isFocus: true
-    //             });
-    //             this.props.actions.app.setVisibleEnterPincodeInvoice();
-    //             this.visibleEnterPinRef.current.setStateFromParent('');
-    //         }
-    //     );
-    // }
 
     reviewBatchHistory = () => {
         this.scrollTabRef.current.goToPage(2);
@@ -72,9 +56,10 @@ class SettlementScreen extends Layout {
     }
 
     closePopupCheckStaffPermission = () => {
-        this.props.actions.app.setVisibleEnterPincodeInvoice(false);
+        this.props.actions.auth.toggleVisiblePopupCheckStaffPermission(false);
         this.props.navigation.navigate("Home");
     }
+
 
     componentWillUnmount() {
         this.didBlurSubscription.remove();

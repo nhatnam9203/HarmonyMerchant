@@ -723,7 +723,7 @@ export default class Layout extends React.Component {
                     changeTitleTimeRange={this.changeTitleTimeRange}
                 />
                 <PopupCheckStaffPermission
-                    ref={this.visibleEnterPinRef}
+                    ref={this.checkPermissionRef}
                     title={localize('Input PIN Number', language)}
                     onRequestClose={this.closePopupCheckStaffPermission}
                     tabName="Invoice"

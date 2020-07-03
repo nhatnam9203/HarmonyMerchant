@@ -95,9 +95,15 @@ function* checkStaffPermission(action) {
                     currentPage: 1,
                     isLoadMore: true
                 })
+            } else if (action.tabName === "Settlement") {
+                yield put({
+                    type: 'GET_SETTLEMENT_WAITING',
+                    method: 'GET',
+                    api: `${apiConfigs.BASE_API}settlement/waiting`,
+                    token: true,
+                    isShowLoading: true
+                })
             }
-
-
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

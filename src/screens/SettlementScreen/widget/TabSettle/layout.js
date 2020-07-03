@@ -23,9 +23,6 @@ class Layout extends React.Component {
     render() {
         return (
             <View style={styles.container} >
-                {/* <NavigationEvents
-                    onDidFocus={this.onDidFocus}
-                /> */}
                 <ScrollableTabView
                     ref={this.scrollTabRef}
                     style={{}}
