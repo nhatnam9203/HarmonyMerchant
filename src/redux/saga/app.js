@@ -86,18 +86,32 @@ function* getStateCity(action) {
 
 function* getQuestion(action) {
     try {
-        // yield put({ type: 'LOADING_ROOT' });
+        yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        //console.log('--- responses 2222 : ', responses);
-        yield put({
-            type: 'GET_QUESTION_SUCCESS',
-            payload: responses.data ? responses.data : []
+        const { codeNumber } = responses;
+        console.log('--- getQuestion : ', responses);
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: 'GET_QUESTION_SUCCESS',
+                payload: responses.data ? responses.data : []
 
-        });
+            });
+        } else {
+            yield put({
+                type: 'GET_QUESTION_FAIL',
+            });
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+
     } catch (error) {
+        yield put({ type: 'STOP_LOADING_ROOT' });
         yield put({ type: error });
     } finally {
-        // yield put({ type: 'STOP_LOADING_ROOT' });
+        yield put({ type: 'STOP_LOADING_ROOT' });
     }
 }
 

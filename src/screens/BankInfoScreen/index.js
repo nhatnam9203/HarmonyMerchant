@@ -20,7 +20,7 @@ class BankInfoScreen extends Layout {
             fileId: -1,
             bankInfo: {
                 bankName: '',
-                accountHolderName:"",
+                accountHolderName: "",
                 routingNumber: '',
                 accountNumber: '',
             }
@@ -33,23 +33,17 @@ class BankInfoScreen extends Layout {
         this.srollBankInfoRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
     }
 
-    componentDidMount() {
-        this.didBlurSubscription = this.props.navigation.addListener(
-            'didBlur',
-            payload => {
-                this.setState({
-                    isActiveScreen: false
-                })
-            }
-        );
-        this.didFocusSubscription = this.props.navigation.addListener(
-            'didFocus',
-            payload => {
-                this.setState({
-                    isActiveScreen: true
-                })
-            }
-        );
+    setStateFromparent = async (isActiveScreen) => {
+        await this.setState({
+            isActiveScreen
+        })
+    }
+
+    backScreen = async () => {
+        await this.setState({
+            isActiveScreen: false
+        });
+        this.props.goToPage(1)
     }
 
     updateBankInfo(key, value, keyParent = '') {
@@ -97,7 +91,8 @@ class BankInfoScreen extends Layout {
             if (uriUpload != '') {
                 const temptBankInfo = { ...bankInfo, fileId: this.state.fileId };
                 this.props.actions.app.setBankInfo(temptBankInfo);
-                this.props.navigation.navigate('PrincipalInfo');
+                // this.props.navigation.navigate('PrincipalInfo');
+                this.props.goToPage(3);
             } else {
                 Alert.alert(`Please upload a photo`);
             }
@@ -162,10 +157,10 @@ class BankInfoScreen extends Layout {
         }
     }
 
-    componentWillUnmount() {
-        this.didBlurSubscription.remove();
-        this.didFocusSubscription.remove();
-    }
+    // componentWillUnmount() {
+    //     this.didBlurSubscription.remove();
+    //     this.didFocusSubscription.remove();
+    // }
 
 }
 

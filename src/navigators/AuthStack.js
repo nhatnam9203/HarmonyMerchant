@@ -13,7 +13,8 @@ import {
     ApplicationSubmitScreen,
     IntroScreen,
     UserGuideScreen,
-    PackageAndPricing
+    PackageAndPricing,
+    SignUpScreen
 } from '../screens';
 
 const AuthStack = createStackNavigator(
@@ -23,15 +24,16 @@ const AuthStack = createStackNavigator(
         SignIn: SignInScreen,
         ForgotPassword: ForgotPasswordScreen,
         Terms: TermsScreen,
-        GeneralInfo: GeneralInfoScreen,
-        BusinessInfo: BusinessInfoScreen,
-        BankInfo: BankInfoScreen,
-        PrincipalInfo: PrincipalScreen,
-        PackageAndPricing,
-        ApplicationSubmit: ApplicationSubmitScreen,
+        // GeneralInfo: GeneralInfoScreen,
+        // BusinessInfo: BusinessInfoScreen,
+        // BankInfo: BankInfoScreen,
+        // PrincipalInfo: PrincipalScreen,
+        // PackageAndPricing,
+        // ApplicationSubmit: ApplicationSubmitScreen,
+        SignUp:SignUpScreen
     },
     {
-        initialRouteName: 'Intro',
+        initialRouteName: 'SignUp',
         headerMode: 'none',
         transitionConfig: getSlideFromRightTransition
     }

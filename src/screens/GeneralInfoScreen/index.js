@@ -168,7 +168,7 @@ class GeneralInfoScreen extends Layout {
                 dbaAddress: temptDBAAddress
             };
             this.props.actions.app.setGeneralInfo(temptGeneralInfo);
-            this.props.navigation.navigate('BusinessInfo');
+            this.props.goToPage(1);
         }
     }
 

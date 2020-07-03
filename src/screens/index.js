@@ -22,6 +22,7 @@ import SupportScreen from './SupportScreen';
 import SettlementScreen from './SettlementScreen';
 import ReportScreen from './ReportScreen';
 import PackageAndPricing from "./PackageAndPricing";
+import SignUpScreen from "./SignUpScreen";
 
 module.exports = {
     SplashScreen,
@@ -47,5 +48,6 @@ module.exports = {
     SupportScreen,
     SettlementScreen,
     ReportScreen,
-    PackageAndPricing
+    PackageAndPricing,
+    SignUpScreen
 }

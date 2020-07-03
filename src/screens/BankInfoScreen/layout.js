@@ -5,23 +5,24 @@ import {
     ScrollView,
     Dimensions
 } from 'react-native';
+import FastImage from "react-native-fast-image";
 
 import { InputForm, FormInfoParent, Text, Button, PopupUpload } from '@components';
 import { scaleSzie, localize } from '@utils';
 import IMAGE from '@resources';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 export default class Layout extends React.Component {
 
     render() {
         const {
-            bankName, routingNumber, accountNumber,accountHolderName
+            bankName, routingNumber, accountNumber, accountHolderName
         } = this.state.bankInfo;
         const { language } = this.props;
         return (
             <FormInfoParent
-                back={() => this.props.navigation.goBack()}
+                back={this.backScreen}
                 next={this.nextSreen}
             >
                 <ScrollView
@@ -29,24 +30,24 @@ export default class Layout extends React.Component {
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps="always"
                 >
-                      {/* ------ Header ------ */}
-                      <View style={{
-                                width, paddingHorizontal: scaleSzie(15),
-                                marginTop: scaleSzie(8)
-                            }}  >
-                                <Text style={{ color: '#0764B0', fontWeight: 'bold', fontSize: scaleSzie(18) }} >
-                                {localize('Please fill the form below', language)}
+                    {/* ------ Header ------ */}
+                    <View style={{
+                        width, paddingHorizontal: scaleSzie(15),
+                        marginTop: scaleSzie(8)
+                    }}  >
+                        <Text style={{ color: '#0764B0', fontWeight: 'bold', fontSize: scaleSzie(18) }} >
+                            {localize('Please fill the form below', language)}
+                        </Text>
+                        <View style={{
+                            height: scaleSzie(38), backgroundColor: '#0764B0', justifyContent: 'center',
+                            paddingLeft: scaleSzie(5), marginTop: scaleSzie(5)
+                        }} >
+                            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: scaleSzie(18) }} >
+                                {localize('Bank Information', language)}
                             </Text>
-                                <View style={{
-                                    height: scaleSzie(38), backgroundColor: '#0764B0', justifyContent: 'center',
-                                    paddingLeft: scaleSzie(5), marginTop: scaleSzie(5)
-                                }} >
-                                    <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: scaleSzie(18) }} >
-                                        {localize('Bank Information', language)}
-                                    </Text>
-                                </View>
-                            </View>
-                            {/* ------------------------- */}
+                        </View>
+                    </View>
+                    {/* ------------------------- */}
                     <View style={{ flex: 1, paddingHorizontal: scaleSzie(25) }} >
                         <View style={{ height: scaleSzie(16) }} />
                         <InputForm
@@ -88,7 +89,7 @@ export default class Layout extends React.Component {
                             onFocus={() => this.scrollBankInfoTo(310)}
                         />
 
-                        <Text style={{ color: '#404040', fontSize: scaleSzie(14),fontWeight:"600" }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(14), fontWeight: "600" }} >
                             {`${localize('Void Check', language)}*`}
                         </Text>
                         <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginTop: scaleSzie(10) }} >
@@ -105,9 +106,13 @@ export default class Layout extends React.Component {
                                         width: scaleSzie(400), height: scaleSzie(300),
                                         overflow: 'hidden', marginBottom: scaleSzie(10)
                                     }} >
-                                        <Image
-                                            source={{ uri: this.state.uriUpload }}
+                                        <FastImage
                                             style={{ width: null, height: null, flex: 1 }}
+                                            source={{
+                                                uri: this.state.uriUpload,
+                                                priority: FastImage.priority.high,
+                                                cache: FastImage.cacheControl.immutable
+                                            }}
                                             resizeMode="stretch"
                                         />
                                     </View> : <View />
@@ -157,7 +162,7 @@ export default class Layout extends React.Component {
 
                         </View>
                     </View>
-                    <View style={{height:scaleSzie(250)}} />
+                    <View style={{ height: scaleSzie(250) }} />
                 </ScrollView>
                 <PopupUpload
                     ref={this.uploadVoidCheckRef}

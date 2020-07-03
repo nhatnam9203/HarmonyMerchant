@@ -17,7 +17,6 @@ export default class InputQuestionBusiness extends React.PureComponent {
         this.state = {
             isCheck: false
         }
-
         this.inputRef = React.createRef();
     }
 
@@ -27,8 +26,6 @@ export default class InputQuestionBusiness extends React.PureComponent {
         }), () => {
             this.props.changeStatusCheck(this.state.isCheck);
         });
-
-
     }
 
 

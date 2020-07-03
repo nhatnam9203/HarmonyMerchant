@@ -163,6 +163,7 @@ export default class Layout extends React.Component {
                                     keyboardType="numeric"
                                     maxLength={5}
                                     onFocus={() => this.scrollGeneralTo(310)}
+                                    isOnlyNumber={true}
                                 />
                             </View>
                         </View>
@@ -236,6 +237,7 @@ export default class Layout extends React.Component {
                                     maxLength={5}
                                     onFocus={() => this.scrollGeneralTo(425)}
                                     editable={!isDBAAddress}
+                                    isOnlyNumber={true}
                                 />
                             </View>
                         </View>
@@ -251,7 +253,7 @@ export default class Layout extends React.Component {
                                     value={businessPhone}
                                     onChangeText={(value) => this.updateGeneralInfo('businessPhone', value)}
                                     keyboardType="numeric"
-                                    onFocus={() => this.scrollGeneralTo(440)}
+                                    onFocus={() => this.scrollGeneralTo(560)}
                                 />
                             </View>
                             <View style={{ flex: 1 }} />
@@ -263,7 +265,7 @@ export default class Layout extends React.Component {
                             placeholder="example@gmail.com"
                             value={email}
                             onChangeText={(value) => this.updateGeneralInfo('email', value)}
-                            onFocus={() => this.scrollGeneralTo(515)}
+                            onFocus={() => this.scrollGeneralTo(515 + 120)}
                         />
 
                         <View style={{ flexDirection: 'row' }} >
@@ -274,7 +276,7 @@ export default class Layout extends React.Component {
                                     placeholder={localize('First Name', language)}
                                     value={firstName}
                                     onChangeText={(value) => this.updateGeneralInfo('firstName', value)}
-                                    onFocus={() => this.scrollGeneralTo(590)}
+                                    onFocus={() => this.scrollGeneralTo(590+120)}
                                 />
                             </View>
                             <View style={{ flex: 1, paddingLeft: scaleSzie(20) }} >
@@ -284,7 +286,7 @@ export default class Layout extends React.Component {
                                     placeholder={localize('Last Name', language)}
                                     value={lastName}
                                     onChangeText={(value) => this.updateGeneralInfo('lastName', value)}
-                                    onFocus={() => this.scrollGeneralTo(590)}
+                                    onFocus={() => this.scrollGeneralTo(590+120)}
                                 />
                             </View>
                         </View>
@@ -294,7 +296,7 @@ export default class Layout extends React.Component {
                             placeholder="President/Manager/Owner"
                             value={position}
                             onChangeText={(value) => this.updateGeneralInfo('position', value)}
-                            onFocus={() => this.scrollGeneralTo(665)}
+                            onFocus={() => this.scrollGeneralTo(665+120)}
                         />
 
                         <View style={{ flexDirection: 'row' }} >
@@ -307,7 +309,7 @@ export default class Layout extends React.Component {
                                     value={contactPhone}
                                     onChangeText={(value) => this.updateGeneralInfo('contactPhone', value)}
                                     keyboardType="numeric"
-                                    onFocus={() => this.scrollGeneralTo(665)}
+                                    onFocus={() => this.scrollGeneralTo(665+120)}
                                 />
                             </View>
                             <View style={{ flex: 1 }} />

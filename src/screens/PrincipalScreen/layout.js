@@ -30,7 +30,7 @@ export default class Layout extends React.Component {
         return (
             <FormInfoParent
                 title={localize('Principal Information', language)}
-                back={() => this.props.navigation.goBack()}
+                back={this.backScreen}
                 next={this.nextScreen}
 
             >

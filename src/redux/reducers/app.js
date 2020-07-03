@@ -100,6 +100,11 @@ function appReducer(state = initialState, action) {
                 ...state,
                 question: action.payload
             }
+        case 'GET_QUESTION_FAIL':
+            return {
+                ...state,
+                question: []
+            }
         case 'NET_WORK_REQUEST_FAIL':
             return {
                 ...state,

@@ -21,16 +21,13 @@ class TermsScreen extends Layout {
     }
 
     agreeTerm = () => {
-        // this.setState(prevState => ({
-        //     isAgree: !prevState.isAgree
-        // }))
         const {isAgreeTerm} = this.props;
         this.props.actions.app.agreeTerm(!isAgreeTerm);
     }
 
     nextScreen = () => {
         if (this.props.isAgreeTerm) {
-            this.props.navigation.navigate('GeneralInfo');
+            this.props.navigation.navigate('SignUp');
         }
 
     }

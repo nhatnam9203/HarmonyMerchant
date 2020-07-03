@@ -41,50 +41,16 @@ class BusinessInfoScreen extends Layout {
         this.srollBusinessRef = React.createRef();
     }
 
-    scrollBusinessTo(position){
-        this.srollBusinessRef.current.scrollTo({x: 0, y: scaleSzie(position), animated: true})
-    }
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.question.length > 0 && !prevState.initQuestion) {
-        //console.log(nextProps.question);
-            const { question } = nextProps
-            return {
-                initQuestion: true,
-                businessInfo: {
-                    question1: {
-                        isAccept: false,
-                        desc: '',
-                        question: question[0].value
-                    },
-                    question2: {
-                        isAccept: false,
-                        desc: '',
-                        question: question[1].value
-                    },
-                    question3: {
-                        isAccept: false,
-                        desc: '',
-                        question: question[2].value
-                    },
-                    question4: {
-                        isAccept: false,
-                        desc: '',
-                        question: question[3].value
-                    },
-                    question5: {
-                        isAccept: false,
-                        desc: '',
-                        question: question[4].value
-                    },
-                }
-            }
-        }
-        return null
-    }
-
     componentDidMount() {
+        this.getQuestions();
+    }
+
+    getQuestions = () => {
         this.props.actions.app.getQuestion();
+    }
+
+    scrollBusinessTo(position) {
+        this.srollBusinessRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
     }
 
     updateBusinessInfo(key, value, keyParent = '') {
@@ -119,11 +85,56 @@ class BusinessInfoScreen extends Layout {
     }
 
     nextTab = () => {
+        const { question } = this.props;
         const { businessInfo } = this.state;
-        this.props.actions.app.setBusinessInfo(businessInfo);
-        this.props.navigation.navigate('BankInfo');
+        if (question.length === 0) {
+            alert("Click button above to get the questions from server!")
+        } else {
+            this.props.actions.app.setBusinessInfo(businessInfo);
+            this.props.goToPage(2);
+        }
     }
 
+    updateQuestionBusinessInfo = () => {
+        const { question } = this.props;
+        this.setState({
+            businessInfo: {
+                question1: {
+                    isAccept: false,
+                    desc: '',
+                    question: question[0].value
+                },
+                question2: {
+                    isAccept: false,
+                    desc: '',
+                    question: question[1].value
+                },
+                question3: {
+                    isAccept: false,
+                    desc: '',
+                    question: question[2].value
+                },
+                question4: {
+                    isAccept: false,
+                    desc: '',
+                    question: question[3].value
+                },
+                question5: {
+                    isAccept: false,
+                    desc: '',
+                    question: question[4].value
+                }
+            }
+        })
+
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { question, loading } = this.props;
+        if (prevProps.question.length === 0 && question.length > 0) {
+            this.updateQuestionBusinessInfo();
+        }
+    }
 
 
 

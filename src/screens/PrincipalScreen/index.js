@@ -118,22 +118,35 @@ class PrincipalScreen extends Layout {
     }
 
     componentDidMount() {
-        this.didBlurSubscription = this.props.navigation.addListener(
-            'didBlur',
-            payload => {
-                this.setState({
-                    isActiveScreen: false
-                })
-            }
-        );
-        this.didFocusSubscription = this.props.navigation.addListener(
-            'didFocus',
-            payload => {
-                this.setState({
-                    isActiveScreen: true
-                })
-            }
-        );
+        // this.didBlurSubscription = this.props.navigation.addListener(
+        //     'didBlur',
+        //     payload => {
+        //         this.setState({
+        //             isActiveScreen: false
+        //         })
+        //     }
+        // );
+        // this.didFocusSubscription = this.props.navigation.addListener(
+        //     'didFocus',
+        //     payload => {
+        //         this.setState({
+        //             isActiveScreen: true
+        //         })
+        //     }
+        // );
+    }
+
+    setStateFromparent = async (isActiveScreen) => {
+        await this.setState({
+            isActiveScreen
+        })
+    }
+
+    backScreen = async () => {
+        await this.setState({
+            isActiveScreen: false
+        });
+        this.props.goToPage(2)
     }
 
     updatePhoneCode = async (code, key, isPrincipalSecond) => {
@@ -460,10 +473,10 @@ class PrincipalScreen extends Layout {
         }
     }
 
-    componentWillUnmount() {
-        this.didBlurSubscription.remove();
-        this.didFocusSubscription.remove();
-    }
+    // componentWillUnmount() {
+    //     this.didBlurSubscription.remove();
+    //     this.didFocusSubscription.remove();
+    // }
 
 }
 

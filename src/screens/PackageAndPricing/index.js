@@ -28,10 +28,11 @@ class PackageAndPricing extends Layout {
         const pricingType = this.billRef.current.state.toogle ? "annualy" : "monthly";
         const packagePricing = packageId;
 
-        this.props.navigation.navigate('ApplicationSubmit', {
-            pricingType,
-            packagePricing
-        });
+        // this.props.navigation.navigate('ApplicationSubmit', {
+        //     pricingType,
+        //     packagePricing
+        // });
+        this.props.goToPage(4);
     }
 
 }
