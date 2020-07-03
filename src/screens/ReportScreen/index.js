@@ -18,6 +18,7 @@ class ReportScreen extends Layout {
             selectedStaff : {}
         };
         this.modalCalendarRef = React.createRef();
+        this.checkPermissionRef = React.createRef();
     }
 
     componentDidMount() {
@@ -27,7 +28,8 @@ class ReportScreen extends Layout {
                 this.setState({
                     isFocus: false,
                     titleRangeTime: 'This week',
-                })
+                });
+                this.checkPermissionRef.current.setStateFromParent('');
             }
         );
         this.didFocusSubscription = this.props.navigation.addListener(
@@ -36,7 +38,8 @@ class ReportScreen extends Layout {
                 this.setState({
                     isFocus: true
                 });
-                this.props.actions.staff.getListStaffsSalaryTop();
+                // this.props.actions.staff.getListStaffsSalaryTop();
+                this.props.actions.auth.toggleVisiblePopupCheckStaffPermission();
             }
         );
     }

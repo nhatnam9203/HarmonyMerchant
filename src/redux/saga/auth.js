@@ -111,8 +111,23 @@ function* checkStaffPermission(action) {
                     token: true,
                     isShowLoading: true
                 })
+            } else if (action.tabName === "Inventory") {
+                yield put({
+                    type: 'GET_PRODUCTS_BY_MERCHANR_ID',
+                    method: 'GET',
+                    token: true,
+                    api: `${apiConfigs.BASE_API}product`,
+                    isShowLoading: true
+                })
+            } else if (action.tabName === "Reports") {
+                yield put({
+                    type: 'GET_LIST_STAFFS_SALARY_TOP',
+                    method: 'GET',
+                    token: true,
+                    api: `${apiConfigs.BASE_API}staff/salary?quickFilter=thisWeek`,
+                    isShowLoading: true
+                })
             }
-
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({

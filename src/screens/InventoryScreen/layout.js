@@ -8,7 +8,7 @@ import DraggableFlatList from 'react-native-draggable-flatlist';
 
 import {
     Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupAddEditProduct,
-    ModalCustom
+    ModalCustom,PopupCheckStaffPermission
 } from '@components';
 import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
 import styles from './style';
@@ -311,6 +311,12 @@ export default class Layout extends React.Component {
                     typeFile={this.state.typeFile === "pdf" ? "PDF" : "Excel"}
                 />
                 {this.renderModalDropdownExport()}
+                <PopupCheckStaffPermission
+                    ref={this.checkPermissionRef}
+                    title={localize('Input PIN Number', language)}
+                    navigation={navigation}
+                    tabName="Inventory"
+                />
             </ParentContainer>
         );
     }

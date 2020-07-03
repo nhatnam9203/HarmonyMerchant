@@ -5,7 +5,7 @@ import {
     FlatList,
 } from 'react-native';
 
-import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, PopupCalendar } from '@components';
+import { Text, StatusBarHeader, Button, ParentContainer, PopupCheckStaffPermission, PopupCalendar } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
@@ -132,8 +132,9 @@ export default class Layout extends React.Component {
     }
 
     render() {
+        const { navigation ,language} = this.props;
         const { isFocus, visibleCalendar,selectedStaff,visibleStaffInvoicePrint } = this.state;
-        const { navigation } = this.props;
+       
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -161,6 +162,12 @@ export default class Layout extends React.Component {
                     visiblePrintInvoice={visibleStaffInvoicePrint}
                     onRequestClose={this.cancelStaffInvoicePrint}
                     staff={selectedStaff}
+                />
+                 <PopupCheckStaffPermission
+                    ref={this.checkPermissionRef}
+                    title={localize('Input PIN Number', language)}
+                    navigation={navigation}
+                    tabName="Reports"
                 />
             </ParentContainer>
         );

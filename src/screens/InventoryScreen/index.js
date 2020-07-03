@@ -36,6 +36,7 @@ class InventoryScreen extends Layout {
         this.addProductRef = React.createRef();
         this.restockRef = React.createRef();
         this.modalExportRef = React.createRef();
+        this.checkPermissionRef = React.createRef();
     }
 
     componentDidMount() {
@@ -44,7 +45,8 @@ class InventoryScreen extends Layout {
             payload => {
                 this.setState({
                     isFocus: false
-                })
+                });
+                this.checkPermissionRef.current.setStateFromParent('');
             }
         );
         this.didFocusSubscription = this.props.navigation.addListener(
@@ -53,7 +55,8 @@ class InventoryScreen extends Layout {
                 this.setState({
                     isFocus: true
                 });
-                this.props.actions.product.getProductsByMerchant();
+                // this.props.actions.product.getProductsByMerchant();
+                this.props.actions.auth.toggleVisiblePopupCheckStaffPermission();
             }
         );
     }
