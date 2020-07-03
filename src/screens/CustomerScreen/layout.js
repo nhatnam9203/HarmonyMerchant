@@ -6,7 +6,7 @@ import {
     FlatList
 } from 'react-native';
 
-import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom } from '@components';
+import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, PopupCheckStaffPermission } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
@@ -184,6 +184,12 @@ export default class Layout extends React.Component {
                     title={localize('Customer Details', language)}
                     onRequestClose={this.closeModalDetail}
                     showModalEditCustomer={this.showModalEditCustomer}
+                />
+                <PopupCheckStaffPermission
+                    ref={this.checkPermissionRef}
+                    title={localize('Input PIN Number', language)}
+                    navigation={navigation}
+                    tabName="Customer"
                 />
             </ParentContainer>
         );

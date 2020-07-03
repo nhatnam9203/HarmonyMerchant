@@ -20,7 +20,6 @@ class PopupCheckStaffPermission extends React.Component {
         this.state = {
             value: '',
             customStyle: {},
-            loading: false
         }
     }
 
@@ -29,8 +28,8 @@ class PopupCheckStaffPermission extends React.Component {
         this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardDidHide);
     }
 
-    setStateFromParent = async (value) => {
-        this.setState({
+    setStateFromParent = async (value = "") => {
+        await this.setState({
             value
         })
     }
@@ -52,29 +51,35 @@ class PopupCheckStaffPermission extends React.Component {
     }
 
     submitPin = () => {
-        const { profile,tabName } = this.props;
+        const { profile, tabName } = this.props;
         const { value } = this.state;
-       
         if (value.length === 4) {
-            this.props.actions.auth.checkStaffPermission(profile.merchantCode, value,tabName);
+            this.props.actions.auth.checkStaffPermission(profile.merchantCode, value, tabName);
         } else {
             Alert.alert(`PIN must be 4 digits.`);
         }
     }
 
+    onRequestClose = async () => {
+        await this.setState({
+            value: ""
+        });
+        this.props.actions.auth.toggleVisiblePopupCheckStaffPermission(false);
+        this.props.navigation.navigate("Home");
+    }
+
     render() {
-        const { title, isLoadingCheckStaffPermission, onRequestClose, hideCloseButton,
-            visiblePopupCheckStaffPermission
+        const { title, isLoadingCheckStaffPermission,
+            visiblePopupCheckStaffPermission, hideCloseButton
         } = this.props;
         const { value, customStyle } = this.state;
         return (
             <PopupParent
                 title={title}
                 visible={visiblePopupCheckStaffPermission}
-                onRequestClose={() => onRequestClose()}
+                onRequestClose={this.onRequestClose}
                 hideCloseButton={hideCloseButton}
                 style={customStyle}
-                // hideCloseButton={true}
             >
                 <View style={{
                     height: scaleSzie(150), backgroundColor: '#fff',

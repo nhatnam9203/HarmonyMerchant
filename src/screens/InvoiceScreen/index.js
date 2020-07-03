@@ -60,6 +60,7 @@ class InvoiceScreen extends Layout {
             'didBlur',
             payload => {
                 this.setState(initalState);
+                this.checkPermissionRef.current.setStateFromParent('');
             }
         );
         this.didFocusSubscription = this.props.navigation.addListener(
@@ -69,7 +70,6 @@ class InvoiceScreen extends Layout {
                     isFocus: true
                 });
                 this.props.actions.auth.toggleVisiblePopupCheckStaffPermission();
-                this.checkPermissionRef.current.setStateFromParent('');
             }
         );
     }
@@ -337,11 +337,6 @@ class InvoiceScreen extends Layout {
             visibleProcessingCredit: false
         });
 
-    }
-
-    closePopupCheckStaffPermission = () => {
-        this.props.actions.auth.toggleVisiblePopupCheckStaffPermission(false);
-        this.props.navigation.navigate("Home");
     }
 
     getBasket = (appointment) => {

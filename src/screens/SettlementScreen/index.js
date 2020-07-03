@@ -23,6 +23,7 @@ class SettlementScreen extends Layout {
                     isFocus: false
                 });
                 this.scrollTabRef.current.goToPage(0);
+                this.checkPermissionRef.current.setStateFromParent('');
             }
         );
         this.didFocusSubscription = this.props.navigation.addListener(
@@ -33,7 +34,6 @@ class SettlementScreen extends Layout {
                 });
                 this.tabSettleRef.current.onDidFocus();
                 this.props.actions.auth.toggleVisiblePopupCheckStaffPermission();
-                this.checkPermissionRef.current.setStateFromParent('');
             }
         );
     }
@@ -54,12 +54,6 @@ class SettlementScreen extends Layout {
     openDrawer = () => {
         this.props.navigation.openDrawer();
     }
-
-    closePopupCheckStaffPermission = () => {
-        this.props.actions.auth.toggleVisiblePopupCheckStaffPermission(false);
-        this.props.navigation.navigate("Home");
-    }
-
 
     componentWillUnmount() {
         this.didBlurSubscription.remove();

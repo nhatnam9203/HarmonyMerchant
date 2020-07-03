@@ -725,7 +725,7 @@ export default class Layout extends React.Component {
                 <PopupCheckStaffPermission
                     ref={this.checkPermissionRef}
                     title={localize('Input PIN Number', language)}
-                    onRequestClose={this.closePopupCheckStaffPermission}
+                    navigation={navigation}
                     tabName="Invoice"
                 />
                 <PopupConfirmInvoiceStatus

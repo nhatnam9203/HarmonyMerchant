@@ -19,6 +19,7 @@ class CustomerScreen extends Layout {
         this.modalDetailRef = React.createRef();
         this.modalAddRef = React.createRef();
         this.modalEditRef = React.createRef();
+        this.checkPermissionRef = React.createRef();
     }
 
     componentDidMount() {
@@ -27,7 +28,8 @@ class CustomerScreen extends Layout {
             payload => {
                 this.setState({
                     isFocus: false
-                })
+                });
+                this.checkPermissionRef.current.setStateFromParent('');
             }
         );
         this.didFocusSubscription = this.props.navigation.addListener(
@@ -36,7 +38,7 @@ class CustomerScreen extends Layout {
                 this.setState({
                     isFocus: true
                 });
-                this.props.actions.customer.getListCustomersByMerchant();
+                this.props.actions.auth.toggleVisiblePopupCheckStaffPermission();
             }
         );
     }

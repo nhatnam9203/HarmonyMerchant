@@ -103,7 +103,17 @@ function* checkStaffPermission(action) {
                     token: true,
                     isShowLoading: true
                 })
+            } else if (action.tabName === "Customer") {
+                yield put({
+                    type: 'GET_LIST_CUSTOMER_BY_MERCHANT',
+                    method: 'GET',
+                    api: `${apiConfigs.BASE_API}customer/bymerchant`,
+                    token: true,
+                    isShowLoading: true
+                })
             }
+
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
