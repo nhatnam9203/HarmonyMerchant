@@ -44,7 +44,7 @@ function* registerUser(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('--- registerUser : ', responses);
+        // console.log('--- registerUser : ', responses);
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
@@ -94,7 +94,7 @@ function* getQuestion(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-        console.log('--- getQuestion : ', responses);
+        // console.log('--- getQuestion : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -122,10 +122,10 @@ function* getQuestion(action) {
 
 function* merchantSetting(action) {
     try {
-        console.log("----- merchantSetting : ",action );
+        // console.log("----- merchantSetting : ",action );
         action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : null;
         const responses = yield requestAPI(action);
-        console.log('--- merchantSetting : ', responses);
+        // console.log('--- merchantSetting : ', responses);
         const { codeNumber } = responses;
         // yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {

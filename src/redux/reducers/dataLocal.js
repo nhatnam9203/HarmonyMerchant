@@ -65,7 +65,7 @@ function dataLocal(state = initialState, action) {
                 ...state,
                 language: action.payload.language,
                 autoCloseAt: action.payload.autoCloseAt,
-                autoLockScreenAfter: action.payload.autoLockScreenAfter,
+                // autoLockScreenAfter: action.payload.autoLockScreenAfter,
             }
         case 'GET_STATE_CITY_SUCCESS':
             return {

@@ -35,7 +35,7 @@ const initalState = {
     isCheck: false,
     isSignature: true,
 
-    paymentMethods: [{ paymentMethod: "" }],
+    paymentMethods: [],
     titleInvoice: "SALE",
     invoiceNo: "",
     checkoutPayments: []
@@ -158,7 +158,7 @@ class PopupInvoicePrint extends React.Component {
 
     getPaymentMethods = () => {
         const { paymentDetailInfo } = this.props;
-        return paymentDetailInfo.paidAmounts && paymentDetailInfo.paidAmounts.length > 0 ? (paymentDetailInfo.paidAmounts).reverse() : [{ paymentMethod: "" }];
+        return paymentDetailInfo.paidAmounts && paymentDetailInfo.paidAmounts.length > 0 ? (paymentDetailInfo.paidAmounts).reverse() : [];
 
         // return paidAmounts.reverse();
 
@@ -405,10 +405,10 @@ class PopupInvoicePrint extends React.Component {
                                                 // paymentMethods.map 
                                                 temtCheckoutPayment.map((data, index) => <View key={index} style={{ marginBottom: scaleSzie(4) }} >
                                                     <Text style={[styleInvoice.txt_total,]} >
-                                                        {`- Entry method : ${getPaymentString(data.paymentMethod)}`}
+                                                        {`- Entry method : ${getPaymentString(data.paymentMethod ? data.paymentMethod : "")}`}
                                                     </Text>
                                                     {
-                                                        data.paymentMethod === "credit_card" ?
+                                                        data.paymentMethod && data.paymentMethod === "credit_card" ?
                                                             <View style={{ marginTop: scaleSzie(5) }} >
                                                                 <Text style={[styleInvoice.txt_total, { fontSize: scaleSzie(10) }]} >
                                                                     {`    ${data.paymentInformation && data.paymentInformation.type ? data.paymentInformation.type : ""}: ***********${data.paymentInformation && data.paymentInformation.number ? data.paymentInformation.number : ""}`}
