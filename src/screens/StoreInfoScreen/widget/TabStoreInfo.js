@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, Text, ItemWorkingTime } from '@components';
-import { scaleSzie, localize, BusinessWorkingTime, } from '@utils';
+import { scaleSzie, localize, BusinessWorkingTime, hideCharactes} from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class TabAdminInfo extends React.Component {
@@ -102,25 +102,25 @@ class TabAdminInfo extends React.Component {
                     />
                     <ItemTextStoreInfo
                         title={localize('Account Number', language)}
-                        value={businessBank && businessBank.accountNumber ? businessBank.accountNumber : ''}
+                        value={businessBank && businessBank.accountNumber ?hideCharactes(businessBank.accountNumber) : ''}
                     />
                     <ItemTextStoreInfo
                         title={localize('Routing Number', language)}
-                        value={businessBank && businessBank.routingNumber ? businessBank.routingNumber : ''}
+                        value={businessBank && businessBank.routingNumber ?hideCharactes(businessBank.routingNumber) : ''}
                     />
                     <ItemTextStoreInfo
                         title="EIN"
-                        value={taxId ? taxId : ''}
+                        value={taxId ? hideCharactes(taxId) : ''}
                     />
 
-                    {/* -------- Business Hour --------- */}
+                    {/* -------- Business Hours --------- */}
                     <View style={{ paddingLeft: scaleSzie(90),   marginTop: scaleSzie(25)}} >
                         <Text style={{
                             color: '#404040',
                             fontSize: scaleSzie(16),
                             fontWeight: '600',
                         }}  >
-                            {`${localize('Business Hour', language)}`}
+                            {`${localize('Business Hours', language)}`}
                         </Text>
                     </View>
 

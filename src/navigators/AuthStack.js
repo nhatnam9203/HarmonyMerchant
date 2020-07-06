@@ -11,9 +11,9 @@ import {
     BusinessInfoScreen,
     PrincipalScreen,
     ApplicationSubmitScreen,
+    PackageAndPricing,
     IntroScreen,
     UserGuideScreen,
-    PackageAndPricing,
     SignUpScreen
 } from '../screens';
 
@@ -33,7 +33,7 @@ const AuthStack = createStackNavigator(
         SignUp:SignUpScreen
     },
     {
-        initialRouteName: 'SignUp',
+        initialRouteName: 'Intro',
         headerMode: 'none',
         transitionConfig: getSlideFromRightTransition
     }

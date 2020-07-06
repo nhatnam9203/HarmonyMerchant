@@ -121,7 +121,7 @@ class Layout extends React.Component {
                             />
                         </View>
                     </View>
-                    {/* -------- Business Hour --------- */}
+                    {/* -------- Business Hours --------- */}
                     <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
                         <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
                             <Text style={{
@@ -129,7 +129,7 @@ class Layout extends React.Component {
                                 fontSize: scaleSzie(16),
                                 fontWeight: '600',
                             }}  >
-                                {`${localize('Business Hour', language)}:`}
+                                {`${localize('Business Hours', language)}:`}
                             </Text>
                         </View>
                         <View style={{ height: scaleSzie(40), width: scaleSzie(400), flexDirection: 'row' }} />

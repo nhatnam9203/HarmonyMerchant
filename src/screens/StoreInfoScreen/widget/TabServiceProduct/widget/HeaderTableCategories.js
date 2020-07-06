@@ -66,9 +66,9 @@ class HeaderTableCategories extends React.Component {
                             Category Name
                             </Text>
                     </View>
-                    <Button onPress={this.sortStaffName} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
+                    {/* <Button onPress={this.sortStaffName} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
                         <Image source={iconSortStaffName} style={styles.iconSort} />
-                    </Button>
+                    </Button> */}
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
@@ -82,9 +82,9 @@ class HeaderTableCategories extends React.Component {
                             Type
                             </Text>
                     </View>
-                    <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
+                    {/* <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
                         <Image source={iconSortRole} style={styles.iconSort} />
-                    </Button>
+                    </Button> */}
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>

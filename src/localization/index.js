@@ -360,7 +360,7 @@ const localization = {
         'Do you want to Restore this Extra':'Do you want to Restore this Extra',
         'Price':'Price',
         'Website':'Website',
-        'Business Hour':'Business Hour',
+        'Business Hours':'Business Hours',
         'Longtitude':'Longtitude',
         'Latitude':'Latitude',
         'Get current your position':'Get current your position',

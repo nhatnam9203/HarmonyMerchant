@@ -69,8 +69,10 @@ const authMiddleware = store => next => action => {
     const versionApp = appState.dataLocal.versionApp;
     const action_tempt = { ...action, versionApp };
 
+    // console.log("---- action : ", JSON.stringify(action));
 
     if (action.token) {
+
         return next({ ...action_tempt, token: appState.dataLocal.profileStaffLogin.token });
 
     }

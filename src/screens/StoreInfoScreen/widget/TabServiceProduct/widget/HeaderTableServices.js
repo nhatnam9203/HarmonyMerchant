@@ -6,7 +6,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-import {  Button } from '@components';
+import { Button } from '@components';
 import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 
@@ -64,9 +64,9 @@ class HeaderTableServices extends React.Component {
                             Service Name
                             </Text>
                     </View>
-                    <Button onPress={this.sortStaffName} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
+                    {/* <Button onPress={this.sortStaffName} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
                         <Image source={iconSortStaffName} style={styles.iconSort} />
-                    </Button>
+                    </Button> */}
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
@@ -80,9 +80,9 @@ class HeaderTableServices extends React.Component {
                             Categories
                             </Text>
                     </View>
-                    <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
+                    {/* <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
                         <Image source={iconSortRole} style={styles.iconSort} />
-                    </Button>
+                    </Button> */}
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
@@ -96,9 +96,9 @@ class HeaderTableServices extends React.Component {
                             Extra
                             </Text>
                     </View>
-                    <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
+                    {/* <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
                         <Image source={iconSortRole} style={styles.iconSort} />
-                    </Button>
+                    </Button> */}
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>

@@ -41,8 +41,6 @@ class SignUpScreen extends Layout {
         }
     }
 
-
-
 }
 
 const mapStateToProps = state => ({

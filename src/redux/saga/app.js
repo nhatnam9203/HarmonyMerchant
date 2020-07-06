@@ -122,6 +122,7 @@ function* getQuestion(action) {
 
 function* merchantSetting(action) {
     try {
+        console.log("----- merchantSetting : ",action );
         action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : null;
         const responses = yield requestAPI(action);
         console.log('--- merchantSetting : ', responses);
@@ -350,8 +351,6 @@ export default function* saga() {
         takeLatest('SETUP_MERCHANT_TAX', setupMerchantTAX),
         takeLatest('CHECK_EMAIL_SIGN_UP', checkEmailSignup),
         takeLatest('GET_PACKAGE_AND_PRICING', getPackageAndPricing),
-
-
         takeLatest('NET_WORK_REQUEST_FAIL', requestNetworkTimeout),
         takeLatest('TIME_OUT', timeout),
         takeLatest('SHOW_ERROR_MESSAGE', showErrorMessage),
