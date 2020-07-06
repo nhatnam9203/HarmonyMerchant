@@ -11,7 +11,6 @@ const initialState = {
 function appReducer(state = initialState, action) {
     switch (action.type) {
         case 'REHYDRATE_CUSTOMERS':
-            console.log("REHYDRATE_CUSTOMERS : ",action.payload);
             return {
                 ...state,
                 listCustomersByMerchant: action.payload

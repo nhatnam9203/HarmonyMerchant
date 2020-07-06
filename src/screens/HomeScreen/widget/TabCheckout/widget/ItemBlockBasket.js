@@ -35,7 +35,6 @@ class ItemBlockBasket extends React.Component {
     }
 
     setStateFromParent = async (isCollapsed) => {
-        // console.log("-------- setStateFromParent :  ");
         if (this._isMounted) {
             await  this.setState({
                 isCollapsed
@@ -46,16 +45,8 @@ class ItemBlockBasket extends React.Component {
 
     toggleCollaps = () => {
         const { appointmentDetail } = this.props;
-        const { isCollapsed } = this.state;
-
         const appointmentId = appointmentDetail && appointmentDetail.appointmentId ? appointmentDetail.appointmentId : -1;
-        // if ((this.getBasket()).length > 0) {
-        //     this.setState(prevState => ({
-        //         isCollapsed: !prevState.isCollapsed
-        //     }));
-        // }
         this.props.toggleCollaps(appointmentId);
-
 
     }
 
@@ -126,7 +117,7 @@ class ItemBlockBasket extends React.Component {
     // ---------- Render --------
 
     renderHeaderCustomerBaket() {
-        const { appointmentDetail, infoUser, paymentDetailInfo, isOfflineMode, blockIndex } = this.props;
+        const { appointmentDetail, infoUser, paymentDetailInfo, blockIndex } = this.props;
         let firstName = '';
         let lastName = '';
 
@@ -134,16 +125,12 @@ class ItemBlockBasket extends React.Component {
         firstName = appointmentDetail ? appointmentDetail.firstName : 'Anonymous';
         const isMain = appointmentDetail && appointmentDetail.isMain ? appointmentDetail.isMain : 0;
         const appointmentId = appointmentDetail ? appointmentDetail.appointmentId : -1;
-        const codeAppointment = appointmentDetail ? appointmentDetail.code : -1;
 
         if (isMain === 1) {
             firstName = infoUser.firstName !== '' ? infoUser.firstName : firstName;
             lastName = infoUser.lastName !== '' ? infoUser.lastName : lastName;
         }
 
-
-
-        const { isCollapsed } = this.state;
         const iconCollaps =this.state.isCollapsed ? IMAGE.open_customer_basket : IMAGE.close_customer_basket;
         const swipeoutBtns = [
             {
@@ -155,7 +142,6 @@ class ItemBlockBasket extends React.Component {
         ];
         const temptColor = blockIndex === 0 ? "transparent" : "red";
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
-        const disabledRemoveItemCustomerBasket = checkoutPayments.length === 0 ? false : true;
 
         // ---- New -----
         const temptBackground = !this.state.isCollapsed ? { backgroundColor: "#0764B0" } : { backgroundColor: "#E5E5E5" };
@@ -165,7 +151,6 @@ class ItemBlockBasket extends React.Component {
             <Swipeout
                 right={swipeoutBtns}
                 buttonWidth={scaleSzie(45)}
-                // disabled={isMain === 1 || isOfflineMode ? true : disabledRemoveItemCustomerBasket}
                 disabled={blockIndex === 0 ? true : false}
                 close={true}
             >
@@ -193,10 +178,7 @@ class ItemBlockBasket extends React.Component {
 
 
     render() {
-        const { language, appointmentDetail, removeItemBasket, paymentDetailInfo,
-            changeProduct, blockIndex, blockAppointments, createABlockAppointment
-        } = this.props;
-        const { isCollapsed } = this.state;
+        const { language, appointmentDetail, removeItemBasket, paymentDetailInfo } = this.props;
 
         const appointmentId = appointmentDetail && appointmentDetail.appointmentId ? appointmentDetail.appointmentId : -1;
         const { temptSubTotal, temptTotal, temptDiscount, temptTip, temptTax } = this.getTypesOfMoneyAppointment(appointmentDetail);
@@ -296,7 +278,7 @@ class ItemBlockBasket extends React.Component {
                                 </View>
                             </View>
                             :
-                            <View />
+                            <View style={{height:scaleSzie(50),backgroundColor:"red"}} />
                     }
 
                 </Collapsible>
