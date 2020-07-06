@@ -38,7 +38,7 @@ class ReportScreen extends Layout {
                 this.setState({
                     isFocus: true
                 });
-                // this.props.actions.staff.getListStaffsSalaryTop();
+                this.checkPermissionRef.current.setStateFromParent('');
                 this.props.actions.auth.toggleVisiblePopupCheckStaffPermission();
             }
         );

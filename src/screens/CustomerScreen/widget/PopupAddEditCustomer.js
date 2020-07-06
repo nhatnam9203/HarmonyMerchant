@@ -40,7 +40,7 @@ class PopupAddEditCustomer extends React.Component {
                 favourite: '',
                 isVip: "Normal"
             },
-            customerId: '',
+            customerId: 0,
             codeAreaPhone: '+1',
             codeReferrerPhone: '+1',
 

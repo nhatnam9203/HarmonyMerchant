@@ -37,7 +37,7 @@ export function checkStaffPermission(merchantCode, staffPin, tabName = "Invoice"
             staffPin
         },
         method: 'POST',
-        api: `${apiConfigs.BASE_API}staff/login/checkpermission`,
+        api: `${apiConfigs.BASE_API}staff/login/checkpermission?tab=${tabName}`,
         tabName
 
     }

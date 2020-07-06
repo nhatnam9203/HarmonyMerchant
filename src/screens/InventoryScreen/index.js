@@ -55,7 +55,7 @@ class InventoryScreen extends Layout {
                 this.setState({
                     isFocus: true
                 });
-                // this.props.actions.product.getProductsByMerchant();
+                this.checkPermissionRef.current.setStateFromParent('');
                 this.props.actions.auth.toggleVisiblePopupCheckStaffPermission();
             }
         );

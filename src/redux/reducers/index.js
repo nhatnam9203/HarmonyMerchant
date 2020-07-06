@@ -1,8 +1,6 @@
 import { combineReducers } from 'redux';
-import { persistReducer } from 'redux-persist';
+import { persistReducer,persistStore } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
-import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
 import app from './app';
 import dataLocal from './dataLocal';

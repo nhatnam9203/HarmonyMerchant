@@ -38,6 +38,7 @@ class CustomerScreen extends Layout {
                 this.setState({
                     isFocus: true
                 });
+                this.checkPermissionRef.current.setStateFromParent('');
                 this.props.actions.auth.toggleVisiblePopupCheckStaffPermission();
             }
         );

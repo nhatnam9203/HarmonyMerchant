@@ -33,6 +33,7 @@ class SettlementScreen extends Layout {
                     isFocus: true
                 });
                 this.tabSettleRef.current.onDidFocus();
+                this.checkPermissionRef.current.setStateFromParent('');
                 this.props.actions.auth.toggleVisiblePopupCheckStaffPermission();
             }
         );

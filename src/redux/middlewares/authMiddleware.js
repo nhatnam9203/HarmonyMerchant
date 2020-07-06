@@ -1,75 +1,78 @@
+import { persistReducer, persistStore } from 'redux-persist';
+
 const authMiddleware = store => next => action => {
 
+    const appState = store.getState();
     const { type, payload } = action;
     const key = action.key ? action.key : '';
+    const merchantToken = appState.dataLocal.token ? appState.dataLocal.token : false;
+
     if (type === 'persist/REHYDRATE' && key === 'category' && payload) {
         return next({
             type: 'REHYDRATE_CATEGORIES',
-            payload: action.payload.categoriesByMerchant
+            payload: merchantToken ? action.payload.categoriesByMerchant : []
         })
+
     }
     if (type === 'persist/REHYDRATE' && key === 'product' && payload) {
         return next({
             type: 'REHYDRATE_PRODUCTS',
-            payload: action.payload.productsByMerchantId
+            payload: merchantToken ? action.payload.productsByMerchantId : []
         })
     }
 
     if (type === 'persist/REHYDRATE' && key === 'staff' && payload) {
         return next({
             type: 'REHYDRATE_STAFFS',
-            payload: action.payload.listStaffByMerchant
+            payload: merchantToken ? action.payload.listStaffByMerchant : []
         })
     }
 
     if (type === 'persist/REHYDRATE' && key === 'service' && payload) {
         return next({
             type: 'REHYDRATE_SERVICES',
-            payload: action.payload.servicesByMerchant
+            payload: merchantToken ? action.payload.servicesByMerchant : []
         })
     }
 
     if (type === 'persist/REHYDRATE' && key === 'extra' && payload) {
         return next({
             type: 'REHYDRATE_EXTRAS',
-            payload: action.payload.extrasByMerchant
+            payload: merchantToken ? action.payload.extrasByMerchant : []
         })
     }
 
     if (type === 'persist/REHYDRATE' && key === 'appointment' && payload) {
         return next({
             type: 'REHYDRATE_APPOINTMENT',
-            payload: action.payload.listAppointmentsOfflineMode
+            payload: merchantToken ? action.payload.listAppointmentsOfflineMode : []
         })
     }
 
     if (type === 'persist/REHYDRATE' && key === 'customer' && payload) {
         return next({
             type: 'REHYDRATE_CUSTOMERS',
-            payload: action.payload.listCustomersByMerchant
-        })
+            payload: merchantToken ? action.payload.listCustomersByMerchant : []
+        });
     }
 
     if (type === 'persist/REHYDRATE' && key === 'invoice' && payload) {
         return next({
             type: 'REHYDRATE_INVOICES',
-            payload: action.payload.listInvoicesByMerchant
+            payload: merchantToken ? action.payload.listInvoicesByMerchant : []
         })
     }
 
     if (type === 'persist/REHYDRATE' && key === 'marketing' && payload) {
         return next({
             type: 'REHYDRATE_MARKETINGS',
-            listBanners: action.payload.listBanners,
-            promotions: action.payload.promotions
+            listBanners: merchantToken ? action.payload.listBanners : [],
+            promotions: merchantToken ? action.payload.promotions : []
         })
     }
 
-    const appState = store.getState();
     const versionApp = appState.dataLocal.versionApp;
     const action_tempt = { ...action, versionApp };
-
-    // console.log("---- action : ", JSON.stringify(action));
 
     if (action.token) {
 
