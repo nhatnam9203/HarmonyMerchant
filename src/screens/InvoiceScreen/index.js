@@ -282,16 +282,14 @@ class InvoiceScreen extends Layout {
 
         if (data.status === 1) {
             this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch());
-            await this.setState({
-                invoiceDetail: {
-                    history: []
-                },
-            });
-            for (let i = 0; i < this.listInvoiceRef.length; i++) {
-                this.listInvoiceRef[i].setStateFromParent(false);
-            }
-
-
+            // await this.setState({
+            //     invoiceDetail: {
+            //         history: []
+            //     },
+            // });
+            // for (let i = 0; i < this.listInvoiceRef.length; i++) {
+            //     this.listInvoiceRef[i].setStateFromParent(false);
+            // }
         } else {
             setTimeout(() => {
                 alert(data.message)
@@ -425,7 +423,8 @@ class InvoiceScreen extends Layout {
                     false,
                     printMachine,
                     titleInvoice,
-                    invoiceDetail.checkoutId ? invoiceDetail.checkoutId : ""
+                    invoiceDetail.checkoutId ? invoiceDetail.checkoutId : "",
+                    invoiceDetail.checkoutPayments ? invoiceDetail.checkoutPayments : []
                 );
 
                 this.setState({

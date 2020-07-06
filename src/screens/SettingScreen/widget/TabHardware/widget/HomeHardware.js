@@ -22,8 +22,8 @@ class HomeHardware extends React.Component {
 
     }
 
-    deleteHardware = () =>{
-       this.props.actions.dataLocal.deleteHardware();
+    deleteHardware = () => {
+        this.props.actions.dataLocal.deleteHardware();
     }
 
     // -------- Render ------
@@ -74,17 +74,20 @@ class HomeHardware extends React.Component {
                         </View>
 
                         {
-                            paxMachineInfo.isSetup  ?  <Button onPress={this.deleteHardware} style={{
+                            paxMachineInfo.isSetup ? <Button onPress={this.deleteHardware} style={{
                                 width: scaleSzie(20), height: scaleSzie(20),
-                                backgroundColor: "rgb(233,55,49)",position:"absolute",top:10,right:10,
-                                borderRadius:scaleSzie(10),justifyContent:"center",alignItems:"center"
+                                 position: "absolute", top: 5, right: 5,
+                                borderRadius: scaleSzie(10), justifyContent: "center", alignItems: "center"
                             }} >
-                                <Text style={{color:"#fff",fontSize:20 ,fontWeight:"900"}} >
-                                    X
-                                </Text>
+                                {/* <Text style={{color:"#fff",fontSize:scaleSzie(14) ,fontWeight:"500"}} >
+                                    x
+                                </Text> */}
+                                <Image source={IMAGE.deleteIconBanner}
+                                    style={{ width: scaleSzie(10), height: scaleSzie(10) }}
+                                />
                             </Button> : null
                         }
-                       
+
                     </Button>
                     {/* ------------- Box 3 ----------- */}
                     {/* <Button onPress={() => this.onPressBox('Print')} style={[styles.box,{marginLeft:scaleSzie(20)}]} >

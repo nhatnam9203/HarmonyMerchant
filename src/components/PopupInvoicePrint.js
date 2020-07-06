@@ -37,7 +37,8 @@ const initalState = {
 
     paymentMethods: [{ paymentMethod: "" }],
     titleInvoice: "SALE",
-    invoiceNo: ""
+    invoiceNo: "",
+    checkoutPayments: []
 }
 
 class PopupInvoicePrint extends React.Component {
@@ -48,7 +49,7 @@ class PopupInvoicePrint extends React.Component {
         this.viewShotRef = React.createRef();
     }
 
-    setStateFromParent = async (basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected, isPrintTempt, printMachine, titleInvoice = "SALE", invoiceNo = "") => {
+    setStateFromParent = async (basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected, isPrintTempt, printMachine, titleInvoice = "SALE", invoiceNo = "", checkoutPayments = []) => {
         await this.setState({
             basket,
             temptSubTotal,
@@ -61,7 +62,8 @@ class PopupInvoicePrint extends React.Component {
             printMachine,
             paymentMethods: this.getPaymentMethods(),
             titleInvoice,
-            invoiceNo
+            invoiceNo,
+            checkoutPayments: checkoutPayments
         });
         setTimeout(() => {
             this.doPrint();
@@ -185,8 +187,10 @@ class PopupInvoicePrint extends React.Component {
     render() {
         const { language, visiblePrintInvoice, profile, paymentDetailInfo, profileStaffLogin } = this.props;
         const { basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, isPrintTempt,
-            isSignature, paymentMethods, titleInvoice, invoiceNo
+            isSignature, paymentMethods, titleInvoice, invoiceNo, checkoutPayments
         } = this.state;
+
+        const temtCheckoutPayment = paymentMethods.length > 0 ? paymentMethods : checkoutPayments;
 
         return (
             <Modal
@@ -378,8 +382,8 @@ class PopupInvoicePrint extends React.Component {
                                         </View> : <View />
                                     }
 
-                                      {/* ------------- Enter Total   ----------- */}
-                                      {
+                                    {/* ------------- Enter Total   ----------- */}
+                                    {
                                         isPrintTempt ? <View style={{ height: scaleSzie(25), flexDirection: "row", marginBottom: scaleSzie(12) }} >
                                             <View style={{ width: scaleSzie(70), justifyContent: "flex-end" }} >
                                                 <Text style={[styleInvoice.txt_total, { fontSize: 20, fontWeight: "600" }]} >
@@ -398,7 +402,8 @@ class PopupInvoicePrint extends React.Component {
                                     {
                                         !isPrintTempt ? <View>
                                             {
-                                                paymentMethods.map((data, index) => <View key={index} style={{ marginBottom: scaleSzie(4) }} >
+                                                // paymentMethods.map 
+                                                temtCheckoutPayment.map((data, index) => <View key={index} style={{ marginBottom: scaleSzie(4) }} >
                                                     <Text style={[styleInvoice.txt_total,]} >
                                                         {`- Entry method : ${getPaymentString(data.paymentMethod)}`}
                                                     </Text>

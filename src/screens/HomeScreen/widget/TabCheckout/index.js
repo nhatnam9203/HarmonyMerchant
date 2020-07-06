@@ -1472,7 +1472,7 @@ class TabCheckout extends Layout {
                 token: profileStaffLogin.token,
                 versionApp: versionApp
             });
-            console.log("-----changeCustomerPhone : " + JSON.stringify(responses));
+            // console.log("-----changeCustomerPhone : " + JSON.stringify(responses));
             this.props.actions.app.stopLoadingApp();
             if (responses.codeNumber === 200) {
                 await this.setState({
