@@ -175,12 +175,14 @@ class TabCheckout extends Layout {
                     }, appointmentId, true);
             } else {
                 //  -------------Add Extra , Service ---------
+                const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
+                const mainAppointment = appointments.find((appointment) => appointment.appointmentId === appointmentId  );
                 const temptExtra = extraSelected.extraId !== -1 ? [{ extraId: extraSelected.extraId }] : [];
                 this.props.actions.appointment.addItemIntoAppointment(
                     {
                         services: [{
                             serviceId: productSeleted.serviceId,
-                            staffId: profileStaffLogin.staffId,
+                            staffId : mainAppointment && mainAppointment.staff && mainAppointment.staff.staffId ? mainAppointment.staff.staffId :  profileStaffLogin.staffId,
                         }],
                         extras: temptExtra,
                         products: [],
@@ -1727,6 +1729,7 @@ class TabCheckout extends Layout {
                     giftCards: []
                 }, appointmentId, false, true);
         } else { // ------------- Buy online Extra , Service ---------
+            console.log("-------- add service 2 --------");
             const temptExtra = extraSelected.extraId !== -1 ? [{ extraId: extraSelected.extraId }] : [];
             this.props.actions.appointment.addItemIntoAppointment(
                 {

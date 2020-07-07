@@ -83,7 +83,7 @@ export function getBatchHistory(key = "", timeStart = "", timeEnd = "", quickFil
     return {
         type: 'GET_BATCH_HISTORY',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}settlement/search?key=${key}&timeStart=${timeStart}&timeEnd=${timeEnd}&quickFilter=${quickFilter}&page=${page}&row=3`,
+        api: `${apiConfigs.BASE_API}settlement/search?key=${key}&timeStart=${timeStart}&timeEnd=${timeEnd}&quickFilter=${quickFilter}&page=${page}`,
         token: true,
         isShowLoading,
         currentPage: page,

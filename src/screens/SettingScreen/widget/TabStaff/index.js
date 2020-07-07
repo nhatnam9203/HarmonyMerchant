@@ -136,17 +136,24 @@ class TabStaff extends Layout {
     }
 
     toggleStaffActive = (staff, isActive) => {
-        this.props.actions.staff.editStaff({ 
+        this.props.actions.staff.editStaff({
             ...staff,
             workingTime: staff.workingTimes,
             salary: staff.salaries,
             tipFee: staff.tipFees,
-            productSalary:staff.productSalaries,
+            productSalary: staff.productSalaries,
+            address: {
+                street: staff.address ? staff.address : "",
+                city: staff.city ? staff.city : "",
+                state: staff.stateId ? staff.stateId : 0,
+                zip: staff.zip ? staff.zip : "",
+            },
             roles: {
-                nameRole: staff.roleName ?  staff.roleName : ""
+                nameRole: staff.roleName ? staff.roleName : ""
             }
-            , 
-            isActive }, staff.staffId ? staff.staffId : 0)
+            ,
+            isActive
+        }, staff.staffId ? staff.staffId : 0)
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

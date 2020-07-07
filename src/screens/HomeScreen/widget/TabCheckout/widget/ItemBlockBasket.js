@@ -47,7 +47,6 @@ class ItemBlockBasket extends React.Component {
         const { appointmentDetail } = this.props;
         const appointmentId = appointmentDetail && appointmentDetail.appointmentId ? appointmentDetail.appointmentId : -1;
         this.props.toggleCollaps(appointmentId);
-
     }
 
     selectCheckbox = () => {
