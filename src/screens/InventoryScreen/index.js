@@ -27,7 +27,7 @@ class InventoryScreen extends Layout {
             visibleDropdownExport: false,
             visiblePopupExport: false,
             visiblePopupLoadingExport: false,
-            typeFile:"pdf"
+            typeFile: "pdf"
         }
         this.scrollTabRef = React.createRef();
         this.productDetailRef = React.createRef();
@@ -56,7 +56,7 @@ class InventoryScreen extends Layout {
                     isFocus: true
                 });
                 this.checkPermissionRef.current.setStateFromParent('');
-                this.props.actions.auth.toggleVisiblePopupCheckStaffPermission();
+                this.props.actions.product.toggleProductTabPermission();
             }
         );
     }
@@ -84,7 +84,7 @@ class InventoryScreen extends Layout {
             visiblePopupExport: false,
             visiblePopupLoadingExport: true
         })
-        this.props.actions.product.exportInventory(profile.merchantId, fileName,isExportAll,this.state.typeFile);
+        this.props.actions.product.exportInventory(profile.merchantId, fileName, isExportAll, this.state.typeFile);
     }
 
     exportPDF = () => {
@@ -94,7 +94,7 @@ class InventoryScreen extends Layout {
         this.setState({
             visibleDropdownExport: false,
             visiblePopupExport: true,
-            typeFile:type
+            typeFile: type
         });
     }
 
@@ -285,10 +285,13 @@ class InventoryScreen extends Layout {
                 visiblePopupLoadingExport: false
             })
         }
-
     }
 
-    // ----- End Handle ---
+    closePopupCheckProductTabPermission = () => {
+        this.props.actions.product.toggleProductTabPermission();
+        this.props.navigation.navigate("Home");
+    }
+
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();
@@ -304,7 +307,8 @@ const mapStateToProps = state => ({
     isShowSearchProduct: state.product.isShowSearchProduct,
     refreshListProducts: state.product.refreshListProducts,
     isDownloadInventory: state.product.isDownloadInventory,
-    pathFileInventory: state.product.pathFileInventory
+    pathFileInventory: state.product.pathFileInventory,
+    inventoryTabPermission: state.product.inventoryTabPermission
 })
 
 

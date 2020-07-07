@@ -7,7 +7,8 @@ const initialState = {
     isShowSearchProduct: false,
     refreshListProducts: false,
     isDownloadInventory: false,
-    pathFileInventory: ''
+    pathFileInventory: '',
+    inventoryTabPermission: false
 }
 
 function appReducer(state = initialState, action) {
@@ -72,8 +73,11 @@ function appReducer(state = initialState, action) {
                 ...state,
                 productsByMerchantId: action.payload,
             }
-
-
+        case 'TOGGLE_PRODUCT_TAB_PERMISSION':
+            return {
+                ...state,
+                inventoryTabPermission: action.payload,
+            }
         default:
             return state
     }

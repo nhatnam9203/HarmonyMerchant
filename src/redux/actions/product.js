@@ -122,3 +122,10 @@ export function checkSKUIsExist(sku) {
         api: `${apiConfigs.BASE_API}product/checksku?sku=${sku}`,
     }
 }
+
+export function toggleProductTabPermission(visible = true) {
+    return {
+        type: 'TOGGLE_PRODUCT_TAB_PERMISSION',
+        payload: visible
+    }
+}

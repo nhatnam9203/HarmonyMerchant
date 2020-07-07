@@ -238,7 +238,7 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { language, categoriesByMerchant, navigation } = this.props;
+        const { language, categoriesByMerchant, navigation,inventoryTabPermission } = this.props;
         const { visiblePopupDetail, isFocus } = this.state;
         return (
             <ParentContainer
@@ -313,9 +313,10 @@ export default class Layout extends React.Component {
                 {this.renderModalDropdownExport()}
                 <PopupCheckStaffPermission
                     ref={this.checkPermissionRef}
+                    visiblePopupCheckStaffPermission={inventoryTabPermission}
                     title={localize('Input PIN Number', language)}
-                    navigation={navigation}
                     tabName="Inventory"
+                    onRequestClose={this.closePopupCheckProductTabPermission}
                 />
             </ParentContainer>
         );

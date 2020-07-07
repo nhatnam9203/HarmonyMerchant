@@ -125,6 +125,10 @@ function* checkStaffPermission(action) {
                 })
             } else if (action.tabName === "Inventory") {
                 yield put({
+                    type :"TOGGLE_PRODUCT_TAB_PERMISSION",
+                    payload: false
+                });
+                yield put({
                     type: 'GET_PRODUCTS_BY_MERCHANR_ID',
                     method: 'GET',
                     token: true,
