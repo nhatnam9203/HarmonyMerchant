@@ -15,7 +15,7 @@ import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import BrowserFile from './BrowserFile';
 import { Dropdown } from './react-native-material-dropdown';
-import { scaleSzie, getCategoryName, getArrayNameCategories, getCategoryIdByName, requestAPI,localize } from '@utils';
+import { scaleSzie, getCategoryName, getArrayNameCategories, getCategoryIdByName, requestAPI, localize } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 import apiConfigs from '@configs/api';
 
@@ -38,7 +38,8 @@ class PopupAddEditProduct extends React.Component {
             },
             fileId: 0,
             imageUrl: '',
-            isSubmitButton: true
+            isSubmitButton: true,
+            isLoadingCheckSKU: false
         };
         this.scrollProductRef = React.createRef();
     }
@@ -75,7 +76,8 @@ class PopupAddEditProduct extends React.Component {
                 price: productInfo.price ? productInfo.price : '',
                 isDisabled: productInfo.isDisabled === 0 ? 'Active' : 'Disable'
             },
-            imageUrl: productInfo.imageUrl
+            imageUrl: productInfo.imageUrl,
+            isLoadingCheckSKU: false
         })
     }
 
@@ -93,12 +95,13 @@ class PopupAddEditProduct extends React.Component {
                 isDisabled: 'Active',
             },
             fileId: 0,
-            imageUrl: ''
+            imageUrl: '',
+            isLoadingCheckSKU: false
         })
     }
 
     doneAddProduct = async () => {
-        const {versionApp} = this.props;
+        const { versionApp, profileStaffLogin } = this.props;
         const { productInfo } = this.state;
         const temptProductInfo = {
             ...productInfo,
@@ -117,35 +120,42 @@ class PopupAddEditProduct extends React.Component {
         if (keyError != '') {
             Alert.alert(`${strings[keyError]}`);
         } else {
-            if (this.props.isSave) {
-                this.props.editProduct({
-                    ...temptProductInfo, isDisabled: productInfo.isDisabled === 'Active' ? 0 : 1,
-                    fileId: this.state.fileId
+            await this.setState({
+                isLoadingCheckSKU: true
+            })
+            // ---------------- New --------------
+            try {
+                const checkSKUIsExist = await requestAPI({
+                    type: 'CHECK_SKU_IS_EXIST1',
+                    method: 'GET',
+                    token: profileStaffLogin.token,
+                    api: `${apiConfigs.BASE_API}product/checksku?sku=${temptProductInfo.sku}`,
+                    versionApp: versionApp
                 });
-            } else {
-                try {
-                    const checkSKUIsExist = await requestAPI({
-                        type: 'CHECK_SKU_IS_EXIST1',
-                        method: 'GET',
-                        token: this.props.token,
-                        api: `${apiConfigs.BASE_API}product/checksku?sku=${temptProductInfo.sku}`,
-                        versionApp: versionApp
-                    });
-                    if (checkSKUIsExist.codeNumber === 200) {
-                        this.props.confimYes({
+                if (checkSKUIsExist.codeNumber === 200) {
+                    if (this.props.isSave) {
+                        this.props.editProduct({
                             ...temptProductInfo, isDisabled: productInfo.isDisabled === 'Active' ? 0 : 1,
                             fileId: this.state.fileId
                         });
                     } else {
-                        alert('This product SKU is existing!')
+                        this.props.confimYes({
+                            ...temptProductInfo, isDisabled: productInfo.isDisabled === 'Active' ? 0 : 1,
+                            fileId: this.state.fileId
+                        });
                     }
-
-                } catch (error) {
-                    this.props.actions.app.catchError(error)
-
+                } else {
+                    await this.setState({
+                        isLoadingCheckSKU: false
+                    })
+                    alert('This product SKU is existing!');
                 }
+            } catch (error) {
+                await this.setState({
+                    isLoadingCheckSKU: false
+                })
+                this.props.actions.app.catchError(error)
             }
-
         }
     }
 
@@ -177,9 +187,9 @@ class PopupAddEditProduct extends React.Component {
 
     renderButtonSubmit() {
         const { isSave, loading } = this.props;
-        const { isSubmitButton } = this.state;
+        const { isLoadingCheckSKU } = this.state;
         const temptTitleButton = isSave ? 'Save' : 'Done';
-        if (!loading) {
+        if (!isLoadingCheckSKU) {
             return (
                 <ButtonCustom
                     width={150}
@@ -210,7 +220,7 @@ class PopupAddEditProduct extends React.Component {
     }
 
     render() {
-        const { title, visible,categoriesByMerchant ,language} = this.props;
+        const { title, visible, categoriesByMerchant, language } = this.props;
         const { categoryId, name, description, sku, quantity, minThreshold,
             maxThreshold, price, isDisabled
         } = this.state.productInfo;
@@ -236,7 +246,7 @@ class PopupAddEditProduct extends React.Component {
                             <TouchableOpacity activeOpacity={1}>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginTop: scaleSzie(10), marginBottom: scaleSzie(10) }} >
                                     {`${localize('Category', language)}*`}
-                            </Text>
+                                </Text>
                                 <View style={{ width: scaleSzie(200), height: scaleSzie(30), }} >
                                     <Dropdown
                                         label='Facial'
@@ -253,7 +263,7 @@ class PopupAddEditProduct extends React.Component {
                                 </View>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                     {`${localize('Product', language)}*`}
-                            </Text>
+                                </Text>
                                 <View style={{
                                     height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
                                     paddingLeft: scaleSzie(10),
@@ -267,9 +277,9 @@ class PopupAddEditProduct extends React.Component {
                                     />
                                 </View>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                    
+
                                     {`${localize('Description', language)}`}
-                            </Text>
+                                </Text>
                                 <View style={{
                                     height: scaleSzie(70), borderWidth: 1, borderColor: '#C5C5C5',
                                     paddingLeft: scaleSzie(10), backgroundColor: '#FAFAFA', paddingTop: scaleSzie(5)
@@ -288,7 +298,7 @@ class PopupAddEditProduct extends React.Component {
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
                                             {`${localize('SKU Number', language)}*`}
-                                    </Text>
+                                        </Text>
                                         <View style={{
                                             height: scaleSzie(30),
                                         }} >
@@ -309,7 +319,7 @@ class PopupAddEditProduct extends React.Component {
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
                                             {`${localize('Items In Stock', language)}*`}
-                                    </Text>
+                                        </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
                                                 <TextInputMask
@@ -332,7 +342,7 @@ class PopupAddEditProduct extends React.Component {
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
                                             {`${localize('Low Threshold', language)}*`}
-                                    </Text>
+                                        </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
                                                 <TextInputMask
@@ -349,7 +359,7 @@ class PopupAddEditProduct extends React.Component {
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
                                             {`${localize('High Threshold', language)}*`}
-                                    </Text>
+                                        </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
                                                 <TextInputMask
@@ -369,7 +379,7 @@ class PopupAddEditProduct extends React.Component {
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
                                             {`${localize('Price', language)}*`}
-                                    </Text>
+                                        </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
                                                 <TextInputMask
@@ -393,7 +403,7 @@ class PopupAddEditProduct extends React.Component {
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
                                             {`${localize('Status', language)}*`}
-                                    </Text>
+                                        </Text>
                                         <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
                                             <View style={{ width: scaleSzie(100), height: scaleSzie(30) }} >
                                                 <Dropdown
@@ -452,7 +462,8 @@ const mapStateToProps = state => ({
     loading: state.app.loading,
     token: state.dataLocal.token,
     language: state.dataLocal.language,
-    versionApp:state.dataLocal.versionApp
+    versionApp: state.dataLocal.versionApp,
+    profileStaffLogin: state.dataLocal.profileStaffLogin
 })
 
 

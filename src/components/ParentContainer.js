@@ -27,9 +27,8 @@ class ParentContainer extends Component {
                 timeout = parseInt(15 * 60 * 1000);
                 break;
             default:
-                timeout = 1 * 1000 * 60;
+                timeout = parseInt(2000 * 60 * 1000);
         }
-        // console.log("---- time out : ",timeout);
         return timeout
     }
 
