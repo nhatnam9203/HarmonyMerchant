@@ -20,6 +20,10 @@ class SplashScreen extends Layout {
     }
 
     async componentDidMount() {
+        // alert("dd")
+    }
+
+    async componentDidMount_1() {
         try {
             const res = await VersionCheck.needUpdate();
             // console.log("res : ",res);

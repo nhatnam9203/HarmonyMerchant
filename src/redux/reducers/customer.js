@@ -13,7 +13,7 @@ function appReducer(state = initialState, action) {
     switch (action.type) {
         case 'REHYDRATE_CUSTOMERS':
             return {
-                ...state,
+                ...initialState,
                 listCustomersByMerchant: action.payload
             }
         case 'GET_LIST_CUSTOMER_BY_MERCHANT':
