@@ -47,7 +47,7 @@ class InvoiceScreen extends Layout {
         this.modalCalendarRef = React.createRef();
         this.listInvoiceRef = [];
         this.onEndReachedCalledDuringMomentum = true;
-        this.checkPermissionRef = React.createRef();
+        this.checkInvoicePermissionRef = React.createRef();
         this.confirmInvoiceStatusRef = React.createRef();
         this.popupProcessingCreditRef = React.createRef();
         this.invoicePrintRef = React.createRef();
@@ -60,7 +60,7 @@ class InvoiceScreen extends Layout {
             'didBlur',
             payload => {
                 this.setState(initalState);
-                this.checkPermissionRef.current.setStateFromParent('');
+                this.checkInvoicePermissionRef.current.setStateFromParent('');
             }
         );
         this.didFocusSubscription = this.props.navigation.addListener(
@@ -69,8 +69,8 @@ class InvoiceScreen extends Layout {
                 this.setState({
                     isFocus: true
                 });
-                this.checkPermissionRef.current.setStateFromParent('');
-                this.props.actions.auth.toggleVisiblePopupCheckStaffPermission();
+                this.checkInvoicePermissionRef.current.setStateFromParent('',);
+                this.props.actions.invoice.toggleInvoiceTabPermission();
             }
         );
     }
@@ -502,6 +502,11 @@ class InvoiceScreen extends Layout {
         }
     }
 
+    closePopupCheckInvoiceTabPermission= () =>{
+         this.props.actions.invoice.toggleInvoiceTabPermission(false);
+        this.props.navigation.navigate("Home");
+    }
+
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();
@@ -524,7 +529,8 @@ const mapStateToProps = state => ({
     visibleConfirmPrintInvoice: state.invoice.visibleConfirmPrintInvoice,
     isLoadMoreInvoiceList: state.invoice.isLoadMoreInvoiceList,
     searchKeyword: state.invoice.searchKeyword,
-    profileStaffLogin: state.dataLocal.profileStaffLogin
+    profileStaffLogin: state.dataLocal.profileStaffLogin,
+    invoiceTabPermission: state.invoice.invoiceTabPermission
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);

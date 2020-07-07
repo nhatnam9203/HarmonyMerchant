@@ -156,4 +156,10 @@ export function updateBatchHistorySearchKeyword(keyword = "") {
     }
 }
 
+export function toggleInvoiceTabPermission(visible = true) {
+    return {
+        type: 'TOGGLE_INVOICE_TAB_PERMISSION',
+        payload: visible
+    }
+}
 

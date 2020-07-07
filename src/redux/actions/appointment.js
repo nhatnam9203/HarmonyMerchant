@@ -107,7 +107,7 @@ export function createAnymousAppointment(merchantId, userId = 0, staffId = 0, pr
         type: 'CREATE_ANYMOUS_APPOINTMENT',
         body: {
             merchantId,
-            userId_1: userId,
+            userId: userId,
             staffId,
             status: 'checkin',
             services: services,

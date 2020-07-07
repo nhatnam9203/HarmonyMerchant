@@ -30,6 +30,7 @@ export function forgotPassword(email) {
 }
 
 export function checkStaffPermission(merchantCode, staffPin, tabName = "Invoice") {
+    // console.log("---- tabName :  ",tabName);
     return {
         type: 'CHECK_STAFF_PERMISSION',
         body: {

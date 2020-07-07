@@ -9,7 +9,7 @@ const initialState = {
     isLoadMoreInvoiceList: false,
     isLoadMoreBatchHistoryList: false,
     searchKeyword: "",
-    searchBatchHistoryKeyword:"",
+    searchBatchHistoryKeyword: "",
     listInvoicesSearch: [],
     isShowSearchInvoice: false,
     settleWaiting: {},
@@ -30,7 +30,9 @@ const initialState = {
     refreshingTransaction: false,
     refreshingBatchHistory: false,
     isGettingSettlement: "",
-    visibleConfirmPrintInvoice: false
+    visibleConfirmPrintInvoice: false,
+
+    invoiceTabPermission: false
 
 }
 
@@ -185,6 +187,11 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 searchBatchHistoryKeyword: action.payload
+            }
+        case 'TOGGLE_INVOICE_TAB_PERMISSION':
+            return {
+                ...state,
+                invoiceTabPermission: action.payload
             }
         default:
             return state

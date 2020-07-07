@@ -25,7 +25,6 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 isLoadingCheckStaffPermission: false,
-                visiblePopupCheckStaffPermission: false
             }
         case 'CHECK_STAFF_PERMISSION_FAIL':
             return {

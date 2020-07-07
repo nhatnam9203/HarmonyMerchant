@@ -64,18 +64,20 @@ class PopupCheckStaffPermission extends React.Component {
         await this.setState({
             value: ""
         });
-        this.props.actions.auth.toggleVisiblePopupCheckStaffPermission(false);
-        this.props.navigation.navigate("Home");
+        // this.props.actions.auth.toggleVisiblePopupCheckStaffPermission(false);
+        // this.props.navigation.navigate("Home");
+        this.props.onRequestClose();
     }
 
     render() {
         const { title, isLoadingCheckStaffPermission,
-            visiblePopupCheckStaffPermission, hideCloseButton
+            visiblePopupCheckStaffPermission, hideCloseButton,tabName
         } = this.props;
         const { value, customStyle } = this.state;
         return (
             <PopupParent
-                title={title}
+                // title={`${title}-${tabName}`}
+                title={`${tabName}`}
                 visible={visiblePopupCheckStaffPermission}
                 onRequestClose={this.onRequestClose}
                 hideCloseButton={hideCloseButton}
@@ -158,7 +160,6 @@ class PopupCheckStaffPermission extends React.Component {
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     isLoadingCheckStaffPermission: state.auth.isLoadingCheckStaffPermission,
-    visiblePopupCheckStaffPermission: state.auth.visiblePopupCheckStaffPermission,
     profile: state.dataLocal.profile
 });
 

@@ -87,6 +87,10 @@ function* checkStaffPermission(action) {
 
             if (action.tabName === "Invoice") {
                 yield put({
+                    type :"TOGGLE_INVOICE_TAB_PERMISSION",
+                    payload: false
+                });
+                yield put({
                     type: 'GET_LIST_INVOICE_BY_MERCHANT',
                     method: 'GET',
                     api: `${apiConfigs.BASE_API}checkout?page=1&method=&status=&timeStart=&timeEnd=&key=&quickFilter=`,

@@ -694,7 +694,7 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { language, navigation, visibleConfirmPrintInvoice } = this.props;
+        const { language, navigation, visibleConfirmPrintInvoice,invoiceTabPermission } = this.props;
         const { visibleCalendar, isFocus, visibleConfirmInvoiceStatus, transactionId, visiblePrintInvoice } = this.state;
         return (
             <ParentContainer
@@ -723,10 +723,12 @@ export default class Layout extends React.Component {
                     changeTitleTimeRange={this.changeTitleTimeRange}
                 />
                 <PopupCheckStaffPermission
-                    ref={this.checkPermissionRef}
+                    ref={this.checkInvoicePermissionRef}
+                    visiblePopupCheckStaffPermission={invoiceTabPermission}
                     title={localize('Input PIN Number', language)}
-                    navigation={navigation}
+                    // navigation={navigation}
                     tabName="Invoice"
+                    onRequestClose={this.closePopupCheckInvoiceTabPermission}
                 />
                 <PopupConfirmInvoiceStatus
                     ref={this.confirmInvoiceStatusRef}

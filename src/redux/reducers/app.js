@@ -165,11 +165,6 @@ function appReducer(state = initialState, action) {
                 ...state,
                 visibleEnterPinInvoice: action.isPincodeInvoice ? false : state.visibleEnterPinInvoice
             }
-        case "CHECK_STAFF_PERMISSION_SUCCESS":
-            return {
-                ...state,
-                visibleEnterPinInvoice: false
-            }
         case 'SET_VISIBLE_ENTER_CODE_INVOICE':
             return {
                 ...state,
