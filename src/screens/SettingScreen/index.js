@@ -37,7 +37,7 @@ class SettingScreen extends Layout {
                     isFocus: true
                 });
                 this.checkPermissionRef.current.setStateFromParent('');
-                this.props.actions.auth.toggleVisiblePopupCheckStaffPermission();
+                this.props.actions.app.toggleSettingTabPermission();
             }
         );
     }
@@ -127,6 +127,11 @@ class SettingScreen extends Layout {
         }
     }
 
+    closePopupCheckSettingTabPermission = () => {
+        this.props.actions.app.toggleSettingTabPermission(false);
+        this.props.navigation.navigate("Home");
+    }
+
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();
@@ -138,7 +143,8 @@ class SettingScreen extends Layout {
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     language: state.dataLocal.language,
-    loading: state.app.loading
+    loading: state.app.loading,
+    settingTabPermission: state.app.settingTabPermission
 })
 
 

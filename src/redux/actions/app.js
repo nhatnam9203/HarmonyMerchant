@@ -250,3 +250,10 @@ export function resetStateRegisterMerchantError(status = false) {
         payload: status
     }
 }
+
+export function toggleSettingTabPermission(visible = true) {
+    return {
+        type: 'TOGGLE_SETTING_TAB_PERMISSION',
+        payload: visible
+    }
+}

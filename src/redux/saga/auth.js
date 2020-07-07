@@ -149,7 +149,10 @@ function* checkStaffPermission(action) {
                 })
             } else if (action.tabName === "Settings") {
                 const state = yield select();
-                //  console.log("----state : ",state);
+                yield put({
+                    type: "TOGGLE_SETTING_TAB_PERMISSION",
+                    payload: false
+                });
                 yield put({
                     type: 'GET_MERCHANT_BY_ID',
                     method: 'GET',

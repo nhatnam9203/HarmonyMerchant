@@ -29,7 +29,8 @@ const initialState = {
         status: true,
         message: "is connecting to Pax machine ....",
     },
-    isUpdateMerchantSetting: false
+    isUpdateMerchantSetting: false,
+    settingTabPermission: false
 }
 
 function appReducer(state = initialState, action) {
@@ -207,7 +208,6 @@ function appReducer(state = initialState, action) {
                 ...state,
                 packageAndPricingData: action.payload ? action.payload : []
             }
-
         case 'GET_MERCHANT_BY_ID':
             return {
                 ...state,
@@ -238,6 +238,11 @@ function appReducer(state = initialState, action) {
                     status: true,
                     message: "( Connect to PAX machine success! )"
                 }
+            }
+        case 'TOGGLE_SETTING_TAB_PERMISSION':
+            return {
+                ...state,
+                settingTabPermission: action.payload
             }
         default:
             return state
