@@ -30,13 +30,13 @@ class ItemBlockBasket extends React.Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this._isMounted = true;
     }
 
     setStateFromParent = async (isCollapsed) => {
         if (this._isMounted) {
-            await  this.setState({
+            await this.setState({
                 isCollapsed
             });
         }
@@ -130,7 +130,7 @@ class ItemBlockBasket extends React.Component {
             lastName = infoUser.lastName !== '' ? infoUser.lastName : lastName;
         }
 
-        const iconCollaps =this.state.isCollapsed ? IMAGE.open_customer_basket : IMAGE.close_customer_basket;
+        const iconCollaps = this.state.isCollapsed ? IMAGE.open_customer_basket : IMAGE.close_customer_basket;
         const swipeoutBtns = [
             {
                 backgroundColor: '#fff',
@@ -196,7 +196,7 @@ class ItemBlockBasket extends React.Component {
                             removeItemBasket={(item) => removeItemBasket(item, appointmentId, true)}
                             // onPress={(service) => changeStylist(service, appointmentId)}
                             onPress={(service) => { }}
-                            changeProduct={product => {}}
+                            changeProduct={product => { }}
                         />)
                     }
                     {/* ----------- Payment Number --------- */}
@@ -277,7 +277,7 @@ class ItemBlockBasket extends React.Component {
                                 </View>
                             </View>
                             :
-                            <View style={{height:scaleSzie(50),backgroundColor:"red"}} />
+                            <View />
                     }
 
                 </Collapsible>
@@ -287,7 +287,7 @@ class ItemBlockBasket extends React.Component {
 
     componentWillUnmount() {
         this._isMounted = false;
-      }
+    }
 
 }
 

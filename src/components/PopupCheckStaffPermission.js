@@ -64,8 +64,6 @@ class PopupCheckStaffPermission extends React.Component {
         await this.setState({
             value: ""
         });
-        // this.props.actions.auth.toggleVisiblePopupCheckStaffPermission(false);
-        // this.props.navigation.navigate("Home");
         this.props.onRequestClose();
     }
 
@@ -76,8 +74,7 @@ class PopupCheckStaffPermission extends React.Component {
         const { value, customStyle } = this.state;
         return (
             <PopupParent
-                // title={`${title}-${tabName}`}
-                title={`${tabName}`}
+                title={`${title}`}
                 visible={visiblePopupCheckStaffPermission}
                 onRequestClose={this.onRequestClose}
                 hideCloseButton={hideCloseButton}
