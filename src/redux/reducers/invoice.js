@@ -32,7 +32,8 @@ const initialState = {
     isGettingSettlement: "",
     visibleConfirmPrintInvoice: false,
 
-    invoiceTabPermission: false
+    invoiceTabPermission: false,
+    settlementTabPermission: false
 
 }
 
@@ -193,6 +194,12 @@ function appReducer(state = initialState, action) {
                 ...state,
                 invoiceTabPermission: action.payload
             }
+        case 'TOGGLE_SETTLEMENT_TAB_PERMISSION':
+            return {
+                ...state,
+                settlementTabPermission: action.payload
+            }
+            
         default:
             return state
     }

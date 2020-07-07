@@ -34,7 +34,7 @@ class SettlementScreen extends Layout {
                 });
                 this.tabSettleRef.current.onDidFocus();
                 this.checkPermissionRef.current.setStateFromParent('');
-                this.props.actions.auth.toggleVisiblePopupCheckStaffPermission();
+                this.props.actions.invoice.toggleSettlementTabPermission();
             }
         );
     }
@@ -56,6 +56,11 @@ class SettlementScreen extends Layout {
         this.props.navigation.openDrawer();
     }
 
+    closePopupCheckSettementTabPermission = () => {
+        this.props.actions.invoice.toggleSettlementTabPermission(false);
+        this.props.navigation.navigate("Home");
+    }
+
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();
@@ -67,12 +72,8 @@ class SettlementScreen extends Layout {
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     language: state.dataLocal.language,
-    listCustomersByMerchant: state.customer.listCustomersByMerchant,
-    listCustomersSearch: state.customer.listCustomersSearch,
-    isShowSearchCustomer: state.customer.isShowSearchCustomer,
-    refreshListCustomer: state.customer.refreshListCustomer,
-    stateCity: state.dataLocal.stateCity,
-    connectPAXStatus: state.app.connectPAXStatus
+    connectPAXStatus: state.app.connectPAXStatus,
+    settlementTabPermission: state.invoice.settlementTabPermission
 })
 
 

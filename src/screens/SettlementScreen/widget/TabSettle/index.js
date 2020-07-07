@@ -46,14 +46,6 @@ class TabSettle extends Layout {
 }
 
 const mapStateToProps = state => ({
-    language: state.dataLocal.language,
-    servicesByMerchant: state.service.servicesByMerchant,
-    categoriesByMerchant: state.category.categoriesByMerchant,
-    listServicesSearch: state.service.listServicesSearch,
-    isShowSearchService: state.service.isShowSearchService,
-    refreshListServices: state.service.refreshListServices,
-    isGetListSearchService: state.service.isGetListSearchService,
-    paxMachineInfo: state.dataLocal.paxMachineInfo,
 })
 
 

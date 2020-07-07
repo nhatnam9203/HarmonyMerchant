@@ -163,3 +163,10 @@ export function toggleInvoiceTabPermission(visible = true) {
     }
 }
 
+export function toggleSettlementTabPermission(visible = true) {
+    return {
+        type: 'TOGGLE_SETTLEMENT_TAB_PERMISSION',
+        payload: visible
+    }
+}
+

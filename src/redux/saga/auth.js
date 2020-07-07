@@ -101,6 +101,10 @@ function* checkStaffPermission(action) {
                 })
             } else if (action.tabName === "Settlement") {
                 yield put({
+                    type :"TOGGLE_SETTLEMENT_TAB_PERMISSION",
+                    payload: false
+                });
+                yield put({
                     type: 'GET_SETTLEMENT_WAITING',
                     method: 'GET',
                     api: `${apiConfigs.BASE_API}settlement/waiting`,

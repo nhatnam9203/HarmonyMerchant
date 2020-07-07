@@ -5,7 +5,7 @@ const initialState = {
     listCustomersByMerchant: [],
     listCustomersSearch: [],
     isShowSearchCustomer: false,
-    refreshListCustomer: false
+    refreshListCustomer: false,
 }
 
 function appReducer(state = initialState, action) {
