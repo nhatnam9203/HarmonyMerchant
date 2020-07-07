@@ -87,7 +87,7 @@ function* checkStaffPermission(action) {
 
             if (action.tabName === "Invoice") {
                 yield put({
-                    type :"TOGGLE_INVOICE_TAB_PERMISSION",
+                    type: "TOGGLE_INVOICE_TAB_PERMISSION",
                     payload: false
                 });
                 yield put({
@@ -101,7 +101,7 @@ function* checkStaffPermission(action) {
                 })
             } else if (action.tabName === "Settlement") {
                 yield put({
-                    type :"TOGGLE_SETTLEMENT_TAB_PERMISSION",
+                    type: "TOGGLE_SETTLEMENT_TAB_PERMISSION",
                     payload: false
                 });
                 yield put({
@@ -113,7 +113,7 @@ function* checkStaffPermission(action) {
                 })
             } else if (action.tabName === "Customer") {
                 yield put({
-                    type :"TOGGLE_CUSTOMER_TAB_PERMISSION",
+                    type: "TOGGLE_CUSTOMER_TAB_PERMISSION",
                     payload: false
                 });
                 yield put({
@@ -125,7 +125,7 @@ function* checkStaffPermission(action) {
                 })
             } else if (action.tabName === "Inventory") {
                 yield put({
-                    type :"TOGGLE_PRODUCT_TAB_PERMISSION",
+                    type: "TOGGLE_PRODUCT_TAB_PERMISSION",
                     payload: false
                 });
                 yield put({
@@ -137,6 +137,10 @@ function* checkStaffPermission(action) {
                 })
             } else if (action.tabName === "Reports") {
                 yield put({
+                    type: "TOGGLE_REPORT_TAB_PERMISSION",
+                    payload: false
+                });
+                yield put({
                     type: 'GET_LIST_STAFFS_SALARY_TOP',
                     method: 'GET',
                     token: true,
@@ -144,14 +148,14 @@ function* checkStaffPermission(action) {
                     isShowLoading: true
                 })
             } else if (action.tabName === "Settings") {
-                 const state = yield select();
+                const state = yield select();
                 //  console.log("----state : ",state);
                 yield put({
                     type: 'GET_MERCHANT_BY_ID',
                     method: 'GET',
                     token: true,
                     api: `${apiConfigs.BASE_API}merchant/${state.dataLocal.profile.merchantId}`,
-                    isRefresh:false
+                    isRefresh: false
                 })
             }
 

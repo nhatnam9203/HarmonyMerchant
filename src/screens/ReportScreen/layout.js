@@ -132,7 +132,7 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { navigation ,language} = this.props;
+        const { navigation ,language,reportTabPermission} = this.props;
         const { isFocus, visibleCalendar,selectedStaff,visibleStaffInvoicePrint } = this.state;
        
         return (
@@ -165,9 +165,10 @@ export default class Layout extends React.Component {
                 />
                  <PopupCheckStaffPermission
                     ref={this.checkPermissionRef}
+                    visiblePopupCheckStaffPermission={reportTabPermission}
                     title={localize('Input PIN Number', language)}
-                    navigation={navigation}
                     tabName="Reports"
+                    onRequestClose={this.closePopupCheckReportTabPermission}
                 />
             </ParentContainer>
         );

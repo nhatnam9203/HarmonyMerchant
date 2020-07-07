@@ -162,6 +162,12 @@ export function setPositionHeader(dx) {
     return {
         type: 'ON_SCROLL',
         payload: dx
+    }
+}
 
+export function toggleReportTabPermission(visible = true) {
+    return {
+        type: 'TOGGLE_REPORT_TAB_PERMISSION',
+        payload: visible
     }
 }

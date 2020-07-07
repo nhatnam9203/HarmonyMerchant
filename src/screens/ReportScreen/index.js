@@ -39,7 +39,7 @@ class ReportScreen extends Layout {
                     isFocus: true
                 });
                 this.checkPermissionRef.current.setStateFromParent('');
-                this.props.actions.auth.toggleVisiblePopupCheckStaffPermission();
+                this.props.actions.staff.toggleReportTabPermission();
             }
         );
     }
@@ -119,6 +119,11 @@ class ReportScreen extends Layout {
         })
     }
 
+    closePopupCheckReportTabPermission = () =>{
+        this.props.actions.staff.toggleReportTabPermission(false);
+        this.props.navigation.navigate("Home");
+    }
+
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();
@@ -132,6 +137,7 @@ const mapStateToProps = state => ({
     refreshListStaffsSalary: state.staff.refreshListStaffsSalary,
     listStaffsCalendar: state.staff.listStaffsCalendar,
     dx: state.staff.dx,
+    reportTabPermission: state.staff.reportTabPermission
 })
 
 

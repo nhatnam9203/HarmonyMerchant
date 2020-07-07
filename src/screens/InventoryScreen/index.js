@@ -288,7 +288,7 @@ class InventoryScreen extends Layout {
     }
 
     closePopupCheckProductTabPermission = () => {
-        this.props.actions.product.toggleProductTabPermission();
+        this.props.actions.product.toggleProductTabPermission(false);
         this.props.navigation.navigate("Home");
     }
 

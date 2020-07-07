@@ -14,8 +14,8 @@ const initialState = {
     listStaffsSalary: [],
     refreshListStaffsSalary: false,
     listStaffsCalendar: [],
-    dx: 0
-
+    dx: 0,
+    reportTabPermission: false
 }
 
 function appReducer(state = initialState, action) {
@@ -132,7 +132,11 @@ function appReducer(state = initialState, action) {
                 ...state,
                 dx: action.payload
             }
-
+            case 'TOGGLE_REPORT_TAB_PERMISSION':
+                return {
+                    ...state,
+                    reportTabPermission: action.payload
+                }
         default:
             return state
     }
