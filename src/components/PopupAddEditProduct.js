@@ -120,42 +120,43 @@ class PopupAddEditProduct extends React.Component {
         if (keyError != '') {
             Alert.alert(`${strings[keyError]}`);
         } else {
-            await this.setState({
-                isLoadingCheckSKU: true
-            })
-            // ---------------- New --------------
-            try {
-                const checkSKUIsExist = await requestAPI({
-                    type: 'CHECK_SKU_IS_EXIST1',
-                    method: 'GET',
-                    token: profileStaffLogin.token,
-                    api: `${apiConfigs.BASE_API}product/checksku?sku=${temptProductInfo.sku}`,
-                    versionApp: versionApp
+            if (this.props.isSave) {
+                this.props.editProduct({
+                    ...temptProductInfo, isDisabled: productInfo.isDisabled === 'Active' ? 0 : 1,
+                    fileId: this.state.fileId
                 });
-                if (checkSKUIsExist.codeNumber === 200) {
-                    if (this.props.isSave) {
-                        this.props.editProduct({
-                            ...temptProductInfo, isDisabled: productInfo.isDisabled === 'Active' ? 0 : 1,
-                            fileId: this.state.fileId
-                        });
-                    } else {
+            } else {
+                await this.setState({
+                    isLoadingCheckSKU: true
+                })
+                try {
+                    const checkSKUIsExist = await requestAPI({
+                        type: 'CHECK_SKU_IS_EXIST1',
+                        method: 'GET',
+                        token: profileStaffLogin.token,
+                        api: `${apiConfigs.BASE_API}product/checksku?sku=${temptProductInfo.sku}`,
+                        versionApp: versionApp
+                    });
+                    if (checkSKUIsExist.codeNumber === 200) {
                         this.props.confimYes({
                             ...temptProductInfo, isDisabled: productInfo.isDisabled === 'Active' ? 0 : 1,
                             fileId: this.state.fileId
                         });
+                    } else {
+                        await this.setState({
+                            isLoadingCheckSKU: false
+                        })
+                        alert('This product SKU is existing!');
                     }
-                } else {
+                } catch (error) {
                     await this.setState({
                         isLoadingCheckSKU: false
                     })
-                    alert('This product SKU is existing!');
+                    this.props.actions.app.catchError(error)
                 }
-            } catch (error) {
-                await this.setState({
-                    isLoadingCheckSKU: false
-                })
-                this.props.actions.app.catchError(error)
             }
+
+
         }
     }
 

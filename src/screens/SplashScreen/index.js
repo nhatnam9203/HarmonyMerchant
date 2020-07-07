@@ -40,9 +40,10 @@ class SplashScreen extends Layout {
 
                 const tempEnv = env.IS_PRODUCTION;
                 // console.log("IS_PRODUCTION : ",tempEnv);
-                if (tempEnv == "true") {
+                if (tempEnv == "Production" || tempEnv == "Staging") {
                     // console.log("---- checkForUpdateCodepush -----");
-                    this.checkForUpdateCodepush();
+                    const deploymentKey = tempEnv == "Production" ? configs.codePushKeyIOS.production : configs.codePushKeyIOS.staging; 
+                    this.checkForUpdateCodepush(deploymentKey);
                 } else {
                     // console.log("---- controlFlowInitApp -----");
                     this.controlFlowInitApp();
@@ -55,9 +56,9 @@ class SplashScreen extends Layout {
 
     }
 
-    checkForUpdateCodepush() {
+    checkForUpdateCodepush(deploymentKey) {
         // console.log('checkForUpdateCodepush : ');
-        const deploymentKey = configs.codePushKeyIOS.production;
+        // const deploymentKey = configs.codePushKeyIOS.production;
         CodePush.checkForUpdate(deploymentKey)
             .then(update => {
                 // console.log('update : ', update);
