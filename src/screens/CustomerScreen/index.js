@@ -27,9 +27,11 @@ class CustomerScreen extends Layout {
             'didBlur',
             payload => {
                 this.setState({
-                    isFocus: false
+                    isFocus: false,
+                    keySearch:''
                 });
                 this.checkPermissionRef.current.setStateFromParent('');
+                this.props.actions.customer.clearSearCustomer();
             }
         );
         this.didFocusSubscription = this.props.navigation.addListener(
