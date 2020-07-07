@@ -55,3 +55,10 @@ export function getCustomerInfoByPhone(phone) {
     }
 }
 
+export function toggleCustomerTabPermission(visible = true) {
+    return {
+        type: 'TOGGLE_CUSTOMER_TAB_PERMISSION',
+        payload: visible
+    }
+}
+

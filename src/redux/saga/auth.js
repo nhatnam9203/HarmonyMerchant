@@ -113,6 +113,10 @@ function* checkStaffPermission(action) {
                 })
             } else if (action.tabName === "Customer") {
                 yield put({
+                    type :"TOGGLE_CUSTOMER_TAB_PERMISSION",
+                    payload: false
+                });
+                yield put({
                     type: 'GET_LIST_CUSTOMER_BY_MERCHANT',
                     method: 'GET',
                     api: `${apiConfigs.BASE_API}customer/bymerchant`,

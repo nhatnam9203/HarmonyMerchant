@@ -6,6 +6,7 @@ const initialState = {
     listCustomersSearch: [],
     isShowSearchCustomer: false,
     refreshListCustomer: false,
+    customerTabPermission: false
 }
 
 function appReducer(state = initialState, action) {
@@ -52,6 +53,11 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 refreshListCustomer: false
+            }
+        case 'TOGGLE_CUSTOMER_TAB_PERMISSION':
+            return {
+                ...state,
+                customerTabPermission: action.payload
             }
 
         default:

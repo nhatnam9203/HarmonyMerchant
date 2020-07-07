@@ -39,7 +39,7 @@ class CustomerScreen extends Layout {
                     isFocus: true
                 });
                 this.checkPermissionRef.current.setStateFromParent('');
-                this.props.actions.auth.toggleVisiblePopupCheckStaffPermission();
+                this.props.actions.customer.toggleCustomerTabPermission();
             }
         );
     }
@@ -125,7 +125,10 @@ class CustomerScreen extends Layout {
         this.props.actions.app.handleLockScreen(true);
     }
 
-
+    closePopupCheckCustomerTabPermission =() =>{
+        this.props.actions.customer.toggleCustomerTabPermission(false);
+        this.props.navigation.navigate("Home");
+    }
 
     componentWillUnmount() {
         this.didBlurSubscription.remove();
@@ -142,7 +145,8 @@ const mapStateToProps = state => ({
     listCustomersSearch: state.customer.listCustomersSearch,
     isShowSearchCustomer: state.customer.isShowSearchCustomer,
     refreshListCustomer: state.customer.refreshListCustomer,
-    stateCity: state.dataLocal.stateCity
+    stateCity: state.dataLocal.stateCity,
+    customerTabPermission: state.customer.customerTabPermission
 })
 
 
