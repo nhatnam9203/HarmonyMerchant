@@ -23,36 +23,23 @@ import {
     PopupBlockDiscount, ItemPaymentMethod,
     ShadowLineLeftToRight,
     ShadowLineRightToLeft,
-    ShadowLineShort,PopupChangeCustomerInfo
+    ShadowLineShort, PopupChangeCustomerInfo
 } from './widget';
 
 class Layout extends React.Component {
 
     renderHeader() {
-        const { language, groupAppointment } = this.props;
-        const { infoUser } = this.state;
-        let firstName = '';
-        let lastName = '';
-        let phoneNumber = '';
+        const { language, groupAppointment, customerInfoBuyAppointment } = this.props;
 
-        if (!_.isEmpty(groupAppointment)) {
-            const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
-            const appointmentMain = appointments.find(appointment => appointment.isMain === 1);
-            if (appointmentMain) {
-                firstName = appointmentMain.firstName ? appointmentMain.firstName : '';
-                lastName = appointmentMain.lastName ? appointmentMain.lastName : '';
-                phoneNumber = appointmentMain.phoneNumber ? appointmentMain.phoneNumber : '';
-            }
-        }
-        firstName = infoUser.firstName !== '' ? infoUser.firstName : firstName;
-        lastName = infoUser.lastName !== '' ? infoUser.lastName : lastName;
-        phoneNumber = infoUser.phoneNumber !== '' ? infoUser.phoneNumber : phoneNumber;
-
+        let firstName = customerInfoBuyAppointment.firstName ? customerInfoBuyAppointment.firstName : "";
+        let lastName = customerInfoBuyAppointment.lastName ? customerInfoBuyAppointment.lastName : "";
+        let phone = customerInfoBuyAppointment.phone ? customerInfoBuyAppointment.phone : "";
         const name = `${firstName} ${lastName}`;
+
         return (
             <View style={styles.headerContainer} >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                    <Text onPress={this.displayPopupCustomerName} style={[styles.textHeader,{fontSize:scaleSzie(14)}]} >
+                    <Text onPress={this.displayPopupCustomerName} style={[styles.textHeader, { fontSize: scaleSzie(14) }]} >
                         {`${localize('Customer', language)}:`}
                     </Text>
                     {
@@ -73,7 +60,7 @@ class Layout extends React.Component {
                                 }}
                                 styleText={{ fontSize: scaleSzie(12), }}
                             />
-                            : <Text onPress={this.displayPopupCustomerName} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(30),fontSize:scaleSzie(14) }]} >
+                            : <Text onPress={this.displayPopupCustomerName} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(30), fontSize: scaleSzie(14) }]} >
                                 {`${name}`}
                             </Text>
                     }
@@ -83,7 +70,7 @@ class Layout extends React.Component {
                         {`${localize('Phone', language)}:`}
                     </Text>
                     {
-                        phoneNumber.trim() == '' ?
+                        phone.trim() == '' ?
                             <ButtonCustom
                                 width={scaleSzie(100)}
                                 height={30}
@@ -101,7 +88,7 @@ class Layout extends React.Component {
                                 styleText={{ fontSize: scaleSzie(12), }}
                             />
                             : <Text onPress={this.displayPopupCustomerPhone} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(12) }]} >
-                                {phoneNumber}
+                                {phone}
                             </Text>
                     }
 
@@ -125,7 +112,7 @@ class Layout extends React.Component {
                         <Image source={IMAGE.cashier_btn}
                             style={{ width: scaleSzie(16), height: scaleSzie(13) }}
                         />
-                        <Text style={[styles.textBtnCashier,{fontSize:scaleSzie(9),fontWeight:"500"}]} >
+                        <Text style={[styles.textBtnCashier, { fontSize: scaleSzie(9), fontWeight: "500" }]} >
                             {localize('Open Cash Drawer', language)}
                         </Text>
                     </Button>
@@ -155,9 +142,9 @@ class Layout extends React.Component {
                 </View>
                 {/* ------- Body ----- */}
                 <View style={styles.categoriesBody} >
-                    <ScrollView 
-                    showsVerticalScrollIndicator={false}
-                    keyboardShouldPersistTaps="always"
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        keyboardShouldPersistTaps="always"
                     >
                         {
                             categoriesFilter.map((category, index) => <ItemCategory
@@ -238,9 +225,9 @@ class Layout extends React.Component {
                                 </View>
                                 {/* --------- List ------- */}
                                 <View style={{ flex: 1 }} >
-                                    <ScrollView 
-                                    showsVerticalScrollIndicator={false} 
-                                    keyboardShouldPersistTaps="always"
+                                    <ScrollView
+                                        showsVerticalScrollIndicator={false}
+                                        keyboardShouldPersistTaps="always"
                                     >
                                         {
                                             data.map((item, index) => <ItemProductService
@@ -312,7 +299,7 @@ class Layout extends React.Component {
                                         categoryTypeSelected === 'Product' ? <ItemAmount
                                             ref={this.amountRef}
                                             price={productSeleted.price}
-                                        /> : <ScrollView  keyboardShouldPersistTaps="always" >
+                                        /> : <ScrollView keyboardShouldPersistTaps="always" >
                                                 {
                                                     (this.getExtrasFromRedux(productSeleted)).map((extra, index) => <ItemExtra
                                                         key={index}
@@ -371,9 +358,9 @@ class Layout extends React.Component {
 
         return (
             <View style={{ flex: 1 }} >
-                <ScrollView 
-                showsVerticalScrollIndicator={false} 
-                keyboardShouldPersistTaps="always"
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps="always"
                 >
                     {
                         _.isEmpty(groupAppointment) ? (basket.length > 0 ? <ItemCustomerBasket
@@ -475,14 +462,14 @@ class Layout extends React.Component {
 
         let temptGrandTotal = 0;
         for (let i = 0; i < blockAppointments.length; i++) {
-            temptGrandTotal =  temptGrandTotal + formatNumberFromCurrency(blockAppointments[i].total);
+            temptGrandTotal = temptGrandTotal + formatNumberFromCurrency(blockAppointments[i].total);
         }
 
         return (
             <View style={{ flex: 1 }} >
-                <ScrollView 
-                showsVerticalScrollIndicator={false} 
-                keyboardShouldPersistTaps="always"
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps="always"
                 >
                     {blockAppointments.map((appointment, index) => <ItemBlockBasket
                         ref={this.addBlockAppointmentRef}
@@ -507,7 +494,7 @@ class Layout extends React.Component {
                     />)}
 
                     {/* ----------- Grand Total ----------- */}
-                    <View style={{ paddingHorizontal: scaleSzie(10) ,marginTop: scaleSzie(15)}} >
+                    <View style={{ paddingHorizontal: scaleSzie(10), marginTop: scaleSzie(15) }} >
                         <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
                         {/* ---------- Tip ------ */}
                         <View style={styles.payNumberTextContainer} >
@@ -532,7 +519,7 @@ class Layout extends React.Component {
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         const length_blockAppointments = blockAppointments ? blockAppointments.length : 0;
         const isShowAddBlock = length_blockAppointments > 0 && blockAppointments[length_blockAppointments - 1].total != "0.00" ? true : false;
-        
+
         return (
             <View style={{ flex: 1 }} >
                 {/* -------- Header Basket -------- */}
@@ -545,14 +532,14 @@ class Layout extends React.Component {
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
                         {
-                            (!_.isEmpty(groupAppointment) && checkoutPayments.length === 0) 
-                            || (blockAppointments.length &&  isShowAddBlock ) > 0
-                            ? <Button onPress={this.addAppointmentCheckout} >
-                                <Image
-                                    source={IMAGE.add_appointment_checkout}
-                                    style={{ width: scaleSzie(25), height: scaleSzie(25) }}
-                                />
-                            </Button> : <View />
+                            (!_.isEmpty(groupAppointment) && checkoutPayments.length === 0)
+                                || (blockAppointments.length && isShowAddBlock) > 0
+                                ? <Button onPress={this.addAppointmentCheckout} >
+                                    <Image
+                                        source={IMAGE.add_appointment_checkout}
+                                        style={{ width: scaleSzie(25), height: scaleSzie(25) }}
+                                    />
+                                </Button> : <View />
                         }
 
 
@@ -977,9 +964,9 @@ class Layout extends React.Component {
                     visiblePrintInvoice={this.state.visiblePrintInvoice}
                     onRequestClose={this.cancelInvoicePrint}
                 />
-                <PopupChangeCustomerInfo 
+                <PopupChangeCustomerInfo
                     // ref={this.changeStylistRef}
-                    visible={this.state.visibleCustomerName} 
+                    // visible={visiblePopupCustomerInfoBuyAppointment} 
                     title={localize('Modification', language)}
                     onRequestClose={() => { this.setState({ visibleCustomerName: false }) }}
                     changeStylistBasketLocal={this.changeStylistBasketLocal}

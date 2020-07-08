@@ -28,11 +28,11 @@ class Loading extends React.PureComponent {
                         width: scaleSzie(70), height: scaleSzie(70), backgroundColor: "rgba(54,64,69,0.7)",
                         justifyContent: "center",
                         alignItems: "center",
-                        borderRadius:scaleSzie(10)
+                        borderRadius: scaleSzie(10)
                     }} >
                         <ActivityIndicator color="#fff" size="large" />
                     </View>
-                    
+
                 </View>
             </Modal>
         );

@@ -27,7 +27,10 @@ const initialState = {
     isLoadingGetBlockAppointment: false,
     isLoadingRemoveBlockAppointment: false,
     idNextToAppointmentRemove: -1,
-    fromTimeBlockAppointment: new Date()
+    fromTimeBlockAppointment: new Date(),
+
+    customerInfoBuyAppointment: {},
+    visiblePopupCustomerInfoBuyAppointment: false
 }
 
 function appReducer(state = initialState, action) {
@@ -240,7 +243,23 @@ function appReducer(state = initialState, action) {
                 ...state,
                 fromTimeBlockAppointment: action.fromTimeBlockAppointment,
             }
-
+        case 'GET_CUSTOMER_INFO_BUY_APPOINTMENT_SUCCESS':
+            return {
+                ...state,
+                customerInfoBuyAppointment: action.payload,
+                visiblePopupCustomerInfoBuyAppointment: false
+            }
+        case 'GET_CUSTOMER_INFO_BUY_APPOINTMENT_FAIL':
+            return {
+                ...state,
+                customerInfoBuyAppointment: action.payload,
+                visiblePopupCustomerInfoBuyAppointment: false
+            }
+        case 'TOGGLE_POPUP_CUSTOMER_INFO_BUY_APPOINTMENT':
+            return {
+                ...state,
+                visiblePopupCustomerInfoBuyAppointment: action.payload,
+            }
         default:
             return state
     }

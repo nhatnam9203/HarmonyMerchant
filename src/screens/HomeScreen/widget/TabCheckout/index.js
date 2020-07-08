@@ -1384,56 +1384,6 @@ class TabCheckout extends Layout {
         this.props.actions.appointment.resetPayment();
     }
 
-    displayPopupCustomerName = async () => {
-        const { groupAppointment } = this.props;
-        const { infoUser } = this.state;
-        let firstName = '';
-        let lastName = '';
-
-        if (!_.isEmpty(groupAppointment)) {
-            const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
-            const appointmentMain = appointments.find(appointment => appointment.isMain === 1);
-            if (appointmentMain) {
-                firstName = appointmentMain.firstName ? appointmentMain.firstName : '';
-                lastName = appointmentMain.lastName ? appointmentMain.lastName : '';
-            }
-
-
-        }
-        firstName = infoUser.firstName !== '' ? infoUser.firstName : firstName;
-        lastName = infoUser.lastName !== '' ? infoUser.lastName : lastName;
-
-        // this.customerNameRef.current.setStateFromParent(firstName, lastName);
-        await this.setState({ visibleCustomerName: true });
-
-    }
-
-    changeCustomerName = async () => {
-        const { blockAppointments, profile } = this.props;
-        const { infoUser, customerInfoByPhone } = this.state;
-
-        const firstName = this.customerNameRef.current.state.firstName;
-        const lastName = this.customerNameRef.current.state.lastName;
-
-        await this.setState({
-            infoUser: { ...infoUser, firstName, lastName },
-            visibleCustomerName: false
-        });
-
-        if (blockAppointments && blockAppointments.length > 0) {
-            const body = {
-                customerId: customerInfoByPhone.userId ? customerInfoByPhone.userId : 0,
-                firstName,
-                lastName,
-                phoneNumber: infoUser.phoneNumber,
-            };
-            for (let i = 0; i < blockAppointments.length; i++) {
-                this.props.actions.appointment.updateCustomerInAppointment(blockAppointments[i].appointmentId, body);
-            }
-        }
-
-    }
-
     // -------- handle Customer Phone 
 
     displayPopupCustomerPhone = () => {
@@ -1862,6 +1812,57 @@ class TabCheckout extends Layout {
 
     }
 
+    // ------------------ Change Customer Info buy appointment ----------
+
+    displayPopupCustomerName = async () => {
+        // const { groupAppointment } = this.props;
+        // const { infoUser } = this.state;
+        // let firstName = '';
+        // let lastName = '';
+
+        // if (!_.isEmpty(groupAppointment)) {
+        //     const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
+        //     const appointmentMain = appointments.find(appointment => appointment.isMain === 1);
+        //     if (appointmentMain) {
+        //         firstName = appointmentMain.firstName ? appointmentMain.firstName : '';
+        //         lastName = appointmentMain.lastName ? appointmentMain.lastName : '';
+        //     }
+        // }
+        // firstName = infoUser.firstName !== '' ? infoUser.firstName : firstName;
+        // lastName = infoUser.lastName !== '' ? infoUser.lastName : lastName;
+        // this.customerNameRef.current.setStateFromParent(firstName, lastName);
+        // await this.setState({ visibleCustomerName: true });
+
+        this.props.actions.appointment.togglePopupCustomerInfoByPhone(true);
+
+    }
+    
+    changeCustomerName = async () => {
+        const { blockAppointments, profile } = this.props;
+        const { infoUser, customerInfoByPhone } = this.state;
+
+        const firstName = this.customerNameRef.current.state.firstName;
+        const lastName = this.customerNameRef.current.state.lastName;
+
+        await this.setState({
+            infoUser: { ...infoUser, firstName, lastName },
+            visibleCustomerName: false
+        });
+
+        if (blockAppointments && blockAppointments.length > 0) {
+            const body = {
+                customerId: customerInfoByPhone.userId ? customerInfoByPhone.userId : 0,
+                firstName,
+                lastName,
+                phoneNumber: infoUser.phoneNumber,
+            };
+            for (let i = 0; i < blockAppointments.length; i++) {
+                this.props.actions.appointment.updateCustomerInAppointment(blockAppointments[i].appointmentId, body);
+            }
+        }
+
+    }
+
     async componentDidUpdate(prevProps, prevState) {
         const { isLoadingGetBlockAppointment, blockAppointments, isLoadingRemoveBlockAppointment } = this.props;
         if (blockAppointments.length > 0 && prevProps.isLoadingRemoveBlockAppointment != isLoadingRemoveBlockAppointment && !isLoadingRemoveBlockAppointment) {
@@ -1910,7 +1911,8 @@ const mapStateToProps = state => ({
     isLoadingRemoveBlockAppointment: state.appointment.isLoadingRemoveBlockAppointment,
     idNextToAppointmentRemove: state.appointment.idNextToAppointmentRemove,
     fromTimeBlockAppointment: state.appointment.fromTimeBlockAppointment,
-    versionApp: state.dataLocal.versionApp
+    versionApp: state.dataLocal.versionApp,
+    customerInfoBuyAppointment: state.appointment.customerInfoBuyAppointment
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);

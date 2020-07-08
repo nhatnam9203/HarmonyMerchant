@@ -861,6 +861,37 @@ function* addGiftCardIntoBlockAppointment(action) {
     }
 }
 
+function* getCustomerBuyAppointment(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' })
+        const responses = yield requestAPI(action);
+        // yield put({ type: 'STOP_LOADING_ROOT' });
+        // console.log('getCustomerBuyAppointment : ' + JSON.stringify(responses));
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "GET_CUSTOMER_INFO_BUY_APPOINTMENT_SUCCESS",
+                payload: responses.data
+            })
+
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: "GET_CUSTOMER_INFO_BUY_APPOINTMENT_FAIL",
+                payload: action.customerInfoLocal
+            })
+        }
+    } catch (error) {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 export default function* saga() {
     yield all([
         takeLatest('GET_APPOINTMENT_BY_ID', getAppointmentById),
@@ -882,6 +913,6 @@ export default function* saga() {
         takeLatest('CREATE_BLOCK_APPOINTMENT', createBlockAppointment),
         takeLatest('GET_BLOCK_APPOINTMENT_BY_ID', getBlockAppointmentById),
         takeLatest('ADD_GIFT_CARD_INTO_BLOCK_APPOINTMENT', addGiftCardIntoBlockAppointment),
-
+        takeLatest('GET_CUSTOMER_INFO_BUY_APPOINTMENT', getCustomerBuyAppointment),
     ])
 }

@@ -18,17 +18,10 @@ class PopupChangeCustomerInfo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            staffId: '',
-            name: '',
-            tip: 0.00,
-            price: 0.00,
-            bookingServiceId: '',
-            serviceIdLocal: '',
-            appointmentIdChangeStylist: -1,
             codeAreaPhone: '+1',
             phone: "",
-            firstName:"",
-            lastName:""
+            firstName: "",
+            lastName: ""
         };
         this.scrollRef = React.createRef();
     }
@@ -46,30 +39,27 @@ class PopupChangeCustomerInfo extends React.Component {
     }
 
     setStateFromParent = async (service, appointmentId) => {
-        const { staff } = service;
-        // console.log("----- service : ", JSON.stringify(service));
         await this.setState({
-            staffId: staff && staff.staffId ? staff.staffId : '',
-            name: staff && staff.displayName ? staff.displayName : '',
-            bookingServiceId: service.data.bookingServiceId ? service.data.bookingServiceId : '',
-            tip: staff && staff.tip ? staff.tip : 0.00,
-            serviceIdLocal: service.data.serviceId ? service.data.serviceId : '',
-            appointmentIdChangeStylist: appointmentId,
-            price: service.data && service.data.price ? service.data.price : 0.00
+
         })
     }
 
 
     changeStylist = async (name, id) => {
-        await this.setState({
-            staffId: id,
-            name
-        })
+
     }
 
-    submitChangeStylist = () => {
-        
-        this.props.onRequestClose();
+    submitCustomerInfo = () => {
+        const { codeAreaPhone, phone, firstName, lastName } = this.state;
+
+        const phoneNumber = `${codeAreaPhone}${phone}`;
+        this.props.actions.appointment.getCustomerBuyAppointment(phoneNumber, {
+            customerId: 0,
+            firstName,
+            lastName,
+            phone
+        });
+        // this.props.onRequestClose();
     }
 
     onFocusToScroll = (number) => {
@@ -79,13 +69,13 @@ class PopupChangeCustomerInfo extends React.Component {
     // --------------- Render -----------
 
     render() {
-        const { title, visible, onRequestClose, confimYes } = this.props;
-        const { codeAreaPhone, phone,firstName,lastName } = this.state;
+        const { title, visiblePopupCustomerInfoBuyAppointment, onRequestClose, confimYes } = this.props;
+        const { codeAreaPhone, phone, firstName, lastName } = this.state;
 
         return (
             <PopupParent
                 title={title}
-                visible={visible}
+                visible={visiblePopupCustomerInfoBuyAppointment}
                 onRequestClose={() => onRequestClose()}
                 width={scaleSzie(260)}
                 // style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(50) }}
@@ -105,7 +95,7 @@ class PopupChangeCustomerInfo extends React.Component {
                         >
                             <View style={{ height: scaleSzie(20) }} />
                             {/* ------- Price -------- */}
-                            <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14), marginBottom: scaleSzie(5),fontWeight:"600" }} >
+                            <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14), marginBottom: scaleSzie(5), fontWeight: "600" }} >
                                 {`First Name`}
                             </Text>
                             {/* ------- Box Price -------- */}
@@ -117,12 +107,12 @@ class PopupChangeCustomerInfo extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
                                     value={firstName}
                                     onChangeText={(firstName) => this.setState({ firstName })}
-                                    // onFocus={() => this.onFocusToScroll(90)}
+                                    // onFocus={() => this.onFocusToScroll(60)}
                                     placeholder=""
                                 />
                             </View>
                             {/* ------- Tip -------- */}
-                            <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14), marginBottom: scaleSzie(5),fontWeight:"600" }} >
+                            <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14), marginBottom: scaleSzie(5), fontWeight: "600" }} >
                                 {`Last Name`}
                             </Text>
                             {/* ------- Box Tip -------- */}
@@ -134,12 +124,12 @@ class PopupChangeCustomerInfo extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
                                     value={lastName}
                                     onChangeText={(lastName) => this.setState({ lastName })}
-                                    // onFocus={() => this.onFocusToScroll(160)}
+                                    onFocus={() => this.onFocusToScroll(80)}
                                     placeholder=""
                                 />
                             </View>
 
-                            <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14), marginBottom: scaleSzie(5),fontWeight:"600" }} >
+                            <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14), marginBottom: scaleSzie(5), fontWeight: "600" }} >
                                 {`Phone Number`}
                             </Text>
 
@@ -163,7 +153,7 @@ class PopupChangeCustomerInfo extends React.Component {
                                 </View>
                                 <View style={{
                                     flex: 1, borderColor: 'rgb(231,231,231)', borderWidth: 3,
-                                    paddingHorizontal: scaleSzie(10),backgroundColor:"#fff"
+                                    paddingHorizontal: scaleSzie(10), backgroundColor: "#fff"
                                 }} >
                                     <TextInputMask
                                         type={'custom'}
@@ -181,6 +171,7 @@ class PopupChangeCustomerInfo extends React.Component {
                                             confimYes();
                                         }}
                                         keyboardType="phone-pad"
+                                        onFocus={() => this.onFocusToScroll(155)}
                                     />
                                 </View>
 
@@ -193,7 +184,7 @@ class PopupChangeCustomerInfo extends React.Component {
                                     backgroundColor="#0764B0"
                                     title="Submit"
                                     textColor="#fff"
-                                    onPress={this.submitChangeStylist}
+                                    onPress={this.submitCustomerInfo}
                                     style={{
                                         borderWidth: 1, borderColor: '#C5C5C5',
                                         borderRadius: 4
@@ -220,7 +211,8 @@ class PopupChangeCustomerInfo extends React.Component {
 const mapStateToProps = state => ({
     listStaffByMerchant: state.staff.listStaffByMerchant,
     appointmentDetail: state.appointment.appointmentDetail,
-    groupAppointment: state.appointment.groupAppointment
+    groupAppointment: state.appointment.groupAppointment,
+    visiblePopupCustomerInfoBuyAppointment: state.appointment.visiblePopupCustomerInfoBuyAppointment
 })
 
 export default connectRedux(mapStateToProps, PopupChangeCustomerInfo);

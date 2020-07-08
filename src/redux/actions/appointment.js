@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 import apiConfigs from '../../configs/api';
-import { formatWithMoment } from "@utils";
+import { formatWithMoment, splitPlusInPhoneNumber } from "@utils";
 
 export function getAppointmentById(id) {
     return {
@@ -441,3 +441,24 @@ export function updateIdBlockAppointmentOpen(blockAppointmentId) {
     }
 }
 
+export function getCustomerBuyAppointment(phoneNumber, customerInfoLocal = {
+    customerId: 0,
+    firstName: "",
+    lastName: "",
+    phone: ""
+}) {
+    return {
+        type: 'GET_CUSTOMER_INFO_BUY_APPOINTMENT',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}customer/getbyphone/${splitPlusInPhoneNumber(phoneNumber)}`,
+        customerInfoLocal
+    }
+}
+
+export function togglePopupCustomerInfoByPhone(visible = true) {
+    return {
+        type: "TOGGLE_POPUP_CUSTOMER_INFO_BUY_APPOINTMENT",
+        payload: visible
+    }
+}
