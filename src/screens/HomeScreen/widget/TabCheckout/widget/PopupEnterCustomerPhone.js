@@ -74,11 +74,7 @@ class PopupEnterCustomerPhone extends React.Component {
                     height: scaleSzie(130), backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15)
                 }} >
-                    {/* <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: scaleSzie(10), marginBottom: scaleSzie(4) }} >
-                        <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
-                            {message}
-                        </Text>
-                    </View> */}
+                    
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                         <View style={{
                             width: '90%', height: scaleSzie(45),
@@ -102,7 +98,6 @@ class PopupEnterCustomerPhone extends React.Component {
                         paddingHorizontal:scaleSzie(10),
                         }} >
                                 <TextInputMask
-                                    // type="only-numbers"
                                     type={'custom'}
                                     options={{
                                         mask: '999-999-9999'

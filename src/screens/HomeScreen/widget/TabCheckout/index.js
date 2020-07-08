@@ -1403,7 +1403,7 @@ class TabCheckout extends Layout {
         firstName = infoUser.firstName !== '' ? infoUser.firstName : firstName;
         lastName = infoUser.lastName !== '' ? infoUser.lastName : lastName;
 
-        this.customerNameRef.current.setStateFromParent(firstName, lastName);
+        // this.customerNameRef.current.setStateFromParent(firstName, lastName);
         await this.setState({ visibleCustomerName: true });
 
     }
@@ -1865,9 +1865,11 @@ class TabCheckout extends Layout {
     async componentDidUpdate(prevProps, prevState) {
         const { isLoadingGetBlockAppointment, blockAppointments, isLoadingRemoveBlockAppointment } = this.props;
         if (blockAppointments.length > 0 && prevProps.isLoadingRemoveBlockAppointment != isLoadingRemoveBlockAppointment && !isLoadingRemoveBlockAppointment) {
+            console.log("--------- updateBlockAppointmentRef ----------");
             this.updateBlockAppointmentRef();
         }
         if (blockAppointments.length > 0 && prevProps.isLoadingGetBlockAppointment != isLoadingGetBlockAppointment && !isLoadingGetBlockAppointment) {
+            console.log("--------- setBlockToggleCollaps ----------");
             this.setBlockToggleCollaps();
         }
     }

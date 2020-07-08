@@ -1,0 +1,227 @@
+import React from 'react';
+import {
+    View,
+    Text,
+    ScrollView,
+    Keyboard,
+    TextInput
+} from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
+import _ from 'ramda';
+
+import { ButtonCustom, PopupParent, Dropdown } from '@components';
+import connectRedux from '@redux/ConnectRedux';
+import { scaleSzie, ListCodeAreaPhone, localize } from '@utils';
+
+class PopupChangeCustomerInfo extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            staffId: '',
+            name: '',
+            tip: 0.00,
+            price: 0.00,
+            bookingServiceId: '',
+            serviceIdLocal: '',
+            appointmentIdChangeStylist: -1,
+            codeAreaPhone: '+1',
+            phone: "",
+            firstName:"",
+            lastName:""
+        };
+        this.scrollRef = React.createRef();
+    }
+
+    componentDidMount() {
+        this.keyboardWillHide = Keyboard.addListener('keyboardWillHide', this.handleKeyboardWillHide);
+    }
+
+    handleKeyboardWillHide = async () => {
+
+        if (this.scrollRef.current) {
+            this.scrollRef.current.scrollTo({ x: 0, y: 0, animated: true })
+        }
+
+    }
+
+    setStateFromParent = async (service, appointmentId) => {
+        const { staff } = service;
+        // console.log("----- service : ", JSON.stringify(service));
+        await this.setState({
+            staffId: staff && staff.staffId ? staff.staffId : '',
+            name: staff && staff.displayName ? staff.displayName : '',
+            bookingServiceId: service.data.bookingServiceId ? service.data.bookingServiceId : '',
+            tip: staff && staff.tip ? staff.tip : 0.00,
+            serviceIdLocal: service.data.serviceId ? service.data.serviceId : '',
+            appointmentIdChangeStylist: appointmentId,
+            price: service.data && service.data.price ? service.data.price : 0.00
+        })
+    }
+
+
+    changeStylist = async (name, id) => {
+        await this.setState({
+            staffId: id,
+            name
+        })
+    }
+
+    submitChangeStylist = () => {
+        
+        this.props.onRequestClose();
+    }
+
+    onFocusToScroll = (number) => {
+        this.scrollRef.current.scrollTo({ x: 0, y: scaleSzie(number), animated: true })
+    }
+
+    // --------------- Render -----------
+
+    render() {
+        const { title, visible, onRequestClose, confimYes } = this.props;
+        const { codeAreaPhone, phone,firstName,lastName } = this.state;
+
+        return (
+            <PopupParent
+                title={title}
+                visible={visible}
+                onRequestClose={() => onRequestClose()}
+                width={scaleSzie(260)}
+                // style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(50) }}
+                styleTitle={{ fontSize: scaleSzie(22), fontWeight: "bold" }}
+            >
+                <View style={{
+                    height: scaleSzie(320), backgroundColor: '#FAFAFA',
+                    borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
+                    paddingHorizontal: scaleSzie(16),
+
+                }} >
+                    <View style={{ flex: 1 }} >
+                        <ScrollView
+                            ref={this.scrollRef}
+                            showsVerticalScrollIndicator={false}
+                            keyboardShouldPersistTaps="always"
+                        >
+                            <View style={{ height: scaleSzie(20) }} />
+                            {/* ------- Price -------- */}
+                            <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14), marginBottom: scaleSzie(5),fontWeight:"600" }} >
+                                {`First Name`}
+                            </Text>
+                            {/* ------- Box Price -------- */}
+                            <View style={{
+                                height: scaleSzie(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
+                                paddingHorizontal: scaleSzie(10), marginBottom: scaleSzie(10)
+                            }} >
+                                <TextInput
+                                    style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
+                                    value={firstName}
+                                    onChangeText={(firstName) => this.setState({ firstName })}
+                                    // onFocus={() => this.onFocusToScroll(90)}
+                                    placeholder=""
+                                />
+                            </View>
+                            {/* ------- Tip -------- */}
+                            <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14), marginBottom: scaleSzie(5),fontWeight:"600" }} >
+                                {`Last Name`}
+                            </Text>
+                            {/* ------- Box Tip -------- */}
+                            <View style={{
+                                height: scaleSzie(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
+                                paddingHorizontal: scaleSzie(10), marginBottom: scaleSzie(10)
+                            }} >
+                                <TextInput
+                                    style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
+                                    value={lastName}
+                                    onChangeText={(lastName) => this.setState({ lastName })}
+                                    // onFocus={() => this.onFocusToScroll(160)}
+                                    placeholder=""
+                                />
+                            </View>
+
+                            <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14), marginBottom: scaleSzie(5),fontWeight:"600" }} >
+                                {`Phone Number`}
+                            </Text>
+
+                            {/* ----------- Enter Phone ---------- */}
+                            <View style={{
+                                height: scaleSzie(45), flexDirection: 'row'
+                            }} >
+                                <View style={{ width: scaleSzie(70), marginRight: scaleSzie(10) }} >
+                                    <Dropdown
+                                        label={'+1'}
+                                        data={ListCodeAreaPhone}
+                                        value={codeAreaPhone}
+                                        onChangeText={(codeAreaPhone) => this.setState({ codeAreaPhone })}
+                                        containerStyle={{
+                                            backgroundColor: '#fff',
+                                            borderWidth: 1,
+                                            borderColor: '#C5C5C5',
+                                            flex: 1
+                                        }}
+                                    />
+                                </View>
+                                <View style={{
+                                    flex: 1, borderColor: 'rgb(231,231,231)', borderWidth: 3,
+                                    paddingHorizontal: scaleSzie(10),backgroundColor:"#fff"
+                                }} >
+                                    <TextInputMask
+                                        type={'custom'}
+                                        options={{
+                                            mask: '999-999-9999'
+                                        }}
+                                        style={{
+                                            flex: 1, fontSize: scaleSzie(18),
+                                            padding: 0, margin: 0,
+                                        }}
+                                        placeholder={'Phone number'}
+                                        value={phone}
+                                        onChangeText={(phone) => this.setState({ phone })}
+                                        onSubmitEditing={() => {
+                                            confimYes();
+                                        }}
+                                        keyboardType="phone-pad"
+                                    />
+                                </View>
+
+                            </View>
+                            {/* ------- Button -------- */}
+                            <View style={{ marginTop: scaleSzie(20), alignItems: 'center', }} >
+                                <ButtonCustom
+                                    width={scaleSzie(120)}
+                                    height={45}
+                                    backgroundColor="#0764B0"
+                                    title="Submit"
+                                    textColor="#fff"
+                                    onPress={this.submitChangeStylist}
+                                    style={{
+                                        borderWidth: 1, borderColor: '#C5C5C5',
+                                        borderRadius: 4
+                                    }}
+                                />
+                            </View>
+                            <View style={{ height: scaleSzie(200) }} />
+                        </ScrollView>
+                    </View>
+                </View>
+            </PopupParent>
+        );
+    }
+
+    componentWillUnmount() {
+        this.keyboardWillHide.remove();
+    }
+
+
+}
+
+
+
+const mapStateToProps = state => ({
+    listStaffByMerchant: state.staff.listStaffByMerchant,
+    appointmentDetail: state.appointment.appointmentDetail,
+    groupAppointment: state.appointment.groupAppointment
+})
+
+export default connectRedux(mapStateToProps, PopupChangeCustomerInfo);
+

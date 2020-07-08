@@ -20,7 +20,10 @@ import {
     ItemCategory, ItemProductService, ItemAmount,
     ItemExtra, PopupDiscount, PopupBill, PopupDiscountLocal, PopupEnterInfo,
     PopupEnterCustomerPhone, ItemCustomerBasket, PopupPaymentDetails, ItemBlockBasket,
-    PopupBlockDiscount
+    PopupBlockDiscount, ItemPaymentMethod,
+    ShadowLineLeftToRight,
+    ShadowLineRightToLeft,
+    ShadowLineShort,PopupChangeCustomerInfo
 } from './widget';
 
 class Layout extends React.Component {
@@ -941,14 +944,14 @@ class Layout extends React.Component {
                     confimYes={this.sendLinkInstallApp}
                     submitSerialCode={this.submitSerialCode}
                 />
-                <PopupEnterInfo
+                {/* <PopupEnterInfo
                     ref={this.customerNameRef}
                     visible={this.state.visibleCustomerName}
                     title={localize('Confirmation', language)}
                     message={localize('Customer Name', language)}
                     onRequestClose={() => this.setState({ visibleCustomerName: false })}
                     confimYes={this.changeCustomerName}
-                />
+                /> */}
                 <PopupEnterCustomerPhone
                     ref={this.CustomerPhoneRef}
                     visible={this.state.visibleCustomerPhone}
@@ -974,64 +977,17 @@ class Layout extends React.Component {
                     visiblePrintInvoice={this.state.visiblePrintInvoice}
                     onRequestClose={this.cancelInvoicePrint}
                 />
+                <PopupChangeCustomerInfo 
+                    // ref={this.changeStylistRef}
+                    visible={this.state.visibleCustomerName} 
+                    title={localize('Modification', language)}
+                    onRequestClose={() => { this.setState({ visibleCustomerName: false }) }}
+                    changeStylistBasketLocal={this.changeStylistBasketLocal}
+                />
             </View>
         );
     }
 
-}
-
-const ItemPaymentMethod = ({ title, selectedPayment, paymentSelected }) => {
-    const temptBackground = title === paymentSelected ? { backgroundColor: '#0764B0' } : {};
-    const temptTextColor = title === paymentSelected ? { color: '#fff' } : {};
-
-    return (
-        <Button onPress={() => selectedPayment(title)} style={[{
-            width: scaleSzie(180), height: scaleSzie(80), borderWidth: 1, borderColor: '#6A6A6A',
-            justifyContent: 'center', alignItems: 'center'
-        }, temptBackground]} >
-            <Text style={[styles.textHeader, { fontSize: scaleSzie(18) }, temptTextColor]} >
-                {title}
-            </Text>
-        </Button>
-    );
-}
-
-const ShadowLineLeftToRight = ({ style }) => {
-    return (
-        <>
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.1)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.08)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.06)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.04)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.04)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.02)" }} />
-            <View style={{ flex: 1 }} />
-        </>
-    )
-}
-
-const ShadowLineRightToLeft = ({ style }) => {
-    return (
-        <>
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.02)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.04)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.04)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.06)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.08)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.1)" }} />
-            <View style={{ flex: 1 }} />
-        </>
-    )
-}
-
-const ShadowLineShort = ({ style }) => {
-    return (
-        <>
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.02)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.04)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.04)" }} />
-        </>
-    )
 }
 
 

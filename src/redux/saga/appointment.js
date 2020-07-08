@@ -42,7 +42,7 @@ function* getGroupAppointmentById(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        //console.log('getGroupAppointmentById : ', JSON.stringify(responses));
+        console.log('getGroupAppointmentById : ', JSON.stringify(responses));
 
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
@@ -389,8 +389,8 @@ function* checkoutSubmit(action) {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         // console.log('checkoutSubmit : ' + JSON.stringify(responses));
-        const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
+        const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             const dueAmount = responses.data && responses.data.checkoutPaymentResponse && responses.data.checkoutPaymentResponse.dueAmount ? parseFloat(responses.data.checkoutPaymentResponse.dueAmount) : 0;
             if (dueAmount === 0) {
@@ -677,7 +677,7 @@ function* updateCustomerInAppointment(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('updateCustomerInAppointment : ' + JSON.stringify(responses));
+        console.log('updateCustomerInAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
 

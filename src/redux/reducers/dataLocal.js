@@ -9,7 +9,7 @@ const initialState = {
         name: '',
         ip: '',
         port: '',
-        timeout: 60000,
+        timeout: parseInt(5 * 60 * 1000),
         isSetup: false
     },
     profileStaffLogin: {},
