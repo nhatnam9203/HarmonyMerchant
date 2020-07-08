@@ -8,7 +8,6 @@ import VersionCheck from 'react-native-version-check';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import configs from '@configs';
-import { checkEnvironment } from '@utils';
 
 class SplashScreen extends Layout {
 
@@ -20,10 +19,6 @@ class SplashScreen extends Layout {
     }
 
     async componentDidMount() {
-        // alert("dd")
-    }
-
-    async componentDidMount_1() {
         try {
             const res = await VersionCheck.needUpdate();
             // console.log("res : ",res);
