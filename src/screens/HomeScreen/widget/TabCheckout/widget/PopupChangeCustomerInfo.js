@@ -11,18 +11,20 @@ import _ from 'ramda';
 
 import { ButtonCustom, PopupParent, Dropdown } from '@components';
 import connectRedux from '@redux/ConnectRedux';
-import { scaleSzie, ListCodeAreaPhone, localize } from '@utils';
+import { scaleSzie, ListCodeAreaPhone, getCodeAreaPhone } from '@utils';
+
+const initalState = {
+    codeAreaPhone: '+1',
+    phone: "",
+    firstName: "",
+    lastName: ""
+};
 
 class PopupChangeCustomerInfo extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            codeAreaPhone: '+1',
-            phone: "",
-            firstName: "",
-            lastName: ""
-        };
+        this.state = initalState;
         this.scrollRef = React.createRef();
     }
 
@@ -38,9 +40,12 @@ class PopupChangeCustomerInfo extends React.Component {
 
     }
 
-    setStateFromParent = async (service, appointmentId) => {
+    setStateFromParent = async (firstName, lastName, phone) => {
         await this.setState({
-
+            firstName,
+            lastName,
+            phone: getCodeAreaPhone(phone).phone,
+            codeAreaPhone: getCodeAreaPhone(phone).areaCode,
         })
     }
 
@@ -66,6 +71,11 @@ class PopupChangeCustomerInfo extends React.Component {
         this.scrollRef.current.scrollTo({ x: 0, y: scaleSzie(number), animated: true })
     }
 
+    onRequestClose = () => {
+        this.setState(initalState);
+        this.props.actions.appointment.togglePopupCustomerInfoByPhone(false);
+    }
+
     // --------------- Render -----------
 
     render() {
@@ -76,7 +86,7 @@ class PopupChangeCustomerInfo extends React.Component {
             <PopupParent
                 title={title}
                 visible={visiblePopupCustomerInfoBuyAppointment}
-                onRequestClose={() => onRequestClose()}
+                onRequestClose={this.onRequestClose}
                 width={scaleSzie(260)}
                 // style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(50) }}
                 styleTitle={{ fontSize: scaleSzie(22), fontWeight: "bold" }}

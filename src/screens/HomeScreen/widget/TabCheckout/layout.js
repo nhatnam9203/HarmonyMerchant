@@ -39,7 +39,7 @@ class Layout extends React.Component {
         return (
             <View style={styles.headerContainer} >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                    <Text onPress={this.displayPopupCustomerName} style={[styles.textHeader, { fontSize: scaleSzie(14) }]} >
+                    <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { fontSize: scaleSzie(14) }]} >
                         {`${localize('Customer', language)}:`}
                     </Text>
                     {
@@ -50,7 +50,7 @@ class Layout extends React.Component {
                                 backgroundColor="rgb(247,247,247)"
                                 title={localize('Enter Name', language)}
                                 textColor="rgb(63,63,63)"
-                                onPress={this.displayPopupCustomerName}
+                                onPress={this.displayPopupCustomerInfo}
                                 style={{
                                     borderWidth: 1, borderColor: 'rgb(199,199,199)',
                                     borderRadius: scaleSzie(3),
@@ -60,13 +60,13 @@ class Layout extends React.Component {
                                 }}
                                 styleText={{ fontSize: scaleSzie(12), }}
                             />
-                            : <Text onPress={this.displayPopupCustomerName} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(30), fontSize: scaleSzie(14) }]} >
+                            : <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(30), fontSize: scaleSzie(14) }]} >
                                 {`${name}`}
                             </Text>
                     }
 
 
-                    <Text onPress={this.displayPopupCustomerPhone} style={styles.textHeader} >
+                    <Text onPress={this.displayPopupCustomerInfo} style={styles.textHeader} >
                         {`${localize('Phone', language)}:`}
                     </Text>
                     {
@@ -77,7 +77,7 @@ class Layout extends React.Component {
                                 backgroundColor="rgb(247,247,247)"
                                 title={localize('Enter Phone', language)}
                                 textColor="rgb(63,63,63)"
-                                onPress={this.displayPopupCustomerPhone}
+                                onPress={this.displayPopupCustomerInfo}
                                 style={{
                                     borderWidth: 1, borderColor: 'rgb(199,199,199)',
                                     borderRadius: scaleSzie(3),
@@ -87,7 +87,7 @@ class Layout extends React.Component {
                                 }}
                                 styleText={{ fontSize: scaleSzie(12), }}
                             />
-                            : <Text onPress={this.displayPopupCustomerPhone} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(12) }]} >
+                            : <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(12) }]} >
                                 {phone}
                             </Text>
                     }
@@ -965,8 +965,7 @@ class Layout extends React.Component {
                     onRequestClose={this.cancelInvoicePrint}
                 />
                 <PopupChangeCustomerInfo
-                    // ref={this.changeStylistRef}
-                    // visible={visiblePopupCustomerInfoBuyAppointment} 
+                    ref={this.popupCustomerInfoRef}
                     title={localize('Modification', language)}
                     onRequestClose={() => { this.setState({ visibleCustomerName: false }) }}
                     changeStylistBasketLocal={this.changeStylistBasketLocal}
