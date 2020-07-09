@@ -29,7 +29,12 @@ const initialState = {
     idNextToAppointmentRemove: -1,
     fromTimeBlockAppointment: new Date(),
 
-    customerInfoBuyAppointment: {},
+    customerInfoBuyAppointment: {
+        customerId: 0,
+        firstName: "",
+        lastName: "",
+        phone: ""
+    },
     visiblePopupCustomerInfoBuyAppointment: false
 }
 
@@ -259,6 +264,16 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 visiblePopupCustomerInfoBuyAppointment: action.payload,
+            }
+        case 'UPDATE_CUSTOMER_ID_BUY_APPOINTMENT':
+            return {
+                ...state,
+                customerInfoBuyAppointment: { ...state.customerInfoBuyAppointment, customerId: action.payload },
+            }
+        case 'UPDATE_CUSTOMER_INFO_FROM_GET_APPOINTMENT':
+            return {
+                ...state,
+                customerInfoBuyAppointment: action.payload,
             }
         default:
             return state

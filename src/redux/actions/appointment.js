@@ -374,7 +374,6 @@ export function updateCustomerInAppointment(appointmentId, body) {
         body,
         token: true,
         api: `${apiConfigs.BASE_API}appointment/updateCustomer/${appointmentId}`,
-
     }
 }
 

@@ -1,7 +1,7 @@
 import { put, takeLatest, all, select, takeEvery } from "redux-saga/effects";
-import NavigationServices from "../../navigators/NavigatorServices";
+import _ from "ramda";
 
-import { requestAPI, uploadFromData } from '../../utils';
+import { requestAPI } from '../../utils';
 import apiConfigs from '../../configs/api';
 
 function* getAppointmentById(action) {
@@ -62,6 +62,28 @@ function* getGroupAppointmentById(action) {
                         dueAmount: data && data.dueAmount ? data.dueAmount : 0
                     }
                 });
+                // ------------ Update Customer Buy Appointment ---------
+                if (!action.isNotUpdateCustomerBuyInRedux) {
+                    const mainAppointmentId = data.mainAppointmentId ? data.mainAppointmentId : false;
+                    if (mainAppointmentId) {
+                        const appointments = data.appointments ? data.appointments : [];
+                        if (appointments.length > 0) {
+                            const mainAppointment = appointments.find(appointment => appointment.appointmentId === mainAppointmentId);
+                            if (mainAppointment) {
+                                yield put({
+                                    type: "UPDATE_CUSTOMER_INFO_FROM_GET_APPOINTMENT",
+                                    payload: {
+                                        customerId: mainAppointment.customerId ? mainAppointment.customerId : 0,
+                                        firstName: mainAppointment.firstName ? mainAppointment.firstName : "",
+                                        lastName: mainAppointment.lastName ? mainAppointment.lastName : "",
+                                        phone: mainAppointment.phoneNumber ? mainAppointment.phoneNumber : "",
+                                    }
+                                })
+                            }
+                        }
+                    }
+                }
+
                 if (action.isPayment) {
                     yield put({
                         type: 'PAY_APPOINTMENT',
@@ -673,36 +695,6 @@ function* checkSerialNumber(action) {
     }
 }
 
-function* updateCustomerInAppointment(action) {
-    try {
-        // yield put({ type: 'LOADING_ROOT' });
-        const responses = yield requestAPI(action);
-        console.log('updateCustomerInAppointment : ' + JSON.stringify(responses));
-        const { codeNumber } = responses;
-        if (parseInt(codeNumber) == 200) {
-
-        } else if (parseInt(codeNumber) === 401) {
-            yield put({
-                type: 'UNAUTHORIZED'
-            })
-        } else {
-            yield put({
-                type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
-            })
-        }
-    } catch (error) {
-        //console.log('---- error : ', error);
-        yield put({ type: 'STOP_LOADING_ROOT' });
-        // setTimeout(() =>{
-        //     alert(`error-removeAppointmentInGroup: ${error}`)
-        // },2000);
-        yield put({ type: error });
-    } finally {
-        yield put({ type: 'STOP_LOADING_ROOT' });
-    }
-}
-
 function* updateProductInAppointment(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
@@ -872,7 +864,11 @@ function* getCustomerBuyAppointment(action) {
             yield put({
                 type: "GET_CUSTOMER_INFO_BUY_APPOINTMENT_SUCCESS",
                 payload: responses.data
-            })
+            });
+
+            yield put({
+                type: "CHANGE_CUSTOMER_IN_APPOINTMENT",
+            });
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -882,7 +878,10 @@ function* getCustomerBuyAppointment(action) {
             yield put({
                 type: "GET_CUSTOMER_INFO_BUY_APPOINTMENT_FAIL",
                 payload: action.customerInfoLocal
-            })
+            });
+            yield put({
+                type: "CHANGE_CUSTOMER_IN_APPOINTMENT",
+            });
         }
     } catch (error) {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -891,6 +890,87 @@ function* getCustomerBuyAppointment(action) {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
 }
+
+function* changeCustomerInAppointment(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const state = yield select();
+        const { groupAppointment, blockAppointments, customerInfoBuyAppointment } = state.appointment;
+
+        const customerInfo = {
+            customerId: customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0,
+            firstName: customerInfoBuyAppointment.firstName ? customerInfoBuyAppointment.firstName : "",
+            lastName: customerInfoBuyAppointment.lastName ? customerInfoBuyAppointment.lastName : "",
+            phoneNumber: customerInfoBuyAppointment.phone ? customerInfoBuyAppointment.phone : "",
+        };
+
+        console.log("--- customerInfo : ", customerInfo);
+
+        // ---------------- Check group appointment --------------
+        if (!_.isEmpty(groupAppointment)) {
+            const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
+            console.log("----- mainAppointmentId : ", mainAppointmentId);
+            if (mainAppointmentId !== 0) {
+                yield put({
+                    type: 'UPDATE_CUSTOMER_IN_APPOINTMENT',
+                    method: 'PUT',
+                    body: customerInfo,
+                    token: true,
+                    api: `${apiConfigs.BASE_API}appointment/updateCustomer/${mainAppointmentId}`,
+                    appointmentId: mainAppointmentId
+                });
+            }
+        }
+
+    } catch (error) {
+        console.log("---- error : ", error);
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+function* updateCustomerInAppointment(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log('updateCustomerInAppointment : ' + JSON.stringify(responses));
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "UPDATE_CUSTOMER_ID_BUY_APPOINTMENT",
+                payload: responses.data ? responses.data : 0
+            });
+            yield put({
+                type: 'GET_GROUP_APPOINTMENT_BY_ID',
+                method: 'GET',
+                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId}`,
+                token: true,
+                isNotUpdateCustomerBuyInRedux: true
+            });
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        //console.log('---- error : ', error);
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        // setTimeout(() =>{
+        //     alert(`error-removeAppointmentInGroup: ${error}`)
+        // },2000);
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 
 export default function* saga() {
     yield all([
@@ -908,11 +988,13 @@ export default function* saga() {
         takeLatest('GET_GROUP_APPOINTMENT_BY_ID', getGroupAppointmentById),
         takeLatest('REMOVE_APPOINTMENT_IN_GROUP', removeAppointmentInGroup),
         takeLatest('CHECK_SERIAL_NUMBER', checkSerialNumber),
-        takeEvery('UPDATE_CUSTOMER_IN_APPOINTMENT', updateCustomerInAppointment),
         takeLatest('UPDATE_PRODUCT_IN_APPOINTMENT', updateProductInAppointment),
         takeLatest('CREATE_BLOCK_APPOINTMENT', createBlockAppointment),
         takeLatest('GET_BLOCK_APPOINTMENT_BY_ID', getBlockAppointmentById),
         takeLatest('ADD_GIFT_CARD_INTO_BLOCK_APPOINTMENT', addGiftCardIntoBlockAppointment),
         takeLatest('GET_CUSTOMER_INFO_BUY_APPOINTMENT', getCustomerBuyAppointment),
-    ])
+
+        takeLatest('CHANGE_CUSTOMER_IN_APPOINTMENT', changeCustomerInAppointment),
+        takeEvery('UPDATE_CUSTOMER_IN_APPOINTMENT', updateCustomerInAppointment),
+    ]);
 }
