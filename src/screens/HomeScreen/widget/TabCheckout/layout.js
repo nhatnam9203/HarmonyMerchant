@@ -363,7 +363,7 @@ class Layout extends React.Component {
                     keyboardShouldPersistTaps="always"
                 >
                     {
-                        _.isEmpty(groupAppointment) ? (basket.length > 0 ? <ItemCustomerBasket
+                        _.isEmpty(groupAppointment) ? (basket.length > 0 ? <ItemCustomerBasketf
                             language={language}
                             subTotalLocal={subTotalLocal}
                             tipLocal={tipLocal}
@@ -374,7 +374,7 @@ class Layout extends React.Component {
                             changeProduct={this.changeProduct}
                             showModalDiscount={this.showModalDiscount}
                             basketLocal={basket}
-                            infoUser={infoUser}
+                            // infoUser={infoUser}
                             isOfflineMode={true}
                             showModalTipAppointment={this.showModalTipAppointment}
 
@@ -391,7 +391,7 @@ class Layout extends React.Component {
                             changeProduct={this.changeProduct}
                             showModalDiscount={this.showModalDiscount}
                             basketLocal={basket}
-                            infoUser={infoUser}
+                            // infoUser={infoUser}
                             showModalTipAppointment={this.showModalTipAppointment}
                         />)
                     }

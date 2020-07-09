@@ -2,17 +2,13 @@ import React from 'react';
 import {
     View,
     Text,
-    Dimensions,
-    StyleSheet,
-    Platform,
-    Image,
-    TouchableOpacity,
+    Image
 } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import Swipeout from 'react-native-swipeout';
-import _, { product } from 'ramda';
+import _ from 'ramda';
 
-import { ButtonCustom, PopupParent, Button } from '@components';
+import { Button } from '@components';
 import {
     scaleSzie, localize, formatNumberFromCurrency, formatMoney, getArrayProductsFromAppointment,
     getArrayServicesFromAppointment, getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment
@@ -22,7 +18,6 @@ import styles from '../style';
 import ItemBasket from './ItemBasket';
 import connectRedux from '@redux/ConnectRedux';
 
-const { width } = Dimensions.get('window');
 
 class ItemCustomerBasket extends React.Component {
 
@@ -106,21 +101,13 @@ class ItemCustomerBasket extends React.Component {
     // ---------- Render --------
 
     renderHeaderCustomerBaket() {
-        const { appointmentDetail, infoUser, paymentDetailInfo, isOfflineMode } = this.props;
-        let firstName = '';
-        let lastName = '';
+        const { appointmentDetail, paymentDetailInfo, isOfflineMode } = this.props;
 
-        lastName = appointmentDetail ? appointmentDetail.lastName : '';
-        firstName = appointmentDetail ? appointmentDetail.firstName : 'Anonymous';
+        const lastName = appointmentDetail ? appointmentDetail.lastName : '';
+        const firstName = appointmentDetail ? appointmentDetail.firstName : 'Anonymous';
         const isMain = appointmentDetail && appointmentDetail.isMain ? appointmentDetail.isMain : 0;
         const appointmentId = appointmentDetail ? appointmentDetail.appointmentId : -1;
         const codeAppointment = appointmentDetail ? appointmentDetail.code : -1;
-
-        if (isMain === 1) {
-            firstName = infoUser.firstName !== '' ? infoUser.firstName : firstName;
-            lastName = infoUser.lastName !== '' ? infoUser.lastName : lastName;
-        }
-
 
 
         const { isCollapsed } = this.state;

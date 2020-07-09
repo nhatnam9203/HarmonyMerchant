@@ -42,7 +42,7 @@ function* getGroupAppointmentById(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('getGroupAppointmentById : ', JSON.stringify(responses));
+        // console.log('getGroupAppointmentById : ', JSON.stringify(responses));
 
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
@@ -858,7 +858,7 @@ function* getCustomerBuyAppointment(action) {
         yield put({ type: 'LOADING_ROOT' })
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-        // console.log('getCustomerBuyAppointment : ' + JSON.stringify(responses));
+        console.log('getCustomerBuyAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -904,12 +904,9 @@ function* changeCustomerInAppointment(action) {
             phoneNumber: customerInfoBuyAppointment.phone ? customerInfoBuyAppointment.phone : "",
         };
 
-        console.log("--- customerInfo : ", customerInfo);
-
         // ---------------- Check group appointment --------------
         if (!_.isEmpty(groupAppointment)) {
             const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
-            console.log("----- mainAppointmentId : ", mainAppointmentId);
             if (mainAppointmentId !== 0) {
                 yield put({
                     type: 'UPDATE_CUSTOMER_IN_APPOINTMENT',
@@ -917,13 +914,25 @@ function* changeCustomerInAppointment(action) {
                     body: customerInfo,
                     token: true,
                     api: `${apiConfigs.BASE_API}appointment/updateCustomer/${mainAppointmentId}`,
-                    appointmentId: mainAppointmentId
+                    appointmentId: mainAppointmentId,
+                    isGroup: true
+                });
+            }
+        } else if (blockAppointments && blockAppointments.length > 0) {
+            console.log("------ Hi ------");
+            for (let i = 0; i < blockAppointments.length; i++) {
+                yield put({
+                    type: 'UPDATE_CUSTOMER_IN_APPOINTMENT',
+                    method: 'PUT',
+                    body: customerInfo,
+                    token: true,
+                    api: `${apiConfigs.BASE_API}appointment/updateCustomer/${blockAppointments[i].appointmentId}`,
+                    isGroup: false
                 });
             }
         }
 
     } catch (error) {
-        console.log("---- error : ", error);
         yield put({ type: 'STOP_LOADING_ROOT' });
         yield put({ type: error });
     } finally {
@@ -942,13 +951,16 @@ function* updateCustomerInAppointment(action) {
                 type: "UPDATE_CUSTOMER_ID_BUY_APPOINTMENT",
                 payload: responses.data ? responses.data : 0
             });
-            yield put({
-                type: 'GET_GROUP_APPOINTMENT_BY_ID',
-                method: 'GET',
-                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId}`,
-                token: true,
-                isNotUpdateCustomerBuyInRedux: true
-            });
+            if (action.isGroup) {
+                yield put({
+                    type: 'GET_GROUP_APPOINTMENT_BY_ID',
+                    method: 'GET',
+                    api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId}`,
+                    token: true,
+                    isNotUpdateCustomerBuyInRedux: true
+                });
+            }
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
@@ -960,11 +972,7 @@ function* updateCustomerInAppointment(action) {
             })
         }
     } catch (error) {
-        //console.log('---- error : ', error);
         yield put({ type: 'STOP_LOADING_ROOT' });
-        // setTimeout(() =>{
-        //     alert(`error-removeAppointmentInGroup: ${error}`)
-        // },2000);
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
