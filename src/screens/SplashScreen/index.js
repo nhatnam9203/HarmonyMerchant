@@ -19,13 +19,14 @@ class SplashScreen extends Layout {
     }
 
     async componentDidMount() {
+        let version = await DeviceInfo.getVersion();
         try {
-            const res = await VersionCheck.needUpdate();
-            // console.log("res : ",res);
+            const res = await VersionCheck.needUpdate({
+                currentVersion: version,
+                latestVersion: "1.0.8",
+                forceUpdate: true
+            });
             if (res && res.isNeeded) {
-                // Linking.openURL(res.storeUrl);
-                // alert(res.storeUrl);
-                // return;
                 Alert.alert(
                     'Notification!',
                     `The HarmonyPay Salon POS had new version on Apple Store. Press OK to update!`,
@@ -36,6 +37,7 @@ class SplashScreen extends Layout {
                     ],
                     { cancelable: false },
                 );
+
             } else {
                 const { deviceId, versionApp } = this.props;
                 if (!deviceId) {
@@ -43,36 +45,27 @@ class SplashScreen extends Layout {
                     this.props.actions.dataLocal.updateDeviceId(uniqueId);
                 }
 
-
-                let version = await DeviceInfo.getVersion();
                 if (version !== versionApp) {
                     this.props.actions.dataLocal.updateVersionApp(version ? version : "1.0.7");
                 }
 
                 const tempEnv = env.IS_PRODUCTION;
-                // console.log("IS_PRODUCTION : ",tempEnv);
-                if (tempEnv == "Production" || tempEnv == "Staging") {
-                    // console.log("---- checkForUpdateCodepush -----");
-                    const deploymentKey = tempEnv == "Production" ? configs.codePushKeyIOS.production : configs.codePushKeyIOS.staging;
-                    this.checkForUpdateCodepush(deploymentKey);
+                if (tempEnv == "true") {
+                    this.checkForUpdateCodepush();
                 } else {
-                    // console.log("---- controlFlowInitApp -----");
                     this.controlFlowInitApp();
                 }
             }
 
         } catch (error) {
-            // console.log("error  : ",error);
+            alert("error :", error)
         }
 
     }
 
     checkForUpdateCodepush(deploymentKey) {
-        // console.log('checkForUpdateCodepush : ');
-        // const deploymentKey = configs.codePushKeyIOS.production;
         CodePush.checkForUpdate(deploymentKey)
             .then(update => {
-                // console.log('update : ', update);
                 if (update) {
                     if (update.failedInstall) {
                         this.controlFlowInitApp();
