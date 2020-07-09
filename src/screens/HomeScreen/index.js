@@ -1,10 +1,9 @@
 import React from 'react';
 import _ from 'ramda';
-import { Alert, Linking } from 'react-native';
+import { Alert } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, finalize } from 'rxjs/operators';
-import VersionCheck from 'react-native-version-check';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -36,7 +35,6 @@ class HomeScreen extends Layout {
     }
 
     componentDidMount() {
-        this.checkUpdateAppleStore();
         this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
@@ -67,18 +65,6 @@ class HomeScreen extends Layout {
             this.watcherNetwork.next(isConnected);
         });
 
-    }
-
-    checkUpdateAppleStore = async () => {
-        try {
-            const res = await VersionCheck.needUpdate();
-            // console.log("VersionCheck : ",res);
-            if (res && res.isNeeded) {
-                Linking.openURL(res.storeUrl);
-            }
-
-        } catch (error) {
-        }
     }
 
     initWatcherNetwork = () => {
