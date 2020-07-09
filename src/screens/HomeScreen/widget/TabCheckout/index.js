@@ -285,25 +285,24 @@ class TabCheckout extends Layout {
 
 
     createAnymousAppointment = async () => {
-        const { profile, profileStaffLogin } = this.props;
-        const { customerInfoByPhone, infoUser,
-            paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
-        } = this.state;
+        const { profile, profileStaffLogin, customerInfoBuyAppointment } = this.props;
+        const {  paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,} = this.state;
 
         const dataAnymousAppoitment = this.getBasketOffline();
         const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
         const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
         const method = this.getPaymentString(paymentSelected);
-        const userId = customerInfoByPhone.userId ? customerInfoByPhone.userId : 0;
 
-        this.props.actions.appointment.createAnymousAppointment(profile.merchantId, userId,
+        this.props.actions.appointment.createAnymousAppointment(
+            profile.merchantId,
+            customerInfoBuyAppointment.userId ? customerInfoBuyAppointment.userId : 0,
+            customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0,
             profileStaffLogin.staffId,
             arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
             customDiscountFixedLocal, customDiscountPercentLocal,
-            //  staffId,
-            infoUser.firstName,
-            infoUser.lastName,
-            infoUser.phoneNumber,
+            customerInfoBuyAppointment.firstName ? customerInfoBuyAppointment.firstName : "",
+            customerInfoBuyAppointment.lastName ? customerInfoBuyAppointment.lastName : "",
+            customerInfoBuyAppointment.phone ? customerInfoBuyAppointment.phone : "",
             moneyUserGiveForStaff,
             false,
             false
@@ -437,8 +436,6 @@ class TabCheckout extends Layout {
     selectPayment = () => {
         this.scrollTabRef.current.goToPage(1);
     }
-
-
 
     closeModalDiscount = () => {
         this.setState({
@@ -993,7 +990,7 @@ class TabCheckout extends Layout {
     }
 
     doneBill = async () => {
-        const { groupAppointment, profile, paxMachineInfo, token, isOfflineMode, deviceId, profileStaffLogin } = this.props;
+        const { groupAppointment, profile, paxMachineInfo, token, isOfflineMode, deviceId, profileStaffLogin ,customerInfoBuyAppointment} = this.props;
         const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser, customerInfoByPhone } = this.state;
         const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
         const method = this.getPaymentString(paymentSelected);
@@ -1044,14 +1041,16 @@ class TabCheckout extends Layout {
                     const dataAnymousAppoitment = this.getBasketOffline();
                     const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
                     const userId = customerInfoByPhone.userId ? customerInfoByPhone.userId : 0;
-                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, userId,
+                    this.props.actions.appointment.createAnymousAppointment(
+                        profile.merchantId, 
+                        ustomerInfoBuyAppointment.userId ? customerInfoBuyAppointment.userId : 0,
+                        customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0,
                         profileStaffLogin.staffId,
                         arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
                         customDiscountFixedLocal, customDiscountPercentLocal,
-                        // staffId,
-                        infoUser.firstName,
-                        infoUser.lastName,
-                        infoUser.phoneNumber,
+                        customerInfoBuyAppointment.firstName ? customerInfoBuyAppointment.firstName : "",
+                        customerInfoBuyAppointment.lastName ? customerInfoBuyAppointment.lastName : "",
+                        customerInfoBuyAppointment.phone ? customerInfoBuyAppointment.phone : "",
                         moneyUserGiveForStaff
                     );
                 }
@@ -1092,7 +1091,7 @@ class TabCheckout extends Layout {
                 }, 300)
 
             } else if (result.ResultTxt && result.ResultTxt == "OK") {
-                const { profile, groupAppointment, profileStaffLogin } = this.props;
+                const { profile, groupAppointment, profileStaffLogin,customerInfoBuyAppointment } = this.props;
                 const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser, customerInfoByPhone } = this.state;
                 let method = this.getPaymentString(paymentSelected);
 
@@ -1102,19 +1101,24 @@ class TabCheckout extends Layout {
                 } else {
                     // ------ Payment with credit offline card success ----
                     const dataAnymousAppoitment = this.getBasketOffline();
-                    const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
+                    const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } = dataAnymousAppoitment;
                     const userId = customerInfoByPhone.userId ? customerInfoByPhone.userId : 0;
-                    this.props.actions.appointment.createAnymousAppointment(profile.merchantId, userId,
+                    this.props.actions.appointment.createAnymousAppointment(
+                        profile.merchantId, 
+                        customerInfoBuyAppointment.userId ? customerInfoBuyAppointment.userId : 0,
+                        customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0,
                         profileStaffLogin.staffId,
                         arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
                         customDiscountFixedLocal, customDiscountPercentLocal,
-                        //  staffId,
-                        infoUser.firstName,
-                        infoUser.lastName,
-                        infoUser.phoneNumber,
+                        customerInfoBuyAppointment.firstName ? customerInfoBuyAppointment.firstName : "",
+                        customerInfoBuyAppointment.lastName ? customerInfoBuyAppointment.lastName : "",
+                        customerInfoBuyAppointment.phone ? customerInfoBuyAppointment.phone : "",
                         moneyUserGiveForStaff,
                         message,
                     );
+                    
+                    
+
                 }
             } else {
                 setTimeout(() => {
@@ -1548,7 +1552,7 @@ class TabCheckout extends Layout {
             customerInfoBuyAppointment.userId ? customerInfoBuyAppointment.userId : 0,
             customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0,
             customerInfoBuyAppointment.firstName ? customerInfoBuyAppointment.firstName : "",
-            customerInfoBuyAppointment.lastName ?  customerInfoBuyAppointment.lastName : "",
+            customerInfoBuyAppointment.lastName ? customerInfoBuyAppointment.lastName : "",
             customerInfoBuyAppointment.phone ? customerInfoBuyAppointment.phone : "",
         );
     }

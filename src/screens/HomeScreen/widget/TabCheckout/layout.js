@@ -347,7 +347,6 @@ class Layout extends React.Component {
     }
 
     renderGroupAppointments() {
-        const { infoUser } = this.state;
         const { language, groupAppointment, paymentDetailInfo, isOfflineMode } = this.props;
         const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
@@ -363,7 +362,7 @@ class Layout extends React.Component {
                     keyboardShouldPersistTaps="always"
                 >
                     {
-                        _.isEmpty(groupAppointment) ? (basket.length > 0 ? <ItemCustomerBasketf
+                        _.isEmpty(groupAppointment) ? (basket.length > 0 ? <ItemCustomerBasket
                             language={language}
                             subTotalLocal={subTotalLocal}
                             tipLocal={tipLocal}

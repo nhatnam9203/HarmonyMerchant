@@ -90,7 +90,13 @@ function appReducer(state = initialState, action) {
                 ...state,
                 appointmentDetail: {},
                 groupAppointment: {},
-                paymentDetailInfo: {}
+                paymentDetailInfo: {},
+                customerInfoBuyAppointment: {
+                    customerId: 0,
+                    firstName: "",
+                    lastName: "",
+                    phone: ""
+                },
             }
         case 'PAY_APPOINTMENT_SUCCESS':
             return {

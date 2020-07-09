@@ -98,9 +98,8 @@ export function closeModalPaymentCompleted() {
     }
 }
 
-export function createAnymousAppointment(merchantId, userId = 0, staffId = 0, products = [], services = [], extras = [],
+export function createAnymousAppointment(merchantId, userId = 0,customerId= 0, staffId = 0, products = [], services = [], extras = [],
     paymentMethod, isLoading = true, customDiscountFixed, customDiscountPercent,
-    //   staffId = 0,
     firstName, lastName, phoneNumber, paidAmount = 0, creditCardInfo = false, isPayment = true,
 ) {
     return {
@@ -109,12 +108,12 @@ export function createAnymousAppointment(merchantId, userId = 0, staffId = 0, pr
             merchantId,
             userId: userId,
             staffId,
+            customerId,
             status: 'checkin',
             services: services,
             extras: extras,
             products: products,
             fromTime: formatWithMoment(new Date(), 'MM/DD/YYYY hh:mm A'),
-            // staffId,
             customDiscountFixed,
             customDiscountPercent,
             firstName,

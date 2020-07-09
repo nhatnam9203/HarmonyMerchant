@@ -25,6 +25,8 @@ import ItemBlockBasket from "./ItemBlockBasket";
 import PopupBlockDiscount from "./PopupBlockDiscount";
 import PopupChangeCustomerInfo from "./PopupChangeCustomerInfo";
 
+import styles from "../style";
+
 const ItemPaymentMethod = ({ title, selectedPayment, paymentSelected }) => {
     const temptBackground = title === paymentSelected ? { backgroundColor: '#0764B0' } : {};
     const temptTextColor = title === paymentSelected ? { color: '#fff' } : {};
