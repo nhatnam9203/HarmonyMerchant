@@ -919,7 +919,6 @@ function* changeCustomerInAppointment(action) {
                 });
             }
         } else if (blockAppointments && blockAppointments.length > 0) {
-            console.log("------ Hi ------");
             for (let i = 0; i < blockAppointments.length; i++) {
                 yield put({
                     type: 'UPDATE_CUSTOMER_IN_APPOINTMENT',

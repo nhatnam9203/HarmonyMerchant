@@ -1541,15 +1541,15 @@ class TabCheckout extends Layout {
 
 
     createABlockAppointment = () => {
-        const { profile, fromTimeBlockAppointment } = this.props;
-        const { customerInfoByPhone, infoUser, } = this.state;
-        const userId = customerInfoByPhone.userId ? customerInfoByPhone.userId : 0;
-        this.props.actions.appointment.createBlockAppointment(profile.merchantId,
+        const { profile, fromTimeBlockAppointment, customerInfoBuyAppointment } = this.props;
+        this.props.actions.appointment.createBlockAppointment(
+            profile.merchantId,
             fromTimeBlockAppointment,
-            userId,
-            infoUser.firstName,
-            infoUser.lastName,
-            infoUser.phoneNumber,
+            customerInfoBuyAppointment.userId ? customerInfoBuyAppointment.userId : 0,
+            customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0,
+            customerInfoBuyAppointment.firstName ? customerInfoBuyAppointment.firstName : "",
+            customerInfoBuyAppointment.lastName ?  customerInfoBuyAppointment.lastName : "",
+            customerInfoBuyAppointment.phone ? customerInfoBuyAppointment.phone : "",
         );
     }
 
@@ -1650,6 +1650,7 @@ class TabCheckout extends Layout {
         this.props.actions.appointment.bookBlockAppointment();
         this.setState(initState);
         this.blockAppointmentRef = [];
+        this.props.actions.appointment.resetGroupAppointment();
     }
 
     toggleCollaps = (appointmentIdSelection) => {
@@ -1722,106 +1723,6 @@ class TabCheckout extends Layout {
         const phone = customerInfoBuyAppointment.phone ? customerInfoBuyAppointment.phone : "";
         this.popupCustomerInfoRef.current.setStateFromParent(firstName, lastName, phone);
         this.props.actions.appointment.togglePopupCustomerInfoByPhone(true);
-    }
-
-    // ------------- Old Code  -----------
-    changeCustomerPhone = async () => {
-        const { groupAppointment, profileStaffLogin, blockAppointments, versionApp } = this.props;
-        const { infoUser } = this.state;
-        const codeAreaPhone = this.CustomerPhoneRef.current.state.codeAreaPhone;
-        const phone = this.CustomerPhoneRef.current.state.phone;
-        const phoneNumber = `${codeAreaPhone}${phone}`;
-
-        // ------- Get Customer Info by Phone ------
-        this.props.actions.app.loadingApp();
-        try {
-            const responses = await requestAPI({
-                method: 'GET',
-                api: `${apiConfigs.BASE_API}customer/getbyphone/${splitPlusInPhoneNumber(phoneNumber)}`,
-                token: profileStaffLogin.token,
-                versionApp: versionApp
-            });
-            // console.log("-----changeCustomerPhone : " + JSON.stringify(responses));
-            this.props.actions.app.stopLoadingApp();
-            if (responses.codeNumber === 200) {
-                await this.setState({
-                    infoUser: {
-                        ...infoUser, phoneNumber,
-                        firstName: responses.data && responses.data.firstName ? responses.data.firstName : infoUser.firstName,
-                        lastName: responses.data && responses.data.lastName ? responses.data.lastName : infoUser.lastName
-                    },
-                    visibleCustomerPhone: false,
-                    customerInfoByPhone: responses.data
-                });
-
-                const body = {
-                    customerId: responses.data && responses.data.customerId ? responses.data.customerId : 0,
-                    firstName: responses.data && responses.data.firstName ? responses.data.firstName : '',
-                    lastName: responses.data && responses.data.lastName ? responses.data.lastName : '',
-                    phoneNumber: responses.data && responses.data.phone ? responses.data.phone : '',
-                };
-
-                if (!_.isEmpty(groupAppointment)) {
-                    const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
-                    this.props.actions.appointment.updateCustomerInAppointment(mainAppointmentId, body);
-                }
-
-                if (blockAppointments && blockAppointments.length > 0) {
-                    for (let i = 0; i < blockAppointments.length; i++) {
-                        this.props.actions.appointment.updateCustomerInAppointment(blockAppointments[i].appointmentId, body);
-                    }
-                }
-
-            } else {
-                await this.setState({
-                    infoUser: { ...infoUser, phoneNumber },
-                    visibleCustomerPhone: false,
-                    customerInfoByPhone: {
-                        userId: 0
-                    }
-                });
-                if (blockAppointments && blockAppointments.length > 0) {
-                    const body = {
-                        customerId: 0,
-                        firstName: infoUser.firstName,
-                        lastName: infoUser.lastName,
-                        phoneNumber: phoneNumber,
-                    };
-                    for (let i = 0; i < blockAppointments.length; i++) {
-                        this.props.actions.appointment.updateCustomerInAppointment(blockAppointments[i].appointmentId, body);
-                    }
-                }
-            }
-        } catch (error) {
-            //console.log('error : ', error);
-        }
-
-    }
-
-    changeCustomerName = async () => {
-        const { blockAppointments, profile } = this.props;
-        const { infoUser, customerInfoByPhone } = this.state;
-
-        const firstName = this.customerNameRef.current.state.firstName;
-        const lastName = this.customerNameRef.current.state.lastName;
-
-        await this.setState({
-            infoUser: { ...infoUser, firstName, lastName },
-            visibleCustomerName: false
-        });
-
-        if (blockAppointments && blockAppointments.length > 0) {
-            const body = {
-                customerId: customerInfoByPhone.userId ? customerInfoByPhone.userId : 0,
-                firstName,
-                lastName,
-                phoneNumber: infoUser.phoneNumber,
-            };
-            for (let i = 0; i < blockAppointments.length; i++) {
-                this.props.actions.appointment.updateCustomerInAppointment(blockAppointments[i].appointmentId, body);
-            }
-        }
-
     }
 
     async componentDidUpdate(prevProps, prevState) {

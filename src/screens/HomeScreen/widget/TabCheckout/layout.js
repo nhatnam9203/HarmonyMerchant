@@ -939,14 +939,14 @@ class Layout extends React.Component {
                     onRequestClose={() => this.setState({ visibleCustomerName: false })}
                     confimYes={this.changeCustomerName}
                 /> */}
-                <PopupEnterCustomerPhone
+                {/* <PopupEnterCustomerPhone
                     ref={this.CustomerPhoneRef}
                     visible={this.state.visibleCustomerPhone}
                     title={localize('Confirmation', language)}
                     message={localize('Customer Phone', language)}
                     onRequestClose={() => this.setState({ visibleCustomerPhone: false })}
                     confimYes={this.changeCustomerPhone}
-                />
+                /> */}
                 <PopupPaymentDetails
                     title={localize('Payment Details', language)}
                     visible={visiblePopupPaymentDetails}

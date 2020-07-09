@@ -104,15 +104,12 @@ class HomeScreen extends Layout {
             } catch (error) {
 
             }
-
         }
     }
-
 
     gotoAppoitmentScreen = () => {
         this.scrollTabParentRef.current.goToPage(1);
     }
-
 
     gotoPageCurentParent = () => {
         const { temptCurrentTap } = this.state;
@@ -296,8 +293,6 @@ class HomeScreen extends Layout {
             this.props.actions.marketing.getPromotionByMerchant();
             this.props.actions.marketing.getBannerMerchant(profile.merchantId, false);
         }
-
-
     }
 
     componentWillUnmount() {

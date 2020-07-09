@@ -133,12 +133,13 @@ export function createAnymousAppointment(merchantId, userId = 0, staffId = 0, pr
     }
 }
 
-export function createBlockAppointment(merchantId, fromTime = new Date(), userId = 0, firstName = "", lastName = "", phoneNumber = "") {
+export function createBlockAppointment(merchantId, fromTime = new Date(), userId = 0,customerId = 0, firstName = "", lastName = "", phoneNumber = "") {
     return {
         type: 'CREATE_BLOCK_APPOINTMENT',
         body: {
             merchantId,
             userId,
+            customerId,
             status: 'unconfirm',
             services: [],
             extras: [],
