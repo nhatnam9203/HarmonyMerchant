@@ -42,7 +42,7 @@ function* getGroupAppointmentById(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('getGroupAppointmentById : ', JSON.stringify(responses));
+        console.log('getGroupAppointmentById : ', JSON.stringify(responses));
 
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
@@ -74,6 +74,7 @@ function* getGroupAppointmentById(action) {
                                     type: "UPDATE_CUSTOMER_INFO_FROM_GET_APPOINTMENT",
                                     payload: {
                                         customerId: mainAppointment.customerId ? mainAppointment.customerId : 0,
+                                        userId: mainAppointment.userId ? mainAppointment.userId : 0,
                                         firstName: mainAppointment.firstName ? mainAppointment.firstName : "",
                                         lastName: mainAppointment.lastName ? mainAppointment.lastName : "",
                                         phone: mainAppointment.phoneNumber ? mainAppointment.phoneNumber : "",
@@ -943,7 +944,7 @@ function* updateCustomerInAppointment(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('updateCustomerInAppointment : ' + JSON.stringify(responses));
+        // console.log('updateCustomerInAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({

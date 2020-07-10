@@ -31,6 +31,7 @@ const initialState = {
 
     customerInfoBuyAppointment: {
         customerId: 0,
+        userId:0,
         firstName: "",
         lastName: "",
         phone: ""
@@ -93,6 +94,7 @@ function appReducer(state = initialState, action) {
                 paymentDetailInfo: {},
                 customerInfoBuyAppointment: {
                     customerId: 0,
+                    userId:0,
                     firstName: "",
                     lastName: "",
                     phone: ""

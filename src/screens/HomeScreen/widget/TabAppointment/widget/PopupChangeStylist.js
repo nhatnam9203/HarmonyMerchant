@@ -1,10 +1,7 @@
 import React from 'react';
 import {
     View,
-    Image,
     Text,
-    StyleSheet,
-    TextInput,
     ScrollView,
     Keyboard
 } from 'react-native';
@@ -13,8 +10,7 @@ import _ from 'ramda';
 
 import { Dropdown, PopupParent, ButtonCustom } from '@components';
 import connectRedux from '@redux/ConnectRedux';
-
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize, formatWithMoment } from '@utils';
 
 
 class PopupChangeStylist extends React.Component {
@@ -45,7 +41,6 @@ class PopupChangeStylist extends React.Component {
     }
 
     setStateFromParent = async (service) => {
-        //console.log('serviec : '+ JSON.stringify(service));
         const { staff } = service;
         await this.setState({
             staffId: staff && staff.staffId ? staff.staffId : '',
@@ -58,9 +53,17 @@ class PopupChangeStylist extends React.Component {
     }
 
     getStaffDataDropdown(staffs) {
+        const { appointmentDetail } = this.props;
+        let fromTime = new Date();
+
+        if (!_.isEmpty(appointmentDetail)) {
+            fromTime = appointmentDetail && appointmentDetail.fromTime ? appointmentDetail.fromTime : new Date();
+        }
         const data = [];
+        const dayNameOfWeek = formatWithMoment(fromTime, "dddd");
+
         for (let i = 0; i < staffs.length; i++) {
-            if (staffs[i].isDisabled === 0) {
+            if (staffs[i].isDisabled === 0 && staffs[i].isActive && (staffs[i].workingTimes[dayNameOfWeek]).isCheck) {
                 data.push({
                     staffId: staffs[i].staffId,
                     value: `${staffs[i].displayName}`
@@ -117,9 +120,9 @@ class PopupChangeStylist extends React.Component {
                     <View style={{ flex: 1 }} >
                         <ScrollView
                             ref={this.scrollRef}
-                            showsVerticalScrollIndicator={false} 
+                            showsVerticalScrollIndicator={false}
                             keyboardShouldPersistTaps="always"
-                            >
+                        >
                             <View style={{ height: scaleSzie(20) }} />
                             <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
                                 {`${localize('Stylist', language)}`}

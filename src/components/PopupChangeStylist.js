@@ -13,7 +13,7 @@ import PopupParent from './PopupParent';
 import { Dropdown } from './react-native-material-dropdown';
 import connectRedux from '@redux/ConnectRedux';
 
-import { scaleSzie } from '../utils';
+import { scaleSzie, formatWithMoment } from '../utils';
 
 class PopupChangeStylist extends React.Component {
 
@@ -45,7 +45,6 @@ class PopupChangeStylist extends React.Component {
 
     setStateFromParent = async (service, appointmentId) => {
         const { staff } = service;
-        // console.log("----- service : ", JSON.stringify(service));
         await this.setState({
             staffId: staff && staff.staffId ? staff.staffId : '',
             name: staff && staff.displayName ? staff.displayName : '',
@@ -58,9 +57,20 @@ class PopupChangeStylist extends React.Component {
     }
 
     getStaffDataDropdown(staffs) {
+        const { groupAppointment } = this.props;
+        const { appointmentIdChangeStylist } = this.state;
+        let fromTime = new Date();
+
+        if (!_.isEmpty(groupAppointment)) {
+            const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
+            const appointmentDetail = appointments.find(appointment => appointment.appointmentId === appointmentIdChangeStylist);
+            fromTime = appointmentDetail && appointmentDetail.fromTime ? appointmentDetail.fromTime : new Date();
+        }
         const data = [];
+        const dayNameOfWeek = formatWithMoment(fromTime, "dddd");
+
         for (let i = 0; i < staffs.length; i++) {
-            if (staffs[i].isDisabled === 0) {
+            if (staffs[i].isDisabled === 0 && staffs[i].isActive && (staffs[i].workingTimes[dayNameOfWeek]).isCheck) {
                 data.push({
                     staffId: staffs[i].staffId,
                     value: `${staffs[i].displayName}`
@@ -79,7 +89,7 @@ class PopupChangeStylist extends React.Component {
 
     submitChangeStylist = () => {
         const { staffId, bookingServiceId, tip, serviceIdLocal, appointmentIdChangeStylist, price } = this.state;
-        const { appointmentDetail, groupAppointment } = this.props;
+        const { groupAppointment } = this.props;
         if (_.isEmpty(groupAppointment)) {
             this.props.changeStylistBasketLocal(serviceIdLocal, staffId, tip, price);
         } else {
@@ -119,11 +129,11 @@ class PopupChangeStylist extends React.Component {
                             ref={this.scrollRef}
                             showsVerticalScrollIndicator={false}
                             keyboardShouldPersistTaps="always"
-                            >
+                        >
                             <View style={{ height: scaleSzie(20) }} />
                             <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
                                 Stylist
-                        </Text>
+                            </Text>
                             {/* ------- Dropdown -------- */}
                             <View style={{ height: scaleSzie(40), marginBottom: scaleSzie(10) }} >
                                 <Dropdown
@@ -223,7 +233,6 @@ class PopupChangeStylist extends React.Component {
 
 const mapStateToProps = state => ({
     listStaffByMerchant: state.staff.listStaffByMerchant,
-    appointmentDetail: state.appointment.appointmentDetail,
     groupAppointment: state.appointment.groupAppointment
 })
 

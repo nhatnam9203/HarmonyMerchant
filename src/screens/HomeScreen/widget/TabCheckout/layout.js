@@ -18,8 +18,7 @@ import styles from './style';
 import IMAGE from '@resources';
 import {
     ItemCategory, ItemProductService, ItemAmount,
-    ItemExtra, PopupDiscount, PopupBill, PopupDiscountLocal, PopupEnterInfo,
-    PopupEnterCustomerPhone, ItemCustomerBasket, PopupPaymentDetails, ItemBlockBasket,
+    ItemExtra, PopupDiscount, PopupBill, PopupDiscountLocal, ItemCustomerBasket, PopupPaymentDetails, ItemBlockBasket,
     PopupBlockDiscount, ItemPaymentMethod,
     ShadowLineLeftToRight,
     ShadowLineRightToLeft,
@@ -373,7 +372,6 @@ class Layout extends React.Component {
                             changeProduct={this.changeProduct}
                             showModalDiscount={this.showModalDiscount}
                             basketLocal={basket}
-                            // infoUser={infoUser}
                             isOfflineMode={true}
                             showModalTipAppointment={this.showModalTipAppointment}
 
@@ -390,7 +388,6 @@ class Layout extends React.Component {
                             changeProduct={this.changeProduct}
                             showModalDiscount={this.showModalDiscount}
                             basketLocal={basket}
-                            // infoUser={infoUser}
                             showModalTipAppointment={this.showModalTipAppointment}
                         />)
                     }
@@ -481,8 +478,6 @@ class Layout extends React.Component {
                         discountTotalLocal={discountTotalLocal}
                         taxLocal={taxLocal}
                         removeItemBasket={this.removeItemBasket}
-                        changeStylist={this.changeStylist}
-                        changeProduct={this.changeProduct}
                         showModalDiscount={this.showModalDiscount}
                         basketLocal={basket}
                         infoUser={infoUser}
@@ -930,22 +925,6 @@ class Layout extends React.Component {
                     confimYes={this.sendLinkInstallApp}
                     submitSerialCode={this.submitSerialCode}
                 />
-                {/* <PopupEnterInfo
-                    ref={this.customerNameRef}
-                    visible={this.state.visibleCustomerName}
-                    title={localize('Confirmation', language)}
-                    message={localize('Customer Name', language)}
-                    onRequestClose={() => this.setState({ visibleCustomerName: false })}
-                    confimYes={this.changeCustomerName}
-                /> */}
-                {/* <PopupEnterCustomerPhone
-                    ref={this.CustomerPhoneRef}
-                    visible={this.state.visibleCustomerPhone}
-                    title={localize('Confirmation', language)}
-                    message={localize('Customer Phone', language)}
-                    onRequestClose={() => this.setState({ visibleCustomerPhone: false })}
-                    confimYes={this.changeCustomerPhone}
-                /> */}
                 <PopupPaymentDetails
                     title={localize('Payment Details', language)}
                     visible={visiblePopupPaymentDetails}
