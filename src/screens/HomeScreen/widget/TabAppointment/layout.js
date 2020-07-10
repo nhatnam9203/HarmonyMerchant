@@ -10,7 +10,7 @@ import _ from 'ramda';
 import { Text, ButtonCustom, Button, PopupConfirm } from '@components';
 import styles from './style';
 import apiConfigs from '@configs/api';
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize,formatMoney } from '@utils';
 import {
     ItemCategory, ItemProductService, ColPlaceHolder, ItemAmount, ItemExtra
 } from '../TabCheckout/widget';
@@ -249,6 +249,7 @@ class Layout extends React.Component {
 
         const discount = appointmentDetail.discount ? appointmentDetail.discount : 0;
         const tax = appointmentDetail.tax ? appointmentDetail.tax : 0;
+        
         return (
             <View style={{ flex: 1 }} >
                 {/* -------- Header Basket -------- */}
@@ -327,7 +328,9 @@ class Layout extends React.Component {
                                     {`${localize('Total', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(20) }]} >
-                                    {`$ ${parseFloat(Math.round(total * 100) / 100).toFixed(2)}`}
+                                    {/* {`$ ${parseFloat(Math.round(total * 100) / 100).toFixed(2)}`} */}
+                                    {`$ ${formatMoney(total)}`}
+
                                 </Text>
                             </View>
                         </View>

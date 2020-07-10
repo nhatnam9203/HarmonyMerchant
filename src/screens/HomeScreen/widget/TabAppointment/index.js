@@ -97,7 +97,7 @@ class TabAppointment extends Layout {
                         })
                     } else if (action == 'signinAppointment') {
                         this.props.bookAppointment(appointmentId);
-                    }else if(action === 'addGroupAnyStaff'){
+                    } else if (action === 'addGroupAnyStaff') {
                         this.props.createABlockAppointment(data.fromTime ? data.fromTime : new Date());
                     }
                 }
@@ -316,16 +316,16 @@ class TabAppointment extends Layout {
         this.props.clearDataTabCheckout();
     }
 
-    changeProductInBasket = async (product) =>{
+    changeProductInBasket = async (product) => {
         // console.log("product : ", JSON.stringify(product));
         this.changePriceAmountProductRef.current.setStateFromParent(product);
         this.setState({
             visibleChangePriceAmountProduct: true
         })
-        
+
     }
 
-    changeProductBasketLocal = async (productIdLocal,price,quantity) =>{
+    changeProductBasketLocal = async (productIdLocal, price, quantity) => {
 
     }
 

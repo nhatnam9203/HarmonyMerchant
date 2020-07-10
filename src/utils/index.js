@@ -385,7 +385,6 @@ export const getCodeAreaPhone = (phone) => {
 }
 
 export const formatNumberFromCurrency = currency => {
-    //console.log('formatNumberFromCurrency : ',currency);
     return Number(`${currency}`.replace(/[^0-9.-]+/g, ""));
 }
 
