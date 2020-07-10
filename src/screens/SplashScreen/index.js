@@ -7,6 +7,7 @@ import VersionCheck from 'react-native-version-check';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
+import configs from '@configs';
 
 class SplashScreen extends Layout {
 
@@ -31,12 +32,12 @@ class SplashScreen extends Layout {
                     `The HarmonyPay Salon POS had new version on Apple Store. Press OK to update!`,
                     [
                         {
-                            text: 'OK', onPress: () => { 
+                            text: 'OK', onPress: () => {
                                 Linking.openURL(res.storeUrl);
-                                setTimeout(() =>{
+                                setTimeout(() => {
                                     CodePush.restartApp();
-                                },3000)
-                                
+                                }, 3000)
+
                             }
                         },
                     ],
@@ -55,8 +56,9 @@ class SplashScreen extends Layout {
                 }
 
                 const tempEnv = env.IS_PRODUCTION;
-                if (tempEnv == "true") {
-                    this.checkForUpdateCodepush();
+                if (tempEnv == "Production" || tempEnv == "Staging") {
+                    const deploymentKey = tempEnv == "Production" ? configs.codePushKeyIOS.production : configs.codePushKeyIOS.staging;
+                    this.checkForUpdateCodepush(deploymentKey);
                 } else {
                     this.controlFlowInitApp();
                 }
