@@ -179,7 +179,6 @@ class Layout extends React.Component {
         } = this.state;
         let temptWidth = isShowColProduct ? 224 : 122;
         temptWidth = isShowColAmount ? 72 : temptWidth;
-        const temptBorder = isShowColAmount ? 'rgb(197,197,197)' : '#DDDDDD';
         const temptColorHeader = isShowColAmount ? { color: '#6A6A6A' } : {};
         const data = this.getDataColProduct();
 
@@ -254,7 +253,6 @@ class Layout extends React.Component {
         const { isShowColAmount, categorySelected, categoryTypeSelected, productSeleted, isShowColProduct } = this.state;
         const temptWidth = isShowColAmount ? 254 : 102;
         const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
-
         const atualWidth = !isShowColAmount && !isShowColProduct ? 122 : temptWidth;
 
         return (

@@ -4,7 +4,8 @@ import {
     Text,
     ScrollView,
     Keyboard,
-    TextInput
+    TextInput,
+    ActivityIndicator
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
@@ -56,15 +57,14 @@ class PopupChangeCustomerInfo extends React.Component {
 
     submitCustomerInfo = () => {
         const { codeAreaPhone, phone, firstName, lastName } = this.state;
-
         const phoneNumber = `${codeAreaPhone}${phone}`;
+
         this.props.actions.appointment.getCustomerBuyAppointment(phoneNumber, {
             customerId: 0,
             firstName,
             lastName,
             phone
         });
-        // this.props.onRequestClose();
     }
 
     onFocusToScroll = (number) => {
@@ -79,7 +79,7 @@ class PopupChangeCustomerInfo extends React.Component {
     // --------------- Render -----------
 
     render() {
-        const { title, visiblePopupCustomerInfoBuyAppointment, onRequestClose, confimYes } = this.props;
+        const { title, visiblePopupCustomerInfoBuyAppointment, loading, confimYes } = this.props;
         const { codeAreaPhone, phone, firstName, lastName } = this.state;
 
         return (
@@ -177,9 +177,7 @@ class PopupChangeCustomerInfo extends React.Component {
                                         placeholder={'Phone number'}
                                         value={phone}
                                         onChangeText={(phone) => this.setState({ phone })}
-                                        onSubmitEditing={() => {
-                                            confimYes();
-                                        }}
+                                        onSubmitEditing={this.submitCustomerInfo}
                                         keyboardType="phone-pad"
                                         onFocus={() => this.onFocusToScroll(155)}
                                     />
@@ -188,18 +186,29 @@ class PopupChangeCustomerInfo extends React.Component {
                             </View>
                             {/* ------- Button -------- */}
                             <View style={{ marginTop: scaleSzie(20), alignItems: 'center', }} >
-                                <ButtonCustom
-                                    width={scaleSzie(120)}
-                                    height={45}
-                                    backgroundColor="#0764B0"
-                                    title="Submit"
-                                    textColor="#fff"
-                                    onPress={this.submitCustomerInfo}
-                                    style={{
-                                        borderWidth: 1, borderColor: '#C5C5C5',
-                                        borderRadius: 4
-                                    }}
-                                />
+                                {
+                                    loading ? <View style={{
+                                        width: scaleSzie(120), height: scaleSzie(45), backgroundColor: '#0764B0',
+                                        justifyContent: 'center', alignItems: 'center'
+                                    }} >
+                                        <ActivityIndicator
+                                            size="large"
+                                            color="#fff"
+                                        />
+                                    </View> : <ButtonCustom
+                                            width={scaleSzie(120)}
+                                            height={45}
+                                            backgroundColor="#0764B0"
+                                            title="Submit"
+                                            textColor="#fff"
+                                            onPress={this.submitCustomerInfo}
+                                            style={{
+                                                borderWidth: 1, borderColor: '#C5C5C5',
+                                                borderRadius: 4
+                                            }}
+                                        />
+                                }
+
                             </View>
                             <View style={{ height: scaleSzie(200) }} />
                         </ScrollView>
@@ -222,7 +231,8 @@ const mapStateToProps = state => ({
     listStaffByMerchant: state.staff.listStaffByMerchant,
     appointmentDetail: state.appointment.appointmentDetail,
     groupAppointment: state.appointment.groupAppointment,
-    visiblePopupCustomerInfoBuyAppointment: state.appointment.visiblePopupCustomerInfoBuyAppointment
+    visiblePopupCustomerInfoBuyAppointment: state.appointment.visiblePopupCustomerInfoBuyAppointment,
+    loading: state.app.loading
 })
 
 export default connectRedux(mapStateToProps, PopupChangeCustomerInfo);
