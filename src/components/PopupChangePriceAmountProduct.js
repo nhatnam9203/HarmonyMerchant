@@ -79,13 +79,13 @@ class PopupChangePriceAmountProduct extends React.Component {
         const { groupAppointment } = this.props;
         if (_.isEmpty(groupAppointment)) {
             // this.props.changeStylistBasketLocal(serviceIdLocal, staffId, tip, price);
-            this.props.changeProductBasketLocal(productIdLocal,price,quantity ? quantity : 0)
+            this.props.changeProductBasketLocal(productIdLocal, price, quantity ? quantity : 0)
         } else {
             // this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentIdChangeStylist, price, true);
-            this.props.actions.appointment.updateProductInAppointment(appointmentIdChangeProduct,{
+            this.props.actions.appointment.updateProductInAppointment(appointmentIdChangeProduct, {
                 bookingProductId,
                 price,
-                quantity : quantity ? quantity : 0
+                quantity: quantity ? quantity : 0
             })
         }
         this.props.onRequestClose();
@@ -93,6 +93,27 @@ class PopupChangePriceAmountProduct extends React.Component {
 
     onFocusToScroll = (number) => {
         this.scrollRef.current.scrollTo({ x: 0, y: scaleSzie(number), animated: true })
+    }
+
+    splitZeroNumber = (str) => {
+        let isChecZeroNumber = true;
+        let arr = [];
+        for (let i = 0; i < str.length; i++) {
+            if (!isChecZeroNumber) {
+                arr.push(str[i]);
+            } else {
+                if (str[i] != 0) {
+                    isChecZeroNumber = false;
+                }
+            }
+        }
+        return arr.join("");
+    }
+
+    updateQuantity = async (quantity) => {
+       await this.setState({
+            quantity: quantity
+        })
     }
 
     // --------------- Render -----------
@@ -120,7 +141,7 @@ class PopupChangePriceAmountProduct extends React.Component {
                             ref={this.scrollRef}
                             showsVerticalScrollIndicator={false}
                             keyboardShouldPersistTaps="always"
-                            >
+                        >
                             <View style={{ height: scaleSzie(20) }} />
                             <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
                                 Name
@@ -174,17 +195,11 @@ class PopupChangePriceAmountProduct extends React.Component {
                             }} >
                                 <TextInputMask
                                     type="only-numbers"
-                                    // type={'money'}
-                                    // options={{
-                                    //     precision: 2,
-                                    //     separator: '.',
-                                    //     delimiter: ',',
-                                    //     unit: '',
-                                    //     suffixUnit: ''
-                                    // }}
+                                    placeholder={0}
+                                    placeholderTextColor="#6A6A6A"
                                     style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
                                     value={quantity}
-                                    onChangeText={(quantity) => this.setState({ quantity })}
+                                    onChangeText={this.updateQuantity}
                                     onFocus={() => this.onFocusToScroll(160)}
                                 />
                             </View>

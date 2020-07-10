@@ -10,7 +10,7 @@ import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
 
 import connectRedux from '@redux/ConnectRedux';
-import {  ButtonCustom,PopupParent } from '@components';
+import { ButtonCustom, PopupParent } from '@components';
 
 import { scaleSzie } from '@utils';
 
@@ -73,15 +73,15 @@ class PopupChangePriceAmountProduct extends React.Component {
 
     submitChangeStylist = () => {
         const { price, name, quantity, appointmentIdChangeProduct, bookingProductId, productIdLocal } = this.state;
-        const { groupAppointment,appointmentDetail } = this.props;
+        const { groupAppointment, appointmentDetail } = this.props;
         if (_.isEmpty(appointmentDetail)) {
-            this.props.changeProductBasketLocal(productIdLocal,price,quantity)
+            this.props.changeProductBasketLocal(productIdLocal, price, quantity)
         } else {
-            this.props.actions.appointment.updateProductInAppointment(appointmentDetail.appointmentId,{
+            this.props.actions.appointment.updateProductInAppointment(appointmentDetail.appointmentId, {
                 bookingProductId,
                 price,
-                quantity
-            },false)
+                quantity: quantity ? quantity : 0
+            }, false)
         }
         this.props.onRequestClose();
     }
@@ -115,7 +115,7 @@ class PopupChangePriceAmountProduct extends React.Component {
                             ref={this.scrollRef}
                             showsVerticalScrollIndicator={false}
                             keyboardShouldPersistTaps="always"
-                            >
+                        >
                             <View style={{ height: scaleSzie(20) }} />
                             <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
                                 Name
@@ -169,14 +169,8 @@ class PopupChangePriceAmountProduct extends React.Component {
                             }} >
                                 <TextInputMask
                                     type="only-numbers"
-                                    // type={'money'}
-                                    // options={{
-                                    //     precision: 2,
-                                    //     separator: '.',
-                                    //     delimiter: ',',
-                                    //     unit: '',
-                                    //     suffixUnit: ''
-                                    // }}
+                                    placeholder={0}
+                                    placeholderTextColor="#6A6A6A"
                                     style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
                                     value={quantity}
                                     onChangeText={(quantity) => this.setState({ quantity })}

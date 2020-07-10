@@ -6,12 +6,6 @@ import {
     SignInScreen,
     ForgotPasswordScreen,
     TermsScreen,
-    GeneralInfoScreen,
-    BankInfoScreen,
-    BusinessInfoScreen,
-    PrincipalScreen,
-    ApplicationSubmitScreen,
-    PackageAndPricing,
     IntroScreen,
     UserGuideScreen,
     SignUpScreen
@@ -24,12 +18,6 @@ const AuthStack = createStackNavigator(
         SignIn: SignInScreen,
         ForgotPassword: ForgotPasswordScreen,
         Terms: TermsScreen,
-        // GeneralInfo: GeneralInfoScreen,
-        // BusinessInfo: BusinessInfoScreen,
-        // BankInfo: BankInfoScreen,
-        // PrincipalInfo: PrincipalScreen,
-        // PackageAndPricing,
-        // ApplicationSubmit: ApplicationSubmitScreen,
         SignUp:SignUpScreen
     },
     {
