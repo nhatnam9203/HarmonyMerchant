@@ -16,7 +16,7 @@ export default class Layout extends React.Component {
 
     render() {
         const { language } = this.props;
-        const { generalInfo, isDBAAddress } = this.state;
+        const { generalInfo, isDBAAddress, dynamicMarginBottomBA, dynamicMarginBottomDA } = this.state;
         const {
             businessName, doingBusiness, tax, businessAddress, businessPhone, email,
             firstName, lastName, position, contactPhone, dbaAddress
@@ -75,7 +75,7 @@ export default class Layout extends React.Component {
                             onFocus={() => this.scrollGeneralTo(160)}
                         />
 
-                        <Text style={[{ color: '#404040', fontSize: scaleSzie(14), fontWeight: "600" ,marginBottom:scaleSzie(5)}]} >
+                        <Text style={[{ color: '#404040', fontSize: scaleSzie(14), fontWeight: "600", marginBottom: scaleSzie(5) }]} >
                             {"Federal Tax ID*"}
                         </Text>
                         <View style={{ flexDirection: 'row', marginBottom: scaleSzie(24) }} >
@@ -127,8 +127,10 @@ export default class Layout extends React.Component {
                             onFocus={() => this.scrollGeneralTo(310)}
                         />
                         <View style={{
-                            height: scaleSzie(30), marginBottom: scaleSzie(24), justifyContent: 'space-between',
-                            flexDirection: 'row', alignItems: 'flex-end'
+                            height: scaleSzie(30), justifyContent: 'space-between',
+                            flexDirection: 'row', alignItems: 'flex-end',
+                            // marginBottom: scaleSzie(24),
+                            marginBottom: scaleSzie(dynamicMarginBottomBA),
                         }} >
                             <View style={{ width: scaleSzie(180) }} >
                                 <InputForm
@@ -146,7 +148,12 @@ export default class Layout extends React.Component {
                             <View style={{ width: scaleSzie(180), height: scaleSzie(30) }} >
                                 <TextInputSuggestion
                                     value={state}
-                                    onChangeText={value => this.updateGeneralInfo('state', value, 'businessAddress')}
+                                    onChangeText={(value, count) => {
+                                        this.updateGeneralInfo('state', value, 'businessAddress');
+                                        this.setState({
+                                            dynamicMarginBottomBA: count * 24
+                                        })
+                                    }}
                                     onFocus={() => this.scrollGeneralTo(310)}
                                 />
                             </View>
@@ -169,7 +176,7 @@ export default class Layout extends React.Component {
                         </View>
 
                         {/* ---------------  DBA Address --------------- */}
-                        <View style={{ flexDirection: "row",marginTop:scaleSzie(10) }} >
+                        <View style={{ flexDirection: "row", marginTop: scaleSzie(10) }} >
                             <Text style={[{ color: '#404040', fontSize: scaleSzie(14), fontWeight: "600" }]} >
                                 {`DBA Address*`}
                             </Text>
@@ -198,7 +205,7 @@ export default class Layout extends React.Component {
                             editable={!isDBAAddress}
                         />
                         <View style={{
-                            height: scaleSzie(30), marginBottom: scaleSzie(24), justifyContent: 'space-between',
+                            height: scaleSzie(30), marginBottom: scaleSzie(dynamicMarginBottomDA), justifyContent: 'space-between',
                             flexDirection: 'row', alignItems: 'flex-end'
                         }} >
                             <View style={{ width: scaleSzie(180) }} >
@@ -218,7 +225,12 @@ export default class Layout extends React.Component {
                             <View style={{ width: scaleSzie(180), height: scaleSzie(30) }} >
                                 <TextInputSuggestion
                                     value={stateDBA}
-                                    onChangeText={value => this.updateGeneralInfo('state', value, 'dbaAddress')}
+                                    onChangeText={(value, count) => {
+                                        this.updateGeneralInfo('state', value, 'dbaAddress');
+                                        this.setState({
+                                            dynamicMarginBottomDA: count * 24
+                                        })
+                                    }}
                                     onFocus={() => this.scrollGeneralTo(425)}
                                     editable={!isDBAAddress}
                                 />
@@ -276,7 +288,7 @@ export default class Layout extends React.Component {
                                     placeholder={localize('First Name', language)}
                                     value={firstName}
                                     onChangeText={(value) => this.updateGeneralInfo('firstName', value)}
-                                    onFocus={() => this.scrollGeneralTo(590+120)}
+                                    onFocus={() => this.scrollGeneralTo(590 + 120)}
                                 />
                             </View>
                             <View style={{ flex: 1, paddingLeft: scaleSzie(20) }} >
@@ -286,7 +298,7 @@ export default class Layout extends React.Component {
                                     placeholder={localize('Last Name', language)}
                                     value={lastName}
                                     onChangeText={(value) => this.updateGeneralInfo('lastName', value)}
-                                    onFocus={() => this.scrollGeneralTo(590+120)}
+                                    onFocus={() => this.scrollGeneralTo(590 + 120)}
                                 />
                             </View>
                         </View>
@@ -296,7 +308,7 @@ export default class Layout extends React.Component {
                             placeholder="President/Manager/Owner"
                             value={position}
                             onChangeText={(value) => this.updateGeneralInfo('position', value)}
-                            onFocus={() => this.scrollGeneralTo(665+120)}
+                            onFocus={() => this.scrollGeneralTo(665 + 120)}
                         />
 
                         <View style={{ flexDirection: 'row' }} >
@@ -309,7 +321,7 @@ export default class Layout extends React.Component {
                                     value={contactPhone}
                                     onChangeText={(value) => this.updateGeneralInfo('contactPhone', value)}
                                     keyboardType="numeric"
-                                    onFocus={() => this.scrollGeneralTo(665+120)}
+                                    onFocus={() => this.scrollGeneralTo(665 + 120)}
                                 />
                             </View>
                             <View style={{ flex: 1 }} />

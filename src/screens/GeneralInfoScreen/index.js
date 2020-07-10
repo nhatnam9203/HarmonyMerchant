@@ -38,7 +38,9 @@ class GeneralInfoScreen extends Layout {
                 position: '',
                 contactPhone: ''
             },
-            isDBAAddress: true
+            isDBAAddress: true,
+            dynamicMarginBottomBA: 24,
+            dynamicMarginBottomDA: 24
         };
         this.businessPhoneRef = React.createRef();
         this.contactPhoneRef = React.createRef();
