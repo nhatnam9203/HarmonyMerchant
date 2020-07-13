@@ -31,8 +31,9 @@ class PopupAddEditService extends React.Component {
                 duration: "",
                 openTime: "",
                 secondTime: "",
-                price: '',
+                price: 0.00,
                 isDisabled: 'Active',
+                supplyFee: 0.00
             },
             arrayExtra: [],
             fileId: 0,
@@ -56,15 +57,16 @@ class PopupAddEditService extends React.Component {
         const { categoriesByMerchant } = this.props;
         await this.setState({
             serviceInfo: {
-                serviceId: service.serviceId,
+                serviceId: service.serviceId ? service.serviceId : 0,
                 categoryId: getCategoryName(categoriesByMerchant, service.categoryId),
-                name: service.name,
-                description: service.description,
-                duration: service.duration,
-                openTime: service.openTime,
-                secondTime: service.secondTime,
-                price: service.price,
+                name: service.name ? service.name : "",
+                description: service.description ? service.description : "",
+                duration: service.duration ? service.duration : "",
+                openTime: service.openTime ? service.openTime : "",
+                secondTime: service.secondTime ? service.secondTime : "",
+                price: service.price ? service.price : 0.01,
                 isDisabled: service.isDisabled === 0 ? 'Active' : 'Disable',
+                supplyFee: service.supplyFee ? service.supplyFee : 0.00,
             },
             arrayExtra: service.extras.length > 0 ? service.extras : [],
             fileId: 0,
@@ -83,8 +85,9 @@ class PopupAddEditService extends React.Component {
                 duration: "",
                 openTime: "",
                 secondTime: "",
-                price: '',
+                price: 0.00,
                 isDisabled: 'Active',
+                supplyFee: 0.00
             },
             arrayExtra: [],
             fileId: 0,
@@ -289,7 +292,7 @@ class PopupAddEditService extends React.Component {
 
     render() {
         const { title, visible, categoriesByMerchant, language } = this.props;
-        const { categoryId, name, description, price, isDisabled
+        const { categoryId, name, description, price, isDisabled,supplyFee
         } = this.state.serviceInfo;
 
         return (
@@ -365,7 +368,7 @@ class PopupAddEditService extends React.Component {
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                     {`${localize('Duration', language)}*`}
                                 </Text>
-                                <View style={{ height: scaleSzie(70), flexDirection: 'row', justifyContent: 'space-between' }} >
+                                <View style={{ height: scaleSzie(70), flexDirection: 'row', }} >
                                     <ItemTime
                                         ref={this.durationRef}
                                         title={`${localize('Minutes', language)} *`}
@@ -373,6 +376,7 @@ class PopupAddEditService extends React.Component {
                                         editable={true}
                                         onFocus={() => this.scrollServiceTo(250)}
                                     />
+                                    <View style={{ width: scaleSzie(10) }} />
                                     <ItemTime
                                         ref={this.openTimeRef}
                                         title={`${localize('Open Time', language)}`}
@@ -381,6 +385,7 @@ class PopupAddEditService extends React.Component {
                                         onChangeText={this.handleInputSecondTime}
                                         onFocus={() => this.scrollServiceTo(250)}
                                     />
+                                    <View style={{ width: scaleSzie(10) }} />
                                     <ItemTime
                                         ref={this.secondTimeRef}
                                         title={`${localize('Second Time', language)}`}
@@ -390,7 +395,8 @@ class PopupAddEditService extends React.Component {
                                     />
                                 </View>
                                 <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
-                                    <View style={{ flex: 1, paddingRight: scaleSzie(50) }}  >
+                                    {/* -------------------- Price ----------------- */}
+                                    <View style={{ flex: 1 }}  >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                             {`${localize('Price', language)} *`}
                                         </Text>
@@ -416,8 +422,39 @@ class PopupAddEditService extends React.Component {
                                             />
                                         </View>
                                     </View>
-                                    {/* ------ */}
-                                    <View>
+
+                                    <View style={{ width: scaleSzie(10) }} />
+                                    {/* -------------------- Supply ----------------- */}
+                                    <View style={{ flex: 1 }}  >
+                                        <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                                            {`${localize('Supply', language)} *`}
+                                        </Text>
+                                        <View style={{
+                                            height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
+                                            borderWidth: 1, borderColor: '#C5C5C5', flexDirection: 'row'
+                                        }} >
+                                            <TextInputMask
+                                                ref={this.priceRef}
+                                                type={'money'}
+                                                options={{
+                                                    precision: 2,
+                                                    separator: '.',
+                                                    delimiter: ',',
+                                                    unit: '',
+                                                    suffixUnit: ''
+                                                }}
+                                                style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                placeholder="$ 0.00"
+                                                value={supplyFee}
+                                                onChangeText={value => this.updateServiceInfo('supplyFee', value)}
+                                                onFocus={() => this.scrollServiceTo(320)}
+                                            />
+                                        </View>
+                                    </View>
+
+                                    <View style={{ width: scaleSzie(10) }} />
+                                    {/* -------------------- Status ----------------- */}
+                                    <View style={{ flex: 1, }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                             {`${localize('Status', language)}*`}
                                         </Text>
@@ -708,12 +745,13 @@ class ItemTime extends React.Component {
         const { title, editable, onFocus } = this.props;
         const { value } = this.state;
         return (
-            <View>
+            <View style={{ flex: 1 }} >
                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                     {title}
                 </Text>
                 <View style={{
-                    height: scaleSzie(30), width: scaleSzie(90),
+                    height: scaleSzie(30),
+                    // width: scaleSzie(90),
                     borderWidth: 1, borderColor: '#C5C5C5', flexDirection: 'row'
                 }} >
                     <View style={{ flex: 1, paddingLeft: scaleSzie(5) }} >
