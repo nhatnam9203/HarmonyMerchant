@@ -104,6 +104,7 @@ class Layout extends React.Component {
                                 onChangeText={(value) => this.updateUserInfo('zip', value, 'address')}
                                 maxLength={5}
                                 keyboardType="numeric"
+                                onFocus={() => this.scrollStaffTo(140)}
                             />
                         </View>
                     </ItemAdminInfoDoubleItem>
@@ -131,6 +132,7 @@ class Layout extends React.Component {
                                     inputContainerStyle={{
                                         height: scaleSzie(35),
                                     }}
+                                    onFocus={() => this.scrollStaffTo(250)}
                                 />
                             </View>
                             <View style={{ flex: 1, }} />

@@ -122,6 +122,7 @@ class Layout extends React.Component {
                                     inputContainerStyle={{
                                         height: scaleSzie(35),
                                     }}
+                                    onFocus={() => this.scrollStaffTo(240)}
                                 />
                             </View>
                             <View style={{ flex: 1, }} />

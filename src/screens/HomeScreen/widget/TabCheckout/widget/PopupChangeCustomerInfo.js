@@ -63,7 +63,7 @@ class PopupChangeCustomerInfo extends React.Component {
             customerId: 0,
             firstName,
             lastName,
-            phone
+            phone : phoneNumber
         });
     }
 

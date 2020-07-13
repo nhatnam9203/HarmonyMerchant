@@ -51,13 +51,13 @@ class TextInputSuggestion extends React.PureComponent {
     }
 
     onBlur = () => {
-        setTimeout(() => {
-            this.setState({
-                data: []
-            });
+        // setTimeout(() => {
+        //     this.setState({
+        //         data: []
+        //     });
 
-            this.props.resetMarginState && this.props.resetMarginState();
-        }, 800);
+        //     this.props.resetMarginState && this.props.resetMarginState();
+        // }, 800);
 
     }
 

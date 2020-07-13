@@ -343,6 +343,7 @@ class PopupAddEditCustomer extends React.Component {
                                                     onChangeText={this.onChangeText}
                                                     onFocus={() => this.scrollCustomerTo(180)}
                                                     resetMarginState={() => this.setState({dynamicMarginBottomState: 24})}
+                                                    onFocus={() => this.scrollCustomerTo(280)}
                                                 />
                                             </View>
                                         </View>
