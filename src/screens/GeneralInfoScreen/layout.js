@@ -154,6 +154,7 @@ export default class Layout extends React.Component {
                                             dynamicMarginBottomBA: count * 24
                                         })
                                     }}
+                                    resetMarginState={() => this.setState({dynamicMarginBottomBA: 24})}
                                     onFocus={() => this.scrollGeneralTo(310)}
                                 />
                             </View>
@@ -231,6 +232,7 @@ export default class Layout extends React.Component {
                                             dynamicMarginBottomDA: count * 24
                                         })
                                     }}
+                                    resetMarginState={() => this.setState({dynamicMarginBottomDA: 24})}
                                     onFocus={() => this.scrollGeneralTo(425)}
                                     editable={!isDBAAddress}
                                 />

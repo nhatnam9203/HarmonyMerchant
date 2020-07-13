@@ -78,7 +78,12 @@ class PrincipalScreen extends Layout {
             showCalendar: false,
             dateOfBirth: new Date(),
             isShowPrincipal1: true,
-            ...initalStatePrincipal2
+            ...initalStatePrincipal2,
+            dynamicMarginBottomStatePrincipal1: 24,
+            dynamicMarginBottomDAStateIssuedPrincipal1: 24,
+            dynamicMarginBottomStatePrincipal2: 24,
+            dynamicMarginBottomDAStateIssuedPrincipal2: 24,
+
         };
         this.uploadVoidCheckRef = React.createRef();
         this.homePhoneRef = React.createRef();
@@ -117,24 +122,6 @@ class PrincipalScreen extends Layout {
         this.srollPrincipalRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
     }
 
-    componentDidMount() {
-        // this.didBlurSubscription = this.props.navigation.addListener(
-        //     'didBlur',
-        //     payload => {
-        //         this.setState({
-        //             isActiveScreen: false
-        //         })
-        //     }
-        // );
-        // this.didFocusSubscription = this.props.navigation.addListener(
-        //     'didFocus',
-        //     payload => {
-        //         this.setState({
-        //             isActiveScreen: true
-        //         })
-        //     }
-        // );
-    }
 
     setStateFromparent = async (isActiveScreen) => {
         await this.setState({
@@ -473,10 +460,43 @@ class PrincipalScreen extends Layout {
         }
     }
 
-    // componentWillUnmount() {
-    //     this.didBlurSubscription.remove();
-    //     this.didFocusSubscription.remove();
-    // }
+    updateMarginTopState1 = (count) => {
+        this.setState({
+            dynamicMarginBottomStatePrincipal1: count * 24
+        });
+    }
+
+    updateMarginTopStateIssued1 = (count) => {
+        this.setState({
+            dynamicMarginBottomDAStateIssuedPrincipal1: count * 24
+        })
+    }
+
+    updateMarginTopState2 = (count) => {
+        this.setState({
+            dynamicMarginBottomStatePrincipal2: count * 24
+        });
+    }
+
+    updateMarginTopStateIssued2 = (count) => {
+        this.setState({
+            dynamicMarginBottomDAStateIssuedPrincipal2: count * 24
+        })
+    }
+
+    resetMarginTopState = () => {
+        this.setState({
+            dynamicMarginBottomStatePrincipal1: 24,
+            dynamicMarginBottomStatePrincipal2: 24
+        });
+    }
+
+    resetMarginTopStateIssued = () =>{
+        this.setState({
+            dynamicMarginBottomDAStateIssuedPrincipal1: 24,
+            dynamicMarginBottomDAStateIssuedPrincipal2: 24,
+        })
+    }
 
 }
 

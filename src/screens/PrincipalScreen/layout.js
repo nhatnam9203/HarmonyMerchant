@@ -21,7 +21,11 @@ export default class Layout extends React.Component {
     render() {
         const { principalInfo, isShowPrincipal1, dateOfBirth, uriUpload,
             isShowPrincipal2, principalInfo2, uriUploadPrincipal2, dateOfBirthPrincipal2,
-            phoneCodePrincipal1, phoneCodePrincipal2
+            phoneCodePrincipal1, phoneCodePrincipal2,
+            dynamicMarginBottomStatePrincipal1,
+            dynamicMarginBottomDAStateIssuedPrincipal1,
+            dynamicMarginBottomStatePrincipal2,
+            dynamicMarginBottomDAStateIssuedPrincipal2,
         } = this.state;
         const { language } = this.props;
         const iconPrincipal1 = isShowPrincipal1 ? IMAGE.top_scroll_active : IMAGE.right_scroll_active;
@@ -101,6 +105,12 @@ export default class Layout extends React.Component {
                                 openImageLibrary={this.openImageLibrary}
                                 updatePhoneCode={this.updatePhoneCode}
                                 phoneCodePrincipal={phoneCodePrincipal1}
+                                dynamicMarginBottomStatePrincipal={dynamicMarginBottomStatePrincipal1}
+                                dynamicMarginBottomDAStateIssuedPrincipal={dynamicMarginBottomDAStateIssuedPrincipal1}
+                                updateMarginTopState={this.updateMarginTopState1}
+                                updateMarginTopStateIssued={this.updateMarginTopStateIssued1}
+                                resetMarginTopState={this.resetMarginTopState}
+                                resetMarginTopStateIssued={this.resetMarginTopStateIssued}
                             /> : <View />
                         }
 
@@ -140,6 +150,12 @@ export default class Layout extends React.Component {
                                 isPrincipalSecond={true}
                                 updatePhoneCode={this.updatePhoneCode}
                                 phoneCodePrincipal={phoneCodePrincipal2}
+                                dynamicMarginBottomStatePrincipal={dynamicMarginBottomStatePrincipal2}
+                                dynamicMarginBottomDAStateIssuedPrincipal={dynamicMarginBottomDAStateIssuedPrincipal2}
+                                updateMarginTopState={this.updateMarginTopState2}
+                                updateMarginTopStateIssued={this.updateMarginTopStateIssued2}
+                                resetMarginTopState={this.resetMarginTopState}
+                                resetMarginTopStateIssued={this.resetMarginTopStateIssued}
                             /> : <View />
                         }
 

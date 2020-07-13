@@ -39,7 +39,7 @@ export default class Layout extends React.Component {
     render() {
         const { language, principalInfo, scrollPrincipalTo, dateOfBirth, uriUpload, updatePrincipalInfo,
             showCalendar, takePhoto, openImageLibrary, isPrincipalSecond,
-            updatePhoneCode
+            updatePhoneCode, dynamicMarginBottomStatePrincipal, dynamicMarginBottomDAStateIssuedPrincipal
         } = this.props;
         const {
             firstName, lastName, position, ownership, homePhone, mobilePhone, addressPrincipal,
@@ -134,7 +134,7 @@ export default class Layout extends React.Component {
                     onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 540 : 500)}
                 />
                 <View style={{
-                    height: scaleSzie(30), marginBottom: scaleSzie(24), justifyContent: 'space-between',
+                    height: scaleSzie(30), marginBottom: scaleSzie(dynamicMarginBottomStatePrincipal), justifyContent: 'space-between',
                     flexDirection: 'row', alignItems: 'flex-end'
                 }} >
                     <View style={{ width: scaleSzie(180) }} >
@@ -153,7 +153,11 @@ export default class Layout extends React.Component {
                     <View style={{ width: scaleSzie(180), height: scaleSzie(30) }} >
                         <TextInputSuggestion
                             value={state}
-                            onChangeText={(value) => updatePrincipalInfo('state', value, 'addressPrincipal', isPrincipalSecond)}
+                            onChangeText={(value, count) => {
+                                updatePrincipalInfo('state', value, 'addressPrincipal', isPrincipalSecond);
+                                this.props.updateMarginTopState(count);
+                            }}
+                            resetMarginState={() => this.props.resetMarginTopState()}
                             onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 540 : 500)}
                         />
                     </View>
@@ -197,7 +201,7 @@ export default class Layout extends React.Component {
                     onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 745 : 705)}
                 />
                 {/* ------ Date of Birth ----- */}
-                <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(6),fontWeight:"600" }} >
+                <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(6), fontWeight: "600" }} >
                     {`${localize('Date of Birth', language)} (mm/dd/yyyy)*`}
                 </Text>
 
@@ -234,7 +238,8 @@ export default class Layout extends React.Component {
                     onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 900 : 860)}
 
                 />
-                <View style={{ flexDirection: 'row' }} >
+                <View style={{ flexDirection: 'row', marginBottom: scaleSzie(dynamicMarginBottomDAStateIssuedPrincipal),
+            }} >
                     <View style={{ flex: 1, paddingRight: scaleSzie(20) }} >
                         <InputForm
                             title={`${localize('Driver License Number', language)}*`}
@@ -246,12 +251,16 @@ export default class Layout extends React.Component {
                         />
                     </View>
                     <View style={{ width: scaleSzie(180), }} >
-                        <Text style={[{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(5) ,fontWeight:"600"}]} >
+                        <Text style={[{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(5), fontWeight: "600" }]} >
                             {`${localize('State Issued', language)}*`}
                         </Text>
                         <TextInputSuggestion
                             value={stateIssued}
-                            onChangeText={(value) => updatePrincipalInfo('stateIssued', value, '', isPrincipalSecond)}
+                            onChangeText={(value, count) => {
+                                updatePrincipalInfo('stateIssued', value, '', isPrincipalSecond);
+                                this.props.updateMarginTopStateIssued(count);
+                            }}
+                            resetMarginState={() => this.props.resetMarginTopStateIssued()}
                             onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 980 : 940)}
                         />
                     </View>
@@ -259,7 +268,7 @@ export default class Layout extends React.Component {
 
                 {/* ------ Take Photo ---- */}
 
-                <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginTop: scaleSzie(10),fontWeight:"600" }} >
+                <Text style={{ color: '#404040', fontSize: scaleSzie(14), fontWeight: "600" }} >
                     {`${localize('Please take or upload photos of Driver License', language)}*`}
                 </Text>
                 <View style={{

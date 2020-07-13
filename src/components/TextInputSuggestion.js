@@ -20,7 +20,7 @@ class TextInputSuggestion extends React.PureComponent {
             this.setState({
                 data: []
             });
-            this.props.onChangeText(value,1);
+            this.props.onChangeText(value, 1);
             return;
         }
         const { stateCity } = this.props;
@@ -34,19 +34,19 @@ class TextInputSuggestion extends React.PureComponent {
         this.setState({
             data: temptData
         })
-        this.props.onChangeText(value, temptData.length !== 0 ?temptData.length : 1 );
+        this.props.onChangeText(value, temptData.length !== 0 ? temptData.length : 1);
     }
 
     selectSuggestion(value) {
         this.setState({
             data: []
         })
-        this.props.onChangeText(value,1);
+        this.props.onChangeText(value, 1);
     }
 
     onFocus = () => {
         const { value } = this.props;
-        this.onChangeText(value,1);
+        this.onChangeText(value, 1);
         this.props.onFocus();
     }
 
@@ -54,8 +54,10 @@ class TextInputSuggestion extends React.PureComponent {
         setTimeout(() => {
             this.setState({
                 data: []
-            })
-        }, 1000)
+            });
+            this.props.resetMarginState();
+        }, 1000);
+
     }
 
     render() {

@@ -307,18 +307,6 @@ class PopupAddEditCustomer extends React.Component {
                                     <View style={{ flex: 1 }} >
                                         <View style={{ height: scaleSzie(30), }} >
                                             <View style={{ flex: 1 }} >
-                                                {/* <Dropdown
-                                                    label={localize('State', language)}
-                                                    data={getArrayNameStateCity(stateCity)}
-                                                    value={state}
-                                                    onChangeText={(value) => this.updateCustomerInfo('state', value, 'addressPost')}
-                                                    containerStyle={{
-                                                        backgroundColor: '#F1F1F1',
-                                                        borderWidth: 1,
-                                                        borderColor: '#C5C5C5',
-                                                        flex: 1
-                                                    }}
-                                                /> */}
                                                 <TextInputSuggestion
                                                     value={state}
                                                     onChangeText={(value) => this.updateCustomerInfo('state', value, 'addressPost')}
