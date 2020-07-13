@@ -69,6 +69,7 @@ class StaffInfo extends Layout {
             fileId: 0,
             imageUrl: '',
             isSubmitButton: true,
+            dynamicMarginBottomState: 24
         }
         // ---- Refs ----
         this.inputRefsTime = [];

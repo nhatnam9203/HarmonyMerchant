@@ -69,17 +69,12 @@ class TextInputSuggestion extends React.PureComponent {
                 data={data}
                 defaultValue={value}
                 onChangeText={this.onChangeText}
-                renderItem={({ item, index }) => {
-                    if (index < 200) {
-                        return <TouchableOpacity style={{
-                            height: scaleSzie(25), paddingHorizontal: scaleSzie(8),
-                            justifyContent: "center",
-                        }} onPress={() => this.selectSuggestion(item)}>
-                            <Text>{item}</Text>
-                        </TouchableOpacity>
-                    }
-                    return null
-                }}
+                renderItem={({ item, index }) => <TouchableOpacity style={{
+                    height: scaleSzie(25), paddingHorizontal: scaleSzie(8),
+                    justifyContent: "center",
+                }} onPress={() => this.selectSuggestion(item)}>
+                    <Text>{item}</Text>
+                </TouchableOpacity>}
                 placeholder={"State"}
                 containerStyle={{
                     flex: 1

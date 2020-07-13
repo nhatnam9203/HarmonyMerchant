@@ -32,7 +32,8 @@ const initState = {
     },
     fileId: 0,
     imageUrl: '',
-    isSubmitButton: true
+    isSubmitButton: true,
+    dynamicMarginBottomState:24 
 }
 
 class StoreInfoScreen extends Layout {

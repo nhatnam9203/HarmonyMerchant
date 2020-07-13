@@ -70,7 +70,8 @@ class AddStaff extends Layout {
             fileId: 0,
             imageUrl: '',
             isSubmitButton: true,
-            value: {}
+            value: {},
+            dynamicMarginBottomState:24 
         }
         // ---- Refs ----
         this.inputRefsTime = [];

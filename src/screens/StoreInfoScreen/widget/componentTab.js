@@ -77,16 +77,16 @@ class ItemAdminCellPhone extends React.Component {
     }   
 
     render() {
-        const { title, placeholder, value, onChangeText, secureTextEntry, maxLength,onFocus } = this.props;
+        const { title, placeholder, value, onChangeText, secureTextEntry, maxLength,onFocus,style } = this.props;
         const {codeAreaPhone} = this.state;
         return (
-            <View style={{
+            <View style={[{
                 flexDirection: 'row',
                 height: scaleSzie(36),
                 paddingLeft: scaleSzie(90),
                 paddingRight: scaleSzie(90),
                 marginTop: scaleSzie(25)
-            }} >
+            },style]} >
                 <View style={{ width: scaleSzie(150), justifyContent: 'center' }} >
                     <Text style={{
                         color: '#404040',

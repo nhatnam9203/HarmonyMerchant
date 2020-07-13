@@ -22,7 +22,7 @@ import ItemScalary from '../ItemScalary';
 class Layout extends React.Component {
 
     renderBody() {
-        const { language, profile } = this.props;
+        const { language } = this.props;
         const { address, firstName, lastName, displayName,
             cellphone, email, pin, confirmPin, roles,
             driverlicense, socialSecurityNumber, professionalLicense,
@@ -30,7 +30,7 @@ class Layout extends React.Component {
         } = this.state.user;
         const { street, city, state, zip } = address;
         const { nameRole } = roles;
-        const { businessHour } = this.state;
+        const { businessHour, dynamicMarginBottomState } = this.state;
 
         return (
             <View style={styles.body} >
@@ -48,7 +48,6 @@ class Layout extends React.Component {
                     >
                         <View style={{
                             flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSzie(5),
-                            marginLeft: scaleSzie(5)
                         }} >
                             <TextInput
                                 style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
@@ -81,17 +80,20 @@ class Layout extends React.Component {
                         onChangeText={(value) => this.updateUserInfo('city', value, 'address')}
                     >
                         <View style={{
-                            flex: 1,
-                            marginLeft: scaleSzie(5),
+                            flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSzie(5)
                         }} >
-                            <TextInputSuggestion
-                                value={state}
-                                onChangeText={value => this.updateUserInfo('state', value, 'address')}
-                                onFocus={() => { }}
-                                inputContainerStyle={{
-                                    height: scaleSzie(35),
-                                }}
+                            {/* ------------- */}
+                            <TextInputMask
+                                type="only-numbers"
+                                style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
+                                placeholder={localize('Zip Code', language)}
+                                value={zip}
+                                onChangeText={(value) => this.updateUserInfo('zip', value, 'address')}
+                                maxLength={5}
+                                keyboardType="numeric"
+                                onFocus={() => this.scrollStaffTo(150)}
                             />
+
                         </View>
                     </ItemAdminInfoDoubleItem>
 
@@ -101,20 +103,25 @@ class Layout extends React.Component {
                         height: scaleSzie(36),
                         paddingLeft: scaleSzie(90),
                         paddingRight: scaleSzie(90),
-                        marginTop: scaleSzie(14)
+                        marginTop: scaleSzie(14),
+                        marginBottom: scaleSzie(dynamicMarginBottomState)
                     }} >
                         <View style={{ width: scaleSzie(150), }} />
                         <View style={{ flex: 1, flexDirection: 'row' }} >
-                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSzie(5) }} >
-                                <TextInputMask
-                                    type="only-numbers"
-                                    style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
-                                    placeholder={localize('Zip Code', language)}
-                                    value={zip}
-                                    onChangeText={(value) => this.updateUserInfo('zip', value, 'address')}
-                                    maxLength={5}
-                                    keyboardType="numeric"
-                                    onFocus={() => this.scrollStaffTo(150)}
+                            <View style={{ flex: 1, }} >
+                                <TextInputSuggestion
+                                    value={state}
+                                    onChangeText={(value, count) => {
+                                        this.updateUserInfo('state', value, 'address');
+                                        this.setState({
+                                            dynamicMarginBottomState: count * 24
+                                        })
+                                    }}
+                                    resetMarginState={() => this.setState({ dynamicMarginBottomState: 24 })}
+                                    onFocus={() => { }}
+                                    inputContainerStyle={{
+                                        height: scaleSzie(35),
+                                    }}
                                 />
                             </View>
                             <View style={{ flex: 1, }} />
@@ -128,6 +135,7 @@ class Layout extends React.Component {
                         value={cellphone}
                         onChangeText={(value) => this.updateUserInfo('cellphone', value)}
                         onFocus={() => this.scrollStaffTo(310)}
+                        style={scaleSzie(10)}
                     />
 
                     <ItemAdminInfo
@@ -433,7 +441,6 @@ const ItemAdminInfoDoubleItem = ({ title, placeholder, children, value, onChange
                     {`${title}`}
                 </Text>
             </View>
-
             <View style={{ flex: 1, flexDirection: 'row' }} >
                 <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSzie(5) }} >
                     <TextInput
@@ -443,6 +450,8 @@ const ItemAdminInfoDoubleItem = ({ title, placeholder, children, value, onChange
                         onChangeText={(value => onChangeText(value))}
                     />
                 </View>
+
+                <View style={{ width: scaleSzie(5) }} />
 
                 <View style={{ flex: 1, }} >
                     {children}
