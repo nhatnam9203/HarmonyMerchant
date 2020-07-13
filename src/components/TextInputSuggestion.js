@@ -55,8 +55,9 @@ class TextInputSuggestion extends React.PureComponent {
             this.setState({
                 data: []
             });
-            this.props.resetMarginState();
-        }, 1000);
+
+            this.props.resetMarginState && this.props.resetMarginState();
+        }, 800);
 
     }
 
