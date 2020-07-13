@@ -50,7 +50,6 @@ class PopupAddEditService extends React.Component {
         this.nameServiceRef = React.createRef();
         this.scrollServiceRef = React.createRef();
         this.descripRef = React.createRef();
-        this.priceRef = React.createRef();
     }
 
     setServiceFromParent = async (service) => {
@@ -292,7 +291,7 @@ class PopupAddEditService extends React.Component {
 
     render() {
         const { title, visible, categoriesByMerchant, language } = this.props;
-        const { categoryId, name, description, price, isDisabled,supplyFee
+        const { categoryId, name, description, price, isDisabled, supplyFee
         } = this.state.serviceInfo;
 
         return (
@@ -405,7 +404,6 @@ class PopupAddEditService extends React.Component {
                                             borderWidth: 1, borderColor: '#C5C5C5', flexDirection: 'row'
                                         }} >
                                             <TextInputMask
-                                                ref={this.priceRef}
                                                 type={'money'}
                                                 options={{
                                                     precision: 2,
@@ -434,7 +432,6 @@ class PopupAddEditService extends React.Component {
                                             borderWidth: 1, borderColor: '#C5C5C5', flexDirection: 'row'
                                         }} >
                                             <TextInputMask
-                                                ref={this.priceRef}
                                                 type={'money'}
                                                 options={{
                                                     precision: 2,
@@ -536,7 +533,8 @@ class ItemExtra extends React.Component {
                 name: '',
                 description: '',
                 duration: '',
-                price: '',
+                price: 0.00,
+                supplyFee: 0.00,
                 isDisabled: 'Active'
             },
         }
@@ -548,11 +546,12 @@ class ItemExtra extends React.Component {
         if (extraInfo.extraId) {
             this.setState({
                 extraInfo: {
-                    extraId: extraInfo.extraId,
-                    name: extraInfo.name,
-                    description: extraInfo.description,
-                    duration: extraInfo.duration,
-                    price: extraInfo.price,
+                    extraId: extraInfo.extraId ? extraInfo.extraId : 0,
+                    name: extraInfo.name ? extraInfo.name : "",
+                    description: extraInfo.description ? extraInfo.description : "",
+                    duration: extraInfo.duration ? extraInfo.duration : "",
+                    price: extraInfo.price ? extraInfo.price : 0.00,
+                    supplyFee: extraInfo.supplyFee ? extraInfo.supplyFee : 0.00,
                     isDisabled: extraInfo.isDisabled === 0 ? 'Active' : 'Disable'
                 }
             });
@@ -610,7 +609,7 @@ class ItemExtra extends React.Component {
     }
 
     render() {
-        const { name, description, duration, price, isDisabled } = this.state.extraInfo;
+        const { name, description, duration, price, isDisabled, supplyFee } = this.state.extraInfo;
         const { removeExtra } = this.props;
         return (
             <View>
@@ -664,8 +663,9 @@ class ItemExtra extends React.Component {
                     title="Minutes*"
                     value={duration}
                 />
-                <View style={{ height: scaleSzie(70), flexDirection: 'row' }} >
-                    <View style={{ flex: 1, paddingRight: scaleSzie(50) }}  >
+                <View style={{ height: scaleSzie(70), flexDirection: 'row', marginTop: scaleSzie(8) }} >
+                    {/* -------------------- Price ----------------- */}
+                    <View style={{ flex: 1, }}  >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                             {`Price*`}
                         </Text>
@@ -689,8 +689,37 @@ class ItemExtra extends React.Component {
                             />
                         </View>
                     </View>
-                    {/* ------ */}
-                    <View>
+
+                    <View style={{ width: scaleSzie(10) }} />
+                    {/* -------------------- Supply ----------------- */}
+                    <View style={{ flex: 1, }}  >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                            {`Supply*`}
+                        </Text>
+                        <View style={{
+                            height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
+                            borderWidth: 1, borderColor: '#C5C5C5', flexDirection: 'row'
+                        }} >
+                            <TextInputMask
+                                type={'money'}
+                                options={{
+                                    precision: 2,
+                                    separator: '.',
+                                    delimiter: ',',
+                                    unit: '',
+                                    suffixUnit: ''
+                                }}
+                                style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                placeholder="$ 0.00"
+                                value={supplyFee}
+                                onChangeText={value => this.updateExtraInfo('supplyFee', value)}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={{ width: scaleSzie(10) }} />
+                    {/* -------------------- Status ----------------- */}
+                    <View style={{ flex: 1 }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                             {`Status*`}
                         </Text>
