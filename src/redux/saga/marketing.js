@@ -101,7 +101,7 @@ function* addBannerWithInfo(action) {
 
 function* getPromotionByMerchant(action) {
     try {
-        // yield put({ type: 'LOADING_ROOT' });
+        action.isLoading  ? yield put({ type: 'LOADING_ROOT' }) : null;
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
         //console.log('getPromotionByMerchant : ', JSON.stringify(responses));
@@ -115,9 +115,6 @@ function* getPromotionByMerchant(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             });
-            yield put({
-                type: 'GET_PROMOTION_BY_MERCHANT_FAIL',
-            })
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
@@ -134,7 +131,7 @@ function* getPromotionByMerchant(action) {
         // alert(`error-getPromotionByMerchant: ${error}`)
         yield put({ type: error });
     } finally {
-        // yield put({ type: 'STOP_LOADING_ROOT' });
+        yield put({ type: 'STOP_LOADING_ROOT' });
     }
 }
 

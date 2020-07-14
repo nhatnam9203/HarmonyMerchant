@@ -29,11 +29,11 @@ class TabTAX extends Layout {
         this.props.actions.app.setupMerchantTAX({
             taxService: formatNumberFromCurrency(serviceTAX),
             taxProduct: formatNumberFromCurrency(productTAX),
-            businessHourStart: profile.businessHourStart,
-            businessHourEnd: profile.businessHourEnd,
-            webLink: profile.webLink,
-            latitude: profile.latitude,
-            longitude: profile.longitude,
+            webLink: profile.webLink ? profile.webLink : "",
+            latitude: profile.latitude ? profile.latitude : "",
+            longitude: profile.longitude ? profile.longitude : "",
+            timezone: profile.timezone ? profile.timezone : "",
+            autoCloseAt: profile.autoCloseAt ? profile.autoCloseAt : ""
         });
     }
 

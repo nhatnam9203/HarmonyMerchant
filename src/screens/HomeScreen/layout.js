@@ -39,11 +39,6 @@ export default class Layout extends React.Component {
                             }}
                             onPressHandlerChangeTab={this.onPressHandlerChangeTab}
                         />}
-                        // onChangeTab={index => {
-                        //     this.setState({ currentTab: index.i });
-                        //       this.props.actions.marketing.getPromotionByMerchant();
-
-                        // }}
                         onChangeTab={this.onChangeTab}
 
                     >

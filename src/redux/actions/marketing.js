@@ -122,3 +122,9 @@ export function openPopupDiscount() {
         type: 'OPEN_MODAL_DISCOUNT',
     }
 }
+
+export function resetStateGetPromotion() {
+    return {
+        type: 'RESET_STATE_GET_PROMOTION',
+    }
+}

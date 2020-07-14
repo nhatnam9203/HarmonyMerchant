@@ -109,12 +109,12 @@ class TabPromotion extends Layout {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { profile, isLoadingGetPromotionByMerchant } = this.props;
-    if (prevProps.isLoadingGetPromotionByMerchant !== isLoadingGetPromotionByMerchant && prevProps.isLoadingGetPromotionByMerchant && !isLoadingGetPromotionByMerchant) {
-      // this.updatePromotionsFromParent();
+    const { profile, isGetPromotionByMerchant } = this.props;
+    if (prevProps.isGetPromotionByMerchant !== isGetPromotionByMerchant && isGetPromotionByMerchant) {
+      this.props.actions.marketing.resetStateGetPromotion();
+      this.updatePromotionsFromParent();
     }
   }
-
 
 }
 
@@ -125,7 +125,7 @@ const mapStateToProps = state => ({
   servicesByMerchant: state.service.servicesByMerchant,
   isApplyPromotion: state.marketing.isApplyPromotion,
   refreshingPromotion: state.marketing.refreshingPromotion,
-  isLoadingGetPromotionByMerchant: state.marketing.isLoadingGetPromotionByMerchant
+  isGetPromotionByMerchant: state.marketing.isGetPromotionByMerchant
 })
 
 
