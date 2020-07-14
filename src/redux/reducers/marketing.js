@@ -12,7 +12,9 @@ const initialState = {
     refreshingPromotion: false,
     refreshBannerList: false,
     isGetPromotionByMerchant: false,
-    visibleModalBlockDiscount: false
+    visibleModalBlockDiscount: false,
+    marketingTabPermission: false,
+    isGoToTabMarketing: false
 }
 
 function appReducer(state = initialState, action) {
@@ -107,6 +109,14 @@ function appReducer(state = initialState, action) {
                 ...state,
                 isApplyPromotion: action.payload,
             }
+        case 'TOGGLE_MAKETING_TAB_PERMISSION':
+            return {
+                ...state,
+                marketingTabPermission: action.payload,
+                isGoToTabMarketing: action.isGoToTabMarketing
+            }
+
+
         default:
             return state
     }

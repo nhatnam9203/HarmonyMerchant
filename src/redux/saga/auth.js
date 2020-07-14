@@ -160,6 +160,19 @@ function* checkStaffPermission(action) {
                     api: `${apiConfigs.BASE_API}merchant/${state.dataLocal.profile.merchantId}`,
                     isRefresh: false
                 })
+            } else if (action.tabName === "Marketing") {
+                yield put({
+                    type: "TOGGLE_MAKETING_TAB_PERMISSION",
+                    payload: false,
+                    isGoToTabMarketing: true
+                });
+                yield put({
+                    type: 'GET_PROMOTION_BY_MERCHANT',
+                    method: 'GET',
+                    token: true,
+                    api: `${apiConfigs.BASE_API}merchantpromotion`,
+                    isLoading : true
+                });
             }
 
 

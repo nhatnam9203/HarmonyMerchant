@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { HomeTabBar, StatusBarHeader, Button, ParentContainer, PopupEnterPin } from '@components';
+import { HomeTabBar, StatusBarHeader, Button, ParentContainer, PopupEnterPin, PopupCheckStaffPermission } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
@@ -14,7 +14,7 @@ import { TabMarketing, TabAppointment, TabCheckout } from './widget';
 export default class Layout extends React.Component {
 
     render() {
-        const { language ,navigation} = this.props;
+        const { language, navigation,marketingTabPermission } = this.props;
         const { isFocus } = this.state;
         return (
             <ParentContainer
@@ -80,6 +80,13 @@ export default class Layout extends React.Component {
                         onRequestClose={() => { }}
                         confimYes={this.submitPincode}
                         hideCloseButton={true}
+                    />
+                    <PopupCheckStaffPermission
+                        ref={this.checkMarketingPermissionRef}
+                        visiblePopupCheckStaffPermission={marketingTabPermission}
+                        title={localize('Input PIN Number', language)}
+                        tabName="Marketing"
+                        onRequestClose={this.closePopupCheckMarketingTabPermission}
                     />
                 </View>
             </ParentContainer>

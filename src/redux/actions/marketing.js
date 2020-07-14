@@ -128,3 +128,10 @@ export function resetStateGetPromotion() {
         type: 'RESET_STATE_GET_PROMOTION',
     }
 }
+
+export function toggleMarketingTabPermission(visible = true) {
+    return {
+        type: 'TOGGLE_MAKETING_TAB_PERMISSION',
+        payload: visible
+    }
+}

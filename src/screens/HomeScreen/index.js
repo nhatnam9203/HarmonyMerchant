@@ -32,6 +32,7 @@ class HomeScreen extends Layout {
         this.popupEnterPinRef = React.createRef();
         this.unsubscribeNetInfo = null;
         this.watcherNetwork = new Subject();
+        this.checkMarketingPermissionRef = React.createRef();
     }
 
     componentDidMount() {
@@ -64,6 +65,8 @@ class HomeScreen extends Layout {
             const isConnected = state.isConnected ? state.isConnected : false;
             this.watcherNetwork.next(isConnected);
         });
+
+        // this.props.actions.marketing.se
 
     }
 
@@ -117,7 +120,7 @@ class HomeScreen extends Layout {
             this.props.navigation.openDrawer();
         } else {
             const { temptCurrentTap } = this.state;
-            this.scrollTabParentRef.current.goToPage(temptCurrentTap);
+            this.scrollTabParentRef.current.goToPage(1);
         }
 
     }
@@ -132,12 +135,17 @@ class HomeScreen extends Layout {
         this.scrollTabParentRef.current.goToPage(2);
     }
 
+    onPressHandlerChangeTab_ = (index) => {
+        this.props.actions.marketing.toggleMarketingTabPermission();
+    }
+
     onPressHandlerChangeTab = async (index) => {
         const { currentTab } = this.state;
         const { groupAppointment, appointmentIdOffline, blockAppointments } = this.props;
         if (appointmentIdOffline !== 0) {
             this.props.actions.appointment.checkoutAppointmentOffline(0);
         }
+
         if (currentTab !== index) {
             if (currentTab === 1 && this.tabAppointmentRef.current.state.isShowAddAppointment) {
                 //console.log('-----1-------');
@@ -170,17 +178,33 @@ class HomeScreen extends Layout {
                     }
                     else {
                         //console.log('-----6-------');
-                        this.tabCheckoutRef.current.resetStateFromParent();
-                        this.scrollTabParentRef.current.goToPage(index);
+                        if (index === 0) {
+                           this.tooglePopupMarketingPermission();
+                        } else {
+                            this.tabCheckoutRef.current.resetStateFromParent();
+                            this.scrollTabParentRef.current.goToPage(index);
+                        }
+
                     }
                 } else {
                     // console.log('-----7-------');
-                    this.scrollTabParentRef.current.goToPage(index);
+                    if (index === 0) {
+                        this.tooglePopupMarketingPermission();
+                    } else {
+                        this.scrollTabParentRef.current.goToPage(index);
+                    }
+
                 }
 
             }
         }
 
+    }
+
+    tooglePopupMarketingPermission = () => {
+        this.checkMarketingPermissionRef.current.setStateFromParent('');
+        this.props.actions.marketing.toggleMarketingTabPermission();
+        this.tabCheckoutRef.current.resetStateFromParent();
     }
 
 
@@ -196,7 +220,7 @@ class HomeScreen extends Layout {
     openDrawer = () => {
         const { groupAppointment, blockAppointments } = this.props;
         if (!_.isEmpty(groupAppointment) || (blockAppointments && blockAppointments.length > 0)) {
-            this.tabCheckoutRef.current.setStateVisibleFromParent(true,true);
+            this.tabCheckoutRef.current.setStateVisibleFromParent(true, true);
         } else {
             this.props.navigation.openDrawer();
         }
@@ -268,23 +292,6 @@ class HomeScreen extends Layout {
     }
 
 
-
-    async componentDidUpdate(prevProps, prevState, snapshot) {
-        const { isLoginStaff, isCheckAppointmentBeforeOffline, groupAppointment } = this.props;
-        if (isLoginStaff) {
-            this.props.actions.dataLocal.resetStateLoginStaff();
-            this.loginStaffSuccess();
-        }
-
-        // ----------- Check Appointent Checkout berfore Offline mode -----------
-        if (!_.isEmpty(groupAppointment) && isCheckAppointmentBeforeOffline && isCheckAppointmentBeforeOffline !== prevProps.isCheckAppointmentBeforeOffline) {
-            this.props.actions.appointment.checkAppointmentBeforOffline(false);
-            this.tabCheckoutRef.current.resetStateFromParent();
-            this.scrollTabParentRef.current.goToPage(1);
-            this.props.actions.appointment.resetGroupAppointment();
-        }
-    }
-
     // ----------- Handle group appointment -------
 
     gotoAppointmentTabToGroup = () => {
@@ -303,6 +310,32 @@ class HomeScreen extends Layout {
             this.props.actions.marketing.getBannerMerchant(profile.merchantId, false);
         }
     }
+
+    closePopupCheckMarketingTabPermission = () => {
+        this.props.actions.marketing.toggleMarketingTabPermission(false);
+    }
+
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        const { isLoginStaff, isCheckAppointmentBeforeOffline, groupAppointment, isGoToTabMarketing } = this.props;
+        if (isLoginStaff) {
+            this.props.actions.dataLocal.resetStateLoginStaff();
+            this.loginStaffSuccess();
+        }
+
+        // ----------- Check Appointent Checkout berfore Offline mode -----------
+        if (!_.isEmpty(groupAppointment) && isCheckAppointmentBeforeOffline && isCheckAppointmentBeforeOffline !== prevProps.isCheckAppointmentBeforeOffline) {
+            this.props.actions.appointment.checkAppointmentBeforOffline(false);
+            this.tabCheckoutRef.current.resetStateFromParent();
+            this.scrollTabParentRef.current.goToPage(1);
+            this.props.actions.appointment.resetGroupAppointment();
+        }
+
+        if (prevProps.isGoToTabMarketing !== isGoToTabMarketing && isGoToTabMarketing) {
+            this.props.actions.marketing.toggleMarketingTabPermission(false);
+            this.scrollTabParentRef.current.goToPage(0);
+        }
+    }
+
 
     componentWillUnmount() {
         this.didBlurSubscription.remove();
@@ -330,6 +363,8 @@ const mapStateToProps = state => ({
     isOfflineMode: state.network.isOfflineMode,
     isCheckAppointmentBeforeOffline: state.appointment.isCheckAppointmentBeforeOffline,
     blockAppointments: state.appointment.blockAppointments,
+    marketingTabPermission: state.marketing.marketingTabPermission,
+    isGoToTabMarketing: state.marketing.isGoToTabMarketing
 })
 
 
