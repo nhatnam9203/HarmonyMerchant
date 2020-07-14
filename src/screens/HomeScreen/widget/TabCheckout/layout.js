@@ -830,10 +830,9 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { language, visiblePopupPaymentDetails, visibleChangeMoney } = this.props;
-        const { basket, visibleConfirm, visibleChangeStylist,
-            visiblePopupDiscountLocal, visibleScanCode
-        } = this.state;
+        const { language, visiblePopupPaymentDetails } = this.props;
+        const {  visibleConfirm, visibleChangeStylist, visiblePopupDiscountLocal, visibleScanCode} = this.state;
+        
         return (
             <View style={styles.container} >
                 {this.renderHeader()}

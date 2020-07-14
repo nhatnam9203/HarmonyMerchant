@@ -111,9 +111,15 @@ class HomeScreen extends Layout {
         this.scrollTabParentRef.current.goToPage(1);
     }
 
-    gotoPageCurentParent = () => {
-        const { temptCurrentTap } = this.state;
-        this.scrollTabParentRef.current.goToPage(temptCurrentTap);
+    gotoPageCurentParent = (isDrawer = false) => {
+        if (isDrawer) {
+            this.scrollTabParentRef.current.goToPage(1);
+            this.props.navigation.openDrawer();
+        } else {
+            const { temptCurrentTap } = this.state;
+            this.scrollTabParentRef.current.goToPage(temptCurrentTap);
+        }
+
     }
 
     gotoTabAppointment = () => {
@@ -188,11 +194,15 @@ class HomeScreen extends Layout {
     }
 
     openDrawer = () => {
-        this.props.navigation.openDrawer();
+        const { groupAppointment, blockAppointments } = this.props;
+        if (!_.isEmpty(groupAppointment) || (blockAppointments && blockAppointments.length > 0)) {
+            this.tabCheckoutRef.current.setStateVisibleFromParent(true,true);
+        } else {
+            this.props.navigation.openDrawer();
+        }
     }
 
     showLockScreen = () => {
-        // this.tabAppointmentRef.current.reloadWebviewFromParent();
         this.popupEnterPinRef.current.setStateFromParent('');
         this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
         this.scrollTabParentRef.current.goToPage(1);
@@ -206,7 +216,6 @@ class HomeScreen extends Layout {
     }
 
     checkoutAppointment = async (appointmentId, appointment = {}) => {
-        //console.log('--- appointment offline : ', JSON.stringify(appointment));
         await this.setState({
             currentTab: 2
         })
@@ -299,7 +308,6 @@ class HomeScreen extends Layout {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();
         this.unsubscribeNetInfo();
-        // unsubscribeInternet();
         this.watcherNetwork.pipe(
             finalize(() => { })
         );

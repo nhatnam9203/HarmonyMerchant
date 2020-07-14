@@ -74,7 +74,8 @@ const initState = {
     fromTime: "",
     visiblePrintInvoice: false,
     visibleChangePriceAmountProduct: false,
-    visibleChangeTip: false
+    visibleChangeTip: false,
+    isDrawer: false
 }
 
 class TabCheckout extends Layout {
@@ -444,8 +445,8 @@ class TabCheckout extends Layout {
     }
 
     clearDataCofrim = async () => {
-        const { connectionSignalR, groupAppointment, profile, isCancelAppointment, blockAppointments, payAppointmentId } = this.props;
-        const { customerInfoByPhone } = this.state;
+        const { connectionSignalR, groupAppointment, profile, isCancelAppointment, blockAppointments, payAppointmentId ,customerInfoBuyAppointment} = this.props;
+        const { isDrawer } = this.state;
 
         const temptBlockAppointments = blockAppointments ? [...blockAppointments] : [];
 
@@ -457,7 +458,7 @@ class TabCheckout extends Layout {
             this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);
         }
 
-        this.props.gotoPageCurentParent();
+        this.props.gotoPageCurentParent(isDrawer);
         await this.setState({ ...initState, isInitBasket: true });
         this.scrollTabRef.current.goToPage(0);
         this.props.actions.appointment.resetBasketEmpty();
@@ -467,8 +468,8 @@ class TabCheckout extends Layout {
 
         if (isCancelAppointment) {
             const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
-            const userId = customerInfoByPhone.userId ? customerInfoByPhone.userId : 0;
-            this.props.actions.appointment.cancleAppointment(mainAppointmentId, profile.merchantId, userId);
+            const customerId = customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0;
+            this.props.actions.appointment.cancleAppointment(mainAppointmentId, profile.merchantId, customerId);
         }
 
         if (temptBlockAppointments && temptBlockAppointments.length > 0) {
@@ -1154,14 +1155,12 @@ class TabCheckout extends Layout {
             this.props.actions.appointment.checkoutSubmit(temptAppointmentId);
             this.props.actions.appointment.showModalPrintReceipt();
         }
-
-
-
     }
 
-    setStateVisibleFromParent = async (visibleConfirm) => {
+    setStateVisibleFromParent = async (visibleConfirm,isDrawer = false) => {
         await this.setState({
-            visibleConfirm
+            visibleConfirm,
+            isDrawer
         })
     }
 
