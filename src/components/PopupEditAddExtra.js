@@ -14,7 +14,7 @@ import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import { Dropdown } from './react-native-material-dropdown';
 import BrowserFile from './BrowserFile';
-import { scaleSzie,localize } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupEditAddExtra extends React.Component {
@@ -26,8 +26,9 @@ class PopupEditAddExtra extends React.Component {
                 name: "",
                 description: "",
                 duration: '',
-                price: '',
-                isDisable: 'Active'
+                price: 0.00,
+                isDisable: 'Active',
+                supplyFee: 0.00
             },
             fileId: 0,
             imageUrl: '',
@@ -44,8 +45,9 @@ class PopupEditAddExtra extends React.Component {
                 name: "",
                 description: "",
                 duration: '',
-                price: '',
-                isDisable: 'Active'
+                price: 0.00,
+                isDisable: 'Active',
+                supplyFee: 0.00
             },
             fileId: 0,
             imageUrl: ''
@@ -131,15 +133,15 @@ class PopupEditAddExtra extends React.Component {
         })
     }
 
-    scrollExtraTo(position){
-        this.scrollExtraRef.current.scrollTo({x: 0, y: scaleSzie(position), animated: true})
+    scrollExtraTo(position) {
+        this.scrollExtraRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
     }
 
 
     // -------- Render -------
 
     renderButtonSubmit() {
-        const { isEdit,loading } = this.props;
+        const { isEdit, loading } = this.props;
         const { isSubmitButton } = this.state;
         const temptTitleButton = isEdit ? 'Save' : 'Done';
         if (!loading) {
@@ -174,8 +176,8 @@ class PopupEditAddExtra extends React.Component {
     }
 
     render() {
-        const { title, visible ,language} = this.props;
-        const { name, description, price, isDisable } = this.state.extraInfo;
+        const { title, visible, language } = this.props;
+        const { name, description, price, isDisable ,supplyFee} = this.state.extraInfo;
 
         return (
             <PopupParent
@@ -199,7 +201,7 @@ class PopupEditAddExtra extends React.Component {
                                 {/* ------ Extra ---- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(20) }} >
                                     {`${localize('Extra Name', language)}*`}
-                            </Text>
+                                </Text>
                                 <View style={{
                                     height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
                                     paddingLeft: scaleSzie(10),
@@ -213,7 +215,7 @@ class PopupEditAddExtra extends React.Component {
                                 </View>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                     {localize('Description', language)}
-                            </Text>
+                                </Text>
                                 <View style={{
                                     height: scaleSzie(60), borderWidth: 1, borderColor: '#C5C5C5',
                                     paddingLeft: scaleSzie(10), backgroundColor: '#FAFAFA', paddingTop: scaleSzie(5)
@@ -224,25 +226,33 @@ class PopupEditAddExtra extends React.Component {
                                         multiline={true}
                                         value={description}
                                         onChangeText={value => this.updateExtraInfo('description', value)}
-                                        onFocus={() =>this.scrollExtraTo(80)}
+                                        onFocus={() => this.scrollExtraTo(80)}
                                     />
                                 </View>
                                 {/* -------------------------- */}
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                    
+
                                     {`${localize('Duration', language)}*`}
-                            </Text>
-                                <ItemTime
-                                    ref={this.durationRef}
-                                    title="Minutes*"
-                                    value={this.state.extraInfo.duration}
-                                    onFocus={() =>this.scrollExtraTo(200)}
-                                />
-                                <View style={{ height: scaleSzie(70), flexDirection: 'row',marginTop:scaleSzie(6) }} >
-                                    <View style={{ flex: 1, paddingRight: scaleSzie(50) }}  >
+                                </Text>
+                                <View style={{ flexDirection: "row" }} >
+                                    <ItemTime
+                                        ref={this.durationRef}
+                                        title="Minutes*"
+                                        value={this.state.extraInfo.duration}
+                                        onFocus={() => this.scrollExtraTo(200)}
+                                    />
+                                    <View style={{ width: scaleSzie(10) }} />
+                                    <View style={{ flex: 1 }} />
+                                    <View style={{ width: scaleSzie(10) }} />
+                                    <View style={{ flex: 1 }} />
+                                </View>
+
+                                <View style={{ height: scaleSzie(70), flexDirection: 'row', marginTop: scaleSzie(6) }} >
+                                    {/* ------------- Price ------------ */}
+                                    <View style={{ flex: 1, }}  >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                             {`${localize('Price', language)}*`}
-                                    </Text>
+                                        </Text>
                                         <View style={{
                                             height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
                                             borderWidth: 1, borderColor: '#C5C5C5', flexDirection: 'row'
@@ -260,18 +270,49 @@ class PopupEditAddExtra extends React.Component {
                                                 placeholder="$ 100"
                                                 value={price}
                                                 onChangeText={value => this.updateExtraInfo('price', value)}
-                                                onFocus={() =>this.scrollExtraTo(265)}
+                                                onFocus={() => this.scrollExtraTo(265)}
                                             />
                                         </View>
                                     </View>
-                                    {/* ------ */}
-                                    <View>
+
+                                    <View style={{ width: scaleSzie(10) }} />
+                                    {/* ------------- Supply ------------ */}
+                                    <View style={{ flex: 1, }}  >
+                                        <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                                            {`${localize('Surcharged', language)}`}
+                                        </Text>
+                                        <View style={{
+                                            height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
+                                            borderWidth: 1, borderColor: '#C5C5C5', flexDirection: 'row'
+                                        }} >
+                                            <TextInputMask
+                                                type={'money'}
+                                                options={{
+                                                    precision: 2,
+                                                    separator: '.',
+                                                    delimiter: ',',
+                                                    unit: '',
+                                                    suffixUnit: ''
+                                                }}
+                                                style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                placeholder="$ 100"
+                                                value={supplyFee}
+                                                onChangeText={value => this.updateExtraInfo('supplyFee', value)}
+                                                onFocus={() => this.scrollExtraTo(265)}
+                                            />
+                                        </View>
+                                    </View>
+
+                                    <View style={{ width: scaleSzie(10) }} />
+                                    {/* ------------- Status ------------ */}
+                                    <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                             {`${localize('Status', language)}*`}
-                                    </Text>
+                                        </Text>
                                         <View style={{
-                                            height: scaleSzie(30), width: scaleSzie(90),
-                                            flexDirection: 'row'
+                                            width: "100%",
+                                            height: scaleSzie(30),
+
                                         }} >
                                             <Dropdown
                                                 label='Active'
@@ -319,15 +360,16 @@ class ItemTime extends React.Component {
     }
 
     render() {
-        const { title ,onFocus} = this.props;
+        const { title, onFocus } = this.props;
         const { value } = this.state;
         return (
-            <View>
+            <View style={{  flex: 1,}} >
                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                     {title}
                 </Text>
                 <View style={{
-                    height: scaleSzie(30), width: scaleSzie(90),
+                    height: scaleSzie(30),
+                    flex: 1,
                     borderWidth: 1, borderColor: '#C5C5C5', flexDirection: 'row'
                 }} >
                     <View style={{ flex: 1, paddingLeft: scaleSzie(5) }} >

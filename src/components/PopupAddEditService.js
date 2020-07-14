@@ -425,7 +425,7 @@ class PopupAddEditService extends React.Component {
                                     {/* -------------------- Supply ----------------- */}
                                     <View style={{ flex: 1 }}  >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                                            {`${localize('Supply', language)} *`}
+                                            {`${localize('Surcharged', language)}`}
                                         </Text>
                                         <View style={{
                                             height: scaleSzie(30), paddingHorizontal: scaleSzie(5),
@@ -694,7 +694,7 @@ class ItemExtra extends React.Component {
                     {/* -------------------- Supply ----------------- */}
                     <View style={{ flex: 1, }}  >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                            {`Supply*`}
+                            {`Surcharged`}
                         </Text>
                         <View style={{
                             height: scaleSzie(30), paddingHorizontal: scaleSzie(5),

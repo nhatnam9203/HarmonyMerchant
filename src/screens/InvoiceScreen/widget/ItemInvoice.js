@@ -53,7 +53,7 @@ class ItemInvoice extends React.Component {
         const { invoice } = this.props;
         const { isSelected } = this.state
         return invoice.code !== nextProps.invoice.code || isSelected !== nextState.isSelected ||
-            invoice.status !== nextProps.invoice.status;
+            invoice.status !== nextProps.invoice.status || invoice.createdDate !== nextProps.createdDate;
     }
 
     render() {

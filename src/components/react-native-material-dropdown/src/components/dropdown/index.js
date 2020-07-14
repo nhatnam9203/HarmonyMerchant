@@ -65,6 +65,7 @@ export default class Dropdown extends PureComponent {
     itemColor: 'rgba(0, 0, 0, .54)',
     baseColor: 'rgba(0, 0, 0, .38)',
 
+
     itemCount: 4,
     itemPadding: 8,
 
@@ -617,6 +618,8 @@ export default class Dropdown extends PureComponent {
           selectedItemColor :
           itemColor :
         selectedItemColor;
+
+    color = selected === -1 ? "rgba(0, 0, 0, .54)" : color;
 
     let textStyle = { color, fontSize };
 
