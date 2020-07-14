@@ -9,7 +9,7 @@ class TabGaneral extends Layout {
 
     constructor(props) {
         super(props);
-        const { profile, autoCloseAt, autoLockScreenAfter } = this.props;
+        const { profile, autoLockScreenAfter } = this.props;
 
         this.state = {
             languageApp: getNameLanguage(this.props.language),
@@ -17,7 +17,7 @@ class TabGaneral extends Layout {
             latitude: profile.latitude ? profile.latitude : '',
             webLink: profile.webLink ? profile.webLink : '',
             businessHour: profile.businessHour ? profile.businessHour : '',
-            autoCloseAt: autoCloseAt,
+            autoCloseAt: profile.autoCloseAt ? profile.autoCloseAt : "",
             autoLockScreenAfter: autoLockScreenAfter,
             timezone: profile.timezone ? profile.timezone : '',
             isUpdateInternal: false,
@@ -33,10 +33,11 @@ class TabGaneral extends Layout {
     };
 
 
-    setStateFromParent = async (webLink,timezone) => {
+    setStateFromParent = async (webLink,timezone,autoCloseAt) => {
         await this.setState({
             webLink,
             timezone,
+            autoCloseAt,
             isUpdateInternal: false,
         });
         this.updateWorkTime();
@@ -100,7 +101,8 @@ class TabGaneral extends Layout {
             taxService: profile.taxService,
             taxProduct: profile.taxProduct,
             timezone,
-            autoLockscreen: ""
+            autoLockscreen: "",
+            autoCloseAt
         });
     }
 
@@ -111,6 +113,7 @@ class TabGaneral extends Layout {
             await this.setState({
                 webLink: profile.webLink ? profile.webLink : '',
                 timezone: profile.timezone ? profile.timezone : '',
+                autoCloseAt:profile.autoCloseAt ? profile.autoCloseAt : '',
             });
             this.updateWorkTime();
         }
@@ -119,6 +122,7 @@ class TabGaneral extends Layout {
             await this.setState({
                 webLink: profile.webLink ? profile.webLink : '',
                 timezone: profile.timezone ? profile.timezone : '',
+                autoCloseAt:profile.autoCloseAt ? profile.autoCloseAt : '',
                 isUpdateInternal: false
             });
             this.updateWorkTime();

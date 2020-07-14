@@ -517,36 +517,36 @@ export const splitPlusInPhoneNumber = (phone) => {
 }
 
 export const WorkingTime = [
-    // {
-    //     value: '00:00 AM',
-    // },
-    // {
-    //     value: '00:30 AM',
-    // },
-    // {
-    //     value: '01:00 AM',
-    // },
-    // {
-    //     value: '01:30 AM',
-    // },
-    // {
-    //     value: '02:00 AM',
-    // },
-    // {
-    //     value: '02:30 AM',
-    // },
-    // {
-    //     value: '03:00 AM',
-    // },
-    // {
-    //     value: '03:30 AM',
-    // },
-    // {
-    //     value: '04:00 AM',
-    // },
-    // {
-    //     value: '04:30 AM',
-    // },
+    {
+        value: '00:00 AM',
+    },
+    {
+        value: '00:30 AM',
+    },
+    {
+        value: '01:00 AM',
+    },
+    {
+        value: '01:30 AM',
+    },
+    {
+        value: '02:00 AM',
+    },
+    {
+        value: '02:30 AM',
+    },
+    {
+        value: '03:00 AM',
+    },
+    {
+        value: '03:30 AM',
+    },
+    {
+        value: '04:00 AM',
+    },
+    {
+        value: '04:30 AM',
+    },
     {
         value: '05:00 AM',
     },

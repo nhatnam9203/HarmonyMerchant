@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, Text, Dropdown, ItemWorkingTime, Button } from '@components';
-import { scaleSzie, localize, getNameStateById, TimeZones, hideCharactes } from '@utils';
+import { scaleSzie, localize, getNameStateById, TimeZones, hideCharactes,WorkingTime } from '@utils';
 import ICON from "@resources";
 
 const AUTO_LOCK = ["2 Minutes", "5 Minutes", "10 Minutes", "15 Minutes", "Never"];
@@ -36,7 +36,7 @@ class Layout extends React.Component {
                     {/* ------- Item Auto close at:  ------ */}
                     <ItemSetupGeneral
                         title={`${localize('Auto close at', language)}:`}
-                        data={[{ value: '05:00 min' }, { value: '10:00 min' }, { value: '15:00 min' }, { value: '30:00 min' }]}
+                        data={WorkingTime}
                         value={autoCloseAt}
                         onChangeText={value => this.setState({ autoCloseAt: value })}
                         placeHolder='08:00 AM'
