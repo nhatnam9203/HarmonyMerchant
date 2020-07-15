@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     View,
-    Image,
     TextInput,
     FlatList,
     ScrollView,
@@ -128,7 +127,7 @@ class Layout extends React.Component {
                         </Text>
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', }} >
-                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A',fontWeight:"bold" }} >
+                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A', fontWeight: "bold" }} >
                             {item.time}
                         </Text>
                     </View>
@@ -151,10 +150,8 @@ class Layout extends React.Component {
         let totalAmount = 0;
         if (invoicesOfStaff.length > 0) {
             invoicesOfStaff.forEach(invoice => {
-                if (invoice.status === 'paid' || invoice.status === 'pending') {
-                    tipAmount = parseFloat(tipAmount) + parseFloat(formatNumberFromCurrency(invoice.tipAmount));
-                    totalAmount = parseFloat(totalAmount) + parseFloat(formatNumberFromCurrency(invoice.amount));
-                }
+                tipAmount = parseFloat(tipAmount) + parseFloat(formatNumberFromCurrency(invoice.tipAmount ? invoice.tipAmount : 0.00));
+                totalAmount = parseFloat(totalAmount) + parseFloat(formatNumberFromCurrency(invoice.amount ? invoice.amount : 0.00));
             });
         }
         return (
@@ -472,7 +469,7 @@ class Layout extends React.Component {
                 {
                     _.isEmpty(settleWaiting) || settleWaiting.checkout.length === 0 ?
                         <ScrollView
-                        keyboardShouldPersistTaps="always"
+                            keyboardShouldPersistTaps="always"
                             refreshControl={
                                 <RefreshControl
                                     refreshing={this.props.refreshingSettle}
