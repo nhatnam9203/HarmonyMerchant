@@ -2,8 +2,7 @@ import React from 'react';
 import {
     View,
     Image,
-    TextInput,
-    FlatList
+    TextInput
 } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 
@@ -135,10 +134,10 @@ class Layout extends React.Component {
 
 
     renderTableStaff() {
-        const { listStaffByMerchant, isShowSearch, listSearchStaff, refreshListStaffs ,language} = this.props;
+        const { listStaffByMerchant, isShowSearch, listSearchStaff, refreshListStaffs, language } = this.props;
         const { visibleArchive, visibleRestore } = this.state;
         const temptData = isShowSearch ? listSearchStaff : listStaffByMerchant;
-        const data = temptData.map((item,index) => {
+        const data = temptData.map((item, index) => {
             return {
                 ...item,
                 key: `item-${index}`,
@@ -153,7 +152,7 @@ class Layout extends React.Component {
                 <View style={{ flex: 1 }} >
                     <HeaderTableStaff />
                     <DraggableFlatList
-                         data={data}
+                        data={data}
                         renderItem={({ item, index, move, moveEnd, isActive }) => <RowTableStaff
                             index={index}
                             staff={item}
@@ -166,10 +165,10 @@ class Layout extends React.Component {
                         />}
                         keyExtractor={(item, index) => `${index}`}
                         ListEmptyComponent={<RowTableEmptyStaff />}
-                        onRefresh={() => this.props.actions.staff.getStaffByMerchantId(false)}
+                        onRefresh={() => this.props.actions.staff.getStaffByMerchantId()}
                         refreshing={refreshListStaffs}
                         scrollPercent={5}
-                        onMoveEnd={({ data }) =>this.updateStaffsPosition(data,isShowSearch)}
+                        onMoveEnd={({ data }) => this.updateStaffsPosition(data, isShowSearch)}
                     />
                 </View>
                 <PopupConfirm
@@ -191,13 +190,13 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { isAddStaff, language, stateCity ,profile} = this.props;
+        const { isAddStaff, language, stateCity, profile } = this.props;
         const { isEditStaff, staffHandle } = this.state
         return (
             <View style={{ flex: 1 }} >
                 {
                     isAddStaff ? <AddStaff
-                    profile={profile}
+                        profile={profile}
                         stateCity={stateCity}
                         language={language}
                         infoStaffHandle={staffHandle}

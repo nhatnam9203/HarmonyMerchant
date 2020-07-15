@@ -518,10 +518,10 @@ export const splitPlusInPhoneNumber = (phone) => {
 
 export const WorkingTime = [
     {
-        value: '00:00 AM',
+        value: '12:00 AM',
     },
     {
-        value: '00:30 AM',
+        value: '12:30 AM',
     },
     {
         value: '01:00 AM',
@@ -590,10 +590,10 @@ export const WorkingTime = [
         value: '11:30 AM',
     },
     {
-        value: '12:00 AM',
+        value: '12:00 PM',
     },
     {
-        value: '12:30 AM',
+        value: '12:30 PM',
     },
     {
         value: '01:00 PM',
