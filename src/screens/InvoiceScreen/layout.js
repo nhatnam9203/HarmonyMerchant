@@ -128,8 +128,8 @@ export default class Layout extends React.Component {
                     <View style={{ width: scaleSzie(140), marginLeft: scaleSzie(16) }} >
                         <Dropdown
                             label={localize('Status', language)}
-                            data={[{ value: '' }, { value: 'Pending' }, { value: 'Paid' }, { value: 'Void' },
-                            { value: 'Refund' }
+                            data={[{ value: '' },{ value: 'Complete' }, { value: 'Pending' }, { value: 'Paid' }, { value: 'Void' },
+                            { value: 'Refund' }, { value: 'Cancel' }
                             ]}
                             value={status}
                             onChangeText={(value) => this.updateSearchFilterInfo('status', value)}
@@ -164,7 +164,7 @@ export default class Layout extends React.Component {
                     styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
                 />
             );
-        } else if (status === 'pending') {
+        } else if (status === 'complete') {
             return (
                 <ButtonCustom
                     width={'100%'}
@@ -224,7 +224,7 @@ export default class Layout extends React.Component {
                                 fontSize: 20, fontWeight: "600",
                                 marginTop: scaleSzie(6), marginBottom: scaleSzie(6)
                             }]} >
-                                {`${invoiceDetail.status && invoiceDetail.status !== "paid" &&  invoiceDetail.status !== "pending" ? `${invoiceDetail.status}`.toUpperCase() : "SALE"}`}
+                                {`${invoiceDetail.status && invoiceDetail.status !== "paid" &&  invoiceDetail.status !== "pending" &&  invoiceDetail.status !== "complete" ? `${invoiceDetail.status}`.toUpperCase() : "SALE"}`}
                             </Text>
                             {/* ------------- Dot Border  ----------- */}
                             <View style={{ height: scaleSzie(8), marginBottom: scaleSzie(8), }} >

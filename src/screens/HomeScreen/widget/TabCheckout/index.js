@@ -1583,7 +1583,7 @@ class TabCheckout extends Layout {
                     giftCards: []
                 }, appointmentId, false, true);
         } else { // ------------- Buy online Extra , Service ---------
-            console.log("-------- add service 2 --------");
+            // console.log("-------- add service 2 --------");
             const temptExtra = extraSelected.extraId !== -1 ? [{ extraId: extraSelected.extraId }] : [];
             this.props.actions.appointment.addItemIntoAppointment(
                 {
@@ -1731,11 +1731,11 @@ class TabCheckout extends Layout {
     async componentDidUpdate(prevProps, prevState) {
         const { isLoadingGetBlockAppointment, blockAppointments, isLoadingRemoveBlockAppointment } = this.props;
         if (blockAppointments.length > 0 && prevProps.isLoadingRemoveBlockAppointment != isLoadingRemoveBlockAppointment && !isLoadingRemoveBlockAppointment) {
-            console.log("--------- updateBlockAppointmentRef ----------");
+            // console.log("--------- updateBlockAppointmentRef ----------");
             this.updateBlockAppointmentRef();
         }
         if (blockAppointments.length > 0 && prevProps.isLoadingGetBlockAppointment != isLoadingGetBlockAppointment && !isLoadingGetBlockAppointment) {
-            console.log("--------- setBlockToggleCollaps ----------");
+            // console.log("--------- setBlockToggleCollaps ----------");
             this.setBlockToggleCollaps();
         }
     }

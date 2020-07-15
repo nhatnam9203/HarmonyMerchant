@@ -43,6 +43,9 @@ class ItemInvoice extends React.Component {
             case 'pending':
                 color = '#0764B0';
                 break;
+            case 'complete':
+                color = 'rgb(14,14,14)';
+                break;
             default:
                 color = '#C5C5C5';
         }
