@@ -927,7 +927,8 @@ function* changeCustomerInAppointment(action) {
                     body: customerInfo,
                     token: true,
                     api: `${apiConfigs.BASE_API}appointment/updateCustomer/${blockAppointments[i].appointmentId}`,
-                    isGroup: false
+                    isGroup: false,
+                    appointmentId: blockAppointments[i].appointmentId
                 });
             }
         }
@@ -959,6 +960,14 @@ function* updateCustomerInAppointment(action) {
                     token: true,
                     isNotUpdateCustomerBuyInRedux: true
                 });
+            } else {
+                yield put({
+                    type: 'GET_BLOCK_APPOINTMENT_BY_ID',
+                    method: 'GET',
+                    api: `${apiConfigs.BASE_API}appointment/${action.appointmentId}`,
+                    token: true,
+                    appointmentId: action.appointmentId
+                })
             }
 
         } else if (parseInt(codeNumber) === 401) {

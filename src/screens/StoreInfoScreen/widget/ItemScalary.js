@@ -23,6 +23,13 @@ export default class ItemScalary extends React.Component {
         }
     }
 
+    setStateFromParent = async () =>{
+        await this.setState({
+            value: '',
+            isCheck: false
+        })
+    }
+
     onPress = () => {
         this.setState((prevState, props) => ({
             isCheck: !prevState.isCheck

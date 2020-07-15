@@ -42,7 +42,7 @@ class ItemSettle extends React.Component {
                 <View style={{ flex: 1, flexDirection: 'row', paddingTop: scaleSzie(8) }} >
                     <View style={{ flex: 0.7, }} >
                         <Text style={[styles.textTitleLefConten, { marginLeft: scaleSzie(12) }]} >
-                            {`#${batchHistory.settlementId}`}
+                            {`# ${batchHistory.settlementId}`}
                         </Text>
                     </View>
                     <View style={{ flex: 1, }} >

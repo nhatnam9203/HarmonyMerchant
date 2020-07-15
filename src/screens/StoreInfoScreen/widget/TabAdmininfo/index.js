@@ -213,12 +213,25 @@ class StoreInfoScreen extends Layout {
         }
     }
 
+    resetStateRefs = () =>{
+        this.inputRefsSalary.forEach(ref => {
+            ref.setStateFromParent();
+        });
+        this.inputRefproductSalary.forEach(ref => {
+            ref.setStateFromParent();
+        });
+        this.inputRefsTip.forEach(ref => {
+            ref.setStateFromParent();
+        });
+    } 
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         const { loading, isResetInfoAdmin } = this.props;
         if (!loading && isResetInfoAdmin) {
             this.setState(initState);
             this.props.actions.staff.resetFlagCreateAdmin();
             this.browserFileRef.current.setImageUrlFromParent('');
+            this.resetStateRefs();
         }
     }
 

@@ -143,8 +143,18 @@ class TabAdminInfo extends React.Component {
 
                     </View>
                     {/* --------------- End -------------- */}
-
+                    <View style={{ paddingLeft: scaleSzie(90),   marginTop: scaleSzie(25)}} >
+                        <Text style={{
+                            color: '#404040',
+                            fontSize: scaleSzie(16),
+                            fontWeight: '600',
+                        }}  >
+                            {`${localize('Void Check', language)}`}
+                        </Text>
+                    </View>
                     <View style={{ height: scaleSzie(20) }} />
+                     {/* -------- Business Hours --------- */}
+                    
                     {
                         businessBank && businessBank.imageUrl ? <View style={{ height: scaleSzie(200), alignItems: 'center' }} >
                             <View style={{ height: scaleSzie(200), width: scaleSzie(200) }} >
