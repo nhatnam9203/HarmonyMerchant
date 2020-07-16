@@ -12,7 +12,7 @@ class TabStaffManagement extends Layout {
             visibleArchive: false,
             visibleRestore: false,
             infoStaffHandle: {},
-            isEditStaff:false
+            isEditStaff: false
         }
         this.inputRefsStaff = [];
         this.staffInfoRef = React.createRef();
@@ -28,12 +28,15 @@ class TabStaffManagement extends Layout {
         }
     };
 
-    submitAddStaff =(staff)=>{
+    submitAddStaff = (staff) => {
         this.props.actions.staff.addStaffByMerchant(staff)
     }
 
-    submitEditStaff =(staff,id) =>{
-        this.props.actions.staff.editStaff(staff,id)
+    submitEditStaff = async (staff, id) => {
+        await this.setState({
+            isEditStaff: false
+        })
+        this.props.actions.staff.editStaff(staff, id)
     }
 
     addNewStaff = () => {
@@ -41,7 +44,7 @@ class TabStaffManagement extends Layout {
         this.inputRefsStaff = [];
     }
 
-    async  togglePopupArchive(bool, staff = {}) {
+    async togglePopupArchive(bool, staff = {}) {
         if (bool === true) {
             await this.setState({
                 infoStaffHandle: staff
@@ -52,7 +55,7 @@ class TabStaffManagement extends Layout {
         }))
     }
 
-    async  togglePopupRestore(bool, staff = {}) {
+    async togglePopupRestore(bool, staff = {}) {
         if (bool === true) {
             await this.setState({
                 infoStaffHandle: staff
@@ -64,10 +67,10 @@ class TabStaffManagement extends Layout {
     }
 
     async editStaff(staff) {
-           await this.setState({
+        await this.setState({
             infoStaffHandle: staff,
-            isEditStaff:true
-            });
+            isEditStaff: true
+        });
         this.props.actions.staff.switchAddStaff(true);
     }
 

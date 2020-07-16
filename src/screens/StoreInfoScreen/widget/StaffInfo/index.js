@@ -86,6 +86,7 @@ class StaffInfo extends Layout {
     }
 
     async componentDidMount() {
+        // console.log("---- : ",this.props.isEditStaff);
         if (this.props.isEditStaff) {
             const { infoStaffHandle, stateCity } = this.props;
         //console.log('------ Phi : ',getCodeAreaPhone(infoStaffHandle.phone));

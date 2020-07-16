@@ -6,7 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "build:ios": "react-native bundle --entry-file='./index.js' --bundle-output='./ios/Hpmerchant/main.jsbundle' --dev=false --platform='ios'",
-    "codepush:ios:staging": "code-push release-react HpMerchant-IOS ios -d \"Staging\" -k private.pem -m --plistFile ./ios/Hpmerchant/Info_Staging.plist --description \"Fix bugs loading staff\" -t \"1.0.2\"",
+    "codepush:ios:staging": "code-push release-react HpMerchant-IOS ios -d \"Staging\" -k private.pem -m --plistFile ./ios/Hpmerchant/Info_Staging.plist --description \"Fix bugs settlement\" -t \"1.0.2\"",
     "codepush:ios:product": "code-push release-react HpMerchant-IOS ios -d \"Production\" -k private.pem -m --plistFile ./ios/Hpmerchant/Info.plist --description \"fix in settlement tab \" -t \"1.0.8\" ",
     "nho_check_endpoint": "------Important-----"
   },
@@ -24,7 +24,6 @@
     "ramda": "^0.26.1",
     "react": "16.8.3",
     "react-native": "0.59.9",
-    "react-native-animatable": "^1.3.3",
     "react-native-animated-ellipsis": "^2.0.0",
     "react-native-autocomplete-input": "^4.1.0",
     "react-native-camera": "^3.15.0",

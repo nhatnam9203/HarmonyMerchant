@@ -39,13 +39,13 @@ class ItemSettle extends React.Component {
         const temptColorSelected = !isSelected ? {} : { backgroundColor: '#F1F1F1' };
         return (
             <Button onPress={() => onPress(batchHistory)} style={[{ height: scaleSzie(58), borderBottomColor: '#C5C5C5', borderBottomWidth: 1 }, temptColorSelected]} >
-                <View style={{ flex: 1, flexDirection: 'row', paddingTop: scaleSzie(8) }} >
-                    <View style={{ flex: 0.7, }} >
+                <View style={{ flex: 1, flexDirection: 'row',  }} >
+                    <View style={{ flex: 0.7,justifyContent:"center" }} >
                         <Text style={[styles.textTitleLefConten, { marginLeft: scaleSzie(12) }]} >
                             {`# ${batchHistory.settlementId}`}
                         </Text>
                     </View>
-                    <View style={{ flex: 1, }} >
+                    <View style={{ flex: 1, justifyContent:"center"}} >
                         <Text style={styles.textTitleLefConten} >
                             {`${formatWithMoment(batchHistory.settlementDate, 'MM/DD/YYYY')}`}
                         </Text>

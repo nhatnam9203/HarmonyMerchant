@@ -250,36 +250,6 @@ function* getBatchHistory(action) {
     }
 }
 
-function* searchBatchHistory(action) {
-    try {
-        yield put({ type: 'LOADING_ROOT' });
-        const responses = yield requestAPI(action);
-        yield put({ type: 'STOP_LOADING_ROOT' });
-        //console.log('searchBatchHistory  : ' + JSON.stringify(responses));
-        const { codeNumber } = responses;
-        if (parseInt(codeNumber) == 200) {
-            yield put({
-                type: 'SEARCH_BATCH_HISTORY_SUCCESS',
-                payload: responses.data
-            })
-
-        } else if (parseInt(codeNumber) === 401) {
-            yield put({
-                type: 'UNAUTHORIZED'
-            })
-        } else {
-            yield put({
-                type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
-            })
-        }
-    } catch (error) {
-        yield put({ type: error });
-    } finally {
-        yield put({ type: 'STOP_LOADING_ROOT' });
-    }
-}
-
 
 function* changeStatustransaction(action) {
     try {
@@ -355,7 +325,6 @@ export default function* saga() {
         takeLatest('GET_TRANSACTION_SETTLEMENT', getTransactionSettlement),
         takeLatest('SEARCH_TRANSACTION_SETTLEMENT', searchTransactionSettlement),
         takeLatest('GET_BATCH_HISTORY', getBatchHistory),
-        takeLatest('SEARCH_BATCH_HISTORY', searchBatchHistory),
         takeLatest('CHANGE_STATUS_TRANSACTION', changeStatustransaction),
         takeLatest('SETTLE_BATCH', settleBatch),
 

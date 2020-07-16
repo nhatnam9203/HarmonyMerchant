@@ -91,15 +91,6 @@ export function getBatchHistory(key = "", timeStart = "", timeEnd = "", quickFil
     }
 }
 
-export function searchBatchHistory(url) {
-    return {
-        type: 'SEARCH_BATCH_HISTORY',
-        method: 'GET',
-        // api: `${apiConfigs.BASE_API}settlement/search?${url}`,
-        api: `${apiConfigs.BASE_API}settlement/search?key=&timeStart=&timeEnd=&quickFilter=&page=1`,
-        token: true
-    }
-}
 
 export function clearSearchBatchHistory() {
     return {
