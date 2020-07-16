@@ -98,7 +98,7 @@ export function closeModalPaymentCompleted() {
     }
 }
 
-export function createAnymousAppointment(merchantId, userId = 0,customerId= 0, staffId = 0, products = [], services = [], extras = [],
+export function createAnymousAppointment(merchantId, userId = 0, customerId = 0, staffId = 0, products = [], services = [], extras = [],
     paymentMethod, isLoading = true, customDiscountFixed, customDiscountPercent,
     firstName, lastName, phoneNumber, paidAmount = 0, creditCardInfo = false, isPayment = true,
 ) {
@@ -132,7 +132,7 @@ export function createAnymousAppointment(merchantId, userId = 0,customerId= 0, s
     }
 }
 
-export function createBlockAppointment(merchantId, fromTime = new Date(), userId = 0,customerId = 0, firstName = "", lastName = "", phoneNumber = "") {
+export function createBlockAppointment(merchantId, fromTime = new Date(), userId = 0, customerId = 0, firstName = "", lastName = "", phoneNumber = "") {
     return {
         type: 'CREATE_BLOCK_APPOINTMENT',
         body: {
@@ -461,3 +461,12 @@ export function togglePopupCustomerInfoByPhone(visible = true) {
         payload: visible
     }
 }
+
+export function updateFromTimeBlockAppointment(fromTime = new Date()) {
+    return {
+        type: "UPDATE_FROM_TIME_BLOCK_APPOINTMENT",
+        payload: fromTime
+    }
+}
+
+

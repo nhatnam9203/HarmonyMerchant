@@ -256,6 +256,11 @@ function appReducer(state = initialState, action) {
                 ...state,
                 fromTimeBlockAppointment: action.fromTimeBlockAppointment,
             }
+            case 'UPDATE_FROM_TIME_BLOCK_APPOINTMENT':
+                return {
+                    ...state,
+                    fromTimeBlockAppointment: action.payload,
+                }
         case 'GET_CUSTOMER_INFO_BUY_APPOINTMENT_SUCCESS':
             return {
                 ...state,

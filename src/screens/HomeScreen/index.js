@@ -129,9 +129,10 @@ class HomeScreen extends Layout {
         this.scrollTabParentRef.current.goToPage(1);
     }
 
-    createABlockAppointment = (appointmentId,fromTime) => {
+    createABlockAppointment = (appointmentId, fromTime) => {
         // const { profile } = this.props;
         // this.props.actions.appointment.createBlockAppointment(profile.merchantId, fromTime);
+        this.props.actions.appointment.updateFromTimeBlockAppointment(fromTime ? fromTime : new Date());
         this.props.actions.appointment.getBlockAppointmentById(appointmentId);
         this.scrollTabParentRef.current.goToPage(2);
     }
@@ -180,7 +181,7 @@ class HomeScreen extends Layout {
                     else {
                         //console.log('-----6-------');
                         if (index === 0) {
-                           this.tooglePopupMarketingPermission();
+                            this.tooglePopupMarketingPermission();
                         } else {
                             this.tabCheckoutRef.current.resetStateFromParent();
                             this.scrollTabParentRef.current.goToPage(index);
