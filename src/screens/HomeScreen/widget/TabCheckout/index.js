@@ -1668,22 +1668,21 @@ class TabCheckout extends Layout {
         }
     }
 
-    setBlockToggleCollaps = () => {
-        const { isOpenBlockAppointmentId } = this.props;
-        for (let i = 0; i < this.blockAppointmentRef.length; i++) {
-            const appointmentDetail = this.blockAppointmentRef[i].props.appointmentDetail;
-            if (appointmentDetail.appointmentId === isOpenBlockAppointmentId) {
-                this.blockAppointmentRef[i].setStateFromParent(false);
-            } else {
-                this.blockAppointmentRef[i].setStateFromParent(true);
-            }
-        }
-    }
-
     addBlockAppointmentRef = ref => {
         if (ref) {
             this.blockAppointmentRef.push(ref);
         };
+    }
+
+    // ------------------ Change Customer Info buy appointment ----------
+
+    displayPopupCustomerInfo = async () => {
+        const { customerInfoBuyAppointment } = this.props;
+        const firstName = customerInfoBuyAppointment.firstName ? customerInfoBuyAppointment.firstName : "";
+        const lastName = customerInfoBuyAppointment.lastName ? customerInfoBuyAppointment.lastName : "";
+        const phone = customerInfoBuyAppointment.phone ? customerInfoBuyAppointment.phone : "";
+        this.popupCustomerInfoRef.current.setStateFromParent(firstName, lastName, phone);
+        this.props.actions.appointment.togglePopupCustomerInfoByPhone(true);
     }
 
     updateBlockAppointmentRef = () => {
@@ -1714,28 +1713,27 @@ class TabCheckout extends Layout {
         } else {
             this.blockAppointmentRef = [];
         }
-
     }
 
-    // ------------------ Change Customer Info buy appointment ----------
-
-    displayPopupCustomerInfo = async () => {
-        const { customerInfoBuyAppointment } = this.props;
-        const firstName = customerInfoBuyAppointment.firstName ? customerInfoBuyAppointment.firstName : "";
-        const lastName = customerInfoBuyAppointment.lastName ? customerInfoBuyAppointment.lastName : "";
-        const phone = customerInfoBuyAppointment.phone ? customerInfoBuyAppointment.phone : "";
-        this.popupCustomerInfoRef.current.setStateFromParent(firstName, lastName, phone);
-        this.props.actions.appointment.togglePopupCustomerInfoByPhone(true);
+    setBlockToggleCollaps = () => {
+        const { isOpenBlockAppointmentId } = this.props;
+        for (let i = 0; i < this.blockAppointmentRef.length; i++) {
+            const appointmentDetail = this.blockAppointmentRef[i].props.appointmentDetail;
+            if (appointmentDetail.appointmentId === isOpenBlockAppointmentId) {
+                this.blockAppointmentRef[i].setStateFromParent(false);
+            } else {
+                this.blockAppointmentRef[i].setStateFromParent(true);
+            }
+        }
     }
+
 
     async componentDidUpdate(prevProps, prevState) {
         const { isLoadingGetBlockAppointment, blockAppointments, isLoadingRemoveBlockAppointment } = this.props;
         if (blockAppointments.length > 0 && prevProps.isLoadingRemoveBlockAppointment != isLoadingRemoveBlockAppointment && !isLoadingRemoveBlockAppointment) {
-            // console.log("--------- updateBlockAppointmentRef ----------");
             this.updateBlockAppointmentRef();
         }
         if (blockAppointments.length > 0 && prevProps.isLoadingGetBlockAppointment != isLoadingGetBlockAppointment && !isLoadingGetBlockAppointment) {
-            // console.log("--------- setBlockToggleCollaps ----------");
             this.setBlockToggleCollaps();
         }
     }

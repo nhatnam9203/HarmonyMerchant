@@ -198,7 +198,6 @@ class Layout extends React.Component {
                     <View style={{ alignItems: 'flex-end', paddingRight: scaleSzie(10), paddingTop: scaleSzie(10) }} >
                         <Text style={{ fontSize: scaleSzie(12), color: '#404040', marginBottom: scaleSzie(10) }} >
                             {`${localize('Tip Amount', language)}:`} <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginLeft: scaleSzie(5) }} >
-                                {/* {`  $  ${formatMoney(Number(tipAmount).toFixed(2))}`} */}
                                 {`$ ${_.compose(formatMoney, roundFloatNumber)(tipAmount)}`}
                             </Text>
                         </Text>

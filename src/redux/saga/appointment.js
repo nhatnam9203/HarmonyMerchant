@@ -781,11 +781,22 @@ function* getBlockAppointmentById(action) {
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
-            // const appointmentId = responses.data ? responses.data : 0 ;
+            const data = responses.data ? responses.data : {};
+
             yield put({
                 type: "GET_BLOCK_APPOINTMENT_BY_ID_SUCCESS",
-                payload: responses.data
-            })
+                payload: data
+            });
+            yield put({
+                type: "UPDATE_CUSTOMER_INFO_FROM_GET_APPOINTMENT",
+                payload: {
+                    customerId: data.customerId ? data.customerId : 0,
+                    userId: data.userId ? data.userId : 0,
+                    firstName: data.firstName ? data.firstName : "",
+                    lastName: data.lastName ? data.lastName : "",
+                    phone: data.phoneNumber ? data.phoneNumber : "",
+                }
+            });
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({

@@ -3,8 +3,8 @@ import {
     View,
     Text,
     Image,
+    LayoutAnimation, Platform, UIManager
 } from 'react-native';
-import Collapsible from 'react-native-collapsible';
 import Swipeout from 'react-native-swipeout';
 import _ from 'ramda';
 
@@ -27,6 +27,11 @@ class ItemBlockBasket extends React.Component {
         this.state = {
             isCollapsed: false,
             isSelectGiftCard: false,
+            animating: false,
+            contentHeight: 0,
+        };
+        if (Platform.OS === 'android') {
+            UIManager.setLayoutAnimationEnabledExperimental(true);
         }
     }
 
@@ -36,6 +41,11 @@ class ItemBlockBasket extends React.Component {
 
     setStateFromParent = async (isCollapsed) => {
         if (this._isMounted) {
+            // await this.setState({
+            //     isCollapsed
+            // });
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+            // this.setState({ expanded: !this.state.expanded });
             await this.setState({
                 isCollapsed
             });
@@ -184,104 +194,100 @@ class ItemBlockBasket extends React.Component {
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
 
         return (
-            <View>
+            <>
                 {this.renderHeaderCustomerBaket()}
-                <Collapsible collapsed={this.state.isCollapsed}>
-                    {/* ----------- Item Product , Service , Extra --------- */}
-                    {
-                        this.getBasket().map((item, index) => <ItemBasket
-                            disabled={checkoutPayments.length === 0 ? false : true}
-                            key={index}
-                            item={item}
-                            removeItemBasket={(item) => removeItemBasket(item, appointmentId, true)}
-                            // onPress={(service) => changeStylist(service, appointmentId)}
-                            onPress={(service) => { }}
-                            changeProduct={product => { }}
-                        />)
-                    }
-                    {/* ----------- Payment Number --------- */}
-                    {
-                        this.getBasket().length > 0 ?
-                            <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
-                                <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
-                                    {/* ---------- Price ------ */}
-                                    <View style={styles.payNumberTextContainer} >
-                                        <Text style={styles.textPay} >
-                                            {`${localize('Subtotal', language)}:`}
-                                        </Text>
-                                        <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                            {`$ ${formatMoney(temptSubTotal)}`}
-                                        </Text>
-                                    </View>
-                                    {/* ---------- Discount ------ */}
-                                    <View style={styles.payNumberTextContainer} >
-                                        <Button style={{ flexDirection: "row" }} onPress={this.showModalDiscount} >
+                {
+                    this.state.isCollapsed ? <View /> : <View >
+                        {/* <Collapsible collapsed={this.state.isCollapsed}> */}
+                        {/* ----------- Item Product , Service , Extra --------- */}
+                        {
+                            this.getBasket().map((item, index) => <ItemBasket
+                                disabled={checkoutPayments.length === 0 ? false : true}
+                                key={index}
+                                item={item}
+                                removeItemBasket={(item) => removeItemBasket(item, appointmentId, true)}
+                                // onPress={(service) => changeStylist(service, appointmentId)}
+                                onPress={(service) => { }}
+                                changeProduct={product => { }}
+                            />)
+                        }
+                        {/* ----------- Payment Number --------- */}
+                        {
+                            this.getBasket().length > 0 ?
+                                <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                                    <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
+                                        {/* ---------- Price ------ */}
+                                        <View style={styles.payNumberTextContainer} >
                                             <Text style={styles.textPay} >
-                                                {`${localize('Discount', language)}:  `}
+                                                {`${localize('Subtotal', language)}:`}
                                             </Text>
-                                            {
-                                                checkoutPayments.length === 0 ?
-                                                    <Image source={IMAGE.add_discount_checkout}
-                                                        style={{ width: scaleSzie(20), height: scaleSzie(20) }}
-                                                    /> : null
-                                            }
-                                        </Button>
-                                        <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                            {`$ ${formatMoney(temptDiscount)}`}
-                                        </Text>
-                                    </View>
-
-                                    {/* ---------- Tip ------ */}
-                                    <View style={styles.payNumberTextContainer} >
-                                        <View style={{ flexDirection: "row" }}
-                                        // onPress={this.showModalTipAppointment.bind(this, temptTip)}
-                                        >
-                                            <Text style={styles.textPay} >
-                                                {`${localize('Tip', language)}:  `}
+                                            <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                                {`$ ${formatMoney(temptSubTotal)}`}
                                             </Text>
-                                            {/* {
-                                        isExistService ?
-                                            <Image source={IMAGE.add_discount_checkout}
-                                                style={{ width: scaleSzie(20), height: scaleSzie(20) }}
-                                            /> : null
-                                    } */}
                                         </View>
-                                        <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                            {`$ ${formatMoney(temptTip)}`}
-                                        </Text>
-                                    </View>
+                                        {/* ---------- Discount ------ */}
+                                        <View style={styles.payNumberTextContainer} >
+                                            <Button style={{ flexDirection: "row" }} onPress={this.showModalDiscount} >
+                                                <Text style={styles.textPay} >
+                                                    {`${localize('Discount', language)}:  `}
+                                                </Text>
+                                                {
+                                                    checkoutPayments.length === 0 ?
+                                                        <Image source={IMAGE.add_discount_checkout}
+                                                            style={{ width: scaleSzie(20), height: scaleSzie(20) }}
+                                                        /> : null
+                                                }
+                                            </Button>
+                                            <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                                {`$ ${formatMoney(temptDiscount)}`}
+                                            </Text>
+                                        </View>
 
-                                    {/* ---------- Tax ------ */}
-                                    <View style={styles.payNumberTextContainer} >
-                                        <Text style={styles.textPay} >
-                                            {`${localize('Tax', language)}:`}
-                                        </Text>
-                                        <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
-                                            {`$ ${formatMoney(temptTax)}`}
-                                        </Text>
-                                    </View>
-                                    {/* ---------- Line ------ */}
-                                    <View style={{
-                                        height: 2, backgroundColor: "#DDDDDD", marginTop: scaleSzie(2),
-                                        marginBottom: scaleSzie(6)
-                                    }} />
-                                    {/* ---------- Total ------ */}
-                                    <View style={styles.payNumberTextContainer} >
-                                        <Text style={[styles.textPay, { fontSize: scaleSzie(18) }]} >
-                                            {`${localize('Total', language)}:`}
-                                        </Text>
-                                        <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(18), fontWeight: "600" }]} >
-                                            {`$ ${formatMoney(`${temptTotal}`)}`}
-                                        </Text>
+                                        {/* ---------- Tip ------ */}
+                                        <View style={styles.payNumberTextContainer} >
+                                            <View style={{ flexDirection: "row" }}
+                                            >
+                                                <Text style={styles.textPay} >
+                                                    {`${localize('Tip', language)}:  `}
+                                                </Text>
+                                            </View>
+                                            <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                                {`$ ${formatMoney(temptTip)}`}
+                                            </Text>
+                                        </View>
+
+                                        {/* ---------- Tax ------ */}
+                                        <View style={styles.payNumberTextContainer} >
+                                            <Text style={styles.textPay} >
+                                                {`${localize('Tax', language)}:`}
+                                            </Text>
+                                            <Text style={[styles.textPay, { color: 'rgb(65,184,85)' }]} >
+                                                {`$ ${formatMoney(temptTax)}`}
+                                            </Text>
+                                        </View>
+                                        {/* ---------- Line ------ */}
+                                        <View style={{
+                                            height: 2, backgroundColor: "#DDDDDD", marginTop: scaleSzie(2),
+                                            marginBottom: scaleSzie(6)
+                                        }} />
+                                        {/* ---------- Total ------ */}
+                                        <View style={styles.payNumberTextContainer} >
+                                            <Text style={[styles.textPay, { fontSize: scaleSzie(18) }]} >
+                                                {`${localize('Total', language)}:`}
+                                            </Text>
+                                            <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(18), fontWeight: "600" }]} >
+                                                {`$ ${formatMoney(`${temptTotal}`)}`}
+                                            </Text>
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
-                            :
-                            <View />
-                    }
+                                :
+                                <View />
+                        }
 
-                </Collapsible>
-            </View>
+                    </View>
+                }
+            </>
         );
     }
 

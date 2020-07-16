@@ -129,9 +129,10 @@ class HomeScreen extends Layout {
         this.scrollTabParentRef.current.goToPage(1);
     }
 
-    createABlockAppointment = (fromTime) => {
-        const { profile } = this.props;
-        this.props.actions.appointment.createBlockAppointment(profile.merchantId, fromTime);
+    createABlockAppointment = (appointmentId,fromTime) => {
+        // const { profile } = this.props;
+        // this.props.actions.appointment.createBlockAppointment(profile.merchantId, fromTime);
+        this.props.actions.appointment.getBlockAppointmentById(appointmentId);
         this.scrollTabParentRef.current.goToPage(2);
     }
 
