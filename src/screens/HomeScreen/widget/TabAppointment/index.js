@@ -99,7 +99,7 @@ class TabAppointment extends Layout {
                         this.props.bookAppointment(appointmentId);
                     } else if (action === 'addGroupAnyStaff') {
                         // console.log('data : ', JSON.stringify(data));
-                        this.props.createABlockAppointment(appointmentId,data.fromTime ? data.fromTime : new Date());
+                        this.props.createABlockAppointment(appointmentId,data.dataAnyStaff && data.dataAnyStaff.fromTime ? data.dataAnyStaff.fromTime : new Date());
                     }
                 }
             }
