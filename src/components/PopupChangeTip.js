@@ -99,7 +99,7 @@ class PopupChangeTip extends React.Component {
                 title={title}
                 visible={visible}
                 onRequestClose={() => onRequestClose()}
-                width={scaleSzie(320)}
+                width={scaleSzie(360)}
                 styleTitle={{ fontSize: scaleSzie(22), fontWeight: "bold" }}
                 style={customStyle}
             >
@@ -142,7 +142,7 @@ class PopupChangeTip extends React.Component {
                             flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: scaleSzie(40),
                         }} >
                             {
-                                [10, 15, 20, 25, 30].map((data, index) => {
+                                [15, 18, 20, 25].map((data, index) => {
                                     const txt_color = data === percent ? { color: "#fff" } : { color: "#0764B0" };
                                     const bg_select = data === percent ? { backgroundColor: "#0764B0" } : { backgroundColor: "#fff" };
 
