@@ -80,8 +80,10 @@ class ItemCustomerBasket extends React.Component {
         const { groupAppointment, paymentDetailInfo } = this.props;
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         if (checkoutPayments.length === 0) {
-            const appointmentId = _.isEmpty(groupAppointment) ? -1 : this.props.appointmentDetail.appointmentId;
-            this.props.showModalTipAppointment(appointmentId, tip);
+            const { appointmentDetail } = this.props;
+            // console.log("------ appointmentDetail : ", JSON.stringify(appointmentDetail));
+            const appointmentId = _.isEmpty(groupAppointment) ? -1 : appointmentDetail.appointmentId;
+            this.props.showModalTipAppointment(appointmentId, tip, appointmentDetail.subTotal ? appointmentDetail.subTotal : 0);
         }
     }
 

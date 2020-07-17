@@ -23,11 +23,3 @@ module.exports = {
     store
 }
 
-
-// export default function configureStore() {
-//     console.log("------ configureStore -------");
-//     const store = (createAppStore)(reducers);
-//     const persistor = persistStore(store);
-//     sagaMiddleware.run(sagaRoot);
-//     return { persistor, store };
-// }
