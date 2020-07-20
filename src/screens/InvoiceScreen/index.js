@@ -161,7 +161,10 @@ class InvoiceScreen extends Layout {
         return temptBasket;
     }
 
-    setInvoiceDetail = async (invoice) => {
+    setInvoiceDetail =  (invoice) => {
+         this.setState({
+            invoiceDetail: invoice
+        });
         for (let i = 0; i < this.listInvoiceRef.length; i++) {
             if (this.listInvoiceRef[i].props.invoice.checkoutId === invoice.checkoutId) {
                 this.listInvoiceRef[i].setStateFromParent(true);
@@ -169,9 +172,7 @@ class InvoiceScreen extends Layout {
                 this.listInvoiceRef[i].setStateFromParent(false);
             }
         }
-        await this.setState({
-            invoiceDetail: invoice
-        });
+
     }
 
     onRefreshInvoiceList = () => {
@@ -502,8 +503,8 @@ class InvoiceScreen extends Layout {
         }
     }
 
-    closePopupCheckInvoiceTabPermission= () =>{
-         this.props.actions.invoice.toggleInvoiceTabPermission(false);
+    closePopupCheckInvoiceTabPermission = () => {
+        this.props.actions.invoice.toggleInvoiceTabPermission(false);
         this.props.navigation.navigate("Home");
     }
 
