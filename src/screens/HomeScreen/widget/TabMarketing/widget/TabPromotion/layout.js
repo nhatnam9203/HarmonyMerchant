@@ -93,6 +93,7 @@ class Layout extends React.Component {
                                 checkSelectPromotion={this.checkSelectPromotion}
                                 sendNotification={this.sendNotification}
                                 toogleOtherPromotions={this.toogleOtherPromotions}
+                                onFocus={this.scrollToNumber}
                             /> : <View />
                         }
 
@@ -104,6 +105,7 @@ class Layout extends React.Component {
                                 checkSelectPromotion={this.checkSelectPromotion}
                                 sendNotification={this.sendNotification}
                                 toogleOtherPromotions={this.toogleOtherPromotions}
+                                onFocus={this.scrollToNumber}
                             /> : <View />
                         }
 
@@ -115,6 +117,7 @@ class Layout extends React.Component {
                                 checkSelectPromotion={this.checkSelectPromotion}
                                 sendNotification={this.sendNotification}
                                 toogleOtherPromotions={this.toogleOtherPromotions}
+                                onFocus={this.scrollToNumber}
                             /> : <View />
                         }
 

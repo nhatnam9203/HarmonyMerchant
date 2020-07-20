@@ -91,7 +91,7 @@ class PromotionSecond extends React.Component {
                         }}
                         style={{ marginBottom: scaleSzie(10) }}
                         styleTitle={{fontWeight:"600"}}
-                        onFocus={() => onFocus(350)}
+                        onFocus={() => onFocus(100)}
                     />
                     <Text style={{
                         color: '#404040',
@@ -192,6 +192,7 @@ class PromotionSecond extends React.Component {
                                     this.props.actions.marketing.setStatusApplyButton(true);
                                 }
                             }}
+                            onFocus={() => onFocus(330)}
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemCheckBoxInput
@@ -220,6 +221,7 @@ class PromotionSecond extends React.Component {
                                     this.props.actions.marketing.setStatusApplyButton(true);
                                 }
                             }}
+                            onFocus={() => onFocus(330)}
                         />
                     </View>
                     <View style={{ alignItems: 'center', marginTop: scaleSzie(20) }} >

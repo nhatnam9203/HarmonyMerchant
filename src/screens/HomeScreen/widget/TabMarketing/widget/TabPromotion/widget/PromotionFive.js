@@ -58,7 +58,7 @@ class PromotionFive extends React.Component {
     // ----------- RENDER ----------
 
     render() {
-        const { language } = this.props;
+        const { language,onFocus } = this.props;
         const { data ,isShowContent} = this.state;
         const { campaignName } = data;
         return (
@@ -84,6 +84,7 @@ class PromotionFive extends React.Component {
                         }}
                         style={{ marginBottom: scaleSzie(10) }}
                         styleTitle={{ fontWeight: "600" }}
+                        onFocus={() => onFocus(250)}
                     />
                     {/* ---- Row ---- */}
                     <Text style={{
@@ -121,6 +122,7 @@ class PromotionFive extends React.Component {
                                     this.props.actions.marketing.setStatusApplyButton(true);
                                 }
                             }}
+                            onFocus={() => onFocus(350)}
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemCheckBoxInput
@@ -149,6 +151,7 @@ class PromotionFive extends React.Component {
                                     this.props.actions.marketing.setStatusApplyButton(true);
                                 }
                             }}
+                            onFocus={() => onFocus(350)}
                         />
                     </View>
                     <View style={{ alignItems: 'center', marginTop: scaleSzie(20) }} >

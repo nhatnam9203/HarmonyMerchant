@@ -58,7 +58,7 @@ import connectRedux from '@redux/ConnectRedux';
     // ----------- RENDER ----------
 
     render() {
-        const { language } = this.props;
+        const { language ,onFocus} = this.props;
         const { data,isShowContent } = this.state;
         const { campaignName } = data;
 
@@ -85,6 +85,7 @@ import connectRedux from '@redux/ConnectRedux';
                         }}
                         style={{ marginBottom: scaleSzie(10) }}
                         styleTitle={{fontWeight:"600"}}
+                        onFocus={() => onFocus(210)}
                     />
                     {/* ---- Row ---- */}
                     <View style={{ width: scaleSzie(200) }}  >
@@ -102,6 +103,7 @@ import connectRedux from '@redux/ConnectRedux';
                             }}
                             style={{ marginBottom: scaleSzie(10) }}
                             styleTitle={{fontWeight:"600"}}
+                            onFocus={() => onFocus(280)}
                         />
                     </View>
                     {/* ---- Row ---- */}
@@ -140,6 +142,7 @@ import connectRedux from '@redux/ConnectRedux';
                                     this.props.actions.marketing.setStatusApplyButton(true);
                                 }
                             }}
+                            onFocus={() => onFocus(360)}
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemCheckBoxInput
@@ -168,6 +171,7 @@ import connectRedux from '@redux/ConnectRedux';
                                     this.props.actions.marketing.setStatusApplyButton(true);
                                 }
                             }}
+                             onFocus={() => onFocus(360)}
                         />
                     </View>
                     <View style={{alignItems:'center',marginTop:scaleSzie(20)}} >
