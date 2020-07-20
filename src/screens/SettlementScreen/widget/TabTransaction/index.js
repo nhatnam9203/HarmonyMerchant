@@ -2,7 +2,7 @@ import React from 'react';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { updateStateChildren } from '@utils';
+import { updateStateChildren, getQuickFilterStringInvoice } from '@utils';
 
 class TabTransaction extends Layout {
 
@@ -20,55 +20,23 @@ class TabTransaction extends Layout {
     }
 
     componentDidMount() {
-        this.props.actions.invoice.getTransactionSettlement();
-    }
-
-    getQuickFilterString(type) {
-        let quickFilter = '';
-        switch (type) {
-            case 'Today':
-                quickFilter = 'today';
-                break;
-            case 'Yesterday':
-                quickFilter = 'yesterday';
-                break;
-            case 'This Week':
-                quickFilter = 'thisWeek';
-                break;
-            case 'Last Week':
-                quickFilter = 'lastWeek';
-                break;
-            case 'This Month':
-                quickFilter = 'thisMonth';
-                break;
-            case 'Last Month':
-                quickFilter = 'lastMonth';
-                break;
-            default:
-                quickFilter = 'today'
-        }
-        return quickFilter
+        this.searchTransactions();
     }
 
     searchTransactions = () => {
         const { searchFilter } = this.state;
         const { keySearch, status } = searchFilter;
         const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
-        const isTimeRange = isCustomizeDate ? true : (quickFilter ? true : false);
-        if (keySearch == '' && status == '' && !isTimeRange) {
-            this.props.actions.invoice.clearSearTransaction();
-        } else {
-            if (isCustomizeDate) {
-                const url = `status=${status}&timeStart=${startDate}&timeEnd=${endDate}&key=${keySearch}`
-                this.props.actions.invoice.searchTransactionSettlement(url);
-            } else if (quickFilter) {
-                const url = `status=${status}&quickFilter=${this.getQuickFilterString(quickFilter)}&${endDate}&key=${keySearch}`
-                this.props.actions.invoice.searchTransactionSettlement(url);
-            } else {
-                const url = `status=${status}&key=${keySearch}`
-                this.props.actions.invoice.searchTransactionSettlement(url);
-            }
-        }
+
+        this.props.actions.invoice.getTransactionSettlement(
+            status,
+            isCustomizeDate ? startDate : "",
+            isCustomizeDate ? endDate : "",
+            keySearch,
+            quickFilter ? getQuickFilterStringInvoice(quickFilter) : "",
+        );
+
+
     }
 
     showCalendar = () => {
@@ -77,18 +45,28 @@ class TabTransaction extends Layout {
         })
     }
 
-    changeTitleTimeRange = (title) => {
-        this.setState({
-            titleRangeTime: title,
+    changeTitleTimeRange = async (title) => {
+        await this.setState({
+            titleRangeTime: title === "Select" ? "Time Range" : title,
             visibleCalendar: false
-        })
+        });
+        setTimeout(() => {
+            this.searchTransactions();
+        }, 500);
     }
 
-    updateSearchFilterInfo = (key, value) => {
+    updateSearchFilterInfo = async (key, value) => {
         const temptState = updateStateChildren(key, value, this.state.searchFilter);
-        this.setState({
+        await this.setState({
             searchFilter: temptState
-        })
+        });
+        if (key !== "keySearch") {
+            setTimeout(() => {
+                this.searchTransactions();
+            }, 500);
+        } else {
+            // this.props.actions.invoice.updateSearchKeyword(this.state.searchFilter.keySearch);
+        }
     }
 
 
@@ -99,7 +77,7 @@ const mapStateToProps = state => ({
     transactionsSettlement: state.invoice.transactionsSettlement,
     listTransactionSearch: state.invoice.listTransactionSearch,
     isShowSearchTransaction: state.invoice.isShowSearchTransaction,
-    refreshingTransaction : state.invoice.refreshingTransaction
+    refreshingTransaction: state.invoice.refreshingTransaction
 })
 
 

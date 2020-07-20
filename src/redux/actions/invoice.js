@@ -54,13 +54,13 @@ export function invoicesOfStaff(staffId) {
     }
 }
 
-export function getTransactionSettlement(isShowLoading = true) {
+export function getTransactionSettlement(status = "", timeStart = "", timeEnd = "", key = "", quickFilter = "") {
     return {
         type: 'GET_TRANSACTION_SETTLEMENT',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}settlement/transaction`,
+        api: `${apiConfigs.BASE_API}settlement/transaction?status=${status}&timeStart=${timeStart}&timeEnd=${timeEnd}&key=${key}&quickFilter=${quickFilter}`,
         token: true,
-        isShowLoading
+        isShowLoading: true
     }
 }
 
@@ -79,7 +79,7 @@ export function clearSearTransaction() {
     }
 }
 
-export function getBatchHistory(key = "", timeStart = "", timeEnd = "", quickFilter = "", page = 1, isShowLoading = true,isShowLoadMore = false) {
+export function getBatchHistory(key = "", timeStart = "", timeEnd = "", quickFilter = "", page = 1, isShowLoading = true, isShowLoadMore = false) {
     return {
         type: 'GET_BATCH_HISTORY',
         method: 'GET',

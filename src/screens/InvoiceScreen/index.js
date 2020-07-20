@@ -161,8 +161,8 @@ class InvoiceScreen extends Layout {
         return temptBasket;
     }
 
-    setInvoiceDetail =  (invoice) => {
-         this.setState({
+    setInvoiceDetail = (invoice) => {
+        this.setState({
             invoiceDetail: invoice
         });
         for (let i = 0; i < this.listInvoiceRef.length; i++) {

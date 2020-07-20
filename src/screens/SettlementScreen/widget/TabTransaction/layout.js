@@ -96,9 +96,8 @@ class Layout extends React.Component {
                     <View style={{ width: scaleSzie(170) }} >
                         <Dropdown
                             label={localize('Status', language)}
-                            data={[{ value: '' }, { value: 'Pending' }, { value: 'Paid' }, { value: 'Void' },
-                            { value: 'Refund' }
-                                // , { value: 'Fail' }, { value: 'Cancel' }
+                            data={[{ value: '' }, { value: 'Complete' }, { value: 'Pending' }, { value: 'Paid' }, { value: 'Void' },
+                            { value: 'Refund' }, { value: 'Cancel' }
                             ]}
                             value={status}
                             onChangeText={(value) => this.updateSearchFilterInfo('status', value)}
