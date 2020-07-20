@@ -132,7 +132,7 @@ export function createAnymousAppointment(merchantId, userId = 0, customerId = 0,
     }
 }
 
-export function createBlockAppointment(merchantId, fromTime = new Date(), userId = 0, customerId = 0, firstName = "", lastName = "", phoneNumber = "") {
+export function createBlockAppointment(merchantId, fromTime = new Date(), userId = 0, customerId = 0, firstName = "", lastName = "", phoneNumber = "",bookingGroupId) {
     return {
         type: 'CREATE_BLOCK_APPOINTMENT',
         body: {
@@ -149,7 +149,8 @@ export function createBlockAppointment(merchantId, fromTime = new Date(), userId
             customDiscountPercent: 0,
             firstName,
             lastName,
-            phoneNumber
+            phoneNumber,
+            bookingGroupId
         },
         method: 'POST',
         token: true,
@@ -158,13 +159,14 @@ export function createBlockAppointment(merchantId, fromTime = new Date(), userId
     }
 }
 
-export function getBlockAppointmentById(appointmentId) {
+export function getBlockAppointmentById(appointmentId,isGetBookingGroupId = false) {
     return {
         type: 'GET_BLOCK_APPOINTMENT_BY_ID',
         method: 'GET',
         api: `${apiConfigs.BASE_API}appointment/${appointmentId}`,
         token: true,
-        appointmentId
+        appointmentId,
+        isGetBookingGroupId
     }
 }
 

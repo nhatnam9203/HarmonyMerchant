@@ -31,12 +31,13 @@ const initialState = {
 
     customerInfoBuyAppointment: {
         customerId: 0,
-        userId:0,
+        userId: 0,
         firstName: "",
         lastName: "",
         phone: ""
     },
-    visiblePopupCustomerInfoBuyAppointment: false
+    visiblePopupCustomerInfoBuyAppointment: false,
+    bookingGroupId: 0
 }
 
 function appReducer(state = initialState, action) {
@@ -94,7 +95,7 @@ function appReducer(state = initialState, action) {
                 paymentDetailInfo: {},
                 customerInfoBuyAppointment: {
                     customerId: 0,
-                    userId:0,
+                    userId: 0,
                     firstName: "",
                     lastName: "",
                     phone: ""
@@ -256,11 +257,11 @@ function appReducer(state = initialState, action) {
                 ...state,
                 fromTimeBlockAppointment: action.fromTimeBlockAppointment,
             }
-            case 'UPDATE_FROM_TIME_BLOCK_APPOINTMENT':
-                return {
-                    ...state,
-                    fromTimeBlockAppointment: action.payload,
-                }
+        case 'UPDATE_FROM_TIME_BLOCK_APPOINTMENT':
+            return {
+                ...state,
+                fromTimeBlockAppointment: action.payload,
+            }
         case 'GET_CUSTOMER_INFO_BUY_APPOINTMENT_SUCCESS':
             return {
                 ...state,
@@ -287,6 +288,11 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 customerInfoBuyAppointment: action.payload,
+            }
+        case 'UPDATE_BOOKING_GROUP_ID':
+            return {
+                ...state,
+                bookingGroupId: action.payload,
             }
         default:
             return state
@@ -329,11 +335,6 @@ const removeBlockAppointment = (blockAppointments, appointmentIdRemove) => {
             temptBlockAppointments.push(blockAppointments[i]);
         }
     }
-
-
-    // console.log("------ indexExist : ", indexExist);
-    // console.log("------ temptBlockAppointments : ", temptBlockAppointments);
-
     return {
         data: temptBlockAppointments,
         indexExist

@@ -287,7 +287,7 @@ class TabCheckout extends Layout {
 
     createAnymousAppointment = async () => {
         const { profile, profileStaffLogin, customerInfoBuyAppointment } = this.props;
-        const {  paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,} = this.state;
+        const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, } = this.state;
 
         const dataAnymousAppoitment = this.getBasketOffline();
         const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
@@ -445,7 +445,7 @@ class TabCheckout extends Layout {
     }
 
     clearDataCofrim = async () => {
-        const { connectionSignalR, groupAppointment, profile, isCancelAppointment, blockAppointments, payAppointmentId ,customerInfoBuyAppointment} = this.props;
+        const { connectionSignalR, groupAppointment, profile, isCancelAppointment, blockAppointments, payAppointmentId, customerInfoBuyAppointment } = this.props;
         const { isDrawer } = this.state;
 
         const temptBlockAppointments = blockAppointments ? [...blockAppointments] : [];
@@ -991,7 +991,7 @@ class TabCheckout extends Layout {
     }
 
     doneBill = async () => {
-        const { groupAppointment, profile, paxMachineInfo, token, isOfflineMode, deviceId, profileStaffLogin ,customerInfoBuyAppointment} = this.props;
+        const { groupAppointment, profile, paxMachineInfo, token, isOfflineMode, deviceId, profileStaffLogin, customerInfoBuyAppointment } = this.props;
         const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser, customerInfoByPhone } = this.state;
         const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
         const method = this.getPaymentString(paymentSelected);
@@ -1043,7 +1043,7 @@ class TabCheckout extends Layout {
                     const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, staffId } = dataAnymousAppoitment;
                     const userId = customerInfoByPhone.userId ? customerInfoByPhone.userId : 0;
                     this.props.actions.appointment.createAnymousAppointment(
-                        profile.merchantId, 
+                        profile.merchantId,
                         ustomerInfoBuyAppointment.userId ? customerInfoBuyAppointment.userId : 0,
                         customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0,
                         profileStaffLogin.staffId,
@@ -1092,7 +1092,7 @@ class TabCheckout extends Layout {
                 }, 300)
 
             } else if (result.ResultTxt && result.ResultTxt == "OK") {
-                const { profile, groupAppointment, profileStaffLogin,customerInfoBuyAppointment } = this.props;
+                const { profile, groupAppointment, profileStaffLogin, customerInfoBuyAppointment } = this.props;
                 const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser, customerInfoByPhone } = this.state;
                 let method = this.getPaymentString(paymentSelected);
 
@@ -1105,7 +1105,7 @@ class TabCheckout extends Layout {
                     const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } = dataAnymousAppoitment;
                     const userId = customerInfoByPhone.userId ? customerInfoByPhone.userId : 0;
                     this.props.actions.appointment.createAnymousAppointment(
-                        profile.merchantId, 
+                        profile.merchantId,
                         customerInfoBuyAppointment.userId ? customerInfoBuyAppointment.userId : 0,
                         customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0,
                         profileStaffLogin.staffId,
@@ -1117,8 +1117,8 @@ class TabCheckout extends Layout {
                         moneyUserGiveForStaff,
                         message,
                     );
-                    
-                    
+
+
 
                 }
             } else {
@@ -1157,7 +1157,7 @@ class TabCheckout extends Layout {
         }
     }
 
-    setStateVisibleFromParent = async (visibleConfirm,isDrawer = false) => {
+    setStateVisibleFromParent = async (visibleConfirm, isDrawer = false) => {
         await this.setState({
             visibleConfirm,
             isDrawer
@@ -1339,8 +1339,8 @@ class TabCheckout extends Layout {
         }
     }
 
-    showModalTipAppointment = async (appointmentId, tip,subTotal) => {
-        this.changeTipRef.current.setStateFromParent(appointmentId, tip,subTotal);
+    showModalTipAppointment = async (appointmentId, tip, subTotal) => {
+        this.changeTipRef.current.setStateFromParent(appointmentId, tip, subTotal);
         await this.setState({
             visibleChangeTip: true
         })
@@ -1544,7 +1544,7 @@ class TabCheckout extends Layout {
 
 
     createABlockAppointment = () => {
-        const { profile, fromTimeBlockAppointment, customerInfoBuyAppointment } = this.props;
+        const { profile, fromTimeBlockAppointment, customerInfoBuyAppointment, bookingGroupId } = this.props;
         this.props.actions.appointment.createBlockAppointment(
             profile.merchantId,
             fromTimeBlockAppointment,
@@ -1553,6 +1553,7 @@ class TabCheckout extends Layout {
             customerInfoBuyAppointment.firstName ? customerInfoBuyAppointment.firstName : "",
             customerInfoBuyAppointment.lastName ? customerInfoBuyAppointment.lastName : "",
             customerInfoBuyAppointment.phone ? customerInfoBuyAppointment.phone : "",
+            bookingGroupId
         );
     }
 
@@ -1727,6 +1728,20 @@ class TabCheckout extends Layout {
         }
     }
 
+    checkBlockAppointment = (blockAppointments) => {
+        let isBooking = false;
+
+        for (let i = 0; i < blockAppointments.length; i++) {
+            const subTotal = formatNumberFromCurrency(blockAppointments[i].subTotal)
+            if (parseFloat(subTotal) > 0) {
+                isBooking = true;
+                break;
+            }
+        }
+
+        return isBooking;
+    }
+
 
     async componentDidUpdate(prevProps, prevState) {
         const { isLoadingGetBlockAppointment, blockAppointments, isLoadingRemoveBlockAppointment } = this.props;
@@ -1775,7 +1790,8 @@ const mapStateToProps = state => ({
     idNextToAppointmentRemove: state.appointment.idNextToAppointmentRemove,
     fromTimeBlockAppointment: state.appointment.fromTimeBlockAppointment,
     versionApp: state.dataLocal.versionApp,
-    customerInfoBuyAppointment: state.appointment.customerInfoBuyAppointment
+    customerInfoBuyAppointment: state.appointment.customerInfoBuyAppointment,
+    bookingGroupId: state.appointment.bookingGroupId
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);

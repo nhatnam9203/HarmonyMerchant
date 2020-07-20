@@ -777,12 +777,11 @@ function* getBlockAppointmentById(action) {
     try {
         action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
-        // console.log('getBlockAppointmentById : ' + JSON.stringify(responses));
+        console.log('getBlockAppointmentById : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
             const data = responses.data ? responses.data : {};
-
             yield put({
                 type: "GET_BLOCK_APPOINTMENT_BY_ID_SUCCESS",
                 payload: data
@@ -797,6 +796,12 @@ function* getBlockAppointmentById(action) {
                     phone: data.phoneNumber ? data.phoneNumber : "",
                 }
             });
+            if(action.isGetBookingGroupId){
+                yield put({
+                    type : "UPDATE_BOOKING_GROUP_ID",
+                    payload: data.bookingGroupId ? data.bookingGroupId : 0
+                })
+            }
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({
