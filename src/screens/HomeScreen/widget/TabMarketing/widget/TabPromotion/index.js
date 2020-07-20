@@ -114,13 +114,19 @@ class TabPromotion extends Layout {
   }
 
   toogleOtherPromotions = (ref) => {
-    // this[ref].current.
-    // this.promotionFirstRef = React.createRef();
-    // this.promotionSecondRef = React.createRef();
-    // this.promotionThirdRef = React.createRef();
-    // this.promotionFourRef = React.createRef();
-    // this.promotionFiveRef = React.createRef();
-    // this.promotionRewardPointsRef = React.createRef();
+    let firstPromotion = this.promotionFirstRef === this[ref] ? false : true;
+    let secondPromotion = this.promotionSecondRef === this[ref] ? false : true;
+    let thirdPromotion = this.promotionThirdRef === this[ref] ? false : true;
+    let fourPromotion = this.promotionFourRef === this[ref] ? false : true;
+    let fivePromotion = this.promotionFiveRef === this[ref] ? false : true;
+    let rewardPromotion = this.promotionRewardPointsRef === this[ref] ? false : true;
+
+    this.promotionFirstRef.current.toogleFromParent(firstPromotion);
+    this.promotionSecondRef.current.toogleFromParent(secondPromotion);
+    this.promotionThirdRef.current.toogleFromParent(thirdPromotion);
+    this.promotionFourRef.current.toogleFromParent(fourPromotion);
+    this.promotionFiveRef.current.toogleFromParent(fivePromotion);
+    this.promotionRewardPointsRef.current.toogleFromParent(rewardPromotion);
   }
 
   componentDidUpdate(prevProps, prevState) {

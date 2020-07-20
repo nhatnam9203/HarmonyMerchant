@@ -27,13 +27,19 @@ class PromotionFirst extends React.Component {
         })
     }
 
-    showContent =  () => {
+    toogleFromParent = async (isShowContent = false) => {
+        await this.setState({
+            isShowContent
+        })
+    }
+
+    showContent = () => {
         this.setState(prevState => ({
             isShowContent: !prevState.isShowContent
-        }),() =>{
-            // if(!this.state.isShowContent){
-            //     this.props.toogleOtherPromotions();
-            // }
+        }), () => {
+            if (!this.state.isShowContent) {
+                this.props.toogleOtherPromotions("promotionFirstRef");
+            }
         })
     }
 
@@ -60,8 +66,8 @@ class PromotionFirst extends React.Component {
     // ----------- RENDER ----------
 
     render() {
-        const { language, showCalendar, onFocus, toogleOtherPromotions } = this.props;
-        const { data,isShowContent } = this.state;
+        const { language, showCalendar, onFocus } = this.props;
+        const { data, isShowContent } = this.state;
         const { campaignName } = data;
         return (
             <ItemPromo
@@ -70,7 +76,6 @@ class PromotionFirst extends React.Component {
                 isSelected={data.isDisabled === 0 ? false : true}
                 isShowContent={isShowContent}
                 checkSelectPromotion={this.checkSelectPromotion}
-                toogleOtherPromotions={() => toogleOtherPromotions("promotionFirstRef")}
                 showContent={this.showContent}
             >
                 <View style={{ paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10) }} >

@@ -24,14 +24,6 @@ class ItemPromo extends React.Component {
 
     showContent =  () => {
         this.props.showContent();
-
-        // this.setState(prevState => ({
-        //     isShowContent: !prevState.isShowContent
-        // }),() =>{
-        //     if(!this.state.isShowContent){
-        //         this.props.toogleOtherPromotions();
-        //     }
-        // })
     }
 
     render() {
