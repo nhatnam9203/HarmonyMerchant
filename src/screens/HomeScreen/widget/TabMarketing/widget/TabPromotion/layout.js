@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     View,
-    Image,
     ScrollView,
     Dimensions,
     ActivityIndicator,
@@ -9,10 +8,9 @@ import {
 
 } from 'react-native';
 
-import { scaleSzie, localize, updateStateChildren } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import styles from './style';
-import IMAGE from '@resources';
-import { ButtonCustom, Text, InputForm, DatePicker } from '@components';
+import { ButtonCustom,  DatePicker } from '@components';
 import {
     PromotionFirst, PromotionSecond, PromotionThird, PromotionFour, PromotionFive,
     PromotionRewardPoints
@@ -49,6 +47,7 @@ class Layout extends React.Component {
             <View style={styles.container} >
                 <View style={{ flex: 1 }} >
                     <ScrollView
+                        ref={this.scrollRef}
                         showsVerticalScrollIndicator={false}
                         keyboardShouldPersistTaps="always"
                         refreshControl={
@@ -66,6 +65,8 @@ class Layout extends React.Component {
                                 showCalendar={this.showCalendar}
                                 checkSelectPromotion={this.checkSelectPromotion}
                                 sendNotification={this.sendNotification}
+                                onFocus={this.scrollToNumber}
+                                toogleOtherPromotions={this.toogleOtherPromotions}
                             /> : <View />
                         }
 
@@ -79,6 +80,8 @@ class Layout extends React.Component {
                                 dataDropdown={this.getDataDropdownService()}
                                 checkSelectPromotion={this.checkSelectPromotion}
                                 sendNotification={this.sendNotification}
+                                onFocus={this.scrollToNumber}
+                                toogleOtherPromotions={this.toogleOtherPromotions}
                             /> : <View />
                         }
 
@@ -89,6 +92,7 @@ class Layout extends React.Component {
                                 data={this.getDataItemPromotion(3, promotions)}
                                 checkSelectPromotion={this.checkSelectPromotion}
                                 sendNotification={this.sendNotification}
+                                toogleOtherPromotions={this.toogleOtherPromotions}
                             /> : <View />
                         }
 
@@ -99,6 +103,7 @@ class Layout extends React.Component {
                                 data={this.getDataItemPromotion(4, promotions)}
                                 checkSelectPromotion={this.checkSelectPromotion}
                                 sendNotification={this.sendNotification}
+                                toogleOtherPromotions={this.toogleOtherPromotions}
                             /> : <View />
                         }
 
@@ -109,6 +114,7 @@ class Layout extends React.Component {
                                 data={this.getDataItemPromotion(5, promotions)}
                                 checkSelectPromotion={this.checkSelectPromotion}
                                 sendNotification={this.sendNotification}
+                                toogleOtherPromotions={this.toogleOtherPromotions}
                             /> : <View />
                         }
 
@@ -122,6 +128,7 @@ class Layout extends React.Component {
                                 showCalendar={this.showCalendar}
                                 checkSelectPromotion={this.checkSelectPromotion}
                                 sendNotification={this.sendNotification}
+                                toogleOtherPromotions={this.toogleOtherPromotions}
                             /> : <View />
                         }
 

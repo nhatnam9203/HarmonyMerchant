@@ -7,7 +7,6 @@ import {
 import Collapsible from 'react-native-collapsible';
 
 import { scaleSzie } from '@utils';
-import styles from '../style';
 import IMAGE from '@resources';
 import { Button, Text } from '@components';
 
@@ -17,25 +16,26 @@ class ItemPromo extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            isShowContent: !this.props.isShowContent
-        }
-
     }
 
     selectCheckBox = () => {
         this.props.checkSelectPromotion();
     }
 
-    showContent = () => {
-        this.setState(prevState => ({
-            isShowContent: !prevState.isShowContent
-        }))
+    showContent =  () => {
+        this.props.showContent();
+
+        // this.setState(prevState => ({
+        //     isShowContent: !prevState.isShowContent
+        // }),() =>{
+        //     if(!this.state.isShowContent){
+        //         this.props.toogleOtherPromotions();
+        //     }
+        // })
     }
 
     render() {
-        const { isShowContent } = this.state;
-        const { title, style, isSelected } = this.props;
+        const { title, style, isSelected ,isShowContent} = this.props;
         const temptIconCheckBox = isSelected ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
             <View style={[{ width: width, paddingHorizontal: scaleSzie(15) }, style]} >

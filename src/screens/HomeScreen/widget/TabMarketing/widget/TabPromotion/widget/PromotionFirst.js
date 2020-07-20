@@ -1,14 +1,9 @@
 import React from 'react';
 import {
     View,
-    Image,
-    ScrollView,
-    Dimensions,
-    ActivityIndicator
 } from 'react-native';
 
-import { scaleSzie, localize, updateStateChildren ,formatWithMoment} from '@utils';
-import IMAGE from '@resources';
+import { scaleSzie, localize, updateStateChildren, formatWithMoment } from '@utils';
 import { Text, InputForm, ButtonCustom } from '@components';
 import ItemCalendar from './ItemCalendar';
 import ItemPromo from './ItemPromo';
@@ -22,12 +17,23 @@ class PromotionFirst extends React.Component {
         super(props);
         this.state = {
             data: this.props.data,
+            isShowContent: true
         };
     }
 
-    setStateFromParent = async (data) =>{
+    setStateFromParent = async (data) => {
         await this.setState({
             data
+        })
+    }
+
+    showContent =  () => {
+        this.setState(prevState => ({
+            isShowContent: !prevState.isShowContent
+        }),() =>{
+            // if(!this.state.isShowContent){
+            //     this.props.toogleOtherPromotions();
+            // }
         })
     }
 
@@ -54,15 +60,18 @@ class PromotionFirst extends React.Component {
     // ----------- RENDER ----------
 
     render() {
-        const { language, showCalendar } = this.props;
-        const { data } = this.state;
+        const { language, showCalendar, onFocus, toogleOtherPromotions } = this.props;
+        const { data,isShowContent } = this.state;
         const { campaignName } = data;
         return (
             <ItemPromo
+                ref={this.promoRef}
                 title={data.defaultName}
                 isSelected={data.isDisabled === 0 ? false : true}
-                isShowContent={false}
+                isShowContent={isShowContent}
                 checkSelectPromotion={this.checkSelectPromotion}
+                toogleOtherPromotions={() => toogleOtherPromotions("promotionFirstRef")}
+                showContent={this.showContent}
             >
                 <View style={{ paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10) }} >
                     <InputForm
@@ -77,12 +86,12 @@ class PromotionFirst extends React.Component {
                             this.props.actions.marketing.setStatusApplyButton(true);
                         }}
                         style={{ marginBottom: scaleSzie(10) }}
-                        styleTitle={{fontWeight:"600"}}
+                        styleTitle={{ fontWeight: "600" }}
                     />
                     <Text style={{
                         color: '#404040',
                         fontSize: scaleSzie(14),
-                        fontWeight:"600"
+                        fontWeight: "600"
                     }} >
                         {`${localize('Campaign Time', language)}:`}
                     </Text>
@@ -90,13 +99,13 @@ class PromotionFirst extends React.Component {
                     <View style={{ flexDirection: 'row' }} >
                         <ItemCalendar
                             title={localize('Select Start Date ', language)}
-                            value={`${formatWithMoment(data.fromDate,'MM/DD/YYYY')}`}
+                            value={`${formatWithMoment(data.fromDate, 'MM/DD/YYYY')}`}
                             onPress={() => showCalendar('fromDate', data.fromDate, 1)}
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemCalendar
                             title={localize('Select End Date', language)}
-                            value={`${formatWithMoment(data.toDate,'MM/DD/YYYY')}`}
+                            value={`${formatWithMoment(data.toDate, 'MM/DD/YYYY')}`}
                             onPress={() => showCalendar('toDate', data.toDate, 1)}
 
                         />
@@ -137,7 +146,7 @@ class PromotionFirst extends React.Component {
                     <Text style={{
                         color: '#404040',
                         fontSize: scaleSzie(14),
-                        fontWeight:"600"
+                        fontWeight: "600"
                     }} >
                         {`${localize('Promotion form', language)}:`}
                     </Text>
@@ -169,6 +178,7 @@ class PromotionFirst extends React.Component {
                                     this.props.actions.marketing.setStatusApplyButton(true);
                                 }
                             }}
+                            onFocus={() => onFocus(250)}
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemCheckBoxInput
@@ -196,6 +206,7 @@ class PromotionFirst extends React.Component {
                                     });
                                 }
                             }}
+                            onFocus={() => onFocus(250)}
                         />
                     </View>
                     <View style={{ alignItems: 'center', marginTop: scaleSzie(20) }} >
@@ -218,8 +229,8 @@ class PromotionFirst extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  })
-  
-  
-  
-  export default connectRedux(mapStateToProps, PromotionFirst);
+})
+
+
+
+export default connectRedux(mapStateToProps, PromotionFirst);

@@ -1,19 +1,11 @@
 import React from 'react';
 import {
     View,
-    Image,
-    ScrollView,
-    Dimensions,
-    ActivityIndicator
 } from 'react-native';
 
 import { scaleSzie, localize, updateStateChildren } from '@utils';
-import IMAGE from '@resources';
-import { Text, InputForm, ButtonCustom } from '@components';
-import ItemCalendar from './ItemCalendar';
+import { Text, InputForm } from '@components';
 import ItemPromo from './ItemPromo';
-import ItemDropdown from './ItemDropdown';
-import ItemCheckBoxInput from './ItemCheckBoxInput';
 import connectRedux from '@redux/ConnectRedux';
 
 class PromotionRewardPoints extends React.Component {
@@ -22,6 +14,7 @@ class PromotionRewardPoints extends React.Component {
         super(props);
         this.state = {
             data: this.props.data,
+            isShowContent: true
         };
     }
 
@@ -48,15 +41,16 @@ class PromotionRewardPoints extends React.Component {
     // ----------- RENDER ----------
 
     render() {
-        const { language, showCalendar } = this.props;
-        const { data } = this.state;
+        const { language, toogleOtherPromotions } = this.props;
+        const { data,isShowContent } = this.state;
         const { campaignName } = data;
         return (
             <ItemPromo
                 title={data.defaultName}
                 isSelected={data.isDisabled === 0 ? false : true}
-                isShowContent={false}
+                isShowContent={isShowContent}
                 checkSelectPromotion={this.checkSelectPromotion}
+                toogleOtherPromotions={() => toogleOtherPromotions("promotionRewardPointsRef")}
             >
                 <View style={{ paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10) }} >
                     <InputForm

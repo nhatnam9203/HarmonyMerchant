@@ -1,14 +1,9 @@
 import React from 'react';
 import {
     View,
-    Image,
-    ScrollView,
-    Dimensions,
-    ActivityIndicator
 } from 'react-native';
 
 import { scaleSzie, localize, updateStateChildren, getServiceNameById ,formatWithMoment} from '@utils';
-import IMAGE from '@resources';
 import { Text, InputForm, ButtonCustom } from '@components';
 import ItemCalendar from './ItemCalendar';
 import ItemPromo from './ItemPromo';
@@ -22,6 +17,7 @@ class PromotionSecond extends React.Component {
         super(props);
         this.state = {
             data: this.props.data,
+            isShowContent: true
         };
     }
 
@@ -54,15 +50,16 @@ class PromotionSecond extends React.Component {
     // ----------- RENDER ----------
 
     render() {
-        const { language, showCalendar, dataDropdown, servicesByMerchant } = this.props;
-        const { data } = this.state;
+        const { language, showCalendar, dataDropdown, servicesByMerchant,onFocus,toogleOtherPromotions } = this.props;
+        const { data ,isShowContent} = this.state;
         const { campaignName } = data;
         return (
             <ItemPromo
                 title={data.defaultName}
                 isSelected={data.isDisabled === 0 ? false : true}
-                isShowContent={false}
+                isShowContent={isShowContent}
                 checkSelectPromotion={this.checkSelectPromotion}
+                toogleOtherPromotions={() => toogleOtherPromotions("promotionSecondRef")}
             >
                 <View style={{ paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10) }} >
                     <InputForm
@@ -78,6 +75,7 @@ class PromotionSecond extends React.Component {
                         }}
                         style={{ marginBottom: scaleSzie(10) }}
                         styleTitle={{fontWeight:"600"}}
+                        onFocus={() => onFocus(350)}
                     />
                     <Text style={{
                         color: '#404040',

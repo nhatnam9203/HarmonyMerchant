@@ -75,7 +75,8 @@ function appReducer(state = initialState, action) {
             return {
                 ...state,
                 refreshingPromotion: false,
-                isGetPromotionByMerchant: false
+                isGetPromotionByMerchant: false,
+                isApplyPromotion: false
             }
         case 'GET_PROMOTION_BY_APPOINTMENT_SUCCESS':
             return {

@@ -1,11 +1,11 @@
 import React from 'react';
-import { Alert, NativeModules } from 'react-native';
+import { } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import { getServiceIdByName } from '@utils';
+import { scaleSzie } from '../../../../../../utils';
 
-const PosLink = NativeModules.MyApp;
 
 class TabPromotion extends Layout {
 
@@ -23,6 +23,7 @@ class TabPromotion extends Layout {
     this.promotionFourRef = React.createRef();
     this.promotionFiveRef = React.createRef();
     this.promotionRewardPointsRef = React.createRef();
+    this.scrollRef = React.createRef();
   }
 
   componentDidMount() {
@@ -106,6 +107,20 @@ class TabPromotion extends Layout {
     this.promotionThirdRef.current.setStateFromParent(this.getDataItemPromotion(3, promotions));
     this.promotionFourRef.current.setStateFromParent(this.getDataItemPromotion(4, promotions));
     this.promotionFiveRef.current.setStateFromParent(this.getDataItemPromotion(5, promotions));
+  }
+
+  scrollToNumber = (num = 0) => {
+    this.scrollRef.current.scrollTo({ x: 0, y: scaleSzie(num), animated: true })
+  }
+
+  toogleOtherPromotions = (ref) => {
+    // this[ref].current.
+    // this.promotionFirstRef = React.createRef();
+    // this.promotionSecondRef = React.createRef();
+    // this.promotionThirdRef = React.createRef();
+    // this.promotionFourRef = React.createRef();
+    // this.promotionFiveRef = React.createRef();
+    // this.promotionRewardPointsRef = React.createRef();
   }
 
   componentDidUpdate(prevProps, prevState) {
