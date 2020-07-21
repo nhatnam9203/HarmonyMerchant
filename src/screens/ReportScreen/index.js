@@ -39,7 +39,7 @@ class ReportScreen extends Layout {
                     isFocus: true
                 });
                 this.checkPermissionRef.current.setStateFromParent('');
-                // this.props.actions.staff.toggleReportTabPermission();
+                this.props.actions.staff.toggleReportTabPermission();
             }
         );
     }
@@ -137,7 +137,8 @@ const mapStateToProps = state => ({
     refreshListStaffsSalary: state.staff.refreshListStaffsSalary,
     listStaffsCalendar: state.staff.listStaffsCalendar,
     dx: state.staff.dx,
-    reportTabPermission: state.staff.reportTabPermission
+    reportTabPermission: false
+    // reportTabPermission: state.staff.reportTabPermission
 })
 
 
