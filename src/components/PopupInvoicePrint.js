@@ -12,14 +12,13 @@ import { StarPRNT } from 'react-native-star-prnt';
 import { captureRef, releaseCapture } from "react-native-view-shot";
 
 import ButtonCustom from './ButtonCustom';
-import Button from './Button';
 import {
     scaleSzie, localize, PRINTER_MACHINE, getPaymentString, formatMoney, formatWithMoment,
     getStaffNameForInvoice
 } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 import PrintManager from '@lib/PrintManager';
-import ICON from "@resources";
+
 
 const initalState = {
     basket: [],
@@ -159,9 +158,6 @@ class PopupInvoicePrint extends React.Component {
     getPaymentMethods = () => {
         const { paymentDetailInfo } = this.props;
         return paymentDetailInfo.paidAmounts && paymentDetailInfo.paidAmounts.length > 0 ? (paymentDetailInfo.paidAmounts).reverse() : [];
-
-        // return paidAmounts.reverse();
-
     }
 
 
@@ -402,7 +398,6 @@ class PopupInvoicePrint extends React.Component {
                                     {
                                         !isPrintTempt ? <View>
                                             {
-                                                // paymentMethods.map 
                                                 temtCheckoutPayment.map((data, index) => <View key={index} style={{ marginBottom: scaleSzie(4) }} >
                                                     <Text style={[styleInvoice.txt_total,]} >
                                                         {`- Entry method : ${getPaymentString(data.paymentMethod ? data.paymentMethod : "")}`}

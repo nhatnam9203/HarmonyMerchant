@@ -128,7 +128,7 @@ export default class Layout extends React.Component {
                     <View style={{ width: scaleSzie(140), marginLeft: scaleSzie(16) }} >
                         <Dropdown
                             label={localize('Status', language)}
-                            data={[{ value: '' },{ value: 'Complete' }, { value: 'Pending' }, { value: 'Paid' }, { value: 'Void' },
+                            data={[{ value: '' }, { value: 'Complete' }, { value: 'Pending' }, { value: 'Paid' }, { value: 'Void' },
                             { value: 'Refund' }, { value: 'Cancel' }
                             ]}
                             value={status}
@@ -183,9 +183,11 @@ export default class Layout extends React.Component {
     }
 
     renderDetailInvoice() {
-        const { language, profile, profileStaffLogin } = this.props;
+        const { profile, profileStaffLogin } = this.props;
         const { invoiceDetail } = this.state;
         const basket = invoiceDetail.basket ? this.convertBasket(invoiceDetail.basket) : [];
+        const checkoutPayments = invoiceDetail.checkoutPayments && invoiceDetail.checkoutPayments.length > 0 ?
+            invoiceDetail.checkoutPayments.slice(0).reverse() : [];
 
         return (
             <View style={{ flex: 1 }} >
@@ -224,7 +226,7 @@ export default class Layout extends React.Component {
                                 fontSize: 20, fontWeight: "600",
                                 marginTop: scaleSzie(6), marginBottom: scaleSzie(6)
                             }]} >
-                                {`${invoiceDetail.status && invoiceDetail.status !== "paid" &&  invoiceDetail.status !== "pending" &&  invoiceDetail.status !== "complete" ? `${invoiceDetail.status}`.toUpperCase() : "SALE"}`}
+                                {`${invoiceDetail.status && invoiceDetail.status !== "paid" && invoiceDetail.status !== "pending" && invoiceDetail.status !== "complete" ? `${invoiceDetail.status}`.toUpperCase() : "SALE"}`}
                             </Text>
                             {/* ------------- Dot Border  ----------- */}
                             <View style={{ height: scaleSzie(8), marginBottom: scaleSzie(8), }} >
@@ -347,30 +349,27 @@ export default class Layout extends React.Component {
                                 value={invoiceDetail.total ? invoiceDetail.total : "0.00"}
                             />
                             {
-
-                                !invoiceDetail.checkoutPayments ? <View /> :
-                                    < View >
-                                        {
-                                            invoiceDetail.checkoutPayments.map((data, index) => <View key={index} style={{ marginBottom: scaleSzie(4) }} >
-                                                <Text style={[styles.txt_total,]} >
-                                                    {`- Entry method : ${getPaymentString(data.paymentMethod)}`}
-                                                </Text>
-                                                {
-                                                    data.paymentMethod === "credit_card" ?
-                                                        <View style={{ marginTop: scaleSzie(5) }} >
-                                                            <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
-                                                                {`    ${data.paymentInformation && data.paymentInformation.type ? data.paymentInformation.type : ""}: ***********${data.paymentInformation && data.paymentInformation.number ? data.paymentInformation.number : ""}`}
-                                                            </Text>
-                                                            <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
-                                                                {`    ${data.paymentInformation && data.paymentInformation.name ? data.paymentInformation.name : ""}`}
-                                                            </Text>
-                                                        </View>
-                                                        : null
-                                                }
-                                            </View>)
-                                        }
-                                    </View>
-
+                                < View >
+                                    {
+                                        checkoutPayments.map((data, index) => <View key={index} style={{ marginBottom: scaleSzie(4) }} >
+                                            <Text style={[styles.txt_total,]} >
+                                                {`- Entry method : ${getPaymentString(data.paymentMethod)}`}
+                                            </Text>
+                                            {
+                                                data.paymentMethod === "credit_card" ?
+                                                    <View style={{ marginTop: scaleSzie(5) }} >
+                                                        <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
+                                                            {`    ${data.paymentInformation && data.paymentInformation.type ? data.paymentInformation.type : ""}: ***********${data.paymentInformation && data.paymentInformation.number ? data.paymentInformation.number : ""}`}
+                                                        </Text>
+                                                        <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
+                                                            {`    ${data.paymentInformation && data.paymentInformation.name ? data.paymentInformation.name : ""}`}
+                                                        </Text>
+                                                    </View>
+                                                    : null
+                                            }
+                                        </View>)
+                                    }
+                                </View>
                             }
 
                             {/* ----------- Thanks , see you again -------- */}
@@ -694,7 +693,7 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { language, navigation, visibleConfirmPrintInvoice,invoiceTabPermission } = this.props;
+        const { language, navigation, visibleConfirmPrintInvoice, invoiceTabPermission } = this.props;
         const { visibleCalendar, isFocus, visibleConfirmInvoiceStatus, transactionId, visiblePrintInvoice } = this.state;
         return (
             <ParentContainer
