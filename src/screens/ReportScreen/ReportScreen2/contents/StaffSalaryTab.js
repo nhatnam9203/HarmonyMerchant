@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { HeaderTitle, HeaderTooltip, DateTimePickerButton } from "./Components";
+import { HeaderTitle, HeaderTooltip, DateTimePickerButton } from "../widget";
 
 export default function StaffSalaryTab({ style }) {
   return (

@@ -3,17 +3,17 @@ import { View } from "react-native";
 
 import IMAGE from "@resources";
 import { localize } from "@utils";
-import styles from "./style";
 
+import { HeaderTabLayout } from "./widget";
 import {
-  HeaderTabLayout,
   StaffSalaryTab,
   GiftCardTab,
   CustomerTab,
   ServicesTab,
   ProductTab,
   OverallTab,
-} from "./widget";
+} from "./contents";
+import styles from "./style";
 
 export default function ReportScreen2({}) {
   return (

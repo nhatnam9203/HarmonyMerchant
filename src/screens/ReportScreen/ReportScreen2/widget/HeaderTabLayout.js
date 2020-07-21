@@ -3,7 +3,6 @@ import { TouchableOpacity, StyleSheet, Text, View, Image } from "react-native";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 
 import IMAGE from "@resources";
-import styles from "../style";
 
 const DEFAULT_PAGE = 0;
 const ACTIVE_BG_COLOR = "#0764B0";
@@ -75,20 +74,16 @@ function CustomTabBar({ tabs, goToPage, activeTab, tabIcons }) {
         key={name}
         onPress={() => onPressHandle(page)}
       >
-        <View
-          style={[customStyles.tab, { backgroundColor: activeBackgroundColor }]}
-        >
+        <View style={[styles.tab, { backgroundColor: activeBackgroundColor }]}>
           {renderIconTab(page, activeTextColor)}
-          <Text style={[customStyles.text, { color: activeTextColor }]}>
-            {name}
-          </Text>
+          <Text style={[styles.text, { color: activeTextColor }]}>{name}</Text>
         </View>
       </TouchableOpacity>
     );
   };
 
   return (
-    <View style={customStyles.tabs}>
+    <View style={styles.tabs}>
       {tabs.map((name, page) => renderTabItem(name, page))}
     </View>
   );
@@ -106,7 +101,7 @@ const ImageComponent = ({ source, color }) => (
   />
 );
 
-const customStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   tab: {
     flex: 1,
     alignItems: "center",
@@ -126,4 +121,5 @@ const customStyles = StyleSheet.create({
   text: {
     fontSize: 15,
   },
+  scrollTab: { flex: 1 },
 });
