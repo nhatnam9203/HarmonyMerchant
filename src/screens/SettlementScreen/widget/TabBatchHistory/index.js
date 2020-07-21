@@ -22,6 +22,9 @@ class TabBatchHistory extends Layout {
         this.arraySettleRef = [];
     }
 
+    componentDidMount() {
+        this.props.actions.invoice.getBatchHistory();
+    }
 
     searchBatchHistoryWithSearch = () => {
         this.props.actions.invoice.updateBatchHistorySearchKeyword(this.state.searchFilter.keySearch);

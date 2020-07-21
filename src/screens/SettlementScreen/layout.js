@@ -65,6 +65,7 @@ export default class Layout extends React.Component {
                         tabLabel={localize('Credit/Debit Transactions', language)}
                     />
                     <TabBatchHistory
+                        ref={this.batchHistoryTabRef}
                         tabLabel={localize('Batch History', language)}
                     />
 

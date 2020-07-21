@@ -129,7 +129,7 @@ class Layout extends React.Component {
                         renderItem={({ item, index }) => <ItemTransaction data={item} />}
                         keyExtractor={(item, index) => `${index}`}
                         refreshing={refreshingTransaction}
-                        onRefresh={() => this.props.actions.invoice.getTransactionSettlement(false)}
+                        onRefresh={this.searchTransactions.bind(this,false)}
                     />
 
                 </View>

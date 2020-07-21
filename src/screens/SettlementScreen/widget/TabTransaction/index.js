@@ -21,11 +21,15 @@ class TabTransaction extends Layout {
         this.modalCalendarRef = React.createRef();
     }
 
+    componentDidMount() {
+        this.searchTransactions();
+    }
+
     resetStateFromParent = async () =>{
         await this.setState(initalSate);
     }
 
-    searchTransactions = () => {
+    searchTransactions = (isShowloading = true) => {
         const { searchFilter } = this.state;
         const { keySearch, status } = searchFilter;
         const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
@@ -36,6 +40,7 @@ class TabTransaction extends Layout {
             isCustomizeDate ? endDate : "",
             keySearch,
             quickFilter ? getQuickFilterStringInvoice(quickFilter) : "",
+            isShowloading
         );
 
 

@@ -14,6 +14,7 @@ class SettlementScreen extends Layout {
         this.tabSettleRef = React.createRef();
         this.checkPermissionRef = React.createRef();
         this.transactionTabRef = React.createRef();
+        this.batchHistoryTabRef = React.createRef();
     }
 
     componentDidMount() {
@@ -44,9 +45,13 @@ class SettlementScreen extends Layout {
     onChangeTab = (index) => {
         const currentIndex = index.i;
         if (currentIndex === 1) {
-            this.props.actions.invoice.getTransactionSettlement();
+            if(this.transactionTabRef.current){
+                this.transactionTabRef.current.searchTransactions();
+            }
         } else if (currentIndex === 2) {
-            this.props.actions.invoice.getBatchHistory();
+            if(this.batchHistoryTabRef.current){
+                this.batchHistoryTabRef.current.searchBatchHistory();
+            }
         }
     }
 
