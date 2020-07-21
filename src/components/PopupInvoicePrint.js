@@ -14,7 +14,7 @@ import { captureRef, releaseCapture } from "react-native-view-shot";
 import ButtonCustom from './ButtonCustom';
 import {
     scaleSzie, localize, PRINTER_MACHINE, getPaymentString, formatMoney, formatWithMoment,
-    getStaffNameForInvoice
+    getStaffNameForInvoice, formatNumberFromCurrency, roundFloatNumber
 } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 import PrintManager from '@lib/PrintManager';
@@ -392,7 +392,6 @@ class PopupInvoicePrint extends React.Component {
                                     }
 
 
-
                                     {/* ------------- Entry Method   ----------- */}
 
                                     {
@@ -420,6 +419,13 @@ class PopupInvoicePrint extends React.Component {
                                             : <View />
                                     }
 
+                                    {/* ------------- Change ------------------- */}
+                                    {
+                                        paymentDetailInfo.dueAmount ? <ItemTotal
+                                            title={"Change"}
+                                            value={Math.abs(paymentDetailInfo.dueAmount)}
+                                        /> : <View />
+                                    }
 
                                     {
                                         isSignature && !isPrintTempt ? <View style={{ height: scaleSzie(15), flexDirection: "row", marginTop: scaleSzie(15) }} >

@@ -25,8 +25,10 @@ class SettlementScreen extends Layout {
                     isFocus: false
                 });
                 this.scrollTabRef.current.goToPage(0);
-                this.transactionTabRef.current.resetStateFromParent();
                 this.checkPermissionRef.current.setStateFromParent('');
+                if(this.transactionTabRef.current){
+                    this.transactionTabRef.current.resetStateFromParent();
+                }
             }
         );
         this.didFocusSubscription = this.props.navigation.addListener(

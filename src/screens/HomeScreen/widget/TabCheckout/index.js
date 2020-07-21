@@ -259,7 +259,6 @@ class TabCheckout extends Layout {
                     } else {
                         this.createAnymousAppointment();
                     }
-
                 });
             }
         }
