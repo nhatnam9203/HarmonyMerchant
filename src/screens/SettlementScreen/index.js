@@ -23,7 +23,8 @@ class SettlementScreen extends Layout {
                     isFocus: false
                 });
                 this.scrollTabRef.current.goToPage(0);
-                this.checkPermissionRef.current.setStateFromParent('');
+                /**TODO: test close */
+                // this.checkPermissionRef.current.setStateFromParent('');
             }
         );
         this.didFocusSubscription = this.props.navigation.addListener(
@@ -34,7 +35,8 @@ class SettlementScreen extends Layout {
                 });
                 this.tabSettleRef.current.onDidFocus();
                 this.checkPermissionRef.current.setStateFromParent('');
-                this.props.actions.invoice.toggleSettlementTabPermission();
+                                /**TODO: test close */
+                // this.props.actions.invoice.toggleSettlementTabPermission();
             }
         );
     }
