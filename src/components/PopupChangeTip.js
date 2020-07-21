@@ -12,7 +12,7 @@ import Button from "./Button";
 import PopupParent from './PopupParent';
 import connectRedux from '@redux/ConnectRedux';
 
-import { scaleSzie, roundFloatNumber } from '../utils';
+import { scaleSzie, roundFloatNumber,formatNumberFromCurrency } from '../utils';
 
 class PopupChangeTip extends React.Component {
 
@@ -34,7 +34,7 @@ class PopupChangeTip extends React.Component {
     }
 
     setStateFromParent = async (appointmentId, tip, subTotal = 0) => {
-        console.log("---- subTotal : ", subTotal);
+        // console.log("---- subTotal : ", subTotal);
         await this.setState({
             appointmentId,
             tip,
@@ -75,10 +75,11 @@ class PopupChangeTip extends React.Component {
 
     selectPercent = async (percent) => {
         const { subTotal } = this.state;
-        const tip = (subTotal * percent) / 100;
+        // console.log("-----subTotal : ",subTotal);
+        const tip = ( formatNumberFromCurrency(subTotal) * percent) / 100;
         await this.setState({
             percent,
-            tip
+            tip : roundFloatNumber(tip)
         });
     }
 

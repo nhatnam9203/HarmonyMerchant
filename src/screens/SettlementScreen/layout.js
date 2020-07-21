@@ -53,6 +53,7 @@ export default class Layout extends React.Component {
                             fontSize: scaleSzie(16)
                         }}
                     />}
+                    onChangeTab={this.onChangeTab}
                 >
                     <TabSettle
                         ref={this.tabSettleRef}
@@ -60,6 +61,7 @@ export default class Layout extends React.Component {
                         reviewBatchHistory={this.reviewBatchHistory}
                     />
                     <TabTransaction
+                        ref={this.transactionTabRef}
                         tabLabel={localize('Credit/Debit Transactions', language)}
                     />
                     <TabBatchHistory

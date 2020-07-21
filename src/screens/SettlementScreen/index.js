@@ -13,6 +13,7 @@ class SettlementScreen extends Layout {
         this.scrollTabRef = React.createRef();
         this.tabSettleRef = React.createRef();
         this.checkPermissionRef = React.createRef();
+        this.transactionTabRef = React.createRef();
     }
 
     componentDidMount() {
@@ -23,6 +24,7 @@ class SettlementScreen extends Layout {
                     isFocus: false
                 });
                 this.scrollTabRef.current.goToPage(0);
+                this.transactionTabRef.current.resetStateFromParent();
                 this.checkPermissionRef.current.setStateFromParent('');
             }
         );
@@ -37,6 +39,15 @@ class SettlementScreen extends Layout {
                 this.props.actions.invoice.toggleSettlementTabPermission();
             }
         );
+    }
+
+    onChangeTab = (index) => {
+        const currentIndex = index.i;
+        if (currentIndex === 1) {
+            this.props.actions.invoice.getTransactionSettlement();
+        } else if (currentIndex === 2) {
+            this.props.actions.invoice.getBatchHistory();
+        }
     }
 
     reviewBatchHistory = () => {

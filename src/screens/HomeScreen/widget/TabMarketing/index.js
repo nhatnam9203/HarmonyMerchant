@@ -29,10 +29,6 @@ class TabMarketing extends Layout {
             this.props.actions.marketing.getBannerMerchant(profile.merchantId,false);
         }
     }
-
-
-
-
 }
 
 const mapStateToProps = state => ({
