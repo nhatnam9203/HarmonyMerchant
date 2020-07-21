@@ -144,4 +144,6 @@ export default {
   // --- Report ---
   Report_Product: require("./img/report_product.png"),
   Report_Overall: require("./img/report_overall.png"),
+  Report_Dropdown_Arrow: require("./img/report_arrow_drop_down.png"),
+  Report_Export: require("./img/report_export.png"),
 };

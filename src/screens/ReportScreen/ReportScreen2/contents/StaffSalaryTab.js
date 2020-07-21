@@ -1,14 +1,17 @@
 import React from "react";
-import { View, Text } from "react-native";
-import { HeaderTitle, HeaderTooltip, DateTimePickerButton } from "../widget";
+import { View } from "react-native";
+
+import IMAGE from "@resources";
+import { HeaderTitle, HeaderTooltip, PopupButton } from "../widget";
 
 export default function StaffSalaryTab({ style }) {
   return (
     <View style={style}>
       <HeaderTitle title="STAFF SALARY" />
       <HeaderTooltip>
-        <DateTimePickerButton timeText="Last Week" />
-        <DateTimePickerButton />
+        <PopupButton text="Last Week Last Week Last Week" />
+        <PopupButton text="All Staff" imageSrc={IMAGE.Report_Dropdown_Arrow} />
+        <PopupButton text="Export" imageSrc={IMAGE.Report_Export} />
       </HeaderTooltip>
     </View>
   );
