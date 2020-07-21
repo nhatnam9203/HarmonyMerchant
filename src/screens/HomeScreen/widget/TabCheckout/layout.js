@@ -967,6 +967,7 @@ class Layout extends React.Component {
                     changeStylistBasketLocal={this.changeStylistBasketLocal}
                 />
                 <PopupAddItemIntoAppointments 
+                    ref={this.popupAddItemIntoAppointmentsRef}
                     title={localize('Modification', language)}
                     visible={visiblePopupAddItemIntoBasket}
                     onRequestClose={() => this.setState({visiblePopupAddItemIntoBasket: false})}

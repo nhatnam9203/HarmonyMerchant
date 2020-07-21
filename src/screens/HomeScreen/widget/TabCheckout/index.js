@@ -40,6 +40,7 @@ class TabCheckout extends Layout {
         this.blockAppointmentRef = [];
 
         this.popupCustomerInfoRef = React.createRef();
+        this.popupAddItemIntoAppointmentsRef = React.createRef();
     }
 
     resetStateFromParent = async () => {
@@ -98,41 +99,42 @@ class TabCheckout extends Layout {
 
         // -------------  Group Appointment  ------------
         if (!_.isEmpty(groupAppointment)) {
-            // ----- new code -----
-            this.setState({
-                visiblePopupAddItemIntoBasket: true
-            });
 
-            return;
-
-            const appointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
+            const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
+            const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
+            let body = {};
             // -------------  Add Product  ------------
             if (categoryTypeSelected === 'Product') {
-                this.props.actions.appointment.addItemIntoAppointment(
-                    {
-                        services: [],
-                        extras: [],
-                        products: [{
-                            productId: productSeleted.productId,
-                            quantity: this.amountRef.current.state.quanlity
-                        }],
-                        giftCards: []
-                    }, appointmentId, true);
+                body = {
+                    services: [],
+                    extras: [],
+                    products: [{
+                        productId: productSeleted.productId,
+                        quantity: this.amountRef.current.state.quanlity
+                    }],
+                    giftCards: []
+                };
+
+
             } else {
                 //  -------------Add Extra , Service ---------
-                const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
-                const mainAppointment = appointments.find((appointment) => appointment.appointmentId === appointmentId);
+                const mainAppointment = appointments.find((appointment) => appointment.appointmentId === mainAppointmentId);
                 const temptExtra = extraSelected.extraId !== -1 ? [{ extraId: extraSelected.extraId }] : [];
-                this.props.actions.appointment.addItemIntoAppointment(
-                    {
-                        services: [{
-                            serviceId: productSeleted.serviceId,
-                            staffId: mainAppointment && mainAppointment.staff && mainAppointment.staff.staffId ? mainAppointment.staff.staffId : profileStaffLogin.staffId,
-                        }],
-                        extras: temptExtra,
-                        products: [],
-                        giftCards: []
-                    }, appointmentId, true);
+                body = {
+                    services: [{
+                        serviceId: productSeleted.serviceId,
+                        staffId: mainAppointment && mainAppointment.staff && mainAppointment.staff.staffId ? mainAppointment.staff.staffId : profileStaffLogin.staffId,
+                    }],
+                    extras: temptExtra,
+                    products: [],
+                    giftCards: []
+                };
+            }
+
+            if (appointments.length > 1) {
+                this.popupAddItemIntoAppointmentsRef.current.setStateFromParent(body, mainAppointmentId);
+            } else {
+                this.props.actions.appointment.addItemIntoAppointment(body, mainAppointmentId, true);
             }
         }
         // ------------- Create  Group Appointment  ------------

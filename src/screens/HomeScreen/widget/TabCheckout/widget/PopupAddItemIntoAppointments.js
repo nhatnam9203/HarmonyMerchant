@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     View,
     Text,
@@ -10,14 +10,18 @@ import _, { } from 'ramda';
 
 import { ButtonCustom, PopupParent, Button } from '@components';
 import connectRedux from '@redux/ConnectRedux';
-import { scaleSzie, getCodeAreaPhone } from '@utils';
+import { scaleSzie } from '@utils';
 import ICON from "@resources"
 
 const initalState = {
-    codeAreaPhone: '+1',
-    phone: "",
-    firstName: "",
-    lastName: ""
+    visible: false,
+    mainAppointmentId: 0,
+    data: {
+        services: [],
+        extras: [],
+        products: [],
+        giftCards: []
+    }
 };
 
 class PopupAddItemIntoAppointments extends React.Component {
@@ -41,52 +45,47 @@ class PopupAddItemIntoAppointments extends React.Component {
 
     }
 
-    setStateFromParent = async (firstName, lastName, phone) => {
+    setStateFromParent = async (data, mainAppointmentId) => {
         await this.setState({
-            firstName,
-            lastName,
-            phone: getCodeAreaPhone(phone).phone,
-            codeAreaPhone: getCodeAreaPhone(phone).areaCode,
+            visible: true,
+            data,
+            mainAppointmentId
         })
     }
 
-    submitCustomerInfo = () => {
-        const { codeAreaPhone, phone, firstName, lastName } = this.state;
-        const phoneNumber = `${codeAreaPhone}${phone}`;
 
-        this.props.actions.appointment.getCustomerBuyAppointment(phoneNumber, {
-            customerId: 0,
-            firstName,
-            lastName,
-            phone: phoneNumber
-        });
-    }
-
-    onFocusToScroll = (number) => {
-        this.scrollRef.current.scrollTo({ x: 0, y: scaleSzie(number), animated: true })
-    }
 
     onRequestClose = () => {
         this.setState(initalState);
-        this.props.onRequestClose();
     }
 
     addRef = (ref) => {
-        console.log("----ref : ", ref);
         if (ref) {
             this.listAppointmentRef.push(ref);
         }
     }
 
 
-    addItemIntoAppointments = () => {
-        console.log(this.listAppointmentRef);
+    addItemIntoAppointments = async () => {
+        const {data,mainAppointmentId } = this.state;
+        for(let i = 0 ; i<this.listAppointmentRef.length ; i++){
+            const ref = this.listAppointmentRef[i];
+            if(ref.state.ischeck){
+                const appointmentId = ref.props.appointment && ref.props.appointment.appointmentId ? ref.props.appointment.appointmentId : 0;
+                this.props.actions.appointment.addItemIntoMultiAppointment(data,appointmentId, mainAppointmentId, true);
+            }
+        }
+
+        await this.setState({
+            visible: false,
+        })
     }
 
     // --------------- Render -----------
 
     render() {
-        const { title, visible, groupAppointment } = this.props;
+        const { title, groupAppointment } = this.props;
+        const { visible } = this.state;
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
 
         return (
@@ -159,6 +158,7 @@ class ItemAppointment extends React.Component {
             ischeck: false
         }
     }
+
 
     toogleIsCheck = () => {
         this.setState(prevSate => ({
