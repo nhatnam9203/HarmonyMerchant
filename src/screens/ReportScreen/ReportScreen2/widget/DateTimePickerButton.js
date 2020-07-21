@@ -3,47 +3,11 @@ import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native";
 
 import IMAGE from "@resources";
 
-const MARGIN_Y = 10;
-const MARGIN_X = 10;
-const TOOLTIP_DEFAULT_HEIGHT = 50;
 const BOX_DEFAULT_WIDTH = 160;
 const BOX_DEFAULT_HEIGHT = 40;
 const ICON_DEFAULT_SIZE = 24;
 
-export function HeaderTitle({ title, style = {} }) {
-  return (
-    <Text
-      style={[
-        style,
-        {
-          fontSize: 17,
-          fontWeight: "bold",
-          color: "#404040",
-          marginVertical: MARGIN_Y,
-        },
-      ]}
-    >
-      {title}
-    </Text>
-  );
-}
-
-export function HeaderTooltip({ children }) {
-  return (
-    <View
-      style={{
-        height: TOOLTIP_DEFAULT_HEIGHT,
-        marginVertical: MARGIN_Y,
-        flexDirection: "row",
-        alignItems: "center",
-      }}
-    >
-      {children && children}
-    </View>
-  );
-}
-
-export function DateTimePickerButton({ timeText = "This Week" }) {
+export default function DateTimePickerButton({ timeText = "This Week" }) {
   return (
     <TouchableOpacity>
       <View

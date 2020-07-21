@@ -1,7 +1,11 @@
 import HeaderTabLayout from "./HeaderTabLayout";
-import * as Components from "./Components";
+import HeaderTitle from "./HeaderTitle";
+import HeaderTooltip from "./HeaderTooltip";
+import DateTimePickerButton from "./DateTimePickerButton";
 
 module.exports = {
   HeaderTabLayout,
-  ...Components,
+  HeaderTitle,
+  HeaderTooltip,
+  DateTimePickerButton,
 };
