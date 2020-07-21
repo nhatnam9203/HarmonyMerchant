@@ -1,14 +1,11 @@
 import React from 'react';
 import {
     View,
-    Image,
     Text,
-    StyleSheet
 } from 'react-native';
 
 import { Button } from '@components';
 import { scaleSzie, formatWithMoment } from '@utils';
-import IMAGE from '@resources';
 
 class ItemInvoice extends React.Component {
 

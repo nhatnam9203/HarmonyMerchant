@@ -22,7 +22,7 @@ import {
     PopupBlockDiscount, ItemPaymentMethod,
     ShadowLineLeftToRight,
     ShadowLineRightToLeft,
-    ShadowLineShort, PopupChangeCustomerInfo
+    ShadowLineShort, PopupChangeCustomerInfo,PopupAddItemIntoAppointments
 } from './widget';
 
 class Layout extends React.Component {
@@ -850,7 +850,9 @@ class Layout extends React.Component {
 
     render() {
         const { language, visiblePopupPaymentDetails } = this.props;
-        const {  visibleConfirm, visibleChangeStylist, visiblePopupDiscountLocal, visibleScanCode} = this.state;
+        const {  visibleConfirm, visibleChangeStylist, visiblePopupDiscountLocal, visibleScanCode,
+        visiblePopupAddItemIntoBasket
+        } = this.state;
         
         return (
             <View style={styles.container} >
@@ -963,6 +965,11 @@ class Layout extends React.Component {
                     title={localize('Modification', language)}
                     onRequestClose={() => { this.setState({ visibleCustomerName: false }) }}
                     changeStylistBasketLocal={this.changeStylistBasketLocal}
+                />
+                <PopupAddItemIntoAppointments 
+                    title={localize('Modification', language)}
+                    visible={visiblePopupAddItemIntoBasket}
+                    onRequestClose={() => this.setState({visiblePopupAddItemIntoBasket: false})}
                 />
             </View>
         );
