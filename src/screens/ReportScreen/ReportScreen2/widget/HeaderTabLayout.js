@@ -33,6 +33,7 @@ export default function HeaderTabLayout({ children, tabIcons }) {
       style={styles.scrollTab}
       initialPage={DEFAULT_PAGE}
       locked={true}
+      scrollWithoutAnimation
       renderTabBar={renderHeaderTab}
       onChangeTab={onChangeTab}
     >
