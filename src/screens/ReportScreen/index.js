@@ -39,7 +39,7 @@ class ReportScreen extends Layout {
                     isFocus: true
                 });
                 this.checkPermissionRef.current.setStateFromParent('');
-                this.props.actions.staff.toggleReportTabPermission();
+                // this.props.actions.staff.toggleReportTabPermission();
             }
         );
     }

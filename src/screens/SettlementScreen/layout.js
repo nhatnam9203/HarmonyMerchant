@@ -13,12 +13,7 @@ import {
 import { scaleSzie, localize } from "@utils";
 import styles from "./style";
 import IMAGE from "@resources";
-import {
-  TabSettle,
-  TabTransaction,
-  TabBatchHistory,
-  TabSettlement,
-} from "./widget";
+import { TabSettle, TabTransaction, TabBatchHistory } from "./widget";
 
 export default class Layout extends React.Component {
   renderHeader() {
@@ -82,8 +77,6 @@ export default class Layout extends React.Component {
             tabLabel={localize("Credit/Debit Transactions", language)}
           />
           <TabBatchHistory tabLabel={localize("Batch History", language)} />
-
-          <TabSettlement tabLabel={localize("Settle", language)} />
         </ScrollableTabView>
       </View>
     );
