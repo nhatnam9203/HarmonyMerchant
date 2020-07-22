@@ -16,15 +16,12 @@ class TabFirstSettle extends Layout {
         this.state = {
             creditCount: 0,
             creditAmount: 0,
-            // settleTotal: {
             editPaymentByHarmony: 0.00,
             editPaymentByCreditCard: 0.00,
             editPaymentByCash: 0.00,
             editOtherPayment: 0.00,
             total: 0.00,
             note: ''
-            // },
-
         };
         this.arrayStaffRef = [];
         this.inputHarmonyPaymentRef = React.createRef();
@@ -85,20 +82,23 @@ class TabFirstSettle extends Layout {
     }
 
     gotoTabSecondSettle = async () => {
-        const { creditCount, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment, note } = this.state;
-        this.props.gotoTabSecondSettle({
-            paymentByHarmony: editPaymentByHarmony,
-            paymentByCreditCard: editPaymentByCreditCard,
-            paymentByCash: editPaymentByCash,
-            otherPayment: editOtherPayment,
-            total: roundFloatNumber(
-                formatNumberFromCurrency(editPaymentByHarmony) +
-                formatNumberFromCurrency(editPaymentByCreditCard) +
-                formatNumberFromCurrency(editPaymentByCash) +
-                formatNumberFromCurrency(editOtherPayment)
-            ),
-            note
-        },creditCount);
+        
+        this.props.actions.invoice.getSettlementWarning();
+
+        // const { creditCount, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment, note } = this.state;
+        // this.props.gotoTabSecondSettle({
+        //     paymentByHarmony: editPaymentByHarmony,
+        //     paymentByCreditCard: editPaymentByCreditCard,
+        //     paymentByCash: editPaymentByCash,
+        //     otherPayment: editOtherPayment,
+        //     total: roundFloatNumber(
+        //         formatNumberFromCurrency(editPaymentByHarmony) +
+        //         formatNumberFromCurrency(editPaymentByCreditCard) +
+        //         formatNumberFromCurrency(editPaymentByCash) +
+        //         formatNumberFromCurrency(editOtherPayment)
+        //     ),
+        //     note
+        // },creditCount);
     }
 
     getInvoicesOfStaff = async (staffId) => {
@@ -133,7 +133,6 @@ class TabFirstSettle extends Layout {
         if (prevProps.isGettingSettlement === "loading" && isGettingSettlement === "success" && !_.isEmpty(settleWaiting)) {
             await this.setState({
                 editPaymentByHarmony: settleWaiting.paymentByHarmony ? settleWaiting.paymentByHarmony : 0.00,
-                // editPaymentByCreditCard: settleWaiting.paymentByCreditCard ? settleWaiting.paymentByCreditCard : 0.00,
                 editPaymentByCash: settleWaiting.paymentByCash ? settleWaiting.paymentByCash : 0.00,
                 editOtherPayment: settleWaiting.otherPayment ? settleWaiting.otherPayment : 0.00,
                 total: settleWaiting.total ? settleWaiting.total : 0.00,

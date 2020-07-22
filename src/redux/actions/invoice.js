@@ -161,3 +161,11 @@ export function toggleSettlementTabPermission(visible = true) {
     }
 }
 
+export function getSettlementWarning() {
+    return {
+        type: 'GET_SETTLEMENT_WARNING',
+        method: 'GET',
+        api: `${apiConfigs.BASE_API}settlement/warning`,
+        token: true
+    }
+}

@@ -13,7 +13,6 @@ import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatN
 import {
     Text, ButtonCustom,
 } from '@components';
-import IMAGE from '@resources';
 import TextInputAmount from './widget/TextInputAmount';
 import ItemStaff from './widget/ItemStaff';
 import TotalCustom from './widget/TotalCustom';

@@ -66,17 +66,24 @@ class PopupAddItemIntoAppointments extends React.Component {
 
     addItemIntoAppointments = async () => {
         const { data, mainAppointmentId } = this.state;
+        let isNotCheck = true;
         for (let i = 0; i < this.listAppointmentRef.length; i++) {
             const ref = this.listAppointmentRef[i];
             if (ref.state.ischeck) {
+                isNotCheck = false;
                 const appointmentId = ref.props.appointment && ref.props.appointment.appointmentId ? ref.props.appointment.appointmentId : 0;
                 this.props.actions.appointment.addItemIntoMultiAppointment(data, appointmentId, mainAppointmentId, true);
             }
         }
 
-        await this.setState({
-            visible: false,
-        })
+        if(isNotCheck){
+            alert("Choose at least the one to add into!")
+        }else{
+            await this.setState({
+                visible: false,
+            })
+        }
+       
     }
 
     // --------------- Render -----------
@@ -106,7 +113,7 @@ class PopupAddItemIntoAppointments extends React.Component {
                     }} >
                         {`Which are appointments you'd like to add this one into?`}
                     </Text>
-                    <View style={{ flex: 1}} >
+                    <View style={{ flex: 1 }} >
 
                         <FlatList
                             data={appointments}
