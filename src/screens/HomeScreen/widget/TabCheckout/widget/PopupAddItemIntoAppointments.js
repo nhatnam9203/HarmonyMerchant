@@ -33,9 +33,6 @@ class PopupAddItemIntoAppointments extends React.Component {
         this.listAppointmentRef = [];
     }
 
-    componentDidMount() {
-        this.keyboardWillHide = Keyboard.addListener('keyboardWillHide', this.handleKeyboardWillHide);
-    }
 
     handleKeyboardWillHide = async () => {
 
@@ -57,6 +54,7 @@ class PopupAddItemIntoAppointments extends React.Component {
 
     onRequestClose = () => {
         this.setState(initalState);
+
     }
 
     addRef = (ref) => {
@@ -67,12 +65,12 @@ class PopupAddItemIntoAppointments extends React.Component {
 
 
     addItemIntoAppointments = async () => {
-        const {data,mainAppointmentId } = this.state;
-        for(let i = 0 ; i<this.listAppointmentRef.length ; i++){
+        const { data, mainAppointmentId } = this.state;
+        for (let i = 0; i < this.listAppointmentRef.length; i++) {
             const ref = this.listAppointmentRef[i];
-            if(ref.state.ischeck){
+            if (ref.state.ischeck) {
                 const appointmentId = ref.props.appointment && ref.props.appointment.appointmentId ? ref.props.appointment.appointmentId : 0;
-                this.props.actions.appointment.addItemIntoMultiAppointment(data,appointmentId, mainAppointmentId, true);
+                this.props.actions.appointment.addItemIntoMultiAppointment(data, appointmentId, mainAppointmentId, true);
             }
         }
 
@@ -106,9 +104,9 @@ class PopupAddItemIntoAppointments extends React.Component {
                         textAlign: "center", marginVertical: scaleSzie(15),
                         fontWeight: "600", fontSize: scaleSzie(14), color: "#404040"
                     }} >
-                        {`What are appointments you'd like to add into?`}
+                        {`Which are appointments you'd like to add this one into?`}
                     </Text>
-                    <View style={{ flex: 1 }} >
+                    <View style={{ flex: 1}} >
 
                         <FlatList
                             data={appointments}
@@ -116,9 +114,10 @@ class PopupAddItemIntoAppointments extends React.Component {
                                 ref={this.addRef}
                                 key={`${item.appointmentId}_${index}`}
                                 appointment={item}
+                                index={index + 1}
                             />}
                             keyExtractor={(item, index) => `${item.appointmentId}_${index}`}
-                            ListFooterComponent={() => <View style={{ height: scaleSzie(200) }} />}
+                            ListFooterComponent={() => <View style={{ height: scaleSzie(50) }} />}
                             showsVerticalScrollIndicator={false}
                         />
                     </View>
@@ -144,8 +143,14 @@ class PopupAddItemIntoAppointments extends React.Component {
         );
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.visible !== this.state.visible && !this.state.visible) {
+            this.listAppointmentRef = [];
+        }
+    }
+
     componentWillUnmount() {
-        this.keyboardWillHide.remove();
+        this.listAppointmentRef = [];
     }
 
 }
@@ -167,7 +172,7 @@ class ItemAppointment extends React.Component {
     }
 
     render() {
-        const { appointment } = this.props;
+        const { appointment, index } = this.props;
         const { ischeck } = this.state;
         const iconIsCheck = ischeck ? ICON.checkBox : ICON.checkBoxEmpty;
         const firstName = appointment.firstName ? appointment.firstName : "";
@@ -179,6 +184,11 @@ class ItemAppointment extends React.Component {
                 height: scaleSzie(45), flexDirection: "row",
                 borderBottomColor: '#C5C5C5', borderBottomWidth: 1, paddingHorizontal: scaleSzie(10),
             }} >
+                <View style={{ justifyContent: "center", paddingRight: scaleSzie(10) }} >
+                    <Text style={{ fontWeight: "bold", fontSize: scaleSzie(12), color: "#404040" }} >
+                        {`${index}.`}
+                    </Text>
+                </View>
                 <View style={{ flex: 1, justifyContent: "center" }} >
                     <Text style={{ fontWeight: "500", fontSize: scaleSzie(14), color: "#404040", marginBottom: scaleSzie(2) }} >
                         {`${firstName} ${lastName}`}

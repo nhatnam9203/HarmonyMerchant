@@ -373,10 +373,10 @@ export default class Layout extends React.Component {
                                 </View>
                             }
 
-                            <ItemTotal
+                            {/* <ItemTotal
                                 title={"Change"}
                                 value={invoiceDetail.refundAmount ? invoiceDetail.refundAmount : "0.00"}
-                            />
+                            /> */}
 
                             {/* ----------- Thanks , see you again -------- */}
                             <View style={{ height: scaleSzie(20) }} />
@@ -496,20 +496,27 @@ export default class Layout extends React.Component {
                 {/* ----------- Body --------- */}
                 <View style={{ flex: 1 }} >
                     <View style={{ height: scaleSzie(16) }} />
-                    {
-                        invoiceDetail.history.map((item, index) => <ItemHistory
-                            key={index}
-                            data={item}
-                        />)
-                    }
+                    <Text style={{ color: '#404040', fontSize: scaleSzie(13), fontWeight: "bold" }} >
+                        {`Change : ${invoiceDetail.refundAmount ? invoiceDetail.refundAmount : 0.00}`}
+                    </Text>
+                    <View style={{ flex: 1 }} >
+                        <ScrollView showsVerticalScrollIndicator={false} >
+                            {
+                                invoiceDetail.history.map((item, index) => <ItemHistory
+                                    key={index}
+                                    data={item}
+                                />)
+                            }
+                        </ScrollView>
+                    </View>
+
                 </View>
             </View>
         );
     }
 
     renderInvoice() {
-        const { language, listInvoicesByMerchant, refreshListInvoice,
-            listInvoicesSearch, isShowSearchInvoice, isLoadMoreInvoiceList
+        const { language, listInvoicesByMerchant, refreshListInvoice, isLoadMoreInvoiceList
         } = this.props;
         const { invoiceDetail } = this.state;
 
