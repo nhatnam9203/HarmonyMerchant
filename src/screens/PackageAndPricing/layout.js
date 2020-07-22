@@ -141,8 +141,8 @@ export default class Layout extends React.Component {
                     <ItemValuePackage
                         isDisabled={secondPackage && secondPackage.pos ? secondPackage.pos : 0}
                     />
-                     <ItemValuePackage
-                        isDisabled={firstPackage && firstPackage.interactiveScheduling ? firstPackage.interactiveScheduling : 0}
+                    <ItemValuePackage
+                        isDisabled={secondPackage && secondPackage.interactiveScheduling ? secondPackage.interactiveScheduling : 0}
                     />
                     <ItemValuePackage
                         isDisabled={secondPackage && secondPackage.signinApp ? secondPackage.signinApp : 0}
@@ -167,8 +167,8 @@ export default class Layout extends React.Component {
                     <ItemValuePackage
                         isDisabled={thirstPackage && thirstPackage.pos ? thirstPackage.pos : 0}
                     />
-                     <ItemValuePackage
-                        isDisabled={firstPackage && firstPackage.interactiveScheduling ? firstPackage.interactiveScheduling : 0}
+                    <ItemValuePackage
+                        isDisabled={thirstPackage && thirstPackage.interactiveScheduling ? thirstPackage.interactiveScheduling : 0}
                     />
                     <ItemValuePackage
                         isDisabled={thirstPackage && thirstPackage.signinApp ? thirstPackage.signinApp : 0}
@@ -350,7 +350,7 @@ class ItemFirstPricing extends React.Component {
         const { toogle } = this.state;
 
         return (
-            <View style={{ flex: 1, backgroundColor: "#0764B0" ,justifyContent:"center"}} >
+            <View style={{ flex: 1, backgroundColor: "#0764B0", justifyContent: "center" }} >
                 {/* <View style={{ flex: 1, justifyContent: "center" }} >
                     <View style={{
                         flexDirection: "row", height: scaleSzie(26),
@@ -366,7 +366,7 @@ class ItemFirstPricing extends React.Component {
 
                 </View> */}
                 <View style={{
-                   paddingHorizontal: scaleSzie(12), flexDirection: "row",
+                    paddingHorizontal: scaleSzie(12), flexDirection: "row",
                     justifyContent: "space-between",
                 }} >
                     <View>

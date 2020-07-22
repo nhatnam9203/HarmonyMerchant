@@ -1,10 +1,11 @@
 import React from 'react';
-import { NativeModules } from 'react-native';
-import _, { values } from "ramda";
+import { NativeModules, Alert } from 'react-native';
+import _ from "ramda";
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { formatNumberFromCurrency, formatMoney, scaleSzie, roundFloatNumber } from '@utils';
+import { formatNumberFromCurrency, formatMoney, scaleSzie, roundFloatNumber, requestAPI } from '@utils';
+import apiConfigs from '@configs/api';
 
 
 const PosLink = NativeModules.MyApp;
@@ -50,7 +51,6 @@ class TabFirstSettle extends Layout {
     }
 
     handleReportTabFirst = () => {
-        // this.props.actions.invoice.getSettlementWating(false);
         const { paxMachineInfo } = this.props;
         const { ip, port, timeout, isSetup } = paxMachineInfo;
         if (isSetup) {
@@ -81,24 +81,65 @@ class TabFirstSettle extends Layout {
         }
     }
 
-    gotoTabSecondSettle = async () => {
-        
-        this.props.actions.invoice.getSettlementWarning();
+    continueSettlement = () => {
+        const { creditCount, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment, note } = this.state;
+        this.props.gotoTabSecondSettle({
+            paymentByHarmony: editPaymentByHarmony,
+            paymentByCreditCard: editPaymentByCreditCard,
+            paymentByCash: editPaymentByCash,
+            otherPayment: editOtherPayment,
+            total: roundFloatNumber(
+                formatNumberFromCurrency(editPaymentByHarmony) +
+                formatNumberFromCurrency(editPaymentByCreditCard) +
+                formatNumberFromCurrency(editPaymentByCash) +
+                formatNumberFromCurrency(editOtherPayment)
+            ),
+            note
+        }, creditCount);
+    }
 
-        // const { creditCount, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment, note } = this.state;
-        // this.props.gotoTabSecondSettle({
-        //     paymentByHarmony: editPaymentByHarmony,
-        //     paymentByCreditCard: editPaymentByCreditCard,
-        //     paymentByCash: editPaymentByCash,
-        //     otherPayment: editOtherPayment,
-        //     total: roundFloatNumber(
-        //         formatNumberFromCurrency(editPaymentByHarmony) +
-        //         formatNumberFromCurrency(editPaymentByCreditCard) +
-        //         formatNumberFromCurrency(editPaymentByCash) +
-        //         formatNumberFromCurrency(editOtherPayment)
-        //     ),
-        //     note
-        // },creditCount);
+    gotoTabSecondSettle = async () => {
+        const { versionApp, profileStaffLogin } = this.props;
+        try {
+            this.props.actions.app.loadingApp();
+            const getSettlementWarning = await requestAPI({
+                type: 'GET_SETTLEMENT_WARNING',
+                method: 'GET',
+                token: profileStaffLogin.token,
+                api: `${apiConfigs.BASE_API}settlement/warning`,
+                versionApp: versionApp
+            });
+            this.props.actions.app.stopLoadingApp();
+
+            const isWarning = getSettlementWarning.data ? getSettlementWarning.data : false;
+            if (isWarning) {
+                setTimeout(() => {
+                    Alert.alert(
+                        "Warning",
+                        "You have some appointments need completing before submit settlement. Do you want continue?",
+                        [
+
+                            {
+                                text: "No",
+                                onPress: () => { },
+                                style: "cancel"
+                            },
+                            { text: "Yes", onPress: () => this.continueSettlement() }
+                        ],
+                        { cancelable: false }
+                    );
+                }, 300)
+
+
+            } else {
+                this.continueSettlement()
+            }
+        } catch (error) {
+            this.props.actions.app.stopLoadingApp();
+            this.props.actions.app.catchError(error)
+        }
+
+
     }
 
     getInvoicesOfStaff = async (staffId) => {
@@ -150,7 +191,9 @@ const mapStateToProps = state => ({
     invoicesOfStaff: state.invoice.invoicesOfStaff,
     loading: state.app.loading,
     refreshingSettle: state.invoice.refreshingSettle,
-    isGettingSettlement: state.invoice.isGettingSettlement
+    isGettingSettlement: state.invoice.isGettingSettlement,
+    versionApp: state.dataLocal.versionApp,
+    profileStaffLogin: state.dataLocal.profileStaffLogin
 })
 
 
