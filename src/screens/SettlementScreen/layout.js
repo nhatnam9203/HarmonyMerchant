@@ -1,119 +1,105 @@
-import React from "react";
-import { View, Image } from "react-native";
-import ScrollableTabView from "react-native-scrollable-tab-view";
-
+import React from 'react';
 import {
-  Text,
-  StatusBarHeader,
-  Button,
-  ParentContainer,
-  PopupCheckStaffPermission,
-  DefaultTabBar,
-} from "@components";
-import { scaleSzie, localize } from "@utils";
-import styles from "./style";
-import IMAGE from "@resources";
-import { TabSettle, TabTransaction, TabBatchHistory } from "./widget";
+    View,
+    Image,
+} from 'react-native';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
+
+import { Text, StatusBarHeader, Button, ParentContainer, PopupCheckStaffPermission, DefaultTabBar } from '@components';
+import { scaleSzie, localize } from '@utils';
+import styles from './style';
+import IMAGE from '@resources';
+import {
+    TabSettle,
+    TabTransaction,
+    TabBatchHistory
+} from './widget';
 
 export default class Layout extends React.Component {
-  renderHeader() {
-    const { language, connectPAXStatus } = this.props;
-    const statusConnectColor = connectPAXStatus.status ? "#4CD964" : "#FF6F00";
 
-    return (
-      <View
-        style={{
-          height: scaleSzie(35),
-          borderBottomColor: "#0764B0",
-          borderWidth: 3,
-          paddingLeft: scaleSzie(50),
-          justifyContent: "center",
-        }}
-      >
-        <Text style={{ fontSize: scaleSzie(16), color: "#0764B0" }}>
-          {localize("Batch Settlements", language)}
-          <Text
-            numberOflines={1}
-            style={{
-              fontSize: scaleSzie(11),
-              color: statusConnectColor,
-              fontWeight: "600",
-              fontStyle: "italic",
-            }}
-          >
-            {`  ${connectPAXStatus.message}`}
-          </Text>
-        </Text>
-      </View>
-    );
-  }
+    renderHeader() {
+        const { language, connectPAXStatus } = this.props;
+        const statusConnectColor = connectPAXStatus.status ? "#4CD964" : "#FF6F00";
 
-  renderTabContainer() {
-    const { language } = this.props;
-    return (
-      <View style={{ flex: 1 }}>
-        <ScrollableTabView
-          ref={this.scrollTabRef}
-          style={{}}
-          initialPage={0}
-          locked={true}
-          renderTabBar={() => (
-            <DefaultTabBar
-              activeTextColor="#fff"
-              inactiveTextColor="#6A6A6A"
-              backgroundTabActive="#0764B0"
-              textStyle={{
-                fontSize: scaleSzie(16),
-              }}
-            />
-          )}
-        >
-          <TabSettle
-            ref={this.tabSettleRef}
-            tabLabel={localize("Settle", language)}
-            reviewBatchHistory={this.reviewBatchHistory}
-          />
-          <TabTransaction
-            tabLabel={localize("Credit/Debit Transactions", language)}
-          />
-          <TabBatchHistory tabLabel={localize("Batch History", language)} />
-        </ScrollableTabView>
-      </View>
-    );
-  }
+        return (
+            <View style={{
+                height: scaleSzie(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: scaleSzie(50),
+                justifyContent: 'center'
+            }} >
+                <Text style={{ fontSize: scaleSzie(16), color: '#0764B0' }} >
+                    {localize('Batch Settlements', language)}
+                    <Text numberOflines={1} style={{ fontSize: scaleSzie(11), color: statusConnectColor, fontWeight: "600", fontStyle: 'italic' }} >
+                        {`  ${connectPAXStatus.message}`}
+                    </Text>
+                </Text>
+            </View>
+        );
+    }
 
-  render() {
-    const { navigation, language, settlementTabPermission } = this.props;
-    const { isFocus } = this.state;
-    return (
-      <ParentContainer
-        handleLockScreen={this.handleLockScreen}
-        activeScreen={isFocus}
-        navigation={navigation}
-      >
-        <View style={styles.container}>
-          <StatusBarHeader />
-          {this.renderHeader()}
-          {this.renderTabContainer()}
-          <Button
-            onPress={this.openDrawer}
-            style={{ position: "absolute", top: 20, left: 0 }}
-          >
-            <Image
-              source={IMAGE.openDrawer}
-              style={{ width: scaleSzie(34), height: scaleSzie(34) }}
-            />
-          </Button>
+    renderTabContainer() {
+        const { language } = this.props;
+        return (
+            <View style={{ flex: 1 }} >
+                <ScrollableTabView
+                    ref={this.scrollTabRef}
+                    style={{}}
+                    initialPage={0}
+                    locked={true}
+                    renderTabBar={() => <DefaultTabBar
+                        activeTextColor="#fff"
+                        inactiveTextColor="#6A6A6A"
+                        backgroundTabActive="#0764B0"
+                        textStyle={{
+                            fontSize: scaleSzie(16)
+                        }}
+                    />}
+                    onChangeTab={this.onChangeTab}
+                >
+                    <TabSettle
+                        ref={this.tabSettleRef}
+                        tabLabel={localize('Settle', language)}
+                        reviewBatchHistory={this.reviewBatchHistory}
+                    />
+                    <TabTransaction
+                        ref={this.transactionTabRef}
+                        tabLabel={localize('Credit/Debit Transactions', language)}
+                    />
+                    <TabBatchHistory
+                        ref={this.batchHistoryTabRef}
+                        tabLabel={localize('Batch History', language)}
+                    />
 
-          <PopupCheckStaffPermission
-            ref={this.checkPermissionRef}
-            visiblePopupCheckStaffPermission={settlementTabPermission}
-            title={localize("Input PIN Number", language)}
-            tabName="Settlement"
-            onRequestClose={this.closePopupCheckSettementTabPermission}
-          />
-        </View>
-      </ParentContainer>
-    );
-  }
+                </ScrollableTabView>
+            </View>
+        );
+    }
+
+    render() {
+        const { navigation, language ,settlementTabPermission} = this.props;
+        const { isFocus } = this.state;
+        return (
+            <ParentContainer
+                handleLockScreen={this.handleLockScreen}
+                activeScreen={isFocus}
+                navigation={navigation}
+            >
+                <View style={styles.container} >
+                    <StatusBarHeader />
+                    {this.renderHeader()}
+                    {this.renderTabContainer()}
+                    <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
+                        <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
+                    </Button>
+
+                    <PopupCheckStaffPermission
+                        ref={this.checkPermissionRef}
+                        visiblePopupCheckStaffPermission={settlementTabPermission}
+                        title={localize('Input PIN Number', language)}
+                        tabName="Settlement"
+                        onRequestClose={this.closePopupCheckSettementTabPermission}
+                    />
+                </View>
+            </ParentContainer>
+        );
+    }
 }

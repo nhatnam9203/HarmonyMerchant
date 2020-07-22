@@ -6,7 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "build:ios": "react-native bundle --entry-file='./index.js' --bundle-output='./ios/Hpmerchant/main.jsbundle' --dev=false --platform='ios'",
-    "codepush:ios:staging": "code-push release-react HpMerchant-IOS ios -d \"Staging\" -k private.pem -m --plistFile ./ios/Hpmerchant/Info_Staging.plist --description \"Fix order payment methods in invoice \" -t \"1.0.2\"",
+    "codepush:ios:staging": "code-push release-react HpMerchant-IOS ios -d \"Staging\" -k private.pem -m --plistFile ./ios/Hpmerchant/Info_Staging.plist --description \"Fix bugs\" -t \"1.0.2\"",
     "codepush:ios:product": "code-push release-react HpMerchant-IOS ios -d \"Production\" -k private.pem -m --plistFile ./ios/Hpmerchant/Info.plist --description \"fix in settlement tab \" -t \"1.0.8\" ",
     "nho_check_endpoint": "------Important-----"
   },

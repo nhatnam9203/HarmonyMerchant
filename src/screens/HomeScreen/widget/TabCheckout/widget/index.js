@@ -22,6 +22,7 @@ import PopupPaymentDetails from './PopupPaymentDetails';
 import ItemBlockBasket from "./ItemBlockBasket";
 import PopupBlockDiscount from "./PopupBlockDiscount";
 import PopupChangeCustomerInfo from "./PopupChangeCustomerInfo";
+import PopupAddItemIntoAppointments from "./PopupAddItemIntoAppointments";
 
 import styles from "../style";
 
@@ -97,7 +98,8 @@ module.exports = {
     ItemPaymentMethod,
     ShadowLineLeftToRight,
     ShadowLineRightToLeft,
-    ShadowLineShort
+    ShadowLineShort,
+    PopupAddItemIntoAppointments
 }
 
 

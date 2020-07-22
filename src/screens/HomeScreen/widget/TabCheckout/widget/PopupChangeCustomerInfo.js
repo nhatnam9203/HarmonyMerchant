@@ -204,7 +204,7 @@ class PopupChangeCustomerInfo extends React.Component {
                                             onPress={this.submitCustomerInfo}
                                             style={{
                                                 borderWidth: 1, borderColor: '#C5C5C5',
-                                                borderRadius: 4
+                                                borderRadius: scaleSzie(4)
                                             }}
                                         />
                                 }

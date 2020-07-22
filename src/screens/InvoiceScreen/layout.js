@@ -348,6 +348,7 @@ export default class Layout extends React.Component {
                                 title={"Total"}
                                 value={invoiceDetail.total ? invoiceDetail.total : "0.00"}
                             />
+
                             {
                                 < View >
                                     {
@@ -371,6 +372,11 @@ export default class Layout extends React.Component {
                                     }
                                 </View>
                             }
+
+                            <ItemTotal
+                                title={"Change"}
+                                value={invoiceDetail.refundAmount ? invoiceDetail.refundAmount : "0.00"}
+                            />
 
                             {/* ----------- Thanks , see you again -------- */}
                             <View style={{ height: scaleSzie(20) }} />
@@ -403,85 +409,6 @@ export default class Layout extends React.Component {
             </View >
         );
     }
-
-    renderDetailInvoice_1() {
-        const { language } = this.props;
-        const { invoiceDetail } = this.state;
-        return (
-            <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(8) }} >
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    keyboardShouldPersistTaps="always"
-                >
-                    {/* ------- */}
-                    <ItemInfo
-                        title={localize('Invoice No', language)}
-                        value={invoiceDetail.checkoutId ? `# ${invoiceDetail.checkoutId}` : ''}
-                    />
-                    <ItemInfo
-                        title={localize('Customer Name', language)}
-                        value={invoiceDetail.user ? `${invoiceDetail.user.firstName} ${invoiceDetail.user.lastName}` : ''}
-                    />
-                    <ItemInfo
-                        title={localize('Phone Number', language)}
-                        value={invoiceDetail.user ? `${invoiceDetail.user.phone}` : ''}
-                    />
-                    <ItemInfo
-                        title={localize('Date', language)}
-                        value={invoiceDetail.createdDate ? `${formatWithMoment(invoiceDetail.createdDate, "MM/DD/YYYY")}` : ''}
-
-                    />
-                    <ItemInfo
-                        title={localize('Time', language)}
-                        value={invoiceDetail.createdDate ? `${formatWithMoment(invoiceDetail.createdDate, "hh:mm A")}` : ''}
-
-                    />
-                    <ItemInfo
-                        title={localize('Status', language)}
-                        value={invoiceDetail.status ? invoiceDetail.status : ''}
-                    />
-                    <ItemInfo
-                        title={localize('Payment Method', language)}
-                        value={invoiceDetail.paymentMethod ? invoiceDetail.paymentMethod : ''}
-                    />
-                    <ItemInfo
-                        title={localize('Total Amount', language)}
-                        value={invoiceDetail.total ? `$ ${invoiceDetail.total}` : ''}
-                    />
-                    <ItemInfo
-                        title={localize('Created By', language)}
-                        value={invoiceDetail.createdBy ? invoiceDetail.createdBy : ''}
-                    />
-                    <ItemInfo
-                        title={localize('Modified By', language)}
-                        value={invoiceDetail.modifiedBy ? invoiceDetail.modifiedBy : ''}
-                    />
-                    <View style={{ height: scaleSzie(2) }} />
-                    {/* ------- button ------ */}
-                    <ItemButton
-                        title={'Payment Information'}
-                        onPress={this.gotoTabPaymentInfomation}
-                    />
-                    <ItemButton
-                        title={'Basket'}
-                        onPress={this.gotoBasket}
-                    />
-                    <ItemButton
-                        title={'History'}
-                        onPress={this.gotoHistory}
-                    />
-
-                    {/* ------- button void  ------ */}
-                    {this.renderButtonVoid()}
-                    <View style={{ height: scaleSzie(70) }} />
-                </ScrollView>
-
-
-            </View>
-        );
-    }
-
-
 
     renderCardInfo() {
         const { language } = this.props;

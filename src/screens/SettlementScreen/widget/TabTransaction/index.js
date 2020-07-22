@@ -4,18 +4,20 @@ import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import { updateStateChildren, getQuickFilterStringInvoice } from '@utils';
 
+const initalSate = {
+    searchFilter: {
+        keySearch: '',
+        status: ''
+    },
+    titleRangeTime: 'Time Range',
+    visibleCalendar: false
+}
+
 class TabTransaction extends Layout {
 
     constructor(props) {
         super(props);
-        this.state = {
-            searchFilter: {
-                keySearch: '',
-                status: ''
-            },
-            titleRangeTime: 'Time Range',
-            visibleCalendar: false
-        };
+        this.state = initalSate;
         this.modalCalendarRef = React.createRef();
     }
 
@@ -23,7 +25,11 @@ class TabTransaction extends Layout {
         this.searchTransactions();
     }
 
-    searchTransactions = () => {
+    resetStateFromParent = async () =>{
+        await this.setState(initalSate);
+    }
+
+    searchTransactions = (isShowloading = true) => {
         const { searchFilter } = this.state;
         const { keySearch, status } = searchFilter;
         const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
@@ -34,6 +40,7 @@ class TabTransaction extends Layout {
             isCustomizeDate ? endDate : "",
             keySearch,
             quickFilter ? getQuickFilterStringInvoice(quickFilter) : "",
+            isShowloading
         );
 
 

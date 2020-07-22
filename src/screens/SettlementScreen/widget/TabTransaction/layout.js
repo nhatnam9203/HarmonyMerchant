@@ -33,12 +33,7 @@ class Layout extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
                                     placeholder={localize('Invoice No / SKU Number/Customer Phone Number', language)}
                                     value={keySearch}
-                                    onChangeText={(value) => {
-                                        if (value === '') {
-                                            this.props.actions.invoice.clearSearTransaction();
-                                        }
-                                        this.updateSearchFilterInfo('keySearch', value);
-                                    }}
+                                    onChangeText={(value) => this.updateSearchFilterInfo('keySearch', value)}
                                     onSubmitEditing={this.searchTransactions}
                                 />
                             </View>
@@ -134,7 +129,7 @@ class Layout extends React.Component {
                         renderItem={({ item, index }) => <ItemTransaction data={item} />}
                         keyExtractor={(item, index) => `${index}`}
                         refreshing={refreshingTransaction}
-                        onRefresh={() => this.props.actions.invoice.getTransactionSettlement(false)}
+                        onRefresh={this.searchTransactions.bind(this,false)}
                     />
 
                 </View>

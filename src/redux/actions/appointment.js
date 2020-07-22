@@ -34,6 +34,20 @@ export function addItemIntoAppointment(body, appointmentId, isGroup = false, isB
     }
 }
 
+export function addItemIntoMultiAppointment(body, appointmentId,mainAppointmentId, isGroup = false, isBlock = false) {
+    return {
+        type: 'ADD_ITEM_INTO_APPOINTMENT',
+        body: body,
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}appointment/additem/${appointmentId}`,
+        appointmentId: mainAppointmentId,
+        isGroup,
+        isBlock
+    }
+}
+
+
 
 export function removeItemIntoAppointment(body, appointmentId, isGroup = false, isBlock = false) {
     return {

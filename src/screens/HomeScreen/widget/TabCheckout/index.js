@@ -12,71 +12,11 @@ import {
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 import apiConfigs from '@configs/api';
+import initState from "./widget/initState";
 
 const PosLink = NativeModules.MyApp;
 
-const initState = {
-    isShowColProduct: false,
-    isShowColAmount: false,
-    categorySelected: {
-        categoryId: -1,
-        categoryType: ''
-    },
-    productSeleted: {
-        name: ''
-    },
-    categoryTypeSelected: '',
-    extraSelected: {
-        extraId: -1,
-        name: ''
-    },
-    basket: [],
-    visibleDiscount: false,
-    paymentSelected: '',
-    tabCurrent: 0,
-    subTotalLocal: 0,
-    tipLocal: 0,
-    discountTotalLocal: 0,
-    taxLocal: 0,
-    totalLocal: 0,
-    total: 0,
-    isInitBasket: false,
-    appointmentId: -1,
-    infoUser: {
-        firstName: '',
-        lastName: '',
-        phoneNumber: ''
-    },
-    visiblePaymentCompleted: false,
-    changeButtonDone: false,
-    methodPayment: '',
-    visibleProcessingCredit: false,
-    visibleBillOfPayment: false,
-    visibleConfirm: false,
-    visibleChangeStylist: false,
-    visibleChangeMoney: false,
 
-    customDiscountPercentLocal: 0,
-    customDiscountFixedLocal: 0,
-    visibleSendLinkPopup: false,
-    visiblePopupDiscountLocal: false,
-    visibleCustomerName: false,
-    visibleCustomerPhone: false,
-    appointmentIdChangeStylist: -1,
-    visiblePopupPaymentDetails: false,
-    isCancelHarmonyPay: false,
-    customerInfoByPhone: {
-        userId: 0
-    },
-    visibleScanCode: false,
-    appointmentOfflineMode: {},
-    staffIdOfline: 0,
-    fromTime: "",
-    visiblePrintInvoice: false,
-    visibleChangePriceAmountProduct: false,
-    visibleChangeTip: false,
-    isDrawer: false
-}
 
 class TabCheckout extends Layout {
 
@@ -100,6 +40,7 @@ class TabCheckout extends Layout {
         this.blockAppointmentRef = [];
 
         this.popupCustomerInfoRef = React.createRef();
+        this.popupAddItemIntoAppointmentsRef = React.createRef();
     }
 
     resetStateFromParent = async () => {
@@ -156,37 +97,44 @@ class TabCheckout extends Layout {
             return;
         }
 
-
         // -------------  Group Appointment  ------------
         if (!_.isEmpty(groupAppointment)) {
-            const appointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
+
+            const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
+            const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
+            let body = {};
             // -------------  Add Product  ------------
             if (categoryTypeSelected === 'Product') {
-                this.props.actions.appointment.addItemIntoAppointment(
-                    {
-                        services: [],
-                        extras: [],
-                        products: [{
-                            productId: productSeleted.productId,
-                            quantity: this.amountRef.current.state.quanlity
-                        }],
-                        giftCards: []
-                    }, appointmentId, true);
+                body = {
+                    services: [],
+                    extras: [],
+                    products: [{
+                        productId: productSeleted.productId,
+                        quantity: this.amountRef.current.state.quanlity
+                    }],
+                    giftCards: []
+                };
+
+
             } else {
                 //  -------------Add Extra , Service ---------
-                const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
-                const mainAppointment = appointments.find((appointment) => appointment.appointmentId === appointmentId);
+                const mainAppointment = appointments.find((appointment) => appointment.appointmentId === mainAppointmentId);
                 const temptExtra = extraSelected.extraId !== -1 ? [{ extraId: extraSelected.extraId }] : [];
-                this.props.actions.appointment.addItemIntoAppointment(
-                    {
-                        services: [{
-                            serviceId: productSeleted.serviceId,
-                            staffId: mainAppointment && mainAppointment.staff && mainAppointment.staff.staffId ? mainAppointment.staff.staffId : profileStaffLogin.staffId,
-                        }],
-                        extras: temptExtra,
-                        products: [],
-                        giftCards: []
-                    }, appointmentId, true);
+                body = {
+                    services: [{
+                        serviceId: productSeleted.serviceId,
+                        staffId: mainAppointment && mainAppointment.staff && mainAppointment.staff.staffId ? mainAppointment.staff.staffId : profileStaffLogin.staffId,
+                    }],
+                    extras: temptExtra,
+                    products: [],
+                    giftCards: []
+                };
+            }
+
+            if (appointments.length > 1) {
+                this.popupAddItemIntoAppointmentsRef.current.setStateFromParent(body, mainAppointmentId);
+            } else {
+                this.props.actions.appointment.addItemIntoAppointment(body, mainAppointmentId, true);
             }
         }
         // ------------- Create  Group Appointment  ------------
@@ -259,7 +207,6 @@ class TabCheckout extends Layout {
                     } else {
                         this.createAnymousAppointment();
                     }
-
                 });
             }
         }

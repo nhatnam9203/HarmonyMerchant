@@ -411,7 +411,7 @@ function* checkoutSubmit(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('checkoutSubmit : ' + JSON.stringify(responses));
+        console.log('checkoutSubmit : ' + JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -1008,7 +1008,7 @@ function* updateCustomerInAppointment(action) {
 export default function* saga() {
     yield all([
         takeLatest('GET_APPOINTMENT_BY_ID', getAppointmentById),
-        takeLatest('ADD_ITEM_INTO_APPOINTMENT', addItemIntoAppointment),
+        takeEvery('ADD_ITEM_INTO_APPOINTMENT', addItemIntoAppointment),
         takeLatest('REMOVE_ITEM_INTO_APPOINTMENT', removeItemIntoAppointment),
         takeLatest('CHECK_OUT_APPOINTMENT', checkoutAppointment),
         takeLatest('PAY_APPOINTMENT', paymentAppointment),
@@ -1018,7 +1018,7 @@ export default function* saga() {
         takeLatest('CANCEL_HARMONY_PAYMENT', cancelHarmonyPayment),
         takeLatest('SUBMIT_APPOINTMENT_OFFLINE', submitAppointmentOffline),
         takeEvery('CANCEL_APPOINTMENT', cancleAppointment),
-        takeLatest('GET_GROUP_APPOINTMENT_BY_ID', getGroupAppointmentById),
+        takeEvery('GET_GROUP_APPOINTMENT_BY_ID', getGroupAppointmentById),
         takeLatest('REMOVE_APPOINTMENT_IN_GROUP', removeAppointmentInGroup),
         takeLatest('CHECK_SERIAL_NUMBER', checkSerialNumber),
         takeLatest('UPDATE_PRODUCT_IN_APPOINTMENT', updateProductInAppointment),
