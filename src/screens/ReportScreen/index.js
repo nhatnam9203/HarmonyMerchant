@@ -137,8 +137,7 @@ const mapStateToProps = state => ({
     refreshListStaffsSalary: state.staff.refreshListStaffsSalary,
     listStaffsCalendar: state.staff.listStaffsCalendar,
     dx: state.staff.dx,
-    reportTabPermission: false
-    // reportTabPermission: state.staff.reportTabPermission
+    reportTabPermission: state.staff.reportTabPermission
 })
 
 

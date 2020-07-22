@@ -5,7 +5,9 @@ import IMAGE from "@resources";
 
 const BOX_DEFAULT_WIDTH = 135;
 const BOX_DEFAULT_HEIGHT = 45;
+
 const ICON_DEFAULT_SIZE = 24;
+
 const TEXT_DEFAULT_FONT_SIZE = 17;
 
 export default function PopupButton({

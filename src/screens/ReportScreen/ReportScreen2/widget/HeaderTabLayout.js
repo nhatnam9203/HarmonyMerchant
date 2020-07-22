@@ -4,11 +4,14 @@ import ScrollableTabView from "react-native-scrollable-tab-view";
 
 import IMAGE from "@resources";
 
-const DEFAULT_PAGE = 0;
+const SCROLL_PAGE_DEFAULT = 0;
+
 const ACTIVE_BG_COLOR = "#0764B0";
 const INACTIVE_BG_COLOR = "#FAFAFA";
+
 const ACTIVE_TEXT_COLOR = "#fff";
 const INACTIVE_TEXT_COLOR = "#6A6A6A";
+
 const ICON_DEFAULT_SIZE = 20;
 
 //================================
@@ -16,7 +19,7 @@ const ICON_DEFAULT_SIZE = 20;
 //================================
 export default function HeaderTabLayout({ children, tabIcons }) {
   /**process */
-  const [tabCurrent, changeTabCurrent] = useState(DEFAULT_PAGE);
+  const [tabCurrent, changeTabCurrent] = useState(SCROLL_PAGE_DEFAULT);
 
   const onChangeTab = ({ i, ref }) => {
     changeTabCurrent(i);
@@ -30,7 +33,7 @@ export default function HeaderTabLayout({ children, tabIcons }) {
   return (
     <ScrollableTabView
       style={styles.scrollTab}
-      initialPage={DEFAULT_PAGE}
+      initialPage={SCROLL_PAGE_DEFAULT}
       locked={true}
       scrollWithoutAnimation
       renderTabBar={renderHeaderTab}
@@ -89,6 +92,9 @@ function CustomTabBar({ tabs, goToPage, activeTab, tabIcons }) {
   );
 }
 
+//================================
+//Image Component
+//================================
 const ImageComponent = ({ source, color }) => (
   <Image
     source={source}
@@ -101,6 +107,9 @@ const ImageComponent = ({ source, color }) => (
   />
 );
 
+//================================
+//Styles
+//================================
 const styles = StyleSheet.create({
   tab: {
     flex: 1,
