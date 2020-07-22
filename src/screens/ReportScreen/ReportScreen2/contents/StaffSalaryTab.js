@@ -33,13 +33,21 @@ export default function StaffSalaryTab({ style }) {
             "staffId",
             "name",
             "serviceSales",
-            "split",
+            "serviceSplit",
             "productSales",
-            "split",
+            "productSplit",
             "tip",
-            "salaryWage",
+            "salary",
           ]}
           primaryId="staffId"
+          calcSumKeys={[
+            "serviceSales",
+            "serviceSplit",
+            "productSales",
+            "productSplit",
+            "tip",
+            "salary",
+          ]}
         />
       </View>
     </View>
