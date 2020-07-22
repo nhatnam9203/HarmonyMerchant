@@ -13,6 +13,8 @@ const ACTIVE_TEXT_COLOR = "#fff";
 const INACTIVE_TEXT_COLOR = "#6A6A6A";
 
 const ICON_DEFAULT_SIZE = 20;
+const FONT_TEXT_SIZE = 15;
+const TAB_DEFAULT_HEIGHT = 50;
 
 //================================
 //Header Tab Layout
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   tabs: {
-    height: 50,
+    height: TAB_DEFAULT_HEIGHT,
     flexDirection: "row",
     justifyContent: "space-around",
     borderWidth: 1,
@@ -128,7 +130,7 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
   },
   text: {
-    fontSize: 15,
+    fontSize: FONT_TEXT_SIZE,
   },
   scrollTab: { flex: 1 },
 });

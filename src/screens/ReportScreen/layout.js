@@ -222,9 +222,9 @@ export default class Layout extends React.Component {
         <View style={styles.container}>
           <StatusBarHeader />
           {this.renderHeader()}
-          {this.renderFilter()}
-          {this.renderTable()}
-          {/* <ReportScreen2 /> */}
+          {/* {this.renderFilter()} */}
+          {/* {this.renderTable()} */}
+          <ReportScreen2 />
           <Button
             onPress={this.openDrawer}
             style={{ position: "absolute", top: 20, left: 0 }}

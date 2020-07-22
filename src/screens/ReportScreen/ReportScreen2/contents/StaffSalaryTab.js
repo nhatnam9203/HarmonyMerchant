@@ -1,12 +1,11 @@
 import React from "react";
 import { View } from "react-native";
-import {useSelector} from 'react-redux';
+import { useSelector } from "react-redux";
 
 import IMAGE from "@resources";
 import { HeaderTitle, HeaderTooltip, PopupButton, TableList } from "../widget";
 
 export default function StaffSalaryTab({ style }) {
-
   const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
 
   return (
@@ -18,10 +17,31 @@ export default function StaffSalaryTab({ style }) {
         <PopupButton text="Export" imageSrc={IMAGE.Report_Export} />
       </HeaderTooltip>
 
-      <View style={{ flex: 1, backgroundColor: "green" }}>
-        <TableList data={listStaffsSalary}/>
+      <View style={{ flex: 1 }}>
+        <TableList
+          tableData={listStaffsSalary}
+          tableHead={[
+            "Name",
+            "Service sales",
+            "Service split",
+            "Product sales",
+            "Product split",
+            "Tip amount",
+            "Salary",
+          ]}
+          whiteKeys={[
+            "staffId",
+            "name",
+            "serviceSales",
+            "split",
+            "productSales",
+            "split",
+            "tip",
+            "salaryWage",
+          ]}
+          primaryId="staffId"
+        />
       </View>
     </View>
   );
 }
-
