@@ -128,13 +128,9 @@ export default function TableList({
               key={keyUnique}
               style={[styles.cell, { width: getCellWidth(keyIndex) }]}
             >
-              {key === "name" ? (
-                <Text style={styles.textCell}>{"Total"}</Text>
-              ) : (
-                <Text style={styles.textCell}>
-                  {(calcSumKeys.indexOf(key) > -1 ? "$ " : "") + item[key]}
-                </Text>
-              )}
+              <Text style={styles.textCell}>
+                {(calcSumKeys.indexOf(key) > -1 ? "$ " : "") + item[key]}
+              </Text>
             </TableCell>
           );
         })}
@@ -168,6 +164,9 @@ export default function TableList({
                   key={keyUnique}
                   style={[styles.cell, { width: getCellWidth(index) }]}
                 >
+                  {key === "name" && (
+                    <Text style={styles.textSum}>{"Total"}</Text>
+                  )}
                   {calcSumKeys.indexOf(key) > -1 && (
                     <Text style={styles.textSum}>{"$ " + sumObject[key]}</Text>
                   )}
