@@ -55,6 +55,7 @@ export default function TableList({
   const [sumObject, setSumObject] = useState({});
   const [renderKeys, setRenderKeys] = useState({});
 
+  /**bind header */
   useEffect(() => {
     if (noHead) {
       setHeaderContent([]);
@@ -72,6 +73,7 @@ export default function TableList({
     }
   }, [noHead, tableData, tableHead]);
 
+  /**bind data */
   useEffect(() => {
     if (whiteKeys?.length > 0 && tableData) {
       const filterList = pickObjectFromKeys(tableData, whiteKeys);
@@ -88,6 +90,7 @@ export default function TableList({
     }
   }, [tableData, whiteKeys]);
 
+  /**bind render keys */
   useEffect(() => {
     const listKeys = whiteKeys.filter((key) => key !== primaryId);
     setRenderKeys(listKeys);
@@ -125,9 +128,13 @@ export default function TableList({
               key={keyUnique}
               style={[styles.cell, { width: getCellWidth(keyIndex) }]}
             >
-              <Text style={styles.textCell}>
-                {(calcSumKeys.indexOf(key) > -1 ? "$ " : "") + item[key]}
-              </Text>
+              {key === "name" ? (
+                <Text style={styles.textCell}>{"Total"}</Text>
+              ) : (
+                <Text style={styles.textCell}>
+                  {(calcSumKeys.indexOf(key) > -1 ? "$ " : "") + item[key]}
+                </Text>
+              )}
             </TableCell>
           );
         })}
