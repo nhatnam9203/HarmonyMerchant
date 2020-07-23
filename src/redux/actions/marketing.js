@@ -40,13 +40,14 @@ export function getPromotionByMerchant(isLoading = true) {
     }
 }
 
-export function updatePromotionByMerchant(body) {
+export function updatePromotionByMerchant(body,promotionId = 1) {
     return {
         type: 'UPDATE_PROMOTION_BY_MERCHANT',
         method: 'POST',
         token: true,
         body,
-        api: `${apiConfigs.BASE_API}merchantPromotion`
+        api: `${apiConfigs.BASE_API}merchantPromotion`,
+        promotionId
     }
 }
 

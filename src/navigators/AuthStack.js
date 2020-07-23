@@ -21,7 +21,7 @@ const AuthStack = createStackNavigator(
         SignUp:SignUpScreen
     },
     {
-        initialRouteName: 'SignUp',
+        initialRouteName: 'Intro',
         headerMode: 'none',
         transitionConfig: getSlideFromRightTransition
     }

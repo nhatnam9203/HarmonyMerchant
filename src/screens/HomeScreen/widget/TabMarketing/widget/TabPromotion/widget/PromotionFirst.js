@@ -58,9 +58,9 @@ class PromotionFirst extends React.Component {
         this.props.checkSelectPromotion();
     }
 
-    sendNotification = () => {
+    applyPromotion = () => {
         const { data } = this.state;
-        this.props.sendNotification(data.promotionId)
+        this.props.applyPromotion(data.promotionId)
     }
 
     // ----------- RENDER ----------
@@ -216,13 +216,13 @@ class PromotionFirst extends React.Component {
                     </View>
                     <View style={{ alignItems: 'center', marginTop: scaleSzie(20) }} >
                         <ButtonCustom
-                            width={scaleSzie(160)}
+                            width={scaleSzie(150)}
                             height={40}
                             backgroundColor="#4CD964"
-                            title={localize('Send Notification', language)}
+                            title={localize('Apply', language)}
                             textColor="#fff"
-                            onPress={this.sendNotification}
-                            styleText={{ fontSize: scaleSzie(14), fontWeight: '600' }}
+                            onPress={this.applyPromotion}
+                            styleText={{ fontSize: scaleSzie(17), fontWeight: 'bold' }}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(4) }}
                         />
                     </View>

@@ -4,8 +4,7 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { StatusBarHeader, Text, } from '@components';
-import { scaleSzie, localize } from '@utils';
+import { StatusBarHeader, } from '@components';
 import styles from './style';
 import GeneralInfoScreen from "../GeneralInfoScreen";
 import BusinessInfo from "../BusinessInfoScreen";
@@ -28,7 +27,7 @@ export default class Layout extends React.Component {
                         <ScrollableTabView
                             ref={this.scrollTabRef}
                             style={{}}
-                            initialPage={4}
+                            initialPage={0}
                             tabBarPosition="bottom"
                             locked={true}
                             springTension={1}

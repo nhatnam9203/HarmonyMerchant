@@ -64,7 +64,7 @@ class Layout extends React.Component {
                                 data={this.getDataItemPromotion(1, promotions)}
                                 showCalendar={this.showCalendar}
                                 checkSelectPromotion={this.checkSelectPromotion}
-                                sendNotification={this.sendNotification}
+                                applyPromotion={this.applyPromotion}
                                 onFocus={this.scrollToNumber}
                                 toogleOtherPromotions={this.toogleOtherPromotions}
                             /> : <View />
@@ -140,7 +140,7 @@ class Layout extends React.Component {
                 </View>
 
                 {/* -------- Button ------------ */}
-                <View style={{
+                {/* <View style={{
                     position: 'absolute', bottom: 0,
                     width: width, height: scaleSzie(70), flexDirection: 'row', justifyContent: 'center'
                 }} >
@@ -167,8 +167,7 @@ class Layout extends React.Component {
                                 activeOpacity={1}
                             />
                     }
-
-                </View>
+                </View> */}
 
                 {/* ------- Date -------- */}
                 <DatePicker
