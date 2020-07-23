@@ -14,7 +14,13 @@ const initialState = {
     isGetPromotionByMerchant: false,
     visibleModalBlockDiscount: false,
     marketingTabPermission: false,
-    isGoToTabMarketing: false
+    isGoToTabMarketing: false,
+
+    isApplyFirstPromotion: false,
+    isApplySecondPromotion: false,
+    isApplyThirdPromotion: false,
+    isApplyFourthPromotion: false,
+    isApplyFivethPromotion: false,
 }
 
 function appReducer(state = initialState, action) {
@@ -71,13 +77,6 @@ function appReducer(state = initialState, action) {
                 refreshingPromotion: false,
                 isGetPromotionByMerchant: false
             }
-        case 'RESET_STATE_GET_PROMOTION':
-            return {
-                ...state,
-                refreshingPromotion: false,
-                isGetPromotionByMerchant: false,
-                isApplyPromotion: false
-            }
         case 'GET_PROMOTION_BY_APPOINTMENT_SUCCESS':
             return {
                 ...state,
@@ -105,10 +104,27 @@ function appReducer(state = initialState, action) {
                 ...state,
                 visibleModalDiscount: true,
             }
+        case 'RESET_STATE_GET_PROMOTION':
+            return {
+                ...state,
+                refreshingPromotion: false,
+                isGetPromotionByMerchant: false,
+                isApplyPromotion: false,
+                isApplyFirstPromotion: false,
+                isApplySecondPromotion: false,
+                isApplyThirdPromotion: false,
+                isApplyFourthPromotion: false,
+                isApplyFivethPromotion: false
+            }
         case 'SET_STATUS_APPLY_BUTTON':
             return {
                 ...state,
                 isApplyPromotion: action.payload,
+                isApplyFirstPromotion: action.promotionId === 1 ? action.payload : state.isApplyFirstPromotion,
+                isApplySecondPromotion: action.promotionId === 2 ? action.payload : state.isApplySecondPromotion,
+                isApplyThirdPromotion: action.promotionId === 3 ? action.payload : state.isApplyThirdPromotion,
+                isApplyFourthPromotion: action.promotionId === 4 ? action.payload : state.isApplyFourthPromotion,
+                isApplyFivethPromotion: action.promotionId === 5 ? action.payload : state.isApplyFivethPromotion,
             }
         case 'TOGGLE_MAKETING_TAB_PERMISSION':
             return {

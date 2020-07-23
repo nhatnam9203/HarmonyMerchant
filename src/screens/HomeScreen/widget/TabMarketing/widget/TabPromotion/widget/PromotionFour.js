@@ -50,15 +50,15 @@ import connectRedux from '@redux/ConnectRedux';
         this.props.checkSelectPromotion();
     }
 
-    sendNotification = () => {
+    applyPromotion = () => {
         const { data } = this.state;
-        this.props.sendNotification(data.promotionId)
+        this.props.applyPromotion(data.promotionId)
     }
 
     // ----------- RENDER ----------
 
     render() {
-        const { language ,onFocus} = this.props;
+        const { language ,onFocus,isApplyFourthPromotion} = this.props;
         const { data,isShowContent } = this.state;
         const { campaignName } = data;
 
@@ -81,7 +81,7 @@ import connectRedux from '@redux/ConnectRedux';
                             this.setState({
                                 data: updateStateChildren('campaignName', value, data)
                             });
-                            this.props.actions.marketing.setStatusApplyButton(true);
+                            this.props.actions.marketing.setStatusApplyButton(true,4);
                         }}
                         style={{ marginBottom: scaleSzie(10) }}
                         styleTitle={{fontWeight:"600"}}
@@ -99,7 +99,7 @@ import connectRedux from '@redux/ConnectRedux';
                                 this.setState({
                                     data: updateStateChildren('promotionApplyOn', value, data)
                                 });
-                                this.props.actions.marketing.setStatusApplyButton(true);
+                                this.props.actions.marketing.setStatusApplyButton(true,4);
                             }}
                             style={{ marginBottom: scaleSzie(10) }}
                             styleTitle={{fontWeight:"600"}}
@@ -125,7 +125,7 @@ import connectRedux from '@redux/ConnectRedux';
                                 this.setState({
                                     data: updateStateChildren('discount', value, data)
                                 });
-                                this.props.actions.marketing.setStatusApplyButton(true);
+                                this.props.actions.marketing.setStatusApplyButton(true,4);
                             }}
                             selectCheckbox={() => {
                                 if (data.discountType === 'discount_percent') {
@@ -133,13 +133,13 @@ import connectRedux from '@redux/ConnectRedux';
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                    this.props.actions.marketing.setStatusApplyButton(true);
+                                    this.props.actions.marketing.setStatusApplyButton(true,4);
                                 } else {
                                     const tempData = updateStateChildren('discountType', 'discount_percent', data)
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                    this.props.actions.marketing.setStatusApplyButton(true);
+                                    this.props.actions.marketing.setStatusApplyButton(true,4);
                                 }
                             }}
                             onFocus={() => onFocus(360)}
@@ -154,7 +154,7 @@ import connectRedux from '@redux/ConnectRedux';
                                 this.setState({
                                     data: updateStateChildren('discount', value, data)
                                 });
-                                this.props.actions.marketing.setStatusApplyButton(true);
+                                this.props.actions.marketing.setStatusApplyButton(true,4);
                             }}
                             selectCheckbox={() => {
                                 if (data.discountType === 'discount_fixtom') {
@@ -162,29 +162,41 @@ import connectRedux from '@redux/ConnectRedux';
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                    this.props.actions.marketing.setStatusApplyButton(true);
+                                    this.props.actions.marketing.setStatusApplyButton(true,4);
                                 } else {
                                     const tempData = updateStateChildren('discountType', 'discount_fixtom', data);
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                    this.props.actions.marketing.setStatusApplyButton(true);
+                                    this.props.actions.marketing.setStatusApplyButton(true,4);
                                 }
                             }}
                              onFocus={() => onFocus(360)}
                         />
                     </View>
                     <View style={{alignItems:'center',marginTop:scaleSzie(20)}} >
-                        <ButtonCustom
-                            width={scaleSzie(160)}
-                            height={40}
-                            backgroundColor="#4CD964"
-                            title={localize('Send Notification', language)}
-                            textColor="#fff"
-                            onPress={this.sendNotification}
-                            styleText={{fontSize:scaleSzie(14),fontWeight:'600'}}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5' ,borderRadius:scaleSzie(4)}}
-                        />
+                         {
+                            isApplyFourthPromotion ? <ButtonCustom
+                                width={scaleSzie(150)}
+                                height={40}
+                                backgroundColor="#4CD964"
+                                title={localize('Apply', language)}
+                                textColor="#fff"
+                                onPress={this.applyPromotion}
+                                styleText={{ fontSize: scaleSzie(17), fontWeight: 'bold' }}
+                                style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(4) }}
+                            /> : <ButtonCustom
+                                    width={scaleSzie(150)}
+                                    height={40}
+                                    backgroundColor="#E5E5E5"
+                                    title={localize('APPLY', language)}
+                                    textColor="#404040"
+                                    onPress={() => { }}
+                                    style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                                    styleText={{ fontSize: scaleSzie(17), fontWeight: 'bold' }}
+                                    activeOpacity={1}
+                                />
+                        }
                     </View>
                 </View>
             </ItemPromo>
@@ -194,6 +206,7 @@ import connectRedux from '@redux/ConnectRedux';
 }
 
 const mapStateToProps = state => ({
+    isApplyFourthPromotion: state.marketing.isApplyFourthPromotion
 })
 
 export default connectRedux(mapStateToProps, PromotionFour);

@@ -79,7 +79,7 @@ class Layout extends React.Component {
                                 showCalendar={this.showCalendar}
                                 dataDropdown={this.getDataDropdownService()}
                                 checkSelectPromotion={this.checkSelectPromotion}
-                                sendNotification={this.sendNotification}
+                                applyPromotion={this.applyPromotion}
                                 onFocus={this.scrollToNumber}
                                 toogleOtherPromotions={this.toogleOtherPromotions}
                             /> : <View />
@@ -91,7 +91,7 @@ class Layout extends React.Component {
                                 language={language}
                                 data={this.getDataItemPromotion(3, promotions)}
                                 checkSelectPromotion={this.checkSelectPromotion}
-                                sendNotification={this.sendNotification}
+                                applyPromotion={this.applyPromotion}
                                 toogleOtherPromotions={this.toogleOtherPromotions}
                                 onFocus={this.scrollToNumber}
                             /> : <View />
@@ -103,7 +103,7 @@ class Layout extends React.Component {
                                 language={language}
                                 data={this.getDataItemPromotion(4, promotions)}
                                 checkSelectPromotion={this.checkSelectPromotion}
-                                sendNotification={this.sendNotification}
+                                applyPromotion={this.applyPromotion}
                                 toogleOtherPromotions={this.toogleOtherPromotions}
                                 onFocus={this.scrollToNumber}
                             /> : <View />
@@ -115,7 +115,7 @@ class Layout extends React.Component {
                                 language={language}
                                 data={this.getDataItemPromotion(5, promotions)}
                                 checkSelectPromotion={this.checkSelectPromotion}
-                                sendNotification={this.sendNotification}
+                                applyPromotion={this.applyPromotion}
                                 toogleOtherPromotions={this.toogleOtherPromotions}
                                 onFocus={this.scrollToNumber}
                             /> : <View />

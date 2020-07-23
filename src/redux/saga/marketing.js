@@ -145,7 +145,8 @@ function* updatePromotionByMerchant(action) {
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'SET_STATUS_APPLY_BUTTON',
-                payload: false
+                payload: false,
+                promotionId:action.promotionId
             });
             yield put({
                 type: 'GET_PROMOTION_BY_MERCHANT',

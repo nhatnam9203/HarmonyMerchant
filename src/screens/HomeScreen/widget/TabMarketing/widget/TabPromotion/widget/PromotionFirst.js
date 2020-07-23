@@ -66,7 +66,7 @@ class PromotionFirst extends React.Component {
     // ----------- RENDER ----------
 
     render() {
-        const { language, showCalendar, onFocus } = this.props;
+        const { language, showCalendar, onFocus ,isApplyFirstPromotion} = this.props;
         const { data, isShowContent } = this.state;
         const { campaignName } = data;
         return (
@@ -88,7 +88,7 @@ class PromotionFirst extends React.Component {
                             this.setState({
                                 data: updateStateChildren('campaignName', value, data)
                             });
-                            this.props.actions.marketing.setStatusApplyButton(true);
+                            this.props.actions.marketing.setStatusApplyButton(true,1);
                         }}
                         style={{ marginBottom: scaleSzie(10) }}
                         styleTitle={{ fontWeight: "600" }}
@@ -129,7 +129,7 @@ class PromotionFirst extends React.Component {
                                 this.setState({
                                     data: updateStateChildren('fromTime', value, data)
                                 });
-                                this.props.actions.marketing.setStatusApplyButton(true);
+                                this.props.actions.marketing.setStatusApplyButton(true,1);
                             }}
                         />
                         <View style={{ width: scaleSzie(50) }} />
@@ -143,7 +143,7 @@ class PromotionFirst extends React.Component {
                                 this.setState({
                                     data: updateStateChildren('toTime', value, data)
                                 });
-                                this.props.actions.marketing.setStatusApplyButton(true);
+                                this.props.actions.marketing.setStatusApplyButton(true,1);
                             }}
                         />
                     </View>
@@ -166,7 +166,7 @@ class PromotionFirst extends React.Component {
                                 this.setState({
                                     data: updateStateChildren('discount', value, data)
                                 });
-                                this.props.actions.marketing.setStatusApplyButton(true);
+                                this.props.actions.marketing.setStatusApplyButton(true,1);
                             }}
                             selectCheckbox={() => {
                                 if (data.discountType === 'discount_percent') {
@@ -174,13 +174,13 @@ class PromotionFirst extends React.Component {
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                    this.props.actions.marketing.setStatusApplyButton(true);
+                                    this.props.actions.marketing.setStatusApplyButton(true,1);
                                 } else {
                                     const tempData = updateStateChildren('discountType', 'discount_percent', data)
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                    this.props.actions.marketing.setStatusApplyButton(true);
+                                    this.props.actions.marketing.setStatusApplyButton(true,1);
                                 }
                             }}
                             onFocus={() => onFocus(250)}
@@ -195,10 +195,10 @@ class PromotionFirst extends React.Component {
                                 this.setState({
                                     data: updateStateChildren('discount', value, data)
                                 });
-                                this.props.actions.marketing.setStatusApplyButton(true);
+                                this.props.actions.marketing.setStatusApplyButton(true,1);
                             }}
                             selectCheckbox={() => {
-                                this.props.actions.marketing.setStatusApplyButton(true);
+                                this.props.actions.marketing.setStatusApplyButton(true,1);
                                 if (data.discountType === 'discount_fixtom') {
                                     const tempData = updateStateChildren('discountType', '', data);
                                     this.setState({
@@ -215,16 +215,28 @@ class PromotionFirst extends React.Component {
                         />
                     </View>
                     <View style={{ alignItems: 'center', marginTop: scaleSzie(20) }} >
-                        <ButtonCustom
-                            width={scaleSzie(150)}
-                            height={40}
-                            backgroundColor="#4CD964"
-                            title={localize('Apply', language)}
-                            textColor="#fff"
-                            onPress={this.applyPromotion}
-                            styleText={{ fontSize: scaleSzie(17), fontWeight: 'bold' }}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(4) }}
-                        />
+                        {
+                            isApplyFirstPromotion ? <ButtonCustom
+                                width={scaleSzie(150)}
+                                height={40}
+                                backgroundColor="#4CD964"
+                                title={localize('Apply', language)}
+                                textColor="#fff"
+                                onPress={this.applyPromotion}
+                                styleText={{ fontSize: scaleSzie(17), fontWeight: 'bold' }}
+                                style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(4) }}
+                            /> : <ButtonCustom
+                                    width={scaleSzie(150)}
+                                    height={40}
+                                    backgroundColor="#E5E5E5"
+                                    title={localize('APPLY', language)}
+                                    textColor="#404040"
+                                    onPress={() => { }}
+                                    style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                                    styleText={{ fontSize: scaleSzie(17), fontWeight: 'bold' }}
+                                    activeOpacity={1}
+                                />
+                        }
                     </View>
                 </View>
             </ItemPromo>
@@ -234,6 +246,7 @@ class PromotionFirst extends React.Component {
 }
 
 const mapStateToProps = state => ({
+    isApplyFirstPromotion: state.marketing.isApplyFirstPromotion
 })
 
 

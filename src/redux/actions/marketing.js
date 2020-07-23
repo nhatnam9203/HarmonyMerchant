@@ -102,10 +102,11 @@ export function customPromotion(discountPercent, discountFixtom, appointmentid, 
     }
 }
 
-export function setStatusApplyButton(isApply) {
+export function setStatusApplyButton(isApply,promotionId = 1) {
     return {
         type: 'SET_STATUS_APPLY_BUTTON',
-        payload: isApply
+        payload: isApply,
+        promotionId
     }
 }
 

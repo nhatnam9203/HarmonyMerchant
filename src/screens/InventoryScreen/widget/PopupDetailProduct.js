@@ -251,12 +251,12 @@ const ItemDetail = ({ title, value }) => {
     return (
         <View style={{ height: scaleSzie(40), flexDirection: 'row' }} >
             <View style={{ flex: 1, justifyContent: 'center' }} >
-                <Text style={styles.textCommon} >
+                <Text numberOfLines={1} style={styles.textCommon} >
                     {title}
                 </Text>
             </View>
             <View style={{ flex: 1, justifyContent: 'center' }} >
-                <Text style={styles.textValue} >
+                <Text numberOfLines={1} style={styles.textValue} >
                     {value}
                 </Text>
             </View>
