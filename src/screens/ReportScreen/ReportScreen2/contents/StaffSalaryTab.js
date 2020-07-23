@@ -1,18 +1,76 @@
-import React from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { View } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import IMAGE from "@resources";
+import {
+  Text,
+  StatusBarHeader,
+  Button,
+  ParentContainer,
+  PopupCheckStaffPermission,
+  PopupCalendar,
+} from "@components";
 import { HeaderTitle, HeaderTooltip, PopupButton, TableList } from "../widget";
+import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
+import actions from "@actions";
 
 export default function StaffSalaryTab({ style }) {
+  /**redux */
+  const dispatch = useDispatch();
+
   const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
+  const language = useSelector((state) => state.dataLocal.language);
+
+  const searchStaffSalary = useCallback(
+    (url) => dispatch(actions.staff.getListStaffsSalaryTop(url, true)),
+    [dispatch]
+  );
+
+  /**state */
+  const [visibleCalendar, setVisibleCalendar] = useState(false);
+  const [titleRangeTime, setTitleRangeTime] = useState("This week");
+
+  const modalCalendarRef = useRef(null);
+
+  /**process */
+
+  const searchStaff = () => {
+    const {
+      isCustomizeDate,
+      startDate,
+      endDate,
+      quickFilter,
+    } = modalCalendarRef.current.state;
+
+    let url;
+
+    if (isCustomizeDate) {
+      url = `timeStart=${startDate}&timeEnd=${endDate}`;
+    } else {
+      const filter = quickFilter === false ? "This Week" : quickFilter;
+      console.log("quickFilter", quickFilter);
+      url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
+    }
+
+    // searchStaffSalary(url);
+    dispatch(actions.staff.getListStaffsSalaryTop(url, true));
+  };
+
+  const changeTitleTimeRange = async (title) => {
+    setVisibleCalendar(false);
+    setTitleRangeTime(title !== "Time Range" ? title : "All time");
+    searchStaff();
+  };
 
   return (
     <View style={style}>
-      <HeaderTitle title="STAFF SALARY" />
+      <HeaderTitle title={localize("Staff Salary", language)} />
       <HeaderTooltip>
-        <PopupButton text="Last Week" />
+        <PopupButton
+          text={titleRangeTime}
+          onPress={() => setVisibleCalendar(true)}
+        />
         <PopupButton text="All Staff" imageSrc={IMAGE.Report_Dropdown_Arrow} />
         <PopupButton text="Export" imageSrc={IMAGE.Report_Export} />
       </HeaderTooltip>
@@ -21,13 +79,13 @@ export default function StaffSalaryTab({ style }) {
         <TableList
           tableData={listStaffsSalary}
           tableHead={[
-            "Name",
-            "Service sales",
-            "Service split",
-            "Product sales",
-            "Product split",
-            "Tip amount",
-            "Salary",
+            localize("Name", language),
+            localize("Service sales", language),
+            localize("Service split", language),
+            localize("Product sales", language),
+            localize("Product split", language),
+            localize("Tip amount", language),
+            localize("Salary", language),
           ]}
           whiteKeys={[
             "staffId",
@@ -48,6 +106,15 @@ export default function StaffSalaryTab({ style }) {
             "tip",
             "salary",
           ]}
+        />
+
+        <PopupCalendar
+          type="report"
+          ref={modalCalendarRef}
+          visible={visibleCalendar}
+          onRequestClose={() => setVisibleCalendar(false)}
+          changeTitleTimeRange={changeTitleTimeRange}
+          paddingLeft={scaleSzie(60)}
         />
       </View>
     </View>

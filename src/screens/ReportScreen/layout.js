@@ -224,7 +224,7 @@ export default class Layout extends React.Component {
           {this.renderHeader()}
           {/* {this.renderFilter()} */}
           {/* {this.renderTable()} */}
-          <ReportScreen2 />
+          <ReportScreen2 showCalendar={this.showCalendar} />
           <Button
             onPress={this.openDrawer}
             style={{ position: "absolute", top: 20, left: 0 }}

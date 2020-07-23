@@ -233,7 +233,7 @@ const localization = {
         'Select payment method':'Select payment method',
         'BACK':'BACK',
         'Offline mode':'Offline mode',
-        'Use consumer app to scan QR code below':'Use consumer app to scan QR code below', 
+        'Use consumer app to scan QR code below':'Use consumer app to scan QR code below',
         'Then scan the QR code on the phone':'Then scan the QR code on the phone',
         'to complete the transaction':'to complete the transaction',
         'Bill of payment':'Bill of payment',
@@ -397,9 +397,10 @@ const localization = {
         'Duration':'Duration',
         'Category':'Category',
         'Items in stock':'Items in stock',
+        'Staff Salary':'Staff Salary'
     },
     'vi': {
-        
+
     }
 }
 
