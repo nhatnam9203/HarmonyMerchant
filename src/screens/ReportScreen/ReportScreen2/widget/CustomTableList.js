@@ -49,6 +49,7 @@ export default function TableList({
   primaryId,
   extraData,
   noHead = false,
+  renderCell,
 }) {
   const [headerContent, setHeaderContent] = useState([]);
   const [data, setData] = useState([]);
@@ -123,14 +124,22 @@ export default function TableList({
         {/** render for whiteKeys*/}
         {renderKeys.map((key, keyIndex) => {
           const keyUnique = uniqueId(key, keyIndex);
+          const cellRender = renderCell({
+            key: key,
+            row: index,
+            column: keyIndex,
+            item: item,
+          });
           return (
             <TableCell
               key={keyUnique}
               style={[styles.cell, { width: getCellWidth(keyIndex) }]}
             >
-              <Text style={styles.textCell}>
-                {(calcSumKeys.indexOf(key) > -1 ? "$ " : "") + item[key]}
-              </Text>
+              {cellRender ?? (
+                <Text style={styles.textCell}>
+                  {(calcSumKeys.indexOf(key) > -1 ? "$ " : "") + item[key]}
+                </Text>
+              )}
             </TableCell>
           );
         })}

@@ -63,16 +63,32 @@ export default function StaffSalaryTab({ style }) {
     searchStaff();
   };
 
+  /**render */
+  const renderCell = ({ key, row, column, item }) => {
+    if (key === "salary") {
+      return (
+        <View>
+          <Text>{item[key]}</Text>
+        </View>
+      );
+    }
+    return null;
+  };
+
   return (
     <View style={style}>
       <HeaderTitle title={localize("Staff Salary", language)} />
-      <HeaderTooltip>
+      <HeaderTooltip
+        rightComponent={
+          <PopupButton text="Export" imageSrc={IMAGE.Report_Export} />
+        }
+      >
         <PopupButton
           text={titleRangeTime}
           onPress={() => setVisibleCalendar(true)}
+          style={{ marginRight: 20 }}
         />
         <PopupButton text="All Staff" imageSrc={IMAGE.Report_Dropdown_Arrow} />
-        <PopupButton text="Export" imageSrc={IMAGE.Report_Export} />
       </HeaderTooltip>
 
       <View style={{ flex: 1 }}>
@@ -106,6 +122,7 @@ export default function StaffSalaryTab({ style }) {
             "tip",
             "salary",
           ]}
+          renderCell={renderCell}
         />
 
         <PopupCalendar

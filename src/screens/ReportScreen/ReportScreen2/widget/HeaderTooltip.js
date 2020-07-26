@@ -4,8 +4,13 @@ import { View, StyleSheet } from "react-native";
 const MARGIN_Y = 10;
 const TOOLTIP_DEFAULT_HEIGHT = 50;
 
-export default function HeaderTooltip({ children }) {
-  return <View style={styles.container}>{children && children}</View>;
+export default function HeaderTooltip({ children, rightComponent }) {
+  return (
+    <View style={styles.container}>
+      {children && children}
+      {rightComponent && <View style={styles.right}>{rightComponent}</View>}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -14,5 +19,14 @@ const styles = StyleSheet.create({
     marginVertical: MARGIN_Y,
     flexDirection: "row",
     alignItems: "center",
+  },
+  right: {
+    position: "absolute",
+    right: 0,
+    top: 0,
+    bottom: 0,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
 });

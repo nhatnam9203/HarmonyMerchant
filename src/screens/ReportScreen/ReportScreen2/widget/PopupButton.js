@@ -2,6 +2,7 @@ import React from "react";
 import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native";
 
 import IMAGE from "@resources";
+import style from "../../style";
 
 const BOX_DEFAULT_WIDTH = 135;
 const BOX_DEFAULT_HEIGHT = 45;
@@ -14,10 +15,11 @@ export default function PopupButton({
   text = "This Week",
   onPress = () => {},
   imageSrc = IMAGE.calendar,
+  style = {},
 }) {
   return (
     <TouchableOpacity onPress={onPress}>
-      <View style={[styles.container, styles.borderStyle]}>
+      <View style={[styles.container, styles.borderStyle, style]}>
         <Text style={styles.text}>{text}</Text>
         <Image style={styles.image} source={imageSrc} resizeMode="center" />
       </View>
@@ -35,7 +37,6 @@ const styles = StyleSheet.create({
     height: BOX_DEFAULT_HEIGHT,
     minWidth: BOX_DEFAULT_WIDTH,
     flexDirection: "row",
-    marginRight: 20,
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 10,
