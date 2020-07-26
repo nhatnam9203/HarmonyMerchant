@@ -16,9 +16,8 @@ import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
 import actions from "@actions";
 
 export default function StaffSalaryTab({ style }) {
-  /**redux */
+  /**redux store*/
   const dispatch = useDispatch();
-
   const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
   const language = useSelector((state) => state.dataLocal.language);
 
@@ -34,7 +33,6 @@ export default function StaffSalaryTab({ style }) {
   const modalCalendarRef = useRef(null);
 
   /**process */
-
   const searchStaff = () => {
     const {
       isCustomizeDate,
