@@ -14,5 +14,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#404040",
     marginVertical: MARGIN_Y,
+    textTransform: "uppercase",
   },
 });
