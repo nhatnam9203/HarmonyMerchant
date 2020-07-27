@@ -4,6 +4,7 @@ import HeaderTooltip from "./HeaderTooltip";
 import PopupButton from "./PopupButton";
 import TableList from "./CustomTableList";
 import PopupExportReport from "./PopupExportReport";
+import PopupLoadingExportReport from "./PopupLoadingExportReport";
 
 module.exports = {
   HeaderTabLayout,
@@ -12,4 +13,5 @@ module.exports = {
   PopupButton,
   TableList,
   PopupExportReport,
+  PopupLoadingExportReport
 };

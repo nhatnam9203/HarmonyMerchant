@@ -189,7 +189,7 @@ export function getExportStaffSalary(
     token: true,
     api: `${apiConfigs.BASE_API}staff/salary/export?${params}`,
     isShowLoading,
-    fileName: fileName?.replace("/s{2,}/g", ""),
+    fileName,
     extention: type ?? "pdf",
   };
 }
@@ -207,7 +207,7 @@ export function getExportStaffStatistics(
     token: true,
     api: `${apiConfigs.BASE_API}staff/salary/export/${staffId}?${params}`,
     isShowLoading,
-    fileName: fileName?.replace("/s{2,}/g", ""),
+    fileName,
     extention: type ?? "pdf",
   };
 }

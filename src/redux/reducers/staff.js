@@ -17,6 +17,7 @@ const initialState = {
   listCalendarStaffId: 0,
   dx: 0,
   reportTabPermission: false,
+  isDownloadReportStaff: false,
 };
 
 function appReducer(state = initialState, action) {
@@ -151,12 +152,16 @@ function appReducer(state = initialState, action) {
           state.listStaffsSalary.find((x) => x.staffId === action.payload)
             ?.salariesByDate ?? [],
       };
-
+    case "DOWNLOAD_REPORT_STAFF":
+      return {
+        ...state,
+        isDownloadReportStaff: true,
+      };
     case "DOWNLOAD_REPORT_STAFF_SUCCESS":
       return {
         ...state,
         pathFileReportStaff: action.payload,
-        isDownloadReportStaff: true,
+        isDownloadReportStaff: false,
       };
     case "RESET_DOWNLOAD_FILE_REPORT_STAFF":
       return {

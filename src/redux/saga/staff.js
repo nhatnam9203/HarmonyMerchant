@@ -390,6 +390,10 @@ function* getListStaffsSalaryTop(action) {
 
 function* exportReportStaff(action) {
   try {
+    yield put({
+      type: "DOWNLOAD_REPORT_STAFF",
+    });
+
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
@@ -406,7 +410,7 @@ function* exportReportStaff(action) {
       }).fetch("GET", responses.data.path, {});
 
       yield put({
-        type: "DOWNLOAD_REPORT_SUCCESS",
+        type: "DOWNLOAD_REPORT_STAFF_SUCCESS",
         payload: fileDownload.path(),
       });
     } else if (parseInt(codeNumber) === 401) {

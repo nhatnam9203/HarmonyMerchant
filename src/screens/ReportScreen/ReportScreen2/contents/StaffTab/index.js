@@ -14,19 +14,20 @@ import ScrollableTabView from "react-native-scrollable-tab-view";
 import { PopupCalendar } from "@components";
 import actions from "@actions";
 import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
-import {
-  PopupExport,
-  PopupLoadingExport,
-} from "../../../../InventoryScreen/widget";
-import { PopupExportReport } from "../../widget";
+import { PopupExportReport, PopupLoadingExportReport } from "../../widget";
 
 import StaffSalaryTab from "./StaffSalaryTab";
 import StaffStatistic from "./StaffStatistic";
+
+const FILE_EXTENSION = "csv";
 
 function StaffTab({ style, showBackButton }, ref) {
   /**redux */
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
+  const isDownloadReportStaff = useSelector(
+    (state) => state.staff.isDownloadReportStaff
+  );
 
   /**ref */
   const scrollPage = useRef(null);
@@ -46,9 +47,9 @@ function StaffTab({ style, showBackButton }, ref) {
   );
 
   /**effect */
-  // useEffect(() => {
-
-  // }, []);
+  useEffect(() => {
+    setVisiblePopupLoadingExport(isDownloadReportStaff);
+  }, [isDownloadReportStaff]);
 
   /**func */
   const goNext = () => {
@@ -145,16 +146,28 @@ function StaffTab({ style, showBackButton }, ref) {
 
   const requestExportFileToServer = () => {
     const url = getFilterTimeParams();
-
+    setVisiblePopupExport(false);
     switch (currentTab) {
       case 0:
+        // setVisiblePopupLoadingExport(true);
         dispatch(
-          actions.staff.getExportStaffSalary(url, true, "csv", titleExportFile)
+          actions.staff.getExportStaffSalary(
+            url,
+            true,
+            "csv",
+            titleExportFile?.replace("/s{2,}/g", "")
+          )
         );
         break;
       case 1:
+        // setVisiblePopupLoadingExport(true);
         dispatch(
-          actions.staff.getExportStaffStatistics(url, true, "csv", titleExportFile)
+          actions.staff.getExportStaffStatistics(
+            url,
+            true,
+            "csv",
+            titleExportFile?.replace("/s{2,}/g", "")
+          )
         );
         break;
       default:
@@ -210,10 +223,12 @@ function StaffTab({ style, showBackButton }, ref) {
         language={language}
         exportFile={requestExportFileToServer}
       />
-      <PopupLoadingExport
+
+      <PopupLoadingExportReport
         visible={visiblePopupLoadingExport}
         onRequestClose={() => setVisiblePopupLoadingExport(false)}
         language={language}
+        typeFile={FILE_EXTENSION === "pdf" ? "PDF" : "Excel"}
         // typeFile={typeFile === "pdf" ? "PDF" : "Excel"}
       />
     </>
