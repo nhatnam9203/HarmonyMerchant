@@ -151,6 +151,18 @@ function appReducer(state = initialState, action) {
           state.listStaffsSalary.find((x) => x.staffId === action.payload)
             ?.salariesByDate ?? [],
       };
+
+    case "DOWNLOAD_REPORT_STAFF_SUCCESS":
+      return {
+        ...state,
+        pathFileReportStaff: action.payload,
+        isDownloadReportStaff: true,
+      };
+    case "RESET_DOWNLOAD_FILE_REPORT_STAFF":
+      return {
+        ...state,
+        isDownloadReportStaff: false,
+      };
     default:
       return state;
   }

@@ -148,9 +148,14 @@ function StaffTab({ style, showBackButton }, ref) {
 
     switch (currentTab) {
       case 0:
-        dispatch(actions.staff.getExportStaffSalary(url, true, "csv"));
+        dispatch(
+          actions.staff.getExportStaffSalary(url, true, "csv", titleExportFile)
+        );
         break;
       case 1:
+        dispatch(
+          actions.staff.getExportStaffStatistics(url, true, "csv", titleExportFile)
+        );
         break;
       default:
         break;

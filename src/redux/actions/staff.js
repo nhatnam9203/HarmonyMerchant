@@ -189,12 +189,13 @@ export function getExportStaffSalary(
     token: true,
     api: `${apiConfigs.BASE_API}staff/salary/export?${params}`,
     isShowLoading,
-    fileName,
-    extention: type === "excel" ? "csv" : "pdf",
+    fileName: fileName?.replace("/s{2,}/g", ""),
+    extention: type ?? "pdf",
   };
 }
 
 export function getExportStaffStatistics(
+  staffId,
   params = "quickFilter=thisWeek",
   isShowLoading = true,
   type = "csv",
@@ -204,9 +205,9 @@ export function getExportStaffStatistics(
     type: "EXPORT_STAFFS_STATISTICS",
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}staff/salary/export?${params}`,
+    api: `${apiConfigs.BASE_API}staff/salary/export/${staffId}?${params}`,
     isShowLoading,
-    fileName,
-    extention: type === "excel" ? "csv" : "pdf",
+    fileName: fileName?.replace("/s{2,}/g", ""),
+    extention: type ?? "pdf",
   };
 }

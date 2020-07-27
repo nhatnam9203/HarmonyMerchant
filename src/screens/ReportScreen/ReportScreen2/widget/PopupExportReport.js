@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, forwardRef } from "react";
 import { View, Text, Dimensions, StyleSheet, TextInput } from "react-native";
 
 import { ButtonCustom, PopupParent, Button } from "@components";
@@ -7,14 +7,10 @@ import IMAGE from "@resources";
 
 const { width } = Dimensions.get("window");
 
-export default function PopupExportReport({
-  title,
-  visible,
-  onRequestClose,
-  language,
-  exportFile,
-  fileName,
-}) {
+function PopupExportReport(
+  { title, visible, onRequestClose, language, exportFile, fileName },
+  ref
+) {
   /**state */
   const [exportTitle, setExportTitle] = useState("Report Staff");
 
@@ -97,3 +93,5 @@ const styles = StyleSheet.create({
     paddingTop: scaleSzie(30),
   },
 });
+
+export default PopupExportReport = forwardRef(PopupExportReport);
