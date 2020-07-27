@@ -1,5 +1,10 @@
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+  useImperativeHandle,
+  forwardRef,
+} from "react";
 import {
   FlatList,
   StyleSheet,
@@ -40,19 +45,24 @@ const pickObjectFromKeys = (array, keys) => {
  * !error: header long bug ui
  * !error: calcSum -> pagination bug
  * */
-export default function TableList({
-  tableData,
-  tableHead,
-  tableCellWidth,
-  whiteKeys,
-  calcSumKeys,
-  primaryId,
-  extraData,
-  noHead = false,
-  renderCell,
-  onCellPress,
-  onRowPress,
-}) {
+function TableList(
+  {
+    tableData,
+    tableHead,
+    tableCellWidth,
+    whiteKeys,
+    calcSumKeys,
+    primaryId,
+    extraData,
+    noHead = false,
+    renderCell,
+    onCellPress,
+    onRowPress,
+    showSumOnBottom,
+    onChangeSumObjects,
+  },
+  ref
+) {
   const [headerContent, setHeaderContent] = useState([]);
   const [data, setData] = useState([]);
   const [sumObject, setSumObject] = useState({});
@@ -87,6 +97,9 @@ export default function TableList({
           sumObj[key] = sumPropertiesKey(filterList, key);
         });
         setSumObject(sumObj);
+        if (onChangeSumObjects) {
+          onChangeSumObjects(sumObj);
+        }
       }
 
       setData(filterList);
@@ -105,6 +118,12 @@ export default function TableList({
     }
     return TABLE_CELL_DEFAULT_WIDTH;
   };
+
+  // useImperativeHandle(ref, () => ({
+  //   getSumObjects: () => {
+  //     return sumObject;
+  //   },
+  // }));
 
   /**render */
   // TABLE CELL
@@ -171,7 +190,7 @@ export default function TableList({
             </TableCell>
           ))}
         </TableRow>
-        {calcSumKeys?.length > 0 && (
+        {calcSumKeys?.length > 0 && !showSumOnBottom && (
           <TableRow
             style={[styles.head, { backgroundColor: "#E5E5E5" }]}
             key={TABLE_SUMMARY_KEY}
@@ -198,6 +217,30 @@ export default function TableList({
     ) : null;
   };
 
+  const renderFooter = () => {
+    return calcSumKeys?.length > 0 && showSumOnBottom ? (
+      <TableRow
+        style={[styles.head, { backgroundColor: "#E5E5E5" }]}
+        key={TABLE_SUMMARY_KEY}
+      >
+        {/* {renderKeys?.map((key, index) => {
+          const keyUnique = uniqueId(key, index, "summary-bot");
+          return (
+            <TableCell
+              key={keyUnique}
+              style={[styles.cell, { width: getCellWidth(index) }]}
+            >
+              {key === "name" && <Text style={styles.textSum}>{"Total"}</Text>}
+              {calcSumKeys.indexOf(key) > -1 && (
+                <Text style={styles.textSum}>{"$ " + sumObject[key]}</Text>
+              )}
+            </TableCell>
+          );
+        })} */}
+      </TableRow>
+    ) : null;
+  };
+
   const renderSeparator = () => {
     return <View style={styles.separator} />;
   };
@@ -209,6 +252,7 @@ export default function TableList({
       renderItem={renderItem}
       keyExtractor={(item) => `${item[primaryId]}`}
       ListHeaderComponent={renderHeader}
+      // ListFooterComponent={renderFooter}
       ItemSeparatorComponent={renderSeparator}
       // extraData={selectedItem}
     />
@@ -224,6 +268,8 @@ TableList.propTypes = {
   whiteKeys: PropTypes.array.isRequired,
   primaryId: PropTypes.any.isRequired,
 };
+
+export default TableList = forwardRef(TableList);
 
 //================================
 // Component

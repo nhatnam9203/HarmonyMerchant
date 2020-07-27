@@ -19,9 +19,10 @@ import {
 } from "./contents";
 import styles from "./style";
 
-function ReportScreen2({showBackButton }, ref) {
+function ReportScreen2({ showBackButton }, ref) {
   const [tabIndex, setTabIndex] = useState(0);
   const staffRef = useRef(null);
+
   /**create ref, share function to public */
   useImperativeHandle(ref, () => ({
     onBack: () => {
