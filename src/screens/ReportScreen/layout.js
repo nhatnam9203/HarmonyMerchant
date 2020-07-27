@@ -234,6 +234,24 @@ export default class Layout extends React.Component {
               style={{ width: scaleSzie(34), height: scaleSzie(34) }}
             />
           </Button>
+          {/**back button on top-right */}
+          <Button
+            style={{
+              position: "absolute",
+              top: 20,
+              right: 0,
+              width: scaleSzie(34),
+              height: scaleSzie(34),
+              backgroundColor: "#0764B0",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Image
+              source={IMAGE.arrowRight}
+              style={{ width: scaleSzie(22), height: scaleSzie(17) }}
+            />
+          </Button>
         </View>
         <PopupCalendar
           ref={this.modalCalendarRef}

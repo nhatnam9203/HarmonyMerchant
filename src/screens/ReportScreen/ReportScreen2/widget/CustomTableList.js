@@ -50,6 +50,8 @@ export default function TableList({
   extraData,
   noHead = false,
   renderCell,
+  onCellPress,
+  onRowPress,
 }) {
   const [headerContent, setHeaderContent] = useState([]);
   const [data, setData] = useState([]);
@@ -132,6 +134,14 @@ export default function TableList({
           });
           return (
             <TableCell
+              onPress={() =>
+                onCellPress({
+                  key: key,
+                  row: index,
+                  column: keyIndex,
+                  item: item,
+                })
+              }
               key={keyUnique}
               style={[styles.cell, { width: getCellWidth(keyIndex) }]}
             >
@@ -219,17 +229,17 @@ TableList.propTypes = {
 // Component
 //================================
 
-function TableRow({ style, children }) {
+function TableRow({ style, children, onPress }) {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
       <View style={style}>{children && children}</View>
     </TouchableOpacity>
   );
 }
 
-function TableCell({ style, children }) {
+function TableCell({ style, children, onPress }) {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
       <View style={style}>{children && children}</View>
     </TouchableOpacity>
   );

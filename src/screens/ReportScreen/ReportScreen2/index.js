@@ -2,11 +2,10 @@ import React from "react";
 import { View } from "react-native";
 
 import IMAGE from "@resources";
-import { localize } from "@utils";
 
 import { HeaderTabLayout } from "./widget";
 import {
-  StaffSalaryTab,
+  StaffTab,
   GiftCardTab,
   CustomerTab,
   ServicesTab,
@@ -28,7 +27,7 @@ export default function ReportScreen2({}) {
           IMAGE.Report_Overall,
         ]}
       >
-        <StaffSalaryTab style={styles.content} tabLabel="Staff salary" />
+        <StaffTab style={styles.content} tabLabel="Staff salary" />
         <GiftCardTab style={styles.content} tabLabel="Gift card" />
         <CustomerTab style={styles.content} tabLabel="Customer" />
         <ServicesTab style={styles.content} tabLabel="Services" />

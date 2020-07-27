@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback } from "react";
-import { View } from "react-native";
+import { View, Image, StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import IMAGE from "@resources";
@@ -11,11 +11,16 @@ import {
   PopupCheckStaffPermission,
   PopupCalendar,
 } from "@components";
-import { HeaderTitle, HeaderTooltip, PopupButton, TableList } from "../widget";
+import {
+  HeaderTitle,
+  HeaderTooltip,
+  PopupButton,
+  TableList,
+} from "../../widget";
 import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
 import actions from "@actions";
 
-export default function StaffSalaryTab({ style }) {
+export default function StaffSalaryTab({ style, onGoStatistics }) {
   /**redux store*/
   const dispatch = useDispatch();
   const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
@@ -61,12 +66,19 @@ export default function StaffSalaryTab({ style }) {
     searchStaff();
   };
 
+  const onCellPress = ({ key, row, column, item }) => {
+    if (key === "salary") {
+      onGoStatistics();
+    }
+  };
+
   /**render */
   const renderCell = ({ key, row, column, item }) => {
     if (key === "salary") {
       return (
-        <View>
-          <Text>{item[key]}</Text>
+        <View style={styles.cellSalary}>
+          <Text style={styles.txtSalary}>{item[key] + "$"}</Text>
+          <Image style={styles.imgDetail} source={IMAGE.Report_Detail} />
         </View>
       );
     }
@@ -121,6 +133,7 @@ export default function StaffSalaryTab({ style }) {
             "salary",
           ]}
           renderCell={renderCell}
+          onCellPress={onCellPress}
         />
 
         <PopupCalendar
@@ -135,3 +148,23 @@ export default function StaffSalaryTab({ style }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  cellSalary: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  txtSalary: {
+    fontWeight: "bold",
+    fontSize: 15,
+    color: "#6A6A6A",
+    marginRight: 10,
+  },
+  imgDetail: {
+    tintColor: "#6A6A6A",
+    width: 20,
+    height: 20,
+    marginLeft: 10,
+  },
+});
