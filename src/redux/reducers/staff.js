@@ -18,6 +18,7 @@ const initialState = {
   dx: 0,
   reportTabPermission: false,
   isDownloadReportStaff: false,
+  pathFileReportStaff: null,
 };
 
 function appReducer(state = initialState, action) {

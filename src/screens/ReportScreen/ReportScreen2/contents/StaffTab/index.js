@@ -6,8 +6,9 @@ import React, {
   useCallback,
   useEffect,
 } from "react";
-import { View } from "react-native";
+import { View, Platform } from "react-native";
 
+import RNFetchBlob from "rn-fetch-blob";
 import { useSelector, useDispatch } from "react-redux";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 
@@ -25,6 +26,9 @@ function StaffTab({ style, showBackButton }, ref) {
   /**redux */
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
+  const listCalendarStaffId = useSelector(
+    (state) => state.staff.listCalendarStaffId
+  );
   const isDownloadReportStaff = useSelector(
     (state) => state.staff.isDownloadReportStaff
   );
@@ -127,7 +131,7 @@ function StaffTab({ style, showBackButton }, ref) {
   };
 
   const onChangeTab = (tabIndex) => {
-    setCurrentTab(tabIndex);
+    setCurrentTab(tabIndex.i);
   };
 
   const onShowPopupExport = () => {
@@ -149,29 +153,40 @@ function StaffTab({ style, showBackButton }, ref) {
     setVisiblePopupExport(false);
     switch (currentTab) {
       case 0:
-        // setVisiblePopupLoadingExport(true);
         dispatch(
           actions.staff.getExportStaffSalary(
             url,
             true,
             "csv",
-            titleExportFile?.replace("/s{2,}/g", "")
+            titleExportFile?.split(" ").join("")
           )
         );
         break;
       case 1:
-        // setVisiblePopupLoadingExport(true);
         dispatch(
           actions.staff.getExportStaffStatistics(
+            listCalendarStaffId,
             url,
             true,
             "csv",
-            titleExportFile?.replace("/s{2,}/g", "")
+            titleExportFile?.split(" ").join("")
           )
         );
         break;
       default:
         break;
+    }
+  };
+
+  const handleTheDownloadedFile = (pathFile) => {
+    if (Platform.OS === "ios") {
+      RNFetchBlob.ios.previewDocument(pathFile);
+    } else {
+      const android = RNFetchBlob.android;
+      android.actionViewIntent(
+        pathFile,
+        "application/vnd.android.package-archive"
+      );
     }
   };
 
@@ -195,6 +210,7 @@ function StaffTab({ style, showBackButton }, ref) {
           titleRangeTime={titleRangeTime}
           showCalendar={() => setVisibleCalendar(true)}
           showExportFile={onShowPopupExport}
+          handleTheDownloadedFile={handleTheDownloadedFile}
         />
         <StaffStatistic
           style={{ flex: 1, padding: 10 }}
@@ -202,6 +218,7 @@ function StaffTab({ style, showBackButton }, ref) {
           titleRangeTime={titleRangeTime}
           showCalendar={() => setVisibleCalendar(true)}
           showExportFile={onShowPopupExport}
+          handleTheDownloadedFile={handleTheDownloadedFile}
         />
       </ScrollableTabView>
 

@@ -27,6 +27,7 @@ export default function StaffStatistic({
   titleRangeTime,
   showCalendar,
   showExportFile,
+  handleTheDownloadedFile,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -34,6 +35,9 @@ export default function StaffStatistic({
     (state) => state.staff.listStaffsCalendar
   );
   const language = useSelector((state) => state.dataLocal.language);
+  const pathFileReportStaff = useSelector(
+    (state) => state.staff.pathFileReportStaff
+  );
 
   /**state */
   const [sumObjects, setSumObjects] = useState({});
@@ -87,11 +91,21 @@ export default function StaffStatistic({
       <HeaderTitle title={localize("Staff Statistics", language)} />
       <HeaderTooltip
         rightComponent={
-          <PopupButton
-            text="Export"
-            imageSrc={IMAGE.Report_Export}
-            onPress={showExportFile}
-          />
+          <>
+            <PopupButton
+              text="Export"
+              imageSrc={IMAGE.Report_Export}
+              onPress={showExportFile}
+            />
+            {pathFileReportStaff && (
+              <PopupButton
+                onPress={() => handleTheDownloadedFile(pathFileReportStaff)}
+                style={{ backgroundColor: "rgb(235,93,57)", marginLeft: 20 }}
+                text={localize("Handle the downloaded file", language)}
+                imageSrc={IMAGE.Report_Export}
+              />
+            )}
+          </>
         }
       >
         <PopupButton

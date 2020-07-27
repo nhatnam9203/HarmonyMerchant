@@ -26,10 +26,15 @@ export default function StaffSalaryTab({
   titleRangeTime,
   showCalendar,
   showExportFile,
+  handleTheDownloadedFile,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
   const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
+  const pathFileReportStaff = useSelector(
+    (state) => state.staff.pathFileReportStaff
+  );
+
   const language = useSelector((state) => state.dataLocal.language);
 
   /**state */
@@ -64,11 +69,22 @@ export default function StaffSalaryTab({
       <HeaderTitle title={localize("Staff Salary", language)} />
       <HeaderTooltip
         rightComponent={
-          <PopupButton
-            text="Export"
-            imageSrc={IMAGE.Report_Export}
-            onPress={showExportFile}
-          />
+          <>
+            <PopupButton
+              text="Export"
+              imageSrc={IMAGE.Report_Export}
+              onPress={showExportFile}
+            />
+
+            {pathFileReportStaff && (
+              <PopupButton
+                onPress={() => handleTheDownloadedFile(pathFileReportStaff)}
+                style={{ backgroundColor: "rgb(235,93,57)", marginLeft: 20 }}
+                text={localize("Handle the downloaded file", language)}
+                imageSrc={IMAGE.Report_Export}
+              />
+            )}
+          </>
         }
       >
         <PopupButton
