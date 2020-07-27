@@ -211,6 +211,7 @@ export default class Layout extends React.Component {
       visibleCalendar,
       selectedStaff,
       visibleStaffInvoicePrint,
+      showBackButton,
     } = this.state;
 
     return (
@@ -224,7 +225,12 @@ export default class Layout extends React.Component {
           {this.renderHeader()}
           {/* {this.renderFilter()} */}
           {/* {this.renderTable()} */}
-          <ReportScreen2 showCalendar={this.showCalendar} />
+          <ReportScreen2
+            ref={this.screenReportRef}
+            showCalendar={this.showCalendar}
+            showBackButton={this.onShowBackButton}
+          />
+          {/**button drawer */}
           <Button
             onPress={this.openDrawer}
             style={{ position: "absolute", top: 20, left: 0 }}
@@ -234,24 +240,27 @@ export default class Layout extends React.Component {
               style={{ width: scaleSzie(34), height: scaleSzie(34) }}
             />
           </Button>
-          {/**back button on top-right */}
-          <Button
-            style={{
-              position: "absolute",
-              top: 20,
-              right: 0,
-              width: scaleSzie(34),
-              height: scaleSzie(34),
-              backgroundColor: "#0764B0",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Image
-              source={IMAGE.arrowRight}
-              style={{ width: scaleSzie(22), height: scaleSzie(17) }}
-            />
-          </Button>
+          {/**button back on top-right */}
+          {showBackButton && (
+            <Button
+              style={{
+                position: "absolute",
+                top: 20,
+                right: 0,
+                width: scaleSzie(34),
+                height: scaleSzie(34),
+                backgroundColor: "#0764B0",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onPress={this.onBackButtonPressed}
+            >
+              <Image
+                source={IMAGE.arrowRight}
+                style={{ width: scaleSzie(22), height: scaleSzie(17) }}
+              />
+            </Button>
+          )}
         </View>
         <PopupCalendar
           ref={this.modalCalendarRef}

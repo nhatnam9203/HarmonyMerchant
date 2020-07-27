@@ -19,12 +19,19 @@ const TAB_DEFAULT_HEIGHT = 50;
 //================================
 //Header Tab Layout
 //================================
-export default function HeaderTabLayout({ children, tabIcons }) {
+export default function HeaderTabLayout({
+  children,
+  tabIcons,
+  onHeaderTabChanged,
+}) {
   /**process */
   const [tabCurrent, changeTabCurrent] = useState(SCROLL_PAGE_DEFAULT);
 
   const onChangeTab = ({ i, ref }) => {
     changeTabCurrent(i);
+    if (onHeaderTabChanged) {
+      onHeaderTabChanged(i);
+    }
   };
 
   /**render */

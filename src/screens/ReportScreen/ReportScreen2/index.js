@@ -1,4 +1,9 @@
-import React from "react";
+import React, {
+  useImperativeHandle,
+  forwardRef,
+  useRef,
+  useState,
+} from "react";
 import { View } from "react-native";
 
 import IMAGE from "@resources";
@@ -14,7 +19,28 @@ import {
 } from "./contents";
 import styles from "./style";
 
-export default function ReportScreen2({}) {
+function ReportScreen2({showBackButton }, ref) {
+  const [tabIndex, setTabIndex] = useState(0);
+  const staffRef = useRef(null);
+  /**create ref, share function to public */
+  useImperativeHandle(ref, () => ({
+    onBack: () => {
+      switch (tabIndex) {
+        case 0:
+          staffRef.current.goBack();
+          break;
+
+        default:
+          break;
+      }
+    },
+  }));
+
+  const onTabChange = (taIndex) => {
+    console.log("onTabChange", taIndex);
+    setTabIndex(taIndex);
+  };
+
   return (
     <View style={styles.container}>
       <HeaderTabLayout
@@ -26,8 +52,14 @@ export default function ReportScreen2({}) {
           IMAGE.Report_Product,
           IMAGE.Report_Overall,
         ]}
+        onHeaderTabChanged={onTabChange}
       >
-        <StaffTab style={styles.content} tabLabel="Staff salary" />
+        <StaffTab
+          style={styles.content}
+          tabLabel="Staff salary"
+          ref={staffRef}
+          showBackButton={showBackButton}
+        />
         <GiftCardTab style={styles.content} tabLabel="Gift card" />
         <CustomerTab style={styles.content} tabLabel="Customer" />
         <ServicesTab style={styles.content} tabLabel="Services" />
@@ -37,3 +69,5 @@ export default function ReportScreen2({}) {
     </View>
   );
 }
+
+export default ReportScreen2 = forwardRef(ReportScreen2);

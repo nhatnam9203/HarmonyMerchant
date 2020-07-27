@@ -1,20 +1,30 @@
-import React, { useRef } from "react";
+import React, { useRef, useImperativeHandle, forwardRef } from "react";
 import { View } from "react-native";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 
 import StaffSalaryTab from "./StaffSalaryTab";
 import StaffStatistic from "./StaffStatistic";
 
-export default function StaffTab({ style }) {
+function StaffTab({ style, showBackButton }, ref) {
   const scrollable = useRef(null);
 
   const goNext = () => {
     scrollable.current.goToPage(1);
+    if (showBackButton) {
+      showBackButton(true);
+    }
   };
 
   const goBack = () => {
     scrollable.current.goToPage(0);
+    if (showBackButton) {
+      showBackButton(false);
+    }
   };
+
+  useImperativeHandle(ref, () => ({
+    goBack: goBack,
+  }));
 
   return (
     <ScrollableTabView
@@ -36,3 +46,5 @@ export default function StaffTab({ style }) {
     </ScrollableTabView>
   );
 }
+
+export default StaffTab = forwardRef(StaffTab);
