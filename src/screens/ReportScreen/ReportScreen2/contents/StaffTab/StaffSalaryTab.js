@@ -20,7 +20,13 @@ import {
 import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
 import actions from "@actions";
 
-export default function StaffSalaryTab({ style, onGoStatistics, titleRangeTime, showCalendar }) {
+export default function StaffSalaryTab({
+  style,
+  onGoStatistics,
+  titleRangeTime,
+  showCalendar,
+  showExportFile,
+}) {
   /**redux store*/
   const dispatch = useDispatch();
   const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
@@ -42,7 +48,11 @@ export default function StaffSalaryTab({ style, onGoStatistics, titleRangeTime, 
       return (
         <View style={styles.cellSalary}>
           <Text style={styles.txtSalary}>{item[key] + "$"}</Text>
-          <Image style={styles.imgDetail} source={IMAGE.Report_Detail} />
+
+          <View style={styles.imgContent}>
+            <Image style={styles.imgDetail} source={IMAGE.Report_Print} />
+            <Image style={styles.imgDetail} source={IMAGE.Report_Detail} />
+          </View>
         </View>
       );
     }
@@ -54,7 +64,11 @@ export default function StaffSalaryTab({ style, onGoStatistics, titleRangeTime, 
       <HeaderTitle title={localize("Staff Salary", language)} />
       <HeaderTooltip
         rightComponent={
-          <PopupButton text="Export" imageSrc={IMAGE.Report_Export} />
+          <PopupButton
+            text="Export"
+            imageSrc={IMAGE.Report_Export}
+            onPress={showExportFile}
+          />
         }
       >
         <PopupButton
@@ -108,7 +122,9 @@ const styles = StyleSheet.create({
   cellSalary: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    flex: 1,
   },
   txtSalary: {
     fontWeight: "bold",
@@ -116,10 +132,15 @@ const styles = StyleSheet.create({
     color: "#6A6A6A",
     marginRight: 10,
   },
+  imgContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
   imgDetail: {
     tintColor: "#6A6A6A",
     width: 20,
     height: 20,
-    marginLeft: 10,
+    marginLeft: 8,
   },
 });

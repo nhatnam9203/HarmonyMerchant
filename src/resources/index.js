@@ -147,4 +147,5 @@ export default {
   Report_Dropdown_Arrow: require("./img/report_arrow_drop_down.png"),
   Report_Export: require("./img/report_export.png"),
   Report_Detail: require("./img/report_detail.png"),
+  Report_Print: require("./img/report_print.png"),
 };

@@ -179,26 +179,34 @@ export function toggleReportTabPermission(visible = true) {
 
 export function getExportStaffSalary(
   params = "quickFilter=thisWeek",
-  isShowLoading = true
+  isShowLoading = true,
+  type = "csv",
+  fileName
 ) {
   return {
-    type: "GET_EXPORT_STAFFS_SALARY",
+    type: "EXPORT_STAFFS_SALARY",
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}staff/salary?${params}`,
+    api: `${apiConfigs.BASE_API}staff/salary/export?${params}`,
     isShowLoading,
+    fileName,
+    extention: type === "excel" ? "csv" : "pdf",
   };
 }
 
 export function getExportStaffStatistics(
   params = "quickFilter=thisWeek",
-  isShowLoading = true
+  isShowLoading = true,
+  type = "csv",
+  fileName
 ) {
   return {
-    type: "GET_EXPORT_STAFFS_STATISTICS",
+    type: "EXPORT_STAFFS_STATISTICS",
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}staff/salary?${params}`,
+    api: `${apiConfigs.BASE_API}staff/salary/export?${params}`,
     isShowLoading,
+    fileName,
+    extention: type === "excel" ? "csv" : "pdf",
   };
 }

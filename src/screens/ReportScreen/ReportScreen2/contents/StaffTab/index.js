@@ -4,51 +4,67 @@ import React, {
   forwardRef,
   useState,
   useCallback,
+  useEffect,
 } from "react";
 import { View } from "react-native";
 
 import { useSelector, useDispatch } from "react-redux";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 
-import {
-  Text,
-  StatusBarHeader,
-  Button,
-  ParentContainer,
-  PopupCheckStaffPermission,
-  PopupCalendar,
-} from "@components";
+import { PopupCalendar } from "@components";
 import actions from "@actions";
 import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
+import {
+  PopupExport,
+  PopupLoadingExport,
+} from "../../../../InventoryScreen/widget";
+import { PopupExportReport } from "../../widget";
 
 import StaffSalaryTab from "./StaffSalaryTab";
 import StaffStatistic from "./StaffStatistic";
 
 function StaffTab({ style, showBackButton }, ref) {
+  /**redux */
   const dispatch = useDispatch();
+  const language = useSelector((state) => state.dataLocal.language);
 
-  const scrollable = useRef(null);
+  /**ref */
+  const scrollPage = useRef(null);
   const modalCalendarRef = useRef(null);
+  const modalExportRef = useRef(null);
 
   /**state */
   const [visibleCalendar, setVisibleCalendar] = useState(false);
+  const [visiblePopupExport, setVisiblePopupExport] = useState(false);
+  const [visiblePopupLoadingExport, setVisiblePopupLoadingExport] = useState(
+    false
+  );
   const [titleRangeTime, setTitleRangeTime] = useState("This week");
+  const [currentTab, setCurrentTab] = useState(0);
+  const [titleExportFile, setTitleExportFile] = useState(
+    localize("Export", language)
+  );
+
+  /**effect */
+  // useEffect(() => {
+
+  // }, []);
 
   /**func */
   const goNext = () => {
-    scrollable.current.goToPage(1);
+    scrollPage.current.goToPage(1);
     if (showBackButton) {
       showBackButton(true);
     }
   };
 
   const goBack = () => {
-    scrollable.current.goToPage(0);
+    scrollPage.current.goToPage(0);
     if (showBackButton) {
       showBackButton(false);
     }
   };
-
+  // public func
   useImperativeHandle(ref, () => ({
     goBack: goBack,
   }));
@@ -58,7 +74,7 @@ function StaffTab({ style, showBackButton }, ref) {
     [dispatch]
   );
 
-  const searchStaff = () => {
+  const getFilterTimeParams = () => {
     const {
       isCustomizeDate,
       startDate,
@@ -76,6 +92,29 @@ function StaffTab({ style, showBackButton }, ref) {
       url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
     }
 
+    return url;
+  };
+
+  const getTimeTitle = () => {
+    const {
+      isCustomizeDate,
+      startDate,
+      endDate,
+      quickFilter,
+    } = modalCalendarRef.current.state;
+
+    const filter = quickFilter === false ? "This Week" : quickFilter;
+    let title = `${filter}`;
+
+    if (startDate && endDate) {
+      title = ` ${startDate} - ${endDate}`;
+    }
+
+    return title;
+  };
+
+  const searchStaff = () => {
+    const url = getFilterTimeParams();
     // searchStaffSalary(url);
     dispatch(actions.staff.getListStaffsSalaryTop(url, true));
   };
@@ -86,10 +125,43 @@ function StaffTab({ style, showBackButton }, ref) {
     searchStaff();
   };
 
+  const onChangeTab = (tabIndex) => {
+    setCurrentTab(tabIndex);
+  };
+
+  const onShowPopupExport = () => {
+    switch (currentTab) {
+      case 0:
+        setTitleExportFile("Report Staff Salary " + getTimeTitle());
+        break;
+      case 1:
+        setTitleExportFile("Report Staff Statistics " + getTimeTitle());
+        break;
+      default:
+    }
+
+    setVisiblePopupExport(true);
+  };
+
+  const requestExportFileToServer = () => {
+    const url = getFilterTimeParams();
+
+    switch (currentTab) {
+      case 0:
+        dispatch(actions.staff.getExportStaffSalary(url, true, "csv"));
+        break;
+      case 1:
+        break;
+      default:
+        break;
+    }
+  };
+
+  /**render */
   return (
     <>
       <ScrollableTabView
-        ref={scrollable}
+        ref={scrollPage}
         initialPage={0}
         locked={true}
         renderTabBar={() => <View />}
@@ -97,19 +169,21 @@ function StaffTab({ style, showBackButton }, ref) {
         tabBarPosition="bottom"
         springTension={1}
         springFriction={1}
-        // onChangeTab={onChangeTab}
+        onChangeTab={onChangeTab}
       >
         <StaffSalaryTab
           style={{ flex: 1, padding: 10 }}
           onGoStatistics={goNext}
           titleRangeTime={titleRangeTime}
           showCalendar={() => setVisibleCalendar(true)}
+          showExportFile={onShowPopupExport}
         />
         <StaffStatistic
           style={{ flex: 1, padding: 10 }}
           onGoSalary={goBack}
           titleRangeTime={titleRangeTime}
           showCalendar={() => setVisibleCalendar(true)}
+          showExportFile={onShowPopupExport}
         />
       </ScrollableTabView>
 
@@ -120,6 +194,22 @@ function StaffTab({ style, showBackButton }, ref) {
         onRequestClose={() => setVisibleCalendar(false)}
         changeTitleTimeRange={changeTitleTimeRange}
         paddingLeft={scaleSzie(60)}
+      />
+
+      <PopupExportReport
+        ref={modalExportRef}
+        title={localize("Export", language)}
+        fileName={titleExportFile}
+        visible={visiblePopupExport}
+        onRequestClose={() => setVisiblePopupExport(false)}
+        language={language}
+        exportFile={requestExportFileToServer}
+      />
+      <PopupLoadingExport
+        visible={visiblePopupLoadingExport}
+        onRequestClose={() => setVisiblePopupLoadingExport(false)}
+        language={language}
+        // typeFile={typeFile === "pdf" ? "PDF" : "Excel"}
       />
     </>
   );

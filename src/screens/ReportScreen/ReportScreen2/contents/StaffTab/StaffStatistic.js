@@ -22,7 +22,12 @@ import actions from "@actions";
 const HEAD_FONT_SIZE = 17;
 const TABLE_ROW_HEIGHT = 50;
 
-export default function StaffStatistic({ style, titleRangeTime, showCalendar }) {
+export default function StaffStatistic({
+  style,
+  titleRangeTime,
+  showCalendar,
+  showExportFile,
+}) {
   /**redux store*/
   const dispatch = useDispatch();
   const listStaffsCalendar = useSelector(
@@ -82,7 +87,11 @@ export default function StaffStatistic({ style, titleRangeTime, showCalendar }) 
       <HeaderTitle title={localize("Staff Statistics", language)} />
       <HeaderTooltip
         rightComponent={
-          <PopupButton text="Export" imageSrc={IMAGE.Report_Export} />
+          <PopupButton
+            text="Export"
+            imageSrc={IMAGE.Report_Export}
+            onPress={showExportFile}
+          />
         }
       >
         <PopupButton
