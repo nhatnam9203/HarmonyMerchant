@@ -13,8 +13,14 @@ export default function OverallReportTab({ style }) {
   return (
     <View style={style}>
       <CustomScrollTab>
-        <PaymentMethodRp tabLabel="Payment Method" />
-        <MarketingEfficiencyRp tabLabel="Marketing Efficiency" />
+        <PaymentMethodRp
+          style={{ flex: 1, paddingTop: 10 }}
+          tabLabel="Payment Method"
+        />
+        <MarketingEfficiencyRp
+          style={{ flex: 1, paddingTop: 10 }}
+          tabLabel="Marketing Efficiency"
+        />
       </CustomScrollTab>
     </View>
   );

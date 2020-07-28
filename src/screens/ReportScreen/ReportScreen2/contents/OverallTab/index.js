@@ -47,8 +47,8 @@ export default function OverallTab({ style }) {
         springFriction={1}
         onChangeTab={onChangeTab}
       >
-        <OverallReportTab />
-        <OverallStatistic />
+        <OverallReportTab style={{ flex: 1, paddingTop: 10 }} />
+        <OverallStatistic style={{ flex: 1, paddingTop: 10 }} />
       </ScrollableTabView>
     </View>
   );

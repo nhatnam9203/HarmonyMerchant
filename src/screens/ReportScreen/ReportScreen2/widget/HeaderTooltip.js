@@ -19,10 +19,11 @@ const styles = StyleSheet.create({
     marginVertical: MARGIN_Y,
     flexDirection: "row",
     alignItems: "center",
+    paddingHorizontal: 20,
   },
   right: {
     position: "absolute",
-    right: 0,
+    right: 20,
     top: 0,
     bottom: 0,
     flexDirection: "row",

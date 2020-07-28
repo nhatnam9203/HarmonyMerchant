@@ -246,7 +246,7 @@ function StaffTab({ style, showBackButton }, ref) {
         onChangeTab={onChangeTab}
       >
         <StaffSalaryTab
-          style={{ flex: 1, padding: 10 }}
+          style={{ flex: 1, paddingTop: 10 }}
           onGoStatistics={goNext}
           titleRangeTime={titleRangeTime}
           showCalendar={() => setVisibleCalendar(true)}
@@ -257,7 +257,7 @@ function StaffTab({ style, showBackButton }, ref) {
           filterStaffItem={filterStaffItem}
         />
         <StaffStatistic
-          style={{ flex: 1, padding: 10 }}
+          style={{ flex: 1, paddingTop: 10 }}
           onGoSalary={goBack}
           titleRangeTime={titleRangeTime}
           showCalendar={() => setVisibleCalendar(true)}
