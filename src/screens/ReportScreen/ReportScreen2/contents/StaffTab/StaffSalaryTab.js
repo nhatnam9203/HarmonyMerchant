@@ -31,10 +31,12 @@ export default function StaffSalaryTab({
   showCalendar,
   showExportFile,
   handleTheDownloadedFile,
+  onChangeFilterStaff,
+  dataStaffSalaryFilter,
+  filterStaffItem,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
-  const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
   const pathFileReportStaff = useSelector(
     (state) => state.staff.pathFileReportStaff
   );
@@ -44,7 +46,8 @@ export default function StaffSalaryTab({
   /**state */
   const [showStaffInvoicePrint, setShowStaffInvoicePrint] = useState(false);
   const [currentStaff, setCurrentStaff] = useState({});
-  const [filterStaffItem, setFilterStaffItem] = useState(null);
+  const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
+
   /**process */
   const onCellPress = ({ key, row, column, item }) => {
     // if (key === "salary") {
@@ -71,23 +74,6 @@ export default function StaffSalaryTab({
   const showPopupStaffInvoice = (item) => {
     setCurrentStaff(item);
     setShowStaffInvoicePrint(true);
-  };
-
-  const bindStaffSalaryFilter = () => {
-    if (!listStaffsSalary) return [];
-
-    let array = listStaffsSalary.map((staff) => ({
-      value: staff.name,
-      ...staff,
-    }));
-
-    array.push({ value: "All Staff" });
-
-    return array;
-  };
-
-  const onChangeFilterStaff = (text) => {
-    setFilterStaffItem(text);
   };
 
   const filterDataTale = () => {
@@ -151,7 +137,7 @@ export default function StaffSalaryTab({
         />
         <View style={{ width: 160, height: 45 }}>
           <Dropdown
-            data={bindStaffSalaryFilter()}
+            data={dataStaffSalaryFilter}
             onChangeText={(text) => onChangeFilterStaff(text)}
             renderBase={() => (
               <PopupButton

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback } from "react";
 import { View, Image, StyleSheet, Text } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
+import { Dropdown } from "react-native-material-dropdown";
 
 import IMAGE from "@resources";
 import {
@@ -28,6 +29,9 @@ export default function StaffStatistic({
   showCalendar,
   showExportFile,
   handleTheDownloadedFile,
+  onChangeFilterStaff,
+  dataStaffSalaryFilter,
+  filterStaffItem,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -113,7 +117,19 @@ export default function StaffStatistic({
           onPress={showCalendar}
           style={{ marginRight: 20 }}
         />
-        <PopupButton text="All Staff" imageSrc={IMAGE.Report_Dropdown_Arrow} />
+        {/* <PopupButton text="All Staff" imageSrc={IMAGE.Report_Dropdown_Arrow} /> */}
+        <View style={{ width: 160, height: 45 }}>
+          <Dropdown
+            data={dataStaffSalaryFilter}
+            onChangeText={(text) => onChangeFilterStaff(text)}
+            renderBase={() => (
+              <PopupButton
+                text={filterStaffItem ?? "All Staff"}
+                imageSrc={IMAGE.Report_Dropdown_Arrow}
+              />
+            )}
+          />
+        </View>
       </HeaderTooltip>
 
       <View style={{ flex: 1 }}>

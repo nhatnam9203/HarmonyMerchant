@@ -37,6 +37,7 @@ function StaffTab({ style, showBackButton }, ref) {
   const isDownloadReportStaff = useSelector(
     (state) => state.staff.isDownloadReportStaff
   );
+  const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
 
   /**ref */
   const scrollPage = useRef(null);
@@ -54,6 +55,7 @@ function StaffTab({ style, showBackButton }, ref) {
   const [titleExportFile, setTitleExportFile] = useState(
     localize("Export", language)
   );
+  const [filterStaffItem, setFilterStaffItem] = useState(null);
 
   /**effect */
   useEffect(() => {
@@ -201,6 +203,29 @@ function StaffTab({ style, showBackButton }, ref) {
     }
   };
 
+  const bindStaffSalaryFilter = () => {
+    if (!listStaffsSalary) return [];
+
+    let array = listStaffsSalary.map((staff) => ({
+      value: staff.name,
+      ...staff,
+    }));
+
+    array.push({ value: "All Staff" });
+
+    return array;
+  };
+
+  const onChangeFilterStaff = (text) => {
+    setFilterStaffItem(text);
+    if (currentTab === 1) {
+      const item = listStaffsSalary.find((staff) => staff.name === text);
+      if (item) {
+        dispatch(actions.staff.getListStaffCalendar(item.staffId));
+      }
+    }
+  };
+
   /**render */
   return (
     <>
@@ -222,6 +247,9 @@ function StaffTab({ style, showBackButton }, ref) {
           showCalendar={() => setVisibleCalendar(true)}
           showExportFile={onShowPopupExport}
           handleTheDownloadedFile={handleTheDownloadedFile}
+          onChangeFilterStaff={onChangeFilterStaff}
+          dataStaffSalaryFilter={bindStaffSalaryFilter()}
+          filterStaffItem={filterStaffItem}
         />
         <StaffStatistic
           style={{ flex: 1, padding: 10 }}
@@ -230,6 +258,9 @@ function StaffTab({ style, showBackButton }, ref) {
           showCalendar={() => setVisibleCalendar(true)}
           showExportFile={onShowPopupExport}
           handleTheDownloadedFile={handleTheDownloadedFile}
+          onChangeFilterStaff={onChangeFilterStaff}
+          dataStaffSalaryFilter={bindStaffSalaryFilter()}
+          filterStaffItem={filterStaffItem}
         />
       </ScrollableTabView>
 
