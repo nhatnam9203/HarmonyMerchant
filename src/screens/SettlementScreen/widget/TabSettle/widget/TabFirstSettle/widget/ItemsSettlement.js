@@ -10,11 +10,12 @@ import {
     Text,
 } from '@components';
 import ICON from "@resources";
+import style from '../style';
 
 export const StaffsHeaderTable = () => {
     return (
         <View style={{
-            height: scaleSzie(35), backgroundColor: "#F1F1F1", borderBottomColor: "#DDDDDD", borderBottomWidth: 1,
+            height: scaleSzie(30), backgroundColor: "#F1F1F1", borderBottomColor: "#DDDDDD", borderBottomWidth: 1,
             flexDirection: "row"
         }} >
             {/* ---------- Name -------- */}
@@ -133,7 +134,7 @@ export const TotalItem = ({ total }) => {
         }} >
             {/* ---------- Name -------- */}
             <View style={[{ flex: 1, paddingLeft: scaleSzie(13) }, styles.container]} >
-                <Text style={[styles.txt_item, { fontWeight: "600", color: "#404040" ,fontSize:scaleSzie(14)}]} >
+                <Text style={[styles.txt_item, { fontWeight: "600", color: "#404040", fontSize: scaleSzie(14) }]} >
                     {"Total"}
                 </Text>
             </View>
@@ -145,14 +146,62 @@ export const TotalItem = ({ total }) => {
             <View style={[{ flex: 0.5 }, styles.container]} />
             {/* ---------- Total Sales -------- */}
             <View style={[{ flex: 0.8, justifyContent: "center" }]} >
-                <Text style={[styles.txt_item, { fontWeight: "600", color: "#4CD964" ,fontSize:scaleSzie(14)}]} >
+                <Text style={[styles.txt_item, { fontWeight: "600", color: "#4CD964", fontSize: scaleSzie(14) }]} >
                     {`$  ${total ? total : 0.00}`}
                 </Text>
-                {/* <Image source={ICON.staff_invoice_blue} style={{ marginRight: scaleSzie(8) }} /> */}
             </View>
         </View>
     );
 }
+
+export const HeaderPaymentsReport = ({ total }) => {
+
+    return (
+        <View style={{
+            height: scaleSzie(33),
+            flexDirection: "row", backgroundColor: "#F1F1F1"
+        }} >
+            <View style={{ flex: 1, justifyContent: "center" }} >
+                <Text style={[styles.txt_normal, { marginLeft: scaleSzie(15) }]} >
+                    {`Payments`}
+                </Text>
+            </View>
+            <View style={{ width: scaleSzie(120), alignItems: "center", flexDirection: "row", }} >
+                <Text style={styles.txt_normal} >
+                    {`Amount`}
+                </Text>
+                <View style={{ flex: 1 }} >
+
+                </View>
+            </View>
+        </View>
+    );
+}
+
+export const ItemPaymentsReport = ({ backgroundColor,title,txtStyle }) => {
+
+    return (
+        <View style={{
+            height: scaleSzie(29),
+            flexDirection: "row", backgroundColor: backgroundColor
+        }} >
+            <View style={{ flex: 1, justifyContent: "center" }} >
+                <Text style={[styles.txt_item, { marginLeft: scaleSzie(15), color: "#fff", fontWeight: "400" },txtStyle]} >
+                    {title}
+                </Text>
+            </View>
+            <View style={{ width: scaleSzie(120), alignItems: "center", flexDirection: "row", }} >
+                <Text style={[styles.txt_item, { color: "#fff", fontWeight: "600" },txtStyle]} >
+                    {`$ 600.00`}
+                </Text>
+                <View style={{ flex: 1 }} >
+
+                </View>
+            </View>
+        </View>
+    );
+}
+
 
 
 const styles = ({
