@@ -39,7 +39,7 @@ function ReportScreen2({ showBackButton }, ref) {
 
   const onTabChange = (taIndex) => {
     setTabIndex(taIndex);
-    staffRef.current.resetPage();
+    staffRef.current.goBack();
 
     showBackButton(false);
   };

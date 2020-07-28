@@ -71,19 +71,13 @@ function StaffTab({ style, showBackButton }, ref) {
   };
 
   const goBack = () => {
+    setFilterStaffItem(null);
     scrollPage.current.goToPage(0);
-    // if (showBackButton) {
-    //   showBackButton(false);
-    // }
   };
 
-  const resetPage = () => {
-    scrollPage.current.goToPage(0);
-  };
   // public func
   useImperativeHandle(ref, () => ({
     goBack: goBack,
-    resetPage: resetPage,
   }));
 
   const searchStaffSalary = useCallback(
@@ -157,7 +151,6 @@ function StaffTab({ style, showBackButton }, ref) {
         break;
       default:
     }
-
     setVisiblePopupExport(true);
   };
 
