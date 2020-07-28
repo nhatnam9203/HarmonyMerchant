@@ -169,3 +169,12 @@ export function getSettlementWarning() {
         token: true
     }
 }
+
+export function getListStaffsSales() {
+    return {
+        type: 'GET_LIST_STAFFS_SALES',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}appointment/staffSales`,
+    }
+}
