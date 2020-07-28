@@ -6,6 +6,7 @@ import IMAGE from "@resources";
 
 import { HeaderTitle, HeaderTooltip, PopupButton, TableList } from "../widget";
 import { localize } from "@utils";
+
 export default function GiftCardTab({style}) {
   return <View style={style}></View>;
 }

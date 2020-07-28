@@ -112,9 +112,9 @@ function TableList(
     setRenderKeys(listKeys);
   }, [whiteKeys, primaryId]);
 
-  const getCellWidth = (index) => {
-    if (tableCellWidth && tableCellWidth.length > index) {
-      return tableCellWidth[index];
+  const getCellWidth = (index, key) => {
+    if (tableCellWidth && tableCellWidth[key]) {
+      return tableCellWidth[key];
     }
     return TABLE_CELL_DEFAULT_WIDTH;
   };
@@ -162,7 +162,7 @@ function TableList(
                 })
               }
               key={keyUnique}
-              style={[styles.cell, { width: getCellWidth(keyIndex) }]}
+              style={[styles.cell, { width: getCellWidth(keyIndex, key) }]}
             >
               {cellRender ?? (
                 <Text style={styles.textCell}>
@@ -184,7 +184,7 @@ function TableList(
           {headerContent.map((x, index) => (
             <TableCell
               key={x}
-              style={[styles.cell, { width: getCellWidth(index) }]}
+              style={[styles.cell, { width: getCellWidth(index, x) }]}
             >
               <Text style={styles.textHead}>{x}</Text>
             </TableCell>
@@ -200,7 +200,7 @@ function TableList(
               return (
                 <TableCell
                   key={keyUnique}
-                  style={[styles.cell, { width: getCellWidth(index) }]}
+                  style={[styles.cell, { width: getCellWidth(index, key) }]}
                 >
                   {key === "name" && (
                     <Text style={styles.textSum}>{"Total"}</Text>

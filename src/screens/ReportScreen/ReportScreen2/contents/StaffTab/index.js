@@ -14,18 +14,15 @@ import ScrollableTabView from "react-native-scrollable-tab-view";
 
 import { PopupCalendar } from "@components";
 import actions from "@actions";
-import {
-  localize,
-  scaleSzie,
-  getQuickFilterTimeRange,
-  getArrayNameCategories,
-} from "@utils";
+import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
+
 import { PopupExportReport, PopupLoadingExportReport } from "../../widget";
 
 import StaffSalaryTab from "./StaffSalaryTab";
 import StaffStatistic from "./StaffStatistic";
 
 const FILE_EXTENSION = "csv";
+const FILTER_NAME_DEFAULT = "All Staff";
 
 function StaffTab({ style, showBackButton }, ref) {
   /**redux */
@@ -39,7 +36,7 @@ function StaffTab({ style, showBackButton }, ref) {
   );
   const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
 
-  /**ref */
+  /**refs */
   const scrollPage = useRef(null);
   const modalCalendarRef = useRef(null);
   const modalExportRef = useRef(null);
@@ -63,15 +60,16 @@ function StaffTab({ style, showBackButton }, ref) {
   }, [isDownloadReportStaff]);
 
   /**func */
+  // go to staff statistics page
   const goNext = () => {
     scrollPage.current.goToPage(1);
-    // if (showBackButton) {
-    //   showBackButton(true);
-    // }
   };
 
+  // go to staff salary page
   const goBack = () => {
+    // reset filters name
     setFilterStaffItem(null);
+    // scroll to staff salary
     scrollPage.current.goToPage(0);
   };
 
@@ -85,6 +83,7 @@ function StaffTab({ style, showBackButton }, ref) {
     [dispatch]
   );
 
+  // create time range params
   const getFilterTimeParams = () => {
     const {
       isCustomizeDate,
@@ -106,6 +105,7 @@ function StaffTab({ style, showBackButton }, ref) {
     return url;
   };
 
+  // create title for time, to set default title print
   const getTimeTitle = () => {
     const {
       isCustomizeDate,
@@ -124,36 +124,41 @@ function StaffTab({ style, showBackButton }, ref) {
     return title;
   };
 
+  // call action search staff api
   const searchStaff = () => {
     const url = getFilterTimeParams();
     // searchStaffSalary(url);
     dispatch(actions.staff.getListStaffsSalaryTop(url, true));
   };
 
+  // time filter change: hide popup + create time range params + call api search staff
   const changeTitleTimeRange = async (title) => {
     setVisibleCalendar(false);
     setTitleRangeTime(title !== "Time Range" ? title : "All time");
     searchStaff();
   };
 
+  // callback  when scrollTab change
   const onChangeTab = (tabIndex) => {
     setCurrentTab(tabIndex.i);
     showBackButton(tabIndex.i !== 0);
   };
 
+  // popup show when button export pressed
   const onShowPopupExport = () => {
     switch (currentTab) {
       case 0:
-        setTitleExportFile("Report Staff Salary " + getTimeTitle());
+        setTitleExportFile("Report staff salary " + getTimeTitle());
         break;
       case 1:
-        setTitleExportFile("Report Staff Statistics " + getTimeTitle());
+        setTitleExportFile("Report staff statistics " + getTimeTitle());
         break;
       default:
     }
     setVisiblePopupExport(true);
   };
 
+  // call action export staff
   const requestExportFileToServer = () => {
     const url = getFilterTimeParams();
     setVisiblePopupExport(false);
@@ -184,6 +189,7 @@ function StaffTab({ style, showBackButton }, ref) {
     }
   };
 
+  // popup handle file download, when button Manager downloaded file pressed
   const handleTheDownloadedFile = (pathFile) => {
     if (Platform.OS === "ios") {
       RNFetchBlob.ios.previewDocument(pathFile);
@@ -196,13 +202,14 @@ function StaffTab({ style, showBackButton }, ref) {
     }
   };
 
+  // create filter name data
   const bindStaffSalaryFilter = () => {
     if (!listStaffsSalary) return [];
 
     let array = [];
 
     if (currentTab === 0) {
-      array.push({ value: "All Staff" });
+      array.push({ value: localize(FILTER_NAME_DEFAULT, language) });
     }
 
     const arrMap = listStaffsSalary.map((staff) => ({

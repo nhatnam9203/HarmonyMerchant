@@ -1,19 +1,12 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState } from "react";
 import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import { Dropdown } from "react-native-material-dropdown";
 
 import IMAGE from "@resources";
-import {
-  Text,
-  StatusBarHeader,
-  Button,
-  ParentContainer,
-  PopupCheckStaffPermission,
-  PopupCalendar,
-} from "@components";
-import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
+import { Text } from "@components";
+import { localize } from "@utils";
 import actions from "@actions";
 
 import {
@@ -183,6 +176,7 @@ export default function StaffSalaryTab({
             "tip",
             "salary",
           ]}
+          tableCellWidth={{ salary: 195, Salary: 195, name: 200, Name: 200 }}
           renderCell={renderCell}
           onCellPress={onCellPress}
         />
@@ -210,12 +204,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 15,
     color: "#6A6A6A",
-    marginRight: 10,
+    marginRight: 5,
   },
   imgContent: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
+    flex: 0,
   },
   imgDetail: {
     tintColor: "#6A6A6A",

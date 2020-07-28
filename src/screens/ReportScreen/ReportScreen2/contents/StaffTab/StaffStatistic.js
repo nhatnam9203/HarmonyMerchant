@@ -1,24 +1,16 @@
-import React, { useState, useRef, useCallback } from "react";
-import { View, Image, StyleSheet, Text } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, Text } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { Dropdown } from "react-native-material-dropdown";
 
 import IMAGE from "@resources";
-import {
-  StatusBarHeader,
-  Button,
-  ParentContainer,
-  PopupCheckStaffPermission,
-  PopupCalendar,
-} from "@components";
 import {
   HeaderTitle,
   HeaderTooltip,
   PopupButton,
   TableList,
 } from "../../widget";
-import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
-import actions from "@actions";
+import { localize } from "@utils";
 
 const HEAD_FONT_SIZE = 17;
 const TABLE_ROW_HEIGHT = 50;
@@ -46,11 +38,8 @@ export default function StaffStatistic({
   /**state */
   const [sumObjects, setSumObjects] = useState({});
 
-  const tableListRef = useRef(null);
-
   /**process */
   const onCellPress = ({ key, row, column, item }) => {};
-
   const onChangeSumObject = (sumObj) => {
     setSumObjects(sumObj);
   };
@@ -62,27 +51,16 @@ export default function StaffStatistic({
 
   const renderFooter = () => {
     return (
-      <View
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: 50,
-          backgroundColor: "#E5E5E5",
-          flexDirection: "row",
-          justifyContent: "space-evenly",
-        }}
-      >
+      <View style={styles.tableFooter}>
         <View style={styles.cell} key="total-key">
-          {<Text style={styles.textSum}>{"Total"}</Text>}
+          {<Text style={styles.txtCalcSum}>{"Total"}</Text>}
         </View>
 
         {sumObjects &&
           Object.keys(sumObjects).map((key, index) => {
             return (
               <View style={styles.cell} key={key}>
-                <Text style={styles.textSum}>{"$ " + sumObjects[key]}</Text>
+                <Text style={styles.txtCalcSum}>{"$ " + sumObjects[key]}</Text>
               </View>
             );
           })}
@@ -119,7 +97,6 @@ export default function StaffStatistic({
           onPress={showCalendar}
           style={{ marginRight: 20 }}
         />
-        {/* <PopupButton text="All Staff" imageSrc={IMAGE.Report_Dropdown_Arrow} /> */}
         <View style={{ width: 160, height: 45 }}>
           <Dropdown
             data={dataStaffSalaryFilter}
@@ -170,7 +147,6 @@ export default function StaffStatistic({
           onCellPress={onCellPress}
           onChangeSumObjects={onChangeSumObject}
         />
-
         {renderFooter()}
       </View>
     </View>
@@ -181,7 +157,7 @@ const styles = StyleSheet.create({
   tableContent: {
     backgroundColor: "red",
   },
-  textSum: {
+  txtCalcSum: {
     fontSize: HEAD_FONT_SIZE,
     color: "#404040",
     fontWeight: "600",
@@ -191,5 +167,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-start",
     paddingHorizontal: 10,
+  },
+  tableFooter: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 50,
+    backgroundColor: "#E5E5E5",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
   },
 });
