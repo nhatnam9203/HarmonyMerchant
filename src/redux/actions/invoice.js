@@ -54,7 +54,7 @@ export function invoicesOfStaff(staffId) {
     }
 }
 
-export function getTransactionSettlement(status = "", timeStart = "", timeEnd = "", key = "", quickFilter = "",isShowLoading = true) {
+export function getTransactionSettlement(status = "", timeStart = "", timeEnd = "", key = "", quickFilter = "", isShowLoading = true) {
     return {
         type: 'GET_TRANSACTION_SETTLEMENT',
         method: 'GET',

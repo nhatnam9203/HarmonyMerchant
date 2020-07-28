@@ -17,7 +17,7 @@ import TextInputAmount from './widget/TextInputAmount';
 import ItemStaff from './widget/ItemStaff';
 import TotalCustom from './widget/TotalCustom';
 import styles from "./style";
-import {StaffsHeaderTable,StaffsItemTable} from "./widget/StaffsTable";
+import { StaffsHeaderTable, StaffsItem, GiftCardItem, TotalItem } from "./widget/StaffsTable";
 
 const { height } = Dimensions.get('window');
 
@@ -431,16 +431,36 @@ class Layout extends React.Component {
     }
 
     renderStaffsTable() {
+        const { staffSales, gitfCardSales } = this.props;
+        let totalAmount = 0;
+        if (staffSales.length > 0) {
+            staffSales.forEach(staff => {
+                totalAmount = parseFloat(totalAmount) + parseFloat(formatNumberFromCurrency(staff.total ? staff.total : 0.00));
+            });
+        }
+
+        if (gitfCardSales.length > 0) {
+            gitfCardSales.forEach(giftCard => {
+                totalAmount = parseFloat(totalAmount) + parseFloat(formatNumberFromCurrency(giftCard.total ? giftCard.total : 0.00));
+            });
+        }
+
         return (
-            <View style={{ flex: 1, }} >
+            <View style={{ flex: 1.2, }} >
                 {/* ---------- Header --------- */}
-                <StaffsHeaderTable />
-                {/* <StaffsItemTable /> */}
-                <FlatList 
-                    data={[1,2,3,4]}
-                    renderItem={({item,index}) =><StaffsItemTable /> }
-                    keyExtractor={(item,index) => `${index}`}
-                />
+                <View style={[styles.box_scale_by_staffs]} >
+                    <StaffsHeaderTable />
+                    <ScrollView showsVerticalScrollIndicator={false} >
+                        {
+                            staffSales.map((item, index) => <StaffsItem key={item.staffId ? item.staffId : index} staff={item} />)
+                        }
+                        {
+                            gitfCardSales.map((item, index) => <GiftCardItem key={index} giftCard={item} />)
+                        }
+                    </ScrollView>
+                </View>
+                <View style={{ height: scaleSzie(10) }} />
+                <TotalItem total={formatMoney(totalAmount)} />
             </View>
         );
     }
@@ -496,9 +516,7 @@ class Layout extends React.Component {
                             {this.renderHeaderStaffList()}
                             {/* ------------- Two tables ----------  */}
                             <View style={{ height: scaleSzie(310), flexDirection: "row", paddingHorizontal: scaleSzie(10) }} >
-                                <View style={styles.box_scale_by_staffs} >
-                                    {this.renderStaffsTable()}
-                                </View>
+                                {this.renderStaffsTable()}
                                 <View style={{ width: scaleSzie(15) }} />
                                 <View style={{ flex: 1 }} >
 

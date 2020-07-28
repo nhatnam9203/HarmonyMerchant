@@ -193,7 +193,9 @@ const mapStateToProps = state => ({
     refreshingSettle: state.invoice.refreshingSettle,
     isGettingSettlement: state.invoice.isGettingSettlement,
     versionApp: state.dataLocal.versionApp,
-    profileStaffLogin: state.dataLocal.profileStaffLogin
+    profileStaffLogin: state.dataLocal.profileStaffLogin,
+    staffSales: state.invoice.staffSales,
+    gitfCardSales: state.invoice.gitfCardSales
 })
 
 

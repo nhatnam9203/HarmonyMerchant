@@ -78,6 +78,7 @@ export default {
     share_icon: require('./img/share_icon.png'),
     happy_face: require('./img/happy_face.png'),
     staff_invoice: require('./img/staff_invoice.png'),
+    staff_invoice_blue: require('./img/staff_invoice_blue.png'),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),

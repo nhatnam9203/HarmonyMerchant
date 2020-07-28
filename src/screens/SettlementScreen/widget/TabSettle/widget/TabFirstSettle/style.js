@@ -16,9 +16,11 @@ export default StyleSheet.create({
         fontWeight: "600"
     },
     box_scale_by_staffs: {
-        flex: 1.2,
         borderColor: "#DDDDDD",
         borderWidth: 1,
+        flex: 1,
+        paddingHorizontal: 1,
+        backgroundColor:"#FAFAFA"
     }
 
 })
