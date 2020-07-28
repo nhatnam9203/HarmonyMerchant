@@ -58,20 +58,25 @@ function StaffTab({ style, showBackButton }, ref) {
   /**func */
   const goNext = () => {
     scrollPage.current.goToPage(1);
-    if (showBackButton) {
-      showBackButton(true);
-    }
+    // if (showBackButton) {
+    //   showBackButton(true);
+    // }
   };
 
   const goBack = () => {
     scrollPage.current.goToPage(0);
-    if (showBackButton) {
-      showBackButton(false);
-    }
+    // if (showBackButton) {
+    //   showBackButton(false);
+    // }
+  };
+
+  const resetPage = () => {
+    scrollPage.current.goToPage(0);
   };
   // public func
   useImperativeHandle(ref, () => ({
     goBack: goBack,
+    resetPage: resetPage,
   }));
 
   const searchStaffSalary = useCallback(
@@ -132,6 +137,7 @@ function StaffTab({ style, showBackButton }, ref) {
 
   const onChangeTab = (tabIndex) => {
     setCurrentTab(tabIndex.i);
+    showBackButton(tabIndex.i !== 0);
   };
 
   const onShowPopupExport = () => {

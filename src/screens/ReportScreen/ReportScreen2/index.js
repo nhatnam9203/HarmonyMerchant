@@ -38,8 +38,18 @@ function ReportScreen2({ showBackButton }, ref) {
   }));
 
   const onTabChange = (taIndex) => {
-    console.log("onTabChange", taIndex);
     setTabIndex(taIndex);
+    staffRef.current.resetPage();
+
+    showBackButton(false);
+  };
+
+  const onShowBackButton = (bl) => {
+    if (tabIndex === 0) {
+      showBackButton(bl);
+    } else {
+      showBackButton(false);
+    }
   };
 
   return (
@@ -59,7 +69,7 @@ function ReportScreen2({ showBackButton }, ref) {
           style={styles.content}
           tabLabel="Staff salary"
           ref={staffRef}
-          showBackButton={showBackButton}
+          showBackButton={onShowBackButton}
         />
         <GiftCardTab style={styles.content} tabLabel="Gift card" />
         <CustomerTab style={styles.content} tabLabel="Customer" />
