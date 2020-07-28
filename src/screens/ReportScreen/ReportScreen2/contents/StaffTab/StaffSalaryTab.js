@@ -2,6 +2,8 @@ import React, { useState, useRef, useCallback } from "react";
 import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
+import { Dropdown } from "react-native-material-dropdown";
+
 import IMAGE from "@resources";
 import {
   Text,
@@ -42,6 +44,7 @@ export default function StaffSalaryTab({
   /**state */
   const [showStaffInvoicePrint, setShowStaffInvoicePrint] = useState(false);
   const [currentStaff, setCurrentStaff] = useState({});
+  const [filterStaffItem, setFilterStaffItem] = useState(null);
   /**process */
   const onCellPress = ({ key, row, column, item }) => {
     // if (key === "salary") {
@@ -68,6 +71,29 @@ export default function StaffSalaryTab({
   const showPopupStaffInvoice = (item) => {
     setCurrentStaff(item);
     setShowStaffInvoicePrint(true);
+  };
+
+  const bindStaffSalaryFilter = () => {
+    if (!listStaffsSalary) return [];
+
+    let array = listStaffsSalary.map((staff) => ({
+      value: staff.name,
+      ...staff,
+    }));
+
+    array.push({ value: "All Staff" });
+
+    return array;
+  };
+
+  const onChangeFilterStaff = (text) => {
+    setFilterStaffItem(text);
+  };
+
+  const filterDataTale = () => {
+    return filterStaffItem && filterStaffItem !== "All Staff"
+      ? listStaffsSalary.filter((staff) => staff.name === filterStaffItem)
+      : listStaffsSalary;
   };
 
   /**render */
@@ -123,12 +149,23 @@ export default function StaffSalaryTab({
           onPress={showCalendar}
           style={{ marginRight: 20 }}
         />
-        <PopupButton text="All Staff" imageSrc={IMAGE.Report_Dropdown_Arrow} />
+        <View style={{ width: 160, height: 45 }}>
+          <Dropdown
+            data={bindStaffSalaryFilter()}
+            onChangeText={(text) => onChangeFilterStaff(text)}
+            renderBase={() => (
+              <PopupButton
+                text={filterStaffItem ?? "All Staff"}
+                imageSrc={IMAGE.Report_Dropdown_Arrow}
+              />
+            )}
+          />
+        </View>
       </HeaderTooltip>
 
       <View style={{ flex: 1 }}>
         <TableList
-          tableData={listStaffsSalary}
+          tableData={filterDataTale()}
           tableHead={[
             localize("Name", language),
             localize("Service sales", language),

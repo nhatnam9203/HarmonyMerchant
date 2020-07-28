@@ -14,7 +14,12 @@ import ScrollableTabView from "react-native-scrollable-tab-view";
 
 import { PopupCalendar } from "@components";
 import actions from "@actions";
-import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
+import {
+  localize,
+  scaleSzie,
+  getQuickFilterTimeRange,
+  getArrayNameCategories,
+} from "@utils";
 import { PopupExportReport, PopupLoadingExportReport } from "../../widget";
 
 import StaffSalaryTab from "./StaffSalaryTab";

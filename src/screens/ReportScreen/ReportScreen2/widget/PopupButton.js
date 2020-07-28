@@ -16,12 +16,17 @@ export default function PopupButton({
   onPress = () => {},
   imageSrc = IMAGE.calendar,
   style = {},
+  children,
 }) {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={[styles.container, styles.borderStyle, style]}>
-        <Text style={styles.text}>{text}</Text>
-        <Image style={styles.image} source={imageSrc} resizeMode="center" />
+        {children ?? (
+          <View style={styles.content}>
+            <Text style={styles.text}>{text}</Text>
+            <Image style={styles.image} source={imageSrc} resizeMode="center" />
+          </View>
+        )}
       </View>
     </TouchableOpacity>
   );
@@ -36,11 +41,16 @@ const styles = StyleSheet.create({
   container: {
     height: BOX_DEFAULT_HEIGHT,
     minWidth: BOX_DEFAULT_WIDTH,
+    backgroundColor: "#FFFFFF",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  content: {
+    flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 10,
-    backgroundColor: "#FFFFFF",
   },
   image: {
     width: ICON_DEFAULT_SIZE,
