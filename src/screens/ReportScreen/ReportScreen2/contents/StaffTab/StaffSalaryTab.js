@@ -11,14 +11,16 @@ import {
   PopupCheckStaffPermission,
   PopupCalendar,
 } from "@components";
+import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
+import actions from "@actions";
+
 import {
   HeaderTitle,
   HeaderTooltip,
   PopupButton,
   TableList,
 } from "../../widget";
-import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
-import actions from "@actions";
+import { PopupStaffInvoicePrint } from "../../../widget";
 
 export default function StaffSalaryTab({
   style,
@@ -38,13 +40,15 @@ export default function StaffSalaryTab({
   const language = useSelector((state) => state.dataLocal.language);
 
   /**state */
-
+  const [showStaffInvoicePrint, setShowStaffInvoicePrint] = useState(false);
+  const [currentStaff, setCurrentStaff] = useState({});
   /**process */
   const onCellPress = ({ key, row, column, item }) => {
     // if (key === "salary") {
     //   dispatch(actions.staff.getListStaffCalendar(item.staffId));
     //   onGoStatistics();
     // }
+    showPopupStaffInvoice(item);
   };
 
   const goStaffStatistics = (staffId) => {
@@ -56,6 +60,16 @@ export default function StaffSalaryTab({
     onGoStatistics();
   };
 
+  const cancelStaffInvoicePrint = async () => {
+    setShowStaffInvoicePrint(false);
+    setCurrentStaff({});
+  };
+
+  const showPopupStaffInvoice = (item) => {
+    setCurrentStaff(item);
+    setShowStaffInvoicePrint(true);
+  };
+
   /**render */
   const renderCell = ({ key, row, column, item }) => {
     if (key === "salary") {
@@ -64,7 +78,7 @@ export default function StaffSalaryTab({
           <Text style={styles.txtSalary}>{item[key] + "$"}</Text>
 
           <View style={styles.imgContent}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => showPopupStaffInvoice(item)}>
               <View style={styles.btnInCell}>
                 <Image style={styles.imgDetail} source={IMAGE.Report_Print} />
               </View>
@@ -147,6 +161,13 @@ export default function StaffSalaryTab({
           onCellPress={onCellPress}
         />
       </View>
+
+      <PopupStaffInvoicePrint
+        // ref={this.invoicePrintRef}
+        visiblePrintInvoice={showStaffInvoicePrint}
+        onRequestClose={cancelStaffInvoicePrint}
+        staff={currentStaff}
+      />
     </View>
   );
 }
