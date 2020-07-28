@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback } from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import IMAGE from "@resources";
@@ -41,10 +41,19 @@ export default function StaffSalaryTab({
 
   /**process */
   const onCellPress = ({ key, row, column, item }) => {
-    if (key === "salary") {
-      dispatch(actions.staff.getListStaffCalendar(item.staffId));
-      onGoStatistics();
-    }
+    // if (key === "salary") {
+    //   dispatch(actions.staff.getListStaffCalendar(item.staffId));
+    //   onGoStatistics();
+    // }
+  };
+
+  const goStaffStatistics = (staffId) => {
+    if (!staffId) return;
+    // bind redux state
+    dispatch(actions.staff.getListStaffCalendar(staffId));
+
+    // change to statistic tab
+    onGoStatistics();
   };
 
   /**render */
@@ -55,8 +64,16 @@ export default function StaffSalaryTab({
           <Text style={styles.txtSalary}>{item[key] + "$"}</Text>
 
           <View style={styles.imgContent}>
-            <Image style={styles.imgDetail} source={IMAGE.Report_Print} />
-            <Image style={styles.imgDetail} source={IMAGE.Report_Detail} />
+            <TouchableOpacity>
+              <View style={styles.btnInCell}>
+                <Image style={styles.imgDetail} source={IMAGE.Report_Print} />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => goStaffStatistics(item.staffId)}>
+              <View style={styles.btnInCell}>
+                <Image style={styles.imgDetail} source={IMAGE.Report_Detail} />
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
       );
@@ -157,6 +174,12 @@ const styles = StyleSheet.create({
     tintColor: "#6A6A6A",
     width: 20,
     height: 20,
-    marginLeft: 8,
+  },
+  btnInCell: {
+    height: "100%",
+    width: 35,
+    marginLeft: 4,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
