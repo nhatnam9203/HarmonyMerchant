@@ -206,12 +206,17 @@ function StaffTab({ style, showBackButton }, ref) {
   const bindStaffSalaryFilter = () => {
     if (!listStaffsSalary) return [];
 
-    let array = listStaffsSalary.map((staff) => ({
+    let array = [];
+
+    if (currentTab === 0) {
+      array.push({ value: "All Staff" });
+    }
+
+    const arrMap = listStaffsSalary.map((staff) => ({
       value: staff.name,
       ...staff,
     }));
-
-    array.push({ value: "All Staff" });
+    array.push(...arrMap);
 
     return array;
   };

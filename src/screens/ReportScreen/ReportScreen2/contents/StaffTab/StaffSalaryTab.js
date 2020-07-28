@@ -57,11 +57,12 @@ export default function StaffSalaryTab({
     showPopupStaffInvoice(item);
   };
 
-  const goStaffStatistics = (staffId) => {
-    if (!staffId) return;
+  const goStaffStatistics = (item) => {
+    if (!item) return;
     // bind redux state
-    dispatch(actions.staff.getListStaffCalendar(staffId));
+    dispatch(actions.staff.getListStaffCalendar(item.staffId));
 
+    onChangeFilterStaff(item.name);
     // change to statistic tab
     onGoStatistics();
   };
@@ -95,7 +96,7 @@ export default function StaffSalaryTab({
                 <Image style={styles.imgDetail} source={IMAGE.Report_Print} />
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => goStaffStatistics(item.staffId)}>
+            <TouchableOpacity onPress={() => goStaffStatistics(item)}>
               <View style={styles.btnInCell}>
                 <Image style={styles.imgDetail} source={IMAGE.Report_Detail} />
               </View>
