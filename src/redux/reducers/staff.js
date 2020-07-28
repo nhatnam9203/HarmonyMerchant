@@ -18,7 +18,8 @@ const initialState = {
   dx: 0,
   reportTabPermission: false,
   isDownloadReportStaff: false,
-  pathFileReportStaff: null,
+  pathFileReportStaffSalary: null,
+  pathFileReportStaffStatistic: null,
 };
 
 function appReducer(state = initialState, action) {
@@ -158,10 +159,16 @@ function appReducer(state = initialState, action) {
         ...state,
         isDownloadReportStaff: true,
       };
-    case "DOWNLOAD_REPORT_STAFF_SUCCESS":
+    case "DOWNLOAD_REPORT_STAFF_SALARY_SUCCESS":
       return {
         ...state,
-        pathFileReportStaff: action.payload,
+        pathFileReportStaffSalary: action.payload,
+        isDownloadReportStaff: false,
+      };
+    case "DOWNLOAD_REPORT_STAFF_STATISTIC_SUCCESS":
+      return {
+        ...state,
+        pathFileReportStaffStatistic: action.payload,
         isDownloadReportStaff: false,
       };
     case "RESET_DOWNLOAD_FILE_REPORT_STAFF":

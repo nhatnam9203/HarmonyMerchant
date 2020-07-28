@@ -40,7 +40,7 @@ export default function StaffStatistic({
   );
   const language = useSelector((state) => state.dataLocal.language);
   const pathFileReportStaff = useSelector(
-    (state) => state.staff.pathFileReportStaff
+    (state) => state.staff.pathFileReportStaffStatistic
   );
 
   /**state */
@@ -105,7 +105,9 @@ export default function StaffStatistic({
               <PopupButton
                 onPress={() => handleTheDownloadedFile(pathFileReportStaff)}
                 style={{ backgroundColor: "rgb(235,93,57)", marginLeft: 20 }}
-                text={localize("Handle the downloaded file", language)}
+                txtStyle={{ color: "#fff" }}
+                imageStyle={{ tintColor: "#fff" }}
+                text={localize("Manager downloaded file", language)}
                 imageSrc={IMAGE.Report_Export}
               />
             )}

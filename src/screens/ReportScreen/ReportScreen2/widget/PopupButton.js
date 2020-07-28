@@ -16,6 +16,8 @@ export default function PopupButton({
   onPress = () => {},
   imageSrc = IMAGE.calendar,
   style = {},
+  txtStyle = {},
+  imageStyle = {},
   children,
 }) {
   return (
@@ -23,8 +25,12 @@ export default function PopupButton({
       <View style={[styles.container, styles.borderStyle, style]}>
         {children ?? (
           <View style={styles.content}>
-            <Text style={styles.text}>{text}</Text>
-            <Image style={styles.image} source={imageSrc} resizeMode="center" />
+            <Text style={[styles.text, txtStyle]}>{text}</Text>
+            <Image
+              style={[styles.image, imageStyle]}
+              source={imageSrc}
+              resizeMode="center"
+            />
           </View>
         )}
       </View>

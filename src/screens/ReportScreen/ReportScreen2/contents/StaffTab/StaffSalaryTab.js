@@ -38,7 +38,7 @@ export default function StaffSalaryTab({
   /**redux store*/
   const dispatch = useDispatch();
   const pathFileReportStaff = useSelector(
-    (state) => state.staff.pathFileReportStaff
+    (state) => state.staff.pathFileReportStaffSalary
   );
 
   const language = useSelector((state) => state.dataLocal.language);
@@ -124,7 +124,9 @@ export default function StaffSalaryTab({
               <PopupButton
                 onPress={() => handleTheDownloadedFile(pathFileReportStaff)}
                 style={{ backgroundColor: "rgb(235,93,57)", marginLeft: 20 }}
-                text={localize("Handle the downloaded file", language)}
+                txtStyle={{ color: "#fff" }}
+                imageStyle={{ tintColor: "#fff" }}
+                text={localize("Manager downloaded file", language)}
                 imageSrc={IMAGE.Report_Export}
               />
             )}

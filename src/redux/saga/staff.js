@@ -409,10 +409,23 @@ function* exportReportStaff(action) {
         path: `${dirs.DocumentDir}/${action.fileName}.${action.extention}`,
       }).fetch("GET", responses.data.path, {});
 
-      yield put({
-        type: "DOWNLOAD_REPORT_STAFF_SUCCESS",
-        payload: fileDownload.path(),
-      });
+      switch (action.type) {
+        case "EXPORT_STAFFS_SALARY":
+          yield put({
+            type: "DOWNLOAD_REPORT_STAFF_SALARY_SUCCESS",
+            payload: fileDownload.path(),
+          });
+          break;
+        case "EXPORT_STAFFS_STATISTICS":
+          yield put({
+            type: "DOWNLOAD_REPORT_STAFF_STATISTIC_SUCCESS",
+            payload: fileDownload.path(),
+          });
+          break;
+
+        default:
+          break;
+      }
     } else if (parseInt(codeNumber) === 401) {
       yield put({
         type: "UNAUTHORIZED",
