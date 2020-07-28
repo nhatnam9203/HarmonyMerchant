@@ -5,6 +5,7 @@ import PopupButton from "./PopupButton";
 import TableList from "./CustomTableList";
 import PopupExportReport from "./PopupExportReport";
 import PopupLoadingExportReport from "./PopupLoadingExportReport";
+import CustomScrollTab from "./CustomScrollTab";
 
 module.exports = {
   HeaderTabLayout,
@@ -13,5 +14,6 @@ module.exports = {
   PopupButton,
   TableList,
   PopupExportReport,
-  PopupLoadingExportReport
+  PopupLoadingExportReport,
+  CustomScrollTab,
 };

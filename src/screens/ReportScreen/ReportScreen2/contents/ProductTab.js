@@ -9,5 +9,5 @@ import { HeaderTitle, HeaderTooltip, PopupButton, TableList } from "../widget";
 import { localize } from "@utils";
 
 export default function ProductTab({style}) {
-  return <View style={style}></View>;
+  return <View style={style}><Text>Coming soon</Text></View>;
 }
