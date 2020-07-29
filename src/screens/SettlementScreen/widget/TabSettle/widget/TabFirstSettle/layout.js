@@ -380,7 +380,7 @@ class Layout extends React.Component {
                         }}
                     />
                 </View>
-                
+
                 {/* ---------- Note --------- */}
                 <View style={{ flex: 1 }} >
                     <Text style={{

@@ -20,16 +20,16 @@ class TabSettle extends Layout {
         this.tabFirstSettleRef.current.handleReportTabFirst();
     }
 
-    gotoTabSecondSettle = (settlement,creditCount) => {
+    gotoTabSecondSettle = (settlement, creditCount) => {
         this.scrollTabRef.current.goToPage(1);
-        if(this.tabsecondSettleRef.current){
-            this.tabsecondSettleRef.current.setStateFromParent(settlement,creditCount);
-        }else{
+        if (this.tabsecondSettleRef.current) {
+            this.tabsecondSettleRef.current.setStateFromParent(settlement, creditCount);
+        } else {
             setTimeout(() => {
-                this.tabsecondSettleRef.current.setStateFromParent(settlement,creditCount);
+                this.tabsecondSettleRef.current.setStateFromParent(settlement, creditCount);
             }, 500);
         }
-        
+
 
     }
 
