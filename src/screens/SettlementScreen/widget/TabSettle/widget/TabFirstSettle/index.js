@@ -1,5 +1,5 @@
 import React from 'react';
-import { NativeModules, Alert } from 'react-native';
+import { NativeModules, Alert, Keyboard } from 'react-native';
 import _ from "ramda";
 
 import Layout from './layout';
@@ -21,8 +21,10 @@ class TabFirstSettle extends Layout {
             editPaymentByCreditCard: 0.00,
             editPaymentByCash: 0.00,
             editOtherPayment: 0.00,
+            discountSettlement: 0.00,
             total: 0.00,
-            note: ''
+            note: '',
+            isShowKeyboard: false
         };
         this.arrayStaffRef = [];
         this.inputHarmonyPaymentRef = React.createRef();
@@ -30,12 +32,29 @@ class TabFirstSettle extends Layout {
         this.inputCashPaymentRef = React.createRef();
         this.inputOtherPaymentRef = React.createRef();
         this.totalCustomRef = React.createRef();
-        this.scrollSRef = React.createRef();
+        this.scrollRef = React.createRef();
     }
 
+    componentDidMount() {
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this.keyboardDidShow);
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardDidHide);
+    }
+
+    keyboardDidShow = async () => {
+        if(this.scrollRef.current){
+            this.scrollRef.current.scrollToEnd();
+        }
+    }
+
+    keyboardDidHide = async () => {
+        this.scrollTo(0);
+    }
 
     scrollTo = (number) => {
-        this.scrollSRef.current.scrollTo({ x: 0, y: scaleSzie(number), animated: true })
+        if( this.scrollRef.current){
+            this.scrollRef.current.scrollTo({ x: 0, y: scaleSzie(number), animated: true });
+        }
+        
     }
 
     resetNoteFromParent = async () => {
@@ -170,11 +189,11 @@ class TabFirstSettle extends Layout {
     }
 
     // ----------- New code -----------
-    onPressStaff = (staffId) =>{
-      this.props.onPressStaff(staffId);
+    onPressStaff = (staffId) => {
+        this.props.onPressStaff(staffId);
     }
 
-    onPressGiftCardTotal = () =>{
+    onPressGiftCardTotal = () => {
         this.props.onPressGiftCardTotal();
     }
 
@@ -186,9 +205,15 @@ class TabFirstSettle extends Layout {
                 editPaymentByCash: settleWaiting.paymentByCash ? settleWaiting.paymentByCash : 0.00,
                 editOtherPayment: settleWaiting.otherPayment ? settleWaiting.otherPayment : 0.00,
                 total: settleWaiting.total ? settleWaiting.total : 0.00,
+                discountSettlement: settleWaiting.discount ? settleWaiting.discount : 0.00
             });
             this.props.actions.invoice.resetStateIsGettingSettlement();
         }
+    }
+
+    componentWillUnmount() {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
     }
 
 }

@@ -11,7 +11,7 @@ import {
     Button
 } from '@components';
 import ICON from "@resources";
-import style from '../style';
+import {  formatMoney } from '@utils';
 
 export const StaffsHeaderTable = () => {
     return (
@@ -96,10 +96,10 @@ export const StaffsItem = ({ staff, onPress }) => {
     );
 }
 
-export const GiftCardItem = ({ total ,onPress}) => {
+export const GiftCardItem = ({ total, onPress }) => {
 
     return (
-        <Button onPress={() =>onPress() } style={{
+        <Button onPress={() => onPress()} style={{
             height: scaleSzie(32), borderBottomColor: "#DDDDDD", borderBottomWidth: 1,
             flexDirection: "row", backgroundColor: "#FAFAFA"
         }} >
@@ -179,7 +179,7 @@ export const HeaderPaymentsReport = ({ total }) => {
     );
 }
 
-export const ItemPaymentsReport = ({ backgroundColor, title, txtStyle }) => {
+export const ItemPaymentsReport = ({ backgroundColor, title, txtStyle, value }) => {
 
     return (
         <View style={{
@@ -193,7 +193,7 @@ export const ItemPaymentsReport = ({ backgroundColor, title, txtStyle }) => {
             </View>
             <View style={{ width: scaleSzie(120), alignItems: "center", flexDirection: "row", }} >
                 <Text style={[styles.txt_item, { color: "#fff", fontWeight: "bold" }, txtStyle]} >
-                    {`$ 600.00`}
+                    {`$ ${value ?  formatMoney(value) : '0.00'}`}
                 </Text>
                 <View style={{ flex: 1 }} >
 

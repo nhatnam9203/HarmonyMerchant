@@ -11,7 +11,7 @@ import _ from 'ramda';
 
 import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, formatWithMoment } from '@utils';
 import {
-    Text, ButtonCustom,
+    Text, ButtonCustom, Button
 } from '@components';
 import TextInputAmount from './widget/TextInputAmount';
 import TotalCustom from './widget/TotalCustom';
@@ -263,34 +263,6 @@ class Layout extends React.Component {
         );
     }
 
-    renderNote() {
-        return (
-            <View style={{ height: scaleSzie(60), paddingHorizontal: scaleSzie(10) }} >
-                <View style={{
-                    flex: 1, backgroundColor: '#F1F1F1', borderColor: '#C5C5C5', borderWidth: 1, paddingHorizontal: scaleSzie(16),
-                    paddingTop: scaleSzie(20)
-                }} >
-                    <View style={{ flex: 1, justifyContent: 'flex-end', paddingBottom: scaleSzie(10) }} >
-                        <View style={{ height: scaleSzie(40), flexDirection: 'row' }} >
-                            <View style={{
-                                flex: 1, backgroundColor: '#fff', borderBottomLeftRadius: 4, borderTopLeftRadius: 4,
-                                paddingHorizontal: scaleSzie(10)
-                            }} >
-                                <TextInput
-                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                    value={this.state.note}
-                                    onChangeText={(note) => this.setState({ note })}
-                                    onFocus={() => this.scrollTo(700)}
-                                />
-                            </View>
-
-                        </View>
-                    </View>
-                </View>
-            </View>
-        );
-    }
-
     renderButtonConfirm() {
         const { language } = this.props;
         return (
@@ -353,58 +325,79 @@ class Layout extends React.Component {
     }
 
     renderPaymentMethodsReport() {
+        const { discountSettlement, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment} = this.state;
+
         return (
             <View style={{ flex: 1, }} >
-                <View style={{ borderColor: "#DDDDDD", borderWidth: 1 }} >
-                    <HeaderPaymentsReport />
-                    <ItemPaymentsReport
-                        title="Harmony account"
-                        backgroundColor="#054071"
-                    />
-                    <View style={{ height: 1 }} />
-                    <ItemPaymentsReport
-                        title="Credit card"
-                        backgroundColor="#075BA0"
-                    />
-                    <View style={{ height: 1 }} />
-                    <ItemPaymentsReport
-                        title="Cash"
-                        backgroundColor="#3480BE"
-                    />
-                    <View style={{ height: 1 }} />
-                    <ItemPaymentsReport
-                        title="Other"
-                        backgroundColor="#BBD4E9"
-                    />
-                    <ItemPaymentsReport
-                        title="Discount"
-                        backgroundColor="#F1F1F1"
-                        txtStyle={{
-                            color: "#404040"
-                        }}
-                    />
-                </View>
-
-                {/* ---------- Note --------- */}
-                <View style={{ flex: 1 }} >
-                    <Text style={{
-                        color: "#404040", fontSize: scaleSzie(10), fontWeight: "600", marginTop: scaleSzie(12),
-                        marginBottom: scaleSzie(5)
-                    }} >
-                        {`Note`}
-                    </Text>
-                    <View style={{
-                        flex: 1, borderColor: "#DDDDDD", borderWidth: 1, borderRadius: 6, paddingVertical: 5,
-                        paddingHorizontal: scaleSzie(10)
-                    }} >
-                        <TextInput
-                            style={{ flex: 1, fontSize: scaleSzie(12) }}
-                            multiline={true}
+                <ScrollView
+                    ref={this.scrollRef}
+                >
+                    <View style={{ borderColor: "#DDDDDD", borderWidth: 1 }} >
+                        <HeaderPaymentsReport />
+                        <ItemPaymentsReport
+                            title="Harmony account"
+                            backgroundColor="#054071"
+                            value={editPaymentByHarmony}
+                        />
+                        <View style={{ height: 1 }} />
+                        <ItemPaymentsReport
+                            title="Credit card"
+                            backgroundColor="#075BA0"
+                            value={editPaymentByCreditCard}
+                        />
+                        <View style={{ height: 1 }} />
+                        <ItemPaymentsReport
+                            title="Cash"
+                            backgroundColor="#3480BE"
+                            value={editPaymentByCash}
+                        />
+                        <View style={{ height: 1 }} />
+                        <ItemPaymentsReport
+                            title="Other"
+                            backgroundColor="#BBD4E9"
+                            value={editOtherPayment}
+                        />
+                        <ItemPaymentsReport
+                            title="Discount"
+                            backgroundColor="#F1F1F1"
+                            txtStyle={{
+                                color: "#404040"
+                            }}
+                            value={discountSettlement}
                         />
                     </View>
-                </View>
+                    {this.renderNote()}
+                    <View style={{ height: scaleSzie(150) }} />
+                </ScrollView>
+
                 <View style={{ height: scaleSzie(10) }} />
                 <TotalItem total={formatMoney(90)} />
+            </View>
+        );
+    }
+
+    renderNote() {
+        const { note } = this.state;
+
+        return (
+            <View style={{}} >
+                <Text style={[{
+                    color: "#404040", fontSize: scaleSzie(10), fontWeight: "600",
+                    marginBottom: scaleSzie(5), marginTop: scaleSzie(12)
+                }]} >
+                    {`Note`}
+                </Text>
+                <View onPress={() => this.setState({ isShowKeyboard: true })} style={{
+                    height: scaleSzie(55), borderColor: "#DDDDDD", borderWidth: 1, borderRadius: 4, paddingVertical: 5,
+                    paddingHorizontal: scaleSzie(10)
+                }} >
+                    <TextInput
+                        style={{ flex: 1, fontSize: scaleSzie(12) }}
+                        multiline={true}
+                        value={note}
+                        onChangeText={(note) => this.setState({ note })}
+                    />
+                </View>
             </View>
         );
     }

@@ -27,7 +27,6 @@ class PopupEnterPin extends React.Component {
     componentDidMount() {
         this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this.keyboardDidShow);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardDidHide);
-      
     }
 
     setStateFromParent = async (value) => {
@@ -49,7 +48,6 @@ class PopupEnterPin extends React.Component {
         await this.setState({
             customStyle: {}
         });
-
     }
 
     loginWithOfflineMode = () => {
