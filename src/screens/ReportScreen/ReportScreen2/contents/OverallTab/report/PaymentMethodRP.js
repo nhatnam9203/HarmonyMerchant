@@ -7,11 +7,16 @@ import IMAGE from "@resources";
 import { localize } from "@utils";
 
 import { HeaderTooltip, PopupButton, TableList } from "../../../widget";
+import PaymentBarChart from "./PaymentBarChart";
+import PaymentPieChart from "./PaymentPieChart";
 
 const VIEW_MODE = {
   LIST: "LIST",
   CHART: "CHART",
 };
+
+const ACTIVE_COLOR = "#0764B0";
+const INACTIVE_COLOR = "#6A6A6A";
 
 export default function PaymentMethodRp({
   style,
@@ -27,6 +32,15 @@ export default function PaymentMethodRp({
 
   /**state */
   const [viewMode, setViewMode] = useState(VIEW_MODE.LIST);
+
+  /**func */
+  const changeViewMode = (mode) => {
+    if (!mode) return;
+    setViewMode(mode);
+  };
+
+  const viewModeList = () => changeViewMode(VIEW_MODE.LIST);
+  const viewModeChart = () => changeViewMode(VIEW_MODE.CHART);
 
   return (
     <View style={[styles.container, style]}>
@@ -53,15 +67,21 @@ export default function PaymentMethodRp({
             <PopupButton
               imageSrc={IMAGE.Report_Chart}
               style={{ marginLeft: 20 }}
-
-              // onPress={showExportFile}
+              imageStyle={{
+                tintColor:
+                  viewMode === VIEW_MODE.CHART ? ACTIVE_COLOR : INACTIVE_COLOR,
+              }}
+              onPress={viewModeChart}
             />
 
             <PopupButton
               imageSrc={IMAGE.Report_Grid}
               style={{ marginLeft: 10 }}
-
-              // onPress={showExportFile}
+              imageStyle={{
+                tintColor:
+                  viewMode === VIEW_MODE.LIST ? ACTIVE_COLOR : INACTIVE_COLOR,
+              }}
+              onPress={viewModeList}
             />
           </>
         }
@@ -123,7 +143,10 @@ export default function PaymentMethodRp({
             // onCellPress={onCellPress}
           />
         ) : (
-          <View />
+          <View style={{ flex: 1, flexDirection: "row" }}>
+            <PaymentBarChart />
+            <PaymentPieChart />
+          </View>
         )}
       </View>
     </View>

@@ -67,6 +67,11 @@ pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
 pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
+# pod 'RNCharts', :path => '../node_modules/react-native-charts-wrapper'
+pod 'SwiftyJSON', '5.0'
+pod 'Charts', '3.3.0'
+
+
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     if target.name == "React"
@@ -80,11 +85,11 @@ post_install do |installer|
 end
 
 react_project = Xcodeproj::Project.open("../node_modules/react-native/React/React.xcodeproj")
-    react_project.main_group["React/Views"].files.each do |file|   
-      if file.path.match(/^RCTWebView/) 
+    react_project.main_group["React/Views"].files.each do |file|
+      if file.path.match(/^RCTWebView/)
         file.remove_from_project
-      end   
-    end   
+      end
+    end
 react_project.save
 
 # -------------- Multi Schema ------------
