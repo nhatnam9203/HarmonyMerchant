@@ -8,6 +8,7 @@ import _ from 'ramda';
 import { scaleSzie, } from '@utils';
 import {
     Text,
+    Button
 } from '@components';
 import ICON from "@resources";
 import style from '../style';
@@ -52,10 +53,10 @@ export const StaffsHeaderTable = () => {
     );
 }
 
-export const StaffsItem = ({ staff }) => {
+export const StaffsItem = ({ staff, onPress }) => {
 
     return (
-        <View style={{
+        <Button onPress={() => onPress(staff.staffId ? staff.staffId : 0)} style={{
             height: scaleSzie(32), borderBottomColor: "#DDDDDD", borderBottomWidth: 1,
             flexDirection: "row", backgroundColor: "#FAFAFA"
         }} >
@@ -91,7 +92,7 @@ export const StaffsItem = ({ staff }) => {
                 </Text>
                 <Image source={ICON.staff_invoice} style={{ marginRight: scaleSzie(8) }} />
             </View>
-        </View>
+        </Button>
     );
 }
 
@@ -178,7 +179,7 @@ export const HeaderPaymentsReport = ({ total }) => {
     );
 }
 
-export const ItemPaymentsReport = ({ backgroundColor,title,txtStyle }) => {
+export const ItemPaymentsReport = ({ backgroundColor, title, txtStyle }) => {
 
     return (
         <View style={{
@@ -186,12 +187,12 @@ export const ItemPaymentsReport = ({ backgroundColor,title,txtStyle }) => {
             flexDirection: "row", backgroundColor: backgroundColor
         }} >
             <View style={{ flex: 1, justifyContent: "center" }} >
-                <Text style={[styles.txt_item, { marginLeft: scaleSzie(15), color: "#fff", fontWeight: "400" },txtStyle]} >
+                <Text style={[styles.txt_item, { marginLeft: scaleSzie(15), color: "#fff", fontWeight: "400" }, txtStyle]} >
                     {title}
                 </Text>
             </View>
             <View style={{ width: scaleSzie(120), alignItems: "center", flexDirection: "row", }} >
-                <Text style={[styles.txt_item, { color: "#fff", fontWeight: "bold" },txtStyle]} >
+                <Text style={[styles.txt_item, { color: "#fff", fontWeight: "bold" }, txtStyle]} >
                     {`$ 600.00`}
                 </Text>
                 <View style={{ flex: 1 }} >

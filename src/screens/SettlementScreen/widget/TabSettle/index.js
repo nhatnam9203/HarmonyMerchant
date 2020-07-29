@@ -13,6 +13,7 @@ class TabSettle extends Layout {
         this.scrollTabRef = React.createRef();
         this.tabFirstSettleRef = React.createRef();
         this.tabsecondSettleRef = React.createRef();
+        this.staffIIncomeDetailsRef = React.createRef();
     }
 
 
@@ -41,6 +42,17 @@ class TabSettle extends Layout {
         this.tabFirstSettleRef.current.resetNoteFromParent();
     }
 
+    // ----------- New code ------------
+    onPressStaff = (staffId) => {
+        this.scrollTabRef.current.goToPage(1);
+        if (this.staffIIncomeDetailsRef.current) {
+            this.staffIIncomeDetailsRef.current.setStateFromParent(staffId);
+        } else {
+            setTimeout(() => {
+                this.staffIIncomeDetailsRef.current.setStateFromParent(staffId);
+            }, 300)
+        }
+    }
 
 
 }

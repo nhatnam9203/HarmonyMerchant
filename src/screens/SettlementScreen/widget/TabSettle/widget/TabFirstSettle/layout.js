@@ -14,7 +14,6 @@ import {
     Text, ButtonCustom,
 } from '@components';
 import TextInputAmount from './widget/TextInputAmount';
-import ItemStaff from './widget/ItemStaff';
 import TotalCustom from './widget/TotalCustom';
 import styles from "./style";
 import { StaffsHeaderTable, StaffsItem, GiftCardItem, TotalItem, HeaderPaymentsReport, ItemPaymentsReport } from "./widget/ItemsSettlement";
@@ -335,7 +334,11 @@ class Layout extends React.Component {
                     <StaffsHeaderTable />
                     <ScrollView showsVerticalScrollIndicator={false} >
                         {
-                            staffSales.map((item, index) => <StaffsItem key={item.staffId ? item.staffId : index} staff={item} />)
+                            staffSales.map((item, index) => <StaffsItem 
+                            key={item.staffId ? item.staffId : index} 
+                            staff={item} 
+                            onPress={this.onPressStaff}
+                            />)
                         }
                         {
                             gitfCardSales.map((item, index) => <GiftCardItem key={index} giftCard={item} />)

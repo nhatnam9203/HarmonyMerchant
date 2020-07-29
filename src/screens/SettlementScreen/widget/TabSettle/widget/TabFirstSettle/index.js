@@ -169,6 +169,11 @@ class TabFirstSettle extends Layout {
 
     }
 
+    // ----------- New code -----------
+    onPressStaff = (staffId) =>{
+      this.props.onPressStaff(staffId);
+    }
+
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { isGettingSettlement, settleWaiting } = this.props;
         if (prevProps.isGettingSettlement === "loading" && isGettingSettlement === "success" && !_.isEmpty(settleWaiting)) {

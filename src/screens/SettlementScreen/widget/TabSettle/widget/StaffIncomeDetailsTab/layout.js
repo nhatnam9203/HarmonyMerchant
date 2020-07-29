@@ -13,11 +13,7 @@ import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatN
 import {
     Text, ButtonCustom, Dropdown
 } from '@components';
-import TextInputAmount from './widget/TextInputAmount';
-import ItemStaff from './widget/ItemStaff';
-import TotalCustom from './widget/TotalCustom';
 import styles from "./style";
-import { StaffsHeaderTable, StaffsItem, GiftCardItem, TotalItem, HeaderPaymentsReport, ItemPaymentsReport } from "./widget/ItemsSettlement";
 
 const { height } = Dimensions.get('window');
 

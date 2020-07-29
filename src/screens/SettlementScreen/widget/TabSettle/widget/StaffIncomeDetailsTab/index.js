@@ -15,10 +15,26 @@ class StaffIncomeDetailsTab extends Layout {
     constructor(props) {
         super(props);
         this.state = {
+            staffSalesDetail: []
         };
     }
 
+    setStateFromParent = (staffId = 0) => {
+        const staffSalesDetail = this.getStaffSalesDetail(staffId);
+        console.log("staffSalesDetail : ",JSON.stringify(staffSalesDetail));
+    }
 
+    getStaffSalesDetail = (staffId = 0) => {
+        const { staffSales } = this.props;
+        let staffSalesDetail = [];
+        for (let i = 0; i < staffSales.length; i++) {
+            if (staffSales[i].staffId === staffId) {
+                staffSalesDetail = [...staffSales[i].details];
+                break;
+            }
+        }
+        return staffSalesDetail;
+    }
 
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
@@ -29,14 +45,6 @@ class StaffIncomeDetailsTab extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    paxMachineInfo: state.dataLocal.paxMachineInfo,
-    settleWaiting: state.invoice.settleWaiting,
-    invoicesOfStaff: state.invoice.invoicesOfStaff,
-    loading: state.app.loading,
-    refreshingSettle: state.invoice.refreshingSettle,
-    isGettingSettlement: state.invoice.isGettingSettlement,
-    versionApp: state.dataLocal.versionApp,
-    profileStaffLogin: state.dataLocal.profileStaffLogin,
     staffSales: state.invoice.staffSales,
     gitfCardSales: state.invoice.gitfCardSales
 })
