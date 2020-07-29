@@ -340,10 +340,10 @@ class Layout extends React.Component {
                             onPress={this.onPressStaff}
                         />}
                         keyExtractor={(item, index) => `${item.staffId}_${index}`}
-                        ListFooterComponent={() => <GiftCardItem 
+                        ListFooterComponent={() => <GiftCardItem
                             total={formatMoney(giftCardTotal)}
                             onPress={this.onPressGiftCardTotal}
-                             />}
+                        />}
                     />
                 </View>
                 <View style={{ height: scaleSzie(10) }} />

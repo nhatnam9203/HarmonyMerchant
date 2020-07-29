@@ -141,7 +141,7 @@ const RowTable = ({ data }) => {
             {/* --------- Amount  ---------- */}
             <View style={{ flex: 0.8, justifyContent: "center", alignItems: "flex-end" }} >
                 <Text style={[styles.txt_row_table, { fontWeight: "bold" }]} >
-                    {`$ 15.00`}
+                    {`$ ${data.amount ? data.amount : "0.00"}`}
                 </Text>
             </View>
         </View>

@@ -14,6 +14,7 @@ class TabSettle extends Layout {
         this.tabFirstSettleRef = React.createRef();
         this.tabsecondSettleRef = React.createRef();
         this.staffIIncomeDetailsRef = React.createRef();
+        this.giftCardSalesDetailsTabRef = React.createRef();
     }
 
 
@@ -50,6 +51,17 @@ class TabSettle extends Layout {
         } else {
             setTimeout(() => {
                 this.staffIIncomeDetailsRef.current.setStateFromParent(staffId);
+            }, 300)
+        }
+    }
+
+    onPressGiftCardTotal = () => {
+        this.scrollTabRef.current.goToPage(2);
+        if (this.giftCardSalesDetailsTabRef.current) {
+            this.giftCardSalesDetailsTabRef.current.setStateFromParent();
+        } else {
+            setTimeout(() => {
+                this.giftCardSalesDetailsTabRef.current.setStateFromParent();
             }, 300)
         }
     }

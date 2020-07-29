@@ -175,7 +175,7 @@ class TabFirstSettle extends Layout {
     }
 
     onPressGiftCardTotal = () =>{
-        alert("dd")
+        this.props.onPressGiftCardTotal();
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {

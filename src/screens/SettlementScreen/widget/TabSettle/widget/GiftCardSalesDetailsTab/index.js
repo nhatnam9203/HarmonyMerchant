@@ -1,5 +1,4 @@
 import React from 'react';
-import { NativeModules, Alert } from 'react-native';
 import _ from "ramda";
 
 import Layout from './layout';
@@ -7,8 +6,6 @@ import connectRedux from '@redux/ConnectRedux';
 import { formatNumberFromCurrency, formatMoney, scaleSzie, roundFloatNumber, requestAPI } from '@utils';
 import apiConfigs from '@configs/api';
 
-
-const PosLink = NativeModules.MyApp;
 
 class GiftCardSalesDetailsTab extends Layout {
 
@@ -21,13 +18,8 @@ class GiftCardSalesDetailsTab extends Layout {
         };
     }
 
-    setStateFromParent = async (staffId = 0) => {
-        const { staffSalesDetail, staffName, total } = this.getStaffSalesDetail(staffId);
-        await this.setState({
-            staffSalesDetail,
-            staffName,
-            total
-        });
+    setStateFromParent = async () => {
+    //    alert("0909")
     }
 
     getStaffSalesDetail = (staffId = 0) => {

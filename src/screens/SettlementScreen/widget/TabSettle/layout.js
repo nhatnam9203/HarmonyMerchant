@@ -26,13 +26,14 @@ class Layout extends React.Component {
                         gotoTabSecondSettle={this.gotoTabSecondSettle}
                         navigation={this.props.navigation}
                         onPressStaff={this.onPressStaff}
+                        onPressGiftCardTotal={this.onPressGiftCardTotal}
                     />
                     <StaffIncomeDetailsTab 
                         ref={this.staffIIncomeDetailsRef}
                         backHomeTab={this.backTabFirstSettle}
                     />
-                    <StaffIncomeDetailsTab 
-                        // ref={this.staffIIncomeDetailsRef}
+                    <GiftCardSalesDetailsTab 
+                        ref={this.giftCardSalesDetailsTabRef}
                         backHomeTab={this.backTabFirstSettle}
                     />
                     <TabSecondSettle

@@ -17,12 +17,12 @@ class Layout extends React.Component {
 
     render() {
         const { staffSalesDetail, staffName, total } = this.state;
-
+        const {gitfCardSales} = this.props;
 
         return (
             <View style={{ flex: 1, backgroundColor: "#fff" }} >
                 <Text style={[styles.txt_top_title]} >
-                    {"Staff income details"}
+                    {"Gift Card Sold statistics"}
                 </Text>
 
                 {/* --------- Dropdown ---------- */}
@@ -48,7 +48,7 @@ class Layout extends React.Component {
                 {/* --------- Row Table  ---------- */}
                 <View style={{ flex: 1 }} >
                     <FlatList
-                        data={staffSalesDetail}
+                        data={gitfCardSales}
                         renderItem={({ item, index }) => <RowTable data={item} />}
                         keyExtractor={(item, index) => `${item.appointmentCode}_${index}`}
                     />
@@ -87,26 +87,27 @@ const HeaderTable = ({ }) => {
             height: scaleSzie(32), backgroundColor: "#F1F1F1", marginTop: scaleSzie(20), flexDirection: "row",
             paddingHorizontal: scaleSzie(10)
         }} >
-            {/* --------- Services / Products  ---------- */}
-            <View style={{ flex: 1, justifyContent: "center" }} >
+            <View style={{ flex: 0.9, justifyContent: "center" }} >
                 <Text style={styles.txt_header_table} >
-                    {`Services / Products`}
+                    {`Date/time`}
                 </Text>
             </View>
-            {/* --------- Appointment ID  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
+            <View style={{ flex: 0.8, justifyContent: "center" }} >
                 <Text style={styles.txt_header_table} >
-                    {`Appointment ID`}
+                    {`Type`}
                 </Text>
             </View>
-            {/* --------- Time  ---------- */}
             <View style={{ flex: 0.5, justifyContent: "center" }} >
                 <Text style={styles.txt_header_table} >
-                    {`Time`}
+                    {`Value`}
                 </Text>
             </View>
-            {/* --------- Amount  ---------- */}
-            <View style={{ flex: 0.8, justifyContent: "center", alignItems: "flex-end" }} >
+             <View style={{ flex: 0.3, justifyContent: "center" }} >
+                <Text style={styles.txt_header_table} >
+                    {`Qty`}
+                </Text>
+            </View>
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >
                 <Text style={styles.txt_header_table} >
                     {`Amount`}
                 </Text>
@@ -120,28 +121,29 @@ const RowTable = ({ data }) => {
         <View style={{
             height: scaleSzie(35), backgroundColor: "#FAFAFA", flexDirection: "row", paddingHorizontal: scaleSzie(10), marginBottom: 2
         }} >
-            {/* --------- Services / Products  ---------- */}
-            <View style={{ flex: 1, justifyContent: "center" }} >
+            <View style={{ flex: 0.9, justifyContent: "center" }} >
+                <Text style={styles.txt_row_table} >
+                    {`${data.dateString ? data.dateString : ""}`}
+                </Text>
+            </View>
+            <View style={{ flex: 0.8, justifyContent: "center" }} >
                 <Text style={styles.txt_row_table} >
                     {`${data.name ? data.name : ""}`}
                 </Text>
             </View>
-            {/* --------- Appointment ID  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
-                <Text style={styles.txt_row_table} >
-                    {`#${data.appointmentCode ? data.appointmentCode : ""}`}
-                </Text>
-            </View>
-            {/* --------- Time  ---------- */}
             <View style={{ flex: 0.5, justifyContent: "center" }} >
                 <Text style={styles.txt_row_table} >
-                    {`${formatWithMoment(data.date ? data.date : new Date(), "MM/DD/YYYY hh:mm A")}`}
+                    {`$ ${data.price ? data.price : ""}`}
                 </Text>
             </View>
-            {/* --------- Amount  ---------- */}
-            <View style={{ flex: 0.8, justifyContent: "center", alignItems: "flex-end" }} >
+            <View style={{ flex: 0.3, justifyContent: "center" }} >
+                <Text style={styles.txt_row_table} >
+                {`${data.quantity ? data.quantity : ""}`}
+                </Text>
+            </View>
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >
                 <Text style={[styles.txt_row_table, { fontWeight: "bold" }]} >
-                    {`$ 15.00`}
+                {`$ ${data.total ? data.total : ""}`}
                 </Text>
             </View>
         </View>
