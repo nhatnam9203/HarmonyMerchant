@@ -13,7 +13,7 @@ import {
   StaffTab,
   GiftCardTab,
   CustomerTab,
-  ServicesTab,
+  ServiceTab,
   ProductTab,
   OverallTab,
 } from "./contents";
@@ -76,7 +76,7 @@ function ReportScreen2({ showBackButton }, ref) {
         />
         <GiftCardTab style={styles.content} tabLabel="Gift card" />
         <CustomerTab style={styles.content} tabLabel="Customer" />
-        <ServicesTab style={styles.content} tabLabel="Services" />
+        <ServiceTab style={styles.content} tabLabel="Services" />
         <ProductTab style={styles.content} tabLabel="Product" />
         <OverallTab style={styles.content} tabLabel="Overall" />
       </HeaderTabLayout>
