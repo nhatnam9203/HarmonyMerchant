@@ -20,6 +20,7 @@ const { height } = Dimensions.get('window');
 class Layout extends React.Component {
 
     render() {
+        const { staffSalesDetail, staffName } = this.state;
         const { } = this.props
 
         return (
@@ -35,11 +36,9 @@ class Layout extends React.Component {
                 }} >
                     <Dropdown
                         label={""}
-                        data={[{ value: '' }, { value: 'HP-Harmony Account' }, { value: 'HP-Credit Card' },
-                        { value: 'Credit Card' }, { value: 'Cash' }, { value: 'Cheque/Bank Transfer' }
-                        ]}
-                        value={""}
-                        onChangeText={(value) => { }}
+                        data={this.getDataDropdownStaffSalesList()}
+                        value={staffName}
+                        onChangeText={this.onChangeStaff}
                         containerStyle={{
                             backgroundColor: '#fff',
                             borderWidth: 2,
@@ -52,10 +51,11 @@ class Layout extends React.Component {
                 <HeaderTable />
                 {/* --------- Row Table  ---------- */}
                 <View style={{ flex: 1 }} >
-                    <RowTable />
-                    <RowTable />
-                    <RowTable />
-                    <RowTable />
+                    <FlatList
+                        data={staffSalesDetail}
+                        renderItem={({ item, index }) => <RowTable data={item} />}
+                        keyExtractor={(item, index) => `${item.appointmentCode}_${index}`}
+                    />
                 </View>
                 {/* --------- Footer Table  ---------- */}
                 <View style={{
@@ -111,32 +111,32 @@ const HeaderTable = ({ }) => {
     );
 }
 
-const RowTable = ({ }) => {
+const RowTable = ({ data }) => {
     return (
         <View style={{
-            height: scaleSzie(37), backgroundColor: "#FAFAFA", flexDirection: "row",paddingHorizontal: scaleSzie(10),marginBottom:2
+            height: scaleSzie(35), backgroundColor: "#FAFAFA", flexDirection: "row", paddingHorizontal: scaleSzie(10), marginBottom: 2
         }} >
             {/* --------- Services / Products  ---------- */}
             <View style={{ flex: 1, justifyContent: "center" }} >
                 <Text style={styles.txt_row_table} >
-                    {`Signature Mani & Pedi `}
+                    {`${data.name ? data.name : ""}`}
                 </Text>
             </View>
             {/* --------- Appointment ID  ---------- */}
             <View style={{ flex: 0.6, justifyContent: "center" }} >
                 <Text style={styles.txt_row_table} >
-                    {`#1212`}
+                    {`#${data.appointmentCode ? data.appointmentCode : ""}`}
                 </Text>
             </View>
             {/* --------- Time  ---------- */}
             <View style={{ flex: 0.5, justifyContent: "center" }} >
                 <Text style={styles.txt_row_table} >
-                    {`07:10 AM`}
+                    {`${formatWithMoment(data.date ? data.date : new Date(), "MM/DD/YYYY hh:mm A")}`}
                 </Text>
             </View>
             {/* --------- Amount  ---------- */}
             <View style={{ flex: 0.8, justifyContent: "center", alignItems: "flex-end" }} >
-                <Text style={styles.txt_row_table} >
+                <Text style={[styles.txt_row_table, { fontWeight: "bold" }]} >
                     {`$ 15.00`}
                 </Text>
             </View>

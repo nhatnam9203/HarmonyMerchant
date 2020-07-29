@@ -15,27 +15,52 @@ class StaffIncomeDetailsTab extends Layout {
     constructor(props) {
         super(props);
         this.state = {
-            staffSalesDetail: []
+            staffSalesDetail: [],
+            staffName: ""
         };
     }
 
-    setStateFromParent = (staffId = 0) => {
-        const staffSalesDetail = this.getStaffSalesDetail(staffId);
-        console.log("staffSalesDetail : ",JSON.stringify(staffSalesDetail));
+    setStateFromParent = async (staffId = 0) => {
+        const { staffSalesDetail, staffName } = this.getStaffSalesDetail(staffId);
+        await this.setState({
+            staffSalesDetail,
+            staffName
+        });
     }
 
     getStaffSalesDetail = (staffId = 0) => {
         const { staffSales } = this.props;
         let staffSalesDetail = [];
+        let staffName = "";
         for (let i = 0; i < staffSales.length; i++) {
             if (staffSales[i].staffId === staffId) {
                 staffSalesDetail = [...staffSales[i].details];
+                staffName = staffSales[i].name
                 break;
             }
         }
-        return staffSalesDetail;
+        return { staffSalesDetail, staffName };
     }
 
+    onChangeStaff = async (value, index, data) => {
+        const staffId = data[index].staffId ? data[index].staffId : 0;
+        const { staffSalesDetail, staffName } = this.getStaffSalesDetail(staffId);
+        await this.setState({
+            staffSalesDetail,
+            staffName
+        });
+    }
+
+    getDataDropdownStaffSalesList = () => {
+        const { staffSales } = this.props;
+        const data = staffSales.map((staff) => {
+            return {
+                value: staff.name ? staff.name : "",
+                staffId: staff.staffId ? staff.staffId : 0
+            }
+        });
+        return data;
+    }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
 
