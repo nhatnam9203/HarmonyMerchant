@@ -42,11 +42,26 @@ export default function MarketingEfficiencyRp({
                 imageSrc={IMAGE.Report_Export}
               />
             )}
+
+            <PopupButton
+              imageSrc={IMAGE.Report_Chart}
+              style={{ marginLeft: 20 }}
+
+              // onPress={showExportFile}
+            />
+
+            <PopupButton
+              imageSrc={IMAGE.Report_Grid}
+              style={{ marginLeft: 10 }}
+
+              // onPress={showExportFile}
+            />
           </>
         }
       >
         <PopupButton
           text={titleRangeTime}
+          imageSrc={IMAGE.calendar}
           onPress={showCalendar}
           style={{ marginRight: 20 }}
         />

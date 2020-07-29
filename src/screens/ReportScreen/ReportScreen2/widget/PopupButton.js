@@ -4,7 +4,7 @@ import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native";
 import IMAGE from "@resources";
 import style from "../../style";
 
-const BOX_DEFAULT_WIDTH = 135;
+const BOX_DEFAULT_WIDTH = 60;
 const BOX_DEFAULT_HEIGHT = 45;
 
 const ICON_DEFAULT_SIZE = 24;
@@ -12,9 +12,9 @@ const ICON_DEFAULT_SIZE = 24;
 const TEXT_DEFAULT_FONT_SIZE = 17;
 
 export default function PopupButton({
-  text = "This Week",
+  text,
   onPress = () => {},
-  imageSrc = IMAGE.calendar,
+  imageSrc,
   style = {},
   txtStyle = {},
   imageStyle = {},
@@ -25,12 +25,14 @@ export default function PopupButton({
       <View style={[styles.container, styles.borderStyle, style]}>
         {children ?? (
           <View style={styles.content}>
-            <Text style={[styles.text, txtStyle]}>{text}</Text>
-            <Image
-              style={[styles.image, imageStyle]}
-              source={imageSrc}
-              resizeMode="center"
-            />
+            {text && <Text style={[styles.text, txtStyle]}>{text}</Text>}
+            {imageSrc && (
+              <Image
+                style={[styles.image, imageStyle]}
+                source={imageSrc}
+                resizeMode="center"
+              />
+            )}
           </View>
         )}
       </View>
@@ -62,12 +64,11 @@ const styles = StyleSheet.create({
     width: ICON_DEFAULT_SIZE,
     height: ICON_DEFAULT_SIZE,
     tintColor: "#6A6A6A",
-    marginLeft: 10,
   },
   text: {
     fontSize: TEXT_DEFAULT_FONT_SIZE,
     fontWeight: "normal",
     color: "#404040",
-    marginRight: 10,
+    marginHorizontal: 10,
   },
 });

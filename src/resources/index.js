@@ -148,4 +148,6 @@ export default {
   Report_Export: require("./img/report_export.png"),
   Report_Detail: require("./img/report_detail.png"),
   Report_Print: require("./img/report_print.png"),
+  Report_Chart: require("./img/report_chart.png"),
+  Report_Grid: require("./img/report_grid.png"),
 };

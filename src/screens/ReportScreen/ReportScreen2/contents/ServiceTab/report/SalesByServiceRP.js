@@ -47,6 +47,7 @@ export default function SalesByServiceRp({
       >
         <PopupButton
           text={titleRangeTime}
+          imageSrc={IMAGE.calendar}
           onPress={showCalendar}
           style={{ marginRight: 20 }}
         />
