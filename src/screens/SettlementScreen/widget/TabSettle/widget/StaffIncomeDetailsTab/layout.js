@@ -7,7 +7,7 @@ import {
     Dimensions,
     RefreshControl,
 } from 'react-native';
-import _ from 'ramda';
+import _, { T } from 'ramda';
 
 import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, formatWithMoment } from '@utils';
 import {
@@ -53,24 +53,99 @@ class Layout extends React.Component {
                         }}
                     />
                 </View>
-                {/* --------- Header Table  ---------- */}
-                <View style={{ height: scaleSzie(32), backgroundColor: "#F1F1F1", marginTop: scaleSzie(20) ,flexDirection:"row"}} >
-
-                </View>
+                <HeaderTable />
                 {/* --------- Row Table  ---------- */}
                 <View style={{ flex: 1 }} >
-
+                    <RowTable />
+                    <RowTable />
+                    <RowTable />
+                    <RowTable />
                 </View>
                 {/* --------- Footer Table  ---------- */}
-                <View style={{ height: scaleSzie(40), backgroundColor: "#0764B0",}} >
-
-
+                <View style={{
+                    height: scaleSzie(40), backgroundColor: "#0764B0", flexDirection: "row", alignItems: "center", justifyContent: "space-between",
+                    paddingHorizontal: scaleSzie(10)
+                }} >
+                    <Text style={[styles.txt_header_table, { color: "#fff" }]} >
+                        {`Total`}
+                    </Text>
+                    <Text style={[styles.txt_header_table, { color: "#fff", fontWeight: "bold" }]} >
+                        {`$ 200.00`}
+                    </Text>
                 </View>
 
             </View>
         );
     }
 
+}
+
+
+const HeaderTable = ({ }) => {
+    return (
+        <View style={{
+            height: scaleSzie(32), backgroundColor: "#F1F1F1", marginTop: scaleSzie(20), flexDirection: "row",
+            paddingHorizontal: scaleSzie(10)
+        }} >
+            {/* --------- Services / Products  ---------- */}
+            <View style={{ flex: 1, justifyContent: "center" }} >
+                <Text style={styles.txt_header_table} >
+                    {`Services / Products`}
+                </Text>
+            </View>
+            {/* --------- Appointment ID  ---------- */}
+            <View style={{ flex: 0.6, justifyContent: "center" }} >
+                <Text style={styles.txt_header_table} >
+                    {`Appointment ID`}
+                </Text>
+            </View>
+            {/* --------- Time  ---------- */}
+            <View style={{ flex: 0.5, justifyContent: "center" }} >
+                <Text style={styles.txt_header_table} >
+                    {`Time`}
+                </Text>
+            </View>
+            {/* --------- Amount  ---------- */}
+            <View style={{ flex: 0.8, justifyContent: "center", alignItems: "flex-end" }} >
+                <Text style={styles.txt_header_table} >
+                    {`Amount`}
+                </Text>
+            </View>
+        </View>
+    );
+}
+
+const RowTable = ({ }) => {
+    return (
+        <View style={{
+            height: scaleSzie(37), backgroundColor: "#FAFAFA", flexDirection: "row",paddingHorizontal: scaleSzie(10),marginBottom:2
+        }} >
+            {/* --------- Services / Products  ---------- */}
+            <View style={{ flex: 1, justifyContent: "center" }} >
+                <Text style={styles.txt_row_table} >
+                    {`Signature Mani & Pedi `}
+                </Text>
+            </View>
+            {/* --------- Appointment ID  ---------- */}
+            <View style={{ flex: 0.6, justifyContent: "center" }} >
+                <Text style={styles.txt_row_table} >
+                    {`#1212`}
+                </Text>
+            </View>
+            {/* --------- Time  ---------- */}
+            <View style={{ flex: 0.5, justifyContent: "center" }} >
+                <Text style={styles.txt_row_table} >
+                    {`07:10 AM`}
+                </Text>
+            </View>
+            {/* --------- Amount  ---------- */}
+            <View style={{ flex: 0.8, justifyContent: "center", alignItems: "flex-end" }} >
+                <Text style={styles.txt_row_table} >
+                    {`$ 15.00`}
+                </Text>
+            </View>
+        </View>
+    );
 }
 
 export default Layout;

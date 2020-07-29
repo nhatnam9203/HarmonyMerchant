@@ -12,17 +12,15 @@ export default StyleSheet.create({
         marginTop:scaleSzie(6),
         marginLeft:scaleSzie(10)
     },
-    txt_table: {
-        color: '#0764B0',
-        fontSize: scaleSzie(14),
+    txt_header_table: {
+        color: '#404040',
+        fontSize: scaleSzie(12),
         fontWeight: "600"
     },
-    box_scale_by_staffs: {
-        borderColor: "#DDDDDD",
-        borderWidth: 1,
-        flex: 1,
-        paddingHorizontal: 1,
-        backgroundColor:"#FAFAFA"
-    }
+    txt_row_table: {
+        color: '#404040',
+        fontSize: scaleSzie(12),
+        fontWeight: "400"
+    },
 
 })

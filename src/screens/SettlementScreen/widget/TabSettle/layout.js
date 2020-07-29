@@ -14,7 +14,7 @@ import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@u
 import { Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
-import { TabFirstSettle, TabSecondSettle,StaffIncomeDetailsTab } from './widget';
+import { TabFirstSettle, TabSecondSettle, StaffIncomeDetailsTab } from './widget';
 
 const { width } = Dimensions.get('window');
 
@@ -30,14 +30,14 @@ class Layout extends React.Component {
                     // locked={true}
                     renderTabBar={() => <View />}
                 >
-                    <StaffIncomeDetailsTab />
                     <TabFirstSettle
                         ref={this.tabFirstSettleRef}
                         gotoTabSecondSettle={this.gotoTabSecondSettle}
                         navigation={this.props.navigation}
                     />
+                    <StaffIncomeDetailsTab />
                     <TabSecondSettle
-                       ref={this.tabsecondSettleRef}
+                        ref={this.tabsecondSettleRef}
                         backTabFirstSettle={this.backTabFirstSettle}
                         reviewBatchHistory={() => this.props.reviewBatchHistory()}
                         finishBatch={this.finishBatch}

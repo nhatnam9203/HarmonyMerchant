@@ -37,9 +37,9 @@ class SettlementScreen extends Layout {
                 this.setState({
                     isFocus: true
                 });
-                // this.tabSettleRef.current.onDidFocus();
-                // this.checkPermissionRef.current.setStateFromParent('');
-                // this.props.actions.invoice.toggleSettlementTabPermission();
+                this.tabSettleRef.current.onDidFocus();
+                this.checkPermissionRef.current.setStateFromParent('');
+                this.props.actions.invoice.toggleSettlementTabPermission();
             }
         );
     }
