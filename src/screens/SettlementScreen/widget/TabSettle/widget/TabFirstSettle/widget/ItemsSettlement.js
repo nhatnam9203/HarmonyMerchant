@@ -96,17 +96,17 @@ export const StaffsItem = ({ staff, onPress }) => {
     );
 }
 
-export const GiftCardItem = ({ giftCard }) => {
+export const GiftCardItem = ({ total ,onPress}) => {
 
     return (
-        <View style={{
+        <Button onPress={() =>onPress() } style={{
             height: scaleSzie(32), borderBottomColor: "#DDDDDD", borderBottomWidth: 1,
             flexDirection: "row", backgroundColor: "#FAFAFA"
         }} >
             {/* ---------- Name -------- */}
             <View style={[{ flex: 1, paddingLeft: scaleSzie(13) }, styles.container]} >
                 <Text style={[styles.txt_item, { fontWeight: "500", color: "#0764B0" }]} >
-                    {giftCard.name ? giftCard.name : ""}
+                    {`Gift Card Sold`}
                 </Text>
             </View>
             {/* ---------- Sales -------- */}
@@ -118,11 +118,11 @@ export const GiftCardItem = ({ giftCard }) => {
             {/* ---------- Total Sales -------- */}
             <View style={[{ flex: 0.8, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }]} >
                 <Text style={[styles.txt_item, { fontWeight: "600", color: "#0764B0" }]} >
-                    {`$  ${giftCard.total ? giftCard.total : 0.00}`}
+                    {`$  ${total ? total : 0.00}`}
                 </Text>
                 <Image source={ICON.staff_invoice_blue} style={{ marginRight: scaleSzie(8) }} />
             </View>
-        </View>
+        </Button>
     );
 }
 

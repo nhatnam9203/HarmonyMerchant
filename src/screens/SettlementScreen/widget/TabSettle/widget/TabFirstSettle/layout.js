@@ -315,6 +315,7 @@ class Layout extends React.Component {
     renderStaffsTable() {
         const { staffSales, gitfCardSales } = this.props;
         let totalAmount = 0;
+        let giftCardTotal = 0
         if (staffSales.length > 0) {
             staffSales.forEach(staff => {
                 totalAmount = parseFloat(totalAmount) + parseFloat(formatNumberFromCurrency(staff.total ? staff.total : 0.00));
@@ -323,7 +324,7 @@ class Layout extends React.Component {
 
         if (gitfCardSales.length > 0) {
             gitfCardSales.forEach(giftCard => {
-                totalAmount = parseFloat(totalAmount) + parseFloat(formatNumberFromCurrency(giftCard.total ? giftCard.total : 0.00));
+                giftCardTotal = parseFloat(giftCardTotal) + parseFloat(formatNumberFromCurrency(giftCard.total ? giftCard.total : 0.00));
             });
         }
 
@@ -332,21 +333,21 @@ class Layout extends React.Component {
                 {/* ---------- Header --------- */}
                 <View style={[styles.box_scale_by_staffs]} >
                     <StaffsHeaderTable />
-                    <ScrollView showsVerticalScrollIndicator={false} >
-                        {
-                            staffSales.map((item, index) => <StaffsItem 
-                            key={item.staffId ? item.staffId : index} 
-                            staff={item} 
+                    <FlatList
+                        data={staffSales}
+                        renderItem={({ item, index }) => <StaffsItem
+                            staff={item}
                             onPress={this.onPressStaff}
-                            />)
-                        }
-                        {
-                            gitfCardSales.map((item, index) => <GiftCardItem key={index} giftCard={item} />)
-                        }
-                    </ScrollView>
+                        />}
+                        keyExtractor={(item, index) => `${item.staffId}_${index}`}
+                        ListFooterComponent={() => <GiftCardItem 
+                            total={formatMoney(giftCardTotal)}
+                            onPress={this.onPressGiftCardTotal}
+                             />}
+                    />
                 </View>
                 <View style={{ height: scaleSzie(10) }} />
-                <TotalItem total={formatMoney(totalAmount)} />
+                <TotalItem total={formatMoney(totalAmount + giftCardTotal)} />
             </View>
         );
     }

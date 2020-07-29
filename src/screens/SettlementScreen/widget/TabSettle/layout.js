@@ -1,22 +1,13 @@
 import React from 'react';
 import {
     View,
-    Image,
-    TextInput,
-    FlatList,
-    ScrollView,
-    Dimensions
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import { NavigationEvents } from 'react-navigation';
 
-import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
-import { Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService } from '@components';
+import {} from '@utils';
+import { } from '@components';
 import styles from './style';
-import IMAGE from '@resources';
-import { TabFirstSettle, TabSecondSettle, StaffIncomeDetailsTab } from './widget';
-
-const { width } = Dimensions.get('window');
+import { TabFirstSettle, TabSecondSettle, StaffIncomeDetailsTab,GiftCardSalesDetailsTab } from './widget';
 
 class Layout extends React.Component {
 
@@ -38,6 +29,11 @@ class Layout extends React.Component {
                     />
                     <StaffIncomeDetailsTab 
                         ref={this.staffIIncomeDetailsRef}
+                        backHomeTab={this.backTabFirstSettle}
+                    />
+                    <StaffIncomeDetailsTab 
+                        // ref={this.staffIIncomeDetailsRef}
+                        backHomeTab={this.backTabFirstSettle}
                     />
                     <TabSecondSettle
                         ref={this.tabsecondSettleRef}

@@ -1,12 +1,16 @@
+import React from 'react';
+import { NativeModules, Alert } from 'react-native';
 import _ from "ramda";
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
+import { formatNumberFromCurrency, formatMoney, scaleSzie, roundFloatNumber, requestAPI } from '@utils';
+import apiConfigs from '@configs/api';
 
 
+const PosLink = NativeModules.MyApp;
 
-
-class StaffIncomeDetailsTab extends Layout {
+class GiftCardSalesDetailsTab extends Layout {
 
     constructor(props) {
         super(props);
@@ -77,4 +81,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connectRedux(mapStateToProps, StaffIncomeDetailsTab);
+export default connectRedux(mapStateToProps, GiftCardSalesDetailsTab);
