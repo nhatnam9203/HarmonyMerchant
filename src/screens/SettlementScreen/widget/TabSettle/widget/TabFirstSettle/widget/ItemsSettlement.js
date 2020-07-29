@@ -11,7 +11,7 @@ import {
     Button
 } from '@components';
 import ICON from "@resources";
-import {  formatMoney } from '@utils';
+import { formatMoney } from '@utils';
 
 export const StaffsHeaderTable = () => {
     return (
@@ -162,16 +162,18 @@ export const HeaderPaymentsReport = ({ total }) => {
             height: scaleSzie(33),
             flexDirection: "row", backgroundColor: "#F1F1F1"
         }} >
-            <View style={{ flex: 1, justifyContent: "center" }} >
+            <View style={{ justifyContent: "center" }} >
                 <Text style={[styles.txt_normal, { marginLeft: scaleSzie(15) }]} >
                     {`Payments`}
                 </Text>
             </View>
-            <View style={{ width: scaleSzie(120), alignItems: "center", flexDirection: "row", }} >
-                <Text style={styles.txt_normal} >
-                    {`Amount`}
-                </Text>
-                <View style={{ flex: 1 }} >
+            <View style={{ flex: 1, flexDirection: "row", }} >
+                <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >
+                    <Text style={styles.txt_normal} >
+                        {`Amount`}
+                    </Text>
+                </View>
+                <View style={{ width: scaleSzie(45) }} >
 
                 </View>
             </View>
@@ -179,24 +181,35 @@ export const HeaderPaymentsReport = ({ total }) => {
     );
 }
 
-export const ItemPaymentsReport = ({ backgroundColor, title, txtStyle, value }) => {
+export const ItemPaymentsReport = ({ backgroundColor, title, txtStyle, value, isShowEdit, editAmount }) => {
 
     return (
         <View style={{
             height: scaleSzie(29),
             flexDirection: "row", backgroundColor: backgroundColor
         }} >
-            <View style={{ flex: 1, justifyContent: "center" }} >
+            <View style={{ justifyContent: "center" }} >
                 <Text style={[styles.txt_item, { marginLeft: scaleSzie(15), color: "#fff", fontWeight: "400" }, txtStyle]} >
                     {title}
                 </Text>
             </View>
-            <View style={{ width: scaleSzie(120), alignItems: "center", flexDirection: "row", }} >
-                <Text style={[styles.txt_item, { color: "#fff", fontWeight: "bold" }, txtStyle]} >
-                    {`$ ${value ?  formatMoney(value) : '0.00'}`}
-                </Text>
-                <View style={{ flex: 1 }} >
+            <View style={{ flex: 1, flexDirection: "row", }} >
+                <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >
+                    <Text style={[styles.txt_item, { color: "#fff", fontWeight: "bold" }, txtStyle]} >
+                        {`$ ${value ? formatMoney(value) : '0.00'}`}
+                    </Text>
+                </View>
+                <View style={{ width: scaleSzie(45), justifyContent: "center" }} >
+                    {
+                        isShowEdit ?
+                            <Button
+                                onPress={() => editAmount()}
+                                style={{ marginLeft: scaleSzie(15) }} >
+                                <Image source={ICON.edit_amount} />
+                            </Button>
 
+                            : null
+                    }
                 </View>
             </View>
         </View>

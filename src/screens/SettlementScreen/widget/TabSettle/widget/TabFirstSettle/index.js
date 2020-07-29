@@ -197,6 +197,15 @@ class TabFirstSettle extends Layout {
         this.props.onPressGiftCardTotal();
     }
 
+
+    editCashAmount =() =>{
+
+    }
+
+    editOtherAmount =() =>{
+        
+    }
+
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { isGettingSettlement, settleWaiting } = this.props;
         if (prevProps.isGettingSettlement === "loading" && isGettingSettlement === "success" && !_.isEmpty(settleWaiting)) {

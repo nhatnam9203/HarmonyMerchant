@@ -79,6 +79,7 @@ export default {
     happy_face: require('./img/happy_face.png'),
     staff_invoice: require('./img/staff_invoice.png'),
     staff_invoice_blue: require('./img/staff_invoice_blue.png'),
+    edit_amount: require('./img/edit_amount.png'),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),
