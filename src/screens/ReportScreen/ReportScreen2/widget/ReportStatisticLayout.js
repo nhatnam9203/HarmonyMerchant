@@ -16,8 +16,8 @@ const TABLE_ROW_HEIGHT = 50;
 
 export default function ReportStatisticLayout({
   style,
-  titleRangeTime,
   showCalendar,
+  titleRangeTime,
   showExportFile,
   handleTheDownloadedFile,
   onChangeFilterStaff,

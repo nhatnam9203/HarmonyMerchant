@@ -25,14 +25,34 @@ export default function ProductTab({ style }) {
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
+  /**state */
+  const [isShowCalendar, showCalendar] = useState(false);
+  const [titleTimeRange, setTitleTimeRange] = useState("This Week");
 
   /**func */
+  const onTimeRangeChanged = (timeRange) => {
+    if (setTitleTimeRange && timeRange !== titleTimeRange) {
+      setTitleTimeRange(timeRange);
+    }
+    showCalendar(false);
+  };
 
   return (
     <View style={style}>
-      <ReportTabLayout>
-        <ProductReportTab style={{ flex: 1, paddingTop: 10 }} />
-        <ProductStatistic style={{ flex: 1, paddingTop: 10 }} />
+      <ReportTabLayout
+        onCalendarClose={onTimeRangeChanged}
+        showCalendar={isShowCalendar}
+      >
+        <ProductReportTab
+          style={{ flex: 1, paddingTop: 10 }}
+          showCalendar={() => showCalendar(true)}
+          titleRangeTime={titleTimeRange}
+        />
+        <ProductStatistic
+          style={{ flex: 1, paddingTop: 10 }}
+          showCalendar={() => showCalendar(true)}
+          titleRangeTime={titleTimeRange}
+        />
       </ReportTabLayout>
     </View>
   );

@@ -8,7 +8,11 @@ import { localize } from "@utils";
 
 import { HeaderTooltip, PopupButton, TableList } from "../../../widget";
 
-export default function PaymentMethodRp({ style }) {
+export default function PaymentMethodRp({
+  style,
+  showCalendar,
+  titleRangeTime,
+}) {
   /**redux store*/
   const dispatch = useDispatch();
   const pathFileReportStaff = useSelector(
@@ -42,8 +46,8 @@ export default function PaymentMethodRp({ style }) {
         }
       >
         <PopupButton
-          // text={titleRangeTime}
-          // onPress={showCalendar}
+          text={titleRangeTime}
+          onPress={showCalendar}
           style={{ marginRight: 20 }}
         />
         <View style={{ width: 160, height: 45 }}>

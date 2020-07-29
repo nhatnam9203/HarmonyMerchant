@@ -26,13 +26,35 @@ export default function CustomerTab({ style }) {
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  /**func */
+  /**state */
+  const [isShowCalendar, showCalendar] = useState(false);
+  const [titleTimeRange, setTitleTimeRange] = useState("This Week");
 
+  /**func */
+  const onTimeRangeChanged = (timeRange) => {
+    if (setTitleTimeRange && timeRange !== titleTimeRange) {
+      setTitleTimeRange(timeRange);
+    }
+    showCalendar(false);
+  };
+
+  /**render */
   return (
     <View style={style}>
-      <ReportTabLayout>
-        <CustomerReportTab style={{ flex: 1, paddingTop: 10 }} />
-        <CustomerStatistic style={{ flex: 1, paddingTop: 10 }} />
+      <ReportTabLayout
+        onCalendarClose={onTimeRangeChanged}
+        showCalendar={isShowCalendar}
+      >
+        <CustomerReportTab
+          style={{ flex: 1, paddingTop: 10 }}
+          showCalendar={() => showCalendar(true)}
+          titleRangeTime={titleTimeRange}
+        />
+        <CustomerStatistic
+          style={{ flex: 1, paddingTop: 10 }}
+          showCalendar={() => showCalendar(true)}
+          titleRangeTime={titleTimeRange}
+        />
       </ReportTabLayout>
     </View>
   );

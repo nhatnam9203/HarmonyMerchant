@@ -17,6 +17,8 @@ const HEAD_FONT_SIZE = 17;
 const TABLE_ROW_HEIGHT = 50;
 
 export default function CustomerStatistic(props) {
+
+
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);

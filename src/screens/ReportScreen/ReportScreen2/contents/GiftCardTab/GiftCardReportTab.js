@@ -16,7 +16,11 @@ import { localize } from "@utils";
 const HEAD_FONT_SIZE = 17;
 const TABLE_ROW_HEIGHT = 50;
 
-export default function GiftCardReportTab({ style, showExportFile }) {
+export default function GiftCardReportTab({
+  style,
+  showCalendar,
+  titleRangeTime,
+}) {
   /**redux */
   const language = useSelector((state) => state.dataLocal.language);
   const pathFileReportStaff = useSelector(
@@ -49,8 +53,8 @@ export default function GiftCardReportTab({ style, showExportFile }) {
         }
       >
         <PopupButton
-          // text={titleRangeTime}
-          // onPress={showCalendar}
+          text={titleRangeTime}
+          onPress={showCalendar}
           style={{ marginRight: 20 }}
         />
         <View style={{ width: 160, height: 45 }}>

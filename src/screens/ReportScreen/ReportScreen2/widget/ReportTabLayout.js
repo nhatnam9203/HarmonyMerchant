@@ -23,7 +23,10 @@ import PopupExportReport from "./PopupExportReport";
 const FILE_EXTENSION = "csv";
 const FILTER_NAME_DEFAULT = "All Staff";
 
-function ReportTabLayout({ style, showBackButton, children }, ref) {
+function ReportTabLayout(
+  { style, showBackButton, children, onCalendarClose, showCalendar },
+  ref
+) {
   /**redux */
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
@@ -57,6 +60,10 @@ function ReportTabLayout({ style, showBackButton, children }, ref) {
   useEffect(() => {
     setVisiblePopupLoadingExport(isDownloadReportStaff);
   }, [isDownloadReportStaff]);
+
+  useEffect(() => {
+    setVisibleCalendar(showCalendar);
+  }, [showCalendar]);
 
   /**func */
   // go to staff statistics page
@@ -123,18 +130,13 @@ function ReportTabLayout({ style, showBackButton, children }, ref) {
     return title;
   };
 
-  // call action search staff api
-  const searchStaff = () => {
-    const url = getFilterTimeParams();
-    // searchStaffSalary(url);
-    dispatch(actions.staff.getListStaffsSalaryTop(url, true));
-  };
-
   // time filter change: hide popup + create time range params + call api search staff
   const changeTitleTimeRange = async (title) => {
     setVisibleCalendar(false);
     setTitleRangeTime(title !== "Time Range" ? title : "All time");
-    // searchStaff();
+    if (onCalendarClose) {
+      onCalendarClose(title);
+    }
   };
 
   // callback  when scrollTab change
@@ -232,6 +234,14 @@ function ReportTabLayout({ style, showBackButton, children }, ref) {
     }
   };
 
+  const onCloseCalendar = () => {
+    setVisibleCalendar(false);
+
+    if (onCalendarClose) {
+      onCalendarClose(titleRangeTime);
+    }
+  };
+
   /**render */
   return (
     <>
@@ -253,7 +263,7 @@ function ReportTabLayout({ style, showBackButton, children }, ref) {
         type="report"
         ref={modalCalendarRef}
         visible={visibleCalendar}
-        onRequestClose={() => setVisibleCalendar(false)}
+        onRequestClose={onCloseCalendar}
         changeTitleTimeRange={changeTitleTimeRange}
         paddingLeft={scaleSzie(60)}
       />
