@@ -47,11 +47,13 @@ export default function PaymentMethodRp({
       <HeaderTooltip
         rightComponent={
           <>
-            <PopupButton
-              text="Export"
-              imageSrc={IMAGE.Report_Export}
-              // onPress={showExportFile}
-            />
+            {viewMode === VIEW_MODE.LIST && (
+              <PopupButton
+                text="Export"
+                imageSrc={IMAGE.Report_Export}
+                // onPress={showExportFile}
+              />
+            )}
 
             {pathFileReportStaff && (
               <PopupButton
@@ -92,18 +94,20 @@ export default function PaymentMethodRp({
           onPress={showCalendar}
           style={{ marginRight: 20 }}
         />
-        <View style={{ width: 160, height: 45 }}>
-          <Dropdown
-            // data={dataStaffSalaryFilter}
-            // onChangeText={(text) => onChangeFilterStaff(text)}
-            renderBase={() => (
-              <PopupButton
-                text={"All Method"}
-                imageSrc={IMAGE.Report_Dropdown_Arrow}
-              />
-            )}
-          />
-        </View>
+        {viewMode === VIEW_MODE.LIST && (
+          <View style={{ width: 160, height: 45 }}>
+            <Dropdown
+              // data={dataStaffSalaryFilter}
+              // onChangeText={(text) => onChangeFilterStaff(text)}
+              renderBase={() => (
+                <PopupButton
+                  text={"All Method"}
+                  imageSrc={IMAGE.Report_Dropdown_Arrow}
+                />
+              )}
+            />
+          </View>
+        )}
       </HeaderTooltip>
 
       <View style={{ flex: 1 }}>
@@ -143,7 +147,7 @@ export default function PaymentMethodRp({
             // onCellPress={onCellPress}
           />
         ) : (
-          <View style={{ flex: 1, flexDirection: "row" }}>
+          <View style={{ flex: 1, flexDirection: "row", margin: 20 }}>
             <PaymentBarChart />
             <PaymentPieChart />
           </View>

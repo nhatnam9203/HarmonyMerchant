@@ -2,61 +2,66 @@ import React from "react";
 import { StyleSheet, processColor, View } from "react-native";
 import { BarChart } from "react-native-charts-wrapper";
 
+/**chart info */
 const legend = {
-  enabled: true,
+  enabled: false,
   textSize: 14,
   form: "SQUARE",
   formSize: 14,
   xEntrySpace: 10,
   yEntrySpace: 5,
-  formToTextSpace: 5,
   wordWrapEnabled: true,
-  maxSizePercent: 0.5,
 };
 
 const data = {
   dataSets: [
     {
-      values: [
-        { y: 100 },
-        { y: 105 },
-        { y: 102 },
-        { y: 110 },
-        { y: 114 },
-        { y: 109 },
-        { y: 105 },
-        { y: 99 },
-        { y: 95 },
-      ],
-      label: "Bar dataSet",
+      values: [{ y: 1000 }, { y: 1200 }, { y: 900 }, { y: 1200 }],
       config: {
-        color: processColor("teal"),
-        barShadowColor: processColor("lightgrey"),
-        highlightAlpha: 90,
-        highlightColor: processColor("red"),
+        colors: [
+          processColor("#003680"),
+          processColor("#3E70B3"),
+          processColor("#BFDAFF"),
+          processColor("#8FA3BF"),
+        ],
       },
     },
   ],
-
   config: {
-    barWidth: 0.7,
+    barWidth: 0.6,
   },
 };
 const highlights = [{ x: 3 }, { x: 6 }];
 const xAxis = {
-  valueFormatter: [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-  ],
+  valueFormatter: ["Cash", "Credit Card", "Harmony Pay", "Other-Check"],
   granularityEnabled: true,
   granularity: 1,
+  centerAxisLabels: false,
+  position: "BOTTOM",
+  textSize: 14,
+  formSize: 14,
+  textColor: processColor("#0764B0"),
+  drawAxisLine: true,
+  drawGridLines: false,
+};
+const yAxis = {
+  left: {
+    drawLabels: true,
+    drawAxisLine: true,
+    drawGridLines: true,
+    axisMinimum: 0,
+    axisMaximum: 1500,
+    textSize: 14,
+    formSize: 14,
+    textColor: processColor("#0764B0"),
+    granularity: 250,
+    labelCount: 10,
+  },
+  right: {
+    drawLabels: false,
+    drawAxisLine: false,
+    drawGridLines: false,
+  },
 };
 
 export default function PaymentBarChart({}) {
@@ -74,18 +79,20 @@ export default function PaymentBarChart({}) {
   return (
     <View style={styles.container}>
       <BarChart
+        doubleTapToZoomEnabled={false}
         style={styles.chart}
         data={data}
         xAxis={xAxis}
+        yAxis={yAxis}
         animation={{ durationX: 2000 }}
         legend={legend}
-        gridBackgroundColor={processColor("#ffffff")}
-        visibleRange={{ x: { min: 5, max: 5 } }}
+        gridBackgroundColor={processColor("transparent")}
+        // visibleRange={{ x: { min: 5, max: 5 } }}
         drawBarShadow={false}
         drawValueAboveBar={true}
         drawHighlightArrow={true}
         onSelect={handleSelect}
-        highlights={highlights}
+        // highlights={highlights}
         onChange={(event) => console.log(event.nativeEvent)}
       />
     </View>
@@ -94,7 +101,8 @@ export default function PaymentBarChart({}) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 2,
+    margin: 20,
   },
   chart: {
     flex: 1,

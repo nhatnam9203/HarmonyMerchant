@@ -4,50 +4,48 @@ import { PieChart } from "react-native-charts-wrapper";
 
 const legend = {
     enabled: true,
-    textSize: 15,
+    textSize: 16,
     form: "CIRCLE",
-
-    horizontalAlignment: "RIGHT",
-    verticalAlignment: "CENTER",
-    orientation: "VERTICAL",
+    horizontalAlignment: "CENTER",
+    verticalAlignment: "BOTTOM",
+    orientation: "HORIZONTAL",
     wordWrapEnabled: true,
+    maxSizePercent: 1.0,
   },
   data = {
     dataSets: [
       {
         values: [
-          { value: 45, label: "Sandwiches" },
-          { value: 21, label: "Salads" },
-          { value: 15, label: "Soup" },
-          { value: 9, label: "Beverages" },
-          { value: 15, label: "Desserts" },
+          { value: 1000, label: "Cash" },
+          { value: 1200, label: "Credit Card" },
+          { value: 900, label: "Harmony Pay" },
+          { value: 1200, label: "Other" },
         ],
-        label: "Pie dataset",
+        label: "",
         config: {
           colors: [
-            processColor("#C0FF8C"),
-            processColor("#FFF78C"),
-            processColor("#FFD08C"),
-            processColor("#8CEAFF"),
-            processColor("#FF8C9D"),
+            processColor("#003680"),
+            processColor("#3E70B3"),
+            processColor("#BFDAFF"),
+            processColor("#8FA3BF"),
           ],
-          valueTextSize: 20,
-          valueTextColor: processColor("green"),
-          sliceSpace: 5,
-          selectionShift: 13,
+          valueTextSize: 14,
+          valueTextColor: processColor("white"),
+          sliceSpace: 1,
+          selectionShift: 0,
           // xValuePosition: "OUTSIDE_SLICE",
           // yValuePosition: "OUTSIDE_SLICE",
-          valueFormatter: "#.#'%'",
-          valueLineColor: processColor("green"),
-          valueLinePart1Length: 0.5,
+          valueFormatter: "#'%'",
+          valueLineColor: processColor("white"),
+          valueLinePart1Length: 0,
         },
       },
     ],
   },
   highlights = [{ x: 2 }],
   description = {
-    text: "This is Pie chart description",
-    textSize: 15,
+    text: "",
+    textSize: 14,
     textColor: processColor("darkgray"),
   };
 
@@ -68,28 +66,28 @@ export default function PaymentBarChart({}) {
       <PieChart
         style={styles.chart}
         logEnabled={true}
-        chartBackgroundColor={processColor("pink")}
+        chartBackgroundColor={processColor("transparent")}
         chartDescription={description}
         data={data}
         legend={legend}
         highlights={highlights}
-        entryLabelColor={processColor("green")}
-        entryLabelTextSize={20}
-        drawEntryLabels={true}
+        entryLabelColor={processColor("#fff")}
+        entryLabelTextSize={14}
+        drawEntryLabels={false}
         rotationEnabled={true}
         rotationAngle={45}
         usePercentValues={true}
         styledCenterText={{
-          text: "Pie center text!",
-          color: processColor("pink"),
-          size: 20,
+          text: "28%",
+          color: processColor("#003680"),
+          size: 60,
         }}
         centerTextRadiusPercent={100}
-        holeRadius={40}
-        holeColor={processColor("#f0f0f0")}
+        holeRadius={55}
+        holeColor={processColor("#fff")}
         transparentCircleRadius={45}
         transparentCircleColor={processColor("#f0f0f088")}
-        maxAngle={350}
+        maxAngle={360}
         onSelect={handleSelect}
         onChange={(event) => console.log(event.nativeEvent)}
       />
@@ -100,6 +98,7 @@ export default function PaymentBarChart({}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    margin: 20,
   },
   chart: {
     flex: 1,
