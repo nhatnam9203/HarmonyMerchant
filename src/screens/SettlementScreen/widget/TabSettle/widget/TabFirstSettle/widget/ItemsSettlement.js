@@ -3,7 +3,7 @@ import {
     View,
     Image,
 } from 'react-native';
-import _ from 'ramda';
+import _, { prop } from 'ramda';
 import { TextInputMask } from 'react-native-masked-text';
 
 import { scaleSzie, } from '@utils';
@@ -182,80 +182,109 @@ export const HeaderPaymentsReport = ({ total }) => {
     );
 }
 
-export const ItemPaymentsReport = ({ backgroundColor, title, txtStyle, value, isShowEditIcon, editAmount, isEdit }) => {
+export default class ItemPaymentsReport extends React.Component {
 
-    return (
-        <View style={{
-            height: scaleSzie(29),
-            flexDirection: "row", backgroundColor: backgroundColor
-        }} >
-            <View style={{ justifyContent: "center" }} >
-                <Text style={[styles.txt_item, { marginLeft: scaleSzie(15), color: "#fff", fontWeight: "400" }, txtStyle]} >
-                    {title}
-                </Text>
-            </View>
-            {
-                isEdit ? <View style={{ flex: 1, flexDirection: "row", }} >
-                    <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >
-                        <Button
-                            onPress={() => editAmount()}
-                            style={{ marginRight: scaleSzie(12) }} >
-                            <Image source={ICON.cancel_edit_amount} />
-                        </Button>
-                    </View>
-                    <View style={{ minWidth: scaleSzie(70), justifyContent: "center" }} >
-                        <View style={{
-                            height: scaleSzie(20), backgroundColor: "#fff", borderRadius: 6,
-                            paddingHorizontal: scaleSzie(5)
-                        }} >
-                            <TextInputMask
-                                type={'money'}
-                                options={{
-                                    precision: 2,
-                                    separator: '.',
-                                    delimiter: ',',
-                                    unit: '',
-                                    suffixUnit: ''
-                                }}
-                                style={{ flex: 1, fontSize: scaleSzie(12), textAlign: "right" }}
-                                placeholder="$ 0.00"
-                            // value={""}
-                            // onChangeText={value => this.updateServiceInfo('price', value)}
-                            // onFocus={() => this.scrollServiceTo(320)}
-                            />
-                        </View>
-                    </View>
-                    <View style={{ width: scaleSzie(45), justifyContent: "center" }} >
-                        <Button
-                            onPress={() => editAmount()}
-                            style={{ marginLeft: scaleSzie(12) }} >
-                            <Image source={ICON.save_edit_amount} />
-                        </Button>
-                    </View>
+    constructor(props) {
+        super(props);
+        this.state = {
+            amount: 0
+        }
+
+    }
+
+    setStateFromParent = async (amount) =>{
+        await this.setState({
+            amount
+        })
+    }
+
+    render() {
+        const { backgroundColor, title, txtStyle, value, isShowEditIcon, editAmount, isEdit, onFocus, cancelEditAmount, saveEditAmount } = this.props;
+        const {amount} = this.state;
+
+        return (
+            <View style={{
+                height: scaleSzie(29),
+                flexDirection: "row", backgroundColor: backgroundColor
+            }} >
+                <View style={{ justifyContent: "center" }} >
+                    <Text style={[styles.txt_item, { marginLeft: scaleSzie(15), color: "#fff", fontWeight: "400" }, txtStyle]} >
+                        {title}
+                    </Text>
                 </View>
-                    :
-                    <View style={{ flex: 1, flexDirection: "row", }} >
+                {
+                    isEdit ? <View style={{ flex: 1, flexDirection: "row", }} >
                         <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >
-                            <Text style={[styles.txt_item, { color: "#fff", fontWeight: "bold" }, txtStyle]} >
-                                {`$ ${value ? formatMoney(value) : '0.00'}`}
-                            </Text>
+                            <Button
+                                onPress={() => cancelEditAmount()}
+                                style={{ marginRight: scaleSzie(12) }} >
+                                <Image source={ICON.cancel_edit_amount} />
+                            </Button>
+                        </View>
+                        <View style={{ minWidth: scaleSzie(60), justifyContent: "center" }} >
+                            <View style={{
+                                height: scaleSzie(20), backgroundColor: "#fff", borderRadius: 4,
+                                paddingHorizontal: scaleSzie(5)
+                            }} >
+                                <TextInputMask
+                                    type={'money'}
+                                    options={{
+                                        precision: 2,
+                                        separator: '.',
+                                        delimiter: ',',
+                                        unit: '$ ',
+                                        suffixUnit: ''
+                                    }}
+                                    style={{ flex: 1, fontSize: scaleSzie(12), textAlign: "right" }}
+                                    placeholder="$ 0.00"
+                                    value={amount}
+                                    onChangeText={amount =>this.setState({amount})}
+                                    onFocus={() => onFocus(92)}
+                                    autoFocus={true}
+                                />
+                            </View>
                         </View>
                         <View style={{ width: scaleSzie(45), justifyContent: "center" }} >
-                            {
-                                isShowEditIcon ?
-                                    <Button
-                                        onPress={() => editAmount()}
-                                        style={{ marginLeft: scaleSzie(12) }} >
-                                        <Image source={ICON.edit_amount} />
-                                    </Button>
-                                    : null
-                            }
+                            <Button
+                                onPress={() => saveEditAmount()}
+                                style={{ marginLeft: scaleSzie(12) }} >
+                                <Image source={ICON.save_edit_amount} />
+                            </Button>
                         </View>
                     </View>
-            }
-        </View>
-    );
+                        :
+                        <View style={{ flex: 1, flexDirection: "row", }} >
+                            <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >
+                                <Text style={[styles.txt_item, { color: "#fff", fontWeight: "bold" }, txtStyle]} >
+                                    {`$ ${value ? formatMoney(value) : '0.00'}`}
+                                </Text>
+                            </View>
+                            <View style={{ width: scaleSzie(45), justifyContent: "center" }} >
+                                {
+                                    isShowEditIcon ?
+                                        <Button
+                                            onPress={() => editAmount()}
+                                            style={{ marginLeft: scaleSzie(12) }} >
+                                            <Image source={ICON.edit_amount} />
+                                        </Button>
+                                        : null
+                                }
+                            </View>
+                        </View>
+                }
+            </View>
+        );
+    }
+
 }
+
+// export const ItemPaymentsReport = ({
+// }) => {
+
+//     return (
+
+//     );
+// }
 
 
 

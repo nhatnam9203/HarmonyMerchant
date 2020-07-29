@@ -16,7 +16,7 @@ import {
 import TextInputAmount from './widget/TextInputAmount';
 import TotalCustom from './widget/TotalCustom';
 import styles from "./style";
-import { StaffsHeaderTable, StaffsItem, GiftCardItem, TotalItem, HeaderPaymentsReport, ItemPaymentsReport } from "./widget/ItemsSettlement";
+import ItemPaymentsReport, { StaffsHeaderTable, StaffsItem, GiftCardItem, TotalItem, HeaderPaymentsReport } from "./widget/ItemsSettlement";
 
 const { height } = Dimensions.get('window');
 
@@ -325,12 +325,15 @@ class Layout extends React.Component {
     }
 
     renderPaymentMethodsReport() {
-        const { discountSettlement, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment} = this.state;
+        const { discountSettlement, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment,
+            isEditOtherAmount, isEditCashAmount
+        } = this.state;
 
         return (
             <View style={{ flex: 1, }} >
                 <ScrollView
                     ref={this.scrollRef}
+                    keyboardShouldPersistTaps="always"
                 >
                     <View style={{ borderColor: "#DDDDDD", borderWidth: 1 }} >
                         <HeaderPaymentsReport />
@@ -347,20 +350,29 @@ class Layout extends React.Component {
                         />
                         <View style={{ height: 1 }} />
                         <ItemPaymentsReport
+                         ref={this.cashAmountRef}
                             title="Cash"
                             backgroundColor="#3480BE"
                             value={editPaymentByCash}
                             isShowEditIcon={true}
                             editAmount={this.editCashAmount}
+                            isEdit={isEditCashAmount}
+                            onFocus={this.scrollTo}
+                            cancelEditAmount={this.cancelEditCashAmount}
+                            saveEditAmount={this.saveEditCashAmount}
                         />
                         <View style={{ height: 1 }} />
                         <ItemPaymentsReport
+                            ref={this.otherAmountRef}
                             title="Other"
                             backgroundColor="#BBD4E9"
                             value={editOtherPayment}
                             isShowEditIcon={true}
                             editAmount={this.editOtherAmount}
-                            isEdit={true}
+                            isEdit={isEditOtherAmount}
+                            onFocus={this.scrollTo}
+                            cancelEditAmount={this.cancelEditOtherAmount}
+                            saveEditAmount={this.saveEditOtherAmount}
                         />
                         <ItemPaymentsReport
                             title="Discount"
@@ -401,6 +413,8 @@ class Layout extends React.Component {
                         multiline={true}
                         value={note}
                         onChangeText={(note) => this.setState({ note })}
+                        onFocus={() => this.scrollRef.current.scrollToEnd()}
+                        onBlur={() => this.scrollTo(0)}
                     />
                 </View>
             </View>

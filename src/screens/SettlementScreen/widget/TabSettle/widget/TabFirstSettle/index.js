@@ -24,7 +24,9 @@ class TabFirstSettle extends Layout {
             discountSettlement: 0.00,
             total: 0.00,
             note: '',
-            isShowKeyboard: false
+            isShowKeyboard: false,
+            isEditOtherAmount: false,
+            isEditCashAmount: false
         };
         this.arrayStaffRef = [];
         this.inputHarmonyPaymentRef = React.createRef();
@@ -33,15 +35,17 @@ class TabFirstSettle extends Layout {
         this.inputOtherPaymentRef = React.createRef();
         this.totalCustomRef = React.createRef();
         this.scrollRef = React.createRef();
+        this.otherAmountRef = React.createRef();
+        this.cashAmountRef= React.createRef();
     }
 
     componentDidMount() {
-        this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this.keyboardDidShow);
-        this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardDidHide);
+        // this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this.keyboardDidShow);
+        // this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardDidHide);
     }
 
     keyboardDidShow = async () => {
-        if(this.scrollRef.current){
+        if (this.scrollRef.current) {
             this.scrollRef.current.scrollToEnd();
         }
     }
@@ -51,10 +55,10 @@ class TabFirstSettle extends Layout {
     }
 
     scrollTo = (number) => {
-        if( this.scrollRef.current){
+        if (this.scrollRef.current) {
             this.scrollRef.current.scrollTo({ x: 0, y: scaleSzie(number), animated: true });
         }
-        
+
     }
 
     resetNoteFromParent = async () => {
@@ -198,12 +202,44 @@ class TabFirstSettle extends Layout {
     }
 
 
-    editCashAmount =() =>{
+    editCashAmount = () => {
+        this.setState({
+            isEditCashAmount : true
+        });
+        this.cashAmountRef.current.setStateFromParent(this.state.editPaymentByCash);
+    }
+
+    cancelEditCashAmount =() =>{
 
     }
 
-    editOtherAmount =() =>{
-        
+    saveEditCashAmount = () =>{
+
+    }
+
+    editOtherAmount = () => {
+        this.setState({
+            isEditOtherAmount: true
+        });
+        this.otherAmountRef.current.setStateFromParent(this.state.editOtherPayment);
+    }
+
+    cancelEditOtherAmount = () => {
+        this.setState({
+            isEditOtherAmount: false
+        });
+        this.scrollTo(0);
+    }
+
+    saveEditOtherAmount = () => {
+        const changeAmount = this.otherAmountRef.current.state.amount;
+        this.setState({
+            isEditOtherAmount: false,
+            editOtherPayment:changeAmount
+        });
+       
+
+        this.scrollTo(0);
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
@@ -221,8 +257,8 @@ class TabFirstSettle extends Layout {
     }
 
     componentWillUnmount() {
-        this.keyboardDidShowListener.remove();
-        this.keyboardDidHideListener.remove();
+        // this.keyboardDidShowListener.remove();
+        // this.keyboardDidHideListener.remove();
     }
 
 }
