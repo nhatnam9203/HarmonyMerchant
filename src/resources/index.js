@@ -80,6 +80,8 @@ export default {
     staff_invoice: require('./img/staff_invoice.png'),
     staff_invoice_blue: require('./img/staff_invoice_blue.png'),
     edit_amount: require('./img/edit_amount.png'),
+    save_edit_amount: require('./img/save_edit_amount.png'),
+    cancel_edit_amount: require('./img/cancel_edit_amount.png'),
 
     // --- drawer --
     Customer: require('./drawer/customer.png'),

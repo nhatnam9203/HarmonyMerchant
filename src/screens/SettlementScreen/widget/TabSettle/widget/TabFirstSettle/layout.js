@@ -350,7 +350,7 @@ class Layout extends React.Component {
                             title="Cash"
                             backgroundColor="#3480BE"
                             value={editPaymentByCash}
-                            isShowEdit={true}
+                            isShowEditIcon={true}
                             editAmount={this.editCashAmount}
                         />
                         <View style={{ height: 1 }} />
@@ -358,8 +358,9 @@ class Layout extends React.Component {
                             title="Other"
                             backgroundColor="#BBD4E9"
                             value={editOtherPayment}
-                            isShowEdit={true}
+                            isShowEditIcon={true}
                             editAmount={this.editOtherAmount}
+                            isEdit={true}
                         />
                         <ItemPaymentsReport
                             title="Discount"

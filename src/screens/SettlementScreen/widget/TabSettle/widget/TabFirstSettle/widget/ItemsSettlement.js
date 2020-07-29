@@ -1,9 +1,10 @@
 import React from 'react';
 import {
     View,
-    Image
+    Image,
 } from 'react-native';
 import _ from 'ramda';
+import { TextInputMask } from 'react-native-masked-text';
 
 import { scaleSzie, } from '@utils';
 import {
@@ -181,7 +182,7 @@ export const HeaderPaymentsReport = ({ total }) => {
     );
 }
 
-export const ItemPaymentsReport = ({ backgroundColor, title, txtStyle, value, isShowEdit, editAmount }) => {
+export const ItemPaymentsReport = ({ backgroundColor, title, txtStyle, value, isShowEditIcon, editAmount, isEdit }) => {
 
     return (
         <View style={{
@@ -193,25 +194,65 @@ export const ItemPaymentsReport = ({ backgroundColor, title, txtStyle, value, is
                     {title}
                 </Text>
             </View>
-            <View style={{ flex: 1, flexDirection: "row", }} >
-                <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >
-                    <Text style={[styles.txt_item, { color: "#fff", fontWeight: "bold" }, txtStyle]} >
-                        {`$ ${value ? formatMoney(value) : '0.00'}`}
-                    </Text>
+            {
+                isEdit ? <View style={{ flex: 1, flexDirection: "row", }} >
+                    <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >
+                        <Button
+                            onPress={() => editAmount()}
+                            style={{ marginRight: scaleSzie(12) }} >
+                            <Image source={ICON.cancel_edit_amount} />
+                        </Button>
+                    </View>
+                    <View style={{ minWidth: scaleSzie(70), justifyContent: "center" }} >
+                        <View style={{
+                            height: scaleSzie(20), backgroundColor: "#fff", borderRadius: 6,
+                            paddingHorizontal: scaleSzie(5)
+                        }} >
+                            <TextInputMask
+                                type={'money'}
+                                options={{
+                                    precision: 2,
+                                    separator: '.',
+                                    delimiter: ',',
+                                    unit: '',
+                                    suffixUnit: ''
+                                }}
+                                style={{ flex: 1, fontSize: scaleSzie(12), textAlign: "right" }}
+                                placeholder="$ 0.00"
+                            // value={""}
+                            // onChangeText={value => this.updateServiceInfo('price', value)}
+                            // onFocus={() => this.scrollServiceTo(320)}
+                            />
+                        </View>
+                    </View>
+                    <View style={{ width: scaleSzie(45), justifyContent: "center" }} >
+                        <Button
+                            onPress={() => editAmount()}
+                            style={{ marginLeft: scaleSzie(12) }} >
+                            <Image source={ICON.save_edit_amount} />
+                        </Button>
+                    </View>
                 </View>
-                <View style={{ width: scaleSzie(45), justifyContent: "center" }} >
-                    {
-                        isShowEdit ?
-                            <Button
-                                onPress={() => editAmount()}
-                                style={{ marginLeft: scaleSzie(15) }} >
-                                <Image source={ICON.edit_amount} />
-                            </Button>
-
-                            : null
-                    }
-                </View>
-            </View>
+                    :
+                    <View style={{ flex: 1, flexDirection: "row", }} >
+                        <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >
+                            <Text style={[styles.txt_item, { color: "#fff", fontWeight: "bold" }, txtStyle]} >
+                                {`$ ${value ? formatMoney(value) : '0.00'}`}
+                            </Text>
+                        </View>
+                        <View style={{ width: scaleSzie(45), justifyContent: "center" }} >
+                            {
+                                isShowEditIcon ?
+                                    <Button
+                                        onPress={() => editAmount()}
+                                        style={{ marginLeft: scaleSzie(12) }} >
+                                        <Image source={ICON.edit_amount} />
+                                    </Button>
+                                    : null
+                            }
+                        </View>
+                    </View>
+            }
         </View>
     );
 }
