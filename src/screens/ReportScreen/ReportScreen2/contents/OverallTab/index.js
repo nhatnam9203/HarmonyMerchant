@@ -6,50 +6,34 @@ import React, {
   useCallback,
   useEffect,
 } from "react";
-import { View, StyleSheet } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { View, Platform } from "react-native";
 
+import RNFetchBlob from "rn-fetch-blob";
+import { useSelector, useDispatch } from "react-redux";
 import ScrollableTabView from "react-native-scrollable-tab-view";
-import IMAGE from "@resources";
-import { localize } from "@utils";
+
+import { PopupCalendar } from "@components";
+import actions from "@actions";
+import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
+
+import { ReportTabLayout } from "../../widget";
 
 import OverallReportTab from "./OverallTab";
 import OverallStatistic from "./OverallStatistic";
 
 export default function OverallTab({ style }) {
-  /**refs */
-  const scrollPage = useRef(null);
-
-  /**redux */
+  /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  /**state */
-  const [currentTab, setCurrentTab] = useState(0);
+  /**func */
 
-  // callback  when scroll tab change
-  const onChangeTab = (tabIndex) => {
-    setCurrentTab(tabIndex.i);
-    // showBackButton(tabIndex.i !== 0);
-  };
-
-  /**render */
   return (
     <View style={style}>
-      <ScrollableTabView
-        ref={scrollPage}
-        initialPage={0}
-        locked={true}
-        renderTabBar={() => <View />}
-        style={{ flex: 1 }}
-        tabBarPosition="bottom"
-        springTension={1}
-        springFriction={1}
-        onChangeTab={onChangeTab}
-      >
+      <ReportTabLayout>
         <OverallReportTab style={{ flex: 1, paddingTop: 10 }} />
         <OverallStatistic style={{ flex: 1, paddingTop: 10 }} />
-      </ScrollableTabView>
+      </ReportTabLayout>
     </View>
   );
 }

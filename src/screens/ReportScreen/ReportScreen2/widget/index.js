@@ -7,6 +7,7 @@ import PopupExportReport from "./PopupExportReport";
 import PopupLoadingExportReport from "./PopupLoadingExportReport";
 import CustomScrollTab from "./CustomScrollTab";
 import ReportStatisticLayout from "./ReportStatisticLayout";
+import ReportTabLayout from "./ReportTabLayout";
 
 module.exports = {
   HeaderTabLayout,
@@ -18,4 +19,5 @@ module.exports = {
   PopupLoadingExportReport,
   CustomScrollTab,
   ReportStatisticLayout,
+  ReportTabLayout,
 };

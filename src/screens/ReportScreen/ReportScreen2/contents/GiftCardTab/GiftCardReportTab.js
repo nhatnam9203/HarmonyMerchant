@@ -25,7 +25,7 @@ export default function GiftCardReportTab({ style, showExportFile }) {
 
   return (
     <View style={style}>
-      <HeaderTitle title={localize("Staff Salary", language)} />
+      <HeaderTitle title={localize("Gift Card Sales", language)} />
       <HeaderTooltip
         rightComponent={
           <>

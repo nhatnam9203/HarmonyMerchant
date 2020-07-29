@@ -16,7 +16,7 @@ import { PopupCalendar } from "@components";
 import actions from "@actions";
 import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
 
-import { PopupExportReport, PopupLoadingExportReport } from "../../widget";
+import { ReportTabLayout } from "../../widget";
 
 import GiftCardReportTab from "./GiftCardReportTab";
 import GiftCardStatistic from "./GiftCardStatistic";
@@ -26,35 +26,14 @@ export default function GiftCardTab({ style }) {
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  /**refs */
-  const scrollPage = useRef(null);
-
-  /**state */
-  const [currentTab, setCurrentTab] = useState(0);
-
   /**func */
-  // callback  when scrollTab change
-  const onChangeTab = (tabIndex) => {
-    setCurrentTab(tabIndex.i);
-    // showBackButton(tabIndex.i !== 0);
-  };
 
   return (
     <View style={style}>
-      <ScrollableTabView
-        ref={scrollPage}
-        initialPage={0}
-        locked={true}
-        renderTabBar={() => <View />}
-        style={{ flex: 1 }}
-        tabBarPosition="bottom"
-        springTension={1}
-        springFriction={1}
-        onChangeTab={onChangeTab}
-      >
+      <ReportTabLayout>
         <GiftCardReportTab style={{ flex: 1, paddingTop: 10 }} />
         <GiftCardStatistic style={{ flex: 1, paddingTop: 10 }} />
-      </ScrollableTabView>
+      </ReportTabLayout>
     </View>
   );
 }
