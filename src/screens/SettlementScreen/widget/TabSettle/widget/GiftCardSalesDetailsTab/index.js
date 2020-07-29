@@ -6,57 +6,48 @@ import connectRedux from '@redux/ConnectRedux';
 import { formatNumberFromCurrency, formatMoney, scaleSzie, roundFloatNumber, requestAPI } from '@utils';
 import apiConfigs from '@configs/api';
 
-
 class GiftCardSalesDetailsTab extends Layout {
 
     constructor(props) {
         super(props);
         this.state = {
-            staffSalesDetail: [],
-            staffName: "",
-            total: 0
+            giftCardType: "All type"
         };
     }
 
     setStateFromParent = async () => {
-    //    alert("0909")
-    }
-
-    getStaffSalesDetail = (staffId = 0) => {
-        const { staffSales } = this.props;
-        let staffSalesDetail = [];
-        let staffName = "";
-        let total = 0;
-        for (let i = 0; i < staffSales.length; i++) {
-            if (staffSales[i].staffId === staffId) {
-                staffSalesDetail = [...staffSales[i].details];
-                staffName = staffSales[i].name;
-                total = staffSales[i].total;
-                break;
-            }
-        }
-        return { staffSalesDetail, staffName, total };
-    }
-
-    onChangeStaff = async (value, index, data) => {
-        const staffId = data[index].staffId ? data[index].staffId : 0;
-        const { staffSalesDetail, staffName, total } = this.getStaffSalesDetail(staffId);
         await this.setState({
-            staffSalesDetail,
-            staffName,
-            total
-        });
+            giftCardType: "All type"
+        })
     }
 
-    getDataDropdownStaffSalesList = () => {
-        const { staffSales } = this.props;
-        const data = staffSales.map((staff) => {
+
+    onChangeGiftCardType = async (value, index, data) => {
+        await this.setState({
+            giftCardType:value
+        })
+    }
+
+    getDataDropdownGiftCardSalesList = () => {
+        const { gitfCardSales } = this.props;
+        const data = gitfCardSales.map((giftCard) => {
             return {
-                value: staff.name ? staff.name : "",
-                staffId: staff.staffId ? staff.staffId : 0
+                value: giftCard.name ? giftCard.name : "",
             }
         });
-        return data;
+        return [{ value: "All type" }, ...data];
+    }
+
+    getDataGiftCardSales = () => {
+        const { gitfCardSales } = this.props;
+        const { giftCardType } = this.state;
+        if (giftCardType === "All type") {
+            return [...gitfCardSales];
+        }else{
+            const dataFilter =  gitfCardSales.filter(gitfCard => gitfCard.name === giftCardType);
+            return dataFilter ? dataFilter : [];
+        }
+
     }
 
     backHomeTab = () => {

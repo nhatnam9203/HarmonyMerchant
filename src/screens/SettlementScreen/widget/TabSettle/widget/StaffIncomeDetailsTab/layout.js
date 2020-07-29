@@ -18,7 +18,6 @@ class Layout extends React.Component {
     render() {
         const { staffSalesDetail, staffName, total } = this.state;
 
-
         return (
             <View style={{ flex: 1, backgroundColor: "#fff" }} >
                 <Text style={[styles.txt_top_title]} >

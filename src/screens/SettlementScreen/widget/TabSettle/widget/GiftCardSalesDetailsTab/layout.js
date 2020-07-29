@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import _ from 'ramda';
 
-import { scaleSzie, formatMoney, formatWithMoment } from '@utils';
+import { scaleSzie, formatMoney, formatWithMoment ,formatNumberFromCurrency} from '@utils';
 import {
     Text, Button, Dropdown
 } from '@components';
@@ -16,8 +16,16 @@ import ICON from "@resources";
 class Layout extends React.Component {
 
     render() {
-        const { staffSalesDetail, staffName, total } = this.state;
+        const {giftCardType } = this.state;
         const {gitfCardSales} = this.props;
+
+        let giftCardTotal = 0
+        if (gitfCardSales.length > 0) {
+            gitfCardSales.forEach(giftCard => {
+                giftCardTotal = parseFloat(giftCardTotal) + parseFloat(formatNumberFromCurrency(giftCard.total ? giftCard.total : 0.00));
+            });
+        }
+        const data = this.getDataGiftCardSales();
 
         return (
             <View style={{ flex: 1, backgroundColor: "#fff" }} >
@@ -32,9 +40,9 @@ class Layout extends React.Component {
                 }} >
                     <Dropdown
                         label={""}
-                        data={this.getDataDropdownStaffSalesList()}
-                        value={staffName}
-                        onChangeText={this.onChangeStaff}
+                        data={this.getDataDropdownGiftCardSalesList()}
+                        value={giftCardType}
+                        onChangeText={this.onChangeGiftCardType}
                         containerStyle={{
                             backgroundColor: '#fff',
                             borderWidth: 2,
@@ -48,7 +56,7 @@ class Layout extends React.Component {
                 {/* --------- Row Table  ---------- */}
                 <View style={{ flex: 1 }} >
                     <FlatList
-                        data={gitfCardSales}
+                        data={data}
                         renderItem={({ item, index }) => <RowTable data={item} />}
                         keyExtractor={(item, index) => `${item.appointmentCode}_${index}`}
                     />
@@ -62,7 +70,7 @@ class Layout extends React.Component {
                         {`Total`}
                     </Text>
                     <Text style={[styles.txt_header_table, { color: "#fff", fontWeight: "bold" }]} >
-                        {`$ ${formatMoney(total)}`}
+                        {`$ ${formatMoney(giftCardTotal)}`}
                     </Text>
                 </View>
 
