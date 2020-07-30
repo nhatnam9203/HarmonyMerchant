@@ -134,7 +134,7 @@ function StaffTab({ style, showBackButton }, ref) {
   // time filter change: hide popup + create time range params + call api search staff
   const changeTitleTimeRange = async (title) => {
     setVisibleCalendar(false);
-    setTitleRangeTime(title !== "Time Range" ? title : "All time");
+    await setTitleRangeTime(title !== "Time Range" ? title : "All time");
     searchStaff();
   };
 

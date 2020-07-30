@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import { Dropdown } from "react-native-material-dropdown";
 import IMAGE from "@resources";
 import { localize } from "@utils";
+import actions from "@actions";
 
 import { HeaderTooltip, PopupButton, TableList } from "../../../widget";
 import PaymentBarChart from "./PaymentBarChart";
@@ -29,10 +30,45 @@ export default function PaymentMethodRp({
     (state) => state.staff.pathFileReportStaffSalary
   );
   const language = useSelector((state) => state.dataLocal.language);
+  const overallPaymentMethodList = useSelector(
+    (state) => state.report.overallPaymentMethodList
+  );
 
   /**state */
   const [viewMode, setViewMode] = useState(VIEW_MODE.LIST);
 
+  /**component mount*/
+  useEffect(async () => {
+    await dispatch(actions.report.getOverallPaymentMethod());
+  }, []);
+
+  /**callback */
+  const renderCell = ({ key, row, column, item }) => {
+    if (key === "netPayment") {
+      return (
+        <View style={styles.cellSalary}>
+          <Text style={styles.txtSalary}>{item[key] + "$"}</Text>
+
+          <View style={styles.imgContent}>
+            <TouchableOpacity onPress={() => goStaffStatistics(item)}>
+              <View style={styles.btnInCell}>
+                <Image style={styles.imgDetail} source={IMAGE.Report_Detail} />
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    }
+    return null;
+  };
+
+  const onCellPress = ({ key, row, column, item }) => {
+    // if (key === "salary") {
+    //   dispatch(actions.staff.getListStaffCalendar(item.staffId));
+    //   onGoStatistics();
+    // }
+    // showPopupStaffInvoice(item);
+  };
   /**func */
   const changeViewMode = (mode) => {
     if (!mode) return;
@@ -113,43 +149,36 @@ export default function PaymentMethodRp({
       <View style={{ flex: 1 }}>
         {viewMode === VIEW_MODE.LIST ? (
           <TableList
-            tableData={[]}
+            tableData={overallPaymentMethodList}
             tableHead={[
-              localize("Name", language),
-              localize("Service sales", language),
-              localize("Service split", language),
-              localize("Product sales", language),
-              localize("Product split", language),
-              localize("Tip amount", language),
-              localize("Salary", language),
+              localize("Payment", language),
+              localize("Transactions", language),
+              localize("Gross payments", language),
+              localize("Refunds", language),
+              localize("Net payments", language),
             ]}
             whiteKeys={[
-              "staffId",
-              "name",
-              "serviceSales",
-              "serviceSplit",
-              "productSales",
-              "productSplit",
-              "tip",
-              "salary",
+              "method",
+              "transactions",
+              "grossPayment",
+              "refund",
+              "netPayment",
             ]}
-            primaryId="staffId"
+            primaryId=""
             calcSumKeys={[
-              "serviceSales",
-              "serviceSplit",
-              "productSales",
-              "productSplit",
-              "tip",
-              "salary",
+              "transactions",
+              "grossPayment",
+              "refund",
+              "netPayment",
             ]}
             // tableCellWidth={{ salary: 195, Salary: 195, name: 200, Name: 200 }}
-            // renderCell={renderCell}
-            // onCellPress={onCellPress}
+            renderCell={renderCell}
+            onCellPress={onCellPress}
           />
         ) : (
           <View style={{ flex: 1, flexDirection: "row", margin: 20 }}>
-            <PaymentBarChart />
-            <PaymentPieChart />
+            <PaymentBarChart data={overallPaymentMethodList} />
+            <PaymentPieChart data={overallPaymentMethodList} />
           </View>
         )}
       </View>
@@ -159,4 +188,35 @@ export default function PaymentMethodRp({
 
 const styles = StyleSheet.create({
   container: {},
+  cellSalary: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    flex: 1,
+  },
+  txtSalary: {
+    fontWeight: "bold",
+    fontSize: 15,
+    color: "#6A6A6A",
+    marginRight: 5,
+  },
+  imgContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    flex: 0,
+  },
+  imgDetail: {
+    tintColor: "#6A6A6A",
+    width: 20,
+    height: 20,
+  },
+  btnInCell: {
+    height: "100%",
+    width: 35,
+    marginLeft: 4,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });

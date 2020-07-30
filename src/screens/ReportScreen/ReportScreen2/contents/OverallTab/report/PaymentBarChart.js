@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, processColor, View } from "react-native";
 import { BarChart } from "react-native-charts-wrapper";
 
@@ -65,7 +65,7 @@ const yAxis = {
   },
 };
 
-export default function PaymentBarChart({}) {
+export default function PaymentBarChart({ data }) {
   function handleSelect(event) {
     let entry = event.nativeEvent;
     if (entry == null) {

@@ -41,6 +41,12 @@ const pickObjectFromKeys = (array, keys) => {
   });
 };
 
+const getCellKey = (item, primaryId) => {
+  if (!primaryId || primaryId.length <= 0) {
+    return item[0];
+  }
+  return `${item[primaryId]}`;
+};
 /**
  * !error: header long bug ui
  * !error: calcSum -> pagination bug
@@ -128,8 +134,9 @@ function TableList(
   /**render */
   // TABLE CELL
   const renderItem = ({ item, index, separators }) => {
+    const cellKey = getCellKey(item, primaryId);
     return (
-      <TableRow style={styles.row} key={`${item[primaryId]}`}>
+      <TableRow style={styles.row} key={cellKey}>
         {/** render for objects*/}
         {/* {Object.keys(item)
           .filter((key) => key !== primaryId)
@@ -250,7 +257,7 @@ function TableList(
       styles={{ flex: 1 }}
       data={data}
       renderItem={renderItem}
-      keyExtractor={(item) => `${item[primaryId]}`}
+      keyExtractor={(item) => getCellKey(item, primaryId)}
       ListHeaderComponent={renderHeader}
       // ListFooterComponent={renderFooter}
       ItemSeparatorComponent={renderSeparator}

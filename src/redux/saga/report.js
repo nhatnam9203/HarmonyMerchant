@@ -3,56 +3,28 @@ import NavigationServices from "../../navigators/NavigatorServices";
 
 import { requestAPI, uploadFromData } from "../../utils";
 import apiConfigs from "../../configs/api";
+import actions from "@actions";
 
-function* uploadAvatar(action) {
+function* getReportOverallPaymentMethod(action) {
   try {
-    yield put({ type: "LOADING_ROOT" });
-    const responses = yield uploadFromData(action);
-    //console.log('uploadAvatar : ', responses);
-    yield put({ type: "STOP_LOADING_ROOT" });
+    action.isShowLoading ? yield put({ type: "LOADING_ROOT" }) : "";
+    const responses = yield requestAPI(action);
     const { codeNumber } = responses;
+    yield put({ type: "STOP_LOADING_ROOT" });
+
     if (parseInt(codeNumber) == 200) {
       yield put({
-        type: "UPLOAD_AVATAR_SUCCESS",
+        type: "GET_REPORT_OVERALL_PAYMENT_METHOD_SUCCESS",
         payload: responses.data,
       });
-      // yield put({ type: 'LOADING_ROOT' });
-    } else {
+    } else if (parseInt(codeNumber) === 401) {
       yield put({
-        type: "UPLOAD_AVATAR_FAIL",
-      });
-      yield put({
-        type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
-      });
-    }
-  } catch (error) {
-    yield put({ type: error });
-  } finally {
-    yield put({ type: "STOP_LOADING_ROOT" });
-  }
-}
-
-function* uploadBanner(action) {
-  try {
-    yield put({ type: "LOADING_ROOT" });
-    const responses = yield uploadFromData(action);
-    //console.log('deleteBannerMerchant : ', responses);
-    yield put({ type: "LOADING_ROOT" });
-    const { codeNumber } = responses;
-    if (parseInt(codeNumber) == 200) {
-      yield put({
-        type: "ADD_BANNER_WITH_INFO",
-        method: "POST",
-        token: true,
-        api: `${apiConfigs.BASE_API}merchantbanner`,
-        body: {
-          ...action.infoBanner,
-          fileId: responses.data.fileId,
-        },
-        merchantId: action.merchantId,
+        type: "UNAUTHORIZED",
       });
     } else {
+      yield put({
+        type: "GET_REPORT_OVERALL_PAYMENT_METHOD_FAIL",
+      });
       yield put({
         type: "SHOW_ERROR_MESSAGE",
         message: responses.message,
@@ -67,7 +39,10 @@ function* uploadBanner(action) {
 
 export default function* saga() {
   yield all([
-    takeLatest("UPLOAD_AVATAR", uploadAvatar),
-    takeLatest("UPLOAD_BANNER", uploadBanner),
+    takeLatest(
+      actions.report.TC.GetOverallPaymentMethod,
+      getReportOverallPaymentMethod
+    ),
+    // takeLatest("UPLOAD_BANNER", uploadBanner),
   ]);
 }
