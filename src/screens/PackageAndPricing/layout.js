@@ -141,8 +141,8 @@ export default class Layout extends React.Component {
                     <ItemValuePackage
                         isDisabled={secondPackage && secondPackage.pos ? secondPackage.pos : 0}
                     />
-                     <ItemValuePackage
-                        isDisabled={firstPackage && firstPackage.interactiveScheduling ? firstPackage.interactiveScheduling : 0}
+                    <ItemValuePackage
+                        isDisabled={secondPackage && secondPackage.interactiveScheduling ? secondPackage.interactiveScheduling : 0}
                     />
                     <ItemValuePackage
                         isDisabled={secondPackage && secondPackage.signinApp ? secondPackage.signinApp : 0}
@@ -167,8 +167,8 @@ export default class Layout extends React.Component {
                     <ItemValuePackage
                         isDisabled={thirstPackage && thirstPackage.pos ? thirstPackage.pos : 0}
                     />
-                     <ItemValuePackage
-                        isDisabled={firstPackage && firstPackage.interactiveScheduling ? firstPackage.interactiveScheduling : 0}
+                    <ItemValuePackage
+                        isDisabled={thirstPackage && thirstPackage.interactiveScheduling ? thirstPackage.interactiveScheduling : 0}
                     />
                     <ItemValuePackage
                         isDisabled={thirstPackage && thirstPackage.signinApp ? thirstPackage.signinApp : 0}
@@ -229,11 +229,15 @@ export default class Layout extends React.Component {
                 }} >
                     {`Packages & Pricing`}
                 </Text>
-                <Text style={{
-                    color: "#6A6A6A", fontSize: scaleSzie(20), alignSelf: "center", marginTop: scaleSzie(6)
-                }} >
-                    {`Try HarmonyPay apps free for 30 days! No payment information required `}
-                </Text>
+                <View style={{flexDirection:"row",alignItems:"center",justifyContent:"center"}} >
+                    <Text style={{
+                        color: "#6A6A6A", fontSize: scaleSzie(17), alignSelf: "center", marginTop: scaleSzie(6)
+                    }} >
+                        {`Try HarmonyPay apps free for 30 days! No payment information required `}
+                    </Text>
+                    <Image source={ICON.happy_face} />
+                </View>
+
 
                 {/* ------------------ Table ---------------- */}
                 <View style={{ flex: 1, padding: scaleSzie(18) }} >
@@ -350,23 +354,9 @@ class ItemFirstPricing extends React.Component {
         const { toogle } = this.state;
 
         return (
-            <View style={{ flex: 1, backgroundColor: "#0764B0" ,justifyContent:"center"}} >
-                {/* <View style={{ flex: 1, justifyContent: "center" }} >
-                    <View style={{
-                        flexDirection: "row", height: scaleSzie(26),
-                        // justifyContent: "center",
-                        marginLeft: scaleSzie(12)
-                    }} >
-                        <Text style={{ color: "#fff", fontSize: scaleSzie(18), fontWeight: "600" }} >
-                            {``}
-                        </Text>
-
-
-                    </View>
-
-                </View> */}
+            <View style={{ flex: 1, backgroundColor: "#0764B0", justifyContent: "center" }} >
                 <View style={{
-                   paddingHorizontal: scaleSzie(12), flexDirection: "row",
+                    paddingHorizontal: scaleSzie(12), flexDirection: "row",
                     justifyContent: "space-between",
                 }} >
                     <View>

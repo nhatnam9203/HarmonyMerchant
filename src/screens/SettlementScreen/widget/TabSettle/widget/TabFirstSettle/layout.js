@@ -11,14 +11,14 @@ import _ from 'ramda';
 
 import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, formatWithMoment } from '@utils';
 import {
-    Text, ButtonCustom,
+    Text, ButtonCustom, Button
 } from '@components';
-import IMAGE from '@resources';
 import TextInputAmount from './widget/TextInputAmount';
-import ItemStaff from './widget/ItemStaff';
 import TotalCustom from './widget/TotalCustom';
+import styles from "./style";
+import ItemPaymentsReport, { StaffsHeaderTable, StaffsItem, GiftCardItem, TotalItem, HeaderPaymentsReport } from "./widget/ItemsSettlement";
 
-const { width, height } = Dimensions.get('window');
+const { height } = Dimensions.get('window');
 
 class Layout extends React.Component {
 
@@ -26,14 +26,14 @@ class Layout extends React.Component {
         const { settleWaiting, language } = this.props;
         const { settlementDate } = settleWaiting;
         return (
-            <View style={{ height: scaleSzie(50), backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }} >
-                <Text style={{ color: '#0764B0', fontSize: scaleSzie(14), marginLeft: scaleSzie(10), marginRight: scaleSzie(20) }} >
+            <View style={{ height: scaleSzie(40), flexDirection: 'row', alignItems: 'center' }} >
+                <Text style={[styles.txt_top_title, { marginLeft: scaleSzie(10), marginRight: scaleSzie(20), }]} >
                     {`${localize('Last Settlement', language)}:`}
                 </Text>
-                <Text style={{ color: '#0764B0', fontSize: scaleSzie(16), fontWeight: 'bold', marginRight: scaleSzie(20) }} >
+                <Text style={[styles.txt_top_title, { fontWeight: '500', marginRight: scaleSzie(20) }]}  >
                     {formatWithMoment(settlementDate, 'MM/DD/YYYY')}
                 </Text>
-                <Text style={{ color: '#0764B0', fontSize: scaleSzie(16), fontWeight: 'bold', marginRight: scaleSzie(20) }} >
+                <Text style={[styles.txt_top_title, { fontWeight: '500', marginRight: scaleSzie(20) }]}  >
                     {formatWithMoment(settlementDate, 'hh:mm A')}
                 </Text>
             </View>
@@ -43,174 +43,23 @@ class Layout extends React.Component {
     renderHeaderStaffList() {
         const { language } = this.props;
         return (
-            <View style={{ height: scaleSzie(45), backgroundColor: '#FAFAFA', flexDirection: 'row' }} >
-                <View style={{ flex: 1, paddingLeft: scaleSzie(10), justifyContent: 'center' }} >
-                    <Text style={{ color: '#0764B0', fontSize: scaleSzie(18) }} >
-                        {localize('Staff List', language)}
+            <View style={{ height: scaleSzie(35), flexDirection: 'row', paddingHorizontal: scaleSzie(10) }} >
+                <View style={{ flex: 1.1, justifyContent: 'center' }} >
+                    <Text style={styles.txt_table} >
+                        {localize('Sales by staffs', language)}
                     </Text>
                 </View>
-                <View style={{ width: scaleSzie(2) }} />
-                <View style={{ flex: 1.2, paddingLeft: scaleSzie(10), justifyContent: 'center' }} >
-                    <Text style={{ color: '#0764B0', fontSize: scaleSzie(18) }} >
-
-                        {localize('Staff Statistic', language)}
-                    </Text>
-                </View>
-            </View>
-        );
-    }
-
-    renderHeaderTableStaffList() {
-        const { language } = this.props;
-        return (
-            <View style={{ height: scaleSzie(35), flexDirection: 'row' }} >
-                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#0764B0' }} >
-                    <Text style={{ color: '#fff', fontSize: scaleSzie(14), marginLeft: scaleSzie(24) }} >
-                        {localize('Name', language)}
-                    </Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                        <Text style={{ color: '#fff', fontSize: scaleSzie(14), marginRight: scaleSzie(5) }} >
-
-                            {localize('Total Amount', language)}
-                        </Text>
-                        {/* <Image source={IMAGE.arrowDownAmount} style={{ marginRight: scaleSzie(14) }} /> */}
-                    </View>
-                </View>
-                <View style={{ width: scaleSzie(2) }} />
-                <View style={{
-                    flex: 1.2, backgroundColor: '#0764B0', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-                }} >
-                    <Text style={{ color: '#fff', fontSize: scaleSzie(14), marginLeft: scaleSzie(14) }} >
-
-                        {localize('Invoice List', language)}
-                    </Text>
-                    <Text style={{ color: '#fff', fontSize: scaleSzie(14), marginRight: scaleSzie(14) }} >
-
-                        {localize('Time/Amount', language)}
+                <View style={{ width: scaleSzie(15) }} />
+                <View style={{ flex: 1, justifyContent: 'center' }} >
+                    <Text style={styles.txt_table} >
+                        {localize('Income by payment methods', language)}
                     </Text>
                 </View>
             </View>
         );
     }
 
-    renderItemInvoice(item) {
-        return (
-            <View style={{
-                height: scaleSzie(62), paddingHorizontal: scaleSzie(10),
-                borderColor: '#C5C5C5', borderWidth: 1,
-                backgroundColor: '#FAFAFA', flexDirection: "row",
-            }} >
-                {/* ----------- Col 1 --------- */}
-                <View style={{ flex: 1.7 }} >
-                    <View style={{ flex: 1, justifyContent: 'center' }} >
-                        <Text style={{ fontSize: scaleSzie(14), color: '#404040' }} >
-                            {item.customerName}
-                        </Text>
-                    </View>
-                    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }} >
-                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A', marginRight: scaleSzie(20) }} >
-                            {`#${item.checkoutId}`}
-                        </Text>
-                        <View style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: '#0764B0' }} />
-                        <Text style={{ fontSize: scaleSzie(14), color: '#0764B0', marginLeft: scaleSzie(5) }} >
-                            {item.status}
-                        </Text>
 
-                    </View>
-
-                </View>
-                {/* ----------- Col 2 --------- */}
-                <View style={{ flex: 1 }} >
-                    <View style={{ flex: 1, justifyContent: 'center' }} >
-                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A' }} >
-                            {item.date}
-                        </Text>
-                    </View>
-                    <View style={{ flex: 1, justifyContent: 'center', }} >
-                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A', fontWeight: "bold" }} >
-                            {item.time}
-                        </Text>
-                    </View>
-                </View>
-
-                {/* ----------- Col 3 --------- */}
-                <View style={{ flex: 0.7, justifyContent: 'center', alignItems: 'flex-end' }} >
-                    <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
-                        {`$ ${item.amount}`}
-                    </Text>
-                </View>
-            </View>
-        );
-    }
-
-    renderTableStaff() {
-        const { settleWaiting, invoicesOfStaff, language } = this.props;
-        const { settlementStaff, total } = settleWaiting;
-        let tipAmount = 0;
-        let totalAmount = 0;
-        if (invoicesOfStaff.length > 0) {
-            invoicesOfStaff.forEach(invoice => {
-                tipAmount = parseFloat(tipAmount) + parseFloat(formatNumberFromCurrency(invoice.tipAmount ? invoice.tipAmount : 0.00));
-                totalAmount = parseFloat(totalAmount) + parseFloat(formatNumberFromCurrency(invoice.amount ? invoice.amount : 0.00));
-            });
-        }
-        return (
-            <View style={{ flexDirection: 'row', height: scaleSzie(300) }} >
-                <View style={{ flex: 1 }} >
-                    <View style={{ flex: 1, padding: scaleSzie(10) }} >
-                        <View style={{ flex: 1, borderColor: '#C5C5C5', borderWidth: 1 }} >
-                            <FlatList
-                                data={settlementStaff}
-                                renderItem={({ item, index }) => <ItemStaff
-                                    ref={this.pushStaffIntoArrayStaff}
-                                    item={item}
-                                    index={index}
-                                    getInvoicesOfStaff={this.getInvoicesOfStaff}
-                                    staffId={item.staffId}
-                                />}
-                                keyExtractor={(item, index) => `${item.staffId}`}
-                            />
-                        </View>
-                        {/* -------- Total ------- */}
-                        <View style={{
-                            height: scaleSzie(35), backgroundColor: '#FAFAFA', marginTop: scaleSzie(10),
-                            borderColor: '#4CD964', borderWidth: 1, flexDirection: 'row', paddingHorizontal: scaleSzie(10), alignItems: 'center',
-                            justifyContent: 'space-between'
-                        }} >
-                            <Text style={{ fontSize: scaleSzie(20), color: '#0764B0' }} >
-                                {`${localize('Total', language)}:`}
-                            </Text>
-                            <Text style={{ fontSize: scaleSzie(20), color: '#4CD964', fontWeight: 'bold' }} >
-                                {`$ ${total ? `${total}` : 0}`}
-                            </Text>
-                        </View>
-                    </View>
-                </View>
-                <View style={{ width: scaleSzie(2) }} />
-                <View style={{ flex: 1.2 }} >
-                    {/* -------- Item ------- */}
-                    <FlatList
-                        data={invoicesOfStaff}
-                        renderItem={({ item, index }) => this.renderItemInvoice(item)}
-                        keyExtractor={(item, index) => `${index}`}
-                    />
-                    {/* -------- Total ------- */}
-                    <View style={{ alignItems: 'flex-end', paddingRight: scaleSzie(10), paddingTop: scaleSzie(10) }} >
-                        <Text style={{ fontSize: scaleSzie(12), color: '#404040', marginBottom: scaleSzie(10) }} >
-                            {`${localize('Tip Amount', language)}:`} <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginLeft: scaleSzie(5) }} >
-                                {`$ ${_.compose(formatMoney, roundFloatNumber)(tipAmount)}`}
-                            </Text>
-                        </Text>
-                        <Text style={{ fontSize: scaleSzie(12), color: '#404040', }} >
-                            {`${localize('Total Amount', language)}:`} <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginLeft: scaleSzie(5) }} >
-                                {`  $  ${formatMoney(Number(totalAmount).toFixed(2))}`}
-                            </Text>
-                        </Text>
-                    </View>
-                </View>
-            </View>
-        );
-    }
 
     renderEditReportAmount() {
         const { language } = this.props;
@@ -330,7 +179,7 @@ class Layout extends React.Component {
 
     renderReportAmount() {
         const { settleWaiting, language } = this.props;
-        const { creditAmount, creditCount } = this.state;
+        const { creditAmount } = this.state;
 
         const temptCreditAmount = creditAmount === 0 || creditAmount === "" ? 0 : creditAmount / 100;
         const temtpTotal = formatMoney((formatNumberFromCurrency(settleWaiting.total) - formatNumberFromCurrency(settleWaiting.paymentByCreditCard) + formatNumberFromCurrency(temptCreditAmount)));
@@ -414,57 +263,168 @@ class Layout extends React.Component {
         );
     }
 
-    renderNote() {
-        return (
-            <View style={{ height: scaleSzie(60), paddingHorizontal: scaleSzie(10) }} >
-                <View style={{
-                    flex: 1, backgroundColor: '#F1F1F1', borderColor: '#C5C5C5', borderWidth: 1, paddingHorizontal: scaleSzie(16),
-                    paddingTop: scaleSzie(20)
-                }} >
-                    <View style={{ flex: 1, justifyContent: 'flex-end', paddingBottom: scaleSzie(10) }} >
-                        <View style={{ height: scaleSzie(40), flexDirection: 'row' }} >
-                            <View style={{
-                                flex: 1, backgroundColor: '#fff', borderBottomLeftRadius: 4, borderTopLeftRadius: 4,
-                                paddingHorizontal: scaleSzie(10)
-                            }} >
-                                <TextInput
-                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                    value={this.state.note}
-                                    onChangeText={(note) => this.setState({ note })}
-                                    onFocus={() => this.scrollTo(700)}
-                                />
-                            </View>
-
-                        </View>
-                    </View>
-                </View>
-            </View>
-        );
-    }
-
     renderButtonConfirm() {
         const { language } = this.props;
         return (
-            <View style={{ width: '100%', alignItems: 'center' }} >
+            <View style={{
+                flex: 1, justifyContent: "flex-end", alignItems: 'center',
+                paddingBottom: scaleSzie(15)
+            }} >
                 <ButtonCustom
-                    width={scaleSzie(300)}
-                    height={55}
+                    width={scaleSzie(330)}
+                    height={50}
                     backgroundColor="#0764B0"
                     title={localize('CONFIRM ', language)}
                     textColor="#fff"
                     onPress={this.gotoTabSecondSettle}
-                    style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                    styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
+                    style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 6 }}
+                    styleText={{ fontSize: scaleSzie(21), fontWeight: '500' }}
                 />
             </View>
         );
     }
 
+    renderStaffsTable() {
+        const { staffSales, gitfCardSales } = this.props;
+        let totalAmount = 0;
+        let giftCardTotal = 0
+        if (staffSales.length > 0) {
+            staffSales.forEach(staff => {
+                totalAmount = parseFloat(totalAmount) + parseFloat(formatNumberFromCurrency(staff.total ? staff.total : 0.00));
+            });
+        }
+
+        if (gitfCardSales.length > 0) {
+            gitfCardSales.forEach(giftCard => {
+                giftCardTotal = parseFloat(giftCardTotal) + parseFloat(formatNumberFromCurrency(giftCard.total ? giftCard.total : 0.00));
+            });
+        }
+
+        return (
+            <View style={{ flex: 1.1, }} >
+                {/* ---------- Header --------- */}
+                <View style={[styles.box_scale_by_staffs]} >
+                    <StaffsHeaderTable />
+                    <FlatList
+                        data={staffSales}
+                        renderItem={({ item, index }) => <StaffsItem
+                            staff={item}
+                            onPress={this.onPressStaff}
+                        />}
+                        keyExtractor={(item, index) => `${item.staffId}_${index}`}
+                        ListFooterComponent={() => <GiftCardItem
+                            total={formatMoney(giftCardTotal)}
+                            onPress={this.onPressGiftCardTotal}
+                        />}
+                    />
+                </View>
+                <View style={{ height: scaleSzie(10) }} />
+                <TotalItem total={formatMoney(totalAmount + giftCardTotal)} />
+            </View>
+        );
+    }
+
+    renderPaymentMethodsReport() {
+        const { discountSettlement, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment,
+            isEditOtherAmount, isEditCashAmount
+        } = this.state;
+
+        return (
+            <View style={{ flex: 1, }} >
+                <ScrollView
+                    ref={this.scrollRef}
+                    keyboardShouldPersistTaps="always"
+                >
+                    <View style={{ borderColor: "#DDDDDD", borderWidth: 1 }} >
+                        <HeaderPaymentsReport />
+                        <ItemPaymentsReport
+                            title="Harmony account"
+                            backgroundColor="#054071"
+                            value={editPaymentByHarmony}
+                        />
+                        <View style={{ height: 1 }} />
+                        <ItemPaymentsReport
+                            title="Credit card"
+                            backgroundColor="#075BA0"
+                            value={editPaymentByCreditCard}
+                        />
+                        <View style={{ height: 1 }} />
+                        <ItemPaymentsReport
+                         ref={this.cashAmountRef}
+                            title="Cash"
+                            backgroundColor="#3480BE"
+                            value={editPaymentByCash}
+                            isShowEditIcon={true}
+                            editAmount={this.editCashAmount}
+                            isEdit={isEditCashAmount}
+                            onFocus={this.scrollTo}
+                            cancelEditAmount={this.cancelEditCashAmount}
+                            saveEditAmount={this.saveEditCashAmount}
+                        />
+                        <View style={{ height: 1 }} />
+                        <ItemPaymentsReport
+                            ref={this.otherAmountRef}
+                            title="Other"
+                            backgroundColor="#BBD4E9"
+                            value={editOtherPayment}
+                            isShowEditIcon={true}
+                            editAmount={this.editOtherAmount}
+                            isEdit={isEditOtherAmount}
+                            onFocus={this.scrollTo}
+                            cancelEditAmount={this.cancelEditOtherAmount}
+                            saveEditAmount={this.saveEditOtherAmount}
+                        />
+                        <ItemPaymentsReport
+                            title="Discount"
+                            backgroundColor="#F1F1F1"
+                            txtStyle={{
+                                color: "#404040"
+                            }}
+                            value={discountSettlement}
+                        />
+                    </View>
+                    {this.renderNote()}
+                    <View style={{ height: scaleSzie(150) }} />
+                </ScrollView>
+
+                <View style={{ height: scaleSzie(10) }} />
+                <TotalItem total={formatMoney(90)} />
+            </View>
+        );
+    }
+
+    renderNote() {
+        const { note } = this.state;
+
+        return (
+            <View style={{}} >
+                <Text style={[{
+                    color: "#404040", fontSize: scaleSzie(10), fontWeight: "600",
+                    marginBottom: scaleSzie(5), marginTop: scaleSzie(12)
+                }]} >
+                    {`Note`}
+                </Text>
+                <View onPress={() => this.setState({ isShowKeyboard: true })} style={{
+                    height: scaleSzie(55), borderColor: "#DDDDDD", borderWidth: 1, borderRadius: 4, paddingVertical: 5,
+                    paddingHorizontal: scaleSzie(10)
+                }} >
+                    <TextInput
+                        style={{ flex: 1, fontSize: scaleSzie(12) }}
+                        multiline={true}
+                        value={note}
+                        onChangeText={(note) => this.setState({ note })}
+                        onFocus={() => this.scrollRef.current.scrollToEnd()}
+                        onBlur={() => this.scrollTo(0)}
+                    />
+                </View>
+            </View>
+        );
+    }
 
     render() {
         const { settleWaiting, language } = this.props
         return (
-            <View style={{ flex: 1 }} >
+            <View style={{ flex: 1, backgroundColor: "#fff" }} >
                 {
                     _.isEmpty(settleWaiting) || settleWaiting.checkout.length === 0 ?
                         <ScrollView
@@ -497,28 +457,18 @@ class Layout extends React.Component {
                             </View>
                         </ScrollView>
                         :
-                        <ScrollView
-                            ref={this.scrollSRef}
-                            keyboardShouldPersistTaps="always"
-                            refreshControl={
-                                <RefreshControl
-                                    refreshing={this.props.refreshingSettle}
-                                    onRefresh={this.onRefreshSettle}
-                                />
-                            }
-                        >
+
+                        <View style={{ flex: 1 }} >
                             {this.renderLastSettlement()}
                             {this.renderHeaderStaffList()}
-                            {this.renderHeaderTableStaffList()}
-                            {this.renderTableStaff()}
-                            <View style={{ height: scaleSzie(30) }} />
-                            {this.renderReportAmount()}
-                            <View style={{ height: scaleSzie(20) }} />
-                            {this.renderNote()}
-                            <View style={{ height: scaleSzie(30) }} />
+                            {/* ------------- Two tables ----------  */}
+                            <View style={{ height: scaleSzie(310), flexDirection: "row", paddingHorizontal: scaleSzie(10) }} >
+                                {this.renderStaffsTable()}
+                                <View style={{ width: scaleSzie(10), }} />
+                                {this.renderPaymentMethodsReport()}
+                            </View>
                             {this.renderButtonConfirm()}
-                            <View style={{ height: scaleSzie(300) }} />
-                        </ScrollView>
+                        </View>
                 }
 
             </View>

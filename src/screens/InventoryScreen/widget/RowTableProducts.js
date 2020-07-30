@@ -47,7 +47,7 @@ class RowTableProducts extends React.Component {
     }
 
     render() {
-        const { product, nameCategory, showDetailProduct , move, moveEnd} = this.props;
+        const { product, nameCategory, showDetailProduct, move, moveEnd } = this.props;
         const { isCheck } = this.state;
         const temptIconCheckbox = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         const { minThreshold, quantity, needToorDer } = product;
@@ -78,14 +78,17 @@ class RowTableProducts extends React.Component {
                                     source={{
                                         uri: product.imageUrl,
                                         priority: FastImage.priority.low,
-                                        cache:FastImage.cacheControl.immutable
+                                        cache: FastImage.cacheControl.immutable
                                     }}
                                 /> : <Image source={IMAGE.product_holder} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
                             }
                         </View>
-                        <Text style={[styles.textTableHeader, temptTextColor]} >
-                            {product.name}
-                        </Text>
+                        <View style={{ flex: 1, paddingRight: scaleSzie(6) }} >
+                            <Text numberOfLines={2} style={[styles.textTableHeader, temptTextColor]} >
+                                {product.name}
+                            </Text>
+                        </View>
+
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />

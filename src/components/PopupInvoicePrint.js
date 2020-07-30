@@ -420,12 +420,12 @@ class PopupInvoicePrint extends React.Component {
                                     }
 
                                     {/* ------------- Change ------------------- */}
-                                    {
+                                    {/* {
                                         paymentDetailInfo.dueAmount ? <ItemTotal
                                             title={"Change"}
                                             value={Math.abs(paymentDetailInfo.dueAmount)}
                                         /> : <View />
-                                    }
+                                    } */}
 
                                     {
                                         isSignature && !isPrintTempt ? <View style={{ height: scaleSzie(15), flexDirection: "row", marginTop: scaleSzie(15) }} >

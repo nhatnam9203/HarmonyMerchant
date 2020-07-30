@@ -37,7 +37,6 @@ export const scaleSzie = size => {
 
 
 export const requestAPI = async (action, header = {}) => {
-    //console.log('action : ',action);
     let method = action.method || "GET";
     let baseURL = action.api;
     let headers = Object.assign({ "Accept": "application/json", "Content-Type": "application/json" }, header);
