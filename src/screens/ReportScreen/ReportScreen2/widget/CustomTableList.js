@@ -41,6 +41,13 @@ const pickObjectFromKeys = (array, keys) => {
   });
 };
 
+const formatFloatValue = (value) => {
+  if (typeof value !== "undefined" && value > 0) {
+    return parseFloat(value).toFixed(2);
+  }
+  return 0;
+};
+
 /**
  * !error: header long bug ui
  * !error: calcSum -> pagination bug
@@ -207,7 +214,9 @@ function TableList(
                     <Text style={styles.textSum}>{"Total"}</Text>
                   )}
                   {calcSumKeys.indexOf(key) > -1 && (
-                    <Text style={styles.textSum}>{"$ " + sumObject[key]}</Text>
+                    <Text style={styles.textSum}>
+                      {"$ " + formatFloatValue(sumObject[key])}
+                    </Text>
                   )}
                 </TableCell>
               );
@@ -227,16 +236,19 @@ function TableList(
   };
 
   return (
-    <FlatList
-      styles={{ flex: 1 }}
-      data={data}
-      renderItem={renderItem}
-      keyExtractor={(item) => `${item[primaryId]}`}
-      ListHeaderComponent={renderHeader}
-      ListFooterComponent={onRenderFooter}
-      ItemSeparatorComponent={renderSeparator}
-      // extraData={selectedItem}
-    />
+    <View style={{ flex: 1 }}>
+      <View>{renderHeader()}</View>
+      <FlatList
+        styles={{ flex: 1 }}
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item) => `${item[primaryId]}`}
+        // ListHeaderComponent={renderHeader}
+        ListFooterComponent={onRenderFooter}
+        ItemSeparatorComponent={renderSeparator}
+        // extraData={selectedItem}
+      />
+    </View>
   );
 }
 
@@ -306,6 +318,9 @@ const styles = StyleSheet.create({
     fontSize: HEAD_FONT_SIZE,
     color: "#0764B0",
     fontWeight: "600",
+    // flexShrink: 1,
+    // textAlign: "justify",
+    flexWrap: "wrap",
   },
   separator: {
     height: 1,
@@ -315,5 +330,6 @@ const styles = StyleSheet.create({
     fontSize: HEAD_FONT_SIZE,
     color: "#404040",
     fontWeight: "600",
+    flexWrap: "wrap",
   },
 });

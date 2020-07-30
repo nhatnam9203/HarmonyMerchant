@@ -25,7 +25,7 @@ const FILE_EXTENSION = "csv";
 const FILTER_NAME_DEFAULT = "All Staff";
 
 function StaffTab({ style, showBackButton }, ref) {
-  /**redux */
+  /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
   const listCalendarStaffId = useSelector(
@@ -60,15 +60,15 @@ function StaffTab({ style, showBackButton }, ref) {
   }, [isDownloadReportStaff]);
 
   /**func */
-  // go to staff statistics page
+  // go to statistics page
   const goNext = () => {
     scrollPage.current.goToPage(1);
   };
 
-  // go to staff salary page
-  const goBack = () => {
+  // go to salary page
+  const goBack = async () => {
     // reset filters name
-    setFilterStaffItem(null);
+    await setFilterStaffItem(null);
     // scroll to staff salary
     scrollPage.current.goToPage(0);
   };
@@ -134,7 +134,7 @@ function StaffTab({ style, showBackButton }, ref) {
   // time filter change: hide popup + create time range params + call api search staff
   const changeTitleTimeRange = async (title) => {
     setVisibleCalendar(false);
-    setTitleRangeTime(title !== "Time Range" ? title : "All time");
+    await setTitleRangeTime(title !== "Time Range" ? title : "All time");
     searchStaff();
   };
 
@@ -145,13 +145,13 @@ function StaffTab({ style, showBackButton }, ref) {
   };
 
   // popup show when button export pressed
-  const onShowPopupExport = () => {
+  const onShowPopupExport = async () => {
     switch (currentTab) {
       case 0:
-        setTitleExportFile("Staff salary " + getTimeTitle());
+        await setTitleExportFile("Staff salary " + getTimeTitle());
         break;
       case 1:
-        setTitleExportFile("Staff statistics " + getTimeTitle());
+        await setTitleExportFile("Staff statistics " + getTimeTitle());
         break;
       default:
     }
@@ -216,8 +216,8 @@ function StaffTab({ style, showBackButton }, ref) {
     return array;
   };
 
-  const onChangeFilterStaff = (text) => {
-    setFilterStaffItem(text);
+  const onChangeFilterStaff = async (text) => {
+    await setFilterStaffItem(text);
     if (currentTab === 1) {
       const item = listStaffsSalary.find((staff) => staff.name === text);
       if (item) {
