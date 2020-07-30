@@ -1,10 +1,7 @@
-import React from 'react';
 import _ from "ramda";
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { formatNumberFromCurrency, formatMoney, scaleSzie, roundFloatNumber, requestAPI } from '@utils';
-import apiConfigs from '@configs/api';
 
 class GiftCardSalesDetailsTab extends Layout {
 

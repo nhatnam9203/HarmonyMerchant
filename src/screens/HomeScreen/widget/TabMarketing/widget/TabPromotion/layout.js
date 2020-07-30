@@ -10,7 +10,7 @@ import {
 
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
-import { ButtonCustom,  DatePicker } from '@components';
+import {  DatePicker } from '@components';
 import {
     PromotionFirst, PromotionSecond, PromotionThird, PromotionFour, PromotionFive,
     PromotionRewardPoints
@@ -63,7 +63,6 @@ class Layout extends React.Component {
                                 language={language}
                                 data={this.getDataItemPromotion(1, promotions)}
                                 showCalendar={this.showCalendar}
-                                checkSelectPromotion={this.checkSelectPromotion}
                                 applyPromotion={this.applyPromotion}
                                 onFocus={this.scrollToNumber}
                                 toogleOtherPromotions={this.toogleOtherPromotions}
@@ -78,7 +77,6 @@ class Layout extends React.Component {
                                 data={this.getDataItemPromotion(2, promotions)}
                                 showCalendar={this.showCalendar}
                                 dataDropdown={this.getDataDropdownService()}
-                                checkSelectPromotion={this.checkSelectPromotion}
                                 applyPromotion={this.applyPromotion}
                                 onFocus={this.scrollToNumber}
                                 toogleOtherPromotions={this.toogleOtherPromotions}
@@ -90,7 +88,6 @@ class Layout extends React.Component {
                                 ref={this.promotionThirdRef}
                                 language={language}
                                 data={this.getDataItemPromotion(3, promotions)}
-                                checkSelectPromotion={this.checkSelectPromotion}
                                 applyPromotion={this.applyPromotion}
                                 toogleOtherPromotions={this.toogleOtherPromotions}
                                 onFocus={this.scrollToNumber}
@@ -102,7 +99,6 @@ class Layout extends React.Component {
                                 ref={this.promotionFourRef}
                                 language={language}
                                 data={this.getDataItemPromotion(4, promotions)}
-                                checkSelectPromotion={this.checkSelectPromotion}
                                 applyPromotion={this.applyPromotion}
                                 toogleOtherPromotions={this.toogleOtherPromotions}
                                 onFocus={this.scrollToNumber}
@@ -114,7 +110,6 @@ class Layout extends React.Component {
                                 ref={this.promotionFiveRef}
                                 language={language}
                                 data={this.getDataItemPromotion(5, promotions)}
-                                checkSelectPromotion={this.checkSelectPromotion}
                                 applyPromotion={this.applyPromotion}
                                 toogleOtherPromotions={this.toogleOtherPromotions}
                                 onFocus={this.scrollToNumber}
@@ -129,7 +124,6 @@ class Layout extends React.Component {
                                 language={language}
                                 data={this.getDataItemPromotion(6, promotions)}
                                 showCalendar={this.showCalendar}
-                                checkSelectPromotion={this.checkSelectPromotion}
                                 sendNotification={this.sendNotification}
                                 toogleOtherPromotions={this.toogleOtherPromotions}
                             /> : <View />
@@ -138,36 +132,6 @@ class Layout extends React.Component {
                         <View style={{ height: scaleSzie(300) }} />
                     </ScrollView>
                 </View>
-
-                {/* -------- Button ------------ */}
-                {/* <View style={{
-                    position: 'absolute', bottom: 0,
-                    width: width, height: scaleSzie(70), flexDirection: 'row', justifyContent: 'center'
-                }} >
-                    <View style={{ width: scaleSzie(20) }} />
-                    {
-                        isApplyPromotion ? <ButtonCustom
-                            width={scaleSzie(290)}
-                            height={60}
-                            backgroundColor="#0764B0"
-                            title={localize('APPLY', language)}
-                            textColor="#fff"
-                            onPress={this.applyPromotion}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                        />
-                            :
-                            <ButtonCustom
-                                width={scaleSzie(290)}
-                                height={60}
-                                backgroundColor="#E5E5E5"
-                                title={localize('APPLY', language)}
-                                textColor="#404040"
-                                onPress={() => { }}
-                                style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                                activeOpacity={1}
-                            />
-                    }
-                </View> */}
 
                 {/* ------- Date -------- */}
                 <DatePicker

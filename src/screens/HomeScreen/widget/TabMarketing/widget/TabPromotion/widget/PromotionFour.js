@@ -47,7 +47,7 @@ import connectRedux from '@redux/ConnectRedux';
         this.setState({
             data: updateStateChildren('isDisabled', isCheck, data)
         });
-        this.props.checkSelectPromotion();
+        this.props.actions.marketing.setStatusApplyButton(true,4);
     }
 
     applyPromotion = () => {

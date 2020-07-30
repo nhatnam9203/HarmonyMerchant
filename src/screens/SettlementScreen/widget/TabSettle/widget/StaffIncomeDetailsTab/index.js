@@ -3,9 +3,6 @@ import _ from "ramda";
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 
-
-
-
 class StaffIncomeDetailsTab extends Layout {
 
     constructor(props) {

@@ -10,10 +10,9 @@ import * as Progress from 'react-native-progress';
 
 import { scaleSzie, localize, formatMoney, getCredicardIcon } from '@utils';
 import {
-    Text, Button, ButtonCustom,
+    Text, ButtonCustom,
 } from '@components';
 import styles from './style';
-import ICON from "@resources";
 
 const { width } = Dimensions.get('window');
 

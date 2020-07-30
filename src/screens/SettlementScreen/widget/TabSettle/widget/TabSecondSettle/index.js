@@ -1,4 +1,3 @@
-import React from 'react';
 import { NativeModules, Alert } from 'react-native';
 
 import Layout from './layout';

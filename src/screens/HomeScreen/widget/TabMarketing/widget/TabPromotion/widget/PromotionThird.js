@@ -47,7 +47,7 @@ class PromotionThird extends React.Component {
         this.setState({
             data: updateStateChildren('isDisabled', isCheck, data)
         });
-        this.props.checkSelectPromotion();
+        this.props.actions.marketing.setStatusApplyButton(true,3);
     }
 
     applyPromotion = () => {

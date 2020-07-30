@@ -91,6 +91,7 @@ export default class Layout extends React.Component {
                     value={ownership}
                     onChangeText={(value) => updatePrincipalInfo('ownership', value, '', isPrincipalSecond)}
                     onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 390 : 350)}
+                    isOnlyNumber={true}
                 />
 
                 <View style={{ flexDirection: 'row' }} >
