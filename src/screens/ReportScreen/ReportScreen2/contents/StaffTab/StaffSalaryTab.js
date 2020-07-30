@@ -65,8 +65,8 @@ export default function StaffSalaryTab({
     setCurrentStaff({});
   };
 
-  const showPopupStaffInvoice = (item) => {
-    setCurrentStaff(item);
+  const showPopupStaffInvoice = async (item) => {
+    await setCurrentStaff(item);
     setShowStaffInvoicePrint(true);
   };
 
@@ -85,7 +85,7 @@ export default function StaffSalaryTab({
           <Text style={styles.txtSalary}>{"$ " + item[key]}</Text>
 
           <View style={styles.imgContent}>
-            <TouchableOpacity onPress={() => showPopupStaffInvoice(item)}>
+            <TouchableOpacity onPress={async () => await showPopupStaffInvoice(item)}>
               <View style={styles.btnInCell}>
                 <Image style={styles.imgDetail} source={IMAGE.Report_Print} />
               </View>
