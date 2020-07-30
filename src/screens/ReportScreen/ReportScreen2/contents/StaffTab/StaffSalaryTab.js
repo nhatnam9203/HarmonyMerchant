@@ -176,7 +176,7 @@ export default function StaffSalaryTab({
             "tip",
             "salary",
           ]}
-          tableCellWidth={{ salary: 195, Salary: 195, name: 200, Name: 200 }}
+          tableCellWidth={{ salary: 180, Salary: 180, name: 180, Name: 180 }}
           renderCell={renderCell}
           onCellPress={onCellPress}
         />

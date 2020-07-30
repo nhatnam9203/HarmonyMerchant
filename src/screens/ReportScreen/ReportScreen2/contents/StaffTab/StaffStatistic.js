@@ -146,6 +146,9 @@ export default function StaffStatistic({
           renderCell={renderCell}
           onCellPress={onCellPress}
           onChangeSumObjects={onChangeSumObject}
+          renderFooter={() => (
+            <View style={{ height: 50, backgroundColor: "transparent" }} />
+          )}
         />
         {renderFooter()}
       </View>

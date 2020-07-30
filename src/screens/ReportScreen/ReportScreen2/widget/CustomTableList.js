@@ -60,6 +60,7 @@ function TableList(
     onRowPress,
     showSumOnBottom,
     onChangeSumObjects,
+    renderFooter,
   },
   ref
 ) {
@@ -217,28 +218,8 @@ function TableList(
     ) : null;
   };
 
-  const renderFooter = () => {
-    return calcSumKeys?.length > 0 && showSumOnBottom ? (
-      <TableRow
-        style={[styles.head, { backgroundColor: "#E5E5E5" }]}
-        key={TABLE_SUMMARY_KEY}
-      >
-        {/* {renderKeys?.map((key, index) => {
-          const keyUnique = uniqueId(key, index, "summary-bot");
-          return (
-            <TableCell
-              key={keyUnique}
-              style={[styles.cell, { width: getCellWidth(index) }]}
-            >
-              {key === "name" && <Text style={styles.textSum}>{"Total"}</Text>}
-              {calcSumKeys.indexOf(key) > -1 && (
-                <Text style={styles.textSum}>{"$ " + sumObject[key]}</Text>
-              )}
-            </TableCell>
-          );
-        })} */}
-      </TableRow>
-    ) : null;
+  const onRenderFooter = () => {
+    return renderFooter ? renderFooter() : <View />;
   };
 
   const renderSeparator = () => {
@@ -252,7 +233,7 @@ function TableList(
       renderItem={renderItem}
       keyExtractor={(item) => `${item[primaryId]}`}
       ListHeaderComponent={renderHeader}
-      // ListFooterComponent={renderFooter}
+      ListFooterComponent={onRenderFooter}
       ItemSeparatorComponent={renderSeparator}
       // extraData={selectedItem}
     />

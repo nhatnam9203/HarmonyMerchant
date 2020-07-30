@@ -121,7 +121,7 @@ function StaffTab({ style, showBackButton }, ref) {
       title = ` ${startDate} - ${endDate}`;
     }
 
-    return title;
+    return title.toLowerCase();
   };
 
   // call action search staff api
@@ -148,10 +148,10 @@ function StaffTab({ style, showBackButton }, ref) {
   const onShowPopupExport = () => {
     switch (currentTab) {
       case 0:
-        setTitleExportFile("Report staff salary " + getTimeTitle());
+        setTitleExportFile("Staff salary " + getTimeTitle());
         break;
       case 1:
-        setTitleExportFile("Report staff statistics " + getTimeTitle());
+        setTitleExportFile("Staff statistics " + getTimeTitle());
         break;
       default:
     }
@@ -165,12 +165,7 @@ function StaffTab({ style, showBackButton }, ref) {
     switch (currentTab) {
       case 0:
         dispatch(
-          actions.staff.getExportStaffSalary(
-            url,
-            true,
-            "csv",
-            titleExportFile?.split(" ").join("")
-          )
+          actions.staff.getExportStaffSalary(url, true, "csv", titleExportFile)
         );
         break;
       case 1:
@@ -180,7 +175,7 @@ function StaffTab({ style, showBackButton }, ref) {
             url,
             true,
             "csv",
-            titleExportFile?.split(" ").join("")
+            titleExportFile
           )
         );
         break;
