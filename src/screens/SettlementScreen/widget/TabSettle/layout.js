@@ -17,8 +17,8 @@ class Layout extends React.Component {
                 <ScrollableTabView
                     ref={this.scrollTabRef}
                     style={{}}
-                    initialPage={0}
-                    // locked={true}
+                    initialPage={3}
+                    locked={true}
                     renderTabBar={() => <View />}
                 >
                     <TabFirstSettle

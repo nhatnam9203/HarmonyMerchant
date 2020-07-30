@@ -105,17 +105,19 @@ class TabFirstSettle extends Layout {
     }
 
     continueSettlement = () => {
-        const { creditCount, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment, note } = this.state;
+        const { creditCount, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment, note,discountSettlement } = this.state;
         this.props.gotoTabSecondSettle({
             paymentByHarmony: editPaymentByHarmony,
             paymentByCreditCard: editPaymentByCreditCard,
             paymentByCash: editPaymentByCash,
             otherPayment: editOtherPayment,
+            discountSettlement :discountSettlement,
             total: roundFloatNumber(
                 formatNumberFromCurrency(editPaymentByHarmony) +
                 formatNumberFromCurrency(editPaymentByCreditCard) +
                 formatNumberFromCurrency(editPaymentByCash) +
-                formatNumberFromCurrency(editOtherPayment)
+                formatNumberFromCurrency(editOtherPayment)+
+                formatNumberFromCurrency(discountSettlement)
             ),
             note
         }, creditCount);
@@ -210,11 +212,20 @@ class TabFirstSettle extends Layout {
     }
 
     cancelEditCashAmount =() =>{
-
+        this.setState({
+            isEditCashAmount: false
+        });
+        this.scrollTo(0);
     }
 
     saveEditCashAmount = () =>{
-
+        const changeAmount = this.cashAmountRef.current.state.amount;
+        this.setState({
+            isEditCashAmount: false,
+            editPaymentByCash:changeAmount
+        });
+       
+        this.scrollTo(0);
     }
 
     editOtherAmount = () => {
@@ -238,7 +249,6 @@ class TabFirstSettle extends Layout {
             editOtherPayment:changeAmount
         });
        
-
         this.scrollTo(0);
     }
 
