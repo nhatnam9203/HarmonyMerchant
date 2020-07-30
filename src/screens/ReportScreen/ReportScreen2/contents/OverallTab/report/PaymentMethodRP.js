@@ -19,6 +19,30 @@ const VIEW_MODE = {
 const ACTIVE_COLOR = "#0764B0";
 const INACTIVE_COLOR = "#6A6A6A";
 
+/**pick value of an attribute in object */
+const pickValuesFromKey = (array, pickKey) => {
+  const filterArray = array.map((obj) => {
+    const filterObject = Object.fromEntries(
+      Object.entries(obj).filter(([key]) => pickKey === key)
+    );
+    return Object.values(filterObject)[0];
+  });
+
+  return filterArray;
+};
+
+/**create new object from two value for two key of object */
+const createChartObjectFromValues = (array, key, keyValue) => {
+  let response = [];
+  array.forEach((obj) => {
+    let mapObj = Object.create({});
+    mapObj[obj[key]] = obj[keyValue];
+    response.push(mapObj);
+  });
+
+  return response;
+};
+
 export default function PaymentMethodRp({
   style,
   showCalendar,
@@ -36,11 +60,32 @@ export default function PaymentMethodRp({
 
   /**state */
   const [viewMode, setViewMode] = useState(VIEW_MODE.LIST);
+  const [chartData, setChartData] = useState([]);
 
   /**component mount*/
-  useEffect(async () => {
+
+  const getOverallPaymentMethod = async () => {
     await dispatch(actions.report.getOverallPaymentMethod());
+  };
+
+  useEffect(() => {
+    getOverallPaymentMethod();
   }, []);
+
+  const bindChartData = async () => {
+    if (!overallPaymentMethodList) return [];
+    console.log(overallPaymentMethodList);
+    const data = createChartObjectFromValues(
+      overallPaymentMethodList,
+      "method",
+      "netPayment"
+    );
+    await setChartData(data);
+  };
+
+  useEffect(() => {
+    bindChartData();
+  }, [overallPaymentMethodList]);
 
   /**callback */
   const renderCell = ({ key, row, column, item }) => {
@@ -177,8 +222,8 @@ export default function PaymentMethodRp({
           />
         ) : (
           <View style={{ flex: 1, flexDirection: "row", margin: 20 }}>
-            <PaymentBarChart data={overallPaymentMethodList} />
-            <PaymentPieChart data={overallPaymentMethodList} />
+            <PaymentBarChart data={chartData} />
+            <PaymentPieChart data={chartData} />
           </View>
         )}
       </View>

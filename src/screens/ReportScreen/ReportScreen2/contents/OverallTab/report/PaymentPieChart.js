@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, processColor, View } from "react-native";
 import { PieChart } from "react-native-charts-wrapper";
 
@@ -12,7 +12,7 @@ const legend = {
     wordWrapEnabled: true,
     maxSizePercent: 1.0,
   },
-  data = {
+  dataConfig = {
     dataSets: [
       {
         values: [
@@ -49,7 +49,72 @@ const legend = {
     textColor: processColor("darkgray"),
   };
 
-export default function PaymentBarChart({}) {
+const calcMaxPercent = (arr) => {
+  if (!arr) return 0;
+
+  const sum = arr.reduce(function (a, b) {
+    return a + b;
+  }, 0);
+  return parseFloat(Math.max(...arr) / sum).toFixed(2) * 100;
+};
+
+export default function PaymentBarChart({ data }) {
+  /**state */
+  const [dataChart, setDataChart] = useState(dataConfig);
+  const [maxPercentsChart, setMaxPercentsChart] = useState(0);
+
+  /**useEffect */
+  // add listener data change, map to chart data set
+  useEffect(() => {
+    if (data) {
+      // ======= map values =======
+      let mapValues = [];
+      let findMaxValues = [];
+      // run object get value push in array mapValues
+      data.forEach((d) => {
+        let obj = Object.create({});
+        const value = parseFloat(Object.values(d)[0]);
+        findMaxValues.push(value);
+        obj.value = value;
+        obj.label = Object.keys(d)[0];
+        mapValues.push(obj);
+      });
+
+      const createDataSet = {
+        dataSets: [
+          {
+            values: mapValues,
+            label: "",
+            config: {
+              colors: [
+                processColor("#003680"),
+                processColor("#3E70B3"),
+                processColor("#BFDAFF"),
+                processColor("#8FA3BF"),
+              ],
+              valueTextSize: 14,
+              valueTextColor: processColor("white"),
+              sliceSpace: 1,
+              selectionShift: 0,
+              // xValuePosition: "OUTSIDE_SLICE",
+              // yValuePosition: "OUTSIDE_SLICE",
+              valueFormatter: "#'%'",
+              valueLineColor: processColor("white"),
+              valueLinePart1Length: 0,
+            },
+          },
+        ],
+      };
+
+      setDataChart(createDataSet);
+
+      const maxPercent = calcMaxPercent(findMaxValues);
+      setMaxPercentsChart(maxPercent);
+    } else {
+      setDataChart(dataConfig);
+    }
+  }, [data]);
+
   function handleSelect(event) {
     let entry = event.nativeEvent;
     if (entry == null) {
@@ -68,7 +133,7 @@ export default function PaymentBarChart({}) {
         logEnabled={true}
         chartBackgroundColor={processColor("transparent")}
         chartDescription={description}
-        data={data}
+        data={dataChart}
         legend={legend}
         highlights={highlights}
         entryLabelColor={processColor("#fff")}
@@ -78,9 +143,9 @@ export default function PaymentBarChart({}) {
         rotationAngle={45}
         usePercentValues={true}
         styledCenterText={{
-          text: "28%",
+          text: `${maxPercentsChart}%`,
           color: processColor("#003680"),
-          size: 60,
+          size: 55,
         }}
         centerTextRadiusPercent={100}
         holeRadius={55}

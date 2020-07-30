@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, processColor, View } from "react-native";
 import { BarChart } from "react-native-charts-wrapper";
 
@@ -13,7 +13,7 @@ const legend = {
   wordWrapEnabled: true,
 };
 
-const data = {
+const dataConfig = {
   dataSets: [
     {
       values: [{ y: 1000 }, { y: 1200 }, { y: 900 }, { y: 1200 }],
@@ -33,7 +33,7 @@ const data = {
   },
 };
 const highlights = [{ x: 3 }, { x: 6 }];
-const xAxis = {
+const xAxisDefault = {
   valueFormatter: ["Cash", "Credit Card", "Harmony Pay", "Other-Check"],
   granularityEnabled: true,
   granularity: 1,
@@ -51,11 +51,11 @@ const yAxis = {
     drawAxisLine: true,
     drawGridLines: true,
     axisMinimum: 0,
-    axisMaximum: 1500,
+    // axisMaximum: 1500,
     textSize: 14,
     formSize: 14,
     textColor: processColor("#0764B0"),
-    granularity: 250,
+    granularity: 100,
     labelCount: 10,
   },
   right: {
@@ -66,6 +66,70 @@ const yAxis = {
 };
 
 export default function PaymentBarChart({ data }) {
+  /**state store */
+  const [dataChart, setDataChart] = useState(dataConfig);
+  const [xAxis, setXAxis] = useState(xAxisDefault);
+
+  /**useEffect */
+  // add listener data change, map to chart data set
+  useEffect(() => {
+    if (data) {
+      // ======= map values =======
+      let mapValues = [];
+      let formatterValues = [];
+
+      // run object get value push in array mapValues
+      data.forEach((d) => {
+        let obj = Object.create({});
+        obj.y = parseFloat(Object.values(d)[0]);
+        mapValues.push(obj);
+        formatterValues.push(Object.keys(d)[0]);
+      });
+
+      const createDataSet = {
+        dataSets: [
+          {
+            values: mapValues,
+            label: "",
+            config: {
+              colors: [
+                processColor("#003680"),
+                processColor("#3E70B3"),
+                processColor("#BFDAFF"),
+                processColor("#8FA3BF"),
+              ],
+            },
+          },
+        ],
+        config: {
+          barWidth: 0.6,
+        },
+      };
+
+      setDataChart(createDataSet);
+
+      const createXAxis = {
+        valueFormatter: formatterValues,
+        granularityEnabled: true,
+        granularity: 1,
+        centerAxisLabels: false,
+        position: "BOTTOM",
+        textSize: 14,
+        formSize: 14,
+        textColor: processColor("#0764B0"),
+        drawAxisLine: true,
+        drawGridLines: false,
+      };
+
+      setXAxis(createXAxis);
+    } else {
+      setDataChart(dataConfig);
+      setXAxis(xAxisDefault);
+    }
+
+    // ======= map formatter =======
+  }, [data]);
+
   function handleSelect(event) {
     let entry = event.nativeEvent;
     if (entry == null) {
@@ -82,7 +146,7 @@ export default function PaymentBarChart({ data }) {
       <BarChart
         doubleTapToZoomEnabled={false}
         style={styles.chart}
-        data={data}
+        data={dataChart}
         xAxis={xAxis}
         yAxis={yAxis}
         animation={{ durationX: 2000 }}
