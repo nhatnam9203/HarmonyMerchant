@@ -8,64 +8,37 @@ export default StyleSheet.create({
     container: {
         flex: 1,
     },
-    borderStyle:{
-        borderWidth:1,
-        borderColor:'#C5C5C5',
-        borderRadius:scaleSzie(4),
-        backgroundColor: 'rgb(246,246,246)',
+    txt_top_title: {
+        color: '#0764B0',
+        fontSize: scaleSzie(14),
+        fontWeight: "600",
+        marginBottom:scaleSzie(10)
     },
-    textTitleLefConten:{
-        color:'#404040',
-        fontSize:scaleSzie(14)
+    txt_normal: {
+        color: "#404040",
+        fontSize: scaleSzie(12),
+        fontWeight: "500"
     },
-    tableLeft:{
-        flex:1,
-        borderWidth:1,
-        borderColor:'#C5C5C5'
+    txt_item: {
+        color: "#404040",
+        fontSize: scaleSzie(10),
     },
-    btnLogDetail:{
-        height:scaleSzie(35),
-        borderColor:'#C5C5C5',
-        borderWidth:1,
-        borderRadius:4,
-        backgroundColor:'#F1F1F1',
-        alignItems:'center',
-        paddingHorizontal:scaleSzie(10),
-        justifyContent:'space-between',
+    txt_title_note:{
+        color:"#404040",
+        fontSize:scaleSzie(11),
+        fontWeight:"600",
+        marginVertical:scaleSzie(10)
     },
-    rowBox:{
-        flexDirection: 'row',
-        justifyContent:'space-between',
-        marginBottom:scaleSzie(4),
-        // paddingRight:scaleSzie(10)
+    txt_note:{
+        color:"#6A6A6A",
+        fontSize:scaleSzie(10),
+        marginTop:scaleSzie(5),
+        marginHorizontal:scaleSzie(8),
     },
-    textLeftBox:{
-        color: '#404040',
-         fontSize: scaleSzie(14) 
-    },
-    textRightBox:{
-        color: '#404040',
-        fontSize: scaleSzie(14) ,
-        fontWeight:'bold'
-    },
-    boxChild:{
-        flex:1,
-        backgroundColor:'#E5E5E5',
-        marginBottom:scaleSzie(3),
-        paddingHorizontal:scaleSzie(8),
-        justifyContent:'space-evenly'
-    },
-    boxChildLogo:{
-        width:scaleSzie(22),
-        height:scaleSzie(15)
-    },
-    rowBoxChild:{
-        flexDirection: 'row',
-        justifyContent:'space-between',
-        // marginBottom:scaleSzie(4) 
-    },
-    textBoxChild:{
-        color: '#404040',
-        fontSize: scaleSzie(12) 
+    box_note:{
+        height:scaleSzie(60),
+        borderColor:"#DDDDDD",
+        borderWidth:2,
+        borderRadius:6,
     }
 })

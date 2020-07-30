@@ -1,14 +1,12 @@
 import React from 'react';
 import {
     View,
-    Image,
-    TextInput,
-    FlatList,
+    ScrollView,
     Dimensions
 } from 'react-native';
 import * as Progress from 'react-native-progress';
 
-import { scaleSzie, localize, formatMoney,formatNumberFromCurrency } from '@utils';
+import { scaleSzie, localize, formatMoney, formatNumberFromCurrency } from '@utils';
 import {
     Text, Button, ButtonCustom,
 } from '@components';
@@ -63,10 +61,9 @@ class Layout extends React.Component {
     renderFooter3() {
         const { language } = this.props;
         return (
-            <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(10) }} >
+            <View style={{ height: scaleSzie(55), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(10) }} >
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                     <Text style={{ color: '#4CD964', fontSize: scaleSzie(16) }} >
-
                         {localize('Batch Settlement Successful', language)}
                     </Text>
                 </View>
@@ -105,141 +102,37 @@ class Layout extends React.Component {
     renderFooter1() {
         const { language } = this.props;
         return (
-            <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(10) }} >
-                <View style={{ flex: 1 }} >
+            <View style={{ height: scaleSzie(55), flexDirection: 'row', paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(15) }} >
+                <View style={{ flex: 1, alignItems: "center" }} >
+                    <ButtonCustom
+                        width={'80%'}
+                        height={38}
+                        backgroundColor="#F1F1F1"
+                        title={localize('BACK', language)}
+                        textColor="#404040"
+                        onPress={this.backTabFirstSettle}
+                        style={{ borderWidth: 0.5, borderColor: '#707070', borderRadius: 6 }}
+                        styleText={{ fontSize: scaleSzie(14), fontWeight: '600' }}
+                    />
                 </View>
-                <View style={{ flexDirection: 'row', height: scaleSzie(55) }} >
-                    <View style={{ flex: 1 }} >
-                        <ButtonCustom
-                            width={'100%'}
-                            height={55}
-                            backgroundColor="#F1F1F1"
-                            title={localize('BACK', language)}
-                            textColor="#6A6A6A"
-                            onPress={this.backTabFirstSettle}
-                            style={{ borderWidth: 0.5, borderColor: '#707070' }}
-                            styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
-                        />
-                    </View>
-                    <View style={{ width: scaleSzie(25) }} />
-                    <View style={{ flex: 1, }} >
-                        <ButtonCustom
-                            width={'100%'}
-                            height={55}
-                            backgroundColor="#4CD964"
-                            title={localize('SETTLE', language)}
-                            textColor="#fff"
-                            onPress={this.settle}
-                            style={{ borderWidth: 0.5, borderColor: '#C5C5C5' }}
-                            styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
-                        />
-                    </View>
+                <View style={{ width: scaleSzie(25) }} />
+                <View style={{ flex: 1, alignItems: "center" }} >
+                    <ButtonCustom
+                        width={'80%'}
+                        height={38}
+                        backgroundColor="#4CD964"
+                        title={localize('SETTLE', language)}
+                        textColor="#fff"
+                        onPress={this.settle}
+                        style={{ borderWidth: 0.5, borderColor: '#C5C5C5', borderRadius: 6 }}
+                        styleText={{ fontSize: scaleSzie(14), fontWeight: '600' }}
+                    />
                 </View>
-            </View>
+            </View >
         );
     }
 
 
-    renderOpenBatch() {
-        const { language } = this.props;
-        const { creditCount, settleTotal } = this.state;
-        const { paymentByHarmony, paymentByCreditCard, paymentByCash, otherPayment, total, note } = settleTotal;
-        return (
-            <View style={{ flex: 1 }} >
-                <View style={[styles.tableLeft, { paddingHorizontal: scaleSzie(18) }]} >
-                    <View style={{ height: scaleSzie(45), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} >
-                        <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
-                            {`${localize('Credit/Debit Transactions', language)}:`}
-                        </Text>
-                        <Text style={{ color: '#404040', fontSize: scaleSzie(22), fontWeight: 'bold' }} >
-                            {creditCount}
-                        </Text>
-                    </View>
-                    {/* ------------ BOX ------------ */}
-                    <View style={[styles.tableLeft, { padding: scaleSzie(10) }]} >
-                        {/* ---------- Row 1 -------- */}
-                        <View style={styles.rowBox} >
-                            <Text style={styles.textLeftBox} >
-
-                                {`${localize('Payment by HarmonyPay', language)}`}
-                            </Text>
-                            <Text style={styles.textRightBox} >
-                                {`$ ${formatMoney(paymentByHarmony)}`}
-                            </Text>
-                        </View>
-                        {/* ---------- Row 2 -------- */}
-                        <View style={styles.rowBox} >
-                            <Text style={styles.textLeftBox} >
-
-                                {`${localize('Payment by Credit Card', language)}`}
-                            </Text>
-                            <Text style={styles.textRightBox} >
-                                {`$ ${formatMoney(paymentByCreditCard)}`}
-                            </Text>
-                        </View>
-                        {/* -------- Box Child ------- */}
-                        <View style={styles.boxChild} >
-                            {/* ---------- Row child 1 -------- */}
-                            {/* <View style={styles.rowBoxChild} >
-                                <Image source={IMAGE.visaLogo} style={styles.boxChildLogo} />
-                                <Text style={styles.textBoxChild} >
-                                    $ 1300
-                                </Text>
-                            </View> */}
-                            {/* ---------- Row child 2 -------- */}
-                            {/* <View style={styles.rowBoxChild} >
-                                <Image source={IMAGE.masterCardLogo} style={styles.boxChildLogo} />
-                                <Text style={styles.textBoxChild} >
-                                    $ 1300
-                                </Text>
-                            </View> */}
-                            {/* ---------- Row child 3 -------- */}
-                            {/* <View style={styles.rowBoxChild} >
-                                <Image source={IMAGE.discoverLogo} style={styles.boxChildLogo} />
-                                <Text style={styles.textBoxChild} >
-                                    $ 1300
-                                </Text>
-                            </View> */}
-                        </View>
-                        {/* ---------- Row 3 -------- */}
-                        <View style={styles.rowBox} >
-                            <Text style={styles.textLeftBox} >
-
-                                {`${localize('Payment by Cash', language)}`}
-                            </Text>
-                            <Text style={styles.textRightBox} >
-                                {`$ ${formatMoney(paymentByCash)}`}
-                            </Text>
-                        </View>
-                        {/* ---------- Row 4 -------- */}
-                        <View style={styles.rowBox} >
-                            <Text style={styles.textLeftBox} >
-                                {`${localize('Other Payment', language)}`}
-
-                            </Text>
-                            <Text style={styles.textRightBox} >
-                                {`$ ${formatMoney(otherPayment)}`}
-                            </Text>
-                        </View>
-                    </View>
-                    <View style={{ height: scaleSzie(70), justifyContent: 'center' }} >
-                        <View style={{
-                            height: scaleSzie(40), backgroundColor: '#307FBF', flexDirection: 'row',
-                            alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: scaleSzie(10)
-                        }} >
-                            <Text style={{ color: '#fff', fontSize: scaleSzie(14) }} >
-
-                                {`${localize('Payment by Credit Card', language)}`}
-                            </Text>
-                            <Text style={{ color: '#fff', fontSize: scaleSzie(20), fontWeight: 'bold' }} >
-                                {`$ ${formatMoney(paymentByCreditCard)}`}
-                            </Text>
-                        </View>
-                    </View>
-                </View>
-            </View>
-        );
-    }
 
     renderFooter() {
         const { numberFooter } = this.state;
@@ -252,139 +145,110 @@ class Layout extends React.Component {
         }
     }
 
-    render() {
-        const { settleWaiting, language } = this.props;
-        const {  settleTotal, paxErrorMessage } = this.state;
-        const { paymentByHarmony, paymentByCreditCard, paymentByCash, otherPayment, total, note } = settleTotal;
-
-        // console.log("---- otherPayment : ",otherPayment);
+    renderActualAmount() {
+        const {paymentByHarmony,paymentByCreditCard,paymentByCash,otherPayment,discountSettlement,total,note} = this.state.settleTotal;
 
         return (
-            <View style={[styles.container, { backgroundColor: '#F6F6F6' }]} >
-                <View style={{ height: scaleSzie(20) }} />
-                <View style={{ paddingHorizontal: scaleSzie(10), flexDirection: 'row' }} >
+            <View style={{ flex: 1 }} >
+                <ItemPaymentsReport
+                    title="Harmony account"
+                    backgroundColor="#054071"
+                    value={paymentByHarmony}
+                />
+                <View style={{ height: 1 }} />
+                <ItemPaymentsReport
+                    title="Credit card"
+                    backgroundColor="#075BA0"
+                    value={paymentByCreditCard}
+                />
+                <View style={{ height: 1 }} />
+                <ItemPaymentsReport
+                    title="Cash"
+                    backgroundColor="#3480BE"
+                    value={paymentByCash}
+                />
+                <View style={{ height: 1 }} />
+                <ItemPaymentsReport
+                    title="Other"
+                    backgroundColor="#BBD4E9"
+                    value={otherPayment}
+                />
+                <View style={{ height: 1 }} />
+                <ItemPaymentsReport
+                    title="Discount"
+                    backgroundColor="#F1F1F1"
+                    txtStyle={{
+                        color: "#404040",
+
+                    }}
+                    value={discountSettlement}
+                />
+                <View style={{ height: 1 }} />
+                <ItemPaymentsReport
+                    title="Total"
+                    backgroundColor="#DCF7FF"
+                    txtStyle={{
+                        color: "#4CD964",
+                        fontWeight: "bold",
+                        fontSize: scaleSzie(12)
+                    }}
+                    txtTitle={{
+                        color: "#404040",
+                        fontWeight: "bold"
+                    }}
+                    value={total}
+                />
+                <Text style={styles.txt_title_note} >
+                    Note 
+                </Text>
+                <View style={styles.box_note} >
+                    <ScrollView  >
+                        <Text style={styles.txt_note} >
+                            {note}
+                        </Text>
+                    </ScrollView>
+                </View>
+            </View>
+        );
+    }
+
+    renderOpenBatch() {
+        return (
+            <View style={{ flex: 1, backgroundColor: "red" }} >
+
+            </View>
+        );
+    }
+
+    render() {
+        const { settleWaiting, language } = this.props;
+        const { settleTotal, paxErrorMessage } = this.state;
+        const { paymentByHarmony, paymentByCreditCard, paymentByCash, otherPayment, total, note } = settleTotal;
+
+
+        return (
+            <View style={[styles.container]} >
+                <View style={{ height: scaleSzie(10) }} />
+                <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), flexDirection: 'row' }} >
                     {/* --------- Left --------- */}
-                    <View style={{ flex: 1, paddingRight: scaleSzie(30) }} >
-                        <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
+                    <View style={{ flex: 1, }} >
+                        <Text style={styles.txt_top_title} >
                             {localize('Actual Amount', language)}
                         </Text>
-                        {/* ------------ Row 1 ------------ */}
-                        <View style={{
-                            height: scaleSzie(35), backgroundColor: '#80C6FF', marginTop: scaleSzie(8), marginBottom: scaleSzie(2),
-                            paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
-                        }} >
-                            <Text style={{ fontSize: scaleSzie(13), color: '#fff' }} >
+                        {this.renderActualAmount()}
 
-                                {localize('Payment by HarmonyPay', language)}
-                            </Text>
-                            <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
-                                {`$ ${formatMoney(paymentByHarmony)}`}
-                            </Text>
-                        </View>
-                        {/* ------------ Row 2 ------------ */}
-                        <View style={{
-                            height: scaleSzie(35), backgroundColor: '#307FBF', marginBottom: scaleSzie(2),
-                            paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
-                        }} >
-                            <Text style={{ fontSize: scaleSzie(13), color: '#fff' }} >
 
-                                {localize('Payment by Credit Card', language)}
-                            </Text>
-                            <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
-                                {`$ ${formatMoney(paymentByCreditCard)}`}
-                            </Text>
-                        </View>
-                        {/* ------------ Row 3 ------------ */}
-                        <View style={{
-                            height: scaleSzie(35), backgroundColor: '#205580', marginBottom: scaleSzie(2),
-                            paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
-                        }} >
-                            <Text style={{ fontSize: scaleSzie(13), color: '#fff' }} >
-
-                                {localize('Payment by Cash', language)}
-                            </Text>
-                            <Text style={{ fontSize: scaleSzie(20), color: '#fff' }} >
-                                {`$ ${formatMoney(paymentByCash)}`}
-                            </Text>
-                        </View>
-                        {/* ------------ Row 4 ------------ */}
-                        <View style={{
-                            height: scaleSzie(35), backgroundColor: '#BBEBFA', marginBottom: scaleSzie(2),
-                            paddingHorizontal: scaleSzie(10), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
-                        }} >
-                            <Text style={{ fontSize: scaleSzie(13), color: '#6A6A6A' }} >
-
-                                {localize('Other Payment', language)}
-                            </Text>
-                            <Text style={{ fontSize: scaleSzie(20), color: '#6A6A6A' }} >
-                                {`$ ${formatMoney(formatNumberFromCurrency(otherPayment))}`}
-                            </Text>
-                        </View>
-                        {/* -------- Total ------- */}
-                        <View style={{
-                            height: scaleSzie(35), backgroundColor: '#FAFAFA', marginTop: scaleSzie(10),
-                            borderColor: '#4CD964', borderWidth: 1, flexDirection: 'row', paddingHorizontal: scaleSzie(10), alignItems: 'center',
-                            justifyContent: 'space-between'
-                        }} >
-                            <Text style={{ fontSize: scaleSzie(20), color: '#0764B0' }} >
-                                {`${localize('Total', language)}:`}
-                            </Text>
-                            <Text style={{ fontSize: scaleSzie(20), color: '#4CD964', fontWeight: 'bold' }} >
-                                {`$ ${formatMoney(total)}`}
-                            </Text>
-                        </View>
-
-                        {/* -------- Gift Card ------- */}
-                        <View style={{
-                            height: scaleSzie(35), backgroundColor: '#FAFAFA', marginTop: scaleSzie(10),
-                            borderColor: 'rgba(217,82,69,0.4)', borderWidth: 1, flexDirection: 'row', paddingHorizontal: scaleSzie(10), alignItems: 'center',
-                            justifyContent: 'space-between'
-                        }} >
-                            <Text style={{ fontSize: scaleSzie(20), color: '#0764B0' }} >
-                                {`${localize('Gift Card', language)}:`}
-                            </Text>
-                            <Text style={{ fontSize: scaleSzie(20), color: 'rgb(217,82,69)', fontWeight: 'bold' }} >
-                                {`$ ${formatMoney(settleWaiting.giftCard ? settleWaiting.giftCard : 0.00)}`}
-                            </Text>
-                        </View>
-
-                        {/* -------- Note ------- */}
-                        {
-                            note === '' ?
-                                <View >
-                                    <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginTop: scaleSzie(20), marginBottom: scaleSzie(10) }} >
-                                    </Text>
-                                    <View style={{ height: scaleSzie(60) }} />
-                                </View>
-                                :
-                                <View>
-                                    <Text style={{ fontSize: scaleSzie(16), color: '#404040', marginTop: scaleSzie(20), marginBottom: scaleSzie(10) }} >
-                                        {`${localize('Note', language)}:`}
-                                    </Text>
-                                    <View style={{
-                                        height: scaleSzie(60), backgroundColor: '#F1F1F1', borderColor: '#C5C5C5', borderWidth: 1,
-                                        padding: scaleSzie(10)
-                                    }} >
-                                        <Text style={{ fontSize: scaleSzie(12), color: '#404040' }} >
-                                            {note}
-                                        </Text>
-                                    </View>
-                                </View>
-                        }
+                    </View>
+                    {/* --------- Column --------- */}
+                    <View style={{ width: scaleSzie(25) }} >
 
                     </View>
                     {/* --------- Right --------- */}
-                    <View style={{ flex: 1 }} >
-                        <Text style={{ fontSize: scaleSzie(18), color: '#404040' }} >
-
+                    <View style={{ flex: 1, }} >
+                        <Text style={styles.txt_top_title} >
                             {localize('Open Batch', language)}
                         </Text>
-                        <View style={{
-                            flex: 1, backgroundColor: '#fff', marginTop: scaleSzie(8),
-                            borderWidth: 1, borderColor: '#C5C5C5'
-                        }} >
-                            {this.renderOpenBatch()}
-                        </View>
+                        {this.renderOpenBatch()}
                     </View>
                 </View>
                 <View style={{ height: scaleSzie(40), alignItems: 'center', justifyContent: 'center' }} >
@@ -398,6 +262,24 @@ class Layout extends React.Component {
         );
     }
 
+}
+
+const ItemPaymentsReport = ({ backgroundColor, title, value, txtStyle, txtTitle }) => {
+
+    return (
+        <View style={{
+            height: scaleSzie(29),
+            flexDirection: "row", backgroundColor: backgroundColor,
+            justifyContent: "space-between", alignItems: "center", paddingHorizontal: scaleSzie(12)
+        }} >
+            <Text style={[styles.txt_item, { color: "#fff", fontWeight: "400" }, txtStyle, txtTitle]} >
+                {title}
+            </Text>
+            <Text style={[styles.txt_item, { color: "#fff", fontWeight: "bold" }, txtStyle]} >
+                {`$ ${value ? formatMoney(value) : '0.00'}`}
+            </Text>
+        </View>
+    );
 }
 
 export default Layout;

@@ -23,7 +23,7 @@ class TabSettle extends Layout {
     }
 
     gotoTabSecondSettle = (settlement, creditCount) => {
-        this.scrollTabRef.current.goToPage(1);
+        this.scrollTabRef.current.goToPage(3);
         if (this.tabsecondSettleRef.current) {
             this.tabsecondSettleRef.current.setStateFromParent(settlement, creditCount);
         } else {
