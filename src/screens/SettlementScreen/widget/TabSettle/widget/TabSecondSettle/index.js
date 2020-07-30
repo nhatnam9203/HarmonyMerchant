@@ -22,7 +22,7 @@ class TabSecondSettle extends Layout {
                 otherPayment: 0.00,
                 discountSettlement:0.00,
                 total: 0.00,
-                note: `Hello world , I'm a developer.`
+                note: ``
             },
             errorMessage: '',
             paxErrorMessage: ''
@@ -62,10 +62,10 @@ class TabSecondSettle extends Layout {
     }
 
     proccessingSettlement =async  () =>{
-        const { settleWaiting } = this.props;
-        const { settleTotal } = this.state;
-        const body = { ...settleTotal, checkout: settleWaiting.checkout };
-        this.props.actions.invoice.settleBatch(body);
+        // const { settleWaiting } = this.props;
+        // const { settleTotal } = this.state;
+        // const body = { ...settleTotal, checkout: settleWaiting.checkout };
+        // this.props.actions.invoice.settleBatch(body);
         await this.setState({
             progress: 1
         })
@@ -195,7 +195,6 @@ class TabSecondSettle extends Layout {
                     numberFooter: 1,
                     progress: 0,
                 })
-                // alert(result.message);
                 await this.setState({
                     paxErrorMessage: result.message
                 })

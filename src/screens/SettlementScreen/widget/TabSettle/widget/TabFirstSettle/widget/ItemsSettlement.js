@@ -232,7 +232,7 @@ export default class ItemPaymentsReport extends React.Component {
                                         precision: 2,
                                         separator: '.',
                                         delimiter: ',',
-                                        unit: '$ ',
+                                        unit: '',
                                         suffixUnit: ''
                                     }}
                                     style={{ flex: 1, fontSize: scaleSzie(12), textAlign: "right" }}

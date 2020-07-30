@@ -24,14 +24,13 @@ class Layout extends React.Component {
         const { language } = this.props;
         const { progress, errorMessage } = this.state;
         return (
-            <View style={{ flex: 1, padding: scaleSzie(10) }} >
+            <View style={{ height: scaleSzie(130), padding: scaleSzie(10), }} >
                 <View style={{ alignItems: 'center' }} >
                     <Text style={{ color: '#DB7D2A', fontSize: scaleSzie(16) }} >
                         {progress === 1 ? 'Batch Settlement Successful' : ''}
                     </Text>
                 </View>
-                <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginTop: scaleSzie(10), marginBottom: scaleSzie(4) }} >
-
+                <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginTop: scaleSzie(5), marginBottom: scaleSzie(4) }} >
                     {localize('Open Batch', language)}
                 </Text>
                 <Progress.Bar
@@ -45,7 +44,6 @@ class Layout extends React.Component {
                 <View style={{ flex: 1, marginTop: scaleSzie(12), flexDirection: 'row' }} >
                     <View style={{ width: scaleSzie(140) }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(14), }} >
-
                             {localize('Log message', language)}
                         </Text>
                     </View>
@@ -71,29 +69,29 @@ class Layout extends React.Component {
                     </Text>
                 </View>
                 <View style={{ flexDirection: 'row', height: scaleSzie(55) }} >
-                    <View style={{ flex: 1 }} >
+                    <View style={{ flex: 1, alignItems: "center" }} >
                         <ButtonCustom
-                            width={'100%'}
-                            height={55}
+                            width={'80%'}
+                            height={38}
                             backgroundColor="#0764B0"
                             title={localize('REVIEW BATCH HISTORY', language)}
                             textColor="#fff"
                             onPress={this.reviewBatchHistory}
-                            style={{ borderWidth: 0.5, borderColor: '#C5C5C5' }}
-                            styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
+                            style={{ borderWidth: 0.5, borderColor: '#C5C5C5', borderRadius: 6 }}
+                            styleText={{ fontSize: scaleSzie(14), fontWeight: '600' }}
                         />
                     </View>
                     <View style={{ width: scaleSzie(25) }} />
-                    <View style={{ flex: 1, }} >
+                    <View style={{ flex: 1, alignItems: "center" }} >
                         <ButtonCustom
-                            width={'100%'}
-                            height={55}
+                            width={'80%'}
+                            height={38}
                             backgroundColor="#4CD964"
                             title={localize('FINISH', language)}
                             textColor="#fff"
                             onPress={this.finishBatch}
-                            style={{ borderWidth: 0.5, borderColor: '#C5C5C5' }}
-                            styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
+                            style={{ borderWidth: 0.5, borderColor: '#C5C5C5', borderRadius: 6 }}
+                            styleText={{ fontSize: scaleSzie(14), fontWeight: '600' }}
                         />
                     </View>
                 </View>
@@ -218,24 +216,7 @@ class Layout extends React.Component {
     renderOpenBatch() {
         const { settleWaiting } = this.props;
         const { creditCount } = this.state;
-        // const data = settleWaiting.paymentTransaction ? settleWaiting.paymentTransaction : [];
-        const data = [{
-            transactionId: 123,
-            status: "pending",
-            createdDate: "2020-06-07",
-            checkoutId: "1234, 2726",
-            amount: "20,00",
-            paymentData: {
-                message: "",
-                transaction_type: "credit",
-                transaction_id: "10284648393",
-                card_type: "visa",
-                validation_status: "pending",
-                card_number: "1927",
-                exp_date: "22/05",
-                name_on_card: "pan and"
-            }
-        }]
+        const data = settleWaiting.paymentTransaction ? settleWaiting.paymentTransaction : [];
 
         return (
             <View style={{ flex: 1, }} >
@@ -287,8 +268,10 @@ class Layout extends React.Component {
                         {this.renderOpenBatch()}
                     </View>
                 </View>
-                <View style={{ height: scaleSzie(40), alignItems: 'center', justifyContent: 'center' }} >
-                    <Text style={{ fontSize: scaleSzie(18), color: 'red', fontWeight: 'bold' }} >
+                <View style={{
+                    height: scaleSzie(40), alignItems: 'center', justifyContent: 'center',
+                }} >
+                    <Text style={{ fontSize: scaleSzie(18), fontWeight: 'bold' }} >
                         {paxErrorMessage}
                     </Text>
                 </View>
@@ -354,7 +337,7 @@ const HeaderOpenBatchTable = () => {
     );
 }
 
-const ItemOpenBatchTable = ({data}) => {
+const ItemOpenBatchTable = ({ data }) => {
 
     return (
         <View style={{
@@ -363,25 +346,25 @@ const ItemOpenBatchTable = ({data}) => {
         }} >
             <View style={{ flex: 1, justifyContent: "center" }} >
                 <Text style={styles.txt_item_open_batch_table} >
-                    {`# ${data.transactionId ? data.transactionId : "" }`}
+                    {`# ${data.transactionId ? data.transactionId : ""}`}
                 </Text>
             </View>
             <View style={{ flex: 1, justifyContent: "center" }} >
                 <Text style={styles.txt_item_open_batch_table} >
-                    {`# ${data.checkoutId ? data.checkoutId : "" }`}
+                    {`# ${data.checkoutId ? data.checkoutId : ""}`}
                 </Text>
             </View>
             <View style={{ flex: 1, alignItems: "center", flexDirection: "row" }} >
-                <Image source={getCredicardIcon(data.paymentData && data.paymentData.card_type  ?data.paymentData.card_type : "" )}
+                <Image source={getCredicardIcon(data.paymentData && data.paymentData.card_type ? data.paymentData.card_type : "")}
                     style={{ width: scaleSzie(17), height: scaleSzie(12), marginRight: scaleSzie(5) }}
                 />
                 <Text style={styles.txt_item_open_batch_table} >
-                    {`x${data.paymentData && data.paymentData.card_number  ?data.paymentData.card_number : "" }`}
+                    {`x${data.paymentData && data.paymentData.card_number ? data.paymentData.card_number : ""}`}
                 </Text>
             </View>
             <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >
                 <Text style={[styles.txt_item_open_batch_table, { fontWeight: "bold" }]} >
-                    {`$ 160.00`}
+                    {`$ ${data.amount ? data.amount : "0.00"}`}
                 </Text>
             </View>
         </View>
