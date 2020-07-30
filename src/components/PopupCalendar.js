@@ -90,7 +90,7 @@ class PopupCalendar extends React.Component {
 
 
     render() {
-        const { visible, onRequestClose, type } = this.props;
+        const { visible, onRequestClose, type , paddingLeft} = this.props;
         const { quickFilter, startDate, endDate } = this.state;
         const temptPaddingTop = this.props.paddingTop ? this.props.paddingTop : 155;
         const date = type === 'report' ? DATE.filter((item) => item !== 'Select') : DATE
@@ -103,7 +103,7 @@ class PopupCalendar extends React.Component {
                     justifyContent: 'flex-start', alignItems: 'flex-start',
                     backgroundColor: "transparent",
                     paddingTop: scaleSzie(temptPaddingTop),
-                    paddingLeft: scaleSzie(160)
+                    paddingLeft: paddingLeft??scaleSzie(160)
                 }}
             >
                 <View style={styles.shadowP} >

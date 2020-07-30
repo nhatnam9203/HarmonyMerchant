@@ -1,0 +1,17 @@
+import React from "react";
+import { View, Text } from "react-native";
+
+import { useSelector } from "react-redux";
+
+import IMAGE from "@resources";
+
+import { HeaderTitle, HeaderTooltip, PopupButton, TableList } from "../widget";
+import { localize } from "@utils";
+
+export default function ServicesTab({ style }) {
+  return (
+    <View style={style}>
+      <Text>Coming soon</Text>
+    </View>
+  );
+}

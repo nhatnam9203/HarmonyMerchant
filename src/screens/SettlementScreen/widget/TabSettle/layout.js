@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
     View,
 } from 'react-native';
@@ -50,4 +50,3 @@ class Layout extends React.Component {
 
 }
 export default Layout;
-
