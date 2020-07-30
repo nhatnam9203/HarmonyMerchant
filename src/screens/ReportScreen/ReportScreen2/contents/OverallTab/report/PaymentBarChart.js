@@ -17,6 +17,7 @@ const data = {
   dataSets: [
     {
       values: [{ y: 1000 }, { y: 1200 }, { y: 900 }, { y: 1200 }],
+      label: "",
       config: {
         colors: [
           processColor("#003680"),
@@ -89,7 +90,7 @@ export default function PaymentBarChart({}) {
         gridBackgroundColor={processColor("transparent")}
         // visibleRange={{ x: { min: 5, max: 5 } }}
         drawBarShadow={false}
-        drawValueAboveBar={true}
+        // drawValueAboveBar={true}
         drawHighlightArrow={true}
         onSelect={handleSelect}
         // highlights={highlights}
