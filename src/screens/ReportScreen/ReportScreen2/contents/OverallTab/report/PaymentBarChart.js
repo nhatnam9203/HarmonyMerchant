@@ -25,6 +25,8 @@ const dataConfig = {
           processColor("#BFDAFF"),
           processColor("#8FA3BF"),
         ],
+        valueTextSize: 14,
+        valueTextColor: processColor("#0764B0"),
       },
     },
   ],
@@ -98,11 +100,14 @@ export default function PaymentBarChart({ data }) {
                 processColor("#BFDAFF"),
                 processColor("#8FA3BF"),
               ],
+              valueTextSize: 14,
+              valueTextColor: processColor("#0764B0"),
             },
           },
         ],
         config: {
-          barWidth: 0.6,
+          // BarData
+          barWidth: 0.5,
         },
       };
 
@@ -149,15 +154,15 @@ export default function PaymentBarChart({ data }) {
         data={dataChart}
         xAxis={xAxis}
         yAxis={yAxis}
-        animation={{ durationX: 2000 }}
+        animation={{ durationX: 500 }}
         legend={legend}
         gridBackgroundColor={processColor("transparent")}
         // visibleRange={{ x: { min: 5, max: 5 } }}
         drawBarShadow={false}
-        // drawValueAboveBar={true}
         drawHighlightArrow={true}
         onSelect={handleSelect}
         // highlights={highlights}
+        entryLabelTextSize={14}
         onChange={(event) => console.log(event.nativeEvent)}
       />
     </View>
