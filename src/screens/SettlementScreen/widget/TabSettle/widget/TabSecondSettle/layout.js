@@ -2,15 +2,18 @@ import React from 'react';
 import {
     View,
     ScrollView,
-    Dimensions
+    Dimensions,
+    Image,
+    FlatList
 } from 'react-native';
 import * as Progress from 'react-native-progress';
 
-import { scaleSzie, localize, formatMoney, formatNumberFromCurrency } from '@utils';
+import { scaleSzie, localize, formatMoney, getCredicardIcon } from '@utils';
 import {
     Text, Button, ButtonCustom,
 } from '@components';
 import styles from './style';
+import ICON from "@resources";
 
 const { width } = Dimensions.get('window');
 
@@ -146,7 +149,7 @@ class Layout extends React.Component {
     }
 
     renderActualAmount() {
-        const {paymentByHarmony,paymentByCreditCard,paymentByCash,otherPayment,discountSettlement,total,note} = this.state.settleTotal;
+        const { paymentByHarmony, paymentByCreditCard, paymentByCash, otherPayment, discountSettlement, total, note } = this.state.settleTotal;
 
         return (
             <View style={{ flex: 1 }} >
@@ -199,7 +202,7 @@ class Layout extends React.Component {
                     value={total}
                 />
                 <Text style={styles.txt_title_note} >
-                    Note 
+                    Note
                 </Text>
                 <View style={styles.box_note} >
                     <ScrollView  >
@@ -213,37 +216,70 @@ class Layout extends React.Component {
     }
 
     renderOpenBatch() {
-        return (
-            <View style={{ flex: 1, backgroundColor: "red" }} >
+        const { settleWaiting } = this.props;
+        const { creditCount } = this.state;
+        // const data = settleWaiting.paymentTransaction ? settleWaiting.paymentTransaction : [];
+        const data = [{
+            transactionId: 123,
+            status: "pending",
+            createdDate: "2020-06-07",
+            checkoutId: "1234, 2726",
+            amount: "20,00",
+            paymentData: {
+                message: "",
+                transaction_type: "credit",
+                transaction_id: "10284648393",
+                card_type: "visa",
+                validation_status: "pending",
+                card_number: "1927",
+                exp_date: "22/05",
+                name_on_card: "pan and"
+            }
+        }]
 
+        return (
+            <View style={{ flex: 1, }} >
+                <ItemPaymentsReport
+                    title="Credit card transactions:"
+                    backgroundColor="#0764B0"
+                    txtStyle={{
+                        color: "#ffff",
+                        fontWeight: "bold",
+
+                    }}
+                    value={creditCount}
+                    isNotMoney={true}
+                />
+                {/* -------- Header Table --------- */}
+                <HeaderOpenBatchTable />
+                <FlatList
+                    data={data}
+                    renderItem={({ item, index }) => <ItemOpenBatchTable data={item} />}
+                    keyExtractor={(item, index) => `${item.transactionId}_${index}`}
+                />
             </View>
         );
     }
 
     render() {
-        const { settleWaiting, language } = this.props;
-        const { settleTotal, paxErrorMessage } = this.state;
-        const { paymentByHarmony, paymentByCreditCard, paymentByCash, otherPayment, total, note } = settleTotal;
-
+        const { language } = this.props;
+        const { paxErrorMessage } = this.state;
 
         return (
             <View style={[styles.container]} >
                 <View style={{ height: scaleSzie(10) }} />
                 <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), flexDirection: 'row' }} >
-                    {/* --------- Left --------- */}
+                    {/* --------- Actual Amount --------- */}
                     <View style={{ flex: 1, }} >
                         <Text style={styles.txt_top_title} >
                             {localize('Actual Amount', language)}
                         </Text>
                         {this.renderActualAmount()}
-
-
                     </View>
-                    {/* --------- Column --------- */}
-                    <View style={{ width: scaleSzie(25) }} >
 
-                    </View>
-                    {/* --------- Right --------- */}
+                    <View style={{ width: scaleSzie(25) }} />
+
+                    {/* --------- Open Batch --------- */}
                     <View style={{ flex: 1, }} >
                         <Text style={styles.txt_top_title} >
                             {localize('Open Batch', language)}
@@ -264,7 +300,7 @@ class Layout extends React.Component {
 
 }
 
-const ItemPaymentsReport = ({ backgroundColor, title, value, txtStyle, txtTitle }) => {
+const ItemPaymentsReport = ({ backgroundColor, title, value, txtStyle, txtTitle, isNotMoney }) => {
 
     return (
         <View style={{
@@ -275,9 +311,79 @@ const ItemPaymentsReport = ({ backgroundColor, title, value, txtStyle, txtTitle 
             <Text style={[styles.txt_item, { color: "#fff", fontWeight: "400" }, txtStyle, txtTitle]} >
                 {title}
             </Text>
-            <Text style={[styles.txt_item, { color: "#fff", fontWeight: "bold" }, txtStyle]} >
-                {`$ ${value ? formatMoney(value) : '0.00'}`}
-            </Text>
+            {
+                isNotMoney ? <Text style={[styles.txt_item, { color: "#fff", fontWeight: "bold" }, txtStyle]} >
+                    {value}
+                </Text>
+                    :
+                    <Text style={[styles.txt_item, { color: "#fff", fontWeight: "bold" }, txtStyle]} >
+                        {`$ ${value ? formatMoney(value) : '0.00'}`}
+                    </Text>
+            }
+        </View>
+    );
+}
+
+const HeaderOpenBatchTable = () => {
+    return (
+        <View style={{
+            height: scaleSzie(22), backgroundColor: "#F1F1F1", flexDirection: "row",
+            paddingHorizontal: scaleSzie(10)
+        }} >
+            <View style={{ flex: 1, justifyContent: "center" }} >
+                <Text style={styles.txt_header_open_batch_table} >
+                    {`Trans ID`}
+                </Text>
+            </View>
+            <View style={{ flex: 1, justifyContent: "center" }} >
+                <Text style={styles.txt_header_open_batch_table} >
+                    {`Invoice`}
+                </Text>
+            </View>
+            <View style={{ flex: 1, justifyContent: "center" }} >
+                <Text style={styles.txt_header_open_batch_table} >
+                    {`Payments`}
+                </Text>
+            </View>
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >
+                <Text style={styles.txt_header_open_batch_table} >
+                    {`Amount`}
+                </Text>
+            </View>
+        </View>
+    );
+}
+
+const ItemOpenBatchTable = ({data}) => {
+
+    return (
+        <View style={{
+            height: scaleSzie(22), backgroundColor: "#FAFAFA", flexDirection: "row",
+            paddingHorizontal: scaleSzie(10), marginBottom: 1
+        }} >
+            <View style={{ flex: 1, justifyContent: "center" }} >
+                <Text style={styles.txt_item_open_batch_table} >
+                    {`# ${data.transactionId ? data.transactionId : "" }`}
+                </Text>
+            </View>
+            <View style={{ flex: 1, justifyContent: "center" }} >
+                <Text style={styles.txt_item_open_batch_table} >
+                    {`# ${data.checkoutId ? data.checkoutId : "" }`}
+                </Text>
+            </View>
+            <View style={{ flex: 1, alignItems: "center", flexDirection: "row" }} >
+                <Image source={getCredicardIcon(data.paymentData && data.paymentData.card_type  ?data.paymentData.card_type : "" )}
+                    style={{ width: scaleSzie(17), height: scaleSzie(12), marginRight: scaleSzie(5) }}
+                />
+                <Text style={styles.txt_item_open_batch_table} >
+                    {`x${data.paymentData && data.paymentData.card_number  ?data.paymentData.card_number : "" }`}
+                </Text>
+            </View>
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >
+                <Text style={[styles.txt_item_open_batch_table, { fontWeight: "bold" }]} >
+                    {`$ 160.00`}
+                </Text>
+            </View>
         </View>
     );
 }

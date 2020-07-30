@@ -40,5 +40,16 @@ export default StyleSheet.create({
         borderColor:"#DDDDDD",
         borderWidth:2,
         borderRadius:6,
+    },
+    txt_header_open_batch_table:{
+        color:"#404040",
+        fontSize:scaleSzie(9),
+        fontWeight:"600",
+    },
+    txt_item_open_batch_table:{
+        color:"#404040",
+        fontSize:scaleSzie(9),
+        fontWeight:"400",
     }
+
 })

@@ -12,6 +12,7 @@ import PrintManager from '@lib/PrintManager';
 import Configs from '../configs';
 import apiConfigs from '../configs/api';
 import Localization from '../localization';
+import ICON from "../resources";
 
 const { width } = Dimensions.get('window');
 
@@ -123,7 +124,7 @@ createFormData = (media) => {
             type: media[i].type ? media[i].type : "image/jpeg"
         });
     }
-  
+
     return data;
 };
 
@@ -955,4 +956,28 @@ export const BusinessWorkingTime = {
         timeEnd: '08:00 PM',
         isCheck: true
     }
+}
+
+export const getCredicardIcon = (type) => {
+    let icon;
+    switch (type) {
+        case "visa":
+            icon = ICON.visaLogo;
+            break;
+        case "mastercard":
+            icon = ICON.masterCardLogo;
+            break;
+        case "discover":
+            icon = ICON.discover;
+            break;
+        case "americanexpress":
+            icon = ICON.amricanExpressLogo;
+            break;
+        case "other":
+            icon = ICON.otherPaymentLogo;
+            break;
+        default:
+            icon = ICON.visaLogo;
+    };
+    return icon;
 }
