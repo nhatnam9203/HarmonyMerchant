@@ -295,7 +295,9 @@ function* settleBatch(action) {
         //console.log('settleBatch  : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-
+            yield put({
+                type: "SETTLE_BATCH_SUCCESS"
+            })
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -305,10 +307,16 @@ function* settleBatch(action) {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
+            });
+            yield put({
+                type: "SETTLE_BATCH_FAIL"
             })
         }
     } catch (error) {
         yield put({ type: error });
+        yield put({
+            type: "SETTLE_BATCH_FAIL"
+        })
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }

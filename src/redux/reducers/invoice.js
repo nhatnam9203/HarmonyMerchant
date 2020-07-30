@@ -35,7 +35,8 @@ const initialState = {
     invoiceTabPermission: false,
     settlementTabPermission: false,
     staffSales: [],
-    gitfCardSales: []
+    gitfCardSales: [],
+    isSettleBatch: null
 }
 
 function appReducer(state = initialState, action) {
@@ -210,6 +211,22 @@ function appReducer(state = initialState, action) {
                 ...state,
                 gitfCardSales: action.payload
             }
+        case 'SETTLE_BATCH_SUCCESS':
+            return {
+                ...state,
+                isSettleBatch: "success"
+            }
+        case 'SETTLE_BATCH_FAIL':
+            return {
+                ...state,
+                isSettleBatch: "fail"
+            }
+        case 'RESET_STATE_SETTLE_BATCH':
+            return {
+                ...state,
+                isSettleBatch: null
+            }
+
         default:
             return state
     }

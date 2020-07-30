@@ -20,14 +20,15 @@ const { width } = Dimensions.get('window');
 class Layout extends React.Component {
 
     // ---------- Footer 2 ------
-    renderFooter2() {
+    renderProcessFooter() {
         const { language } = this.props;
         const { progress, errorMessage } = this.state;
         return (
             <View style={{ height: scaleSzie(130), padding: scaleSzie(10), }} >
                 <View style={{ alignItems: 'center' }} >
                     <Text style={{ color: '#DB7D2A', fontSize: scaleSzie(16) }} >
-                        {progress === 1 ? 'Batch Settlement Successful' : ''}
+                        {/* {progress === 1 ? 'Batch Settlement Successful' : ''} */}
+                        {`Batch Slettlement is in progressing`}
                     </Text>
                 </View>
                 <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginTop: scaleSzie(5), marginBottom: scaleSzie(4) }} >
@@ -59,11 +60,11 @@ class Layout extends React.Component {
     }
 
     // ---------- Footer 3 ------
-    renderFooter3() {
+    renderDoneFooter() {
         const { language } = this.props;
         return (
-            <View style={{ height: scaleSzie(55), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(10) }} >
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+            <View style={{  paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(10) }} >
+                <View style={{  alignItems: 'center',marginBottom:scaleSzie(10) }} >
                     <Text style={{ color: '#4CD964', fontSize: scaleSzie(16) }} >
                         {localize('Batch Settlement Successful', language)}
                     </Text>
@@ -100,7 +101,7 @@ class Layout extends React.Component {
     }
 
     // ---------- Footer 1 ------
-    renderFooter1() {
+    renderSettleFooter() {
         const { language } = this.props;
         return (
             <View style={{ height: scaleSzie(55), flexDirection: 'row', paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(15) }} >
@@ -138,11 +139,11 @@ class Layout extends React.Component {
     renderFooter() {
         const { numberFooter } = this.state;
         if (numberFooter == 1) {
-            return this.renderFooter1();
+            return this.renderSettleFooter();
         } else if (numberFooter == 2) {
-            return this.renderFooter2();
+            return this.renderProcessFooter();
         } else {
-            return this.renderFooter3();
+            return this.renderDoneFooter();
         }
     }
 

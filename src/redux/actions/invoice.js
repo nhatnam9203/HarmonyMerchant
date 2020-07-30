@@ -178,3 +178,10 @@ export function getListStaffsSales() {
         api: `${apiConfigs.BASE_API}appointment/staffSales`,
     }
 }
+
+export function resetStateSettleBatch(keyword = "") {
+    return {
+        type: 'RESET_STATE_SETTLE_BATCH',
+    }
+}
+
