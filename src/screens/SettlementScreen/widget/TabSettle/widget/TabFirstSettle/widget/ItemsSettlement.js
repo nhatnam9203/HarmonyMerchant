@@ -278,13 +278,7 @@ export default class ItemPaymentsReport extends React.Component {
 
 }
 
-// export const ItemPaymentsReport = ({
-// }) => {
 
-//     return (
-
-//     );
-// }
 
 
 
@@ -300,7 +294,6 @@ const styles = ({
     txt_item: {
         color: "#404040",
         fontSize: scaleSzie(10),
-
     }
 
 })

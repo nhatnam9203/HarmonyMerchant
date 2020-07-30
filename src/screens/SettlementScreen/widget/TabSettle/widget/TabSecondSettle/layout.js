@@ -1,9 +1,7 @@
 import React from 'react';
 import {
     View,
-    Image,
-    TextInput,
-    FlatList,
+    ScrollView,
     Dimensions
 } from 'react-native';
 import * as Progress from 'react-native-progress';
@@ -104,7 +102,7 @@ class Layout extends React.Component {
     renderFooter1() {
         const { language } = this.props;
         return (
-            <View style={{ height: scaleSzie(55), flexDirection: 'row', paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(15)}} >
+            <View style={{ height: scaleSzie(55), flexDirection: 'row', paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(15) }} >
                 <View style={{ flex: 1, alignItems: "center" }} >
                     <ButtonCustom
                         width={'80%'}
@@ -148,9 +146,68 @@ class Layout extends React.Component {
     }
 
     renderActualAmount() {
+        const {paymentByHarmony,paymentByCreditCard,paymentByCash,otherPayment,discountSettlement,total,note} = this.state.settleTotal;
+
         return (
             <View style={{ flex: 1 }} >
+                <ItemPaymentsReport
+                    title="Harmony account"
+                    backgroundColor="#054071"
+                    value={paymentByHarmony}
+                />
+                <View style={{ height: 1 }} />
+                <ItemPaymentsReport
+                    title="Credit card"
+                    backgroundColor="#075BA0"
+                    value={paymentByCreditCard}
+                />
+                <View style={{ height: 1 }} />
+                <ItemPaymentsReport
+                    title="Cash"
+                    backgroundColor="#3480BE"
+                    value={paymentByCash}
+                />
+                <View style={{ height: 1 }} />
+                <ItemPaymentsReport
+                    title="Other"
+                    backgroundColor="#BBD4E9"
+                    value={otherPayment}
+                />
+                <View style={{ height: 1 }} />
+                <ItemPaymentsReport
+                    title="Discount"
+                    backgroundColor="#F1F1F1"
+                    txtStyle={{
+                        color: "#404040",
 
+                    }}
+                    value={discountSettlement}
+                />
+                <View style={{ height: 1 }} />
+                <ItemPaymentsReport
+                    title="Total"
+                    backgroundColor="#DCF7FF"
+                    txtStyle={{
+                        color: "#4CD964",
+                        fontWeight: "bold",
+                        fontSize: scaleSzie(12)
+                    }}
+                    txtTitle={{
+                        color: "#404040",
+                        fontWeight: "bold"
+                    }}
+                    value={total}
+                />
+                <Text style={styles.txt_title_note} >
+                    Note 
+                </Text>
+                <View style={styles.box_note} >
+                    <ScrollView  >
+                        <Text style={styles.txt_note} >
+                            {note}
+                        </Text>
+                    </ScrollView>
+                </View>
             </View>
         );
     }
@@ -205,6 +262,24 @@ class Layout extends React.Component {
         );
     }
 
+}
+
+const ItemPaymentsReport = ({ backgroundColor, title, value, txtStyle, txtTitle }) => {
+
+    return (
+        <View style={{
+            height: scaleSzie(29),
+            flexDirection: "row", backgroundColor: backgroundColor,
+            justifyContent: "space-between", alignItems: "center", paddingHorizontal: scaleSzie(12)
+        }} >
+            <Text style={[styles.txt_item, { color: "#fff", fontWeight: "400" }, txtStyle, txtTitle]} >
+                {title}
+            </Text>
+            <Text style={[styles.txt_item, { color: "#fff", fontWeight: "bold" }, txtStyle]} >
+                {`$ ${value ? formatMoney(value) : '0.00'}`}
+            </Text>
+        </View>
+    );
 }
 
 export default Layout;

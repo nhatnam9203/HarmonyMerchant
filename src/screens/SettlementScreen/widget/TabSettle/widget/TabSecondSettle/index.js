@@ -20,8 +20,9 @@ class TabSecondSettle extends Layout {
                 paymentByCreditCard: 0.00,
                 paymentByCash: 0.00,
                 otherPayment: 0.00,
+                discountSettlement:0.00,
                 total: 0.00,
-                note: ''
+                note: `Hello world , I'm a developer.`
             },
             errorMessage: '',
             paxErrorMessage: ''
@@ -29,7 +30,6 @@ class TabSecondSettle extends Layout {
     }
 
     setStateFromParent = async (settleTotal, creditCount) => {
-        // console.log("------ settleTotal  : ",settleTotal);
        await this.setState({
             settleTotal,
             creditCount
