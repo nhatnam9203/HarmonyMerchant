@@ -74,7 +74,7 @@ function TableList(
   const [headerContent, setHeaderContent] = useState([]);
   const [data, setData] = useState([]);
   const [sumObject, setSumObject] = useState({});
-  const [renderKeys, setRenderKeys] = useState({});
+  // const [renderKeys, setRenderKeys] = useState({});
 
   /**bind header */
   useEffect(() => {
@@ -97,12 +97,12 @@ function TableList(
   /**bind data */
   useEffect(() => {
     if (whiteKeys?.length > 0 && tableData) {
-      const filterList = pickObjectFromKeys(tableData, whiteKeys);
+      // const filterList = pickObjectFromKeys(tableData, whiteKeys);
 
       let sumObj = {};
       if (calcSumKeys?.length > 0) {
         calcSumKeys.forEach((key) => {
-          sumObj[key] = sumPropertiesKey(filterList, key);
+          sumObj[key] = sumPropertiesKey(tableData, key);
         });
         setSumObject(sumObj);
         if (onChangeSumObjects) {
@@ -110,15 +110,15 @@ function TableList(
         }
       }
 
-      setData(filterList);
+      setData(tableData);
     }
   }, [tableData, whiteKeys]);
 
   /**bind render keys */
-  useEffect(() => {
-    const listKeys = whiteKeys.filter((key) => key !== primaryId);
-    setRenderKeys(listKeys);
-  }, [whiteKeys, primaryId]);
+  // useEffect(() => {
+  //   const listKeys = whiteKeys.filter((key) => key !== primaryId);
+  //   setRenderKeys(listKeys);
+  // }, [whiteKeys, primaryId]);
 
   const getCellWidth = (index, key) => {
     if (tableCellWidth && tableCellWidth[key]) {
@@ -151,7 +151,7 @@ function TableList(
           ))} */}
 
         {/** render for whiteKeys*/}
-        {renderKeys.map((key, keyIndex) => {
+        {whiteKeys.map((key, keyIndex) => {
           const keyUnique = uniqueId(key, keyIndex);
           const cellRender = renderCell({
             key: key,
@@ -203,7 +203,7 @@ function TableList(
             style={[styles.head, { backgroundColor: "#E5E5E5" }]}
             key={TABLE_SUMMARY_KEY}
           >
-            {renderKeys.map((key, index) => {
+            {whiteKeys.map((key, index) => {
               const keyUnique = uniqueId(key, index, "summary");
               return (
                 <TableCell
