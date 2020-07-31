@@ -265,6 +265,7 @@ class Layout extends React.Component {
                         placeholder={'10'}
                         dataInit={perHour_ServiceSalary}
                         onFocus={() => this.scrollStaffTo(1100)}
+                        toogleCheck={this.disableCommisionServiceSalary}
                     />
 
                     {/* ----- Commission ServiceSalary ---- */}
@@ -274,6 +275,7 @@ class Layout extends React.Component {
                         placeholder={'10'}
                         dataInit={commision_ServiceSalary}
                         onFocus={() => this.scrollStaffTo(1100)}
+                        toogleCheck={this.disablePerHourSalary}
                     />
 
 

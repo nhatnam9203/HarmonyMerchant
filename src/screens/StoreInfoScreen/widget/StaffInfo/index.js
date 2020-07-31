@@ -319,7 +319,15 @@ class StaffInfo extends Layout {
 
     disableTip =(type) =>{
         for(const ref of this.inputRefsTip){
-            if(ref.props.title !==  type){
+            if(ref.props.type !==  type){
+                ref.setStateFromParent();
+            }
+        }
+    }
+
+    disableServiceSalary =(type) =>{
+        for(const ref of this.inputRefsSalary){
+            if(ref.props.type !==  type){
                 ref.setStateFromParent();
             }
         }

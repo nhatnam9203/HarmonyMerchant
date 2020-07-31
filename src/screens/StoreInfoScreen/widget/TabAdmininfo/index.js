@@ -241,6 +241,14 @@ class StoreInfoScreen extends Layout {
         this.percentTipFeeRef.current.setStateFromParent();
     }
 
+    disableServiceSalary =(type) =>{
+        for(const ref of this.inputRefsSalary){
+            if(ref.props.type !==  type){
+                ref.setStateFromParent();
+            }
+        }
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         const { loading, isResetInfoAdmin } = this.props;
         if (!loading && isResetInfoAdmin) {

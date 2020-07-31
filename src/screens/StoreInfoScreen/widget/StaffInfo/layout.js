@@ -257,6 +257,8 @@ class Layout extends React.Component {
                                 placeholder={'10'}
                                 dataInit={temptDataSalary[tip]}
                                 onFocus={() => this.scrollStaffTo(1100)}
+                                type={`${temptTitle} ${temptChar}`}
+                                toogleCheck={this.disableServiceSalary.bind(this,`${temptTitle} ${temptChar}`)}
                             />
                         })
                     }
@@ -267,7 +269,6 @@ class Layout extends React.Component {
                     />
                     {
                         Object.keys(temptDataProductScalary).map((tip, index) => {
-                            //console.log('tip : ',temptDataProductScalary[tip]);
                             const temptTitle = tip == 'perHour' ? 'Per Hour' : 'Commission';
                             const temptChar = tip == 'perHour' ? '($)' : '(%)';
 
@@ -291,6 +292,7 @@ class Layout extends React.Component {
                         Object.keys(temptDataTipFee).map((tip, index) => {
                             const temptTitle = tip == 'percent' ? 'Percent' : 'Fixed Amount';
                             const temptChar = tip == 'percent' ? '(%)' : '($)';
+
                             return <ItemScalary
                                 key={index}
                                 ref={this.setRefTip}
@@ -298,6 +300,7 @@ class Layout extends React.Component {
                                 placeholder={'10'}
                                 dataInit={temptDataTipFee[tip]}
                                 onFocus={() => this.scrollStaffTo(1300)}
+                                type={`${temptTitle} ${temptChar}`}
                                 toogleCheck={this.disableTip.bind(this,`${temptTitle} ${temptChar}`)}
                             />
                         })

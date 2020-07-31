@@ -289,6 +289,14 @@ class AddStaff extends Layout {
         this.percentTipFeeRef.current.setStateFromParent();
     }
 
+    disableCommisionServiceSalary = () => {
+        this.commissionSalaryRef.current.setStateFromParent();
+    }
+
+    disablePerHourSalary = () => {
+        this.perHourServiceSalaryRef.current.setStateFromParent();
+    }
+
     componentWillUnmount() {
         this.inputRefsTime = [];
     }
