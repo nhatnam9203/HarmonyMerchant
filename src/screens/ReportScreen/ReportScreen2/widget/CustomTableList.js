@@ -248,7 +248,7 @@ function TableList(
         renderItem={renderItem}
         keyExtractor={(item) => getCellKey(item, primaryId)}
         // ListHeaderComponent={renderHeader}
-        // ListFooterComponent={renderFooter}
+        ListFooterComponent={onRenderFooter}
         ItemSeparatorComponent={renderSeparator}
         // extraData={selectedItem}
       />
