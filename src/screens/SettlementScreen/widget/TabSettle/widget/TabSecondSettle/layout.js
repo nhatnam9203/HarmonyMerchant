@@ -62,8 +62,8 @@ class Layout extends React.Component {
     renderDoneFooter() {
         const { language } = this.props;
         return (
-            <View style={{  paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(10) }} >
-                <View style={{  alignItems: 'center',marginBottom:scaleSzie(10) }} >
+            <View style={{ paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(10) }} >
+                <View style={{ alignItems: 'center', marginBottom: scaleSzie(10) }} >
                     <Text style={{ color: '#4CD964', fontSize: scaleSzie(16) }} >
                         {localize('Batch Settlement Successful', language)}
                     </Text>
