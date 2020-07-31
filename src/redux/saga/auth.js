@@ -110,7 +110,19 @@ function* checkStaffPermission(action) {
                     api: `${apiConfigs.BASE_API}settlement/waiting`,
                     token: true,
                     isShowLoading: true
-                })
+                });
+                yield put({
+                    type: 'GET_LIST_STAFFS_SALES',
+                    method: 'GET',
+                    token: true,
+                    api: `${apiConfigs.BASE_API}appointment/staffSales`,
+                });
+                yield put({
+                    type: 'GET_LIST_GIFT_CARD_SALES',
+                    method: 'GET',
+                    token: true,
+                    api: `${apiConfigs.BASE_API}settlement/waiting/giftCardSales`,
+                });
             } else if (action.tabName === "Customer") {
                 yield put({
                     type: "TOGGLE_CUSTOMER_TAB_PERMISSION",
@@ -171,7 +183,7 @@ function* checkStaffPermission(action) {
                     method: 'GET',
                     token: true,
                     api: `${apiConfigs.BASE_API}merchantpromotion`,
-                    isLoading : true
+                    isLoading: true
                 });
             }
 

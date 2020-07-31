@@ -35,7 +35,7 @@ function PopupExportReport(
       visible={visible}
       onRequestClose={() => onRequestClose()}
       style={{}}
-      width={600}
+      width={500}
     >
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
@@ -85,12 +85,12 @@ function PopupExportReport(
 
 const styles = StyleSheet.create({
   container: {
-    height: scaleSzie(240),
+    height: scaleSzie(140),
     backgroundColor: "#fff",
     borderBottomLeftRadius: scaleSzie(15),
     borderBottomRightRadius: scaleSzie(15),
-    paddingHorizontal: scaleSzie(30),
-    paddingTop: scaleSzie(30),
+    paddingHorizontal: scaleSzie(10),
+    paddingTop: scaleSzie(10),
   },
 });
 

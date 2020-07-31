@@ -74,11 +74,11 @@ function ReportScreen2({ showBackButton }, ref) {
           ref={staffRef}
           showBackButton={onShowBackButton}
         />
-        <GiftCardTab style={styles.content} tabLabel="Gift card" />
+        {/* <GiftCardTab style={styles.content} tabLabel="Gift card" />
         <CustomerTab style={styles.content} tabLabel="Customer" />
         <ServiceTab style={styles.content} tabLabel="Services" />
         <ProductTab style={styles.content} tabLabel="Product" />
-        <OverallTab style={styles.content} tabLabel="Overall" />
+        <OverallTab style={styles.content} tabLabel="Overall" /> */}
       </HeaderTabLayout>
     </View>
   );

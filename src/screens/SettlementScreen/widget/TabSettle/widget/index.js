@@ -1,7 +1,11 @@
 import TabFirstSettle from './TabFirstSettle';
 import  TabSecondSettle from './TabSecondSettle';
+import StaffIncomeDetailsTab from "./StaffIncomeDetailsTab";
+import GiftCardSalesDetailsTab from "./GiftCardSalesDetailsTab";
 
 module.exports = {
     TabFirstSettle,
-    TabSecondSettle
+    TabSecondSettle,
+    StaffIncomeDetailsTab,
+    GiftCardSalesDetailsTab
 }

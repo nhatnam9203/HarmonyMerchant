@@ -54,7 +54,7 @@ export function invoicesOfStaff(staffId) {
     }
 }
 
-export function getTransactionSettlement(status = "", timeStart = "", timeEnd = "", key = "", quickFilter = "",isShowLoading = true) {
+export function getTransactionSettlement(status = "", timeStart = "", timeEnd = "", key = "", quickFilter = "", isShowLoading = true) {
     return {
         type: 'GET_TRANSACTION_SETTLEMENT',
         method: 'GET',
@@ -158,6 +158,30 @@ export function toggleSettlementTabPermission(visible = true) {
     return {
         type: 'TOGGLE_SETTLEMENT_TAB_PERMISSION',
         payload: visible
+    }
+}
+
+export function getSettlementWarning() {
+    return {
+        type: 'GET_SETTLEMENT_WARNING',
+        method: 'GET',
+        api: `${apiConfigs.BASE_API}settlement/warning`,
+        token: true
+    }
+}
+
+export function getListStaffsSales() {
+    return {
+        type: 'GET_LIST_STAFFS_SALES',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}appointment/staffSales`,
+    }
+}
+
+export function resetStateSettleBatch(keyword = "") {
+    return {
+        type: 'RESET_STATE_SETTLE_BATCH',
     }
 }
 

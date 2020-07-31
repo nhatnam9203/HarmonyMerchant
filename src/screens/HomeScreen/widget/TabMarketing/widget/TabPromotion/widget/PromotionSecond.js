@@ -55,18 +55,18 @@ class PromotionSecond extends React.Component {
         this.setState({
             data: updateStateChildren('isDisabled', isCheck, data)
         });
-        this.props.checkSelectPromotion();
+        this.props.actions.marketing.setStatusApplyButton(true,2);
     }
 
-    sendNotification = () => {
+    applyPromotion = () => {
         const { data } = this.state;
-        this.props.sendNotification(data.promotionId)
+        this.props.applyPromotion(data.promotionId)
     }
 
     // ----------- RENDER ----------
 
     render() {
-        const { language, showCalendar, dataDropdown, servicesByMerchant,onFocus } = this.props;
+        const { language, showCalendar, dataDropdown, servicesByMerchant,onFocus ,isApplySecondPromotion} = this.props;
         const { data ,isShowContent} = this.state;
         const { campaignName } = data;
         return (
@@ -87,7 +87,7 @@ class PromotionSecond extends React.Component {
                             this.setState({
                                 data: updateStateChildren('campaignName', value, data)
                             });
-                            this.props.actions.marketing.setStatusApplyButton(true);
+                            this.props.actions.marketing.setStatusApplyButton(true,2);
                         }}
                         style={{ marginBottom: scaleSzie(10) }}
                         styleTitle={{fontWeight:"600"}}
@@ -138,7 +138,7 @@ class PromotionSecond extends React.Component {
                                 this.setState({
                                     data: updateStateChildren('serviceUsing', value, data)
                                 });
-                                this.props.actions.marketing.setStatusApplyButton(true);
+                                this.props.actions.marketing.setStatusApplyButton(true,2);
                             }}
                         />
                         <View style={{ width: scaleSzie(50) }} />
@@ -152,7 +152,7 @@ class PromotionSecond extends React.Component {
                                 this.setState({
                                     data: updateStateChildren('serviceApply', value, data)
                                 });
-                                this.props.actions.marketing.setStatusApplyButton(true);
+                                this.props.actions.marketing.setStatusApplyButton(true,2);
                             }}
                         />
                     </View>
@@ -175,7 +175,7 @@ class PromotionSecond extends React.Component {
                                 this.setState({
                                     data: updateStateChildren('discount', value, data)
                                 });
-                                this.props.actions.marketing.setStatusApplyButton(true);
+                                this.props.actions.marketing.setStatusApplyButton(true,2);
                             }}
                             selectCheckbox={() => {
                                 if (data.discountType === 'discount_percent') {
@@ -183,13 +183,13 @@ class PromotionSecond extends React.Component {
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                    this.props.actions.marketing.setStatusApplyButton(true);
+                                    this.props.actions.marketing.setStatusApplyButton(true,2);
                                 } else {
                                     const tempData = updateStateChildren('discountType', 'discount_percent', data)
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                    this.props.actions.marketing.setStatusApplyButton(true);
+                                    this.props.actions.marketing.setStatusApplyButton(true,2);
                                 }
                             }}
                             onFocus={() => onFocus(330)}
@@ -204,7 +204,7 @@ class PromotionSecond extends React.Component {
                                 this.setState({
                                     data: updateStateChildren('discount', value, data)
                                 });
-                                this.props.actions.marketing.setStatusApplyButton(true);
+                                this.props.actions.marketing.setStatusApplyButton(true,2);
                             }}
                             selectCheckbox={() => {
                                 if (data.discountType === 'discount_fixtom') {
@@ -212,29 +212,41 @@ class PromotionSecond extends React.Component {
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                    this.props.actions.marketing.setStatusApplyButton(true);
+                                    this.props.actions.marketing.setStatusApplyButton(true,2);
                                 } else {
                                     const tempData = updateStateChildren('discountType', 'discount_fixtom', data);
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                    this.props.actions.marketing.setStatusApplyButton(true);
+                                    this.props.actions.marketing.setStatusApplyButton(true,2);
                                 }
                             }}
                             onFocus={() => onFocus(330)}
                         />
                     </View>
                     <View style={{ alignItems: 'center', marginTop: scaleSzie(20) }} >
-                        <ButtonCustom
-                            width={scaleSzie(160)}
-                            height={40}
-                            backgroundColor="#4CD964"
-                            title={localize('Send Notification', language)}
-                            textColor="#fff"
-                            onPress={this.sendNotification}
-                            styleText={{ fontSize: scaleSzie(14), fontWeight: '600' }}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(4) }}
-                        />
+                        {
+                            isApplySecondPromotion ? <ButtonCustom
+                                width={scaleSzie(150)}
+                                height={40}
+                                backgroundColor="#4CD964"
+                                title={localize('Apply', language)}
+                                textColor="#fff"
+                                onPress={this.applyPromotion}
+                                styleText={{ fontSize: scaleSzie(17), fontWeight: 'bold' }}
+                                style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(4) }}
+                            /> : <ButtonCustom
+                                    width={scaleSzie(150)}
+                                    height={40}
+                                    backgroundColor="#E5E5E5"
+                                    title={localize('APPLY', language)}
+                                    textColor="#404040"
+                                    onPress={() => { }}
+                                    style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                                    styleText={{ fontSize: scaleSzie(17), fontWeight: 'bold' }}
+                                    activeOpacity={1}
+                                />
+                        }
                     </View>
                 </View>
             </ItemPromo>
@@ -245,6 +257,7 @@ class PromotionSecond extends React.Component {
 
 const mapStateToProps = state => ({
     servicesByMerchant: state.service.servicesByMerchant,
+    isApplySecondPromotion: state.marketing.isApplySecondPromotion
 })
 
 

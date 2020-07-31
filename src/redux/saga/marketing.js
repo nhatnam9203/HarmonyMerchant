@@ -101,7 +101,7 @@ function* addBannerWithInfo(action) {
 
 function* getPromotionByMerchant(action) {
     try {
-        action.isLoading  ? yield put({ type: 'LOADING_ROOT' }) : null;
+        action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : null;
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
         //console.log('getPromotionByMerchant : ', JSON.stringify(responses));
@@ -145,14 +145,23 @@ function* updatePromotionByMerchant(action) {
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'SET_STATUS_APPLY_BUTTON',
-                payload: false
+                payload: false,
+                promotionId:action.promotionId
             });
             yield put({
                 type: 'GET_PROMOTION_BY_MERCHANT',
                 method: 'GET',
                 token: true,
                 api: `${apiConfigs.BASE_API}merchantpromotion`
+            });
+
+            yield put({
+                type: 'SEND_NOTI_BY_PROMOTION_ID',
+                method: 'GET',
+                token: true,
+                api: `${apiConfigs.BASE_API}merchantpromotion/promotion/${action.promotionId}`
             })
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
@@ -178,20 +187,20 @@ function* getPromotionByAppointment(action) {
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            if(action.isBlock){
+            if (action.isBlock) {
                 yield put({
                     type: 'GET_PROMOTION_BY_BLOCK_APPOINTMENT_SUCCESS',
                     payload: responses.data,
                     appointmentId: action.appointmentId
                 })
-            }else{
+            } else {
                 yield put({
                     type: 'GET_PROMOTION_BY_APPOINTMENT_SUCCESS',
                     payload: responses.data,
                     appointmentId: action.appointmentId
                 })
             }
-           
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
@@ -258,7 +267,7 @@ function* customPromotion(action) {
         //console.log('responses : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            if(!action.isBlock){
+            if (!action.isBlock) {
                 action.isGroup ? yield put({
                     type: 'GET_GROUP_APPOINTMENT_BY_ID',
                     method: 'GET',
@@ -271,7 +280,7 @@ function* customPromotion(action) {
                         api: `${apiConfigs.BASE_API}appointment/${action.appointmentid}`,
                         token: true
                     })
-            }else{
+            } else {
                 yield put({
                     type: 'GET_BLOCK_APPOINTMENT_BY_ID',
                     method: 'GET',
@@ -280,7 +289,7 @@ function* customPromotion(action) {
                     appointmentId: action.appointmentid
                 })
             }
-           
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

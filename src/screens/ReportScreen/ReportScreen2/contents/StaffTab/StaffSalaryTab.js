@@ -50,12 +50,12 @@ export default function StaffSalaryTab({
     showPopupStaffInvoice(item);
   };
 
-  const goStaffStatistics = (item) => {
+  const goStaffStatistics = async (item) => {
     if (!item) return;
     // bind redux state
-    dispatch(actions.staff.getListStaffCalendar(item.staffId));
+    await dispatch(actions.staff.getListStaffCalendar(item.staffId));
 
-    onChangeFilterStaff(item.name);
+    await onChangeFilterStaff(item.name);
     // change to statistic tab
     onGoStatistics();
   };
@@ -65,11 +65,12 @@ export default function StaffSalaryTab({
     setCurrentStaff({});
   };
 
-  const showPopupStaffInvoice = (item) => {
-    setCurrentStaff(item);
+  const showPopupStaffInvoice = async (item) => {
+    await setCurrentStaff(item);
     setShowStaffInvoicePrint(true);
   };
 
+  // binding data list for name filter
   const filterDataTale = () => {
     return filterStaffItem && filterStaffItem !== "All Staff"
       ? listStaffsSalary.filter((staff) => staff.name === filterStaffItem)
@@ -81,15 +82,19 @@ export default function StaffSalaryTab({
     if (key === "salary") {
       return (
         <View style={styles.cellSalary}>
-          <Text style={styles.txtSalary}>{item[key] + "$"}</Text>
+          <Text style={styles.txtSalary}>{"$ " + item[key]}</Text>
 
           <View style={styles.imgContent}>
-            <TouchableOpacity onPress={() => showPopupStaffInvoice(item)}>
+            <TouchableOpacity
+              onPress={async () => await showPopupStaffInvoice(item)}
+            >
               <View style={styles.btnInCell}>
                 <Image style={styles.imgDetail} source={IMAGE.Report_Print} />
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => goStaffStatistics(item)}>
+            <TouchableOpacity
+              onPress={async () => await goStaffStatistics(item)}
+            >
               <View style={styles.btnInCell}>
                 <Image style={styles.imgDetail} source={IMAGE.Report_Detail} />
               </View>
@@ -107,12 +112,13 @@ export default function StaffSalaryTab({
       <HeaderTooltip
         rightComponent={
           <>
+            {/**export button */}
             <PopupButton
               text="Export"
               imageSrc={IMAGE.Report_Export}
               onPress={showExportFile}
             />
-
+            {/**downloaded file handle button */}
             {pathFileReportStaff && (
               <PopupButton
                 onPress={() => handleTheDownloadedFile(pathFileReportStaff)}
@@ -126,11 +132,14 @@ export default function StaffSalaryTab({
           </>
         }
       >
+        {/**calendar button */}
         <PopupButton
           text={titleRangeTime}
           onPress={showCalendar}
           style={{ marginRight: 20 }}
         />
+
+        {/**name filter button */}
         <View style={{ width: 160, height: 45 }}>
           <Dropdown
             data={dataStaffSalaryFilter}
@@ -144,7 +153,7 @@ export default function StaffSalaryTab({
           />
         </View>
       </HeaderTooltip>
-
+      {/**table list */}
       <View style={{ flex: 1 }}>
         <TableList
           tableData={filterDataTale()}
@@ -158,7 +167,6 @@ export default function StaffSalaryTab({
             localize("Salary", language),
           ]}
           whiteKeys={[
-            "staffId",
             "name",
             "serviceSales",
             "serviceSplit",
@@ -176,7 +184,7 @@ export default function StaffSalaryTab({
             "tip",
             "salary",
           ]}
-          tableCellWidth={{ salary: 195, Salary: 195, name: 200, Name: 200 }}
+          tableCellWidth={{ salary: 180, Salary: 180, name: 180, Name: 180 }}
           renderCell={renderCell}
           onCellPress={onCellPress}
         />

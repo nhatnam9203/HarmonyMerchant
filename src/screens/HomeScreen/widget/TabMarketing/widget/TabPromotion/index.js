@@ -69,7 +69,7 @@ class TabPromotion extends Layout {
     });
   }
 
-  applyPromotion = () => {
+  applyPromotion = (promotionId) => {
     const { servicesByMerchant } = this.props;
 
     const promotionFirst = this.promotionFirstRef.current.state.data;
@@ -88,7 +88,7 @@ class TabPromotion extends Layout {
     const dataUpdate = [promotionFirst, temptPromotionSecond, promotionThird, promotionFour, promotionFive
       // ,promotionRewardPoints
     ];
-    this.props.actions.marketing.updatePromotionByMerchant(dataUpdate);
+    this.props.actions.marketing.updatePromotionByMerchant(dataUpdate,promotionId);
   }
 
   checkSelectPromotion = () => {
@@ -96,12 +96,12 @@ class TabPromotion extends Layout {
   }
 
   sendNotification = (promotionId) => {
+
     this.props.actions.marketing.sendNotificationByPromotionId(promotionId);
   }
 
   updatePromotionsFromParent = () => {
     const { promotions } = this.props;
-
     this.promotionFirstRef.current.setStateFromParent(this.getDataItemPromotion(1, promotions));
     this.promotionSecondRef.current.setStateFromParent(this.getDataItemPromotion(2, promotions));
     this.promotionThirdRef.current.setStateFromParent(this.getDataItemPromotion(3, promotions));

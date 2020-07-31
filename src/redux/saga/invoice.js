@@ -295,6 +295,41 @@ function* settleBatch(action) {
         //console.log('settleBatch  : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "SETTLE_BATCH_SUCCESS"
+            })
+
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            });
+            yield put({
+                type: "SETTLE_BATCH_FAIL"
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+        yield put({
+            type: "SETTLE_BATCH_FAIL"
+        })
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+function* getSettlementWarning(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        // console.log('getSettlementWarning  : ' + JSON.stringify(responses));
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
 
 
         } else if (parseInt(codeNumber) === 401) {
@@ -315,6 +350,65 @@ function* settleBatch(action) {
 }
 
 
+function* getListStaffsSales(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        // console.log('getListStaffsSales  : ' + JSON.stringify(responses));
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type:"GET_LIST_STAFFS_SALES_SUCCESS",
+                payload: responses.data
+            })
+
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+function* getListGiftCardSales(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        console.log('getListGiftCardSales  : ' + JSON.stringify(responses));
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type:"GET_LIST_GIFT_CARD_SALES_SUCCESS",
+                payload: responses.data
+            })
+
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
 
 export default function* saga() {
     yield all([
@@ -327,6 +421,8 @@ export default function* saga() {
         takeLatest('GET_BATCH_HISTORY', getBatchHistory),
         takeLatest('CHANGE_STATUS_TRANSACTION', changeStatustransaction),
         takeLatest('SETTLE_BATCH', settleBatch),
-
+        takeLatest('GET_SETTLEMENT_WARNING', getSettlementWarning),
+        takeLatest('GET_LIST_STAFFS_SALES', getListStaffsSales),
+        takeLatest('GET_LIST_GIFT_CARD_SALES', getListGiftCardSales),
     ])
 }

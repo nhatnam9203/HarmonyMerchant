@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { Button } from '@components';
-import { scaleSzie,formatWithMoment } from '@utils';
+import { scaleSzie, formatWithMoment } from '@utils';
 import IMAGE from '@resources';
 
 class ItemHistory extends React.Component {
@@ -25,10 +25,10 @@ class ItemHistory extends React.Component {
                 <View style={{ flex: 1.4, flexDirection: 'row' }} >
                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }} >
                         <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
-                            {formatWithMoment(data.createdAt,'MM/DD/YYYY')}
+                            {formatWithMoment(data.createdAt, 'MM/DD/YYYY')}
                         </Text>
                         <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginLeft: scaleSzie(16) }} >
-                            {formatWithMoment(data.createdAt,'hh:mm A')}
+                            {formatWithMoment(data.createdAt, 'hh:mm A')}
                         </Text>
                     </View>
                     <View style={{ justifyContent: 'center' }}>

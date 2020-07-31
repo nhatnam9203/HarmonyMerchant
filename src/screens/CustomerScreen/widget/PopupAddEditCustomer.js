@@ -134,12 +134,12 @@ class PopupAddEditCustomer extends React.Component {
             const { addressPost } = customerInfo;
             const temptAddress = {
                 ...addressPost,
-                state: addressPost.state === '' ? 0 : getIdStateByName(this.props.stateCity, addressPost.state)
+                state: addressPost.state  ? getIdStateByName(this.props.stateCity, addressPost.state) : 0 
             };
             const temptCustomerInfo = {
                 ...customerInfo,
-                phone: customerInfo.phone === '' ? '' : `${this.state.codeAreaPhone}${customerInfo.phone}`,
-                referrerPhone: customerInfo.referrerPhone === '' ? '' : `${this.state.codeReferrerPhone}${customerInfo.referrerPhone}`,
+                phone: customerInfo.phone ? `${this.state.codeAreaPhone}${customerInfo.phone}` : ''  ,
+                referrerPhone: customerInfo.referrerPhone  ? `${this.state.codeReferrerPhone}${customerInfo.referrerPhone}` : ''  ,
                 addressPost: temptAddress,
                 isVip: customerInfo.isVip === "Normal" ? 0 : 1
             };

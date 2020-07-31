@@ -13,6 +13,8 @@ class TabSettle extends Layout {
         this.scrollTabRef = React.createRef();
         this.tabFirstSettleRef = React.createRef();
         this.tabsecondSettleRef = React.createRef();
+        this.staffIIncomeDetailsRef = React.createRef();
+        this.giftCardSalesDetailsTabRef = React.createRef();
     }
 
 
@@ -20,16 +22,16 @@ class TabSettle extends Layout {
         this.tabFirstSettleRef.current.handleReportTabFirst();
     }
 
-    gotoTabSecondSettle = (settlement,creditCount) => {
-        this.scrollTabRef.current.goToPage(1);
-        if(this.tabsecondSettleRef.current){
-            this.tabsecondSettleRef.current.setStateFromParent(settlement,creditCount);
-        }else{
+    gotoTabSecondSettle = (settlement, creditCount) => {
+        this.scrollTabRef.current.goToPage(3);
+        if (this.tabsecondSettleRef.current) {
+            this.tabsecondSettleRef.current.setStateFromParent(settlement, creditCount);
+        } else {
             setTimeout(() => {
-                this.tabsecondSettleRef.current.setStateFromParent(settlement,creditCount);
+                this.tabsecondSettleRef.current.setStateFromParent(settlement, creditCount);
             }, 500);
         }
-        
+
 
     }
 
@@ -41,6 +43,28 @@ class TabSettle extends Layout {
         this.tabFirstSettleRef.current.resetNoteFromParent();
     }
 
+    // ----------- New code ------------
+    onPressStaff = (staffId) => {
+        this.scrollTabRef.current.goToPage(1);
+        if (this.staffIIncomeDetailsRef.current) {
+            this.staffIIncomeDetailsRef.current.setStateFromParent(staffId);
+        } else {
+            setTimeout(() => {
+                this.staffIIncomeDetailsRef.current.setStateFromParent(staffId);
+            }, 300)
+        }
+    }
+
+    onPressGiftCardTotal = () => {
+        this.scrollTabRef.current.goToPage(2);
+        if (this.giftCardSalesDetailsTabRef.current) {
+            this.giftCardSalesDetailsTabRef.current.setStateFromParent();
+        } else {
+            setTimeout(() => {
+                this.giftCardSalesDetailsTabRef.current.setStateFromParent();
+            }, 300)
+        }
+    }
 
 
 }

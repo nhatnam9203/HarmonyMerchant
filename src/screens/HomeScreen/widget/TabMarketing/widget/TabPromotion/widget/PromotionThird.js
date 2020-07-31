@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 
 import { scaleSzie, localize, updateStateChildren } from '@utils';
-import { Text, InputForm ,ButtonCustom} from '@components';
+import { Text, InputForm, ButtonCustom } from '@components';
 import ItemPromo from './ItemPromo';
 import ItemCheckBoxInput from './ItemCheckBoxInput';
 import connectRedux from '@redux/ConnectRedux';
@@ -19,7 +19,7 @@ class PromotionThird extends React.Component {
         };
     }
 
-    setStateFromParent = async (data) =>{
+    setStateFromParent = async (data) => {
         await this.setState({
             data
         })
@@ -31,11 +31,11 @@ class PromotionThird extends React.Component {
         })
     }
 
-    showContent =  () => {
+    showContent = () => {
         this.setState(prevState => ({
             isShowContent: !prevState.isShowContent
-        }),() =>{
-            if(!this.state.isShowContent){
+        }), () => {
+            if (!this.state.isShowContent) {
                 this.props.toogleOtherPromotions("promotionThirdRef");
             }
         })
@@ -47,19 +47,19 @@ class PromotionThird extends React.Component {
         this.setState({
             data: updateStateChildren('isDisabled', isCheck, data)
         });
-        this.props.checkSelectPromotion();
+        this.props.actions.marketing.setStatusApplyButton(true,3);
     }
 
-    sendNotification = () => {
+    applyPromotion = () => {
         const { data } = this.state;
-        this.props.sendNotification(data.promotionId)
+        this.props.applyPromotion(data.promotionId)
     }
 
     // ----------- RENDER ----------
 
     render() {
-        const { language ,onFocus} = this.props;
-        const { data,isShowContent } = this.state;
+        const { language, onFocus,isApplyThirdPromotion } = this.props;
+        const { data, isShowContent } = this.state;
         const { campaignName } = data;
         return (
             <ItemPromo
@@ -80,17 +80,17 @@ class PromotionThird extends React.Component {
                             this.setState({
                                 data: updateStateChildren('campaignName', value, data)
                             });
-                            this.props.actions.marketing.setStatusApplyButton(true);
+                            this.props.actions.marketing.setStatusApplyButton(true, 3);
                         }}
                         style={{ marginBottom: scaleSzie(10) }}
-                        styleTitle={{fontWeight:"600"}}
+                        styleTitle={{ fontWeight: "600" }}
                         onFocus={() => onFocus(160)}
                     />
                     {/* ---- Row ---- */}
                     <Text style={{
                         color: '#404040',
                         fontSize: scaleSzie(14),
-                        fontWeight:"600"
+                        fontWeight: "600"
                     }} >
                         {`${localize('Promotion form', language)}:`}
                     </Text>
@@ -105,7 +105,7 @@ class PromotionThird extends React.Component {
                                 this.setState({
                                     data: updateStateChildren('discount', value, data)
                                 });
-                                this.props.actions.marketing.setStatusApplyButton(true);
+                                this.props.actions.marketing.setStatusApplyButton(true, 3);
                             }}
                             selectCheckbox={() => {
                                 if (data.discountType === 'discount_percent') {
@@ -113,13 +113,13 @@ class PromotionThird extends React.Component {
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                    this.props.actions.marketing.setStatusApplyButton(true);
+                                    this.props.actions.marketing.setStatusApplyButton(true, 3);
                                 } else {
                                     const tempData = updateStateChildren('discountType', 'discount_percent', data)
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                    this.props.actions.marketing.setStatusApplyButton(true);
+                                    this.props.actions.marketing.setStatusApplyButton(true, 3);
                                 }
                             }}
                             onFocus={() => onFocus(230)}
@@ -134,7 +134,7 @@ class PromotionThird extends React.Component {
                                 this.setState({
                                     data: updateStateChildren('discount', value, data)
                                 });
-                                this.props.actions.marketing.setStatusApplyButton(true);
+                                this.props.actions.marketing.setStatusApplyButton(true, 3);
                             }}
                             selectCheckbox={() => {
                                 if (data.discountType === 'discount_fixtom') {
@@ -142,29 +142,41 @@ class PromotionThird extends React.Component {
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                    this.props.actions.marketing.setStatusApplyButton(true);
+                                    this.props.actions.marketing.setStatusApplyButton(true, 3);
                                 } else {
                                     const tempData = updateStateChildren('discountType', 'discount_fixtom', data);
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                    this.props.actions.marketing.setStatusApplyButton(true);
+                                    this.props.actions.marketing.setStatusApplyButton(true, 3);
                                 }
                             }}
                             onFocus={() => onFocus(230)}
                         />
                     </View>
-                    <View style={{alignItems:'center',marginTop:scaleSzie(20)}} >
-                        <ButtonCustom
-                            width={scaleSzie(160)}
-                            height={40}
-                            backgroundColor="#4CD964"
-                            title={localize('Send Notification', language)}
-                            textColor="#fff"
-                            onPress={this.sendNotification}
-                            styleText={{fontSize:scaleSzie(14),fontWeight:'600'}}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5' ,borderRadius:scaleSzie(4)}}
-                        />
+                    <View style={{ alignItems: 'center', marginTop: scaleSzie(20) }} >
+                        {
+                            isApplyThirdPromotion ? <ButtonCustom
+                                width={scaleSzie(150)}
+                                height={40}
+                                backgroundColor="#4CD964"
+                                title={localize('Apply', language)}
+                                textColor="#fff"
+                                onPress={this.applyPromotion}
+                                styleText={{ fontSize: scaleSzie(17), fontWeight: 'bold' }}
+                                style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(4) }}
+                            /> : <ButtonCustom
+                                    width={scaleSzie(150)}
+                                    height={40}
+                                    backgroundColor="#E5E5E5"
+                                    title={localize('APPLY', language)}
+                                    textColor="#404040"
+                                    onPress={() => { }}
+                                    style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                                    styleText={{ fontSize: scaleSzie(17), fontWeight: 'bold' }}
+                                    activeOpacity={1}
+                                />
+                        }
                     </View>
                 </View>
             </ItemPromo>
@@ -174,8 +186,9 @@ class PromotionThird extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  })
-  
-  
-  
-  export default connectRedux(mapStateToProps, PromotionThird);
+    isApplyThirdPromotion : state.marketing.isApplyThirdPromotion
+})
+
+
+
+export default connectRedux(mapStateToProps, PromotionThird);

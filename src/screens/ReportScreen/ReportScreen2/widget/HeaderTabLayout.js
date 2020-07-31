@@ -45,7 +45,8 @@ export default function HeaderTabLayout({
       initialPage={SCROLL_PAGE_DEFAULT}
       locked={true}
       scrollWithoutAnimation
-      renderTabBar={renderHeaderTab}
+      // renderTabBar={renderHeaderTab}
+      renderTabBar={() => <View />}
       onChangeTab={onChangeTab}
     >
       {children && children}

@@ -1,4 +1,3 @@
-import React from 'react';
 import { NativeModules, Alert } from 'react-native';
 
 import Layout from './layout';
@@ -20,8 +19,9 @@ class TabSecondSettle extends Layout {
                 paymentByCreditCard: 0.00,
                 paymentByCash: 0.00,
                 otherPayment: 0.00,
+                discountSettlement: 0.00,
                 total: 0.00,
-                note: ''
+                note: ``
             },
             errorMessage: '',
             paxErrorMessage: ''
@@ -29,8 +29,7 @@ class TabSecondSettle extends Layout {
     }
 
     setStateFromParent = async (settleTotal, creditCount) => {
-        // console.log("------ settleTotal  : ",settleTotal);
-       await this.setState({
+        await this.setState({
             settleTotal,
             creditCount
         })
@@ -60,27 +59,6 @@ class TabSecondSettle extends Layout {
 
         }
     }
-
-    proccessingSettlement =async  () =>{
-        const { settleWaiting } = this.props;
-        const { settleTotal } = this.state;
-        const body = { ...settleTotal, checkout: settleWaiting.checkout };
-        this.props.actions.invoice.settleBatch(body);
-        await this.setState({
-            progress: 1
-        })
-        setTimeout(() => {
-            this.setState({
-                numberFooter: 3,
-            });
-        }, 400)
-        setTimeout(() => {
-            this.setState({
-                progress: 0,
-            });
-        }, 700)
-    }
-
 
     async handleResponseReportTransactions(message) {
         // console.log('Second : ', message);
@@ -171,21 +149,21 @@ class TabSecondSettle extends Layout {
         const { settleWaiting } = this.props;
         const { settleTotal } = this.state;
         const body = { ...settleTotal, checkout: settleWaiting.checkout };
+
+        this.setState({
+            numberFooter: 2,
+            errorMessage: '',
+            paxErrorMessage: ''
+        });
+        setTimeout(() => {
+            this.setState({
+                progress: 0.5,
+            });
+        }, 100);
+
         this.props.actions.invoice.settleBatch(body);
-        await this.setState({
-            progress: 1
-        })
-        setTimeout(() => {
-            this.setState({
-                numberFooter: 3,
-            });
-        }, 400)
-        setTimeout(() => {
-            this.setState({
-                progress: 0,
-            });
-        }, 700)
     }
+
 
     async handleResponseBatchTransactions(message) {
         try {
@@ -195,30 +173,44 @@ class TabSecondSettle extends Layout {
                     numberFooter: 1,
                     progress: 0,
                 })
-                // alert(result.message);
                 await this.setState({
                     paxErrorMessage: result.message
                 })
             } else {
-                const { settleWaiting } = this.props;
-                const { settleTotal } = this.state;
-                const body = { ...settleTotal, checkout: settleWaiting.checkout };
-                this.props.actions.invoice.settleBatch(body);
-                await this.setState({
-                    progress: 1
-                })
-                setTimeout(() => {
-                    this.setState({
-                        numberFooter: 3,
-                    });
-                }, 400)
-                setTimeout(() => {
-                    this.setState({
-                        progress: 0,
-                    });
-                }, 700)
+                this.proccessingSettlement();
             }
         } catch (error) {
+        }
+    }
+
+    settleSuccsess = async () => {
+        await this.setState({
+            progress: 1
+        });
+
+        setTimeout(() => {
+            this.setState({
+                numberFooter: 3
+            })
+        })
+    }
+
+    settleFail = async () => {
+        await this.setState({
+            progress: 0,
+            numberFooter: 1
+        });
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { isSettleBatch } = this.props;
+        if (prevProps.isSettleBatch !== isSettleBatch && isSettleBatch !== null) {
+            this.props.actions.invoice.resetStateSettleBatch();
+            if (isSettleBatch === "success") {
+                this.settleSuccsess();
+            } else if (isSettleBatch === "fail") {
+                this.settleFail();
+            }
         }
     }
 
@@ -228,6 +220,7 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     paxMachineInfo: state.dataLocal.paxMachineInfo,
     settleWaiting: state.invoice.settleWaiting,
+    isSettleBatch: state.invoice.isSettleBatch
 })
 
 

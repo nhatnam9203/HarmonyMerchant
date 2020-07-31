@@ -13,7 +13,6 @@ import {
 import { localize } from "@utils";
 
 const HEAD_FONT_SIZE = 17;
-const TABLE_ROW_HEIGHT = 50;
 
 export default function StaffStatistic({
   style,
@@ -125,7 +124,6 @@ export default function StaffStatistic({
             localize("Salary", language),
           ]}
           whiteKeys={[
-            "date",
             "dateString",
             "serviceSales",
             "serviceSplit",
@@ -146,6 +144,9 @@ export default function StaffStatistic({
           renderCell={renderCell}
           onCellPress={onCellPress}
           onChangeSumObjects={onChangeSumObject}
+          renderFooter={() => (
+            <View style={{ height: 50, backgroundColor: "transparent" }} />
+          )}
         />
         {renderFooter()}
       </View>

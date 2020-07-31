@@ -33,8 +33,10 @@ const initialState = {
     visibleConfirmPrintInvoice: false,
 
     invoiceTabPermission: false,
-    settlementTabPermission: false
-
+    settlementTabPermission: false,
+    staffSales: [],
+    gitfCardSales: [],
+    isSettleBatch: null
 }
 
 function appReducer(state = initialState, action) {
@@ -199,7 +201,32 @@ function appReducer(state = initialState, action) {
                 ...state,
                 settlementTabPermission: action.payload
             }
-            
+        case 'GET_LIST_STAFFS_SALES_SUCCESS':
+            return {
+                ...state,
+                staffSales: action.payload
+            }
+        case 'GET_LIST_GIFT_CARD_SALES_SUCCESS':
+            return {
+                ...state,
+                gitfCardSales: action.payload
+            }
+        case 'SETTLE_BATCH_SUCCESS':
+            return {
+                ...state,
+                isSettleBatch: "success"
+            }
+        case 'SETTLE_BATCH_FAIL':
+            return {
+                ...state,
+                isSettleBatch: "fail"
+            }
+        case 'RESET_STATE_SETTLE_BATCH':
+            return {
+                ...state,
+                isSettleBatch: null
+            }
+
         default:
             return state
     }
