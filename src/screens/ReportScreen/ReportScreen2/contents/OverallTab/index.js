@@ -29,9 +29,9 @@ export default function OverallTab({ style }) {
   const [isShowCalendar, showCalendar] = useState(false);
   const [titleTimeRange, setTitleTimeRange] = useState("This Week");
   /**func */
-  const onTimeRangeChanged = (timeRange) => {
+  const onTimeRangeChanged = async (timeRange) => {
     if (setTitleTimeRange && timeRange !== titleTimeRange) {
-      setTitleTimeRange(timeRange);
+      await setTitleTimeRange(timeRange);
     }
     showCalendar(false);
   };

@@ -31,12 +31,16 @@ const pickValuesFromKey = (array, pickKey) => {
   return filterArray;
 };
 
+const formatServerNumber = (numStr) => {
+  return numStr ? numStr.split(",").join("") : numStr;
+};
+
 /**create new object from two value for two key of object */
 const createChartObjectFromValues = (array, key, keyValue) => {
   let response = [];
   array.forEach((obj) => {
     let mapObj = Object.create({});
-    mapObj[obj[key]] = obj[keyValue];
+    mapObj[obj[key]] = formatServerNumber(obj[keyValue]);
     response.push(mapObj);
   });
 
@@ -63,9 +67,10 @@ export default function PaymentMethodRp({
   const [chartData, setChartData] = useState([]);
 
   /**component mount*/
-
   const getOverallPaymentMethod = async () => {
-    await dispatch(actions.report.getOverallPaymentMethod());
+    await dispatch(
+      actions.report.getOverallPaymentMethod(true, titleRangeTime)
+    );
   };
 
   useEffect(() => {
@@ -87,12 +92,16 @@ export default function PaymentMethodRp({
     bindChartData();
   }, [overallPaymentMethodList]);
 
+  useEffect(() => {
+    getOverallPaymentMethod(true, titleRangeTime);
+  }, [titleRangeTime]);
+
   /**callback */
   const renderCell = ({ key, row, column, item }) => {
     if (key === "netPayment") {
       return (
         <View style={styles.cellSalary}>
-          <Text style={styles.txtSalary}>{item[key] + "$"}</Text>
+          <Text style={styles.txtSalary}>{"$ " + item[key]}</Text>
 
           <View style={styles.imgContent}>
             <TouchableOpacity onPress={() => goStaffStatistics(item)}>
@@ -196,11 +205,17 @@ export default function PaymentMethodRp({
           <TableList
             tableData={overallPaymentMethodList}
             tableHead={[
-              localize("Payment", language),
-              localize("Transactions", language),
-              localize("Gross payments", language),
-              localize("Refunds", language),
-              localize("Net payments", language),
+              { key: "method", value: localize("Payment", language) },
+              {
+                key: "transactions",
+                value: localize("Transactions", language),
+              },
+              {
+                key: "grossPayment",
+                value: localize("Gross Payments", language),
+              },
+              { key: "refund", value: localize("Refunds", language) },
+              { key: "netPayment", value: localize("Net Payments", language) },
             ]}
             whiteKeys={[
               "method",
@@ -209,14 +224,21 @@ export default function PaymentMethodRp({
               "refund",
               "netPayment",
             ]}
-            primaryId=""
+            primaryId="method"
+            sumTotalKey="method"
             calcSumKeys={[
               "transactions",
               "grossPayment",
               "refund",
               "netPayment",
             ]}
-            // tableCellWidth={{ salary: 195, Salary: 195, name: 200, Name: 200 }}
+            priceKeys={["grossPayment", "refund", "netPayment"]}
+            tableCellWidth={{
+              method: 100,
+              transactions: 160,
+              grossPayment: 160,
+              netPayment: 200,
+            }}
             renderCell={renderCell}
             onCellPress={onCellPress}
           />

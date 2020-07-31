@@ -158,13 +158,13 @@ export default function StaffSalaryTab({
         <TableList
           tableData={filterDataTale()}
           tableHead={[
-            localize("Name", language),
-            localize("Service sales", language),
-            localize("Service split", language),
-            localize("Product sales", language),
-            localize("Product split", language),
-            localize("Tip amount", language),
-            localize("Salary", language),
+            { key: "name", value: localize("Name", language) },
+            { key: "serviceSales", value: localize("Service sales", language) },
+            { key: "serviceSplit", value: localize("Service split", language) },
+            { key: "productSales", value: localize("Product sales", language) },
+            { key: "productSplit", value: localize("Product split", language) },
+            { key: "tip", value: localize("Tip amount", language) },
+            { key: "salary", value: localize("Salary", language) },
           ]}
           whiteKeys={[
             "name",
@@ -176,6 +176,7 @@ export default function StaffSalaryTab({
             "salary",
           ]}
           primaryId="staffId"
+          sumTotalKey="name"
           calcSumKeys={[
             "serviceSales",
             "serviceSplit",
@@ -184,7 +185,15 @@ export default function StaffSalaryTab({
             "tip",
             "salary",
           ]}
-          tableCellWidth={{ salary: 180, Salary: 180, name: 180, Name: 180 }}
+          priceKeys={[
+            "serviceSales",
+            "serviceSplit",
+            "productSales",
+            "productSplit",
+            "tip",
+            "salary",
+          ]}
+          tableCellWidth={{ salary: 180, name: 180 }}
           renderCell={renderCell}
           onCellPress={onCellPress}
         />

@@ -47,6 +47,10 @@ const getCellKey = (item, primaryId) => {
   }
   return `${item[primaryId]}`;
 };
+
+const formatFloatValue = (value) => {
+  return value ? parseFloat(value).toFixed(2) : 0.0;
+};
 /**
  * !error: header long bug ui
  * !error: calcSum -> pagination bug
@@ -58,6 +62,8 @@ function TableList(
     tableCellWidth,
     whiteKeys,
     calcSumKeys,
+    sumTotalKey,
+    priceKeys,
     primaryId,
     extraData,
     noHead = false,
@@ -73,7 +79,6 @@ function TableList(
   const [headerContent, setHeaderContent] = useState([]);
   const [data, setData] = useState([]);
   const [sumObject, setSumObject] = useState({});
-  // const [renderKeys, setRenderKeys] = useState({});
 
   /**bind header */
   useEffect(() => {
@@ -82,7 +87,7 @@ function TableList(
       return;
     }
 
-    if (tableHead && tableHead.length > 0) {
+    if (tableHead?.length > 0) {
       setHeaderContent(tableHead);
       return;
     }
@@ -96,8 +101,6 @@ function TableList(
   /**bind data */
   useEffect(() => {
     if (whiteKeys?.length > 0 && tableData) {
-      // const filterList = pickObjectFromKeys(tableData, whiteKeys);
-
       let sumObj = {};
       if (calcSumKeys?.length > 0) {
         calcSumKeys.forEach((key) => {
@@ -113,12 +116,6 @@ function TableList(
     }
   }, [tableData, whiteKeys]);
 
-  /**bind render keys */
-  // useEffect(() => {
-  //   const listKeys = whiteKeys.filter((key) => key !== primaryId);
-  //   setRenderKeys(listKeys);
-  // }, [whiteKeys, primaryId]);
-
   const getCellWidth = (index, key) => {
     if (tableCellWidth && tableCellWidth[key]) {
       return tableCellWidth[key];
@@ -133,7 +130,7 @@ function TableList(
   // }));
 
   /**render */
-  // TABLE CELL
+  // render cell
   const renderItem = ({ item, index, separators }) => {
     const cellKey = getCellKey(item, primaryId);
     return (
@@ -174,7 +171,9 @@ function TableList(
             >
               {cellRender ?? (
                 <Text style={styles.textCell}>
-                  {(calcSumKeys.indexOf(key) > -1 ? "$ " : "") + item[key]}
+                  {priceKeys?.indexOf(key) > -1
+                    ? "$ " + formatFloatValue(item[key])
+                    : item[key]}
                 </Text>
               )}
             </TableCell>
@@ -184,17 +183,17 @@ function TableList(
     );
   };
 
-  // TABLE HEADER
+  // render header
   const renderHeader = () => {
-    return headerContent.length > 0 ? (
+    return headerContent?.length > 0 ? (
       <>
         <TableRow style={styles.head} key={TABLE_HEADER_KEY}>
           {headerContent.map((x, index) => (
             <TableCell
               key={x}
-              style={[styles.cell, { width: getCellWidth(index, x) }]}
+              style={[styles.cell, { width: getCellWidth(index, x.key) }]}
             >
-              <Text style={styles.textHead}>{x}</Text>
+              <Text style={styles.textHead}>{x.value}</Text>
             </TableCell>
           ))}
         </TableRow>
@@ -210,12 +209,15 @@ function TableList(
                   key={keyUnique}
                   style={[styles.cell, { width: getCellWidth(index, key) }]}
                 >
-                  {key === "name" && (
+                  {key === sumTotalKey && (
                     <Text style={styles.textSum}>{"Total"}</Text>
                   )}
+
                   {calcSumKeys.indexOf(key) > -1 && (
                     <Text style={styles.textSum}>
-                      {"$ " + formatFloatValue(sumObject[key])}
+                      {priceKeys?.indexOf(key) > -1
+                        ? "$ " + formatFloatValue(sumObject[key])
+                        : sumObject[key]}
                     </Text>
                   )}
                 </TableCell>
@@ -227,25 +229,30 @@ function TableList(
     ) : null;
   };
 
+  // render footer
   const onRenderFooter = () => {
     return renderFooter ? renderFooter() : <View />;
   };
 
+  // render line spacing
   const renderSeparator = () => {
     return <View style={styles.separator} />;
   };
 
   return (
-    <FlatList
-      styles={{ flex: 1 }}
-      data={data}
-      renderItem={renderItem}
-      keyExtractor={(item) => getCellKey(item, primaryId)}
-      ListHeaderComponent={renderHeader}
-      // ListFooterComponent={renderFooter}
-      ItemSeparatorComponent={renderSeparator}
-      // extraData={selectedItem}
-    />
+    <View style={styles.container}>
+      {renderHeader()}
+      <FlatList
+        styles={{ flex: 1 }}
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item) => getCellKey(item, primaryId)}
+        // ListHeaderComponent={renderHeader}
+        // ListFooterComponent={renderFooter}
+        ItemSeparatorComponent={renderSeparator}
+        // extraData={selectedItem}
+      />
+    </View>
   );
 }
 
@@ -315,8 +322,6 @@ const styles = StyleSheet.create({
     fontSize: HEAD_FONT_SIZE,
     color: "#0764B0",
     fontWeight: "600",
-    // flexShrink: 1,
-    // textAlign: "justify",
     flexWrap: "wrap",
   },
   separator: {

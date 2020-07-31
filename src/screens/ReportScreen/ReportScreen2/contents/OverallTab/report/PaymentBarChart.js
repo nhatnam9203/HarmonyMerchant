@@ -99,6 +99,8 @@ export default function PaymentBarChart({ data }) {
                 processColor("#3E70B3"),
                 processColor("#BFDAFF"),
                 processColor("#8FA3BF"),
+                processColor("#194a8c"),
+                processColor("#ccd6e5"),
               ],
               valueTextSize: 14,
               valueTextColor: processColor("#0764B0"),

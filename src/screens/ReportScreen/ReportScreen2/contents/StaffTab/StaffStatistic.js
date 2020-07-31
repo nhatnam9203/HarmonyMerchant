@@ -115,13 +115,13 @@ export default function StaffStatistic({
           showSumOnBottom={true}
           tableData={listStaffsCalendar}
           tableHead={[
-            localize("Date", language),
-            localize("Service sales", language),
-            localize("Service split", language),
-            localize("Product sales", language),
-            localize("Product split", language),
-            localize("Tip amount", language),
-            localize("Salary", language),
+            { key: "dateString", value: localize("Date", language) },
+            { key: "serviceSales", value: localize("Service sales", language) },
+            { key: "serviceSplit", value: localize("Service split", language) },
+            { key: "productSales", value: localize("Product sales", language) },
+            { key: "productSplit", value: localize("Product split", language) },
+            { key: "tipAmount", value: localize("Tip amount", language) },
+            { key: "salary", value: localize("Salary", language) },
           ]}
           whiteKeys={[
             "dateString",
@@ -133,7 +133,16 @@ export default function StaffStatistic({
             "salary",
           ]}
           primaryId="date"
+          sumTotalKey="dateString"
           calcSumKeys={[
+            "serviceSales",
+            "serviceSplit",
+            "productSales",
+            "productSplit",
+            "tipAmount",
+            "salary",
+          ]}
+          priceKeys={[
             "serviceSales",
             "serviceSplit",
             "productSales",

@@ -5,7 +5,6 @@ const styles = StyleSheet.create({
   scrollTab: { flex: 1 },
   content: {
     flex: 1,
-    padding: 10,
     justifyContent: "center",
     alignItems: "center",
   },

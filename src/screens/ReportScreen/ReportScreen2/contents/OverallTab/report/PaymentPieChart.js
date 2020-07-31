@@ -42,7 +42,7 @@ const legend = {
       },
     ],
   },
-  highlights = [{ x: 2 }],
+  // highlights = [{ x: 2 }],
   description = {
     text: "",
     textSize: 14,
@@ -91,16 +91,18 @@ export default function PaymentBarChart({ data }) {
                 processColor("#3E70B3"),
                 processColor("#BFDAFF"),
                 processColor("#8FA3BF"),
+                processColor("#194a8c"),
+                processColor("#ccd6e5"),
               ],
               valueTextSize: 14,
-              valueTextColor: processColor("white"),
-              sliceSpace: 1,
+              valueTextColor: processColor("transparent"),
+              sliceSpace: 0,
               selectionShift: 0,
               // xValuePosition: "OUTSIDE_SLICE",
               // yValuePosition: "OUTSIDE_SLICE",
               valueFormatter: "#'%'",
               valueLineColor: processColor("white"),
-              valueLinePart1Length: 0,
+              valueLinePart1Length: 0.5,
             },
           },
         ],
@@ -135,11 +137,11 @@ export default function PaymentBarChart({ data }) {
         chartDescription={description}
         data={dataChart}
         legend={legend}
-        highlights={highlights}
-        entryLabelColor={processColor("#fff")}
-        entryLabelTextSize={14}
+        // highlights={highlights}
+        // entryLabelColor={processColor("#fff")}
+        // entryLabelTextSize={14}
         drawEntryLabels={false}
-        rotationEnabled={true}
+        rotationEnabled={false}
         rotationAngle={45}
         usePercentValues={true}
         styledCenterText={{
