@@ -280,6 +280,14 @@ class AddStaff extends Layout {
         }
     }
 
+    disableFixedAmountTip =() =>{
+        this.fixedAmountTipFeeRef.current.setStateFromParent();
+    }
+
+    disablePercentTip =() =>{
+        this.percentTipFeeRef.current.setStateFromParent();
+    }
+
     componentWillUnmount() {
         this.inputRefsTime = [];
     }

@@ -17,17 +17,31 @@ export default class ItemScalary extends React.Component {
     constructor(props) {
         super(props);
         const {dataInit} = this.props;
-    //console.log('dataInit : ', dataInit);
         this.state = {
             isCheck:dataInit.isCheck,
             value: dataInit.value
         }
     }
 
+    setStateFromParent = async (isCheck = false ,value = "0") =>{
+        await this.setState({
+            isCheck,
+            value
+        })
+    }
+
     onPress = () => {
         this.setState((prevState, props) => ({
             isCheck: !prevState.isCheck
-        }));
+        }),() =>{
+            if(!this.state.isCheck){
+                this.setState({
+                    value: "0"
+                })
+            }else{
+                this.props.toogleCheck && this.props.toogleCheck();
+            }
+        });
     }
 
     render() {
@@ -57,12 +71,21 @@ export default class ItemScalary extends React.Component {
 
                 <View style={[{ width: scaleSzie(150), paddingLeft: scaleSzie(5) }, styles.borderTextInput]} >
                     <TextInputMask
-                        type="only-numbers"
+                        type={'money'}
+                        options={{
+                            precision: 2,
+                            separator: '.',
+                            delimiter: ',',
+                            unit: '',
+                            suffixUnit: ''
+                        }}
+                        // placeholder="$ 0.00"
                         style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
                         placeholder={placeholder}
                         value={value}
                         onChangeText={(value) => this.setState({ value })}
                         onFocus={() =>onFocus()}
+                        editable={isCheck}
                     />
                 </View>
             </View>

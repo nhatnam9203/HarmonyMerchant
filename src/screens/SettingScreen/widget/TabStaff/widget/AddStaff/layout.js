@@ -302,6 +302,7 @@ class Layout extends React.Component {
                         placeholder={'10'}
                         dataInit={percent_TipFee}
                         onFocus={() => this.scrollStaffTo(1300)}
+                        toogleCheck={this.disableFixedAmountTip}
                     />
 
                     {/* ----- Fix amount Tip Fee ---- */}
@@ -311,6 +312,7 @@ class Layout extends React.Component {
                         placeholder={'10'}
                         dataInit={fixedAmount_TipFee}
                         onFocus={() => this.scrollStaffTo(1300)}
+                        toogleCheck={this.disablePercentTip}
                     />
 
 
@@ -332,6 +334,10 @@ class Layout extends React.Component {
                         onFocus={() => this.scrollStaffTo(1450)}
                         typeSocial="custom"
                         mark="999-99-9999"
+                        style={{
+                            fontSize: scaleSzie(12),
+                            fontWeight:"bold"
+                        }}
                     />
                     <ItemAdminInfo
                         title={localize('Professional License', language)}
