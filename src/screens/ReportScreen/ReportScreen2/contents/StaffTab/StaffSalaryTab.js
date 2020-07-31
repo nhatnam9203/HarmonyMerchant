@@ -135,6 +135,7 @@ export default function StaffSalaryTab({
         {/**calendar button */}
         <PopupButton
           text={titleRangeTime}
+          imageSrc={IMAGE.calendar}
           onPress={showCalendar}
           style={{ marginRight: 20 }}
         />

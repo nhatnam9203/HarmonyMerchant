@@ -93,6 +93,8 @@ export default function StaffStatistic({
       >
         <PopupButton
           text={titleRangeTime}
+          imageSrc={IMAGE.calendar}
+
           onPress={showCalendar}
           style={{ marginRight: 20 }}
         />

@@ -31,10 +31,12 @@ export default function CustomerTab({ style }) {
   const [titleTimeRange, setTitleTimeRange] = useState("This Week");
 
   /**func */
-  const onTimeRangeChanged = (timeRange) => {
-    if (setTitleTimeRange && timeRange !== titleTimeRange) {
-      setTitleTimeRange(timeRange);
+  const onTimeRangeChanged = async (titleTime, urlTime) => {
+    if (setTitleTimeRange && titleTime !== titleTimeRange) {
+      await setTitleTimeRange(titleTime);
+      await setUrlTimeRange(urlTime);
     }
+
     showCalendar(false);
   };
 

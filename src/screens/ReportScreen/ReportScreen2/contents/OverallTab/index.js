@@ -28,11 +28,15 @@ export default function OverallTab({ style }) {
   /**state */
   const [isShowCalendar, showCalendar] = useState(false);
   const [titleTimeRange, setTitleTimeRange] = useState("This Week");
+  const [urlTimeRange, setUrlTimeRange] = useState("thisWeek");
   /**func */
-  const onTimeRangeChanged = async (timeRange) => {
-    if (setTitleTimeRange && timeRange !== titleTimeRange) {
-      await setTitleTimeRange(timeRange);
-    }
+  const onTimeRangeChanged = async (titleTime, urlTime) => {
+    console.log(titleTime);
+    console.log(urlTime);
+
+    await setUrlTimeRange(urlTime);
+    await setTitleTimeRange(titleTime);
+
     showCalendar(false);
   };
 
@@ -46,11 +50,15 @@ export default function OverallTab({ style }) {
           style={{ flex: 1, paddingTop: 10 }}
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleTimeRange}
+          urlRangeTime={urlTimeRange}
+          tabLabel={"overallTab"}
         />
         <OverallStatistic
           style={{ flex: 1, paddingTop: 10 }}
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleTimeRange}
+          urlRangeTime={urlTimeRange}
+          tabLabel={"overallStatistic"}
         />
       </ReportTabLayout>
     </View>

@@ -13,6 +13,7 @@ export default function OverallReportTab({
   style,
   showCalendar,
   titleRangeTime,
+  urlRangeTime,
 }) {
   return (
     <View style={style}>
@@ -22,12 +23,14 @@ export default function OverallReportTab({
           tabLabel="Payment Method"
           showCalendar={showCalendar}
           titleRangeTime={titleRangeTime}
+          urlRangeTime={urlRangeTime}
         />
         <MarketingEfficiencyRp
           style={{ flex: 1, paddingTop: 10 }}
           tabLabel="Marketing Efficiency"
           showCalendar={showCalendar}
           titleRangeTime={titleRangeTime}
+          urlRangeTime={urlRangeTime}
         />
       </CustomScrollTab>
     </View>

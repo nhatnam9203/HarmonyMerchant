@@ -190,7 +190,7 @@ function TableList(
         <TableRow style={styles.head} key={TABLE_HEADER_KEY}>
           {headerContent.map((x, index) => (
             <TableCell
-              key={x}
+              key={x.key}
               style={[styles.cell, { width: getCellWidth(index, x.key) }]}
             >
               <Text style={styles.textHead}>{x.value}</Text>

@@ -51,6 +51,7 @@ export default function PaymentMethodRp({
   style,
   showCalendar,
   titleRangeTime,
+  urlRangeTime,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -68,14 +69,8 @@ export default function PaymentMethodRp({
 
   /**component mount*/
   const getOverallPaymentMethod = async () => {
-    await dispatch(
-      actions.report.getOverallPaymentMethod(true, titleRangeTime)
-    );
+    await dispatch(actions.report.getOverallPaymentMethod(true, urlRangeTime));
   };
-
-  useEffect(() => {
-    getOverallPaymentMethod();
-  }, []);
 
   const bindChartData = async () => {
     if (!overallPaymentMethodList) return [];
@@ -93,8 +88,8 @@ export default function PaymentMethodRp({
   }, [overallPaymentMethodList]);
 
   useEffect(() => {
-    getOverallPaymentMethod(true, titleRangeTime);
-  }, [titleRangeTime]);
+    getOverallPaymentMethod();
+  }, [urlRangeTime]);
 
   /**callback */
   const renderCell = ({ key, row, column, item }) => {

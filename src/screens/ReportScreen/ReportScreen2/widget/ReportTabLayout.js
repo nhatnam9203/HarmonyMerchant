@@ -49,7 +49,7 @@ function ReportTabLayout(
   const [visiblePopupLoadingExport, setVisiblePopupLoadingExport] = useState(
     false
   );
-  const [titleRangeTime, setTitleRangeTime] = useState("This week");
+
   const [currentTab, setCurrentTab] = useState(0);
   const [titleExportFile, setTitleExportFile] = useState(
     localize("Export", language)
@@ -132,10 +132,13 @@ function ReportTabLayout(
 
   // time filter change: hide popup + create time range params + call api search staff
   const changeTitleTimeRange = async (title) => {
-    setVisibleCalendar(false);
-    setTitleRangeTime(title !== "Time Range" ? title : "All time");
+    await setVisibleCalendar(false);
+
     if (onCalendarClose) {
-      onCalendarClose(title);
+      onCalendarClose(
+        title !== "Time Range" ? title : "All time",
+        getFilterTimeParams()
+      );
     }
   };
 
@@ -238,7 +241,7 @@ function ReportTabLayout(
     setVisibleCalendar(false);
 
     if (onCalendarClose) {
-      onCalendarClose(titleRangeTime);
+      onCalendarClose(getTimeTitle(), getFilterTimeParams());
     }
   };
 
