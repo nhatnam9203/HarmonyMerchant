@@ -78,10 +78,10 @@ export default function StaffSalaryTab({
   };
 
   /**render */
-  const renderCell = ({ key, row, column, item }) => {
+  const renderCell = ({ key, row, column, item, isPrice }) => {
     if (key === "salary") {
       return (
-        <View style={styles.cellSalary}>
+        <View style={[styles.cellSalary, { justifyContent: "flex-end" }]}>
           <Text style={styles.txtSalary}>{"$ " + item[key]}</Text>
 
           <View style={styles.imgContent}>
@@ -115,7 +115,7 @@ export default function StaffSalaryTab({
             {/**export button */}
             <PopupButton
               text="Export"
-              imageSrc={IMAGE.Report_Export}
+              imageSrc={IMAGE.export}
               onPress={showExportFile}
             />
             {/**downloaded file handle button */}
@@ -126,7 +126,7 @@ export default function StaffSalaryTab({
                 txtStyle={{ color: "#fff" }}
                 imageStyle={{ tintColor: "#fff" }}
                 text={localize("Manager downloaded file", language)}
-                imageSrc={IMAGE.Report_Export}
+                imageSrc={IMAGE.export}
               />
             )}
           </>
@@ -160,11 +160,11 @@ export default function StaffSalaryTab({
           tableData={filterDataTale()}
           tableHead={[
             { key: "name", value: localize("Name", language) },
-            { key: "serviceSales", value: localize("Service sales", language) },
-            { key: "serviceSplit", value: localize("Service split", language) },
-            { key: "productSales", value: localize("Product sales", language) },
-            { key: "productSplit", value: localize("Product split", language) },
-            { key: "tip", value: localize("Tip amount", language) },
+            { key: "serviceSales", value: localize("Service Sales", language) },
+            { key: "serviceSplit", value: localize("Service Split", language) },
+            { key: "productSales", value: localize("Product Sales", language) },
+            { key: "productSplit", value: localize("Product Split", language) },
+            { key: "tip", value: localize("Tip Amount", language) },
             { key: "salary", value: localize("Salary", language) },
           ]}
           whiteKeys={[

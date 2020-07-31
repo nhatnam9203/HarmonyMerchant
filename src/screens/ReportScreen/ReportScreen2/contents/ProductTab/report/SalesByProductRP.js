@@ -28,7 +28,7 @@ export default function SalesByProductRp({
           <>
             <PopupButton
               text="Export"
-              imageSrc={IMAGE.Report_Export}
+              imageSrc={IMAGE.export}
               // onPress={showExportFile}
             />
 
@@ -39,7 +39,7 @@ export default function SalesByProductRp({
                 txtStyle={{ color: "#fff" }}
                 imageStyle={{ tintColor: "#fff" }}
                 text={localize("Manager downloaded file", language)}
-                imageSrc={IMAGE.Report_Export}
+                imageSrc={IMAGE.export}
               />
             )}
           </>

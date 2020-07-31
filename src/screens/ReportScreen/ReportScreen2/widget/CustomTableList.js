@@ -155,6 +155,7 @@ function TableList(
             row: index,
             column: keyIndex,
             item: item,
+            isPrice: priceKeys?.indexOf(key),
           });
           return (
             <TableCell
@@ -167,7 +168,14 @@ function TableList(
                 })
               }
               key={keyUnique}
-              style={[styles.cell, { width: getCellWidth(keyIndex, key) }]}
+              style={[
+                styles.cell,
+                {
+                  width: getCellWidth(keyIndex, key),
+                  alignItems:
+                    priceKeys?.indexOf(key) >= 0 ? "flex-end" : "flex-start",
+                },
+              ]}
             >
               {cellRender ?? (
                 <Text style={styles.textCell}>
@@ -191,7 +199,10 @@ function TableList(
           {headerContent.map((x, index) => (
             <TableCell
               key={x.key}
-              style={[styles.cell, { width: getCellWidth(index, x.key) }]}
+              style={[
+                styles.cell,
+                { width: getCellWidth(index, x.key), alignItems: "center" },
+              ]}
             >
               <Text style={styles.textHead}>{x.value}</Text>
             </TableCell>
@@ -207,7 +218,16 @@ function TableList(
               return (
                 <TableCell
                   key={keyUnique}
-                  style={[styles.cell, { width: getCellWidth(index, key) }]}
+                  style={[
+                    styles.cell,
+                    {
+                      width: getCellWidth(index, key),
+                      alignItems:
+                        priceKeys?.indexOf(key) >= 0
+                          ? "flex-end"
+                          : "flex-start",
+                    },
+                  ]}
                 >
                   {key === sumTotalKey && (
                     <Text style={styles.textSum}>{"Total"}</Text>

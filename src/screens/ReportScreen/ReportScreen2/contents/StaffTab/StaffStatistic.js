@@ -59,7 +59,9 @@ export default function StaffStatistic({
           Object.keys(sumObjects).map((key, index) => {
             return (
               <View style={styles.cell} key={key}>
-                <Text style={styles.txtCalcSum}>{"$ " + sumObjects[key]}</Text>
+                <Text style={styles.txtCalcSum}>
+                  {"$ " + parseFloat(sumObjects[key]).toFixed(2)}
+                </Text>
               </View>
             );
           })}
@@ -75,7 +77,7 @@ export default function StaffStatistic({
           <>
             <PopupButton
               text="Export"
-              imageSrc={IMAGE.Report_Export}
+              imageSrc={IMAGE.export}
               onPress={showExportFile}
             />
             {pathFileReportStaff && (
@@ -85,7 +87,7 @@ export default function StaffStatistic({
                 txtStyle={{ color: "#fff" }}
                 imageStyle={{ tintColor: "#fff" }}
                 text={localize("Manager downloaded file", language)}
-                imageSrc={IMAGE.Report_Export}
+                imageSrc={IMAGE.export}
               />
             )}
           </>
@@ -94,7 +96,6 @@ export default function StaffStatistic({
         <PopupButton
           text={titleRangeTime}
           imageSrc={IMAGE.calendar}
-
           onPress={showCalendar}
           style={{ marginRight: 20 }}
         />

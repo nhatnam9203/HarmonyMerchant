@@ -75,7 +75,7 @@ export default function ReportStatisticLayout({
           <>
             <PopupButton
               text="Export"
-              imageSrc={IMAGE.Report_Export}
+              imageSrc={IMAGE.export}
               onPress={showExportFile}
             />
             {pathFileReportStaff && (
@@ -85,7 +85,7 @@ export default function ReportStatisticLayout({
                 txtStyle={{ color: "#fff" }}
                 imageStyle={{ tintColor: "#fff" }}
                 text={localize("Manager downloaded file", language)}
-                imageSrc={IMAGE.Report_Export}
+                imageSrc={IMAGE.export}
               />
             )}
           </>
