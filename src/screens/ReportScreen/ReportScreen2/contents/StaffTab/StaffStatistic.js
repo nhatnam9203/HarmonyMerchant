@@ -124,7 +124,6 @@ export default function StaffStatistic({
             localize("Salary", language),
           ]}
           whiteKeys={[
-            "date",
             "dateString",
             "serviceSales",
             "serviceSplit",
