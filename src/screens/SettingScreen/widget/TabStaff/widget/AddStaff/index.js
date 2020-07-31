@@ -4,7 +4,8 @@ import _ from 'ramda';
 
 import Layout from './layout';
 import strings from './strings';
-import { validateEmail, getIdStateByName, getNameStateById, getCodeAreaPhone, scaleSzie, checkStateIsValid,
+import {
+    validateEmail, getIdStateByName, getNameStateById, getCodeAreaPhone, scaleSzie, checkStateIsValid,
     BusinessWorkingTime
 } from '@utils';
 
@@ -71,7 +72,7 @@ class AddStaff extends Layout {
             imageUrl: '',
             isSubmitButton: true,
             value: {},
-            dynamicMarginBottomState:24 
+            dynamicMarginBottomState: 24
         }
         // ---- Refs ----
         this.inputRefsTime = [];
@@ -206,28 +207,28 @@ class AddStaff extends Layout {
                 workingTime: objWorkingTime,
                 salary: {
                     perHour: {
-                        value: parseInt(this.perHourServiceSalaryRef.current.state.value ? this.perHourServiceSalaryRef.current.state.value : 0),
+                        value: parseFloat(this.perHourServiceSalaryRef.current.state.value ? this.perHourServiceSalaryRef.current.state.value : 0),
                         isCheck: this.perHourServiceSalaryRef.current.state.isCheck
                     },
                     commission: {
-                        value: parseInt(this.commissionSalaryRef.current.state.value ? this.commissionSalaryRef.current.state.value : 0),
+                        value: parseFloat(this.commissionSalaryRef.current.state.value ? this.commissionSalaryRef.current.state.value : 0),
                         isCheck: this.commissionSalaryRef.current.state.isCheck
                     }
                 },
                 tipFee: {
                     percent: {
-                        value: parseInt(this.percentTipFeeRef.current.state.value ? this.percentTipFeeRef.current.state.value : 0),
+                        value: parseFloat(this.percentTipFeeRef.current.state.value ? this.percentTipFeeRef.current.state.value : 0),
                         isCheck: this.percentTipFeeRef.current.state.isCheck
                     },
                     fixedAmount: {
-                        value: parseInt(this.fixedAmountTipFeeRef.current.state.value ? this.fixedAmountTipFeeRef.current.state.value : 0),
+                        value: parseFloat(this.fixedAmountTipFeeRef.current.state.value ? this.fixedAmountTipFeeRef.current.state.value : 0),
                         isCheck: this.fixedAmountTipFeeRef.current.state.isCheck
                     }
                 },
                 fileId: this.state.fileId,
                 productSalary: {
                     commission: {
-                        value: parseInt(this.commisionProductScalaryRef.current.state.value ? this.commisionProductScalaryRef.current.state.value : 0),
+                        value: parseFloat(this.commisionProductScalaryRef.current.state.value ? this.commisionProductScalaryRef.current.state.value : 0),
                         isCheck: this.commisionProductScalaryRef.current.state.isCheck
                     }
 
@@ -280,11 +281,11 @@ class AddStaff extends Layout {
         }
     }
 
-    disableFixedAmountTip =() =>{
+    disableFixedAmountTip = () => {
         this.fixedAmountTipFeeRef.current.setStateFromParent();
     }
 
-    disablePercentTip =() =>{
+    disablePercentTip = () => {
         this.percentTipFeeRef.current.setStateFromParent();
     }
 

@@ -231,7 +231,7 @@ class StaffInfo extends Layout {
                 objSalary = {
                     ...objSalary,
                     [this.convertKeyToName(ref.props.title)]: {
-                        value: parseInt(ref.state.value ? ref.state.value : 0),
+                        value: parseFloat(ref.state.value ? ref.state.value : 0),
                         isCheck: ref.state.isCheck
                     }
                 }
@@ -241,7 +241,7 @@ class StaffInfo extends Layout {
                 objProjectSalary = {
                     ...objProjectSalary,
                     [this.convertKeyToName(ref.props.title)]: {
-                        value: parseInt(ref.state.value ? ref.state.value : 0),
+                        value: parseFloat(ref.state.value ? ref.state.value : 0),
                         isCheck: ref.state.isCheck
                     }
                 }
@@ -251,7 +251,7 @@ class StaffInfo extends Layout {
                 objTipFee = {
                     ...objTipFee,
                     [this.convertKeyToName(ref.props.title)]: {
-                        value: parseInt(ref.state.value ? ref.state.value : 0),
+                        value: parseFloat(ref.state.value ? ref.state.value : 0),
                         isCheck: ref.state.isCheck
                     }
                 }
@@ -317,6 +317,20 @@ class StaffInfo extends Layout {
         }
     }
 
+    disableTip =(type) =>{
+        for(const ref of this.inputRefsTip){
+            if(ref.props.title !==  type){
+                ref.setStateFromParent();
+            }
+        }
+    }
+
+    componentWillUnmount(){
+        this.inputRefsTime = [];
+        this.inputRefsSalary = [];
+        this.inputProductSalaryRef = [];
+        this.inputRefsTip = [];
+    }
 
 
 }

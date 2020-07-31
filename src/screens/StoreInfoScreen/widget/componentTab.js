@@ -11,8 +11,7 @@ import {
 import { scaleSzie, ListCodeAreaPhone } from '@utils';
 
 const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntry, type,onFocus,
-    typeSocial,mark,
-    maxLength }) => {
+    typeSocial,mark,maxLength,style }) => {
     return (
         <View style={{
             flexDirection: 'row',
@@ -22,12 +21,12 @@ const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntr
             marginTop: scaleSzie(25)
         }} >
             <View style={{ width: scaleSzie(150), justifyContent: 'center' }} >
-                <Text style={{
+                <Text style={[{
                     color: '#404040',
                     fontSize: scaleSzie(14),
                     fontWeight: '600',
 
-                }}  >
+                },style]}  >
                     {`${title}`}
                 </Text>
             </View>
