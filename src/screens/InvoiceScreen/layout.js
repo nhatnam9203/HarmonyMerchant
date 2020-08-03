@@ -496,9 +496,6 @@ export default class Layout extends React.Component {
                 {/* ----------- Body --------- */}
                 <View style={{ flex: 1 }} >
                     <View style={{ height: scaleSzie(16) }} />
-                    <Text style={{ color: '#404040', fontSize: scaleSzie(13), fontWeight: "bold" }} >
-                        {`Change : ${invoiceDetail.refundAmount ? invoiceDetail.refundAmount : 0.00}`}
-                    </Text>
                     <View style={{ flex: 1 }} >
                         <ScrollView showsVerticalScrollIndicator={false} >
                             {
@@ -507,6 +504,10 @@ export default class Layout extends React.Component {
                                     data={item}
                                 />)
                             }
+                             <View style={{ height: scaleSzie(16) }} />
+                            <Text style={{ color: '#404040', fontSize: scaleSzie(13), fontWeight: "bold" }} >
+                                {`Change : $ ${invoiceDetail.refundAmount ? invoiceDetail.refundAmount : 0.00}`}
+                            </Text>
                         </ScrollView>
                     </View>
 

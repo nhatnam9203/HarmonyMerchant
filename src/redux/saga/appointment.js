@@ -411,7 +411,7 @@ function* checkoutSubmit(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('checkoutSubmit : ' + JSON.stringify(responses));
+        // console.log('checkoutSubmit : ' + JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -777,7 +777,7 @@ function* getBlockAppointmentById(action) {
     try {
         action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
-        console.log('getBlockAppointmentById : ' + JSON.stringify(responses));
+        // console.log('getBlockAppointmentById : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
@@ -875,7 +875,7 @@ function* getCustomerBuyAppointment(action) {
         yield put({ type: 'LOADING_ROOT' })
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-        console.log('getCustomerBuyAppointment : ' + JSON.stringify(responses));
+        // console.log('getCustomerBuyAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({

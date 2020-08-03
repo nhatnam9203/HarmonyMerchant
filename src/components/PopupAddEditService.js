@@ -570,7 +570,7 @@ class ItemExtra extends React.Component {
         const arrayKey = Object.keys(temptExtra);
         let keyError = "";
         for (let i = 0; i <= arrayKey.length - 1; i++) {
-            if (arrayKey[i] === 'description') {
+            if (arrayKey[i] === 'description' || arrayKey[i] === "supplyFee") {
                 continue;
             } else if (temptExtra[arrayKey[i]] == "") {
                 keyError = `${arrayKey[i]}_extra`;
@@ -617,7 +617,7 @@ class ItemExtra extends React.Component {
                 {/* ------ Extra ---- */}
                 <View style={{ flexDirection: 'row', justifyContent: "space-between" }} >
                     <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
-                        {`Extra Name`}
+                        {`Extra Name*`}
                     </Text>
                     {/* --------------- */}
 

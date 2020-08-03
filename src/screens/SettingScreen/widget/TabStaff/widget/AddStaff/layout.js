@@ -320,7 +320,26 @@ class Layout extends React.Component {
                         toogleCheck={this.disablePercentTip}
                     />
 
-                   
+                    {/* -----  Payout With Cash ---- */}
+                    <TitleTabAdminInfo
+                        title={localize('Payout With Cash', language)}
+                    />
+
+
+                    {/* ----- Cash Percent ---- */}
+                    <ItemScalary
+                        ref={this.cashPercentRef}
+                        title={`${localize("Cash Percent", language)} (%)`}
+                        placeholder={'10'}
+                        dataInit={{
+                            isCheck: true,
+                            value: temptCashPercent
+                        }}
+                        onFocus={() => this.scrollStaffTo(1500)}
+                        maxLength={3}
+                        isNotToggleCheck={true}
+                    />
+
 
                     {/* ---- Address ---- */}
                     <ItemAdminInfo
