@@ -54,6 +54,7 @@ const getCellKey = (item, primaryId) => {
   return `${item[primaryId]}`;
 };
 
+/**server value string "345,666.89" */
 const formatServerNumber = (numStr) => {
   if (!numStr) return 0;
 

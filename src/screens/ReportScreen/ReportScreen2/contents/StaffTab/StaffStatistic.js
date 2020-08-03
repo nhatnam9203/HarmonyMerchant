@@ -14,7 +14,6 @@ import { localize, roundFloatNumber } from "@utils";
 
 const HEAD_FONT_SIZE = 17;
 
-
 export default function StaffStatistic({
   style,
   titleRangeTime,
@@ -119,6 +118,7 @@ export default function StaffStatistic({
         <View style={{ width: 160, height: 45 }}>
           <Dropdown
             data={dataStaffSalaryFilter}
+            dropdownPosition={2}
             onChangeText={(text) => onChangeFilterStaff(text)}
             renderBase={() => (
               <PopupButton

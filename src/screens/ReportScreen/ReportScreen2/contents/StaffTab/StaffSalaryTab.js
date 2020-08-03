@@ -47,8 +47,6 @@ export default function StaffSalaryTab({
   const [currentStaff, setCurrentStaff] = useState({});
   const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
 
-
-
   /**process */
   const onRowPress = ({ key, row, item }) => {
     showPopupStaffInvoice(item);
@@ -143,6 +141,7 @@ export default function StaffSalaryTab({
         <View style={{ width: 160, height: 45 }}>
           <Dropdown
             rippleCentered={true}
+            dropdownPosition={2}
             data={dataStaffSalaryFilter}
             onChangeText={(text) => onChangeFilterStaff(text)}
             renderBase={() => (
