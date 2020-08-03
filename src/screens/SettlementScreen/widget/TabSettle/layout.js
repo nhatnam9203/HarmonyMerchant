@@ -43,7 +43,7 @@ class Layout extends React.Component {
                         finishBatch={this.finishBatch}
                     />
                 </ScrollableTabView>
-
+                
             </View>
         );
     }

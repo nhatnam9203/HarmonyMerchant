@@ -8,7 +8,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { Text, StatusBarHeader, Button, ParentContainer, PopupCheckStaffPermission, DefaultTabBar } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
-import IMAGE from '@resources';
+import ICON from '@resources';
 import {
     TabSettle,
     TabTransaction,
@@ -75,7 +75,7 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { navigation, language ,settlementTabPermission} = this.props;
+        const { navigation, language, settlementTabPermission, isShowBackSettlement } = this.props;
         const { isFocus } = this.state;
         return (
             <ParentContainer
@@ -88,8 +88,18 @@ export default class Layout extends React.Component {
                     {this.renderHeader()}
                     {this.renderTabContainer()}
                     <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
-                        <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
+                        <Image source={ICON.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
+
+                    {
+                        isShowBackSettlement ? <Button onPress={this.backSettlementTab} style={{
+                            position: 'absolute', top: 20, right: 0,
+                            width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
+                        }} >
+                            <Image source={ICON.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
+                        </Button> : <View />
+                    }
+
 
                     <PopupCheckStaffPermission
                         ref={this.checkPermissionRef}

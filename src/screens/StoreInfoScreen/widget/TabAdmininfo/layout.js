@@ -246,19 +246,22 @@ class Layout extends React.Component {
                         title={localize('Service Salary', language)}
                     />
                     {
-                        [{ title: `${localize('Per Hour', language)} ($)`, placeholder: '100' },
-                        { title: `${localize('Commission')} (%)`, placeholder: '10' }
+                        [{ title: `${localize('Per Hour', language)} ($)`, placeholder: '100', type: "perHour" },
+                        { title: `${localize('Commission')} (%)`, placeholder: '10', type: "commission" }
                         ].map((salary, index) => {
                             return <ItemScalary
                                 key={index}
                                 ref={this.setRefSalary}
                                 title={salary.title}
                                 placeholder={salary.placeholder}
+                                type={salary.type}
                                 dataInit={{
-                                    value: '',
+                                    value: '0',
                                     isCheck: false
                                 }}
                                 onFocus={() => this.scrollStaffTo(1100)}
+                                toogleCheck={this.disableServiceSalary.bind(this, salary.type)}
+
                             />
                         })
                     }
@@ -275,7 +278,7 @@ class Layout extends React.Component {
                                 title={salary.title}
                                 placeholder={salary.placeholder}
                                 dataInit={{
-                                    value: '',
+                                    value: '0',
                                     isCheck: false
                                 }}
                                 onFocus={() => this.scrollStaffTo(1230)}
@@ -287,23 +290,53 @@ class Layout extends React.Component {
                     <TitleTabAdminInfo
                         title={localize('Tip fee', language)}
                     />
-                    {
-                        [{ title: `${localize('Percent', language)} (%)`, placeholder: '100' },
-                        { title: `${localize('Fixed Amount')} ($)`, placeholder: '10' }
-                        ].map((salary, index) => {
-                            return <ItemScalary
-                                key={index}
-                                ref={this.setRefTip}
-                                title={salary.title}
-                                placeholder={salary.placeholder}
-                                dataInit={{
-                                    value: '',
-                                    isCheck: false
-                                }}
-                                onFocus={() => this.scrollStaffTo(1300)}
-                            />
-                        })
-                    }
+
+
+                    {/* ----- Percent Tip Fee ---- */}
+                    <ItemScalary
+                        ref={this.percentTipFeeRef}
+                        title={`${localize("Percent", language)} (%)`}
+                        placeholder={'10'}
+                        dataInit={{
+                            value: '0',
+                            isCheck: false
+                        }}
+                        onFocus={() => this.scrollStaffTo(1300)}
+                        toogleCheck={this.disableFixedAmountTip}
+                    />
+
+                    {/* ----- Fix amount Tip Fee ---- */}
+                    <ItemScalary
+                        ref={this.fixedAmountTipFeeRef}
+                        title={`${localize("Fixed Amount", language)} ($)`}
+                        placeholder={'10'}
+                        dataInit={{
+                            value: '0',
+                            isCheck: false
+                        }}
+                        onFocus={() => this.scrollStaffTo(1300)}
+                        toogleCheck={this.disablePercentTip}
+                    />
+
+                    {/* -----  Payout With Cash ---- */}
+                    <TitleTabAdminInfo
+                        title={localize('Payout With Cash', language)}
+                    />
+
+
+                    {/* ----- Cash Percent ---- */}
+                    <ItemScalary
+                        ref={this.cashPercentRef}
+                        title={`${localize("Cash Percent", language)} (%)`}
+                        placeholder={'10'}
+                        dataInit={{
+                            isCheck: true,
+                            value: 0
+                        }}
+                        onFocus={() => this.scrollStaffTo(1500)}
+                        maxLength={3}
+                        isNotToggleCheck={true}
+                    />
 
 
                     {/* ---- Address ---- */}
@@ -324,6 +357,10 @@ class Layout extends React.Component {
                         onFocus={() => this.scrollStaffTo(1450)}
                         typeSocial="custom"
                         mark="999-99-9999"
+                        style={{
+                            fontSize: scaleSzie(12),
+                            fontWeight: "bold"
+                        }}
                     />
                     <ItemAdminInfo
                         title={localize('Professional License', language)}

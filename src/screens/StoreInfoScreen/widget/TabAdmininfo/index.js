@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { getIdStateByName, scaleSzie,BusinessWorkingTime } from '@utils';
+import { getIdStateByName, scaleSzie, BusinessWorkingTime } from '@utils';
 
 const initState = {
     user: {
@@ -29,11 +29,12 @@ const initState = {
         driverlicense: '',
         socialSecurityNumber: '',
         professionalLicense: '',
+        cashPercent:0
     },
     fileId: 0,
     imageUrl: '',
     isSubmitButton: true,
-    dynamicMarginBottomState:24 
+    dynamicMarginBottomState: 24
 }
 
 class StoreInfoScreen extends Layout {
@@ -53,6 +54,9 @@ class StoreInfoScreen extends Layout {
         this.browserFileRef = React.createRef();
         this.cellphoneRef = React.createRef();
         this.scrollStaffRef = React.createRef();
+        this.percentTipFeeRef = React.createRef();
+        this.fixedAmountTipFeeRef = React.createRef();
+        this.cashPercentRef = React.createRef();
     }
 
     scrollStaffTo(position) {
@@ -81,11 +85,6 @@ class StoreInfoScreen extends Layout {
         }
     }
 
-    setRefTip = (ref) => {
-        if (ref) {
-            this.inputRefsTip.push(ref);
-        }
-    };
 
     updateFileId = async (fileId) => {
         await this.setState({
@@ -132,7 +131,7 @@ class StoreInfoScreen extends Layout {
                 objSalary = {
                     ...objSalary,
                     [this.convertKeyToName(ref.props.title)]: {
-                        value: parseInt(ref.state.value ? ref.state.value : 0),
+                        value: parseFloat(ref.state.value ? ref.state.value : 0),
                         isCheck: ref.state.isCheck
                     }
                 }
@@ -141,20 +140,20 @@ class StoreInfoScreen extends Layout {
                 objProjectSalary = {
                     ...objProjectSalary,
                     [this.convertKeyToName(ref.props.title)]: {
-                        value: parseInt(ref.state.value ? ref.state.value : 0),
+                        value: parseFloat(ref.state.value ? ref.state.value : 0),
                         isCheck: ref.state.isCheck
                     }
                 }
             });
-            this.inputRefsTip.forEach(ref => {
-                objTipFee = {
-                    ...objTipFee,
-                    [this.convertKeyToName(ref.props.title)]: {
-                        value: parseInt(ref.state.value ? ref.state.value : 0),
-                        isCheck: ref.state.isCheck
-                    }
-                }
-            });
+            // this.inputRefsTip.forEach(ref => {
+            //     objTipFee = {
+            //         ...objTipFee,
+            //         [this.convertKeyToName(ref.props.title)]: {
+            //             value: parseInt(ref.state.value ? ref.state.value : 0),
+            //             isCheck: ref.state.isCheck
+            //         }
+            //     }
+            // });
             const { address } = user;
             const temptAddress = { ...address, state: getIdStateByName(stateCity, address.state) };
             const temptStaff = {
@@ -165,7 +164,17 @@ class StoreInfoScreen extends Layout {
                 workingTime: objWorkingTime,
                 salary: objSalary,
                 productSalary: objProjectSalary,
-                tipFee: objTipFee,
+                tipFee: {
+                    percent: {
+                        value: parseFloat(this.percentTipFeeRef.current.state.value ? this.percentTipFeeRef.current.state.value : 0),
+                        isCheck: this.percentTipFeeRef.current.state.isCheck
+                    },
+                    fixedAmount: {
+                        value: parseFloat(this.fixedAmountTipFeeRef.current.state.value ? this.fixedAmountTipFeeRef.current.state.value : 0),
+                        isCheck: this.fixedAmountTipFeeRef.current.state.isCheck
+                    }
+                },
+                cashPercent : parseFloat(this.cashPercentRef.current.state.value ? this.cashPercentRef.current.state.value: 0),
                 fileId: this.state.fileId
             };
             //console.log('productSalary : ' + JSON.stringify(objProjectSalary));
@@ -213,17 +222,36 @@ class StoreInfoScreen extends Layout {
         }
     }
 
-    resetStateRefs = () =>{
+    resetStateRefs = () => {
         this.inputRefsSalary.forEach(ref => {
             ref.setStateFromParent();
         });
         this.inputRefproductSalary.forEach(ref => {
             ref.setStateFromParent();
         });
-        this.inputRefsTip.forEach(ref => {
-            ref.setStateFromParent();
-        });
-    } 
+        // this.inputRefsTip.forEach(ref => {
+        //     ref.setStateFromParent();
+        // });
+        this.fixedAmountTipFeeRef.current.setStateFromParent();
+        this.percentTipFeeRef.current.setStateFromParent();
+        this.cashPercentRef.current.setStateFromParent("0", true);
+    }
+
+    disableFixedAmountTip = () => {
+        this.fixedAmountTipFeeRef.current.setStateFromParent();
+    }
+
+    disablePercentTip = () => {
+        this.percentTipFeeRef.current.setStateFromParent();
+    }
+
+    disableServiceSalary = (type) => {
+        for (const ref of this.inputRefsSalary) {
+            if (ref.props.type !== type) {
+                ref.setStateFromParent();
+            }
+        }
+    }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         const { loading, isResetInfoAdmin } = this.props;
@@ -235,8 +263,12 @@ class StoreInfoScreen extends Layout {
         }
     }
 
-
-
+    componentWillUnmount() {
+        this.inputRefsTime = [];
+        this.inputRefsSalary = [];
+        this.inputRefproductSalary = [];
+        this.inputRefsTip = [];
+    }
 }
 
 const mapStateToProps = state => ({

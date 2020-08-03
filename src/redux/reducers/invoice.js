@@ -36,7 +36,8 @@ const initialState = {
     settlementTabPermission: false,
     staffSales: [],
     gitfCardSales: [],
-    isSettleBatch: null
+    isSettleBatch: null,
+    isShowBackSettlement: false
 }
 
 function appReducer(state = initialState, action) {
@@ -226,7 +227,11 @@ function appReducer(state = initialState, action) {
                 ...state,
                 isSettleBatch: null
             }
-
+        case 'TOOGLE_DISPLAY_BACK_SETTLE_ICON':
+            return {
+                ...state,
+                isShowBackSettlement: action.payload
+            }
         default:
             return state
     }

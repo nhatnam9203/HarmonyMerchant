@@ -16,28 +16,38 @@ export default class ItemScalary extends React.Component {
 
     constructor(props) {
         super(props);
-        const {dataInit} = this.props;
+        const { dataInit } = this.props;
         this.state = {
-            isCheck:dataInit.isCheck,
+            isCheck: dataInit.isCheck,
             value: dataInit.value
         }
     }
 
-    setStateFromParent = async () =>{
+    setStateFromParent = async (value = "0",isCheck = false) => {
         await this.setState({
-            value: '',
-            isCheck: false
+            value,
+            isCheck
         })
     }
 
     onPress = () => {
-        this.setState((prevState, props) => ({
-            isCheck: !prevState.isCheck
-        }));
+        if (!this.props.isNotToggleCheck) {
+            this.setState((prevState, props) => ({
+                isCheck: !prevState.isCheck
+            }), () => {
+                if (!this.state.isCheck) {
+                    this.setState({
+                        value: "0"
+                    })
+                } else {
+                    this.props.toogleCheck && this.props.toogleCheck();
+                }
+            });
+        }
     }
 
     render() {
-        const { title, placeholder,onFocus } = this.props;
+        const { title, placeholder, onFocus,maxLength } = this.props;
         const { isCheck, value } = this.state;
         const temptIconCheck = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
@@ -64,12 +74,21 @@ export default class ItemScalary extends React.Component {
 
                 <View style={[{ width: scaleSzie(150), paddingLeft: scaleSzie(5) }, styles.borderTextInput]} >
                     <TextInputMask
-                        type="only-numbers"
+                        type={'money'}
+                        options={{
+                            precision: 2,
+                            separator: '.',
+                            delimiter: ',',
+                            unit: '',
+                            suffixUnit: ''
+                        }}
                         style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
                         placeholder={placeholder}
                         value={value}
                         onChangeText={(value) => this.setState({ value })}
                         onFocus={() => onFocus()}
+                        editable={isCheck}
+                        maxLength={maxLength}
                     />
                 </View>
             </View>

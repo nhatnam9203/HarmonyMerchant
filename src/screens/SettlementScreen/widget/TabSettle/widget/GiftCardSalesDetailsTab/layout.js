@@ -30,7 +30,7 @@ class Layout extends React.Component {
         return (
             <View style={{ flex: 1, backgroundColor: "#fff" }} >
                 <Text style={[styles.txt_top_title]} >
-                    {"Gift Card Sold statistics"}
+                    {"Gift Card Sold Statistics"}
                 </Text>
 
                 {/* --------- Dropdown ---------- */}
@@ -73,15 +73,6 @@ class Layout extends React.Component {
                         {`$ ${formatMoney(giftCardTotal)}`}
                     </Text>
                 </View>
-
-
-                <Button onPress={this.backHomeTab} style={{
-                    position: 'absolute', top: 0, right: 0,
-                    width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
-                }} >
-                    <Image source={ICON.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
-                </Button>
-
             </View>
         );
     }
@@ -97,7 +88,7 @@ const HeaderTable = ({ }) => {
         }} >
             <View style={{ flex: 0.9, justifyContent: "center" }} >
                 <Text style={styles.txt_header_table} >
-                    {`Date/time`}
+                    {`Date/ time`}
                 </Text>
             </View>
             <View style={{ flex: 0.8, justifyContent: "center" }} >

@@ -66,6 +66,7 @@ class StaffInfo extends Layout {
                     isCheck: false
                 }
             },
+            cashPercent:0,
             fileId: 0,
             imageUrl: '',
             isSubmitButton: true,
@@ -79,6 +80,7 @@ class StaffInfo extends Layout {
         this.browserFileRef = React.createRef();
         this.cellphoneRef = React.createRef();
         this.scrollStaffRef = React.createRef();
+        this.cashPercentRef = React.createRef();
     }
 
     scrollStaffTo(position) {
@@ -231,7 +233,7 @@ class StaffInfo extends Layout {
                 objSalary = {
                     ...objSalary,
                     [this.convertKeyToName(ref.props.title)]: {
-                        value: parseInt(ref.state.value ? ref.state.value : 0),
+                        value: parseFloat(ref.state.value ? ref.state.value : 0),
                         isCheck: ref.state.isCheck
                     }
                 }
@@ -241,7 +243,7 @@ class StaffInfo extends Layout {
                 objProjectSalary = {
                     ...objProjectSalary,
                     [this.convertKeyToName(ref.props.title)]: {
-                        value: parseInt(ref.state.value ? ref.state.value : 0),
+                        value: parseFloat(ref.state.value ? ref.state.value : 0),
                         isCheck: ref.state.isCheck
                     }
                 }
@@ -251,7 +253,7 @@ class StaffInfo extends Layout {
                 objTipFee = {
                     ...objTipFee,
                     [this.convertKeyToName(ref.props.title)]: {
-                        value: parseInt(ref.state.value ? ref.state.value : 0),
+                        value: parseFloat(ref.state.value ? ref.state.value : 0),
                         isCheck: ref.state.isCheck
                     }
                 }
@@ -267,7 +269,8 @@ class StaffInfo extends Layout {
                 salary: objSalary,
                 tipFee: objTipFee,
                 fileId: this.state.fileId,
-                productSalary: objProjectSalary
+                productSalary: objProjectSalary,
+                cashPercent : parseFloat(this.cashPercentRef.current.state.value ? this.cashPercentRef.current.state.value: 0)
             };
             if (this.props.isEditStaff) {
                 this.props.editStaff(temptStaff, this.state.staffId)
@@ -317,6 +320,28 @@ class StaffInfo extends Layout {
         }
     }
 
+    disableTip =(type) =>{
+        for(const ref of this.inputRefsTip){
+            if(ref.props.type !==  type){
+                ref.setStateFromParent();
+            }
+        }
+    }
+
+    disableServiceSalary =(type) =>{
+        for(const ref of this.inputRefsSalary){
+            if(ref.props.type !==  type){
+                ref.setStateFromParent();
+            }
+        }
+    }
+
+    componentWillUnmount(){
+        this.inputRefsTime = [];
+        this.inputRefsSalary = [];
+        this.inputProductSalaryRef = [];
+        this.inputRefsTip = [];
+    }
 
 
 }

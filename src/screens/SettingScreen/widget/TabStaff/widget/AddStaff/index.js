@@ -4,7 +4,8 @@ import _ from 'ramda';
 
 import Layout from './layout';
 import strings from './strings';
-import { validateEmail, getIdStateByName, getNameStateById, getCodeAreaPhone, scaleSzie, checkStateIsValid,
+import {
+    validateEmail, getIdStateByName, getNameStateById, getCodeAreaPhone, scaleSzie, checkStateIsValid,
     BusinessWorkingTime
 } from '@utils';
 
@@ -67,11 +68,12 @@ class AddStaff extends Layout {
                     isCheck: false
                 }
             },
+            cashPercent:0,
             fileId: 0,
             imageUrl: '',
             isSubmitButton: true,
             value: {},
-            dynamicMarginBottomState:24 
+            dynamicMarginBottomState: 24
         }
         // ---- Refs ----
         this.inputRefsTime = [];
@@ -83,6 +85,7 @@ class AddStaff extends Layout {
         this.percentTipFeeRef = React.createRef();
         this.fixedAmountTipFeeRef = React.createRef();
         this.commisionProductScalaryRef = React.createRef();
+        this.cashPercentRef =React.createRef();
 
     }
 
@@ -206,32 +209,34 @@ class AddStaff extends Layout {
                 workingTime: objWorkingTime,
                 salary: {
                     perHour: {
-                        value: parseInt(this.perHourServiceSalaryRef.current.state.value ? this.perHourServiceSalaryRef.current.state.value : 0),
+                        value: parseFloat(this.perHourServiceSalaryRef.current.state.value ? this.perHourServiceSalaryRef.current.state.value : 0),
                         isCheck: this.perHourServiceSalaryRef.current.state.isCheck
                     },
                     commission: {
-                        value: parseInt(this.commissionSalaryRef.current.state.value ? this.commissionSalaryRef.current.state.value : 0),
+                        value: parseFloat(this.commissionSalaryRef.current.state.value ? this.commissionSalaryRef.current.state.value : 0),
                         isCheck: this.commissionSalaryRef.current.state.isCheck
                     }
                 },
                 tipFee: {
                     percent: {
-                        value: parseInt(this.percentTipFeeRef.current.state.value ? this.percentTipFeeRef.current.state.value : 0),
+                        value: parseFloat(this.percentTipFeeRef.current.state.value ? this.percentTipFeeRef.current.state.value : 0),
                         isCheck: this.percentTipFeeRef.current.state.isCheck
                     },
                     fixedAmount: {
-                        value: parseInt(this.fixedAmountTipFeeRef.current.state.value ? this.fixedAmountTipFeeRef.current.state.value : 0),
+                        value: parseFloat(this.fixedAmountTipFeeRef.current.state.value ? this.fixedAmountTipFeeRef.current.state.value : 0),
                         isCheck: this.fixedAmountTipFeeRef.current.state.isCheck
                     }
                 },
                 fileId: this.state.fileId,
                 productSalary: {
                     commission: {
-                        value: parseInt(this.commisionProductScalaryRef.current.state.value ? this.commisionProductScalaryRef.current.state.value : 0),
+                        value: parseFloat(this.commisionProductScalaryRef.current.state.value ? this.commisionProductScalaryRef.current.state.value : 0),
                         isCheck: this.commisionProductScalaryRef.current.state.isCheck
                     }
 
-                }
+                },
+                cashPercent : parseFloat(this.cashPercentRef.current.state.value ? this.cashPercentRef.current.state.value: 0)
+               
             };
             if (this.props.isEditStaff) {
                 this.props.editStaff(temptStaff, this.state.staffId)
@@ -278,6 +283,22 @@ class AddStaff extends Layout {
                 user: temptUpdate
             })
         }
+    }
+
+    disableFixedAmountTip = () => {
+        this.fixedAmountTipFeeRef.current.setStateFromParent();
+    }
+
+    disablePercentTip = () => {
+        this.percentTipFeeRef.current.setStateFromParent();
+    }
+
+    disableCommisionServiceSalary = () => {
+        this.commissionSalaryRef.current.setStateFromParent();
+    }
+
+    disablePerHourSalary = () => {
+        this.perHourServiceSalaryRef.current.setStateFromParent();
     }
 
     componentWillUnmount() {

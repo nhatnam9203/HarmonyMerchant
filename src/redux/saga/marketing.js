@@ -313,7 +313,7 @@ function* sendNotificationByPromotionId(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-        console.log('sendNotificationByPromotionId : ', JSON.stringify(responses));
+        // console.log('sendNotificationByPromotionId : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             // yield put({

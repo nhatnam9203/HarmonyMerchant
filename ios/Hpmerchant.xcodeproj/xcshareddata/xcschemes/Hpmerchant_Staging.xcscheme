@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1130"
+   LastUpgradeVersion = "1160"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "NO"
@@ -14,9 +14,9 @@
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
-                     BlueprintIdentifier = "23344D9E2463F0FB00513F43"
-                     BuildableName = "Staging.app"
-                     BlueprintName = "Hpmerchant_Staging"
+                     BlueprintIdentifier = "230F1DB324D3DA2200A95898"
+                     BuildableName = "Staing.app"
+                     BlueprintName = "Hpmerchant_Staing"
                      ReferencedContainer = "container:Hpmerchant.xcodeproj">
                   </BuildableReference>
                </EnvironmentBuildable>
@@ -46,9 +46,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "23344D9E2463F0FB00513F43"
-               BuildableName = "Staging.app"
-               BlueprintName = "Hpmerchant_Staging"
+               BlueprintIdentifier = "230F1DB324D3DA2200A95898"
+               BuildableName = "Staing.app"
+               BlueprintName = "Hpmerchant_Staing"
                ReferencedContainer = "container:Hpmerchant.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -76,9 +76,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "23344D9E2463F0FB00513F43"
-            BuildableName = "Staging.app"
-            BlueprintName = "Hpmerchant_Staging"
+            BlueprintIdentifier = "230F1DB324D3DA2200A95898"
+            BuildableName = "Staing.app"
+            BlueprintName = "Hpmerchant_Staing"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -93,9 +93,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "23344D9E2463F0FB00513F43"
-            BuildableName = "Staging.app"
-            BlueprintName = "Hpmerchant_Staging"
+            BlueprintIdentifier = "230F1DB324D3DA2200A95898"
+            BuildableName = "Staing.app"
+            BlueprintName = "Hpmerchant_Staing"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

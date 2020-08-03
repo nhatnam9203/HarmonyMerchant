@@ -17,6 +17,7 @@ import { scaleSzie, localize } from '@utils';
 import { ItemAdminInfo, ItemAdminCellPhone } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
+import { traverse } from 'ramda';
 
 
 class Layout extends React.Component {
@@ -42,6 +43,8 @@ class Layout extends React.Component {
         const percent_TipFee = temptDataTipFee["percent"] ? temptDataTipFee["percent"] : { value: 0, isCheck: false };
         const fixedAmount_TipFee = temptDataTipFee["fixedAmount"] ? temptDataTipFee["fixedAmount"] : { value: 0, isCheck: false };
         const commision_ProductScalary = temptDataProductScalary["commission"] ? temptDataProductScalary["commission"] : { value: 0, isCheck: false };
+
+        const temptCashPercent = isEditStaff ? infoStaffHandle.cashPercent : this.state.cashPercent;
 
 
         return (
@@ -265,6 +268,7 @@ class Layout extends React.Component {
                         placeholder={'10'}
                         dataInit={perHour_ServiceSalary}
                         onFocus={() => this.scrollStaffTo(1100)}
+                        toogleCheck={this.disableCommisionServiceSalary}
                     />
 
                     {/* ----- Commission ServiceSalary ---- */}
@@ -274,6 +278,7 @@ class Layout extends React.Component {
                         placeholder={'10'}
                         dataInit={commision_ServiceSalary}
                         onFocus={() => this.scrollStaffTo(1100)}
+                        toogleCheck={this.disablePerHourSalary}
                     />
 
 
@@ -302,6 +307,7 @@ class Layout extends React.Component {
                         placeholder={'10'}
                         dataInit={percent_TipFee}
                         onFocus={() => this.scrollStaffTo(1300)}
+                        toogleCheck={this.disableFixedAmountTip}
                     />
 
                     {/* ----- Fix amount Tip Fee ---- */}
@@ -311,6 +317,27 @@ class Layout extends React.Component {
                         placeholder={'10'}
                         dataInit={fixedAmount_TipFee}
                         onFocus={() => this.scrollStaffTo(1300)}
+                        toogleCheck={this.disablePercentTip}
+                    />
+
+                    {/* -----  Payout With Cash ---- */}
+                    <TitleTabAdminInfo
+                        title={localize('Payout With Cash', language)}
+                    />
+
+
+                    {/* ----- Cash Percent ---- */}
+                    <ItemScalary
+                        ref={this.cashPercentRef}
+                        title={`${localize("Cash Percent", language)} (%)`}
+                        placeholder={'10'}
+                        dataInit={{
+                            isCheck: true,
+                            value: temptCashPercent
+                        }}
+                        onFocus={() => this.scrollStaffTo(1500)}
+                        maxLength={3}
+                        isNotToggleCheck={true}
                     />
 
 
@@ -332,6 +359,10 @@ class Layout extends React.Component {
                         onFocus={() => this.scrollStaffTo(1450)}
                         typeSocial="custom"
                         mark="999-99-9999"
+                        style={{
+                            fontSize: scaleSzie(12),
+                            fontWeight: "bold"
+                        }}
                     />
                     <ItemAdminInfo
                         title={localize('Professional License', language)}

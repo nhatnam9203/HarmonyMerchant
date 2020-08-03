@@ -36,6 +36,8 @@ class Layout extends React.Component {
         const temptDataTipFee = isEditStaff ? infoStaffHandle.tipFees : this.state.tipFee;
         const temptDataSalary = isEditStaff ? infoStaffHandle.salaries : this.state.salary;
         const temptDataProductScalary = isEditStaff ? infoStaffHandle.productSalaries : this.state.productSalary;
+        const temptCashPercent = isEditStaff ? infoStaffHandle.cashPercent : this.state.cashPercent;
+
         return (
             <View style={styles.body} >
                 <ScrollView
@@ -257,6 +259,8 @@ class Layout extends React.Component {
                                 placeholder={'10'}
                                 dataInit={temptDataSalary[tip]}
                                 onFocus={() => this.scrollStaffTo(1100)}
+                                type={`${temptTitle} ${temptChar}`}
+                                toogleCheck={this.disableServiceSalary.bind(this,`${temptTitle} ${temptChar}`)}
                             />
                         })
                     }
@@ -267,7 +271,6 @@ class Layout extends React.Component {
                     />
                     {
                         Object.keys(temptDataProductScalary).map((tip, index) => {
-                            //console.log('tip : ',temptDataProductScalary[tip]);
                             const temptTitle = tip == 'perHour' ? 'Per Hour' : 'Commission';
                             const temptChar = tip == 'perHour' ? '($)' : '(%)';
 
@@ -291,6 +294,7 @@ class Layout extends React.Component {
                         Object.keys(temptDataTipFee).map((tip, index) => {
                             const temptTitle = tip == 'percent' ? 'Percent' : 'Fixed Amount';
                             const temptChar = tip == 'percent' ? '(%)' : '($)';
+
                             return <ItemScalary
                                 key={index}
                                 ref={this.setRefTip}
@@ -298,9 +302,31 @@ class Layout extends React.Component {
                                 placeholder={'10'}
                                 dataInit={temptDataTipFee[tip]}
                                 onFocus={() => this.scrollStaffTo(1300)}
+                                type={`${temptTitle} ${temptChar}`}
+                                toogleCheck={this.disableTip.bind(this,`${temptTitle} ${temptChar}`)}
                             />
                         })
                     }
+
+                    {/* -----  Payout With Cash ---- */}
+                    <TitleTabAdminInfo
+                        title={localize('Payout With Cash', language)}
+                    />
+
+
+                    {/* ----- Cash Percent ---- */}
+                    <ItemScalary
+                        ref={this.cashPercentRef}
+                        title={`${localize("Cash Percent", language)} (%)`}
+                        placeholder={'10'}
+                        dataInit={{
+                            isCheck: true,
+                            value: temptCashPercent
+                        }}
+                        onFocus={() => this.scrollStaffTo(1500)}
+                        maxLength={3}
+                        isNotToggleCheck={true}
+                    />
 
 
                     {/* ---- Address ---- */}
@@ -321,6 +347,10 @@ class Layout extends React.Component {
                         onFocus={() => this.scrollStaffTo(1450)}
                         typeSocial="custom"
                         mark="999-99-9999"
+                        style={{
+                            fontSize: scaleSzie(12),
+                            fontWeight: "bold"
+                        }}
                     />
                     <ItemAdminInfo
                         title={localize('Professional license', language)}
