@@ -74,7 +74,7 @@ export default function PaymentMethodRp({
 
   const bindChartData = async () => {
     if (!overallPaymentMethodList) return [];
-    console.log(overallPaymentMethodList);
+    // console.log(overallPaymentMethodList);
     const data = createChartObjectFromValues(
       overallPaymentMethodList,
       "method",

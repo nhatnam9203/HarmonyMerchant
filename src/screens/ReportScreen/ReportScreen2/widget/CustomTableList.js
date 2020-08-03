@@ -54,6 +54,16 @@ const getCellKey = (item, primaryId) => {
   return `${item[primaryId]}`;
 };
 
+const formatServerNumber = (numStr) => {
+  if (!numStr) return 0;
+
+  if (typeof numStr === "string") {
+    return roundFloatNumber(parseFloat(numStr.split(",").join("")));
+  }
+
+  return roundFloatNumber(numStr);
+};
+
 /**
  * !error: header long bug ui
  * !error: calcSum -> pagination bug
@@ -176,7 +186,7 @@ function TableList(
                 : cellRender ?? (
                     <Text style={styles.txtCell}>
                       {isPriceCell(key)
-                        ? "$ " + roundFloatNumber(item[key])
+                        ? "$ " + formatServerNumber(item[key])
                         : item[key]}
                     </Text>
                   )}
@@ -228,7 +238,7 @@ function TableList(
                 {calcSumKeys.indexOf(key) > -1 && (
                   <Text style={styles.txtSum}>
                     {isPriceCell(key)
-                      ? "$ " + roundFloatNumber(sumObject[key])
+                      ? "$ " + formatServerNumber(sumObject[key])
                       : sumObject[key] ?? ""}
                   </Text>
                 )}
