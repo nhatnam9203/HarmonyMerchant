@@ -11,10 +11,8 @@ import _ from 'ramda';
 
 import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, formatWithMoment } from '@utils';
 import {
-    Text, ButtonCustom, Button
+    Text, ButtonCustom
 } from '@components';
-import TextInputAmount from './widget/TextInputAmount';
-import TotalCustom from './widget/TotalCustom';
 import styles from "./style";
 import ItemPaymentsReport, { StaffsHeaderTable, StaffsItem, GiftCardItem, TotalItem, HeaderPaymentsReport } from "./widget/ItemsSettlement";
 
@@ -46,13 +44,13 @@ class Layout extends React.Component {
             <View style={{ height: scaleSzie(35), flexDirection: 'row', paddingHorizontal: scaleSzie(10) }} >
                 <View style={{ flex: 1.1, justifyContent: 'center' }} >
                     <Text style={styles.txt_table} >
-                        {localize('Sales by staffs', language)}
+                        {localize('Sales By Staffs', language)}
                     </Text>
                 </View>
                 <View style={{ width: scaleSzie(15) }} />
                 <View style={{ flex: 1, justifyContent: 'center' }} >
                     <Text style={styles.txt_table} >
-                        {localize('Income by payment methods', language)}
+                        {localize('Income By Payment Methods', language)}
                     </Text>
                 </View>
             </View>
@@ -121,6 +119,7 @@ class Layout extends React.Component {
     }
 
     renderPaymentMethodsReport() {
+        const { settleWaiting } = this.props;
         const { discountSettlement, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment,
             isEditOtherAmount, isEditCashAmount
         } = this.state;
@@ -142,19 +141,19 @@ class Layout extends React.Component {
                     <View style={{ borderColor: "#DDDDDD", borderWidth: 1 }} >
                         <HeaderPaymentsReport />
                         <ItemPaymentsReport
-                            title="Harmony account"
+                            title="Harmony Account"
                             backgroundColor="#054071"
                             value={editPaymentByHarmony}
                         />
                         <View style={{ height: 1 }} />
                         <ItemPaymentsReport
-                            title="Credit card"
+                            title="Credit Card"
                             backgroundColor="#075BA0"
                             value={editPaymentByCreditCard}
                         />
                         <View style={{ height: 1 }} />
                         <ItemPaymentsReport
-                         ref={this.cashAmountRef}
+                            ref={this.cashAmountRef}
                             title="Cash"
                             backgroundColor="#3480BE"
                             value={editPaymentByCash}
@@ -164,6 +163,8 @@ class Layout extends React.Component {
                             onFocus={this.scrollTo}
                             cancelEditAmount={this.cancelEditCashAmount}
                             saveEditAmount={this.saveEditCashAmount}
+                            initValue={settleWaiting.paymentByCash ? settleWaiting.paymentByCash : 0.00}
+                            isChange={true}
                         />
                         <View style={{ height: 1 }} />
                         <ItemPaymentsReport
@@ -177,6 +178,8 @@ class Layout extends React.Component {
                             onFocus={this.scrollTo}
                             cancelEditAmount={this.cancelEditOtherAmount}
                             saveEditAmount={this.saveEditOtherAmount}
+                            initValue={settleWaiting.otherPayment ? settleWaiting.otherPayment : 0.00}
+                            isChange={true}
                         />
                         <ItemPaymentsReport
                             title="Discount"

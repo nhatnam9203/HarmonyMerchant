@@ -185,3 +185,12 @@ export function resetStateSettleBatch(keyword = "") {
     }
 }
 
+export function toggleDisplayBackSettleIcon(visible = true) {
+    return {
+        type: 'TOOGLE_DISPLAY_BACK_SETTLE_ICON',
+        payload: visible
+    }
+}
+
+
+

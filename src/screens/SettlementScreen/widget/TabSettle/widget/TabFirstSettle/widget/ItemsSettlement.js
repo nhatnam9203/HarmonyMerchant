@@ -47,7 +47,7 @@ export const StaffsHeaderTable = () => {
             {/* ---------- Total Sales -------- */}
             <View style={[{ flex: 0.8 }, styles.container]} >
                 <Text style={styles.txt_normal} >
-                    Total sales
+                    {`Total Sales`}
                 </Text>
             </View>
         </View>
@@ -192,15 +192,17 @@ export default class ItemPaymentsReport extends React.Component {
 
     }
 
-    setStateFromParent = async (amount) =>{
+    setStateFromParent = async (amount) => {
         await this.setState({
             amount
         })
     }
 
     render() {
-        const { backgroundColor, title, txtStyle, value, isShowEditIcon, editAmount, isEdit, onFocus, cancelEditAmount, saveEditAmount } = this.props;
-        const {amount} = this.state;
+        const { backgroundColor, title, txtStyle, value, isShowEditIcon, editAmount, isEdit, onFocus, cancelEditAmount, saveEditAmount,
+            initValue, isChange
+        } = this.props;
+        const { amount } = this.state;
 
         return (
             <View style={{
@@ -238,7 +240,7 @@ export default class ItemPaymentsReport extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(12), textAlign: "right" }}
                                     placeholder="$ 0.00"
                                     value={amount}
-                                    onChangeText={amount =>this.setState({amount})}
+                                    onChangeText={amount => this.setState({ amount })}
                                     onFocus={() => onFocus(92)}
                                     autoFocus={true}
                                 />
@@ -253,11 +255,20 @@ export default class ItemPaymentsReport extends React.Component {
                         </View>
                     </View>
                         :
-                        <View style={{ flex: 1, flexDirection: "row", }} >
+                        <View style={{ flex: 1, flexDirection: "row" }} >
                             <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >
                                 <Text style={[styles.txt_item, { color: "#fff", fontWeight: "bold" }, txtStyle]} >
                                     {`$ ${value ? formatMoney(value) : '0.00'}`}
                                 </Text>
+                                {
+                                    isChange && initValue != value ? <Text style={{
+                                        color: "#FFFFFF", fontWeight: "500", textDecorationLine: "line-through",
+                                        fontSize: scaleSzie(8)
+                                    }} >
+                                        {`   $ ${initValue} `}
+                                    </Text> : null
+                                }
+
                             </View>
                             <View style={{ width: scaleSzie(45), justifyContent: "center" }} >
                                 {

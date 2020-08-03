@@ -79,6 +79,11 @@ class SettlementScreen extends Layout {
         this.props.navigation.navigate("Home");
     }
 
+    backSettlementTab = () =>{
+        this.tabSettleRef.current.scrollTabFromParent();
+        this.props.actions.invoice.toggleDisplayBackSettleIcon(false);
+    }
+
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();
@@ -91,7 +96,8 @@ const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     language: state.dataLocal.language,
     connectPAXStatus: state.app.connectPAXStatus,
-    settlementTabPermission: state.invoice.settlementTabPermission
+    settlementTabPermission: state.invoice.settlementTabPermission,
+    isShowBackSettlement: state.invoice.isShowBackSettlement
 })
 
 

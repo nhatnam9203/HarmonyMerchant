@@ -45,6 +45,7 @@ class TabSettle extends Layout {
 
     // ----------- New code ------------
     onPressStaff = (staffId) => {
+        this.props.actions.invoice.toggleDisplayBackSettleIcon();
         this.scrollTabRef.current.goToPage(1);
         if (this.staffIIncomeDetailsRef.current) {
             this.staffIIncomeDetailsRef.current.setStateFromParent(staffId);
@@ -56,6 +57,7 @@ class TabSettle extends Layout {
     }
 
     onPressGiftCardTotal = () => {
+        this.props.actions.invoice.toggleDisplayBackSettleIcon();
         this.scrollTabRef.current.goToPage(2);
         if (this.giftCardSalesDetailsTabRef.current) {
             this.giftCardSalesDetailsTabRef.current.setStateFromParent();
@@ -66,6 +68,9 @@ class TabSettle extends Layout {
         }
     }
 
+    scrollTabFromParent = () =>{
+        this.scrollTabRef.current.goToPage(0);
+    }
 
 }
 

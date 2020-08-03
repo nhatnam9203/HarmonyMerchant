@@ -75,12 +75,12 @@ class Layout extends React.Component {
                 </View>
 
 
-                <Button onPress={this.backHomeTab} style={{
+                {/* <Button onPress={this.backHomeTab} style={{
                     position: 'absolute', top: 0, right: 0,
                     width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
                 }} >
                     <Image source={ICON.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
-                </Button>
+                </Button> */}
 
             </View>
         );
