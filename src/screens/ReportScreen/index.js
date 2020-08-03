@@ -70,6 +70,7 @@ class ReportScreen extends Layout {
   };
 
   changeTitleTimeRange = async (title) => {
+    return;
     await this.setState({
       titleRangeTime: title !== "Time Range" ? title : "All time",
       visibleCalendar: false,
@@ -81,6 +82,7 @@ class ReportScreen extends Layout {
     this.props.actions.staff.setPositionHeader(dx);
   };
   searchStaff = () => {
+    return;
     const {
       isCustomizeDate,
       startDate,
@@ -99,6 +101,7 @@ class ReportScreen extends Layout {
   };
 
   onRefreshStaffReport = () => {
+    return;
     const {
       isCustomizeDate,
       startDate,

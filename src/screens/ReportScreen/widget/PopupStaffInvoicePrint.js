@@ -171,13 +171,9 @@ class PopupStaffInvoicePrint extends React.Component {
     if (_.isEmpty(staff)) {
       return false;
     }
-    console.log(staff);
 
     const { receipts = {} } = staff;
-    console.log(receipts);
     const { receiptType, detail = [] } = receipts;
-    console.log(receiptType);
-    console.log(detail);
 
     if (receiptType === type) {
       return staff.receipts;
@@ -215,18 +211,21 @@ class PopupStaffInvoicePrint extends React.Component {
 
   render() {
     const { language, visiblePrintInvoice, staff } = this.props;
+    const { receipts = {} } = staff;
 
-    const receiptType = staff.receiptType ? staff.receiptType : "";
+    const receiptType = receipts.receiptType ? receipts.receiptType : "";
     const staffName = staff.name ? staff.name : "";
-    const fromTime = staff.from
-      ? formatWithMoment(staff.from, "MM/DD/YYYY")
+    const fromTime = receipts.from
+      ? formatWithMoment(receipts.from, "MM/DD/YYYY")
       : "";
-    const toTime = staff.to ? formatWithMoment(staff.to, "MM/DD/YYYY") : "";
-    const sales = staff.serviceSales ? staff.serviceSales : "0.00";
-    const workingHour = staff.workingHour ? staff.workingHour : "0";
-    const product = staff.productSales ? staff.productSales : "0.00";
-    const cash = staff.cash ? staff.cash : "0.00";
-    const nonCash = staff.nonCash ? staff.nonCash : "0.00";
+    const toTime = receipts.to
+      ? formatWithMoment(receipts.to, "MM/DD/YYYY")
+      : "";
+    const sales = receipts.serviceSales ? receipts.serviceSales : "0.00";
+    const workingHour = receipts.workingHour ? receipts.workingHour : "0";
+    const product = receipts.productSales ? receipts.productSales : "0.00";
+    const cash = receipts.cash ? receipts.cash : "0.00";
+    const nonCash = receipts.nonCash ? receipts.nonCash : "0.00";
 
     const servicePayout = this.findReceiptType("ServicePayout");
     const workingHourReceipt = this.findReceiptType("WorkingHour");

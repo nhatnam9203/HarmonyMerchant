@@ -7,7 +7,7 @@ import style from "../../style";
 const BOX_DEFAULT_WIDTH = 60;
 const BOX_DEFAULT_HEIGHT = 45;
 
-const ICON_DEFAULT_SIZE = 24;
+const ICON_DEFAULT_SIZE = 30;
 
 const TEXT_DEFAULT_FONT_SIZE = 17;
 

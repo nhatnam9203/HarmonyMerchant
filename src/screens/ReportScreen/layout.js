@@ -227,7 +227,7 @@ export default class Layout extends React.Component {
           {/* {this.renderTable()} */}
           <ReportScreen2
             ref={this.screenReportRef}
-            showCalendar={this.showCalendar}
+            // showCalendar={this.showCalendar}
             showBackButton={this.onShowBackButton}
           />
           {/**button drawer */}
@@ -262,6 +262,7 @@ export default class Layout extends React.Component {
             </Button>
           )}
         </View>
+
         <PopupCalendar
           ref={this.modalCalendarRef}
           type="report"
@@ -269,12 +270,14 @@ export default class Layout extends React.Component {
           onRequestClose={() => this.setState({ visibleCalendar: false })}
           changeTitleTimeRange={this.changeTitleTimeRange}
         />
+
         <PopupStaffInvoicePrint
           // ref={this.invoicePrintRef}
           visiblePrintInvoice={visibleStaffInvoicePrint}
           onRequestClose={this.cancelStaffInvoicePrint}
           staff={selectedStaff}
         />
+
         <PopupCheckStaffPermission
           ref={this.checkPermissionRef}
           visiblePopupCheckStaffPermission={reportTabPermission}

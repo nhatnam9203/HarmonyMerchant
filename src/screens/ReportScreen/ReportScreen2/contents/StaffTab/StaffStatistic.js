@@ -14,6 +14,11 @@ import { localize } from "@utils";
 
 const HEAD_FONT_SIZE = 17;
 
+/**format float value */
+const formatFloatValue = (value) => {
+  return value ? parseFloat(value).toFixed(2) : 0.0;
+};
+
 export default function StaffStatistic({
   style,
   titleRangeTime,
@@ -48,24 +53,40 @@ export default function StaffStatistic({
     return null;
   };
 
-  const renderFooter = () => {
+  const renderFooter = ({
+    whiteKeys,
+    getCellWidth,
+    isPriceCell,
+    sumObject,
+    sumTotalKey,
+    calcSumKeys,
+  }) => {
     return (
-      <View style={styles.tableFooter}>
-        <View style={styles.cell} key="total-key">
-          {<Text style={styles.txtCalcSum}>{"Total"}</Text>}
-        </View>
+      <TableList.Row style={styles.tableFooter}>
+        {whiteKeys.map((key, index) => (
+          <TableList.Cell
+            key={"total-key" + key}
+            style={{
+              width: getCellWidth(index, key),
+              ...(isPriceCell(key) && {
+                alignItems: "flex-end",
+              }),
+            }}
+          >
+            {key === sumTotalKey && (
+              <Text style={styles.txtCalcSum}>{"Total"}</Text>
+            )}
 
-        {sumObjects &&
-          Object.keys(sumObjects).map((key, index) => {
-            return (
-              <View style={styles.cell} key={key}>
-                <Text style={styles.txtCalcSum}>
-                  {"$ " + parseFloat(sumObjects[key]).toFixed(2)}
-                </Text>
-              </View>
-            );
-          })}
-      </View>
+            {calcSumKeys.indexOf(key) > -1 && (
+              <Text style={styles.txtCalcSum}>
+                {isPriceCell(key)
+                  ? "$ " + formatFloatValue(sumObject[key])
+                  : sumObject[key] ?? ""}
+              </Text>
+            )}
+          </TableList.Cell>
+        ))}
+      </TableList.Row>
     );
   };
 
@@ -117,15 +138,15 @@ export default function StaffStatistic({
         <TableList
           showSumOnBottom={true}
           tableData={listStaffsCalendar}
-          tableHead={[
-            { key: "dateString", value: localize("Date", language) },
-            { key: "serviceSales", value: localize("Service sales", language) },
-            { key: "serviceSplit", value: localize("Service split", language) },
-            { key: "productSales", value: localize("Product sales", language) },
-            { key: "productSplit", value: localize("Product split", language) },
-            { key: "tipAmount", value: localize("Tip amount", language) },
-            { key: "salary", value: localize("Salary", language) },
-          ]}
+          tableHead={{
+            dateString: localize("Date", language),
+            serviceSales: localize("Service sales", language),
+            serviceSplit: localize("Service split", language),
+            productSales: localize("Product sales", language),
+            productSplit: localize("Product split", language),
+            tipAmount: localize("Tip amount", language),
+            salary: localize("Salary", language),
+          }}
           whiteKeys={[
             "dateString",
             "serviceSales",
@@ -156,11 +177,9 @@ export default function StaffStatistic({
           renderCell={renderCell}
           onCellPress={onCellPress}
           onChangeSumObjects={onChangeSumObject}
-          renderFooter={() => (
-            <View style={{ height: 50, backgroundColor: "transparent" }} />
-          )}
+          renderFooter={renderFooter}
         />
-        {renderFooter()}
+        {/* {renderFooter()} */}
       </View>
     </View>
   );
@@ -175,12 +194,7 @@ const styles = StyleSheet.create({
     color: "#404040",
     fontWeight: "600",
   },
-  cell: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "flex-start",
-    paddingHorizontal: 10,
-  },
+  cell: {},
   tableFooter: {
     position: "absolute",
     bottom: 0,
@@ -189,6 +203,5 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: "#E5E5E5",
     flexDirection: "row",
-    justifyContent: "space-evenly",
   },
 });

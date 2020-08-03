@@ -92,22 +92,19 @@ export default function PaymentMethodRp({
   }, [urlRangeTime]);
 
   /**callback */
-  const renderCell = ({ key, row, column, item }) => {
-    if (key === "netPayment") {
-      return (
-        <View style={styles.cellSalary}>
-          <Text style={styles.txtSalary}>{"$ " + item[key]}</Text>
-
-          <View style={styles.imgContent}>
-            <TouchableOpacity onPress={() => goStaffStatistics(item)}>
-              <View style={styles.btnInCell}>
-                <Image style={styles.imgDetail} source={IMAGE.Report_Detail} />
-              </View>
-            </TouchableOpacity>
+  const renderActionCell = ({ key, row, column, item }) => {
+    return (
+      <View style={styles.cellAction}>
+        <TouchableOpacity onPress={() => goStaffStatistics(item)}>
+          <View style={styles.btnInCell}>
+            <Image style={styles.imgDetail} source={IMAGE.Report_Detail} />
           </View>
-        </View>
-      );
-    }
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  const renderCell = ({ key, row, column, item }) => {
     return null;
   };
 
@@ -199,25 +196,20 @@ export default function PaymentMethodRp({
         {viewMode === VIEW_MODE.LIST ? (
           <TableList
             tableData={overallPaymentMethodList}
-            tableHead={[
-              { key: "method", value: localize("Payment", language) },
-              {
-                key: "transactions",
-                value: localize("Transactions", language),
-              },
-              {
-                key: "grossPayment",
-                value: localize("Gross Payments", language),
-              },
-              { key: "refund", value: localize("Refunds", language) },
-              { key: "netPayment", value: localize("Net Payments", language) },
-            ]}
+            tableHead={{
+              method: localize("Payment", language),
+              transactions: localize("Transactions", language),
+              grossPayment: localize("Gross Payments", language),
+              refund: localize("Refunds", language),
+              netPayment: localize("Net Payments", language),
+            }}
             whiteKeys={[
               "method",
               "transactions",
               "grossPayment",
               "refund",
               "netPayment",
+              "action",
             ]}
             primaryId="method"
             sumTotalKey="method"
@@ -229,13 +221,15 @@ export default function PaymentMethodRp({
             ]}
             priceKeys={["grossPayment", "refund", "netPayment"]}
             tableCellWidth={{
-              method: 100,
-              transactions: 160,
-              grossPayment: 160,
+              method: 200,
+              transactions: 150,
+              grossPayment: 200,
+              refund: 160,
               netPayment: 200,
             }}
             renderCell={renderCell}
             onCellPress={onCellPress}
+            renderActionCell={renderActionCell}
           />
         ) : (
           <View style={{ flex: 1, flexDirection: "row", margin: 20 }}>
@@ -250,10 +244,10 @@ export default function PaymentMethodRp({
 
 const styles = StyleSheet.create({
   container: {},
-  cellSalary: {
+  cellAction: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     width: "100%",
     flex: 1,
   },
@@ -262,12 +256,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "#6A6A6A",
     marginRight: 5,
-  },
-  imgContent: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    flex: 0,
   },
   imgDetail: {
     tintColor: "#6A6A6A",

@@ -84,10 +84,10 @@ function ReportTabLayout(
     goBack: goBack,
   }));
 
-  const searchStaffSalary = useCallback(
-    (url) => dispatch(actions.staff.getListStaffsSalaryTop(url, true)),
-    [dispatch]
-  );
+  // const searchStaffSalary = useCallback(
+  //   (url) => dispatch(actions.staff.getListStaffsSalaryTop(url, true)),
+  //   [dispatch]
+  // );
 
   // create time range params
   const getFilterTimeParams = () => {

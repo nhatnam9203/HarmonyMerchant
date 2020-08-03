@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import { Dropdown } from "react-native-material-dropdown";
@@ -41,12 +47,10 @@ export default function StaffSalaryTab({
   const [currentStaff, setCurrentStaff] = useState({});
   const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
 
+
+
   /**process */
-  const onCellPress = ({ key, row, column, item }) => {
-    // if (key === "salary") {
-    //   dispatch(actions.staff.getListStaffCalendar(item.staffId));
-    //   onGoStatistics();
-    // }
+  const onRowPress = ({ key, row, item }) => {
     showPopupStaffInvoice(item);
   };
 
@@ -78,31 +82,26 @@ export default function StaffSalaryTab({
   };
 
   /**render */
-  const renderCell = ({ key, row, column, item, isPrice }) => {
-    if (key === "salary") {
-      return (
-        <View style={[styles.cellSalary, { justifyContent: "flex-end" }]}>
-          <Text style={styles.txtSalary}>{"$ " + item[key]}</Text>
-
-          <View style={styles.imgContent}>
-            <TouchableOpacity
-              onPress={async () => await showPopupStaffInvoice(item)}
-            >
-              <View style={styles.btnInCell}>
-                <Image style={styles.imgDetail} source={IMAGE.Report_Print} />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={async () => await goStaffStatistics(item)}
-            >
-              <View style={styles.btnInCell}>
-                <Image style={styles.imgDetail} source={IMAGE.Report_Detail} />
-              </View>
-            </TouchableOpacity>
+  const renderActionCell = ({ key, row, column, item, isPrice }) => {
+    return (
+      <View style={styles.cellAction}>
+        <TouchableOpacity
+          onPress={async () => await showPopupStaffInvoice(item)}
+        >
+          <View style={styles.btnInCell}>
+            <Image style={styles.imgDetail} source={IMAGE.Report_Print} />
           </View>
-        </View>
-      );
-    }
+        </TouchableOpacity>
+        <TouchableOpacity onPress={async () => await goStaffStatistics(item)}>
+          <View style={styles.btnInCell}>
+            <Image style={styles.imgDetail} source={IMAGE.Report_Detail} />
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  const renderCell = ({ key, row, column, item }) => {
     return null;
   };
 
@@ -143,6 +142,7 @@ export default function StaffSalaryTab({
         {/**name filter button */}
         <View style={{ width: 160, height: 45 }}>
           <Dropdown
+            rippleCentered={true}
             data={dataStaffSalaryFilter}
             onChangeText={(text) => onChangeFilterStaff(text)}
             renderBase={() => (
@@ -158,15 +158,15 @@ export default function StaffSalaryTab({
       <View style={{ flex: 1 }}>
         <TableList
           tableData={filterDataTale()}
-          tableHead={[
-            { key: "name", value: localize("Name", language) },
-            { key: "serviceSales", value: localize("Service Sales", language) },
-            { key: "serviceSplit", value: localize("Service Split", language) },
-            { key: "productSales", value: localize("Product Sales", language) },
-            { key: "productSplit", value: localize("Product Split", language) },
-            { key: "tip", value: localize("Tip Amount", language) },
-            { key: "salary", value: localize("Salary", language) },
-          ]}
+          tableHead={{
+            name: localize("Name", language),
+            serviceSales: localize("Service Sales", language),
+            serviceSplit: localize("Service Split", language),
+            productSales: localize("Product Sales", language),
+            productSplit: localize("Product Split", language),
+            tip: localize("Tip Amount", language),
+            salary: localize("Salary", language),
+          }}
           whiteKeys={[
             "name",
             "serviceSales",
@@ -175,6 +175,7 @@ export default function StaffSalaryTab({
             "productSplit",
             "tip",
             "salary",
+            "action",
           ]}
           primaryId="staffId"
           sumTotalKey="name"
@@ -194,9 +195,10 @@ export default function StaffSalaryTab({
             "tip",
             "salary",
           ]}
-          tableCellWidth={{ salary: 180, name: 180 }}
+          tableCellWidth={{ name: 180 }}
           renderCell={renderCell}
-          onCellPress={onCellPress}
+          onRowPress={onRowPress}
+          renderActionCell={renderActionCell}
         />
       </View>
 
@@ -211,10 +213,10 @@ export default function StaffSalaryTab({
 }
 
 const styles = StyleSheet.create({
-  cellSalary: {
+  cellAction: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
     width: "100%",
     flex: 1,
   },
@@ -224,12 +226,6 @@ const styles = StyleSheet.create({
     color: "#6A6A6A",
     marginRight: 5,
   },
-  imgContent: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    flex: 0,
-  },
   imgDetail: {
     tintColor: "#6A6A6A",
     width: 20,
@@ -237,7 +233,7 @@ const styles = StyleSheet.create({
   },
   btnInCell: {
     height: "100%",
-    width: 35,
+    width: 40,
     marginLeft: 4,
     justifyContent: "center",
     alignItems: "center",

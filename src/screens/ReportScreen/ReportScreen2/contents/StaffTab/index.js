@@ -78,10 +78,10 @@ function StaffTab({ style, showBackButton }, ref) {
     goBack: goBack,
   }));
 
-  const searchStaffSalary = useCallback(
-    (url) => dispatch(actions.staff.getListStaffsSalaryTop(url, true)),
-    [dispatch]
-  );
+  // const searchStaffSalary = useCallback(
+  //   (url) => dispatch(actions.staff.getListStaffsSalaryTop(url, true)),
+  //   [dispatch]
+  // );
 
   // create time range params
   const getFilterTimeParams = () => {
@@ -228,7 +228,7 @@ function StaffTab({ style, showBackButton }, ref) {
 
   /**render */
   return (
-    <>
+    <View style={{ flex: 1 }}>
       <ScrollableTabView
         ref={scrollPage}
         initialPage={0}
@@ -290,7 +290,7 @@ function StaffTab({ style, showBackButton }, ref) {
         typeFile={FILE_EXTENSION === "pdf" ? "PDF" : "Excel"}
         // typeFile={typeFile === "pdf" ? "PDF" : "Excel"}
       />
-    </>
+    </View>
   );
 }
 
