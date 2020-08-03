@@ -23,6 +23,16 @@ export default function ReportStatisticLayout({
   onChangeFilterStaff,
   dataStaffSalaryFilter,
   filterStaffItem,
+  getTitle,
+  item,
+  tableData,
+  tableHead,
+  whiteKeys,
+  primaryId,
+  calcSumKeys,
+  sumTotalKey,
+  priceKeys,
+  tableCellWidth,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -36,6 +46,7 @@ export default function ReportStatisticLayout({
 
   /**state */
   const [sumObjects, setSumObjects] = useState({});
+  const [title, setTitle] = useState("");
 
   /**process */
   const onCellPress = ({ key, row, column, item }) => {};
@@ -69,7 +80,7 @@ export default function ReportStatisticLayout({
 
   return (
     <View style={style}>
-      <HeaderTitle title={localize("Staff Statistics", language)} />
+      <HeaderTitle title={title || localize("Statistics", language)} />
       <HeaderTooltip
         rightComponent={
           <>
@@ -112,42 +123,23 @@ export default function ReportStatisticLayout({
       </HeaderTooltip>
 
       <View style={{ flex: 1 }}>
-        <TableList
-          showSumOnBottom={true}
-          tableData={listStaffsCalendar}
-          tableHead={[
-            localize("Date", language),
-            localize("Service sales", language),
-            localize("Service split", language),
-            localize("Product sales", language),
-            localize("Product split", language),
-            localize("Tip amount", language),
-            localize("Salary", language),
-          ]}
-          whiteKeys={[
-            "date",
-            "dateString",
-            "serviceSales",
-            "serviceSplit",
-            "productSales",
-            "productSplit",
-            "tipAmount",
-            "salary",
-          ]}
-          primaryId="date"
-          calcSumKeys={[
-            "serviceSales",
-            "serviceSplit",
-            "productSales",
-            "productSplit",
-            "tipAmount",
-            "salary",
-          ]}
-          renderCell={renderCell}
-          onCellPress={onCellPress}
-          onChangeSumObjects={onChangeSumObject}
-        />
-        {renderFooter()}
+        {tableData && (
+          <TableList
+            // showSumOnBottom={true}
+            tableData={tableData}
+            tableHead={tableHead}
+            whiteKeys={whiteKeys}
+            primaryId={primaryId}
+            calcSumKeys={calcSumKeys}
+            sumTotalKey={sumTotalKey}
+            priceKeys={priceKeys}
+            tableCellWidth={tableCellWidth}
+            renderCell={renderCell}
+            onCellPress={onCellPress}
+            onChangeSumObjects={onChangeSumObject}
+          />
+        )}
+        {/* {renderFooter()} */}
       </View>
     </View>
   );

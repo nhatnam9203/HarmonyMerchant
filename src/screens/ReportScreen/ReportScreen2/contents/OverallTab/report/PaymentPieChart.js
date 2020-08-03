@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, processColor, View } from "react-native";
 import { PieChart } from "react-native-charts-wrapper";
+import { localize, formatMoney, formatNumberFromCurrency } from "@utils";
 
 const legend = {
     enabled: true,
@@ -73,7 +74,7 @@ export default function PaymentBarChart({ data }) {
       // run object get value push in array mapValues
       data.forEach((d) => {
         let obj = Object.create({});
-        const value = parseFloat(Object.values(d)[0]);
+        const value = formatNumberFromCurrency(Object.values(d)[0]);
         findMaxValues.push(value);
         obj.value = value;
         obj.label = Object.keys(d)[0];
@@ -130,34 +131,36 @@ export default function PaymentBarChart({ data }) {
 
   return (
     <View style={styles.container}>
-      <PieChart
-        style={styles.chart}
-        logEnabled={true}
-        chartBackgroundColor={processColor("transparent")}
-        chartDescription={description}
-        data={dataChart}
-        legend={legend}
-        // highlights={highlights}
-        // entryLabelColor={processColor("#fff")}
-        // entryLabelTextSize={14}
-        drawEntryLabels={false}
-        rotationEnabled={false}
-        rotationAngle={45}
-        usePercentValues={true}
-        styledCenterText={{
-          text: `${maxPercentsChart}%`,
-          color: processColor("#003680"),
-          size: 55,
-        }}
-        centerTextRadiusPercent={100}
-        holeRadius={55}
-        holeColor={processColor("#fff")}
-        transparentCircleRadius={45}
-        transparentCircleColor={processColor("#f0f0f088")}
-        maxAngle={360}
-        onSelect={handleSelect}
-        onChange={(event) => console.log(event.nativeEvent)}
-      />
+      {maxPercentsChart > 0 && (
+        <PieChart
+          style={styles.chart}
+          logEnabled={true}
+          chartBackgroundColor={processColor("transparent")}
+          chartDescription={description}
+          data={dataChart}
+          legend={legend}
+          // highlights={highlights}
+          // entryLabelColor={processColor("#fff")}
+          // entryLabelTextSize={14}
+          drawEntryLabels={false}
+          rotationEnabled={false}
+          rotationAngle={45}
+          usePercentValues={true}
+          styledCenterText={{
+            text: `${maxPercentsChart}%`,
+            color: processColor("#003680"),
+            size: 55,
+          }}
+          centerTextRadiusPercent={100}
+          holeRadius={55}
+          holeColor={processColor("#fff")}
+          transparentCircleRadius={45}
+          transparentCircleColor={processColor("#f0f0f088")}
+          maxAngle={360}
+          onSelect={handleSelect}
+          onChange={(event) => console.log(event.nativeEvent)}
+        />
+      )}
     </View>
   );
 }

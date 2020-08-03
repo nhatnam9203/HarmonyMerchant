@@ -24,7 +24,13 @@ const FILE_EXTENSION = "csv";
 const FILTER_NAME_DEFAULT = "All Staff";
 
 function ReportTabLayout(
-  { style, showBackButton, children, onCalendarClose, showCalendar },
+  {
+    style,
+    showBackButton,
+    children,
+    onCalendarClose,
+    showCalendar
+  },
   ref
 ) {
   /**redux */
@@ -65,6 +71,12 @@ function ReportTabLayout(
     setVisibleCalendar(showCalendar);
   }, [showCalendar]);
 
+  useEffect(() => {
+    if (onCalendarClose) {
+      onCalendarClose(getTimeTitle(), getFilterTimeParams());
+    }
+  }, []);
+
   /**func */
   // go to staff statistics page
   const goNext = () => {
@@ -82,6 +94,7 @@ function ReportTabLayout(
   // public func
   useImperativeHandle(ref, () => ({
     goBack: goBack,
+    goNext: goNext,
   }));
 
   // const searchStaffSalary = useCallback(

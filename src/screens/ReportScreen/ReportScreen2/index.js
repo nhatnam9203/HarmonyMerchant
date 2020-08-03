@@ -25,6 +25,7 @@ function ReportScreen2({ showBackButton }, ref) {
 
   /**refs */
   const staffRef = useRef(null);
+  const overallRef = useRef(null);
 
   /**public function  */
   useImperativeHandle(ref, () => ({
@@ -33,7 +34,9 @@ function ReportScreen2({ showBackButton }, ref) {
         case 0:
           staffRef.current.goBack();
           break;
-
+        case 5:
+          overallRef.current.goBack();
+          break;
         default:
           break;
       }
@@ -41,20 +44,16 @@ function ReportScreen2({ showBackButton }, ref) {
     didBlur: () => {
       switch (tabIndex) {
         case 0:
-          staffRef.current.didBlur();
-          break;
-
         default:
+          staffRef.current.didBlur();
           break;
       }
     },
     didFocus: () => {
       switch (tabIndex) {
         case 0:
-          staffRef.current.didFocus();
-          break;
-
         default:
+          staffRef.current.didFocus();
           break;
       }
     },
@@ -62,17 +61,15 @@ function ReportScreen2({ showBackButton }, ref) {
 
   const onTabChange = (taIndex) => {
     setTabIndex(taIndex);
+
     staffRef.current.goBack();
+    overallRef.current.goBack();
 
     showBackButton(false);
   };
 
   const onShowBackButton = (bl) => {
-    if (tabIndex === 0) {
-      showBackButton(bl);
-    } else {
-      showBackButton(false);
-    }
+    showBackButton(bl);
   };
 
   return (
@@ -94,11 +91,32 @@ function ReportScreen2({ showBackButton }, ref) {
           ref={staffRef}
           showBackButton={onShowBackButton}
         />
-        <GiftCardTab style={styles.content} tabLabel="Gift card" />
-        <CustomerTab style={styles.content} tabLabel="Customer" />
-        <ServiceTab style={styles.content} tabLabel="Services" />
-        <ProductTab style={styles.content} tabLabel="Product" />
-        <OverallTab style={styles.content} tabLabel="Overall" />
+        <GiftCardTab
+          style={styles.content}
+          tabLabel="Gift card"
+          showBackButton={onShowBackButton}
+        />
+        <CustomerTab
+          style={styles.content}
+          tabLabel="Customer"
+          showBackButton={onShowBackButton}
+        />
+        <ServiceTab
+          style={styles.content}
+          tabLabel="Services"
+          showBackButton={onShowBackButton}
+        />
+        <ProductTab
+          style={styles.content}
+          tabLabel="Product"
+          showBackButton={onShowBackButton}
+        />
+        <OverallTab
+          ref={overallRef}
+          style={styles.content}
+          tabLabel="Overall"
+          showBackButton={onShowBackButton}
+        />
       </HeaderTabLayout>
     </View>
   );

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { Dropdown } from "react-native-material-dropdown";
 import IMAGE from "@resources";
-import { localize } from "@utils";
+import { localize, formatNumberFromCurrency, formatMoney } from "@utils";
 import actions from "@actions";
 
 import { HeaderTooltip, PopupButton, TableList } from "../../../widget";
@@ -40,7 +40,7 @@ const createChartObjectFromValues = (array, key, keyValue) => {
   let response = [];
   array.forEach((obj) => {
     let mapObj = Object.create({});
-    mapObj[obj[key]] = formatServerNumber(obj[keyValue]);
+    mapObj[obj[key]] = formatNumberFromCurrency(obj[keyValue]);
     response.push(mapObj);
   });
 
@@ -52,6 +52,7 @@ export default function PaymentMethodRp({
   showCalendar,
   titleRangeTime,
   urlRangeTime,
+  onGoStatistics,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -91,11 +92,21 @@ export default function PaymentMethodRp({
     getOverallPaymentMethod();
   }, [urlRangeTime]);
 
+  const goStatistics = async (item) => {
+    if (!item) return;
+    // bind redux state
+    // await dispatch(actions.staff.getListStaffCalendar(item.staffId));
+
+    // await onChangeFilterStaff(item.name);
+    // change to statistic tab
+    onGoStatistics(item);
+  };
+
   /**callback */
   const renderActionCell = ({ key, row, column, item }) => {
     return (
       <View style={styles.cellAction}>
-        <TouchableOpacity onPress={() => goStaffStatistics(item)}>
+        <TouchableOpacity onPress={() => goStatistics(item)}>
           <View style={styles.btnInCell}>
             <Image style={styles.imgDetail} source={IMAGE.Report_Detail} />
           </View>

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, processColor, View } from "react-native";
 import { BarChart } from "react-native-charts-wrapper";
 
+import { localize, formatMoney, formatNumberFromCurrency } from "@utils";
+
 /**chart info */
 const legend = {
   enabled: false,
@@ -83,7 +85,7 @@ export default function PaymentBarChart({ data }) {
       // run object get value push in array mapValues
       data.forEach((d) => {
         let obj = Object.create({});
-        obj.y = parseFloat(Object.values(d)[0]);
+        obj.y = formatNumberFromCurrency(Object.values(d)[0]);
         mapValues.push(obj);
         formatterValues.push(Object.keys(d)[0]);
       });
