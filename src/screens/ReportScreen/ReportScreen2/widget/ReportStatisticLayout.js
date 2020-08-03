@@ -23,8 +23,7 @@ export default function ReportStatisticLayout({
   onChangeFilterStaff,
   dataStaffSalaryFilter,
   filterStaffItem,
-  getTitle,
-  item,
+  title,
   tableData,
   tableHead,
   whiteKeys,
@@ -46,7 +45,6 @@ export default function ReportStatisticLayout({
 
   /**state */
   const [sumObjects, setSumObjects] = useState({});
-  const [title, setTitle] = useState("");
 
   /**process */
   const onCellPress = ({ key, row, column, item }) => {};

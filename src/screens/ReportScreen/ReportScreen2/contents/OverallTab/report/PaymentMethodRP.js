@@ -53,6 +53,9 @@ export default function PaymentMethodRp({
   titleRangeTime,
   urlRangeTime,
   onGoStatistics,
+  onChangeFilterName,
+  dataNameFilter,
+  filterNameItem,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -99,7 +102,7 @@ export default function PaymentMethodRp({
 
     // await onChangeFilterStaff(item.name);
     // change to statistic tab
-    onGoStatistics(item);
+    await onGoStatistics(item);
   };
 
   /**callback */
@@ -190,11 +193,13 @@ export default function PaymentMethodRp({
         {viewMode === VIEW_MODE.LIST && (
           <View style={{ width: 160, height: 45 }}>
             <Dropdown
-              // data={dataStaffSalaryFilter}
-              // onChangeText={(text) => onChangeFilterStaff(text)}
+              rippleCentered={true}
+              dropdownPosition={2}
+              data={dataNameFilter}
+              onChangeText={(text) => onChangeFilterName(text)}
               renderBase={() => (
                 <PopupButton
-                  text={"All Method"}
+                  text={filterNameItem ?? "All Method"}
                   imageSrc={IMAGE.Report_Dropdown_Arrow}
                 />
               )}

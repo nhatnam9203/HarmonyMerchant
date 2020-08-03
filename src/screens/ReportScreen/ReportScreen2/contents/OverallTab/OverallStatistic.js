@@ -16,14 +16,15 @@ import { localize } from "@utils";
 const HEAD_FONT_SIZE = 17;
 const TABLE_ROW_HEIGHT = 50;
 
-export default function OverallStatistic(props ,ref) {
-  const { item, tabIndex } = props;
+export default function OverallStatistic(props, ref) {
+  const { item, tabIndex, getTitle } = props;
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
   /**state */
   const [table, setTable] = useState({});
+  const [title, setTitle] = useState("");
 
   /**process */
 
@@ -50,9 +51,11 @@ export default function OverallStatistic(props ,ref) {
           primaryId: "date",
           calcSumKeys: ["transactions", "grossPayment", "refund", "netPayment"],
           sumTotalKey: "dateString",
-          priceKeys: ["transactions", "grossPayment", "refund", "netPayment"],
+          priceKeys: ["grossPayment", "refund", "netPayment"],
           tableCellWidth: { grossPayment: 180 },
         });
+
+        setTitle(getTitle());
         break;
       case 1:
         setTable({
@@ -85,7 +88,7 @@ export default function OverallStatistic(props ,ref) {
 
   /**render */
 
-  return <ReportStatisticLayout {...props} {...table} />;
+  return <ReportStatisticLayout {...props} {...table} title={title} />;
 }
 
 const styles = StyleSheet.create({});

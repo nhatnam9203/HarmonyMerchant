@@ -10,7 +10,14 @@ import MarketingEfficiencyRp from "./report/MarketingEfficiencyRP";
 import PaymentMethodRp from "./report/PaymentMethodRP";
 
 function OverallReportTab(
-  { style, showCalendar, titleRangeTime, urlRangeTime, onGoStatistics },
+  {
+    style,
+    showCalendar,
+    titleRangeTime,
+    urlRangeTime,
+    onGoStatistics,
+    ...props
+  },
   ref
 ) {
   /**redux store */
@@ -40,6 +47,7 @@ function OverallReportTab(
     <View style={style}>
       <CustomScrollTab onHeaderTabChanged={onChangeTab}>
         <PaymentMethodRp
+          {...props}
           style={{ flex: 1, paddingTop: 10 }}
           tabLabel="Payment Method"
           showCalendar={showCalendar}
@@ -48,6 +56,7 @@ function OverallReportTab(
           onGoStatistics={onGoStatistics}
         />
         <MarketingEfficiencyRp
+          {...props}
           style={{ flex: 1, paddingTop: 10 }}
           tabLabel="Marketing Efficiency"
           showCalendar={showCalendar}

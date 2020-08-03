@@ -21,10 +21,15 @@ import { ReportTabLayout } from "../../widget";
 import OverallReportTab from "./OverallTab";
 import OverallStatistic from "./OverallStatistic";
 
+const FILTER_NAME_DEFAULT = "All Method";
+
 function OverallTab({ style, showBackButton }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
+  const overallPaymentMethodList = useSelector(
+    (state) => state.report.overallPaymentMethodList
+  );
 
   /**refs */
   const tabLayoutRef = useRef(null);
@@ -37,6 +42,7 @@ function OverallTab({ style, showBackButton }, ref) {
   const [urlTimeRange, setUrlTimeRange] = useState("thisWeek");
   const [statisticItem, setStatisticItem] = useState([]);
   const [overallCurrentTab, setOverallCurrentTab] = useState(0);
+  const [filterNameItem, setFilterNameItem] = useState(null);
 
   // public func
   useImperativeHandle(ref, () => ({
@@ -57,10 +63,9 @@ function OverallTab({ style, showBackButton }, ref) {
     showCalendar(false);
   };
 
-  const onGoStatistics = (item) => {
+  const onGoStatistics = async (item) => {
+    await setStatisticItem(item);
     tabLayoutRef.current.goNext();
-
-    setStatisticItem(item);
   };
 
   const onGoOverallTab = () => {
@@ -74,6 +79,35 @@ function OverallTab({ style, showBackButton }, ref) {
 
   const onOverallChangeTab = (index) => {
     setOverallCurrentTab(index);
+  };
+
+  // create filter name data
+  const bindStaffNameFilter = () => {
+    if (!overallPaymentMethodList) return [];
+
+    let array = [];
+
+    // if (currentTab === 0) {
+    //   array.push({ value: localize(FILTER_NAME_DEFAULT, language) });
+    // }
+
+    // const arrMap = overallPaymentMethodList.map((staff) => ({
+    //   value: staff.name,
+    //   ...staff,
+    // }));
+    // array.push(...arrMap);
+
+    return array;
+  };
+
+  const onChangeFilterName = async (text) => {
+    await setFilterNameItem(text);
+    // if (currentTab === 1) {
+    //   const item = listStaffsSalary.find((staff) => staff.name === text);
+    //   if (item) {
+    //     dispatch(actions.staff.getListStaffCalendar(item.staffId));
+    //   }
+    // }
   };
 
   return (
@@ -93,6 +127,9 @@ function OverallTab({ style, showBackButton }, ref) {
           tabLabel={"overallTab"}
           onGoStatistics={onGoStatistics}
           onChangeTab={onOverallChangeTab}
+          onChangeFilterName={onChangeFilterName}
+          dataNameFilter={bindStaffNameFilter()}
+          filterNameItem={filterNameItem}
         />
         <OverallStatistic
           // ref={overallStatisticsRef}
@@ -104,6 +141,9 @@ function OverallTab({ style, showBackButton }, ref) {
           getTitle={getTabTitle}
           item={statisticItem}
           tabIndex={overallCurrentTab}
+          onChangeFilterName={onChangeFilterName}
+          dataNameFilter={bindStaffNameFilter()}
+          filterNameItem={filterNameItem}
         />
       </ReportTabLayout>
     </View>
