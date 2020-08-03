@@ -91,7 +91,7 @@ function ReportScreen2({ showBackButton }, ref) {
           ref={staffRef}
           showBackButton={onShowBackButton}
         />
-        <GiftCardTab
+        {/* <GiftCardTab
           style={styles.content}
           tabLabel="Gift card"
           showBackButton={onShowBackButton}
@@ -116,7 +116,7 @@ function ReportScreen2({ showBackButton }, ref) {
           style={styles.content}
           tabLabel="Overall"
           showBackButton={onShowBackButton}
-        />
+        /> */}
       </HeaderTabLayout>
     </View>
   );

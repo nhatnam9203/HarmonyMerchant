@@ -154,7 +154,6 @@ function TableList(
   //   },
   // }));
 
-
   /**render */
   // render cell
   const renderItem = ({ item, index, separators }) => {
@@ -163,7 +162,8 @@ function TableList(
     return (
       <TableRow
         key={cellKey}
-        onPress={() => onRowPress && onRowPress({ item, row: index })}
+        onPress={() => onRowPress({ item, row: index })}
+        disabled={!onRowPress}
       >
         {whiteKeys.map((key, keyIndex) => {
           const keyUnique = uniqueId(key, keyIndex);
@@ -180,12 +180,13 @@ function TableList(
 
           return (
             <TableCell
-              onPress={() => onCellPress && onCellPress(actProps)}
+              onPress={() => onCellPress(actProps)}
               key={keyUnique}
               style={{
                 width: getCellWidth(keyIndex, key),
                 ...(isPriceCell(key) && { alignItems: "flex-end" }),
               }}
+              disabled={!onCellPress}
             >
               {key === TABLE_ACTION_KEY
                 ? cellActionRender
@@ -330,17 +331,17 @@ export default TableList = forwardRef(TableList);
 // Component
 //================================
 
-function TableRow({ style, children, onPress }) {
+function TableRow({ style, children, onPress, disabled }) {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} disabled={disabled}>
       <View style={[styles.row, style]}>{children && children}</View>
     </TouchableOpacity>
   );
 }
 
-function TableCell({ style, children, onPress }) {
+function TableCell({ style, children, onPress, disabled }) {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} disabled={disabled}>
       <View style={[styles.cell, style]}>{children && children}</View>
     </TouchableOpacity>
   );

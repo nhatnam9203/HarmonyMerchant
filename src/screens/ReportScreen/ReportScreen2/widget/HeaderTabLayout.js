@@ -36,7 +36,8 @@ export default function HeaderTabLayout({
 
   /**render */
   const renderHeaderTab = (args) => {
-    return <CustomTabBar {...args} tabIcons={tabIcons} />;
+    return <View />;
+    // return <CustomTabBar {...args} tabIcons={tabIcons} />;
   };
 
   return (
