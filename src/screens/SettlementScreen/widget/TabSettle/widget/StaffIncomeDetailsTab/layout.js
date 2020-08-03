@@ -64,15 +64,6 @@ class Layout extends React.Component {
                         {`$ ${formatMoney(total)}`}
                     </Text>
                 </View>
-
-
-                {/* <Button onPress={this.backHomeTab} style={{
-                    position: 'absolute', top: 0, right: 0,
-                    width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
-                }} >
-                    <Image source={ICON.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
-                </Button> */}
-
             </View>
         );
     }
@@ -89,7 +80,7 @@ const HeaderTable = ({ }) => {
             {/* --------- Services / Products  ---------- */}
             <View style={{ flex: 1, justifyContent: "center" }} >
                 <Text style={styles.txt_header_table} >
-                    {`Services / Products`}
+                    {`Services/ Products`}
                 </Text>
             </View>
             {/* --------- Appointment ID  ---------- */}
@@ -128,7 +119,7 @@ const RowTable = ({ data }) => {
             {/* --------- Appointment ID  ---------- */}
             <View style={{ flex: 0.6, justifyContent: "center" }} >
                 <Text style={styles.txt_row_table} >
-                    {`#${data.appointmentCode ? data.appointmentCode : ""}`}
+                    {`# ${data.appointmentCode ? data.appointmentCode : ""}`}
                 </Text>
             </View>
             {/* --------- Time  ---------- */}
