@@ -38,6 +38,26 @@ function ReportScreen2({ showBackButton }, ref) {
           break;
       }
     },
+    didBlur: () => {
+      switch (tabIndex) {
+        case 0:
+          staffRef.current.didBlur();
+          break;
+
+        default:
+          break;
+      }
+    },
+    didFocus: () => {
+      switch (tabIndex) {
+        case 0:
+          staffRef.current.didFocus();
+          break;
+
+        default:
+          break;
+      }
+    },
   }));
 
   const onTabChange = (taIndex) => {

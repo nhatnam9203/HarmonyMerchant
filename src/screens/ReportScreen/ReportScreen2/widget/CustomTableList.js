@@ -13,6 +13,7 @@ import {
   View,
 } from "react-native";
 import _ from "ramda";
+import { roundFloatNumber } from "@utils";
 
 const TABLE_HEADER_HEIGHT = 50;
 const TABLE_ROW_HEIGHT = 50;
@@ -51,11 +52,6 @@ const getCellKey = (item, primaryId) => {
     return item[0];
   }
   return `${item[primaryId]}`;
-};
-
-/**format float value */
-const formatFloatValue = (value) => {
-  return value ? parseFloat(value).toFixed(2) : 0.0;
 };
 
 /**
@@ -180,7 +176,7 @@ function TableList(
                 : cellRender ?? (
                     <Text style={styles.txtCell}>
                       {isPriceCell(key)
-                        ? "$ " + formatFloatValue(item[key])
+                        ? "$ " + roundFloatNumber(item[key])
                         : item[key]}
                     </Text>
                   )}
@@ -202,7 +198,7 @@ function TableList(
               key={uniqueId(key, index, "header")}
               style={{
                 width: getCellWidth(index, key),
-                ...(isPriceCell(key) && { alignItems: "flex-end" }),
+                // ...(isPriceCell(key) && { alignItems: "flex-end" }),
               }}
             >
               <Text style={styles.txtHead}>{headerContent[key] ?? ""}</Text>
@@ -232,7 +228,7 @@ function TableList(
                 {calcSumKeys.indexOf(key) > -1 && (
                   <Text style={styles.txtSum}>
                     {isPriceCell(key)
-                      ? "$ " + formatFloatValue(sumObject[key])
+                      ? "$ " + roundFloatNumber(sumObject[key])
                       : sumObject[key] ?? ""}
                   </Text>
                 )}

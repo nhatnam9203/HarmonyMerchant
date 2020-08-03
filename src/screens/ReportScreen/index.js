@@ -31,6 +31,7 @@ class ReportScreen extends Layout {
           titleRangeTime: "This week",
         });
         this.checkPermissionRef.current.setStateFromParent("");
+        this.screenReportRef.current.didBlur();
       }
     );
     this.didFocusSubscription = this.props.navigation.addListener(
@@ -41,6 +42,7 @@ class ReportScreen extends Layout {
         });
         this.checkPermissionRef.current.setStateFromParent("");
         this.props.actions.staff.toggleReportTabPermission();
+        this.screenReportRef.current.didFocus();
       }
     );
   }

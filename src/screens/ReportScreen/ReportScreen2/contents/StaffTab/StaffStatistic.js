@@ -10,14 +10,10 @@ import {
   PopupButton,
   TableList,
 } from "../../widget";
-import { localize } from "@utils";
+import { localize, roundFloatNumber } from "@utils";
 
 const HEAD_FONT_SIZE = 17;
 
-/**format float value */
-const formatFloatValue = (value) => {
-  return value ? parseFloat(value).toFixed(2) : 0.0;
-};
 
 export default function StaffStatistic({
   style,
@@ -80,7 +76,7 @@ export default function StaffStatistic({
             {calcSumKeys.indexOf(key) > -1 && (
               <Text style={styles.txtCalcSum}>
                 {isPriceCell(key)
-                  ? "$ " + formatFloatValue(sumObject[key])
+                  ? "$ " + roundFloatNumber(sumObject[key])
                   : sumObject[key] ?? ""}
               </Text>
             )}
@@ -140,11 +136,11 @@ export default function StaffStatistic({
           tableData={listStaffsCalendar}
           tableHead={{
             dateString: localize("Date", language),
-            serviceSales: localize("Service sales", language),
-            serviceSplit: localize("Service split", language),
-            productSales: localize("Product sales", language),
-            productSplit: localize("Product split", language),
-            tipAmount: localize("Tip amount", language),
+            serviceSales: localize("Service Sales", language),
+            serviceSplit: localize("Service Split", language),
+            productSales: localize("Product Sales", language),
+            productSplit: localize("Product Split", language),
+            tipAmount: localize("Tip Amount", language),
             salary: localize("Salary", language),
           }}
           whiteKeys={[

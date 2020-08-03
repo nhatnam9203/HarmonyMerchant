@@ -76,6 +76,12 @@ function StaffTab({ style, showBackButton }, ref) {
   // public func
   useImperativeHandle(ref, () => ({
     goBack: goBack,
+    didBlur: () => {
+      setTitleRangeTime("This week");
+    },
+    didFocus: () => {
+      // console.log("====> screen report -> staff didFocus");
+    },
   }));
 
   // const searchStaffSalary = useCallback(
