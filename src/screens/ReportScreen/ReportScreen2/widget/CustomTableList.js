@@ -13,7 +13,11 @@ import {
   View,
 } from "react-native";
 import _ from "ramda";
-import { roundFloatNumber } from "@utils";
+import {
+  roundFloatNumber,
+  formatNumberFromCurrency,
+  formatMoney,
+} from "@utils";
 
 const TABLE_HEADER_HEIGHT = 50;
 const TABLE_ROW_HEIGHT = 50;
@@ -28,10 +32,21 @@ const TABLE_ACTION_KEY = "action";
 const uniqueId = (key, index, defaultPrefix = "key") =>
   defaultPrefix + key + "-index" + index;
 
+/**server value string "345,666.89" */
+const formatServerNumber = (numStr) => {
+  if (!numStr) return 0;
+
+  if (typeof numStr === "string") {
+    return formatNumberFromCurrency(numStr);
+  }
+
+  return roundFloatNumber(numStr);
+};
+
 /**sum column of object  */
 const sumPropertiesKey = (array, key) => {
   if (array?.length > 0) {
-    const values = array.map((item) => parseFloat(item[key]) || 0);
+    const values = array.map((item) => formatNumberFromCurrency(item[key]));
     return values.reduce((a, b) => a + b);
   }
   return 0;
@@ -52,17 +67,6 @@ const getCellKey = (item, primaryId) => {
     return item[0];
   }
   return `${item[primaryId]}`;
-};
-
-/**server value string "345,666.89" */
-const formatServerNumber = (numStr) => {
-  if (!numStr) return 0;
-
-  if (typeof numStr === "string") {
-    return roundFloatNumber(parseFloat(numStr.split(",").join("")));
-  }
-
-  return roundFloatNumber(numStr);
 };
 
 /**
@@ -150,6 +154,7 @@ function TableList(
   //   },
   // }));
 
+
   /**render */
   // render cell
   const renderItem = ({ item, index, separators }) => {
@@ -186,9 +191,7 @@ function TableList(
                 ? cellActionRender
                 : cellRender ?? (
                     <Text style={styles.txtCell}>
-                      {isPriceCell(key)
-                        ? "$ " + formatServerNumber(item[key])
-                        : item[key]}
+                      {isPriceCell(key) ? "$ " + item[key] : item[key]}
                     </Text>
                   )}
             </TableCell>
@@ -239,7 +242,7 @@ function TableList(
                 {calcSumKeys.indexOf(key) > -1 && (
                   <Text style={styles.txtSum}>
                     {isPriceCell(key)
-                      ? "$ " + formatServerNumber(sumObject[key])
+                      ? "$ " + formatMoney(sumObject[key])
                       : sumObject[key] ?? ""}
                   </Text>
                 )}

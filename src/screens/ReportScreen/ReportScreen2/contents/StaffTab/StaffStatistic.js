@@ -132,7 +132,7 @@ export default function StaffStatistic({
 
       <View style={{ flex: 1 }}>
         <TableList
-          showSumOnBottom={true}
+          // showSumOnBottom={true}
           tableData={listStaffsCalendar}
           tableHead={{
             dateString: localize("Date", language),
