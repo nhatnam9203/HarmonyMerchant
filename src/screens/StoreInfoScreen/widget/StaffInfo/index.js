@@ -66,6 +66,7 @@ class StaffInfo extends Layout {
                     isCheck: false
                 }
             },
+            cashPercent:0,
             fileId: 0,
             imageUrl: '',
             isSubmitButton: true,
@@ -79,6 +80,7 @@ class StaffInfo extends Layout {
         this.browserFileRef = React.createRef();
         this.cellphoneRef = React.createRef();
         this.scrollStaffRef = React.createRef();
+        this.cashPercentRef = React.createRef();
     }
 
     scrollStaffTo(position) {
@@ -267,7 +269,8 @@ class StaffInfo extends Layout {
                 salary: objSalary,
                 tipFee: objTipFee,
                 fileId: this.state.fileId,
-                productSalary: objProjectSalary
+                productSalary: objProjectSalary,
+                cashPercent : parseFloat(this.cashPercentRef.current.state.value ? this.cashPercentRef.current.state.value: 0)
             };
             if (this.props.isEditStaff) {
                 this.props.editStaff(temptStaff, this.state.staffId)

@@ -68,6 +68,7 @@ class AddStaff extends Layout {
                     isCheck: false
                 }
             },
+            cashPercent:0,
             fileId: 0,
             imageUrl: '',
             isSubmitButton: true,
@@ -84,6 +85,7 @@ class AddStaff extends Layout {
         this.percentTipFeeRef = React.createRef();
         this.fixedAmountTipFeeRef = React.createRef();
         this.commisionProductScalaryRef = React.createRef();
+        this.cashPercentRef =React.createRef();
 
     }
 
@@ -232,7 +234,9 @@ class AddStaff extends Layout {
                         isCheck: this.commisionProductScalaryRef.current.state.isCheck
                     }
 
-                }
+                },
+                cashPercent : parseFloat(this.cashPercentRef.current.state.value ? this.cashPercentRef.current.state.value: 0)
+               
             };
             if (this.props.isEditStaff) {
                 this.props.editStaff(temptStaff, this.state.staffId)

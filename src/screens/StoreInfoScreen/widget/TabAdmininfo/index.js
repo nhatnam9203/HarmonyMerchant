@@ -29,6 +29,7 @@ const initState = {
         driverlicense: '',
         socialSecurityNumber: '',
         professionalLicense: '',
+        cashPercent:0
     },
     fileId: 0,
     imageUrl: '',
@@ -55,6 +56,7 @@ class StoreInfoScreen extends Layout {
         this.scrollStaffRef = React.createRef();
         this.percentTipFeeRef = React.createRef();
         this.fixedAmountTipFeeRef = React.createRef();
+        this.cashPercentRef = React.createRef();
     }
 
     scrollStaffTo(position) {
@@ -172,6 +174,7 @@ class StoreInfoScreen extends Layout {
                         isCheck: this.fixedAmountTipFeeRef.current.state.isCheck
                     }
                 },
+                cashPercent : parseFloat(this.cashPercentRef.current.state.value ? this.cashPercentRef.current.state.value: 0),
                 fileId: this.state.fileId
             };
             //console.log('productSalary : ' + JSON.stringify(objProjectSalary));
@@ -231,6 +234,7 @@ class StoreInfoScreen extends Layout {
         // });
         this.fixedAmountTipFeeRef.current.setStateFromParent();
         this.percentTipFeeRef.current.setStateFromParent();
+        this.cashPercentRef.current.setStateFromParent("0", true);
     }
 
     disableFixedAmountTip = () => {
@@ -241,9 +245,9 @@ class StoreInfoScreen extends Layout {
         this.percentTipFeeRef.current.setStateFromParent();
     }
 
-    disableServiceSalary =(type) =>{
-        for(const ref of this.inputRefsSalary){
-            if(ref.props.type !==  type){
+    disableServiceSalary = (type) => {
+        for (const ref of this.inputRefsSalary) {
+            if (ref.props.type !== type) {
                 ref.setStateFromParent();
             }
         }

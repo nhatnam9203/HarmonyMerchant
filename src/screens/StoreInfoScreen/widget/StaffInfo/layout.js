@@ -36,6 +36,8 @@ class Layout extends React.Component {
         const temptDataTipFee = isEditStaff ? infoStaffHandle.tipFees : this.state.tipFee;
         const temptDataSalary = isEditStaff ? infoStaffHandle.salaries : this.state.salary;
         const temptDataProductScalary = isEditStaff ? infoStaffHandle.productSalaries : this.state.productSalary;
+        const temptCashPercent = isEditStaff ? infoStaffHandle.cashPercent : this.state.cashPercent;
+
         return (
             <View style={styles.body} >
                 <ScrollView
@@ -305,6 +307,26 @@ class Layout extends React.Component {
                             />
                         })
                     }
+
+                    {/* -----  Payout With Cash ---- */}
+                    <TitleTabAdminInfo
+                        title={localize('Payout With Cash', language)}
+                    />
+
+
+                    {/* ----- Cash Percent ---- */}
+                    <ItemScalary
+                        ref={this.cashPercentRef}
+                        title={`${localize("Cash Percent", language)} (%)`}
+                        placeholder={'10'}
+                        dataInit={{
+                            isCheck: true,
+                            value: temptCashPercent
+                        }}
+                        onFocus={() => this.scrollStaffTo(1500)}
+                        maxLength={3}
+                        isNotToggleCheck={true}
+                    />
 
 
                     {/* ---- Address ---- */}

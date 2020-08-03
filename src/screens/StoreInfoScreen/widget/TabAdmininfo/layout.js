@@ -260,7 +260,7 @@ class Layout extends React.Component {
                                     isCheck: false
                                 }}
                                 onFocus={() => this.scrollStaffTo(1100)}
-                                toogleCheck={this.disableServiceSalary.bind(this,salary.type)}
+                                toogleCheck={this.disableServiceSalary.bind(this, salary.type)}
 
                             />
                         })
@@ -317,6 +317,27 @@ class Layout extends React.Component {
                         onFocus={() => this.scrollStaffTo(1300)}
                         toogleCheck={this.disablePercentTip}
                     />
+
+                    {/* -----  Payout With Cash ---- */}
+                    <TitleTabAdminInfo
+                        title={localize('Payout With Cash', language)}
+                    />
+
+
+                    {/* ----- Cash Percent ---- */}
+                    <ItemScalary
+                        ref={this.cashPercentRef}
+                        title={`${localize("Cash Percent", language)} (%)`}
+                        placeholder={'10'}
+                        dataInit={{
+                            isCheck: true,
+                            value: 0
+                        }}
+                        onFocus={() => this.scrollStaffTo(1500)}
+                        maxLength={3}
+                        isNotToggleCheck={true}
+                    />
+
 
                     {/* ---- Address ---- */}
                     <ItemAdminInfo

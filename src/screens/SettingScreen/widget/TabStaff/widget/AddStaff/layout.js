@@ -17,6 +17,7 @@ import { scaleSzie, localize } from '@utils';
 import { ItemAdminInfo, ItemAdminCellPhone } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
+import { traverse } from 'ramda';
 
 
 class Layout extends React.Component {
@@ -42,6 +43,8 @@ class Layout extends React.Component {
         const percent_TipFee = temptDataTipFee["percent"] ? temptDataTipFee["percent"] : { value: 0, isCheck: false };
         const fixedAmount_TipFee = temptDataTipFee["fixedAmount"] ? temptDataTipFee["fixedAmount"] : { value: 0, isCheck: false };
         const commision_ProductScalary = temptDataProductScalary["commission"] ? temptDataProductScalary["commission"] : { value: 0, isCheck: false };
+
+        const temptCashPercent = isEditStaff ? infoStaffHandle.cashPercent : this.state.cashPercent;
 
 
         return (
@@ -317,6 +320,7 @@ class Layout extends React.Component {
                         toogleCheck={this.disablePercentTip}
                     />
 
+                   
 
                     {/* ---- Address ---- */}
                     <ItemAdminInfo
@@ -338,7 +342,7 @@ class Layout extends React.Component {
                         mark="999-99-9999"
                         style={{
                             fontSize: scaleSzie(12),
-                            fontWeight:"bold"
+                            fontWeight: "bold"
                         }}
                     />
                     <ItemAdminInfo
