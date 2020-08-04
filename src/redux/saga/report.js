@@ -40,7 +40,7 @@ function* getReportOverallPaymentMethod(action) {
 export default function* saga() {
   yield all([
     takeLatest(
-      actions.report.TC.GetOverallPaymentMethod,
+      actions.report.ACTION_TYPES.GetOverallPaymentMethod,
       getReportOverallPaymentMethod
     ),
     // takeLatest("UPLOAD_BANNER", uploadBanner),

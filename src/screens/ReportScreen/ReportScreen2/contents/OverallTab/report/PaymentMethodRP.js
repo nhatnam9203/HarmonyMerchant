@@ -69,6 +69,7 @@ export default function PaymentMethodRp({
   const [viewMode, setViewMode] = useState(VIEW_MODE.LIST);
   const [chartData, setChartData] = useState([]);
   const [filterNameItem, setFilterNameItem] = useState(FILTER_NAME_DEFAULT);
+  const [filterNames, setFilterNames] = useState([]);
 
   /**component mount*/
   const getOverallPaymentMethod = async () => {
@@ -88,6 +89,7 @@ export default function PaymentMethodRp({
 
   useEffect(() => {
     bindChartData();
+    bindStaffNameFilter();
   }, [overallPaymentMethodList]);
 
   useEffect(() => {
@@ -144,23 +146,30 @@ export default function PaymentMethodRp({
     let array = [];
     array.push({ value: localize(FILTER_NAME_DEFAULT, language) });
 
-    const arrMap = overallPaymentMethodList.map((staff) => ({
-      value: staff.name,
-      ...staff,
+    const arrMap = overallPaymentMethodList.map((paymentMethod) => ({
+      value: paymentMethod.method,
+      ...paymentMethod,
     }));
     array.push(...arrMap);
 
-    return array;
+    setFilterNames(array);
   };
 
   const onChangeFilterName = async (text) => {
     await setFilterNameItem(text);
-    if (tabLayoutRef.current.getCurrentTab() === 1) {
-      const item = overallPaymentMethodList.find((x) => x.method === text);
-      if (item) {
-        // dispatch(actions.staff.getListStaffCalendar(item.staffId));
-      }
+    const item = overallPaymentMethodList.find((x) => x.method === text);
+    if (item) {
+      dispatch(actions.report.filterOverallPaymentMethod(item.method));
     }
+  };
+
+  // binding data list for name filter
+  const filterDataTale = () => {
+    return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
+      ? overallPaymentMethodList.filter(
+          (item) => item.method === filterNameItem
+        )
+      : overallPaymentMethodList;
   };
 
   /**render */
@@ -221,7 +230,7 @@ export default function PaymentMethodRp({
             <Dropdown
               rippleCentered={true}
               dropdownPosition={2}
-              data={bindStaffNameFilter()}
+              data={filterNames}
               onChangeText={(text) => onChangeFilterName(text)}
               renderBase={() => (
                 <PopupButton
@@ -237,7 +246,7 @@ export default function PaymentMethodRp({
       <View style={{ flex: 1 }}>
         {viewMode === VIEW_MODE.LIST ? (
           <TableList
-            tableData={overallPaymentMethodList}
+            tableData={filterDataTale()}
             tableHead={{
               method: localize("Payment", language),
               transactions: localize("Transactions", language),

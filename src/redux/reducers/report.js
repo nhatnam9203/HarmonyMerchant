@@ -1,5 +1,8 @@
+import actions from "@actions";
+
 const initialState = {
   overallPaymentMethodList: [],
+  overallFilterMethod: null,
 };
 
 function appReducer(state = initialState, action) {
@@ -8,6 +11,11 @@ function appReducer(state = initialState, action) {
       return {
         ...state,
         overallPaymentMethodList: action.payload,
+      };
+    case actions.report.ACTION_TYPES.OverallPaymentMethodFilterId:
+      return {
+        ...state,
+        overallFilterMethod: action.payload,
       };
     default:
       return state;
