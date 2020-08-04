@@ -20,9 +20,9 @@ export default function ReportStatisticLayout({
   titleRangeTime,
   showExportFile,
   handleTheDownloadedFile,
-  onChangeFilterStaff,
-  dataStaffSalaryFilter,
-  filterStaffItem,
+  onChangeFilter,
+  dataFilters,
+  filterId,
   title,
   tableData,
   tableHead,
@@ -75,7 +75,6 @@ export default function ReportStatisticLayout({
       </View>
     );
   };
-
   return (
     <View style={style}>
       <HeaderTitle title={title || localize("Statistics", language)} />
@@ -108,11 +107,12 @@ export default function ReportStatisticLayout({
         />
         <View style={{ width: 160, height: 45 }}>
           <Dropdown
-            data={dataStaffSalaryFilter}
-            onChangeText={(text) => onChangeFilterStaff(text)}
+            data={dataFilters}
+            onChangeText={(text) => onChangeFilter(text)}
+            dropdownPosition={2}
             renderBase={() => (
               <PopupButton
-                text={filterStaffItem ?? "All Staff"}
+                text={filterId}
                 imageSrc={IMAGE.Report_Dropdown_Arrow}
               />
             )}

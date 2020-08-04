@@ -21,7 +21,6 @@ import { ReportTabLayout } from "../../widget";
 import OverallReportTab from "./OverallTab";
 import OverallStatistic from "./OverallStatistic";
 
-
 function OverallTab({ style, showBackButton }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -39,7 +38,6 @@ function OverallTab({ style, showBackButton }, ref) {
   const [isShowCalendar, showCalendar] = useState(false);
   const [titleTimeRange, setTitleTimeRange] = useState("This Week");
   const [urlTimeRange, setUrlTimeRange] = useState("thisWeek");
-  const [statisticItem, setStatisticItem] = useState([]);
   const [overallCurrentTab, setOverallCurrentTab] = useState(0);
 
   // public func
@@ -61,8 +59,8 @@ function OverallTab({ style, showBackButton }, ref) {
     showCalendar(false);
   };
 
-  const onGoStatistics = async (item) => {
-    await setStatisticItem(item);
+  const onGoStatistics = async () => {
+    // await setStatisticItem(item);
     tabLayoutRef.current.goNext();
   };
 
@@ -79,34 +77,22 @@ function OverallTab({ style, showBackButton }, ref) {
     setOverallCurrentTab(index);
   };
 
-
   return (
     <View style={style}>
-      <ReportTabLayout
-        ref={tabLayoutRef}
-        onCalendarClose={onTimeRangeChanged}
-        showCalendar={isShowCalendar}
-        showBackButton={showBackButton}
-      >
+      <ReportTabLayout ref={tabLayoutRef} showBackButton={showBackButton}>
         <OverallReportTab
           ref={overallTabRef}
           style={{ flex: 1, paddingTop: 10 }}
-          showCalendar={() => showCalendar(true)}
-          titleRangeTime={titleTimeRange}
-          urlRangeTime={urlTimeRange}
           tabLabel={"overallTab"}
           onGoStatistics={onGoStatistics}
           onChangeTab={onOverallChangeTab}
         />
+
         <OverallStatistic
           // ref={overallStatisticsRef}
           style={{ flex: 1, paddingTop: 10 }}
-          showCalendar={() => showCalendar(true)}
-          titleRangeTime={titleTimeRange}
-          urlRangeTime={urlTimeRange}
           tabLabel={"overallStatistic"}
           getTitle={getTabTitle}
-          item={statisticItem}
           tabIndex={overallCurrentTab}
         />
       </ReportTabLayout>

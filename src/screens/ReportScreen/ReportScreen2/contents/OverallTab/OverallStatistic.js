@@ -1,37 +1,70 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { Dropdown } from "react-native-material-dropdown";
+import actions from "@actions";
 
-import IMAGE from "@resources";
-import {
-  HeaderTitle,
-  HeaderTooltip,
-  PopupButton,
-  TableList,
-  ReportStatisticLayout,
-} from "../../widget";
+import { ReportStatisticLayout } from "../../widget";
 import { localize } from "@utils";
 
 const HEAD_FONT_SIZE = 17;
 const TABLE_ROW_HEIGHT = 50;
 
 export default function OverallStatistic(props, ref) {
-  const { item, tabIndex, getTitle } = props;
+  const { tabIndex, getTitle } = props;
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
+  const overallPaymentMethodList = useSelector(
+    (state) => state.report.overallPaymentMethodList
+  );
+  const overallPMFilterId = useSelector(
+    (state) => state.report.overallPMFilterId
+  );
+  const overallPMFilters = useSelector(
+    (state) => state.report.overallPMFilters
+  );
 
   /**state */
   const [table, setTable] = useState({});
   const [title, setTitle] = useState("");
+  const [filterNameItem, setFilterNameItem] = useState(undefined);
+  const [filterNames, setFilterNames] = useState([]);
 
   /**process */
 
-  /**useEffect */
-  useEffect(() => {
+  const onChangeFilterName = async (text) => {
     switch (tabIndex) {
       case 0:
+        dispatch(actions.report.filterOPM(text));
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  const bindNameFilter = async () => {
+    switch (tabIndex) {
+      case 0:
+        await setFilterNameItem(overallPMFilterId);
+        await setFilterNames(overallPMFilters);
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  /**useEffect */
+  useEffect(() => {
+    bindNameFilter();
+    setTitle(getTitle());
+
+    switch (tabIndex) {
+      case 0:
+        const item = overallPaymentMethodList.find(
+          (item) => item.method === overallPMFilterId
+        );
         setTable({
           tableData: item.statistics,
           tableHead: {
@@ -55,7 +88,6 @@ export default function OverallStatistic(props, ref) {
           tableCellWidth: { grossPayment: 180 },
         });
 
-        setTitle(getTitle());
         break;
       case 1:
         setTable({
@@ -84,11 +116,18 @@ export default function OverallStatistic(props, ref) {
       default:
         break;
     }
-  }, [item, tabIndex]);
+  }, [overallPMFilterId, tabIndex, overallPaymentMethodList]);
 
   /**render */
 
-  return <ReportStatisticLayout {...props} {...table} title={title} />;
+  return (
+    <ReportStatisticLayout
+      {...props}
+      {...table}
+      title={title}
+      onChangeFilter={onChangeFilterName}
+      dataFilters={filterNames}
+      filterId={filterNameItem}
+    />
+  );
 }
-
-const styles = StyleSheet.create({});

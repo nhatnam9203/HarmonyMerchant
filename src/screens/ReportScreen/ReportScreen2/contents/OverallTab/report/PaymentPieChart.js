@@ -149,7 +149,7 @@ export default function PaymentBarChart({ data }) {
           styledCenterText={{
             text: `${maxPercentsChart}%`,
             color: processColor("#003680"),
-            size: 55,
+            size: 45,
           }}
           centerTextRadiusPercent={100}
           holeRadius={55}

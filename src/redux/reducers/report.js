@@ -2,7 +2,8 @@ import actions from "@actions";
 
 const initialState = {
   overallPaymentMethodList: [],
-  overallFilterMethod: null,
+  overallPMFilterId: undefined,
+  overallPMFilters: [],
 };
 
 function appReducer(state = initialState, action) {
@@ -12,10 +13,15 @@ function appReducer(state = initialState, action) {
         ...state,
         overallPaymentMethodList: action.payload,
       };
-    case actions.report.ACTION_TYPES.OverallPaymentMethodFilterId:
+    case actions.report.ACTION_TYPES.OPMFilterId:
       return {
         ...state,
-        overallFilterMethod: action.payload,
+        overallPMFilterId: action.payload,
+      };
+    case actions.report.ACTION_TYPES.OPMFilters:
+      return {
+        ...state,
+        overallPMFilters: action.payload,
       };
     default:
       return state;

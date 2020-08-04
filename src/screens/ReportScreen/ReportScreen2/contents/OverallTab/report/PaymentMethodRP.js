@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import { Dropdown } from "react-native-material-dropdown";
 import IMAGE from "@resources";
-import { localize, formatNumberFromCurrency, formatMoney } from "@utils";
+import {
+  localize,
+  formatNumberFromCurrency,
+  scaleSzie,
+  getQuickFilterTimeRange,
+} from "@utils";
 import actions from "@actions";
+import { PopupCalendar } from "@components";
 
 import { HeaderTooltip, PopupButton, TableList } from "../../../widget";
 import PaymentBarChart from "./PaymentBarChart";
@@ -20,22 +26,6 @@ const FILTER_NAME_DEFAULT = "All Method";
 const ACTIVE_COLOR = "#0764B0";
 const INACTIVE_COLOR = "#6A6A6A";
 
-/**pick value of an attribute in object */
-const pickValuesFromKey = (array, pickKey) => {
-  const filterArray = array.map((obj) => {
-    const filterObject = Object.fromEntries(
-      Object.entries(obj).filter(([key]) => pickKey === key)
-    );
-    return Object.values(filterObject)[0];
-  });
-
-  return filterArray;
-};
-
-const formatServerNumber = (numStr) => {
-  return numStr ? numStr.split(",").join("") : numStr;
-};
-
 /**create new object from two value for two key of object */
 const createChartObjectFromValues = (array, key, keyValue) => {
   let response = [];
@@ -48,13 +38,7 @@ const createChartObjectFromValues = (array, key, keyValue) => {
   return response;
 };
 
-export default function PaymentMethodRp({
-  style,
-  showCalendar,
-  titleRangeTime,
-  urlRangeTime,
-  onGoStatistics,
-}) {
+export default function PaymentMethodRp({ style, onGoStatistics }) {
   /**redux store*/
   const dispatch = useDispatch();
   const pathFileReportStaff = useSelector(
@@ -71,10 +55,16 @@ export default function PaymentMethodRp({
   const [filterNameItem, setFilterNameItem] = useState(FILTER_NAME_DEFAULT);
   const [filterNames, setFilterNames] = useState([]);
 
-  /**component mount*/
-  const getOverallPaymentMethod = async () => {
-    await dispatch(actions.report.getOverallPaymentMethod(true, urlRangeTime));
-  };
+  const [visibleCalendar, setVisibleCalendar] = useState(false);
+  const [titleRangeTime, setTitleRangeTime] = useState("This week");
+
+  /**refs */
+  const modalCalendarRef = useRef(null);
+
+  /**component will mount*/
+  useEffect(() => {
+    getOverallPaymentMethod();
+  }, []);
 
   const bindChartData = async () => {
     if (!overallPaymentMethodList) return [];
@@ -92,45 +82,18 @@ export default function PaymentMethodRp({
     bindStaffNameFilter();
   }, [overallPaymentMethodList]);
 
-  useEffect(() => {
-    getOverallPaymentMethod();
-  }, [urlRangeTime]);
-
   const goStatistics = async (item) => {
     if (!item) return;
-    // bind redux state
-    // await dispatch(actions.staff.getListStaffCalendar(item.staffId));
-
-    // await onChangeFilterStaff(item.name);
     // change to statistic tab
-    await onGoStatistics(item);
-  };
-
-  /**callback */
-  const renderActionCell = ({ key, row, column, item }) => {
-    return (
-      <View style={styles.cellAction}>
-        <TouchableOpacity onPress={() => goStatistics(item)}>
-          <View style={styles.btnInCell}>
-            <Image style={styles.imgDetail} source={IMAGE.Report_Detail} />
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
+    await dispatch(actions.report.filterOPM(item.method));
+    await onGoStatistics();
   };
 
   const renderCell = ({ key, row, column, item }) => {
     return null;
   };
 
-  const onCellPress = ({ key, row, column, item }) => {
-    // if (key === "salary") {
-    //   dispatch(actions.staff.getListStaffCalendar(item.staffId));
-    //   onGoStatistics();
-    // }
-    // showPopupStaffInvoice(item);
-  };
-  /**func */
+  /**function */
   const changeViewMode = (mode) => {
     if (!mode) return;
     setViewMode(mode);
@@ -144,7 +107,6 @@ export default function PaymentMethodRp({
     if (!overallPaymentMethodList) return [];
 
     let array = [];
-    array.push({ value: localize(FILTER_NAME_DEFAULT, language) });
 
     const arrMap = overallPaymentMethodList.map((paymentMethod) => ({
       value: paymentMethod.method,
@@ -153,13 +115,14 @@ export default function PaymentMethodRp({
     array.push(...arrMap);
 
     setFilterNames(array);
+    dispatch(actions.report.getOPMFilters(array));
   };
 
   const onChangeFilterName = async (text) => {
     await setFilterNameItem(text);
     const item = overallPaymentMethodList.find((x) => x.method === text);
     if (item) {
-      dispatch(actions.report.filterOverallPaymentMethod(item.method));
+      dispatch(actions.report.filterOPM(item.method));
     }
   };
 
@@ -170,6 +133,80 @@ export default function PaymentMethodRp({
           (item) => item.method === filterNameItem
         )
       : overallPaymentMethodList;
+  };
+
+  // create time range params
+  const getFilterTimeParams = () => {
+    if (!modalCalendarRef || !modalCalendarRef.current) {
+      return `quickFilter=${getQuickFilterTimeRange("This Week")}`;
+    }
+
+    const {
+      isCustomizeDate,
+      startDate,
+      endDate,
+      quickFilter,
+    } = modalCalendarRef.current.state;
+
+    let url;
+
+    if (isCustomizeDate) {
+      url = `timeStart=${startDate}&timeEnd=${endDate}`;
+    } else {
+      const filter = quickFilter === false ? "This Week" : quickFilter;
+      // console.log("quickFilter", quickFilter);
+      url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
+    }
+
+    return url;
+  };
+
+  // create title for time, to set default title print
+  const getTimeTitle = () => {
+    if (!modalCalendarRef || !modalCalendarRef.current) {
+      return "This Week";
+    }
+
+    const {
+      isCustomizeDate,
+      startDate,
+      endDate,
+      quickFilter,
+    } = modalCalendarRef.current.state;
+
+    const filter = quickFilter === false ? "This Week" : quickFilter;
+    let title = `${filter}`;
+
+    if (startDate && endDate) {
+      title = ` ${startDate} - ${endDate}`;
+    }
+
+    return title;
+  };
+
+  const getOverallPaymentMethod = async () => {
+    await dispatch(
+      actions.report.getOverallPaymentMethod(true, getFilterTimeParams())
+    );
+  };
+
+  const changeTitleTimeRange = async (title) => {
+    setVisibleCalendar(false);
+    await setTitleRangeTime(title !== "Time Range" ? title : "All time");
+    await getOverallPaymentMethod();
+  };
+
+  /**callback */
+  const renderActionCell = ({ key, row, column, item }) => {
+    return (
+      <View style={styles.cellAction}>
+        <TouchableOpacity onPress={() => goStatistics(item)}>
+          <View style={styles.btnInCell}>
+            <Image style={styles.imgDetail} source={IMAGE.Report_Detail} />
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
   };
 
   /**render */
@@ -222,7 +259,7 @@ export default function PaymentMethodRp({
         <PopupButton
           text={titleRangeTime}
           imageSrc={IMAGE.calendar}
-          onPress={showCalendar}
+          onPress={() => setVisibleCalendar(true)}
           style={{ marginRight: 20 }}
         />
         {viewMode === VIEW_MODE.LIST && (
@@ -230,7 +267,7 @@ export default function PaymentMethodRp({
             <Dropdown
               rippleCentered={true}
               dropdownPosition={2}
-              data={filterNames}
+              data={[{ value: FILTER_NAME_DEFAULT }, ...filterNames]}
               onChangeText={(text) => onChangeFilterName(text)}
               renderBase={() => (
                 <PopupButton
@@ -279,7 +316,7 @@ export default function PaymentMethodRp({
               netPayment: 200,
             }}
             renderCell={renderCell}
-            onCellPress={onCellPress}
+            // onCellPress={onCellPress}
             renderActionCell={renderActionCell}
           />
         ) : (
@@ -289,6 +326,15 @@ export default function PaymentMethodRp({
           </View>
         )}
       </View>
+
+      <PopupCalendar
+        type="report"
+        ref={modalCalendarRef}
+        visible={visibleCalendar}
+        onRequestClose={() => setVisibleCalendar(false)}
+        changeTitleTimeRange={changeTitleTimeRange}
+        paddingLeft={scaleSzie(60)}
+      />
     </View>
   );
 }

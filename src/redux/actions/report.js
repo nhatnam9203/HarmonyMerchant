@@ -1,8 +1,12 @@
 import apiConfigs from "../../configs/api";
 
+/**
+ * OPM: Overall Payment Method
+ */
 export const ACTION_TYPES = {
   GetOverallPaymentMethod: "GET_REPORT_OVERALL_PAYMENT_METHOD",
-  OverallPaymentMethodFilterId: "REPORT_OVERALL_PAYMENT_METHOD_FILTER_ID",
+  OPMFilters: "REPORT_OVERALL_PAYMENT_METHOD_FILTERS",
+  OPMFilterId: "REPORT_OVERALL_PAYMENT_METHOD_FILTER_ID",
   GetOverallMarketingEfficiency: "GET_REPORT_OVERALL_MARKETING_EFFICIENCY",
 };
 
@@ -19,9 +23,16 @@ export function getOverallPaymentMethod(
   };
 }
 
-export function filterOverallPaymentMethod(method) {
+export function getOPMFilters(filters) {
   return {
-    type: ACTION_TYPES.OverallPaymentMethodFilterId,
+    type: ACTION_TYPES.OPMFilters,
+    payload: filters,
+  };
+}
+
+export function filterOPM(method) {
+  return {
+    type: ACTION_TYPES.OPMFilterId,
     payload: method,
   };
 }
