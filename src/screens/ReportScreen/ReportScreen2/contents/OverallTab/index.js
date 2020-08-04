@@ -83,31 +83,31 @@ function OverallTab({ style, showBackButton }, ref) {
 
   // create filter name data
   const bindStaffNameFilter = () => {
-    if (!overallPaymentMethodList) return [];
+    if (!overallPaymentMethodList || !tabLayoutRef || !tabLayoutRef.current) return [];
 
     let array = [];
 
-    // if (currentTab === 0) {
-    //   array.push({ value: localize(FILTER_NAME_DEFAULT, language) });
-    // }
+    if (tabLayoutRef.current.getCurrentTab() === 0) {
+      array.push({ value: localize(FILTER_NAME_DEFAULT, language) });
+    }
 
-    // const arrMap = overallPaymentMethodList.map((staff) => ({
-    //   value: staff.name,
-    //   ...staff,
-    // }));
-    // array.push(...arrMap);
+    const arrMap = overallPaymentMethodList.map((staff) => ({
+      value: staff.name,
+      ...staff,
+    }));
+    array.push(...arrMap);
 
     return array;
   };
 
   const onChangeFilterName = async (text) => {
     await setFilterNameItem(text);
-    // if (currentTab === 1) {
-    //   const item = listStaffsSalary.find((staff) => staff.name === text);
-    //   if (item) {
-    //     dispatch(actions.staff.getListStaffCalendar(item.staffId));
-    //   }
-    // }
+    if (tabLayoutRef.current.getCurrentTab() === 1) {
+      const item = overallPaymentMethodList.find((x) => x.method === text);
+      if (item) {
+        // dispatch(actions.staff.getListStaffCalendar(item.staffId));
+      }
+    }
   };
 
   return (

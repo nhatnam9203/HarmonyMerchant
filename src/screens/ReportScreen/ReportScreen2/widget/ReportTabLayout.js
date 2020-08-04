@@ -24,13 +24,7 @@ const FILE_EXTENSION = "csv";
 const FILTER_NAME_DEFAULT = "All Staff";
 
 function ReportTabLayout(
-  {
-    style,
-    showBackButton,
-    children,
-    onCalendarClose,
-    showCalendar
-  },
+  { style, showBackButton, children, onCalendarClose, showCalendar },
   ref
 ) {
   /**redux */
@@ -95,6 +89,9 @@ function ReportTabLayout(
   useImperativeHandle(ref, () => ({
     goBack: goBack,
     goNext: goNext,
+    getCurrentTab: () => {
+      return currentTab;
+    },
   }));
 
   // const searchStaffSalary = useCallback(
