@@ -49,13 +49,15 @@ export function restoreProduct(id) {
     }
 }
 
-export function editProduct(body, id) {
+export function editProduct(body, id,keySearch = "",category ="") {
     return {
         type: 'EDIT_PRODUCT',
         body: body,
         method: 'PUT',
         token: true,
         api: `${apiConfigs.BASE_API}product/${id}`,
+        keySearch,
+        category
     }
 }
 
@@ -68,7 +70,7 @@ export function clearSearchProduct() {
 }
 
 
-export function restockProduct(ids, quantity) {
+export function restockProduct(ids, quantity,keySearch = "",category ="") {
     return {
         type: 'RESTOCK_PRODUCT',
         body: {
@@ -78,6 +80,8 @@ export function restockProduct(ids, quantity) {
         method: 'PUT',
         token: true,
         api: `${apiConfigs.BASE_API}product/restock`,
+        keySearch,
+        category
     }
 }
 

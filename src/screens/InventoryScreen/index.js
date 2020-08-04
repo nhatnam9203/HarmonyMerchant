@@ -114,12 +114,12 @@ class InventoryScreen extends Layout {
             const temptParent = searchFilter[keyParent];
             const temptChild = { ...temptParent, [key]: value };
             const temptUpdate = { ...searchFilter, [keyParent]: temptChild };
-          await  this.setState({
+            await this.setState({
                 searchFilter: temptUpdate
             })
         } else {
             const temptUpdate = { ...searchFilter, [key]: value };
-           await this.setState({
+            await this.setState({
                 searchFilter: temptUpdate
             })
         }
@@ -129,24 +129,26 @@ class InventoryScreen extends Layout {
                 this.searchProduct();
             }, 500);
         } else {
-            // this.props.actions.invoice.updateSearchKeyword(this.state.searchFilter.keySearch);
+            if (value === "") {
+                this.searchProduct();
+            }
         }
     }
 
-    
-    onRefreshProductList = () =>{
+
+    onRefreshProductList = () => {
         this.searchProduct(false);
     }
 
-    searchProduct = (isShowLoading =  true) => {
+    searchProduct = (isShowLoading = true) => {
         const { searchFilter } = this.state;
         const { keySearch, category } = searchFilter;
 
         const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Product') : '';
-        this.props.actions.product.getProductsByMerchant(keySearch, temptCategory,isShowLoading);
+        this.props.actions.product.getProductsByMerchant(keySearch, temptCategory, isShowLoading);
     }
 
-   
+
     setProductRef = ref => {
         if (ref != null) {
             this.listProductRef.push(ref);
@@ -209,8 +211,9 @@ class InventoryScreen extends Layout {
     }
 
     submitRestock = (quantity) => {
-        const { arrayProductRestock } = this.state;
-        this.props.actions.product.restockProduct(arrayProductRestock, parseInt(quantity));
+        const { arrayProductRestock, searchFilter } = this.state;
+        const { keySearch, category } = searchFilter;
+        this.props.actions.product.restockProduct(arrayProductRestock, parseInt(quantity), keySearch, category);
         this.setState({
             visibleRestock: false
         })
@@ -224,7 +227,7 @@ class InventoryScreen extends Layout {
     }
 
 
-   
+
 
     submitArchiveYess = (id) => {
         this.props.actions.product.archiveProduct(id);
@@ -247,6 +250,7 @@ class InventoryScreen extends Layout {
                 break;
             }
         }
+
         this.editProductRef.current.setProductInfoFromParent(temptProductEdit);
         this.setState({
             visibleEdit: true
@@ -254,8 +258,9 @@ class InventoryScreen extends Layout {
     }
 
     editProduct = async (product) => {
+        const { keySearch, category } = this.state.searchFilter;
         await this.setState({ visibleEdit: false })
-        this.props.actions.product.editProduct(product, product.productId);
+        this.props.actions.product.editProduct(product, product.productId, keySearch, category);
 
     }
 

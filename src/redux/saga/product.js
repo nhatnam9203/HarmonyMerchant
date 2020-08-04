@@ -140,7 +140,7 @@ function* editProduct(action) {
                 type: 'GET_PRODUCTS_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}product`,
+                api: `${apiConfigs.BASE_API}product/search?name=${action.keySearch}&category=${action.category}`,
                 isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
@@ -200,7 +200,7 @@ function* restockProduct(action) {
                 type: 'GET_PRODUCTS_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}product`,
+                api: `${apiConfigs.BASE_API}product/search?name=${action.keySearch}&category=${action.category}`,
                 isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
