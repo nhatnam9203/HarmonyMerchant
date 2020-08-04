@@ -6,29 +6,30 @@ import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import { getCategoryIdByName, getArrayNameCategories } from '@utils';
 
+const initState = {
+    isFocus: true,
+    isSelectAll: false,
+    visiblePopupDetail: false,
+    visibleEdit: false,
+    visibleAdd: false,
+    visibleRestock: false,
+    searchFilter: {
+        keySearch: '',
+        category: '',
+    },
+    arrayProductRestock: [],
+    fileDownload: '',
+    visibleDropdownExport: false,
+    visiblePopupExport: false,
+    visiblePopupLoadingExport: false,
+    typeFile: "pdf"
+}
+
 class InventoryScreen extends Layout {
 
     constructor(props) {
         super(props);
-        this.state = {
-            isFocus: true,
-            isSelectAll: false,
-            visiblePopupDetail: false,
-            visibleEdit: false,
-            visibleAdd: false,
-            visibleRestock: false,
-            searchFilter: {
-                keySearch: '',
-                category: '',
-                status: ''
-            },
-            arrayProductRestock: [],
-            fileDownload: '',
-            visibleDropdownExport: false,
-            visiblePopupExport: false,
-            visiblePopupLoadingExport: false,
-            typeFile: "pdf"
-        }
+        this.state = initState;
         this.scrollTabRef = React.createRef();
         this.productDetailRef = React.createRef();
         this.listProductRef = [];
@@ -44,9 +45,11 @@ class InventoryScreen extends Layout {
             'didBlur',
             payload => {
                 this.setState({
+                    ...initState,
                     isFocus: false
                 });
                 this.checkPermissionRef.current.setStateFromParent('');
+
             }
         );
         this.didFocusSubscription = this.props.navigation.addListener(
@@ -60,6 +63,7 @@ class InventoryScreen extends Layout {
             }
         );
     }
+
 
     scanUKU = () => {
 
@@ -104,23 +108,45 @@ class InventoryScreen extends Layout {
         })
     }
 
-    updateSearchFilterInfo(key, value, keyParent = '') {
+    updateSearchFilterInfo = async (key, value, keyParent = '') => {
         const { searchFilter } = this.state;
         if (keyParent !== '') {
             const temptParent = searchFilter[keyParent];
             const temptChild = { ...temptParent, [key]: value };
             const temptUpdate = { ...searchFilter, [keyParent]: temptChild };
-            this.setState({
+          await  this.setState({
                 searchFilter: temptUpdate
             })
         } else {
             const temptUpdate = { ...searchFilter, [key]: value };
-            this.setState({
+           await this.setState({
                 searchFilter: temptUpdate
             })
         }
+
+        if (key !== "keySearch") {
+            setTimeout(() => {
+                this.searchProduct();
+            }, 500);
+        } else {
+            // this.props.actions.invoice.updateSearchKeyword(this.state.searchFilter.keySearch);
+        }
     }
 
+    
+    onRefreshProductList = () =>{
+        this.searchProduct(false);
+    }
+
+    searchProduct = (isShowLoading =  true) => {
+        const { searchFilter } = this.state;
+        const { keySearch, category } = searchFilter;
+
+        const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Product') : '';
+        this.props.actions.product.getProductsByMerchant(keySearch, temptCategory,isShowLoading);
+    }
+
+   
     setProductRef = ref => {
         if (ref != null) {
             this.listProductRef.push(ref);
@@ -198,16 +224,7 @@ class InventoryScreen extends Layout {
     }
 
 
-    searchProduct = () => {
-        const { searchFilter } = this.state;
-        const { keySearch, category, status } = searchFilter;
-        if (keySearch == '' && category == '' & status == '') {
-            this.props.actions.product.clearSearchProduct();
-        } else {
-            const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Product') : '';
-            this.props.actions.product.searchProduct(keySearch, temptCategory, status);
-        }
-    }
+   
 
     submitArchiveYess = (id) => {
         this.props.actions.product.archiveProduct(id);

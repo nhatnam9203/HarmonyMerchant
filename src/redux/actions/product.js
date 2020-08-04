@@ -10,13 +10,22 @@ export function addProductByMerchant(body) {
     }
 }
 
-export function getProductsByMerchant(isShowLoading = true) {
+export function getProductsByMerchant(name = "", category = "", isShowLoading = true) {
     return {
         type: 'GET_PRODUCTS_BY_MERCHANR_ID',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}product`,
+        api: `${apiConfigs.BASE_API}product/search?name=${name}&category=${category}`,
         isShowLoading
+    }
+}
+
+export function searchProduct(name = '', category = '', status = '') {
+    return {
+        type: 'SEARCH_PRODUCT',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}product/search?name=${name}&category=${category}`
     }
 }
 
@@ -50,14 +59,6 @@ export function editProduct(body, id) {
     }
 }
 
-export function searchProduct(name = '', category = '', status = '') {
-    return {
-        type: 'SEARCH_PRODUCT',
-        method: 'GET',
-        token: true,
-        api: `${apiConfigs.BASE_API}product/search?name=${name}&category=${category}&status=${status}`
-    }
-}
 
 export function clearSearchProduct() {
     return {
@@ -80,7 +81,7 @@ export function restockProduct(ids, quantity) {
     }
 }
 
-export function exportInventory(merchantId, fileName,isNeedToOrder = true,type = "excel") {
+export function exportInventory(merchantId, fileName, isNeedToOrder = true, type = "excel") {
     return {
         type: 'EXPORT_INVENTORY',
         method: 'GET',

@@ -144,7 +144,7 @@ function* checkStaffPermission(action) {
                     type: 'GET_PRODUCTS_BY_MERCHANR_ID',
                     method: 'GET',
                     token: true,
-                    api: `${apiConfigs.BASE_API}product`,
+                    api: `${apiConfigs.BASE_API}product/search?name=&category=`,
                     isShowLoading: true
                 })
             } else if (action.tabName === "Reports") {

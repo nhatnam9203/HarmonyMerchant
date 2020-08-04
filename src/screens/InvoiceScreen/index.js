@@ -96,8 +96,6 @@ class InvoiceScreen extends Layout {
         } else {
             this.props.actions.invoice.updateSearchKeyword(this.state.searchFilter.keySearch);
         }
-
-
     }
 
     setListInvoiceRef = ref => {
