@@ -33,7 +33,6 @@ static int statusCode;
 
 {
   CommSetting *commSetting;
-    UIAlertView *alert;
 }
 
 @synthesize PaymentReqExtData;
@@ -184,7 +183,7 @@ RCT_EXPORT_METHOD(cancelTransaction){
 }
 
 
-RCT_EXPORT_METHOD(sendTransaction:(NSString *)amount callback:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(sendTransaction:(NSString *)amount tipAmount:(NSString *)tipAmount callback:(RCTResponseSenderBlock)callback)
 {
   MyApp *myapp = [MyApp sharedSigleton];
   PaymentRequest *paymentRequest = [[PaymentRequest alloc] init];
@@ -200,7 +199,7 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)amount callback:(RCTResponseSender
    paymentRequest.SigSavePath = @"";
   [self saveInTabPayment];
   paymentRequest.Zip = @"";
-  paymentRequest.TipAmt = @"";
+  paymentRequest.TipAmt = tipAmount;
   paymentRequest.TaxAmt = @"";
   paymentRequest.FuelAmt = @"";
   paymentRequest.ECRTransID = @"";
@@ -210,10 +209,10 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)amount callback:(RCTResponseSender
   paymentRequest.PONum = @"";
   paymentRequest.OrigRefNum = @"";
   paymentRequest.InvNum = @"";
-  paymentRequest.ECRRefNum = @"0";
+  paymentRequest.ECRRefNum = @"1";
   paymentRequest.ECRTransID = @"";
   paymentRequest.AuthCode = @"";
-  paymentRequest.ExtData = @"";
+  paymentRequest.ExtData = @"<TipRequest>1</TipRequest>";
   
   
   

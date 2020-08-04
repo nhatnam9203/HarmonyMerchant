@@ -16,8 +16,6 @@ import initState from "./widget/initState";
 
 const PosLink = NativeModules.MyApp;
 
-
-
 class TabCheckout extends Layout {
 
     constructor(props) {
@@ -1021,9 +1019,9 @@ class TabCheckout extends Layout {
         })
 
         const moneyCreditCard = Number(formatNumberFromCurrency(moneyUserGiveForStaff) * 100).toFixed(2);
-        //console.log("moneyUserGiveForStaff : ", moneyCreditCard)
+        
         // 3. Send Transaction 
-        PosLink.sendTransaction(parseFloat(moneyCreditCard), (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
+        PosLink.sendTransaction(parseFloat(moneyCreditCard), 0, (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
     }
 
     async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
