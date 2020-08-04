@@ -89,9 +89,9 @@ function TableList(
     onCellPress,
     onRowPress,
     showSumOnBottom,
-    onChangeSumObjects,
     renderFooter,
     renderActionCell,
+    checkSumItem,
   },
   ref
 ) {
@@ -122,14 +122,15 @@ function TableList(
   useEffect(() => {
     if (whiteKeys?.length > 0 && tableData) {
       let sumObj = {};
+
       if (calcSumKeys?.length > 0) {
         calcSumKeys.forEach((key) => {
-          sumObj[key] = sumPropertiesKey(tableData, key);
+          sumObj[key] =
+            checkSumItem && checkSumItem[key]
+              ? checkSumItem[key]
+              : sumPropertiesKey(tableData, key);
         });
         setSumObject(sumObj);
-        if (onChangeSumObjects) {
-          onChangeSumObjects(sumObj);
-        }
       }
 
       setData(tableData);

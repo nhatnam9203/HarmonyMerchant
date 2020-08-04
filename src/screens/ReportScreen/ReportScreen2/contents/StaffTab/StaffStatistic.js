@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { Dropdown } from "react-native-material-dropdown";
@@ -26,22 +26,30 @@ export default function StaffStatistic({
 }) {
   /**redux store*/
   const dispatch = useDispatch();
-  const listStaffsCalendar = useSelector(
-    (state) => state.staff.listStaffsCalendar
-  );
+
+  const staffId = useSelector((state) => state.staff.listCalendarStaffId);
+  const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
+
   const language = useSelector((state) => state.dataLocal.language);
   const pathFileReportStaff = useSelector(
     (state) => state.staff.pathFileReportStaffStatistic
   );
 
   /**state */
-  const [sumObjects, setSumObjects] = useState({});
+  const [staffItem, setStaffItem] = useState({});
 
   /**process */
   const onCellPress = ({ key, row, column, item }) => {};
-  const onChangeSumObject = (sumObj) => {
-    setSumObjects(sumObj);
-  };
+
+
+  /**useEffect */
+  useEffect(() => {
+    if (staffId && listStaffsSalary.length > 0) {
+      const staffData = listStaffsSalary.find((x) => x.staffId === staffId);
+      if (staffData) setStaffItem(staffData);
+      else setData(null);
+    }
+  }, [staffId, listStaffsSalary]);
 
   /**render */
   const renderCell = ({ key, row, column, item }) => {
@@ -133,7 +141,8 @@ export default function StaffStatistic({
       <View style={{ flex: 1 }}>
         <TableList
           // showSumOnBottom={true}
-          tableData={listStaffsCalendar}
+          tableData={staffItem.salariesByDate}
+          checkSumItem={staffItem}
           tableHead={{
             dateString: localize("Date", language),
             serviceSales: localize("Service Sales", language),
@@ -172,7 +181,6 @@ export default function StaffStatistic({
           ]}
           renderCell={renderCell}
           onCellPress={onCellPress}
-          onChangeSumObjects={onChangeSumObject}
           renderFooter={renderFooter}
         />
         {/* {renderFooter()} */}

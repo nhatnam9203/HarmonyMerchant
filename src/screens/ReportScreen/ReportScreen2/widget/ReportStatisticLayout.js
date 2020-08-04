@@ -134,7 +134,6 @@ export default function ReportStatisticLayout({
             tableCellWidth={tableCellWidth}
             renderCell={renderCell}
             onCellPress={onCellPress}
-            onChangeSumObjects={onChangeSumObject}
           />
         )}
         {/* {renderFooter()} */}

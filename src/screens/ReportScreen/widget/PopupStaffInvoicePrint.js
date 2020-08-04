@@ -221,18 +221,19 @@ class PopupStaffInvoicePrint extends React.Component {
     const toTime = receipts.to
       ? formatWithMoment(receipts.to, "MM/DD/YYYY")
       : "";
-    const sales = receipts.serviceSales ? receipts.serviceSales : "0.00";
-    const workingHour = receipts.workingHour ? receipts.workingHour : "0";
-    const product = receipts.productSales ? receipts.productSales : "0.00";
+    const sales = staff.serviceSales ? staff.serviceSales : "0.00";
+    const workingHour = staff.workingHour ? staff.workingHour : "0";
+    const product = staff.productSales ? staff.productSales : "0.00";
     const cash = receipts.cash ? receipts.cash : "0.00";
     const nonCash = receipts.nonCash ? receipts.nonCash : "0.00";
+    const detail = receipts.detail ?? [];
 
     const servicePayout = this.findReceiptType("ServicePayout");
     const workingHourReceipt = this.findReceiptType("WorkingHour");
     const productPayout = this.findReceiptType("ProductPayout");
     const tippayout = this.findReceiptType("Tippayout");
     const totalReceipt = this.findReceiptType("Total");
-
+    let totalDesc = "";
     return (
       <Modal
         visible={visiblePrintInvoice}
@@ -301,191 +302,166 @@ class PopupStaffInvoicePrint extends React.Component {
                   <ItemStaffInvoice title="Non-Cash" value={`$ ${nonCash}`} />
                   {/* ------------- Dot Border  ----------- */}
                   <ItemBorderBottom />
-                  {/* ------------- Service payout  ----------- */}
-                  <ItemStaffInvoice
-                    title={`1. Service Payout (${
-                      servicePayout && servicePayout.commission
-                        ? servicePayout.commission
-                        : "0.00"
-                    }%)`}
-                    value={`$ ${
-                      servicePayout && servicePayout.total
-                        ? servicePayout.total
-                        : "0.00"
-                    }`}
-                  />
-                  <ItemStaffInvoice
-                    title="Cash"
-                    value={`$ ${
-                      servicePayout && servicePayout.cash
-                        ? servicePayout.cash
-                        : "0.00"
-                    }`}
-                    styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                    styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                  />
-                  <ItemStaffInvoice
-                    title="Check"
-                    value={`$ ${
-                      servicePayout && servicePayout.check
-                        ? servicePayout.check
-                        : "0.00"
-                    }`}
-                    styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                    styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                  />
-                  {/* ------------- Working hour ----------- */}
-                  <ItemStaffInvoice
-                    title={`2. Working Hour ($ ${
-                      workingHourReceipt && workingHourReceipt.commission
-                        ? workingHourReceipt.commission
-                        : "0.00"
-                    })`}
-                    value={`$ ${
-                      workingHourReceipt && workingHourReceipt.total
-                        ? workingHourReceipt.total
-                        : "0.00"
-                    }`}
-                    style={{ marginTop: scaleSzie(15) }}
-                  />
-                  <ItemStaffInvoice
-                    title="Cash"
-                    value={`$ ${
-                      workingHourReceipt && workingHourReceipt.cash
-                        ? workingHourReceipt.cash
-                        : "0.00"
-                    }`}
-                    styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                    styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                  />
-                  <ItemStaffInvoice
-                    title="Check"
-                    value={`$ ${
-                      workingHourReceipt && workingHourReceipt.check
-                        ? workingHourReceipt.check
-                        : "0.00"
-                    }`}
-                    styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                    styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                  />
-                  {/* ------------- Product payout  ----------- */}
-                  <ItemStaffInvoice
-                    title={`3. Product Payout (${
-                      productPayout && productPayout.commission
-                        ? productPayout.commission
-                        : "0.00"
-                    }%)`}
-                    value={`$ ${
-                      productPayout && productPayout.total
-                        ? productPayout.total
-                        : "0.00"
-                    }`}
-                    style={{ marginTop: scaleSzie(15) }}
-                  />
 
-                  <ItemStaffInvoice
-                    title="Cash"
-                    value={`$ ${
-                      productPayout && productPayout.cash
-                        ? productPayout.cash
-                        : "0.00"
-                    }`}
-                    styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                    styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                  />
-                  <ItemStaffInvoice
-                    title="Check"
-                    value={`$ ${
-                      productPayout && productPayout.check
-                        ? productPayout.check
-                        : "0.00"
-                    }`}
-                    styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                    styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                  />
+                  {detail
+                    .filter((x) => x.isUsed || x.receiptType === "Total")
+                    .map((x, index) => {
+                      switch (x.receiptType) {
+                        case "Tippayout":
+                          totalDesc =
+                            totalDesc +
+                            (totalDesc.length > 0
+                              ? "+" + (index + 1)
+                              : index + 1);
+                          return (
+                            <>
+                              <ItemStaffInvoice
+                                title={`${index + 1}. ${localize(
+                                  x.receiptType,
+                                  language
+                                )}`}
+                                value={`$ ${x.total}`}
+                                style={{ marginTop: scaleSzie(15) }}
+                              />
 
-                  {/* -------------  Tip payout  ----------- */}
-                  <ItemStaffInvoice
-                    title="4. Tip Payout"
-                    value={`$ ${
-                      tippayout && tippayout.total ? tippayout.total : "0.00"
-                    }`}
-                    style={{ marginTop: scaleSzie(15) }}
-                  />
+                              <ItemStaffInvoice
+                                title="Tip Total"
+                                value={`$ ${x.subTotal}`}
+                                styleTilte={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                                styleValue={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                              />
+                              <ItemStaffInvoice
+                                title={`Tip Fee (${
+                                  x.fee && x.fee.value ? x.fee.value : "0.00%"
+                                })`}
+                                value={`$ ${
+                                  x.fee && x.fee.amount ? x.fee.amount : "0.00"
+                                }`}
+                                styleTilte={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                                styleValue={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                              />
+                              <ItemStaffInvoice
+                                title="Check"
+                                value={`$ ${x.check}`}
+                                styleTilte={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                                styleValue={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                              />
+                            </>
+                          );
+                        case "Total":
+                          return (
+                            <>
+                              {/* ------------- Line   ----------- */}
+                              <View
+                                style={{
+                                  height: 2,
+                                  backgroundColor: "#000",
+                                  marginVertical: scaleSzie(10),
+                                }}
+                              />
 
-                  <ItemStaffInvoice
-                    title="Tip Total"
-                    value={`$ ${
-                      tippayout && tippayout.subTotal
-                        ? tippayout.subTotal
-                        : "0.00"
-                    }`}
-                    styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                    styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                  />
-                  <ItemStaffInvoice
-                    title={`Tip Fee (${
-                      tippayout && tippayout.fee && tippayout.fee.value
-                        ? tippayout.fee.value
-                        : "0.00%"
-                    })`}
-                    value={`$ ${
-                      tippayout && tippayout.fee && tippayout.fee.amount
-                        ? tippayout.fee.amount
-                        : "0.00"
-                    }`}
-                    styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                    styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                  />
-                  <ItemStaffInvoice
-                    title="Check"
-                    value={`$ ${
-                      tippayout && tippayout.check ? tippayout.check : "0.00"
-                    }`}
-                    styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                    styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                  />
-                  {/* ------------- Line   ----------- */}
-                  <View
-                    style={{
-                      height: 2,
-                      backgroundColor: "#000",
-                      marginVertical: scaleSzie(10),
-                    }}
-                  />
-
-                  {/* ------------- Total payout  ----------- */}
-                  <ItemStaffInvoice
-                    title="Total Payout"
-                    value={`$ ${
-                      totalReceipt && totalReceipt.total
-                        ? totalReceipt.total
-                        : "0.00"
-                    }`}
-                    subTitle=" (1+2+3+4)"
-                    styleTilte={{ fontSize: scaleSzie(14), fontWeight: "600" }}
-                    styleValue={{ fontSize: scaleSzie(14), fontWeight: "600" }}
-                  />
-                  <ItemStaffInvoice
-                    title="Cash"
-                    value={`$ ${
-                      totalReceipt && totalReceipt.cash
-                        ? totalReceipt.cash
-                        : "0.00"
-                    }`}
-                    styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                    styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                  />
-                  <ItemStaffInvoice
-                    title="Check"
-                    value={`$ ${
-                      totalReceipt && totalReceipt.check
-                        ? totalReceipt.check
-                        : "0.00"
-                    }`}
-                    styleTilte={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                    styleValue={{ fontSize: scaleSzie(13), fontWeight: "200" }}
-                  />
+                              {/* ------------- Total payout  ----------- */}
+                              <ItemStaffInvoice
+                                title="Total Payout"
+                                value={`$ ${x.total}`}
+                                subTitle={" (" + totalDesc + ")"}
+                                styleTilte={{
+                                  fontSize: scaleSzie(14),
+                                  fontWeight: "600",
+                                }}
+                                styleValue={{
+                                  fontSize: scaleSzie(14),
+                                  fontWeight: "600",
+                                }}
+                              />
+                              <ItemStaffInvoice
+                                title="Cash"
+                                value={`$ ${x.cash}`}
+                                styleTilte={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                                styleValue={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                              />
+                              <ItemStaffInvoice
+                                title="Check"
+                                value={`$ ${x.check}`}
+                                styleTilte={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                                styleValue={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                              />
+                            </>
+                          );
+                        default:
+                          totalDesc =
+                            totalDesc +
+                            (totalDesc.length > 0
+                              ? "+" + (index + 1)
+                              : index + 1);
+                          return (
+                            <>
+                              <ItemStaffInvoice
+                                title={`${index + 1}. ${localize(
+                                  x.receiptType,
+                                  language
+                                )} (${servicePayout.commission}%)`}
+                                value={`$ ${x.total}`}
+                              />
+                              <ItemStaffInvoice
+                                title="Cash"
+                                value={`$ ${x.cash}`}
+                                styleTilte={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                                styleValue={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                              />
+                              <ItemStaffInvoice
+                                title="Check"
+                                value={`$ ${x.check}`}
+                                styleTilte={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                                styleValue={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                              />
+                            </>
+                          );
+                          break;
+                      }
+                    })}
                 </View>
                 <View style={{ height: scaleSzie(100) }} />
               </ScrollView>
