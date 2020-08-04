@@ -15,7 +15,6 @@ import {
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 
-
 const PosLink = NativeModules.MyApp;
 
 const initalState = {
@@ -246,7 +245,7 @@ class InvoiceScreen extends Layout {
                     PosLink.refundTransaction(parseFloat(paymentInformation.ApprovedAmount), paymentInformation.RefNum, paymentInformation.ExtData, (data) => {
                         this.handleResultRefundTransaction(data);
                     });
-                } else if (invoiceDetail.status === 'pending') {
+                } else if (invoiceDetail.status === 'complete') {
                     const transactionId = paymentInformation.RefNum ? paymentInformation.RefNum : 0
                     this.popupProcessingCreditRef.current.setStateFromParent(transactionId);
                     PosLink.voidTransaction(parseFloat(paymentInformation.ApprovedAmount), paymentInformation.RefNum, paymentInformation.ExtData, (data) => {

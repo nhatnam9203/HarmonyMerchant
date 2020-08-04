@@ -296,8 +296,28 @@ function* settleBatch(action) {
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
+                type: 'GET_SETTLEMENT_WAITING',
+                method: 'GET',
+                api: `${apiConfigs.BASE_API}settlement/waiting`,
+                token: true,
+                isShowLoading: true
+            });
+            yield put({
+                type: 'GET_LIST_STAFFS_SALES',
+                method: 'GET',
+                token: true,
+                api: `${apiConfigs.BASE_API}appointment/staffSales`,
+            });
+            yield put({
+                type: 'GET_LIST_GIFT_CARD_SALES',
+                method: 'GET',
+                token: true,
+                api: `${apiConfigs.BASE_API}settlement/waiting/giftCardSales`,
+            });
+            yield put({
                 type: "SETTLE_BATCH_SUCCESS"
-            })
+            });
+
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -359,7 +379,7 @@ function* getListStaffsSales(action) {
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
-                type:"GET_LIST_STAFFS_SALES_SUCCESS",
+                type: "GET_LIST_STAFFS_SALES_SUCCESS",
                 payload: responses.data
             })
 
@@ -389,7 +409,7 @@ function* getListGiftCardSales(action) {
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
-                type:"GET_LIST_GIFT_CARD_SALES_SUCCESS",
+                type: "GET_LIST_GIFT_CARD_SALES_SUCCESS",
                 payload: responses.data
             })
 

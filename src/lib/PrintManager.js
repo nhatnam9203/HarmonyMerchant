@@ -18,12 +18,12 @@ export default class PrintManager {
         return Promise.race([
             StarPRNT.portDiscovery('Bluetooth'),
             new Promise((_, reject) =>
-                setTimeout(() => reject('BlueToothTimeOut'), 5000)
+                setTimeout(() => reject('BlueToothTimeOut'), 10000)
             )
         ])
     }
 
-    async  openCashDrawer(portName) {
+    async openCashDrawer(portName) {
         let commands = [];
         commands.push({
             openCashDrawer: 1
@@ -34,7 +34,7 @@ export default class PrintManager {
             // StarGraphic,
             // StarPRNT
             // StarLine
-            let printResult = await StarPRNT.print( PRINTER_MACHINE[portName].emulation, commands, portName);
+            let printResult = await StarPRNT.print(PRINTER_MACHINE[portName].emulation, commands, portName);
             //console.log(printResult); // Success!
         } catch (e) {
             console.error(e);
@@ -64,9 +64,9 @@ export default class PrintManager {
         }
     }
 
-    async connect(portName,hasBarcodeReader = false) {
+    async connect(portName, hasBarcodeReader = false) {
         try {
-            let connect = await StarPRNT.connect(portName,PRINTER_MACHINE[portName].emulation, hasBarcodeReader);
+            let connect = await StarPRNT.connect(portName, PRINTER_MACHINE[portName].emulation, hasBarcodeReader);
             // console.log('connect : ',connect); // Success!
             return connect;
         } catch (error) {

@@ -152,7 +152,7 @@ class Layout extends React.Component {
         return (
             <View style={{ flex: 1 }} >
                 <ItemPaymentsReport
-                    title="Harmony account"
+                    title="HarmonyPay"
                     backgroundColor="#054071"
                     value={paymentByHarmony}
                 />
