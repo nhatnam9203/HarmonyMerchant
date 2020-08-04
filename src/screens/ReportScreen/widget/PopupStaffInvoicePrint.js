@@ -228,11 +228,11 @@ class PopupStaffInvoicePrint extends React.Component {
     const nonCash = receipts.nonCash ? receipts.nonCash : "0.00";
     const detail = receipts.detail ?? [];
 
-    const servicePayout = this.findReceiptType("ServicePayout");
-    const workingHourReceipt = this.findReceiptType("WorkingHour");
-    const productPayout = this.findReceiptType("ProductPayout");
-    const tippayout = this.findReceiptType("Tippayout");
-    const totalReceipt = this.findReceiptType("Total");
+    // const servicePayout = this.findReceiptType("ServicePayout");
+    // const workingHourReceipt = this.findReceiptType("WorkingHour");
+    // const productPayout = this.findReceiptType("ProductPayout");
+    // const tippayout = this.findReceiptType("Tippayout");
+    // const totalReceipt = this.findReceiptType("Total");
     let totalDesc = "";
     return (
       <Modal
@@ -430,7 +430,7 @@ class PopupStaffInvoicePrint extends React.Component {
                                 title={`${index + 1}. ${localize(
                                   x.receiptType,
                                   language
-                                )} (${servicePayout.commission}%)`}
+                                )} (${x.commission}%)`}
                                 value={`$ ${x.total}`}
                               />
                               <ItemStaffInvoice
