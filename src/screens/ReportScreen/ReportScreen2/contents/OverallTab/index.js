@@ -21,7 +21,6 @@ import { ReportTabLayout } from "../../widget";
 import OverallReportTab from "./OverallTab";
 import OverallStatistic from "./OverallStatistic";
 
-const FILTER_NAME_DEFAULT = "All Method";
 
 function OverallTab({ style, showBackButton }, ref) {
   /**redux store*/
@@ -42,7 +41,6 @@ function OverallTab({ style, showBackButton }, ref) {
   const [urlTimeRange, setUrlTimeRange] = useState("thisWeek");
   const [statisticItem, setStatisticItem] = useState([]);
   const [overallCurrentTab, setOverallCurrentTab] = useState(0);
-  const [filterNameItem, setFilterNameItem] = useState(null);
 
   // public func
   useImperativeHandle(ref, () => ({
@@ -81,34 +79,6 @@ function OverallTab({ style, showBackButton }, ref) {
     setOverallCurrentTab(index);
   };
 
-  // create filter name data
-  const bindStaffNameFilter = () => {
-    if (!overallPaymentMethodList || !tabLayoutRef || !tabLayoutRef.current) return [];
-
-    let array = [];
-
-    if (tabLayoutRef.current.getCurrentTab() === 0) {
-      array.push({ value: localize(FILTER_NAME_DEFAULT, language) });
-    }
-
-    const arrMap = overallPaymentMethodList.map((staff) => ({
-      value: staff.name,
-      ...staff,
-    }));
-    array.push(...arrMap);
-
-    return array;
-  };
-
-  const onChangeFilterName = async (text) => {
-    await setFilterNameItem(text);
-    if (tabLayoutRef.current.getCurrentTab() === 1) {
-      const item = overallPaymentMethodList.find((x) => x.method === text);
-      if (item) {
-        // dispatch(actions.staff.getListStaffCalendar(item.staffId));
-      }
-    }
-  };
 
   return (
     <View style={style}>
@@ -127,9 +97,6 @@ function OverallTab({ style, showBackButton }, ref) {
           tabLabel={"overallTab"}
           onGoStatistics={onGoStatistics}
           onChangeTab={onOverallChangeTab}
-          onChangeFilterName={onChangeFilterName}
-          dataNameFilter={bindStaffNameFilter()}
-          filterNameItem={filterNameItem}
         />
         <OverallStatistic
           // ref={overallStatisticsRef}
@@ -141,9 +108,6 @@ function OverallTab({ style, showBackButton }, ref) {
           getTitle={getTabTitle}
           item={statisticItem}
           tabIndex={overallCurrentTab}
-          onChangeFilterName={onChangeFilterName}
-          dataNameFilter={bindStaffNameFilter()}
-          filterNameItem={filterNameItem}
         />
       </ReportTabLayout>
     </View>

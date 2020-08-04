@@ -15,6 +15,7 @@ const VIEW_MODE = {
   LIST: "LIST",
   CHART: "CHART",
 };
+const FILTER_NAME_DEFAULT = "All Method";
 
 const ACTIVE_COLOR = "#0764B0";
 const INACTIVE_COLOR = "#6A6A6A";
@@ -53,9 +54,6 @@ export default function PaymentMethodRp({
   titleRangeTime,
   urlRangeTime,
   onGoStatistics,
-  onChangeFilterName,
-  dataNameFilter,
-  filterNameItem,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -70,6 +68,7 @@ export default function PaymentMethodRp({
   /**state */
   const [viewMode, setViewMode] = useState(VIEW_MODE.LIST);
   const [chartData, setChartData] = useState([]);
+  const [filterNameItem, setFilterNameItem] = useState(FILTER_NAME_DEFAULT);
 
   /**component mount*/
   const getOverallPaymentMethod = async () => {
@@ -138,6 +137,33 @@ export default function PaymentMethodRp({
   const viewModeList = () => changeViewMode(VIEW_MODE.LIST);
   const viewModeChart = () => changeViewMode(VIEW_MODE.CHART);
 
+  // create filter name data
+  const bindStaffNameFilter = () => {
+    if (!overallPaymentMethodList) return [];
+
+    let array = [];
+    array.push({ value: localize(FILTER_NAME_DEFAULT, language) });
+
+    const arrMap = overallPaymentMethodList.map((staff) => ({
+      value: staff.name,
+      ...staff,
+    }));
+    array.push(...arrMap);
+
+    return array;
+  };
+
+  const onChangeFilterName = async (text) => {
+    await setFilterNameItem(text);
+    if (tabLayoutRef.current.getCurrentTab() === 1) {
+      const item = overallPaymentMethodList.find((x) => x.method === text);
+      if (item) {
+        // dispatch(actions.staff.getListStaffCalendar(item.staffId));
+      }
+    }
+  };
+
+  /**render */
   return (
     <View style={[styles.container, style]}>
       <HeaderTooltip
@@ -195,7 +221,7 @@ export default function PaymentMethodRp({
             <Dropdown
               rippleCentered={true}
               dropdownPosition={2}
-              data={dataNameFilter}
+              data={bindStaffNameFilter()}
               onChangeText={(text) => onChangeFilterName(text)}
               renderBase={() => (
                 <PopupButton
