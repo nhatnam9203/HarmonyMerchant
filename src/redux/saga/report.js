@@ -42,9 +42,40 @@ function* getReportOverallPaymentMethod(action) {
   }
 }
 
+function* getReportOverallMarketingEfficiency(action) {
+  try {
+    action.isShowLoading ? yield put({ type: "LOADING_ROOT" }) : "";
+    const responses = yield requestAPI(action);
+    const { codeNumber } = responses;
+    yield put({ type: "STOP_LOADING_ROOT" });
+
+    if (parseInt(codeNumber) == 200) {
+      yield put({
+        type: "GET_REPORT_OVERALL_MARKETING_EFFICIENCY_SUCCESS",
+        payload: responses.data,
+      });
+    } else if (parseInt(codeNumber) === 401) {
+      yield put({
+        type: "UNAUTHORIZED",
+      });
+    } else {
+      yield put({
+        type: "GET_REPORT_OVERALL_MARKETING_EFFICIENCY_FAIL",
+      });
+      yield put({
+        type: "SHOW_ERROR_MESSAGE",
+        message: responses.message,
+      });
+    }
+  } catch (error) {
+    yield put({ type: error });
+  } finally {
+    yield put({ type: "STOP_LOADING_ROOT" });
+  }
+}
+
 function* exportReport(action) {
   try {
-
     yield put({
       type: "DOWNLOAD_REPORT_OPM_EXPORT",
     });
@@ -107,5 +138,6 @@ export default function* saga() {
     ),
     takeLatest(ACTION_TYPES.OPM_Export, exportReport),
     takeLatest(ACTION_TYPES.OPM_StatisticExport, exportReport),
+    takeLatest(ACTION_TYPES.OME_GetList, getReportOverallMarketingEfficiency),
   ]);
 }

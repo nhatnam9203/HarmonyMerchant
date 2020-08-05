@@ -11,7 +11,7 @@ import IMAGE from "@resources";
 import { localize } from "@utils";
 import { CustomScrollTab } from "../../widget";
 
-import MarketingEfficiency from "./MarketingEfficiency";
+import MarketingEfficiencyTab from "./MarketingEfficiency";
 import PaymentMethodTab from "./PaymentMethod";
 
 function OverallTab({ style, showBackButton }, ref) {
@@ -64,7 +64,7 @@ function OverallTab({ style, showBackButton }, ref) {
           showBackButton={showBackButton}
         />
 
-        <MarketingEfficiency
+        <MarketingEfficiencyTab
           style={{ flex: 1 }}
           tabLabel="Marketing Efficiency"
           showBackButton={showBackButton}

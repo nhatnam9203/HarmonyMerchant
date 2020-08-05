@@ -7,9 +7,10 @@ const initialState = {
   overallPaymentMethodList: [],
   overallPMFilterId: undefined,
   overallPMFilters: [],
-  isDownloadReport: false,
   overallPMExportFilePath: null,
   overallPMStatisticExportFilePath: null,
+  isDownloadReport: false,
+  marketingEfficiencyList: [],
 };
 
 function appReducer(state = initialState, action) {
@@ -51,6 +52,11 @@ function appReducer(state = initialState, action) {
         ...state,
         isDownloadReport: false,
         overallPMStatisticExportFilePath: null,
+      };
+    case "GET_REPORT_OVERALL_MARKETING_EFFICIENCY_SUCCESS":
+      return {
+        ...state,
+        marketingEfficiencyList: action.payload,
       };
     default:
       return state;

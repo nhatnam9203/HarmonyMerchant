@@ -1,83 +1,64 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { View, StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
-import { Dropdown } from "react-native-material-dropdown";
+import actions from "@actions";
 
-import IMAGE from "@resources";
-import { localize } from "@utils";
-import { HeaderTooltip, PopupButton, TableList } from "../../../widget";
+import { ReportLayout } from "../../../widget";
+import MarketingEfficiency from "./MarketingEfficiency";
+import MarketingEfficiencyStatistic from "./MarketingEfficiencyStatistic";
 
-export default function MarketingEfficiency({
-  style,
-  showCalendar,
-  titleRangeTime,
-}) {
+export default function MarketingEfficiencyTab({ style, showBackButton }) {
   /**redux store*/
   const dispatch = useDispatch();
-  const pathFileReportStaff = useSelector(
-    (state) => state.staff.pathFileReportStaffSalary
-  );
-
   const language = useSelector((state) => state.dataLocal.language);
+
+  /**state */
+
+  /**ref */
+  const layoutRef = useRef(null);
+
+  /**function */
+  const getMarketingEfficiencyMethod = async () => {
+    await dispatch(
+      actions.report.getOverallMarketingEfficiency(
+        true,
+        layoutRef?.current?.getTimeUrl()
+      )
+    );
+  };
+
+  /**effect */
+  useEffect(() => {
+    getMarketingEfficiencyMethod();
+  }, []);
 
   return (
     <View style={[styles.container, style]}>
-      <HeaderTooltip
-        rightComponent={
-          <>
-            <PopupButton
-              text="Export"
-              imageSrc={IMAGE.export}
-              // onPress={showExportFile}
-            />
-
-            {pathFileReportStaff && (
-              <PopupButton
-                // onPress={() => handleTheDownloadedFile(pathFileReportStaff)}
-                style={{ backgroundColor: "rgb(235,93,57)", marginLeft: 20 }}
-                txtStyle={{ color: "#fff" }}
-                imageStyle={{ tintColor: "#fff" }}
-                text={localize("Manager downloaded file", language)}
-                imageSrc={IMAGE.export}
-              />
-            )}
-
-            <PopupButton
-              imageSrc={IMAGE.Report_Chart}
-              style={{ marginLeft: 20 }}
-
-              // onPress={showExportFile}
-            />
-
-            <PopupButton
-              imageSrc={IMAGE.Report_Grid}
-              style={{ marginLeft: 10 }}
-
-              // onPress={showExportFile}
-            />
-          </>
-        }
+      <ReportLayout
+        ref={layoutRef}
+        style={style}
+        showBackButton={showBackButton}
       >
-        <PopupButton
-          text={titleRangeTime}
-          imageSrc={IMAGE.calendar}
-          onPress={showCalendar}
-          style={{ marginRight: 20 }}
+        <MarketingEfficiency
+          style={{ flex: 1, paddingTop: 10 }}
+          tabLabel="Marketing Efficiency"
+          // onGoStatistics={goNext}
+          // showCalendar={() => setVisibleCalendar(true)}
+          // titleRangeTime={titleRangeTime}
+          // showExportFile={onShowPopupExport}
+          // handleTheDownloadedFile={handleTheDownloadedFile}
         />
-        <View style={{ width: 160, height: 45 }}>
-          <Dropdown
-            // data={dataStaffSalaryFilter}
-            // onChangeText={(text) => onChangeFilterStaff(text)}
-            renderBase={() => (
-              <PopupButton
-                text={"All Method"}
-                imageSrc={IMAGE.Report_Dropdown_Arrow}
-              />
-            )}
-          />
-        </View>
-      </HeaderTooltip>
+        <MarketingEfficiencyStatistic
+          style={{ flex: 1, paddingTop: 10 }}
+          tabLabel="Marketing Efficiency Statistics"
+          title="Marketing Efficiency Statistics"
+          // titleRangeTime={titleRangeTime}
+          // showCalendar={() => setVisibleCalendar(true)}
+          // showExportFile={onShowPopupExport}
+          // handleTheDownloadedFile={handleTheDownloadedFile}
+        />
+      </ReportLayout>
     </View>
   );
 }

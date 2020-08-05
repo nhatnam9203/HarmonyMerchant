@@ -12,7 +12,7 @@ export const ACTION_TYPES = {
   OPM_ExportSuccess: "EXPORT_OVERALL_PAYMENT_METHOD_SUCCESS",
   OPM_StatisticExportSuccess:
     "EXPORT_OVERALL_PAYMENT_METHOD_STATISTICS_SUCCESS",
-  GetOverallMarketingEfficiency: "GET_REPORT_OVERALL_MARKETING_EFFICIENCY",
+  OME_GetList: "GET_REPORT_OVERALL_MARKETING_EFFICIENCY",
 };
 
 export function getOverallPaymentMethod(
@@ -88,7 +88,7 @@ export function getOverallMarketingEfficiency(
   params = "quickFilter=thisWeek"
 ) {
   return {
-    type: ACTION_TYPES.GetOverallMarketingEfficiency,
+    type: ACTION_TYPES.OME_GetList,
     method: "GET",
     token: true,
     api: `${apiConfigs.BASE_API}overall/marketingEfficiency?${params}`,
