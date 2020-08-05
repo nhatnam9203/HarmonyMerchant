@@ -23,7 +23,14 @@ const FILE_EXTENSION = "csv";
 const FILTER_NAME_DEFAULT = "All Staff";
 
 function ReportLayout(
-  { style, showBackButton, isDownloadReport, children, onChangeTimeTitle },
+  {
+    style,
+    showBackButton,
+    isDownloadReport,
+    children,
+    onChangeTimeTitle,
+    onRequestExportFileToServer,
+  },
   ref
 ) {
   /**redux store*/
@@ -41,7 +48,6 @@ function ReportLayout(
   const [visiblePopupLoadingExport, setVisiblePopupLoadingExport] = useState(
     false
   );
-  const [titleRangeTime, setTitleRangeTime] = useState("This week");
   const [titleExportFile, setTitleExportFile] = useState(
     localize("Export", language)
   );
@@ -65,15 +71,16 @@ function ReportLayout(
   // public function
   useImperativeHandle(ref, () => ({
     goBack: goBack,
-    didBlur: () => {
-      setTitleRangeTime("This week");
-    },
+    goNext: goNext,
+    didBlur: () => {},
     didFocus: () => {
       // console.log("====> screen report -> staff didFocus");
     },
     getTimeUrl: getFilterTimeParams,
     getTimeTitle: getTimeTitle,
-    showCalendar: setVisibleCalendar
+    showCalendar: setVisibleCalendar,
+    showPopupExport: onShowPopupExport,
+    handleTheDownloadedFile: handleTheDownloadedFile,
   }));
 
   // create time range params
@@ -120,12 +127,10 @@ function ReportLayout(
   // time filter change: hide popup + create time range params + call api search staff
   const changeTitleTimeRange = async (title) => {
     setVisibleCalendar(false);
-    await setTitleRangeTime(title !== "Time Range" ? title : "All time");
-    // getOverallPaymentMethod();
+    const changeTitle = title !== "Time Range" ? title : "All time";
     if (onChangeTimeTitle) {
-      onChangeTimeTitle(titleRangeTime);
+      await onChangeTimeTitle(changeTitle);
     }
-
   };
 
   // callback  when scrollTab change
@@ -135,15 +140,13 @@ function ReportLayout(
   };
 
   // popup show when button export pressed
-  const onShowPopupExport = async () => {
+  const onShowPopupExport = async (title) => {
     switch (currentTab) {
       case 0:
-        await setTitleExportFile("Report payment method " + getTimeTitle());
+        await setTitleExportFile(title + getTimeTitle());
         break;
       case 1:
-        await setTitleExportFile(
-          "Report payment method statistics " + getTimeTitle()
-        );
+        await setTitleExportFile(title + getTimeTitle());
         break;
       default:
     }
@@ -155,30 +158,8 @@ function ReportLayout(
   const requestExportFileToServer = () => {
     const url = getFilterTimeParams();
     setVisiblePopupExport(false);
-    switch (currentTab) {
-      case 0:
-        dispatch(
-          actions.report.exportPaymentMethod(
-            url,
-            true,
-            "excel",
-            titleExportFile
-          )
-        );
-        break;
-      case 1:
-        dispatch(
-          actions.report.exportPaymentMethodStatistics(
-            overallPMFilterId,
-            url,
-            true,
-            "excel",
-            titleExportFile
-          )
-        );
-        break;
-      default:
-        break;
+    if (onRequestExportFileToServer) {
+      onRequestExportFileToServer(currentTab, titleExportFile);
     }
   };
 

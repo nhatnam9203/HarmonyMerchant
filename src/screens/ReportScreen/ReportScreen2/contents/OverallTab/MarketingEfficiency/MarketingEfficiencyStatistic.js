@@ -10,71 +10,38 @@ const HEAD_FONT_SIZE = 17;
 const TABLE_ROW_HEIGHT = 50;
 
 export default function MarketingEfficiencyStatistic(props, ref) {
+  const { filterId } = props;
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const overallPaymentMethodList = useSelector(
-    (state) => state.report.overallPaymentMethodList
+  const marketingEfficiencyList = useSelector(
+    (state) => state.report.marketingEfficiencyList
   );
-  const overallPMFilterId = useSelector(
-    (state) => state.report.overallPMFilterId
-  );
-  const overallPMFilters = useSelector(
-    (state) => state.report.overallPMFilters
-  );
-
-  const pathFileReport = useSelector(
-    (state) => state.report.overallPMStatisticExportFilePath
-  );
-
   /**state */
   const [table, setTable] = useState({});
 
-  const [filterNameItem, setFilterNameItem] = useState(undefined);
-  const [filterNames, setFilterNames] = useState([]);
-
   /**process */
-
-  const onChangeFilterName = async (text) => {
-    dispatch(actions.report.filterOPM(text));
-  };
-
-  const bindNameFilter = async () => {
-    await setFilterNameItem(overallPMFilterId);
-    await setFilterNames(overallPMFilters);
-  };
 
   /**useEffect */
   useEffect(() => {
-    bindNameFilter();
+    const item = marketingEfficiencyList.find((item) => item.name === filterId);
 
-    const item = overallPaymentMethodList.find(
-      (item) => item.method === overallPMFilterId
-    );
     setTable({
       tableData: item.statistics,
       tableHead: {
         dateString: localize("Date", language),
-        transactions: localize("Transactions", language),
-        grossPayment: localize("Gross Payments", language),
-        refund: localize("Refunds", language),
-        netPayment: localize("Net Payments", language),
+        revenue: localize("Revenue", language),
+        discount: localize("Discount", language),
       },
-      whiteKeys: [
-        "dateString",
-        "transactions",
-        "grossPayment",
-        "refund",
-        "netPayment",
-      ],
+      whiteKeys: ["dateString", "revenue", "discount"],
       primaryId: "date",
-      calcSumKeys: ["transactions", "grossPayment", "refund", "netPayment"],
+      calcSumKeys: ["revenue", "discount"],
       sumTotalKey: "dateString",
-      priceKeys: ["grossPayment", "refund", "netPayment"],
-      tableCellWidth: { grossPayment: 180 },
+      priceKeys: ["revenue", "discount"],
+      tableCellWidth: { date: 180 },
     });
-  }, [overallPMFilterId, overallPaymentMethodList]);
+  }, [filterId, marketingEfficiencyList]);
 
   /**render */
 
@@ -82,11 +49,7 @@ export default function MarketingEfficiencyStatistic(props, ref) {
     <ReportStatisticLayout
       {...props}
       {...table}
-      title={"Payment Method Statistics"}
-      onChangeFilter={onChangeFilterName}
-      dataFilters={filterNames}
-      filterId={filterNameItem}
-      pathFileExport={pathFileReport}
+      title={"Marketing Efficiency Statistics"}
     />
   );
 }

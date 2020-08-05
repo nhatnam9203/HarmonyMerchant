@@ -24,7 +24,10 @@ export default function MarketingEfficiency({
   onGoStatistics,
   titleRangeTime,
   showCalendar,
+  onChangeFilterNames,
+  onChangeFilterId,
   showExportFile,
+  pathFileExport,
   handleTheDownloadedFile,
 }) {
   /**redux store*/
@@ -73,6 +76,10 @@ export default function MarketingEfficiency({
     array.push(...arrMap);
 
     setFilterNames(array);
+
+    if (onChangeFilterNames) {
+      onChangeFilterNames(array);
+    }
   };
 
   // binding data list for name filter
@@ -85,11 +92,15 @@ export default function MarketingEfficiency({
   // callback
   const onChangeFilterName = (filterName) => {
     setFilterNameItem(filterName);
+    if (onChangeFilterId) {
+      onChangeFilterId(filterName);
+    }
   };
 
   const goStatistics = async (item) => {
     if (!item) return;
     // change to statistic tab
+
     await onGoStatistics(item);
   };
 
@@ -124,8 +135,12 @@ export default function MarketingEfficiency({
         onChangeFilterName={onChangeFilterName}
         isShowExportButton={true}
         filterNames={filterNames}
+        filterNameItem={filterNameItem}
         showCalendar={showCalendar}
         titleRangeTime={titleRangeTime}
+        showExportFile={showExportFile}
+        pathFileExport={pathFileExport}
+        handleTheDownloadedFile={handleTheDownloadedFile}
         rightTooltip={
           <>
             <PopupButton

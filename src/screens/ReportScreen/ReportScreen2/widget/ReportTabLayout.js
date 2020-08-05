@@ -53,7 +53,7 @@ function ReportTabLayout({
   showCalendar,
   showExportFile,
   handleTheDownloadedFile,
-  pathFileReport,
+  pathFileExport,
   onChangeFilterName,
   filterNameItem,
   filterNames = [],
@@ -88,9 +88,9 @@ function ReportTabLayout({
               />
             )}
 
-            {!!pathFileReport && (
+            {!!pathFileExport && (
               <PopupButton
-                onPress={() => handleTheDownloadedFile(pathFileReport)}
+                onPress={() => handleTheDownloadedFile(pathFileExport)}
                 style={{ backgroundColor: "rgb(235,93,57)", marginLeft: 20 }}
                 txtStyle={{ color: "#fff" }}
                 imageStyle={{ tintColor: "#fff" }}

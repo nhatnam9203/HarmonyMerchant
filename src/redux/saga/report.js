@@ -103,9 +103,24 @@ function* exportReport(action) {
             payload: fileDownload.path(),
           });
           break;
+
         case ACTION_TYPES.OPM_StatisticExport:
           yield put({
             type: ACTION_TYPES.OPM_StatisticExportSuccess,
+            payload: fileDownload.path(),
+          });
+          break;
+
+        case ACTION_TYPES.OME_Export:
+          yield put({
+            type: ACTION_TYPES.OME_ExportSuccess,
+            payload: fileDownload.path(),
+          });
+          break;
+
+        case ACTION_TYPES.OME_StatisticExport:
+          yield put({
+            type: ACTION_TYPES.OME_StatisticExportSuccess,
             payload: fileDownload.path(),
           });
           break;
@@ -139,5 +154,7 @@ export default function* saga() {
     takeLatest(ACTION_TYPES.OPM_Export, exportReport),
     takeLatest(ACTION_TYPES.OPM_StatisticExport, exportReport),
     takeLatest(ACTION_TYPES.OME_GetList, getReportOverallMarketingEfficiency),
+    takeLatest(ACTION_TYPES.OME_Export, exportReport),
+    takeLatest(ACTION_TYPES.OME_StatisticExport, exportReport),
   ]);
 }

@@ -12,7 +12,13 @@ export const ACTION_TYPES = {
   OPM_ExportSuccess: "EXPORT_OVERALL_PAYMENT_METHOD_SUCCESS",
   OPM_StatisticExportSuccess:
     "EXPORT_OVERALL_PAYMENT_METHOD_STATISTICS_SUCCESS",
+
   OME_GetList: "GET_REPORT_OVERALL_MARKETING_EFFICIENCY",
+  OME_Export: "EXPORT_OVERALL_MARKETING_EFFICIENCY",
+  OME_StatisticExport: "EXPORT_OVERALL_MARKETING_EFFICIENCY_STATISTIC",
+  OME_ExportSuccess: "EXPORT_OVERALL_MARKETING_EFFICIENCY_SUCCESS",
+  OME_StatisticExportSuccess:
+    "EXPORT_OVERALL_MARKETING_EFFICIENCY_STATISTIC_SUCCESS",
 };
 
 export function getOverallPaymentMethod(
@@ -24,6 +30,19 @@ export function getOverallPaymentMethod(
     method: "GET",
     token: true,
     api: `${apiConfigs.BASE_API}overall/paymentMethod?${params}`,
+    isShowLoading,
+  };
+}
+
+export function getOverallMarketingEfficiency(
+  isShowLoading = true,
+  params = "quickFilter=thisWeek"
+) {
+  return {
+    type: ACTION_TYPES.OME_GetList,
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}overall/marketingEfficiency?${params}`,
     isShowLoading,
   };
 }
@@ -77,21 +96,43 @@ export function exportPaymentMethodStatistics(
   };
 }
 
-export function resetExportFiles() {
+export function exportMarketingEfficiency(
+  params = "quickFilter=thisWeek",
+  isShowLoading = true,
+  type = "excel",
+  fileName
+) {
   return {
-    type: "RESET_DOWNLOAD_FILE_REPORT",
+    type: ACTION_TYPES.OME_Export,
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}overall/marketingEfficiency/export?${params}`,
+    isShowLoading,
+    fileName,
+    extention: type === "excel" ? "csv" : "pdf",
   };
 }
 
-export function getOverallMarketingEfficiency(
+export function exportMarketingEfficiencyStatistics(
+  promotionId,
+  params = "quickFilter=thisWeek",
   isShowLoading = true,
-  params = "quickFilter=thisWeek"
+  type = "excel",
+  fileName
 ) {
   return {
-    type: ACTION_TYPES.OME_GetList,
+    type: ACTION_TYPES.OME_StatisticExport,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}overall/marketingEfficiency?${params}`,
+    api: `${apiConfigs.BASE_API}overall/marketingEfficiency/export/${promotionId}?${params}`,
     isShowLoading,
+    fileName,
+    extention: type === "excel" ? "csv" : "pdf",
+  };
+}
+
+export function resetExportFiles() {
+  return {
+    type: "RESET_DOWNLOAD_FILE_REPORT",
   };
 }

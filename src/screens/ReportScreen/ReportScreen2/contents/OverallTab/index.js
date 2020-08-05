@@ -28,6 +28,7 @@ function OverallTab({ style, showBackButton }, ref) {
   /**function */
   const onChangeTab = (tabIndex) => {
     paymentTabRef?.current?.goBack();
+    efficiencyTabRef?.current?.goBack();
     setCurrentTab(tabIndex);
   };
 
@@ -37,6 +38,7 @@ function OverallTab({ style, showBackButton }, ref) {
         paymentTabRef.current.goBack();
         break;
       case 1:
+        efficiencyTabRef.current.goBack();
         break;
       default:
         break;
@@ -66,6 +68,7 @@ function OverallTab({ style, showBackButton }, ref) {
 
         <MarketingEfficiencyTab
           style={{ flex: 1 }}
+          ref={efficiencyTabRef}
           tabLabel="Marketing Efficiency"
           showBackButton={showBackButton}
         />

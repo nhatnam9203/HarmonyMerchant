@@ -11,6 +11,8 @@ const initialState = {
   overallPMStatisticExportFilePath: null,
   isDownloadReport: false,
   marketingEfficiencyList: [],
+  meExportFilePath: null,
+  meStatisticExportFilePath: null,
 };
 
 function appReducer(state = initialState, action) {
@@ -47,11 +49,24 @@ function appReducer(state = initialState, action) {
         overallPMStatisticExportFilePath: action.payload,
         isDownloadReport: false,
       };
+    case ACTION_TYPES.OME_ExportSuccess:
+      return {
+        ...state,
+        meExportFilePath: action.payload,
+        isDownloadReport: false,
+      };
+    case ACTION_TYPES.OME_StatisticExportSuccess:
+      return {
+        ...state,
+        meStatisticExportFilePath: action.payload,
+        isDownloadReport: false,
+      };
     case "RESET_DOWNLOAD_FILE_REPORT":
       return {
         ...state,
         isDownloadReport: false,
         overallPMStatisticExportFilePath: null,
+        meStatisticExportFilePath: null,
       };
     case "GET_REPORT_OVERALL_MARKETING_EFFICIENCY_SUCCESS":
       return {
