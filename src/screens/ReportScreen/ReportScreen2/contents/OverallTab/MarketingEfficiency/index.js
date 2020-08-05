@@ -14,6 +14,7 @@ export default function MarketingEfficiencyTab({ style, showBackButton }) {
   const language = useSelector((state) => state.dataLocal.language);
 
   /**state */
+  const [titleRangeTime, setTitleRangeTime] = useState("This week");
 
   /**ref */
   const layoutRef = useRef(null);
@@ -28,6 +29,17 @@ export default function MarketingEfficiencyTab({ style, showBackButton }) {
     );
   };
 
+  const showCalendar = (isShow) => {
+    layoutRef?.current?.showCalendar(isShow);
+  };
+
+  //callback
+  const onChangeTimeTitle = async (titmeTitle) => {
+    await setTitleRangeTime(titmeTitle);
+    // TODO: call reload list
+    await getMarketingEfficiencyMethod();
+  };
+
   /**effect */
   useEffect(() => {
     getMarketingEfficiencyMethod();
@@ -39,13 +51,14 @@ export default function MarketingEfficiencyTab({ style, showBackButton }) {
         ref={layoutRef}
         style={style}
         showBackButton={showBackButton}
+        onChangeTimeTitle={onChangeTimeTitle}
       >
         <MarketingEfficiency
           style={{ flex: 1, paddingTop: 10 }}
           tabLabel="Marketing Efficiency"
           // onGoStatistics={goNext}
-          // showCalendar={() => setVisibleCalendar(true)}
-          // titleRangeTime={titleRangeTime}
+          showCalendar={() => showCalendar(true)}
+          titleRangeTime={titleRangeTime}
           // showExportFile={onShowPopupExport}
           // handleTheDownloadedFile={handleTheDownloadedFile}
         />
@@ -53,8 +66,8 @@ export default function MarketingEfficiencyTab({ style, showBackButton }) {
           style={{ flex: 1, paddingTop: 10 }}
           tabLabel="Marketing Efficiency Statistics"
           title="Marketing Efficiency Statistics"
-          // titleRangeTime={titleRangeTime}
-          // showCalendar={() => setVisibleCalendar(true)}
+          titleRangeTime={titleRangeTime}
+          showCalendar={() => showCalendar(true)}
           // showExportFile={onShowPopupExport}
           // handleTheDownloadedFile={handleTheDownloadedFile}
         />

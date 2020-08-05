@@ -23,7 +23,7 @@ const FILE_EXTENSION = "csv";
 const FILTER_NAME_DEFAULT = "All Staff";
 
 function ReportLayout(
-  { style, showBackButton, isDownloadReport, children },
+  { style, showBackButton, isDownloadReport, children, onChangeTimeTitle },
   ref
 ) {
   /**redux store*/
@@ -73,6 +73,7 @@ function ReportLayout(
     },
     getTimeUrl: getFilterTimeParams,
     getTimeTitle: getTimeTitle,
+    showCalendar: setVisibleCalendar
   }));
 
   // create time range params
@@ -121,6 +122,10 @@ function ReportLayout(
     setVisibleCalendar(false);
     await setTitleRangeTime(title !== "Time Range" ? title : "All time");
     // getOverallPaymentMethod();
+    if (onChangeTimeTitle) {
+      onChangeTimeTitle(titleRangeTime);
+    }
+
   };
 
   // callback  when scrollTab change

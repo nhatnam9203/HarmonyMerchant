@@ -15,7 +15,7 @@ const VIEW_MODE = {
   LIST: "LIST",
   CHART: "CHART",
 };
-const FILTER_NAME_DEFAULT = "All Method";
+const FILTER_NAME_DEFAULT = "All Promotion";
 const ACTIVE_COLOR = "#0764B0";
 const INACTIVE_COLOR = "#6A6A6A";
 
@@ -37,6 +37,7 @@ export default function MarketingEfficiency({
   /**state */
   const [viewMode, setViewMode] = useState(VIEW_MODE.LIST);
   const [filterNameItem, setFilterNameItem] = useState(FILTER_NAME_DEFAULT);
+  const [filterNames, setFilterNames] = useState([]);
   const [chartData, setChartData] = useState([]);
 
   /**function */
@@ -59,10 +60,25 @@ export default function MarketingEfficiency({
     await setChartData([]);
   };
 
+  // create filter name data
+  const bindFilterName = () => {
+    if (!marketingEfficiencyList) return [];
+
+    let array = [];
+
+    const arrMap = marketingEfficiencyList.map((item) => ({
+      value: item.name,
+      ...item,
+    }));
+    array.push(...arrMap);
+
+    setFilterNames(array);
+  };
+
   // binding data list for name filter
   const filterDataTable = () => {
     return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
-      ? marketingEfficiencyList.filter((item) => item.method === filterNameItem)
+      ? marketingEfficiencyList.filter((item) => item.name === filterNameItem)
       : marketingEfficiencyList;
   };
 
@@ -80,6 +96,7 @@ export default function MarketingEfficiency({
   /**effect */
   useEffect(() => {
     bindChartData();
+    bindFilterName();
   }, [marketingEfficiencyList]);
 
   /**render */
@@ -106,6 +123,9 @@ export default function MarketingEfficiency({
         style={styles.container}
         onChangeFilterName={onChangeFilterName}
         isShowExportButton={true}
+        filterNames={filterNames}
+        showCalendar={showCalendar}
+        titleRangeTime={titleRangeTime}
         rightTooltip={
           <>
             <PopupButton

@@ -32,9 +32,7 @@ import HeaderTooltip from "./HeaderTooltip";
 import PopupButton from "./PopupButton";
 
 const FILE_EXTENSION = "csv";
-const FILTER_NAME_DEFAULT = "All Method";
-
-
+const FILTER_NAME_DEFAULT = "All Promotion";
 
 /**create new object from two value for two key of object */
 const createChartObjectFromValues = (array, key, keyValue) => {
@@ -61,7 +59,7 @@ function ReportTabLayout({
   filterNames = [],
   children,
   rightTooltip,
-  isShowExportButton
+  isShowExportButton,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -136,6 +134,5 @@ function ReportTabLayout({
 ReportTabLayout.propTypes = {
   children: PropTypes.node.children,
 };
-
 
 export default ReportTabLayout = forwardRef(ReportTabLayout);
