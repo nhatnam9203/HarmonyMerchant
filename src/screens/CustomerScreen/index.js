@@ -28,7 +28,7 @@ class CustomerScreen extends Layout {
             payload => {
                 this.setState({
                     isFocus: false,
-                    keySearch:''
+                    keySearch: ''
                 });
                 this.checkPermissionRef.current.setStateFromParent('');
                 this.props.actions.customer.clearSearCustomer();
@@ -46,13 +46,20 @@ class CustomerScreen extends Layout {
         );
     }
 
-    searchCustomer = () => {
-        const { keySearch } = this.state;
+    onChangeKeySearch = async (keySearch) => {
+        await this.setState({ keySearch })
         if (keySearch == '') {
-            this.props.actions.customer.clearSearCustomer();
-        } else {
-            this.props.actions.customer.searchCustomer(keySearch);
+            this.searchCustomer();
         }
+    }
+
+    searchCustomer = (isShowLoading = true) => {
+        const { keySearch } = this.state;
+        this.props.actions.customer.getListCustomersByMerchant(keySearch, isShowLoading);
+    }
+
+    onRefreshCustomer = () => {
+        this.searchCustomer(false);
     }
 
     showModalAddCustomer = () => {
@@ -89,7 +96,7 @@ class CustomerScreen extends Layout {
     }
 
     showModalDetail = (customer) => {
-    //console.log('----- customer : ',customer);
+        //console.log('----- customer : ',customer);
         this.modalDetailRef.current.setStateFromParent(customer);
         this.setState({
             visibleDetail: true
@@ -107,7 +114,7 @@ class CustomerScreen extends Layout {
         await this.setState({
             visibleEdit: false
         })
-        this.props.actions.customer.editCustomer(customerId, customer);
+        this.props.actions.customer.editCustomer(customerId, customer,this.state.keySearch);
 
     }
 
@@ -127,7 +134,7 @@ class CustomerScreen extends Layout {
         this.props.actions.app.handleLockScreen(true);
     }
 
-    closePopupCheckCustomerTabPermission =() =>{
+    closePopupCheckCustomerTabPermission = () => {
         this.props.actions.customer.toggleCustomerTabPermission(false);
         this.props.navigation.navigate("Home");
     }

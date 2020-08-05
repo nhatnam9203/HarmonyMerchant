@@ -131,7 +131,7 @@ function* checkStaffPermission(action) {
                 yield put({
                     type: 'GET_LIST_CUSTOMER_BY_MERCHANT',
                     method: 'GET',
-                    api: `${apiConfigs.BASE_API}customer/bymerchant`,
+                    api: `${apiConfigs.BASE_API}customer/search?key=`,
                     token: true,
                     isShowLoading: true
                 })
