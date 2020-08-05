@@ -50,7 +50,6 @@ function OverallReportTab(
           {...props}
           style={{ flex: 1, paddingTop: 10 }}
           tabLabel="Payment Method"
-          showCalendar={showCalendar}
           titleRangeTime={titleRangeTime}
           urlRangeTime={urlRangeTime}
           onGoStatistics={onGoStatistics}
@@ -60,7 +59,6 @@ function OverallReportTab(
           {...props}
           style={{ flex: 1, paddingTop: 10 }}
           tabLabel="Marketing Efficiency"
-          showCalendar={showCalendar}
           titleRangeTime={titleRangeTime}
           urlRangeTime={urlRangeTime}
           onGoStatistics={onGoStatistics}

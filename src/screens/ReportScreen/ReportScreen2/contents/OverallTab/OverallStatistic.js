@@ -27,6 +27,7 @@ export default function OverallStatistic(props, ref) {
   /**state */
   const [table, setTable] = useState({});
   const [title, setTitle] = useState("");
+
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);
 
