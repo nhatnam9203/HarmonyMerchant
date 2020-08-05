@@ -1,48 +1,51 @@
 import React, {
-  useRef,
-  useImperativeHandle,
-  forwardRef,
   useState,
-  useCallback,
-  useEffect,
+  forwardRef,
+  useImperativeHandle,
+  useRef,
 } from "react";
-import { View, Platform } from "react-native";
+import { View, Text } from "react-native";
+import { useSelector } from "react-redux";
 
-import RNFetchBlob from "rn-fetch-blob";
-import { useSelector, useDispatch } from "react-redux";
-import ScrollableTabView from "react-native-scrollable-tab-view";
+import IMAGE from "@resources";
+import { localize } from "@utils";
+import { CustomScrollTab } from "../../widget";
 
-import { PopupCalendar } from "@components";
-import actions from "@actions";
-import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
-
-import { ReportTabLayout } from "../../widget";
-
-import OverallReportTab from "./OverallTab";
-import OverallStatistic from "./OverallStatistic";
+import MarketingEfficiency from "./MarketingEfficiency";
+import PaymentMethodTab from "./PaymentMethod";
 
 function OverallTab({ style, showBackButton }, ref) {
-  /**redux store*/
-  const dispatch = useDispatch();
+  /**redux store */
   const language = useSelector((state) => state.dataLocal.language);
-  const overallPaymentMethodList = useSelector(
-    (state) => state.report.overallPaymentMethodList
-  );
+
+  /**state store */
+  const [currentTab, setCurrentTab] = useState(0);
 
   /**refs */
-  const tabLayoutRef = useRef(null);
-  const overallTabRef = useRef(null);
-  const overallStatisticsRef = useRef(null);
+  const paymentTabRef = useRef(null);
+  const efficiencyTabRef = useRef(null);
 
-  /**state */
-  const [isShowCalendar, showCalendar] = useState(false);
-  const [titleTimeRange, setTitleTimeRange] = useState("This Week");
-  const [urlTimeRange, setUrlTimeRange] = useState("thisWeek");
-  const [overallCurrentTab, setOverallCurrentTab] = useState(0);
+  /**function */
+  const onChangeTab = (tabIndex) => {
+    paymentTabRef?.current?.goBack();
+    setCurrentTab(tabIndex);
+  };
+
+  const onGoBack = () => {
+    switch (currentTab) {
+      case 0:
+        paymentTabRef.current.goBack();
+        break;
+      case 1:
+        break;
+      default:
+        break;
+    }
+  };
 
   // public func
   useImperativeHandle(ref, () => ({
-    goBack: onGoOverallTab,
+    goBack: onGoBack,
     didBlur: () => {
       // setTitleRangeTime("This week");
     },
@@ -51,51 +54,22 @@ function OverallTab({ style, showBackButton }, ref) {
     },
   }));
 
-  /**func */
-  const onTimeRangeChanged = async (titleTime, urlTime) => {
-    await setUrlTimeRange(urlTime);
-    await setTitleTimeRange(titleTime);
-
-    showCalendar(false);
-  };
-
-  const onGoStatistics = async () => {
-    // await setStatisticItem(item);
-    tabLayoutRef.current.goNext();
-  };
-
-  const onGoOverallTab = () => {
-    tabLayoutRef.current.goBack();
-  };
-
-  const getTabTitle = () => {
-    if (!overallTabRef) return "";
-    return overallTabRef.current.getCurrentTabTitle();
-  };
-
-  const onOverallChangeTab = (index) => {
-    setOverallCurrentTab(index);
-  };
-
   return (
     <View style={style}>
-      <ReportTabLayout ref={tabLayoutRef} showBackButton={showBackButton}>
-        <OverallReportTab
-          ref={overallTabRef}
-          style={{ flex: 1, paddingTop: 10 }}
-          tabLabel={"overallTab"}
-          onGoStatistics={onGoStatistics}
-          onChangeTab={onOverallChangeTab}
+      <CustomScrollTab onHeaderTabChanged={onChangeTab}>
+        <PaymentMethodTab
+          style={{ flex: 1 }}
+          ref={paymentTabRef}
+          tabLabel="Payment Method"
+          showBackButton={showBackButton}
         />
 
-        <OverallStatistic
-          // ref={overallStatisticsRef}
-          style={{ flex: 1, paddingTop: 10 }}
-          tabLabel={"overallStatistic"}
-          getTitle={getTabTitle}
-          tabIndex={overallCurrentTab}
+        <MarketingEfficiency
+          style={{ flex: 1 }}
+          tabLabel="Marketing Efficiency"
+          showBackButton={showBackButton}
         />
-      </ReportTabLayout>
+      </CustomScrollTab>
     </View>
   );
 }

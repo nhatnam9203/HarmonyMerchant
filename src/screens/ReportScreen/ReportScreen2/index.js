@@ -60,11 +60,10 @@ function ReportScreen2({ showBackButton }, ref) {
   }));
 
   const onTabChange = (taIndex) => {
+    staffRef?.current?.goBack();
+    overallRef?.current?.goBack();
+
     setTabIndex(taIndex);
-
-    staffRef.current.goBack();
-    overallRef.current.goBack();
-
     showBackButton(false);
   };
 

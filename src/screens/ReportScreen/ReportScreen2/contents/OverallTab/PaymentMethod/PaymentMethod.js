@@ -4,18 +4,12 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { Dropdown } from "react-native-material-dropdown";
 import IMAGE from "@resources";
-import {
-  localize,
-  formatNumberFromCurrency,
-  scaleSzie,
-  getQuickFilterTimeRange,
-} from "@utils";
+import { localize, formatNumberFromCurrency, scaleSzie } from "@utils";
 import actions from "@actions";
-import { PopupCalendar } from "@components";
 
 import { HeaderTooltip, PopupButton, TableList } from "../../../widget";
-import PaymentBarChart from "./PaymentBarChart";
-import PaymentPieChart from "./PaymentPieChart";
+import PaymentBarChart from "./chart/PaymentBarChart";
+import PaymentPieChart from "./chart/PaymentPieChart";
 
 const VIEW_MODE = {
   LIST: "LIST",
@@ -38,7 +32,14 @@ const createChartObjectFromValues = (array, key, keyValue) => {
   return response;
 };
 
-export default function PaymentMethodRp({ style, onGoStatistics }) {
+export default function PaymentMethod({
+  style,
+  onGoStatistics,
+  titleRangeTime,
+  showCalendar,
+  showExportFile,
+  handleTheDownloadedFile,
+}) {
   /**redux store*/
   const dispatch = useDispatch();
   const pathFileReportStaff = useSelector(
@@ -55,16 +56,9 @@ export default function PaymentMethodRp({ style, onGoStatistics }) {
   const [filterNameItem, setFilterNameItem] = useState(FILTER_NAME_DEFAULT);
   const [filterNames, setFilterNames] = useState([]);
 
-  const [visibleCalendar, setVisibleCalendar] = useState(false);
-  const [titleRangeTime, setTitleRangeTime] = useState("This week");
-
   /**refs */
-  const modalCalendarRef = useRef(null);
 
-  /**component will mount*/
-  useEffect(() => {
-    getOverallPaymentMethod();
-  }, []);
+  /**function */
 
   const bindChartData = async () => {
     if (!overallPaymentMethodList) return [];
@@ -77,23 +71,6 @@ export default function PaymentMethodRp({ style, onGoStatistics }) {
     await setChartData(data);
   };
 
-  useEffect(() => {
-    bindChartData();
-    bindStaffNameFilter();
-  }, [overallPaymentMethodList]);
-
-  const goStatistics = async (item) => {
-    if (!item) return;
-    // change to statistic tab
-    await dispatch(actions.report.filterOPM(item.method));
-    await onGoStatistics();
-  };
-
-  const renderCell = ({ key, row, column, item }) => {
-    return null;
-  };
-
-  /**function */
   const changeViewMode = (mode) => {
     if (!mode) return;
     setViewMode(mode);
@@ -135,68 +112,23 @@ export default function PaymentMethodRp({ style, onGoStatistics }) {
       : overallPaymentMethodList;
   };
 
-  // create time range params
-  const getFilterTimeParams = () => {
-    if (!modalCalendarRef || !modalCalendarRef.current) {
-      return `quickFilter=${getQuickFilterTimeRange("This Week")}`;
-    }
+  /**effect */
 
-    const {
-      isCustomizeDate,
-      startDate,
-      endDate,
-      quickFilter,
-    } = modalCalendarRef.current.state;
+  useEffect(() => {
+    bindChartData();
+    bindStaffNameFilter();
+  }, [overallPaymentMethodList]);
 
-    let url;
-
-    if (isCustomizeDate) {
-      url = `timeStart=${startDate}&timeEnd=${endDate}`;
-    } else {
-      const filter = quickFilter === false ? "This Week" : quickFilter;
-      // console.log("quickFilter", quickFilter);
-      url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
-    }
-
-    return url;
+  const goStatistics = async (item) => {
+    if (!item) return;
+    // change to statistic tab
+    await dispatch(actions.report.filterOPM(item.method));
+    await onGoStatistics();
   };
 
-  // create title for time, to set default title print
-  const getTimeTitle = () => {
-    if (!modalCalendarRef || !modalCalendarRef.current) {
-      return "This Week";
-    }
 
-    const {
-      isCustomizeDate,
-      startDate,
-      endDate,
-      quickFilter,
-    } = modalCalendarRef.current.state;
-
-    const filter = quickFilter === false ? "This Week" : quickFilter;
-    let title = `${filter}`;
-
-    if (startDate && endDate) {
-      title = ` ${startDate} - ${endDate}`;
-    }
-
-    return title;
-  };
-
-  const getOverallPaymentMethod = async () => {
-    await dispatch(
-      actions.report.getOverallPaymentMethod(true, getFilterTimeParams())
-    );
-  };
-
-  const changeTitleTimeRange = async (title) => {
-    setVisibleCalendar(false);
-    await setTitleRangeTime(title !== "Time Range" ? title : "All time");
-    await getOverallPaymentMethod();
-  };
-
-  /**callback */
+  /**render */
+  //callback render action cell
   const renderActionCell = ({ key, row, column, item }) => {
     return (
       <View style={styles.cellAction}>
@@ -209,7 +141,10 @@ export default function PaymentMethodRp({ style, onGoStatistics }) {
     );
   };
 
-  /**render */
+  const renderCell = ({ key, row, column, item }) => {
+    return null;
+  };
+
   return (
     <View style={[styles.container, style]}>
       <HeaderTooltip
@@ -259,7 +194,7 @@ export default function PaymentMethodRp({ style, onGoStatistics }) {
         <PopupButton
           text={titleRangeTime}
           imageSrc={IMAGE.calendar}
-          onPress={() => setVisibleCalendar(true)}
+          onPress={showCalendar}
           style={{ marginRight: 20 }}
         />
         {viewMode === VIEW_MODE.LIST && (
@@ -316,7 +251,6 @@ export default function PaymentMethodRp({ style, onGoStatistics }) {
               netPayment: 200,
             }}
             renderCell={renderCell}
-            // onCellPress={onCellPress}
             renderActionCell={renderActionCell}
           />
         ) : (
@@ -326,15 +260,6 @@ export default function PaymentMethodRp({ style, onGoStatistics }) {
           </View>
         )}
       </View>
-
-      <PopupCalendar
-        type="report"
-        ref={modalCalendarRef}
-        visible={visibleCalendar}
-        onRequestClose={() => setVisibleCalendar(false)}
-        changeTitleTimeRange={changeTitleTimeRange}
-        paddingLeft={scaleSzie(60)}
-      />
     </View>
   );
 }

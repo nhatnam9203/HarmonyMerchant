@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, processColor, View } from "react-native";
 import { BarChart } from "react-native-charts-wrapper";
 
-import { localize, formatMoney, formatNumberFromCurrency } from "@utils";
+import { formatNumberFromCurrency } from "@utils";
 
 /**chart info */
 const legend = {
