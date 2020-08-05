@@ -24,6 +24,10 @@ export default function PaymentStatistic(props, ref) {
     (state) => state.report.overallPMFilters
   );
 
+  const pathFileReport = useSelector(
+    (state) => state.report.overallPMStatisticExportFilePath
+  );
+
   /**state */
   const [table, setTable] = useState({});
 
@@ -82,6 +86,7 @@ export default function PaymentStatistic(props, ref) {
       onChangeFilter={onChangeFilterName}
       dataFilters={filterNames}
       filterId={filterNameItem}
+      pathFileExport={pathFileReport}
     />
   );
 }

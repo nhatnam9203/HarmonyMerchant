@@ -76,9 +76,9 @@ export default function ReportStatisticLayout({
               imageSrc={IMAGE.export}
               onPress={showExportFile}
             />
-            {pathFileExport && (
+            {!!pathFileExport && (
               <PopupButton
-                onPress={handleTheDownloadedFile}
+                onPress={() => handleTheDownloadedFile(pathFileExport)}
                 style={{ backgroundColor: "rgb(235,93,57)", marginLeft: 20 }}
                 txtStyle={{ color: "#fff" }}
                 imageStyle={{ tintColor: "#fff" }}

@@ -5,8 +5,13 @@ import apiConfigs from "../../configs/api";
  */
 export const ACTION_TYPES = {
   GetOverallPaymentMethod: "GET_REPORT_OVERALL_PAYMENT_METHOD",
-  OPMFilters: "REPORT_OVERALL_PAYMENT_METHOD_FILTERS",
-  OPMFilterId: "REPORT_OVERALL_PAYMENT_METHOD_FILTER_ID",
+  OPM_Filters: "REPORT_OVERALL_PAYMENT_METHOD_FILTERS",
+  OPM_FilterId: "REPORT_OVERALL_PAYMENT_METHOD_FILTER_ID",
+  OPM_Export: "EXPORT_OVERALL_PAYMENT_METHOD",
+  OPM_StatisticExport: "EXPORT_OVERALL_PAYMENT_METHOD_STATISTICS",
+  OPM_ExportSuccess: "EXPORT_OVERALL_PAYMENT_METHOD_SUCCESS",
+  OPM_StatisticExportSuccess:
+    "EXPORT_OVERALL_PAYMENT_METHOD_STATISTICS_SUCCESS",
   GetOverallMarketingEfficiency: "GET_REPORT_OVERALL_MARKETING_EFFICIENCY",
 };
 
@@ -25,15 +30,56 @@ export function getOverallPaymentMethod(
 
 export function getOPMFilters(filters) {
   return {
-    type: ACTION_TYPES.OPMFilters,
+    type: ACTION_TYPES.OPM_Filters,
     payload: filters,
   };
 }
 
 export function filterOPM(method) {
   return {
-    type: ACTION_TYPES.OPMFilterId,
+    type: ACTION_TYPES.OPM_FilterId,
     payload: method,
+  };
+}
+
+export function exportPaymentMethod(
+  params = "quickFilter=thisWeek",
+  isShowLoading = true,
+  type = "excel",
+  fileName
+) {
+  return {
+    type: ACTION_TYPES.OPM_Export,
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}overall/paymentMethod/export?${params}`,
+    isShowLoading,
+    fileName,
+    extention: type === "excel" ? "csv" : "pdf",
+  };
+}
+
+export function exportPaymentMethodStatistics(
+  method,
+  params = "quickFilter=thisWeek",
+  isShowLoading = true,
+  type = "excel",
+  fileName
+) {
+  return {
+    type: ACTION_TYPES.OPM_StatisticExport,
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}overall/paymentMethod/export/${method}?${params}`,
+    isShowLoading,
+    fileName,
+    extention: type === "excel" ? "csv" : "pdf",
+  };
+}
+
+export function resetExportFiles() {
+  return {
+    type: "RESET_DOWNLOAD_FILE_REPORT",
   };
 }
 

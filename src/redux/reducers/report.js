@@ -1,9 +1,15 @@
+import AsyncStorage from "@react-native-community/async-storage";
+import { persistReducer } from "redux-persist";
 import actions from "@actions";
+const { ACTION_TYPES } = actions.report;
 
 const initialState = {
   overallPaymentMethodList: [],
   overallPMFilterId: undefined,
   overallPMFilters: [],
+  isDownloadReport: false,
+  overallPMExportFilePath: null,
+  overallPMStatisticExportFilePath: null,
 };
 
 function appReducer(state = initialState, action) {
@@ -13,19 +19,48 @@ function appReducer(state = initialState, action) {
         ...state,
         overallPaymentMethodList: action.payload,
       };
-    case actions.report.ACTION_TYPES.OPMFilterId:
+    case ACTION_TYPES.OPM_FilterId:
       return {
         ...state,
         overallPMFilterId: action.payload,
       };
-    case actions.report.ACTION_TYPES.OPMFilters:
+    case ACTION_TYPES.OPM_Filters:
       return {
         ...state,
         overallPMFilters: action.payload,
+      };
+    case "DOWNLOAD_REPORT_OPM_EXPORT":
+      return {
+        ...state,
+        isDownloadReport: true,
+      };
+    case ACTION_TYPES.OPM_ExportSuccess:
+      return {
+        ...state,
+        overallPMExportFilePath: action.payload,
+        isDownloadReport: false,
+      };
+    case ACTION_TYPES.OPM_StatisticExportSuccess:
+      return {
+        ...state,
+        overallPMStatisticExportFilePath: action.payload,
+        isDownloadReport: false,
+      };
+    case "RESET_DOWNLOAD_FILE_REPORT":
+      return {
+        ...state,
+        isDownloadReport: false,
+        overallPMStatisticExportFilePath: null,
       };
     default:
       return state;
   }
 }
 
-module.exports = appReducer;
+const persistConfig = {
+  key: "report",
+  storage: AsyncStorage,
+  whitelist: [],
+};
+
+module.exports = persistReducer(persistConfig, appReducer);

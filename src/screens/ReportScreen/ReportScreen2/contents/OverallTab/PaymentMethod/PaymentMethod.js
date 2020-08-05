@@ -42,8 +42,8 @@ export default function PaymentMethod({
 }) {
   /**redux store*/
   const dispatch = useDispatch();
-  const pathFileReportStaff = useSelector(
-    (state) => state.staff.pathFileReportStaffSalary
+  const pathFileReport = useSelector(
+    (state) => state.report.overallPMExportFilePath
   );
   const language = useSelector((state) => state.dataLocal.language);
   const overallPaymentMethodList = useSelector(
@@ -59,7 +59,6 @@ export default function PaymentMethod({
   /**refs */
 
   /**function */
-
   const bindChartData = async () => {
     if (!overallPaymentMethodList) return [];
     // console.log(overallPaymentMethodList);
@@ -112,13 +111,6 @@ export default function PaymentMethod({
       : overallPaymentMethodList;
   };
 
-  /**effect */
-
-  useEffect(() => {
-    bindChartData();
-    bindStaffNameFilter();
-  }, [overallPaymentMethodList]);
-
   const goStatistics = async (item) => {
     if (!item) return;
     // change to statistic tab
@@ -126,6 +118,12 @@ export default function PaymentMethod({
     await onGoStatistics();
   };
 
+  /**effect */
+
+  useEffect(() => {
+    bindChartData();
+    bindStaffNameFilter();
+  }, [overallPaymentMethodList]);
 
   /**render */
   //callback render action cell
@@ -154,13 +152,13 @@ export default function PaymentMethod({
               <PopupButton
                 text="Export"
                 imageSrc={IMAGE.export}
-                // onPress={showExportFile}
+                onPress={showExportFile}
               />
             )}
 
-            {pathFileReportStaff && (
+            {!!pathFileReport && (
               <PopupButton
-                // onPress={() => handleTheDownloadedFile(pathFileReportStaff)}
+                onPress={() => handleTheDownloadedFile(pathFileReport)}
                 style={{ backgroundColor: "rgb(235,93,57)", marginLeft: 20 }}
                 txtStyle={{ color: "#fff" }}
                 imageStyle={{ tintColor: "#fff" }}

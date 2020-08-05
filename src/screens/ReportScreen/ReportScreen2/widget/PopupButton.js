@@ -20,7 +20,7 @@ export default function PopupButton({
   imageStyle = {},
   children,
 }) {
-  console.log(`===========> text render ${text}========`);
+  // console.log(`===========> text render ${text}========`);
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={[styles.container, styles.borderStyle, style]}>

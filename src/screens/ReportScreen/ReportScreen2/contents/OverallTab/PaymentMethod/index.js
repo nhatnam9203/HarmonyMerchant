@@ -29,6 +29,12 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
+  const overallPMFilterId = useSelector(
+    (state) => state.report.overallPMFilterId
+  );
+  const isDownloadReport = useSelector(
+    (state) => state.report.isDownloadReport
+  );
   /**refs */
   const scrollPage = useRef(null);
   const modalCalendarRef = useRef(null);
@@ -44,13 +50,7 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
   const [titleExportFile, setTitleExportFile] = useState(
     localize("Export", language)
   );
-  const [filterStaffItem, setFilterStaffItem] = useState(null);
   const [currentTab, setCurrentTab] = useState(0);
-
-  /**effect */
-  // useEffect(() => {
-  //   setVisiblePopupLoadingExport(isDownloadReportStaff);
-  // }, [isDownloadReportStaff]);
 
   /**function */
   // go to statistics page
@@ -63,6 +63,7 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
     // reset filters name
     //   await setFilterStaffItem(null);
     // scroll to staff salary
+    await dispatch(actions.report.resetExportFiles());
     scrollPage.current.goToPage(0);
   };
 
@@ -141,13 +142,16 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
   const onShowPopupExport = async () => {
     switch (currentTab) {
       case 0:
-        await setTitleExportFile("Staff salary " + getTimeTitle());
+        await setTitleExportFile("Report payment method " + getTimeTitle());
         break;
       case 1:
-        await setTitleExportFile("Staff statistics " + getTimeTitle());
+        await setTitleExportFile(
+          "Report payment method statistics " + getTimeTitle()
+        );
         break;
       default:
     }
+
     setVisiblePopupExport(true);
   };
 
@@ -158,16 +162,21 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
     switch (currentTab) {
       case 0:
         dispatch(
-          actions.staff.getExportStaffSalary(url, true, "csv", titleExportFile)
+          actions.report.exportPaymentMethod(
+            url,
+            true,
+            "excel",
+            titleExportFile
+          )
         );
         break;
       case 1:
         dispatch(
-          actions.staff.getExportStaffStatistics(
-            listCalendarStaffId,
+          actions.report.exportPaymentMethodStatistics(
+            overallPMFilterId,
             url,
             true,
-            "csv",
+            "excel",
             titleExportFile
           )
         );
@@ -190,39 +199,14 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
     }
   };
 
-  // create filter name data
-  const bindStaffSalaryFilter = () => {
-    if (!listStaffsSalary) return [];
-
-    let array = [];
-
-    if (currentTab === 0) {
-      array.push({ value: localize(FILTER_NAME_DEFAULT, language) });
-    }
-
-    const arrMap = listStaffsSalary.map((staff) => ({
-      value: staff.name,
-      ...staff,
-    }));
-    array.push(...arrMap);
-
-    return array;
-  };
-
-  const onChangeFilterStaff = async (text) => {
-    await setFilterStaffItem(text);
-    if (currentTab === 1) {
-      const item = listStaffsSalary.find((staff) => staff.name === text);
-      if (item) {
-        dispatch(actions.staff.getListStaffCalendar(item.staffId));
-      }
-    }
-  };
-
   /**effect */
   useEffect(() => {
     getOverallPaymentMethod();
   }, []);
+
+  useEffect(() => {
+    setVisiblePopupLoadingExport(isDownloadReport);
+  }, [isDownloadReport]);
 
   /**render */
   return (
@@ -244,13 +228,18 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
           onGoStatistics={goNext}
           showCalendar={() => setVisibleCalendar(true)}
           titleRangeTime={titleRangeTime}
+          showExportFile={onShowPopupExport}
+          handleTheDownloadedFile={handleTheDownloadedFile}
         />
 
         <PaymentStatistic
           style={{ flex: 1, paddingTop: 10 }}
           tabLabel="Payment Method Statistics"
+          title="Payment Method Statistics"
           titleRangeTime={titleRangeTime}
           showCalendar={() => setVisibleCalendar(true)}
+          showExportFile={onShowPopupExport}
+          handleTheDownloadedFile={handleTheDownloadedFile}
         />
       </ScrollableTabView>
 
