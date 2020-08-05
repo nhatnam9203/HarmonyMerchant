@@ -10,10 +10,10 @@ const HEAD_FONT_SIZE = 17;
 const TABLE_ROW_HEIGHT = 50;
 
 export default function PaymentStatistic(props, ref) {
-  const { tabIndex, getTitle } = props;
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
+
   const overallPaymentMethodList = useSelector(
     (state) => state.report.overallPaymentMethodList
   );
@@ -70,7 +70,7 @@ export default function PaymentStatistic(props, ref) {
       priceKeys: ["grossPayment", "refund", "netPayment"],
       tableCellWidth: { grossPayment: 180 },
     });
-  }, [overallPMFilterId, tabIndex, overallPaymentMethodList]);
+  }, [overallPMFilterId, overallPaymentMethodList]);
 
   /**render */
 
