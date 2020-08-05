@@ -157,7 +157,7 @@ class PopupInvoicePrint extends React.Component {
 
     getPaymentMethods = () => {
         const { paymentDetailInfo } = this.props;
-        return paymentDetailInfo.paidAmounts && paymentDetailInfo.paidAmounts.length > 0 ? (paymentDetailInfo.paidAmounts).reverse() : [];
+        return paymentDetailInfo.paidAmounts && paymentDetailInfo.paidAmounts.length > 0 ? (paymentDetailInfo.paidAmounts).slice(0).reverse() : [];
     }
 
 
@@ -399,7 +399,7 @@ class PopupInvoicePrint extends React.Component {
                                             {
                                                 temtCheckoutPayment.map((data, index) => <View key={index} style={{ marginBottom: scaleSzie(4) }} >
                                                     <Text style={[styleInvoice.txt_total,]} >
-                                                        {`- Entry method : ${getPaymentString(data.paymentMethod ? data.paymentMethod : "")}`}
+                                                        {`- Entry method: ${getPaymentString(data.paymentMethod ? data.paymentMethod : "")}`}
                                                     </Text>
                                                     {
                                                         data.paymentMethod && data.paymentMethod === "credit_card" ?
@@ -419,19 +419,11 @@ class PopupInvoicePrint extends React.Component {
                                             : <View />
                                     }
 
-                                    {/* ------------- Change ------------------- */}
-                                    {/* {
-                                        paymentDetailInfo.dueAmount ? <ItemTotal
-                                            title={"Change"}
-                                            value={Math.abs(paymentDetailInfo.dueAmount)}
-                                        /> : <View />
-                                    } */}
-
                                     {
                                         isSignature && !isPrintTempt ? <View style={{ height: scaleSzie(15), flexDirection: "row", marginTop: scaleSzie(15) }} >
                                             <View style={{ width: scaleSzie(70), justifyContent: "flex-end" }} >
                                                 <Text style={[styleInvoice.txt_total, { fontSize: 18, fontWeight: "600" }]} >
-                                                    {"Signature :"}
+                                                    {"Signature:"}
                                                 </Text>
                                             </View>
                                             <View style={{ width: scaleSzie(50) }} />
@@ -444,7 +436,7 @@ class PopupInvoicePrint extends React.Component {
                                     {/* ----------- Thanks , see you again -------- */}
                                     <View style={{ height: scaleSzie(20) }} />
                                     <Text style={[styleInvoice.txt_total, { alignSelf: "center", }]} >
-                                        {`Thank you !`}
+                                        {`Thank you!`}
                                     </Text>
                                     <Text style={[styleInvoice.txt_total, { alignSelf: "center", }]} >
                                         {`Please come again`}

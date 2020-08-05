@@ -726,6 +726,14 @@ export const PRINTER_MACHINE = {
         emulation: "StarGraphic",
         widthPaper: "576"
     },
+    "WIFI": {
+        printerModels: "TSP100",
+        portName: "TCP:192.168.254.12",
+        isCashier: false,
+        isPrint: true,
+        emulation: "StarGraphic",
+        widthPaper: "576"
+    }
 };
 
 export const getShortNameToPrintInvoice = (name) => {
@@ -765,6 +773,7 @@ export const formatWithMoment = (data, key) => {
 export const checkStatusPrint = async () => {
     try {
         const printer = await PrintManager.getInstance().portDiscovery();
+        alert("printer: ", JSON.stringify(printer))
         if (printer.length > 0) {
             let portName = false;
             for (let i = 0; i < printer.length; i++) {
@@ -980,4 +989,10 @@ export const getCredicardIcon = (type) => {
             icon = ICON.visaLogo;
     };
     return icon;
+}
+
+export const getTotalProductByQuantity = (unitPrice = 0, quantity = 0) => {
+    const total = formatNumberFromCurrency(unitPrice) *  parseInt(quantity);
+
+    return  formatMoney(roundFloatNumber(total));
 }

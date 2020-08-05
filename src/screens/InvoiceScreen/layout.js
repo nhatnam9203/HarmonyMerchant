@@ -354,7 +354,7 @@ export default class Layout extends React.Component {
                                     {
                                         checkoutPayments.map((data, index) => <View key={index} style={{ marginBottom: scaleSzie(4) }} >
                                             <Text style={[styles.txt_total,]} >
-                                                {`- Entry method : ${getPaymentString(data.paymentMethod)}`}
+                                                {`- Entry method: ${getPaymentString(data.paymentMethod)}`}
                                             </Text>
                                             {
                                                 data.paymentMethod === "credit_card" ?

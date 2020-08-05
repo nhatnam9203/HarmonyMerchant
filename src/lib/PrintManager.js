@@ -16,10 +16,10 @@ export default class PrintManager {
 
     portDiscovery() {
         return Promise.race([
-            StarPRNT.portDiscovery('Bluetooth'),
-            new Promise((_, reject) =>
-                setTimeout(() => reject('BlueToothTimeOut'), 10000)
-            )
+            StarPRNT.portDiscovery('LAN'),
+            // new Promise((_, reject) =>
+            //     setTimeout(() => reject('BlueToothTimeOut'), 50000)
+            // )
         ])
     }
 
@@ -47,7 +47,7 @@ export default class PrintManager {
         // StarLine
         try {
 
-            let printResult = await StarPRNT.print(PRINTER_MACHINE[portName].emulation, commands, portName);
+            let printResult = await StarPRNT.print("StarGraphic", commands, portName);
             // console.log(printResult); // Success!
         } catch (error) {
             // console.log('error : ', error);

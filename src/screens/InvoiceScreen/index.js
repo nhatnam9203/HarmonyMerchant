@@ -462,27 +462,65 @@ class InvoiceScreen extends Layout {
 
     printCustomerInvoice = async () => {
         try {
-            const printMachine = await checkStatusPrint();
-            if (printMachine) {
-                this.props.actions.app.loadingApp();
-                const imageUri = await captureRef(this.viewShotRef, {});
-                if (imageUri) {
-                    let commands = [];
-                    commands.push({ appendLineFeed: 0 });
-                    commands.push({ appendBitmap: imageUri, width: PRINTER_MACHINE[printMachine].widthPaper, bothScale: true, diffusion: true, alignment: "Center" });
-                    commands.push({ appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed });
+            // let printers = await StarPRNT.portDiscovery('LAN');
 
-                    await PrintManager.getInstance().print(printMachine, commands);
-                    releaseCapture(imageUri);
-                }
+            // alert(JSON.stringify(printers));
+
+            this.props.actions.app.loadingApp();
+            const imageUri = await captureRef(this.viewShotRef, {});
+            if (imageUri) {
+                let commands = [];
+                commands.push({ appendLineFeed: 0 });
+                commands.push({ appendBitmap: imageUri, width: 576, bothScale: true, diffusion: true, alignment: "Center" });
+                commands.push({ appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed });
+
+                await PrintManager.getInstance().print("TCP:192.168.254.12", commands);
+                releaseCapture(imageUri);
+            }else{
                 this.props.actions.app.stopLoadingApp();
-
-            } else {
-                alert('Please connect to your printer!');
+                setTimeout(() =>{
+                    alert("fail ")
+                },500)
             }
+
+            this.props.actions.app.stopLoadingApp();
+            
+
+
+
+            // StarPRNT.portDiscovery('LAN',
+            //     (data) => {
+            //         alert("data : ", data)
+            //     },
+            //     (err) => {
+            //         alert("err : ", err)
+            //     }
+            // )
+
+            // const printMachine = await checkStatusPrint();
+            // if (printMachine) {
+            //     this.props.actions.app.loadingApp();
+            //     const imageUri = await captureRef(this.viewShotRef, {});
+            //     if (imageUri) {
+            //         let commands = [];
+            //         commands.push({ appendLineFeed: 0 });
+            //         commands.push({ appendBitmap: imageUri, width: PRINTER_MACHINE[printMachine].widthPaper, bothScale: true, diffusion: true, alignment: "Center" });
+            //         commands.push({ appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed });
+
+            //         await PrintManager.getInstance().print(printMachine, commands);
+            //         releaseCapture(imageUri);
+            //     }
+            //     this.props.actions.app.stopLoadingApp();
+
+            // } else {
+            //     alert('Please connect to your printer!');
+            // }
         } catch (error) {
             this.props.actions.app.stopLoadingApp();
-            // alert(error)
+            setTimeout(() =>{
+                alert("error ",error)
+            },500)
+           
         }
     }
 
