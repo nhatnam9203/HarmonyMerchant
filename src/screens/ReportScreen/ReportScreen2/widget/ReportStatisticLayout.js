@@ -31,94 +31,17 @@ export default function ReportStatisticLayout({
   sumTotalKey,
   priceKeys,
   tableCellWidth,
+  titleRangeTime,
+  pathFileExport,
+  showCalendar,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
-  const listStaffsCalendar = useSelector(
-    (state) => state.staff.listStaffsCalendar
-  );
   const language = useSelector((state) => state.dataLocal.language);
-  const pathFileReportStaff = useSelector(
-    (state) => state.staff.pathFileReportStaffStatistic
-  );
-
-  /**state */
-  const [sumObjects, setSumObjects] = useState({});
-
-  const [visibleCalendar, setVisibleCalendar] = useState(false);
-  const [titleRangeTime, setTitleRangeTime] = useState("This week");
-
-  /**refs */
-  const modalCalendarRef = useRef(null);
-
-  /**process */
-  const onCellPress = ({ key, row, column, item }) => {};
-  const onChangeSumObject = (sumObj) => {
-    setSumObjects(sumObj);
-  };
-
-  // create time range params
-  const getFilterTimeParams = () => {
-    if (!modalCalendarRef || !modalCalendarRef.current) {
-      return `quickFilter=${getQuickFilterTimeRange("This Week")}`;
-    }
-
-    const {
-      isCustomizeDate,
-      startDate,
-      endDate,
-      quickFilter,
-    } = modalCalendarRef.current.state;
-
-    let url;
-
-    if (isCustomizeDate) {
-      url = `timeStart=${startDate}&timeEnd=${endDate}`;
-    } else {
-      const filter = quickFilter === false ? "This Week" : quickFilter;
-      // console.log("quickFilter", quickFilter);
-      url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
-    }
-
-    return url;
-  };
-
-  // create title for time, to set default title print
-  const getTimeTitle = () => {
-    if (!modalCalendarRef || !modalCalendarRef.current) {
-      return "This Week";
-    }
-
-    const {
-      isCustomizeDate,
-      startDate,
-      endDate,
-      quickFilter,
-    } = modalCalendarRef.current.state;
-
-    const filter = quickFilter === false ? "This Week" : quickFilter;
-    let title = `${filter}`;
-
-    if (startDate && endDate) {
-      title = ` ${startDate} - ${endDate}`;
-    }
-
-    return title;
-  };
-
-  const getOverallPaymentMethod = async () => {
-    await dispatch(
-      actions.report.getOverallPaymentMethod(true, getFilterTimeParams())
-    );
-  };
-
-  const changeTitleTimeRange = async (title) => {
-    setVisibleCalendar(false);
-    await setTitleRangeTime(title !== "Time Range" ? title : "All time");
-    // await getOverallPaymentMethod();
-  };
 
   /**render */
+  const onCellPress = ({ key, row, column, item }) => {};
+
   const renderCell = ({ key, row, column, item }) => {
     return null;
   };
@@ -153,9 +76,9 @@ export default function ReportStatisticLayout({
               imageSrc={IMAGE.export}
               onPress={showExportFile}
             />
-            {pathFileReportStaff && (
+            {pathFileExport && (
               <PopupButton
-                onPress={() => handleTheDownloadedFile(pathFileReportStaff)}
+                onPress={handleTheDownloadedFile}
                 style={{ backgroundColor: "rgb(235,93,57)", marginLeft: 20 }}
                 txtStyle={{ color: "#fff" }}
                 imageStyle={{ tintColor: "#fff" }}
@@ -169,7 +92,7 @@ export default function ReportStatisticLayout({
         <PopupButton
           text={titleRangeTime}
           imageSrc={IMAGE.calendar}
-          onPress={() => setVisibleCalendar(true)}
+          onPress={showCalendar}
           style={{ marginRight: 20 }}
         />
         <View style={{ width: 160, height: 45 }}>
@@ -203,17 +126,7 @@ export default function ReportStatisticLayout({
             onCellPress={onCellPress}
           />
         )}
-        {/* {renderFooter()} */}
       </View>
-
-      <PopupCalendar
-        type="report"
-        ref={modalCalendarRef}
-        visible={visibleCalendar}
-        onRequestClose={() => setVisibleCalendar(false)}
-        changeTitleTimeRange={changeTitleTimeRange}
-        paddingLeft={scaleSzie(60)}
-      />
     </View>
   );
 }

@@ -241,8 +241,8 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
         <PaymentMethod
           style={{ flex: 1, paddingTop: 10 }}
           tabLabel="Payment Method"
-          showCalendar={() => setVisibleCalendar(true)}
           onGoStatistics={goNext}
+          showCalendar={() => setVisibleCalendar(true)}
           titleRangeTime={titleRangeTime}
         />
 
