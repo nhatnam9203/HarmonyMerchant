@@ -61,6 +61,7 @@ function ReportTabLayout({
   rightTooltip,
   isShowExportButton,
   isShowFilterButton,
+  filterNameDefault = FILTER_NAME_DEFAULT,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -115,7 +116,7 @@ function ReportTabLayout({
           <Dropdown
             rippleCentered={true}
             dropdownPosition={2}
-            data={[{ value: FILTER_NAME_DEFAULT }, ...filterNames]}
+            data={[{ value: filterNameDefault }, ...filterNames]}
             onChangeText={(text) => onChangeFilterName(text)}
             renderBase={() => (
               <PopupButton

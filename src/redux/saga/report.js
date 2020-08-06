@@ -111,7 +111,7 @@ function* getReportGiftCardSales(action) {
 function* exportReport(action) {
   try {
     yield put({
-      type: "DOWNLOAD_REPORT_OPM_EXPORT",
+      type: "DOWNLOAD_REPORT_EXPORT",
     });
 
     const responses = yield requestAPI(action);
@@ -159,6 +159,20 @@ function* exportReport(action) {
           });
           break;
 
+        case ACTION_TYPES.GiftCard_Export:
+          yield put({
+            type: ACTION_TYPES.GiftCard_ExportSuccess,
+            payload: fileDownload.path(),
+          });
+          break;
+
+        case ACTION_TYPES.GiftCard_ExportStatistic:
+          yield put({
+            type: ACTION_TYPES.GiftCard_ExportStatisticSuccess,
+            payload: fileDownload.path(),
+          });
+          break;
+
         default:
           break;
       }
@@ -191,5 +205,7 @@ export default function* saga() {
     takeLatest(ACTION_TYPES.OME_Export, exportReport),
     takeLatest(ACTION_TYPES.OME_StatisticExport, exportReport),
     takeLatest(ACTION_TYPES.GiftCard_GetList, getReportGiftCardSales),
+    takeLatest(ACTION_TYPES.GiftCard_Export, exportReport),
+    takeLatest(ACTION_TYPES.GiftCard_ExportStatistic, exportReport),
   ]);
 }

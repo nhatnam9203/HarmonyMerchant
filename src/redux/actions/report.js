@@ -23,6 +23,11 @@ export const ACTION_TYPES = {
   GiftCard_GetList: "GET_GIFT_CARD_REPORT_SALES",
   GiftCard_GetListFail: "GET_GIFT_CARD_REPORT_SALES_FAIL",
   GiftCard_GetListSuccess: "GET_GIFT_CARD_REPORT_SALES_SUCCESS",
+  GiftCard_Export: "EXPORT_GIFT_CARD_REPORT_SALES",
+  GiftCard_ExportStatistic: "EXPORT_GIFT_CARD_REPORT_SALES_STATISTIC",
+  GiftCard_ExportSuccess: "EXPORT_GIFT_CARD_REPORT_SALES_SUCCESS",
+  GiftCard_ExportStatisticSuccess:
+    "EXPORT_GIFT_CARD_REPORT_SALES_STATISTIC_SUCCESS",
 };
 
 /** Get List */
@@ -144,6 +149,41 @@ export function exportMarketingEfficiencyStatistics(
     method: "GET",
     token: true,
     api: `${apiConfigs.BASE_API}overall/marketingEfficiency/export/${promotionId}?${params}`,
+    isShowLoading,
+    fileName,
+    extention: type === "excel" ? "csv" : "pdf",
+  };
+}
+
+export function exportGiftCardReportSales(
+  params = "quickFilter=thisWeek",
+  isShowLoading = true,
+  type = "excel",
+  fileName
+) {
+  return {
+    type: ACTION_TYPES.GiftCard_Export,
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}giftCard/reportSales/export?${params}`,
+    isShowLoading,
+    fileName,
+    extention: type === "excel" ? "csv" : "pdf",
+  };
+}
+
+export function exportGiftCardReportSalesStatistics(
+  giftCardGeneralId,
+  params = "quickFilter=thisWeek",
+  isShowLoading = true,
+  type = "excel",
+  fileName
+) {
+  return {
+    type: ACTION_TYPES.GiftCard_ExportStatistic,
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}giftCard/reportSales/export/${giftCardGeneralId}?${params}`,
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",

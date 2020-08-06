@@ -14,7 +14,7 @@ const VIEW_MODE = {
   LIST: "LIST",
   CHART: "CHART",
 };
-const FILTER_NAME_DEFAULT = "All Promotion";
+const FILTER_NAME_DEFAULT = "All Type";
 const ACTIVE_COLOR = "#0764B0";
 const INACTIVE_COLOR = "#6A6A6A";
 
@@ -142,6 +142,7 @@ export default function GiftCardReportTab({
         showExportFile={showExportFile}
         pathFileExport={pathFileExport}
         handleTheDownloadedFile={handleTheDownloadedFile}
+        filterNameDefault={FILTER_NAME_DEFAULT}
         rightTooltip={
           <>
             <PopupButton

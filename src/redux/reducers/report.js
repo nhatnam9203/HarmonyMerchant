@@ -14,6 +14,8 @@ const initialState = {
   meExportFilePath: null,
   meStatisticExportFilePath: null,
   giftCardReportList: [],
+  giftCardExportFilePath: null,
+  giftCardStatisticExportFilePath: null,
 };
 
 function appReducer(state = initialState, action) {
@@ -33,7 +35,7 @@ function appReducer(state = initialState, action) {
         ...state,
         overallPMFilters: action.payload,
       };
-    case "DOWNLOAD_REPORT_OPM_EXPORT":
+    case "DOWNLOAD_REPORT_EXPORT":
       return {
         ...state,
         isDownloadReport: true,
@@ -78,6 +80,18 @@ function appReducer(state = initialState, action) {
       return {
         ...state,
         giftCardReportList: action.payload,
+      };
+    case ACTION_TYPES.GiftCard_ExportSuccess:
+      return {
+        ...state,
+        giftCardExportFilePath: action.payload,
+        isDownloadReport: false,
+      };
+    case ACTION_TYPES.GiftCard_ExportStatisticSuccess:
+      return {
+        ...state,
+        giftCardStatisticExportFilePath: action.payload,
+        isDownloadReport: false,
       };
     default:
       return state;

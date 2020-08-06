@@ -19,13 +19,19 @@ function GiftCardTab({ style, showBackButton }, ref) {
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const meExportFilePath = useSelector(
-    (state) => state.report.meExportFilePath
+  const giftCardExportFilePath = useSelector(
+    (state) => state.report.giftCardExportFilePath
   );
 
-  const meStatisticExportFilePath = useSelector(
-    (state) => state.report.meStatisticExportFilePath
+  const giftCardStatisticExportFilePath = useSelector(
+    (state) => state.report.giftCardStatisticExportFilePath
   );
+
+  const giftCardReportList = useSelector(
+    (state) => state.report.giftCardReportList
+  );
+
+
 
   /**state */
   const [titleRangeTime, setTitleRangeTime] = useState("This week");
@@ -77,7 +83,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
     switch (currentTab) {
       case 0:
         dispatch(
-          actions.report.exportMarketingEfficiency(
+          actions.report.exportGiftCardReportSales(
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
@@ -86,13 +92,13 @@ function GiftCardTab({ style, showBackButton }, ref) {
         );
         break;
       case 1:
-        const promotion = marketingEfficiencyList.find(
-          (item) => item.name === filterNameItem
+        const filterItem = giftCardReportList.find(
+          (item) => item.type === filterNameItem
         );
-        if (!promotion) return;
+        if (!filterItem) return;
         dispatch(
-          actions.report.exportMarketingEfficiencyStatistics(
-            promotion.promotionId,
+          actions.report.exportGiftCardReportSalesStatistics(
+            filterItem.giftCardGeneralId,
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
@@ -127,6 +133,8 @@ function GiftCardTab({ style, showBackButton }, ref) {
     getGiftCardReportSales();
   }, []);
 
+
+
   return (
     <View style={[styles.container, style]}>
       <ReportLayout
@@ -144,7 +152,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
           showExportFile={() => onShowPopupExport("Gift Card ")}
-          pathFileExport={meExportFilePath}
+          pathFileExport={giftCardExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
         <GiftCardStatistic
@@ -157,7 +165,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
           showExportFile={() => onShowPopupExport("Gift Card Statistic ")}
-          pathFileExport={meStatisticExportFilePath}
+          pathFileExport={giftCardStatisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
       </ReportLayout>
