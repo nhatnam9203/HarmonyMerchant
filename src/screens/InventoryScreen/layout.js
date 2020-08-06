@@ -8,7 +8,7 @@ import DraggableFlatList from 'react-native-draggable-flatlist';
 
 import {
     Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupAddEditProduct,
-    ModalCustom,PopupCheckStaffPermission
+    ModalCustom, PopupCheckStaffPermission
 } from '@components';
 import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
 import styles from './style';
@@ -48,12 +48,7 @@ export default class Layout extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
                                     placeholder={`${localize('SKU Number', language)}/ ${localize('Product Name', language)}`}
                                     value={keySearch}
-                                    onChangeText={(value) => {
-                                        if (value === '') {
-                                            this.props.actions.product.clearSearchProduct();
-                                        }
-                                        this.updateSearchFilterInfo('keySearch', value)
-                                    }}
+                                    onChangeText={(value) => this.updateSearchFilterInfo('keySearch', value)}
                                     onSubmitEditing={this.searchProduct}
                                 />
                             </View>
@@ -83,7 +78,7 @@ export default class Layout extends React.Component {
     renderFilter() {
         const { language, categoriesByMerchant, pathFileInventory } = this.props;
         const { isSelectAll, searchFilter } = this.state;
-        const { category, status } = searchFilter;
+        const { category } = searchFilter;
         const dataProductCategory = getArrayNameCategories(categoriesByMerchant, 'Product');
         dataProductCategory.unshift({ value: '' });
         return (
@@ -169,8 +164,7 @@ export default class Layout extends React.Component {
             listProductsSearch, isShowSearchProduct, refreshListProducts,
             language
         } = this.props;
-        const temptData = isShowSearchProduct ? listProductsSearch : productsByMerchantId;
-        const data = temptData.map((item, index) => {
+        const data = productsByMerchantId.map((item, index) => {
             return {
                 ...item,
                 key: `item-${index}`,
@@ -196,7 +190,7 @@ export default class Layout extends React.Component {
                     keyExtractor={(item, index) => `${item.productId}`}
                     ListEmptyComponent={<RowEmptyTableProducts />}
                     refreshing={refreshListProducts}
-                    onRefresh={() => this.props.actions.product.getProductsByMerchant(false)}
+                    onRefresh={this.onRefreshProductList}
                     scrollPercent={5}
                     onMoveEnd={({ data }) => this.updateProductsPosition(data, isShowSearchProduct)}
                 />
@@ -221,12 +215,12 @@ export default class Layout extends React.Component {
                 }}
             >
                 <View style={styles.containerDropdownExport} >
-                    <Button onPress={this.exportExcel.bind(this,"pdf")} style={{ flex: 1, justifyContent: 'center' }} >
+                    <Button onPress={this.exportExcel.bind(this, "pdf")} style={{ flex: 1, justifyContent: 'center' }} >
                         <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
                             {`Export to PDF`}
-                            </Text>
+                        </Text>
                     </Button>
-                    <Button onPress={this.exportExcel.bind(this,"excel")} style={{ flex: 1, justifyContent: 'center'}} >
+                    <Button onPress={this.exportExcel.bind(this, "excel")} style={{ flex: 1, justifyContent: 'center' }} >
                         <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
 
                             {localize('Export to Excel', language)}
@@ -238,7 +232,7 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { language, categoriesByMerchant, navigation,inventoryTabPermission } = this.props;
+        const { language, categoriesByMerchant, navigation, inventoryTabPermission } = this.props;
         const { visiblePopupDetail, isFocus } = this.state;
         return (
             <ParentContainer

@@ -39,7 +39,7 @@ class PopupAddEditProduct extends React.Component {
             fileId: 0,
             imageUrl: '',
             isSubmitButton: true,
-            isLoadingCheckSKU: false
+            isLoadingCheckSKU: false,
         };
         this.scrollProductRef = React.createRef();
     }
@@ -77,8 +77,8 @@ class PopupAddEditProduct extends React.Component {
                 isDisabled: productInfo.isDisabled === 0 ? 'Active' : 'Disable'
             },
             imageUrl: productInfo.imageUrl,
-            isLoadingCheckSKU: false
-        })
+            isLoadingCheckSKU: false,
+        });
     }
 
     setDefaultStateFromParent = async () => {

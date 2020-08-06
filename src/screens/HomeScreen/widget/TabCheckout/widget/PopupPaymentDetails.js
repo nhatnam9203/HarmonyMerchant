@@ -89,6 +89,9 @@ class PopupPaymentDetails extends React.Component {
                             value={`$ ${paymentDetailInfo.dueAmount ? formatMoney(paymentDetailInfo.dueAmount) : ''}`}
                             isBold={true}
                             subText={""}
+                            style={{
+                                color: "#FF3B30"
+                            }}
                         />
 
                         {/* -----  */}
@@ -120,19 +123,19 @@ class PopupPaymentDetails extends React.Component {
     }
 }
 
-const ItemDetail = ({ title, value, isBold, subText }) => {
+const ItemDetail = ({ title, value, isBold, subText, style }) => {
     const temptWeight = isBold ? "bold" : "500";
     return (
         <View style={{ height: scaleSzie(40), flexDirection: 'row' }} >
             <View style={{ flex: 1, justifyContent: 'center' }} >
-                <Text style={styles.textCommon} >
+                <Text style={[styles.textCommon, style]} >
                     {title}
                 </Text>
             </View>
             <View style={{ flex: 1.1, justifyContent: 'center' }} >
-                <Text style={[styles.textValue, { fontWeight: temptWeight }]} >
+                <Text style={[styles.textValue, { fontWeight: temptWeight }, style]} >
                     {value}
-                    <Text style={[styles.textCommon, { fontWeight: "400" }]} >
+                    <Text style={[styles.textCommon, { fontWeight: "400" }, style]} >
                         {subText}
                     </Text>
                 </Text>

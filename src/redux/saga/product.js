@@ -9,7 +9,7 @@ function* addProductByMerchant(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    //console.log('--- responses : ', responses);
+        //console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -71,7 +71,7 @@ function* archiveProduct(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    //console.log('--- responses : ', responses);
+        //console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -102,7 +102,7 @@ function* restoreProduct(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    //console.log('--- responses : ', responses);
+        //console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -133,14 +133,14 @@ function* editProduct(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    //console.log('--- responses : ', responses);
+        //console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'GET_PRODUCTS_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}product`,
+                api: `${apiConfigs.BASE_API}product/search?name=${action.keySearch}&category=${action.category}`,
                 isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
@@ -165,7 +165,7 @@ function* searchProduct(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-    //console.log('--- responses : ', responses);
+        //console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -193,14 +193,14 @@ function* restockProduct(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    //console.log('--- restockProduct : ', responses);
+        //console.log('--- restockProduct : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'GET_PRODUCTS_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}product`,
+                api: `${apiConfigs.BASE_API}product/search?name=${action.keySearch}&category=${action.category}`,
                 isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
@@ -224,7 +224,7 @@ function* exportInventory(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    // console.log('--- exportInventory : ', responses);
+        // console.log('--- exportInventory : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             const dirs = RNFetchBlob.fs.dirs;
@@ -263,7 +263,7 @@ function* updateProductsPosition(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    //console.log('--- updateProductsPosition : ', responses);
+        //console.log('--- updateProductsPosition : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
         } else if (parseInt(codeNumber) === 401) {
@@ -287,10 +287,10 @@ function* checkSKUIsExist(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    //console.log('--- checkSKUIsExist : ', responses);
+        //console.log('--- checkSKUIsExist : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

@@ -655,13 +655,17 @@ class ItemExtra extends React.Component {
                         onChangeText={value => this.updateExtraInfo('description', value)}
                     />
                 </View>
-                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(0), marginTop: scaleSzie(10) }} >
                     {`Duration*`}
                 </Text>
                 <ItemTime
                     ref={this.durationExtraRef}
-                    title="Minutes*"
+                    title=""
                     value={duration}
+                    style={{
+                        marginBottom:0,
+                        marginTop:0
+                    }}
                 />
                 <View style={{ height: scaleSzie(70), flexDirection: 'row', marginTop: scaleSzie(8) }} >
                     {/* -------------------- Price ----------------- */}
@@ -771,11 +775,11 @@ class ItemTime extends React.Component {
     }
 
     render() {
-        const { title, editable, onFocus } = this.props;
+        const { title, editable, onFocus,style } = this.props;
         const { value } = this.state;
         return (
             <View style={{ flex: 1 }} >
-                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                <Text style={[{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) },style]} >
                     {title}
                 </Text>
                 <View style={{

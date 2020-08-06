@@ -59,23 +59,37 @@ class Layout extends React.Component {
 
     renderButtonConfirm() {
         const { language } = this.props;
-        return (
-            <View style={{
-                flex: 1, justifyContent: "flex-end", alignItems: 'center',
-                paddingBottom: scaleSzie(15)
-            }} >
-                <ButtonCustom
-                    width={scaleSzie(330)}
-                    height={50}
-                    backgroundColor="#0764B0"
-                    title={localize('CONFIRM ', language)}
-                    textColor="#fff"
-                    onPress={this.gotoTabSecondSettle}
-                    style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 6 }}
-                    styleText={{ fontSize: scaleSzie(21), fontWeight: '500' }}
-                />
-            </View>
+        const { discountSettlement, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment,
+        } = this.state;
+
+        const temtpTotal = roundFloatNumber(
+            formatNumberFromCurrency(editPaymentByHarmony) +
+            formatNumberFromCurrency(editPaymentByCreditCard) +
+            formatNumberFromCurrency(editPaymentByCash) +
+            formatNumberFromCurrency(editOtherPayment) +
+            formatNumberFromCurrency(discountSettlement)
         );
+
+        if (temtpTotal > 0) {
+            return (
+                <View style={{
+                    flex: 1, justifyContent: "flex-end", alignItems: 'center',
+                    paddingBottom: scaleSzie(15)
+                }} >
+                    <ButtonCustom
+                        width={scaleSzie(330)}
+                        height={50}
+                        backgroundColor="#0764B0"
+                        title={localize('CONFIRM ', language)}
+                        textColor="#fff"
+                        onPress={this.gotoTabSecondSettle}
+                        style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 6 }}
+                        styleText={{ fontSize: scaleSzie(21), fontWeight: '500' }}
+                    />
+                </View>
+            );
+        }
+        return null;
     }
 
     renderStaffsTable() {
@@ -141,7 +155,7 @@ class Layout extends React.Component {
                     <View style={{ borderColor: "#DDDDDD", borderWidth: 1 }} >
                         <HeaderPaymentsReport />
                         <ItemPaymentsReport
-                            title="Harmony Account"
+                            title="HarmonyPay"
                             backgroundColor="#054071"
                             value={editPaymentByHarmony}
                         />
@@ -212,7 +226,7 @@ class Layout extends React.Component {
                     {`Note`}
                 </Text>
                 <View onPress={() => this.setState({ isShowKeyboard: true })} style={{
-                    height: scaleSzie(55), borderColor: "#DDDDDD", borderWidth: 1, borderRadius: 4, paddingVertical: 5,
+                    height: scaleSzie(54), borderColor: "#DDDDDD", borderWidth: 1, borderRadius: 4, paddingVertical: 5,
                     paddingHorizontal: scaleSzie(10)
                 }} >
                     <TextInput
@@ -232,7 +246,7 @@ class Layout extends React.Component {
         const { settleWaiting, language } = this.props
         return (
             <View style={{ flex: 1, backgroundColor: "#fff" }} >
-                {
+                {/* {
                     _.isEmpty(settleWaiting) || settleWaiting.checkout.length === 0 ?
                         <ScrollView
                             keyboardShouldPersistTaps="always"
@@ -263,20 +277,20 @@ class Layout extends React.Component {
                                 </Text>
                             </View>
                         </ScrollView>
-                        :
+                        : */}
 
-                        <View style={{ flex: 1 }} >
-                            {this.renderLastSettlement()}
-                            {this.renderHeaderStaffList()}
-                            {/* ------------- Two tables ----------  */}
-                            <View style={{ height: scaleSzie(310), flexDirection: "row", paddingHorizontal: scaleSzie(10) }} >
-                                {this.renderStaffsTable()}
-                                <View style={{ width: scaleSzie(10), }} />
-                                {this.renderPaymentMethodsReport()}
-                            </View>
-                            {this.renderButtonConfirm()}
-                        </View>
-                }
+                <View style={{ flex: 1 }} >
+                    {this.renderLastSettlement()}
+                    {this.renderHeaderStaffList()}
+                    {/* ------------- Two tables ----------  */}
+                    <View style={{ height: scaleSzie(310), flexDirection: "row", paddingHorizontal: scaleSzie(10) }} >
+                        {this.renderStaffsTable()}
+                        <View style={{ width: scaleSzie(10), }} />
+                        {this.renderPaymentMethodsReport()}
+                    </View>
+                    {this.renderButtonConfirm()}
+                </View>
+                {/* } */}
 
             </View>
         );

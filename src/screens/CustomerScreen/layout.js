@@ -49,12 +49,7 @@ export default class Layout extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
                                     placeholder={`${localize('Phone Number', language)}/ ${localize('Customer Name', language)}`}
                                     value={keySearch}
-                                    onChangeText={(keySearch) => {
-                                        if (keySearch == '') {
-                                            this.props.actions.customer.clearSearCustomer();
-                                        }
-                                        this.setState({ keySearch })
-                                    }}
+                                    onChangeText={this.onChangeKeySearch}
                                     onSubmitEditing={this.searchCustomer}
                                 />
                             </View>
@@ -109,17 +104,15 @@ export default class Layout extends React.Component {
     }
 
     renderTable() {
-        const { listCustomersByMerchant, listCustomersSearch, isShowSearchCustomer,
-            refreshListCustomer, language
-        } = this.props;
-        const temptData = isShowSearchCustomer ? listCustomersSearch : listCustomersByMerchant;
+        const { listCustomersByMerchant,  refreshListCustomer, language} = this.props;
+
         return (
             <View style={{ flex: 1 }} >
                 <HeaderTableCustomer
                     language={language}
                 />
                 <FlatList
-                    data={temptData}
+                    data={listCustomersByMerchant}
                     renderItem={({ item, index }) => <RowTableCustomer
                         key={index}
                         customer={item}
@@ -129,7 +122,7 @@ export default class Layout extends React.Component {
                     keyExtractor={(item, index) => `${item.customerId}`}
                     ListEmptyComponent={<RowEmptyTableCustomer />}
                     refreshing={refreshListCustomer}
-                    onRefresh={() => this.props.actions.customer.getListCustomersByMerchant(false)}
+                    onRefresh={this.onRefreshCustomer}
                 />
             </View>
         );

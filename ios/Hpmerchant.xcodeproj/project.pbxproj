@@ -87,59 +87,60 @@
 		2342066622DD7C3100E0EA35 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */; };
 		2399DEC122F1A9CF00DBCCFE /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2399DEBD22F1A9C100DBCCFE /* libRNFetchBlob.a */; };
 		23FE295523C77BEF00E95925 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FE295423C77BEF00E95925 /* File.swift */; };
-		3686214C24D81F7A002A2440 /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368620E124D81F79002A2440 /* IndexValueFormatter.swift */; };
-		3686214D24D81F7A002A2440 /* RNCombinedChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368620E324D81F79002A2440 /* RNCombinedChartView.swift */; };
-		3686214E24D81F7A002A2440 /* RNCombinedChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368620E424D81F79002A2440 /* RNCombinedChartManager.swift */; };
-		3686214F24D81F7A002A2440 /* RNCombinedChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 368620E524D81F7A002A2440 /* RNCombinedChartManagerBridge.m */; };
-		3686215024D81F7A002A2440 /* CombinedDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368620E624D81F7A002A2440 /* CombinedDataExtract.swift */; };
-		3686215124D81F7A002A2440 /* RNYAxisChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368620E724D81F7A002A2440 /* RNYAxisChartViewBase.swift */; };
-		3686215224D81F7A002A2440 /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368620E824D81F7A002A2440 /* BalloonMarker.swift */; };
-		3686215324D81F7A002A2440 /* RNBarLineChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368620E924D81F7A002A2440 /* RNBarLineChartViewBase.swift */; };
-		3686215424D81F7A002A2440 /* ChartDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368620EB24D81F7A002A2440 /* ChartDateFormatter.swift */; };
-		3686215524D81F7A002A2440 /* LargeValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368620EC24D81F7A002A2440 /* LargeValueFormatter.swift */; };
-		3686215624D81F7A002A2440 /* FontUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368620EE24D81F7A002A2440 /* FontUtils.swift */; };
-		3686215724D81F7A002A2440 /* EntryToDictionaryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368620EF24D81F7A002A2440 /* EntryToDictionaryUtils.swift */; };
-		3686215824D81F7A002A2440 /* ChartDataSetConfigUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368620F024D81F7A002A2440 /* ChartDataSetConfigUtils.swift */; };
-		3686215924D81F7A002A2440 /* HighlightUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368620F124D81F7A002A2440 /* HighlightUtils.swift */; };
-		3686215A24D81F7A002A2440 /* BridgeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368620F224D81F7A002A2440 /* BridgeUtils.swift */; };
-		3686215B24D81F7A002A2440 /* RNBubbleChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368620F524D81F7A002A2440 /* RNBubbleChartManager.swift */; };
-		3686215C24D81F7A002A2440 /* RNBubbleChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368620F624D81F7A002A2440 /* RNBubbleChartView.swift */; };
-		3686215D24D81F7A002A2440 /* BubbleDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368620F724D81F7A002A2440 /* BubbleDataExtract.swift */; };
-		3686215E24D81F7A002A2440 /* RNBubbleChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 368620F824D81F7A002A2440 /* RNBubbleChartManagerBridge.m */; };
-		3686215F24D81F7A002A2440 /* CustomChartDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368620F924D81F7A002A2440 /* CustomChartDateFormatter.swift */; };
-		3686216024D81F7A002A2440 /* RNBarLineChartBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368620FA24D81F7A002A2440 /* RNBarLineChartBaseManager.swift */; };
-		3686216124D81F7A002A2440 /* RNPieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368620FD24D81F7A002A2440 /* RNPieChartView.swift */; };
-		3686216224D81F7A002A2440 /* RNPieChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 368620FE24D81F7A002A2440 /* RNPieChartManagerBridge.m */; };
-		3686216324D81F7A002A2440 /* PieDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368620FF24D81F7A002A2440 /* PieDataExtract.swift */; };
-		3686216424D81F7A002A2440 /* RNPieChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686210024D81F7A002A2440 /* RNPieChartManager.swift */; };
-		3686216524D81F7A002A2440 /* RNScatterChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686210224D81F7A002A2440 /* RNScatterChartManager.swift */; };
-		3686216624D81F7A002A2440 /* RNScatterChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686210324D81F7A002A2440 /* RNScatterChartView.swift */; };
-		3686216724D81F7A002A2440 /* RNScatterChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3686210424D81F7A002A2440 /* RNScatterChartManagerBridge.m */; };
-		3686216824D81F7A002A2440 /* ScatterDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686210524D81F7A002A2440 /* ScatterDataExtract.swift */; };
-		3686216924D81F7A002A2440 /* RNLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686210724D81F7A002A2440 /* RNLineChartView.swift */; };
-		3686216A24D81F7A002A2440 /* RNLineChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686210824D81F7A002A2440 /* RNLineChartManager.swift */; };
-		3686216B24D81F7A002A2440 /* RNLineChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3686210924D81F7A002A2440 /* RNLineChartManagerBridge.m */; };
-		3686216C24D81F7A002A2440 /* LineDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686210A24D81F7A002A2440 /* LineDataExtract.swift */; };
-		3686216D24D81F7A002A2440 /* CandleDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686210C24D81F7A002A2440 /* CandleDataExtract.swift */; };
-		3686216E24D81F7A002A2440 /* RNCandleStickChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686210D24D81F7A002A2440 /* RNCandleStickChartView.swift */; };
-		3686216F24D81F7A002A2440 /* RNCandleStickChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686210E24D81F7A002A2440 /* RNCandleStickChartManager.swift */; };
-		3686217024D81F7A002A2440 /* RNCandleStickChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3686210F24D81F7A002A2440 /* RNCandleStickChartManagerBridge.m */; };
-		3686217124D81F7A002A2440 /* RNBarChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686211324D81F7A002A2440 /* RNBarChartViewBase.swift */; };
-		3686217224D81F7A002A2440 /* BarDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686211424D81F7A002A2440 /* BarDataExtract.swift */; };
-		3686217324D81F7A002A2440 /* RNHorizontalBarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686211524D81F7A002A2440 /* RNHorizontalBarChartManager.swift */; };
-		3686217424D81F7A002A2440 /* RNBarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686211624D81F7A002A2440 /* RNBarChartManager.swift */; };
-		3686217524D81F7A002A2440 /* RNBarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3686211724D81F7A002A2440 /* RNBarChartManagerBridge.m */; };
-		3686217624D81F7A002A2440 /* RNBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686211824D81F7A002A2440 /* RNBarChartView.swift */; };
-		3686217724D81F7A002A2440 /* RNHorizontalBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686211924D81F7A002A2440 /* RNHorizontalBarChartView.swift */; };
-		3686217824D81F7A002A2440 /* RNHorizontalBarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3686211A24D81F7A002A2440 /* RNHorizontalBarChartManagerBridge.m */; };
-		3686217924D81F7A002A2440 /* RadarDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686211C24D81F7A002A2440 /* RadarDataExtract.swift */; };
-		3686217A24D81F7A002A2440 /* RNRadarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3686211D24D81F7A002A2440 /* RNRadarChartManagerBridge.m */; };
-		3686217B24D81F7A002A2440 /* RNRadarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686211E24D81F7A002A2440 /* RNRadarChartView.swift */; };
-		3686217C24D81F7A002A2440 /* RNRadarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686211F24D81F7A002A2440 /* RNRadarChartManager.swift */; };
-		3686217D24D81F7A002A2440 /* RNChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686212024D81F7A002A2440 /* RNChartViewBase.swift */; };
-		3686217E24D81F7A002A2440 /* ChartGroupHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686212124D81F7A002A2440 /* ChartGroupHolder.swift */; };
-		3686217F24D81F7A002A2440 /* DataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3686212224D81F7A002A2440 /* DataExtract.swift */; };
+		3688490424D1663C00E28996 /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3688489924D1663C00E28996 /* IndexValueFormatter.swift */; };
+		3688490724D1663C00E28996 /* RNCombinedChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3688489B24D1663C00E28996 /* RNCombinedChartView.swift */; };
+		3688490A24D1663C00E28996 /* RNCombinedChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3688489C24D1663C00E28996 /* RNCombinedChartManager.swift */; };
+		3688490D24D1663C00E28996 /* RNCombinedChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3688489D24D1663C00E28996 /* RNCombinedChartManagerBridge.m */; };
+		3688491024D1663C00E28996 /* CombinedDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3688489E24D1663C00E28996 /* CombinedDataExtract.swift */; };
+		3688491324D1663C00E28996 /* RNYAxisChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3688489F24D1663C00E28996 /* RNYAxisChartViewBase.swift */; };
+		3688491624D1663C00E28996 /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848A024D1663C00E28996 /* BalloonMarker.swift */; };
+		3688491924D1663C00E28996 /* RNBarLineChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848A124D1663C00E28996 /* RNBarLineChartViewBase.swift */; };
+		3688491C24D1663C00E28996 /* ChartDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848A324D1663C00E28996 /* ChartDateFormatter.swift */; };
+		3688491F24D1663C00E28996 /* LargeValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848A424D1663C00E28996 /* LargeValueFormatter.swift */; };
+		3688492224D1663C00E28996 /* FontUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848A624D1663C00E28996 /* FontUtils.swift */; };
+		3688492524D1663C00E28996 /* EntryToDictionaryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848A724D1663C00E28996 /* EntryToDictionaryUtils.swift */; };
+		3688492824D1663C00E28996 /* ChartDataSetConfigUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848A824D1663C00E28996 /* ChartDataSetConfigUtils.swift */; };
+		3688492B24D1663C00E28996 /* HighlightUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848A924D1663C00E28996 /* HighlightUtils.swift */; };
+		3688492E24D1663C00E28996 /* BridgeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848AA24D1663C00E28996 /* BridgeUtils.swift */; };
+		3688493124D1663C00E28996 /* RNBubbleChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848AD24D1663C00E28996 /* RNBubbleChartManager.swift */; };
+		3688493424D1663C00E28996 /* RNBubbleChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848AE24D1663C00E28996 /* RNBubbleChartView.swift */; };
+		3688493724D1663C00E28996 /* BubbleDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848AF24D1663C00E28996 /* BubbleDataExtract.swift */; };
+		3688493A24D1663C00E28996 /* RNBubbleChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 368848B024D1663C00E28996 /* RNBubbleChartManagerBridge.m */; };
+		3688493D24D1663C00E28996 /* CustomChartDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848B124D1663C00E28996 /* CustomChartDateFormatter.swift */; };
+		3688494024D1663C00E28996 /* RNBarLineChartBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848B224D1663C00E28996 /* RNBarLineChartBaseManager.swift */; };
+		3688494324D1663C00E28996 /* RNPieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848B524D1663C00E28996 /* RNPieChartView.swift */; };
+		3688494624D1663C00E28996 /* RNPieChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 368848B624D1663C00E28996 /* RNPieChartManagerBridge.m */; };
+		3688494924D1663C00E28996 /* PieDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848B724D1663C00E28996 /* PieDataExtract.swift */; };
+		3688494C24D1663C00E28996 /* RNPieChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848B824D1663C00E28996 /* RNPieChartManager.swift */; };
+		3688494F24D1663D00E28996 /* RNScatterChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848BA24D1663C00E28996 /* RNScatterChartManager.swift */; };
+		3688495224D1663D00E28996 /* RNScatterChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848BB24D1663C00E28996 /* RNScatterChartView.swift */; };
+		3688495524D1663D00E28996 /* RNScatterChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 368848BC24D1663C00E28996 /* RNScatterChartManagerBridge.m */; };
+		3688495824D1663D00E28996 /* ScatterDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848BD24D1663C00E28996 /* ScatterDataExtract.swift */; };
+		3688495B24D1663D00E28996 /* RNLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848BF24D1663C00E28996 /* RNLineChartView.swift */; };
+		3688495E24D1663D00E28996 /* RNLineChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848C024D1663C00E28996 /* RNLineChartManager.swift */; };
+		3688496124D1663D00E28996 /* RNLineChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 368848C124D1663C00E28996 /* RNLineChartManagerBridge.m */; };
+		3688496424D1663D00E28996 /* LineDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848C224D1663C00E28996 /* LineDataExtract.swift */; };
+		3688496724D1663D00E28996 /* CandleDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848C424D1663C00E28996 /* CandleDataExtract.swift */; };
+		3688496A24D1663D00E28996 /* RNCandleStickChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848C524D1663C00E28996 /* RNCandleStickChartView.swift */; };
+		3688496D24D1663D00E28996 /* RNCandleStickChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848C624D1663C00E28996 /* RNCandleStickChartManager.swift */; };
+		3688497024D1663D00E28996 /* RNCandleStickChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 368848C724D1663C00E28996 /* RNCandleStickChartManagerBridge.m */; };
+		3688497324D1663D00E28996 /* RNBarChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848CB24D1663C00E28996 /* RNBarChartViewBase.swift */; };
+		3688497624D1663D00E28996 /* BarDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848CC24D1663C00E28996 /* BarDataExtract.swift */; };
+		3688497924D1663D00E28996 /* RNHorizontalBarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848CD24D1663C00E28996 /* RNHorizontalBarChartManager.swift */; };
+		3688497C24D1663D00E28996 /* RNBarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848CE24D1663C00E28996 /* RNBarChartManager.swift */; };
+		3688497F24D1663D00E28996 /* RNBarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 368848CF24D1663C00E28996 /* RNBarChartManagerBridge.m */; };
+		3688498224D1663D00E28996 /* RNBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848D024D1663C00E28996 /* RNBarChartView.swift */; };
+		3688498524D1663D00E28996 /* RNHorizontalBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848D124D1663C00E28996 /* RNHorizontalBarChartView.swift */; };
+		3688498824D1663D00E28996 /* RNHorizontalBarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 368848D224D1663C00E28996 /* RNHorizontalBarChartManagerBridge.m */; };
+		3688498B24D1663D00E28996 /* RadarDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848D424D1663C00E28996 /* RadarDataExtract.swift */; };
+		3688498E24D1663D00E28996 /* RNRadarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 368848D524D1663C00E28996 /* RNRadarChartManagerBridge.m */; };
+		3688499124D1663D00E28996 /* RNRadarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848D624D1663C00E28996 /* RNRadarChartView.swift */; };
+		3688499424D1663D00E28996 /* RNRadarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848D724D1663C00E28996 /* RNRadarChartManager.swift */; };
+		3688499724D1663D00E28996 /* RNChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848D824D1663C00E28996 /* RNChartViewBase.swift */; };
+		3688499A24D1663D00E28996 /* ChartGroupHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848D924D1663C00E28996 /* ChartGroupHolder.swift */; };
+		3688499D24D1663D00E28996 /* DataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368848DA24D1663C00E28996 /* DataExtract.swift */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		8C59C060D6EA94E3B5ADFA3B /* libPods-Hpmerchant-Hpmerchant_Staging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DEC3923581CC3E42642C025 /* libPods-Hpmerchant-Hpmerchant_Staging.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B02E0E6DAF7F29AA27CDC35A /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		B124B99464A736A80EAE02F8 /* libPods-Hpmerchant-Hpmerchant_Dev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B433C90A07569EE0F1690854 /* libPods-Hpmerchant-Hpmerchant_Dev.a */; };
@@ -634,7 +635,7 @@
 				230F1DCE24D3DA2200A95898 /* libRCTWebSocket.a in Frameworks */,
 				230F1DCF24D3DA2200A95898 /* libRNGestureHandler.a in Frameworks */,
 				230F1DD024D3DA2200A95898 /* libRNImagePicker.a in Frameworks */,
-				C4F0392F21DD81A2E703EBCA /* libPods-Hpmerchant-Hpmerchant_Staing.a in Frameworks */,
+				8C59C060D6EA94E3B5ADFA3B /* libPods-Hpmerchant-Hpmerchant_Staging.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1164,9 +1165,9 @@
 			productReference = 13B07F961A680F5B00A75B9A /* HPMerchant.app */;
 			productType = "com.apple.product-type.application";
 		};
-		230F1DB324D3DA2200A95898 /* Hpmerchant_Staing */ = {
+		230F1DB324D3DA2200A95898 /* Hpmerchant_Staging */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 230F1DD824D3DA2200A95898 /* Build configuration list for PBXNativeTarget "Hpmerchant_Staing" */;
+			buildConfigurationList = 230F1DD824D3DA2200A95898 /* Build configuration list for PBXNativeTarget "Hpmerchant_Staging" */;
 			buildPhases = (
 				230F1DB424D3DA2200A95898 /* [CP] Check Pods Manifest.lock */,
 				230F1DB524D3DA2200A95898 /* Sources */,
@@ -1180,7 +1181,7 @@
 			);
 			dependencies = (
 			);
-			name = Hpmerchant_Staing;
+			name = Hpmerchant_Staging;
 			productName = "Hello World";
 			productReference = 230F1DDB24D3DA2200A95898 /* Staing.app */;
 			productType = "com.apple.product-type.application";
@@ -1308,7 +1309,7 @@
 			targets = (
 				13B07F861A680F5B00A75B9A /* Hpmerchant_Production */,
 				232D64982465060100AA4473 /* Hpmerchant_Dev */,
-				230F1DB324D3DA2200A95898 /* Hpmerchant_Staing */,
+				230F1DB324D3DA2200A95898 /* Hpmerchant_Staging */,
 			);
 		};
 /* End PBXProject section */
@@ -1663,7 +1664,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant-Hpmerchant_Staing-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant-Hpmerchant_Staging-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1707,7 +1708,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Staing/Pods-Hpmerchant-Hpmerchant_Staing-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Staging/Pods-Hpmerchant-Hpmerchant_Staging-resources.sh",
 				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -1716,7 +1717,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Staing/Pods-Hpmerchant-Hpmerchant_Staing-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Staging/Pods-Hpmerchant-Hpmerchant_Staging-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		232D64992465060100AA4473 /* [CP] Check Pods Manifest.lock */ = {
@@ -2059,7 +2060,7 @@
 		};
 		230F1DD924D3DA2200A95898 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9EDABD2BBC0ECF312F738228 /* Pods-Hpmerchant-Hpmerchant_Staing.debug.xcconfig */;
+			baseConfigurationReference = A03F560D2508C962CFF150D2 /* Pods-Hpmerchant-Hpmerchant_Staging.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2092,7 +2093,7 @@
 					"$(PROJECT_DIR)/sdk",
 					"\"$(SRCROOT)/HpMerchant\"",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				OTHER_CFLAGS = "-fembed-bitcode";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2112,7 +2113,7 @@
 		};
 		230F1DDA24D3DA2200A95898 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A014CD9CE1F40D18A8321080 /* Pods-Hpmerchant-Hpmerchant_Staing.release.xcconfig */;
+			baseConfigurationReference = A3869ADE899CC003BC14F362 /* Pods-Hpmerchant-Hpmerchant_Staging.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2144,7 +2145,7 @@
 					"$(PROJECT_DIR)/sdk",
 					"\"$(SRCROOT)/HpMerchant\"",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				OTHER_CFLAGS = "-fembed-bitcode";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2376,7 +2377,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		230F1DD824D3DA2200A95898 /* Build configuration list for PBXNativeTarget "Hpmerchant_Staing" */ = {
+		230F1DD824D3DA2200A95898 /* Build configuration list for PBXNativeTarget "Hpmerchant_Staging" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				230F1DD924D3DA2200A95898 /* Debug */,

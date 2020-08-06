@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'ramda';
-import { Alert } from 'react-native';
+import { Alert, AppState } from 'react-native';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -38,20 +39,36 @@ const initState = {
     visibleChangeStylist: false,
     visibleDiscount: false,
     appointmentIdOffline: 0,
-    visibleChangePriceAmountProduct: false
+    visibleChangePriceAmountProduct: false,
 }
 
 class TabAppointment extends Layout {
 
     constructor(props) {
         super(props);
-        this.state = initState;
+        this.state = {
+            ...initState,
+            appState: AppState.currentState
+        };
         this.webviewRef = React.createRef();
         this.amountRef = React.createRef();
         this.changeStylistRef = React.createRef();
         this.popupEnterPinRef = React.createRef();
         this.changePriceAmountProductRef = React.createRef();
     }
+
+    componentDidMount() {
+        AppState.addEventListener("change", this.handleAppStateChange);
+    }
+
+    handleAppStateChange = nextAppState => {
+        if (this.state.appState.match(/inactive|background/) && nextAppState === "active") {
+            this.webviewRef.current.postMessage(JSON.stringify({
+                action: 'resetWeb',
+            }))
+        }
+        this.setState({ appState: nextAppState });
+    };
 
     reloadWebviewFromParent = () => {
         this.webviewRef.current.postMessage(JSON.stringify({
@@ -80,11 +97,21 @@ class TabAppointment extends Layout {
 
     }
 
+    handleNewAppointmentNotification = () => {
+        const details = {
+            alertBody: "You have a new appointment!",
+            alertAction: "view",
+            alertTitle: "You have a new appointment!",
+        };
+        PushNotificationIOS.presentLocalNotification(details);
+
+    }
+
     onMessageFromWebview = async (event) => {
         try {
             if (event.nativeEvent && event.nativeEvent.data) {
                 const data = JSON.parse(event.nativeEvent.data);
-                // console.log('data : ', JSON.stringify(data));
+                console.log('data : ', JSON.stringify(data));
                 if (validateIsNumber(data) && data < -150) {
                     this.onLoadStartWebview();
                 } else {
@@ -99,7 +126,9 @@ class TabAppointment extends Layout {
                         this.props.bookAppointment(appointmentId);
                     } else if (action === 'addGroupAnyStaff') {
                         // console.log('data : ', JSON.stringify(data));
-                        this.props.createABlockAppointment(appointmentId,data.dataAnyStaff && data.dataAnyStaff.fromTime ? data.dataAnyStaff.fromTime : new Date());
+                        this.props.createABlockAppointment(appointmentId, data.dataAnyStaff && data.dataAnyStaff.fromTime ? data.dataAnyStaff.fromTime : new Date());
+                    } else if (action === 'push_notification' && data.isNotification) {
+                        this.handleNewAppointmentNotification()
                     }
                 }
             }
@@ -395,7 +424,10 @@ class TabAppointment extends Layout {
             this.reloadWebviewFromParent();
             this.props.actions.app.resetStateReloadWebView();
         }
+    }
 
+    componentWillUnmount() {
+        AppState.removeEventListener("change", this.handleAppStateChange);
     }
 
 }

@@ -1,10 +1,10 @@
 import apiConfigs from '../../configs/api';
 
-export function getListCustomersByMerchant(isShowLoading = true) {
+export function getListCustomersByMerchant(key= "", isShowLoading = true) {
     return {
         type: 'GET_LIST_CUSTOMER_BY_MERCHANT',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}customer/bymerchant`,
+        api: `${apiConfigs.BASE_API}customer/search?key=${key}`,
         token: true,
         isShowLoading
     }
@@ -36,13 +36,14 @@ export function addCustomer(body) {
     }
 }
 
-export function editCustomer(id, body) {
+export function editCustomer(id, body,keySearch= "") {
     return {
         type: 'EDIT_CUSTOMER',
         method: 'PUT',
         body,
         api: `${apiConfigs.BASE_API}customer/${id}`,
-        token: true
+        token: true,
+        keySearch
     }
 }
 
