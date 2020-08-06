@@ -1,63 +1,176 @@
 import React, {
-  useRef,
-  useImperativeHandle,
-  forwardRef,
-  useState,
-  useCallback,
   useEffect,
+  useState,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
 } from "react";
-import { View, Platform } from "react-native";
-
-import RNFetchBlob from "rn-fetch-blob";
+import { View, StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import ScrollableTabView from "react-native-scrollable-tab-view";
 
-import { PopupCalendar } from "@components";
 import actions from "@actions";
-import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
 
-import { ReportTabLayout } from "../../widget";
-
+import { ReportLayout } from "../../widget";
 import GiftCardReportTab from "./GiftCardReportTab";
 import GiftCardStatistic from "./GiftCardStatistic";
 
-export default function GiftCardTab({ style }) {
+function GiftCardTab({ style, showBackButton }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
+
+  const marketingEfficiencyList = useSelector(
+    (state) => state.report.marketingEfficiencyList
+  );
+
+  const meExportFilePath = useSelector(
+    (state) => state.report.meExportFilePath
+  );
+
+  const meStatisticExportFilePath = useSelector(
+    (state) => state.report.meStatisticExportFilePath
+  );
+
   /**state */
-  const [isShowCalendar, showCalendar] = useState(false);
-  const [titleTimeRange, setTitleTimeRange] = useState("This Week");
+  const [titleRangeTime, setTitleRangeTime] = useState("This week");
+  const [filterNameItem, setFilterNameItem] = useState(undefined);
+  const [filterNames, setFilterNames] = useState([]);
 
-  /**func */
-  const onTimeRangeChanged = async (titleTime, urlTime) => {
-    if (setTitleTimeRange && titleTime !== titleTimeRange) {
-      await setTitleTimeRange(titleTime);
-      await setUrlTimeRange(urlTime);
-    }
+  /**ref */
+  const layoutRef = useRef(null);
 
-
-    showCalendar(false);
+  /**function */
+  const getMarketingEfficiencyMethod = async () => {
+    await dispatch(
+      actions.report.getOverallMarketingEfficiency(
+        true,
+        layoutRef?.current?.getTimeUrl()
+      )
+    );
   };
-  /**func */
+
+  const showCalendar = (isShow) => {
+    layoutRef?.current?.showCalendar(isShow);
+  };
+
+  //callback
+  const onChangeTimeTitle = async (titmeTitle) => {
+    await setTitleRangeTime(titmeTitle);
+    // TODO: call reload list
+    await getMarketingEfficiencyMethod();
+  };
+
+  const onChangeFilterNames = (names) => {
+    setFilterNames(names);
+  };
+
+  const onChangeFilterId = async (filterId) => {
+    await setFilterNameItem(filterId);
+  };
+
+  const onGoStatistics = async (item) => {
+    await setFilterNameItem(item.name);
+    layoutRef.current.goNext();
+  };
+
+  const onShowPopupExport = (title) => {
+    layoutRef?.current?.showPopupExport(title);
+  };
+
+  const onRequestExportFileToServer = (currentTab, titleExportFile) => {
+    switch (currentTab) {
+      case 0:
+        dispatch(
+          actions.report.exportMarketingEfficiency(
+            layoutRef?.current?.getTimeUrl(),
+            true,
+            "excel",
+            titleExportFile
+          )
+        );
+        break;
+      case 1:
+        const promotion = marketingEfficiencyList.find(
+          (item) => item.name === filterNameItem
+        );
+        if (!promotion) return;
+        dispatch(
+          actions.report.exportMarketingEfficiencyStatistics(
+            promotion.promotionId,
+            layoutRef?.current?.getTimeUrl(),
+            true,
+            "excel",
+            titleExportFile
+          )
+        );
+        break;
+      default:
+        break;
+    }
+  };
+
+  const onHandleTheDownloadedFile = (filePath) => {
+    layoutRef.current.handleTheDownloadedFile(filePath);
+  };
+
+  // public function
+  useImperativeHandle(ref, () => ({
+    goBack: () => {
+      layoutRef.current.goBack();
+    },
+    didBlur: () => {
+      setTitleRangeTime("This week");
+    },
+    didFocus: () => {
+      // console.log("====> screen report -> staff didFocus");
+    },
+  }));
+
+  /**effect */
+  useEffect(() => {
+    getMarketingEfficiencyMethod();
+  }, []);
 
   return (
-    <View style={style}>
-      <ReportTabLayout
-        onCalendarClose={onTimeRangeChanged}
-        showCalendar={isShowCalendar}
+    <View style={[styles.container, style]}>
+      <ReportLayout
+        ref={layoutRef}
+        style={style}
+        showBackButton={showBackButton}
+        onChangeTimeTitle={onChangeTimeTitle}
+        onRequestExportFileToServer={onRequestExportFileToServer}
       >
         <GiftCardReportTab
           style={{ flex: 1, paddingTop: 10 }}
+          tabLabel="Gift Card"
+          onGoStatistics={onGoStatistics}
           showCalendar={() => showCalendar(true)}
-          titleRangeTime={titleTimeRange}
+          titleRangeTime={titleRangeTime}
+          onChangeFilterNames={onChangeFilterNames}
+          showExportFile={() => onShowPopupExport("Gift Card ")}
+          pathFileExport={meExportFilePath}
+          handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
         <GiftCardStatistic
           style={{ flex: 1, paddingTop: 10 }}
+          tabLabel="Gift Card Statistics"
+          title="Gift Card Statistics"
+          titleRangeTime={titleRangeTime}
           showCalendar={() => showCalendar(true)}
-          titleRangeTime={titleTimeRange}
+          dataFilters={filterNames}
+          filterId={filterNameItem}
+          onChangeFilter={onChangeFilterId}
+          showExportFile={() => onShowPopupExport("Gift Card Statistic ")}
+          pathFileExport={meStatisticExportFilePath}
+          handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
-      </ReportTabLayout>
+      </ReportLayout>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {},
+});
+
+export default GiftCardTab = forwardRef(GiftCardTab);

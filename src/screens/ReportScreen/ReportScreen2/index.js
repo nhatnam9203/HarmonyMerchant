@@ -25,6 +25,7 @@ function ReportScreen2({ showBackButton }, ref) {
 
   /**refs */
   const staffRef = useRef(null);
+  const giftCardRef = useRef(null);
   const overallRef = useRef(null);
 
   /**public function  */
@@ -33,6 +34,9 @@ function ReportScreen2({ showBackButton }, ref) {
       switch (tabIndex) {
         case 0:
           staffRef.current.goBack();
+          break;
+        case 1:
+          giftCardRef.current.goBack();
           break;
         case 5:
           overallRef.current.goBack();
@@ -61,6 +65,7 @@ function ReportScreen2({ showBackButton }, ref) {
 
   const onTabChange = (taIndex) => {
     staffRef?.current?.goBack();
+    giftCardRef?.current?.goBack();
     overallRef?.current?.goBack();
 
     setTabIndex(taIndex);
@@ -76,10 +81,10 @@ function ReportScreen2({ showBackButton }, ref) {
       <HeaderTabLayout
         tabIcons={[
           IMAGE.Staff,
-          // IMAGE.giftcard,
-          // IMAGE.Customer,
-          // IMAGE.Services,
-          // IMAGE.Report_Product,
+          IMAGE.giftcard,
+          IMAGE.Customer,
+          IMAGE.Services,
+          IMAGE.Report_Product,
           IMAGE.Report_Overall,
         ]}
         onHeaderTabChanged={onTabChange}
@@ -90,9 +95,10 @@ function ReportScreen2({ showBackButton }, ref) {
           ref={staffRef}
           showBackButton={onShowBackButton}
         />
-        {/* <GiftCardTab
+        <GiftCardTab
           style={styles.content}
           tabLabel="Gift card"
+          red={giftCardRef}
           showBackButton={onShowBackButton}
         />
         <CustomerTab
@@ -109,7 +115,7 @@ function ReportScreen2({ showBackButton }, ref) {
           style={styles.content}
           tabLabel="Product"
           showBackButton={onShowBackButton}
-        /> */}
+        />
         <OverallTab
           ref={overallRef}
           style={styles.content}
