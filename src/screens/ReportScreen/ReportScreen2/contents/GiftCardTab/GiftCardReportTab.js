@@ -9,6 +9,7 @@ import { localize, formatNumberFromCurrency, scaleSzie } from "@utils";
 import actions from "@actions";
 
 import { PopupButton, TableList, ReportTabLayout } from "../../widget";
+import GiftCardBarGroupChart from "./GiftCardBarGroupChart";
 
 const VIEW_MODE = {
   LIST: "LIST",
@@ -195,7 +196,9 @@ export default function GiftCardReportTab({
               flexDirection: "row",
               margin: 20,
             }}
-          ></View>
+          >
+            <GiftCardBarGroupChart data={chartData} />
+          </View>
         )}
       </ReportTabLayout>
     </View>
