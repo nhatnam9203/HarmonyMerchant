@@ -29,7 +29,7 @@ export default function GiftCardStatistic(props, ref) {
     const item = giftCardReportList.find((item) => item.type === filterId);
 
     setTable({
-      tableData: item.statistics,
+      tableData: item?.giftCardStatistics || [],
       tableHead: {
         dateString: localize("Date", language),
         quantity: localize("Qty Sold", language),

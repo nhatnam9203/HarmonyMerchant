@@ -98,7 +98,7 @@ function ReportScreen2({ showBackButton }, ref) {
         <GiftCardTab
           style={styles.content}
           tabLabel="Gift card"
-          red={giftCardRef}
+          ref={giftCardRef}
           showBackButton={onShowBackButton}
         />
         <CustomerTab

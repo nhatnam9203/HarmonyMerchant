@@ -170,7 +170,7 @@ export default function GiftCardReportTab({
           <TableList
             tableData={filterDataTable()}
             tableHead={{
-              name: localize("Type", language),
+              type: localize("Type", language),
               quantity: localize("Qty Sold", language),
               sales: localize("Net Sales", language),
             }}

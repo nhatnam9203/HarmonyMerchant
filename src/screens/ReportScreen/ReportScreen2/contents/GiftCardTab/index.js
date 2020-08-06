@@ -19,10 +19,6 @@ function GiftCardTab({ style, showBackButton }, ref) {
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const giftCardReportList = useSelector(
-    (state) => state.report.giftCardReportList
-  );
-
   const meExportFilePath = useSelector(
     (state) => state.report.meExportFilePath
   );
@@ -69,7 +65,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
   };
 
   const onGoStatistics = async (item) => {
-    await setFilterNameItem(item.name);
+    await setFilterNameItem(item.type);
     layoutRef.current.goNext();
   };
 
