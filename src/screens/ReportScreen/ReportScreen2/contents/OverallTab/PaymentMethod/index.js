@@ -205,6 +205,7 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
   }, []);
 
   useEffect(() => {
+    console.log(`==============> isDownloadReport : ${isDownloadReport}`);
     setVisiblePopupLoadingExport(isDownloadReport);
   }, [isDownloadReport]);
 

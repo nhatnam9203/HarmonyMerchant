@@ -156,7 +156,7 @@ export default function PaymentMethod({
               />
             )}
 
-            {!!pathFileReport && (
+            {!!pathFileReport && viewMode === VIEW_MODE.LIST && (
               <PopupButton
                 onPress={() => handleTheDownloadedFile(pathFileReport)}
                 style={{ backgroundColor: "rgb(235,93,57)", marginLeft: 20 }}

@@ -60,6 +60,7 @@ function ReportTabLayout({
   children,
   rightTooltip,
   isShowExportButton,
+  isShowFilterButton,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -88,7 +89,7 @@ function ReportTabLayout({
               />
             )}
 
-            {!!pathFileExport && (
+            {!!pathFileExport && isShowExportButton && (
               <PopupButton
                 onPress={() => handleTheDownloadedFile(pathFileExport)}
                 style={{ backgroundColor: "rgb(235,93,57)", marginLeft: 20 }}
@@ -110,7 +111,7 @@ function ReportTabLayout({
           style={{ marginRight: 20 }}
         />
 
-        <View style={{ width: 160, height: 45 }}>
+        {isShowFilterButton && (
           <Dropdown
             rippleCentered={true}
             dropdownPosition={2}
@@ -123,7 +124,7 @@ function ReportTabLayout({
               />
             )}
           />
-        </View>
+        )}
       </HeaderTooltip>
 
       <View style={{ flex: 1 }}>{children && children}</View>

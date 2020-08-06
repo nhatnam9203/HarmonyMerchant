@@ -60,7 +60,7 @@ export default function MarketingEfficiency({
     //   "method",
     //   "netPayment"
     // );
-    await setChartData([]);
+    await setChartData(marketingEfficiencyList);
   };
 
   // create filter name data
@@ -133,7 +133,8 @@ export default function MarketingEfficiency({
       <ReportTabLayout
         style={styles.container}
         onChangeFilterName={onChangeFilterName}
-        isShowExportButton={true}
+        isShowExportButton={viewMode === VIEW_MODE.LIST}
+        isShowFilterButton={viewMode === VIEW_MODE.LIST}
         filterNames={filterNames}
         filterNameItem={filterNameItem}
         showCalendar={showCalendar}
@@ -187,14 +188,89 @@ export default function MarketingEfficiency({
             renderActionCell={renderActionCell}
           />
         ) : (
-          <View style={{ flex: 1, flexDirection: "row", margin: 20 }}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              margin: 20,
+            }}
+          >
             <MarketingBarGroupChart data={chartData} />
+            <View style={{ flex: 1, paddingVertical: 20 }}>
+              <View
+                style={{
+                  height: 60,
+                  width: "100%",
+                  justifyContent: "center",
+                  alignItems: "flex-start",
+                  flexDirection: "row",
+                }}
+              >
+                <LegendChart color="#80C6FF" label="Revenue" />
+                <LegendChart color="#E5B960" label="Discount" />
+              </View>
+              <View style={styles.chartDetail}>
+                {marketingEfficiencyList &&
+                  marketingEfficiencyList.map((item) => (
+                    <DetailChart label={item.promotionId} desc={item.name} />
+                  ))}
+              </View>
+            </View>
           </View>
         )}
       </ReportTabLayout>
     </View>
   );
 }
+
+const DetailChart = ({ label = "1", desc = "..." }) => (
+  <View style={styles.chartDetailItem}>
+    <View
+      style={{
+        padding: 5,
+        width: 30,
+        height: 30,
+        justifyContent: "center",
+        alignItems: "center",
+        marginRight: 10,
+        borderRadius: 15,
+        backgroundColor: "transparent",
+      }}
+    >
+      <Text
+        style={{
+          fontSize: 20,
+          color: "#0764B0",
+          fontWeight: "bold",
+        }}
+      >
+        {label}
+      </Text>
+    </View>
+    <Text style={{ fontSize: 15, flex: 1, color: "#404040" }}>{desc}</Text>
+  </View>
+);
+
+const LegendChart = ({ color, label }) => (
+  <View style={styles.chartDetailItem}>
+    <View
+      style={{
+        width: 30,
+        height: 30,
+        backgroundColor: color,
+        marginRight: 20,
+      }}
+    />
+    <Text
+      style={{
+        fontSize: 15,
+        color: "#404040",
+      }}
+    >
+      {label}
+    </Text>
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
@@ -221,6 +297,18 @@ const styles = StyleSheet.create({
     width: 35,
     marginLeft: 4,
     justifyContent: "center",
+    alignItems: "center",
+  },
+  chartDetail: {
+    justifyContent: "center",
+    alignItems: "flex-start",
+    flex: 1,
+  },
+  chartDetailItem: {
+    flexDirection: "row",
+    margin: 10,
+    paddingLeft: 20,
+    justifyContent: "flex-start",
     alignItems: "center",
   },
 });

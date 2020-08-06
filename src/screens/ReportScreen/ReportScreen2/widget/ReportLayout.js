@@ -26,7 +26,6 @@ function ReportLayout(
   {
     style,
     showBackButton,
-    isDownloadReport,
     children,
     onChangeTimeTitle,
     onRequestExportFileToServer,
@@ -177,11 +176,6 @@ function ReportLayout(
   };
 
   /**effect */
-
-  useEffect(() => {
-    setVisiblePopupLoadingExport(isDownloadReport);
-  }, [isDownloadReport]);
-
   /**render */
   return (
     <View style={style}>

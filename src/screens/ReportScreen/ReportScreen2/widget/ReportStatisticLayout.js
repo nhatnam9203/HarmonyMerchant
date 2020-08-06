@@ -95,19 +95,17 @@ export default function ReportStatisticLayout({
           onPress={showCalendar}
           style={{ marginRight: 20 }}
         />
-        <View style={{ width: 160, height: 45 }}>
-          <Dropdown
-            data={dataFilters}
-            onChangeText={(text) => onChangeFilter(text)}
-            dropdownPosition={2}
-            renderBase={() => (
-              <PopupButton
-                text={filterId}
-                imageSrc={IMAGE.Report_Dropdown_Arrow}
-              />
-            )}
-          />
-        </View>
+        <Dropdown
+          data={dataFilters}
+          onChangeText={(text) => onChangeFilter(text)}
+          dropdownPosition={2}
+          renderBase={() => (
+            <PopupButton
+              text={filterId}
+              imageSrc={IMAGE.Report_Dropdown_Arrow}
+            />
+          )}
+        />
       </HeaderTooltip>
 
       <View style={{ flex: 1 }}>
