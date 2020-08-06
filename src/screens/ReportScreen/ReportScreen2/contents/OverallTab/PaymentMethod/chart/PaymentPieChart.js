@@ -126,7 +126,7 @@ export default function PaymentBarChart({ data }) {
       //   this.setState({ ...this.state, selectedEntry: JSON.stringify(entry) });
     }
 
-    console.log(event.nativeEvent);
+    // console.log(event.nativeEvent);
   }
 
   return (
@@ -158,7 +158,9 @@ export default function PaymentBarChart({ data }) {
           transparentCircleColor={processColor("#f0f0f088")}
           maxAngle={360}
           onSelect={handleSelect}
-          onChange={(event) => console.log(event.nativeEvent)}
+          onChange={(event) => {
+            // console.log(event.nativeEvent)
+          }}
         />
       )}
     </View>

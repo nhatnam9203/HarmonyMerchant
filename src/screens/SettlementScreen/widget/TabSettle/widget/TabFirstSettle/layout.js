@@ -225,7 +225,7 @@ class Layout extends React.Component {
                 }]} >
                     {`Note`}
                 </Text>
-                <View onPress={() => this.setState({ isShowKeyboard: true })} style={{
+                <View  style={{
                     height: scaleSzie(54), borderColor: "#DDDDDD", borderWidth: 1, borderRadius: 4, paddingVertical: 5,
                     paddingHorizontal: scaleSzie(10)
                 }} >
