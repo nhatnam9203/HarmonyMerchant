@@ -62,6 +62,23 @@ function* getGroupAppointmentById(action) {
                         dueAmount: data && data.dueAmount ? data.dueAmount : 0
                     }
                 });
+
+                 // ------------ CHECKOUT_SUBMIT CREDIT CARD ---------
+                if (action.isCheckoutSubmit) {
+                    yield put({
+                        type: 'CHECKOUT_SUBMIT',
+                        body: {},
+                        method: 'PUT',
+                        token: true,
+                        api: `${apiConfigs.BASE_API}checkout/submit/${action.checkoutPaymentId}`,
+                        paymentMethod: action.paymentMethod,
+                        amount: action.amount
+                    });
+                    return;
+                }
+
+
+
                 // ------------ Update Customer Buy Appointment ---------
                 if (!action.isNotUpdateCustomerBuyInRedux) {
                     const mainAppointmentId = data.mainAppointmentId ? data.mainAppointmentId : false;
@@ -115,9 +132,6 @@ function* getGroupAppointmentById(action) {
         }
     } catch (error) {
         yield put({ type: 'STOP_LOADING_ROOT' });
-        // setTimeout(() =>{
-        //     alert(`error-getGroupAppointmentById: ${error}`)
-        // },2000);
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -461,15 +475,29 @@ function* submitPaymentWithCreditCard(action) {
         //console.log('submitPaymentWithCreditCard : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            // ------- Get Group Appointment --------
+            const state = yield select();
+            const { groupAppointment } = state.appointment;
+            const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
             yield put({
-                type: 'CHECKOUT_SUBMIT',
-                body: {},
-                method: 'PUT',
+                type: 'GET_GROUP_APPOINTMENT_BY_ID',
+                method: 'GET',
+                api: `${apiConfigs.BASE_API}appointment/getGroupById/${mainAppointmentId}`,
                 token: true,
-                api: `${apiConfigs.BASE_API}checkout/submit/${action.checkoutPaymentId}`,
+                isCheckoutSubmit: true,
+                checkoutPaymentId: action.checkoutPaymentId,
                 paymentMethod: action.paymentMethod,
                 amount: action.amount
-            });
+            })
+            // yield put({
+            //     type: 'CHECKOUT_SUBMIT',
+            //     body: {},
+            //     method: 'PUT',
+            //     token: true,
+            //     api: `${apiConfigs.BASE_API}checkout/submit/${action.checkoutPaymentId}`,
+            //     paymentMethod: action.paymentMethod,
+            //     amount: action.amount
+            // });
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
@@ -796,9 +824,9 @@ function* getBlockAppointmentById(action) {
                     phone: data.phoneNumber ? data.phoneNumber : "",
                 }
             });
-            if(action.isGetBookingGroupId){
+            if (action.isGetBookingGroupId) {
                 yield put({
-                    type : "UPDATE_BOOKING_GROUP_ID",
+                    type: "UPDATE_BOOKING_GROUP_ID",
                     payload: data.bookingGroupId ? data.bookingGroupId : 0
                 })
             }

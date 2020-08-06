@@ -582,7 +582,6 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     profileStaffLogin: state.dataLocal.profileStaffLogin,
     profile: state.dataLocal.profile,
-    groupAppointment: state.appointment.groupAppointment,
     paymentDetailInfo: state.appointment.paymentDetailInfo
 });
 
