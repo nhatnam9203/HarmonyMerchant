@@ -6,7 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "build:ios": "react-native bundle --entry-file='./index.js' --bundle-output='./ios/Hpmerchant/main.jsbundle' --dev=false --platform='ios'",
-    "codepush:ios:staging": "code-push release-react HpMerchant-IOS ios -d \"Staging\" -k private.pem -m --plistFile ./ios/staging.plist --description \"Fix search inventory\" -t \"1.0.3\"",
+    "codepush:ios:staging": "code-push release-react HpMerchant-IOS ios -d \"Staging\" -k private.pem -m --plistFile ./ios/staging.plist --description \"Fix customer search\" -t \"1.0.3\"",
     "codepush:ios:product": "code-push release-react HpMerchant-IOS ios -d \"Production\" -k private.pem -m --plistFile ./ios/Hpmerchant/Info.plist --description \"fix in settlement tab \" -t \"1.0.8\" ",
     "nho_check_endpoint": "------Important-----"
   },
@@ -15,6 +15,7 @@
     "@react-native-community/async-storage": "^1.6.2",
     "@react-native-community/datetimepicker": "^2.0.0",
     "@react-native-community/netinfo": "^5.3.2",
+    "@react-native-community/push-notification-ios": "^1.4.0",
     "axios": "^0.19.0",
     "flatted": "^2.0.1",
     "install": "^0.13.0",

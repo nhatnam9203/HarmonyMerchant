@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import Swipeout from 'react-native-swipeout'
 
-import { scaleSzie, getTotalProductByQuantity } from '@utils';
+import { scaleSzie, getTotalProductByQuantity ,formatMoney} from '@utils';
 import { Text, Button } from '@components';
 import IMAGE from '@resources';
 
