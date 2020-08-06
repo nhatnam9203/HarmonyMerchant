@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'ramda';
 import { Alert, AppState } from 'react-native';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -96,6 +97,16 @@ class TabAppointment extends Layout {
 
     }
 
+    handleNewAppointmentNotification = () => {
+        const details = {
+            alertBody: "You have a new appointment!",
+            alertAction: "view",
+            alertTitle: "You have a new appointment!",
+        };
+        PushNotificationIOS.presentLocalNotification(details);
+
+    }
+
     onMessageFromWebview = async (event) => {
         try {
             if (event.nativeEvent && event.nativeEvent.data) {
@@ -116,6 +127,8 @@ class TabAppointment extends Layout {
                     } else if (action === 'addGroupAnyStaff') {
                         // console.log('data : ', JSON.stringify(data));
                         this.props.createABlockAppointment(appointmentId, data.dataAnyStaff && data.dataAnyStaff.fromTime ? data.dataAnyStaff.fromTime : new Date());
+                    } else if (action === 'push_notification' && data.isNotification) {
+                        this.handleNewAppointmentNotification()
                     }
                 }
             }
