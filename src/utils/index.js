@@ -773,7 +773,6 @@ export const formatWithMoment = (data, key) => {
 export const checkStatusPrint = async () => {
     try {
         const printer = await PrintManager.getInstance().portDiscovery();
-        alert("printer: ", JSON.stringify(printer))
         if (printer.length > 0) {
             let portName = false;
             for (let i = 0; i < printer.length; i++) {

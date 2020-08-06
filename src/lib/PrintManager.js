@@ -16,10 +16,10 @@ export default class PrintManager {
 
     portDiscovery() {
         return Promise.race([
-            StarPRNT.portDiscovery('LAN'),
-            // new Promise((_, reject) =>
-            //     setTimeout(() => reject('BlueToothTimeOut'), 50000)
-            // )
+            StarPRNT.portDiscovery('Bluetooth'),
+            new Promise((_, reject) =>
+                setTimeout(() => reject('BlueToothTimeOut'), 10000)
+            )
         ])
     }
 
