@@ -19,8 +19,8 @@ function GiftCardTab({ style, showBackButton }, ref) {
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const marketingEfficiencyList = useSelector(
-    (state) => state.report.marketingEfficiencyList
+  const giftCardReportList = useSelector(
+    (state) => state.report.giftCardReportList
   );
 
   const meExportFilePath = useSelector(
@@ -40,9 +40,9 @@ function GiftCardTab({ style, showBackButton }, ref) {
   const layoutRef = useRef(null);
 
   /**function */
-  const getMarketingEfficiencyMethod = async () => {
+  const getGiftCardReportSales = async () => {
     await dispatch(
-      actions.report.getOverallMarketingEfficiency(
+      actions.report.getGiftCardReportSales(
         true,
         layoutRef?.current?.getTimeUrl()
       )
@@ -57,7 +57,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
   const onChangeTimeTitle = async (titmeTitle) => {
     await setTitleRangeTime(titmeTitle);
     // TODO: call reload list
-    await getMarketingEfficiencyMethod();
+    await getGiftCardReportSales();
   };
 
   const onChangeFilterNames = (names) => {
@@ -128,7 +128,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
 
   /**effect */
   useEffect(() => {
-    getMarketingEfficiencyMethod();
+    getGiftCardReportSales();
   }, []);
 
   return (

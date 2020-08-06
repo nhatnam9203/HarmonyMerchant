@@ -15,33 +15,34 @@ export default function GiftCardStatistic(props, ref) {
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const marketingEfficiencyList = useSelector(
-    (state) => state.report.marketingEfficiencyList
+  const giftCardReportList = useSelector(
+    (state) => state.report.giftCardReportList
   );
+
   /**state */
   const [table, setTable] = useState({});
 
   /**process */
 
   /**useEffect */
-  // useEffect(() => {
-  //   const item = marketingEfficiencyList.find((item) => item.name === filterId);
+  useEffect(() => {
+    const item = giftCardReportList.find((item) => item.type === filterId);
 
-  //   setTable({
-  //     tableData: item.statistics,
-  //     tableHead: {
-  //       dateString: localize("Date", language),
-  //       revenue: localize("Revenue", language),
-  //       discount: localize("Discount", language),
-  //     },
-  //     whiteKeys: ["dateString", "revenue", "discount"],
-  //     primaryId: "date",
-  //     calcSumKeys: ["revenue", "discount"],
-  //     sumTotalKey: "dateString",
-  //     priceKeys: ["revenue", "discount"],
-  //     tableCellWidth: { date: 180 },
-  //   });
-  // }, [filterId, marketingEfficiencyList]);
+    setTable({
+      tableData: item.statistics,
+      tableHead: {
+        dateString: localize("Date", language),
+        quantity: localize("Qty Sold", language),
+        sales: localize("Net Sales", language),
+      },
+      whiteKeys: ["dateString", "quantity", "sales"],
+      primaryId: "date",
+      calcSumKeys: ["quantity", "sales"],
+      sumTotalKey: "dateString",
+      priceKeys: ["sales"],
+      tableCellWidth: { date: 180 },
+    });
+  }, [filterId, giftCardReportList]);
 
   /**render */
 

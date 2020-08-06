@@ -13,6 +13,7 @@ const initialState = {
   marketingEfficiencyList: [],
   meExportFilePath: null,
   meStatisticExportFilePath: null,
+  giftCardReportList: [],
 };
 
 function appReducer(state = initialState, action) {
@@ -72,6 +73,11 @@ function appReducer(state = initialState, action) {
       return {
         ...state,
         marketingEfficiencyList: action.payload,
+      };
+    case ACTION_TYPES.GiftCard_GetListSuccess:
+      return {
+        ...state,
+        giftCardReportList: action.payload,
       };
     default:
       return state;

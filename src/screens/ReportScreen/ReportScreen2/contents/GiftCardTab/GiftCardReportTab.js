@@ -32,8 +32,9 @@ export default function GiftCardReportTab({
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
-  const marketingEfficiencyList = useSelector(
-    (state) => state.report.marketingEfficiencyList
+
+  const giftCardReportList = useSelector(
+    (state) => state.report.giftCardReportList
   );
 
   /**state */
@@ -52,24 +53,24 @@ export default function GiftCardReportTab({
   const viewModeChart = () => changeViewMode(VIEW_MODE.CHART);
 
   const bindChartData = async () => {
-    if (!marketingEfficiencyList) return [];
+    if (!giftCardReportList) return [];
     // console.log(overallPaymentMethodList);
     // const data = createChartObjectFromValues(
     //   marketingEfficiencyList,
     //   "method",
     //   "netPayment"
     // );
-    await setChartData(marketingEfficiencyList);
+    await setChartData(giftCardReportList);
   };
 
   // create filter name data
   const bindFilterName = () => {
-    if (!marketingEfficiencyList) return [];
+    if (!giftCardReportList) return [];
 
     let array = [];
 
-    const arrMap = marketingEfficiencyList.map((item) => ({
-      value: item.name,
+    const arrMap = giftCardReportList.map((item) => ({
+      value: item.type,
       ...item,
     }));
     array.push(...arrMap);
@@ -84,8 +85,8 @@ export default function GiftCardReportTab({
   // binding data list for name filter
   const filterDataTable = () => {
     return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
-      ? marketingEfficiencyList.filter((item) => item.name === filterNameItem)
-      : marketingEfficiencyList;
+      ? giftCardReportList.filter((item) => item.type === filterNameItem)
+      : giftCardReportList;
   };
 
   // callback
@@ -107,7 +108,7 @@ export default function GiftCardReportTab({
   useEffect(() => {
     bindChartData();
     bindFilterName();
-  }, [marketingEfficiencyList]);
+  }, [giftCardReportList]);
 
   /**render */
   //callback render action cell
@@ -169,19 +170,19 @@ export default function GiftCardReportTab({
           <TableList
             tableData={filterDataTable()}
             tableHead={{
-              name: localize("Campaign Name", language),
-              revenue: localize("Revenue", language),
-              discount: localize("Discount", language),
+              name: localize("Type", language),
+              quantity: localize("Qty Sold", language),
+              sales: localize("Net Sales", language),
             }}
-            whiteKeys={["name", "revenue", "discount", "action"]}
-            primaryId="promotionId"
-            sumTotalKey="name"
-            calcSumKeys={["revenue", "discount"]}
-            priceKeys={["revenue", "discount"]}
+            whiteKeys={["type", "quantity", "sales", "action"]}
+            primaryId="type"
+            sumTotalKey="type"
+            calcSumKeys={["quantity", "sales"]}
+            priceKeys={["sales"]}
             tableCellWidth={{
-              name: 300,
-              revenue: 200,
-              discount: 200,
+              type: 300,
+              quantity: 200,
+              sales: 200,
             }}
             renderCell={renderCell}
             renderActionCell={renderActionCell}

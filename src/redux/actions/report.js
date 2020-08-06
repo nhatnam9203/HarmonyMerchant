@@ -19,8 +19,13 @@ export const ACTION_TYPES = {
   OME_ExportSuccess: "EXPORT_OVERALL_MARKETING_EFFICIENCY_SUCCESS",
   OME_StatisticExportSuccess:
     "EXPORT_OVERALL_MARKETING_EFFICIENCY_STATISTIC_SUCCESS",
+
+  GiftCard_GetList: "GET_GIFT_CARD_REPORT_SALES",
+  GiftCard_GetListFail: "GET_GIFT_CARD_REPORT_SALES_FAIL",
+  GiftCard_GetListSuccess: "GET_GIFT_CARD_REPORT_SALES_SUCCESS",
 };
 
+/** Get List */
 export function getOverallPaymentMethod(
   isShowLoading = true,
   params = "quickFilter=thisWeek"
@@ -47,6 +52,19 @@ export function getOverallMarketingEfficiency(
   };
 }
 
+export function getGiftCardReportSales(
+  isShowLoading = true,
+  params = "quickFilter=thisWeek"
+) {
+  return {
+    type: ACTION_TYPES.GiftCard_GetList,
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}giftCard/reportSales?${params}`,
+    isShowLoading,
+  };
+}
+
 export function getOPMFilters(filters) {
   return {
     type: ACTION_TYPES.OPM_Filters,
@@ -61,6 +79,7 @@ export function filterOPM(method) {
   };
 }
 
+/**Export  */
 export function exportPaymentMethod(
   params = "quickFilter=thisWeek",
   isShowLoading = true,
