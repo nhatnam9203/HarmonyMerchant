@@ -47,7 +47,7 @@ export default class PrintManager {
         // StarLine
         try {
 
-            let printResult = await StarPRNT.print("StarGraphic", commands, portName);
+            let printResult = await StarPRNT.print(PRINTER_MACHINE[portName].emulatio, commands, portName);
             // console.log(printResult); // Success!
         } catch (error) {
             // console.log('error : ', error);

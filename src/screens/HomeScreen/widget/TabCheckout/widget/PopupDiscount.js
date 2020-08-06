@@ -4,7 +4,8 @@ import {
     Text,
     ScrollView,
     TouchableOpacity,
-    Alert
+    Alert,
+    TextInput
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
@@ -172,7 +173,7 @@ class PopupDiscount extends React.Component {
                         borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
                     }} >
                         <View style={{ height: scaleSzie(260) }} >
-                            <ScrollView  keyboardShouldPersistTaps="always" >
+                            <ScrollView keyboardShouldPersistTaps="always" >
                                 <TouchableOpacity activeOpacity={1} style={{ paddingHorizontal: scaleSzie(25) }} >
                                     {
                                         discount.map((promo, index) => <ItemCampaign
@@ -197,6 +198,31 @@ class PopupDiscount extends React.Component {
                                         onChangeText={this.onChangeTextDiscountFixed}
                                         language={language}
                                     />
+
+
+                                    {/* ----------- Note  ----------- */}
+                                    {/* <View style={{}} >
+                                        <Text style={[{
+                                            color: "#404040", fontSize: scaleSzie(16), fontWeight: "600",
+                                            marginBottom: scaleSzie(5), marginTop: scaleSzie(12)
+                                        }]} >
+                                            {`Note`}
+                                        </Text>
+                                        <View style={{
+                                            height: scaleSzie(70), borderColor: "#DDDDDD", borderWidth: 1, borderRadius: 4, paddingVertical: 5,
+                                            paddingHorizontal: scaleSzie(10)
+                                        }} >
+                                            <TextInput
+                                                style={{ flex: 1, fontSize: scaleSzie(12) }}
+                                                multiline={true}
+                                                value={"note"}
+                                                onChangeText={(note) => this.setState({ note })}
+                                                onFocus={() => this.scrollRef.current.scrollToEnd()}
+                                                onBlur={() => this.scrollTo(0)}
+                                            />
+                                        </View> 
+                                    </View> */}
+
                                     <View style={{ height: scaleSzie(100) }} />
                                 </TouchableOpacity>
                             </ScrollView>

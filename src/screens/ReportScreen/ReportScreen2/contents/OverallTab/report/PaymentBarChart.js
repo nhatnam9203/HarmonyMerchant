@@ -147,7 +147,7 @@ export default function PaymentBarChart({ data }) {
       //   this.setState({ ...this.state, selectedEntry: JSON.stringify(entry) });
     }
 
-    console.log(event.nativeEvent);
+    // console.log(event.nativeEvent);
   }
 
   return (
