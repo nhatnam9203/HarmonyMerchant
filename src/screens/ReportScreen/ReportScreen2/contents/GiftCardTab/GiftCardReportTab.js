@@ -2,10 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
-import { Dropdown } from "react-native-material-dropdown";
-
 import IMAGE from "@resources";
-import { localize, formatNumberFromCurrency, scaleSzie } from "@utils";
+import { localize } from "@utils";
 import actions from "@actions";
 
 import { PopupButton, TableList, ReportTabLayout } from "../../widget";
@@ -30,6 +28,7 @@ export default function GiftCardReportTab({
   pathFileExport,
   handleTheDownloadedFile,
 }) {
+
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);

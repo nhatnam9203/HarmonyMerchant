@@ -13,9 +13,14 @@ const initialState = {
   marketingEfficiencyList: [],
   meExportFilePath: null,
   meStatisticExportFilePath: null,
+
   giftCardReportList: [],
   giftCardExportFilePath: null,
   giftCardStatisticExportFilePath: null,
+
+  customerReportList: [],
+  customerExportFilePath: null,
+  customerStatisticExportFilePath: null,
 };
 
 function appReducer(state = initialState, action) {

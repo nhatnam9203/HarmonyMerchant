@@ -26,6 +26,7 @@ function ReportScreen2({ showBackButton }, ref) {
   /**refs */
   const staffRef = useRef(null);
   const giftCardRef = useRef(null);
+  const customerRef = useRef(null);
   const overallRef = useRef(null);
 
   /**public function  */
@@ -37,6 +38,9 @@ function ReportScreen2({ showBackButton }, ref) {
           break;
         case 1:
           giftCardRef.current.goBack();
+          break;
+        case 2:
+          customerRef.current.goBack();
           break;
         case 5:
           overallRef.current.goBack();
@@ -66,6 +70,7 @@ function ReportScreen2({ showBackButton }, ref) {
   const onTabChange = (taIndex) => {
     staffRef?.current?.goBack();
     giftCardRef?.current?.goBack();
+    customerRef?.current?.goBack();
     overallRef?.current?.goBack();
 
     setTabIndex(taIndex);
@@ -104,6 +109,7 @@ function ReportScreen2({ showBackButton }, ref) {
         <CustomerTab
           style={styles.content}
           tabLabel="Customer"
+          ref={customerRef}
           showBackButton={onShowBackButton}
         />
         <ServiceTab

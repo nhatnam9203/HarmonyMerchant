@@ -28,6 +28,15 @@ export const ACTION_TYPES = {
   GiftCard_ExportSuccess: "EXPORT_GIFT_CARD_REPORT_SALES_SUCCESS",
   GiftCard_ExportStatisticSuccess:
     "EXPORT_GIFT_CARD_REPORT_SALES_STATISTIC_SUCCESS",
+
+  Customer_GetList: "GET_CUSTOMER_REPORT_SALES",
+  Customer_GetListFail: "GET_CUSTOMER_REPORT_SALES_FAIL",
+  Customer_GetListSuccess: "GET_CUSTOMER_REPORT_SALES_SUCCESS",
+  Customer_Export: "EXPORT_CUSTOMER_REPORT_SALES",
+  Customer_ExportStatistic: "EXPORT_CUSTOMER_REPORT_SALES_STATISTIC",
+  Customer_ExportSuccess: "EXPORT_CUSTOMER_REPORT_SALES_SUCCESS",
+  Customer_ExportStatisticSuccess:
+    "EXPORT_CUSTOMER_REPORT_SALES_STATISTIC_SUCCESS",
 };
 
 /** Get List */

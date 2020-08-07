@@ -1,35 +1,61 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Dropdown } from "react-native-material-dropdown";
 
-import IMAGE from "@resources";
-import {
-  HeaderTitle,
-  HeaderTooltip,
-  PopupButton,
-  TableList,
-  ReportStatisticLayout,
-} from "../../widget";
+import { ReportStatisticLayout } from "../../widget";
 import { localize } from "@utils";
 
-const HEAD_FONT_SIZE = 17;
-const TABLE_ROW_HEIGHT = 50;
-
-export default function CustomerStatistic(props) {
-
-
+export default function CustomerStatistic(props, ref) {
+  const { filterId } = props;
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
+  const customerReportList = useSelector(
+    (state) => state.report.customerReportList
+  );
+
   /**state */
+  const [table, setTable] = useState({});
 
   /**process */
 
+  /**useEffect */
+  useEffect(() => {
+    const item = customerReportList.find((item) => item.type === filterId);
+
+    setTable({
+      tableData: item?.giftCardStatistics || [],
+      tableHead: {
+        appointmentId: localize("Appointment ID", language),
+        dateString: localize("Date", language),
+        time: localize("Time", language),
+        no: localize("No. of Service", language),
+        staff: localize("Staff", language),
+        payAmount: localize("Pay Amount", language),
+      },
+      whiteKeys: [
+        "appointmentId",
+        "dateString",
+        "time",
+        "no",
+        "staff",
+        "payAmount",
+      ],
+      primaryId: "appointmentId",
+      calcSumKeys: [],
+      sumTotalKey: "",
+      priceKeys: [],
+      tableCellWidth: { appointmentId: 80 },
+    });
+  }, [filterId, customerReportList]);
+
   /**render */
 
-  return <ReportStatisticLayout {...props} />;
+  return (
+    <ReportStatisticLayout
+      {...props}
+      {...table}
+      title={"Customer Report Statistics"}
+    />
+  );
 }
-
-const styles = StyleSheet.create({});
