@@ -127,9 +127,8 @@ export default function GiftCardBarGroupChart({ data }) {
         drawAxisLine: true,
         drawGridLines: false,
         drawLabels: true,
-        label: "Date",
         axisMinimum: 0,
-        axisMaximum: 10,
+        axisMaximum: 8,
       };
 
       setXAxis(createXAxis);
