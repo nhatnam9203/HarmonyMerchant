@@ -255,6 +255,8 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)amount tipAmount:(NSString *)tipAm
                                         };
           NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
           callback(@[result]);
+          
+          return;
         }
         
         
@@ -270,13 +272,18 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)amount tipAmount:(NSString *)tipAm
                                       };
          NSString  *resultError =  [self convertObjectToJson:dataError ] ;
         callback(@[resultError]);
-
+        return;
       }
+      
+//      ------------- ABORTED ----------------------
+      NSDictionary *dataError = @{@"status":@false,
+                                  @"message":@"ABORTED"
+                                    };
+       NSString  *resultError =  [self convertObjectToJson:dataError ] ;
+      callback(@[resultError]);
+      
     });
-    
   });
-
-  
 }
 
 RCT_EXPORT_METHOD(setupPax:(NSString *)destIp portDevice:(NSString *)portDevice timeoutConnect:(NSString *)timeoutConnect)

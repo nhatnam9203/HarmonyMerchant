@@ -1033,8 +1033,10 @@ class TabCheckout extends Layout {
         })
         try {
             const result = JSON.parse(message);
-            // console.log("------ result : ", JSON.stringify(result));
             if (result.status == 0) {
+                if(result.message === "ABORTED"){
+                    return;
+                }
                 setTimeout(() => {
                     alert(result.message);
                 }, 300)
@@ -1065,9 +1067,6 @@ class TabCheckout extends Layout {
                         moneyUserGiveForStaff,
                         message,
                     );
-
-
-
                 }
             } else {
                 setTimeout(() => {
@@ -1075,7 +1074,7 @@ class TabCheckout extends Layout {
                 }, 300)
             }
         } catch (error) {
-            //console.log('error : ', error)
+            console.log('error : ', error)
         }
     }
 

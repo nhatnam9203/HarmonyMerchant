@@ -30,13 +30,13 @@ class TabFirstSettle extends Layout {
         };
         this.arrayStaffRef = [];
         this.inputHarmonyPaymentRef = React.createRef();
-        this.inputCreditPaymentRef = React.createRef();
         this.inputCashPaymentRef = React.createRef();
         this.inputOtherPaymentRef = React.createRef();
         this.totalCustomRef = React.createRef();
         this.scrollRef = React.createRef();
         this.otherAmountRef = React.createRef();
         this.cashAmountRef = React.createRef();
+        this.creditAmountRef = React.createRef();
     }
 
     componentDidMount() {
@@ -66,6 +66,7 @@ class TabFirstSettle extends Layout {
             note: '',
             creditCount: 0,
             creditAmount: 0,
+            editPaymentByCreditCard
         })
     }
 

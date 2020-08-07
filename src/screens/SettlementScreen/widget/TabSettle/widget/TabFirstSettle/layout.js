@@ -60,6 +60,7 @@ class Layout extends React.Component {
     renderButtonConfirm() {
         const { language } = this.props;
         const { discountSettlement, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment,
+            creditCount
         } = this.state;
 
         const temtpTotal = roundFloatNumber(
@@ -70,26 +71,23 @@ class Layout extends React.Component {
             formatNumberFromCurrency(discountSettlement)
         );
 
-        if (temtpTotal > 0) {
-            return (
-                <View style={{
-                    flex: 1, justifyContent: "flex-end", alignItems: 'center',
-                    paddingBottom: scaleSzie(15)
-                }} >
-                    <ButtonCustom
-                        width={scaleSzie(330)}
-                        height={50}
-                        backgroundColor="#0764B0"
-                        title={localize('CONFIRM ', language)}
-                        textColor="#fff"
-                        onPress={this.gotoTabSecondSettle}
-                        style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 6 }}
-                        styleText={{ fontSize: scaleSzie(21), fontWeight: '500' }}
-                    />
-                </View>
-            );
-        }
-        return null;
+        return (
+            <View style={{
+                flex: 1, justifyContent: "flex-end", alignItems: 'center',
+                paddingBottom: scaleSzie(15)
+            }} >
+                <ButtonCustom
+                    width={scaleSzie(330)}
+                    height={50}
+                    backgroundColor="#0764B0"
+                    title={localize('CONFIRM ', language)}
+                    textColor="#fff"
+                    onPress={this.gotoTabSecondSettle}
+                    style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 6 }}
+                    styleText={{ fontSize: scaleSzie(21), fontWeight: '500' }}
+                />
+            </View>
+        );
     }
 
     renderStaffsTable() {
@@ -135,7 +133,7 @@ class Layout extends React.Component {
     renderPaymentMethodsReport() {
         const { settleWaiting } = this.props;
         const { discountSettlement, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment,
-            isEditOtherAmount, isEditCashAmount
+            isEditOtherAmount, isEditCashAmount, creditCount
         } = this.state;
 
         const temtpTotal = roundFloatNumber(
@@ -161,7 +159,7 @@ class Layout extends React.Component {
                         />
                         <View style={{ height: 1 }} />
                         <ItemPaymentsReport
-                            title="Credit Card"
+                            title={`Credit Card`}
                             backgroundColor="#075BA0"
                             value={editPaymentByCreditCard}
                         />
@@ -225,7 +223,7 @@ class Layout extends React.Component {
                 }]} >
                     {`Note`}
                 </Text>
-                <View  style={{
+                <View style={{
                     height: scaleSzie(54), borderColor: "#DDDDDD", borderWidth: 1, borderRadius: 4, paddingVertical: 5,
                     paddingHorizontal: scaleSzie(10)
                 }} >
@@ -246,39 +244,6 @@ class Layout extends React.Component {
         const { settleWaiting, language } = this.props
         return (
             <View style={{ flex: 1, backgroundColor: "#fff" }} >
-                {/* {
-                    _.isEmpty(settleWaiting) || settleWaiting.checkout.length === 0 ?
-                        <ScrollView
-                            keyboardShouldPersistTaps="always"
-                            refreshControl={
-                                <RefreshControl
-                                    refreshing={this.props.refreshingSettle}
-                                    onRefresh={this.onRefreshSettle}
-                                />
-                            }
-                        >
-                            <View style={{
-                                flex: 1,
-                                alignItems: 'center'
-                            }} >
-                                <Text style={{
-                                    color: '#6A6A6A', fontSize: scaleSzie(40),
-                                    marginTop: height / 2.8
-                                }} >
-
-                                    {localize('Empty Batch', language)}
-                                </Text>
-                                <Text style={{
-                                    color: '#6A6A6A', fontSize: scaleSzie(18),
-                                    marginTop: 10
-                                }} >
-                                    {`(${localize('Pull to refresh', language)} )`}
-
-                                </Text>
-                            </View>
-                        </ScrollView>
-                        : */}
-
                 <View style={{ flex: 1 }} >
                     {this.renderLastSettlement()}
                     {this.renderHeaderStaffList()}
@@ -290,8 +255,6 @@ class Layout extends React.Component {
                     </View>
                     {this.renderButtonConfirm()}
                 </View>
-                {/* } */}
-
             </View>
         );
     }
