@@ -9,6 +9,7 @@ import {
     validateIsNumber, getArrayProductsFromAppointment, getArrayServicesFromAppointment,
     getArrayExtrasFromAppointment
 } from '@utils';
+import NotifService from '@utils/NotifService';
 
 const initState = {
     isShowColProduct: false,
@@ -55,11 +56,24 @@ class TabAppointment extends Layout {
         this.changeStylistRef = React.createRef();
         this.popupEnterPinRef = React.createRef();
         this.changePriceAmountProductRef = React.createRef();
+
     }
 
     componentDidMount() {
         AppState.addEventListener("change", this.handleAppStateChange);
+        // ------- Register Notification ------
+        this.notif = new NotifService(
+            this.onNotif.bind(this),
+        );
     }
+
+
+    onNotif = (notif) => {
+        this.props.actions.app.closeAllPopupPincode();
+        this.props.navigation.navigate("Home");
+
+    }
+
 
     handleAppStateChange = nextAppState => {
         if (this.state.appState.match(/inactive|background/) && nextAppState === "active") {
@@ -97,14 +111,8 @@ class TabAppointment extends Layout {
 
     }
 
-    handleNewAppointmentNotification = () => {
-        const details = {
-            alertBody: "You have a new appointment!",
-            alertAction: "view",
-            alertTitle: "You have a new appointment!",
-        };
-        PushNotificationIOS.presentLocalNotification(details);
-
+    handleNewAppointmentNotification = (appointment) => {
+        this.notif.localNotif(null, appointment);
     }
 
     onMessageFromWebview = async (event) => {
@@ -128,7 +136,8 @@ class TabAppointment extends Layout {
                         // console.log('data : ', JSON.stringify(data));
                         this.props.createABlockAppointment(appointmentId, data.dataAnyStaff && data.dataAnyStaff.fromTime ? data.dataAnyStaff.fromTime : new Date());
                     } else if (action === 'push_notification' && data.isNotification) {
-                        this.handleNewAppointmentNotification()
+                        const appointment = data.appointment ? { ...data.appointment } : {};
+                        this.handleNewAppointmentNotification(appointment)
                     }
                 }
             }

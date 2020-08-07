@@ -257,3 +257,10 @@ export function toggleSettingTabPermission(visible = true) {
         payload: visible
     }
 }
+
+export function closeAllPopupPincode() {
+    return {
+        type: 'CLOSE_ALL_POPUP_PIN_CODE',
+    }
+}
+
