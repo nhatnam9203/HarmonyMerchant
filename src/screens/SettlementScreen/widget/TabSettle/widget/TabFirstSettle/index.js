@@ -66,7 +66,7 @@ class TabFirstSettle extends Layout {
             note: '',
             creditCount: 0,
             creditAmount: 0,
-            editPaymentByCreditCard
+            editPaymentByCreditCard: 0.00
         })
     }
 

@@ -255,7 +255,6 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)amount tipAmount:(NSString *)tipAm
                                         };
           NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
           callback(@[result]);
-          
           return;
         }
         
@@ -579,6 +578,7 @@ RCT_EXPORT_METHOD(refundTransaction:(NSString *)amount transactionId:(NSString *
                                         };
           NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
           callback(@[result]);
+          return;
         }
         
         
@@ -594,8 +594,14 @@ RCT_EXPORT_METHOD(refundTransaction:(NSString *)amount transactionId:(NSString *
                                       };
          NSString  *resultError =  [self convertObjectToJson:dataError ] ;
         callback(@[resultError]);
-
+        return;
       }
+      //      ------------- ABORTED ----------------------
+      NSDictionary *dataError = @{@"status":@false,
+                                  @"message":@"ABORTED"
+                                    };
+       NSString  *resultError =  [self convertObjectToJson:dataError ] ;
+      callback(@[resultError]);
     });
     
   });
@@ -672,6 +678,7 @@ RCT_EXPORT_METHOD(voidTransaction:(NSString *)amount transactionId:(NSString *)t
                                         };
           NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
           callback(@[result]);
+          return;
         }else {
             NSDictionary *dataSuccesButError = @{@"status":@false,
                                                    @"ResultCode" : myapp.poslink.paymentResponse.ResultCode ? myapp.poslink.paymentResponse.ResultCode : @"",
@@ -686,6 +693,8 @@ RCT_EXPORT_METHOD(voidTransaction:(NSString *)amount transactionId:(NSString *)t
           [myapp.poslink.paymentRequest saveSigData:signData fileName:str];
           [myapp.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
         }
+        
+        
         
       }else {
         NSDictionary *dataError = @{@"status":@false,
