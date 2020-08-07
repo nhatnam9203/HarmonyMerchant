@@ -71,7 +71,7 @@ class TabAppointment extends Layout {
     onNotif = (notif) => {
         this.props.actions.app.closeAllPopupPincode();
         this.props.navigation.navigate("Home");
-
+        this.notif.resetBadgeNumber();
     }
 
 
