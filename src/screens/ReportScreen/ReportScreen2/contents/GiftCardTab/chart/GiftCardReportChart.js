@@ -1,70 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, processColor, View } from "react-native";
 import { BarChart } from "react-native-charts-wrapper";
+import _ from "ramda";
 
 import { formatNumberFromCurrency } from "@utils";
 
 /**chart info */
 const legend = {
-  enabled: false,
+  enabled: true,
   textSize: 14,
   form: "SQUARE",
   formSize: 22,
   direction: "LEFT_TO_RIGHT",
-  horizontalAlignment: "RIGHT",
-  verticalAlignment: "TOP",
+  horizontalAlignment: "CENTER",
+  verticalAlignment: "BOTTOM",
   orientation: "HORIZONTAL",
   yEntrySpace: 5,
-  xEntrySpace: 20,
+  xEntrySpace: 25,
   wordWrapEnabled: true,
 };
 
-const dataConfig = {
-  dataSets: [
-    {
-      values: [5, 40, 77, 81, 43],
-      label: "Company A",
-      config: {
-        drawValues: false,
-        colors: [processColor("red")],
-      },
-    },
-    {
-      values: [40, 5, 50, 23, 79],
-      label: "Company B",
-      config: {
-        drawValues: false,
-        colors: [processColor("blue")],
-      },
-    },
-    {
-      values: [10, 55, 35, 90, 82],
-      label: "Company C",
-      config: {
-        drawValues: false,
-        colors: [processColor("green")],
-      },
-    },
-  ],
-  config: {
-    barWidth: 0.4,
-    group: {
-      fromX: 0,
-      groupSpace: 0.1,
-      barSpace: 0.1,
-    },
-  },
-};
-const xAxisDefault = {
-  valueFormatter: ["1990", "1991", "1992", "1993", "1994"],
-  granularityEnabled: true,
-  granularity: 1,
-  axisMaximum: 5,
-  axisMinimum: 0,
-  centerAxisLabels: true,
-};
 const yAxis = {
   left: {
+    label: "Amount$",
     drawLabels: true,
     drawAxisLine: true,
     drawGridLines: true,
@@ -77,9 +35,9 @@ const yAxis = {
     labelCount: 10,
   },
   right: {
-    drawLabels: true,
-    drawAxisLine: true,
-    drawGridLines: true,
+    drawLabels: false,
+    drawAxisLine: false,
+    drawGridLines: false,
     axisMinimum: 0,
     // axisMaximum: 1500,
     textSize: 14,
@@ -101,45 +59,52 @@ const pickValuesForKey = (array, forKey, format) => {
 
 export default function GiftCardBarGroupChart({ data }) {
   /**state store */
-  const [dataChart, setDataChart] = useState(dataConfig);
-  const [xAxis, setXAxis] = useState(xAxisDefault);
+  const [dataChart, setDataChart] = useState({});
+  const [xAxis, setXAxis] = useState({});
 
   /**useEffect */
   // add listener data change, map to chart data set
   useEffect(() => {
     if (data) {
       // ======= map values =======
-      let mapValues = [];
-      const formatterValues = pickValuesForKey(data, "type", "string");
-      const revenueValues = pickValuesForKey(data, "quantity", "float");
-      const discountValues = pickValuesForKey(data, "sales", "float");
+      const colors = [
+        processColor("#FF7F00"),
+        processColor("#CAB2D6"),
+        processColor("#1F78B4"),
+        processColor("#80C6FF"),
+        processColor("#E5B960"),
+      ];
+
+      let dataSets = [];
+      let formatValueSet = new Set();
+      data.forEach((item, index) => {
+        const giftCardStatistics = item.giftCardStatistics || [];
+        const label = item.type || `${index}`;
+        pickValuesForKey(
+          giftCardStatistics,
+          "dateString",
+          "string"
+        ).forEach((x) => formatValueSet.add(x));
+
+        const dataSetValue = {
+          values: pickValuesForKey(giftCardStatistics, "sales", "float"),
+          label: label,
+          config: {
+            colors: [colors[index] || processColor("#80C6FF")],
+            drawValues: true,
+            valueTextSize: 14,
+            valueTextColor: processColor("#0764B0"),
+          },
+        };
+
+        dataSets.push(dataSetValue);
+      });
 
       const createDataSet = {
-        dataSets: [
-          {
-            values: revenueValues,
-            label: "revenue",
-            config: {
-              colors: [processColor("#80C6FF")],
-              drawValues: false,
-              valueTextSize: 14,
-              valueTextColor: processColor("#0764B0"),
-            },
-          },
-          {
-            values: discountValues,
-            label: "discount",
-            config: {
-              colors: [processColor("#E5B960")],
-              drawValues: false,
-              valueTextSize: 14,
-              valueTextColor: processColor("#0764B0"),
-            },
-          },
-        ],
+        dataSets: dataSets,
         config: {
           // BarData
-          barWidth: 0.4,
+          barWidth: 0.5,
           group: {
             fromX: 0,
             groupSpace: 0.1,
@@ -151,23 +116,26 @@ export default function GiftCardBarGroupChart({ data }) {
       setDataChart(createDataSet);
 
       const createXAxis = {
-        valueFormatter: formatterValues,
-        granularityEnabled: true,
-        granularity: 1,
+        valueFormatter: Array.from(formatValueSet),
         centerAxisLabels: true,
         position: "BOTTOM",
-        textSize: 20,
+        granularityEnabled: true,
+        granularity: 1,
+        textSize: 14,
         formSize: 14,
         textColor: processColor("#0764B0"),
-        fontWeight: "bold",
         drawAxisLine: true,
         drawGridLines: false,
+        drawLabels: true,
+        label: "Date",
+        axisMinimum: 0,
+        axisMaximum: 10,
       };
 
       setXAxis(createXAxis);
     } else {
-      setDataChart(dataConfig);
-      setXAxis(xAxisDefault);
+      setDataChart({});
+      setXAxis({});
     }
 
     // ======= map formatter =======
@@ -180,29 +148,30 @@ export default function GiftCardBarGroupChart({ data }) {
     } else {
       //   this.setState({ ...this.state, selectedEntry: JSON.stringify(entry) });
     }
-
-    console.log(event.nativeEvent);
   }
 
   return (
     <View style={styles.container}>
-      <BarChart
-        doubleTapToZoomEnabled={false}
-        style={styles.chart}
-        data={dataChart}
-        xAxis={xAxis}
-        yAxis={yAxis}
-        animation={{ durationX: 500 }}
-        legend={legend}
-        gridBackgroundColor={processColor("transparent")}
-        // visibleRange={{ x: { min: 5, max: 5 } }}
-        drawBarShadow={false}
-        drawHighlightArrow={true}
-        onSelect={handleSelect}
-        // highlights={highlights}
-        entryLabelTextSize={14}
-        onChange={(event) => console.log(event.nativeEvent)}
-      />
+      {!_.isEmpty(xAxis) && !_.isEmpty(dataChart) && (
+        <BarChart
+          doubleTapToZoomEnabled={false}
+          dragEnabled={true}
+          style={styles.chart}
+          data={dataChart}
+          xAxis={xAxis}
+          yAxis={yAxis}
+          animation={{ durationX: 500 }}
+          legend={legend}
+          gridBackgroundColor={processColor("transparent")}
+          // visibleRange={{ x: { min: 5, max: 5 } }}
+          drawBarShadow={false}
+          drawHighlightArrow={true}
+          onSelect={handleSelect}
+          // highlights={highlights}
+          entryLabelTextSize={14}
+          // onChange={(event) => console.log(event.nativeEvent)}
+        />
+      )}
     </View>
   );
 }
@@ -214,5 +183,6 @@ const styles = StyleSheet.create({
   },
   chart: {
     flex: 1,
+    paddingHorizontal: 20,
   },
 });

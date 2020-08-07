@@ -9,7 +9,7 @@ import { localize, formatNumberFromCurrency, scaleSzie } from "@utils";
 import actions from "@actions";
 
 import { PopupButton, TableList, ReportTabLayout } from "../../widget";
-import GiftCardBarGroupChart from "./GiftCardBarGroupChart";
+import GiftCardBarGroupChart from "./chart/GiftCardReportChart";
 
 const VIEW_MODE = {
   LIST: "LIST",

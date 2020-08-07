@@ -181,7 +181,6 @@ export default function MarketingBarGroupChart({ data }) {
       //   this.setState({ ...this.state, selectedEntry: JSON.stringify(entry) });
     }
 
-    console.log(event.nativeEvent);
   }
 
   return (
@@ -201,7 +200,7 @@ export default function MarketingBarGroupChart({ data }) {
         onSelect={handleSelect}
         // highlights={highlights}
         entryLabelTextSize={14}
-        onChange={(event) => console.log(event.nativeEvent)}
+        // onChange={(event) => console.log(event.nativeEvent)}
       />
     </View>
   );

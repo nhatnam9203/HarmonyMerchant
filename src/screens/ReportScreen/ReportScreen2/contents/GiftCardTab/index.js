@@ -31,8 +31,6 @@ function GiftCardTab({ style, showBackButton }, ref) {
     (state) => state.report.giftCardReportList
   );
 
-
-
   /**state */
   const [titleRangeTime, setTitleRangeTime] = useState("This week");
   const [filterNameItem, setFilterNameItem] = useState(undefined);
@@ -132,8 +130,6 @@ function GiftCardTab({ style, showBackButton }, ref) {
   useEffect(() => {
     getGiftCardReportSales();
   }, []);
-
-
 
   return (
     <View style={[styles.container, style]}>
