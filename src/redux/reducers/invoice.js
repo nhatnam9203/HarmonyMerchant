@@ -232,6 +232,13 @@ function appReducer(state = initialState, action) {
                 ...state,
                 isShowBackSettlement: action.payload
             }
+
+        case 'CLOSE_ALL_POPUP_PIN_CODE':
+            return {
+                ...state,
+                invoiceTabPermission: false,
+                settlementTabPermission: false
+            }
         default:
             return state
     }

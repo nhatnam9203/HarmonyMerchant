@@ -940,14 +940,17 @@ class TabCheckout extends Layout {
         const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser, customerInfoByPhone } = this.state;
         const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
         const method = this.getPaymentString(paymentSelected);
+        const total = groupAppointment.total ? parseFloat(formatNumberFromCurrency(groupAppointment.total)) : 0;
 
         if (isOfflineMode) {
             this.handlePaymentOffLineMode()
             return;
         }
 
-        if (moneyUserGiveForStaff == 0 && groupAppointment && formatNumberFromCurrency(groupAppointment.total) != 0) {
+        if (moneyUserGiveForStaff == 0 && groupAppointment && total != 0) {
             alert('Enter amount!');
+        } else if ((method === 'harmony' || method === 'credit_card') && moneyUserGiveForStaff > total) {
+            alert('The change not bigger than total money!');
         } else {
             await this.setState({
                 visibleBillOfPayment: false,
@@ -1019,7 +1022,7 @@ class TabCheckout extends Layout {
         })
 
         const moneyCreditCard = Number(formatNumberFromCurrency(moneyUserGiveForStaff) * 100).toFixed(2);
-        
+
         // 3. Send Transaction 
         PosLink.sendTransaction(parseFloat(moneyCreditCard), 0, (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
     }

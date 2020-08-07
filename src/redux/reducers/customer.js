@@ -59,6 +59,11 @@ function appReducer(state = initialState, action) {
                 ...state,
                 customerTabPermission: action.payload
             }
+        case 'CLOSE_ALL_POPUP_PIN_CODE':
+            return {
+                ...state,
+                customerTabPermission: false,
+            }
 
         default:
             return state

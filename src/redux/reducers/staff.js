@@ -146,6 +146,11 @@ function appReducer(state = initialState, action) {
         ...state,
         reportTabPermission: action.payload,
       };
+      case 'CLOSE_ALL_POPUP_PIN_CODE':
+        return {
+            ...state,
+            reportTabPermission: false,
+        }
     case "GET_LIST_STAFFS_SALARY_CALENDAR":
       return {
         ...state,

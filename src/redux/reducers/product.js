@@ -78,6 +78,11 @@ function appReducer(state = initialState, action) {
                 ...state,
                 inventoryTabPermission: action.payload,
             }
+        case 'CLOSE_ALL_POPUP_PIN_CODE':
+            return {
+                ...state,
+                inventoryTabPermission: false,
+            }
         default:
             return state
     }
