@@ -7,8 +7,6 @@ import React, {
 import { View, Text } from "react-native";
 import { useSelector } from "react-redux";
 
-import IMAGE from "@resources";
-import { localize } from "@utils";
 import { CustomScrollTab } from "../../widget";
 
 import MarketingEfficiencyTab from "./MarketingEfficiency";

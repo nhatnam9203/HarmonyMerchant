@@ -5,11 +5,11 @@ import { useSelector, useDispatch } from "react-redux";
 import IMAGE from "@resources";
 import { localize } from "@utils";
 
-import { TableList, ReportTabLayout } from "../../widget";
+import { TableList, ReportTabLayout } from "../../../widget";
 
 const FILTER_NAME_DEFAULT = "All Type";
 
-export default function CustomerReportTab({
+export default function SalesByCategory({
   style,
   onGoStatistics,
   titleRangeTime,

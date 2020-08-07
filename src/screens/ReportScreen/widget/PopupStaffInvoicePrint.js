@@ -418,6 +418,48 @@ class PopupStaffInvoicePrint extends React.Component {
                               />
                             </>
                           );
+                        case "WorkingHour":
+                          totalDesc =
+                            totalDesc +
+                            (totalDesc.length > 0
+                              ? "+" + (index + 1)
+                              : index + 1);
+                          return (
+                            <>
+                              <ItemStaffInvoice
+                                title={`${index + 1}. ${localize(
+                                  x.receiptType,
+                                  language
+                                )} (${x.commission}$)`}
+                                value={`$ ${x.total}`}
+                              />
+                              <ItemStaffInvoice
+                                title="Cash"
+                                value={`$ ${x.cash}`}
+                                styleTilte={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                                styleValue={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                              />
+                              <ItemStaffInvoice
+                                title="Check"
+                                value={`$ ${x.check}`}
+                                styleTilte={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                                styleValue={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                              />
+                            </>
+                          );
+                          break;
                         default:
                           totalDesc =
                             totalDesc +

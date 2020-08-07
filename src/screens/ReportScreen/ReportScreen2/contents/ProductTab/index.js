@@ -1,62 +1,78 @@
 import React, {
-  useRef,
-  useImperativeHandle,
-  forwardRef,
   useState,
-  useCallback,
-  useEffect,
+  forwardRef,
+  useImperativeHandle,
+  useRef,
 } from "react";
-import { View, Platform } from "react-native";
+import { View, Text } from "react-native";
+import { useSelector } from "react-redux";
 
-import RNFetchBlob from "rn-fetch-blob";
-import { useSelector, useDispatch } from "react-redux";
-import ScrollableTabView from "react-native-scrollable-tab-view";
+import { CustomScrollTab } from "../../widget";
 
-import { PopupCalendar } from "@components";
-import actions from "@actions";
-import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
+import SalesByCategory from "./SalesByCategory";
+import SalesByProduct from "./SalesByProduct";
 
-import { ReportTabLayout } from "../../widget";
-
-import ProductReportTab from "./ProductTab";
-import ProductStatistic from "./ProductStatistic";
-
-export default function ProductTab({ style }) {
-  /**redux store*/
-  const dispatch = useDispatch();
+function ProductTab({ style, showBackButton }, ref) {
+  /**redux store */
   const language = useSelector((state) => state.dataLocal.language);
-  /**state */
-  const [isShowCalendar, showCalendar] = useState(false);
-  const [titleTimeRange, setTitleTimeRange] = useState("This Week");
 
-  /**func */
-  const onTimeRangeChanged = async (titleTime, urlTime) => {
-    if (setTitleTimeRange && titleTime !== titleTimeRange) {
-      await setTitleTimeRange(titleTime);
-      await setUrlTimeRange(urlTime);
-    }
+  /**state store */
+  const [currentTab, setCurrentTab] = useState(0);
 
+  /**refs */
+  const salesByCategoryTabRef = useRef(null);
+  const salesByProductTabRef = useRef(null);
 
-    showCalendar(false);
+  /**function */
+  const onChangeTab = (tabIndex) => {
+    salesByCategoryTabRef?.current?.goBack();
+    salesByProductTabRef?.current?.goBack();
+    setCurrentTab(tabIndex);
   };
+
+  const onGoBack = () => {
+    switch (currentTab) {
+      case 0:
+        salesByCategoryTabRef.current.goBack();
+        break;
+      case 1:
+        salesByProductTabRef.current.goBack();
+        break;
+      default:
+        break;
+    }
+  };
+
+  // public func
+  useImperativeHandle(ref, () => ({
+    goBack: onGoBack,
+    didBlur: () => {
+      // setTitleRangeTime("This week");
+    },
+    didFocus: () => {
+      // console.log("====> screen report -> staff didFocus");
+    },
+  }));
 
   return (
     <View style={style}>
-      <ReportTabLayout
-        onCalendarClose={onTimeRangeChanged}
-        showCalendar={isShowCalendar}
-      >
-        <ProductReportTab
-          style={{ flex: 1, paddingTop: 10 }}
-          showCalendar={() => showCalendar(true)}
-          titleRangeTime={titleTimeRange}
+      <CustomScrollTab onHeaderTabChanged={onChangeTab}>
+        <SalesByCategory
+          style={{ flex: 1 }}
+          ref={salesByCategoryTabRef}
+          tabLabel="Sales by category"
+          showBackButton={showBackButton}
         />
-        <ProductStatistic
-          style={{ flex: 1, paddingTop: 10 }}
-          showCalendar={() => showCalendar(true)}
-          titleRangeTime={titleTimeRange}
+
+        <SalesByProduct
+          style={{ flex: 1 }}
+          ref={salesByProductTabRef}
+          tabLabel="Sales by product"
+          showBackButton={showBackButton}
         />
-      </ReportTabLayout>
+      </CustomScrollTab>
     </View>
   );
 }
+
+export default ProductTab = forwardRef(ProductTab);

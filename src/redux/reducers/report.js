@@ -75,6 +75,8 @@ function appReducer(state = initialState, action) {
         isDownloadReport: false,
         overallPMStatisticExportFilePath: null,
         meStatisticExportFilePath: null,
+        giftCardStatisticExportFilePath: null,
+        customerStatisticExportFilePath: null,
       };
     case "GET_REPORT_OVERALL_MARKETING_EFFICIENCY_SUCCESS":
       return {
