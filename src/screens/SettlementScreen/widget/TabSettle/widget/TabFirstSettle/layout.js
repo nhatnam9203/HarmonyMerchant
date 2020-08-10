@@ -4,8 +4,6 @@ import {
     TextInput,
     FlatList,
     ScrollView,
-    Dimensions,
-    RefreshControl,
 } from 'react-native';
 import _ from 'ramda';
 
@@ -15,8 +13,7 @@ import {
 } from '@components';
 import styles from "./style";
 import ItemPaymentsReport, { StaffsHeaderTable, StaffsItem, GiftCardItem, TotalItem, HeaderPaymentsReport } from "./widget/ItemsSettlement";
-
-const { height } = Dimensions.get('window');
+import PopupProcessingReportPax from "./widget/PopupProcessingReportPax";
 
 class Layout extends React.Component {
 
@@ -164,7 +161,7 @@ class Layout extends React.Component {
                         />
                         <View style={{ height: 1 }} />
                         <ItemPaymentsReport
-                            title={`Credit Card ${(creditCount)}`}
+                            title={`Credit Card (${(creditCount)})`}
                             backgroundColor="#075BA0"
                             value={editPaymentByCreditCard}
                         />
@@ -246,7 +243,8 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { settleWaiting, language } = this.props
+        const {language} = this.props;
+        
         return (
             <View style={{ flex: 1, backgroundColor: "#fff" }} >
                 <View style={{ flex: 1 }} >
@@ -260,6 +258,11 @@ class Layout extends React.Component {
                     </View>
                     {this.renderButtonConfirm()}
                 </View>
+                <PopupProcessingReportPax 
+                    visible={this.state.visible}
+                    onRequestClose={this.cancelTransaction}
+                    language={language}
+                />
             </View>
         );
     }

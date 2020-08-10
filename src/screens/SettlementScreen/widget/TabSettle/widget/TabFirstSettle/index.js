@@ -29,7 +29,8 @@ class TabFirstSettle extends Layout {
             note: '',
             isShowKeyboard: false,
             isEditOtherAmount: false,
-            isEditCashAmount: false
+            isEditCashAmount: false,
+            visible: false
         };
         this.arrayStaffRef = [];
         this.inputHarmonyPaymentRef = React.createRef();
@@ -83,6 +84,9 @@ class TabFirstSettle extends Layout {
         const { paxMachineInfo } = this.props;
         const { ip, port, timeout, isSetup } = paxMachineInfo;
         if (isSetup) {
+            await this.setState({
+                visible : true
+            });
             let totalReport = 0;
             let totalRecord = 0;
             let isError = false;
@@ -118,29 +122,12 @@ class TabFirstSettle extends Layout {
                 });
             }
 
+            await this.setState({
+                visible : false
+            });
+
         } else {
             this.props.actions.app.connectPaxMachineError("Don't have setup in Hardware Tab!");
-        }
-    }
-
-    async handleResponseReportTransactions(message) {
-        try {
-            const result = JSON.parse(message);
-            console.log("----- result : ", result);
-            // if (result.status == 0) {
-            //     this.props.actions.app.connectPaxMachineError(result.message);
-            // } else {
-            //     this.props.actions.app.ConnectPaxMachineSuccess();
-            //     const moneyInPax = formatMoney(roundFloatNumber(result.CreditAmount / 100))
-            //     await this.setState({
-            //         creditCount: result.CreditCount,
-            //         creditAmount: result.CreditAmount,
-            //         editPaymentByCreditCard: moneyInPax
-            //     });
-
-            // }
-        } catch (error) {
-            //console.log('error : ', error)
         }
     }
 
@@ -296,8 +283,9 @@ class TabFirstSettle extends Layout {
                 editPaymentByCash: settleWaiting.paymentByCash ? settleWaiting.paymentByCash : 0.00,
                 editOtherPayment: settleWaiting.otherPayment ? settleWaiting.otherPayment : 0.00,
                 total: settleWaiting.total ? settleWaiting.total : 0.00,
-                discountSettlement: settleWaiting.discount ? settleWaiting.discount : 0.00
+                discountSettlement: settleWaiting.discount ? settleWaiting.discount : 0.00,
             });
+            this.handlePAXReport();
             this.props.actions.invoice.resetStateIsGettingSettlement();
         }
     }
@@ -326,8 +314,3 @@ const mapStateToProps = state => ({
 
 
 export default connectRedux(mapStateToProps, TabFirstSettle);
-
-// 15.28 Voided 
-// 15.28 SALE 
-// 15.28 SALE 
-// 7.89 SALE
