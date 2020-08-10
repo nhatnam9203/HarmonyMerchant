@@ -24,12 +24,12 @@ const DrawerStack = createDrawerNavigator(
     Support: SupportScreen,
     Settlement: SettlementScreen,
     Reports: ReportScreen
-}, {
-    initialRouteName: "Home",
-    contentComponent: SlideDrawer,
-    drawerWidth: scaleSzie(220),
-    overlayColor: "rgba(0, 0, 0, 0.5) ",
-  }
+  }, {
+  initialRouteName: "Home",
+  contentComponent: SlideDrawer,
+  drawerWidth: scaleSzie(220),
+  overlayColor: "rgba(0, 0, 0, 0.5) ",
+}
 );
 
 export default DrawerStack;

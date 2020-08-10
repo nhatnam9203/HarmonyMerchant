@@ -19,7 +19,7 @@ export default class NotifService {
     });
 
     PushNotification.getChannels(function (channels) {
-      console.log(channels);
+      // console.log(channels);
     });
   }
 

@@ -30,13 +30,13 @@ class TabFirstSettle extends Layout {
         };
         this.arrayStaffRef = [];
         this.inputHarmonyPaymentRef = React.createRef();
-        this.inputCreditPaymentRef = React.createRef();
         this.inputCashPaymentRef = React.createRef();
         this.inputOtherPaymentRef = React.createRef();
         this.totalCustomRef = React.createRef();
         this.scrollRef = React.createRef();
         this.otherAmountRef = React.createRef();
-        this.cashAmountRef= React.createRef();
+        this.cashAmountRef = React.createRef();
+        this.creditAmountRef = React.createRef();
     }
 
     componentDidMount() {
@@ -63,7 +63,10 @@ class TabFirstSettle extends Layout {
 
     resetNoteFromParent = async () => {
         await this.setState({
-            note: ''
+            note: '',
+            creditCount: 0,
+            creditAmount: 0,
+            editPaymentByCreditCard: 0.00
         })
     }
 
@@ -105,18 +108,18 @@ class TabFirstSettle extends Layout {
     }
 
     continueSettlement = () => {
-        const { creditCount, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment, note,discountSettlement } = this.state;
+        const { creditCount, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment, note, discountSettlement } = this.state;
         this.props.gotoTabSecondSettle({
             paymentByHarmony: editPaymentByHarmony,
             paymentByCreditCard: editPaymentByCreditCard,
             paymentByCash: editPaymentByCash,
             otherPayment: editOtherPayment,
-            discountSettlement :discountSettlement,
+            discountSettlement: discountSettlement,
             total: roundFloatNumber(
                 formatNumberFromCurrency(editPaymentByHarmony) +
                 formatNumberFromCurrency(editPaymentByCreditCard) +
                 formatNumberFromCurrency(editPaymentByCash) +
-                formatNumberFromCurrency(editOtherPayment)+
+                formatNumberFromCurrency(editOtherPayment) +
                 formatNumberFromCurrency(discountSettlement)
             ),
             note
@@ -206,25 +209,25 @@ class TabFirstSettle extends Layout {
 
     editCashAmount = () => {
         this.setState({
-            isEditCashAmount : true
+            isEditCashAmount: true
         });
         this.cashAmountRef.current.setStateFromParent(this.state.editPaymentByCash);
     }
 
-    cancelEditCashAmount =() =>{
+    cancelEditCashAmount = () => {
         this.setState({
             isEditCashAmount: false
         });
         this.scrollTo(0);
     }
 
-    saveEditCashAmount = () =>{
+    saveEditCashAmount = () => {
         const changeAmount = this.cashAmountRef.current.state.amount;
         this.setState({
             isEditCashAmount: false,
-            editPaymentByCash:changeAmount
+            editPaymentByCash: changeAmount
         });
-       
+
         this.scrollTo(0);
     }
 
@@ -246,9 +249,9 @@ class TabFirstSettle extends Layout {
         const changeAmount = this.otherAmountRef.current.state.amount;
         this.setState({
             isEditOtherAmount: false,
-            editOtherPayment:changeAmount
+            editOtherPayment: changeAmount
         });
-       
+
         this.scrollTo(0);
     }
 

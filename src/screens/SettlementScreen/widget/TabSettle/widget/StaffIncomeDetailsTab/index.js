@@ -10,16 +10,22 @@ class StaffIncomeDetailsTab extends Layout {
         this.state = {
             staffSalesDetail: [],
             staffName: "",
-            total: 0
+            total: 0,
+            sales:0,
+            tax:0,
+            tip:0
         };
     }
 
     setStateFromParent = async (staffId = 0) => {
-        const { staffSalesDetail, staffName, total } = this.getStaffSalesDetail(staffId);
+        const { staffSalesDetail, staffName, total,sales,tax,tip } = this.getStaffSalesDetail(staffId);
         await this.setState({
             staffSalesDetail,
             staffName,
-            total
+            total,
+            sales,
+            tax,
+            tip
         });
     }
 
@@ -33,19 +39,25 @@ class StaffIncomeDetailsTab extends Layout {
                 staffSalesDetail = [...staffSales[i].details];
                 staffName = staffSales[i].name;
                 total = staffSales[i].total;
+                sales  = staffSales[i].sales;
+                tax  = staffSales[i].tax;
+                tip  = staffSales[i].tip;
                 break;
             }
         }
-        return { staffSalesDetail, staffName, total };
+        return { staffSalesDetail, staffName, total,sales,tax,tip };
     }
 
     onChangeStaff = async (value, index, data) => {
         const staffId = data[index].staffId ? data[index].staffId : 0;
-        const { staffSalesDetail, staffName, total } = this.getStaffSalesDetail(staffId);
+        const { staffSalesDetail, staffName, total ,sales,tax,tip } = this.getStaffSalesDetail(staffId);
         await this.setState({
             staffSalesDetail,
             staffName,
-            total
+            total,
+            sales,
+            tax,
+            tip
         });
     }
 

@@ -240,15 +240,21 @@ class InvoiceScreen extends Layout {
                 PosLink.setupPax(ip, port, timeout);
                 if (invoiceDetail.status === 'paid') {
                     this.popupProcessingCreditRef.current.setStateFromParent(false);
-                    PosLink.refundTransaction(parseFloat(paymentInformation.ApprovedAmount), paymentInformation.RefNum, paymentInformation.ExtData, (data) => {
-                        this.handleResultRefundTransaction(data);
-                    });
+                    PosLink.refundTransaction(
+                        parseFloat(paymentInformation.ApprovedAmount),
+                        paymentInformation.RefNum,
+                        paymentInformation.ExtData,
+                        (data) => this.handleResultRefundTransaction(data)
+                    );
                 } else if (invoiceDetail.status === 'complete') {
                     const transactionId = paymentInformation.RefNum ? paymentInformation.RefNum : 0
                     this.popupProcessingCreditRef.current.setStateFromParent(transactionId);
-                    PosLink.voidTransaction(parseFloat(paymentInformation.ApprovedAmount), paymentInformation.RefNum, paymentInformation.ExtData, (data) => {
-                        this.handleResultVoidTransaction(data);
-                    });
+                    PosLink.voidTransaction(
+                        parseFloat(paymentInformation.ApprovedAmount),
+                        paymentInformation.RefNum,
+                        paymentInformation.ExtData,
+                        (data) => this.handleResultVoidTransaction(data)
+                    );
                 }
 
             }
@@ -274,21 +280,12 @@ class InvoiceScreen extends Layout {
     handleResultVoidTransaction = async result => {
         const { invoiceDetail } = this.state;
         const data = JSON.parse(result);
-
         await this.setState({
             visibleProcessingCredit: false
         });
 
         if (data.status === 1) {
             this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch());
-            // await this.setState({
-            //     invoiceDetail: {
-            //         history: []
-            //     },
-            // });
-            // for (let i = 0; i < this.listInvoiceRef.length; i++) {
-            //     this.listInvoiceRef[i].setStateFromParent(false);
-            // }
         } else {
             setTimeout(() => {
                 alert(data.message)
@@ -307,19 +304,6 @@ class InvoiceScreen extends Layout {
         const data = JSON.parse(result);
         if (data.status === 1 && data.ResultTxt === "OK") {
             this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch());
-            // await this.setState({
-            //     invoiceDetail: {
-            //         history: []
-            //     },
-            // });
-            // for (let i = 0; i < this.listInvoiceRef.length; i++) {
-            //     this.listInvoiceRef[i].setStateFromParent(false);
-            // }
-
-        } else if (data.status === 1 && data.ResultTxt !== "OK") {
-            setTimeout(() => {
-                alert(`${data.ResultTxt}`)
-            }, 300)
         } else {
             setTimeout(() => {
                 alert(data.message)
