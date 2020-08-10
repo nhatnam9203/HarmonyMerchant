@@ -30,7 +30,8 @@ class TabFirstSettle extends Layout {
             isShowKeyboard: false,
             isEditOtherAmount: false,
             isEditCashAmount: false,
-            visible: false
+            visible: false,
+            isGetReportFromPax: true
         };
         this.arrayStaffRef = [];
         this.inputHarmonyPaymentRef = React.createRef();
@@ -43,10 +44,12 @@ class TabFirstSettle extends Layout {
         this.creditAmountRef = React.createRef();
     }
 
-    componentDidMount() {
-        // this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this.keyboardDidShow);
-        // this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardDidHide);
+    setStateFromParent = async () => {
+        await this.setState({
+            isGetReportFromPax: true
+        })
     }
+
 
     keyboardDidShow = async () => {
         if (this.scrollRef.current) {
@@ -85,7 +88,7 @@ class TabFirstSettle extends Layout {
         const { ip, port, timeout, isSetup } = paxMachineInfo;
         if (isSetup) {
             await this.setState({
-                visible : true
+                visible: true
             });
             let totalReport = 0;
             let totalRecord = 0;
@@ -123,7 +126,8 @@ class TabFirstSettle extends Layout {
             }
 
             await this.setState({
-                visible : false
+                visible: false,
+                isGetReportFromPax: false
             });
 
         } else {
@@ -212,11 +216,6 @@ class TabFirstSettle extends Layout {
 
     }
 
-
-    setStateFromParent = () => {
-
-    }
-
     // ----------- New code -----------
     onPressStaff = (staffId) => {
         this.props.onPressStaff(staffId);
@@ -275,6 +274,17 @@ class TabFirstSettle extends Layout {
         this.scrollTo(0);
     }
 
+    refreshSettlement = async () => {
+        await this.setState({
+            isGetReportFromPax: true
+        })
+        this.props.actions.invoice.getSettlementWating();
+        this.props.actions.invoice.getListStaffsSales();
+        this.props.actions.invoice.getListGiftCardSales();
+
+
+    }
+
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { isGettingSettlement, settleWaiting } = this.props;
         if (prevProps.isGettingSettlement === "loading" && isGettingSettlement === "success" && !_.isEmpty(settleWaiting)) {
@@ -285,14 +295,11 @@ class TabFirstSettle extends Layout {
                 total: settleWaiting.total ? settleWaiting.total : 0.00,
                 discountSettlement: settleWaiting.discount ? settleWaiting.discount : 0.00,
             });
-            this.handlePAXReport();
+            if (this.state.isGetReportFromPax) {
+                this.handlePAXReport();
+            }
             this.props.actions.invoice.resetStateIsGettingSettlement();
         }
-    }
-
-    componentWillUnmount() {
-        // this.keyboardDidShowListener.remove();
-        // this.keyboardDidHideListener.remove();
     }
 
 }

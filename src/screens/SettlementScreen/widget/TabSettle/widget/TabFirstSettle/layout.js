@@ -4,16 +4,18 @@ import {
     TextInput,
     FlatList,
     ScrollView,
+    Image
 } from 'react-native';
 import _ from 'ramda';
 
 import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, formatWithMoment } from '@utils';
 import {
-    Text, ButtonCustom
+    Text, ButtonCustom,Button
 } from '@components';
 import styles from "./style";
 import ItemPaymentsReport, { StaffsHeaderTable, StaffsItem, GiftCardItem, TotalItem, HeaderPaymentsReport } from "./widget/ItemsSettlement";
 import PopupProcessingReportPax from "./widget/PopupProcessingReportPax";
+import ICON from "@resources";
 
 class Layout extends React.Component {
 
@@ -21,7 +23,9 @@ class Layout extends React.Component {
         const { settleWaiting, language } = this.props;
         const { settlementDate } = settleWaiting;
         return (
-            <View style={{ height: scaleSzie(40), flexDirection: 'row', alignItems: 'center' }} >
+            <View style={{
+                height: scaleSzie(40), flexDirection: 'row', alignItems: 'center',
+            }} >
                 <Text style={[styles.txt_top_title, { marginLeft: scaleSzie(10), marginRight: scaleSzie(20), }]} >
                     {`${localize('Last Settlement', language)}:`}
                 </Text>
@@ -31,6 +35,15 @@ class Layout extends React.Component {
                 <Text style={[styles.txt_top_title, { fontWeight: '500', marginRight: scaleSzie(20) }]}  >
                     {formatWithMoment(settlementDate, 'hh:mm A')}
                 </Text>
+
+                <Button onPress={this.refreshSettlement} style={{
+                    position: "absolute", top: scaleSzie(10), right: scaleSzie(10),
+                    justifyContent: "center"
+                }} >
+                    <Image source={ICON.refresh_settlement}
+                        style={{ width: scaleSzie(30), height: scaleSzie(30) }}
+                    />
+                </Button>
             </View>
         );
     }
@@ -68,7 +81,7 @@ class Layout extends React.Component {
             formatNumberFromCurrency(discountSettlement)
         );
 
-        if(temtpTotal > 0 || creditCount > 0){
+        if (temtpTotal != 0 || creditCount > 0) {
             return (
                 <View style={{
                     flex: 1, justifyContent: "flex-end", alignItems: 'center',
@@ -89,7 +102,7 @@ class Layout extends React.Component {
         }
 
         return null;
-        
+
     }
 
     renderStaffsTable() {
@@ -243,8 +256,8 @@ class Layout extends React.Component {
     }
 
     render() {
-        const {language} = this.props;
-        
+        const { language } = this.props;
+
         return (
             <View style={{ flex: 1, backgroundColor: "#fff" }} >
                 <View style={{ flex: 1 }} >
@@ -258,7 +271,7 @@ class Layout extends React.Component {
                     </View>
                     {this.renderButtonConfirm()}
                 </View>
-                <PopupProcessingReportPax 
+                <PopupProcessingReportPax
                     visible={this.state.visible}
                     onRequestClose={this.cancelTransaction}
                     language={language}
