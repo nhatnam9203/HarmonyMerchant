@@ -31,6 +31,10 @@ function MarketingEfficiencyTab({ style, showBackButton }, ref) {
     (state) => state.report.meStatisticExportFilePath
   );
 
+  const isDownloadReport = useSelector(
+    (state) => state.report.isDownloadReport
+  );
+
   /**state */
   const [titleRangeTime, setTitleRangeTime] = useState("This week");
   const [filterNameItem, setFilterNameItem] = useState(undefined);
@@ -111,7 +115,7 @@ function MarketingEfficiencyTab({ style, showBackButton }, ref) {
 
   const onHandleTheDownloadedFile = (filePath) => {
     layoutRef.current.handleTheDownloadedFile(filePath);
-  }
+  };
 
   // public function
   useImperativeHandle(ref, () => ({
@@ -139,6 +143,7 @@ function MarketingEfficiencyTab({ style, showBackButton }, ref) {
         showBackButton={showBackButton}
         onChangeTimeTitle={onChangeTimeTitle}
         onRequestExportFileToServer={onRequestExportFileToServer}
+        isDownloadReport={isDownloadReport}
       >
         <MarketingEfficiency
           style={{ flex: 1, paddingTop: 10 }}

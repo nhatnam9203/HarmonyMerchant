@@ -69,6 +69,15 @@ const yAxis = {
   },
 };
 
+const pickValuesForKey = (array, forKey, format) => {
+  return array.map((obj) => {
+    const item = Object.entries(obj).filter(([key, value]) => key === forKey);
+    const [key, value] = item[0];
+    if (format === "float") return formatNumberFromCurrency(value);
+    return value + "";
+  });
+};
+
 export default function PaymentBarChart({ data }) {
   /**state store */
   const [dataChart, setDataChart] = useState(dataConfig);
@@ -80,14 +89,13 @@ export default function PaymentBarChart({ data }) {
     if (data) {
       // ======= map values =======
       let mapValues = [];
-      let formatterValues = [];
+      let formatterValues = pickValuesForKey(data, "method", "string");
 
       // run object get value push in array mapValues
-      data.forEach((d) => {
+      pickValuesForKey(data, "netPayment", "float").forEach((d) => {
         let obj = Object.create({});
-        obj.y = formatNumberFromCurrency(Object.values(d)[0]);
+        obj.y = formatNumberFromCurrency(d);
         mapValues.push(obj);
-        formatterValues.push(Object.keys(d)[0]);
       });
 
       const createDataSet = {

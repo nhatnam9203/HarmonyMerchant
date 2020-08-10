@@ -20,6 +20,7 @@ const FILTER_NAME_DEFAULT = "All Promotion";
 const ACTIVE_COLOR = "#0764B0";
 const INACTIVE_COLOR = "#6A6A6A";
 
+
 export default function PaymentMethod({
   style,
   onGoStatistics,

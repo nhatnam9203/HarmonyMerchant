@@ -31,6 +31,10 @@ function GiftCardTab({ style, showBackButton }, ref) {
     (state) => state.report.giftCardReportList
   );
 
+  const isDownloadReport = useSelector(
+    (state) => state.report.isDownloadReport
+  );
+
   /**state */
   const [titleRangeTime, setTitleRangeTime] = useState("This week");
   const [filterNameItem, setFilterNameItem] = useState(undefined);
@@ -139,6 +143,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
         showBackButton={showBackButton}
         onChangeTimeTitle={onChangeTimeTitle}
         onRequestExportFileToServer={onRequestExportFileToServer}
+        isDownloadReport={isDownloadReport}
       >
         <GiftCardReportTab
           style={{ flex: 1, paddingTop: 10 }}
