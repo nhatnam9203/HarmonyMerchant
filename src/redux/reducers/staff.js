@@ -13,8 +13,6 @@ const initialState = {
   isShowButtonEnterPinCode: false,
   listStaffsSalary: [],
   refreshListStaffsSalary: false,
-  listStaffsCalendar: [],
-  listCalendarStaffId: 0,
   dx: 0,
   reportTabPermission: false,
   isDownloadReportStaff: false,
@@ -123,12 +121,6 @@ function appReducer(state = initialState, action) {
       return {
         ...state,
         listStaffsSalary: action.payload,
-        listStaffsCalendar:
-          state.listCalendarStaffId > 0
-            ? action.payload.find(
-                (x) => x.staffId === state.listCalendarStaffId
-              )?.salariesByDate
-            : [], //action.payload[0].salariesByDate
         refreshListStaffsSalary: false,
       };
     case "GET_LIST_STAFFS_SALARY_TOP_FAIL":
@@ -146,18 +138,10 @@ function appReducer(state = initialState, action) {
         ...state,
         reportTabPermission: action.payload,
       };
-      case 'CLOSE_ALL_POPUP_PIN_CODE':
-        return {
-            ...state,
-            reportTabPermission: false,
-        }
-    case "GET_LIST_STAFFS_SALARY_CALENDAR":
+    case "CLOSE_ALL_POPUP_PIN_CODE":
       return {
         ...state,
-        listCalendarStaffId: action.payload,
-        listStaffsCalendar:
-          state.listStaffsSalary.find((x) => x.staffId === action.payload)
-            ?.salariesByDate ?? [],
+        reportTabPermission: false,
       };
     case "DOWNLOAD_REPORT_STAFF":
       return {
@@ -180,6 +164,7 @@ function appReducer(state = initialState, action) {
       return {
         ...state,
         isDownloadReportStaff: false,
+        pathFileReportStaffStatistic: null,
       };
     default:
       return state;

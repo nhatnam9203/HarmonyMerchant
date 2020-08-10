@@ -221,9 +221,9 @@ class PopupStaffInvoicePrint extends React.Component {
     const toTime = receipts.to
       ? formatWithMoment(receipts.to, "MM/DD/YYYY")
       : "";
-    const sales = staff.serviceSales ? staff.serviceSales : "0.00";
-    const workingHour = staff.workingHour ? staff.workingHour : "0";
-    const product = staff.productSales ? staff.productSales : "0.00";
+    const sales = receipts.serviceSales ? receipts.serviceSales : "0.00";
+    const workingHour = receipts.workingHour ? receipts.workingHour : "0";
+    const product = receipts.productSales ? receipts.productSales : "0.00";
     const cash = receipts.cash ? receipts.cash : "0.00";
     const nonCash = receipts.nonCash ? receipts.nonCash : "0.00";
     const detail = receipts.detail ?? [];

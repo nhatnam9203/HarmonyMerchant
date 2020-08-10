@@ -29,15 +29,13 @@ function ReportLayout(
     children,
     onChangeTimeTitle,
     onRequestExportFileToServer,
+    isDownloadReport,
   },
   ref
 ) {
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
-  const isDownloadReport = useSelector(
-    (state) => state.report.isDownloadReport
-  );
 
   /**refs */
   const scrollPage = useRef(null);
@@ -180,7 +178,6 @@ function ReportLayout(
 
   /**effect */
   useEffect(() => {
-    // console.log(`==============> isDownloadReport : ${isDownloadReport}`);
     setVisiblePopupLoadingExport(isDownloadReport);
   }, [isDownloadReport]);
 
