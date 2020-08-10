@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Text } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import actions from "@actions";
 
 import { ReportStatisticLayout } from "../../../widget";
 import { localize } from "@utils";
 
-const HEAD_FONT_SIZE = 17;
-const TABLE_ROW_HEIGHT = 50;
+
 
 export default function MarketingEfficiencyStatistic(props, ref) {
   const { filterId } = props;

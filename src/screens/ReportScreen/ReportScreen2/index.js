@@ -87,9 +87,9 @@ function ReportScreen2({ showBackButton }, ref) {
         tabIcons={[
           IMAGE.Staff,
           IMAGE.giftcard,
-          IMAGE.Customer,
-          IMAGE.Services,
-          IMAGE.Report_Product,
+          // IMAGE.Customer,
+          // IMAGE.Services,
+          // IMAGE.Report_Product,
           IMAGE.Report_Overall,
         ]}
         onHeaderTabChanged={onTabChange}
@@ -106,7 +106,7 @@ function ReportScreen2({ showBackButton }, ref) {
           ref={giftCardRef}
           showBackButton={onShowBackButton}
         />
-        <CustomerTab
+        {/* <CustomerTab
           style={styles.content}
           tabLabel="Customer"
           ref={customerRef}
@@ -121,7 +121,7 @@ function ReportScreen2({ showBackButton }, ref) {
           style={styles.content}
           tabLabel="Product"
           showBackButton={onShowBackButton}
-        />
+        /> */}
         <OverallTab
           ref={overallRef}
           style={styles.content}

@@ -2,11 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
-import { Dropdown } from "react-native-material-dropdown";
-
 import IMAGE from "@resources";
-import { localize, formatNumberFromCurrency, scaleSzie } from "@utils";
-import actions from "@actions";
+import { localize } from "@utils";
 
 import { PopupButton, TableList, ReportTabLayout } from "../../../widget";
 import MarketingBarGroupChart from "./chart/MarketingBarGroupChart";
@@ -212,7 +209,11 @@ export default function MarketingEfficiency({
               <View style={styles.chartDetail}>
                 {marketingEfficiencyList &&
                   marketingEfficiencyList.map((item) => (
-                    <DetailChart label={item.promotionId} desc={item.name} />
+                    <DetailChart
+                      key={item.promotionId}
+                      label={item.promotionId}
+                      desc={item.name}
+                    />
                   ))}
               </View>
             </View>

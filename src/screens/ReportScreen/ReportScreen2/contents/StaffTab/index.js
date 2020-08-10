@@ -15,6 +15,8 @@ import { ReportLayout } from "../../widget";
 import StaffReportTab from "./StaffReportTab";
 import StaffStatistic from "./StaffStatistic";
 
+const RANGE_TIME_DEFAULT = "This Week";
+
 function StaffTab({ style, showBackButton }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -35,7 +37,7 @@ function StaffTab({ style, showBackButton }, ref) {
   );
 
   /**state */
-  const [titleRangeTime, setTitleRangeTime] = useState("This week");
+  const [titleRangeTime, setTitleRangeTime] = useState(RANGE_TIME_DEFAULT);
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);
 
@@ -123,7 +125,8 @@ function StaffTab({ style, showBackButton }, ref) {
       dispatch(actions.staff.resetDownloadExportFiles());
     },
     didBlur: () => {
-      setTitleRangeTime("This week");
+    //   setTitleRangeTime(RANGE_TIME_DEFAULT);
+      layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
     didFocus: () => {
       // console.log("====> screen report -> staff didFocus");

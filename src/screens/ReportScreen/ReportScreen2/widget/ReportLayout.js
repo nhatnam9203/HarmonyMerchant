@@ -81,6 +81,9 @@ function ReportLayout(
     showCalendar: setVisibleCalendar,
     showPopupExport: onShowPopupExport,
     handleTheDownloadedFile: handleTheDownloadedFile,
+    setTimeFilter: (time) => {
+      modalCalendarRef?.current?.selectQuickFilter(time);
+    },
   }));
 
   // create time range params

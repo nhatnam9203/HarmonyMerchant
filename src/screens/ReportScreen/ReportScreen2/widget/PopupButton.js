@@ -1,8 +1,6 @@
 import React from "react";
 import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native";
 
-import IMAGE from "@resources";
-import style from "../../style";
 
 const BOX_DEFAULT_WIDTH = 60;
 const BOX_DEFAULT_HEIGHT = 45;
