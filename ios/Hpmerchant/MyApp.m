@@ -381,14 +381,14 @@ RCT_EXPORT_METHOD(batchTransaction:(RCTResponseSenderBlock)callback)
 }
 
 //---------------- Handle Report -------------
-RCT_EXPORT_METHOD(reportTransaction:(NSString *)cardType paymentType:(NSString *)paymentType findEventsWithResolver:(RCTPromiseResolveBlock)resolve  rejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXPORT_METHOD(reportTransaction:(NSString *)transType edcType:(NSString *)edcType cardType:(NSString *)cardType paymentType:(NSString *)paymentType findEventsWithResolver:(RCTPromiseResolveBlock)resolve  rejecter:(RCTPromiseRejectBlock)reject)
 //                  callback:(RCTResponseSenderBlock)callback
 {
   MyApp *myapp = [MyApp sharedSigleton];
    ReportRequest *reportRequest = [[ReportRequest alloc] init];
   
-   reportRequest.TransType = [ReportRequest ParseTransType:@"LOCALDETAILREPORT"];
-    reportRequest.EDCType = [ReportRequest ParseEDCType:@"CREDIT"];
+   reportRequest.TransType = [ReportRequest ParseTransType:transType];
+    reportRequest.EDCType = [ReportRequest ParseEDCType:edcType];
    reportRequest.CardType = [ReportRequest ParseCardType:cardType];
   reportRequest.PaymentType = [ReportRequest ParsePaymentType:paymentType];
   
@@ -437,8 +437,8 @@ RCT_EXPORT_METHOD(reportTransaction:(NSString *)cardType paymentType:(NSString *
 //                                       @"ClerkID" : myapp.poslink.reportResponse.ClerkID ? myapp.poslink.reportResponse.ClerkID : @"" ,
 //                                       @"ShiftID" : myapp.poslink.reportResponse.ShiftID ? myapp.poslink.reportResponse.ShiftID : @"" ,
 //                                       @"ReportType" : myapp.poslink.reportResponse.ReportType ? myapp.poslink.reportResponse.ReportType : @"" ,
-//                                       @"CreditCount" : myapp.poslink.reportResponse.CreditCount ? myapp.poslink.reportResponse.CreditCount : @"" ,
-//                                       @"CreditAmount" : myapp.poslink.reportResponse.CreditAmount ? myapp.poslink.reportResponse.CreditAmount : @"" ,
+                                       @"CreditCount" : myapp.poslink.reportResponse.CreditCount ? myapp.poslink.reportResponse.CreditCount : @"" ,
+                                       @"CreditAmount" : myapp.poslink.reportResponse.CreditAmount ? myapp.poslink.reportResponse.CreditAmount : @"" ,
 //                                       @"DebitCount" : myapp.poslink.reportResponse.DebitCount ? myapp.poslink.reportResponse.DebitCount : @"" ,
 //                                       @"DebitAmount" : myapp.poslink.reportResponse.DebitAmount ? myapp.poslink.reportResponse.DebitAmount : @"" ,
 //                                       @"EBTCount" : myapp.poslink.reportResponse.EBTCount ? myapp.poslink.reportResponse.EBTCount : @"" ,
@@ -494,12 +494,15 @@ RCT_EXPORT_METHOD(reportTransaction:(NSString *)cardType paymentType:(NSString *
         return;
         
       }else {
-        NSDictionary *dataError = @{@"status":@false,
-                                    @"message":ret.msg
-                                    };
-        NSString  *resultError =  [self convertObjectToJson:dataError ] ;
+        NSDictionary *dataError = @{@"status":@false, @"message":ret.msg };
+//        NSString  *resultError =  [self convertObjectToJson:dataError ] ;
 //        callback(@[resultError]);
-        reject(@"no_events", @"There were no events", @[resultError]);
+     
+        NSString *domain = @"com.harmony.pos.paxError";
+//        NSString *desc = NSLocalizedString(@"Unable to complete the process", @"");
+//        NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : desc };
+        NSError *error = [NSError errorWithDomain:domain code:-101 userInfo:dataError];
+        reject(@"no_events", ret.msg,error);
         return;
         
       }

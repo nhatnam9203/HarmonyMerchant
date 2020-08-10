@@ -71,23 +71,28 @@ class Layout extends React.Component {
             formatNumberFromCurrency(discountSettlement)
         );
 
-        return (
-            <View style={{
-                flex: 1, justifyContent: "flex-end", alignItems: 'center',
-                paddingBottom: scaleSzie(15)
-            }} >
-                <ButtonCustom
-                    width={scaleSzie(330)}
-                    height={50}
-                    backgroundColor="#0764B0"
-                    title={localize('CONFIRM ', language)}
-                    textColor="#fff"
-                    onPress={this.gotoTabSecondSettle}
-                    style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 6 }}
-                    styleText={{ fontSize: scaleSzie(21), fontWeight: '500' }}
-                />
-            </View>
-        );
+        if(temtpTotal > 0 || creditCount > 0){
+            return (
+                <View style={{
+                    flex: 1, justifyContent: "flex-end", alignItems: 'center',
+                    paddingBottom: scaleSzie(15)
+                }} >
+                    <ButtonCustom
+                        width={scaleSzie(330)}
+                        height={50}
+                        backgroundColor="#0764B0"
+                        title={localize('CONFIRM ', language)}
+                        textColor="#fff"
+                        onPress={this.gotoTabSecondSettle}
+                        style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 6 }}
+                        styleText={{ fontSize: scaleSzie(21), fontWeight: '500' }}
+                    />
+                </View>
+            );
+        }
+
+        return null;
+        
     }
 
     renderStaffsTable() {
@@ -159,7 +164,7 @@ class Layout extends React.Component {
                         />
                         <View style={{ height: 1 }} />
                         <ItemPaymentsReport
-                            title={`Credit Card`}
+                            title={`Credit Card ${(creditCount)}`}
                             backgroundColor="#075BA0"
                             value={editPaymentByCreditCard}
                         />

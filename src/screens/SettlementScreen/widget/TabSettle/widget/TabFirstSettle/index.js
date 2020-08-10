@@ -83,30 +83,50 @@ class TabFirstSettle extends Layout {
         const { paxMachineInfo } = this.props;
         const { ip, port, timeout, isSetup } = paxMachineInfo;
         if (isSetup) {
-            console.log("----- Loading ........");
+            let totalReport = 0;
+            let totalRecord = 0;
+            let isError = false;
+
             PosLink.setupPax(ip, port, timeout);
             for (let i = 0; i < CARD_TYPE.length; i++) {
-                for (let j = 0; j < PAYMENT_TYPE.length; j++) {
+                try {
+                    let amountData = await PosLink.reportTransaction("LOCALTOTALREPORT", "CREDIT", CARD_TYPE[i], "SALE");
+                    let amountResult = JSON.parse(amountData);
+                    let creditAmount = amountResult.CreditAmount ? parseFloat(amountResult.CreditAmount) : 0;
+                    totalReport = totalReport + creditAmount;
 
-                    let data  = await PosLink.reportTransaction(CARD_TYPE[i],PAYMENT_TYPE[j]);
-                    const result = JSON.parse(data);
-                    console.log("---- result  : ",result);
+
+                    for (let j = 0; j < PAYMENT_TYPE.length; j++) {
+                        let data = await PosLink.reportTransaction("LOCALDETAILREPORT", "CREDIT", CARD_TYPE[i], PAYMENT_TYPE[j]);
+                        let result = JSON.parse(data);
+                        let creditCount = result.TotalRecord ? parseInt(result.TotalRecord) : 0;
+                        totalRecord = totalRecord + creditCount;
+                    }
+                } catch (error) {
+                    isError = true;
+                    this.props.actions.app.connectPaxMachineError(`${error}`);
+                    break;
+
                 }
             }
+            if (!isError) {
+                this.props.actions.app.ConnectPaxMachineSuccess();
+                const moneyInPax = formatMoney(roundFloatNumber(totalReport / 100));
+                await this.setState({
+                    creditCount: totalRecord,
+                    editPaymentByCreditCard: moneyInPax
+                });
+            }
 
-            console.log("----- End ........");
         } else {
             this.props.actions.app.connectPaxMachineError("Don't have setup in Hardware Tab!");
         }
-
-        // ApprovedAmount
-        // TotalRecord
     }
 
     async handleResponseReportTransactions(message) {
         try {
             const result = JSON.parse(message);
-            console.log("----- result : ",result);
+            console.log("----- result : ", result);
             // if (result.status == 0) {
             //     this.props.actions.app.connectPaxMachineError(result.message);
             // } else {
@@ -306,3 +326,8 @@ const mapStateToProps = state => ({
 
 
 export default connectRedux(mapStateToProps, TabFirstSettle);
+
+// 15.28 Voided 
+// 15.28 SALE 
+// 15.28 SALE 
+// 7.89 SALE
