@@ -131,9 +131,9 @@ function StaffTab({ style, showBackButton }, ref) {
   }));
 
   /**effect */
-  useEffect(() => {
-    getListStaffsSalaryTop();
-  }, []);
+  //   useEffect(() => {
+  //     getListStaffsSalaryTop();
+  //   }, []);
 
   return (
     <View style={[styles.container, style]}>

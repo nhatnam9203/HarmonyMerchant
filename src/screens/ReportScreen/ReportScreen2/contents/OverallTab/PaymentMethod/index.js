@@ -1,75 +1,123 @@
 import React, {
-  useRef,
-  useImperativeHandle,
-  forwardRef,
-  useState,
-  useCallback,
   useEffect,
+  useState,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
 } from "react";
-import { View, Platform } from "react-native";
-
-import RNFetchBlob from "rn-fetch-blob";
+import { View, StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import ScrollableTabView from "react-native-scrollable-tab-view";
 
-import { PopupCalendar } from "@components";
 import actions from "@actions";
-import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
 
-import { PopupExportReport, PopupLoadingExportReport } from "../../../widget";
-
+import { ReportLayout } from "../../../widget";
 import PaymentMethod from "./PaymentMethod";
 import PaymentStatistic from "./PaymentStatistic";
-
-const FILE_EXTENSION = "csv";
-const FILTER_NAME_DEFAULT = "All Staff";
 
 function PaymentMethodTab({ style, showBackButton }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const overallPMFilterId = useSelector(
-    (state) => state.report.overallPMFilterId
+  const overallPaymentMethodList = useSelector(
+    (state) => state.report.overallPaymentMethodList
   );
-  const isDownloadReport = useSelector(
-    (state) => state.report.isDownloadReport
+
+  const overallPMExportFilePath = useSelector(
+    (state) => state.report.overallPMExportFilePath
   );
-  /**refs */
-  const scrollPage = useRef(null);
-  const modalCalendarRef = useRef(null);
-  const modalExportRef = useRef(null);
+
+  const overallPMStatisticExportFilePath = useSelector(
+    (state) => state.report.overallPMStatisticExportFilePath
+  );
 
   /**state */
-  const [visibleCalendar, setVisibleCalendar] = useState(false);
-  const [visiblePopupExport, setVisiblePopupExport] = useState(false);
-  const [visiblePopupLoadingExport, setVisiblePopupLoadingExport] = useState(
-    false
-  );
   const [titleRangeTime, setTitleRangeTime] = useState("This week");
-  const [titleExportFile, setTitleExportFile] = useState(
-    localize("Export", language)
-  );
-  const [currentTab, setCurrentTab] = useState(0);
+  const [filterNameItem, setFilterNameItem] = useState(undefined);
+  const [filterNames, setFilterNames] = useState([]);
+
+  /**ref */
+  const layoutRef = useRef(null);
 
   /**function */
-  // go to statistics page
-  const goNext = () => {
-    scrollPage.current.goToPage(1);
+  const getOverallPaymentMethod = async () => {
+    await dispatch(
+      actions.report.getOverallPaymentMethod(
+        true,
+        layoutRef?.current?.getTimeUrl()
+      )
+    );
   };
 
-  // go to salary page
-  const goBack = async () => {
-    // reset filters name
-    //   await setFilterStaffItem(null);
-    // scroll to staff salary
-    await dispatch(actions.report.resetExportFiles());
-    scrollPage.current.goToPage(0);
+  const showCalendar = (isShow) => {
+    layoutRef?.current?.showCalendar(isShow);
+  };
+
+  //callback
+  const onChangeTimeTitle = async (titmeTitle) => {
+    await setTitleRangeTime(titmeTitle);
+    // TODO: call reload list
+    await getOverallPaymentMethod();
+  };
+
+  const onChangeFilterNames = (names) => {
+    setFilterNames(names);
+  };
+
+  const onChangeFilterId = async (filterId) => {
+    await setFilterNameItem(filterId);
+  };
+
+  const onGoStatistics = async (item) => {
+    await setFilterNameItem(item.method);
+    layoutRef.current.goNext();
+  };
+
+  const onShowPopupExport = (title) => {
+    layoutRef?.current?.showPopupExport(title);
+  };
+
+  const onRequestExportFileToServer = (currentTab, titleExportFile) => {
+    switch (currentTab) {
+      case 0:
+        dispatch(
+          actions.report.exportPaymentMethod(
+            layoutRef?.current?.getTimeUrl(),
+            true,
+            "excel",
+            titleExportFile
+          )
+        );
+        break;
+      case 1:
+        const item = overallPaymentMethodList.find(
+          (item) => item.method === filterNameItem
+        );
+        if (!item) return;
+        dispatch(
+          actions.report.exportPaymentMethodStatistics(
+            item.method,
+            layoutRef?.current?.getTimeUrl(),
+            true,
+            "excel",
+            titleExportFile
+          )
+        );
+        break;
+      default:
+        break;
+    }
+  };
+
+  const onHandleTheDownloadedFile = (filePath) => {
+    layoutRef.current.handleTheDownloadedFile(filePath);
   };
 
   // public function
   useImperativeHandle(ref, () => ({
-    goBack: goBack,
+    goBack: () => {
+      layoutRef.current.goBack();
+    },
     didBlur: () => {
       setTitleRangeTime("This week");
     },
@@ -78,200 +126,51 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
     },
   }));
 
-  const getOverallPaymentMethod = async () => {
-    await dispatch(
-      actions.report.getOverallPaymentMethod(true, getFilterTimeParams())
-    );
-  };
-
-  // create time range params
-  const getFilterTimeParams = () => {
-    const {
-      isCustomizeDate,
-      startDate,
-      endDate,
-      quickFilter,
-    } = modalCalendarRef.current.state;
-
-    let url;
-
-    if (isCustomizeDate) {
-      url = `timeStart=${startDate}&timeEnd=${endDate}`;
-    } else {
-      const filter = quickFilter === false ? "This Week" : quickFilter;
-      // console.log("quickFilter", quickFilter);
-      url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
-    }
-
-    return url;
-  };
-
-  // create title for time, to set default title print
-  const getTimeTitle = () => {
-    const {
-      isCustomizeDate,
-      startDate,
-      endDate,
-      quickFilter,
-    } = modalCalendarRef.current.state;
-
-    const filter = quickFilter === false ? "This Week" : quickFilter;
-    let title = `${filter}`;
-
-    if (startDate && endDate) {
-      title = ` ${startDate} - ${endDate}`;
-    }
-
-    return title.toLowerCase();
-  };
-
-  // time filter change: hide popup + create time range params + call api search staff
-  const changeTitleTimeRange = async (title) => {
-    setVisibleCalendar(false);
-    await setTitleRangeTime(title !== "Time Range" ? title : "All time");
-    getOverallPaymentMethod();
-  };
-
-  // callback  when scrollTab change
-  const onChangeTab = (tabIndex) => {
-    setCurrentTab(tabIndex.i);
-    showBackButton(tabIndex.i !== 0);
-  };
-
-  // popup show when button export pressed
-  const onShowPopupExport = async () => {
-    switch (currentTab) {
-      case 0:
-        await setTitleExportFile("Report payment method " + getTimeTitle());
-        break;
-      case 1:
-        await setTitleExportFile(
-          "Report payment method statistics " + getTimeTitle()
-        );
-        break;
-      default:
-    }
-
-    setVisiblePopupExport(true);
-  };
-
-  // call action export staff
-  const requestExportFileToServer = () => {
-    const url = getFilterTimeParams();
-    setVisiblePopupExport(false);
-    switch (currentTab) {
-      case 0:
-        dispatch(
-          actions.report.exportPaymentMethod(
-            url,
-            true,
-            "excel",
-            titleExportFile
-          )
-        );
-        break;
-      case 1:
-        dispatch(
-          actions.report.exportPaymentMethodStatistics(
-            overallPMFilterId,
-            url,
-            true,
-            "excel",
-            titleExportFile
-          )
-        );
-        break;
-      default:
-        break;
-    }
-  };
-
-  // popup handle file download, when button Manager downloaded file pressed
-  const handleTheDownloadedFile = (pathFile) => {
-    if (Platform.OS === "ios") {
-      RNFetchBlob.ios.previewDocument(pathFile);
-    } else {
-      const android = RNFetchBlob.android;
-      android.actionViewIntent(
-        pathFile,
-        "application/vnd.android.package-archive"
-      );
-    }
-  };
-
   /**effect */
   useEffect(() => {
     getOverallPaymentMethod();
   }, []);
 
-  useEffect(() => {
-    // console.log(`==============> isDownloadReport : ${isDownloadReport}`);
-    setVisiblePopupLoadingExport(isDownloadReport);
-  }, [isDownloadReport]);
-
-  /**render */
   return (
-    <View style={style}>
-      <ScrollableTabView
-        ref={scrollPage}
-        initialPage={0}
-        locked={true}
-        renderTabBar={() => <View />}
-        style={{ flex: 1 }}
-        tabBarPosition="bottom"
-        springTension={1}
-        springFriction={1}
-        onChangeTab={onChangeTab}
+    <View style={[styles.container, style]}>
+      <ReportLayout
+        ref={layoutRef}
+        style={style}
+        showBackButton={showBackButton}
+        onChangeTimeTitle={onChangeTimeTitle}
+        onRequestExportFileToServer={onRequestExportFileToServer}
       >
         <PaymentMethod
           style={{ flex: 1, paddingTop: 10 }}
           tabLabel="Payment Method"
-          onGoStatistics={goNext}
-          showCalendar={() => setVisibleCalendar(true)}
+          onGoStatistics={onGoStatistics}
+          showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
-          showExportFile={onShowPopupExport}
-          handleTheDownloadedFile={handleTheDownloadedFile}
+          onChangeFilterNames={onChangeFilterNames}
+          showExportFile={() => onShowPopupExport("Payment Method ")}
+          pathFileExport={overallPMExportFilePath}
+          handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
-
         <PaymentStatistic
           style={{ flex: 1, paddingTop: 10 }}
           tabLabel="Payment Method Statistics"
           title="Payment Method Statistics"
           titleRangeTime={titleRangeTime}
-          showCalendar={() => setVisibleCalendar(true)}
-          showExportFile={onShowPopupExport}
-          handleTheDownloadedFile={handleTheDownloadedFile}
+          showCalendar={() => showCalendar(true)}
+          dataFilters={filterNames}
+          filterId={filterNameItem}
+          onChangeFilter={onChangeFilterId}
+          showExportFile={() => onShowPopupExport("Payment Method Statistic ")}
+          pathFileExport={overallPMStatisticExportFilePath}
+          handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
-      </ScrollableTabView>
-
-      <PopupCalendar
-        type="report"
-        ref={modalCalendarRef}
-        visible={visibleCalendar}
-        onRequestClose={() => setVisibleCalendar(false)}
-        changeTitleTimeRange={changeTitleTimeRange}
-        paddingLeft={scaleSzie(60)}
-      />
-
-      <PopupExportReport
-        ref={modalExportRef}
-        title={localize("Export", language)}
-        fileName={titleExportFile}
-        visible={visiblePopupExport}
-        onRequestClose={() => setVisiblePopupExport(false)}
-        language={language}
-        exportFile={requestExportFileToServer}
-      />
-
-      <PopupLoadingExportReport
-        visible={visiblePopupLoadingExport}
-        onRequestClose={() => setVisiblePopupLoadingExport(false)}
-        language={language}
-        typeFile={FILE_EXTENSION === "pdf" ? "PDF" : "Excel"}
-        // typeFile={typeFile === "pdf" ? "PDF" : "Excel"}
-      />
+      </ReportLayout>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {},
+});
 
 export default PaymentMethodTab = forwardRef(PaymentMethodTab);

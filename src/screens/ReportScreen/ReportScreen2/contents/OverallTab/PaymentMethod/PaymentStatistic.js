@@ -10,6 +10,7 @@ const HEAD_FONT_SIZE = 17;
 const TABLE_ROW_HEIGHT = 50;
 
 export default function PaymentStatistic(props, ref) {
+  const { filterId } = props;
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
@@ -17,41 +18,15 @@ export default function PaymentStatistic(props, ref) {
   const overallPaymentMethodList = useSelector(
     (state) => state.report.overallPaymentMethodList
   );
-  const overallPMFilterId = useSelector(
-    (state) => state.report.overallPMFilterId
-  );
-  const overallPMFilters = useSelector(
-    (state) => state.report.overallPMFilters
-  );
-
-  const pathFileReport = useSelector(
-    (state) => state.report.overallPMStatisticExportFilePath
-  );
-
   /**state */
   const [table, setTable] = useState({});
 
-  const [filterNameItem, setFilterNameItem] = useState(undefined);
-  const [filterNames, setFilterNames] = useState([]);
-
   /**process */
-
-  const onChangeFilterName = async (text) => {
-    dispatch(actions.report.filterOPM(text));
-  };
-
-  const bindNameFilter = async () => {
-    await setFilterNameItem(overallPMFilterId);
-    await setFilterNames(overallPMFilters);
-  };
 
   /**useEffect */
   useEffect(() => {
-    bindNameFilter();
+    const item = overallPaymentMethodList.find((item) => item.method === filterId);
 
-    const item = overallPaymentMethodList.find(
-      (item) => item.method === overallPMFilterId
-    );
     setTable({
       tableData: item.statistics,
       tableHead: {
@@ -74,7 +49,7 @@ export default function PaymentStatistic(props, ref) {
       priceKeys: ["grossPayment", "refund", "netPayment"],
       tableCellWidth: { grossPayment: 180 },
     });
-  }, [overallPMFilterId, overallPaymentMethodList]);
+  }, [filterId, overallPaymentMethodList]);
 
   /**render */
 
@@ -83,10 +58,6 @@ export default function PaymentStatistic(props, ref) {
       {...props}
       {...table}
       title={"Payment Method Statistics"}
-      onChangeFilter={onChangeFilterName}
-      dataFilters={filterNames}
-      filterId={filterNameItem}
-      pathFileExport={pathFileReport}
     />
   );
 }

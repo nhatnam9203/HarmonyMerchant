@@ -19,7 +19,7 @@ function* getReportOverallPaymentMethod(action) {
 
     if (parseInt(codeNumber) == 200) {
       yield put({
-        type: "GET_REPORT_OVERALL_PAYMENT_METHOD_SUCCESS",
+        type: ACTION_TYPES.OPM_GetListSuccess,
         payload: responses.data,
       });
     } else if (parseInt(codeNumber) === 401) {
@@ -28,7 +28,7 @@ function* getReportOverallPaymentMethod(action) {
       });
     } else {
       yield put({
-        type: "GET_REPORT_OVERALL_PAYMENT_METHOD_FAIL",
+        type: ACTION_TYPES.OPM_GetListFail,
       });
       yield put({
         type: "SHOW_ERROR_MESSAGE",
@@ -51,7 +51,7 @@ function* getReportOverallMarketingEfficiency(action) {
 
     if (parseInt(codeNumber) == 200) {
       yield put({
-        type: "GET_REPORT_OVERALL_MARKETING_EFFICIENCY_SUCCESS",
+        type: ACTION_TYPES.OME_GetListSuccess,
         payload: responses.data,
       });
     } else if (parseInt(codeNumber) === 401) {
@@ -60,7 +60,7 @@ function* getReportOverallMarketingEfficiency(action) {
       });
     } else {
       yield put({
-        type: "GET_REPORT_OVERALL_MARKETING_EFFICIENCY_FAIL",
+        type: ACTION_TYPES.OME_GetListFail,
       });
       yield put({
         type: "SHOW_ERROR_MESSAGE",
@@ -195,10 +195,7 @@ function* exportReport(action) {
 
 export default function* saga() {
   yield all([
-    takeLatest(
-      ACTION_TYPES.GetOverallPaymentMethod,
-      getReportOverallPaymentMethod
-    ),
+    takeLatest(ACTION_TYPES.OPM_GetList, getReportOverallPaymentMethod),
     takeLatest(ACTION_TYPES.OPM_Export, exportReport),
     takeLatest(ACTION_TYPES.OPM_StatisticExport, exportReport),
     takeLatest(ACTION_TYPES.OME_GetList, getReportOverallMarketingEfficiency),

@@ -3,11 +3,12 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import { Dropdown } from "react-native-material-dropdown";
+
 import IMAGE from "@resources";
 import { localize, formatNumberFromCurrency, scaleSzie } from "@utils";
 import actions from "@actions";
 
-import { HeaderTooltip, PopupButton, TableList } from "../../../widget";
+import { PopupButton, TableList, ReportTabLayout } from "../../../widget";
 import PaymentBarChart from "./chart/PaymentBarChart";
 import PaymentPieChart from "./chart/PaymentPieChart";
 
@@ -15,36 +16,23 @@ const VIEW_MODE = {
   LIST: "LIST",
   CHART: "CHART",
 };
-const FILTER_NAME_DEFAULT = "All Method";
-
+const FILTER_NAME_DEFAULT = "All Promotion";
 const ACTIVE_COLOR = "#0764B0";
 const INACTIVE_COLOR = "#6A6A6A";
-
-/**create new object from two value for two key of object */
-const createChartObjectFromValues = (array, key, keyValue) => {
-  let response = [];
-  array.forEach((obj) => {
-    let mapObj = Object.create({});
-    mapObj[obj[key]] = formatNumberFromCurrency(obj[keyValue]);
-    response.push(mapObj);
-  });
-
-  return response;
-};
 
 export default function PaymentMethod({
   style,
   onGoStatistics,
   titleRangeTime,
   showCalendar,
+  onChangeFilterNames,
+  onChangeFilterId,
   showExportFile,
+  pathFileExport,
   handleTheDownloadedFile,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
-  const pathFileReport = useSelector(
-    (state) => state.report.overallPMExportFilePath
-  );
   const language = useSelector((state) => state.dataLocal.language);
   const overallPaymentMethodList = useSelector(
     (state) => state.report.overallPaymentMethodList
@@ -52,24 +40,11 @@ export default function PaymentMethod({
 
   /**state */
   const [viewMode, setViewMode] = useState(VIEW_MODE.LIST);
-  const [chartData, setChartData] = useState([]);
   const [filterNameItem, setFilterNameItem] = useState(FILTER_NAME_DEFAULT);
   const [filterNames, setFilterNames] = useState([]);
-
-  /**refs */
+  const [chartData, setChartData] = useState([]);
 
   /**function */
-  const bindChartData = async () => {
-    if (!overallPaymentMethodList) return [];
-    // console.log(overallPaymentMethodList);
-    const data = createChartObjectFromValues(
-      overallPaymentMethodList,
-      "method",
-      "netPayment"
-    );
-    await setChartData(data);
-  };
-
   const changeViewMode = (mode) => {
     if (!mode) return;
     setViewMode(mode);
@@ -78,32 +53,38 @@ export default function PaymentMethod({
   const viewModeList = () => changeViewMode(VIEW_MODE.LIST);
   const viewModeChart = () => changeViewMode(VIEW_MODE.CHART);
 
+  const bindChartData = async () => {
+    if (!overallPaymentMethodList) return [];
+    // console.log(overallPaymentMethodList);
+    // const data = createChartObjectFromValues(
+    //   marketingEfficiencyList,
+    //   "method",
+    //   "netPayment"
+    // );
+    await setChartData(overallPaymentMethodList);
+  };
+
   // create filter name data
-  const bindStaffNameFilter = () => {
+  const bindFilterName = () => {
     if (!overallPaymentMethodList) return [];
 
     let array = [];
 
-    const arrMap = overallPaymentMethodList.map((paymentMethod) => ({
-      value: paymentMethod.method,
-      ...paymentMethod,
+    const arrMap = overallPaymentMethodList.map((item) => ({
+      value: item.method,
+      ...item,
     }));
     array.push(...arrMap);
 
     setFilterNames(array);
-    dispatch(actions.report.getOPMFilters(array));
-  };
 
-  const onChangeFilterName = async (text) => {
-    await setFilterNameItem(text);
-    const item = overallPaymentMethodList.find((x) => x.method === text);
-    if (item) {
-      dispatch(actions.report.filterOPM(item.method));
+    if (onChangeFilterNames) {
+      onChangeFilterNames(array);
     }
   };
 
   // binding data list for name filter
-  const filterDataTale = () => {
+  const filterDataTable = () => {
     return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
       ? overallPaymentMethodList.filter(
           (item) => item.method === filterNameItem
@@ -111,18 +92,25 @@ export default function PaymentMethod({
       : overallPaymentMethodList;
   };
 
+  // callback
+  const onChangeFilterName = (filterName) => {
+    setFilterNameItem(filterName);
+    if (onChangeFilterId) {
+      onChangeFilterId(filterName);
+    }
+  };
+
   const goStatistics = async (item) => {
     if (!item) return;
     // change to statistic tab
-    await dispatch(actions.report.filterOPM(item.method));
-    await onGoStatistics();
+
+    await onGoStatistics(item);
   };
 
   /**effect */
-
   useEffect(() => {
     bindChartData();
-    bindStaffNameFilter();
+    bindFilterName();
   }, [overallPaymentMethodList]);
 
   /**render */
@@ -144,29 +132,21 @@ export default function PaymentMethod({
   };
 
   return (
-    <View style={[styles.container, style]}>
-      <HeaderTooltip
-        rightComponent={
+    <View style={style}>
+      <ReportTabLayout
+        style={styles.container}
+        onChangeFilterName={onChangeFilterName}
+        isShowExportButton={viewMode === VIEW_MODE.LIST}
+        isShowFilterButton={viewMode === VIEW_MODE.LIST}
+        filterNames={filterNames}
+        filterNameItem={filterNameItem}
+        showCalendar={showCalendar}
+        titleRangeTime={titleRangeTime}
+        showExportFile={showExportFile}
+        pathFileExport={pathFileExport}
+        handleTheDownloadedFile={handleTheDownloadedFile}
+        rightTooltip={
           <>
-            {viewMode === VIEW_MODE.LIST && (
-              <PopupButton
-                text="Export"
-                imageSrc={IMAGE.export}
-                onPress={showExportFile}
-              />
-            )}
-
-            {!!pathFileReport && viewMode === VIEW_MODE.LIST && (
-              <PopupButton
-                onPress={() => handleTheDownloadedFile(pathFileReport)}
-                style={{ backgroundColor: "rgb(235,93,57)", marginLeft: 20 }}
-                txtStyle={{ color: "#fff" }}
-                imageStyle={{ tintColor: "#fff" }}
-                text={localize("Manager downloaded file", language)}
-                imageSrc={IMAGE.export}
-              />
-            )}
-
             <PopupButton
               imageSrc={IMAGE.Report_Chart}
               style={{ marginLeft: 20 }}
@@ -189,34 +169,9 @@ export default function PaymentMethod({
           </>
         }
       >
-        <PopupButton
-          text={titleRangeTime}
-          imageSrc={IMAGE.calendar}
-          onPress={showCalendar}
-          style={{ marginRight: 20 }}
-        />
-        {viewMode === VIEW_MODE.LIST && (
-          <View style={{ width: 160, height: 45 }}>
-            <Dropdown
-              rippleCentered={true}
-              dropdownPosition={2}
-              data={[{ value: FILTER_NAME_DEFAULT }, ...filterNames]}
-              onChangeText={(text) => onChangeFilterName(text)}
-              renderBase={() => (
-                <PopupButton
-                  text={filterNameItem ?? "All Method"}
-                  imageSrc={IMAGE.Report_Dropdown_Arrow}
-                />
-              )}
-            />
-          </View>
-        )}
-      </HeaderTooltip>
-
-      <View style={{ flex: 1 }}>
         {viewMode === VIEW_MODE.LIST ? (
           <TableList
-            tableData={filterDataTale()}
+            tableData={filterDataTable()}
             tableHead={{
               method: localize("Payment", language),
               transactions: localize("Transactions", language),
@@ -257,13 +212,13 @@ export default function PaymentMethod({
             <PaymentPieChart data={chartData} />
           </View>
         )}
-      </View>
+      </ReportTabLayout>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: { flex: 1 },
   cellAction: {
     flexDirection: "row",
     alignItems: "center",
@@ -287,6 +242,18 @@ const styles = StyleSheet.create({
     width: 35,
     marginLeft: 4,
     justifyContent: "center",
+    alignItems: "center",
+  },
+  chartDetail: {
+    justifyContent: "center",
+    alignItems: "flex-start",
+    flex: 1,
+  },
+  chartDetailItem: {
+    flexDirection: "row",
+    margin: 10,
+    paddingLeft: 20,
+    justifyContent: "flex-start",
     alignItems: "center",
   },
 });

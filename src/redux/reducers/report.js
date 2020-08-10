@@ -4,12 +4,12 @@ import actions from "@actions";
 const { ACTION_TYPES } = actions.report;
 
 const initialState = {
+  isDownloadReport: false,
+
   overallPaymentMethodList: [],
-  overallPMFilterId: undefined,
-  overallPMFilters: [],
   overallPMExportFilePath: null,
   overallPMStatisticExportFilePath: null,
-  isDownloadReport: false,
+
   marketingEfficiencyList: [],
   meExportFilePath: null,
   meStatisticExportFilePath: null,
@@ -25,20 +25,10 @@ const initialState = {
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
-    case "GET_REPORT_OVERALL_PAYMENT_METHOD_SUCCESS":
+    case ACTION_TYPES.OPM_GetListSuccess:
       return {
         ...state,
         overallPaymentMethodList: action.payload,
-      };
-    case ACTION_TYPES.OPM_FilterId:
-      return {
-        ...state,
-        overallPMFilterId: action.payload,
-      };
-    case ACTION_TYPES.OPM_Filters:
-      return {
-        ...state,
-        overallPMFilters: action.payload,
       };
     case "DOWNLOAD_REPORT_EXPORT":
       return {
@@ -78,7 +68,7 @@ function appReducer(state = initialState, action) {
         giftCardStatisticExportFilePath: null,
         customerStatisticExportFilePath: null,
       };
-    case "GET_REPORT_OVERALL_MARKETING_EFFICIENCY_SUCCESS":
+    case ACTION_TYPES.OME_GetListSuccess:
       return {
         ...state,
         marketingEfficiencyList: action.payload,

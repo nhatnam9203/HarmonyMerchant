@@ -4,9 +4,9 @@ import apiConfigs from "../../configs/api";
  * OPM: Overall Payment Method
  */
 export const ACTION_TYPES = {
-  GetOverallPaymentMethod: "GET_REPORT_OVERALL_PAYMENT_METHOD",
-  OPM_Filters: "REPORT_OVERALL_PAYMENT_METHOD_FILTERS",
-  OPM_FilterId: "REPORT_OVERALL_PAYMENT_METHOD_FILTER_ID",
+  OPM_GetList: "GET_REPORT_OVERALL_PAYMENT_METHOD",
+  OPM_GetListFail: "GET_REPORT_OVERALL_PAYMENT_METHOD_FAIL",
+  OPM_GetListSuccess: "GET_REPORT_OVERALL_PAYMENT_METHOD_SUCCESS",
   OPM_Export: "EXPORT_OVERALL_PAYMENT_METHOD",
   OPM_StatisticExport: "EXPORT_OVERALL_PAYMENT_METHOD_STATISTICS",
   OPM_ExportSuccess: "EXPORT_OVERALL_PAYMENT_METHOD_SUCCESS",
@@ -14,6 +14,8 @@ export const ACTION_TYPES = {
     "EXPORT_OVERALL_PAYMENT_METHOD_STATISTICS_SUCCESS",
 
   OME_GetList: "GET_REPORT_OVERALL_MARKETING_EFFICIENCY",
+  OME_GetListFail: "GET_REPORT_OVERALL_MARKETING_EFFICIENCY_FAIL",
+  OME_GetListSuccess: "GET_REPORT_OVERALL_MARKETING_EFFICIENCY_SUCCESS",
   OME_Export: "EXPORT_OVERALL_MARKETING_EFFICIENCY",
   OME_StatisticExport: "EXPORT_OVERALL_MARKETING_EFFICIENCY_STATISTIC",
   OME_ExportSuccess: "EXPORT_OVERALL_MARKETING_EFFICIENCY_SUCCESS",
@@ -45,7 +47,7 @@ export function getOverallPaymentMethod(
   params = "quickFilter=thisWeek"
 ) {
   return {
-    type: ACTION_TYPES.GetOverallPaymentMethod,
+    type: ACTION_TYPES.OPM_GetList,
     method: "GET",
     token: true,
     api: `${apiConfigs.BASE_API}overall/paymentMethod?${params}`,
@@ -76,20 +78,6 @@ export function getGiftCardReportSales(
     token: true,
     api: `${apiConfigs.BASE_API}giftCard/reportSales?${params}`,
     isShowLoading,
-  };
-}
-
-export function getOPMFilters(filters) {
-  return {
-    type: ACTION_TYPES.OPM_Filters,
-    payload: filters,
-  };
-}
-
-export function filterOPM(method) {
-  return {
-    type: ACTION_TYPES.OPM_FilterId,
-    payload: method,
   };
 }
 
