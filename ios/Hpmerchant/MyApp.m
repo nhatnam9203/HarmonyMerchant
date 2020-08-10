@@ -381,15 +381,16 @@ RCT_EXPORT_METHOD(batchTransaction:(RCTResponseSenderBlock)callback)
 }
 
 //---------------- Handle Report -------------
-RCT_EXPORT_METHOD(reportTransaction:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(reportTransaction:(NSString *)cardType paymentType:(NSString *)paymentType findEventsWithResolver:(RCTPromiseResolveBlock)resolve  rejecter:(RCTPromiseRejectBlock)reject)
+//                  callback:(RCTResponseSenderBlock)callback
 {
   MyApp *myapp = [MyApp sharedSigleton];
    ReportRequest *reportRequest = [[ReportRequest alloc] init];
   
-   reportRequest.TransType = [ReportRequest ParseTransType:@"LOCALTOTALREPORT"];
+   reportRequest.TransType = [ReportRequest ParseTransType:@"LOCALDETAILREPORT"];
     reportRequest.EDCType = [ReportRequest ParseEDCType:@"CREDIT"];
-   reportRequest.CardType = [ReportRequest ParseCardType:@"ALL"];
-  reportRequest.PaymentType = [ReportRequest ParsePaymentType:@"SALE"];
+   reportRequest.CardType = [ReportRequest ParseCardType:cardType];
+  reportRequest.PaymentType = [ReportRequest ParsePaymentType:paymentType];
   
   reportRequest.RecordNum = @"";
   reportRequest.RefNum = @"";
@@ -413,89 +414,93 @@ RCT_EXPORT_METHOD(reportTransaction:(RCTResponseSenderBlock)callback)
         NSDictionary *dataSuccess = @{@"status":@true,
                                        @"ResultCode" : myapp.poslink.reportResponse.ResultCode ? myapp.poslink.reportResponse.ResultCode : @"" ,
                                        @"ResultTxt" : myapp.poslink.reportResponse.ResultTxt ? myapp.poslink.reportResponse.ResultTxt : @"" ,
-                                       @"EDCType" : myapp.poslink.reportResponse.EDCType ? myapp.poslink.reportResponse.EDCType : @"" ,
+//                                       @"EDCType" : myapp.poslink.reportResponse.EDCType ? myapp.poslink.reportResponse.EDCType : @"" ,
                                        @"TotalRecord" : myapp.poslink.reportResponse.TotalRecord ? myapp.poslink.reportResponse.TotalRecord : @"" ,
-                                       @"RecordNumber" : myapp.poslink.reportResponse.RecordNumber ? myapp.poslink.reportResponse.RecordNumber : @"" ,
-                                       @"PaymentType" : myapp.poslink.reportResponse.PaymentType ? myapp.poslink.reportResponse.PaymentType : @"" ,
-                                       @"OrigPaymentType" : myapp.poslink.reportResponse.OrigPaymentType ? myapp.poslink.reportResponse.OrigPaymentType : @"" ,
-                                       @"HostTraceNum" : myapp.poslink.reportResponse.HostTraceNum ? myapp.poslink.reportResponse.HostTraceNum : @"" ,
-                                       @"BatchNum" : myapp.poslink.reportResponse.BatchNum ? myapp.poslink.reportResponse.BatchNum : @"" ,
-                                       @"AuthCode" : myapp.poslink.reportResponse.AuthCode ? myapp.poslink.reportResponse.AuthCode : @"" ,
-                                       @"HostCode" : myapp.poslink.reportResponse.HostCode ? myapp.poslink.reportResponse.HostCode : @"" ,
-                                       @"HostResponse" : myapp.poslink.reportResponse.HostResponse ? myapp.poslink.reportResponse.HostResponse : @"" ,
+//                                       @"RecordNumber" : myapp.poslink.reportResponse.RecordNumber ? myapp.poslink.reportResponse.RecordNumber : @"" ,
+//                                       @"PaymentType" : myapp.poslink.reportResponse.PaymentType ? myapp.poslink.reportResponse.PaymentType : @"" ,
+//                                       @"OrigPaymentType" : myapp.poslink.reportResponse.OrigPaymentType ? myapp.poslink.reportResponse.OrigPaymentType : @"" ,
+//                                       @"HostTraceNum" : myapp.poslink.reportResponse.HostTraceNum ? myapp.poslink.reportResponse.HostTraceNum : @"" ,
+//                                       @"BatchNum" : myapp.poslink.reportResponse.BatchNum ? myapp.poslink.reportResponse.BatchNum : @"" ,
+//                                       @"AuthCode" : myapp.poslink.reportResponse.AuthCode ? myapp.poslink.reportResponse.AuthCode : @"" ,
+//                                       @"HostCode" : myapp.poslink.reportResponse.HostCode ? myapp.poslink.reportResponse.HostCode : @"" ,
+//                                       @"HostResponse" : myapp.poslink.reportResponse.HostResponse ? myapp.poslink.reportResponse.HostResponse : @"" ,
                                        @"Message" : myapp.poslink.reportResponse.Message ? myapp.poslink.reportResponse.Message : @"" ,
                                        @"ApprovedAmount" : myapp.poslink.reportResponse.ApprovedAmount ? myapp.poslink.reportResponse.ApprovedAmount : @"" ,
-                                       @"RemainingBalance" : myapp.poslink.reportResponse.RemainingBalance ? myapp.poslink.reportResponse.RemainingBalance : @"" ,
-                                       @"ExtraBalance" : myapp.poslink.reportResponse.ExtraBalance ? myapp.poslink.reportResponse.ExtraBalance : @"" ,
-                                       @"BogusAccountNum" : myapp.poslink.reportResponse.BogusAccountNum ? myapp.poslink.reportResponse.BogusAccountNum : @"" ,
-                                       @"CardType" : myapp.poslink.reportResponse.CardType ? myapp.poslink.reportResponse.CardType : @"" ,
-                                       @"CvResponse" : myapp.poslink.reportResponse.CvResponse ? myapp.poslink.reportResponse.CvResponse : @"" ,
-                                       @"RefNum" : myapp.poslink.reportResponse.RefNum ? myapp.poslink.reportResponse.RefNum : @"" ,
-                                       @"ECRRefNum" : myapp.poslink.reportResponse.ECRRefNum ? myapp.poslink.reportResponse.ECRRefNum : @"" ,
-                                       @"Timestamp" : myapp.poslink.reportResponse.Timestamp ? myapp.poslink.reportResponse.Timestamp : @"" ,
-                                       @"ClerkID" : myapp.poslink.reportResponse.ClerkID ? myapp.poslink.reportResponse.ClerkID : @"" ,
-                                       @"ShiftID" : myapp.poslink.reportResponse.ShiftID ? myapp.poslink.reportResponse.ShiftID : @"" ,
-                                       @"ReportType" : myapp.poslink.reportResponse.ReportType ? myapp.poslink.reportResponse.ReportType : @"" ,
-                                       @"CreditCount" : myapp.poslink.reportResponse.CreditCount ? myapp.poslink.reportResponse.CreditCount : @"" ,
-                                       @"CreditAmount" : myapp.poslink.reportResponse.CreditAmount ? myapp.poslink.reportResponse.CreditAmount : @"" ,
-                                       @"DebitCount" : myapp.poslink.reportResponse.DebitCount ? myapp.poslink.reportResponse.DebitCount : @"" ,
-                                       @"DebitAmount" : myapp.poslink.reportResponse.DebitAmount ? myapp.poslink.reportResponse.DebitAmount : @"" ,
-                                       @"EBTCount" : myapp.poslink.reportResponse.EBTCount ? myapp.poslink.reportResponse.EBTCount : @"" ,
-                                       @"EBTAmount" : myapp.poslink.reportResponse.EBTAmount ? myapp.poslink.reportResponse.EBTAmount : @"" ,
-                                       @"GiftCount" : myapp.poslink.reportResponse.GiftCount ? myapp.poslink.reportResponse.GiftCount : @"" ,
-                                       @"GiftAmount" : myapp.poslink.reportResponse.GiftAmount ? myapp.poslink.reportResponse.GiftAmount : @"" ,
-                                       @"LoyaltyCount" : myapp.poslink.reportResponse.LoyaltyCount ? myapp.poslink.reportResponse.LoyaltyCount : @"" ,
-                                       @"LoyaltyAmount" : myapp.poslink.reportResponse.LoyaltyAmount ? myapp.poslink.reportResponse.LoyaltyAmount : @"" ,
-                                       @"CashCount" : myapp.poslink.reportResponse.CashCount ? myapp.poslink.reportResponse.CashCount : @"" ,
-                                       @"CashAmount" : myapp.poslink.reportResponse.CashAmount ? myapp.poslink.reportResponse.CashAmount : @"" ,
-                                       @"CHECKCount" : myapp.poslink.reportResponse.CHECKCount ? myapp.poslink.reportResponse.CHECKCount : @"" ,
-                                       @"CHECKAmount" : myapp.poslink.reportResponse.CHECKAmount ? myapp.poslink.reportResponse.CHECKAmount : @"" ,
-                                       @"ExtData" : myapp.poslink.reportResponse.ExtData ? myapp.poslink.reportResponse.ExtData : @"" ,
-                                       @"VisaCount" : myapp.poslink.reportResponse.VisaCount ? myapp.poslink.reportResponse.VisaCount : @"" ,
-                                       @"VisaAmount" : myapp.poslink.reportResponse.VisaAmount ? myapp.poslink.reportResponse.VisaAmount : @"" ,
-                                       @"MasterCardCount" : myapp.poslink.reportResponse.MasterCardCount ? myapp.poslink.reportResponse.MasterCardCount : @"" ,
-                                       @"MasterCardAmount" : myapp.poslink.reportResponse.MasterCardAmount ? myapp.poslink.reportResponse.MasterCardAmount : @"" ,
-                                       @"AMEXCount" : myapp.poslink.reportResponse.AMEXCount ? myapp.poslink.reportResponse.AMEXCount : @"" ,
-                                       @"AMEXAmount" : myapp.poslink.reportResponse.AMEXAmount ? myapp.poslink.reportResponse.AMEXAmount : @"" ,
-                                       @"DinersCount" : myapp.poslink.reportResponse.DinersCount ? myapp.poslink.reportResponse.DinersCount : @"" ,
-                                       @"DinersAmount" : myapp.poslink.reportResponse.DinersAmount ? myapp.poslink.reportResponse.DinersAmount : @"" ,
-                                       @"DiscoverCount" : myapp.poslink.reportResponse.DiscoverCount ? myapp.poslink.reportResponse.DiscoverCount : @"" ,
-                                       @"DiscoverAmount" : myapp.poslink.reportResponse.DiscoverAmount ? myapp.poslink.reportResponse.DiscoverAmount : @"" ,
-                                       @"JCBCount" : myapp.poslink.reportResponse.JCBCount ? myapp.poslink.reportResponse.JCBCount : @"" ,
-                                       @"JCBAmount" : myapp.poslink.reportResponse.JCBAmount ? myapp.poslink.reportResponse.JCBAmount : @"" ,
-                                       @"enRouteCount" : myapp.poslink.reportResponse.enRouteCount ? myapp.poslink.reportResponse.enRouteCount : @"" ,
-                                       @"enRouteAmount" : myapp.poslink.reportResponse.enRouteAmount ? myapp.poslink.reportResponse.enRouteAmount : @"" ,
-                                       @"ExtendedCount" : myapp.poslink.reportResponse.ExtendedCount ? myapp.poslink.reportResponse.ExtendedCount : @"" ,
-                                       @"ExtendedAmount" : myapp.poslink.reportResponse.ExtendedAmount ? myapp.poslink.reportResponse.ExtendedAmount : @"" ,
-                                       @"VisaFleetCount" : myapp.poslink.reportResponse.VisaFleetCount ? myapp.poslink.reportResponse.VisaFleetCount : @"" ,
-                                      @"VisaFleetAmount" : myapp.poslink.reportResponse.VisaFleetAmount ? myapp.poslink.reportResponse.VisaFleetAmount : @"" ,
-                                      @"MasterCardFleetCount" : myapp.poslink.reportResponse.MasterCardFleetCount ? myapp.poslink.reportResponse.MasterCardFleetCount : @"" ,
-                                      @"MasterCardFleetAmount" : myapp.poslink.reportResponse.MasterCardFleetAmount ? myapp.poslink.reportResponse.MasterCardFleetAmount : @"" ,
-                                      @"FleetOneCount" : myapp.poslink.reportResponse.FleetOneCount ? myapp.poslink.reportResponse.FleetOneCount : @"" ,
-                                      @"FleetOneAmount" : myapp.poslink.reportResponse.FleetOneAmount ? myapp.poslink.reportResponse.FleetOneAmount : @"" ,
-                                      @"FleetwideCount" : myapp.poslink.reportResponse.FleetwideCount ? myapp.poslink.reportResponse.FleetwideCount : @"" ,
-                                      @"FleetwideAmount" : myapp.poslink.reportResponse.FleetwideAmount ? myapp.poslink.reportResponse.FleetwideAmount : @"" ,
-                                      @"FuelmanCount" : myapp.poslink.reportResponse.FuelmanCount ? myapp.poslink.reportResponse.FuelmanCount : @"" ,
-                                      @"FuelmanAmount" : myapp.poslink.reportResponse.FuelmanAmount ? myapp.poslink.reportResponse.FuelmanAmount : @"" ,
-                                      @"GascardCount" : myapp.poslink.reportResponse.GascardCount ? myapp.poslink.reportResponse.GascardCount : @"" ,
-                                      @"GascardAmount" : myapp.poslink.reportResponse.GascardAmount ? myapp.poslink.reportResponse.GascardAmount : @"" ,
-                                      @"VoyagerCount" : myapp.poslink.reportResponse.VoyagerCount ? myapp.poslink.reportResponse.VoyagerCount : @"" ,
-                                      @"VoyagerAmount" : myapp.poslink.reportResponse.VoyagerAmount ? myapp.poslink.reportResponse.VoyagerAmount : @"" ,
-                                      @"WrightExpressCount" : myapp.poslink.reportResponse.WrightExpressCount ? myapp.poslink.reportResponse.WrightExpressCount : @"" ,
-                                      @"WrightExpressAmount" : myapp.poslink.reportResponse.WrightExpressAmount ? myapp.poslink.reportResponse.WrightExpressAmount : @"" ,
-                                      @"InvNum" : myapp.poslink.reportResponse.InvNum ? myapp.poslink.reportResponse.InvNum : @"" ,
+//                                       @"RemainingBalance" : myapp.poslink.reportResponse.RemainingBalance ? myapp.poslink.reportResponse.RemainingBalance : @"" ,
+//                                       @"ExtraBalance" : myapp.poslink.reportResponse.ExtraBalance ? myapp.poslink.reportResponse.ExtraBalance : @"" ,
+//                                       @"BogusAccountNum" : myapp.poslink.reportResponse.BogusAccountNum ? myapp.poslink.reportResponse.BogusAccountNum : @"" ,
+//                                       @"CardType" : myapp.poslink.reportResponse.CardType ? myapp.poslink.reportResponse.CardType : @"" ,
+//                                       @"CvResponse" : myapp.poslink.reportResponse.CvResponse ? myapp.poslink.reportResponse.CvResponse : @"" ,
+//                                       @"RefNum" : myapp.poslink.reportResponse.RefNum ? myapp.poslink.reportResponse.RefNum : @"" ,
+//                                       @"ECRRefNum" : myapp.poslink.reportResponse.ECRRefNum ? myapp.poslink.reportResponse.ECRRefNum : @"" ,
+//                                       @"Timestamp" : myapp.poslink.reportResponse.Timestamp ? myapp.poslink.reportResponse.Timestamp : @"" ,
+//                                       @"ClerkID" : myapp.poslink.reportResponse.ClerkID ? myapp.poslink.reportResponse.ClerkID : @"" ,
+//                                       @"ShiftID" : myapp.poslink.reportResponse.ShiftID ? myapp.poslink.reportResponse.ShiftID : @"" ,
+//                                       @"ReportType" : myapp.poslink.reportResponse.ReportType ? myapp.poslink.reportResponse.ReportType : @"" ,
+//                                       @"CreditCount" : myapp.poslink.reportResponse.CreditCount ? myapp.poslink.reportResponse.CreditCount : @"" ,
+//                                       @"CreditAmount" : myapp.poslink.reportResponse.CreditAmount ? myapp.poslink.reportResponse.CreditAmount : @"" ,
+//                                       @"DebitCount" : myapp.poslink.reportResponse.DebitCount ? myapp.poslink.reportResponse.DebitCount : @"" ,
+//                                       @"DebitAmount" : myapp.poslink.reportResponse.DebitAmount ? myapp.poslink.reportResponse.DebitAmount : @"" ,
+//                                       @"EBTCount" : myapp.poslink.reportResponse.EBTCount ? myapp.poslink.reportResponse.EBTCount : @"" ,
+//                                       @"EBTAmount" : myapp.poslink.reportResponse.EBTAmount ? myapp.poslink.reportResponse.EBTAmount : @"" ,
+//                                       @"GiftCount" : myapp.poslink.reportResponse.GiftCount ? myapp.poslink.reportResponse.GiftCount : @"" ,
+//                                       @"GiftAmount" : myapp.poslink.reportResponse.GiftAmount ? myapp.poslink.reportResponse.GiftAmount : @"" ,
+//                                       @"LoyaltyCount" : myapp.poslink.reportResponse.LoyaltyCount ? myapp.poslink.reportResponse.LoyaltyCount : @"" ,
+//                                       @"LoyaltyAmount" : myapp.poslink.reportResponse.LoyaltyAmount ? myapp.poslink.reportResponse.LoyaltyAmount : @"" ,
+//                                       @"CashCount" : myapp.poslink.reportResponse.CashCount ? myapp.poslink.reportResponse.CashCount : @"" ,
+//                                       @"CashAmount" : myapp.poslink.reportResponse.CashAmount ? myapp.poslink.reportResponse.CashAmount : @"" ,
+//                                       @"CHECKCount" : myapp.poslink.reportResponse.CHECKCount ? myapp.poslink.reportResponse.CHECKCount : @"" ,
+//                                       @"CHECKAmount" : myapp.poslink.reportResponse.CHECKAmount ? myapp.poslink.reportResponse.CHECKAmount : @"" ,
+//                                       @"ExtData" : myapp.poslink.reportResponse.ExtData ? myapp.poslink.reportResponse.ExtData : @"" ,
+//                                       @"VisaCount" : myapp.poslink.reportResponse.VisaCount ? myapp.poslink.reportResponse.VisaCount : @"" ,
+//                                       @"VisaAmount" : myapp.poslink.reportResponse.VisaAmount ? myapp.poslink.reportResponse.VisaAmount : @"" ,
+//                                       @"MasterCardCount" : myapp.poslink.reportResponse.MasterCardCount ? myapp.poslink.reportResponse.MasterCardCount : @"" ,
+//                                       @"MasterCardAmount" : myapp.poslink.reportResponse.MasterCardAmount ? myapp.poslink.reportResponse.MasterCardAmount : @"" ,
+//                                       @"AMEXCount" : myapp.poslink.reportResponse.AMEXCount ? myapp.poslink.reportResponse.AMEXCount : @"" ,
+//                                       @"AMEXAmount" : myapp.poslink.reportResponse.AMEXAmount ? myapp.poslink.reportResponse.AMEXAmount : @"" ,
+//                                       @"DinersCount" : myapp.poslink.reportResponse.DinersCount ? myapp.poslink.reportResponse.DinersCount : @"" ,
+//                                       @"DinersAmount" : myapp.poslink.reportResponse.DinersAmount ? myapp.poslink.reportResponse.DinersAmount : @"" ,
+//                                       @"DiscoverCount" : myapp.poslink.reportResponse.DiscoverCount ? myapp.poslink.reportResponse.DiscoverCount : @"" ,
+//                                       @"DiscoverAmount" : myapp.poslink.reportResponse.DiscoverAmount ? myapp.poslink.reportResponse.DiscoverAmount : @"" ,
+//                                       @"JCBCount" : myapp.poslink.reportResponse.JCBCount ? myapp.poslink.reportResponse.JCBCount : @"" ,
+//                                       @"JCBAmount" : myapp.poslink.reportResponse.JCBAmount ? myapp.poslink.reportResponse.JCBAmount : @"" ,
+//                                       @"enRouteCount" : myapp.poslink.reportResponse.enRouteCount ? myapp.poslink.reportResponse.enRouteCount : @"" ,
+//                                       @"enRouteAmount" : myapp.poslink.reportResponse.enRouteAmount ? myapp.poslink.reportResponse.enRouteAmount : @"" ,
+//                                       @"ExtendedCount" : myapp.poslink.reportResponse.ExtendedCount ? myapp.poslink.reportResponse.ExtendedCount : @"" ,
+//                                       @"ExtendedAmount" : myapp.poslink.reportResponse.ExtendedAmount ? myapp.poslink.reportResponse.ExtendedAmount : @"" ,
+//                                       @"VisaFleetCount" : myapp.poslink.reportResponse.VisaFleetCount ? myapp.poslink.reportResponse.VisaFleetCount : @"" ,
+//                                      @"VisaFleetAmount" : myapp.poslink.reportResponse.VisaFleetAmount ? myapp.poslink.reportResponse.VisaFleetAmount : @"" ,
+//                                      @"MasterCardFleetCount" : myapp.poslink.reportResponse.MasterCardFleetCount ? myapp.poslink.reportResponse.MasterCardFleetCount : @"" ,
+//                                      @"MasterCardFleetAmount" : myapp.poslink.reportResponse.MasterCardFleetAmount ? myapp.poslink.reportResponse.MasterCardFleetAmount : @"" ,
+//                                      @"FleetOneCount" : myapp.poslink.reportResponse.FleetOneCount ? myapp.poslink.reportResponse.FleetOneCount : @"" ,
+//                                      @"FleetOneAmount" : myapp.poslink.reportResponse.FleetOneAmount ? myapp.poslink.reportResponse.FleetOneAmount : @"" ,
+//                                      @"FleetwideCount" : myapp.poslink.reportResponse.FleetwideCount ? myapp.poslink.reportResponse.FleetwideCount : @"" ,
+//                                      @"FleetwideAmount" : myapp.poslink.reportResponse.FleetwideAmount ? myapp.poslink.reportResponse.FleetwideAmount : @"" ,
+//                                      @"FuelmanCount" : myapp.poslink.reportResponse.FuelmanCount ? myapp.poslink.reportResponse.FuelmanCount : @"" ,
+//                                      @"FuelmanAmount" : myapp.poslink.reportResponse.FuelmanAmount ? myapp.poslink.reportResponse.FuelmanAmount : @"" ,
+//                                      @"GascardCount" : myapp.poslink.reportResponse.GascardCount ? myapp.poslink.reportResponse.GascardCount : @"" ,
+//                                      @"GascardAmount" : myapp.poslink.reportResponse.GascardAmount ? myapp.poslink.reportResponse.GascardAmount : @"" ,
+//                                      @"VoyagerCount" : myapp.poslink.reportResponse.VoyagerCount ? myapp.poslink.reportResponse.VoyagerCount : @"" ,
+//                                      @"VoyagerAmount" : myapp.poslink.reportResponse.VoyagerAmount ? myapp.poslink.reportResponse.VoyagerAmount : @"" ,
+//                                      @"WrightExpressCount" : myapp.poslink.reportResponse.WrightExpressCount ? myapp.poslink.reportResponse.WrightExpressCount : @"" ,
+//                                      @"WrightExpressAmount" : myapp.poslink.reportResponse.WrightExpressAmount ? myapp.poslink.reportResponse.WrightExpressAmount : @"" ,
+//                                      @"InvNum" : myapp.poslink.reportResponse.InvNum ? myapp.poslink.reportResponse.InvNum : @"" ,
                                       
                                       };
         
         NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
-        callback(@[result]);
+//        callback(@[result]);
+        resolve(@[result]);
+        return;
         
       }else {
         NSDictionary *dataError = @{@"status":@false,
                                     @"message":ret.msg
                                     };
         NSString  *resultError =  [self convertObjectToJson:dataError ] ;
-        callback(@[resultError]);
+//        callback(@[resultError]);
+        reject(@"no_events", @"There were no events", @[resultError]);
+        return;
         
       }
       

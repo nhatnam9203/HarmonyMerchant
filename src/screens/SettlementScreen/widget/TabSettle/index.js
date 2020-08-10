@@ -19,7 +19,7 @@ class TabSettle extends Layout {
 
 
     onDidFocus = () => {
-        this.tabFirstSettleRef.current.handleReportTabFirst();
+        this.tabFirstSettleRef.current.handlePAXReport();
     }
 
     gotoTabSecondSettle = (settlement, creditCount) => {
