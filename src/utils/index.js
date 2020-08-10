@@ -991,7 +991,11 @@ export const getCredicardIcon = (type) => {
 }
 
 export const getTotalProductByQuantity = (unitPrice = 0, quantity = 0) => {
-    const total = formatNumberFromCurrency(unitPrice) *  parseInt(quantity);
+    const total = formatNumberFromCurrency(unitPrice) * parseInt(quantity);
 
-    return  formatMoney(roundFloatNumber(total));
+    return formatMoney(roundFloatNumber(total));
 }
+
+
+export const CARD_TYPE = ["VISA", "MASTERCARD", "AMEX", "DISCOVER", "OTHER"];
+export const PAYMENT_TYPE = ["SALE", "RETURN", "VOID SALE"]

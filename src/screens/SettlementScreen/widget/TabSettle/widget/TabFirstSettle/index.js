@@ -1,10 +1,13 @@
 import React from 'react';
-import { NativeModules, Alert, Keyboard } from 'react-native';
+import { NativeModules, Alert } from 'react-native';
 import _ from "ramda";
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { formatNumberFromCurrency, formatMoney, scaleSzie, roundFloatNumber, requestAPI } from '@utils';
+import {
+    formatNumberFromCurrency, formatMoney, scaleSzie, roundFloatNumber, requestAPI,
+    CARD_TYPE, PAYMENT_TYPE
+} from '@utils';
 import apiConfigs from '@configs/api';
 
 
@@ -76,32 +79,46 @@ class TabFirstSettle extends Layout {
         }
     }
 
-    handleReportTabFirst = () => {
+    handlePAXReport = async () => {
         const { paxMachineInfo } = this.props;
         const { ip, port, timeout, isSetup } = paxMachineInfo;
         if (isSetup) {
+            console.log("----- Loading ........");
             PosLink.setupPax(ip, port, timeout);
-            PosLink.reportTransaction(message => this.handleResponseReportTransactions(message));
+            for (let i = 0; i < CARD_TYPE.length; i++) {
+                for (let j = 0; j < PAYMENT_TYPE.length; j++) {
+
+                    let data  = await PosLink.reportTransaction(CARD_TYPE[i],PAYMENT_TYPE[j]);
+                    const result = JSON.parse(data);
+                    console.log("---- result  : ",result);
+                }
+            }
+
+            console.log("----- End ........");
         } else {
             this.props.actions.app.connectPaxMachineError("Don't have setup in Hardware Tab!");
         }
+
+        // ApprovedAmount
+        // TotalRecord
     }
 
     async handleResponseReportTransactions(message) {
         try {
             const result = JSON.parse(message);
-            if (result.status == 0) {
-                this.props.actions.app.connectPaxMachineError(result.message);
-            } else {
-                this.props.actions.app.ConnectPaxMachineSuccess();
-                const moneyInPax = formatMoney(roundFloatNumber(result.CreditAmount / 100))
-                await this.setState({
-                    creditCount: result.CreditCount,
-                    creditAmount: result.CreditAmount,
-                    editPaymentByCreditCard: moneyInPax
-                });
+            console.log("----- result : ",result);
+            // if (result.status == 0) {
+            //     this.props.actions.app.connectPaxMachineError(result.message);
+            // } else {
+            //     this.props.actions.app.ConnectPaxMachineSuccess();
+            //     const moneyInPax = formatMoney(roundFloatNumber(result.CreditAmount / 100))
+            //     await this.setState({
+            //         creditCount: result.CreditCount,
+            //         creditAmount: result.CreditAmount,
+            //         editPaymentByCreditCard: moneyInPax
+            //     });
 
-            }
+            // }
         } catch (error) {
             //console.log('error : ', error)
         }
@@ -188,10 +205,6 @@ class TabFirstSettle extends Layout {
 
     }
 
-    onRefreshSettle = () => {
-        this.props.actions.invoice.getSettlementWating(false);
-        this.handleReportTabFirst();
-    }
 
     setStateFromParent = () => {
 
