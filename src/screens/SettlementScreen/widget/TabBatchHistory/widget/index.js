@@ -1,9 +1,13 @@
 import ItemSettle from './ItemSettle';
 import HeaderTableSettle from './HeaderTableSettle';
-import BatchHistory from './BatchHistory';
+import BatchHistoryDetail from './BatchHistoryDetail';
+import StaffIncomeDetailsTab from "./StaffIncomeDetailsTab";
+import BatchHistoryList from "./BatchHistoryList";
 
 module.exports = {
     ItemSettle,
     HeaderTableSettle,
-    BatchHistory
+    BatchHistoryDetail,
+    StaffIncomeDetailsTab,
+    BatchHistoryList
 }

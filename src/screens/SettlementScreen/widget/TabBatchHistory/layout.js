@@ -13,7 +13,7 @@ import { scaleSzie, localize, formatWithMoment } from '@utils';
 import { Text, Button, ButtonCustom, PopupCalendar } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
-import { BatchHistory} from './widget';
+import { BatchHistoryDetail,StaffIncomeDetailsTab,BatchHistoryList} from './widget';
 
 class Layout extends React.Component {
 
@@ -25,15 +25,19 @@ class Layout extends React.Component {
                     ref={this.scrollTabRef}
                     style={{}}
                     initialPage={0}
-                    locked={true}
+                    locked={false}
                     renderTabBar={() => <View />}
                 >
-                    <BatchHistory
+                    <BatchHistoryList />
+                    <BatchHistoryDetail
                         ref={this.batchHistoryRef}
                         // gotoTabSecondSettle={this.gotoTabSecondSettle}
                         // navigation={this.props.navigation}
                         // onPressStaff={this.onPressStaff}
                         // onPressGiftCardTotal={this.onPressGiftCardTotal}
+                    />
+                    <StaffIncomeDetailsTab 
+                    
                     />
                     {/* <StaffIncomeDetailsTab 
                         ref={this.staffIIncomeDetailsRef}
