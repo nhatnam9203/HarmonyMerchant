@@ -1,7 +1,6 @@
-import { put, takeLatest, all, join } from "redux-saga/effects";
+import { put, takeLatest, all } from "redux-saga/effects";
 import RNFetchBlob from 'rn-fetch-blob';
 
-import NavigationServices from "../../navigators/NavigatorServices";
 import { requestAPI } from '../../utils';
 import apiConfigs from '../../configs/api';
 
@@ -78,7 +77,8 @@ function* archiveProduct(action) {
                 type: 'GET_PRODUCTS_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}product`,
+                // api: `${apiConfigs.BASE_API}product`,
+                api: `${apiConfigs.BASE_API}product/search?name=${action.keySearch}&category=${action.category}`,
                 isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
@@ -109,7 +109,8 @@ function* restoreProduct(action) {
                 type: 'GET_PRODUCTS_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}product`,
+                // api: `${apiConfigs.BASE_API}product`,
+                api: `${apiConfigs.BASE_API}product/search?name=${action.keySearch}&category=${action.category}`,
                 isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {

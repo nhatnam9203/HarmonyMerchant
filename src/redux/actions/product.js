@@ -29,23 +29,27 @@ export function searchProduct(name = '', category = '', status = '') {
     }
 }
 
-export function archiveProduct(id) {
+export function archiveProduct(id,keySearch = "",category ="") {
     return {
         type: 'ARCHIVE_PRODUCT',
         body: {},
         method: 'PUT',
         token: true,
         api: `${apiConfigs.BASE_API}product/archive/${id}`,
+        keySearch,
+        category
     }
 }
 
-export function restoreProduct(id) {
+export function restoreProduct(id,keySearch = "",category ="") {
     return {
         type: 'RESTORE_PRODUCT',
         body: {},
         method: 'PUT',
         token: true,
         api: `${apiConfigs.BASE_API}product/restore/${id}`,
+        keySearch,
+        category
     }
 }
 

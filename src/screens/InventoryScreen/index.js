@@ -213,7 +213,8 @@ class InventoryScreen extends Layout {
     submitRestock = (quantity) => {
         const { arrayProductRestock, searchFilter } = this.state;
         const { keySearch, category } = searchFilter;
-        this.props.actions.product.restockProduct(arrayProductRestock, parseInt(quantity), keySearch, category);
+        const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Product') : '';
+        this.props.actions.product.restockProduct(arrayProductRestock, parseInt(quantity), keySearch, temptCategory);
         this.setState({
             visibleRestock: false
         })
@@ -229,12 +230,28 @@ class InventoryScreen extends Layout {
 
 
 
-    submitArchiveYess = (id) => {
-        this.props.actions.product.archiveProduct(id);
+    submitArchiveYess = async (id) => {
+        await this.setState({
+            visiblePopupDetail: false
+        });
+
+        setTimeout(() => {
+            const { keySearch, category } = this.state.searchFilter;
+            const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Product') : '';
+            this.props.actions.product.archiveProduct(id, keySearch, temptCategory);
+        }, 500)
     }
 
-    submitRestoreYess = (id) => {
-        this.props.actions.product.restoreProduct(id);
+    submitRestoreYess = async (id) => {
+        await this.setState({
+            visiblePopupDetail: false
+        });
+
+        setTimeout(() => {
+            const { keySearch, category } = this.state.searchFilter;
+            const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Product') : '';
+            this.props.actions.product.restoreProduct(id, keySearch, temptCategory);
+        }, 500)
     }
 
     showModalEditProduct = async (id) => {
@@ -259,8 +276,10 @@ class InventoryScreen extends Layout {
 
     editProduct = async (product) => {
         const { keySearch, category } = this.state.searchFilter;
-        await this.setState({ visibleEdit: false })
-        this.props.actions.product.editProduct(product, product.productId, keySearch, category);
+        await this.setState({ visibleEdit: false });
+
+        const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Product') : '';
+        this.props.actions.product.editProduct(product, product.productId, keySearch, temptCategory);
 
     }
 
