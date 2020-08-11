@@ -51,9 +51,9 @@ class SettlementScreen extends Layout {
                 this.transactionTabRef.current.searchTransactions();
             }
         } else if (currentIndex === 2) {
-            if(this.batchHistoryTabRef.current){
-                this.batchHistoryTabRef.current.searchBatchHistory();
-            }
+            // if(this.batchHistoryTabRef.current){
+            //     this.batchHistoryTabRef.current.searchBatchHistory();
+            // }
         }
     }
 
