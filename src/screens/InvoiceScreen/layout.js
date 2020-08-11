@@ -410,60 +410,6 @@ export default class Layout extends React.Component {
         );
     }
 
-    renderCardInfo() {
-        const { language } = this.props;
-        const { invoiceDetail } = this.state;
-        const temptInvoiceDetail = invoiceDetail.checkoutPayments ? invoiceDetail.checkoutPayments : [];
-        return (
-            <View style={{ flex: 1 }} >
-                {
-                    temptInvoiceDetail.map((payment, index) => <View key={`payment_${index}`} >
-                        <View style={{ height: scaleSzie(16) }} />
-
-                        <ItemInfo
-                            title={localize('Payment Method', language)}
-                            value={payment.paymentMethod && payment.paymentMethod ? payment.paymentMethod : ''}
-                        />
-                        <ItemInfo
-                            title={localize('Amount', language)}
-                            value={payment.amount && payment.amount ? `$ ${payment.amount}` : '$0.00'}
-                        />
-                        <ItemInfo
-                            title={localize('Status', language)}
-                            value={payment.status && payment.status ? payment.status : ''}
-                        />
-                        <ItemInfo
-                            title={localize('Date Time', language)}
-                            value={payment.createdDate && payment.createdDate ? `${formatWithMoment(payment.createdDate, 'MM/DD/YYYY hh:mm A')}` : ''}
-                        />
-                        {
-                            payment.paymentInformation ? <>
-                                <ItemInfo
-                                    title={localize('CC type', language)}
-                                    value={payment.paymentInformation && payment.paymentInformation.type ? payment.paymentInformation.type : ''}
-                                />
-                                <ItemInfo
-                                    title={localize('CC number', language)}
-                                    value={payment.paymentInformation && payment.paymentInformation.number ? `xxxx xxxx xxxx ${payment.paymentInformation.number}` : ''}
-                                />
-                                <ItemInfo
-                                    title={localize('CC exp', language)}
-                                    value={payment.paymentInformation && payment.paymentInformation.exp ? payment.paymentInformation.exp : ''}
-                                />
-                            </> : <View />
-                        }
-
-                        {/* ------------ Line ----------- */}
-                        <View style={{ height: 1, marginTop: scaleSzie(10), paddingHorizontal: scaleSzie(30) }} >
-                            <View style={{ flex: 1, backgroundColor: "rgba(64,64,64,0.3)" }} />
-                        </View>
-
-                    </View>)
-                }
-            </View>
-        );
-
-    }
 
     renderHistoryInvoice() {
         const { language } = this.props;
