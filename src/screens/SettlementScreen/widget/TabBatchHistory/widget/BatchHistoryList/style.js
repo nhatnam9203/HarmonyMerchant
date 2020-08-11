@@ -14,8 +14,8 @@ export default StyleSheet.create({
     },
     txt_header_table: {
         color: '#404040',
-        fontSize: scaleSzie(12),
-        fontWeight: "600"
+        fontSize: scaleSzie(16),
+        fontWeight: "400"
     },
     txt_row_table: {
         color: '#404040',

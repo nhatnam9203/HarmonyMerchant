@@ -86,6 +86,9 @@ export default {
     save_edit_amount: require('./img/save_edit_amount.png'),
     cancel_edit_amount: require('./img/cancel_edit_amount.png'),
     refresh_settlement : require('./img/refresh_settlement.png'),
+    print_batch_history: require('./img/print_batch_history.png'),
+    share_batch_history: require('./img/share_batch_history.png'),
+
 
   // --- drawer --
   Customer: require("./drawer/customer.png"),
