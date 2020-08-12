@@ -5,11 +5,11 @@ import { useSelector, useDispatch } from "react-redux";
 import IMAGE from "@resources";
 import { localize } from "@utils";
 
-import { TableList, ReportTabLayout } from "../../widget";
+import { TableList, ReportTabLayout } from "../../../widget";
 
-const FILTER_NAME_DEFAULT = "Select All";
+const FILTER_NAME_DEFAULT = "All Type";
 
-export default function CustomerReportTab({
+export default function SalesByService({
   style,
   onGoStatistics,
   titleRangeTime,
@@ -41,7 +41,7 @@ export default function CustomerReportTab({
     let array = [];
 
     const arrMap = customerReportList.map((item) => ({
-      value: item.name,
+      value: item.type,
       ...item,
     }));
     array.push(...arrMap);
@@ -56,7 +56,7 @@ export default function CustomerReportTab({
   // binding data list for name filter
   const filterDataTable = () => {
     return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
-      ? customerReportList.filter((item) => item.name === filterNameItem)
+      ? customerReportList.filter((item) => item.type === filterNameItem)
       : customerReportList;
   };
 
@@ -113,31 +113,32 @@ export default function CustomerReportTab({
         pathFileExport={pathFileExport}
         handleTheDownloadedFile={handleTheDownloadedFile}
         filterNameDefault={FILTER_NAME_DEFAULT}
+        rightTooltip={<></>}
       >
         <TableList
           tableData={filterDataTable()}
           tableHead={{
             name: localize("Name", language),
-            appointmentCount: localize("Appointments", language),
-            lastVisitDateString: localize("Last Visit", language),
-            lastVisitSale: localize("Last Visit Sales", language),
-            total: localize("Total Sales", language),
+            appointments: localize("Appointments", language),
+            lastVisit: localize("Last Visit", language),
+            lastVisitSales: localize("Last Visit Sales", language),
+            totalSale: localize("Total Sales", language),
           }}
           whiteKeys={[
             "name",
-            "appointmentCount",
-            "lastVisitDateString",
-            "lastVisitSale",
-            "total",
+            "appointments",
+            "lastVisit",
+            "lastVisitSales",
+            "totalSale",
             "action",
           ]}
-          primaryId="customerId"
-          sumTotalKey="name"
-          calcSumKeys={["appointmentCount", "lastVisitSale", "total"]}
-          priceKeys={["lastVisitSale", "total"]}
+          primaryId="name"
+          sumTotalKey=""
+          calcSumKeys={[]}
+          priceKeys={[]}
           tableCellWidth={{
             name: 160,
-            lastVisitSale: 200,
+            lastVisitSales: 200,
           }}
           renderCell={renderCell}
           renderActionCell={renderActionCell}

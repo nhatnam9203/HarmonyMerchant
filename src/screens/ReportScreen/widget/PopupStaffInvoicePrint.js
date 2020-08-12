@@ -221,9 +221,9 @@ class PopupStaffInvoicePrint extends React.Component {
     const toTime = receipts.to
       ? formatWithMoment(receipts.to, "MM/DD/YYYY")
       : "";
-    const sales = staff.serviceSales ? staff.serviceSales : "0.00";
-    const workingHour = staff.workingHour ? staff.workingHour : "0";
-    const product = staff.productSales ? staff.productSales : "0.00";
+    const sales = receipts.serviceSales ? receipts.serviceSales : "0.00";
+    const workingHour = receipts.workingHour ? receipts.workingHour : "0";
+    const product = receipts.productSales ? receipts.productSales : "0.00";
     const cash = receipts.cash ? receipts.cash : "0.00";
     const nonCash = receipts.nonCash ? receipts.nonCash : "0.00";
     const detail = receipts.detail ?? [];
@@ -314,7 +314,7 @@ class PopupStaffInvoicePrint extends React.Component {
                               ? "+" + (index + 1)
                               : index + 1);
                           return (
-                            <>
+                            <React.Fragment key={x.receiptType}>
                               <ItemStaffInvoice
                                 title={`${index + 1}. ${localize(
                                   x.receiptType,
@@ -364,11 +364,11 @@ class PopupStaffInvoicePrint extends React.Component {
                                   fontWeight: "200",
                                 }}
                               />
-                            </>
+                            </React.Fragment>
                           );
                         case "Total":
                           return (
-                            <>
+                            <React.Fragment key={x.receiptType}>
                               {/* ------------- Line   ----------- */}
                               <View
                                 style={{
@@ -416,8 +416,50 @@ class PopupStaffInvoicePrint extends React.Component {
                                   fontWeight: "200",
                                 }}
                               />
-                            </>
+                            </React.Fragment>
                           );
+                        case "WorkingHour":
+                          totalDesc =
+                            totalDesc +
+                            (totalDesc.length > 0
+                              ? "+" + (index + 1)
+                              : index + 1);
+                          return (
+                            <React.Fragment key={x.receiptType}>
+                              <ItemStaffInvoice
+                                title={`${index + 1}. ${localize(
+                                  x.receiptType,
+                                  language
+                                )} (${x.commission}$)`}
+                                value={`$ ${x.total}`}
+                              />
+                              <ItemStaffInvoice
+                                title="Cash"
+                                value={`$ ${x.cash}`}
+                                styleTilte={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                                styleValue={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                              />
+                              <ItemStaffInvoice
+                                title="Check"
+                                value={`$ ${x.check}`}
+                                styleTilte={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                                styleValue={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                              />
+                            </React.Fragment>
+                          );
+                          break;
                         default:
                           totalDesc =
                             totalDesc +
@@ -425,7 +467,7 @@ class PopupStaffInvoicePrint extends React.Component {
                               ? "+" + (index + 1)
                               : index + 1);
                           return (
-                            <>
+                            <React.Fragment key={x.receiptType}>
                               <ItemStaffInvoice
                                 title={`${index + 1}. ${localize(
                                   x.receiptType,
@@ -457,7 +499,7 @@ class PopupStaffInvoicePrint extends React.Component {
                                   fontWeight: "200",
                                 }}
                               />
-                            </>
+                            </React.Fragment>
                           );
                           break;
                       }

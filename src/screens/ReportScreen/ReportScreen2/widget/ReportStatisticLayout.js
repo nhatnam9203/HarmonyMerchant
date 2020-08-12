@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { Dropdown } from "react-native-material-dropdown";
 
 import IMAGE from "@resources";
-import { localize } from "@utils";
+import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
+import { PopupCalendar } from "@components";
 
 import HeaderTitle from "./HeaderTitle";
 import HeaderTooltip from "./HeaderTooltip";
@@ -16,13 +17,12 @@ const TABLE_ROW_HEIGHT = 50;
 
 export default function ReportStatisticLayout({
   style,
-  showCalendar,
-  titleRangeTime,
   showExportFile,
+  isShowExportButton = true,
   handleTheDownloadedFile,
-  onChangeFilterStaff,
-  dataStaffSalaryFilter,
-  filterStaffItem,
+  onChangeFilter,
+  dataFilters,
+  filterId,
   title,
   tableData,
   tableHead,
@@ -32,27 +32,17 @@ export default function ReportStatisticLayout({
   sumTotalKey,
   priceKeys,
   tableCellWidth,
+  titleRangeTime,
+  pathFileExport,
+  showCalendar,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
-  const listStaffsCalendar = useSelector(
-    (state) => state.staff.listStaffsCalendar
-  );
   const language = useSelector((state) => state.dataLocal.language);
-  const pathFileReportStaff = useSelector(
-    (state) => state.staff.pathFileReportStaffStatistic
-  );
-
-  /**state */
-  const [sumObjects, setSumObjects] = useState({});
-
-  /**process */
-  const onCellPress = ({ key, row, column, item }) => {};
-  const onChangeSumObject = (sumObj) => {
-    setSumObjects(sumObj);
-  };
 
   /**render */
+  const onCellPress = ({ key, row, column, item }) => {};
+
   const renderCell = ({ key, row, column, item }) => {
     return null;
   };
@@ -82,14 +72,16 @@ export default function ReportStatisticLayout({
       <HeaderTooltip
         rightComponent={
           <>
-            <PopupButton
-              text="Export"
-              imageSrc={IMAGE.export}
-              onPress={showExportFile}
-            />
-            {pathFileReportStaff && (
+            {isShowExportButton && (
               <PopupButton
-                onPress={() => handleTheDownloadedFile(pathFileReportStaff)}
+                text="Export"
+                imageSrc={IMAGE.export}
+                onPress={showExportFile}
+              />
+            )}
+            {!!pathFileExport && (
+              <PopupButton
+                onPress={() => handleTheDownloadedFile(pathFileExport)}
                 style={{ backgroundColor: "rgb(235,93,57)", marginLeft: 20 }}
                 txtStyle={{ color: "#fff" }}
                 imageStyle={{ tintColor: "#fff" }}
@@ -106,18 +98,17 @@ export default function ReportStatisticLayout({
           onPress={showCalendar}
           style={{ marginRight: 20 }}
         />
-        <View style={{ width: 160, height: 45 }}>
-          <Dropdown
-            data={dataStaffSalaryFilter}
-            onChangeText={(text) => onChangeFilterStaff(text)}
-            renderBase={() => (
-              <PopupButton
-                text={filterStaffItem ?? "All Staff"}
-                imageSrc={IMAGE.Report_Dropdown_Arrow}
-              />
-            )}
-          />
-        </View>
+        <Dropdown
+          data={dataFilters}
+          onChangeText={(text) => onChangeFilter(text)}
+          dropdownPosition={2}
+          renderBase={() => (
+            <PopupButton
+              text={filterId}
+              imageSrc={IMAGE.Report_Dropdown_Arrow}
+            />
+          )}
+        />
       </HeaderTooltip>
 
       <View style={{ flex: 1 }}>
@@ -136,7 +127,6 @@ export default function ReportStatisticLayout({
             onCellPress={onCellPress}
           />
         )}
-        {/* {renderFooter()} */}
       </View>
     </View>
   );

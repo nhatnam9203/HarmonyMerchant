@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { ReportStatisticLayout } from "../../widget";
+import { ReportStatisticLayout } from "../../../widget";
 import { localize } from "@utils";
 
-export default function CustomerStatistic(props, ref) {
+export default function SalesByProductStatistic(props, ref) {
   const { filterId } = props;
   /**redux store*/
   const dispatch = useDispatch();
@@ -21,31 +21,31 @@ export default function CustomerStatistic(props, ref) {
 
   /**useEffect */
   useEffect(() => {
-    const item = customerReportList.find((item) => item.name === filterId);
-    console.log(item);
+    const item = customerReportList.find((item) => item.type === filterId);
+
     setTable({
-      tableData: item?.details || [],
+      tableData: item?.giftCardStatistics || [],
       tableHead: {
         appointmentId: localize("Appointment ID", language),
         dateString: localize("Date", language),
         time: localize("Time", language),
-        serviceCount: localize("No. of Service", language),
-        staffName: localize("Staff", language),
-        payamount: localize("Pay Amount", language),
+        no: localize("No. of Service", language),
+        staff: localize("Staff", language),
+        payAmount: localize("Pay Amount", language),
       },
       whiteKeys: [
         "appointmentId",
         "dateString",
         "time",
-        "serviceCount",
-        "staffName",
-        "payamount",
+        "no",
+        "staff",
+        "payAmount",
       ],
       primaryId: "appointmentId",
-      calcSumKeys: ["payamount"],
-      sumTotalKey: "appointmentId",
-      priceKeys: ["payamount"],
-      tableCellWidth: { appointmentId: 150 },
+      calcSumKeys: [],
+      sumTotalKey: "",
+      priceKeys: [],
+      tableCellWidth: { appointmentId: 80 },
     });
   }, [filterId, customerReportList]);
 
@@ -55,8 +55,7 @@ export default function CustomerStatistic(props, ref) {
     <ReportStatisticLayout
       {...props}
       {...table}
-      title={"Customer Report Statistics"}
-      isShowExportButton={false}
+      title={"Sales by product statistics"}
     />
   );
 }

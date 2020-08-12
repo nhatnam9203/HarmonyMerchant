@@ -2,52 +2,66 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, processColor, View } from "react-native";
 import { BarChart } from "react-native-charts-wrapper";
 
-import { localize, formatMoney, formatNumberFromCurrency } from "@utils";
+import { formatNumberFromCurrency } from "@utils";
 
 /**chart info */
 const legend = {
   enabled: false,
   textSize: 14,
   form: "SQUARE",
-  formSize: 14,
-  xEntrySpace: 10,
+  formSize: 22,
+  direction: "LEFT_TO_RIGHT",
+  horizontalAlignment: "RIGHT",
+  verticalAlignment: "TOP",
+  orientation: "HORIZONTAL",
   yEntrySpace: 5,
+  xEntrySpace: 20,
   wordWrapEnabled: true,
 };
 
 const dataConfig = {
   dataSets: [
     {
-      values: [{ y: 1000 }, { y: 1200 }, { y: 900 }, { y: 1200 }],
-      label: "",
+      values: [5, 40, 77, 81, 43],
+      label: "Company A",
       config: {
-        colors: [
-          processColor("#003680"),
-          processColor("#3E70B3"),
-          processColor("#BFDAFF"),
-          processColor("#8FA3BF"),
-        ],
-        valueTextSize: 14,
-        valueTextColor: processColor("#0764B0"),
+        drawValues: false,
+        colors: [processColor("red")],
+      },
+    },
+    {
+      values: [40, 5, 50, 23, 79],
+      label: "Company B",
+      config: {
+        drawValues: false,
+        colors: [processColor("blue")],
+      },
+    },
+    {
+      values: [10, 55, 35, 90, 82],
+      label: "Company C",
+      config: {
+        drawValues: false,
+        colors: [processColor("green")],
       },
     },
   ],
   config: {
-    barWidth: 0.6,
+    barWidth: 0.4,
+    group: {
+      fromX: 0,
+      groupSpace: 0.1,
+      barSpace: 0.1,
+    },
   },
 };
-const highlights = [{ x: 3 }, { x: 6 }];
 const xAxisDefault = {
-  valueFormatter: ["Cash", "Credit Card", "Harmony Pay", "Other-Check"],
+  valueFormatter: ["1990", "1991", "1992", "1993", "1994"],
   granularityEnabled: true,
   granularity: 1,
-  centerAxisLabels: false,
-  position: "BOTTOM",
-  textSize: 14,
-  formSize: 14,
-  textColor: processColor("#0764B0"),
-  drawAxisLine: true,
-  drawGridLines: false,
+  axisMaximum: 5,
+  axisMinimum: 0,
+  centerAxisLabels: true,
 };
 const yAxis = {
   left: {
@@ -63,13 +77,29 @@ const yAxis = {
     labelCount: 10,
   },
   right: {
-    drawLabels: false,
-    drawAxisLine: false,
-    drawGridLines: false,
+    drawLabels: true,
+    drawAxisLine: true,
+    drawGridLines: true,
+    axisMinimum: 0,
+    // axisMaximum: 1500,
+    textSize: 14,
+    formSize: 14,
+    textColor: processColor("#E5B960"),
+    granularity: 100,
+    labelCount: 10,
   },
 };
 
-export default function PaymentBarChart({ data }) {
+const pickValuesForKey = (array, forKey, format) => {
+  return array.map((obj) => {
+    const item = Object.entries(obj).filter(([key, value]) => key === forKey);
+    const [key, value] = item[0];
+    if (format === "float") return formatNumberFromCurrency(value);
+    return value + "";
+  });
+};
+
+export default function MarketingBarGroupChart({ data }) {
   /**state store */
   const [dataChart, setDataChart] = useState(dataConfig);
   const [xAxis, setXAxis] = useState(xAxisDefault);
@@ -80,30 +110,28 @@ export default function PaymentBarChart({ data }) {
     if (data) {
       // ======= map values =======
       let mapValues = [];
-      let formatterValues = [];
-
-      // run object get value push in array mapValues
-      data.forEach((d) => {
-        let obj = Object.create({});
-        obj.y = formatNumberFromCurrency(Object.values(d)[0]);
-        mapValues.push(obj);
-        formatterValues.push(Object.keys(d)[0]);
-      });
+      const formatterValues = pickValuesForKey(data, "promotionId", "string");
+      const revenueValues = pickValuesForKey(data, "revenue", "float");
+      const discountValues = pickValuesForKey(data, "discount", "float");
 
       const createDataSet = {
         dataSets: [
           {
-            values: mapValues,
-            label: "",
+            values: revenueValues,
+            label: "revenue",
             config: {
-              colors: [
-                processColor("#003680"),
-                processColor("#3E70B3"),
-                processColor("#BFDAFF"),
-                processColor("#8FA3BF"),
-                processColor("#194a8c"),
-                processColor("#ccd6e5"),
-              ],
+              colors: [processColor("#80C6FF")],
+              drawValues: false,
+              valueTextSize: 14,
+              valueTextColor: processColor("#0764B0"),
+            },
+          },
+          {
+            values: discountValues,
+            label: "discount",
+            config: {
+              colors: [processColor("#E5B960")],
+              drawValues: false,
               valueTextSize: 14,
               valueTextColor: processColor("#0764B0"),
             },
@@ -111,7 +139,12 @@ export default function PaymentBarChart({ data }) {
         ],
         config: {
           // BarData
-          barWidth: 0.5,
+          barWidth: 0.4,
+          group: {
+            fromX: 0,
+            groupSpace: 0.1,
+            barSpace: 0.1,
+          },
         },
       };
 
@@ -121,11 +154,12 @@ export default function PaymentBarChart({ data }) {
         valueFormatter: formatterValues,
         granularityEnabled: true,
         granularity: 1,
-        centerAxisLabels: false,
+        centerAxisLabels: true,
         position: "BOTTOM",
-        textSize: 14,
+        textSize: 20,
         formSize: 14,
         textColor: processColor("#0764B0"),
+        fontWeight: "bold",
         drawAxisLine: true,
         drawGridLines: false,
       };
@@ -147,7 +181,6 @@ export default function PaymentBarChart({ data }) {
       //   this.setState({ ...this.state, selectedEntry: JSON.stringify(entry) });
     }
 
-    // console.log(event.nativeEvent);
   }
 
   return (
@@ -167,7 +200,7 @@ export default function PaymentBarChart({ data }) {
         onSelect={handleSelect}
         // highlights={highlights}
         entryLabelTextSize={14}
-        onChange={(event) => console.log(event.nativeEvent)}
+        // onChange={(event) => console.log(event.nativeEvent)}
       />
     </View>
   );

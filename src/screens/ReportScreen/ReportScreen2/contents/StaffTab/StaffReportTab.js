@@ -6,10 +6,11 @@ import IMAGE from "@resources";
 import { localize } from "@utils";
 
 import { TableList, ReportTabLayout } from "../../widget";
+import { PopupStaffInvoicePrint } from "../../../widget";
 
-const FILTER_NAME_DEFAULT = "Select All";
+const FILTER_NAME_DEFAULT = "All Staff";
 
-export default function CustomerReportTab({
+export default function StaffReportTab({
   style,
   onGoStatistics,
   titleRangeTime,
@@ -24,23 +25,23 @@ export default function CustomerReportTab({
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const customerReportList = useSelector(
-    (state) => state.report.customerReportList
-  );
+  const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
 
   /**state */
   const [filterNameItem, setFilterNameItem] = useState(FILTER_NAME_DEFAULT);
   const [filterNames, setFilterNames] = useState([]);
+  const [showStaffInvoicePrint, setShowStaffInvoicePrint] = useState(false);
+  const [currentStaff, setCurrentStaff] = useState({});
 
   /**function */
 
   // create filter name data
   const bindFilterName = () => {
-    if (!customerReportList) return [];
+    if (!listStaffsSalary) return [];
 
     let array = [];
 
-    const arrMap = customerReportList.map((item) => ({
+    const arrMap = listStaffsSalary.map((item) => ({
       value: item.name,
       ...item,
     }));
@@ -56,8 +57,8 @@ export default function CustomerReportTab({
   // binding data list for name filter
   const filterDataTable = () => {
     return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
-      ? customerReportList.filter((item) => item.name === filterNameItem)
-      : customerReportList;
+      ? listStaffsSalary.filter((item) => item.name === filterNameItem)
+      : listStaffsSalary;
   };
 
   // callback
@@ -75,10 +76,24 @@ export default function CustomerReportTab({
     await onGoStatistics(item);
   };
 
+  const cancelStaffInvoicePrint = async () => {
+    setShowStaffInvoicePrint(false);
+    setCurrentStaff({});
+  };
+
+  const showPopupStaffInvoice = async (item) => {
+    await setCurrentStaff(item);
+    setShowStaffInvoicePrint(true);
+  };
+
+  const onRowPress = ({ key, row, item }) => {
+    showPopupStaffInvoice(item);
+  };
+
   /**effect */
   useEffect(() => {
     bindFilterName();
-  }, [customerReportList]);
+  }, [listStaffsSalary]);
 
   /**render */
   //callback render action cell
@@ -113,36 +128,60 @@ export default function CustomerReportTab({
         pathFileExport={pathFileExport}
         handleTheDownloadedFile={handleTheDownloadedFile}
         filterNameDefault={FILTER_NAME_DEFAULT}
+        rightTooltip={<></>}
       >
         <TableList
           tableData={filterDataTable()}
           tableHead={{
             name: localize("Name", language),
-            appointmentCount: localize("Appointments", language),
-            lastVisitDateString: localize("Last Visit", language),
-            lastVisitSale: localize("Last Visit Sales", language),
-            total: localize("Total Sales", language),
+            serviceSales: localize("Service Sales", language),
+            serviceSplit: localize("Service Split", language),
+            productSales: localize("Product Sales", language),
+            productSplit: localize("Product Split", language),
+            tip: localize("Tip Amount", language),
+            salary: localize("Salary", language),
           }}
           whiteKeys={[
             "name",
-            "appointmentCount",
-            "lastVisitDateString",
-            "lastVisitSale",
-            "total",
+            "serviceSales",
+            "serviceSplit",
+            "productSales",
+            "productSplit",
+            "tip",
+            "salary",
             "action",
           ]}
-          primaryId="customerId"
+          primaryId="staffId"
           sumTotalKey="name"
-          calcSumKeys={["appointmentCount", "lastVisitSale", "total"]}
-          priceKeys={["lastVisitSale", "total"]}
-          tableCellWidth={{
-            name: 160,
-            lastVisitSale: 200,
-          }}
+          calcSumKeys={[
+            "serviceSales",
+            "serviceSplit",
+            "productSales",
+            "productSplit",
+            "tip",
+            "salary",
+          ]}
+          priceKeys={[
+            "serviceSales",
+            "serviceSplit",
+            "productSales",
+            "productSplit",
+            "tip",
+            "salary",
+          ]}
+          tableCellWidth={{ name: 180 }}
           renderCell={renderCell}
           renderActionCell={renderActionCell}
+          onRowPress={onRowPress}
         />
       </ReportTabLayout>
+
+      <PopupStaffInvoicePrint
+        // ref={this.invoicePrintRef}
+        visiblePrintInvoice={showStaffInvoicePrint}
+        onRequestClose={cancelStaffInvoicePrint}
+        staff={currentStaff}
+      />
     </View>
   );
 }

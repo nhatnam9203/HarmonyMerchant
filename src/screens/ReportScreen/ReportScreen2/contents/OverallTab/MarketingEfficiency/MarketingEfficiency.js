@@ -4,20 +4,19 @@ import { useSelector, useDispatch } from "react-redux";
 
 import IMAGE from "@resources";
 import { localize } from "@utils";
-import actions from "@actions";
 
-import { PopupButton, TableList, ReportTabLayout } from "../../widget";
-import GiftCardBarGroupChart from "./chart/GiftCardReportChart";
+import { PopupButton, TableList, ReportTabLayout } from "../../../widget";
+import MarketingBarGroupChart from "./chart/MarketingBarGroupChart";
 
 const VIEW_MODE = {
   LIST: "LIST",
   CHART: "CHART",
 };
-const FILTER_NAME_DEFAULT = "All Type";
+const FILTER_NAME_DEFAULT = "All Promotion";
 const ACTIVE_COLOR = "#0764B0";
 const INACTIVE_COLOR = "#6A6A6A";
 
-export default function GiftCardReportTab({
+export default function MarketingEfficiency({
   style,
   onGoStatistics,
   titleRangeTime,
@@ -28,13 +27,11 @@ export default function GiftCardReportTab({
   pathFileExport,
   handleTheDownloadedFile,
 }) {
-
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
-
-  const giftCardReportList = useSelector(
-    (state) => state.report.giftCardReportList
+  const marketingEfficiencyList = useSelector(
+    (state) => state.report.marketingEfficiencyList
   );
 
   /**state */
@@ -53,24 +50,24 @@ export default function GiftCardReportTab({
   const viewModeChart = () => changeViewMode(VIEW_MODE.CHART);
 
   const bindChartData = async () => {
-    if (!giftCardReportList) return [];
+    if (!marketingEfficiencyList) return [];
     // console.log(overallPaymentMethodList);
     // const data = createChartObjectFromValues(
     //   marketingEfficiencyList,
     //   "method",
     //   "netPayment"
     // );
-    await setChartData(giftCardReportList);
+    await setChartData(marketingEfficiencyList);
   };
 
   // create filter name data
   const bindFilterName = () => {
-    if (!giftCardReportList) return [];
+    if (!marketingEfficiencyList) return [];
 
     let array = [];
 
-    const arrMap = giftCardReportList.map((item) => ({
-      value: item.type,
+    const arrMap = marketingEfficiencyList.map((item) => ({
+      value: item.name,
       ...item,
     }));
     array.push(...arrMap);
@@ -85,8 +82,8 @@ export default function GiftCardReportTab({
   // binding data list for name filter
   const filterDataTable = () => {
     return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
-      ? giftCardReportList.filter((item) => item.type === filterNameItem)
-      : giftCardReportList;
+      ? marketingEfficiencyList.filter((item) => item.name === filterNameItem)
+      : marketingEfficiencyList;
   };
 
   // callback
@@ -108,7 +105,7 @@ export default function GiftCardReportTab({
   useEffect(() => {
     bindChartData();
     bindFilterName();
-  }, [giftCardReportList]);
+  }, [marketingEfficiencyList]);
 
   /**render */
   //callback render action cell
@@ -142,7 +139,6 @@ export default function GiftCardReportTab({
         showExportFile={showExportFile}
         pathFileExport={pathFileExport}
         handleTheDownloadedFile={handleTheDownloadedFile}
-        filterNameDefault={FILTER_NAME_DEFAULT}
         rightTooltip={
           <>
             <PopupButton
@@ -171,19 +167,19 @@ export default function GiftCardReportTab({
           <TableList
             tableData={filterDataTable()}
             tableHead={{
-              type: localize("Type", language),
-              quantity: localize("Qty Sold", language),
-              sales: localize("Net Sales", language),
+              name: localize("Campaign Name", language),
+              revenue: localize("Revenue", language),
+              discount: localize("Discount", language),
             }}
-            whiteKeys={["type", "quantity", "sales", "action"]}
-            primaryId="type"
-            sumTotalKey="type"
-            calcSumKeys={["quantity", "sales"]}
-            priceKeys={["sales"]}
+            whiteKeys={["name", "revenue", "discount", "action"]}
+            primaryId="promotionId"
+            sumTotalKey="name"
+            calcSumKeys={["revenue", "discount"]}
+            priceKeys={["revenue", "discount"]}
             tableCellWidth={{
-              type: 300,
-              quantity: 200,
-              sales: 200,
+              name: 300,
+              revenue: 200,
+              discount: 200,
             }}
             renderCell={renderCell}
             renderActionCell={renderActionCell}
@@ -196,13 +192,86 @@ export default function GiftCardReportTab({
               margin: 20,
             }}
           >
-            <GiftCardBarGroupChart data={chartData} />
+            <MarketingBarGroupChart data={chartData} />
+            <View style={{ flex: 1, paddingVertical: 20 }}>
+              <View
+                style={{
+                  height: 60,
+                  width: "100%",
+                  justifyContent: "center",
+                  alignItems: "flex-start",
+                  flexDirection: "row",
+                }}
+              >
+                <LegendChart color="#80C6FF" label="Revenue" />
+                <LegendChart color="#E5B960" label="Discount" />
+              </View>
+              <View style={styles.chartDetail}>
+                {marketingEfficiencyList &&
+                  marketingEfficiencyList.map((item) => (
+                    <DetailChart
+                      key={item.promotionId}
+                      label={item.promotionId}
+                      desc={item.name}
+                    />
+                  ))}
+              </View>
+            </View>
           </View>
         )}
       </ReportTabLayout>
     </View>
   );
 }
+
+const DetailChart = ({ label = "1", desc = "..." }) => (
+  <View style={styles.chartDetailItem}>
+    <View
+      style={{
+        padding: 5,
+        width: 30,
+        height: 30,
+        justifyContent: "center",
+        alignItems: "center",
+        marginRight: 10,
+        borderRadius: 15,
+        backgroundColor: "transparent",
+      }}
+    >
+      <Text
+        style={{
+          fontSize: 20,
+          color: "#0764B0",
+          fontWeight: "bold",
+        }}
+      >
+        {label}
+      </Text>
+    </View>
+    <Text style={{ fontSize: 15, flex: 1, color: "#404040" }}>{desc}</Text>
+  </View>
+);
+
+const LegendChart = ({ color, label }) => (
+  <View style={styles.chartDetailItem}>
+    <View
+      style={{
+        width: 30,
+        height: 30,
+        backgroundColor: color,
+        marginRight: 20,
+      }}
+    />
+    <Text
+      style={{
+        fontSize: 15,
+        color: "#404040",
+      }}
+    >
+      {label}
+    </Text>
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: { flex: 1 },

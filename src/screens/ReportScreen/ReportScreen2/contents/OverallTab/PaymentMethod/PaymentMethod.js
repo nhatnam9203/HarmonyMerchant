@@ -1,23 +1,25 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
+
 import IMAGE from "@resources";
 import { localize } from "@utils";
-import actions from "@actions";
 
-import { PopupButton, TableList, ReportTabLayout } from "../../widget";
-import GiftCardBarGroupChart from "./chart/GiftCardReportChart";
+import { PopupButton, TableList, ReportTabLayout } from "../../../widget";
+import PaymentBarChart from "./chart/PaymentBarChart";
+import PaymentPieChart from "./chart/PaymentPieChart";
 
 const VIEW_MODE = {
   LIST: "LIST",
   CHART: "CHART",
 };
-const FILTER_NAME_DEFAULT = "All Type";
+const FILTER_NAME_DEFAULT = "All Promotion";
 const ACTIVE_COLOR = "#0764B0";
 const INACTIVE_COLOR = "#6A6A6A";
 
-export default function GiftCardReportTab({
+
+export default function PaymentMethod({
   style,
   onGoStatistics,
   titleRangeTime,
@@ -28,13 +30,11 @@ export default function GiftCardReportTab({
   pathFileExport,
   handleTheDownloadedFile,
 }) {
-
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
-
-  const giftCardReportList = useSelector(
-    (state) => state.report.giftCardReportList
+  const overallPaymentMethodList = useSelector(
+    (state) => state.report.overallPaymentMethodList
   );
 
   /**state */
@@ -53,24 +53,24 @@ export default function GiftCardReportTab({
   const viewModeChart = () => changeViewMode(VIEW_MODE.CHART);
 
   const bindChartData = async () => {
-    if (!giftCardReportList) return [];
+    if (!overallPaymentMethodList) return [];
     // console.log(overallPaymentMethodList);
     // const data = createChartObjectFromValues(
     //   marketingEfficiencyList,
     //   "method",
     //   "netPayment"
     // );
-    await setChartData(giftCardReportList);
+    await setChartData(overallPaymentMethodList);
   };
 
   // create filter name data
   const bindFilterName = () => {
-    if (!giftCardReportList) return [];
+    if (!overallPaymentMethodList) return [];
 
     let array = [];
 
-    const arrMap = giftCardReportList.map((item) => ({
-      value: item.type,
+    const arrMap = overallPaymentMethodList.map((item) => ({
+      value: item.method,
       ...item,
     }));
     array.push(...arrMap);
@@ -85,8 +85,10 @@ export default function GiftCardReportTab({
   // binding data list for name filter
   const filterDataTable = () => {
     return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
-      ? giftCardReportList.filter((item) => item.type === filterNameItem)
-      : giftCardReportList;
+      ? overallPaymentMethodList.filter(
+          (item) => item.method === filterNameItem
+        )
+      : overallPaymentMethodList;
   };
 
   // callback
@@ -108,7 +110,7 @@ export default function GiftCardReportTab({
   useEffect(() => {
     bindChartData();
     bindFilterName();
-  }, [giftCardReportList]);
+  }, [overallPaymentMethodList]);
 
   /**render */
   //callback render action cell
@@ -142,7 +144,6 @@ export default function GiftCardReportTab({
         showExportFile={showExportFile}
         pathFileExport={pathFileExport}
         handleTheDownloadedFile={handleTheDownloadedFile}
-        filterNameDefault={FILTER_NAME_DEFAULT}
         rightTooltip={
           <>
             <PopupButton
@@ -171,32 +172,43 @@ export default function GiftCardReportTab({
           <TableList
             tableData={filterDataTable()}
             tableHead={{
-              type: localize("Type", language),
-              quantity: localize("Qty Sold", language),
-              sales: localize("Net Sales", language),
+              method: localize("Payment", language),
+              transactions: localize("Transactions", language),
+              grossPayment: localize("Gross Payments", language),
+              refund: localize("Refunds", language),
+              netPayment: localize("Net Payments", language),
             }}
-            whiteKeys={["type", "quantity", "sales", "action"]}
-            primaryId="type"
-            sumTotalKey="type"
-            calcSumKeys={["quantity", "sales"]}
-            priceKeys={["sales"]}
+            whiteKeys={[
+              "method",
+              "transactions",
+              "grossPayment",
+              "refund",
+              "netPayment",
+              "action",
+            ]}
+            primaryId="method"
+            sumTotalKey="method"
+            calcSumKeys={[
+              "transactions",
+              "grossPayment",
+              "refund",
+              "netPayment",
+            ]}
+            priceKeys={["grossPayment", "refund", "netPayment"]}
             tableCellWidth={{
-              type: 300,
-              quantity: 200,
-              sales: 200,
+              method: 200,
+              transactions: 150,
+              grossPayment: 200,
+              refund: 160,
+              netPayment: 200,
             }}
             renderCell={renderCell}
             renderActionCell={renderActionCell}
           />
         ) : (
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              margin: 20,
-            }}
-          >
-            <GiftCardBarGroupChart data={chartData} />
+          <View style={{ flex: 1, flexDirection: "row", margin: 20 }}>
+            <PaymentBarChart data={chartData} />
+            <PaymentPieChart data={chartData} />
           </View>
         )}
       </ReportTabLayout>

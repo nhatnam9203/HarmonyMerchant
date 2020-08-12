@@ -7,15 +7,14 @@ import React, {
 } from "react";
 import { View, StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-
 import actions from "@actions";
 
-import { ReportLayout } from "../../widget";
+import { ReportLayout } from "../../../widget";
 
-import CustomerReportTab from "./CustomerReportTab";
-import CustomerStatistic from "./CustomerStatistic";
+import SalesByProduct from "./SalesByProduct";
+import SalesByProductStatistic from "./SalesByProductStatistic";
 
-function CustomerTab({ style, showBackButton }, ref) {
+function SalesByProductTab({ style, showBackButton }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
@@ -24,9 +23,9 @@ function CustomerTab({ style, showBackButton }, ref) {
     (state) => state.report.customerExportFilePath
   );
 
-  // const customerStatisticExportFilePath = useSelector(
-  //   (state) => state.report.customerStatisticExportFilePath
-  // );
+  const customerStatisticExportFilePath = useSelector(
+    (state) => state.report.customerStatisticExportFilePath
+  );
 
   const customerReportList = useSelector(
     (state) => state.report.customerReportList
@@ -45,9 +44,12 @@ function CustomerTab({ style, showBackButton }, ref) {
   const layoutRef = useRef(null);
 
   /**function */
-  const getCustomerReportSales = async () => {
+  const getGiftCardReportSales = async () => {
     await dispatch(
-      actions.report.getCustomerSales(true, layoutRef?.current?.getTimeUrl())
+      actions.report.getGiftCardReportSales(
+        true,
+        layoutRef?.current?.getTimeUrl()
+      )
     );
   };
 
@@ -59,7 +61,7 @@ function CustomerTab({ style, showBackButton }, ref) {
   const onChangeTimeTitle = async (titmeTitle) => {
     await setTitleRangeTime(titmeTitle);
     // TODO: call reload list
-    await getCustomerReportSales();
+    await getGiftCardReportSales();
   };
 
   const onChangeFilterNames = (names) => {
@@ -71,7 +73,7 @@ function CustomerTab({ style, showBackButton }, ref) {
   };
 
   const onGoStatistics = async (item) => {
-    await setFilterNameItem(item.name);
+    await setFilterNameItem(item.type);
     layoutRef.current.goNext();
   };
 
@@ -83,7 +85,7 @@ function CustomerTab({ style, showBackButton }, ref) {
     switch (currentTab) {
       case 0:
         dispatch(
-          actions.report.exportCustomerSalesSales(
+          actions.report.exportGiftCardReportSales(
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
@@ -92,19 +94,19 @@ function CustomerTab({ style, showBackButton }, ref) {
         );
         break;
       case 1:
-        // const filterItem = customerReportList.find(
-        //   (item) => item.type === filterNameItem
-        // );
-        // if (!filterItem) return;
-        // dispatch(
-        //   actions.report.exportGiftCardReportSalesStatistics(
-        //     filterItem.giftCardGeneralId,
-        //     layoutRef?.current?.getTimeUrl(),
-        //     true,
-        //     "excel",
-        //     titleExportFile
-        //   )
-        // );
+        const filterItem = customerReportList.find(
+          (item) => item.type === filterNameItem
+        );
+        if (!filterItem) return;
+        dispatch(
+          actions.report.exportGiftCardReportSalesStatistics(
+            filterItem.giftCardGeneralId,
+            layoutRef?.current?.getTimeUrl(),
+            true,
+            "excel",
+            titleExportFile
+          )
+        );
         break;
       default:
         break;
@@ -130,7 +132,7 @@ function CustomerTab({ style, showBackButton }, ref) {
 
   /**effect */
   useEffect(() => {
-    getCustomerReportSales();
+    getGiftCardReportSales();
   }, []);
 
   return (
@@ -143,28 +145,30 @@ function CustomerTab({ style, showBackButton }, ref) {
         onRequestExportFileToServer={onRequestExportFileToServer}
         isDownloadReport={isDownloadReport}
       >
-        <CustomerReportTab
+        <SalesByProduct
           style={{ flex: 1, paddingTop: 10 }}
-          tabLabel="Customer"
+          tabLabel="Sales by product"
           onGoStatistics={onGoStatistics}
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("Customer ")}
+          showExportFile={() => onShowPopupExport("Sales by product ")}
           pathFileExport={customerExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
-        <CustomerStatistic
+        <SalesByProductStatistic
           style={{ flex: 1, paddingTop: 10 }}
-          tabLabel="Customer Statistics"
-          title="Customer Statistics"
+          tabLabel="Sales by product Statistics"
+          title="Sales by product Statistics"
           titleRangeTime={titleRangeTime}
           showCalendar={() => showCalendar(true)}
           dataFilters={filterNames}
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
-          showExportFile={() => onShowPopupExport("Customer Statistic ")}
-          // pathFileExport={customerStatisticExportFilePath}
+          showExportFile={() =>
+            onShowPopupExport("Sales by product Statistic ")
+          }
+          pathFileExport={customerStatisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
       </ReportLayout>
@@ -176,4 +180,4 @@ const styles = StyleSheet.create({
   container: {},
 });
 
-export default CustomerTab = forwardRef(CustomerTab);
+export default SalesByProductTab = forwardRef(SalesByProductTab);

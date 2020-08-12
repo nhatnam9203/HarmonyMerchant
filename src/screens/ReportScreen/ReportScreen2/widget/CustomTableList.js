@@ -214,7 +214,7 @@ function TableList(
               key={uniqueId(key, index, "header")}
               style={{
                 width: getCellWidth(index, key),
-                // ...(isPriceCell(key) && { alignItems: "flex-end" }),
+                ...(isPriceCell(key) && { alignItems: "flex-end" }),
               }}
             >
               <Text style={styles.txtHead}>{headerContent[key] ?? ""}</Text>
@@ -287,6 +287,21 @@ function TableList(
   const renderSeparator = () => {
     return <View style={styles.separator} />;
   };
+  const renderListEmpty = () => {
+    return (
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          marginVertical: 100,
+        }}
+      >
+        <Text style={{ fontSize: 14, fontWeight: "600", color: "#6A6A6A" }}>
+          No report data
+        </Text>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -299,6 +314,7 @@ function TableList(
         // ListHeaderComponent={renderHeader}
         ListFooterComponent={onRenderFooterSpace}
         ItemSeparatorComponent={renderSeparator}
+        ListEmptyComponent={renderListEmpty}
         // extraData={selectedItem}
       />
       {showSumOnBottom && onRenderFooter()}

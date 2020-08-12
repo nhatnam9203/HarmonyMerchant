@@ -10,31 +10,28 @@ import { useSelector, useDispatch } from "react-redux";
 
 import actions from "@actions";
 
-import { ReportLayout } from "../../widget";
+import { ReportLayout } from "../../../widget";
+import PaymentMethod from "./PaymentMethod";
+import PaymentStatistic from "./PaymentStatistic";
 
-import CustomerReportTab from "./CustomerReportTab";
-import CustomerStatistic from "./CustomerStatistic";
-
-function CustomerTab({ style, showBackButton }, ref) {
+function PaymentMethodTab({ style, showBackButton }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const customerExportFilePath = useSelector(
-    (state) => state.report.customerExportFilePath
+  const overallPaymentMethodList = useSelector(
+    (state) => state.report.overallPaymentMethodList
   );
 
-  // const customerStatisticExportFilePath = useSelector(
-  //   (state) => state.report.customerStatisticExportFilePath
-  // );
-
-  const customerReportList = useSelector(
-    (state) => state.report.customerReportList
+  const overallPMExportFilePath = useSelector(
+    (state) => state.report.overallPMExportFilePath
   );
 
-  const isDownloadReport = useSelector(
-    (state) => state.report.isDownloadReport
+  const overallPMStatisticExportFilePath = useSelector(
+    (state) => state.report.overallPMStatisticExportFilePath
   );
+
+  const isDownloadReport = useSelector(state => state.report.isDownloadReport);
 
   /**state */
   const [titleRangeTime, setTitleRangeTime] = useState("This week");
@@ -45,9 +42,12 @@ function CustomerTab({ style, showBackButton }, ref) {
   const layoutRef = useRef(null);
 
   /**function */
-  const getCustomerReportSales = async () => {
+  const getOverallPaymentMethod = async () => {
     await dispatch(
-      actions.report.getCustomerSales(true, layoutRef?.current?.getTimeUrl())
+      actions.report.getOverallPaymentMethod(
+        true,
+        layoutRef?.current?.getTimeUrl()
+      )
     );
   };
 
@@ -59,7 +59,7 @@ function CustomerTab({ style, showBackButton }, ref) {
   const onChangeTimeTitle = async (titmeTitle) => {
     await setTitleRangeTime(titmeTitle);
     // TODO: call reload list
-    await getCustomerReportSales();
+    await getOverallPaymentMethod();
   };
 
   const onChangeFilterNames = (names) => {
@@ -71,7 +71,7 @@ function CustomerTab({ style, showBackButton }, ref) {
   };
 
   const onGoStatistics = async (item) => {
-    await setFilterNameItem(item.name);
+    await setFilterNameItem(item.method);
     layoutRef.current.goNext();
   };
 
@@ -83,7 +83,7 @@ function CustomerTab({ style, showBackButton }, ref) {
     switch (currentTab) {
       case 0:
         dispatch(
-          actions.report.exportCustomerSalesSales(
+          actions.report.exportPaymentMethod(
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
@@ -92,19 +92,19 @@ function CustomerTab({ style, showBackButton }, ref) {
         );
         break;
       case 1:
-        // const filterItem = customerReportList.find(
-        //   (item) => item.type === filterNameItem
-        // );
-        // if (!filterItem) return;
-        // dispatch(
-        //   actions.report.exportGiftCardReportSalesStatistics(
-        //     filterItem.giftCardGeneralId,
-        //     layoutRef?.current?.getTimeUrl(),
-        //     true,
-        //     "excel",
-        //     titleExportFile
-        //   )
-        // );
+        const item = overallPaymentMethodList.find(
+          (item) => item.method === filterNameItem
+        );
+        if (!item) return;
+        dispatch(
+          actions.report.exportPaymentMethodStatistics(
+            item.method,
+            layoutRef?.current?.getTimeUrl(),
+            true,
+            "excel",
+            titleExportFile
+          )
+        );
         break;
       default:
         break;
@@ -130,7 +130,7 @@ function CustomerTab({ style, showBackButton }, ref) {
 
   /**effect */
   useEffect(() => {
-    getCustomerReportSales();
+    getOverallPaymentMethod();
   }, []);
 
   return (
@@ -143,28 +143,28 @@ function CustomerTab({ style, showBackButton }, ref) {
         onRequestExportFileToServer={onRequestExportFileToServer}
         isDownloadReport={isDownloadReport}
       >
-        <CustomerReportTab
+        <PaymentMethod
           style={{ flex: 1, paddingTop: 10 }}
-          tabLabel="Customer"
+          tabLabel="Payment Method"
           onGoStatistics={onGoStatistics}
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("Customer ")}
-          pathFileExport={customerExportFilePath}
+          showExportFile={() => onShowPopupExport("Payment Method ")}
+          pathFileExport={overallPMExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
-        <CustomerStatistic
+        <PaymentStatistic
           style={{ flex: 1, paddingTop: 10 }}
-          tabLabel="Customer Statistics"
-          title="Customer Statistics"
+          tabLabel="Payment Method Statistics"
+          title="Payment Method Statistics"
           titleRangeTime={titleRangeTime}
           showCalendar={() => showCalendar(true)}
           dataFilters={filterNames}
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
-          showExportFile={() => onShowPopupExport("Customer Statistic ")}
-          // pathFileExport={customerStatisticExportFilePath}
+          showExportFile={() => onShowPopupExport("Payment Method Statistic ")}
+          pathFileExport={overallPMStatisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
       </ReportLayout>
@@ -176,4 +176,4 @@ const styles = StyleSheet.create({
   container: {},
 });
 
-export default CustomerTab = forwardRef(CustomerTab);
+export default PaymentMethodTab = forwardRef(PaymentMethodTab);

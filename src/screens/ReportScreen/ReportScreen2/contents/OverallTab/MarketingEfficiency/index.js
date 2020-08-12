@@ -10,26 +10,25 @@ import { useSelector, useDispatch } from "react-redux";
 
 import actions from "@actions";
 
-import { ReportLayout } from "../../widget";
+import { ReportLayout } from "../../../widget";
+import MarketingEfficiency from "./MarketingEfficiency";
+import MarketingEfficiencyStatistic from "./MarketingEfficiencyStatistic";
 
-import CustomerReportTab from "./CustomerReportTab";
-import CustomerStatistic from "./CustomerStatistic";
-
-function CustomerTab({ style, showBackButton }, ref) {
+function MarketingEfficiencyTab({ style, showBackButton }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const customerExportFilePath = useSelector(
-    (state) => state.report.customerExportFilePath
+  const marketingEfficiencyList = useSelector(
+    (state) => state.report.marketingEfficiencyList
   );
 
-  // const customerStatisticExportFilePath = useSelector(
-  //   (state) => state.report.customerStatisticExportFilePath
-  // );
+  const meExportFilePath = useSelector(
+    (state) => state.report.meExportFilePath
+  );
 
-  const customerReportList = useSelector(
-    (state) => state.report.customerReportList
+  const meStatisticExportFilePath = useSelector(
+    (state) => state.report.meStatisticExportFilePath
   );
 
   const isDownloadReport = useSelector(
@@ -45,9 +44,12 @@ function CustomerTab({ style, showBackButton }, ref) {
   const layoutRef = useRef(null);
 
   /**function */
-  const getCustomerReportSales = async () => {
+  const getMarketingEfficiencyMethod = async () => {
     await dispatch(
-      actions.report.getCustomerSales(true, layoutRef?.current?.getTimeUrl())
+      actions.report.getOverallMarketingEfficiency(
+        true,
+        layoutRef?.current?.getTimeUrl()
+      )
     );
   };
 
@@ -59,7 +61,7 @@ function CustomerTab({ style, showBackButton }, ref) {
   const onChangeTimeTitle = async (titmeTitle) => {
     await setTitleRangeTime(titmeTitle);
     // TODO: call reload list
-    await getCustomerReportSales();
+    await getMarketingEfficiencyMethod();
   };
 
   const onChangeFilterNames = (names) => {
@@ -83,7 +85,7 @@ function CustomerTab({ style, showBackButton }, ref) {
     switch (currentTab) {
       case 0:
         dispatch(
-          actions.report.exportCustomerSalesSales(
+          actions.report.exportMarketingEfficiency(
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
@@ -92,19 +94,19 @@ function CustomerTab({ style, showBackButton }, ref) {
         );
         break;
       case 1:
-        // const filterItem = customerReportList.find(
-        //   (item) => item.type === filterNameItem
-        // );
-        // if (!filterItem) return;
-        // dispatch(
-        //   actions.report.exportGiftCardReportSalesStatistics(
-        //     filterItem.giftCardGeneralId,
-        //     layoutRef?.current?.getTimeUrl(),
-        //     true,
-        //     "excel",
-        //     titleExportFile
-        //   )
-        // );
+        const promotion = marketingEfficiencyList.find(
+          (item) => item.name === filterNameItem
+        );
+        if (!promotion) return;
+        dispatch(
+          actions.report.exportMarketingEfficiencyStatistics(
+            promotion.promotionId,
+            layoutRef?.current?.getTimeUrl(),
+            true,
+            "excel",
+            titleExportFile
+          )
+        );
         break;
       default:
         break;
@@ -130,7 +132,7 @@ function CustomerTab({ style, showBackButton }, ref) {
 
   /**effect */
   useEffect(() => {
-    getCustomerReportSales();
+    getMarketingEfficiencyMethod();
   }, []);
 
   return (
@@ -143,28 +145,30 @@ function CustomerTab({ style, showBackButton }, ref) {
         onRequestExportFileToServer={onRequestExportFileToServer}
         isDownloadReport={isDownloadReport}
       >
-        <CustomerReportTab
+        <MarketingEfficiency
           style={{ flex: 1, paddingTop: 10 }}
-          tabLabel="Customer"
+          tabLabel="Marketing Efficiency"
           onGoStatistics={onGoStatistics}
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("Customer ")}
-          pathFileExport={customerExportFilePath}
+          showExportFile={() => onShowPopupExport("Marketing Efficiency ")}
+          pathFileExport={meExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
-        <CustomerStatistic
+        <MarketingEfficiencyStatistic
           style={{ flex: 1, paddingTop: 10 }}
-          tabLabel="Customer Statistics"
-          title="Customer Statistics"
+          tabLabel="Marketing Efficiency Statistics"
+          title="Marketing Efficiency Statistics"
           titleRangeTime={titleRangeTime}
           showCalendar={() => showCalendar(true)}
           dataFilters={filterNames}
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
-          showExportFile={() => onShowPopupExport("Customer Statistic ")}
-          // pathFileExport={customerStatisticExportFilePath}
+          showExportFile={() =>
+            onShowPopupExport("Marketing Efficiency Statistic ")
+          }
+          pathFileExport={meStatisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
       </ReportLayout>
@@ -176,4 +180,4 @@ const styles = StyleSheet.create({
   container: {},
 });
 
-export default CustomerTab = forwardRef(CustomerTab);
+export default MarketingEfficiencyTab = forwardRef(MarketingEfficiencyTab);

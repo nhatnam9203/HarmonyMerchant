@@ -156,13 +156,6 @@ export function getListStaffsSalaryTop(
   };
 }
 
-export function getListStaffCalendar(staffId) {
-  return {
-    type: "GET_LIST_STAFFS_SALARY_CALENDAR",
-    payload: staffId,
-  };
-}
-
 export function setPositionHeader(dx) {
   return {
     type: "ON_SCROLL",
@@ -210,4 +203,11 @@ export function getExportStaffStatistics(
     fileName,
     extention: type ?? "pdf",
   };
+}
+
+
+export function resetDownloadExportFiles() {
+  return {
+    type: "RESET_DOWNLOAD_FILE_REPORT_STAFF"
+  }
 }

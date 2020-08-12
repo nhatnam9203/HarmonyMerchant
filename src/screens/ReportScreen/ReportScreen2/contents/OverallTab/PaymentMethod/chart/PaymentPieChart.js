@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, processColor, View } from "react-native";
 import { PieChart } from "react-native-charts-wrapper";
-import { localize, formatMoney, formatNumberFromCurrency } from "@utils";
+import { formatNumberFromCurrency } from "@utils";
 
 const legend = {
     enabled: true,
@@ -59,6 +59,15 @@ const calcMaxPercent = (arr) => {
   return parseFloat(Math.max(...arr) / sum).toFixed(2) * 100;
 };
 
+const pickValuesForKey = (array, forKey, format) => {
+  return array.map((obj) => {
+    const item = Object.entries(obj).filter(([key, value]) => key === forKey);
+    const [key, value] = item[0];
+    if (format === "float") return formatNumberFromCurrency(value);
+    return value + "";
+  });
+};
+
 export default function PaymentBarChart({ data }) {
   /**state */
   const [dataChart, setDataChart] = useState(dataConfig);
@@ -69,15 +78,18 @@ export default function PaymentBarChart({ data }) {
   useEffect(() => {
     if (data) {
       // ======= map values =======
+
       let mapValues = [];
+      let formatterValues = pickValuesForKey(data, "method", "string");
       let findMaxValues = [];
+
       // run object get value push in array mapValues
-      data.forEach((d) => {
+      pickValuesForKey(data, "netPayment", "float").forEach((d, index) => {
         let obj = Object.create({});
-        const value = formatNumberFromCurrency(Object.values(d)[0]);
+        const value = formatNumberFromCurrency(d);
         findMaxValues.push(value);
         obj.value = value;
-        obj.label = Object.keys(d)[0];
+        obj.label = formatterValues[index];
         mapValues.push(obj);
       });
 
@@ -149,7 +161,7 @@ export default function PaymentBarChart({ data }) {
           styledCenterText={{
             text: `${maxPercentsChart}%`,
             color: processColor("#003680"),
-            size: 55,
+            size: 45,
           }}
           centerTextRadiusPercent={100}
           holeRadius={55}
