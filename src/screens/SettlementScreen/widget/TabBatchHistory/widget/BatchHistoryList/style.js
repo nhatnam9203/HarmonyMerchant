@@ -19,7 +19,7 @@ export default StyleSheet.create({
     },
     txt_row_table: {
         color: '#404040',
-        fontSize: scaleSzie(10),
+        fontSize: scaleSzie(12),
         fontWeight: "400"
     },
 
