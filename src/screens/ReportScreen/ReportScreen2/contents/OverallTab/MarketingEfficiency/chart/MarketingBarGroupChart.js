@@ -47,7 +47,7 @@ const dataConfig = {
     },
   ],
   config: {
-    barWidth: 0.4,
+    barWidth: 0.1,
     group: {
       fromX: 0,
       groupSpace: 0.1,
@@ -142,7 +142,7 @@ export default function MarketingBarGroupChart({ data }) {
           barWidth: 0.4,
           group: {
             fromX: 0,
-            groupSpace: 0.1,
+            groupSpace: 0,
             barSpace: 0.1,
           },
         },
@@ -180,7 +180,6 @@ export default function MarketingBarGroupChart({ data }) {
     } else {
       //   this.setState({ ...this.state, selectedEntry: JSON.stringify(entry) });
     }
-
   }
 
   return (

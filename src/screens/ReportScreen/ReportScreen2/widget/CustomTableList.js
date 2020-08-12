@@ -22,7 +22,7 @@ import {
 const TABLE_HEADER_HEIGHT = 50;
 const TABLE_ROW_HEIGHT = 50;
 const TABLE_CELL_DEFAULT_WIDTH = 140;
-const HEAD_FONT_SIZE = 17;
+const HEAD_FONT_SIZE = 15;
 const CELL_FONT_SIZE = 15;
 
 const TABLE_HEADER_KEY = "report-header";

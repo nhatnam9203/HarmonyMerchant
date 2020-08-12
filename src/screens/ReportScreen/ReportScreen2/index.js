@@ -42,7 +42,7 @@ function ReportScreen2({ showBackButton }, ref) {
         case 2:
           customerRef.current.goBack();
           break;
-        case 5:
+        case 3:
           overallRef.current.goBack();
           break;
         default:

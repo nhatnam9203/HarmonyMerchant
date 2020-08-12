@@ -138,6 +138,8 @@ export default function StaffReportTab({
             serviceSplit: localize("Service Split", language),
             productSales: localize("Product Sales", language),
             productSplit: localize("Product Split", language),
+            workingHour: localize("Working Hour", language),
+            salaryWage: localize("Salary Wage", language),
             tip: localize("Tip Amount", language),
             salary: localize("Salary", language),
           }}
@@ -147,6 +149,8 @@ export default function StaffReportTab({
             "serviceSplit",
             "productSales",
             "productSplit",
+            "workingHour",
+            "salaryWage",
             "tip",
             "salary",
             "action",
@@ -158,6 +162,8 @@ export default function StaffReportTab({
             "serviceSplit",
             "productSales",
             "productSplit",
+            "workingHour",
+            "salaryWage",
             "tip",
             "salary",
           ]}
@@ -166,10 +172,12 @@ export default function StaffReportTab({
             "serviceSplit",
             "productSales",
             "productSplit",
+            "workingHour",
+            "salaryWage",
             "tip",
             "salary",
           ]}
-          tableCellWidth={{ name: 180 }}
+          tableCellWidth={{ name: 170 }}
           renderCell={renderCell}
           renderActionCell={renderActionCell}
           onRowPress={onRowPress}
