@@ -60,7 +60,7 @@ const rootReducer = (state, action) => {
         isLoginStaff: false,
         listAppointmentsOfflineMode: [],
         deviceId: "",
-        versionApp: "",
+        versionApp:dataLocal.versionApp,
         isRememberMID: dataLocal.isRememberMID,
       },
     };
