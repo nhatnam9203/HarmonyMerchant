@@ -30,6 +30,7 @@ class PopupDiscount extends React.Component {
         };
         this.customDiscountRef = React.createRef();
         this.customFixedAmountRef = React.createRef();
+        this.scrollRef = React.createRef();
     }
 
     setStateFromParent = async (totalLocal, discountTotal, customDiscountPercent, customDiscountFixedLocal) => {
@@ -122,6 +123,10 @@ class PopupDiscount extends React.Component {
         }
     }
 
+    scrollTo = num => {
+        this.scrollRef.current.scrollTo({ x: 0, y: num, animated: true })
+    }
+
     // ------ Render -----
 
     render() {
@@ -169,11 +174,13 @@ class PopupDiscount extends React.Component {
                     style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
                 >
                     <View style={{
-                        height: scaleSzie(380), backgroundColor: '#fff',
+                        height: scaleSzie(400), backgroundColor: '#fff',
                         borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
                     }} >
-                        <View style={{ height: scaleSzie(260) }} >
-                            <ScrollView keyboardShouldPersistTaps="always" >
+                        <View style={{ height: scaleSzie(280) }} >
+                            <ScrollView
+                                ref={this.scrollRef}
+                                keyboardShouldPersistTaps="always" >
                                 <TouchableOpacity activeOpacity={1} style={{ paddingHorizontal: scaleSzie(25) }} >
                                     {
                                         discount.map((promo, index) => <ItemCampaign
@@ -183,6 +190,7 @@ class PopupDiscount extends React.Component {
                                         />
                                         )
                                     }
+                                    <View style={{ height: scaleSzie(10) }} />
                                     {/* ----------- Row 1 ----------- */}
                                     <CustomDiscount
                                         ref={this.customDiscountRef}
@@ -198,10 +206,10 @@ class PopupDiscount extends React.Component {
                                         onChangeText={this.onChangeTextDiscountFixed}
                                         language={language}
                                     />
-
+                                  
 
                                     {/* ----------- Note  ----------- */}
-                                    {/* <View style={{}} >
+                                    <View style={{}} >
                                         <Text style={[{
                                             color: "#404040", fontSize: scaleSzie(16), fontWeight: "600",
                                             marginBottom: scaleSzie(5), marginTop: scaleSzie(12)
@@ -220,26 +228,26 @@ class PopupDiscount extends React.Component {
                                                 onFocus={() => this.scrollRef.current.scrollToEnd()}
                                                 onBlur={() => this.scrollTo(0)}
                                             />
-                                        </View> 
-                                    </View> */}
+                                        </View>
+                                    </View>
 
-                                    <View style={{ height: scaleSzie(100) }} />
+                                    <View style={{ height: scaleSzie(200) }} />
                                 </TouchableOpacity>
                             </ScrollView>
 
                         </View>
                         {/* ---------- Total ------- */}
                         <View style={{
-                            flexDirection: 'row', height: scaleSzie(60),
+                            flexDirection: 'row', height: scaleSzie(40),
                             paddingHorizontal: scaleSzie(25)
                         }} >
                             <View style={{ flex: 1, justifyContent: 'center' }} >
-                                <Text style={{ color: '#404040', fontSize: scaleSzie(30), fontWeight: 'bold' }} >
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(22), fontWeight: 'bold' }} >
                                     {localize('Total Discount', language)}
                                 </Text>
                             </View>
                             <View style={{ justifyContent: 'center' }} >
-                                <Text style={{ color: '#4CD964', fontSize: scaleSzie(30), fontWeight: 'bold' }} >
+                                <Text style={{ color: '#4CD964', fontSize: scaleSzie(22), fontWeight: 'bold' }} >
                                     {`$ -${formatMoney(total)}`}
                                 </Text>
                             </View>
@@ -248,7 +256,7 @@ class PopupDiscount extends React.Component {
                         {/* ----------- Button Add ---- */}
                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(12) }} >
                             <ButtonCustom
-                                width={scaleSzie(125)}
+                                width={scaleSzie(180)}
                                 height={45}
                                 backgroundColor="#0764B0"
                                 title={localize('Done', language)}
@@ -277,12 +285,12 @@ const ItemCampaign = ({ title, discount }) => {
             borderBottomColor: '#707070', borderBottomWidth: 1
         }} >
             <View style={{ flex: 1, justifyContent: 'center' }} >
-                <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
+                <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
                     {title}
                 </Text>
             </View>
             <View style={{ justifyContent: 'center' }} >
-                <Text style={{ color: '#4CD964', fontSize: scaleSzie(20) }} >
+                <Text style={{ color: '#4CD964', fontSize: scaleSzie(18) }} >
                     {`$ ${discount}`}
                 </Text>
             </View>
@@ -313,10 +321,10 @@ class CustomDiscount extends React.Component {
 
         return (
             <View style={{
-                flexDirection: 'row', height: scaleSzie(55),
+                flexDirection: 'row', height: scaleSzie(45),
             }} >
                 <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }} >
-                    <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
+                    <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
                         {localize('Custom Discount by', language)}
                     </Text>
                     {/* ------- Text percent ----- */}
@@ -345,7 +353,7 @@ class CustomDiscount extends React.Component {
                             />
                         </View>
                         <View style={{ justifyContent: 'center', paddingRight: scaleSzie(5) }} >
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
+                            <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
                                 %
                             </Text>
                         </View>
@@ -353,7 +361,7 @@ class CustomDiscount extends React.Component {
                     {/* -------  ----- */}
                 </View>
                 <View style={{ justifyContent: 'center' }} >
-                    <Text style={{ color: '#4CD964', fontSize: scaleSzie(20) }} >
+                    <Text style={{ color: '#4CD964', fontSize: scaleSzie(18) }} >
                         {`$ ${formatMoney(roundNumber(discount))}`}
                     </Text>
                 </View>
@@ -376,10 +384,11 @@ class CustomDiscountFixed extends React.Component {
         const { onChangeText, language } = this.props;
         return (
             <View style={{
-                flexDirection: 'row', height: scaleSzie(55), borderBottomColor: '#707070', borderBottomWidth: 1
+                flexDirection: 'row', height: scaleSzie(45), borderBottomColor: '#707070', borderBottomWidth: 1,
+                paddingBottom:scaleSzie(20)
             }} >
                 <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }} >
-                    <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
+                    <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
                         {localize('Custom Discount by fixed amount', language)}
                     </Text>
                 </View>
@@ -391,7 +400,7 @@ class CustomDiscountFixed extends React.Component {
                         flexDirection: 'row',
                     }} >
                         <View style={{ justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
-                            <Text style={{ color: '#4CD964', fontSize: scaleSzie(20) }} >
+                            <Text style={{ color: '#4CD964', fontSize: scaleSzie(18) }} >
                                 $
                             </Text>
                         </View>
