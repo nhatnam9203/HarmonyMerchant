@@ -7,7 +7,7 @@ import { localize } from "@utils";
 
 import { TableList, ReportTabLayout } from "../../widget";
 
-const FILTER_NAME_DEFAULT = "All Type";
+const FILTER_NAME_DEFAULT = "Select All";
 
 export default function CustomerReportTab({
   style,
@@ -41,7 +41,7 @@ export default function CustomerReportTab({
     let array = [];
 
     const arrMap = customerReportList.map((item) => ({
-      value: item.type,
+      value: item.name,
       ...item,
     }));
     array.push(...arrMap);
@@ -56,7 +56,7 @@ export default function CustomerReportTab({
   // binding data list for name filter
   const filterDataTable = () => {
     return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
-      ? customerReportList.filter((item) => item.type === filterNameItem)
+      ? customerReportList.filter((item) => item.name === filterNameItem)
       : customerReportList;
   };
 
@@ -113,32 +113,31 @@ export default function CustomerReportTab({
         pathFileExport={pathFileExport}
         handleTheDownloadedFile={handleTheDownloadedFile}
         filterNameDefault={FILTER_NAME_DEFAULT}
-        rightTooltip={<></>}
       >
         <TableList
           tableData={filterDataTable()}
           tableHead={{
             name: localize("Name", language),
-            appointments: localize("Appointments", language),
-            lastVisit: localize("Last Visit", language),
-            lastVisitSales: localize("Last Visit Sales", language),
-            totalSale: localize("Total Sales", language),
+            appointmentCount: localize("Appointments", language),
+            lastVisitDateString: localize("Last Visit", language),
+            lastVisitSale: localize("Last Visit Sales", language),
+            total: localize("Total Sales", language),
           }}
           whiteKeys={[
             "name",
-            "appointments",
-            "lastVisit",
-            "lastVisitSales",
-            "totalSale",
+            "appointmentCount",
+            "lastVisitDateString",
+            "lastVisitSale",
+            "total",
             "action",
           ]}
-          primaryId="name"
-          sumTotalKey=""
-          calcSumKeys={[]}
-          priceKeys={[]}
+          primaryId="customerId"
+          sumTotalKey="name"
+          calcSumKeys={["appointmentCount", "lastVisitSale", "total"]}
+          priceKeys={["lastVisitSale", "total"]}
           tableCellWidth={{
             name: 160,
-            lastVisitSales: 200,
+            lastVisitSale: 200,
           }}
           renderCell={renderCell}
           renderActionCell={renderActionCell}

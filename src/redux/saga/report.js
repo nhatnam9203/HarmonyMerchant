@@ -106,6 +106,38 @@ function* getReportGiftCardSales(action) {
   }
 }
 
+function* getReportCustomerSales(action) {
+  try {
+    action.isShowLoading ? yield put({ type: "LOADING_ROOT" }) : "";
+    const responses = yield requestAPI(action);
+    const { codeNumber } = responses;
+    yield put({ type: "STOP_LOADING_ROOT" });
+
+    if (parseInt(codeNumber) == 200) {
+      yield put({
+        type: ACTION_TYPES.Customer_GetListSuccess,
+        payload: responses.data,
+      });
+    } else if (parseInt(codeNumber) === 401) {
+      yield put({
+        type: "UNAUTHORIZED",
+      });
+    } else {
+      yield put({
+        type: ACTION_TYPES.Customer_GetListFail,
+      });
+      yield put({
+        type: "SHOW_ERROR_MESSAGE",
+        message: responses.message,
+      });
+    }
+  } catch (error) {
+    yield put({ type: error });
+  } finally {
+    yield put({ type: "STOP_LOADING_ROOT" });
+  }
+}
+
 /**export */
 
 function* exportReport(action) {
@@ -173,6 +205,13 @@ function* exportReport(action) {
           });
           break;
 
+        case ACTION_TYPES.Customer_Export:
+          yield put({
+            type: ACTION_TYPES.Customer_ExportSuccess,
+            payload: fileDownload.path(),
+          });
+          break;
+
         default:
           break;
       }
@@ -204,5 +243,7 @@ export default function* saga() {
     takeLatest(ACTION_TYPES.GiftCard_GetList, getReportGiftCardSales),
     takeLatest(ACTION_TYPES.GiftCard_Export, exportReport),
     takeLatest(ACTION_TYPES.GiftCard_ExportStatistic, exportReport),
+    takeLatest(ACTION_TYPES.Customer_GetList, getReportCustomerSales),
+    takeLatest(ACTION_TYPES.Customer_Export, exportReport),
   ]);
 }

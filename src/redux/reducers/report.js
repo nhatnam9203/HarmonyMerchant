@@ -20,7 +20,6 @@ const initialState = {
 
   customerReportList: [],
   customerExportFilePath: null,
-  customerStatisticExportFilePath: null,
 };
 
 function appReducer(state = initialState, action) {
@@ -90,6 +89,20 @@ function appReducer(state = initialState, action) {
         giftCardStatisticExportFilePath: action.payload,
         isDownloadReport: false,
       };
+
+    //customer
+    case ACTION_TYPES.Customer_GetListSuccess:
+      return {
+        ...state,
+        customerReportList: action.payload,
+      };
+    case ACTION_TYPES.Customer_ExportSuccess:
+      return {
+        ...state,
+        customerExportFilePath: action.payload,
+        isDownloadReport: false,
+      };
+
     default:
       return state;
   }

@@ -87,7 +87,7 @@ function ReportScreen2({ showBackButton }, ref) {
         tabIcons={[
           IMAGE.Staff,
           IMAGE.giftcard,
-          // IMAGE.Customer,
+          IMAGE.Customer,
           // IMAGE.Services,
           // IMAGE.Report_Product,
           IMAGE.Report_Overall,
@@ -106,13 +106,13 @@ function ReportScreen2({ showBackButton }, ref) {
           ref={giftCardRef}
           showBackButton={onShowBackButton}
         />
-        {/* <CustomerTab
+        <CustomerTab
           style={styles.content}
           tabLabel="Customer"
           ref={customerRef}
           showBackButton={onShowBackButton}
         />
-        <ServiceTab
+        {/*<ServiceTab
           style={styles.content}
           tabLabel="Services"
           showBackButton={onShowBackButton}

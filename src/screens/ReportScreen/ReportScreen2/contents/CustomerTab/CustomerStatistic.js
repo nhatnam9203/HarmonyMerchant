@@ -21,31 +21,31 @@ export default function CustomerStatistic(props, ref) {
 
   /**useEffect */
   useEffect(() => {
-    const item = customerReportList.find((item) => item.type === filterId);
-
+    const item = customerReportList.find((item) => item.name === filterId);
+    console.log(item);
     setTable({
-      tableData: item?.giftCardStatistics || [],
+      tableData: item?.details || [],
       tableHead: {
         appointmentId: localize("Appointment ID", language),
         dateString: localize("Date", language),
         time: localize("Time", language),
-        no: localize("No. of Service", language),
-        staff: localize("Staff", language),
-        payAmount: localize("Pay Amount", language),
+        serviceCount: localize("No. of Service", language),
+        staffName: localize("Staff", language),
+        payamount: localize("Pay Amount", language),
       },
       whiteKeys: [
         "appointmentId",
         "dateString",
         "time",
-        "no",
-        "staff",
-        "payAmount",
+        "serviceCount",
+        "staffName",
+        "payamount",
       ],
       primaryId: "appointmentId",
-      calcSumKeys: [],
-      sumTotalKey: "",
-      priceKeys: [],
-      tableCellWidth: { appointmentId: 80 },
+      calcSumKeys: ["payamount"],
+      sumTotalKey: "appointmentId",
+      priceKeys: ["payamount"],
+      tableCellWidth: { appointmentId: 150 },
     });
   }, [filterId, customerReportList]);
 
@@ -56,6 +56,7 @@ export default function CustomerStatistic(props, ref) {
       {...props}
       {...table}
       title={"Customer Report Statistics"}
+      isShowExportButton={false}
     />
   );
 }

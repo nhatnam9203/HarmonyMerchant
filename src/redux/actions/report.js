@@ -35,10 +35,10 @@ export const ACTION_TYPES = {
   Customer_GetListFail: "GET_CUSTOMER_REPORT_SALES_FAIL",
   Customer_GetListSuccess: "GET_CUSTOMER_REPORT_SALES_SUCCESS",
   Customer_Export: "EXPORT_CUSTOMER_REPORT_SALES",
-  Customer_ExportStatistic: "EXPORT_CUSTOMER_REPORT_SALES_STATISTIC",
+  // Customer_ExportStatistic: "EXPORT_CUSTOMER_REPORT_SALES_STATISTIC",
   Customer_ExportSuccess: "EXPORT_CUSTOMER_REPORT_SALES_SUCCESS",
-  Customer_ExportStatisticSuccess:
-    "EXPORT_CUSTOMER_REPORT_SALES_STATISTIC_SUCCESS",
+  // Customer_ExportStatisticSuccess:
+  //   "EXPORT_CUSTOMER_REPORT_SALES_STATISTIC_SUCCESS",
 };
 
 /** Get List */
@@ -190,5 +190,41 @@ export function exportGiftCardReportSalesStatistics(
 export function resetExportFiles() {
   return {
     type: "RESET_DOWNLOAD_FILE_REPORT",
+  };
+}
+
+/**===================
+ * customer
+ * ==================*/
+
+// get list
+export function getCustomerSales(
+  isShowLoading = true,
+  params = "quickFilter=thisWeek"
+) {
+  return {
+    type: ACTION_TYPES.Customer_GetList,
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}appointment/report/customerSales?${params}`,
+    isShowLoading,
+  };
+}
+
+// export report
+export function exportCustomerSalesSales(
+  params = "quickFilter=thisWeek",
+  isShowLoading = true,
+  type = "excel",
+  fileName
+) {
+  return {
+    type: ACTION_TYPES.Customer_Export,
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}appointment/report/customerSales/export?${params}`,
+    isShowLoading,
+    fileName,
+    extention: type === "excel" ? "csv" : "pdf",
   };
 }

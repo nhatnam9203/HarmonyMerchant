@@ -24,9 +24,9 @@ function CustomerTab({ style, showBackButton }, ref) {
     (state) => state.report.customerExportFilePath
   );
 
-  const customerStatisticExportFilePath = useSelector(
-    (state) => state.report.customerStatisticExportFilePath
-  );
+  // const customerStatisticExportFilePath = useSelector(
+  //   (state) => state.report.customerStatisticExportFilePath
+  // );
 
   const customerReportList = useSelector(
     (state) => state.report.customerReportList
@@ -45,12 +45,9 @@ function CustomerTab({ style, showBackButton }, ref) {
   const layoutRef = useRef(null);
 
   /**function */
-  const getGiftCardReportSales = async () => {
+  const getCustomerReportSales = async () => {
     await dispatch(
-      actions.report.getGiftCardReportSales(
-        true,
-        layoutRef?.current?.getTimeUrl()
-      )
+      actions.report.getCustomerSales(true, layoutRef?.current?.getTimeUrl())
     );
   };
 
@@ -62,7 +59,7 @@ function CustomerTab({ style, showBackButton }, ref) {
   const onChangeTimeTitle = async (titmeTitle) => {
     await setTitleRangeTime(titmeTitle);
     // TODO: call reload list
-    await getGiftCardReportSales();
+    await getCustomerReportSales();
   };
 
   const onChangeFilterNames = (names) => {
@@ -74,7 +71,7 @@ function CustomerTab({ style, showBackButton }, ref) {
   };
 
   const onGoStatistics = async (item) => {
-    await setFilterNameItem(item.type);
+    await setFilterNameItem(item.name);
     layoutRef.current.goNext();
   };
 
@@ -86,7 +83,7 @@ function CustomerTab({ style, showBackButton }, ref) {
     switch (currentTab) {
       case 0:
         dispatch(
-          actions.report.exportGiftCardReportSales(
+          actions.report.exportCustomerSalesSales(
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
@@ -95,19 +92,19 @@ function CustomerTab({ style, showBackButton }, ref) {
         );
         break;
       case 1:
-        const filterItem = customerReportList.find(
-          (item) => item.type === filterNameItem
-        );
-        if (!filterItem) return;
-        dispatch(
-          actions.report.exportGiftCardReportSalesStatistics(
-            filterItem.giftCardGeneralId,
-            layoutRef?.current?.getTimeUrl(),
-            true,
-            "excel",
-            titleExportFile
-          )
-        );
+        // const filterItem = customerReportList.find(
+        //   (item) => item.type === filterNameItem
+        // );
+        // if (!filterItem) return;
+        // dispatch(
+        //   actions.report.exportGiftCardReportSalesStatistics(
+        //     filterItem.giftCardGeneralId,
+        //     layoutRef?.current?.getTimeUrl(),
+        //     true,
+        //     "excel",
+        //     titleExportFile
+        //   )
+        // );
         break;
       default:
         break;
@@ -133,7 +130,7 @@ function CustomerTab({ style, showBackButton }, ref) {
 
   /**effect */
   useEffect(() => {
-    getGiftCardReportSales();
+    getCustomerReportSales();
   }, []);
 
   return (
@@ -167,7 +164,7 @@ function CustomerTab({ style, showBackButton }, ref) {
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
           showExportFile={() => onShowPopupExport("Customer Statistic ")}
-          pathFileExport={customerStatisticExportFilePath}
+          // pathFileExport={customerStatisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
       </ReportLayout>

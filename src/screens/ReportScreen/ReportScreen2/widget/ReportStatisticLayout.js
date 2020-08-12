@@ -18,6 +18,7 @@ const TABLE_ROW_HEIGHT = 50;
 export default function ReportStatisticLayout({
   style,
   showExportFile,
+  isShowExportButton = true,
   handleTheDownloadedFile,
   onChangeFilter,
   dataFilters,
@@ -71,11 +72,13 @@ export default function ReportStatisticLayout({
       <HeaderTooltip
         rightComponent={
           <>
-            <PopupButton
-              text="Export"
-              imageSrc={IMAGE.export}
-              onPress={showExportFile}
-            />
+            {isShowExportButton && (
+              <PopupButton
+                text="Export"
+                imageSrc={IMAGE.export}
+                onPress={showExportFile}
+              />
+            )}
             {!!pathFileExport && (
               <PopupButton
                 onPress={() => handleTheDownloadedFile(pathFileExport)}

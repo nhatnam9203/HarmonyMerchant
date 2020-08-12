@@ -214,7 +214,7 @@ function TableList(
               key={uniqueId(key, index, "header")}
               style={{
                 width: getCellWidth(index, key),
-                // ...(isPriceCell(key) && { alignItems: "flex-end" }),
+                ...(isPriceCell(key) && { alignItems: "flex-end" }),
               }}
             >
               <Text style={styles.txtHead}>{headerContent[key] ?? ""}</Text>
