@@ -93,7 +93,7 @@ class PopupChangeStylist extends React.Component {
         if (_.isEmpty(groupAppointment)) {
             this.props.changeStylistBasketLocal(serviceIdLocal, staffId, tip, price);
         } else {
-            this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentIdChangeStylist, price, true);
+            this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentIdChangeStylist, price, 0,true);
 
         }
         this.props.onRequestClose();

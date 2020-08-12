@@ -106,7 +106,7 @@ function* checkStaffPermission(action) {
                 });
                 yield put({
                     type: 'GET_SETTLEMENT_WAITING',
-                    method: 'GET',
+                    method: 'GET', 
                     api: `${apiConfigs.BASE_API}settlement/waiting`,
                     token: true,
                     isShowLoading: true

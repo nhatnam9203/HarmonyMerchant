@@ -10,7 +10,7 @@ import _ from 'ramda';
 
 import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, formatWithMoment } from '@utils';
 import {
-    Text, ButtonCustom,Button
+    Text, ButtonCustom, Button
 } from '@components';
 import styles from "./style";
 import ItemPaymentsReport, { StaffsHeaderTable, StaffsItem, GiftCardItem, TotalItem, HeaderPaymentsReport } from "./widget/ItemsSettlement";
@@ -20,27 +20,39 @@ import ICON from "@resources";
 class Layout extends React.Component {
 
     renderLastSettlement() {
-        const { settleWaiting, language } = this.props;
-        const { settlementDate } = settleWaiting;
+        const { language } = this.props;
+
         return (
             <View style={{
                 height: scaleSzie(40), flexDirection: 'row', alignItems: 'center',
             }} >
-                <Text style={[styles.txt_top_title, { marginLeft: scaleSzie(10), marginRight: scaleSzie(20), }]} >
-                    {`${localize('Last Settlement', language)}:`}
+                <Text style={[styles.txt_top_title, { marginLeft: scaleSzie(10), marginRight: scaleSzie(20), fontWeight: "400" }]} >
+                    {`${localize('Batch ID', language)}: `}
+                    <Text style={[styles.txt_top_title, { marginLeft: scaleSzie(10), marginRight: scaleSzie(20), }]} >
+                        {`${localize('#1096', language)}`}
+                    </Text>
                 </Text>
-                <Text style={[styles.txt_top_title, { fontWeight: '500', marginRight: scaleSzie(20) }]}  >
-                    {formatWithMoment(settlementDate, 'MM/DD/YYYY')}
+                <Text style={[styles.txt_top_title, { fontWeight: '400', marginRight: scaleSzie(20) }]}  >
+                    {`July 31, 2020, 1:37 AM`}
                 </Text>
-                <Text style={[styles.txt_top_title, { fontWeight: '500', marginRight: scaleSzie(20) }]}  >
-                    {formatWithMoment(settlementDate, 'hh:mm A')}
+                <Text style={[styles.txt_top_title, { fontWeight: 'bold', marginRight: scaleSzie(20) }]}  >
+                    {`$ 3577.00`}
                 </Text>
 
                 <Button onPress={this.refreshSettlement} style={{
                     position: "absolute", top: scaleSzie(10), right: scaleSzie(10),
                     justifyContent: "center"
                 }} >
-                    <Image source={ICON.refresh_settlement}
+                    <Image source={ICON.share_batch_history}
+                        style={{ width: scaleSzie(30), height: scaleSzie(30) }}
+                    />
+                </Button>
+
+                <Button onPress={this.refreshSettlement} style={{
+                    position: "absolute", top: scaleSzie(10), right: scaleSzie(50),
+                    justifyContent: "center"
+                }} >
+                    <Image source={ICON.print_batch_history}
                         style={{ width: scaleSzie(30), height: scaleSzie(30) }}
                     />
                 </Button>

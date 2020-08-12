@@ -13,7 +13,7 @@ import apiConfigs from '@configs/api';
 
 const PosLink = NativeModules.MyApp;
 
-class TabFirstSettle extends Layout {
+class BatchHistoryDetail extends Layout {
 
     constructor(props) {
         super(props);
@@ -320,4 +320,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connectRedux(mapStateToProps, TabFirstSettle);
+export default connectRedux(mapStateToProps, BatchHistoryDetail);

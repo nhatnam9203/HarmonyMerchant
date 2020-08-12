@@ -261,7 +261,7 @@ class InvoiceScreen extends Layout {
         } else {
             await this.setState({
                 visibleConfirmInvoiceStatus: false,
-                titleInvoice: invoiceDetail.status === 'paid' ? "Refund" : "Void"
+                titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
             })
             this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch());
         }
@@ -286,6 +286,9 @@ class InvoiceScreen extends Layout {
 
         if (data.status === 1) {
             this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch());
+            await this.setState({
+                titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
+            })
         } else {
             setTimeout(() => {
                 alert(data.message)
@@ -304,6 +307,9 @@ class InvoiceScreen extends Layout {
         const data = JSON.parse(result);
         if (data.status === 1 && data.ResultTxt === "OK") {
             this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch());
+            await this.setState({
+                titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
+            })
         } else {
             setTimeout(() => {
                 alert(data.message)
@@ -410,7 +416,7 @@ class InvoiceScreen extends Layout {
                     invoiceDetail.checkoutPayments ? invoiceDetail.checkoutPayments : []
                 );
 
-                this.setState({
+                await this.setState({
                     visiblePrintInvoice: true
                 })
             } else {

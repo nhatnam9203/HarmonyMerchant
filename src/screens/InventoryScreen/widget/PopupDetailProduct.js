@@ -64,24 +64,21 @@ class PopupDetailProduct extends React.Component {
         })
     }
 
-    submitArchiveYess = () => {
+    submitArchiveYess = async () => {
+       await this.setState({
+            visibleArchive: false,
+        });
         const { productInfo } = this.state;
         this.props.submitArchiveYess(productInfo.productId);
-        const temptProductInfo = { ...productInfo, isDisabled: 'Disable' };
-        this.setState({
-            visibleArchive: false,
-            productInfo: temptProductInfo,
-        })
+       
     }
 
-    submitRestoreYess = () =>{
+    submitRestoreYess = async () =>{
+      await  this.setState({
+            visibleRestore: false,
+        });
         const { productInfo } = this.state;
         this.props.submitRestoreYess(productInfo.productId);
-        const temptProductInfo = { ...productInfo, isDisabled: 'Active' };
-        this.setState({
-            visibleRestore: false,
-            productInfo: temptProductInfo,
-        })
     }
 
     // ---------- Render --------

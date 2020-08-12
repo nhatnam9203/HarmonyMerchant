@@ -179,6 +179,17 @@ export function getListStaffsSales() {
     }
 }
 
+export function getListGiftCardSales() {
+    return {
+        type: 'GET_LIST_GIFT_CARD_SALES',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}settlement/waiting/giftCardSales`,
+    }
+}
+
+
+
 export function resetStateSettleBatch(keyword = "") {
     return {
         type: 'RESET_STATE_SETTLE_BATCH',
