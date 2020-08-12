@@ -26,15 +26,16 @@ class PopupDiscount extends React.Component {
             moneyDiscountFixedAmout: 0,
 
             customDiscountPercentLocal: 0,
-            customDiscountFixedLocal: 0
+            customDiscountFixedLocal: 0,
+            promotionNotes: ""
         };
         this.customDiscountRef = React.createRef();
         this.customFixedAmountRef = React.createRef();
         this.scrollRef = React.createRef();
     }
 
-    setStateFromParent = async (totalLocal, discountTotal, customDiscountPercent, customDiscountFixedLocal) => {
 
+    setStateFromParent = async (totalLocal, discountTotal, customDiscountPercent, customDiscountFixedLocal) => {
         await this.setState({
             totalLocal,
             discountTotal: discountTotal,
@@ -72,6 +73,7 @@ class PopupDiscount extends React.Component {
                 );
             } else {
                 this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentIdUpdatePromotion, true);
+                this.props.actions.marketing.updatePromotionNote(appointmentIdUpdatePromotion,this.state.promotionNotes);
                 this.props.actions.marketing.closeModalDiscount();
             }
 
@@ -138,7 +140,7 @@ class PopupDiscount extends React.Component {
             const { customDiscountPercent, customDiscountFixed } = appointmentDetail !== undefined && appointmentDetail && !_.isEmpty(appointmentDetail) ? appointmentDetail : { customDiscountPercent: 0, customDiscountFixed: 0 };
             const {
                 moneyDiscountCustom, moneyDiscountFixedAmout, totalLocal, discountTotal,
-                customDiscountPercentLocal, customDiscountFixedLocal
+                customDiscountPercentLocal, customDiscountFixedLocal, promotionNotes
             } = this.state;
 
             let total = 0;
@@ -206,7 +208,7 @@ class PopupDiscount extends React.Component {
                                         onChangeText={this.onChangeTextDiscountFixed}
                                         language={language}
                                     />
-                                  
+
 
                                     {/* ----------- Note  ----------- */}
                                     <View style={{}} >
@@ -217,21 +219,21 @@ class PopupDiscount extends React.Component {
                                             {`Note`}
                                         </Text>
                                         <View style={{
-                                            height: scaleSzie(70), borderColor: "#DDDDDD", borderWidth: 1, borderRadius: 4, paddingVertical: 5,
+                                            height: scaleSzie(70), borderColor: "#DDDDDD", borderWidth: 2, borderRadius: 4, paddingVertical: 5,
                                             paddingHorizontal: scaleSzie(10)
                                         }} >
                                             <TextInput
                                                 style={{ flex: 1, fontSize: scaleSzie(12) }}
                                                 multiline={true}
-                                                value={"note"}
-                                                onChangeText={(note) => this.setState({ note })}
+                                                value={promotionNotes}
+                                                onChangeText={(promotionNotes) => this.setState({ promotionNotes })}
                                                 onFocus={() => this.scrollRef.current.scrollToEnd()}
                                                 onBlur={() => this.scrollTo(0)}
                                             />
                                         </View>
                                     </View>
 
-                                    <View style={{ height: scaleSzie(200) }} />
+                                    <View style={{ height: scaleSzie(130) }} />
                                 </TouchableOpacity>
                             </ScrollView>
 
@@ -271,8 +273,20 @@ class PopupDiscount extends React.Component {
         } catch (error) {
             //console.log('Popup Discount Checkout : ',error);
         }
+    }
 
-
+   async componentDidUpdate(prevProps, prevState) {
+        const { visibleModalDiscount, groupAppointment, isGetPromotionOfAppointment ,appointmentIdUpdatePromotion} = this.props;
+        const visible = visibleModalDiscount && !_.isEmpty(groupAppointment) ? true : false;
+        if (prevProps.isGetPromotionOfAppointment !== isGetPromotionOfAppointment  && isGetPromotionOfAppointment === "success" && visible) {
+            this.props.actions.marketing.resetStateGetPromotionOfAppointment();
+            const appointmentDetail = appointmentIdUpdatePromotion !== -1 && !_.isEmpty(groupAppointment) && groupAppointment.appointments ? groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) : { promotionNotes: "" };
+            // console.log("appointmentDetail : ",JSON.stringify(appointmentDetail));
+            const promotionNotes = appointmentDetail.promotionNotes && appointmentDetail.promotionNotes.note ? appointmentDetail.promotionNotes.note : "";
+            await this.setState({
+                promotionNotes
+            })
+        }
     }
 
 }
@@ -385,7 +399,7 @@ class CustomDiscountFixed extends React.Component {
         return (
             <View style={{
                 flexDirection: 'row', height: scaleSzie(45), borderBottomColor: '#707070', borderBottomWidth: 1,
-                paddingBottom:scaleSzie(20)
+                paddingBottom: scaleSzie(20)
             }} >
                 <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }} >
                     <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
@@ -442,6 +456,7 @@ const mapStateToProps = state => ({
     groupAppointment: state.appointment.groupAppointment,
     appointmentIdUpdatePromotion: state.marketing.appointmentIdUpdatePromotion,
     language: state.dataLocal.language,
+    isGetPromotionOfAppointment: state.marketing.isGetPromotionOfAppointment
 })
 
 

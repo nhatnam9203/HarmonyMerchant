@@ -21,6 +21,7 @@ const initialState = {
     isApplyThirdPromotion: false,
     isApplyFourthPromotion: false,
     isApplyFivethPromotion: false,
+    isGetPromotionOfAppointment: ""
 }
 
 function appReducer(state = initialState, action) {
@@ -77,12 +78,28 @@ function appReducer(state = initialState, action) {
                 refreshingPromotion: false,
                 isGetPromotionByMerchant: false
             }
+        case 'GET_PROMOTION_BY_APPOINTMENT':
+            return {
+                ...state,
+                isGetPromotionOfAppointment: ""
+            }
         case 'GET_PROMOTION_BY_APPOINTMENT_SUCCESS':
             return {
                 ...state,
                 discount: action.payload,
                 visibleModalDiscount: true,
-                appointmentIdUpdatePromotion: action.appointmentId
+                appointmentIdUpdatePromotion: action.appointmentId,
+                isGetPromotionOfAppointment: "success"
+            }
+        case 'GET_PROMOTION_BY_APPOINTMENT_FAIL':
+            return {
+                ...state,
+                isGetPromotionOfAppointment: ""
+            }
+        case 'RESET_STATE_GET_PROMOTION_OF_APPOINTMENT':
+            return {
+                ...state,
+                isGetPromotionOfAppointment: ""
             }
         case 'GET_PROMOTION_BY_BLOCK_APPOINTMENT_SUCCESS':
             return {

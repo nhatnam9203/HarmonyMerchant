@@ -144,3 +144,24 @@ export function toggleMarketingTabPermission(visible = true) {
         payload: visible
     }
 }
+
+export function resetStateGetPromotionOfAppointment() {
+    return {
+        type: 'RESET_STATE_GET_PROMOTION_OF_APPOINTMENT',
+    }
+}
+
+export function updatePromotionNote(promotionNoteId,notes) {
+    return {
+        type: 'UPDATE_PROMOTION_NOTE',
+        method: 'PUT',
+        body:{
+            notes
+        },
+        token: true,
+        api: `${apiConfigs.BASE_API}appointment/promotion/note/${promotionNoteId}`
+    }
+}
+// https://dev.harmonypayment.com/api/appointment/promotion/note/{appointemntId}
+// https://dev.harmonypayment.com/api/appointment/promotion/note/{promotionNoteId}
+
