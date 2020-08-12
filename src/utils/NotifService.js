@@ -47,7 +47,7 @@ export default class NotifService {
     this.lastId++;
     const firstName = appointment.FirstName ? appointment.FirstName : "";
     const lastName = appointment.lastName ? appointment.lastName : "";
-    const time = appointment.ToTime ? formatWithMoment(appointment.ToTime, "hh:mm A MM/DD/YYYY") : "";
+    const time = appointment.FromTime ? formatWithMoment(appointment.FromTime, "hh:mm A MM/DD/YYYY") : formatWithMoment(new Date(), "hh:mm A MM/DD/YYYY");
 
     PushNotification.localNotification({
       /* Android Only Properties */
