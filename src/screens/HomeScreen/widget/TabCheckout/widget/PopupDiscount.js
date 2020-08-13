@@ -72,15 +72,9 @@ class PopupDiscount extends React.Component {
                     { cancelable: false }
                 );
             } else {
-                const {promotionNotes} = this.state;
+                const { promotionNotes } = this.state;
                 this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentIdUpdatePromotion, true);
-                this.props.actions.marketing.addPromotionNote(appointmentDetail.appointmentId,promotionNotes);
-                // if(promotionNoteId){
-                //     this.props.actions.marketing.updatePromotionNote(appointmentIdUpdatePromotion,promotionNotes);
-                // }else{
-                //     this.props.actions.marketing.addPromotionNote(appointmentDetail.appointmentId,promotionNotes);
-                // }
-               
+                this.props.actions.marketing.addPromotionNote(appointmentDetail.appointmentId, promotionNotes);
                 this.props.actions.marketing.closeModalDiscount();
             }
 
@@ -282,10 +276,10 @@ class PopupDiscount extends React.Component {
         }
     }
 
-   async componentDidUpdate(prevProps, prevState) {
-        const { visibleModalDiscount, groupAppointment, isGetPromotionOfAppointment ,promotionNotes} = this.props;
+    async componentDidUpdate(prevProps, prevState) {
+        const { visibleModalDiscount, groupAppointment, isGetPromotionOfAppointment, promotionNotes } = this.props;
         const visible = visibleModalDiscount && !_.isEmpty(groupAppointment) ? true : false;
-        if (prevProps.isGetPromotionOfAppointment !== isGetPromotionOfAppointment  && isGetPromotionOfAppointment === "success" && visible) {
+        if (prevProps.isGetPromotionOfAppointment !== isGetPromotionOfAppointment && isGetPromotionOfAppointment === "success" && visible) {
             this.props.actions.marketing.resetStateGetPromotionOfAppointment();
             await this.setState({
                 promotionNotes: promotionNotes.note ? promotionNotes.note : ""

@@ -452,6 +452,13 @@ export default class Layout extends React.Component {
                             }
                              <View style={{ height: scaleSzie(16) }} />
                             <Text style={{ color: '#404040', fontSize: scaleSzie(13), fontWeight: "bold" }} >
+                                {`Note: `}
+                                <Text style={{ fontWeight: "500" }} >
+                                {`${invoiceDetail.promotionNotes && invoiceDetail.promotionNotes.note ? invoiceDetail.promotionNotes.note : ""}`}
+                            </Text>
+                            </Text>
+                             <View style={{ height: scaleSzie(16) }} />
+                            <Text style={{ color: '#404040', fontSize: scaleSzie(13), fontWeight: "bold" }} >
                                 {`Change : $ ${invoiceDetail.refundAmount ? invoiceDetail.refundAmount : 0.00}`}
                             </Text>
                         </ScrollView>

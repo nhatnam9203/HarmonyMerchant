@@ -4,13 +4,14 @@ import {
     Text,
     ScrollView,
     TouchableOpacity,
-    Alert
+    Alert,
+    TextInput
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
 
 import { ButtonCustom, PopupParent } from '@components';
-import { scaleSzie, formatNumberFromCurrency, formatMoney, localize,roundNumber } from '@utils';
+import { scaleSzie, formatNumberFromCurrency, formatMoney, localize, roundNumber } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupDiscount extends React.Component {
@@ -25,10 +26,12 @@ class PopupDiscount extends React.Component {
             moneyDiscountFixedAmout: 0,
 
             customDiscountPercentLocal: 0,
-            customDiscountFixedLocal: 0
+            customDiscountFixedLocal: 0,
+            promotionNotes: ""
         };
         this.customDiscountRef = React.createRef();
         this.customFixedAmountRef = React.createRef();
+        this.scrollRef = React.createRef();
     }
 
 
@@ -57,7 +60,9 @@ class PopupDiscount extends React.Component {
                     { cancelable: false }
                 );
             } else {
+                const {promotionNotes} = this.state;
                 this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentDetail.appointmentId);
+                this.props.actions.marketing.addPromotionNote(appointmentDetail.appointmentId,promotionNotes);
                 this.props.actions.marketing.closeModalDiscount();
             }
         }
@@ -101,6 +106,10 @@ class PopupDiscount extends React.Component {
         }
     }
 
+    scrollTo = num => {
+        this.scrollRef.current.scrollTo({ x: 0, y: num, animated: true })
+    }
+
     // ------ Render -----
 
     render() {
@@ -111,7 +120,7 @@ class PopupDiscount extends React.Component {
             const { customDiscountPercent, customDiscountFixed } = appointmentDetail;
             const {
                 moneyDiscountCustom, moneyDiscountFixedAmout, totalLocal, discountTotal,
-                customDiscountPercentLocal, customDiscountFixedLocal
+                customDiscountPercentLocal, customDiscountFixedLocal,promotionNotes
             } = this.state;
             let total = 0;
             for (let i = 0; i < discount.length; i++) {
@@ -150,11 +159,14 @@ class PopupDiscount extends React.Component {
                     style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
                 >
                     <View style={{
-                        height: scaleSzie(380), backgroundColor: '#fff',
+                        height: scaleSzie(400), backgroundColor: '#fff',
                         borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
                     }} >
-                        <View style={{ height: scaleSzie(260) }} >
-                            <ScrollView  keyboardShouldPersistTaps="always" >
+                        <View style={{ height: scaleSzie(280) }} >
+                            <ScrollView 
+                             ref={this.scrollRef}
+                            keyboardShouldPersistTaps="always" 
+                            >
                                 <TouchableOpacity activeOpacity={1} style={{ paddingHorizontal: scaleSzie(25) }} >
                                     {
                                         discount.map((promo, index) => <ItemCampaign
@@ -164,6 +176,7 @@ class PopupDiscount extends React.Component {
                                         />
                                         )
                                     }
+                                    <View style={{ height: scaleSzie(10) }} />
                                     {/* ----------- Row 1 ----------- */}
                                     <CustomDiscount
                                         ref={this.customDiscountRef}
@@ -179,7 +192,30 @@ class PopupDiscount extends React.Component {
                                         onChangeText={this.onChangeTextDiscountFixed}
                                         language={language}
                                     />
-                                    <View style={{ height: scaleSzie(100) }} />
+
+                                    {/* ----------- Note  ----------- */}
+                                    <View style={{}} >
+                                        <Text style={[{
+                                            color: "#404040", fontSize: scaleSzie(16), fontWeight: "600",
+                                            marginBottom: scaleSzie(5), marginTop: scaleSzie(12)
+                                        }]} >
+                                            {`Note`}
+                                        </Text>
+                                        <View style={{
+                                            height: scaleSzie(70), borderColor: "#DDDDDD", borderWidth: 2, borderRadius: 4, paddingVertical: 5,
+                                            paddingHorizontal: scaleSzie(10)
+                                        }} >
+                                            <TextInput
+                                                style={{ flex: 1, fontSize: scaleSzie(12) }}
+                                                multiline={true}
+                                                value={promotionNotes}
+                                                onChangeText={(promotionNotes) => this.setState({ promotionNotes })}
+                                                onFocus={() => this.scrollRef.current.scrollToEnd()}
+                                                onBlur={() => this.scrollTo(0)}
+                                            />
+                                        </View>
+                                    </View>
+                                    <View style={{ height: scaleSzie(130) }} />
                                 </TouchableOpacity>
                             </ScrollView>
 
@@ -221,8 +257,20 @@ class PopupDiscount extends React.Component {
         } catch (error) {
 
         }
-
     }
+
+    async componentDidUpdate(prevProps, prevState) {
+        const { visibleModalDiscount, appointmentDetail, isGetPromotionOfAppointment, promotionNotes } = this.props;
+        const visible = visibleModalDiscount && !_.isEmpty(appointmentDetail) ? true : false;
+        if (prevProps.isGetPromotionOfAppointment !== isGetPromotionOfAppointment && isGetPromotionOfAppointment === "success" && visible) {
+            this.props.actions.marketing.resetStateGetPromotionOfAppointment();
+            await this.setState({
+                promotionNotes: promotionNotes.note ? promotionNotes.note : ""
+            })
+        }
+    }
+
+
 
 }
 
@@ -234,12 +282,12 @@ const ItemCampaign = ({ title, discount }) => {
             borderBottomColor: '#707070', borderBottomWidth: 1
         }} >
             <View style={{ flex: 1, justifyContent: 'center' }} >
-                <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
+                <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
                     {title}
                 </Text>
             </View>
             <View style={{ justifyContent: 'center' }} >
-                <Text style={{ color: '#4CD964', fontSize: scaleSzie(20) }} >
+                <Text style={{ color: '#4CD964', fontSize: scaleSzie(18) }} >
                     {`$ ${discount}`}
                 </Text>
             </View>
@@ -266,14 +314,14 @@ class CustomDiscount extends React.Component {
     render() {
         const { percent } = this.state;
         const { total, onChangeText, language } = this.props;
-        const discount =formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100;
+        const discount = formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100;
 
         return (
             <View style={{
-                flexDirection: 'row', height: scaleSzie(55),
+                flexDirection: 'row', height: scaleSzie(45),
             }} >
                 <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }} >
-                    <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
+                    <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
                         {localize('Custom Discount by', language)}
                     </Text>
                     {/* ------- Text percent ----- */}
@@ -302,7 +350,7 @@ class CustomDiscount extends React.Component {
                             />
                         </View>
                         <View style={{ justifyContent: 'center', paddingRight: scaleSzie(5) }} >
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
+                            <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
                                 %
                             </Text>
                         </View>
@@ -333,10 +381,10 @@ class CustomDiscountFixed extends React.Component {
         const { onChangeText, language } = this.props;
         return (
             <View style={{
-                flexDirection: 'row', height: scaleSzie(55), borderBottomColor: '#707070', borderBottomWidth: 1
+                flexDirection: 'row', height: scaleSzie(55), borderBottomColor: '#707070', borderBottomWidth: 1, paddingBottom: scaleSzie(20)
             }} >
                 <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }} >
-                    <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
+                    <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
                         {localize('Custom Discount by fixed amount', language)}
                     </Text>
                 </View>
@@ -348,7 +396,7 @@ class CustomDiscountFixed extends React.Component {
                         flexDirection: 'row',
                     }} >
                         <View style={{ justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
-                            <Text style={{ color: '#4CD964', fontSize: scaleSzie(20) }} >
+                            <Text style={{ color: '#4CD964', fontSize: scaleSzie(18) }} >
                                 $
                             </Text>
                         </View>
@@ -388,7 +436,8 @@ const mapStateToProps = state => ({
     visibleModalDiscount: state.marketing.visibleModalDiscount,
     appointmentDetail: state.appointment.appointmentDetail,
     language: state.dataLocal.language,
-
+    isGetPromotionOfAppointment: state.marketing.isGetPromotionOfAppointment,
+    promotionNotes: state.marketing.promotionNotes
 })
 
 

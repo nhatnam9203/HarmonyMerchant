@@ -247,7 +247,7 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8C59C060D6EA94E3B5ADFA3B /* libPods-Hpmerchant-Hpmerchant_Staging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DEC3923581CC3E42642C025 /* libPods-Hpmerchant-Hpmerchant_Staging.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
-		B02E0E6DAF7F29AA27CDC35A /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		B02E0E6DAF7F29AA27CDC35A /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		B124B99464A736A80EAE02F8 /* libPods-Hpmerchant-Hpmerchant_Dev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B433C90A07569EE0F1690854 /* libPods-Hpmerchant-Hpmerchant_Dev.a */; };
 		C757D92E4E5E404DAE4671BF /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
@@ -711,7 +711,7 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				190B834FB4BB4246962A3E7E /* libRNGestureHandler.a in Frameworks */,
 				C757D92E4E5E404DAE4671BF /* libRNImagePicker.a in Frameworks */,
-				B02E0E6DAF7F29AA27CDC35A /* BuildFile in Frameworks */,
+				B02E0E6DAF7F29AA27CDC35A /* (null) in Frameworks */,
 				7C186DA69A5F305D9BABAA7C /* libPods-Hpmerchant-Hpmerchant_Production.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2278,7 +2278,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 48;
+				CURRENT_PROJECT_VERSION = 49;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
@@ -2304,7 +2304,7 @@
 					"$(PROJECT_DIR)/sdk",
 					"\"$(SRCROOT)/HpMerchant\"",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				OTHER_CFLAGS = "-fembed-bitcode";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2331,7 +2331,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 48;
+				CURRENT_PROJECT_VERSION = 49;
 				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2356,7 +2356,7 @@
 					"$(PROJECT_DIR)/sdk",
 					"\"$(SRCROOT)/HpMerchant\"",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				OTHER_CFLAGS = "-fembed-bitcode";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
