@@ -51,6 +51,7 @@ class SettlementScreen extends Layout {
                 this.transactionTabRef.current.searchTransactions();
             }
         } else if (currentIndex === 2) {
+            this.props.actions.invoice.getBatchHistory();
             // if(this.batchHistoryTabRef.current){
             //     this.batchHistoryTabRef.current.searchBatchHistory();
             // }
@@ -103,3 +104,5 @@ const mapStateToProps = state => ({
 
 
 export default connectRedux(mapStateToProps, SettlementScreen);
+
+// https://dev.harmonypayment.com/api/appointment/staffSales/getBySettlement/{settlementId}

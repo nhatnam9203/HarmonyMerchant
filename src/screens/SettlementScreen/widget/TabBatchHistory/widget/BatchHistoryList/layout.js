@@ -120,7 +120,7 @@ class Layout extends React.Component {
 
 
     render() {
-        const { staffSalesDetail, staffName, total, sales, tax, tip } = this.state;
+        const {listBatchHistory} = this.props
 
         return (
             <View style={{ flex: 1, backgroundColor: "#fff" }} >
@@ -133,9 +133,9 @@ class Layout extends React.Component {
                 <HeaderTable />
                 <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
                     <FlatList
-                        data={[1]}
+                        data={listBatchHistory}
                         renderItem={({ item, index }) => <RowTable data={item} />}
-                        // keyExtractor={(item, index) => `${item.appointmentCode}_${index}`}
+                        keyExtractor={(item, index) => `${item.settlementId}_${index}`}
                         style={{ flex: 1, borderColor: "#C5C5C5", borderWidth: 1 }}
                     />
                 </View>
@@ -194,29 +194,25 @@ const RowTable = ({ data }) => {
             {/* --------- Batch ID  ---------- */}
             <View style={{ flex: 1, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
                 <Text numberOfLines={1} style={styles.txt_row_table} >
-                    {/* {`${data.name ? data.name : ""}`} */}
-                    {`#1096`}
+                    {`#${data.settlementId ? data.settlementId : ""}`}
                 </Text>
             </View>
             {/* --------- Date  ---------- */}
             <View style={{ flex: 1, justifyContent: "center" }} >
                 <Text style={[styles.txt_row_table, {}]} >
-                    {/* {`$ ${data.tax ? data.tax : "0.00"}`} */}
-                    {`July 31, 2020`}
+                {`${data.settlementDate ?formatWithMoment(data.settlementDate,"MMMM DD, YYYY") : ""}`}
                 </Text>
             </View>
             {/* --------- Time  ---------- */}
             <View style={{ flex: 1, justifyContent: "center" }} >
                 <Text style={[styles.txt_row_table, { fontWeight: "600" }]} >
-                    {/* {`$ ${data.tip ? data.tip : "0.00"}`} */}
-                    {`1:37 AM`}
+                    {`${data.settlementDate ?formatWithMoment(data.settlementDate,"hh:mm A") : ""}`}
                 </Text>
             </View>
             {/* --------- Amount  ---------- */}
             <View style={{ flex: 2, justifyContent: "center", alignItems: "flex-end" }} >
                 <Text style={[styles.txt_row_table, { fontWeight: "800" }]} >
-                    {/* {`$ ${data.total ? data.total : "0.00"}`} */}
-                    {`$ 3577.00`}
+                    {`$ ${data.total ? data.total : "0.00"}`}
                 </Text>
             </View>
             <View style={{ width: scaleSzie(60), justifyContent: "center", alignItems: "center" }} >
