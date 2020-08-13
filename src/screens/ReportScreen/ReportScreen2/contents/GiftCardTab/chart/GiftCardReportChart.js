@@ -75,39 +75,60 @@ export default function GiftCardBarGroupChart({ data }) {
         processColor("#E5B960"),
       ];
 
-      let dataSets = [];
-      let formatValueSet = new Set();
+      let dateDataDict = Object.create({}); // data for dateString
+      let dateSets = Object.create({});
+
+      // get all date to create key | xAxis value format
       data.forEach((item, index) => {
-        const giftCardStatistics = item.giftCardStatistics || [];
         const label = item.type || `${index}`;
-        pickValuesForKey(
-          giftCardStatistics,
-          "dateString",
-          "string"
-        ).forEach((x) => formatValueSet.add(x));
+        if (dateSets[label] === undefined) {
+          dateSets[label] = {
+            values: [],
+            label: label,
+            config: {
+              colors: [colors[index] || processColor("#80C6FF")],
+              drawValues: true,
+              valueTextSize: 14,
+              valueTextColor: processColor("#0764B0"),
+            },
+          };
+        }
 
-        const dataSetValue = {
-          values: pickValuesForKey(giftCardStatistics, "sales", "float"),
-          label: label,
-          config: {
-            colors: [colors[index] || processColor("#80C6FF")],
-            drawValues: true,
-            valueTextSize: 14,
-            valueTextColor: processColor("#0764B0"),
-          },
-        };
-
-        dataSets.push(dataSetValue);
+        // get list statistics
+        const giftCardStatistics = item.giftCardStatistics || [];
+        giftCardStatistics.forEach((statistic) => {
+          const xAxisKey = statistic["dateString"];
+          let dataItem = dateDataDict[xAxisKey];
+          if (!dataItem) {
+            dataItem = Object.create({});
+          }
+          dataItem[label] = formatNumberFromCurrency(statistic["sales"] || 0);
+          dateDataDict[xAxisKey] = dataItem;
+        });
       });
 
+      // create dataset values
+      Object.keys(dateDataDict).forEach((key) => {
+        const item = dateDataDict[key];
+        Object.keys(dateSets).forEach((label) => {
+          const value = item[label] || 0.0001;
+          let dateItem = dateSets[label];
+          let values = dateItem["values"] || [];
+          values.push(value);
+          dateItem["values"] = values;
+          dateSets[label] = dateItem;
+        });
+      });
+
+      const dataSets = Object.values(dateSets);
       const createDataSet = {
         dataSets: dataSets,
         config: {
           // BarData
-          barWidth: 0.5,
+          barWidth: (1 - dataSets.length * 0.1) / dataSets.length,
           group: {
             fromX: 0,
-            groupSpace: 0.1,
+            groupSpace: 0,
             barSpace: 0.1,
           },
         },
@@ -115,20 +136,21 @@ export default function GiftCardBarGroupChart({ data }) {
 
       setDataChart(createDataSet);
 
+      const valueFormatter = Object.keys(dateDataDict);
       const createXAxis = {
-        valueFormatter: Array.from(formatValueSet),
+        valueFormatter: valueFormatter,
         centerAxisLabels: true,
         position: "BOTTOM",
         granularityEnabled: true,
-        granularity: 1,
+        // granularity: 1,
         textSize: 14,
         formSize: 14,
         textColor: processColor("#0764B0"),
         drawAxisLine: true,
-        drawGridLines: false,
+        drawGridLines: true,
         drawLabels: true,
         axisMinimum: 0,
-        axisMaximum: 8,
+        axisMaximum: valueFormatter.length,
       };
 
       setXAxis(createXAxis);

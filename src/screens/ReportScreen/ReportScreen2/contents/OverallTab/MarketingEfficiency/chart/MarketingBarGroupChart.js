@@ -121,8 +121,8 @@ export default function MarketingBarGroupChart({ data }) {
             label: "revenue",
             config: {
               colors: [processColor("#80C6FF")],
-              drawValues: false,
-              valueTextSize: 14,
+              drawValues: true,
+              valueTextSize: 12,
               valueTextColor: processColor("#0764B0"),
             },
           },
@@ -131,9 +131,9 @@ export default function MarketingBarGroupChart({ data }) {
             label: "discount",
             config: {
               colors: [processColor("#E5B960")],
-              drawValues: false,
-              valueTextSize: 14,
-              valueTextColor: processColor("#0764B0"),
+              drawValues: true,
+              valueTextSize: 12,
+              valueTextColor: processColor("#E5B960"),
             },
           },
         ],
