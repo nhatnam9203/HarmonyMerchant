@@ -22,7 +22,8 @@ class PopupBlockDiscount extends React.Component {
         this.state = {
             percentDiscountCustom: 0,
             moneyDiscountFixedAmout: 0,
-            isReload: false
+            isReload: false,
+            promotionNotes: ""
         };
         this.customDiscountRef = React.createRef();
         this.customFixedAmountRef = React.createRef();

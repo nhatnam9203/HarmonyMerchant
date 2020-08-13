@@ -151,6 +151,18 @@ export function resetStateGetPromotionOfAppointment() {
     }
 }
 
+export function addPromotionNote(appointemntId,notes) {
+    return {
+        type: 'ADD_PROMOTION_NOTE',
+        method: 'POST',
+        body:{
+            notes
+        },
+        token: true,
+        api: `${apiConfigs.BASE_API}appointment/promotion/note/${appointemntId}`
+    }
+}
+
 export function updatePromotionNote(promotionNoteId,notes) {
     return {
         type: 'UPDATE_PROMOTION_NOTE',

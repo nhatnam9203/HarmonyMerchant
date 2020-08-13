@@ -72,8 +72,15 @@ class PopupDiscount extends React.Component {
                     { cancelable: false }
                 );
             } else {
+                const {promotionNotes} = this.state;
                 this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentIdUpdatePromotion, true);
-                this.props.actions.marketing.updatePromotionNote(appointmentIdUpdatePromotion,this.state.promotionNotes);
+                this.props.actions.marketing.addPromotionNote(appointmentDetail.appointmentId,promotionNotes);
+                // if(promotionNoteId){
+                //     this.props.actions.marketing.updatePromotionNote(appointmentIdUpdatePromotion,promotionNotes);
+                // }else{
+                //     this.props.actions.marketing.addPromotionNote(appointmentDetail.appointmentId,promotionNotes);
+                // }
+               
                 this.props.actions.marketing.closeModalDiscount();
             }
 
@@ -276,15 +283,12 @@ class PopupDiscount extends React.Component {
     }
 
    async componentDidUpdate(prevProps, prevState) {
-        const { visibleModalDiscount, groupAppointment, isGetPromotionOfAppointment ,appointmentIdUpdatePromotion} = this.props;
+        const { visibleModalDiscount, groupAppointment, isGetPromotionOfAppointment ,promotionNotes} = this.props;
         const visible = visibleModalDiscount && !_.isEmpty(groupAppointment) ? true : false;
         if (prevProps.isGetPromotionOfAppointment !== isGetPromotionOfAppointment  && isGetPromotionOfAppointment === "success" && visible) {
             this.props.actions.marketing.resetStateGetPromotionOfAppointment();
-            const appointmentDetail = appointmentIdUpdatePromotion !== -1 && !_.isEmpty(groupAppointment) && groupAppointment.appointments ? groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) : { promotionNotes: "" };
-            // console.log("appointmentDetail : ",JSON.stringify(appointmentDetail));
-            const promotionNotes = appointmentDetail.promotionNotes && appointmentDetail.promotionNotes.note ? appointmentDetail.promotionNotes.note : "";
             await this.setState({
-                promotionNotes
+                promotionNotes: promotionNotes.note ? promotionNotes.note : ""
             })
         }
     }
@@ -456,7 +460,8 @@ const mapStateToProps = state => ({
     groupAppointment: state.appointment.groupAppointment,
     appointmentIdUpdatePromotion: state.marketing.appointmentIdUpdatePromotion,
     language: state.dataLocal.language,
-    isGetPromotionOfAppointment: state.marketing.isGetPromotionOfAppointment
+    isGetPromotionOfAppointment: state.marketing.isGetPromotionOfAppointment,
+    promotionNotes: state.marketing.promotionNotes
 })
 
 

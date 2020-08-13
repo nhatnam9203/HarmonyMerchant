@@ -21,7 +21,8 @@ const initialState = {
     isApplyThirdPromotion: false,
     isApplyFourthPromotion: false,
     isApplyFivethPromotion: false,
-    isGetPromotionOfAppointment: ""
+    isGetPromotionOfAppointment: "",
+    promotionNotes:{}
 }
 
 function appReducer(state = initialState, action) {
@@ -89,7 +90,8 @@ function appReducer(state = initialState, action) {
                 discount: action.payload,
                 visibleModalDiscount: true,
                 appointmentIdUpdatePromotion: action.appointmentId,
-                isGetPromotionOfAppointment: "success"
+                isGetPromotionOfAppointment: "success",
+                promotionNotes: action.promotionNotes
             }
         case 'GET_PROMOTION_BY_APPOINTMENT_FAIL':
             return {
@@ -106,7 +108,9 @@ function appReducer(state = initialState, action) {
                 ...state,
                 discount: action.payload,
                 visibleModalBlockDiscount: true,
-                appointmentIdUpdatePromotion: action.appointmentId
+                appointmentIdUpdatePromotion: action.appointmentId,
+                promotionNotes: action.promotionNotes,
+                isGetPromotionOfAppointment: "success",
             }
 
         case 'CLOSE_MODAL_DISCOUNT':

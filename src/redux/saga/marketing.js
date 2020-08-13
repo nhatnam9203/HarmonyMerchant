@@ -190,14 +190,16 @@ function* getPromotionByAppointment(action) {
             if (action.isBlock) {
                 yield put({
                     type: 'GET_PROMOTION_BY_BLOCK_APPOINTMENT_SUCCESS',
-                    payload: responses.data,
-                    appointmentId: action.appointmentId
+                    payload:responses.data && responses.data.promotions ? responses.data.promotions  : [],
+                    appointmentId: action.appointmentId,
+                    promotionNotes: responses.data && responses.data.notes ? responses.data.notes  : {},
                 })
             } else {
                 yield put({
                     type: 'GET_PROMOTION_BY_APPOINTMENT_SUCCESS',
-                    payload: responses.data,
-                    appointmentId: action.appointmentId
+                    payload: responses.data && responses.data.promotions ? responses.data.promotions  : [],
+                    appointmentId: action.appointmentId,
+                    promotionNotes: responses.data && responses.data.notes ? responses.data.notes  : {},
                 })
             }
 
@@ -363,6 +365,32 @@ function* updatePromotionNote(action) {
     }
 }
 
+function* addPromotionNote(action) {
+    try {
+        // yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        // yield put({ type: 'STOP_LOADING_ROOT' });
+        // console.log('addPromotionNote : ', JSON.stringify(responses));
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 export default function* saga() {
     yield all([
         takeLatest('GET_BANNER_MERCHANT', getBannerMerchant),
@@ -375,5 +403,7 @@ export default function* saga() {
         takeLatest('CUSTOM_PROMOTION', customPromotion),
         takeLatest('SEND_NOTI_BY_PROMOTION_ID', sendNotificationByPromotionId),
         takeLatest('UPDATE_PROMOTION_NOTE', updatePromotionNote),
+        takeLatest('ADD_PROMOTION_NOTE', addPromotionNote),
+
     ])
 }
