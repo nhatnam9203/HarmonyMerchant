@@ -125,7 +125,10 @@ export default function GiftCardBarGroupChart({ data }) {
         dataSets: dataSets,
         config: {
           // BarData
-          barWidth: (1 - dataSets.length * 0.1) / dataSets.length,
+          barWidth:
+            dataSets?.length > 0
+              ? (1 - dataSets.length * 0.1) / dataSets.length
+              : 1,
           group: {
             fromX: 0,
             groupSpace: 0,
@@ -150,7 +153,7 @@ export default function GiftCardBarGroupChart({ data }) {
         drawGridLines: true,
         drawLabels: true,
         axisMinimum: 0,
-        axisMaximum: valueFormatter.length,
+        axisMaximum: valueFormatter?.length ?? 1,
       };
 
       setXAxis(createXAxis);
