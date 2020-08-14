@@ -34,25 +34,18 @@ class BatchHistoryDetail extends Layout {
     }
 
     onPressGiftCardTotal = () => {
-        this.props.onPressGiftCardTotal();
-        this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(`1`);
+        const {staffSalesBySettlementId} = this.props;
+        if(staffSalesBySettlementId.length > 0){
+            this.props.onPressGiftCardTotal();
+            this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(`1`);
+        }
     }
     
 }
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    paxMachineInfo: state.dataLocal.paxMachineInfo,
-    settleWaiting: state.invoice.settleWaiting,
-    invoicesOfStaff: state.invoice.invoicesOfStaff,
-    loading: state.app.loading,
-    refreshingSettle: state.invoice.refreshingSettle,
-    isGettingSettlement: state.invoice.isGettingSettlement,
-    versionApp: state.dataLocal.versionApp,
-    profileStaffLogin: state.dataLocal.profileStaffLogin,
-    staffSales: state.invoice.staffSales,
-    gitfCardSales: state.invoice.gitfCardSales,
-
+    gitfCardSalesBySettlementId: state.invoice.gitfCardSalesBySettlementId,
     staffSalesBySettlementId: state.invoice.staffSalesBySettlementId
 })
 

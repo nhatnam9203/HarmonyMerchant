@@ -14,7 +14,7 @@ class BatchHistoryList extends Layout {
 
     gotoSettlementDetail = (settlement) => {
         this.props.actions.invoice.getStaffSalesBySettlementId(settlement.settlementId);
-        this.props.actions.invoice.getGiftCardSalesBySettlementId(89);
+        this.props.actions.invoice.getGiftCardSalesBySettlementId(settlement.settlementId);
         this.props.goToBatchHistoryDetail({...settlement});
         this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(`0`);
     }

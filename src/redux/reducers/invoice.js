@@ -251,11 +251,11 @@ function appReducer(state = initialState, action) {
                 ...state,
                 isShowBackBatchHistory: action.payload
             }
-            case 'GET_STAFF_SALES_BY_SETTLEMENT_ID_SUCCESS':
-                return {
-                    ...state,
-                    gitfCardSalesBySettlementId: action.payload
-                }
+        case 'GET_GIFT_CARD_SALES_BY_SETTLEMENT_ID_SUCCESS':
+            return {
+                ...state,
+                gitfCardSalesBySettlementId: action.payload
+            }
         default:
             return state
     }

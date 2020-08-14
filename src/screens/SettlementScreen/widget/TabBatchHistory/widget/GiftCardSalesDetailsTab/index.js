@@ -26,8 +26,8 @@ class GiftCardSalesDetailsTab extends Layout {
     }
 
     getDataDropdownGiftCardSalesList = () => {
-        const { gitfCardSales } = this.props;
-        const data = gitfCardSales.map((giftCard) => {
+        const { gitfCardSalesBySettlementId } = this.props;
+        const data = gitfCardSalesBySettlementId.map((giftCard) => {
             return {
                 value: giftCard.name ? giftCard.name : "",
             }
@@ -36,12 +36,12 @@ class GiftCardSalesDetailsTab extends Layout {
     }
 
     getDataGiftCardSales = () => {
-        const { gitfCardSales } = this.props;
+        const { gitfCardSalesBySettlementId } = this.props;
         const { giftCardType } = this.state;
         if (giftCardType === "All type") {
-            return [...gitfCardSales];
+            return [...gitfCardSalesBySettlementId];
         }else{
-            const dataFilter =  gitfCardSales.filter(gitfCard => gitfCard.name === giftCardType);
+            const dataFilter =  gitfCardSalesBySettlementId.filter(gitfCard => gitfCard.name === giftCardType);
             return dataFilter ? dataFilter : [];
         }
 
@@ -55,8 +55,7 @@ class GiftCardSalesDetailsTab extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    staffSales: state.invoice.staffSales,
-    gitfCardSales: state.invoice.gitfCardSales
+    gitfCardSalesBySettlementId: state.invoice.gitfCardSalesBySettlementId
 })
 
 

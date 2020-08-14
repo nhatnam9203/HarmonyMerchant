@@ -84,7 +84,7 @@ class Layout extends React.Component {
 
 
     renderStaffsTable() {
-        const { staffSales, gitfCardSales, staffSalesBySettlementId } = this.props;
+        const {  gitfCardSalesBySettlementId, staffSalesBySettlementId } = this.props;
         let totalAmount = 0;
         let giftCardTotal = 0
         if (staffSalesBySettlementId.length > 0) {
@@ -93,11 +93,11 @@ class Layout extends React.Component {
             });
         }
 
-        // if (gitfCardSales.length > 0) {
-        //     gitfCardSales.forEach(giftCard => {
-        //         giftCardTotal = parseFloat(giftCardTotal) + parseFloat(formatNumberFromCurrency(giftCard.total ? giftCard.total : 0.00));
-        //     });
-        // }
+        if (gitfCardSalesBySettlementId.length > 0) {
+            gitfCardSalesBySettlementId.forEach(giftCard => {
+                giftCardTotal = parseFloat(giftCardTotal) + parseFloat(formatNumberFromCurrency(giftCard.total ? giftCard.total : 0.00));
+            });
+        }
 
         return (
             <View style={{ flex: 1.1, }} >

@@ -17,11 +17,11 @@ class Layout extends React.Component {
 
     render() {
         const {giftCardType } = this.state;
-        const {gitfCardSales} = this.props;
+        const {gitfCardSalesBySettlementId} = this.props;
 
         let giftCardTotal = 0
-        if (gitfCardSales.length > 0) {
-            gitfCardSales.forEach(giftCard => {
+        if (gitfCardSalesBySettlementId.length > 0) {
+            gitfCardSalesBySettlementId.forEach(giftCard => {
                 giftCardTotal = parseFloat(giftCardTotal) + parseFloat(formatNumberFromCurrency(giftCard.total ? giftCard.total : 0.00));
             });
         }
