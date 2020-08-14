@@ -466,11 +466,12 @@ function* getGiftCardSalesBySettlementId(action) {
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
         console.log('getGiftCardSalesBySettlementId  : ' + JSON.stringify(responses));
+        console.log("---- data : ",responses.data.length);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: "GET_GIFT_CARD_SALES_BY_SETTLEMENT_ID_SUCCESS",
-                payload: responses.data
+                payload: responses.data ? responses.data : []
             })
 
         } else if (parseInt(codeNumber) === 401) {

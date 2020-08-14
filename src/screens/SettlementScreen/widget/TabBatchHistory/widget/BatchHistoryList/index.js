@@ -23,9 +23,6 @@ class BatchHistoryList extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    staffSales: state.invoice.staffSales,
-    gitfCardSales: state.invoice.gitfCardSales,
-
     listBatchHistory: state.invoice.listBatchHistory,
     refreshingBatchHistory: state.invoice.refreshingBatchHistory,
 })

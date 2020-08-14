@@ -34,8 +34,8 @@ class BatchHistoryDetail extends Layout {
     }
 
     onPressGiftCardTotal = () => {
-        const {staffSalesBySettlementId} = this.props;
-        if(staffSalesBySettlementId.length > 0){
+        const {gitfCardSalesBySettlementId} = this.props;
+        if(gitfCardSalesBySettlementId.length > 0){
             this.props.onPressGiftCardTotal();
             this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(`1`);
         }
@@ -46,9 +46,8 @@ class BatchHistoryDetail extends Layout {
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     gitfCardSalesBySettlementId: state.invoice.gitfCardSalesBySettlementId,
-    staffSalesBySettlementId: state.invoice.staffSalesBySettlementId
-})
-
-
+    staffSalesBySettlementId: state.invoice.staffSalesBySettlementId,
+    gitfCardSalesBySettlementId: state.invoice.gitfCardSalesBySettlementId
+});
 
 export default connectRedux(mapStateToProps, BatchHistoryDetail);
