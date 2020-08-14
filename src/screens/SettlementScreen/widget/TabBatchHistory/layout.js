@@ -39,7 +39,7 @@ class Layout extends React.Component {
                         // onPressGiftCardTotal={this.onPressGiftCardTotal}
                     />
                     <StaffIncomeDetailsTab 
-                    
+                        ref={this.staffIncomDetailsRef}
                     />
                     {/* <StaffIncomeDetailsTab 
                         ref={this.staffIIncomeDetailsRef}

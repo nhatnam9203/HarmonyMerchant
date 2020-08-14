@@ -13,6 +13,7 @@ class TabBatchHistory extends Layout {
         };
         this.scrollTabRef = React.createRef();
         this.batchHistoryDetailRef = React.createRef();
+        this.staffIncomDetailsRef = React.createRef();
     }
 
     goToBatchHistoryDetail = (settlementDetail) => {
@@ -24,10 +25,18 @@ class TabBatchHistory extends Layout {
         } else {
             this.batchHistoryDetailRef.current.setStateFromParent(settlementDetail);
         }
-
     }
 
-
+    onPressStaff = (staffId) =>{
+        this.scrollTabRef.current.goToPage(2);
+        if (!this.staffIncomDetailsRef.current) {
+            setTimeout(() => {
+                this.staffIncomDetailsRef.current.setStateFromParent(staffId);
+            }, 300);
+        } else {
+            this.staffIncomDetailsRef.current.setStateFromParent(staffId);
+        }
+    }
 
 }
 

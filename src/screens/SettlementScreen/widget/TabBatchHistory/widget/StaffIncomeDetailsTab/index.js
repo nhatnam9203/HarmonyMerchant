@@ -30,18 +30,18 @@ class StaffIncomeDetailsTab extends Layout {
     }
 
     getStaffSalesDetail = (staffId = 0) => {
-        const { staffSales } = this.props;
+        const { staffSalesBySettlementId } = this.props;
         let staffSalesDetail = [];
         let staffName = "";
         let total = 0;
-        for (let i = 0; i < staffSales.length; i++) {
-            if (staffSales[i].staffId === staffId) {
-                staffSalesDetail = [...staffSales[i].details];
-                staffName = staffSales[i].name;
-                total = staffSales[i].total;
-                sales = staffSales[i].sales;
-                tax = staffSales[i].tax;
-                tip = staffSales[i].tip;
+        for (let i = 0; i < staffSalesBySettlementId.length; i++) {
+            if (staffSalesBySettlementId[i].staffId === staffId) {
+                staffSalesDetail = [...staffSalesBySettlementId[i].details];
+                staffName = staffSalesBySettlementId[i].name;
+                total = staffSalesBySettlementId[i].total;
+                sales = staffSalesBySettlementId[i].sales;
+                tax = staffSalesBySettlementId[i].tax;
+                tip = staffSalesBySettlementId[i].tip;
                 break;
             }
         }
@@ -62,8 +62,8 @@ class StaffIncomeDetailsTab extends Layout {
     }
 
     getDataDropdownStaffSalesList = () => {
-        const { staffSales } = this.props;
-        const data = staffSales.map((staff) => {
+        const { staffSalesBySettlementId } = this.props;
+        const data = staffSalesBySettlementId.map((staff) => {
             return {
                 value: staff.name ? staff.name : "",
                 staffId: staff.staffId ? staff.staffId : 0

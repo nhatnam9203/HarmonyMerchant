@@ -124,9 +124,7 @@ class Layout extends React.Component {
     }
 
     renderPaymentMethodsReport() {
-        const { settleWaiting } = this.props;
-        const {   isEditOtherAmount, isEditCashAmount, settlementDetail
-        } = this.state;
+        const { settlementDetail } = this.state;
 
         const paymentByHarmony = settlementDetail.paymentByHarmony ? settlementDetail.paymentByHarmony : 0.00;
         const paymentByCreditCard = settlementDetail.paymentByCreditCard ? settlementDetail.paymentByCreditCard : 0.00;
@@ -134,79 +132,52 @@ class Layout extends React.Component {
         const otherPayment = settlementDetail.otherPayment ? settlementDetail.otherPayment : 0.00;
         const discount = settlementDetail.discount ? settlementDetail.discount : 0.00;
         const total = settlementDetail.total ? settlementDetail.total : 0.00;
-        const note = settlementDetail.note ? settlementDetail.note : "";
-        const settlementDate = settlementDetail.settlementDate ? settlementDetail.settlementDate : new Date();
         const paymentByCashStatistic = settlementDetail.paymentByCashStatistic ? settlementDetail.paymentByCashStatistic : 0.00;
         const otherPaymentStatistic = settlementDetail.otherPaymentStatistic ? settlementDetail.otherPaymentStatistic : 0.00;
 
-        // const temtpTotal = roundFloatNumber(
-        //     formatNumberFromCurrency(editPaymentByHarmony) +
-        //     formatNumberFromCurrency(editPaymentByCreditCard) +
-        //     formatNumberFromCurrency(editPaymentByCash) +
-        //     formatNumberFromCurrency(editOtherPayment) +
-        //     formatNumberFromCurrency(discountSettlement)
-        // );
-
         return (
             <View style={{ flex: 1, }} >
-                <ScrollView
-                    keyboardShouldPersistTaps="always"
-                >
-                    <View style={{ borderColor: "#DDDDDD", borderWidth: 1 }} >
-                        <HeaderPaymentsReport />
-                        <ItemPaymentsReport
-                            title="HarmonyPay"
-                            backgroundColor="#054071"
-                            value={paymentByHarmony}
-                        />
-                        <View style={{ height: 1 }} />
-                        <ItemPaymentsReport
-                            title={`Credit Card`}
-                            backgroundColor="#075BA0"
-                            value={paymentByCreditCard}
-                        />
-                        <View style={{ height: 1 }} />
-                        <ItemPaymentsReport
-                            ref={this.cashAmountRef}
-                            title="Cash"
-                            backgroundColor="#3480BE"
-                            value={paymentByCash}
-                            isShowEditIcon={true}
-                            editAmount={this.editCashAmount}
-                            isEdit={isEditCashAmount}
-                            onFocus={this.scrollTo}
-                            cancelEditAmount={this.cancelEditCashAmount}
-                            saveEditAmount={this.saveEditCashAmount}
-                            initValue={settleWaiting.paymentByCash ? settleWaiting.paymentByCash : 0.00}
-                            isChange={true}
-                        />
-                        <View style={{ height: 1 }} />
-                        <ItemPaymentsReport
-                            ref={this.otherAmountRef}
-                            title="Other"
-                            backgroundColor="#BBD4E9"
-                            value={otherPayment}
-                            isShowEditIcon={true}
-                            editAmount={this.editOtherAmount}
-                            isEdit={isEditOtherAmount}
-                            onFocus={this.scrollTo}
-                            cancelEditAmount={this.cancelEditOtherAmount}
-                            saveEditAmount={this.saveEditOtherAmount}
-                            initValue={settleWaiting.otherPayment ? settleWaiting.otherPayment : 0.00}
-                            isChange={true}
-                        />
-                        <ItemPaymentsReport
-                            title="Discount"
-                            backgroundColor="#F1F1F1"
-                            txtStyle={{
-                                color: "#404040"
-                            }}
-                            value={discount}
-                        />
-                    </View>
-                    {this.renderNote()}
-                    <View style={{ height: scaleSzie(150) }} />
-                </ScrollView>
+                <View style={{ borderColor: "#DDDDDD", borderWidth: 1 }} >
+                    <HeaderPaymentsReport />
+                    <ItemPaymentsReport
+                        title="HarmonyPay"
+                        backgroundColor="#054071"
+                        value={paymentByHarmony}
+                    />
+                    <View style={{ height: 1 }} />
+                    <ItemPaymentsReport
+                        title={`Credit Card`}
+                        backgroundColor="#075BA0"
+                        value={paymentByCreditCard}
+                    />
+                    <View style={{ height: 1 }} />
+                    <ItemPaymentsReport
+                        ref={this.cashAmountRef}
+                        title="Cash"
+                        backgroundColor="#3480BE"
+                        value={paymentByCash}
+                        isChange={true}
+                        amountStatistic={paymentByCashStatistic}
+                    />
+                    <View style={{ height: 1 }} />
+                    <ItemPaymentsReport
+                        title="Other"
+                        backgroundColor="#BBD4E9"
+                        value={otherPayment}
+                        isChange={true}
+                        amountStatistic={otherPaymentStatistic}
+
+                    />
+                    <ItemPaymentsReport
+                        title="Discount"
+                        backgroundColor="#F1F1F1"
+                        txtStyle={{
+                            color: "#404040"
+                        }}
+                        value={discount}
+                    />
+                </View>
+                {this.renderNote()}
 
                 <View style={{ height: scaleSzie(10) }} />
                 <TotalItem total={formatMoney(total)} />
@@ -215,7 +186,9 @@ class Layout extends React.Component {
     }
 
     renderNote() {
-        const { note } = this.state;
+        const { settlementDetail } = this.state;
+        const note = settlementDetail.note ? settlementDetail.note : "";
+        const settlementDate = settlementDetail.settlementDate ? settlementDetail.settlementDate : new Date();
 
         return (
             <View style={{}} >
@@ -229,14 +202,11 @@ class Layout extends React.Component {
                     height: scaleSzie(54), borderColor: "#DDDDDD", borderWidth: 1, borderRadius: 4, paddingVertical: 5,
                     paddingHorizontal: scaleSzie(10)
                 }} >
-                    {/* <TextInput
-                        style={{ flex: 1, fontSize: scaleSzie(12) }}
-                        multiline={true}
-                        value={note}
-                        onChangeText={(note) => this.setState({ note })}
-                        onFocus={() => this.scrollRef.current.scrollToEnd()}
-                        onBlur={() => this.scrollTo(0)}
-                    /> */}
+                    <ScrollView>
+                        <Text style={{ fontSize: scaleSzie(12) }} >
+                            {note}
+                        </Text>
+                    </ScrollView>
                 </View>
             </View>
         );
