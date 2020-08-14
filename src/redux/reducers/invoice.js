@@ -37,7 +37,8 @@ const initialState = {
     gitfCardSales: [],
     isSettleBatch: null,
     isShowBackSettlement: false,
-    staffSalesBySettlementId: []
+    staffSalesBySettlementId: [],
+    isShowBackBatchHistory: false
 }
 
 function appReducer(state = initialState, action) {
@@ -244,6 +245,12 @@ function appReducer(state = initialState, action) {
                 ...state,
                 staffSalesBySettlementId: action.payload,
             }
+        case 'TOOGLE_DISPLAY_BACK_BATCH_HISTORY_ICON':
+            return {
+                ...state,
+                isShowBackBatchHistory: action.payload
+            }
+
         default:
             return state
     }

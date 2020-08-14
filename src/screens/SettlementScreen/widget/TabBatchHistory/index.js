@@ -16,6 +16,10 @@ class TabBatchHistory extends Layout {
         this.staffIncomDetailsRef = React.createRef();
     }
 
+    scrollTabFromParent =(page) =>{
+        this.scrollTabRef.current.goToPage(page);
+    }
+
     goToBatchHistoryDetail = (settlementDetail) => {
         this.scrollTabRef.current.goToPage(1);
         if (!this.batchHistoryDetailRef.current) {

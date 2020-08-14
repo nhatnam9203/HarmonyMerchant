@@ -75,7 +75,7 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { navigation, language, settlementTabPermission, isShowBackSettlement } = this.props;
+        const { navigation, language, settlementTabPermission, isShowBackSettlement,isShowBackBatchHistory } = this.props;
         const { isFocus } = this.state;
         return (
             <ParentContainer
@@ -93,6 +93,15 @@ export default class Layout extends React.Component {
 
                     {
                         isShowBackSettlement ? <Button onPress={this.backSettlementTab} style={{
+                            position: 'absolute', top: 20, right: 0,
+                            width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
+                        }} >
+                            <Image source={ICON.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
+                        </Button> : <View />
+                    }
+
+                    {
+                        isShowBackBatchHistory ? <Button onPress={this.backBatchHistoryTab} style={{
                             position: 'absolute', top: 20, right: 0,
                             width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
                         }} >

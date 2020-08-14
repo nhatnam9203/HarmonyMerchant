@@ -14,18 +14,8 @@ class BatchHistoryList extends Layout {
 
     gotoSettlementDetail = (settlement) => {
         this.props.actions.invoice.getStaffSalesBySettlementId(settlement.settlementId);
-        // const data = {
-        //     paymentByHarmony : settlement.paymentByHarmony ? settlement.paymentByHarmony : 0.00,
-        //     paymentByCreditCard : settlement.paymentByCreditCard ? settlement.paymentByCreditCard : 0.00,
-        //     paymentByCash : settlement.paymentByCash ? settlement.paymentByCash : 0.00,
-        //     otherPayment : settlement.otherPayment ? settlement.otherPayment : 0.00,
-        //     total : settlement.total ? settlement.total : 0.00,
-        //     note : settlement.note ? settlement.note : "",
-        //     settlementDate : settlement.settlementDate ? settlement.settlementDate : new Date(),
-        //     paymentByCashStatistic : settlement.paymentByCashStatistic ? settlement.paymentByCashStatistic : 0.00,
-        //     otherPaymentStatistic : settlement.otherPaymentStatistic ? settlement.otherPaymentStatistic : 0.00,
-        // };
         this.props.goToBatchHistoryDetail({...settlement});
+        this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(`0`);
     }
 
 }

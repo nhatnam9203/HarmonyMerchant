@@ -212,4 +212,10 @@ export function getStaffSalesBySettlementId(settlementId = 0) {
     }
 }
 
+export function toggleDisplayBackBatchHistoryIcon(visible = true) {
+    return {
+        type: 'TOOGLE_DISPLAY_BACK_BATCH_HISTORY_ICON',
+        payload: visible
+    }
+}
 
