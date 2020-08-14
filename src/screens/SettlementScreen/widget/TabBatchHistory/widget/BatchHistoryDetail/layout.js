@@ -42,7 +42,7 @@ class Layout extends React.Component {
                     {`$ ${total}`}
                 </Text>
 
-                <Button onPress={this.refreshSettlement} style={{
+                <Button onPress={this.shareBatchHistoryDetail} style={{
                     position: "absolute", top: scaleSzie(10), right: scaleSzie(10),
                     justifyContent: "center"
                 }} >
@@ -51,7 +51,7 @@ class Layout extends React.Component {
                     />
                 </Button>
 
-                <Button onPress={this.refreshSettlement} style={{
+                <Button onPress={this.printBatchHistoryDetail} style={{
                     position: "absolute", top: scaleSzie(10), right: scaleSzie(50),
                     justifyContent: "center"
                 }} >

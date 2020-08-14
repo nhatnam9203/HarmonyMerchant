@@ -22,5 +22,11 @@ export default StyleSheet.create({
         fontSize: scaleSzie(12),
         fontWeight: "400"
     },
+    borderStyle:{
+        borderWidth:1,
+        borderColor:'#C5C5C5',
+        borderRadius:scaleSzie(4),
+        backgroundColor: 'rgb(246,246,246)',
+    },
 
 })

@@ -12,8 +12,19 @@ class TabBatchHistory extends Layout {
         this.state = {
         };
         this.scrollTabRef = React.createRef();
+        this.batchHistoryListRef = React.createRef();
         this.batchHistoryDetailRef = React.createRef();
         this.staffIncomDetailsRef = React.createRef();
+    }
+
+    setStateFromParent = () =>{
+        if(this.batchHistoryListRef.current){
+            this.batchHistoryListRef.current.setStateFromParent();
+        }else{
+            setTimeout(() =>{
+                this.batchHistoryListRef.current.setStateFromParent();
+            },300)
+        }
     }
 
     scrollTabFromParent =(page) =>{

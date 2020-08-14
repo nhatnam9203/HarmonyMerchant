@@ -29,6 +29,7 @@ class Layout extends React.Component {
                     renderTabBar={() => <View />}
                 >
                     <BatchHistoryList
+                         ref={this.batchHistoryListRef}
                         goToBatchHistoryDetail={this.goToBatchHistoryDetail}
                     />
                     <BatchHistoryDetail

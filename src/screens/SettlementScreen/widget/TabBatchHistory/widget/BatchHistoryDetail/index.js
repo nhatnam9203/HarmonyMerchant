@@ -40,6 +40,14 @@ class BatchHistoryDetail extends Layout {
             this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(`1`);
         }
     }
+
+    shareBatchHistoryDetail = () =>{
+
+    }
+
+    printBatchHistoryDetail = () =>{
+        
+    }
     
 }
 
