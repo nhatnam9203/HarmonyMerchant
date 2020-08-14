@@ -212,6 +212,15 @@ export function getStaffSalesBySettlementId(settlementId = 0) {
     }
 }
 
+export function getGiftCardSalesBySettlementId(settlementId = 0) {
+    return {
+        type: 'GET_GIFT_CARD_SALES_BY_SETTLEMENT_ID',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}settlement/giftCardSales/${settlementId}`,
+    }
+}
+
 export function toggleDisplayBackBatchHistoryIcon(visible = true) {
     return {
         type: 'TOOGLE_DISPLAY_BACK_BATCH_HISTORY_ICON',

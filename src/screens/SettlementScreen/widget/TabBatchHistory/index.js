@@ -42,6 +42,10 @@ class TabBatchHistory extends Layout {
         }
     }
 
+    onPressGiftCardTotal = () =>{
+        this.scrollTabRef.current.goToPage(3);
+    }
+
 }
 
 const mapStateToProps = state => ({

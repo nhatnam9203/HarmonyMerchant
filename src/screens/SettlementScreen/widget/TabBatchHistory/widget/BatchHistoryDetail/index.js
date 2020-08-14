@@ -35,6 +35,7 @@ class BatchHistoryDetail extends Layout {
 
     onPressGiftCardTotal = () => {
         this.props.onPressGiftCardTotal();
+        this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(`1`);
     }
     
 }
