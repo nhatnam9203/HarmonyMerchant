@@ -79,59 +79,22 @@ class Layout extends React.Component {
         );
     }
 
-    renderButtonConfirm() {
-        const { language } = this.props;
-        const { discountSettlement, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment,
-            creditCount
-        } = this.state;
-
-        const temtpTotal = roundFloatNumber(
-            formatNumberFromCurrency(editPaymentByHarmony) +
-            formatNumberFromCurrency(editPaymentByCreditCard) +
-            formatNumberFromCurrency(editPaymentByCash) +
-            formatNumberFromCurrency(editOtherPayment) +
-            formatNumberFromCurrency(discountSettlement)
-        );
-
-        if (temtpTotal != 0 || creditCount > 0) {
-            return (
-                <View style={{
-                    flex: 1, justifyContent: "flex-end", alignItems: 'center',
-                    paddingBottom: scaleSzie(15)
-                }} >
-                    <ButtonCustom
-                        width={scaleSzie(330)}
-                        height={50}
-                        backgroundColor="#0764B0"
-                        title={localize('CONFIRM ', language)}
-                        textColor="#fff"
-                        onPress={this.gotoTabSecondSettle}
-                        style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 6 }}
-                        styleText={{ fontSize: scaleSzie(21), fontWeight: '500' }}
-                    />
-                </View>
-            );
-        }
-
-        return null;
-
-    }
 
     renderStaffsTable() {
-        const { staffSales, gitfCardSales } = this.props;
+        const { staffSales, gitfCardSales ,staffSalesBySettlementId} = this.props;
         let totalAmount = 0;
         let giftCardTotal = 0
-        if (staffSales.length > 0) {
-            staffSales.forEach(staff => {
+        if (staffSalesBySettlementId.length > 0) {
+            staffSalesBySettlementId.forEach(staff => {
                 totalAmount = parseFloat(totalAmount) + parseFloat(formatNumberFromCurrency(staff.total ? staff.total : 0.00));
             });
         }
 
-        if (gitfCardSales.length > 0) {
-            gitfCardSales.forEach(giftCard => {
-                giftCardTotal = parseFloat(giftCardTotal) + parseFloat(formatNumberFromCurrency(giftCard.total ? giftCard.total : 0.00));
-            });
-        }
+        // if (gitfCardSales.length > 0) {
+        //     gitfCardSales.forEach(giftCard => {
+        //         giftCardTotal = parseFloat(giftCardTotal) + parseFloat(formatNumberFromCurrency(giftCard.total ? giftCard.total : 0.00));
+        //     });
+        // }
 
         return (
             <View style={{ flex: 1.1, }} >
@@ -139,7 +102,7 @@ class Layout extends React.Component {
                 <View style={[styles.box_scale_by_staffs]} >
                     <StaffsHeaderTable />
                     <FlatList
-                        data={staffSales}
+                        data={staffSalesBySettlementId}
                         renderItem={({ item, index }) => <StaffsItem
                             staff={item}
                             onPress={this.onPressStaff}
@@ -254,14 +217,14 @@ class Layout extends React.Component {
                     height: scaleSzie(54), borderColor: "#DDDDDD", borderWidth: 1, borderRadius: 4, paddingVertical: 5,
                     paddingHorizontal: scaleSzie(10)
                 }} >
-                    <TextInput
+                    {/* <TextInput
                         style={{ flex: 1, fontSize: scaleSzie(12) }}
                         multiline={true}
                         value={note}
                         onChangeText={(note) => this.setState({ note })}
                         onFocus={() => this.scrollRef.current.scrollToEnd()}
                         onBlur={() => this.scrollTo(0)}
-                    />
+                    /> */}
                 </View>
             </View>
         );
@@ -281,7 +244,6 @@ class Layout extends React.Component {
                         <View style={{ width: scaleSzie(10), }} />
                         {this.renderPaymentMethodsReport()}
                     </View>
-                    {this.renderButtonConfirm()}
                 </View>
                 <PopupProcessingReportPax
                     visible={this.state.visible}

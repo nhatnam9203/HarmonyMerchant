@@ -8,72 +8,24 @@ class BatchHistoryList extends Layout {
     constructor(props) {
         super(props);
         this.state = {
-            staffSalesDetail: [],
-            staffName: "",
-            total: 0,
-            sales:0,
-            tax:0,
-            tip:0
+
         };
     }
 
-    setStateFromParent = async (staffId = 0) => {
-        const { staffSalesDetail, staffName, total,sales,tax,tip } = this.getStaffSalesDetail(staffId);
-        await this.setState({
-            staffSalesDetail,
-            staffName,
-            total,
-            sales,
-            tax,
-            tip
-        });
-    }
-
-    getStaffSalesDetail = (staffId = 0) => {
-        const { staffSales } = this.props;
-        let staffSalesDetail = [];
-        let staffName = "";
-        let total = 0;
-        for (let i = 0; i < staffSales.length; i++) {
-            if (staffSales[i].staffId === staffId) {
-                staffSalesDetail = [...staffSales[i].details];
-                staffName = staffSales[i].name;
-                total = staffSales[i].total;
-                sales  = staffSales[i].sales;
-                tax  = staffSales[i].tax;
-                tip  = staffSales[i].tip;
-                break;
-            }
-        }
-        return { staffSalesDetail, staffName, total,sales,tax,tip };
-    }
-
-    onChangeStaff = async (value, index, data) => {
-        const staffId = data[index].staffId ? data[index].staffId : 0;
-        const { staffSalesDetail, staffName, total ,sales,tax,tip } = this.getStaffSalesDetail(staffId);
-        await this.setState({
-            staffSalesDetail,
-            staffName,
-            total,
-            sales,
-            tax,
-            tip
-        });
-    }
-
-    getDataDropdownStaffSalesList = () => {
-        const { staffSales } = this.props;
-        const data = staffSales.map((staff) => {
-            return {
-                value: staff.name ? staff.name : "",
-                staffId: staff.staffId ? staff.staffId : 0
-            }
-        });
-        return data;
-    }
-
-    backHomeTab = () => {
-        this.props.backHomeTab();
+    gotoSettlementDetail = (settlement) => {
+        this.props.actions.invoice.getStaffSalesBySettlementId(settlement.settlementId);
+        // const data = {
+        //     paymentByHarmony : settlement.paymentByHarmony ? settlement.paymentByHarmony : 0.00,
+        //     paymentByCreditCard : settlement.paymentByCreditCard ? settlement.paymentByCreditCard : 0.00,
+        //     paymentByCash : settlement.paymentByCash ? settlement.paymentByCash : 0.00,
+        //     otherPayment : settlement.otherPayment ? settlement.otherPayment : 0.00,
+        //     total : settlement.total ? settlement.total : 0.00,
+        //     note : settlement.note ? settlement.note : "",
+        //     settlementDate : settlement.settlementDate ? settlement.settlementDate : new Date(),
+        //     paymentByCashStatistic : settlement.paymentByCashStatistic ? settlement.paymentByCashStatistic : 0.00,
+        //     otherPaymentStatistic : settlement.otherPaymentStatistic ? settlement.otherPaymentStatistic : 0.00,
+        // };
+        this.props.goToBatchHistoryDetail({...settlement});
     }
 
 }
@@ -83,7 +35,8 @@ const mapStateToProps = state => ({
     staffSales: state.invoice.staffSales,
     gitfCardSales: state.invoice.gitfCardSales,
 
-    listBatchHistory: state.invoice.listBatchHistory
+    listBatchHistory: state.invoice.listBatchHistory,
+    refreshingBatchHistory: state.invoice.refreshingBatchHistory,
 })
 
 

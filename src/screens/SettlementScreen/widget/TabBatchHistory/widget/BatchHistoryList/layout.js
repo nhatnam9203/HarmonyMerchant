@@ -120,7 +120,7 @@ class Layout extends React.Component {
 
 
     render() {
-        const {listBatchHistory} = this.props
+        const { listBatchHistory, refreshingBatchHistory } = this.props
 
         return (
             <View style={{ flex: 1, backgroundColor: "#fff" }} >
@@ -134,9 +134,14 @@ class Layout extends React.Component {
                 <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
                     <FlatList
                         data={listBatchHistory}
-                        renderItem={({ item, index }) => <RowTable data={item} />}
+                        renderItem={({ item, index }) => <RowTable
+                            data={item}
+                            onPress={this.gotoSettlementDetail}
+                        />}
                         keyExtractor={(item, index) => `${item.settlementId}_${index}`}
                         style={{ flex: 1, borderColor: "#C5C5C5", borderWidth: 1 }}
+                    // refreshing={refreshingBatchHistory}
+                    // onRefresh={this.onRefresBathHistoryList}
                     />
                 </View>
             </View>
@@ -184,9 +189,9 @@ const HeaderTable = ({ }) => {
     );
 }
 
-const RowTable = ({ data }) => {
+const RowTable = ({ data ,onPress}) => {
     return (
-        <View style={{
+        <Button onPress={() => onPress(data)} style={{
             height: scaleSzie(40), backgroundColor: "#F8F8F8",
             flexDirection: "row", marginBottom: 2,
             borderBottomColor: "#C5C5C5", borderBottomWidth: 1
@@ -200,13 +205,13 @@ const RowTable = ({ data }) => {
             {/* --------- Date  ---------- */}
             <View style={{ flex: 1, justifyContent: "center" }} >
                 <Text style={[styles.txt_row_table, {}]} >
-                {`${data.settlementDate ?formatWithMoment(data.settlementDate,"MMMM DD, YYYY") : ""}`}
+                    {`${data.settlementDate ? formatWithMoment(data.settlementDate, "MMMM DD, YYYY") : ""}`}
                 </Text>
             </View>
             {/* --------- Time  ---------- */}
             <View style={{ flex: 1, justifyContent: "center" }} >
                 <Text style={[styles.txt_row_table, { fontWeight: "600" }]} >
-                    {`${data.settlementDate ?formatWithMoment(data.settlementDate,"hh:mm A") : ""}`}
+                    {`${data.settlementDate ? formatWithMoment(data.settlementDate, "hh:mm A") : ""}`}
                 </Text>
             </View>
             {/* --------- Amount  ---------- */}
@@ -216,9 +221,9 @@ const RowTable = ({ data }) => {
                 </Text>
             </View>
             <View style={{ width: scaleSzie(60), justifyContent: "center", alignItems: "center" }} >
-                <Image source={ICON.staff_invoice} style={{width:scaleSzie(16),height:scaleSzie(16)}} />
+                <Image source={ICON.staff_invoice} style={{ width: scaleSzie(16), height: scaleSzie(16) }} />
             </View>
-        </View>
+        </Button>
     );
 }
 

@@ -203,5 +203,13 @@ export function toggleDisplayBackSettleIcon(visible = true) {
     }
 }
 
+export function getStaffSalesBySettlementId(settlementId = 0) {
+    return {
+        type: 'GET_STAFF_SALES_BY_SETTLEMENT_ID',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}appointment/staffSales/getBySettlement/${settlementId}`,
+    }
+}
 
 

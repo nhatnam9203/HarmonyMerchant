@@ -104,5 +104,3 @@ const mapStateToProps = state => ({
 
 
 export default connectRedux(mapStateToProps, SettlementScreen);
-
-// https://dev.harmonypayment.com/api/appointment/staffSales/getBySettlement/{settlementId}

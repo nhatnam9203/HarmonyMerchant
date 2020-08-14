@@ -28,12 +28,14 @@ class Layout extends React.Component {
                     locked={false}
                     renderTabBar={() => <View />}
                 >
-                    <BatchHistoryList />
+                    <BatchHistoryList
+                        goToBatchHistoryDetail={this.goToBatchHistoryDetail}
+                    />
                     <BatchHistoryDetail
                         ref={this.batchHistoryRef}
                         // gotoTabSecondSettle={this.gotoTabSecondSettle}
                         // navigation={this.props.navigation}
-                        // onPressStaff={this.onPressStaff}
+                        onPressStaff={this.onPressStaff}
                         // onPressGiftCardTotal={this.onPressGiftCardTotal}
                     />
                     <StaffIncomeDetailsTab 

@@ -315,7 +315,9 @@ const mapStateToProps = state => ({
     versionApp: state.dataLocal.versionApp,
     profileStaffLogin: state.dataLocal.profileStaffLogin,
     staffSales: state.invoice.staffSales,
-    gitfCardSales: state.invoice.gitfCardSales
+    gitfCardSales: state.invoice.gitfCardSales,
+
+    staffSalesBySettlementId: state.invoice.staffSalesBySettlementId
 })
 
 

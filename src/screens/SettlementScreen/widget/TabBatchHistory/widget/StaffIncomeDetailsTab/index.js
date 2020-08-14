@@ -11,14 +11,14 @@ class StaffIncomeDetailsTab extends Layout {
             staffSalesDetail: [],
             staffName: "",
             total: 0,
-            sales:0,
-            tax:0,
-            tip:0
+            sales: 0,
+            tax: 0,
+            tip: 0
         };
     }
 
     setStateFromParent = async (staffId = 0) => {
-        const { staffSalesDetail, staffName, total,sales,tax,tip } = this.getStaffSalesDetail(staffId);
+        const { staffSalesDetail, staffName, total, sales, tax, tip } = this.getStaffSalesDetail(staffId);
         await this.setState({
             staffSalesDetail,
             staffName,
@@ -39,18 +39,18 @@ class StaffIncomeDetailsTab extends Layout {
                 staffSalesDetail = [...staffSales[i].details];
                 staffName = staffSales[i].name;
                 total = staffSales[i].total;
-                sales  = staffSales[i].sales;
-                tax  = staffSales[i].tax;
-                tip  = staffSales[i].tip;
+                sales = staffSales[i].sales;
+                tax = staffSales[i].tax;
+                tip = staffSales[i].tip;
                 break;
             }
         }
-        return { staffSalesDetail, staffName, total,sales,tax,tip };
+        return { staffSalesDetail, staffName, total, sales, tax, tip };
     }
 
     onChangeStaff = async (value, index, data) => {
         const staffId = data[index].staffId ? data[index].staffId : 0;
-        const { staffSalesDetail, staffName, total ,sales,tax,tip } = this.getStaffSalesDetail(staffId);
+        const { staffSalesDetail, staffName, total, sales, tax, tip } = this.getStaffSalesDetail(staffId);
         await this.setState({
             staffSalesDetail,
             staffName,
@@ -81,7 +81,9 @@ class StaffIncomeDetailsTab extends Layout {
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     staffSales: state.invoice.staffSales,
-    gitfCardSales: state.invoice.gitfCardSales
+    gitfCardSales: state.invoice.gitfCardSales,
+
+    staffSalesBySettlementId: state.invoice.staffSalesBySettlementId
 })
 
 
