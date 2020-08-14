@@ -7247,6 +7247,11 @@ react-native-image-picker@^0.28.1:
   resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-0.28.1.tgz#1127460522e0c9741fc62f3d040271d298fb6a6e"
   integrity sha512-CW2dm+cjsdW2fjBW2WD/cSufNG0x0UpljwGHrjSzyB0TckoW+tjYv44UWtckCWxr1JtCg+QrYDO/MzlRyFcjwQ==
 
+react-native-largelist-v3@^3.0.15:
+  version "3.0.15"
+  resolved "https://registry.yarnpkg.com/react-native-largelist-v3/-/react-native-largelist-v3-3.0.15.tgz#943b27c3076cd79949f19c04361558ce572b1e18"
+  integrity sha512-x7ocNEAy+lJdPaHr1DChSv/TlW4kLmXQRX0tj/sRYzIOFJeAlxdhHMerPvASSu1MzVwDcdc8gZv6dt/H9JPSpA==
+
 react-native-masked-text@^1.12.3:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/react-native-masked-text/-/react-native-masked-text-1.13.0.tgz#533fde8c45ccbaa1d6b0df30bf19b84b4ace3de3"
@@ -7371,6 +7376,11 @@ react-native-splash-screen@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/react-native-splash-screen/-/react-native-splash-screen-3.2.0.tgz#d47ec8557b1ba988ee3ea98d01463081b60fff45"
   integrity sha512-Ls9qiNZzW/OLFoI25wfjjAcrf2DZ975hn2vr6U9gyuxi2nooVbzQeFoQS5vQcbCt9QX5NY8ASEEAtlLdIa6KVg==
+
+react-native-spring-scrollview@^2.0.23:
+  version "2.0.23"
+  resolved "https://registry.yarnpkg.com/react-native-spring-scrollview/-/react-native-spring-scrollview-2.0.23.tgz#23febfc0d28c63b87dcb260ac3b6d1ad886de3ae"
+  integrity sha512-2PTj07oqsYG0p8BMd4NzG0kKEEKqvPlI0NlQqVckhIxg7UiH4zZGG+2tn6oRg4O65F+ZsU68HNzFYE9cyCGkOQ==
 
 react-native-star-prnt@^1.1.0:
   version "1.1.0"

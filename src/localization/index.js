@@ -428,6 +428,7 @@ const localization = {
     ServicePayout: "Service Payout",
     Tippayout: "Tip Payout",
     Total: "Total",
+    "Staff Salary": "Staff Salary"
   },
   vi: {},
 };

@@ -5,8 +5,10 @@ import React, {
   useState,
 } from "react";
 import { View } from "react-native";
+import { useSelector } from "react-redux";
 
 import IMAGE from "@resources";
+import { localize } from "@utils";
 
 import { HeaderTabLayout } from "./widget";
 import {
@@ -20,6 +22,8 @@ import {
 import styles from "./style";
 
 function ReportScreen2({ showBackButton }, ref) {
+  const language = useSelector((state) => state.dataLocal.language);
+
   /**state */
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -96,19 +100,19 @@ function ReportScreen2({ showBackButton }, ref) {
       >
         <StaffTab
           style={styles.content}
-          tabLabel="Staff salary"
+          tabLabel={localize("Staff Salary", language)}
           ref={staffRef}
           showBackButton={onShowBackButton}
         />
         <GiftCardTab
           style={styles.content}
-          tabLabel="Gift card"
+          tabLabel={localize("Gift Card", language)}
           ref={giftCardRef}
           showBackButton={onShowBackButton}
         />
         <CustomerTab
           style={styles.content}
-          tabLabel="Customer"
+          tabLabel={localize("Customer", language)}
           ref={customerRef}
           showBackButton={onShowBackButton}
         />
@@ -125,7 +129,7 @@ function ReportScreen2({ showBackButton }, ref) {
         <OverallTab
           ref={overallRef}
           style={styles.content}
-          tabLabel="Overall"
+          tabLabel={localize("Overall", language)}
           showBackButton={onShowBackButton}
         />
       </HeaderTabLayout>

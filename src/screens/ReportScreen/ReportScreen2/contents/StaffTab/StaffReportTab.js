@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import IMAGE from "@resources";
 import { localize } from "@utils";
 
-import { TableList, ReportTabLayout } from "../../widget";
+import { TableListExtended, ReportTabLayout } from "../../widget";
 import { PopupStaffInvoicePrint } from "../../../widget";
 
 const FILTER_NAME_DEFAULT = "All Staff";
@@ -130,7 +130,7 @@ export default function StaffReportTab({
         filterNameDefault={FILTER_NAME_DEFAULT}
         rightTooltip={<></>}
       >
-        <TableList
+        <TableListExtended
           tableData={filterDataTable()}
           tableHead={{
             name: localize("Name", language),
@@ -177,7 +177,7 @@ export default function StaffReportTab({
             "tip",
             "salary",
           ]}
-          tableCellWidth={{ name: 170 }}
+          tableCellWidth={{ name: 200 }}
           renderCell={renderCell}
           renderActionCell={renderActionCell}
           onRowPress={onRowPress}
