@@ -14,13 +14,16 @@ import {
 } from '@components';
 import styles from "./style";
 import ItemPaymentsReport, { StaffsHeaderTable, StaffsItem, GiftCardItem, TotalItem, HeaderPaymentsReport } from "./widget/ItemsSettlement";
-import PopupProcessingReportPax from "./widget/PopupProcessingReportPax";
 import ICON from "@resources";
 
 class Layout extends React.Component {
 
     renderLastSettlement() {
         const { language } = this.props;
+        const { settlementDetail } = this.state;
+        const batchId = settlementDetail.settlementId ? settlementDetail.settlementId : "";
+        const settlementDate = settlementDetail.settlementDate ? settlementDetail.settlementDate : new Date();
+        const total = settlementDetail.total ? settlementDetail.total : "0.00";
 
         return (
             <View style={{
@@ -29,14 +32,14 @@ class Layout extends React.Component {
                 <Text style={[styles.txt_top_title, { marginLeft: scaleSzie(10), marginRight: scaleSzie(20), fontWeight: "400" }]} >
                     {`${localize('Batch ID', language)}: `}
                     <Text style={[styles.txt_top_title, { marginLeft: scaleSzie(10), marginRight: scaleSzie(20), }]} >
-                        {`${localize('#1096', language)}`}
+                        {`${localize(`#${batchId}`, language)}`}
                     </Text>
                 </Text>
                 <Text style={[styles.txt_top_title, { fontWeight: '400', marginRight: scaleSzie(20) }]}  >
-                    {`July 31, 2020, 1:37 AM`}
+                    {`${formatWithMoment(settlementDate, "MMMM DD, YYYY hh:mm A")}`}
                 </Text>
                 <Text style={[styles.txt_top_title, { fontWeight: 'bold', marginRight: scaleSzie(20) }]}  >
-                    {`$ 3577.00`}
+                    {`$ ${total}`}
                 </Text>
 
                 <Button onPress={this.refreshSettlement} style={{
@@ -81,7 +84,7 @@ class Layout extends React.Component {
 
 
     renderStaffsTable() {
-        const { staffSales, gitfCardSales ,staffSalesBySettlementId} = this.props;
+        const { staffSales, gitfCardSales, staffSalesBySettlementId } = this.props;
         let totalAmount = 0;
         let giftCardTotal = 0
         if (staffSalesBySettlementId.length > 0) {
@@ -122,22 +125,31 @@ class Layout extends React.Component {
 
     renderPaymentMethodsReport() {
         const { settleWaiting } = this.props;
-        const { discountSettlement, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment,
-            isEditOtherAmount, isEditCashAmount, creditCount
+        const {   isEditOtherAmount, isEditCashAmount, settlementDetail
         } = this.state;
 
-        const temtpTotal = roundFloatNumber(
-            formatNumberFromCurrency(editPaymentByHarmony) +
-            formatNumberFromCurrency(editPaymentByCreditCard) +
-            formatNumberFromCurrency(editPaymentByCash) +
-            formatNumberFromCurrency(editOtherPayment) +
-            formatNumberFromCurrency(discountSettlement)
-        );
+        const paymentByHarmony = settlementDetail.paymentByHarmony ? settlementDetail.paymentByHarmony : 0.00;
+        const paymentByCreditCard = settlementDetail.paymentByCreditCard ? settlementDetail.paymentByCreditCard : 0.00;
+        const paymentByCash = settlementDetail.paymentByCash ? settlementDetail.paymentByCash : 0.00;
+        const otherPayment = settlementDetail.otherPayment ? settlementDetail.otherPayment : 0.00;
+        const discount = settlementDetail.discount ? settlementDetail.discount : 0.00;
+        const total = settlementDetail.total ? settlementDetail.total : 0.00;
+        const note = settlementDetail.note ? settlementDetail.note : "";
+        const settlementDate = settlementDetail.settlementDate ? settlementDetail.settlementDate : new Date();
+        const paymentByCashStatistic = settlementDetail.paymentByCashStatistic ? settlementDetail.paymentByCashStatistic : 0.00;
+        const otherPaymentStatistic = settlementDetail.otherPaymentStatistic ? settlementDetail.otherPaymentStatistic : 0.00;
+
+        // const temtpTotal = roundFloatNumber(
+        //     formatNumberFromCurrency(editPaymentByHarmony) +
+        //     formatNumberFromCurrency(editPaymentByCreditCard) +
+        //     formatNumberFromCurrency(editPaymentByCash) +
+        //     formatNumberFromCurrency(editOtherPayment) +
+        //     formatNumberFromCurrency(discountSettlement)
+        // );
 
         return (
             <View style={{ flex: 1, }} >
                 <ScrollView
-                    ref={this.scrollRef}
                     keyboardShouldPersistTaps="always"
                 >
                     <View style={{ borderColor: "#DDDDDD", borderWidth: 1 }} >
@@ -145,20 +157,20 @@ class Layout extends React.Component {
                         <ItemPaymentsReport
                             title="HarmonyPay"
                             backgroundColor="#054071"
-                            value={editPaymentByHarmony}
+                            value={paymentByHarmony}
                         />
                         <View style={{ height: 1 }} />
                         <ItemPaymentsReport
-                            title={`Credit Card (${(creditCount)})`}
+                            title={`Credit Card`}
                             backgroundColor="#075BA0"
-                            value={editPaymentByCreditCard}
+                            value={paymentByCreditCard}
                         />
                         <View style={{ height: 1 }} />
                         <ItemPaymentsReport
                             ref={this.cashAmountRef}
                             title="Cash"
                             backgroundColor="#3480BE"
-                            value={editPaymentByCash}
+                            value={paymentByCash}
                             isShowEditIcon={true}
                             editAmount={this.editCashAmount}
                             isEdit={isEditCashAmount}
@@ -173,7 +185,7 @@ class Layout extends React.Component {
                             ref={this.otherAmountRef}
                             title="Other"
                             backgroundColor="#BBD4E9"
-                            value={editOtherPayment}
+                            value={otherPayment}
                             isShowEditIcon={true}
                             editAmount={this.editOtherAmount}
                             isEdit={isEditOtherAmount}
@@ -189,7 +201,7 @@ class Layout extends React.Component {
                             txtStyle={{
                                 color: "#404040"
                             }}
-                            value={discountSettlement}
+                            value={discount}
                         />
                     </View>
                     {this.renderNote()}
@@ -197,7 +209,7 @@ class Layout extends React.Component {
                 </ScrollView>
 
                 <View style={{ height: scaleSzie(10) }} />
-                <TotalItem total={formatMoney(temtpTotal)} />
+                <TotalItem total={formatMoney(total)} />
             </View>
         );
     }
@@ -245,11 +257,6 @@ class Layout extends React.Component {
                         {this.renderPaymentMethodsReport()}
                     </View>
                 </View>
-                <PopupProcessingReportPax
-                    visible={this.state.visible}
-                    onRequestClose={this.cancelTransaction}
-                    language={language}
-                />
             </View>
         );
     }

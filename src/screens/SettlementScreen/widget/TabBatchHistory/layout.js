@@ -32,7 +32,7 @@ class Layout extends React.Component {
                         goToBatchHistoryDetail={this.goToBatchHistoryDetail}
                     />
                     <BatchHistoryDetail
-                        ref={this.batchHistoryRef}
+                        ref={this.batchHistoryDetailRef}
                         // gotoTabSecondSettle={this.gotoTabSecondSettle}
                         // navigation={this.props.navigation}
                         onPressStaff={this.onPressStaff}
