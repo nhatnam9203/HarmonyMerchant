@@ -188,6 +188,7 @@ export default class Layout extends React.Component {
         const basket = invoiceDetail.basket ? this.convertBasket(invoiceDetail.basket) : [];
         const checkoutPayments = invoiceDetail.checkoutPayments && invoiceDetail.checkoutPayments.length > 0 ?
             invoiceDetail.checkoutPayments.slice(0).reverse() : [];
+        const refundAmount = invoiceDetail.refundAmount ? invoiceDetail.refundAmount : 0.00;
 
         return (
             <View style={{ flex: 1 }} >
@@ -353,9 +354,18 @@ export default class Layout extends React.Component {
                                 < View >
                                     {
                                         checkoutPayments.map((data, index) => <View key={index} style={{ marginBottom: scaleSzie(4) }} >
-                                            <Text style={[styles.txt_total,]} >
-                                                {`- Entry method: ${getPaymentString(data.paymentMethod)}`}
-                                            </Text>
+                                            <View style={{ flexDirection: "row" }} >
+                                                <Text style={[styles.txt_total,]} >
+                                                    {`- Entry method: ${getPaymentString(data.paymentMethod)}`}
+                                                    {/* ------------ Amount -------------- */}
+
+                                                </Text>
+                                                <View style={{ flex: 1, alignItems:"flex-end" }} >
+                                                    <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
+                                                        {`$${data.amount ? data.amount : ""}`}
+                                                    </Text>
+                                                </View>
+                                            </View>
                                             {
                                                 data.paymentMethod === "credit_card" ?
                                                     <View style={{ marginTop: scaleSzie(5) }} >
@@ -365,6 +375,7 @@ export default class Layout extends React.Component {
                                                         <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
                                                             {`    ${data.paymentInformation && data.paymentInformation.name ? data.paymentInformation.name : ""}`}
                                                         </Text>
+
                                                     </View>
                                                     : null
                                             }
@@ -372,6 +383,14 @@ export default class Layout extends React.Component {
                                     }
                                 </View>
                             }
+
+                            <View style={{ height: scaleSzie(16) }} />
+                            {
+                                parseFloat(refundAmount) > 0 ? <Text style={{ color: '#404040', fontSize: scaleSzie(10), fontWeight: "bold" }} >
+                                    {`Change : $ ${invoiceDetail.refundAmount ? invoiceDetail.refundAmount : 0.00}`}
+                                </Text> : null
+                            }
+
 
                             {/* <ItemTotal
                                 title={"Change"}
@@ -450,17 +469,15 @@ export default class Layout extends React.Component {
                                     data={item}
                                 />)
                             }
-                             <View style={{ height: scaleSzie(16) }} />
+                            <View style={{ height: scaleSzie(16) }} />
                             <Text style={{ color: '#404040', fontSize: scaleSzie(13), fontWeight: "bold" }} >
                                 {`Note: `}
                                 <Text style={{ fontWeight: "500" }} >
-                                {`${invoiceDetail.promotionNotes && invoiceDetail.promotionNotes.note ? invoiceDetail.promotionNotes.note : ""}`}
+                                    {`${invoiceDetail.promotionNotes && invoiceDetail.promotionNotes.note ? invoiceDetail.promotionNotes.note : ""}`}
+                                </Text>
                             </Text>
-                            </Text>
-                             <View style={{ height: scaleSzie(16) }} />
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(13), fontWeight: "bold" }} >
-                                {`Change : $ ${invoiceDetail.refundAmount ? invoiceDetail.refundAmount : 0.00}`}
-                            </Text>
+                            <View style={{ height: scaleSzie(16) }} />
+
                         </ScrollView>
                     </View>
 
