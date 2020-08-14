@@ -152,7 +152,7 @@ function MarketingEfficiencyTab({ style, showBackButton }, ref) {
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("Marketing Efficiency ")}
+          showExportFile={() => onShowPopupExport("MarketingEfficiency")}
           pathFileExport={meExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
@@ -166,7 +166,7 @@ function MarketingEfficiencyTab({ style, showBackButton }, ref) {
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
           showExportFile={() =>
-            onShowPopupExport("Marketing Efficiency Statistic ")
+            onShowPopupExport("MarketingEfficiencyStatistic")
           }
           pathFileExport={meStatisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}

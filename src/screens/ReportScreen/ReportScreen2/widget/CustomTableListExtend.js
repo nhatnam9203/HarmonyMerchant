@@ -437,7 +437,7 @@ const styles = StyleSheet.create({
   txtCell: {
     fontSize: CELL_FONT_SIZE,
     color: "#6A6A6A",
-    textAlign: "justify",
+    textAlign: "center",
     flexWrap: "wrap",
   },
   txtHead: {
@@ -445,7 +445,7 @@ const styles = StyleSheet.create({
     color: "#0764B0",
     fontWeight: "600",
     flexWrap: "wrap",
-    textAlign: "justify",
+    textAlign: "center",
   },
   separator: {
     height: 1,
@@ -456,7 +456,7 @@ const styles = StyleSheet.create({
     color: "#404040",
     fontWeight: "600",
     flexWrap: "wrap",
-    textAlign: "justify",
+    textAlign: "center",
   },
   headName: {
     margin: 0,

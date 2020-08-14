@@ -21,8 +21,8 @@ import {
 
 const TABLE_HEADER_HEIGHT = 50;
 const TABLE_ROW_HEIGHT = 50;
-const TABLE_CELL_DEFAULT_WIDTH = 140;
-const HEAD_FONT_SIZE = 15;
+const TABLE_CELL_DEFAULT_WIDTH = 150;
+const HEAD_FONT_SIZE = 17;
 const CELL_FONT_SIZE = 15;
 
 const TABLE_HEADER_KEY = "report-header";
@@ -162,6 +162,7 @@ function TableList(
 
     return (
       <TableRow
+        style={{ minHeight: TABLE_ROW_HEIGHT }}
         key={cellKey}
         onPress={() => onRowPress({ item, row: index })}
         disabled={!onRowPress}
@@ -184,6 +185,7 @@ function TableList(
               onPress={() => onCellPress(actProps)}
               key={keyUnique}
               style={{
+                justifyContent: "center",
                 width: getCellWidth(keyIndex, key),
                 ...(isPriceCell(key) && { alignItems: "flex-end" }),
               }}
@@ -213,6 +215,7 @@ function TableList(
             <TableCell
               key={uniqueId(key, index, "header")}
               style={{
+                justifyContent: "center",
                 width: getCellWidth(index, key),
                 ...(isPriceCell(key) && { alignItems: "flex-end" }),
               }}
@@ -377,7 +380,7 @@ const styles = StyleSheet.create({
   },
   row: {
     backgroundColor: "#FFFFFF",
-    height: TABLE_ROW_HEIGHT,
+    // height: TABLE_ROW_HEIGHT,
     flexDirection: "row",
     justifyContent: "space-evenly",
   },
@@ -394,7 +397,7 @@ const styles = StyleSheet.create({
   txtCell: {
     fontSize: CELL_FONT_SIZE,
     color: "#6A6A6A",
-    textAlign: "justify",
+    textAlign: "center",
     flexWrap: "wrap",
   },
   txtHead: {
@@ -402,7 +405,7 @@ const styles = StyleSheet.create({
     color: "#0764B0",
     fontWeight: "600",
     flexWrap: "wrap",
-    textAlign: "justify",
+    textAlign: "center",
   },
   separator: {
     height: 1,
@@ -413,6 +416,6 @@ const styles = StyleSheet.create({
     color: "#404040",
     fontWeight: "600",
     flexWrap: "wrap",
-    textAlign: "justify",
+    textAlign: "center",
   },
 });

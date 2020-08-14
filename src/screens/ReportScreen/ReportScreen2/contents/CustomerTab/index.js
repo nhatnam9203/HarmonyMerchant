@@ -121,7 +121,8 @@ function CustomerTab({ style, showBackButton }, ref) {
       layoutRef.current.goBack();
     },
     didBlur: () => {
-      setTitleRangeTime("This week");
+      // console.log("====> screen report -> customer didBlur");
+      getCustomerReportSales();
     },
     didFocus: () => {
       // console.log("====> screen report -> staff didFocus");
@@ -150,7 +151,7 @@ function CustomerTab({ style, showBackButton }, ref) {
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("Customer ")}
+          showExportFile={() => onShowPopupExport("Customer")}
           pathFileExport={customerExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
@@ -163,7 +164,7 @@ function CustomerTab({ style, showBackButton }, ref) {
           dataFilters={filterNames}
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
-          showExportFile={() => onShowPopupExport("Customer Statistic ")}
+          showExportFile={() => onShowPopupExport("CustomerStatistic")}
           // pathFileExport={customerStatisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />

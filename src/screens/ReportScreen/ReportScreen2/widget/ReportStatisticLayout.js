@@ -114,23 +114,24 @@ export default function ReportStatisticLayout({
       </HeaderTooltip>
 
       <View style={{ flex: 1 }}>
-        {tableData && renderTable ? (
-          renderTable()
-        ) : (
-          <TableList
-            // showSumOnBottom={true}
-            tableData={tableData}
-            tableHead={tableHead}
-            whiteKeys={whiteKeys}
-            primaryId={primaryId}
-            calcSumKeys={calcSumKeys}
-            sumTotalKey={sumTotalKey}
-            priceKeys={priceKeys}
-            tableCellWidth={tableCellWidth}
-            renderCell={renderCell}
-            onCellPress={onCellPress}
-          />
-        )}
+        {tableData &&
+          (renderTable ? (
+            renderTable()
+          ) : (
+            <TableList
+              // showSumOnBottom={true}
+              tableData={tableData}
+              tableHead={tableHead}
+              whiteKeys={whiteKeys}
+              primaryId={primaryId}
+              calcSumKeys={calcSumKeys}
+              sumTotalKey={sumTotalKey}
+              priceKeys={priceKeys}
+              tableCellWidth={tableCellWidth}
+              renderCell={renderCell}
+              onCellPress={onCellPress}
+            />
+          ))}
       </View>
     </View>
   );

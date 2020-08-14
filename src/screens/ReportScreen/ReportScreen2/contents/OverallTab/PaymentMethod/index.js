@@ -150,7 +150,7 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("Payment Method ")}
+          showExportFile={() => onShowPopupExport("PaymentMethod")}
           pathFileExport={overallPMExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
@@ -163,7 +163,7 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
           dataFilters={filterNames}
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
-          showExportFile={() => onShowPopupExport("Payment Method Statistic ")}
+          showExportFile={() => onShowPopupExport("PaymentMethodStatistic")}
           pathFileExport={overallPMStatisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />

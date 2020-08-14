@@ -57,7 +57,11 @@ function ReportScreen2({ showBackButton }, ref) {
       switch (tabIndex) {
         case 0:
         default:
-          staffRef.current.didBlur();
+          staffRef?.current?.didBlur();
+          giftCardRef?.current?.didBlur();
+          customerRef?.current?.didBlur();
+          overallRef?.current?.didBlur();
+
           break;
       }
     },

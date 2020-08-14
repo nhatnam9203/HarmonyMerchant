@@ -123,7 +123,8 @@ function GiftCardTab({ style, showBackButton }, ref) {
       layoutRef.current.goBack();
     },
     didBlur: () => {
-      setTitleRangeTime("This week");
+      // console.log("====> screen report -> giftcard didBlur");
+      getGiftCardReportSales();
     },
     didFocus: () => {
       // console.log("====> screen report -> staff didFocus");
@@ -152,7 +153,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("Gift Card ")}
+          showExportFile={() => onShowPopupExport("GiftCard")}
           pathFileExport={giftCardExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
@@ -165,7 +166,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
           dataFilters={filterNames}
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
-          showExportFile={() => onShowPopupExport("Gift Card Statistic ")}
+          showExportFile={() => onShowPopupExport("GiftCardStatistic")}
           pathFileExport={giftCardStatisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />

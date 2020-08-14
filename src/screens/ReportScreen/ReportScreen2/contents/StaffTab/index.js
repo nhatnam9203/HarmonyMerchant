@@ -155,7 +155,7 @@ function StaffTab({ style, showBackButton }, ref) {
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("Staff Salary ")}
+          showExportFile={() => onShowPopupExport("StaffSalary")}
           pathFileExport={pathFileReportStaff}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
@@ -168,7 +168,7 @@ function StaffTab({ style, showBackButton }, ref) {
           dataFilters={filterNames}
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
-          showExportFile={() => onShowPopupExport("Staff Statistic ")}
+          showExportFile={() => onShowPopupExport("StaffStatistic")}
           pathFileExport={pathFileReportStaffStatistic}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />

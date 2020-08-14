@@ -121,10 +121,12 @@ function ReportLayout(
     let title = `${filter}`;
 
     if (startDate && endDate) {
-      title = ` ${startDate} - ${endDate}`;
+      title = ` ${startDate.split("/").join("")} - ${endDate
+        .split("/")
+        .join("")}`;
     }
 
-    return title.toLowerCase();
+    return title;
   };
 
   // time filter change: hide popup + create time range params + call api search staff
@@ -146,10 +148,14 @@ function ReportLayout(
   const onShowPopupExport = async (title) => {
     switch (currentTab) {
       case 0:
-        await setTitleExportFile(title + getTimeTitle());
+        await setTitleExportFile(
+          "Report" + title + getTimeTitle().split(" ").join("")
+        );
         break;
       case 1:
-        await setTitleExportFile(title + getTimeTitle());
+        await setTitleExportFile(
+          "Report" + title + getTimeTitle().split(" ").join("")
+        );
         break;
       default:
     }
