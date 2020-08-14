@@ -296,7 +296,7 @@ function TableListExtended(
       >
         {whiteKeys.map((key, index) => {
           return index === 0 ? (
-            <View style={[styles.headName, { background: "#E5E5E5" }]}>
+            <View style={[styles.headName, { backgroundColor: "#E5E5E5" }]}>
               <TableCell
                 key={uniqueId(key, index, "summary")}
                 style={{
@@ -344,53 +344,6 @@ function TableListExtended(
           );
         })}
       </TableRow>
-    );
-  };
-
-  // render footer
-  const onRenderFooter = () => {
-    return renderFooter ? (
-      renderFooter({
-        whiteKeys,
-        getCellWidth,
-        isPriceCell,
-        sumTotalKey,
-        sumObject,
-        calcSumKeys,
-      })
-    ) : (
-      <View />
-    );
-  };
-
-  const onRenderFooterSpace = () => (
-    <View
-      style={
-        showSumOnBottom && {
-          height: TABLE_ROW_HEIGHT,
-          backgroundColor: "transparent",
-        }
-      }
-    />
-  );
-
-  // render line spacing
-  const renderSeparator = () => {
-    return <View style={styles.separator} />;
-  };
-  const renderListEmpty = () => {
-    return (
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          marginVertical: 100,
-        }}
-      >
-        <Text style={{ fontSize: 14, fontWeight: "600", color: "#6A6A6A" }}>
-          No report data
-        </Text>
-      </View>
     );
   };
 
