@@ -102,6 +102,13 @@ export default function ReportStatisticLayout({
           data={dataFilters}
           onChangeText={(text) => onChangeFilter(text)}
           dropdownPosition={2}
+          value={filterId}
+          containerStyle={{
+            backgroundColor: "#fff",
+            borderWidth: 1,
+            borderColor: "#C5C5C5",
+            flex: 1,
+          }}
           renderBase={() => (
             <PopupButton
               text={filterId}

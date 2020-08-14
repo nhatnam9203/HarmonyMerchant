@@ -31,8 +31,7 @@ import PopupExportReport from "./PopupExportReport";
 import HeaderTooltip from "./HeaderTooltip";
 import PopupButton from "./PopupButton";
 
-const FILE_EXTENSION = "csv";
-const FILTER_NAME_DEFAULT = "All Promotion";
+const FILTER_NAME_DEFAULT = "All Values";
 
 /**create new object from two value for two key of object */
 const createChartObjectFromValues = (array, key, keyValue) => {
@@ -118,9 +117,10 @@ function ReportTabLayout({
             dropdownPosition={2}
             data={[{ value: filterNameDefault }, ...filterNames]}
             onChangeText={(text) => onChangeFilterName(text)}
+            value={filterNameItem}
             renderBase={() => (
               <PopupButton
-                text={filterNameItem ?? "All Method"}
+                text={filterNameItem}
                 imageSrc={IMAGE.Report_Dropdown_Arrow}
               />
             )}

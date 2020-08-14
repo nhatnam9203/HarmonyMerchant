@@ -19,7 +19,6 @@ import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
 import PopupLoadingExportReport from "./PopupLoadingExportReport";
 import PopupExportReport from "./PopupExportReport";
 
-const FILE_EXTENSION = "csv";
 const FILTER_NAME_DEFAULT = "All Staff";
 
 function ReportLayout(
@@ -30,6 +29,7 @@ function ReportLayout(
     onChangeTimeTitle,
     onRequestExportFileToServer,
     isDownloadReport,
+    fileExportType,
   },
   ref
 ) {
@@ -224,7 +224,7 @@ function ReportLayout(
         visible={visiblePopupLoadingExport}
         onRequestClose={() => setVisiblePopupLoadingExport(false)}
         language={language}
-        typeFile={FILE_EXTENSION === "pdf" ? "PDF" : "Excel"}
+        typeFile={fileExportType === "excel" ? "EXCEL" : "CSV"}
         // typeFile={typeFile === "pdf" ? "PDF" : "Excel"}
       />
     </View>
