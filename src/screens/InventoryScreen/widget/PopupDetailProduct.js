@@ -246,14 +246,14 @@ class PopupDetailProduct extends React.Component {
 
 const ItemDetail = ({ title, value }) => {
     return (
-        <View style={{ height: scaleSzie(40), flexDirection: 'row' }} >
-            <View style={{ flex: 1, justifyContent: 'center' }} >
-                <Text numberOfLines={1} style={styles.textCommon} >
+        <View style={{ minHeight: scaleSzie(30), flexDirection: 'row',marginBottom:scaleSzie(10) }} >
+            <View style={{ flex: 1, }} >
+                <Text  style={styles.textCommon} >
                     {title}
                 </Text>
             </View>
-            <View style={{ flex: 1, justifyContent: 'center' }} >
-                <Text numberOfLines={1} style={styles.textValue} >
+            <View style={{ flex: 1,  }} >
+                <Text  style={styles.textValue} >
                     {value}
                 </Text>
             </View>

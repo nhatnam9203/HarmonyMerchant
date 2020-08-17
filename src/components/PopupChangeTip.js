@@ -69,7 +69,7 @@ class PopupChangeTip extends React.Component {
 
     submitChangeStylist = () => {
         const { appointmentId, tip ,percent} = this.state;
-        this.props.actions.marketing.changeStylist(0, 0, tip, appointmentId, 0, percent,true);
+        this.props.actions.marketing.changeStylist(0, 0, tip, appointmentId, 0, percent,"",true);
         this.props.onRequestClose();
     }
 

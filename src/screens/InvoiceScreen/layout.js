@@ -392,10 +392,6 @@ export default class Layout extends React.Component {
                             }
 
 
-                            {/* <ItemTotal
-                                title={"Change"}
-                                value={invoiceDetail.refundAmount ? invoiceDetail.refundAmount : "0.00"}
-                            /> */}
 
                             {/* ----------- Thanks , see you again -------- */}
                             <View style={{ height: scaleSzie(20) }} />
@@ -433,6 +429,8 @@ export default class Layout extends React.Component {
     renderHistoryInvoice() {
         const { language } = this.props;
         const { invoiceDetail } = this.state;
+        const promotionNotes = invoiceDetail.promotionNotes && invoiceDetail.promotionNotes.note ? invoiceDetail.promotionNotes.note : "";
+
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(8) }} >
                 {/* ---------------- Header ---------------- */}
@@ -470,12 +468,15 @@ export default class Layout extends React.Component {
                                 />)
                             }
                             <View style={{ height: scaleSzie(16) }} />
-                            <Text style={{ color: '#404040', fontSize: scaleSzie(13), fontWeight: "bold" }} >
+                            {
+                                promotionNotes ?  <Text style={{ color: '#404040', fontSize: scaleSzie(13), fontWeight: "bold" }} >
                                 {`Note: `}
                                 <Text style={{ fontWeight: "500" }} >
-                                    {`${invoiceDetail.promotionNotes && invoiceDetail.promotionNotes.note ? invoiceDetail.promotionNotes.note : ""}`}
+                                    {`${promotionNotes}`}
                                 </Text>
-                            </Text>
+                            </Text> : null
+                            }
+                           
                             <View style={{ height: scaleSzie(16) }} />
 
                         </ScrollView>
@@ -683,7 +684,8 @@ const ItemPrintBasket = ({ item, index }) => {
                 </Text>
             </View>
             <View style={{
-                width: scaleSzie(30), justifyContent: "center", alignItems: "center",
+                width: scaleSzie(30), justifyContent: "center", 
+                paddingLeft:scaleSzie(6)
             }} >
                 <Text style={[styles.txt_info,]} >
                     {quanlitySet}
