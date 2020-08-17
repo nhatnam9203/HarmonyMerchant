@@ -151,6 +151,7 @@ export default function PaymentBarChart({ data }) {
     <View style={styles.container}>
       <BarChart
         doubleTapToZoomEnabled={false}
+        touchEnabled={false}
         style={styles.chart}
         data={dataChart}
         xAxis={xAxis}

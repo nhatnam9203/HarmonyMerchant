@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, processColor, View } from "react-native";
+import { StyleSheet, processColor, View, Text } from "react-native";
 import { BarChart } from "react-native-charts-wrapper";
 
 import { formatNumberFromCurrency } from "@utils";
@@ -19,73 +19,29 @@ const legend = {
   wordWrapEnabled: true,
 };
 
-const dataConfig = {
-  dataSets: [
-    {
-      values: [5, 40, 77, 81, 43],
-      label: "Company A",
-      config: {
-        drawValues: false,
-        colors: [processColor("red")],
-      },
-    },
-    {
-      values: [40, 5, 50, 23, 79],
-      label: "Company B",
-      config: {
-        drawValues: false,
-        colors: [processColor("blue")],
-      },
-    },
-    {
-      values: [10, 55, 35, 90, 82],
-      label: "Company C",
-      config: {
-        drawValues: false,
-        colors: [processColor("green")],
-      },
-    },
-  ],
-  config: {
-    barWidth: 0.1,
-    group: {
-      fromX: 0,
-      groupSpace: 0.1,
-      barSpace: 0.1,
-    },
-  },
-};
-const xAxisDefault = {
-  valueFormatter: ["1990", "1991", "1992", "1993", "1994"],
-  granularityEnabled: true,
-  granularity: 1,
-  axisMaximum: 5,
-  axisMinimum: 0,
-  centerAxisLabels: true,
-};
 const yAxis = {
   left: {
     drawLabels: true,
     drawAxisLine: true,
-    drawGridLines: true,
+    drawGridLines: false,
     axisMinimum: 0,
     // axisMaximum: 1500,
     textSize: 14,
     formSize: 14,
     textColor: processColor("#0764B0"),
-    granularity: 100,
+    granularity: 10,
     labelCount: 10,
   },
   right: {
     drawLabels: true,
     drawAxisLine: true,
-    drawGridLines: true,
+    drawGridLines: false,
     axisMinimum: 0,
     // axisMaximum: 1500,
     textSize: 14,
     formSize: 14,
     textColor: processColor("#E5B960"),
-    granularity: 100,
+    granularity: 10,
     labelCount: 10,
   },
 };
@@ -101,18 +57,20 @@ const pickValuesForKey = (array, forKey, format) => {
 
 export default function MarketingBarGroupChart({ data }) {
   /**state store */
-  const [dataChart, setDataChart] = useState(dataConfig);
-  const [xAxis, setXAxis] = useState(xAxisDefault);
+  const [dataChart, setDataChart] = useState({});
+  const [xAxis, setXAxis] = useState({});
 
   /**useEffect */
   // add listener data change, map to chart data set
   useEffect(() => {
     if (data) {
       // ======= map values =======
-      let mapValues = [];
       const formatterValues = pickValuesForKey(data, "promotionId", "string");
       const revenueValues = pickValuesForKey(data, "revenue", "float");
       const discountValues = pickValuesForKey(data, "discount", "float");
+
+      console.log(`====> revenueValues ${JSON.stringify(revenueValues)}`);
+      console.log(`====> discountValues ${JSON.stringify(discountValues)}`);
 
       const createDataSet = {
         dataSets: [
@@ -123,7 +81,7 @@ export default function MarketingBarGroupChart({ data }) {
               colors: [processColor("#80C6FF")],
               drawValues: true,
               valueTextSize: 12,
-              valueTextColor: processColor("#0764B0"),
+              valueTextColor: processColor("#404040"),
             },
           },
           {
@@ -133,7 +91,7 @@ export default function MarketingBarGroupChart({ data }) {
               colors: [processColor("#E5B960")],
               drawValues: true,
               valueTextSize: 12,
-              valueTextColor: processColor("#E5B960"),
+              valueTextColor: processColor("#404040"),
             },
           },
         ],
@@ -142,8 +100,8 @@ export default function MarketingBarGroupChart({ data }) {
           barWidth: 0.4,
           group: {
             fromX: 0,
-            groupSpace: 0,
-            barSpace: 0.1,
+            groupSpace: 0.2,
+            barSpace: 0,
           },
         },
       };
@@ -162,6 +120,8 @@ export default function MarketingBarGroupChart({ data }) {
         fontWeight: "bold",
         drawAxisLine: true,
         drawGridLines: false,
+        axisMaximum: 5,
+        axisMinimum: 0,
       };
 
       setXAxis(createXAxis);
@@ -173,19 +133,14 @@ export default function MarketingBarGroupChart({ data }) {
     // ======= map formatter =======
   }, [data]);
 
-  function handleSelect(event) {
-    let entry = event.nativeEvent;
-    if (entry == null) {
-      //   this.setState({ ...this.state, selectedEntry: null });
-    } else {
-      //   this.setState({ ...this.state, selectedEntry: JSON.stringify(entry) });
-    }
-  }
-
   return (
     <View style={styles.container}>
+      <View style={styles.amountContent}>
+        <Text style={styles.txtAmount}>Amount ($)</Text>
+      </View>
       <BarChart
         doubleTapToZoomEnabled={false}
+        touchEnabled={false}
         style={styles.chart}
         data={dataChart}
         xAxis={xAxis}
@@ -193,13 +148,7 @@ export default function MarketingBarGroupChart({ data }) {
         animation={{ durationX: 500 }}
         legend={legend}
         gridBackgroundColor={processColor("transparent")}
-        // visibleRange={{ x: { min: 5, max: 5 } }}
-        drawBarShadow={false}
-        drawHighlightArrow={true}
-        onSelect={handleSelect}
-        // highlights={highlights}
         entryLabelTextSize={14}
-        // onChange={(event) => console.log(event.nativeEvent)}
       />
     </View>
   );
@@ -212,5 +161,14 @@ const styles = StyleSheet.create({
   },
   chart: {
     flex: 1,
+  },
+  amountContent: {
+    position: "absolute",
+    top: -20,
+    left: 0,
+  },
+  txtAmount: {
+    color: "#205580",
+    fontSize: 15,
   },
 });

@@ -179,6 +179,7 @@ export default function GiftCardBarGroupChart({ data }) {
       {!_.isEmpty(xAxis) && !_.isEmpty(dataChart) && (
         <BarChart
           doubleTapToZoomEnabled={false}
+          touchEnabled={false}
           dragEnabled={true}
           style={styles.chart}
           data={dataChart}
