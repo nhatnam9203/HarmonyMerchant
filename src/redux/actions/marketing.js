@@ -81,12 +81,6 @@ export function changeStylist(staffId, bookingServiceId, tipAmount, appointmentI
             price,
             tipPercent,
             note
-
-            // "price" : 86,
-            // "bookingServiceId": 14852,
-            // "staffId": 269,
-            // "tipAmount": 0,
-            // "note" : "thich thay doi"
         },
         api: `${apiConfigs.BASE_API}appointment/tip/${appointmentId}`,
         appointmentId,

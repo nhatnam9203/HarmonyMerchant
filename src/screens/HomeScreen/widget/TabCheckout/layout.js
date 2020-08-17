@@ -390,8 +390,6 @@ class Layout extends React.Component {
                             showModalTipAppointment={this.showModalTipAppointment}
                         />)
                     }
-
-
                     {/* ----------- Grand Total ----------- */}
                     <View style={{ paddingHorizontal: scaleSzie(10) }} >
                         <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />

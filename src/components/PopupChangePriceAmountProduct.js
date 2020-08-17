@@ -193,7 +193,7 @@ class PopupChangePriceAmountProduct extends React.Component {
                             }} >
                                 <TextInputMask
                                     type="only-numbers"
-                                    placeholder={0}
+                                    placeholder={`0`}
                                     placeholderTextColor="#6A6A6A"
                                     style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
                                     value={quantity}

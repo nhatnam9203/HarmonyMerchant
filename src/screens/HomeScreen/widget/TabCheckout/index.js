@@ -85,6 +85,10 @@ class TabCheckout extends Layout {
         })
     }
 
+    // addAmount = () =>{
+    //     // alert("ddd")
+    // }
+
     addAmount = async () => {
         const { groupAppointment, isOfflineMode, blockAppointments, profileStaffLogin } = this.props;
         const { categoryTypeSelected, basket, productSeleted, extraSelected } = this.state;
