@@ -26,7 +26,8 @@ const calcMaxPercent = (arr) => {
   const sum = arr.reduce(function (a, b) {
     return a + b;
   }, 0);
-  return parseFloat(Math.max(...arr) / sum).toFixed(2) * 100;
+
+  return parseFloat(Math.max(...arr) / sum * 100).toFixed(2) ;
 };
 
 const pickValuesForKey = (array, forKey, format) => {

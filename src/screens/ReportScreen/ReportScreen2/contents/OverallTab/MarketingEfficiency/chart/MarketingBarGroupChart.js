@@ -50,7 +50,10 @@ const pickValuesForKey = (array, forKey, format) => {
   return array.map((obj) => {
     const item = Object.entries(obj).filter(([key, value]) => key === forKey);
     const [key, value] = item[0];
-    if (format === "float") return formatNumberFromCurrency(value);
+    if (format === "float") {
+      const ft = formatNumberFromCurrency(value);
+      return parseFloat(ft.toFixed(2));
+    }
     return value + "";
   });
 };
@@ -82,6 +85,7 @@ export default function MarketingBarGroupChart({ data }) {
               drawValues: true,
               valueTextSize: 12,
               valueTextColor: processColor("#404040"),
+              valueFormatter: "#.00",
             },
           },
           {
@@ -92,6 +96,7 @@ export default function MarketingBarGroupChart({ data }) {
               drawValues: true,
               valueTextSize: 12,
               valueTextColor: processColor("#404040"),
+              valueFormatter: "#.00",
             },
           },
         ],
@@ -138,6 +143,7 @@ export default function MarketingBarGroupChart({ data }) {
       <View style={styles.amountContent}>
         <Text style={styles.txtAmount}>Amount ($)</Text>
       </View>
+
       <BarChart
         doubleTapToZoomEnabled={false}
         touchEnabled={false}

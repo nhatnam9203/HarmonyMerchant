@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, processColor, View } from "react-native";
+import { StyleSheet, processColor, View, Text } from "react-native";
 import { BarChart } from "react-native-charts-wrapper";
 
 import { formatNumberFromCurrency } from "@utils";
@@ -114,6 +114,7 @@ export default function PaymentBarChart({ data }) {
               ],
               valueTextSize: 14,
               valueTextColor: processColor("#0764B0"),
+              valueFormatter: "#.00",
             },
           },
         ],
@@ -149,6 +150,12 @@ export default function PaymentBarChart({ data }) {
 
   return (
     <View style={styles.container}>
+      <View style={styles.amountContent}>
+        <Text style={styles.txtAmount}>Amount ($)</Text>
+      </View>
+      <View style={styles.methodContent}>
+        <Text style={styles.txtAmount}>Method</Text>
+      </View>
       <BarChart
         doubleTapToZoomEnabled={false}
         touchEnabled={false}
@@ -172,5 +179,19 @@ const styles = StyleSheet.create({
   },
   chart: {
     flex: 1,
+  },
+  amountContent: {
+    position: "absolute",
+    top: -20,
+    left: 0,
+  },
+  methodContent: {
+    position: "absolute",
+    right: -20,
+    bottom: 50,
+  },
+  txtAmount: {
+    color: "#205580",
+    fontSize: 15,
   },
 });

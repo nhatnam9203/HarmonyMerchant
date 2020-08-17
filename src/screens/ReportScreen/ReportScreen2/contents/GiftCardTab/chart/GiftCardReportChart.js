@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, processColor, View } from "react-native";
+import { StyleSheet, processColor, View, Text } from "react-native";
 import { BarChart } from "react-native-charts-wrapper";
 import _ from "ramda";
 
@@ -22,12 +22,10 @@ const legend = {
 
 const yAxis = {
   left: {
-    label: "Amount$",
     drawLabels: true,
     drawAxisLine: true,
     drawGridLines: false,
     axisMinimum: 0,
-    // axisMaximum: 1500,
     textSize: 14,
     formSize: 14,
     textColor: processColor("#0764B0"),
@@ -39,7 +37,6 @@ const yAxis = {
     drawAxisLine: false,
     drawGridLines: false,
     axisMinimum: 0,
-    // axisMaximum: 1500,
     textSize: 14,
     formSize: 14,
     textColor: processColor("#E5B960"),
@@ -73,6 +70,11 @@ export default function GiftCardBarGroupChart({ data }) {
         processColor("#1F78B4"),
         processColor("#80C6FF"),
         processColor("#E5B960"),
+        processColor("#FEBBFF"),
+        processColor("#1F7810"),
+        processColor("#80C610"),
+        processColor("#CAB610"),
+        processColor("#1F11B4"),
       ];
 
       let dateDataDict = Object.create({}); // data for dateString
@@ -87,9 +89,10 @@ export default function GiftCardBarGroupChart({ data }) {
             label: label,
             config: {
               colors: [colors[index] || processColor("#80C6FF")],
-              drawValues: true,
+              drawValues: false,
               valueTextSize: 14,
               valueTextColor: processColor("#0764B0"),
+              valueFormatter: "#.00",
             },
           };
         }
@@ -111,7 +114,7 @@ export default function GiftCardBarGroupChart({ data }) {
       Object.keys(dateDataDict).forEach((key) => {
         const item = dateDataDict[key];
         Object.keys(dateSets).forEach((label) => {
-          const value = item[label] || 0.0001;
+          const value = item[label] || 0.0;
           let dateItem = dateSets[label];
           let values = dateItem["values"] || [];
           values.push(value);
@@ -125,14 +128,11 @@ export default function GiftCardBarGroupChart({ data }) {
         dataSets: dataSets,
         config: {
           // BarData
-          barWidth:
-            dataSets?.length > 0
-              ? (1 - dataSets.length * 0.1) / dataSets.length
-              : 1,
+          barWidth: dataSets?.length > 0 ? 1 / dataSets.length : 1,
           group: {
             fromX: 0,
             groupSpace: 0,
-            barSpace: 0.1,
+            barSpace: 0,
           },
         },
       };
@@ -140,12 +140,13 @@ export default function GiftCardBarGroupChart({ data }) {
       setDataChart(createDataSet);
 
       const valueFormatter = Object.keys(dateDataDict);
+      const axisMaximum = valueFormatter?.length ?? 1;
       const createXAxis = {
         valueFormatter: valueFormatter,
         centerAxisLabels: true,
         position: "BOTTOM",
         granularityEnabled: true,
-        // granularity: 1,
+        granularity: 1,
         textSize: 14,
         formSize: 14,
         textColor: processColor("#0764B0"),
@@ -153,7 +154,7 @@ export default function GiftCardBarGroupChart({ data }) {
         drawGridLines: false,
         drawLabels: true,
         axisMinimum: 0,
-        axisMaximum: valueFormatter?.length ?? 1,
+        axisMaximum: axisMaximum,
       };
 
       setXAxis(createXAxis);
@@ -165,22 +166,21 @@ export default function GiftCardBarGroupChart({ data }) {
     // ======= map formatter =======
   }, [data]);
 
-  function handleSelect(event) {
-    let entry = event.nativeEvent;
-    if (entry == null) {
-      //   this.setState({ ...this.state, selectedEntry: null });
-    } else {
-      //   this.setState({ ...this.state, selectedEntry: JSON.stringify(entry) });
-    }
-  }
-
   return (
     <View style={styles.container}>
+      <View style={styles.amountContent}>
+        <Text style={styles.txtAmount}>Amount ($)</Text>
+      </View>
+      <View style={styles.dateContent}>
+        <Text style={styles.txtAmount}>Date</Text>
+      </View>
       {!_.isEmpty(xAxis) && !_.isEmpty(dataChart) && (
         <BarChart
           doubleTapToZoomEnabled={false}
           touchEnabled={false}
           dragEnabled={true}
+          dragDecelerationEnabled={true}
+          dragDecelerationFrictionCoef={0.99}
           style={styles.chart}
           data={dataChart}
           xAxis={xAxis}
@@ -188,13 +188,9 @@ export default function GiftCardBarGroupChart({ data }) {
           animation={{ durationX: 500 }}
           legend={legend}
           gridBackgroundColor={processColor("transparent")}
-          // visibleRange={{ x: { min: 5, max: 5 } }}
           drawBarShadow={false}
           drawHighlightArrow={true}
-          onSelect={handleSelect}
-          // highlights={highlights}
           entryLabelTextSize={14}
-          // onChange={(event) => console.log(event.nativeEvent)}
         />
       )}
     </View>
@@ -209,5 +205,19 @@ const styles = StyleSheet.create({
   chart: {
     flex: 1,
     paddingHorizontal: 20,
+  },
+  amountContent: {
+    position: "absolute",
+    top: -20,
+    left: 0,
+  },
+  dateContent: {
+    position: "absolute",
+    bottom: 50,
+    right: -20,
+  },
+  txtAmount: {
+    color: "#205580",
+    fontSize: 15,
   },
 });
