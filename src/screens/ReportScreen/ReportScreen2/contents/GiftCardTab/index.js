@@ -147,7 +147,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
         isDownloadReport={isDownloadReport}
       >
         <GiftCardReportTab
-          style={{ flex: 1, paddingTop: 10 }}
+          style={{ flex: 1}}
           tabLabel="Gift Card"
           onGoStatistics={onGoStatistics}
           showCalendar={() => showCalendar(true)}
@@ -158,7 +158,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
         <GiftCardStatistic
-          style={{ flex: 1, paddingTop: 10 }}
+          style={{ flex: 1}}
           tabLabel="Gift Card Statistics"
           title="Gift Card Statistics"
           titleRangeTime={titleRangeTime}

@@ -94,7 +94,7 @@ export default function PaymentBarChart({ data }) {
       // run object get value push in array mapValues
       pickValuesForKey(data, "netPayment", "float").forEach((d) => {
         let obj = Object.create({});
-        obj.y = formatNumberFromCurrency(d);
+        obj.y = d;
         mapValues.push(obj);
       });
 
@@ -147,17 +147,6 @@ export default function PaymentBarChart({ data }) {
     // ======= map formatter =======
   }, [data]);
 
-  function handleSelect(event) {
-    let entry = event.nativeEvent;
-    if (entry == null) {
-      //   this.setState({ ...this.state, selectedEntry: null });
-    } else {
-      //   this.setState({ ...this.state, selectedEntry: JSON.stringify(entry) });
-    }
-
-    // console.log(event.nativeEvent);
-  }
-
   return (
     <View style={styles.container}>
       <BarChart
@@ -169,13 +158,7 @@ export default function PaymentBarChart({ data }) {
         animation={{ durationX: 500 }}
         legend={legend}
         gridBackgroundColor={processColor("transparent")}
-        // visibleRange={{ x: { min: 5, max: 5 } }}
-        drawBarShadow={false}
-        drawHighlightArrow={true}
-        onSelect={handleSelect}
-        // highlights={highlights}
         entryLabelTextSize={14}
-        onChange={(event) => console.log(event.nativeEvent)}
       />
     </View>
   );

@@ -145,7 +145,7 @@ function CustomerTab({ style, showBackButton }, ref) {
         isDownloadReport={isDownloadReport}
       >
         <CustomerReportTab
-          style={{ flex: 1, paddingTop: 10 }}
+          style={{ flex: 1}}
           tabLabel="Customer"
           onGoStatistics={onGoStatistics}
           showCalendar={() => showCalendar(true)}
@@ -156,7 +156,7 @@ function CustomerTab({ style, showBackButton }, ref) {
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
         <CustomerStatistic
-          style={{ flex: 1, paddingTop: 10 }}
+          style={{ flex: 1}}
           tabLabel="Customer Statistics"
           title="Customer Statistics"
           titleRangeTime={titleRangeTime}

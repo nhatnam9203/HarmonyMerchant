@@ -129,6 +129,7 @@ export default function StaffReportTab({
         handleTheDownloadedFile={handleTheDownloadedFile}
         filterNameDefault={FILTER_NAME_DEFAULT}
         rightTooltip={<></>}
+        title={localize("Staff Salary", language)}
       >
         <TableListExtended
           tableData={filterDataTable()}

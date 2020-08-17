@@ -162,7 +162,7 @@ export function exportGiftCardReportSales(
     type: ACTION_TYPES.GiftCard_Export,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}giftCard/reportSales/export?${params}`,
+    api: `${apiConfigs.BASE_API}giftCard/reportSales/export?${params}&giftCardGeneralId=0`,
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",

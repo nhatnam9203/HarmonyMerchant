@@ -120,10 +120,12 @@ function ReportLayout(
     const filter = quickFilter === false ? "This Week" : quickFilter;
     let title = `${filter}`;
 
-    if (startDate && endDate) {
-      title = ` ${startDate.split("/").join("")} - ${endDate
-        .split("/")
-        .join("")}`;
+    if (isCustomizeDate) {
+      if (startDate && endDate) {
+        title = ` ${startDate.split("/").join("")} - ${endDate
+          .split("/")
+          .join("")}`;
+      }
     }
 
     return title;

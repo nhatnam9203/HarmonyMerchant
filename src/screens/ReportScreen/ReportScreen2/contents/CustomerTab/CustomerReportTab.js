@@ -102,9 +102,10 @@ export default function CustomerReportTab({
     <View style={style}>
       <ReportTabLayout
         style={styles.container}
+        title={localize("Customer Report", language)}
         onChangeFilterName={onChangeFilterName}
         isShowExportButton={true}
-        isShowFilterButton={true}
+        isShowFilterButton={false}
         filterNames={filterNames}
         filterNameItem={filterNameItem}
         showCalendar={showCalendar}

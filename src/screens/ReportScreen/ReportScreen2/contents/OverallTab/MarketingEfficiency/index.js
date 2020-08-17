@@ -146,7 +146,7 @@ function MarketingEfficiencyTab({ style, showBackButton }, ref) {
         isDownloadReport={isDownloadReport}
       >
         <MarketingEfficiency
-          style={{ flex: 1, paddingTop: 10 }}
+          style={{ flex: 1}}
           tabLabel="Marketing Efficiency"
           onGoStatistics={onGoStatistics}
           showCalendar={() => showCalendar(true)}
@@ -157,7 +157,7 @@ function MarketingEfficiencyTab({ style, showBackButton }, ref) {
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
         <MarketingEfficiencyStatistic
-          style={{ flex: 1, paddingTop: 10 }}
+          style={{ flex: 1}}
           tabLabel="Marketing Efficiency Statistics"
           title="Marketing Efficiency Statistics"
           titleRangeTime={titleRangeTime}

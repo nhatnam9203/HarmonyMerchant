@@ -31,7 +31,9 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
     (state) => state.report.overallPMStatisticExportFilePath
   );
 
-  const isDownloadReport = useSelector(state => state.report.isDownloadReport);
+  const isDownloadReport = useSelector(
+    (state) => state.report.isDownloadReport
+  );
 
   /**state */
   const [titleRangeTime, setTitleRangeTime] = useState("This week");
@@ -144,7 +146,7 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
         isDownloadReport={isDownloadReport}
       >
         <PaymentMethod
-          style={{ flex: 1, paddingTop: 10 }}
+          style={{ flex: 1 }}
           tabLabel="Payment Method"
           onGoStatistics={onGoStatistics}
           showCalendar={() => showCalendar(true)}
@@ -155,7 +157,7 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
         <PaymentStatistic
-          style={{ flex: 1, paddingTop: 10 }}
+          style={{ flex: 1 }}
           tabLabel="Payment Method Statistics"
           title="Payment Method Statistics"
           titleRangeTime={titleRangeTime}

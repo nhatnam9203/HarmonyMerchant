@@ -4,7 +4,7 @@ import { PieChart } from "react-native-charts-wrapper";
 import { formatNumberFromCurrency } from "@utils";
 
 const legend = {
-    enabled: true,
+    enabled: false,
     textSize: 16,
     form: "CIRCLE",
     horizontalAlignment: "CENTER",
@@ -156,12 +156,12 @@ export default function PaymentBarChart({ data }) {
           // entryLabelTextSize={14}
           drawEntryLabels={false}
           rotationEnabled={false}
-          rotationAngle={45}
+          rotationAngle={90}
           usePercentValues={true}
           styledCenterText={{
             text: `${maxPercentsChart}%`,
             color: processColor("#003680"),
-            size: 45,
+            size: 35,
           }}
           centerTextRadiusPercent={100}
           holeRadius={55}

@@ -30,6 +30,7 @@ import PopupLoadingExportReport from "./PopupLoadingExportReport";
 import PopupExportReport from "./PopupExportReport";
 import HeaderTooltip from "./HeaderTooltip";
 import PopupButton from "./PopupButton";
+import HeaderTitle from "./HeaderTitle";
 
 const FILTER_NAME_DEFAULT = "All Values";
 
@@ -61,6 +62,7 @@ function ReportTabLayout({
   isShowExportButton,
   isShowFilterButton,
   filterNameDefault = FILTER_NAME_DEFAULT,
+  title,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -78,6 +80,7 @@ function ReportTabLayout({
 
   return (
     <View style={style}>
+      {title && <HeaderTitle title={title} />}
       <HeaderTooltip
         rightComponent={
           <>
