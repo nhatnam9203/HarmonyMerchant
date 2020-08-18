@@ -63,7 +63,7 @@ function* getGroupAppointmentById(action) {
                     }
                 });
 
-                 // ------------ CHECKOUT_SUBMIT CREDIT CARD ---------
+                // ------------ CHECKOUT_SUBMIT CREDIT CARD ---------
                 if (action.isCheckoutSubmit) {
                     yield put({
                         type: 'CHECKOUT_SUBMIT',
@@ -262,7 +262,7 @@ function* checkoutAppointment(action) {
                 paymentMethod: action.paymentMethod,
                 creditCardInfo: action.creditCardInfo,
                 merchantId: action.merchantId,
-                isNotUpdateCustomerBuyInRedux: action.isNotUpdateCustomerBuyInRedux ?  action.isNotUpdateCustomerBuyInRedux : false
+                isNotUpdateCustomerBuyInRedux: action.isNotUpdateCustomerBuyInRedux ? action.isNotUpdateCustomerBuyInRedux : false
             })
 
         } else if (parseInt(codeNumber) === 401) {
@@ -491,15 +491,6 @@ function* submitPaymentWithCreditCard(action) {
                 paymentMethod: action.paymentMethod,
                 amount: action.amount
             })
-            // yield put({
-            //     type: 'CHECKOUT_SUBMIT',
-            //     body: {},
-            //     method: 'PUT',
-            //     token: true,
-            //     api: `${apiConfigs.BASE_API}checkout/submit/${action.checkoutPaymentId}`,
-            //     paymentMethod: action.paymentMethod,
-            //     amount: action.amount
-            // });
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
@@ -701,7 +692,10 @@ function* checkSerialNumber(action) {
                 const isNotUpdateCustomerBuyInRedux = customerInfoBuyAppointment.firstName || customerInfoBuyAppointment.lastName || customerInfoBuyAppointment.phone ? true : false;
                 yield put({
                     type: 'CREATE_ANYMOUS_APPOINTMENT',
-                    body: { ...action.bodyAction, giftCards: [{ bookingGiftCardId: 0, GiftCardId: responses.data.giftCardId ? responses.data.giftCardId : 0 }] },
+                    body: {
+                        ...action.bodyAction,
+                        giftCards: [{ bookingGiftCardId: 0, GiftCardId: responses.data.giftCardId ? responses.data.giftCardId : 0 }]
+                    },
                     ...action.optionAction,
                     isNotUpdateCustomerBuyInRedux
                 })

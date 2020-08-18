@@ -85,9 +85,7 @@ class TabCheckout extends Layout {
         })
     }
 
-    // addAmount = () =>{
-    //     // alert("ddd")
-    // }
+  
 
     addAmount = async () => {
         const { groupAppointment, isOfflineMode, blockAppointments, profileStaffLogin } = this.props;
@@ -1388,9 +1386,8 @@ class TabCheckout extends Layout {
 
 
     submitSerialCode = async (code) => {
-        const { groupAppointment, profile, token, profileStaffLogin, blockAppointments } = this.props;
-        const { customerInfoByPhone, infoUser,
-            paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
+        const { groupAppointment, profile, profileStaffLogin, blockAppointments,customerInfoBuyAppointment } = this.props;
+        const { customerInfoByPhone,  paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
         } = this.state;
 
         if (blockAppointments.length > 0) {
@@ -1404,12 +1401,10 @@ class TabCheckout extends Layout {
 
             const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
             const method = this.getPaymentString(paymentSelected);
-            const userId = customerInfoByPhone.userId ? customerInfoByPhone.userId : 0;
-
 
             const bodyAction = {
                 merchantId: profile.merchantId,
-                userId: userId,
+                userId: customerInfoBuyAppointment.userId ? customerInfoBuyAppointment.userId : 0,
                 status: 'checkin',
                 services: [],
                 extras: [],
@@ -1418,9 +1413,10 @@ class TabCheckout extends Layout {
                 staffId: profileStaffLogin.staffId ? profileStaffLogin.staffId : 0,
                 customDiscountFixed: customDiscountFixedLocal,
                 customDiscountPercent: customDiscountPercentLocal,
-                firstName: infoUser.firstName ? infoUser.firstName : "",
-                lastName: infoUser.lastName ? infoUser.lastName : "",
-                phoneNumber: infoUser.phoneNumber ? infoUser.phoneNumber : ""
+                firstName: customerInfoBuyAppointment.firstName ? customerInfoBuyAppointment.firstName : "",
+                lastName:   customerInfoBuyAppointment.lastName ? customerInfoBuyAppointment.lastName : "",
+                phoneNumber:  customerInfoBuyAppointment.phone ? customerInfoBuyAppointment.phone : "",
+                customerId: customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0,
             };
             const optionAction = {
                 method: 'POST',

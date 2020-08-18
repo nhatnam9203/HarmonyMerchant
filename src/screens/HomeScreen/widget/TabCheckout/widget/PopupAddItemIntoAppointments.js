@@ -72,18 +72,18 @@ class PopupAddItemIntoAppointments extends React.Component {
             if (ref.state.ischeck) {
                 isNotCheck = false;
                 const appointmentId = ref.props.appointment && ref.props.appointment.appointmentId ? ref.props.appointment.appointmentId : 0;
-                if(data.services.length > 0){
+                if (data.services.length > 0) {
                     const staffId = ref.props.appointment && ref.props.appointment.staffId ? ref.props.appointment.staffId : 0;
-                    if(staffId){
-                        const tempService = {...data.services[0],staffId};
-                        this.props.actions.appointment.addItemIntoMultiAppointment({...data,services:[tempService]}, appointmentId, mainAppointmentId, true);
-                    }else{
+                    if (staffId) {
+                        const tempService = { ...data.services[0], staffId };
+                        this.props.actions.appointment.addItemIntoMultiAppointment({ ...data, services: [tempService] }, appointmentId, mainAppointmentId, true);
+                    } else {
                         this.props.actions.appointment.addItemIntoMultiAppointment(data, appointmentId, mainAppointmentId, true);
                     }
-                }else{
+                } else {
                     this.props.actions.appointment.addItemIntoMultiAppointment(data, appointmentId, mainAppointmentId, true);
                 }
-              
+
             }
         }
 
