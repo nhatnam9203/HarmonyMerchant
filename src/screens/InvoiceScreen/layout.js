@@ -189,6 +189,7 @@ export default class Layout extends React.Component {
         const checkoutPayments = invoiceDetail.checkoutPayments && invoiceDetail.checkoutPayments.length > 0 ?
             invoiceDetail.checkoutPayments.slice(0).reverse() : [];
         const refundAmount = invoiceDetail.refundAmount ? invoiceDetail.refundAmount : 0.00;
+        const promotionNotes = invoiceDetail.promotionNotes && invoiceDetail.promotionNotes.note ? invoiceDetail.promotionNotes.note : "";
 
         return (
             <View style={{ flex: 1 }} >
@@ -391,6 +392,16 @@ export default class Layout extends React.Component {
                                 </Text> : null
                             }
 
+                            {
+                                promotionNotes ? <Text style={{ color: '#404040', fontSize: scaleSzie(11), fontWeight: "bold" }} >
+                                    {`Discount note: `}
+                                    <Text style={{ fontWeight: "500" }} >
+                                        {`${promotionNotes}`}
+                                    </Text>
+                                </Text> : null
+                            }
+
+
 
 
                             {/* ----------- Thanks , see you again -------- */}
@@ -470,7 +481,7 @@ export default class Layout extends React.Component {
                             <View style={{ height: scaleSzie(16) }} />
                             {
                                 promotionNotes ? <Text style={{ color: '#404040', fontSize: scaleSzie(13), fontWeight: "bold" }} >
-                                    {`Note: `}
+                                    {`Discount note: `}
                                     <Text style={{ fontWeight: "500" }} >
                                         {`${promotionNotes}`}
                                     </Text>
