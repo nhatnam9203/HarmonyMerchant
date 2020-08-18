@@ -147,7 +147,9 @@ class Layout extends React.Component {
     }
 
     renderActualAmount() {
-        const { paymentByHarmony, paymentByCreditCard, paymentByCash, otherPayment, discountSettlement, total, note } = this.state.settleTotal;
+        const { paymentByHarmony, paymentByCreditCard, paymentByCash, otherPayment, discount, total, note,
+            paymentByCashStatistic, otherPaymentStatistic
+        } = this.state.settleTotal;
 
         return (
             <View style={{ flex: 1 }} >
@@ -167,12 +169,14 @@ class Layout extends React.Component {
                     title="Cash"
                     backgroundColor="#3480BE"
                     value={paymentByCash}
+                    staticValue={paymentByCashStatistic}
                 />
                 <View style={{ height: 1 }} />
                 <ItemPaymentsReport
                     title="Other"
                     backgroundColor="#BBD4E9"
                     value={otherPayment}
+                    staticValue={otherPaymentStatistic}
                 />
                 <View style={{ height: 1 }} />
                 <ItemPaymentsReport
@@ -182,7 +186,7 @@ class Layout extends React.Component {
                         color: "#404040",
 
                     }}
-                    value={discountSettlement}
+                    value={discount}
                 />
                 <View style={{ height: 1 }} />
                 <ItemPaymentsReport
@@ -283,7 +287,7 @@ class Layout extends React.Component {
 
 }
 
-const ItemPaymentsReport = ({ backgroundColor, title, value, txtStyle, txtTitle, isNotMoney }) => {
+const ItemPaymentsReport = ({ backgroundColor, title, value, txtStyle, txtTitle, isNotMoney, staticValue }) => {
 
     return (
         <View style={{
@@ -294,6 +298,7 @@ const ItemPaymentsReport = ({ backgroundColor, title, value, txtStyle, txtTitle,
             <Text style={[styles.txt_item, { color: "#fff", fontWeight: "400" }, txtStyle, txtTitle]} >
                 {title}
             </Text>
+            <View>
             {
                 isNotMoney ? <Text style={[styles.txt_item, { color: "#fff", fontWeight: "bold" }, txtStyle]} >
                     {value}
@@ -303,6 +308,15 @@ const ItemPaymentsReport = ({ backgroundColor, title, value, txtStyle, txtTitle,
                         {`$ ${value ? formatMoney(value) : '0.00'}`}
                     </Text>
             }
+            {
+                staticValue && staticValue != value ? <Text style={{
+                    color: "#FFFFFF", fontWeight: "500", textDecorationLine: "line-through",
+                    fontSize: scaleSzie(8)
+                }} >
+                    {`   $ ${staticValue} `}
+                </Text> : null
+            }
+            </View>
         </View>
     );
 }
@@ -326,6 +340,11 @@ const HeaderOpenBatchTable = () => {
             <View style={{ flex: 1, justifyContent: "center" }} >
                 <Text style={styles.txt_header_open_batch_table} >
                     {`Payments`}
+                </Text>
+            </View>
+            <View style={{ flex: 0.6, justifyContent: "center" }} >
+                <Text style={styles.txt_header_open_batch_table} >
+                    {`Status`}
                 </Text>
             </View>
             <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >
@@ -360,6 +379,11 @@ const ItemOpenBatchTable = ({ data }) => {
                 />
                 <Text style={styles.txt_item_open_batch_table} >
                     {`x${data.paymentData && data.paymentData.card_number ? data.paymentData.card_number : ""}`}
+                </Text>
+            </View>
+            <View style={{ flex: 0.6, justifyContent: "center" }} >
+                <Text style={[styles.txt_item_open_batch_table, { marginLeft: 5 }]} >
+                    {`${data.status ? data.status : ""}`}
                 </Text>
             </View>
             <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >

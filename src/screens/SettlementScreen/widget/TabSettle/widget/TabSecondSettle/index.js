@@ -19,9 +19,11 @@ class TabSecondSettle extends Layout {
                 paymentByCreditCard: 0.00,
                 paymentByCash: 0.00,
                 otherPayment: 0.00,
-                discountSettlement: 0.00,
+                discount: 0.00,
                 total: 0.00,
-                note: ``
+                note: ``,
+                paymentByCashStatistic:0.00,
+                otherPaymentStatistic:0.00
             },
             errorMessage: '',
             paxErrorMessage: ''

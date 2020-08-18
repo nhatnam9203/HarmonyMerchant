@@ -693,12 +693,12 @@ class TabCheckout extends Layout {
     printTemptInvoice = async () => {
         const printMachine = await checkStatusPrint();
 
-        // this.showInvoicePrint(printMachine);
-        if (printMachine) {
-            this.showInvoicePrint(printMachine);
-        } else {
-            alert('Please connect to your printer! ');
-        }
+        this.showInvoicePrint(printMachine);
+        // if (printMachine) {
+        //     this.showInvoicePrint(printMachine);
+        // } else {
+        //     alert('Please connect to your printer! ');
+        // }
     }
 
     checkStatusCashier = async () => {
