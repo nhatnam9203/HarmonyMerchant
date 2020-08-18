@@ -14,19 +14,13 @@ export default StyleSheet.create({
     },
     txt_header_table: {
         color: '#404040',
-        fontSize: scaleSzie(16),
-        fontWeight: "400"
+        fontSize: scaleSzie(12),
+        fontWeight: "600"
     },
     txt_row_table: {
         color: '#404040',
-        fontSize: scaleSzie(12),
+        fontSize: scaleSzie(10),
         fontWeight: "400"
-    },
-    borderStyle:{
-        borderWidth:1,
-        borderColor:'#C5C5C5',
-        borderRadius:scaleSzie(4),
-        backgroundColor: 'rgb(246,246,246)',
     },
 
 })

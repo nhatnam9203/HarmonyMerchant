@@ -84,7 +84,7 @@ class RowTableProducts extends React.Component {
                             }
                         </View>
                         <View style={{ flex: 1, paddingRight: scaleSzie(6) }} >
-                            <Text numberOfLines={2} style={[styles.textTableHeader, temptTextColor]} >
+                            <Text numberOfLines={3} style={[styles.textTableHeader, temptTextColor]} >
                                 {product.name}
                             </Text>
                         </View>

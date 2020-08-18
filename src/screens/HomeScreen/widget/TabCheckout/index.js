@@ -85,6 +85,10 @@ class TabCheckout extends Layout {
         })
     }
 
+    // addAmount = () =>{
+    //     // alert("ddd")
+    // }
+
     addAmount = async () => {
         const { groupAppointment, isOfflineMode, blockAppointments, profileStaffLogin } = this.props;
         const { categoryTypeSelected, basket, productSeleted, extraSelected } = this.state;
@@ -936,11 +940,14 @@ class TabCheckout extends Layout {
     }
 
     doneBill = async () => {
-        const { groupAppointment, profile, paxMachineInfo, token, isOfflineMode, deviceId, profileStaffLogin, customerInfoBuyAppointment } = this.props;
+        const { groupAppointment, profile, paxMachineInfo, token, isOfflineMode, deviceId, profileStaffLogin, customerInfoBuyAppointment,
+        paymentDetailInfo
+        } = this.props;
         const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser, customerInfoByPhone } = this.state;
         const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
         const method = this.getPaymentString(paymentSelected);
         const total = groupAppointment.total ? parseFloat(formatNumberFromCurrency(groupAppointment.total)) : 0;
+        const dueAmount = paymentDetailInfo.dueAmount ? parseFloat( paymentDetailInfo.dueAmount) : 0;
 
         if (isOfflineMode) {
             this.handlePaymentOffLineMode()
@@ -949,7 +956,7 @@ class TabCheckout extends Layout {
 
         if (moneyUserGiveForStaff == 0 && groupAppointment && total != 0) {
             alert('Enter amount!');
-        } else if ((method === 'harmony' || method === 'credit_card') && moneyUserGiveForStaff > total) {
+        } else if ((method === 'harmony' || method === 'credit_card') && moneyUserGiveForStaff > dueAmount) {
             alert('The change not bigger than total money!');
         } else {
             await this.setState({

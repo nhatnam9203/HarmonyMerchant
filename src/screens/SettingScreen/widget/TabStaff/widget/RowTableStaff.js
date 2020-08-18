@@ -92,7 +92,7 @@ class RowTable extends React.Component {
                         }
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
-                        <Text style={styles.textTableHeader} numberOfLines={1} >
+                        <Text style={styles.textTableHeader}  >
                             {staff.displayName}
                         </Text>
                     </View>

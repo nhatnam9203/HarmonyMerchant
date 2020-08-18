@@ -22,7 +22,7 @@ import {
     PopupBlockDiscount, ItemPaymentMethod,
     ShadowLineLeftToRight,
     ShadowLineRightToLeft,
-    ShadowLineShort, PopupChangeCustomerInfo,PopupAddItemIntoAppointments
+    ShadowLineShort, PopupChangeCustomerInfo, PopupAddItemIntoAppointments
 } from './widget';
 
 class Layout extends React.Component {
@@ -350,6 +350,7 @@ class Layout extends React.Component {
         const temptGrandTotal = groupAppointment.total ? groupAppointment.total : 0;
 
         const totalLocal = Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2);
+        const paidAmounts = paymentDetailInfo.paidAmounts ? paymentDetailInfo.paidAmounts.slice(0).reverse() : [];
 
 
         return (
@@ -389,8 +390,6 @@ class Layout extends React.Component {
                             showModalTipAppointment={this.showModalTipAppointment}
                         />)
                     }
-
-
                     {/* ----------- Grand Total ----------- */}
                     <View style={{ paddingHorizontal: scaleSzie(10) }} >
                         <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
@@ -411,7 +410,7 @@ class Layout extends React.Component {
                             <View style={{ height: 2, backgroundColor: "#DDDDDD", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
                             {/* ---------- Paid amount ------ */}
                             {
-                                paymentDetailInfo.paidAmounts ? paymentDetailInfo.paidAmounts.map((paidAmountInfo, index) => <View key={index} style={[styles.payNumberTextContainer, { justifyContent: 'space-between', marginBottom: scaleSzie(8) }]} >
+                                paidAmounts.map((paidAmountInfo, index) => <View key={index} style={[styles.payNumberTextContainer, { justifyContent: 'space-between', marginBottom: scaleSzie(8) }]} >
                                     <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#404040" }]} >
                                         {`${localize('Paid ', language)}`}
                                         <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "300", color: '#404040' }]} >
@@ -422,7 +421,7 @@ class Layout extends React.Component {
                                         {`  $ ${formatMoney(paidAmountInfo.amount)}`}
                                     </Text>
 
-                                </View>) : <View />
+                                </View>)
                             }
 
 
@@ -651,7 +650,7 @@ class Layout extends React.Component {
         } else {
             if (blockAppointments.length > 0) {
                 const isBooking = this.checkBlockAppointment(blockAppointments);
-                if(isBooking){
+                if (isBooking) {
                     return (
                         <ButtonCustom
                             width={`100%`}
@@ -667,22 +666,22 @@ class Layout extends React.Component {
                         />
                     );
                 }
-                return(
+                return (
                     <ButtonCustom
-                    width={`100%`}
-                    backgroundColor="#F1F1F1"
-                    title={localize('BOOK', language)}
-                    textColor="#6A6A6A"
-                    onPress={() => { }}
-                    style={{
-                        borderWidth: 1, borderColor: '#C5C5C5',
-                        flex: 1
-                    }}
-                    styleText={{ fontSize: scaleSzie(22), fontWeight: 'bold', }}
-                    activeOpacity={1}
-                />
+                        width={`100%`}
+                        backgroundColor="#F1F1F1"
+                        title={localize('BOOK', language)}
+                        textColor="#6A6A6A"
+                        onPress={() => { }}
+                        style={{
+                            borderWidth: 1, borderColor: '#C5C5C5',
+                            flex: 1
+                        }}
+                        styleText={{ fontSize: scaleSzie(22), fontWeight: 'bold', }}
+                        activeOpacity={1}
+                    />
                 );
-                
+
             }
             if (basket.length > 0 || !_.isEmpty(groupAppointment)) {
                 return (
@@ -850,10 +849,10 @@ class Layout extends React.Component {
 
     render() {
         const { language, visiblePopupPaymentDetails } = this.props;
-        const {  visibleConfirm, visibleChangeStylist, visiblePopupDiscountLocal, visibleScanCode,
-        visiblePopupAddItemIntoBasket
+        const { visibleConfirm, visibleChangeStylist, visiblePopupDiscountLocal, visibleScanCode,
+            visiblePopupAddItemIntoBasket
         } = this.state;
-        
+
         return (
             <View style={styles.container} >
                 {this.renderHeader()}
@@ -966,11 +965,11 @@ class Layout extends React.Component {
                     onRequestClose={() => { this.setState({ visibleCustomerName: false }) }}
                     changeStylistBasketLocal={this.changeStylistBasketLocal}
                 />
-                <PopupAddItemIntoAppointments 
+                <PopupAddItemIntoAppointments
                     ref={this.popupAddItemIntoAppointmentsRef}
                     title={localize('Modification', language)}
                     visible={visiblePopupAddItemIntoBasket}
-                    onRequestClose={() => this.setState({visiblePopupAddItemIntoBasket: false})}
+                    onRequestClose={() => this.setState({ visiblePopupAddItemIntoBasket: false })}
                 />
             </View>
         );

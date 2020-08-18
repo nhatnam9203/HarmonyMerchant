@@ -184,25 +184,11 @@ export const HeaderPaymentsReport = ({ total }) => {
 
 export default class ItemPaymentsReport extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            amount: 0
-        }
-
-    }
-
-    setStateFromParent = async (amount) => {
-        await this.setState({
-            amount
-        })
-    }
 
     render() {
-        const { backgroundColor, title, txtStyle, value, isShowEditIcon, editAmount, isEdit, onFocus, cancelEditAmount, saveEditAmount,
-            initValue, isChange
+        const { backgroundColor, title, txtStyle, value,
+             isChange, amountStatistic
         } = this.props;
-        const { amount } = this.state;
 
         return (
             <View style={{
@@ -215,73 +201,24 @@ export default class ItemPaymentsReport extends React.Component {
                     </Text>
                 </View>
                 {
-                    isEdit ? <View style={{ flex: 1, flexDirection: "row", }} >
+                    <View style={{ flex: 1, flexDirection: "row" }} >
                         <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >
-                            <Button
-                                onPress={() => cancelEditAmount()}
-                                style={{ marginRight: scaleSzie(12) }} >
-                                <Image source={ICON.cancel_edit_amount} />
-                            </Button>
-                        </View>
-                        <View style={{ minWidth: scaleSzie(60), justifyContent: "center" }} >
-                            <View style={{
-                                height: scaleSzie(20), backgroundColor: "#fff", borderRadius: 4,
-                                paddingHorizontal: scaleSzie(5)
-                            }} >
-                                <TextInputMask
-                                    type={'money'}
-                                    options={{
-                                        precision: 2,
-                                        separator: '.',
-                                        delimiter: ',',
-                                        unit: '',
-                                        suffixUnit: ''
-                                    }}
-                                    style={{ flex: 1, fontSize: scaleSzie(12), textAlign: "right" }}
-                                    placeholder="$ 0.00"
-                                    value={amount}
-                                    onChangeText={amount => this.setState({ amount })}
-                                    onFocus={() => onFocus(92)}
-                                    autoFocus={true}
-                                />
-                            </View>
-                        </View>
-                        <View style={{ width: scaleSzie(45), justifyContent: "center" }} >
-                            <Button
-                                onPress={() => saveEditAmount()}
-                                style={{ marginLeft: scaleSzie(12) }} >
-                                <Image source={ICON.save_edit_amount} />
-                            </Button>
-                        </View>
-                    </View>
-                        :
-                        <View style={{ flex: 1, flexDirection: "row" }} >
-                            <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >
-                                <Text style={[styles.txt_item, { color: "#fff", fontWeight: "bold" }, txtStyle]} >
-                                    {`$ ${value ? formatMoney(value) : '0.00'}`}
-                                </Text>
-                                {
-                                    isChange && initValue != value ? <Text style={{
+                            <Text style={[styles.txt_item, { color: "#fff", fontWeight: "bold" }, txtStyle]} >
+                                {`$ ${value ? formatMoney(value) : '0.00'}`}
+                            </Text>
+                            {
+                                isChange && amountStatistic != value ?
+                                    <Text style={{
                                         color: "#FFFFFF", fontWeight: "500", textDecorationLine: "line-through",
                                         fontSize: scaleSzie(8)
                                     }} >
-                                        {`   $ ${initValue} `}
+                                        {`   $ ${amountStatistic} `}
                                     </Text> : null
-                                }
+                            }
 
-                            </View>
-                            <View style={{ width: scaleSzie(45), justifyContent: "center" }} >
-                                {
-                                    isShowEditIcon ?
-                                        <Button
-                                            onPress={() => editAmount()}
-                                            style={{ marginLeft: scaleSzie(12) }} >
-                                            <Image source={ICON.edit_amount} />
-                                        </Button>
-                                        : null
-                                }
-                            </View>
                         </View>
+                        <View style={{ width: scaleSzie(45), justifyContent: "center" }} />
+                    </View>
                 }
             </View>
         );

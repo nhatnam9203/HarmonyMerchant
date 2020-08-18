@@ -261,7 +261,8 @@ function* checkoutAppointment(action) {
                 isPayment: action.isPayment,
                 paymentMethod: action.paymentMethod,
                 creditCardInfo: action.creditCardInfo,
-                merchantId: action.merchantId
+                merchantId: action.merchantId,
+                isNotUpdateCustomerBuyInRedux: action.isNotUpdateCustomerBuyInRedux ?  action.isNotUpdateCustomerBuyInRedux : false
             })
 
         } else if (parseInt(codeNumber) === 401) {
@@ -379,6 +380,7 @@ function* createAnymousAppointment(action) {
                     paidAmount: action.paidAmount,
                     isPayment: action.isPayment,
                     paymentMethod: action.paymentMethod,
+                    isNotUpdateCustomerBuyInRedux: action.isNotUpdateCustomerBuyInRedux ? action.isNotUpdateCustomerBuyInRedux : false
                 })
             } else {
                 yield put({
@@ -395,8 +397,8 @@ function* createAnymousAppointment(action) {
                     isPayment: true,
                     paymentMethod: action.paymentMethod,
                     creditCardInfo: action.creditCardInfo,
-                    merchantId: action.merchantId
-
+                    merchantId: action.merchantId,
+                    isNotUpdateCustomerBuyInRedux: action.isNotUpdateCustomerBuyInRedux ? action.isNotUpdateCustomerBuyInRedux : false
                 })
             }
         } else if (parseInt(codeNumber) === 401) {
@@ -694,10 +696,14 @@ function* checkSerialNumber(action) {
                 })
             } else {
                 //console.log('ddddddd');
+                const state = yield select();
+                const { customerInfoBuyAppointment } = state.appointment;
+                const isNotUpdateCustomerBuyInRedux = customerInfoBuyAppointment.firstName || customerInfoBuyAppointment.lastName || customerInfoBuyAppointment.phone ? true : false;
                 yield put({
                     type: 'CREATE_ANYMOUS_APPOINTMENT',
                     body: { ...action.bodyAction, giftCards: [{ bookingGiftCardId: 0, GiftCardId: responses.data.giftCardId ? responses.data.giftCardId : 0 }] },
-                    ...action.optionAction
+                    ...action.optionAction,
+                    isNotUpdateCustomerBuyInRedux
                 })
             }
 

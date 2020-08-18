@@ -3,7 +3,8 @@ import {
     View,
     Text,
     ScrollView,
-    Keyboard
+    Keyboard,
+    TextInput
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
@@ -26,7 +27,8 @@ class PopupChangeStylist extends React.Component {
             price: 0.00,
             bookingServiceId: '',
             serviceIdLocal: '',
-            appointmentIdChangeStylist: -1
+            appointmentIdChangeStylist: -1,
+            note:""
         };
         this.scrollRef = React.createRef();
     }
@@ -45,6 +47,7 @@ class PopupChangeStylist extends React.Component {
 
     setStateFromParent = async (service, appointmentId) => {
         const { staff } = service;
+        // console.log("------ service : ",JSON.stringify(service));
         await this.setState({
             staffId: staff && staff.staffId ? staff.staffId : '',
             name: staff && staff.displayName ? staff.displayName : '',
@@ -52,7 +55,8 @@ class PopupChangeStylist extends React.Component {
             tip: staff && staff.tip ? staff.tip : 0.00,
             serviceIdLocal: service.data.serviceId ? service.data.serviceId : '',
             appointmentIdChangeStylist: appointmentId,
-            price: service.data && service.data.price ? service.data.price : 0.00
+            price: service.data && service.data.price ? service.data.price : 0.00,
+            note: service.note ? service.note : ""
         })
     }
 
@@ -88,12 +92,12 @@ class PopupChangeStylist extends React.Component {
     }
 
     submitChangeStylist = () => {
-        const { staffId, bookingServiceId, tip, serviceIdLocal, appointmentIdChangeStylist, price } = this.state;
+        const { staffId, bookingServiceId, tip, serviceIdLocal, appointmentIdChangeStylist, price,note } = this.state;
         const { groupAppointment } = this.props;
         if (_.isEmpty(groupAppointment)) {
             this.props.changeStylistBasketLocal(serviceIdLocal, staffId, tip, price);
         } else {
-            this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentIdChangeStylist, price, 0,true);
+            this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentIdChangeStylist, price, 0,note ,true);
 
         }
         this.props.onRequestClose();
@@ -107,7 +111,7 @@ class PopupChangeStylist extends React.Component {
 
     render() {
         const { title, visible, listStaffByMerchant, onRequestClose, confimYes } = this.props;
-        const { name, tip, price } = this.state;
+        const { name, tip, price ,note} = this.state;
         const dataDropdown = this.getStaffDataDropdown(listStaffByMerchant)
         return (
             <PopupParent
@@ -115,11 +119,10 @@ class PopupChangeStylist extends React.Component {
                 visible={visible}
                 onRequestClose={() => onRequestClose()}
                 width={scaleSzie(260)}
-                // style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(50) }}
                 styleTitle={{ fontSize: scaleSzie(22), fontWeight: "bold" }}
             >
                 <View style={{
-                    height: scaleSzie(320), backgroundColor: '#FAFAFA',
+                    height: scaleSzie(420), backgroundColor: '#FAFAFA',
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
                     paddingHorizontal: scaleSzie(16),
 
@@ -152,7 +155,7 @@ class PopupChangeStylist extends React.Component {
                             {/* ------- Price -------- */}
                             <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
                                 Price ($)
-                        </Text>
+                            </Text>
                             {/* ------- Box Price -------- */}
                             <View style={{
                                 height: scaleSzie(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
@@ -177,7 +180,7 @@ class PopupChangeStylist extends React.Component {
                             {/* ------- Tip -------- */}
                             <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
                                 Tip ($)
-                        </Text>
+                            </Text>
                             {/* ------- Box Tip -------- */}
                             <View style={{
                                 height: scaleSzie(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
@@ -199,6 +202,26 @@ class PopupChangeStylist extends React.Component {
                                     onFocus={() => this.onFocusToScroll(160)}
                                 />
                             </View>
+                            {/* ------- Note -------- */}
+                            <Text style={{
+                                color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5),
+                                marginTop: scaleSzie(10)
+                            }} >
+                                {`Note`}
+                            </Text>
+                            <View style={{
+                                height: scaleSzie(70), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
+                                paddingHorizontal: scaleSzie(10)
+                            }} >
+                                <TextInput
+                                    style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
+                                    multiline={true}
+                                    value={note}
+                                    onChangeText={note => this.setState({note})}
+                                    onFocus={() => this.onFocusToScroll(200)}
+                                />
+                            </View>
+
                             {/* ------- Button -------- */}
                             <View style={{ marginTop: scaleSzie(20), alignItems: 'center', }} >
                                 <ButtonCustom

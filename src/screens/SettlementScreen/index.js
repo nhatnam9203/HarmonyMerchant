@@ -26,7 +26,7 @@ class SettlementScreen extends Layout {
                 });
                 this.scrollTabRef.current.goToPage(0);
                 this.checkPermissionRef.current.setStateFromParent('');
-                if(this.transactionTabRef.current){
+                if (this.transactionTabRef.current) {
                     this.transactionTabRef.current.resetStateFromParent();
                 }
             }
@@ -47,14 +47,18 @@ class SettlementScreen extends Layout {
     onChangeTab = (index) => {
         const currentIndex = index.i;
         if (currentIndex === 1) {
-            if(this.transactionTabRef.current){
+            if (this.transactionTabRef.current) {
                 this.transactionTabRef.current.searchTransactions();
             }
         } else if (currentIndex === 2) {
             this.props.actions.invoice.getBatchHistory();
-            // if(this.batchHistoryTabRef.current){
-            //     this.batchHistoryTabRef.current.searchBatchHistory();
-            // }
+            if(this.batchHistoryTabRef.current){
+                this.batchHistoryTabRef.current.setStateFromParent();
+            }else{
+                setTimeout(() =>{
+                    this.batchHistoryTabRef.current.setStateFromParent();
+                },300)
+            }
         }
     }
 
@@ -80,9 +84,17 @@ class SettlementScreen extends Layout {
         this.props.navigation.navigate("Home");
     }
 
-    backSettlementTab = () =>{
+    backSettlementTab = () => {
         this.tabSettleRef.current.scrollTabFromParent();
         this.props.actions.invoice.toggleDisplayBackSettleIcon(false);
+    }
+
+    backBatchHistoryTab = () => {
+        const { isShowBackBatchHistory } = this.props;
+        const page = isShowBackBatchHistory == 1 ? 1 : 0;
+        const isShowIcon = isShowBackBatchHistory == 1 ? "0" : false;
+        this.batchHistoryTabRef.current.scrollTabFromParent(page);
+        this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(isShowIcon);
     }
 
     componentWillUnmount() {
@@ -98,11 +110,10 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     connectPAXStatus: state.app.connectPAXStatus,
     settlementTabPermission: state.invoice.settlementTabPermission,
-    isShowBackSettlement: state.invoice.isShowBackSettlement
+    isShowBackSettlement: state.invoice.isShowBackSettlement,
+    isShowBackBatchHistory: state.invoice.isShowBackBatchHistory
 })
 
 
 
 export default connectRedux(mapStateToProps, SettlementScreen);
-
-// https://dev.harmonypayment.com/api/appointment/staffSales/getBySettlement/{settlementId}

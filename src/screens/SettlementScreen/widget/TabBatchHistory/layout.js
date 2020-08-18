@@ -13,7 +13,7 @@ import { scaleSzie, localize, formatWithMoment } from '@utils';
 import { Text, Button, ButtonCustom, PopupCalendar } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
-import { BatchHistoryDetail,StaffIncomeDetailsTab,BatchHistoryList} from './widget';
+import { BatchHistoryDetail, StaffIncomeDetailsTab, BatchHistoryList, GiftCardSalesDetailsTab } from './widget';
 
 class Layout extends React.Component {
 
@@ -21,38 +21,27 @@ class Layout extends React.Component {
 
         return (
             <View style={styles.container} >
-                 <ScrollableTabView
+                <ScrollableTabView
                     ref={this.scrollTabRef}
                     style={{}}
                     initialPage={0}
                     locked={false}
                     renderTabBar={() => <View />}
                 >
-                    <BatchHistoryList />
+                    <BatchHistoryList
+                         ref={this.batchHistoryListRef}
+                        goToBatchHistoryDetail={this.goToBatchHistoryDetail}
+                    />
                     <BatchHistoryDetail
-                        ref={this.batchHistoryRef}
-                        // gotoTabSecondSettle={this.gotoTabSecondSettle}
-                        // navigation={this.props.navigation}
-                        // onPressStaff={this.onPressStaff}
-                        // onPressGiftCardTotal={this.onPressGiftCardTotal}
+                        ref={this.batchHistoryDetailRef}
+                        onPressStaff={this.onPressStaff}
+                        onPressGiftCardTotal={this.onPressGiftCardTotal}
                     />
-                    <StaffIncomeDetailsTab 
-                    
+                    <StaffIncomeDetailsTab
+                        ref={this.staffIncomDetailsRef}
                     />
-                    {/* <StaffIncomeDetailsTab 
-                        ref={this.staffIIncomeDetailsRef}
-                        backHomeTab={this.backTabFirstSettle}
-                    />
-                    <GiftCardSalesDetailsTab 
-                        ref={this.giftCardSalesDetailsTabRef}
-                        backHomeTab={this.backTabFirstSettle}
-                    />
-                    <TabSecondSettle
-                        ref={this.tabsecondSettleRef}
-                        backTabFirstSettle={this.backTabFirstSettle}
-                        reviewBatchHistory={() => this.props.reviewBatchHistory()}
-                        finishBatch={this.finishBatch}
-                    /> */}
+                    <GiftCardSalesDetailsTab />
+
                 </ScrollableTabView>
             </View>
         );

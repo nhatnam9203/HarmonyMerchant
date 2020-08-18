@@ -222,7 +222,11 @@ class TabFirstSettle extends Layout {
     }
 
     onPressGiftCardTotal = () => {
-        this.props.onPressGiftCardTotal();
+        const { gitfCardSales } = this.props;
+        if(gitfCardSales.length >0 ){
+            this.props.onPressGiftCardTotal();
+        }
+       
     }
 
 

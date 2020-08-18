@@ -25,7 +25,6 @@ const initialState = {
     batchHistoryPagesCurrent: 0,
     isShowSearchBatchHistory: false,
 
-
     refreshingSettle: false,
     refreshingTransaction: false,
     refreshingBatchHistory: false,
@@ -37,7 +36,10 @@ const initialState = {
     staffSales: [],
     gitfCardSales: [],
     isSettleBatch: null,
-    isShowBackSettlement: false
+    isShowBackSettlement: false,
+    staffSalesBySettlementId: [],
+    isShowBackBatchHistory: false,
+    gitfCardSalesBySettlementId: [],
 }
 
 function appReducer(state = initialState, action) {
@@ -238,6 +240,21 @@ function appReducer(state = initialState, action) {
                 ...state,
                 invoiceTabPermission: false,
                 settlementTabPermission: false
+            }
+        case 'GET_STAFF_SALES_BY_SETTLEMENT_ID_SUCCESS':
+            return {
+                ...state,
+                staffSalesBySettlementId: action.payload,
+            }
+        case 'TOOGLE_DISPLAY_BACK_BATCH_HISTORY_ICON':
+            return {
+                ...state,
+                isShowBackBatchHistory: action.payload
+            }
+        case 'GET_GIFT_CARD_SALES_BY_SETTLEMENT_ID_SUCCESS':
+            return {
+                ...state,
+                gitfCardSalesBySettlementId: action.payload
             }
         default:
             return state

@@ -3,7 +3,8 @@ import {
     View,
     Text,
     ScrollView,
-    Keyboard
+    Keyboard,
+    TextInput
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
@@ -23,7 +24,8 @@ class PopupChangeStylist extends React.Component {
             tip: 0.00,
             price: 0.00,
             bookingServiceId: '',
-            serviceIdLocal: ''
+            serviceIdLocal: '',
+            note: ""
         };
         this.scrollRef = React.createRef();
     }
@@ -42,13 +44,16 @@ class PopupChangeStylist extends React.Component {
 
     setStateFromParent = async (service) => {
         const { staff } = service;
+        console.log("------ service : ", JSON.stringify(service));
+
         await this.setState({
             staffId: staff && staff.staffId ? staff.staffId : '',
             name: staff && staff.displayName ? staff.displayName : '',
             bookingServiceId: service.data.bookingServiceId ? service.data.bookingServiceId : '',
             tip: staff && staff.tip ? staff.tip : 0.00,
             serviceIdLocal: service.data.serviceId ? service.data.serviceId : '',
-            price: service.data && service.data.price ? service.data.price : 0.00
+            price: service.data && service.data.price ? service.data.price : 0.00,
+            note: service.note ? service.note : ""
         })
     }
 
@@ -81,12 +86,12 @@ class PopupChangeStylist extends React.Component {
     }
 
     submitChangeStylist = () => {
-        const { staffId, bookingServiceId, tip, serviceIdLocal, price } = this.state;
+        const { staffId, bookingServiceId, tip, serviceIdLocal, price,note } = this.state;
         const { appointmentDetail } = this.props;
         if (_.isEmpty(appointmentDetail)) {
             this.props.changeStylistBasketLocal(serviceIdLocal, staffId, tip);
         } else {
-            this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentDetail.appointmentId, price,0);
+            this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentDetail.appointmentId, price, 0, note);
         }
         this.props.onRequestClose();
 
@@ -101,7 +106,7 @@ class PopupChangeStylist extends React.Component {
 
     render() {
         const { title, visible, listStaffByMerchant, onRequestClose, confimYes, language } = this.props;
-        const { name, tip, price } = this.state;
+        const { name, tip, price, note } = this.state;
         const dataDropdown = this.getStaffDataDropdown(listStaffByMerchant)
         return (
             <PopupParent
@@ -113,7 +118,7 @@ class PopupChangeStylist extends React.Component {
                 styleTitle={{ fontSize: scaleSzie(22), fontWeight: "bold" }}
             >
                 <View style={{
-                    height: scaleSzie(320), backgroundColor: '#FAFAFA',
+                    height: scaleSzie(420), backgroundColor: '#FAFAFA',
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
                     paddingHorizontal: scaleSzie(16),
                 }} >
@@ -191,6 +196,25 @@ class PopupChangeStylist extends React.Component {
                                     value={tip}
                                     onChangeText={(tip) => this.setState({ tip })}
                                     onFocus={() => this.onFocusToScroll(160)}
+                                />
+                            </View>
+                            {/* ------- Note -------- */}
+                            <Text style={{
+                                color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5),
+                                marginTop: scaleSzie(10)
+                            }} >
+                                {`Note`}
+                            </Text>
+                            <View style={{
+                                height: scaleSzie(70), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
+                                paddingHorizontal: scaleSzie(10)
+                            }} >
+                                <TextInput
+                                    style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
+                                    multiline={true}
+                                    value={note}
+                                    onChangeText={note => this.setState({ note })}
+                                    onFocus={() => this.onFocusToScroll(200)}
                                 />
                             </View>
                             {/* ------- Button -------- */}
