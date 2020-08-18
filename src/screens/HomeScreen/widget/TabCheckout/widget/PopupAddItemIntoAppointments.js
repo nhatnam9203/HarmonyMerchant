@@ -72,18 +72,29 @@ class PopupAddItemIntoAppointments extends React.Component {
             if (ref.state.ischeck) {
                 isNotCheck = false;
                 const appointmentId = ref.props.appointment && ref.props.appointment.appointmentId ? ref.props.appointment.appointmentId : 0;
-                this.props.actions.appointment.addItemIntoMultiAppointment(data, appointmentId, mainAppointmentId, true);
+                if(data.services.length > 0){
+                    const staffId = ref.props.appointment && ref.props.appointment.staffId ? ref.props.appointment.staffId : 0;
+                    if(staffId){
+                        const tempService = {...data.services[0],staffId};
+                        this.props.actions.appointment.addItemIntoMultiAppointment({...data,services:[tempService]}, appointmentId, mainAppointmentId, true);
+                    }else{
+                        this.props.actions.appointment.addItemIntoMultiAppointment(data, appointmentId, mainAppointmentId, true);
+                    }
+                }else{
+                    this.props.actions.appointment.addItemIntoMultiAppointment(data, appointmentId, mainAppointmentId, true);
+                }
+              
             }
         }
 
-        if(isNotCheck){
+        if (isNotCheck) {
             alert("Choose at least the one to add into!")
-        }else{
+        } else {
             await this.setState({
                 visible: false,
             })
         }
-       
+
     }
 
     // --------------- Render -----------
@@ -98,7 +109,7 @@ class PopupAddItemIntoAppointments extends React.Component {
                 title={title}
                 visible={visible}
                 onRequestClose={this.onRequestClose}
-                width={scaleSzie(200)}
+                width={scaleSzie(250)}
                 styleTitle={{ fontSize: scaleSzie(22), fontWeight: "bold" }}
             >
                 <View style={{

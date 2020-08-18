@@ -200,7 +200,7 @@ class Layout extends React.Component {
                                         price={productSeleted.price}
                                     /> : <ScrollView  keyboardShouldPersistTaps="always" >
                                             {
-                                                productSeleted.extras.map((extra, index) => <ItemExtra
+                                                (this.getExtrasFromRedux(productSeleted)).map((extra, index) => <ItemExtra
                                                     key={index}
                                                     extra={extra}
                                                     onPressSelectExtra={this.onPressSelectExtra}

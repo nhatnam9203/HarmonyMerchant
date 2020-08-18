@@ -435,6 +435,24 @@ class TabAppointment extends Layout {
         }
     }
 
+    getExtrasFromRedux = (productSeleted) => {
+        const { extrasByMerchant } = this.props;
+        const extrasBySort = [];
+
+        for (let i = 0; i < extrasByMerchant.length; i++) {
+            for (let j = 0; j < productSeleted.extras.length; j++) {
+                const extraLocal = productSeleted.extras[j];
+                const extralGlobal = extrasByMerchant[i];
+                if (extralGlobal.extraId === extraLocal.extraId && extralGlobal.isDisabled === 0) {
+                    extrasBySort.push(extralGlobal);
+                    break;
+                }
+            }
+        }
+
+        return extrasBySort;
+    }
+
     componentWillUnmount() {
         AppState.removeEventListener("change", this.handleAppStateChange);
     }
@@ -454,8 +472,8 @@ const mapStateToProps = state => ({
     isLoginStaff: state.dataLocal.isLoginStaff,
     loading: state.app.loading,
     isReloadWebview: state.app.isReloadWebview,
-    deviceId: state.dataLocal.deviceId
-
+    deviceId: state.dataLocal.deviceId,
+    extrasByMerchant: state.extra.extrasByMerchant,
 })
 
 
