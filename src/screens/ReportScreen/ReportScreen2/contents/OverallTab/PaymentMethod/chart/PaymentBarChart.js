@@ -114,7 +114,7 @@ export default function PaymentBarChart({ data }) {
               ],
               valueTextSize: 14,
               valueTextColor: processColor("#0764B0"),
-              valueFormatter: "#.00",
+              valueFormatter: "0.##",
             },
           },
         ],

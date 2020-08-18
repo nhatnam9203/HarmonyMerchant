@@ -46,6 +46,7 @@ function StaffTab({ style, showBackButton }, ref) {
 
   /**function */
   const getListStaffsSalaryTop = async () => {
+    console.log("======> getListStaffsSalaryTop");
     await dispatch(
       actions.staff.getListStaffsSalaryTop(
         layoutRef?.current?.getTimeUrl(),
@@ -61,8 +62,12 @@ function StaffTab({ style, showBackButton }, ref) {
   //callback
   const onChangeTimeTitle = async (titmeTitle) => {
     await setTitleRangeTime(titmeTitle);
-    // TODO: call reload list
-    await getListStaffsSalaryTop();
+    console.log("======> getListStaffsSalaryTop", titmeTitle);
+
+    if (titmeTitle !== RANGE_TIME_DEFAULT) {
+      // TODO: call reload list
+      await getListStaffsSalaryTop();
+    }
   };
 
   const onChangeFilterNames = (names) => {
@@ -149,7 +154,7 @@ function StaffTab({ style, showBackButton }, ref) {
         isDownloadReport={isDownloadReportStaff}
       >
         <StaffReportTab
-          style={{ flex: 1}}
+          style={{ flex: 1 }}
           tabLabel="Staff Salary"
           onGoStatistics={onGoStatistics}
           showCalendar={() => showCalendar(true)}

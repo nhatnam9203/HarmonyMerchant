@@ -85,7 +85,7 @@ export default function MarketingBarGroupChart({ data }) {
               drawValues: true,
               valueTextSize: 12,
               valueTextColor: processColor("#404040"),
-              valueFormatter: "#.00",
+              valueFormatter: "0.##",
             },
           },
           {
@@ -96,7 +96,7 @@ export default function MarketingBarGroupChart({ data }) {
               drawValues: true,
               valueTextSize: 12,
               valueTextColor: processColor("#404040"),
-              valueFormatter: "#.00",
+              valueFormatter: "0.##",
             },
           },
         ],
