@@ -49,6 +49,7 @@ class PopupInvoicePrint extends React.Component {
     }
 
     setStateFromParent = async (basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected, isPrintTempt, printMachine, titleInvoice = "SALE", invoiceNo = "", checkoutPayments = []) => {
+        // console.log("---- basket: ", JSON.stringify(basket));
         await this.setState({
             basket,
             temptSubTotal,
@@ -513,6 +514,7 @@ const ItemInvoice = ({ item, index }) => {
     const price = item.data && item.data.price ? item.data.price : 0;
     const quanlitySet = item.quanlitySet ? item.quanlitySet : 1;
     const total = formatMoney(price * quanlitySet);
+    const note = item.note ? item.note : "";
 
     return (
         <View style={{ flexDirection: "row", marginTop: scaleSzie(3) }} >
@@ -520,6 +522,13 @@ const ItemInvoice = ({ item, index }) => {
                 <Text style={[styleInvoice.txt_info,]} >
                     {`${index + 1}. ${item.data && item.data.name ? item.data.name : ""}`}
                 </Text>
+                {/* ------------ Note -------- */}
+                {
+                    note ?
+                        <Text style={[styleInvoice.txt_info, { fontSize: 13, marginLeft: 8 }]} >
+                            {`(Note: ${note})`}
+                        </Text> : null
+                }
             </View>
             <View style={{ justifyContent: "center" }} >
                 <Text style={[styleInvoice.txt_info,]} >

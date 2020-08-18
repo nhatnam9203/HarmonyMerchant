@@ -507,7 +507,8 @@ class TabCheckout extends Layout {
                         name: service.serviceName ? service.serviceName : "",
                         price: service.price ? service.price : ""
                     },
-                    staff: service.staff ? service.staff : false
+                    staff: service.staff ? service.staff : false,
+                    note:service.note ? service.note : "",
                 })
             });
 
@@ -691,6 +692,8 @@ class TabCheckout extends Layout {
 
     printTemptInvoice = async () => {
         const printMachine = await checkStatusPrint();
+
+        // this.showInvoicePrint(printMachine);
         if (printMachine) {
             this.showInvoicePrint(printMachine);
         } else {

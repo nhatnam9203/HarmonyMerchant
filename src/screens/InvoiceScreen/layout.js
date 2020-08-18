@@ -360,7 +360,7 @@ export default class Layout extends React.Component {
                                                     {/* ------------ Amount -------------- */}
 
                                                 </Text>
-                                                <View style={{ flex: 1, alignItems:"flex-end" }} >
+                                                <View style={{ flex: 1, alignItems: "flex-end" }} >
                                                     <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
                                                         {`$${data.amount ? data.amount : ""}`}
                                                     </Text>
@@ -469,14 +469,14 @@ export default class Layout extends React.Component {
                             }
                             <View style={{ height: scaleSzie(16) }} />
                             {
-                                promotionNotes ?  <Text style={{ color: '#404040', fontSize: scaleSzie(13), fontWeight: "bold" }} >
-                                {`Note: `}
-                                <Text style={{ fontWeight: "500" }} >
-                                    {`${promotionNotes}`}
-                                </Text>
-                            </Text> : null
+                                promotionNotes ? <Text style={{ color: '#404040', fontSize: scaleSzie(13), fontWeight: "bold" }} >
+                                    {`Note: `}
+                                    <Text style={{ fontWeight: "500" }} >
+                                        {`${promotionNotes}`}
+                                    </Text>
+                                </Text> : null
                             }
-                           
+
                             <View style={{ height: scaleSzie(16) }} />
 
                         </ScrollView>
@@ -670,6 +670,7 @@ const ItemPrintBasket = ({ item, index }) => {
     const price = item.data && item.data.price ? item.data.price : 0;
     const quanlitySet = item.quanlitySet ? item.quanlitySet : 1;
     const total = formatMoney(price * quanlitySet);
+    const note = item.note ? item.note : "";
 
     return (
         <View style={{ flexDirection: "row", marginTop: scaleSzie(3) }} >
@@ -677,6 +678,13 @@ const ItemPrintBasket = ({ item, index }) => {
                 <Text style={[styles.txt_info,]} >
                     {`${index + 1}. ${item.data && item.data.name ? item.data.name : ""}`}
                 </Text>
+                {/* ------------ Note -------- */}
+                {
+                    note ?
+                        <Text style={[styles.txt_info, { fontSize: 13, marginLeft: 8 }]} >
+                            {`(Note: ${note})`}
+                        </Text> : null
+                }
             </View>
             <View style={{ justifyContent: "center", width: scaleSzie(70) }} >
                 <Text style={[styles.txt_info,]} >
@@ -684,8 +692,8 @@ const ItemPrintBasket = ({ item, index }) => {
                 </Text>
             </View>
             <View style={{
-                width: scaleSzie(30), justifyContent: "center", 
-                paddingLeft:scaleSzie(6)
+                width: scaleSzie(30), justifyContent: "center",
+                paddingLeft: scaleSzie(6)
             }} >
                 <Text style={[styles.txt_info,]} >
                     {quanlitySet}
