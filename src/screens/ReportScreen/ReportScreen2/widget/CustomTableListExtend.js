@@ -12,14 +12,16 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
 } from "react-native";
 import _ from "ramda";
 import {
   roundFloatNumber,
   formatNumberFromCurrency,
   formatMoney,
+  scaleSzie,
 } from "@utils";
-
+import IMAGE from "@resources";
 import { StickyForm } from "react-native-largelist-v3";
 
 const TABLE_HEADER_HEIGHT = 50;
@@ -72,6 +74,16 @@ const getCellKey = (item, primaryId) => {
   return `${item[primaryId]}`;
 };
 
+const strCompare = (a, b) => {
+  return a.toString().localeCompare(b.toString());
+};
+
+const SORT_STATE = {
+  none: "NONE",
+  desc: "DESC",
+  asc: "ASC",
+};
+
 /**
  * !error: header long bug ui
  * !error: calcSum -> pagination bug
@@ -95,6 +107,7 @@ function TableListExtended(
     renderFooter,
     renderActionCell,
     checkSumItem,
+    sortKey
   },
   ref
 ) {
@@ -104,6 +117,39 @@ function TableListExtended(
   const [dataFactory, setDataFactory] = useState([]);
   const [sumObject, setSumObject] = useState({});
   const [tableWidth, setTableWidth] = useState(0);
+  const [sortState, setSortState] = useState(SORT_STATE.none);
+
+  const setListData = (sort) => {
+    let sortList = tableData;
+    if (sortKey && sortList.length > 0) {
+      sortList.sort((a, b) => {
+        if (sort === SORT_STATE.desc) {
+          return strCompare(a[sortKey], b[sortKey]);
+        } else {
+          return strCompare(b[sortKey], a[sortKey]);
+        }
+      });
+    }
+
+    setData(sortList);
+  };
+
+  const changeSortData = () => {
+    if (!sortKey) {
+      setSortState(SORT_STATE.none);
+      return;
+    }
+
+    let sort = sortState;
+    if (sortState === SORT_STATE.desc) {
+      sort = SORT_STATE.asc;
+    } else {
+      sort = SORT_STATE.desc;
+    }
+
+    setSortState(sort);
+    setListData(sort);
+  };
 
   /**effect */
 
@@ -138,7 +184,7 @@ function TableListExtended(
         setSumObject(sumObj);
       }
 
-      setData(tableData);
+      setListData(sortState);
       const valueObject = pickObjectFromKeys(
         tableData,
         whiteKeys.filter((x) => x !== sumTotalKey)
@@ -166,6 +212,12 @@ function TableListExtended(
       setTableWidth(width);
     }
   }, [tableData, whiteKeys]);
+
+  useEffect(() => {
+    // set data and sort -> render
+    setSortState(SORT_STATE.desc);
+    setListData(SORT_STATE.desc);
+  }, [sortKey]);
 
   // get width render cell with index or key
   const getCellWidth = (index, key) => {
@@ -264,9 +316,28 @@ function TableListExtended(
               style={{
                 width: getCellWidth(index, key),
                 ...(isPriceCell(key) && { alignItems: "flex-end" }),
+                ...(sortKey === key && { flexDirection: "row" }),
               }}
             >
               <Text style={styles.txtHead}>{headerContent[key] ?? ""}</Text>
+              {sortKey === key && (
+                <TouchableOpacity
+                  style={styles.btnSort}
+                  onPress={changeSortData}
+                >
+                  <View>
+                    <Image
+                      style={{ width: scaleSzie(18), height: scaleSzie(18) }}
+                      source={
+                        sortState === SORT_STATE.asc
+                          ? IMAGE.sortUp
+                          : IMAGE.sortDown
+                      }
+                      resizeMode="center"
+                    />
+                  </View>
+                </TouchableOpacity>
+              )}
             </TableCell>
           </View>
         ) : (
@@ -275,9 +346,25 @@ function TableListExtended(
             style={{
               width: getCellWidth(index, key),
               ...(isPriceCell(key) && { alignItems: "flex-end" }),
+              ...(sortKey === key && { flexDirection: "row" }),
             }}
           >
             <Text style={styles.txtHead}>{headerContent[key] ?? ""}</Text>
+            {sortKey === key && (
+              <TouchableOpacity style={styles.btnSort} onPress={changeSortData}>
+                <View>
+                  <Image
+                    style={{ width: scaleSzie(18), height: scaleSzie(18) }}
+                    source={
+                      sortState === SORT_STATE.asc
+                        ? IMAGE.sortUp
+                        : IMAGE.sortDown
+                    }
+                    resizeMode="center"
+                  />
+                </View>
+              </TouchableOpacity>
+            )}
           </TableCell>
         );
       })}
@@ -361,7 +448,7 @@ function TableListExtended(
         renderHeader={renderHeader}
         renderSection={renderSection}
         renderIndexPath={renderItem}
-        directionalLockEnabled={true}
+        // directionalLockEnabled={true}
         bounces={false}
       />
     </View>
@@ -466,5 +553,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FAFAFA",
+  },
+  btnSort: {
+    width: 30,
+    position: "absolute",
+    right: 0,
+    top: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

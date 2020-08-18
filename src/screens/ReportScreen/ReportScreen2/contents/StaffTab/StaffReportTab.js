@@ -178,6 +178,7 @@ export default function StaffReportTab({
             "tip",
             "salary",
           ]}
+          sortKey="name"
           tableCellWidth={{ name: 200 }}
           renderCell={renderCell}
           renderActionCell={renderActionCell}

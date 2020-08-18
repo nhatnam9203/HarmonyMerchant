@@ -187,8 +187,8 @@ const styles = StyleSheet.create({
   },
   methodContent: {
     position: "absolute",
-    right: -20,
-    bottom: 50,
+    right: -50,
+    bottom: 25,
   },
   txtAmount: {
     color: "#205580",

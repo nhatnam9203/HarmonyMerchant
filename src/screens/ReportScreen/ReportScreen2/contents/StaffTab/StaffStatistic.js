@@ -67,6 +67,7 @@ export default function StaffStatistic(props, ref) {
         "tipAmount",
         "salary",
       ],
+      sortKey: "dateString",
       tableCellWidth: { appointmentId: 80 },
     });
   }, [filterId, listStaffsSalary]);

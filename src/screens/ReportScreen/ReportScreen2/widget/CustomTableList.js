@@ -19,9 +19,9 @@ import {
   roundFloatNumber,
   formatNumberFromCurrency,
   formatMoney,
+  scaleSzie
 } from "@utils";
 import IMAGE from "@resources";
-import { scaleSzie } from "@utils";
 
 const TABLE_HEADER_HEIGHT = 50;
 const TABLE_ROW_HEIGHT = 50;

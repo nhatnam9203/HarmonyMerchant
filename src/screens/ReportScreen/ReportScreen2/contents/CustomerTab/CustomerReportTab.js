@@ -136,6 +136,7 @@ export default function CustomerReportTab({
           sumTotalKey="name"
           calcSumKeys={["appointmentCount", "lastVisitSale", "total"]}
           priceKeys={["lastVisitSale", "total"]}
+          sortKey="name"
           tableCellWidth={{
             name: 160,
             lastVisitSale: 200,
