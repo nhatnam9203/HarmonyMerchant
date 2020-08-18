@@ -207,10 +207,12 @@ function TableListExtended(
             renderActionCell && renderActionCell(actProps);
 
           return keyIndex === 0 ? (
-            <View style={[styles.headName, { backgroundColor: "#fff" }]}>
+            <View
+              style={[styles.headName, { backgroundColor: "#fff" }]}
+              key={keyUnique}
+            >
               <TableCell
                 onPress={() => onCellPress(actProps)}
-                key={keyUnique}
                 style={{
                   width: getCellWidth(keyIndex, key),
                   ...(isPriceCell(key) && { alignItems: "flex-end" }),
@@ -257,9 +259,8 @@ function TableListExtended(
     >
       {whiteKeys.map((key, index) => {
         return index === 0 ? (
-          <View style={styles.headName}>
+          <View style={styles.headName} key={uniqueId(key, index, "header")}>
             <TableCell
-              key={uniqueId(key, index, "header")}
               style={{
                 width: getCellWidth(index, key),
                 ...(isPriceCell(key) && { alignItems: "flex-end" }),
@@ -296,9 +297,11 @@ function TableListExtended(
       >
         {whiteKeys.map((key, index) => {
           return index === 0 ? (
-            <View style={[styles.headName, { backgroundColor: "#E5E5E5" }]}>
+            <View
+              style={[styles.headName, { backgroundColor: "#E5E5E5" }]}
+              key={uniqueId(key, index, "summary")}
+            >
               <TableCell
-                key={uniqueId(key, index, "summary")}
                 style={{
                   width: getCellWidth(index, key),
                   ...(isPriceCell(key) && {

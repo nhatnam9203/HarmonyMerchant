@@ -180,6 +180,7 @@ export default function GiftCardReportTab({
             sumTotalKey="type"
             calcSumKeys={["quantity", "sales"]}
             priceKeys={["sales"]}
+            sortKey="type"
             tableCellWidth={{
               type: 300,
               quantity: 200,

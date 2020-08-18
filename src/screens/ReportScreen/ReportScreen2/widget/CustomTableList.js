@@ -4,6 +4,7 @@ import React, {
   useState,
   useImperativeHandle,
   forwardRef,
+  useCallback,
 } from "react";
 import {
   FlatList,
@@ -11,6 +12,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
 } from "react-native";
 import _ from "ramda";
 import {
@@ -18,6 +20,8 @@ import {
   formatNumberFromCurrency,
   formatMoney,
 } from "@utils";
+import IMAGE from "@resources";
+import { scaleSzie } from "@utils";
 
 const TABLE_HEADER_HEIGHT = 50;
 const TABLE_ROW_HEIGHT = 50;
@@ -69,6 +73,15 @@ const getCellKey = (item, primaryId) => {
   return `${item[primaryId]}`;
 };
 
+const strCompare = (a, b) => {
+  return a.toString().localeCompare(b.toString());
+};
+
+const SORT_STATE = {
+  none: "NONE",
+  desc: "DESC",
+  asc: "ASC",
+};
 /**
  * !error: header long bug ui
  * !error: calcSum -> pagination bug
@@ -92,13 +105,47 @@ function TableList(
     renderFooter,
     renderActionCell,
     checkSumItem,
+    sortKey,
   },
   ref
 ) {
   /**state */
   const [headerContent, setHeaderContent] = useState({});
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
   const [sumObject, setSumObject] = useState({});
+  const [sortState, setSortState] = useState(SORT_STATE.none);
+
+  const setListData = (sort) => {
+    let sortList = tableData;
+    if (sortKey && sortList.length > 0) {
+      sortList.sort((a, b) => {
+        if (sort === SORT_STATE.desc) {
+          return strCompare(a[sortKey], b[sortKey]);
+        } else {
+          return strCompare(b[sortKey], a[sortKey]);
+        }
+      });
+    }
+
+    setData(sortList);
+  };
+
+  const changeSortData = () => {
+    if (!sortKey) {
+      setSortState(SORT_STATE.none);
+      return;
+    }
+
+    let sort = sortState;
+    if (sortState === SORT_STATE.desc) {
+      sort = SORT_STATE.asc;
+    } else {
+      sort = SORT_STATE.desc;
+    }
+
+    setSortState(sort);
+    setListData(sort);
+  };
 
   /**effect */
 
@@ -109,6 +156,7 @@ function TableList(
       return;
     }
 
+    // use case no set table head -> get all keys from data
     if (_.isEmpty(tableHead)) {
       const firstRowKeys = Object.keys(tableData[0]);
       setHeaderContent(firstRowKeys);
@@ -120,6 +168,7 @@ function TableList(
 
   // bind sum row data
   useEffect(() => {
+    // calc sum for calcSumKeys
     if (whiteKeys?.length > 0 && tableData) {
       let sumObj = {};
 
@@ -132,10 +181,16 @@ function TableList(
         });
         setSumObject(sumObj);
       }
-
-      setData(tableData);
     }
+
+    setListData(sortState);
   }, [tableData, whiteKeys]);
+
+  useEffect(() => {
+    // set data and sort -> render
+    setSortState(SORT_STATE.desc);
+    setListData(SORT_STATE.desc);
+  }, [sortKey]);
 
   // get width render cell with index or key
   const getCellWidth = (index, key) => {
@@ -218,9 +273,28 @@ function TableList(
                 justifyContent: "center",
                 width: getCellWidth(index, key),
                 ...(isPriceCell(key) && { alignItems: "flex-end" }),
+                ...(sortKey === key && { flexDirection: "row" }),
               }}
             >
               <Text style={styles.txtHead}>{headerContent[key] ?? ""}</Text>
+              {sortKey === key && (
+                <TouchableOpacity
+                  style={styles.btnSort}
+                  onPress={changeSortData}
+                >
+                  <View>
+                    <Image
+                      style={{ width: scaleSzie(18), height: scaleSzie(18) }}
+                      source={
+                        sortState === SORT_STATE.asc
+                          ? IMAGE.sortUp
+                          : IMAGE.sortDown
+                      }
+                      resizeMode="center"
+                    />
+                  </View>
+                </TouchableOpacity>
+              )}
             </TableCell>
           ))}
         </TableRow>
@@ -343,6 +417,7 @@ TableList.propTypes = {
   onChangeSumObjects: PropTypes.func,
   renderFooter: PropTypes.func,
   renderIconCell: PropTypes.func,
+  sortKey: PropTypes.string,
 };
 
 export default TableList = forwardRef(TableList);
@@ -417,5 +492,14 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     flexWrap: "wrap",
     textAlign: "center",
+  },
+  btnSort: {
+    width: 30,
+    position: "absolute",
+    right: 0,
+    top: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
