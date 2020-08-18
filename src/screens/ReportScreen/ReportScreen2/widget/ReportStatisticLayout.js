@@ -35,6 +35,8 @@ export default function ReportStatisticLayout({
   titleRangeTime,
   pathFileExport,
   showCalendar,
+  renderTable,
+  sortKey,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -102,6 +104,7 @@ export default function ReportStatisticLayout({
           data={dataFilters}
           onChangeText={(text) => onChangeFilter(text)}
           dropdownPosition={2}
+          value={filterId}
           renderBase={() => (
             <PopupButton
               text={filterId}
@@ -112,21 +115,25 @@ export default function ReportStatisticLayout({
       </HeaderTooltip>
 
       <View style={{ flex: 1 }}>
-        {tableData && (
-          <TableList
-            // showSumOnBottom={true}
-            tableData={tableData}
-            tableHead={tableHead}
-            whiteKeys={whiteKeys}
-            primaryId={primaryId}
-            calcSumKeys={calcSumKeys}
-            sumTotalKey={sumTotalKey}
-            priceKeys={priceKeys}
-            tableCellWidth={tableCellWidth}
-            renderCell={renderCell}
-            onCellPress={onCellPress}
-          />
-        )}
+        {tableData &&
+          (renderTable ? (
+            renderTable()
+          ) : (
+            <TableList
+              // showSumOnBottom={true}
+              tableData={tableData}
+              tableHead={tableHead}
+              whiteKeys={whiteKeys}
+              primaryId={primaryId}
+              calcSumKeys={calcSumKeys}
+              sumTotalKey={sumTotalKey}
+              priceKeys={priceKeys}
+              sortKey={sortKey}
+              tableCellWidth={tableCellWidth}
+              renderCell={renderCell}
+              onCellPress={onCellPress}
+            />
+          ))}
       </View>
     </View>
   );

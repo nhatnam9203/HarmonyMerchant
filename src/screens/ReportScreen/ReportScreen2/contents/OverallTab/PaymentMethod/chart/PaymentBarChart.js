@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, processColor, View } from "react-native";
+import { StyleSheet, processColor, View, Text } from "react-native";
 import { BarChart } from "react-native-charts-wrapper";
 
 import { formatNumberFromCurrency } from "@utils";
@@ -94,7 +94,7 @@ export default function PaymentBarChart({ data }) {
       // run object get value push in array mapValues
       pickValuesForKey(data, "netPayment", "float").forEach((d) => {
         let obj = Object.create({});
-        obj.y = formatNumberFromCurrency(d);
+        obj.y = d;
         mapValues.push(obj);
       });
 
@@ -114,6 +114,7 @@ export default function PaymentBarChart({ data }) {
               ],
               valueTextSize: 14,
               valueTextColor: processColor("#0764B0"),
+              valueFormatter: "#.00",
             },
           },
         ],
@@ -147,21 +148,17 @@ export default function PaymentBarChart({ data }) {
     // ======= map formatter =======
   }, [data]);
 
-  function handleSelect(event) {
-    let entry = event.nativeEvent;
-    if (entry == null) {
-      //   this.setState({ ...this.state, selectedEntry: null });
-    } else {
-      //   this.setState({ ...this.state, selectedEntry: JSON.stringify(entry) });
-    }
-
-    // console.log(event.nativeEvent);
-  }
-
   return (
     <View style={styles.container}>
+      <View style={styles.amountContent}>
+        <Text style={styles.txtAmount}>Amount ($)</Text>
+      </View>
+      <View style={styles.methodContent}>
+        <Text style={styles.txtAmount}>Method</Text>
+      </View>
       <BarChart
         doubleTapToZoomEnabled={false}
+        touchEnabled={false}
         style={styles.chart}
         data={dataChart}
         xAxis={xAxis}
@@ -169,13 +166,7 @@ export default function PaymentBarChart({ data }) {
         animation={{ durationX: 500 }}
         legend={legend}
         gridBackgroundColor={processColor("transparent")}
-        // visibleRange={{ x: { min: 5, max: 5 } }}
-        drawBarShadow={false}
-        drawHighlightArrow={true}
-        onSelect={handleSelect}
-        // highlights={highlights}
         entryLabelTextSize={14}
-        onChange={(event) => console.log(event.nativeEvent)}
       />
     </View>
   );
@@ -188,5 +179,19 @@ const styles = StyleSheet.create({
   },
   chart: {
     flex: 1,
+  },
+  amountContent: {
+    position: "absolute",
+    top: -20,
+    left: 0,
+  },
+  methodContent: {
+    position: "absolute",
+    right: -50,
+    bottom: 25,
+  },
+  txtAmount: {
+    color: "#205580",
+    fontSize: 15,
   },
 });

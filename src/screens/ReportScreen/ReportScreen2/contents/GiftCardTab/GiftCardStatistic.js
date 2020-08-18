@@ -35,6 +35,7 @@ export default function GiftCardStatistic(props, ref) {
       calcSumKeys: ["quantity", "sales"],
       sumTotalKey: "dateString",
       priceKeys: ["sales"],
+      sortKey: "dateString",
       tableCellWidth: { date: 180 },
     });
   }, [filterId, giftCardReportList]);

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
-
 import IMAGE from "@resources";
 import { localize } from "@utils";
 
@@ -14,10 +13,9 @@ const VIEW_MODE = {
   LIST: "LIST",
   CHART: "CHART",
 };
-const FILTER_NAME_DEFAULT = "All Promotion";
+const FILTER_NAME_DEFAULT = "All Method";
 const ACTIVE_COLOR = "#0764B0";
 const INACTIVE_COLOR = "#6A6A6A";
-
 
 export default function PaymentMethod({
   style,
@@ -144,6 +142,7 @@ export default function PaymentMethod({
         showExportFile={showExportFile}
         pathFileExport={pathFileExport}
         handleTheDownloadedFile={handleTheDownloadedFile}
+        filterNameDefault={FILTER_NAME_DEFAULT}
         rightTooltip={
           <>
             <PopupButton

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { ReportStatisticLayout } from "../../widget";
+import { ReportStatisticLayout, TableListExtended } from "../../widget";
 import { localize } from "@utils";
 
 export default function StaffStatistic(props, ref) {
@@ -29,6 +29,8 @@ export default function StaffStatistic(props, ref) {
         serviceSplit: localize("Service Split", language),
         productSales: localize("Product Sales", language),
         productSplit: localize("Product Split", language),
+        workingHour: localize("Working Hour", language),
+        salaryWage: localize("Salary Wage", language),
         tipAmount: localize("Tip Amount", language),
         salary: localize("Salary", language),
       },
@@ -38,6 +40,8 @@ export default function StaffStatistic(props, ref) {
         "serviceSplit",
         "productSales",
         "productSplit",
+        "workingHour",
+        "salaryWage",
         "tipAmount",
         "salary",
       ],
@@ -48,6 +52,8 @@ export default function StaffStatistic(props, ref) {
         "serviceSplit",
         "productSales",
         "productSplit",
+        "workingHour",
+        "salaryWage",
         "tipAmount",
         "salary",
       ],
@@ -56,16 +62,40 @@ export default function StaffStatistic(props, ref) {
         "serviceSplit",
         "productSales",
         "productSplit",
+        "workingHour",
+        "salaryWage",
         "tipAmount",
         "salary",
       ],
+      sortKey: "dateString",
       tableCellWidth: { appointmentId: 80 },
     });
   }, [filterId, listStaffsSalary]);
 
+  const onCellPress = ({ key, row, column, item }) => {};
+
+  const renderCell = ({ key, row, column, item }) => {
+    return null;
+  };
+
   /**render */
 
+  const renderTable = () => {
+    return (
+      <TableListExtended
+        {...table}
+        renderCell={renderCell}
+        onCellPress={onCellPress}
+      />
+    );
+  };
+
   return (
-    <ReportStatisticLayout {...props} {...table} title={"Staff Statistics"} />
+    <ReportStatisticLayout
+      {...props}
+      {...table}
+      title={"Staff Statistics"}
+      renderTable={renderTable}
+    />
   );
 }

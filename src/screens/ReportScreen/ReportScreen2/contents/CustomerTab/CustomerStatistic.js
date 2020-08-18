@@ -45,7 +45,8 @@ export default function CustomerStatistic(props, ref) {
       calcSumKeys: ["payamount"],
       sumTotalKey: "appointmentId",
       priceKeys: ["payamount"],
-      tableCellWidth: { appointmentId: 150 },
+      sortKey: "appointmentId",
+      tableCellWidth: { appointmentId: 180 },
     });
   }, [filterId, customerReportList]);
 

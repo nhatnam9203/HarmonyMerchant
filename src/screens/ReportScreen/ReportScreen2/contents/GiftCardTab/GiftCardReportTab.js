@@ -28,7 +28,6 @@ export default function GiftCardReportTab({
   pathFileExport,
   handleTheDownloadedFile,
 }) {
-
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
@@ -132,6 +131,7 @@ export default function GiftCardReportTab({
     <View style={style}>
       <ReportTabLayout
         style={styles.container}
+        title={localize("Gift Card Sales", language)}
         onChangeFilterName={onChangeFilterName}
         isShowExportButton={viewMode === VIEW_MODE.LIST}
         isShowFilterButton={viewMode === VIEW_MODE.LIST}
@@ -180,6 +180,7 @@ export default function GiftCardReportTab({
             sumTotalKey="type"
             calcSumKeys={["quantity", "sales"]}
             priceKeys={["sales"]}
+            sortKey="type"
             tableCellWidth={{
               type: 300,
               quantity: 200,

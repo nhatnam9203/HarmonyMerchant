@@ -31,7 +31,9 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
     (state) => state.report.overallPMStatisticExportFilePath
   );
 
-  const isDownloadReport = useSelector(state => state.report.isDownloadReport);
+  const isDownloadReport = useSelector(
+    (state) => state.report.isDownloadReport
+  );
 
   /**state */
   const [titleRangeTime, setTitleRangeTime] = useState("This week");
@@ -144,18 +146,18 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
         isDownloadReport={isDownloadReport}
       >
         <PaymentMethod
-          style={{ flex: 1, paddingTop: 10 }}
+          style={{ flex: 1 }}
           tabLabel="Payment Method"
           onGoStatistics={onGoStatistics}
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("Payment Method ")}
+          showExportFile={() => onShowPopupExport("PaymentMethod")}
           pathFileExport={overallPMExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
         <PaymentStatistic
-          style={{ flex: 1, paddingTop: 10 }}
+          style={{ flex: 1 }}
           tabLabel="Payment Method Statistics"
           title="Payment Method Statistics"
           titleRangeTime={titleRangeTime}
@@ -163,7 +165,7 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
           dataFilters={filterNames}
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
-          showExportFile={() => onShowPopupExport("Payment Method Statistic ")}
+          showExportFile={() => onShowPopupExport("PaymentMethodStatistic")}
           pathFileExport={overallPMStatisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />

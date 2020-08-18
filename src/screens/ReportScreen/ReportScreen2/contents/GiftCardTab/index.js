@@ -123,7 +123,8 @@ function GiftCardTab({ style, showBackButton }, ref) {
       layoutRef.current.goBack();
     },
     didBlur: () => {
-      setTitleRangeTime("This week");
+      // console.log("====> screen report -> giftcard didBlur");
+      getGiftCardReportSales();
     },
     didFocus: () => {
       // console.log("====> screen report -> staff didFocus");
@@ -146,18 +147,18 @@ function GiftCardTab({ style, showBackButton }, ref) {
         isDownloadReport={isDownloadReport}
       >
         <GiftCardReportTab
-          style={{ flex: 1, paddingTop: 10 }}
+          style={{ flex: 1}}
           tabLabel="Gift Card"
           onGoStatistics={onGoStatistics}
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("Gift Card ")}
+          showExportFile={() => onShowPopupExport("GiftCard")}
           pathFileExport={giftCardExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
         <GiftCardStatistic
-          style={{ flex: 1, paddingTop: 10 }}
+          style={{ flex: 1}}
           tabLabel="Gift Card Statistics"
           title="Gift Card Statistics"
           titleRangeTime={titleRangeTime}
@@ -165,7 +166,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
           dataFilters={filterNames}
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
-          showExportFile={() => onShowPopupExport("Gift Card Statistic ")}
+          showExportFile={() => onShowPopupExport("GiftCardStatistic")}
           pathFileExport={giftCardStatisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />

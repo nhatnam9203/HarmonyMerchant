@@ -125,7 +125,7 @@ function StaffTab({ style, showBackButton }, ref) {
       dispatch(actions.staff.resetDownloadExportFiles());
     },
     didBlur: () => {
-    //   setTitleRangeTime(RANGE_TIME_DEFAULT);
+      //   setTitleRangeTime(RANGE_TIME_DEFAULT);
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
     didFocus: () => {
@@ -149,18 +149,18 @@ function StaffTab({ style, showBackButton }, ref) {
         isDownloadReport={isDownloadReportStaff}
       >
         <StaffReportTab
-          style={{ flex: 1, paddingTop: 10 }}
+          style={{ flex: 1}}
           tabLabel="Staff Salary"
           onGoStatistics={onGoStatistics}
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("Staff Salary ")}
+          showExportFile={() => onShowPopupExport("StaffSalary")}
           pathFileExport={pathFileReportStaff}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
         <StaffStatistic
-          style={{ flex: 1, paddingTop: 10 }}
+          style={{ flex: 1 }}
           tabLabel="Staff Statistics"
           title="Staff Statistics"
           titleRangeTime={titleRangeTime}
@@ -168,7 +168,7 @@ function StaffTab({ style, showBackButton }, ref) {
           dataFilters={filterNames}
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
-          showExportFile={() => onShowPopupExport("Staff Statistic ")}
+          showExportFile={() => onShowPopupExport("StaffStatistic")}
           pathFileExport={pathFileReportStaffStatistic}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />

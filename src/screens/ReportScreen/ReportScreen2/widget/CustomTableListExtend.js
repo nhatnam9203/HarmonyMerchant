@@ -4,10 +4,10 @@ import React, {
   useState,
   useImperativeHandle,
   forwardRef,
-  useCallback,
 } from "react";
 import {
   FlatList,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -19,13 +19,14 @@ import {
   roundFloatNumber,
   formatNumberFromCurrency,
   formatMoney,
-  scaleSzie
+  scaleSzie,
 } from "@utils";
 import IMAGE from "@resources";
+import { StickyForm } from "react-native-largelist-v3";
 
 const TABLE_HEADER_HEIGHT = 50;
 const TABLE_ROW_HEIGHT = 50;
-const TABLE_CELL_DEFAULT_WIDTH = 150;
+const TABLE_CELL_DEFAULT_WIDTH = 160;
 const HEAD_FONT_SIZE = 17;
 const CELL_FONT_SIZE = 15;
 
@@ -82,11 +83,12 @@ const SORT_STATE = {
   desc: "DESC",
   asc: "ASC",
 };
+
 /**
  * !error: header long bug ui
  * !error: calcSum -> pagination bug
  * */
-function TableList(
+function TableListExtended(
   {
     tableData,
     tableHead,
@@ -105,14 +107,16 @@ function TableList(
     renderFooter,
     renderActionCell,
     checkSumItem,
-    sortKey,
+    sortKey
   },
   ref
 ) {
   /**state */
   const [headerContent, setHeaderContent] = useState({});
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
+  const [dataFactory, setDataFactory] = useState([]);
   const [sumObject, setSumObject] = useState({});
+  const [tableWidth, setTableWidth] = useState(0);
   const [sortState, setSortState] = useState(SORT_STATE.none);
 
   const setListData = (sort) => {
@@ -156,7 +160,6 @@ function TableList(
       return;
     }
 
-    // use case no set table head -> get all keys from data
     if (_.isEmpty(tableHead)) {
       const firstRowKeys = Object.keys(tableData[0]);
       setHeaderContent(firstRowKeys);
@@ -168,7 +171,6 @@ function TableList(
 
   // bind sum row data
   useEffect(() => {
-    // calc sum for calcSumKeys
     if (whiteKeys?.length > 0 && tableData) {
       let sumObj = {};
 
@@ -181,9 +183,34 @@ function TableList(
         });
         setSumObject(sumObj);
       }
-    }
 
-    setListData(sortState);
+      setListData(sortState);
+      const valueObject = pickObjectFromKeys(
+        tableData,
+        whiteKeys.filter((x) => x !== sumTotalKey)
+      );
+
+      let factoryItems = [];
+      let width = 0;
+      tableData.forEach((item, index) => {
+        let itemObject = Object.create({});
+        itemObject["title"] = item[sumTotalKey];
+        itemObject["data"] = Object.values(valueObject[index]);
+        factoryItems.push(itemObject);
+      });
+      const data = Object.create({
+        sectionTitle: "",
+        items: factoryItems,
+      });
+      let dataArr = [];
+      dataArr.push(data);
+      setDataFactory(dataArr);
+
+      whiteKeys.forEach((key, index) => {
+        width += getCellWidth(index, key);
+      });
+      setTableWidth(width);
+    }
   }, [tableData, whiteKeys]);
 
   useEffect(() => {
@@ -204,29 +231,25 @@ function TableList(
     return priceKeys?.indexOf(key) >= 0;
   };
 
-  // useImperativeHandle(ref, () => ({
-  //   getSumObjects: () => {
-  //     return sumObject;
-  //   },
-  // }));
-
   /**render */
   // render cell
-  const renderItem = ({ item, index, separators }) => {
+
+  const renderItem = ({ row }) => {
+    const item = data[row];
     const cellKey = getCellKey(item, primaryId);
 
     return (
       <TableRow
-        style={{ minHeight: TABLE_ROW_HEIGHT }}
+        style={{ flexDirection: "row" }}
         key={cellKey}
-        onPress={() => onRowPress({ item, row: index })}
+        onPress={() => onRowPress({ item, row })}
         disabled={!onRowPress}
       >
         {whiteKeys.map((key, keyIndex) => {
           const keyUnique = uniqueId(key, keyIndex);
           const actProps = Object.create({
             key: key,
-            row: index,
+            row: row,
             column: keyIndex,
             item: item,
             isPrice: isPriceCell(key),
@@ -235,12 +258,33 @@ function TableList(
           const cellActionRender =
             renderActionCell && renderActionCell(actProps);
 
-          return (
+          return keyIndex === 0 ? (
+            <View
+              style={[styles.headName, { backgroundColor: "#fff" }]}
+              key={keyUnique}
+            >
+              <TableCell
+                onPress={() => onCellPress(actProps)}
+                style={{
+                  width: getCellWidth(keyIndex, key),
+                  ...(isPriceCell(key) && { alignItems: "flex-end" }),
+                }}
+                disabled={!onCellPress}
+              >
+                {key === TABLE_ACTION_KEY
+                  ? cellActionRender
+                  : cellRender ?? (
+                      <Text style={styles.txtCell}>
+                        {isPriceCell(key) ? "$ " + item[key] : item[key]}
+                      </Text>
+                    )}
+              </TableCell>
+            </View>
+          ) : (
             <TableCell
               onPress={() => onCellPress(actProps)}
               key={keyUnique}
               style={{
-                justifyContent: "center",
                 width: getCellWidth(keyIndex, key),
                 ...(isPriceCell(key) && { alignItems: "flex-end" }),
               }}
@@ -260,17 +304,16 @@ function TableList(
     );
   };
 
-  // render header
-  const renderHeader = () => {
-    return !_.isEmpty(headerContent) ? (
-      <>
-        {/**header row */}
-        <TableRow style={styles.head} key={TABLE_HEADER_KEY}>
-          {whiteKeys.map((key, index) => (
+  const renderHeader = () => (
+    <TableRow
+      style={[styles.head, { flexDirection: "row" }]}
+      key={TABLE_HEADER_KEY}
+    >
+      {whiteKeys.map((key, index) => {
+        return index === 0 ? (
+          <View style={styles.headName} key={uniqueId(key, index, "header")}>
             <TableCell
-              key={uniqueId(key, index, "header")}
               style={{
-                justifyContent: "center",
                 width: getCellWidth(index, key),
                 ...(isPriceCell(key) && { alignItems: "flex-end" }),
                 ...(sortKey === key && { flexDirection: "row" }),
@@ -296,17 +339,56 @@ function TableList(
                 </TouchableOpacity>
               )}
             </TableCell>
-          ))}
-        </TableRow>
-        {/**sum row */}
-        {calcSumKeys?.length > 0 && !showSumOnBottom && (
-          <TableRow
-            style={{ ...styles.head, backgroundColor: "#E5E5E5" }}
-            key={TABLE_SUMMARY_KEY}
+          </View>
+        ) : (
+          <TableCell
+            key={uniqueId(key, index, "header")}
+            style={{
+              width: getCellWidth(index, key),
+              ...(isPriceCell(key) && { alignItems: "flex-end" }),
+              ...(sortKey === key && { flexDirection: "row" }),
+            }}
           >
-            {whiteKeys.map((key, index) => (
+            <Text style={styles.txtHead}>{headerContent[key] ?? ""}</Text>
+            {sortKey === key && (
+              <TouchableOpacity style={styles.btnSort} onPress={changeSortData}>
+                <View>
+                  <Image
+                    style={{ width: scaleSzie(18), height: scaleSzie(18) }}
+                    source={
+                      sortState === SORT_STATE.asc
+                        ? IMAGE.sortUp
+                        : IMAGE.sortDown
+                    }
+                    resizeMode="center"
+                  />
+                </View>
+              </TouchableOpacity>
+            )}
+          </TableCell>
+        );
+      })}
+    </TableRow>
+  );
+
+  // render header
+  const renderSection = () => {
+    return (
+      <TableRow
+        style={{
+          ...styles.head,
+          backgroundColor: "#E5E5E5",
+          flexDirection: "row",
+        }}
+        key={TABLE_SUMMARY_KEY}
+      >
+        {whiteKeys.map((key, index) => {
+          return index === 0 ? (
+            <View
+              style={[styles.headName, { backgroundColor: "#E5E5E5" }]}
+              key={uniqueId(key, index, "summary")}
+            >
               <TableCell
-                key={uniqueId(key, index, "summary")}
                 style={{
                   width: getCellWidth(index, key),
                   ...(isPriceCell(key) && {
@@ -326,80 +408,54 @@ function TableList(
                   </Text>
                 )}
               </TableCell>
-            ))}
-          </TableRow>
-        )}
-      </>
-    ) : null;
-  };
+            </View>
+          ) : (
+            <TableCell
+              key={uniqueId(key, index, "summary")}
+              style={{
+                width: getCellWidth(index, key),
+                ...(isPriceCell(key) && {
+                  alignItems: "flex-end",
+                }),
+              }}
+            >
+              {key === sumTotalKey && (
+                <Text style={styles.txtSum}>{"Total"}</Text>
+              )}
 
-  // render footer
-  const onRenderFooter = () => {
-    return renderFooter ? (
-      renderFooter({
-        whiteKeys,
-        getCellWidth,
-        isPriceCell,
-        sumTotalKey,
-        sumObject,
-        calcSumKeys,
-      })
-    ) : (
-      <View />
-    );
-  };
-
-  const onRenderFooterSpace = () => (
-    <View
-      style={
-        showSumOnBottom && {
-          height: TABLE_ROW_HEIGHT,
-          backgroundColor: "transparent",
-        }
-      }
-    />
-  );
-
-  // render line spacing
-  const renderSeparator = () => {
-    return <View style={styles.separator} />;
-  };
-  const renderListEmpty = () => {
-    return (
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          marginVertical: 100,
-        }}
-      >
-        <Text style={{ fontSize: 14, fontWeight: "600", color: "#6A6A6A" }}>
-          No report data
-        </Text>
-      </View>
+              {calcSumKeys.indexOf(key) > -1 && (
+                <Text style={styles.txtSum}>
+                  {isPriceCell(key)
+                    ? "$ " + formatMoney(sumObject[key])
+                    : sumObject[key] ?? ""}
+                </Text>
+              )}
+            </TableCell>
+          );
+        })}
+      </TableRow>
     );
   };
 
   return (
     <View style={styles.container}>
-      {renderHeader()}
-      <FlatList
-        styles={{ flex: 1 }}
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={(item) => getCellKey(item, primaryId)}
-        // ListHeaderComponent={renderHeader}
-        ListFooterComponent={onRenderFooterSpace}
-        ItemSeparatorComponent={renderSeparator}
-        ListEmptyComponent={renderListEmpty}
-        // extraData={selectedItem}
+      <StickyForm
+        style={{ backgroundColor: "white" }}
+        contentStyle={{ width: tableWidth ?? "100%" }}
+        data={dataFactory}
+        heightForSection={() => TABLE_ROW_HEIGHT}
+        heightForIndexPath={() => TABLE_ROW_HEIGHT}
+        renderHeader={renderHeader}
+        renderSection={renderSection}
+        renderIndexPath={renderItem}
+        // directionalLockEnabled={true}
+        bounces={false}
       />
-      {showSumOnBottom && onRenderFooter()}
     </View>
   );
 }
 
-TableList.propTypes = {
+TableListExtended.propTypes = {
   tableData: PropTypes.array.isRequired,
   tableHead: PropTypes.array,
   noHead: PropTypes.bool,
@@ -417,10 +473,9 @@ TableList.propTypes = {
   onChangeSumObjects: PropTypes.func,
   renderFooter: PropTypes.func,
   renderIconCell: PropTypes.func,
-  sortKey: PropTypes.string,
 };
 
-export default TableList = forwardRef(TableList);
+export default TableListExtended = forwardRef(TableListExtended);
 
 //================================
 // Component
@@ -442,8 +497,8 @@ function TableCell({ style, children, onPress, disabled }) {
   );
 }
 
-TableList.Row = TableRow;
-TableList.Cell = TableCell;
+TableListExtended.Row = TableRow;
+TableListExtended.Cell = TableCell;
 
 //================================
 // Style
@@ -455,7 +510,7 @@ const styles = StyleSheet.create({
   },
   row: {
     backgroundColor: "#FFFFFF",
-    // height: TABLE_ROW_HEIGHT,
+    height: TABLE_ROW_HEIGHT,
     flexDirection: "row",
     justifyContent: "space-evenly",
   },
@@ -492,6 +547,12 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     flexWrap: "wrap",
     textAlign: "center",
+  },
+  headName: {
+    margin: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FAFAFA",
   },
   btnSort: {
     width: 30,

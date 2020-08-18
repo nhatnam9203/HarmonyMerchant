@@ -19,7 +19,6 @@ import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
 import PopupLoadingExportReport from "./PopupLoadingExportReport";
 import PopupExportReport from "./PopupExportReport";
 
-const FILE_EXTENSION = "csv";
 const FILTER_NAME_DEFAULT = "All Staff";
 
 function ReportLayout(
@@ -30,6 +29,7 @@ function ReportLayout(
     onChangeTimeTitle,
     onRequestExportFileToServer,
     isDownloadReport,
+    fileExportType,
   },
   ref
 ) {
@@ -120,11 +120,15 @@ function ReportLayout(
     const filter = quickFilter === false ? "This Week" : quickFilter;
     let title = `${filter}`;
 
-    if (startDate && endDate) {
-      title = ` ${startDate} - ${endDate}`;
+    if (isCustomizeDate) {
+      if (startDate && endDate) {
+        title = ` ${startDate.split("/").join("")} - ${endDate
+          .split("/")
+          .join("")}`;
+      }
     }
 
-    return title.toLowerCase();
+    return title;
   };
 
   // time filter change: hide popup + create time range params + call api search staff
@@ -146,10 +150,14 @@ function ReportLayout(
   const onShowPopupExport = async (title) => {
     switch (currentTab) {
       case 0:
-        await setTitleExportFile(title + getTimeTitle());
+        await setTitleExportFile(
+          "Report" + title + getTimeTitle().split(" ").join("")
+        );
         break;
       case 1:
-        await setTitleExportFile(title + getTimeTitle());
+        await setTitleExportFile(
+          "Report" + title + getTimeTitle().split(" ").join("")
+        );
         break;
       default:
     }
@@ -224,7 +232,7 @@ function ReportLayout(
         visible={visiblePopupLoadingExport}
         onRequestClose={() => setVisiblePopupLoadingExport(false)}
         language={language}
-        typeFile={FILE_EXTENSION === "pdf" ? "PDF" : "Excel"}
+        typeFile={fileExportType === "excel" ? "EXCEL" : "CSV"}
         // typeFile={typeFile === "pdf" ? "PDF" : "Excel"}
       />
     </View>

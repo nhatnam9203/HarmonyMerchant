@@ -22,6 +22,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		190B834FB4BB4246962A3E7E /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87F14B6172B346F0950939FF /* libRNGestureHandler.a */; };
+		20C2FB8293574864B9DB94B3 /* libRNSpringScrollView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D1CE61916DC4F27B8E39081 /* libRNSpringScrollView.a */; };
 		230F1DB624D3DA2200A95898 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FE295423C77BEF00E95925 /* File.swift */; };
 		230F1DB724D3DA2200A95898 /* MyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 232011ED22FAB38C0002C14B /* MyApp.m */; };
 		230F1DB824D3DA2200A95898 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -87,6 +88,7 @@
 		2342066622DD7C3100E0EA35 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */; };
 		2399DEC122F1A9CF00DBCCFE /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2399DEBD22F1A9C100DBCCFE /* libRNFetchBlob.a */; };
 		23FE295523C77BEF00E95925 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FE295423C77BEF00E95925 /* File.swift */; };
+		3649D09224E660C0003C8174 /* libRNSpringScrollView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3649D09124E65E8D003C8174 /* libRNSpringScrollView.a */; };
 		366C009924DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
 		366C009A24DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
 		366C009B24DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
@@ -243,6 +245,7 @@
 		366C013224DBC6DE00BAA83B /* DataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009824DBC6DD00BAA83B /* DataExtract.swift */; };
 		366C013324DBC6DE00BAA83B /* DataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009824DBC6DD00BAA83B /* DataExtract.swift */; };
 		366C013424DBC6DE00BAA83B /* DataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009824DBC6DD00BAA83B /* DataExtract.swift */; };
+		36FD0B8B24EB95CB00A50EBB /* libRNSpringScrollView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3649D09124E65E8D003C8174 /* libRNSpringScrollView.a */; };
 		7C186DA69A5F305D9BABAA7C /* libPods-Hpmerchant-Hpmerchant_Production.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BBD25C8CE37C1AB57107F998 /* libPods-Hpmerchant-Hpmerchant_Production.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8C59C060D6EA94E3B5ADFA3B /* libPods-Hpmerchant-Hpmerchant_Staging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DEC3923581CC3E42642C025 /* libPods-Hpmerchant-Hpmerchant_Staging.a */; };
@@ -428,6 +431,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 3D383D621EBD27B9005632C8;
 			remoteInfo = "double-conversion-tvOS";
+		};
+		3649D09024E65E8D003C8174 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BF36361383FE4C1EA8E570FA /* RNSpringScrollView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNSpringScrollView;
 		};
 		3DAD3E831DF850E9000B6D8A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -669,6 +679,7 @@
 		87F14B6172B346F0950939FF /* libRNGestureHandler.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGestureHandler.a; sourceTree = "<group>"; };
 		8C3DC6D58CE9413BA1484D22 /* libRNGestureHandler-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNGestureHandler-tvOS.a"; sourceTree = "<group>"; };
 		8E75CE6F270F4982BF625EC0 /* libRNBluetoothEscposPrinter.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNBluetoothEscposPrinter.a; sourceTree = "<group>"; };
+		9D1CE61916DC4F27B8E39081 /* libRNSpringScrollView.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSpringScrollView.a; sourceTree = "<group>"; };
 		9EDABD2BBC0ECF312F738228 /* Pods-Hpmerchant-Hpmerchant_Staing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Staing.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Staing/Pods-Hpmerchant-Hpmerchant_Staing.debug.xcconfig"; sourceTree = "<group>"; };
 		A014CD9CE1F40D18A8321080 /* Pods-Hpmerchant-Hpmerchant_Staing.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Staing.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Staing/Pods-Hpmerchant-Hpmerchant_Staing.release.xcconfig"; sourceTree = "<group>"; };
 		A03F560D2508C962CFF150D2 /* Pods-Hpmerchant-Hpmerchant_Staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Staging.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Staging/Pods-Hpmerchant-Hpmerchant_Staging.debug.xcconfig"; sourceTree = "<group>"; };
@@ -677,6 +688,7 @@
 		B433C90A07569EE0F1690854 /* libPods-Hpmerchant-Hpmerchant_Dev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant-Hpmerchant_Dev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B682F2F177AFF7A1C2F0D93A /* Pods-Hpmerchant_Production.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant_Production.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant_Production/Pods-Hpmerchant_Production.debug.xcconfig"; sourceTree = "<group>"; };
 		BBD25C8CE37C1AB57107F998 /* libPods-Hpmerchant-Hpmerchant_Production.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant-Hpmerchant_Production.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF36361383FE4C1EA8E570FA /* RNSpringScrollView.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSpringScrollView.xcodeproj; path = "../node_modules/react-native-spring-scrollview/ios/RNSpringScrollView.xcodeproj"; sourceTree = "<group>"; };
 		C28B99EF8822419DB3A40583 /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGestureHandler.xcodeproj; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -713,6 +725,7 @@
 				C757D92E4E5E404DAE4671BF /* libRNImagePicker.a in Frameworks */,
 				B02E0E6DAF7F29AA27CDC35A /* (null) in Frameworks */,
 				7C186DA69A5F305D9BABAA7C /* libPods-Hpmerchant-Hpmerchant_Production.a in Frameworks */,
+				20C2FB8293574864B9DB94B3 /* libRNSpringScrollView.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -720,6 +733,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3649D09224E660C0003C8174 /* libRNSpringScrollView.a in Frameworks */,
 				230F1DBC24D3DA2200A95898 /* libPosLink.a in Frameworks */,
 				230F1DBD24D3DA2200A95898 /* libRNFetchBlob.a in Frameworks */,
 				230F1DBE24D3DA2200A95898 /* ExternalAccessory.framework in Frameworks */,
@@ -749,6 +763,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36FD0B8B24EB95CB00A50EBB /* libRNSpringScrollView.a in Frameworks */,
 				232D64A12465060100AA4473 /* libPosLink.a in Frameworks */,
 				232D64A22465060100AA4473 /* libRNFetchBlob.a in Frameworks */,
 				232D64A32465060100AA4473 /* ExternalAccessory.framework in Frameworks */,
@@ -906,6 +921,7 @@
 				8C3DC6D58CE9413BA1484D22 /* libRNGestureHandler-tvOS.a */,
 				F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */,
 				8E75CE6F270F4982BF625EC0 /* libRNBluetoothEscposPrinter.a */,
+				9D1CE61916DC4F27B8E39081 /* libRNSpringScrollView.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -991,6 +1007,14 @@
 				BBD25C8CE37C1AB57107F998 /* libPods-Hpmerchant-Hpmerchant_Production.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3649D08D24E65E8D003C8174 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3649D09124E65E8D003C8174 /* libRNSpringScrollView.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		366C005624DBC6DD00BAA83B /* ReactNativeCharts */ = {
@@ -1196,6 +1220,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				C28B99EF8822419DB3A40583 /* RNGestureHandler.xcodeproj */,
 				7EF40DF61A484AEE927C5392 /* RNImagePicker.xcodeproj */,
+				BF36361383FE4C1EA8E570FA /* RNSpringScrollView.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1411,6 +1436,10 @@
 					ProductGroup = 23A9C2B422AA946200C9593A /* Products */;
 					ProjectRef = 7EF40DF61A484AEE927C5392 /* RNImagePicker.xcodeproj */;
 				},
+				{
+					ProductGroup = 3649D08D24E65E8D003C8174 /* Products */;
+					ProjectRef = BF36361383FE4C1EA8E570FA /* RNSpringScrollView.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -1595,6 +1624,13 @@
 			fileType = archive.ar;
 			path = "libdouble-conversion.a";
 			remoteRef = 2DF0FFE82056DD460020B375 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3649D09124E65E8D003C8174 /* libRNSpringScrollView.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSpringScrollView.a;
+			remoteRef = 3649D09024E65E8D003C8174 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		3DAD3E841DF850E9000B6D8A /* libRCTImage-tvOS.a */ = {
@@ -2190,6 +2226,7 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-star-prnt/ios/Frameworks/**",
 					"$(SRCROOT)/../node_modules/react-native-bluetooth-escpos-printer/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-spring-scrollview/ios/SpringScrollView",
 				);
 				INFOPLIST_FILE = Hpmerchant/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2199,6 +2236,7 @@
 					"$(PROJECT_DIR)/sdk/inc/**",
 					"$(PROJECT_DIR)/sdk",
 					"\"$(SRCROOT)/HpMerchant\"",
+					"\"$(SRCROOT)/HPMerchant\"",
 				);
 				MARKETING_VERSION = 1.1.0;
 				OTHER_CFLAGS = "-fembed-bitcode";
@@ -2242,6 +2280,7 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-star-prnt/ios/Frameworks/**",
 					"$(SRCROOT)/../node_modules/react-native-bluetooth-escpos-printer/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-spring-scrollview/ios/SpringScrollView",
 				);
 				INFOPLIST_FILE = Hpmerchant/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2251,6 +2290,7 @@
 					"$(PROJECT_DIR)/sdk/inc/**",
 					"$(PROJECT_DIR)/sdk",
 					"\"$(SRCROOT)/HpMerchant\"",
+					"\"$(SRCROOT)/HPMerchant\"",
 				);
 				MARKETING_VERSION = 1.1.0;
 				OTHER_CFLAGS = "-fembed-bitcode";
@@ -2294,6 +2334,7 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-star-prnt/ios/Frameworks/**",
 					"$(SRCROOT)/../node_modules/react-native-bluetooth-escpos-printer/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-spring-scrollview/ios/SpringScrollView",
 				);
 				INFOPLIST_FILE = staging.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2346,6 +2387,7 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-star-prnt/ios/Frameworks/**",
 					"$(SRCROOT)/../node_modules/react-native-bluetooth-escpos-printer/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-spring-scrollview/ios/SpringScrollView",
 				);
 				INFOPLIST_FILE = staging.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2398,6 +2440,7 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-star-prnt/ios/Frameworks/**",
 					"$(SRCROOT)/../node_modules/react-native-bluetooth-escpos-printer/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-spring-scrollview/ios/SpringScrollView",
 				);
 				INFOPLIST_FILE = "Hpmerchant_Production copy-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2450,6 +2493,7 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-star-prnt/ios/Frameworks/**",
 					"$(SRCROOT)/../node_modules/react-native-bluetooth-escpos-printer/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-spring-scrollview/ios/SpringScrollView",
 				);
 				INFOPLIST_FILE = "Hpmerchant_Production copy-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

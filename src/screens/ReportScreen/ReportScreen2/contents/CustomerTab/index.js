@@ -121,7 +121,8 @@ function CustomerTab({ style, showBackButton }, ref) {
       layoutRef.current.goBack();
     },
     didBlur: () => {
-      setTitleRangeTime("This week");
+      // console.log("====> screen report -> customer didBlur");
+      getCustomerReportSales();
     },
     didFocus: () => {
       // console.log("====> screen report -> staff didFocus");
@@ -144,18 +145,18 @@ function CustomerTab({ style, showBackButton }, ref) {
         isDownloadReport={isDownloadReport}
       >
         <CustomerReportTab
-          style={{ flex: 1, paddingTop: 10 }}
+          style={{ flex: 1}}
           tabLabel="Customer"
           onGoStatistics={onGoStatistics}
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("Customer ")}
+          showExportFile={() => onShowPopupExport("Customer")}
           pathFileExport={customerExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
         <CustomerStatistic
-          style={{ flex: 1, paddingTop: 10 }}
+          style={{ flex: 1}}
           tabLabel="Customer Statistics"
           title="Customer Statistics"
           titleRangeTime={titleRangeTime}
@@ -163,7 +164,7 @@ function CustomerTab({ style, showBackButton }, ref) {
           dataFilters={filterNames}
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
-          showExportFile={() => onShowPopupExport("Customer Statistic ")}
+          showExportFile={() => onShowPopupExport("CustomerStatistic")}
           // pathFileExport={customerStatisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />

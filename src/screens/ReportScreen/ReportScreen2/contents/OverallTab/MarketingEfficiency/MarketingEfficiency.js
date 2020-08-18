@@ -139,6 +139,7 @@ export default function MarketingEfficiency({
         showExportFile={showExportFile}
         pathFileExport={pathFileExport}
         handleTheDownloadedFile={handleTheDownloadedFile}
+        filterNameDefault={FILTER_NAME_DEFAULT}
         rightTooltip={
           <>
             <PopupButton

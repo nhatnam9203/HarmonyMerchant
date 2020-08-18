@@ -5,8 +5,10 @@ import React, {
   useState,
 } from "react";
 import { View } from "react-native";
+import { useSelector } from "react-redux";
 
 import IMAGE from "@resources";
+import { localize } from "@utils";
 
 import { HeaderTabLayout } from "./widget";
 import {
@@ -20,6 +22,8 @@ import {
 import styles from "./style";
 
 function ReportScreen2({ showBackButton }, ref) {
+  const language = useSelector((state) => state.dataLocal.language);
+
   /**state */
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -36,13 +40,13 @@ function ReportScreen2({ showBackButton }, ref) {
         case 0:
           staffRef.current.goBack();
           break;
-        case 1:
-          giftCardRef.current.goBack();
+          // case 1:
+          //   giftCardRef.current.goBack();
           break;
-        case 2:
+        case 1:
           customerRef.current.goBack();
           break;
-        case 3:
+        case 2:
           overallRef.current.goBack();
           break;
         default:
@@ -53,7 +57,11 @@ function ReportScreen2({ showBackButton }, ref) {
       switch (tabIndex) {
         case 0:
         default:
-          staffRef.current.didBlur();
+          staffRef?.current?.didBlur();
+          // giftCardRef?.current?.didBlur();
+          customerRef?.current?.didBlur();
+          overallRef?.current?.didBlur();
+
           break;
       }
     },
@@ -69,7 +77,7 @@ function ReportScreen2({ showBackButton }, ref) {
 
   const onTabChange = (taIndex) => {
     staffRef?.current?.goBack();
-    giftCardRef?.current?.goBack();
+    // giftCardRef?.current?.goBack();
     customerRef?.current?.goBack();
     overallRef?.current?.goBack();
 
@@ -86,7 +94,7 @@ function ReportScreen2({ showBackButton }, ref) {
       <HeaderTabLayout
         tabIcons={[
           IMAGE.Staff,
-          IMAGE.giftcard,
+          // IMAGE.giftcard,
           IMAGE.Customer,
           // IMAGE.Services,
           // IMAGE.Report_Product,
@@ -96,19 +104,19 @@ function ReportScreen2({ showBackButton }, ref) {
       >
         <StaffTab
           style={styles.content}
-          tabLabel="Staff salary"
+          tabLabel={localize("Staff Salary", language)}
           ref={staffRef}
           showBackButton={onShowBackButton}
         />
-        <GiftCardTab
+        {/* <GiftCardTab
           style={styles.content}
-          tabLabel="Gift card"
+          tabLabel={localize("Gift Card", language)}
           ref={giftCardRef}
           showBackButton={onShowBackButton}
-        />
+        /> */}
         <CustomerTab
           style={styles.content}
-          tabLabel="Customer"
+          tabLabel={localize("Customer", language)}
           ref={customerRef}
           showBackButton={onShowBackButton}
         />
@@ -125,7 +133,7 @@ function ReportScreen2({ showBackButton }, ref) {
         <OverallTab
           ref={overallRef}
           style={styles.content}
-          tabLabel="Overall"
+          tabLabel={localize("Overall", language)}
           showBackButton={onShowBackButton}
         />
       </HeaderTabLayout>

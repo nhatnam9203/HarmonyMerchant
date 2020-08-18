@@ -4,7 +4,7 @@ import { PieChart } from "react-native-charts-wrapper";
 import { formatNumberFromCurrency } from "@utils";
 
 const legend = {
-    enabled: true,
+    enabled: false,
     textSize: 16,
     form: "CIRCLE",
     horizontalAlignment: "CENTER",
@@ -12,36 +12,6 @@ const legend = {
     orientation: "HORIZONTAL",
     wordWrapEnabled: true,
     maxSizePercent: 1.0,
-  },
-  dataConfig = {
-    dataSets: [
-      {
-        values: [
-          { value: 1000, label: "Cash" },
-          { value: 1200, label: "Credit Card" },
-          { value: 900, label: "Harmony Pay" },
-          { value: 1200, label: "Other" },
-        ],
-        label: "",
-        config: {
-          colors: [
-            processColor("#003680"),
-            processColor("#3E70B3"),
-            processColor("#BFDAFF"),
-            processColor("#8FA3BF"),
-          ],
-          valueTextSize: 14,
-          valueTextColor: processColor("white"),
-          sliceSpace: 1,
-          selectionShift: 0,
-          // xValuePosition: "OUTSIDE_SLICE",
-          // yValuePosition: "OUTSIDE_SLICE",
-          valueFormatter: "#'%'",
-          valueLineColor: processColor("white"),
-          valueLinePart1Length: 0,
-        },
-      },
-    ],
   },
   // highlights = [{ x: 2 }],
   description = {
@@ -56,7 +26,8 @@ const calcMaxPercent = (arr) => {
   const sum = arr.reduce(function (a, b) {
     return a + b;
   }, 0);
-  return parseFloat(Math.max(...arr) / sum).toFixed(2) * 100;
+
+  return parseFloat(Math.max(...arr) / sum * 100).toFixed(2) ;
 };
 
 const pickValuesForKey = (array, forKey, format) => {
@@ -70,7 +41,7 @@ const pickValuesForKey = (array, forKey, format) => {
 
 export default function PaymentBarChart({ data }) {
   /**state */
-  const [dataChart, setDataChart] = useState(dataConfig);
+  const [dataChart, setDataChart] = useState({});
   const [maxPercentsChart, setMaxPercentsChart] = useState(0);
 
   /**useEffect */
@@ -92,6 +63,7 @@ export default function PaymentBarChart({ data }) {
         obj.label = formatterValues[index];
         mapValues.push(obj);
       });
+
 
       const createDataSet = {
         dataSets: [
@@ -130,38 +102,25 @@ export default function PaymentBarChart({ data }) {
     }
   }, [data]);
 
-  function handleSelect(event) {
-    let entry = event.nativeEvent;
-    if (entry == null) {
-      //   this.setState({ ...this.state, selectedEntry: null });
-    } else {
-      //   this.setState({ ...this.state, selectedEntry: JSON.stringify(entry) });
-    }
-
-    // console.log(event.nativeEvent);
-  }
-
   return (
     <View style={styles.container}>
       {maxPercentsChart > 0 && (
         <PieChart
+          touchEnabled={false}
           style={styles.chart}
           logEnabled={true}
           chartBackgroundColor={processColor("transparent")}
           chartDescription={description}
           data={dataChart}
           legend={legend}
-          // highlights={highlights}
-          // entryLabelColor={processColor("#fff")}
-          // entryLabelTextSize={14}
           drawEntryLabels={false}
           rotationEnabled={false}
-          rotationAngle={45}
+          rotationAngle={-90}
           usePercentValues={true}
           styledCenterText={{
             text: `${maxPercentsChart}%`,
             color: processColor("#003680"),
-            size: 45,
+            size: 30,
           }}
           centerTextRadiusPercent={100}
           holeRadius={55}
@@ -169,10 +128,6 @@ export default function PaymentBarChart({ data }) {
           transparentCircleRadius={45}
           transparentCircleColor={processColor("#f0f0f088")}
           maxAngle={360}
-          onSelect={handleSelect}
-          onChange={(event) => {
-            // console.log(event.nativeEvent)
-          }}
         />
       )}
     </View>

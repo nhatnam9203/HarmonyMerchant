@@ -146,18 +146,18 @@ function MarketingEfficiencyTab({ style, showBackButton }, ref) {
         isDownloadReport={isDownloadReport}
       >
         <MarketingEfficiency
-          style={{ flex: 1, paddingTop: 10 }}
+          style={{ flex: 1}}
           tabLabel="Marketing Efficiency"
           onGoStatistics={onGoStatistics}
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("Marketing Efficiency ")}
+          showExportFile={() => onShowPopupExport("MarketingEfficiency")}
           pathFileExport={meExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
         <MarketingEfficiencyStatistic
-          style={{ flex: 1, paddingTop: 10 }}
+          style={{ flex: 1}}
           tabLabel="Marketing Efficiency Statistics"
           title="Marketing Efficiency Statistics"
           titleRangeTime={titleRangeTime}
@@ -166,7 +166,7 @@ function MarketingEfficiencyTab({ style, showBackButton }, ref) {
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
           showExportFile={() =>
-            onShowPopupExport("Marketing Efficiency Statistic ")
+            onShowPopupExport("MarketingEfficiencyStatistic")
           }
           pathFileExport={meStatisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
