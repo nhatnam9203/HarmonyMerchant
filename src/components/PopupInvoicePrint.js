@@ -37,7 +37,9 @@ const initalState = {
     paymentMethods: [],
     titleInvoice: "SALE",
     invoiceNo: "",
-    checkoutPayments: []
+    checkoutPayments: [],
+
+    promotionNotes:""
 }
 
 class PopupInvoicePrint extends React.Component {
@@ -48,8 +50,12 @@ class PopupInvoicePrint extends React.Component {
         this.viewShotRef = React.createRef();
     }
 
-    setStateFromParent = async (basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, paymentSelected, isPrintTempt, printMachine, titleInvoice = "SALE", invoiceNo = "", checkoutPayments = []) => {
-        // console.log("---- basket: ", JSON.stringify(basket));
+    setStateFromParent = async (
+        basket, temptSubTotal, temptTax, temptDiscount,
+        temptTip, temptTotal, paymentSelected, isPrintTempt, printMachine,promotionNotes,
+        titleInvoice = "SALE", invoiceNo = "", checkoutPayments = []
+    ) => {
+
         await this.setState({
             basket,
             temptSubTotal,
@@ -63,7 +69,8 @@ class PopupInvoicePrint extends React.Component {
             paymentMethods: this.getPaymentMethods(),
             titleInvoice,
             invoiceNo,
-            checkoutPayments: checkoutPayments
+            checkoutPayments: checkoutPayments,
+            promotionNotes
         });
         setTimeout(() => {
             this.doPrint();
@@ -184,7 +191,7 @@ class PopupInvoicePrint extends React.Component {
     render() {
         const { language, visiblePrintInvoice, profile, paymentDetailInfo, profileStaffLogin } = this.props;
         const { basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, isPrintTempt,
-            isSignature, paymentMethods, titleInvoice, invoiceNo, checkoutPayments
+            isSignature, paymentMethods, titleInvoice, invoiceNo, checkoutPayments,promotionNotes
         } = this.state;
 
         const temtCheckoutPayment = paymentMethods.length > 0 ? paymentMethods : checkoutPayments;
@@ -430,6 +437,18 @@ class PopupInvoicePrint extends React.Component {
                                             <View style={{ width: scaleSzie(50) }} />
                                             <View style={{ flex: 1, borderBottomColor: "#000", borderBottomWidth: 1, }} />
                                         </View> : <View />
+                                    }
+
+
+                                    {
+                                        promotionNotes ? <Text style={{ color: '#404040', fontSize: scaleSzie(11), fontWeight: "bold",
+                                        marginTop:scaleSzie(10)
+                                        }} >
+                                            {`Discount note: `}
+                                            <Text style={{ fontWeight: "500" }} >
+                                                {`${promotionNotes}`}
+                                            </Text>
+                                        </Text> : null
                                     }
 
 

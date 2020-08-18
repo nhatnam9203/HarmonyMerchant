@@ -497,7 +497,13 @@ class TabCheckout extends Layout {
         const arryaServicesBuy = [];
         const arrayExtrasBuy = [];
         const arrayGiftCards = [];
+        const promotionNotes = [];
         appointments.forEach((appointment) => {
+            // console.log("---- appointment : ",appointment);
+            const note = appointment.promotionNotes && appointment.promotionNotes.note ? appointment.promotionNotes.note : "";
+            if(note){
+                promotionNotes.push(note);
+            }
             // ------ Push Service -------
             appointment.services.forEach((service) => {
                 // console.log("service : ", JSON.stringify(service));
@@ -552,7 +558,8 @@ class TabCheckout extends Layout {
             arryaServicesBuy,
             arrayProductBuy,
             arrayExtrasBuy,
-            arrayGiftCards
+            arrayGiftCards,
+            promotionNotes
         }
     }
 
@@ -627,7 +634,7 @@ class TabCheckout extends Layout {
 
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
 
-        const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards } = this.getBasketOnline(appointments);
+        const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards,promotionNotes } = this.getBasketOnline(appointments);
         const basket = isOfflineMode ? this.state.basket : arrayProductBuy.concat(arryaServicesBuy, arrayExtrasBuy, arrayGiftCards);
 
         const tipAmount = groupAppointment.tipAmount ? groupAppointment.tipAmount : 0;
@@ -651,7 +658,8 @@ class TabCheckout extends Layout {
             temptTotal,
             paymentSelected,
             isTemptPrint,
-            printMachine
+            printMachine,
+            promotionNotes.join(",")
         )
 
         await this.setState({
@@ -693,12 +701,12 @@ class TabCheckout extends Layout {
     printTemptInvoice = async () => {
         const printMachine = await checkStatusPrint();
 
-        this.showInvoicePrint(printMachine);
-        // if (printMachine) {
-        //     this.showInvoicePrint(printMachine);
-        // } else {
-        //     alert('Please connect to your printer! ');
-        // }
+        // this.showInvoicePrint(printMachine);
+        if (printMachine) {
+            this.showInvoicePrint(printMachine);
+        } else {
+            alert('Please connect to your printer! ');
+        }
     }
 
     checkStatusCashier = async () => {

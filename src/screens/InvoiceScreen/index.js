@@ -400,6 +400,7 @@ class InvoiceScreen extends Layout {
                 const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards } = this.getBasket(invoiceDetail.basket);
                 const basket = arrayProductBuy.concat(arryaServicesBuy, arrayExtrasBuy, arrayGiftCards);
                 const { subTotal, total, discount, tipAmount, tax, paymentMethod } = invoiceDetail;
+                const promotionNotes = invoiceDetail.promotionNotes && invoiceDetail.promotionNotes.note ? invoiceDetail.promotionNotes.note : "";
 
                 this.invoicePrintRef.current.setStateFromParent(
                     basket,
@@ -411,6 +412,7 @@ class InvoiceScreen extends Layout {
                     paymentMethod,
                     false,
                     printMachine,
+                    promotionNotes,
                     titleInvoice,
                     invoiceDetail.checkoutId ? invoiceDetail.checkoutId : "",
                     invoiceDetail.checkoutPayments ? invoiceDetail.checkoutPayments : []
