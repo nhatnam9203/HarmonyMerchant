@@ -76,6 +76,7 @@ class PopupDiscount extends React.Component {
                 this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentIdUpdatePromotion, true);
                 this.props.actions.marketing.addPromotionNote(appointmentDetail.appointmentId, promotionNotes);
                 this.props.actions.marketing.closeModalDiscount();
+                this.resetState();
             }
 
         }
@@ -86,8 +87,8 @@ class PopupDiscount extends React.Component {
         this.resetState();
     }
 
-    resetState() {
-        this.setState({
+    async resetState() {
+        await this.setState({
             totalLocal: 0,
             temptTotalLocal: 0,
             customDiscountPercentLocal: 0,
@@ -103,7 +104,7 @@ class PopupDiscount extends React.Component {
     }
 
     onChangeTextDiscountFixed = async (discountFixed) => {
-        const { temptTotalLocal, totalLocal } = this.state;
+        const { totalLocal } = this.state;
         const customDiscountPercent = this.customDiscountRef.current.state.percent;
         const {
             appointmentIdUpdatePromotion,
@@ -140,26 +141,21 @@ class PopupDiscount extends React.Component {
             const appointmentDetail = appointmentIdUpdatePromotion !== -1 && !_.isEmpty(groupAppointment) && groupAppointment.appointments ? groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) : { subTotal: 0 };
             const { customDiscountPercent, customDiscountFixed } = appointmentDetail !== undefined && appointmentDetail && !_.isEmpty(appointmentDetail) ? appointmentDetail : { customDiscountPercent: 0, customDiscountFixed: 0 };
             const {
-                moneyDiscountCustom, moneyDiscountFixedAmout, totalLocal, discountTotal,
+                moneyDiscountCustom, moneyDiscountFixedAmout,
                 customDiscountPercentLocal, customDiscountFixedLocal, promotionNotes
             } = this.state;
+            const visible = visibleModalDiscount && !_.isEmpty(groupAppointment) ? true : false;
 
             let total = 0;
             for (let i = 0; i < discount.length; i++) {
                 total = formatNumberFromCurrency(total) + formatNumberFromCurrency(discount[i].discount);
             }
-            if (visibleModalDiscount && !this.customDiscountRef.current) {
-                const subTotal = !_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
-                total = formatNumberFromCurrency(total) + (formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(subTotal) / 100);
+
+            if (visible && this.customDiscountRef.current) {
+                total = formatNumberFromCurrency(total) + formatNumberFromCurrency(this.customDiscountRef.current.state.discount);
             }
-            if (visibleModalDiscount && !this.customFixedAmountRef.current) {
-                total = formatNumberFromCurrency(total) + formatNumberFromCurrency(customDiscountFixed);
-            }
-            if (visibleModalDiscount && this.customDiscountRef.current) {
-                total = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountCustom);
-            }
-            if (visibleModalDiscount && this.customFixedAmountRef.current) {
-                total = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountFixedAmout);
+            if (visible && this.customFixedAmountRef.current) {
+                total = formatNumberFromCurrency(total) + formatNumberFromCurrency(this.customFixedAmountRef.current.state.discount);
             }
 
             total = roundNumber(total);
@@ -167,7 +163,6 @@ class PopupDiscount extends React.Component {
             const temptCustomDiscountPercent = _.isEmpty(appointmentDetail) ? customDiscountPercentLocal : customDiscountPercent;
             const temptCustomDiscountFixed = _.isEmpty(appointmentDetail) ? customDiscountFixedLocal : customDiscountFixed;
 
-            const visible = visibleModalDiscount && !_.isEmpty(groupAppointment) ? true : false;
             return (
                 <PopupParent
                     title={title}
@@ -283,7 +278,8 @@ class PopupDiscount extends React.Component {
             this.props.actions.marketing.resetStateGetPromotionOfAppointment();
             await this.setState({
                 promotionNotes: promotionNotes.note ? promotionNotes.note : ""
-            })
+            });
+
         }
     }
 
@@ -314,8 +310,11 @@ class CustomDiscount extends React.Component {
 
     constructor(props) {
         super(props);
+        const { total, customDiscountPercent } = this.props;
+        const percent = customDiscountPercent ? customDiscountPercent : 0;
         this.state = {
-            percent: this.props.customDiscountPercent ? this.props.customDiscountPercent : 0,
+            percent: percent,
+            discount: roundNumber((formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100))
         }
     }
 
@@ -323,12 +322,15 @@ class CustomDiscount extends React.Component {
         await this.setState({ percent });
         const { total } = this.props;
         const discount = roundNumber((formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100));
+        this.setState({
+            discount
+        });
         this.props.onChangeText(discount);
     }
 
     render() {
         const { percent } = this.state;
-        const { total, onChangeText, language } = this.props;
+        const { total, language } = this.props;
         const discount = (formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100);
 
         return (
@@ -392,6 +394,13 @@ class CustomDiscountFixed extends React.Component {
         }
     }
 
+    onChangeText = async (discount) => {
+        await this.setState({
+            discount
+        });
+        this.props.onChangeText(discount);
+    }
+
     render() {
         const { onChangeText, language } = this.props;
         return (
@@ -428,10 +437,7 @@ class CustomDiscountFixed extends React.Component {
                                 }}
                                 style={{ flex: 1, fontSize: scaleSzie(16) }}
                                 value={`${this.state.discount}`}
-                                onChangeText={discount => {
-                                    this.setState({ discount });
-                                    onChangeText(discount);
-                                }}
+                                onChangeText={this.onChangeText}
                                 keyboardType="numeric"
                                 placeholderTextColor="#A9A9A9"
                                 maxLength={3}
