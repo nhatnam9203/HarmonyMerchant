@@ -154,7 +154,9 @@ class InvoiceScreen extends Layout {
         const arrayExtras = getArrayExtrasFromAppointment(basket.extras);
         const arrayGiftCards = getArrayGiftCardsFromAppointment(basket.giftCards);
 
-        const temptBasket = arrayProducts.concat(arryaServices, arrayExtras, arrayGiftCards);
+        // const temptBasket = arrayProducts.concat(arryaServices, arrayExtras, arrayGiftCards);
+        const temptBasket = arryaServices.concat(arrayExtras, arrayProducts, arrayGiftCards);
+
         return temptBasket;
     }
 
@@ -398,7 +400,8 @@ class InvoiceScreen extends Layout {
                 this.props.actions.invoice.togglPopupConfirmPrintInvoice(false);
 
                 const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards } = this.getBasket(invoiceDetail.basket);
-                const basket = arrayProductBuy.concat(arryaServicesBuy, arrayExtrasBuy, arrayGiftCards);
+                // const basket = arrayProductBuy.concat(arryaServicesBuy, arrayExtrasBuy, arrayGiftCards);
+                const basket = arryaServicesBuy.concat(arrayExtrasBuy, arrayProductBuy, arrayGiftCards);
                 const { subTotal, total, discount, tipAmount, tax, paymentMethod } = invoiceDetail;
                 const promotionNotes = invoiceDetail.promotionNotes && invoiceDetail.promotionNotes.note ? invoiceDetail.promotionNotes.note : "";
 

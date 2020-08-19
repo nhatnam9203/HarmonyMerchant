@@ -113,7 +113,9 @@ class ItemBlockBasket extends React.Component {
             const arryaServices = getArrayServicesFromAppointment(services);
             const arrayExtras = getArrayExtrasFromAppointment(extras);
             const arrayGiftCards = getArrayGiftCardsFromAppointment(giftCards);
-            basket = arrayProducts.concat(arryaServices, arrayExtras, arrayGiftCards);
+            // basket = arrayProducts.concat(arryaServices, arrayExtras, arrayGiftCards);
+            basket = arryaServices.concat(arrayExtras, arrayProducts, arrayGiftCards);
+
         }
 
         return basket

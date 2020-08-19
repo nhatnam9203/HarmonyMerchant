@@ -555,6 +555,8 @@ class Layout extends React.Component {
         const { tabCurrent, basket, paymentSelected, changeButtonDone, isCancelHarmonyPay
         } = this.state;
 
+        const acceptPay = !_.isEmpty(groupAppointment) ? (groupAppointment.total && parseFloat(groupAppointment.total) > 0 ? true : false) : (basket.length > 0 ? true : false);
+
         if (tabCurrent === 1) {
             if (changeButtonDone && isCancelHarmonyPay) {
                 if (paymentSelected === 'HarmonyPay') {
@@ -601,7 +603,7 @@ class Layout extends React.Component {
                     }}
                     styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
                 />
-            } else if (paymentSelected === '') {
+            } else if (paymentSelected === '' || !acceptPay) {
                 return (
                     <ButtonCustom
                         width={`100%`}

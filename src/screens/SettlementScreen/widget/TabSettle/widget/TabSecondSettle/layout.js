@@ -327,22 +327,22 @@ const HeaderOpenBatchTable = () => {
             height: scaleSzie(22), backgroundColor: "#F1F1F1", flexDirection: "row",
             paddingHorizontal: scaleSzie(10)
         }} >
-            <View style={{ flex: 1, justifyContent: "center" }} >
+            <View style={{ flex: 0.9, justifyContent: "center" }} >
                 <Text style={styles.txt_header_open_batch_table} >
                     {`Trans ID`}
                 </Text>
             </View>
-            <View style={{ flex: 1, justifyContent: "center" }} >
+            <View style={{ flex: 0.9, justifyContent: "center" }} >
                 <Text style={styles.txt_header_open_batch_table} >
                     {`Invoice`}
                 </Text>
             </View>
-            <View style={{ flex: 1, justifyContent: "center" }} >
+            <View style={{ flex: 0.9, justifyContent: "center" }} >
                 <Text style={styles.txt_header_open_batch_table} >
                     {`Payments`}
                 </Text>
             </View>
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
+            <View style={{ flex: 0.75, justifyContent: "center" }} >
                 <Text style={styles.txt_header_open_batch_table} >
                     {`Status`}
                 </Text>
@@ -363,17 +363,17 @@ const ItemOpenBatchTable = ({ data }) => {
             height: scaleSzie(22), backgroundColor: "#FAFAFA", flexDirection: "row",
             paddingHorizontal: scaleSzie(10), marginBottom: 1
         }} >
-            <View style={{ flex: 1, justifyContent: "center" }} >
+            <View style={{ flex: 0.9, justifyContent: "center" }} >
                 <Text style={styles.txt_item_open_batch_table} >
                     {`# ${data.transactionId ? data.transactionId : ""}`}
                 </Text>
             </View>
-            <View style={{ flex: 1, justifyContent: "center" }} >
+            <View style={{ flex: 0.9, justifyContent: "center" }} >
                 <Text style={styles.txt_item_open_batch_table} >
                     {`# ${data.checkoutId ? data.checkoutId : ""}`}
                 </Text>
             </View>
-            <View style={{ flex: 1, alignItems: "center", flexDirection: "row" }} >
+            <View style={{ flex: 0.9, alignItems: "center", flexDirection: "row" }} >
                 <Image source={getCredicardIcon(data.paymentData && data.paymentData.card_type ? data.paymentData.card_type : "")}
                     style={{ width: scaleSzie(17), height: scaleSzie(12), marginRight: scaleSzie(5) }}
                 />
@@ -381,8 +381,8 @@ const ItemOpenBatchTable = ({ data }) => {
                     {`x${data.paymentData && data.paymentData.card_number ? data.paymentData.card_number : ""}`}
                 </Text>
             </View>
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
-                <Text style={[styles.txt_item_open_batch_table, { marginLeft: 5 }]} >
+            <View style={{ flex: 0.8, justifyContent: "center" }} >
+                <Text style={[styles.txt_item_open_batch_table, {}]} >
                     {`${data.status ? data.status : ""}`}
                 </Text>
             </View>

@@ -122,7 +122,7 @@ class PopupAddItemIntoAppointments extends React.Component {
                         textAlign: "center", marginVertical: scaleSzie(15),
                         fontWeight: "600", fontSize: scaleSzie(14), color: "#404040"
                     }} >
-                        {`Which are appointments you'd like to add this one into?`}
+                        {`Please choose the client to add this service/product.`}
                     </Text>
                     <View style={{ flex: 1 }} >
 

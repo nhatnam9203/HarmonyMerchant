@@ -53,7 +53,7 @@ class PopupBlockDiscount extends React.Component {
         if (formatNumberFromCurrency(totalDiscount) > formatNumberFromCurrency(subTotal)) {
             Alert.alert(
                 `Warning`,
-                `Discount not bigger than appointment's subtotal.`,
+                `Discount cannot be more than the subtotal.`,
                 [
 
                     { text: 'OK', onPress: () => { } }

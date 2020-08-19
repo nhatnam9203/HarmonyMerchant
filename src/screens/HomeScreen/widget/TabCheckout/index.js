@@ -635,7 +635,9 @@ class TabCheckout extends Layout {
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
 
         const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards,promotionNotes } = this.getBasketOnline(appointments);
-        const basket = isOfflineMode ? this.state.basket : arrayProductBuy.concat(arryaServicesBuy, arrayExtrasBuy, arrayGiftCards);
+        // const basket = isOfflineMode ? this.state.basket : arrayProductBuy.concat(arryaServicesBuy, arrayExtrasBuy, arrayGiftCards);
+        const basket = isOfflineMode ? this.state.basket : arryaServicesBuy.concat(arrayExtrasBuy, arrayProductBuy, arrayGiftCards);
+
 
         const tipAmount = groupAppointment.tipAmount ? groupAppointment.tipAmount : 0;
         const subTotal = groupAppointment.subTotal ? groupAppointment.subTotal : 0;

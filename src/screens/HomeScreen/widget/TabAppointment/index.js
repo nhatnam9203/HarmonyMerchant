@@ -202,6 +202,24 @@ class TabAppointment extends Layout {
         return total;
     }
 
+    formartBasket = (basket = []) =>{
+        const services = [];
+        const extras = [];
+        const products = [];
+       
+        for(let i = 0 ; i < basket.length ; i ++){
+            const temptItem = basket[i];
+            if(temptItem.type === "Service"){
+                services.push(temptItem);
+            }else if(temptItem.type === "Extra"){
+                extras.push(temptItem);
+            }else if(temptItem.type === "Product"){
+                products.push(temptItem)
+            }
+        }
+        
+        return services.concat(extras,products);
+    }
 
     addAmount = async () => {
         const { categoryTypeSelected, basket, productSeleted, extraSelected, appointmentId } = this.state;
