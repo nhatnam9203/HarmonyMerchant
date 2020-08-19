@@ -68,6 +68,7 @@ export default function StaffStatistic(props, ref) {
         "salary",
       ],
       sortKey: "dateString",
+      unitKeys: { workingHour: "hrs" },
       tableCellWidth: { appointmentId: 80 },
     });
   }, [filterId, listStaffsSalary]);

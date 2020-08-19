@@ -107,7 +107,8 @@ function TableListExtended(
     renderFooter,
     renderActionCell,
     checkSumItem,
-    sortKey
+    sortKey,
+    unitKeys,
   },
   ref
 ) {
@@ -275,7 +276,11 @@ function TableListExtended(
                   ? cellActionRender
                   : cellRender ?? (
                       <Text style={styles.txtCell}>
-                        {isPriceCell(key) ? "$ " + item[key] : item[key]}
+                        {isPriceCell(key)
+                          ? unitKeys[key]
+                            ? item[key] + " " + unitKeys[key]
+                            : "$ " + item[key]
+                          : item[key]}
                       </Text>
                     )}
               </TableCell>
@@ -294,7 +299,11 @@ function TableListExtended(
                 ? cellActionRender
                 : cellRender ?? (
                     <Text style={styles.txtCell}>
-                      {isPriceCell(key) ? "$ " + item[key] : item[key]}
+                      {isPriceCell(key)
+                        ? unitKeys[key]
+                          ? item[key] + " " + unitKeys[key]
+                          : "$ " + item[key]
+                        : item[key]}
                     </Text>
                   )}
             </TableCell>
@@ -426,8 +435,10 @@ function TableListExtended(
               {calcSumKeys.indexOf(key) > -1 && (
                 <Text style={styles.txtSum}>
                   {isPriceCell(key)
-                    ? "$ " + formatMoney(sumObject[key])
-                    : sumObject[key] ?? ""}
+                    ? unitKeys[key]
+                      ? formatServerNumber(sumObject[key]) + " " + unitKeys[key]
+                      : "$ " + formatMoney(sumObject[key])
+                    : sumObject[key]}
                 </Text>
               )}
             </TableCell>

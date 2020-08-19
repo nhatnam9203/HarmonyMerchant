@@ -92,7 +92,7 @@ export default function GiftCardBarGroupChart({ data }) {
               drawValues: false,
               valueTextSize: 14,
               valueTextColor: processColor("#0764B0"),
-              valueFormatter: "#.00",
+              valueFormatter: "0.00",
             },
           };
         }

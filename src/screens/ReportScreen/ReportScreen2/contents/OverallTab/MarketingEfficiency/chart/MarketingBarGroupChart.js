@@ -23,7 +23,7 @@ const yAxis = {
   left: {
     drawLabels: true,
     drawAxisLine: true,
-    drawGridLines: false,
+    drawGridLines: true,
     axisMinimum: 0,
     // axisMaximum: 1500,
     textSize: 14,
@@ -31,6 +31,7 @@ const yAxis = {
     textColor: processColor("#0764B0"),
     granularity: 10,
     labelCount: 10,
+    valueFormatter: "#.# '$'",
   },
   right: {
     drawLabels: true,
@@ -43,10 +44,11 @@ const yAxis = {
     textColor: processColor("#E5B960"),
     granularity: 10,
     labelCount: 10,
+    valueFormatter: "#.# '$'",
   },
 };
 
-const pickValuesForKey = (array, forKey, format) => {
+const pickValuesForKey = (array, forKey, format, unit = "") => {
   return array.map((obj) => {
     const item = Object.entries(obj).filter(([key, value]) => key === forKey);
     const [key, value] = item[0];
@@ -54,7 +56,7 @@ const pickValuesForKey = (array, forKey, format) => {
       const ft = formatNumberFromCurrency(value);
       return parseFloat(ft.toFixed(2));
     }
-    return value + "";
+    return value + unit;
   });
 };
 
@@ -72,9 +74,6 @@ export default function MarketingBarGroupChart({ data }) {
       const revenueValues = pickValuesForKey(data, "revenue", "float");
       const discountValues = pickValuesForKey(data, "discount", "float");
 
-      console.log(`====> revenueValues ${JSON.stringify(revenueValues)}`);
-      console.log(`====> discountValues ${JSON.stringify(discountValues)}`);
-
       const createDataSet = {
         dataSets: [
           {
@@ -85,7 +84,7 @@ export default function MarketingBarGroupChart({ data }) {
               drawValues: true,
               valueTextSize: 12,
               valueTextColor: processColor("#404040"),
-              valueFormatter: "0.##",
+              valueFormatter: "0.00",
             },
           },
           {
@@ -96,7 +95,7 @@ export default function MarketingBarGroupChart({ data }) {
               drawValues: true,
               valueTextSize: 12,
               valueTextColor: processColor("#404040"),
-              valueFormatter: "0.##",
+              valueFormatter: "0.00",
             },
           },
         ],
