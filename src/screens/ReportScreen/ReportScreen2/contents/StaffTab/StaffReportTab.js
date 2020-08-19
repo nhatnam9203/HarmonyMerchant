@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import IMAGE from "@resources";
 import { localize } from "@utils";
 
-import { TableListExtended, ReportTabLayout } from "../../widget";
+import { TableListExtended, ReportTabLayout, TableList } from "../../widget";
 import { PopupStaffInvoicePrint } from "../../../widget";
 
 const FILTER_NAME_DEFAULT = "All Staff";
@@ -109,7 +109,7 @@ export default function StaffReportTab({
     );
   };
 
-  const renderCell = ({ key, row, column, item }) => {
+  const renderCell = ({ key, row, column, item, isPrice, keyUnique }) => {
     return null;
   };
 
@@ -178,6 +178,7 @@ export default function StaffReportTab({
             "tip",
             "salary",
           ]}
+          unitKeys={{ workingHour: "hrs" }}
           sortKey="name"
           tableCellWidth={{ name: 200 }}
           renderCell={renderCell}

@@ -61,12 +61,15 @@ function StaffTab({ style, showBackButton }, ref) {
 
   //callback
   const onChangeTimeTitle = async (titmeTitle) => {
-    await setTitleRangeTime(titmeTitle);
     console.log("======> getListStaffsSalaryTop", titmeTitle);
 
-    if (titmeTitle !== RANGE_TIME_DEFAULT) {
+    if (titmeTitle !== titleRangeTime) {
+      await setTitleRangeTime(titmeTitle);
+
       // TODO: call reload list
       await getListStaffsSalaryTop();
+    } else {
+      await setTitleRangeTime(titmeTitle);
     }
   };
 
