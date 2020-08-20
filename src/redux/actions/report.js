@@ -35,10 +35,27 @@ export const ACTION_TYPES = {
   Customer_GetListFail: "GET_CUSTOMER_REPORT_SALES_FAIL",
   Customer_GetListSuccess: "GET_CUSTOMER_REPORT_SALES_SUCCESS",
   Customer_Export: "EXPORT_CUSTOMER_REPORT_SALES",
-  // Customer_ExportStatistic: "EXPORT_CUSTOMER_REPORT_SALES_STATISTIC",
   Customer_ExportSuccess: "EXPORT_CUSTOMER_REPORT_SALES_SUCCESS",
-  // Customer_ExportStatisticSuccess:
-  //   "EXPORT_CUSTOMER_REPORT_SALES_STATISTIC_SUCCESS",
+
+  ServiceCategory_GetList: "GET_SERVICE_SALE_BY_CATEGORY",
+  ServiceCategory_GetListFail: "GET_SERVICE_SALE_BY_CATEGORY_FAIL",
+  ServiceCategory_GetListSuccess: "GET_SERVICE_SALE_BY_CATEGORY_SUCCESS",
+  ServiceCategory_Export: "EXPORT_SERVICE_SALES_BY_CATEGORY_REPORT",
+  ServiceCategory_ExportSuccess:
+    "EXPORT_SERVICE_SALES_BY_CATEGORY_REPORT_SUCCESS",
+  ServiceCategory_ExportStatistic:
+    "EXPORT_SERVICE_SALES_BY_CATEGORY_REPORT_STATISTIC",
+  ServiceCategory_ExportStatisticSuccess:
+    "EXPORT_SERVICE_SALES_BY_CATEGORY_REPORT_STATISTIC_SUCCESS",
+
+  Service_GetList: "GET_SERVICE_SALE_BY_SERVICE",
+  Service_GetListFail: "GET_SERVICE_SALE_BY_SERVICE_FAIL",
+  Service_GetListSuccess: "GET_SERVICE_SALE_BY_SERVICE_SUCCESS",
+  Service_Export: "EXPORT_SERVICE_SALES_BY_SERVICE_REPORT",
+  Service_ExportSuccess: "EXPORT_SERVICE_SALES_BY_SERVICE_REPORT_SUCCESS",
+  Service_ExportStatistic: "EXPORT_SERVICE_SALES_BY_SERVICE_REPORT_STATISTIC",
+  Service_ExportStatisticSuccess:
+    "EXPORT_SERVICE_SALES_BY_SERVICE_REPORT_STATISTIC_SUCCESS",
 };
 
 /** Get List */
