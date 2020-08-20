@@ -14,6 +14,14 @@ import { ReportLayout } from "../../../widget";
 import SalesByService from "./SalesByService";
 import SalesByServiceStatistic from "./SalesByServiceStatistic";
 
+const FILTER_NAME_DEFAULT_LIST = [
+  { value: "All service", id: "all" },
+  { value: "Top 5 service", id: "top5" },
+  { value: "Top 10 service", id: "top10" },
+];
+
+const FILTER_NAME_DEFAULT = FILTER_NAME_DEFAULT_LIST[1]?.value;
+
 function SalesByServiceTab({ style, showBackButton }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -44,12 +52,19 @@ function SalesByServiceTab({ style, showBackButton }, ref) {
   const layoutRef = useRef(null);
 
   /**function */
-  const getServiceSaleByService = async () => {
+  const getServiceSaleByService = async (filterId) => {
+    let serviceId = undefined;
+    let defaultFilterId = filterId ?? filterNameItem;
+    const filterDefaultItem = FILTER_NAME_DEFAULT_LIST.find(
+      (x) => x.value === defaultFilterId
+    );
+    serviceId = filterDefaultItem?.id;
+
     await dispatch(
       actions.report.getServiceByServiceReportSales(
         true,
         layoutRef?.current?.getTimeUrl(),
-        filterNameItem
+        serviceId
       )
     );
   };
@@ -71,10 +86,13 @@ function SalesByServiceTab({ style, showBackButton }, ref) {
 
   const onChangeFilterId = async (filterId) => {
     await setFilterNameItem(filterId);
+    if (FILTER_NAME_DEFAULT_LIST.find((x) => x.value === filterId)) {
+      await getServiceSaleByService(filterId);
+    }
   };
 
   const onGoStatistics = async (item) => {
-    await setFilterNameItem(item. name);
+    await setFilterNameItem(item.name);
     layoutRef.current.goNext();
   };
 
@@ -96,7 +114,7 @@ function SalesByServiceTab({ style, showBackButton }, ref) {
         break;
       case 1:
         const filterItem = serviceSaleByServiceList.find(
-          (item) => item. name === filterNameItem
+          (item) => item.name === filterNameItem
         );
         if (!filterItem) return;
         dispatch(
@@ -156,6 +174,9 @@ function SalesByServiceTab({ style, showBackButton }, ref) {
           showExportFile={() => onShowPopupExport("Sales by service ")}
           pathFileExport={customerExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
+          onChangeFilterId={onChangeFilterId}
+          defaultFilterList={FILTER_NAME_DEFAULT_LIST}
+          defaultFilterName={FILTER_NAME_DEFAULT}
         />
         <SalesByServiceStatistic
           style={{ flex: 1, paddingTop: 10 }}

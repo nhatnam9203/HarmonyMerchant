@@ -15,6 +15,14 @@ import { ReportLayout } from "../../../widget";
 import SalesByCategory from "./SalesByCategory";
 import SalesByCategoryStatistic from "./SalesByCategoryStatistic";
 
+const FILTER_NAME_DEFAULT_LIST = [
+  { value: "All Category", id: "all" },
+  { value: "Top 5 category", id: "top5" },
+  { value: "Top 10 category", id: "top10" },
+];
+
+const FILTER_NAME_DEFAULT = FILTER_NAME_DEFAULT_LIST[1]?.value;
+
 function SalesByCategoryTab({ style, showBackButton }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -45,11 +53,19 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
   const layoutRef = useRef(null);
 
   /**function */
-  const getServiceSalesByCategory = async () => {
+  const getServiceSalesByCategory = async (filterId) => {
+    let categoryId = undefined;
+    let defaultFilterId = filterId ?? filterNameItem;
+    const filterDefaultItem = FILTER_NAME_DEFAULT_LIST.find(
+      (x) => x.value === defaultFilterId
+    );
+    categoryId = filterDefaultItem?.id;
+
     await dispatch(
       actions.report.getServiceByCategoryReportSales(
         true,
-        layoutRef?.current?.getTimeUrl()
+        layoutRef?.current?.getTimeUrl(),
+        categoryId
       )
     );
   };
@@ -71,6 +87,9 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
 
   const onChangeFilterId = async (filterId) => {
     await setFilterNameItem(filterId);
+    if (FILTER_NAME_DEFAULT_LIST.find((x) => x.value === filterId)) {
+      await getServiceSalesByCategory(filterId);
+    }
   };
 
   const onGoStatistics = async (item) => {
@@ -156,6 +175,9 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
           showExportFile={() => onShowPopupExport("SalesByCategory ")}
           pathFileExport={customerExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
+          onChangeFilterId={onChangeFilterId}
+          defaultFilterList={FILTER_NAME_DEFAULT_LIST}
+          defaultFilterName={FILTER_NAME_DEFAULT}
         />
         <SalesByCategoryStatistic
           style={{ flex: 1, paddingTop: 10 }}

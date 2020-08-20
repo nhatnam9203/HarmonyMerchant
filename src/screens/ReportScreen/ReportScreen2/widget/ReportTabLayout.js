@@ -32,8 +32,6 @@ import HeaderTooltip from "./HeaderTooltip";
 import PopupButton from "./PopupButton";
 import HeaderTitle from "./HeaderTitle";
 
-const FILTER_NAME_DEFAULT = "All Values";
-
 /**create new object from two value for two key of object */
 const createChartObjectFromValues = (array, key, keyValue) => {
   let response = [];
@@ -61,7 +59,8 @@ function ReportTabLayout({
   rightTooltip,
   isShowExportButton,
   isShowFilterButton,
-  filterNameDefault = FILTER_NAME_DEFAULT,
+  filterNameDefault,
+  filterNameDefaultList = [],
   title,
 }) {
   /**redux store*/
@@ -118,7 +117,11 @@ function ReportTabLayout({
           <Dropdown
             rippleCentered={true}
             dropdownPosition={2}
-            data={[{ value: filterNameDefault }, ...filterNames]}
+            data={[
+              filterNameDefault && { value: filterNameDefault },
+              ...filterNameDefaultList,
+              ...filterNames,
+            ]}
             onChangeText={(text) => onChangeFilterName(text)}
             value={filterNameItem}
             renderBase={() => (

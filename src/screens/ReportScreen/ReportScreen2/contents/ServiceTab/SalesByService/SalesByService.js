@@ -7,8 +7,6 @@ import { localize } from "@utils";
 
 import { TableList, ReportTabLayout } from "../../../widget";
 
-const FILTER_NAME_DEFAULT = "All Type";
-
 export default function SalesByService({
   style,
   onGoStatistics,
@@ -19,6 +17,8 @@ export default function SalesByService({
   showExportFile,
   pathFileExport,
   handleTheDownloadedFile,
+  defaultFilterList,
+  defaultFilterName,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ export default function SalesByService({
   );
 
   /**state */
-  const [filterNameItem, setFilterNameItem] = useState(FILTER_NAME_DEFAULT);
+  const [filterNameItem, setFilterNameItem] = useState(defaultFilterName);
   const [filterNames, setFilterNames] = useState([]);
 
   /**function */
@@ -55,7 +55,8 @@ export default function SalesByService({
 
   // binding data list for name filter
   const filterDataTable = () => {
-    return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
+    return filterNameItem &&
+      !defaultFilterList?.find((x) => x.value === filterNameItem)
       ? serviceSaleByServiceList.filter((item) => item.name === filterNameItem)
       : serviceSaleByServiceList;
   };
@@ -112,7 +113,7 @@ export default function SalesByService({
         showExportFile={showExportFile}
         pathFileExport={pathFileExport}
         handleTheDownloadedFile={handleTheDownloadedFile}
-        filterNameDefault={FILTER_NAME_DEFAULT}
+        filterNameDefaultList={defaultFilterList}
         rightTooltip={<></>}
       >
         <TableList
@@ -137,7 +138,7 @@ export default function SalesByService({
           calcSumKeys={["quantity", "totalDuration", "avgPrice", "totalSales"]}
           priceKeys={["totalDuration", "avgPrice", "totalSales"]}
           sortKey="name"
-          unitKeys={{totalDuration: "hrs"}}
+          unitKeys={{ totalDuration: "hrs" }}
           tableCellWidth={{
             name: 200,
             totalDuration: 180,

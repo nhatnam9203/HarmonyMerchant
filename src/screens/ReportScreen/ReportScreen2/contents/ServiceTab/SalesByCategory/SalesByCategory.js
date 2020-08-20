@@ -7,8 +7,6 @@ import { localize } from "@utils";
 
 import { TableList, ReportTabLayout } from "../../../widget";
 
-const FILTER_NAME_DEFAULT = "All Type";
-
 export default function SalesByCategory({
   style,
   onGoStatistics,
@@ -19,6 +17,8 @@ export default function SalesByCategory({
   showExportFile,
   pathFileExport,
   handleTheDownloadedFile,
+  defaultFilterList,
+  defaultFilterName,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ export default function SalesByCategory({
   );
 
   /**state */
-  const [filterNameItem, setFilterNameItem] = useState(FILTER_NAME_DEFAULT);
+  const [filterNameItem, setFilterNameItem] = useState(defaultFilterName);
   const [filterNames, setFilterNames] = useState([]);
 
   /**function */
@@ -44,6 +44,7 @@ export default function SalesByCategory({
       value: item.categoryName,
       ...item,
     }));
+
     array.push(...arrMap);
 
     setFilterNames(array);
@@ -55,7 +56,8 @@ export default function SalesByCategory({
 
   // binding data list for name filter
   const filterDataTable = () => {
-    return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
+    return filterNameItem &&
+      !defaultFilterList?.find((x) => x.value === filterNameItem)
       ? serviceSaleByCategoryList.filter(
           (item) => item.categoryName === filterNameItem
         )
@@ -114,7 +116,7 @@ export default function SalesByCategory({
         showExportFile={showExportFile}
         pathFileExport={pathFileExport}
         handleTheDownloadedFile={handleTheDownloadedFile}
-        filterNameDefault={FILTER_NAME_DEFAULT}
+        filterNameDefaultList={defaultFilterList}
         rightTooltip={<></>}
       >
         <TableList

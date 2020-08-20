@@ -14,6 +14,14 @@ import { ReportLayout } from "../../../widget";
 import SalesByProduct from "./SalesByProduct";
 import SalesByProductStatistic from "./SalesByProductStatistic";
 
+const FILTER_NAME_DEFAULT_LIST = [
+  { value: "All product", id: "all" },
+  { value: "Top 5 product", id: "top5" },
+  { value: "Top 10 product", id: "top10" },
+];
+
+const FILTER_NAME_DEFAULT = FILTER_NAME_DEFAULT_LIST[1]?.value;
+
 function SalesByProductTab({ style, showBackButton }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -44,11 +52,19 @@ function SalesByProductTab({ style, showBackButton }, ref) {
   const layoutRef = useRef(null);
 
   /**function */
-  const getProductSaleByProduct = async () => {
+  const getProductSaleByProduct = async (filterId) => {
+    let productId = undefined;
+    let defaultFilterId = filterId ?? filterNameItem;
+    const filterDefaultItem = FILTER_NAME_DEFAULT_LIST.find(
+      (x) => x.value === defaultFilterId
+    );
+    productId = filterDefaultItem?.id;
+
     await dispatch(
       actions.report.getProductByProductReportSales(
         true,
-        layoutRef?.current?.getTimeUrl()
+        layoutRef?.current?.getTimeUrl(),
+        productId
       )
     );
   };
@@ -70,6 +86,9 @@ function SalesByProductTab({ style, showBackButton }, ref) {
 
   const onChangeFilterId = async (filterId) => {
     await setFilterNameItem(filterId);
+    if (FILTER_NAME_DEFAULT_LIST.find((x) => x.value === filterId)) {
+      await getProductSaleByProduct(filterId);
+    }
   };
 
   const onGoStatistics = async (item) => {
@@ -155,6 +174,9 @@ function SalesByProductTab({ style, showBackButton }, ref) {
           showExportFile={() => onShowPopupExport("Sales by product ")}
           pathFileExport={customerExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
+          onChangeFilterId={onChangeFilterId}
+          defaultFilterList={FILTER_NAME_DEFAULT_LIST}
+          defaultFilterName={FILTER_NAME_DEFAULT}
         />
         <SalesByProductStatistic
           style={{ flex: 1, paddingTop: 10 }}

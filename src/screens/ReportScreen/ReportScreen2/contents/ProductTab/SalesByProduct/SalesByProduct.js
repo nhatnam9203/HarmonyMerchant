@@ -7,8 +7,6 @@ import { localize } from "@utils";
 
 import { TableList, ReportTabLayout } from "../../../widget";
 
-const FILTER_NAME_DEFAULT = "All Type";
-
 export default function SalesByProduct({
   style,
   onGoStatistics,
@@ -19,6 +17,8 @@ export default function SalesByProduct({
   showExportFile,
   pathFileExport,
   handleTheDownloadedFile,
+  defaultFilterList,
+  defaultFilterName,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ export default function SalesByProduct({
   );
 
   /**state */
-  const [filterNameItem, setFilterNameItem] = useState(FILTER_NAME_DEFAULT);
+  const [filterNameItem, setFilterNameItem] = useState(defaultFilterName);
   const [filterNames, setFilterNames] = useState([]);
 
   /**function */
@@ -54,8 +54,10 @@ export default function SalesByProduct({
   };
 
   // binding data list for name filter
+
   const filterDataTable = () => {
-    return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
+    return filterNameItem &&
+      !defaultFilterList?.find((x) => x.value === filterNameItem)
       ? productSaleByProductList.filter((item) => item.name === filterNameItem)
       : productSaleByProductList;
   };
@@ -112,7 +114,7 @@ export default function SalesByProduct({
         showExportFile={showExportFile}
         pathFileExport={pathFileExport}
         handleTheDownloadedFile={handleTheDownloadedFile}
-        filterNameDefault={FILTER_NAME_DEFAULT}
+        filterNameDefaultList={defaultFilterList}
         rightTooltip={<></>}
       >
         <TableList
