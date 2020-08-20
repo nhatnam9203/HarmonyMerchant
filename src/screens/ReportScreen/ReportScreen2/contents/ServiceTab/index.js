@@ -48,6 +48,8 @@ function ServiceTab({ style, showBackButton }, ref) {
     goBack: onGoBack,
     didBlur: () => {
       // setTitleRangeTime("This week");
+      salesByCategoryTabRef?.current?.didBlur();
+      salesByServiceTabRef?.current?.didBlur();
     },
     didFocus: () => {
       // console.log("====> screen report -> staff didFocus");

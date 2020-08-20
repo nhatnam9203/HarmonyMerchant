@@ -48,6 +48,8 @@ function ProductTab({ style, showBackButton }, ref) {
     goBack: onGoBack,
     didBlur: () => {
       // setTitleRangeTime("This week");
+      salesByCategoryTabRef?.current?.didBlur();
+      salesByProductTabRef?.current?.didBlur();
     },
     didFocus: () => {
       // console.log("====> screen report -> staff didFocus");

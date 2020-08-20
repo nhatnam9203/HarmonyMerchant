@@ -87,8 +87,10 @@ function ReportScreen2({ showBackButton }, ref) {
 
   const onTabChange = (taIndex) => {
     staffRef?.current?.goBack();
-    // giftCardRef?.current?.goBack();
+    giftCardRef?.current?.goBack();
     customerRef?.current?.goBack();
+    serviceRef?.current?.goBack();
+    productRef?.current?.goBack();
     overallRef?.current?.goBack();
 
     setTabIndex(taIndex);
