@@ -28,8 +28,8 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
     (state) => state.report.customerStatisticExportFilePath
   );
 
-  const customerReportList = useSelector(
-    (state) => state.report.customerReportList
+  const serviceSaleByCategoryList = useSelector(
+    (state) => state.report.serviceSaleByCategoryList
   );
 
   const isDownloadReport = useSelector(
@@ -45,9 +45,9 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
   const layoutRef = useRef(null);
 
   /**function */
-  const getGiftCardReportSales = async () => {
+  const getServiceSalesByCategory = async () => {
     await dispatch(
-      actions.report.getGiftCardReportSales(
+      actions.report.getServiceByCategoryReportSales(
         true,
         layoutRef?.current?.getTimeUrl()
       )
@@ -62,7 +62,7 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
   const onChangeTimeTitle = async (titmeTitle) => {
     await setTitleRangeTime(titmeTitle);
     // TODO: call reload list
-    await getGiftCardReportSales();
+    await getServiceSalesByCategory();
   };
 
   const onChangeFilterNames = (names) => {
@@ -74,7 +74,7 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
   };
 
   const onGoStatistics = async (item) => {
-    await setFilterNameItem(item.type);
+    await setFilterNameItem(item.categoryName);
     layoutRef.current.goNext();
   };
 
@@ -95,8 +95,8 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
         );
         break;
       case 1:
-        const filterItem = customerReportList.find(
-          (item) => item.type === filterNameItem
+        const filterItem = serviceSaleByCategoryList.find(
+          (item) => item.categoryName === filterNameItem
         );
         if (!filterItem) return;
         dispatch(
@@ -133,7 +133,7 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
 
   /**effect */
   useEffect(() => {
-    getGiftCardReportSales();
+    getServiceSalesByCategory();
   }, []);
 
   return (
@@ -148,27 +148,25 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
       >
         <SalesByCategory
           style={{ flex: 1, paddingTop: 10 }}
-          tabLabel="Sales by category"
+          tabLabel="Sales By Category"
           onGoStatistics={onGoStatistics}
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("Sales by category ")}
+          showExportFile={() => onShowPopupExport("SalesByCategory ")}
           pathFileExport={customerExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
         <SalesByCategoryStatistic
           style={{ flex: 1, paddingTop: 10 }}
-          tabLabel="Sales by category Statistics"
-          title="Sales by category Statistics"
+          tabLabel="Sales By Category Statistics"
+          title="Sales By Category Statistics"
           titleRangeTime={titleRangeTime}
           showCalendar={() => showCalendar(true)}
           dataFilters={filterNames}
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
-          showExportFile={() =>
-            onShowPopupExport("Sales by category Statistic ")
-          }
+          showExportFile={() => onShowPopupExport("SalesByCategoryStatistics")}
           pathFileExport={customerStatisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />

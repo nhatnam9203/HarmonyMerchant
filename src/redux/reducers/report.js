@@ -20,6 +20,12 @@ const initialState = {
 
   customerReportList: [],
   customerExportFilePath: null,
+
+  serviceSaleByCategoryList: [],
+  serviceSaleByServiceList: [],
+
+  productSaleByCategoryList: [],
+  productSaleByProductList: [],
 };
 
 function appReducer(state = initialState, action) {
@@ -101,6 +107,29 @@ function appReducer(state = initialState, action) {
         ...state,
         customerExportFilePath: action.payload,
         isDownloadReport: false,
+      };
+
+    // Service
+    case ACTION_TYPES.ServiceCategory_GetListSuccess:
+      return {
+        ...state,
+        serviceSaleByCategoryList: action.payload,
+      };
+    case ACTION_TYPES.Service_GetListSuccess:
+      return {
+        ...state,
+        serviceSaleByServiceList: action.payload,
+      };
+    // Product
+    case ACTION_TYPES.ProductCategory_GetListSuccess:
+      return {
+        ...state,
+        productSaleByCategoryList: action.payload,
+      };
+    case ACTION_TYPES.Product_GetListSuccess:
+      return {
+        ...state,
+        productSaleByProductList: action.payload,
       };
 
     default:

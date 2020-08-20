@@ -27,8 +27,8 @@ function SalesByProductTab({ style, showBackButton }, ref) {
     (state) => state.report.customerStatisticExportFilePath
   );
 
-  const customerReportList = useSelector(
-    (state) => state.report.customerReportList
+  const productSaleByProductList = useSelector(
+    (state) => state.report.productSaleByProductList
   );
 
   const isDownloadReport = useSelector(
@@ -44,9 +44,9 @@ function SalesByProductTab({ style, showBackButton }, ref) {
   const layoutRef = useRef(null);
 
   /**function */
-  const getGiftCardReportSales = async () => {
+  const getProductSaleByProduct = async () => {
     await dispatch(
-      actions.report.getGiftCardReportSales(
+      actions.report.getProductByProductReportSales(
         true,
         layoutRef?.current?.getTimeUrl()
       )
@@ -61,7 +61,7 @@ function SalesByProductTab({ style, showBackButton }, ref) {
   const onChangeTimeTitle = async (titmeTitle) => {
     await setTitleRangeTime(titmeTitle);
     // TODO: call reload list
-    await getGiftCardReportSales();
+    await getProductSaleByProduct();
   };
 
   const onChangeFilterNames = (names) => {
@@ -94,7 +94,7 @@ function SalesByProductTab({ style, showBackButton }, ref) {
         );
         break;
       case 1:
-        const filterItem = customerReportList.find(
+        const filterItem = productSaleByProductList.find(
           (item) => item.type === filterNameItem
         );
         if (!filterItem) return;
@@ -132,7 +132,7 @@ function SalesByProductTab({ style, showBackButton }, ref) {
 
   /**effect */
   useEffect(() => {
-    getGiftCardReportSales();
+    getProductSaleByProduct();
   }, []);
 
   return (

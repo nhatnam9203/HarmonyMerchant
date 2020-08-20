@@ -138,6 +138,134 @@ function* getReportCustomerSales(action) {
   }
 }
 
+function* getServiceSalesByCategory(action) {
+  try {
+    action.isShowLoading ? yield put({ type: "LOADING_ROOT" }) : "";
+    const responses = yield requestAPI(action);
+    const { codeNumber } = responses;
+    yield put({ type: "STOP_LOADING_ROOT" });
+
+    if (parseInt(codeNumber) == 200) {
+      yield put({
+        type: ACTION_TYPES.ServiceCategory_GetListSuccess,
+        payload: responses.data,
+      });
+    } else if (parseInt(codeNumber) === 401) {
+      yield put({
+        type: "UNAUTHORIZED",
+      });
+    } else {
+      yield put({
+        type: ACTION_TYPES.ServiceCategory_GetListFail,
+      });
+      yield put({
+        type: "SHOW_ERROR_MESSAGE",
+        message: responses.message,
+      });
+    }
+  } catch (error) {
+    yield put({ type: error });
+  } finally {
+    yield put({ type: "STOP_LOADING_ROOT" });
+  }
+}
+
+function* getServiceSalesByService(action) {
+  try {
+    action.isShowLoading ? yield put({ type: "LOADING_ROOT" }) : "";
+    const responses = yield requestAPI(action);
+    const { codeNumber } = responses;
+    yield put({ type: "STOP_LOADING_ROOT" });
+
+    if (parseInt(codeNumber) == 200) {
+      yield put({
+        type: ACTION_TYPES.Service_GetListSuccess,
+        payload: responses.data,
+      });
+    } else if (parseInt(codeNumber) === 401) {
+      yield put({
+        type: "UNAUTHORIZED",
+      });
+    } else {
+      yield put({
+        type: ACTION_TYPES.Service_GetListFail,
+      });
+      yield put({
+        type: "SHOW_ERROR_MESSAGE",
+        message: responses.message,
+      });
+    }
+  } catch (error) {
+    yield put({ type: error });
+  } finally {
+    yield put({ type: "STOP_LOADING_ROOT" });
+  }
+}
+
+function* getProductSalesByCategory(action) {
+  try {
+    action.isShowLoading ? yield put({ type: "LOADING_ROOT" }) : "";
+    const responses = yield requestAPI(action);
+    const { codeNumber } = responses;
+    yield put({ type: "STOP_LOADING_ROOT" });
+
+    if (parseInt(codeNumber) == 200) {
+      yield put({
+        type: ACTION_TYPES.ProductCategory_GetListSuccess,
+        payload: responses.data,
+      });
+    } else if (parseInt(codeNumber) === 401) {
+      yield put({
+        type: "UNAUTHORIZED",
+      });
+    } else {
+      yield put({
+        type: ACTION_TYPES.ProductCategory_GetListFail,
+      });
+      yield put({
+        type: "SHOW_ERROR_MESSAGE",
+        message: responses.message,
+      });
+    }
+  } catch (error) {
+    yield put({ type: error });
+  } finally {
+    yield put({ type: "STOP_LOADING_ROOT" });
+  }
+}
+
+function* getProductSalesByProduct(action) {
+  try {
+    action.isShowLoading ? yield put({ type: "LOADING_ROOT" }) : "";
+    const responses = yield requestAPI(action);
+    const { codeNumber } = responses;
+    yield put({ type: "STOP_LOADING_ROOT" });
+
+    if (parseInt(codeNumber) == 200) {
+      yield put({
+        type: ACTION_TYPES.Product_GetListSuccess,
+        payload: responses.data,
+      });
+    } else if (parseInt(codeNumber) === 401) {
+      yield put({
+        type: "UNAUTHORIZED",
+      });
+    } else {
+      yield put({
+        type: ACTION_TYPES.Product_GetListFail,
+      });
+      yield put({
+        type: "SHOW_ERROR_MESSAGE",
+        message: responses.message,
+      });
+    }
+  } catch (error) {
+    yield put({ type: error });
+  } finally {
+    yield put({ type: "STOP_LOADING_ROOT" });
+  }
+}
+
 /**export */
 
 function* exportReport(action) {
@@ -246,5 +374,10 @@ export default function* saga() {
     takeLatest(ACTION_TYPES.GiftCard_ExportStatistic, exportReport),
     takeLatest(ACTION_TYPES.Customer_GetList, getReportCustomerSales),
     takeLatest(ACTION_TYPES.Customer_Export, exportReport),
+
+    takeLatest(ACTION_TYPES.ServiceCategory_GetList, getServiceSalesByCategory),
+    takeLatest(ACTION_TYPES.Service_GetList, getServiceSalesByService),
+    takeLatest(ACTION_TYPES.ProductCategory_GetList, getProductSalesByCategory),
+    takeLatest(ACTION_TYPES.Product_GetList, getProductSalesByProduct),
   ]);
 }

@@ -140,7 +140,6 @@ export default function GiftCardBarGroupChart({ data }) {
       setDataChart(createDataSet);
 
       const valueFormatter = Object.keys(dateDataDict);
-      const axisMaximum = valueFormatter?.length ?? 1;
       const createXAxis = {
         valueFormatter: valueFormatter,
         centerAxisLabels: true,
@@ -154,7 +153,7 @@ export default function GiftCardBarGroupChart({ data }) {
         drawGridLines: false,
         drawLabels: true,
         axisMinimum: 0,
-        axisMaximum: axisMaximum,
+        axisMaximum: 7,
       };
 
       setXAxis(createXAxis);

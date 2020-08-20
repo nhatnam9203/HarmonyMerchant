@@ -37,6 +37,7 @@ export default function ReportStatisticLayout({
   showCalendar,
   renderTable,
   sortKey,
+  unitKeys,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -129,6 +130,7 @@ export default function ReportStatisticLayout({
               sumTotalKey={sumTotalKey}
               priceKeys={priceKeys}
               sortKey={sortKey}
+              unitKeys={unitKeys}
               tableCellWidth={tableCellWidth}
               renderCell={renderCell}
               onCellPress={onCellPress}

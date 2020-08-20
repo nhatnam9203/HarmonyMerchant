@@ -24,8 +24,8 @@ export default function SalesByCategory({
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const customerReportList = useSelector(
-    (state) => state.report.customerReportList
+  const serviceSaleByCategoryList = useSelector(
+    (state) => state.report.serviceSaleByCategoryList
   );
 
   /**state */
@@ -36,12 +36,12 @@ export default function SalesByCategory({
 
   // create filter name data
   const bindFilterName = () => {
-    if (!customerReportList) return [];
+    if (!serviceSaleByCategoryList) return [];
 
     let array = [];
 
-    const arrMap = customerReportList.map((item) => ({
-      value: item.type,
+    const arrMap = serviceSaleByCategoryList.map((item) => ({
+      value: item.categoryName,
       ...item,
     }));
     array.push(...arrMap);
@@ -56,8 +56,10 @@ export default function SalesByCategory({
   // binding data list for name filter
   const filterDataTable = () => {
     return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
-      ? customerReportList.filter((item) => item.type === filterNameItem)
-      : customerReportList;
+      ? serviceSaleByCategoryList.filter(
+          (item) => item.categoryName === filterNameItem
+        )
+      : serviceSaleByCategoryList;
   };
 
   // callback
@@ -78,7 +80,7 @@ export default function SalesByCategory({
   /**effect */
   useEffect(() => {
     bindFilterName();
-  }, [customerReportList]);
+  }, [serviceSaleByCategoryList]);
 
   /**render */
   //callback render action cell
@@ -118,27 +120,29 @@ export default function SalesByCategory({
         <TableList
           tableData={filterDataTable()}
           tableHead={{
-            name: localize("Name", language),
-            appointments: localize("Appointments", language),
-            lastVisit: localize("Last Visit", language),
-            lastVisitSales: localize("Last Visit Sales", language),
-            totalSale: localize("Total Sales", language),
+            categoryName: localize("Category", language),
+            serviceCount: localize("No. of Service", language),
+            quantity: localize("Sale Qty", language),
+            totalHour: localize("Total Durations", language),
+            totalSales: localize("Total Sales", language),
           }}
           whiteKeys={[
-            "name",
-            "appointments",
-            "lastVisit",
-            "lastVisitSales",
-            "totalSale",
+            "categoryName",
+            "serviceCount",
+            "quantity",
+            "totalHour",
+            "totalSales",
             "action",
           ]}
-          primaryId="name"
-          sumTotalKey=""
-          calcSumKeys={[]}
-          priceKeys={[]}
+          primaryId="categoryId"
+          sumTotalKey="categoryName"
+          calcSumKeys={["serviceCount", "quantity", "totalHour", "totalSales"]}
+          priceKeys={["totalHour", "totalSales"]}
+          sortKey="totalSales"
+          unitKeys={{ totalHour: "hrs" }}
           tableCellWidth={{
-            name: 160,
-            lastVisitSales: 200,
+            categoryName: 180,
+            totalSales: 200,
           }}
           renderCell={renderCell}
           renderActionCell={renderActionCell}

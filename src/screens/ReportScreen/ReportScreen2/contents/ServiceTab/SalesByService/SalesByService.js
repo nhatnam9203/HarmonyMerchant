@@ -24,8 +24,8 @@ export default function SalesByService({
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const customerReportList = useSelector(
-    (state) => state.report.customerReportList
+  const serviceSaleByServiceList = useSelector(
+    (state) => state.report.serviceSaleByServiceList
   );
 
   /**state */
@@ -36,12 +36,12 @@ export default function SalesByService({
 
   // create filter name data
   const bindFilterName = () => {
-    if (!customerReportList) return [];
+    if (!serviceSaleByServiceList) return [];
 
     let array = [];
 
-    const arrMap = customerReportList.map((item) => ({
-      value: item.type,
+    const arrMap = serviceSaleByServiceList.map((item) => ({
+      value: item.name,
       ...item,
     }));
     array.push(...arrMap);
@@ -56,8 +56,8 @@ export default function SalesByService({
   // binding data list for name filter
   const filterDataTable = () => {
     return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
-      ? customerReportList.filter((item) => item.type === filterNameItem)
-      : customerReportList;
+      ? serviceSaleByServiceList.filter((item) => item.name === filterNameItem)
+      : serviceSaleByServiceList;
   };
 
   // callback
@@ -78,7 +78,7 @@ export default function SalesByService({
   /**effect */
   useEffect(() => {
     bindFilterName();
-  }, [customerReportList]);
+  }, [serviceSaleByServiceList]);
 
   /**render */
   //callback render action cell
@@ -118,27 +118,29 @@ export default function SalesByService({
         <TableList
           tableData={filterDataTable()}
           tableHead={{
-            name: localize("Name", language),
-            appointments: localize("Appointments", language),
-            lastVisit: localize("Last Visit", language),
-            lastVisitSales: localize("Last Visit Sales", language),
-            totalSale: localize("Total Sales", language),
+            name: localize("Service", language),
+            quantity: localize("Sale Qty", language),
+            totalDuration: localize("Total Durations", language),
+            avgPrice: localize("Av. Price", language),
+            totalSales: localize("Total Sales", language),
           }}
           whiteKeys={[
             "name",
-            "appointments",
-            "lastVisit",
-            "lastVisitSales",
-            "totalSale",
+            "quantity",
+            "totalDuration",
+            "avgPrice",
+            "totalSales",
             "action",
           ]}
           primaryId="name"
-          sumTotalKey=""
-          calcSumKeys={[]}
-          priceKeys={[]}
+          sumTotalKey="name"
+          calcSumKeys={["quantity", "totalDuration", "avgPrice", "totalSales"]}
+          priceKeys={["totalDuration", "avgPrice", "totalSales"]}
+          sortKey="name"
+          unitKeys={{totalDuration: "hrs"}}
           tableCellWidth={{
-            name: 160,
-            lastVisitSales: 200,
+            name: 200,
+            totalDuration: 180,
           }}
           renderCell={renderCell}
           renderActionCell={renderActionCell}

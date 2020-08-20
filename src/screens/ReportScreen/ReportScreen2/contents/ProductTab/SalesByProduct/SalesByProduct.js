@@ -24,8 +24,8 @@ export default function SalesByProduct({
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const customerReportList = useSelector(
-    (state) => state.report.customerReportList
+  const productSaleByProductList = useSelector(
+    (state) => state.report.productSaleByProductList
   );
 
   /**state */
@@ -36,11 +36,11 @@ export default function SalesByProduct({
 
   // create filter name data
   const bindFilterName = () => {
-    if (!customerReportList) return [];
+    if (!productSaleByProductList) return [];
 
     let array = [];
 
-    const arrMap = customerReportList.map((item) => ({
+    const arrMap = productSaleByProductList.map((item) => ({
       value: item.type,
       ...item,
     }));
@@ -56,8 +56,8 @@ export default function SalesByProduct({
   // binding data list for name filter
   const filterDataTable = () => {
     return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
-      ? customerReportList.filter((item) => item.type === filterNameItem)
-      : customerReportList;
+      ? productSaleByProductList.filter((item) => item.type === filterNameItem)
+      : productSaleByProductList;
   };
 
   // callback
@@ -78,7 +78,7 @@ export default function SalesByProduct({
   /**effect */
   useEffect(() => {
     bindFilterName();
-  }, [customerReportList]);
+  }, [productSaleByProductList]);
 
   /**render */
   //callback render action cell

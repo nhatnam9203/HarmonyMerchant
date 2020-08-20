@@ -27,8 +27,8 @@ function SalesByServiceTab({ style, showBackButton }, ref) {
     (state) => state.report.customerStatisticExportFilePath
   );
 
-  const customerReportList = useSelector(
-    (state) => state.report.customerReportList
+  const serviceSaleByServiceList = useSelector(
+    (state) => state.report.serviceSaleByServiceList
   );
 
   const isDownloadReport = useSelector(
@@ -44,11 +44,12 @@ function SalesByServiceTab({ style, showBackButton }, ref) {
   const layoutRef = useRef(null);
 
   /**function */
-  const getGiftCardReportSales = async () => {
+  const getServiceSaleByService = async () => {
     await dispatch(
-      actions.report.getGiftCardReportSales(
+      actions.report.getServiceByServiceReportSales(
         true,
-        layoutRef?.current?.getTimeUrl()
+        layoutRef?.current?.getTimeUrl(),
+        filterNameItem
       )
     );
   };
@@ -61,7 +62,7 @@ function SalesByServiceTab({ style, showBackButton }, ref) {
   const onChangeTimeTitle = async (titmeTitle) => {
     await setTitleRangeTime(titmeTitle);
     // TODO: call reload list
-    await getGiftCardReportSales();
+    await getServiceSaleByService();
   };
 
   const onChangeFilterNames = (names) => {
@@ -73,7 +74,7 @@ function SalesByServiceTab({ style, showBackButton }, ref) {
   };
 
   const onGoStatistics = async (item) => {
-    await setFilterNameItem(item.type);
+    await setFilterNameItem(item. name);
     layoutRef.current.goNext();
   };
 
@@ -94,8 +95,8 @@ function SalesByServiceTab({ style, showBackButton }, ref) {
         );
         break;
       case 1:
-        const filterItem = customerReportList.find(
-          (item) => item.type === filterNameItem
+        const filterItem = serviceSaleByServiceList.find(
+          (item) => item. name === filterNameItem
         );
         if (!filterItem) return;
         dispatch(
@@ -132,7 +133,7 @@ function SalesByServiceTab({ style, showBackButton }, ref) {
 
   /**effect */
   useEffect(() => {
-    getGiftCardReportSales();
+    getServiceSaleByService();
   }, []);
 
   return (

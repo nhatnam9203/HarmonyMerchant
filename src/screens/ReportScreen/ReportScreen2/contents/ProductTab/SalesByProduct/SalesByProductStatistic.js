@@ -10,8 +10,8 @@ export default function SalesByProductStatistic(props, ref) {
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const customerReportList = useSelector(
-    (state) => state.report.customerReportList
+  const productSaleByProductList = useSelector(
+    (state) => state.report.productSaleByProductList
   );
 
   /**state */
@@ -21,7 +21,9 @@ export default function SalesByProductStatistic(props, ref) {
 
   /**useEffect */
   useEffect(() => {
-    const item = customerReportList.find((item) => item.type === filterId);
+    const item = productSaleByProductList.find(
+      (item) => item.type === filterId
+    );
 
     setTable({
       tableData: item?.giftCardStatistics || [],
@@ -47,7 +49,7 @@ export default function SalesByProductStatistic(props, ref) {
       priceKeys: [],
       tableCellWidth: { appointmentId: 80 },
     });
-  }, [filterId, customerReportList]);
+  }, [filterId, productSaleByProductList]);
 
   /**render */
 

@@ -28,8 +28,8 @@ import React, {
       (state) => state.report.customerStatisticExportFilePath
     );
 
-    const customerReportList = useSelector(
-      (state) => state.report.customerReportList
+    const productSaleByCategoryList = useSelector(
+      (state) => state.report.productSaleByCategoryList
     );
 
     const isDownloadReport = useSelector(
@@ -45,11 +45,12 @@ import React, {
     const layoutRef = useRef(null);
 
     /**function */
-    const getGiftCardReportSales = async () => {
+    const getProductSaleByCategory = async () => {
       await dispatch(
-        actions.report.getGiftCardReportSales(
+        actions.report.getProductByCategoryReportSales(
           true,
-          layoutRef?.current?.getTimeUrl()
+          layoutRef?.current?.getTimeUrl(),
+          filterNameItem
         )
       );
     };
@@ -62,7 +63,7 @@ import React, {
     const onChangeTimeTitle = async (titmeTitle) => {
       await setTitleRangeTime(titmeTitle);
       // TODO: call reload list
-      await getGiftCardReportSales();
+      await getProductSaleByCategory();
     };
 
     const onChangeFilterNames = (names) => {
@@ -74,7 +75,7 @@ import React, {
     };
 
     const onGoStatistics = async (item) => {
-      await setFilterNameItem(item.type);
+      await setFilterNameItem(item.categoryId);
       layoutRef.current.goNext();
     };
 
@@ -95,8 +96,8 @@ import React, {
           );
           break;
         case 1:
-          const filterItem = customerReportList.find(
-            (item) => item.type === filterNameItem
+          const filterItem = productSaleByCategoryList.find(
+            (item) => item.categoryId === filterNameItem
           );
           if (!filterItem) return;
           dispatch(
@@ -133,7 +134,7 @@ import React, {
 
     /**effect */
     useEffect(() => {
-      getGiftCardReportSales();
+      getProductSaleByCategory();
     }, []);
 
     return (

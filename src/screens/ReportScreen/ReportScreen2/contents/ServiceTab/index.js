@@ -60,14 +60,14 @@ function ServiceTab({ style, showBackButton }, ref) {
         <SalesByCategory
           style={{ flex: 1 }}
           ref={salesByCategoryTabRef}
-          tabLabel="Sales by category"
+          tabLabel="Sales By Category"
           showBackButton={showBackButton}
         />
 
         <SalesByService
           style={{ flex: 1 }}
           ref={salesByServiceTabRef}
-          tabLabel="Sales by service"
+          tabLabel="Sales By Service"
           showBackButton={showBackButton}
         />
       </CustomScrollTab>

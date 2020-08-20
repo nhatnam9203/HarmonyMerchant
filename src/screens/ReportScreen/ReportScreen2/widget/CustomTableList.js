@@ -19,7 +19,7 @@ import {
   roundFloatNumber,
   formatNumberFromCurrency,
   formatMoney,
-  scaleSzie
+  scaleSzie,
 } from "@utils";
 import IMAGE from "@resources";
 
@@ -106,6 +106,7 @@ function TableList(
     renderActionCell,
     checkSumItem,
     sortKey,
+    unitKeys,
   },
   ref
 ) {
@@ -250,7 +251,11 @@ function TableList(
                 ? cellActionRender
                 : cellRender ?? (
                     <Text style={styles.txtCell}>
-                      {isPriceCell(key) ? "$ " + item[key] : item[key]}
+                      {isPriceCell(key)
+                        ? unitKeys[key]
+                          ? item[key] + " " + unitKeys[key]
+                          : "$ " + item[key]
+                        : item[key]}
                     </Text>
                   )}
             </TableCell>
@@ -273,7 +278,10 @@ function TableList(
                 justifyContent: "center",
                 width: getCellWidth(index, key),
                 ...(isPriceCell(key) && { alignItems: "flex-end" }),
-                ...(sortKey === key && { flexDirection: "row" }),
+                ...(sortKey === key && {
+                  flexDirection: "row",
+                  alignItems: "center",
+                }),
               }}
             >
               <Text style={styles.txtHead}>{headerContent[key] ?? ""}</Text>
@@ -321,8 +329,12 @@ function TableList(
                 {calcSumKeys.indexOf(key) > -1 && (
                   <Text style={styles.txtSum}>
                     {isPriceCell(key)
-                      ? "$ " + formatMoney(sumObject[key])
-                      : sumObject[key] ?? ""}
+                      ? unitKeys[key]
+                        ? formatServerNumber(sumObject[key]) +
+                          " " +
+                          unitKeys[key]
+                        : "$ " + formatMoney(sumObject[key])
+                      : sumObject[key]}
                   </Text>
                 )}
               </TableCell>

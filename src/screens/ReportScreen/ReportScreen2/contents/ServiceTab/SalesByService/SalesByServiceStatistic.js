@@ -10,8 +10,8 @@ export default function SalesByServiceStatistic(props, ref) {
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const customerReportList = useSelector(
-    (state) => state.report.customerReportList
+  const serviceSaleByServiceList = useSelector(
+    (state) => state.report.serviceSaleByServiceList
   );
 
   /**state */
@@ -21,33 +21,35 @@ export default function SalesByServiceStatistic(props, ref) {
 
   /**useEffect */
   useEffect(() => {
-    const item = customerReportList.find((item) => item.type === filterId);
+    const item = serviceSaleByServiceList.find(
+      (item) => item.name === filterId
+    );
 
     setTable({
-      tableData: item?.giftCardStatistics || [],
+      tableData: item?.details || [],
       tableHead: {
-        appointmentId: localize("Appointment ID", language),
         dateString: localize("Date", language),
-        time: localize("Time", language),
-        no: localize("No. of Service", language),
-        staff: localize("Staff", language),
-        payAmount: localize("Pay Amount", language),
+        quantity: localize("Sale Qty", language),
+        totalDuration: localize("Total Durations", language),
+        avgPrice: localize("Av. Price", language),
+        totalSales: localize("Total Sales", language),
       },
       whiteKeys: [
-        "appointmentId",
         "dateString",
-        "time",
-        "no",
-        "staff",
-        "payAmount",
+        "quantity",
+        "totalDuration",
+        "avgPrice",
+        "totalSales",
       ],
-      primaryId: "appointmentId",
-      calcSumKeys: [],
-      sumTotalKey: "",
-      priceKeys: [],
-      tableCellWidth: { appointmentId: 80 },
+      primaryId: "date",
+      calcSumKeys: ["quantity", "totalDuration", "avgPrice", "totalSales"],
+      sumTotalKey: "dateString",
+      priceKeys: ["totalDuration","avgPrice", "totalSales"],
+      sortKeys: "dateString",
+      unitKeys: { totalDuration: "hrs" },
+      tableCellWidth: { dateString: 180, totalSales: 200 },
     });
-  }, [filterId, customerReportList]);
+  }, [filterId, serviceSaleByServiceList]);
 
   /**render */
 

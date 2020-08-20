@@ -56,6 +56,26 @@ export const ACTION_TYPES = {
   Service_ExportStatistic: "EXPORT_SERVICE_SALES_BY_SERVICE_REPORT_STATISTIC",
   Service_ExportStatisticSuccess:
     "EXPORT_SERVICE_SALES_BY_SERVICE_REPORT_STATISTIC_SUCCESS",
+
+  ProductCategory_GetList: "GET_PRODUCT_SALE_BY_CATEGORY",
+  ProductCategory_GetListFail: "GET_PRODUCT_SALE_BY_CATEGORY_FAIL",
+  ProductCategory_GetListSuccess: "GET_PRODUCT_SALE_BY_CATEGORY_SUCCESS",
+  ProductCategory_Export: "EXPORT_PRODUCT_SALES_BY_CATEGORY_REPORT",
+  ProductCategory_ExportSuccess:
+    "EXPORT_PRODUCT_SALES_BY_CATEGORY_REPORT_SUCCESS",
+  ProductCategory_ExportStatistic:
+    "EXPORT_PRODUCT_SALES_BY_CATEGORY_REPORT_STATISTIC",
+  ProductCategory_ExportStatisticSuccess:
+    "EXPORT_PRODUCT_SALES_BY_CATEGORY_REPORT_STATISTIC_SUCCESS",
+
+  Product_GetList: "GET_PRODUCT_SALE_BY_PRODUCT",
+  Product_GetListFail: "GET_PRODUCT_SALE_BY_PRODUCT_FAIL",
+  Product_GetListSuccess: "GET_PRODUCT_SALE_BY_PRODUCT_SUCCESS",
+  Product_Export: "EXPORT_PRODUCT_SALES_BY_PRODUCT_REPORT",
+  Product_ExportSuccess: "EXPORT_PRODUCT_SALES_BY_PRODUCT_REPORT_SUCCESS",
+  Product_ExportStatistic: "EXPORT_PRODUCT_SALES_BY_PRODUCT_REPORT_STATISTIC",
+  Product_ExportStatisticSuccess:
+    "EXPORT_PRODUCT_SALES_BY_PRODUCT_REPORT_STATISTIC_SUCCESS",
 };
 
 /** Get List */
@@ -94,6 +114,60 @@ export function getGiftCardReportSales(
     method: "GET",
     token: true,
     api: `${apiConfigs.BASE_API}giftCard/reportSales?${params}`,
+    isShowLoading,
+  };
+}
+
+export function getServiceByCategoryReportSales(
+  isShowLoading = true,
+  params = "quickFilter=thisWeek",
+  categoryId = "top5"
+) {
+  return {
+    type: ACTION_TYPES.ServiceCategory_GetList,
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}service/report/saleByCategory?${params}&category=${categoryId}`,
+    isShowLoading,
+  };
+}
+
+export function getServiceByServiceReportSales(
+  isShowLoading = true,
+  params = "quickFilter=thisWeek",
+  serviceId = "top5"
+) {
+  return {
+    type: ACTION_TYPES.Service_GetList,
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}service/report/saleByService?${params}&service=${serviceId}`,
+    isShowLoading,
+  };
+}
+
+export function getProductByCategoryReportSales(
+  isShowLoading = true,
+  params = "quickFilter=thisWeek"
+) {
+  return {
+    type: ACTION_TYPES.ProductCategory_GetList,
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}product/report/saleByCategory?${params}`,
+    isShowLoading,
+  };
+}
+
+export function getProductByProductReportSales(
+  isShowLoading = true,
+  params = "quickFilter=thisWeek"
+) {
+  return {
+    type: ACTION_TYPES.Product_GetList,
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}product/report/saleByProduct?${params}`,
     isShowLoading,
   };
 }
