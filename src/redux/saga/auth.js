@@ -148,8 +148,6 @@ function* checkStaffPermission(action) {
           isShowLoading: true,
         });
       } else if (action.tabName === "Reports") {
-        console.log("======> auth middle ware", action.tabName);
-
         yield put({
           type: "TOGGLE_REPORT_TAB_PERMISSION",
           payload: false,

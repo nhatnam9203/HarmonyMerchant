@@ -24,13 +24,14 @@ const yAxis = {
   left: {
     drawLabels: true,
     drawAxisLine: true,
-    drawGridLines: false,
+    drawGridLines: true,
     axisMinimum: 0,
     textSize: 14,
     formSize: 14,
     textColor: processColor("#0764B0"),
     granularity: 10,
     labelCount: 10,
+    valueFormatter: "#.# '$'",
   },
   right: {
     drawLabels: false,
@@ -128,10 +129,10 @@ export default function GiftCardBarGroupChart({ data }) {
         dataSets: dataSets,
         config: {
           // BarData
-          barWidth: dataSets?.length > 0 ? 1 / dataSets.length : 1,
+          barWidth: 0.2,
           group: {
             fromX: 0,
-            groupSpace: 0,
+            groupSpace: 0.2,
             barSpace: 0,
           },
         },
@@ -178,8 +179,6 @@ export default function GiftCardBarGroupChart({ data }) {
           doubleTapToZoomEnabled={false}
           touchEnabled={false}
           dragEnabled={true}
-          dragDecelerationEnabled={true}
-          dragDecelerationFrictionCoef={0.99}
           style={styles.chart}
           data={dataChart}
           xAxis={xAxis}
@@ -187,8 +186,6 @@ export default function GiftCardBarGroupChart({ data }) {
           animation={{ durationX: 500 }}
           legend={legend}
           gridBackgroundColor={processColor("transparent")}
-          drawBarShadow={false}
-          drawHighlightArrow={true}
           entryLabelTextSize={14}
         />
       )}
@@ -207,13 +204,13 @@ const styles = StyleSheet.create({
   },
   amountContent: {
     position: "absolute",
-    top: -20,
+    top: -30,
     left: 0,
   },
   dateContent: {
     position: "absolute",
-    bottom: 50,
-    right: -20,
+    bottom: 0,
+    right: 0,
   },
   txtAmount: {
     color: "#205580",
