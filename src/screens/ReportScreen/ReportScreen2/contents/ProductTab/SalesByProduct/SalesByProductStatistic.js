@@ -22,31 +22,22 @@ export default function SalesByProductStatistic(props, ref) {
   /**useEffect */
   useEffect(() => {
     const item = productSaleByProductList.find(
-      (item) => item.type === filterId
+      (item) => item.name === filterId
     );
 
     setTable({
-      tableData: item?.giftCardStatistics || [],
+      tableData: item?.details || [],
       tableHead: {
-        appointmentId: localize("Appointment ID", language),
         dateString: localize("Date", language),
-        time: localize("Time", language),
-        no: localize("No. of Service", language),
-        staff: localize("Staff", language),
-        payAmount: localize("Pay Amount", language),
+        quantity: localize("Qty Sold", language),
+        avgPrice: localize("Av. Price", language),
+        totalSales: localize("Total", language),
       },
-      whiteKeys: [
-        "appointmentId",
-        "dateString",
-        "time",
-        "no",
-        "staff",
-        "payAmount",
-      ],
-      primaryId: "appointmentId",
-      calcSumKeys: [],
-      sumTotalKey: "",
-      priceKeys: [],
+      whiteKeys: ["dateString", "quantity", "avgPrice", "totalSales"],
+      primaryId: "date",
+      calcSumKeys: ["quantity", "avgPrice", "totalSales"],
+      sumTotalKey: "dateString",
+      priceKeys: ["avgPrice", "totalSales"],
       tableCellWidth: { appointmentId: 80 },
     });
   }, [filterId, productSaleByProductList]);

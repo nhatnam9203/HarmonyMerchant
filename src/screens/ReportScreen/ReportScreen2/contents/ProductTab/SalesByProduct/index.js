@@ -73,7 +73,7 @@ function SalesByProductTab({ style, showBackButton }, ref) {
   };
 
   const onGoStatistics = async (item) => {
-    await setFilterNameItem(item.type);
+    await setFilterNameItem(item.name);
     layoutRef.current.goNext();
   };
 
@@ -95,7 +95,7 @@ function SalesByProductTab({ style, showBackButton }, ref) {
         break;
       case 1:
         const filterItem = productSaleByProductList.find(
-          (item) => item.type === filterNameItem
+          (item) => item.name === filterNameItem
         );
         if (!filterItem) return;
         dispatch(

@@ -41,7 +41,7 @@ export default function SalesByProduct({
     let array = [];
 
     const arrMap = productSaleByProductList.map((item) => ({
-      value: item.type,
+      value: item.name,
       ...item,
     }));
     array.push(...arrMap);
@@ -56,7 +56,7 @@ export default function SalesByProduct({
   // binding data list for name filter
   const filterDataTable = () => {
     return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
-      ? productSaleByProductList.filter((item) => item.type === filterNameItem)
+      ? productSaleByProductList.filter((item) => item.name === filterNameItem)
       : productSaleByProductList;
   };
 
@@ -118,27 +118,28 @@ export default function SalesByProduct({
         <TableList
           tableData={filterDataTable()}
           tableHead={{
-            name: localize("Name", language),
-            appointments: localize("Appointments", language),
-            lastVisit: localize("Last Visit", language),
-            lastVisitSales: localize("Last Visit Sales", language),
-            totalSale: localize("Total Sales", language),
+            name: localize("Product Name", language),
+            stockOnHand: localize("Stock On Hand", language),
+            quantity: localize("Qty Sold", language),
+            avgPrice: localize("Av. Price", language),
+            totalSales: localize("Total Sales", language),
           }}
           whiteKeys={[
             "name",
-            "appointments",
-            "lastVisit",
-            "lastVisitSales",
-            "totalSale",
+            "stockOnHand",
+            "quantity",
+            "avgPrice",
+            "totalSales",
             "action",
           ]}
-          primaryId="name"
-          sumTotalKey=""
-          calcSumKeys={[]}
-          priceKeys={[]}
+          primaryId="productId"
+          sumTotalKey="name"
+          calcSumKeys={["stockOnHand", "quantity", "avgPrice", "totalSales"]}
+          priceKeys={["avgPrice", "totalSales"]}
+          sortKey="name"
           tableCellWidth={{
-            name: 160,
-            lastVisitSales: 200,
+            name: 180,
+            totalSales: 200,
           }}
           renderCell={renderCell}
           renderActionCell={renderActionCell}

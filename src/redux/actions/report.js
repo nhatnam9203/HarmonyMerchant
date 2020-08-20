@@ -148,26 +148,28 @@ export function getServiceByServiceReportSales(
 
 export function getProductByCategoryReportSales(
   isShowLoading = true,
-  params = "quickFilter=thisWeek"
+  params = "quickFilter=thisWeek",
+  categoryId="top5"
 ) {
   return {
     type: ACTION_TYPES.ProductCategory_GetList,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}product/report/saleByCategory?${params}`,
+    api: `${apiConfigs.BASE_API}product/report/saleByCategory?${params}&category=${categoryId}`,
     isShowLoading,
   };
 }
 
 export function getProductByProductReportSales(
   isShowLoading = true,
-  params = "quickFilter=thisWeek"
+  params = "quickFilter=thisWeek",
+  productId="top5"
 ) {
   return {
     type: ACTION_TYPES.Product_GetList,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}product/report/saleByProduct?${params}`,
+    api: `${apiConfigs.BASE_API}product/report/saleByProduct?${params}&product=${productId}`,
     isShowLoading,
   };
 }

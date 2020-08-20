@@ -41,7 +41,7 @@ export default function SalesByCategory({
     let array = [];
 
     const arrMap = productSaleByCategoryList.map((item) => ({
-      value: item.categoryId,
+      value: item.categoryName,
       ...item,
     }));
     array.push(...arrMap);
@@ -56,7 +56,9 @@ export default function SalesByCategory({
   // binding data list for name filter
   const filterDataTable = () => {
     return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
-      ? productSaleByCategoryList.filter((item) => item.categoryId === filterNameItem)
+      ? productSaleByCategoryList.filter(
+          (item) => item.categoryName === filterNameItem
+        )
       : productSaleByCategoryList;
   };
 
@@ -118,28 +120,27 @@ export default function SalesByCategory({
         <TableList
           tableData={filterDataTable()}
           tableHead={{
-            name: localize("Name", language),
-            appointments: localize("Appointments", language),
-            lastVisit: localize("Last Visit", language),
-            lastVisitSales: localize("Last Visit Sales", language),
-            totalSale: localize("Total Sales", language),
+            categoryName: localize("Category", language),
+            quantity: localize("Qty Sold", language),
+            avgPrice: localize("Av. Price", language),
+            totalSales: localize("Total Sales", language),
           }}
           whiteKeys={[
-            "name",
-            "appointments",
-            "lastVisit",
-            "lastVisitSales",
-            "totalSale",
+            "categoryName",
+            "quantity",
+            "avgPrice",
+            "totalSales",
             "action",
           ]}
-          primaryId="name"
-          sumTotalKey=""
-          calcSumKeys={[]}
-          priceKeys={[]}
+          primaryId="categoryId"
+          sumTotalKey="categoryName"
+          calcSumKeys={["quantity", "avgPrice", "totalSales"]}
+          priceKeys={["avgPrice", "totalSales"]}
           tableCellWidth={{
-            name: 160,
-            lastVisitSales: 200,
+            categoryName: 180,
+            totalSales: 200,
           }}
+          sortKey="categoryName"
           renderCell={renderCell}
           renderActionCell={renderActionCell}
         />

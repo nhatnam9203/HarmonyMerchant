@@ -252,7 +252,7 @@ function TableList(
                 : cellRender ?? (
                     <Text style={styles.txtCell}>
                       {isPriceCell(key)
-                        ? unitKeys[key]
+                        ? unitKeys && unitKeys[key]
                           ? item[key] + " " + unitKeys[key]
                           : "$ " + item[key]
                         : item[key]}
@@ -329,7 +329,7 @@ function TableList(
                 {calcSumKeys.indexOf(key) > -1 && (
                   <Text style={styles.txtSum}>
                     {isPriceCell(key)
-                      ? unitKeys[key]
+                      ? unitKeys && unitKeys[key]
                         ? formatServerNumber(sumObject[key]) +
                           " " +
                           unitKeys[key]

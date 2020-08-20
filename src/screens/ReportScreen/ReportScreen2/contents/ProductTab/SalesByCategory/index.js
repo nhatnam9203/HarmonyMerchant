@@ -1,185 +1,183 @@
 import React, {
-    useEffect,
-    useState,
-    useRef,
-    forwardRef,
-    useImperativeHandle,
-  } from "react";
-  import { View, StyleSheet } from "react-native";
-  import { useSelector, useDispatch } from "react-redux";
+  useEffect,
+  useState,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
+import { View, StyleSheet } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 
-  import actions from "@actions";
+import actions from "@actions";
 
-  import { ReportLayout } from "../../../widget";
+import { ReportLayout } from "../../../widget";
 
-  import SalesByCategory from "./SalesByCategory";
-  import SalesByCategoryStatistic from "./SalesByCategoryStatistic";
+import SalesByCategory from "./SalesByCategory";
+import SalesByCategoryStatistic from "./SalesByCategoryStatistic";
 
-  function SalesByCategoryTab({ style, showBackButton }, ref) {
-    /**redux store*/
-    const dispatch = useDispatch();
-    const language = useSelector((state) => state.dataLocal.language);
+function SalesByCategoryTab({ style, showBackButton }, ref) {
+  /**redux store*/
+  const dispatch = useDispatch();
+  const language = useSelector((state) => state.dataLocal.language);
 
-    const customerExportFilePath = useSelector(
-      (state) => state.report.customerExportFilePath
+  const customerExportFilePath = useSelector(
+    (state) => state.report.customerExportFilePath
+  );
+
+  const customerStatisticExportFilePath = useSelector(
+    (state) => state.report.customerStatisticExportFilePath
+  );
+
+  const productSaleByCategoryList = useSelector(
+    (state) => state.report.productSaleByCategoryList
+  );
+
+  const isDownloadReport = useSelector(
+    (state) => state.report.isDownloadReport
+  );
+
+  /**state */
+  const [titleRangeTime, setTitleRangeTime] = useState("This week");
+  const [filterNameItem, setFilterNameItem] = useState(undefined);
+  const [filterNames, setFilterNames] = useState([]);
+
+  /**ref */
+  const layoutRef = useRef(null);
+
+  /**function */
+  const getProductSaleByCategory = async () => {
+    await dispatch(
+      actions.report.getProductByCategoryReportSales(
+        true,
+        layoutRef?.current?.getTimeUrl(),
+        filterNameItem
+      )
     );
+  };
 
-    const customerStatisticExportFilePath = useSelector(
-      (state) => state.report.customerStatisticExportFilePath
-    );
+  const showCalendar = (isShow) => {
+    layoutRef?.current?.showCalendar(isShow);
+  };
 
-    const productSaleByCategoryList = useSelector(
-      (state) => state.report.productSaleByCategoryList
-    );
+  //callback
+  const onChangeTimeTitle = async (titmeTitle) => {
+    await setTitleRangeTime(titmeTitle);
+    // TODO: call reload list
+    await getProductSaleByCategory();
+  };
 
-    const isDownloadReport = useSelector(
-      (state) => state.report.isDownloadReport
-    );
+  const onChangeFilterNames = (names) => {
+    setFilterNames(names);
+  };
 
-    /**state */
-    const [titleRangeTime, setTitleRangeTime] = useState("This week");
-    const [filterNameItem, setFilterNameItem] = useState(undefined);
-    const [filterNames, setFilterNames] = useState([]);
+  const onChangeFilterId = async (filterId) => {
+    await setFilterNameItem(filterId);
+  };
 
-    /**ref */
-    const layoutRef = useRef(null);
+  const onGoStatistics = async (item) => {
+    await setFilterNameItem(item.categoryName);
+    layoutRef.current.goNext();
+  };
 
-    /**function */
-    const getProductSaleByCategory = async () => {
-      await dispatch(
-        actions.report.getProductByCategoryReportSales(
-          true,
-          layoutRef?.current?.getTimeUrl(),
-          filterNameItem
-        )
-      );
-    };
+  const onShowPopupExport = (title) => {
+    layoutRef?.current?.showPopupExport(title);
+  };
 
-    const showCalendar = (isShow) => {
-      layoutRef?.current?.showCalendar(isShow);
-    };
+  const onRequestExportFileToServer = (currentTab, titleExportFile) => {
+    switch (currentTab) {
+      case 0:
+        dispatch(
+          actions.report.exportGiftCardReportSales(
+            layoutRef?.current?.getTimeUrl(),
+            true,
+            "excel",
+            titleExportFile
+          )
+        );
+        break;
+      case 1:
+        const filterItem = productSaleByCategoryList.find(
+          (item) => item.categoryName === filterNameItem
+        );
+        if (!filterItem) return;
+        dispatch(
+          actions.report.exportGiftCardReportSalesStatistics(
+            filterItem.giftCardGeneralId,
+            layoutRef?.current?.getTimeUrl(),
+            true,
+            "excel",
+            titleExportFile
+          )
+        );
+        break;
+      default:
+        break;
+    }
+  };
 
-    //callback
-    const onChangeTimeTitle = async (titmeTitle) => {
-      await setTitleRangeTime(titmeTitle);
-      // TODO: call reload list
-      await getProductSaleByCategory();
-    };
+  const onHandleTheDownloadedFile = (filePath) => {
+    layoutRef.current.handleTheDownloadedFile(filePath);
+  };
 
-    const onChangeFilterNames = (names) => {
-      setFilterNames(names);
-    };
+  // public function
+  useImperativeHandle(ref, () => ({
+    goBack: () => {
+      layoutRef.current.goBack();
+    },
+    didBlur: () => {
+      setTitleRangeTime("This week");
+    },
+    didFocus: () => {
+      // console.log("====> screen report -> staff didFocus");
+    },
+  }));
 
-    const onChangeFilterId = async (filterId) => {
-      await setFilterNameItem(filterId);
-    };
+  /**effect */
+  useEffect(() => {
+    getProductSaleByCategory();
+  }, []);
 
-    const onGoStatistics = async (item) => {
-      await setFilterNameItem(item.categoryId);
-      layoutRef.current.goNext();
-    };
+  return (
+    <View style={[styles.container, style]}>
+      <ReportLayout
+        ref={layoutRef}
+        style={style}
+        showBackButton={showBackButton}
+        onChangeTimeTitle={onChangeTimeTitle}
+        onRequestExportFileToServer={onRequestExportFileToServer}
+        isDownloadReport={isDownloadReport}
+      >
+        <SalesByCategory
+          style={{ flex: 1, paddingTop: 10 }}
+          tabLabel="Sales By Category"
+          onGoStatistics={onGoStatistics}
+          showCalendar={() => showCalendar(true)}
+          titleRangeTime={titleRangeTime}
+          onChangeFilterNames={onChangeFilterNames}
+          showExportFile={() => onShowPopupExport("SalesByCategory")}
+          pathFileExport={customerExportFilePath}
+          handleTheDownloadedFile={onHandleTheDownloadedFile}
+        />
+        <SalesByCategoryStatistic
+          style={{ flex: 1, paddingTop: 10 }}
+          tabLabel="Sales By Category Statistics"
+          title="Sales By Category Statistics"
+          titleRangeTime={titleRangeTime}
+          showCalendar={() => showCalendar(true)}
+          dataFilters={filterNames}
+          filterId={filterNameItem}
+          onChangeFilter={onChangeFilterId}
+          showExportFile={() => onShowPopupExport("SalesByCategoryStatistic")}
+          pathFileExport={customerStatisticExportFilePath}
+          handleTheDownloadedFile={onHandleTheDownloadedFile}
+        />
+      </ReportLayout>
+    </View>
+  );
+}
 
-    const onShowPopupExport = (title) => {
-      layoutRef?.current?.showPopupExport(title);
-    };
+const styles = StyleSheet.create({
+  container: {},
+});
 
-    const onRequestExportFileToServer = (currentTab, titleExportFile) => {
-      switch (currentTab) {
-        case 0:
-          dispatch(
-            actions.report.exportGiftCardReportSales(
-              layoutRef?.current?.getTimeUrl(),
-              true,
-              "excel",
-              titleExportFile
-            )
-          );
-          break;
-        case 1:
-          const filterItem = productSaleByCategoryList.find(
-            (item) => item.categoryId === filterNameItem
-          );
-          if (!filterItem) return;
-          dispatch(
-            actions.report.exportGiftCardReportSalesStatistics(
-              filterItem.giftCardGeneralId,
-              layoutRef?.current?.getTimeUrl(),
-              true,
-              "excel",
-              titleExportFile
-            )
-          );
-          break;
-        default:
-          break;
-      }
-    };
-
-    const onHandleTheDownloadedFile = (filePath) => {
-      layoutRef.current.handleTheDownloadedFile(filePath);
-    };
-
-    // public function
-    useImperativeHandle(ref, () => ({
-      goBack: () => {
-        layoutRef.current.goBack();
-      },
-      didBlur: () => {
-        setTitleRangeTime("This week");
-      },
-      didFocus: () => {
-        // console.log("====> screen report -> staff didFocus");
-      },
-    }));
-
-    /**effect */
-    useEffect(() => {
-      getProductSaleByCategory();
-    }, []);
-
-    return (
-      <View style={[styles.container, style]}>
-        <ReportLayout
-          ref={layoutRef}
-          style={style}
-          showBackButton={showBackButton}
-          onChangeTimeTitle={onChangeTimeTitle}
-          onRequestExportFileToServer={onRequestExportFileToServer}
-          isDownloadReport={isDownloadReport}
-        >
-          <SalesByCategory
-            style={{ flex: 1, paddingTop: 10 }}
-            tabLabel="Sales by category"
-            onGoStatistics={onGoStatistics}
-            showCalendar={() => showCalendar(true)}
-            titleRangeTime={titleRangeTime}
-            onChangeFilterNames={onChangeFilterNames}
-            showExportFile={() => onShowPopupExport("Sales by category ")}
-            pathFileExport={customerExportFilePath}
-            handleTheDownloadedFile={onHandleTheDownloadedFile}
-          />
-          <SalesByCategoryStatistic
-            style={{ flex: 1, paddingTop: 10 }}
-            tabLabel="Sales by category Statistics"
-            title="Sales by category Statistics"
-            titleRangeTime={titleRangeTime}
-            showCalendar={() => showCalendar(true)}
-            dataFilters={filterNames}
-            filterId={filterNameItem}
-            onChangeFilter={onChangeFilterId}
-            showExportFile={() =>
-              onShowPopupExport("Sales by category Statistic ")
-            }
-            pathFileExport={customerStatisticExportFilePath}
-            handleTheDownloadedFile={onHandleTheDownloadedFile}
-          />
-        </ReportLayout>
-      </View>
-    );
-  }
-
-  const styles = StyleSheet.create({
-    container: {},
-  });
-
-  export default SalesByCategoryTab = forwardRef(SalesByCategoryTab);
+export default SalesByCategoryTab = forwardRef(SalesByCategoryTab);

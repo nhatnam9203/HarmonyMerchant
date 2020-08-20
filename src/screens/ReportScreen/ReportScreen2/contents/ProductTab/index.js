@@ -60,14 +60,14 @@ function ProductTab({ style, showBackButton }, ref) {
         <SalesByCategory
           style={{ flex: 1 }}
           ref={salesByCategoryTabRef}
-          tabLabel="Sales by category"
+          tabLabel="Sales By Category"
           showBackButton={showBackButton}
         />
 
         <SalesByProduct
           style={{ flex: 1 }}
           ref={salesByProductTabRef}
-          tabLabel="Sales by product"
+          tabLabel="Sales By Product"
           showBackButton={showBackButton}
         />
       </CustomScrollTab>
