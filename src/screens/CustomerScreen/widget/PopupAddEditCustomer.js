@@ -134,12 +134,12 @@ class PopupAddEditCustomer extends React.Component {
             const { addressPost } = customerInfo;
             const temptAddress = {
                 ...addressPost,
-                state: addressPost.state  ? getIdStateByName(this.props.stateCity, addressPost.state) : 0 
+                state: addressPost.state ? getIdStateByName(this.props.stateCity, addressPost.state) : 0
             };
             const temptCustomerInfo = {
                 ...customerInfo,
-                phone: customerInfo.phone ? `${this.state.codeAreaPhone}${customerInfo.phone}` : ''  ,
-                referrerPhone: customerInfo.referrerPhone  ? `${this.state.codeReferrerPhone}${customerInfo.referrerPhone}` : ''  ,
+                phone: customerInfo.phone ? `${this.state.codeAreaPhone}${customerInfo.phone}` : '',
+                referrerPhone: customerInfo.referrerPhone ? `${this.state.codeReferrerPhone}${customerInfo.referrerPhone}` : '',
                 addressPost: temptAddress,
                 isVip: customerInfo.isVip === "Normal" ? 0 : 1
             };
@@ -197,7 +197,7 @@ class PopupAddEditCustomer extends React.Component {
                         >
                             <TouchableOpacity activeOpacity={1}>
                                 {/* ----- */}
-                                <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) ,marginBottom:scaleSzie(10)}} >
+                                <View style={{ flexDirection: 'row', marginTop: scaleSzie(10), marginBottom: scaleSzie(10) }} >
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6) }} >
                                             {`${localize('First Name', language)}*`}
@@ -213,7 +213,7 @@ class PopupAddEditCustomer extends React.Component {
                                             </View>
                                         </View>
                                     </View>
-                                    <View style={{width:scaleSzie(10)}} />
+                                    <View style={{ width: scaleSzie(10) }} />
                                     <View style={{ flex: 1 }} >
                                         <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6) }} >
                                             {`${localize('Last Name', language)}*`}
@@ -234,7 +234,7 @@ class PopupAddEditCustomer extends React.Component {
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(7) }} >
                                     {`${localize('Phone Number', language)}*`}
                                 </Text>
-                                <View style={{ height: scaleSzie(30), flexDirection: 'row',marginBottom:scaleSzie(10) }} >
+                                <View style={{ height: scaleSzie(30), flexDirection: 'row', marginBottom: scaleSzie(10) }} >
                                     <View style={{ width: scaleSzie(70) }} >
                                         <Dropdown
                                             label={'+1'}
@@ -314,7 +314,7 @@ class PopupAddEditCustomer extends React.Component {
                                         </View>
                                     </View>
 
-                                    <View style={{width:scaleSzie(10)}} />
+                                    <View style={{ width: scaleSzie(10) }} />
                                     {/* -------  */}
                                     <View style={{ flex: 1 }} >
                                         <View style={{ height: scaleSzie(30), }} >
@@ -342,13 +342,13 @@ class PopupAddEditCustomer extends React.Component {
                                                     value={state}
                                                     onChangeText={this.onChangeText}
                                                     onFocus={() => this.scrollCustomerTo(180)}
-                                                    resetMarginState={() => this.setState({dynamicMarginBottomState: 24})}
+                                                    resetMarginState={() => this.setState({ dynamicMarginBottomState: 24 })}
                                                     onFocus={() => this.scrollCustomerTo(280)}
                                                 />
                                             </View>
                                         </View>
                                     </View>
-                                    <View style={{width:scaleSzie(10)}} />
+                                    <View style={{ width: scaleSzie(10) }} />
                                     <View style={{ flex: 1 }} />
                                 </View>
 
@@ -393,7 +393,7 @@ class PopupAddEditCustomer extends React.Component {
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(2), marginTop: scaleSzie(15) }} >
                                     {localize('Attribute Level', language)}
                                 </Text>
-                                <View style={{ flexDirection: 'row', marginTop: scaleSzie(5),marginBottom:scaleSzie(10) }} >
+                                <View style={{ flexDirection: 'row', marginTop: scaleSzie(5), marginBottom: scaleSzie(10) }} >
                                     <View style={{ flex: 1, paddingRight: scaleSzie(10) }} >
                                         <View style={{ height: scaleSzie(30), }} >
                                             <View style={{ flex: 1 }} >
@@ -423,28 +423,26 @@ class PopupAddEditCustomer extends React.Component {
                                 <View style={{
                                     height: scaleSzie(110),
                                     backgroundColor: '#F1F1F1',
-                                    paddingHorizontal: scaleSzie(15),
-                                    paddingBottom: scaleSzie(10),
-                                    paddingTop: scaleSzie(12)
+                                    paddingHorizontal: scaleSzie(10),
+                                    paddingBottom: scaleSzie(8),
+                                    paddingTop: scaleSzie(8)
                                 }} >
-                                    <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
-
+                                    <Text style={{ color: '#404040', fontSize: scaleSzie(14) ,marginBottom:scaleSzie(8)}} >
                                         {localize("Note about customer's favourite", language)}
                                     </Text>
                                     <View style={{ flex: 1, justifyContent: 'flex-end' }} >
-                                        <View style={{ height: scaleSzie(40), flexDirection: 'row' }} >
-                                            <View style={{
-                                                flex: 1, backgroundColor: '#fff',
-                                                borderWidth: 1, borderColor: '#C5C5C5', borderTopLeftRadius: 4, borderBottomLeftRadius: 4,
-                                                paddingHorizontal: scaleSzie(10)
-                                            }} >
-                                                <TextInput
-                                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                                    value={favourite}
-                                                    onChangeText={value => this.updateCustomerInfo('favourite', value)}
-                                                    onFocus={() => this.scrollCustomerTo(275)}
-                                                />
-                                            </View>
+                                        <View style={{
+                                            flex: 1, backgroundColor: '#fff',
+                                            borderWidth: 1, borderColor: '#C5C5C5', borderTopLeftRadius: 4, borderBottomLeftRadius: 4,
+                                            paddingHorizontal: scaleSzie(10),paddingVertical:4
+                                        }} >
+                                            <TextInput
+                                                style={{ flex: 1, fontSize: scaleSzie(12) }}
+                                                value={favourite}
+                                                onChangeText={value => this.updateCustomerInfo('favourite', value)}
+                                                onFocus={() => this.scrollCustomerTo(500)}
+                                                multiline={true}
+                                            />
                                         </View>
                                     </View>
                                 </View>

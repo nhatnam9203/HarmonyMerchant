@@ -83,7 +83,7 @@ function* checkStaffPermission(action) {
       yield put({
         type: "CHECK_STAFF_PERMISSION_SUCCESS",
       });
-      yield put({ type: "LOADING_ROOT" });
+      // yield put({ type: "LOADING_ROOT" });
 
       if (action.tabName === "Invoice") {
         yield put({

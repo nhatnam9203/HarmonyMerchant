@@ -310,7 +310,7 @@ export const getArrayServicesFromAppointment = (services = []) => {
             },
             serviceName: 'Service',
             staff: service.staff,
-            note: service.note ? service.note  : ""
+            note: service.note ? service.note : ""
         }
     });
     return temptArrayServices
