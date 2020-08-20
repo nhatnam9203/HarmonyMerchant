@@ -47,7 +47,7 @@ function StaffTab({ style, showBackButton }, ref) {
 
   /**function */
   const getListStaffsSalaryTop = async () => {
-    console.log("======> getListStaffsSalaryTop");
+    // console.log("======> getListStaffsSalaryTop");
     await dispatch(
       actions.staff.getListStaffsSalaryTop(
         layoutRef?.current?.getTimeUrl(),
@@ -62,7 +62,7 @@ function StaffTab({ style, showBackButton }, ref) {
 
   //callback
   const onChangeTimeTitle = async (titmeTitle) => {
-    console.log("======> onChangeTimeTitle", titmeTitle);
+    // console.log("======> onChangeTimeTitle", titmeTitle);
     await setTitleRangeTime(titmeTitle);
     if (!isMount) {
       await setIsMount(true);
