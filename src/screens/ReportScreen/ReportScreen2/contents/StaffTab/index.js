@@ -40,6 +40,7 @@ function StaffTab({ style, showBackButton }, ref) {
   const [titleRangeTime, setTitleRangeTime] = useState(RANGE_TIME_DEFAULT);
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);
+  const [isMount, setIsMount] = useState(false);
 
   /**ref */
   const layoutRef = useRef(null);
@@ -61,15 +62,12 @@ function StaffTab({ style, showBackButton }, ref) {
 
   //callback
   const onChangeTimeTitle = async (titmeTitle) => {
-    console.log("======> getListStaffsSalaryTop", titmeTitle);
-
-    if (titmeTitle !== titleRangeTime) {
-      await setTitleRangeTime(titmeTitle);
-
-      // TODO: call reload list
-      await getListStaffsSalaryTop();
+    console.log("======> onChangeTimeTitle", titmeTitle);
+    await setTitleRangeTime(titmeTitle);
+    if (!isMount) {
+      await setIsMount(true);
     } else {
-      await setTitleRangeTime(titmeTitle);
+      await getListStaffsSalaryTop();
     }
   };
 
@@ -132,19 +130,21 @@ function StaffTab({ style, showBackButton }, ref) {
       layoutRef.current.goBack();
       dispatch(actions.staff.resetDownloadExportFiles());
     },
-    didBlur: () => {
+    didBlur: async () => {
       //   setTitleRangeTime(RANGE_TIME_DEFAULT);
-      layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
+      await setIsMount(false);
     },
-    didFocus: () => {
+    didFocus: async () => {
       // console.log("====> screen report -> staff didFocus");
     },
   }));
 
   /**effect */
-  //   useEffect(() => {
-  //     getListStaffsSalaryTop();
-  //   }, []);
+  useEffect(() => {
+    if (!isMount) {
+      layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
+    }
+  }, [listStaffsSalary]);
 
   return (
     <View style={[styles.container, style]}>
