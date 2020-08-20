@@ -27,12 +27,12 @@ function SalesByServiceTab({ style, showBackButton }, ref) {
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const customerExportFilePath = useSelector(
-    (state) => state.report.customerExportFilePath
+  const exportFilePath = useSelector(
+    (state) => state.report.serviceSaleByServiceExportPath
   );
 
-  const customerStatisticExportFilePath = useSelector(
-    (state) => state.report.customerStatisticExportFilePath
+  const statisticExportFilePath = useSelector(
+    (state) => state.report.serviceSaleByServiceDetailExportPath
   );
 
   const serviceSaleByServiceList = useSelector(
@@ -52,19 +52,21 @@ function SalesByServiceTab({ style, showBackButton }, ref) {
   const layoutRef = useRef(null);
 
   /**function */
-  const getServiceSaleByService = async (filterId) => {
-    let serviceId = undefined;
+
+  const getServiceId = (filterId) => {
     let defaultFilterId = filterId ?? filterNameItem;
     const filterDefaultItem = FILTER_NAME_DEFAULT_LIST.find(
       (x) => x.value === defaultFilterId
     );
-    serviceId = filterDefaultItem?.id;
+    return filterDefaultItem?.id;
+  };
 
+  const getServiceSaleByService = async (filterId) => {
     await dispatch(
       actions.report.getServiceByServiceReportSales(
         true,
         layoutRef?.current?.getTimeUrl(),
-        serviceId
+        getServiceId(filterId)
       )
     );
   };
@@ -104,7 +106,8 @@ function SalesByServiceTab({ style, showBackButton }, ref) {
     switch (currentTab) {
       case 0:
         dispatch(
-          actions.report.exportGiftCardReportSales(
+          actions.report.exportServiceSaleByService(
+            getServiceId(),
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
@@ -118,8 +121,8 @@ function SalesByServiceTab({ style, showBackButton }, ref) {
         );
         if (!filterItem) return;
         dispatch(
-          actions.report.exportGiftCardReportSalesStatistics(
-            filterItem.giftCardGeneralId,
+          actions.report.exportServiceSaleByServiceDetail(
+            filterItem.serviceId,
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
@@ -171,8 +174,8 @@ function SalesByServiceTab({ style, showBackButton }, ref) {
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("Sales by service ")}
-          pathFileExport={customerExportFilePath}
+          showExportFile={() => onShowPopupExport("SalesByService")}
+          pathFileExport={exportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
           onChangeFilterId={onChangeFilterId}
           defaultFilterList={FILTER_NAME_DEFAULT_LIST}
@@ -187,10 +190,8 @@ function SalesByServiceTab({ style, showBackButton }, ref) {
           dataFilters={filterNames}
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
-          showExportFile={() =>
-            onShowPopupExport("Sales by service Statistic ")
-          }
-          pathFileExport={customerStatisticExportFilePath}
+          showExportFile={() => onShowPopupExport("SalesByServiceDetail")}
+          pathFileExport={statisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
       </ReportLayout>

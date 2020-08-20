@@ -27,12 +27,12 @@ function SalesByProductTab({ style, showBackButton }, ref) {
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const customerExportFilePath = useSelector(
-    (state) => state.report.customerExportFilePath
+  const exportFilePath = useSelector(
+    (state) => state.report.productSaleByProductExportPath
   );
 
-  const customerStatisticExportFilePath = useSelector(
-    (state) => state.report.customerStatisticExportFilePath
+  const statisticExportFilePath = useSelector(
+    (state) => state.report.productSaleByProductDetailExportPath
   );
 
   const productSaleByProductList = useSelector(
@@ -52,19 +52,21 @@ function SalesByProductTab({ style, showBackButton }, ref) {
   const layoutRef = useRef(null);
 
   /**function */
-  const getProductSaleByProduct = async (filterId) => {
-    let productId = undefined;
+
+  const getProductId = (filterId) => {
     let defaultFilterId = filterId ?? filterNameItem;
     const filterDefaultItem = FILTER_NAME_DEFAULT_LIST.find(
       (x) => x.value === defaultFilterId
     );
-    productId = filterDefaultItem?.id;
+    return filterDefaultItem?.id;
+  };
 
+  const getProductSaleByProduct = async (filterId) => {
     await dispatch(
       actions.report.getProductByProductReportSales(
         true,
         layoutRef?.current?.getTimeUrl(),
-        productId
+        getProductId(filterId)
       )
     );
   };
@@ -104,7 +106,8 @@ function SalesByProductTab({ style, showBackButton }, ref) {
     switch (currentTab) {
       case 0:
         dispatch(
-          actions.report.exportGiftCardReportSales(
+          actions.report.exportProductSaleByProduct(
+            getProductId(),
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
@@ -118,8 +121,8 @@ function SalesByProductTab({ style, showBackButton }, ref) {
         );
         if (!filterItem) return;
         dispatch(
-          actions.report.exportGiftCardReportSalesStatistics(
-            filterItem.giftCardGeneralId,
+          actions.report.exportProductSaleByProductDetail(
+            filterItem.productId,
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
@@ -171,8 +174,8 @@ function SalesByProductTab({ style, showBackButton }, ref) {
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("Sales by product ")}
-          pathFileExport={customerExportFilePath}
+          showExportFile={() => onShowPopupExport("SalesByProduct")}
+          pathFileExport={exportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
           onChangeFilterId={onChangeFilterId}
           defaultFilterList={FILTER_NAME_DEFAULT_LIST}
@@ -187,10 +190,8 @@ function SalesByProductTab({ style, showBackButton }, ref) {
           dataFilters={filterNames}
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
-          showExportFile={() =>
-            onShowPopupExport("Sales by product Statistic ")
-          }
-          pathFileExport={customerStatisticExportFilePath}
+          showExportFile={() => onShowPopupExport("SalesByProductStatistic")}
+          pathFileExport={statisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
       </ReportLayout>

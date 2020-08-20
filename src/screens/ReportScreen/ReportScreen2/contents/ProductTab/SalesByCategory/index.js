@@ -28,12 +28,12 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const customerExportFilePath = useSelector(
-    (state) => state.report.customerExportFilePath
+  const exportFilePath = useSelector(
+    (state) => state.report.productSaleByCategoryExportPath
   );
 
-  const customerStatisticExportFilePath = useSelector(
-    (state) => state.report.customerStatisticExportFilePath
+  const statisticExportFilePath = useSelector(
+    (state) => state.report.productSaleByCategoryDetailExportPath
   );
 
   const productSaleByCategoryList = useSelector(
@@ -53,19 +53,21 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
   const layoutRef = useRef(null);
 
   /**function */
-  const getProductSaleByCategory = async (filterId) => {
-    let categoryId = undefined;
+
+  const getCategoryId = (filterId) => {
     let defaultFilterId = filterId ?? filterNameItem;
     const filterDefaultItem = FILTER_NAME_DEFAULT_LIST.find(
       (x) => x.value === defaultFilterId
     );
-    categoryId = filterDefaultItem?.id;
+    return filterDefaultItem?.id;
+  };
 
+  const getProductSaleByCategory = async (filterId) => {
     await dispatch(
       actions.report.getProductByCategoryReportSales(
         true,
         layoutRef?.current?.getTimeUrl(),
-        categoryId
+        getCategoryId(filterId)
       )
     );
   };
@@ -105,7 +107,8 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
     switch (currentTab) {
       case 0:
         dispatch(
-          actions.report.exportGiftCardReportSales(
+          actions.report.exportProductSaleByCategory(
+            getCategoryId(),
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
@@ -119,8 +122,8 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
         );
         if (!filterItem) return;
         dispatch(
-          actions.report.exportGiftCardReportSalesStatistics(
-            filterItem.giftCardGeneralId,
+          actions.report.exportProductSaleByCategoryDetail(
+            filterItem.categoryId,
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
@@ -173,7 +176,7 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
           showExportFile={() => onShowPopupExport("SalesByCategory")}
-          pathFileExport={customerExportFilePath}
+          pathFileExport={exportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
           onChangeFilterId={onChangeFilterId}
           defaultFilterList={FILTER_NAME_DEFAULT_LIST}
@@ -189,7 +192,7 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
           showExportFile={() => onShowPopupExport("SalesByCategoryStatistic")}
-          pathFileExport={customerStatisticExportFilePath}
+          pathFileExport={statisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
       </ReportLayout>

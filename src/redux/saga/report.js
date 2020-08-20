@@ -341,6 +341,52 @@ function* exportReport(action) {
           });
           break;
 
+        case ACTION_TYPES.ServiceCategory_Export:
+          yield put({
+            type: ACTION_TYPES.ServiceCategory_ExportSuccess,
+            payload: fileDownload.path(),
+          });
+          break;
+        case ACTION_TYPES.ServiceCategory_ExportStatistic:
+          yield put({
+            type: ACTION_TYPES.ServiceCategory_ExportStatisticSuccess,
+            payload: fileDownload.path(),
+          });
+          break;
+        case ACTION_TYPES.Service_Export:
+          yield put({
+            type: ACTION_TYPES.Service_ExportSuccess,
+            payload: fileDownload.path(),
+          });
+        case ACTION_TYPES.Service_ExportStatistic:
+          yield put({
+            type: ACTION_TYPES.Service_ExportStatisticSuccess,
+            payload: fileDownload.path(),
+          });
+          break;
+        case ACTION_TYPES.ProductCategory_Export:
+          yield put({
+            type: ACTION_TYPES.ProductCategory_ExportSuccess,
+            payload: fileDownload.path(),
+          });
+        case ACTION_TYPES.ProductCategory_ExportStatistic:
+          yield put({
+            type: ACTION_TYPES.ProductCategory_ExportStatisticSuccess,
+            payload: fileDownload.path(),
+          });
+          break;
+        case ACTION_TYPES.Product_Export:
+          yield put({
+            type: ACTION_TYPES.Product_ExportSuccess,
+            payload: fileDownload.path(),
+          });
+          break;
+        case ACTION_TYPES.Product_ExportStatistic:
+          yield put({
+            type: ACTION_TYPES.Product_ExportStatisticSuccess,
+            payload: fileDownload.path(),
+          });
+          break;
         default:
           break;
       }
@@ -379,5 +425,14 @@ export default function* saga() {
     takeLatest(ACTION_TYPES.Service_GetList, getServiceSalesByService),
     takeLatest(ACTION_TYPES.ProductCategory_GetList, getProductSalesByCategory),
     takeLatest(ACTION_TYPES.Product_GetList, getProductSalesByProduct),
+
+    takeLatest(ACTION_TYPES.ServiceCategory_Export, exportReport),
+    takeLatest(ACTION_TYPES.ServiceCategory_ExportStatistic, exportReport),
+    takeLatest(ACTION_TYPES.Service_Export, exportReport),
+    takeLatest(ACTION_TYPES.Service_ExportStatistic, exportReport),
+    takeLatest(ACTION_TYPES.ProductCategory_Export, exportReport),
+    takeLatest(ACTION_TYPES.ProductCategory_ExportStatistic, exportReport),
+    takeLatest(ACTION_TYPES.Product_Export, exportReport),
+    takeLatest(ACTION_TYPES.Product_ExportStatistic, exportReport),
   ]);
 }

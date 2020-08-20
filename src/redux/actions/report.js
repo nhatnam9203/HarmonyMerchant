@@ -149,7 +149,7 @@ export function getServiceByServiceReportSales(
 export function getProductByCategoryReportSales(
   isShowLoading = true,
   params = "quickFilter=thisWeek",
-  categoryId="top5"
+  categoryId = "top5"
 ) {
   return {
     type: ACTION_TYPES.ProductCategory_GetList,
@@ -163,7 +163,7 @@ export function getProductByCategoryReportSales(
 export function getProductByProductReportSales(
   isShowLoading = true,
   params = "quickFilter=thisWeek",
-  productId="top5"
+  productId = "top5"
 ) {
   return {
     type: ACTION_TYPES.Product_GetList,
@@ -316,6 +316,154 @@ export function exportCustomerSalesSales(
     method: "GET",
     token: true,
     api: `${apiConfigs.BASE_API}appointment/report/customerSales/export?${params}`,
+    isShowLoading,
+    fileName,
+    extention: type === "excel" ? "csv" : "pdf",
+  };
+}
+
+/**Export PRODUCT REPORT */
+
+export function exportProductSaleByCategory(
+  categoryId,
+  params = "quickFilter=thisWeek",
+  isShowLoading = true,
+  type = "excel",
+  fileName
+) {
+  return {
+    type: ACTION_TYPES.ProductCategory_Export,
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}product/report/saleByCategory/export?${params}&category=${categoryId}`,
+    isShowLoading,
+    fileName,
+    extention: type === "excel" ? "csv" : "pdf",
+  };
+}
+
+export function exportProductSaleByCategoryDetail(
+  categoryId,
+  params = "quickFilter=thisWeek",
+  isShowLoading = true,
+  type = "excel",
+  fileName
+) {
+  return {
+    type: ACTION_TYPES.ProductCategory_ExportStatistic,
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}product/report/saleByCategory/export/${categoryId}?${params}`,
+    isShowLoading,
+    fileName,
+    extention: type === "excel" ? "csv" : "pdf",
+  };
+}
+
+export function exportProductSaleByProduct(
+  productId,
+  params = "quickFilter=thisWeek",
+  isShowLoading = true,
+  type = "excel",
+  fileName
+) {
+  return {
+    type: ACTION_TYPES.Product_Export,
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}product/report/saleByProduct/export?${params}&product=${productId}`,
+    isShowLoading,
+    fileName,
+    extention: type === "excel" ? "csv" : "pdf",
+  };
+}
+
+export function exportProductSaleByProductDetail(
+  productId,
+  params = "quickFilter=thisWeek",
+  isShowLoading = true,
+  type = "excel",
+  fileName
+) {
+  return {
+    type: ACTION_TYPES.Product_ExportStatistic,
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}product/report/saleByProduct/export/${productId}?${params}`,
+    isShowLoading,
+    fileName,
+    extention: type === "excel" ? "csv" : "pdf",
+  };
+}
+
+/**Export SERVICE REPORT */
+
+export function exportServiceSaleByCategory(
+  categoryId = "top5",
+  params = "quickFilter=thisWeek",
+  isShowLoading = true,
+  type = "excel",
+  fileName
+) {
+  return {
+    type: ACTION_TYPES.ServiceCategory_Export,
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}service/report/saleByCategory/export?${params}&category=${categoryId}`,
+    isShowLoading,
+    fileName,
+    extention: type === "excel" ? "csv" : "pdf",
+  };
+}
+
+export function exportServiceSaleByCategoryDetail(
+  categoryId,
+  params = "quickFilter=thisWeek",
+  isShowLoading = true,
+  type = "excel",
+  fileName
+) {
+  return {
+    type: ACTION_TYPES.ServiceCategory_ExportStatistic,
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}service/report/saleByCategory/export/${categoryId}?${params}`,
+    isShowLoading,
+    fileName,
+    extention: type === "excel" ? "csv" : "pdf",
+  };
+}
+
+export function exportServiceSaleByService(
+  serviceId = "top5",
+  params = "quickFilter=thisWeek",
+  isShowLoading = true,
+  type = "excel",
+  fileName
+) {
+  return {
+    type: ACTION_TYPES.Service_Export,
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}service/report/saleByService/export?${params}&service=${serviceId}`,
+    isShowLoading,
+    fileName,
+    extention: type === "excel" ? "csv" : "pdf",
+  };
+}
+
+export function exportServiceSaleByServiceDetail(
+  serviceId,
+  params = "quickFilter=thisWeek",
+  isShowLoading = true,
+  type = "excel",
+  fileName
+) {
+  return {
+    type: ACTION_TYPES.Service_ExportStatistic,
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}service/report/saleByService/export/${serviceId}?${params}`,
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
