@@ -104,7 +104,7 @@ export default class Layout extends React.Component {
     }
 
     renderTable() {
-        const { listCustomersByMerchant,  refreshListCustomer, language} = this.props;
+        const { listCustomersByMerchant, refreshListCustomer, language } = this.props;
 
         return (
             <View style={{ flex: 1 }} >
@@ -129,7 +129,7 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { language, stateCity, navigation ,customerTabPermission} = this.props;
+        const { language, stateCity, navigation, customerTabPermission } = this.props;
         const { visibleAdd, visibleDetail, visibleEdit, isFocus } = this.state;
         return (
             <ParentContainer

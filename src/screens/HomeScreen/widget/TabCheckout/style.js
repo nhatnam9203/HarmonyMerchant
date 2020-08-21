@@ -57,7 +57,7 @@ export default StyleSheet.create({
         shadowOffset: { width: 3.5, height: 2 },
     },
     headerBasket: {
-        height: scaleSzie(46),
+        height: scaleSzie(37),
         borderWidth: 1,
         borderColor: 'rgb(197,197,197)',
         borderRightColor: 'rgb(223,223,223)',
@@ -110,6 +110,19 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         fontSize: scaleSzie(10),
         color: "#fff",
-        marginLeft:scaleSzie(4)
+        marginLeft: scaleSzie(4)
+    },
+    payment_header: {
+        backgroundColor: "#F1F1F1",
+        height: scaleSzie(37),
+        justifyContent: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: 'rgb(197, 197, 197)',
+    },
+    box_payment_container: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: scaleSzie(20),
+        marginTop: scaleSzie(30)
     }
 })

@@ -85,7 +85,7 @@ class TabCheckout extends Layout {
         })
     }
 
-  
+
 
     addAmount = async () => {
         const { groupAppointment, isOfflineMode, blockAppointments, profileStaffLogin } = this.props;
@@ -445,6 +445,9 @@ class TabCheckout extends Layout {
             case 'Credit Cards':
                 method = 'credit_card';
                 break;
+            case 'Debit Cards':
+                method = 'debit_card';
+                break;
             case 'Others - Check':
                 method = 'other';
                 break;
@@ -501,7 +504,7 @@ class TabCheckout extends Layout {
         appointments.forEach((appointment) => {
             // console.log("---- appointment : ",appointment);
             const note = appointment.promotionNotes && appointment.promotionNotes.note ? appointment.promotionNotes.note : "";
-            if(note){
+            if (note) {
                 promotionNotes.push(note);
             }
             // ------ Push Service -------
@@ -514,7 +517,7 @@ class TabCheckout extends Layout {
                         price: service.price ? service.price : ""
                     },
                     staff: service.staff ? service.staff : false,
-                    note:service.note ? service.note : "",
+                    note: service.note ? service.note : "",
                 })
             });
 
@@ -634,7 +637,7 @@ class TabCheckout extends Layout {
 
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
 
-        const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards,promotionNotes } = this.getBasketOnline(appointments);
+        const { arryaServicesBuy, arrayProductBuy, arrayExtrasBuy, arrayGiftCards, promotionNotes } = this.getBasketOnline(appointments);
         // const basket = isOfflineMode ? this.state.basket : arrayProductBuy.concat(arryaServicesBuy, arrayExtrasBuy, arrayGiftCards);
         const basket = isOfflineMode ? this.state.basket : arryaServicesBuy.concat(arrayExtrasBuy, arrayProductBuy, arrayGiftCards);
 
@@ -890,7 +893,7 @@ class TabCheckout extends Layout {
             return;
         }
 
-        if (isOfflineMode && method === 'credit_card') {
+        if (isOfflineMode && (method === 'credit_card' || method === 'debit_card')) {
             alert("Not Support Offline Mode")
             return;
         }
@@ -952,13 +955,13 @@ class TabCheckout extends Layout {
 
     doneBill = async () => {
         const { groupAppointment, profile, paxMachineInfo, token, isOfflineMode, deviceId, profileStaffLogin, customerInfoBuyAppointment,
-        paymentDetailInfo
+            paymentDetailInfo
         } = this.props;
         const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser, customerInfoByPhone } = this.state;
         const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
         const method = this.getPaymentString(paymentSelected);
         const total = groupAppointment.total ? parseFloat(formatNumberFromCurrency(groupAppointment.total)) : 0;
-        const dueAmount = paymentDetailInfo.dueAmount ? parseFloat( paymentDetailInfo.dueAmount) : 0;
+        const dueAmount = paymentDetailInfo.dueAmount ? parseFloat(paymentDetailInfo.dueAmount) : 0;
 
         if (isOfflineMode) {
             this.handlePaymentOffLineMode()
@@ -967,7 +970,7 @@ class TabCheckout extends Layout {
 
         if (moneyUserGiveForStaff == 0 && groupAppointment && total != 0) {
             alert('Enter amount!');
-        } else if ((method === 'harmony' || method === 'credit_card') && moneyUserGiveForStaff > dueAmount) {
+        } else if ((method === 'harmony' || method === 'credit_card' || method === "debit_card") && moneyUserGiveForStaff > dueAmount) {
             alert('The change not bigger than total money!');
         } else {
             await this.setState({
@@ -979,14 +982,13 @@ class TabCheckout extends Layout {
                 if (method === 'harmony') {
                     this.props.actions.app.loadingApp();
                     this.setupSignalR(profile, token, groupAppointment.checkoutGroupId, deviceId, method, moneyUserGiveForStaff);
-                } else if (method === 'credit_card') {
+                } else if (method === 'credit_card' || method === "debit_card") {
                     if (paxMachineInfo.isSetup) {
                         if (moneyUserGiveForStaff == 0) {
                             alert('Enter amount!');
                         } else {
                             this.hanleCreditCardProcess(true, moneyUserGiveForStaff);
                         }
-
                     } else {
                         setTimeout(() => {
                             alert('Please connect your Pax to take payment.');
@@ -997,7 +999,7 @@ class TabCheckout extends Layout {
                 }
 
             } else { // ------ Handle Buy at store -------
-                if (method === 'credit_card') {
+                if (method === 'credit_card' || method === "debit_card") {
                     this.hanleCreditCardProcess(false, moneyUserGiveForStaff);
                 } else if (method === 'harmony') {
                     this.popupSendLinkInstallRef.current.setStateFromParent('');
@@ -1029,7 +1031,11 @@ class TabCheckout extends Layout {
 
     async hanleCreditCardProcess(online = true, moneyUserGiveForStaff) {
         const { paxMachineInfo } = this.props;
+        const { paymentSelected } = this.state;
         const { ip, port, timeout } = paxMachineInfo;
+
+        // Debit Cards
+        // Credit Cards
 
         // 1. Check setup pax 
         PosLink.setupPax(ip, port, timeout);
@@ -1042,7 +1048,11 @@ class TabCheckout extends Layout {
         const moneyCreditCard = Number(formatNumberFromCurrency(moneyUserGiveForStaff) * 100).toFixed(2);
 
         // 3. Send Transaction 
-        PosLink.sendTransaction(parseFloat(moneyCreditCard), 0, (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
+        // CREDIT
+        // DEBIT
+
+        const tenderType = paymentSelected === "Credit Cards" ? "CREDIT" : "DEBIT";
+        PosLink.sendTransaction(tenderType, parseFloat(moneyCreditCard), 0, (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
     }
 
     async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
@@ -1052,7 +1062,7 @@ class TabCheckout extends Layout {
         try {
             const result = JSON.parse(message);
             if (result.status == 0) {
-                if(result.message === "ABORTED"){
+                if (result.message === "ABORTED") {
                     return;
                 }
                 setTimeout(() => {
@@ -1399,8 +1409,8 @@ class TabCheckout extends Layout {
 
 
     submitSerialCode = async (code) => {
-        const { groupAppointment, profile, profileStaffLogin, blockAppointments,customerInfoBuyAppointment } = this.props;
-        const { customerInfoByPhone,  paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
+        const { groupAppointment, profile, profileStaffLogin, blockAppointments, customerInfoBuyAppointment } = this.props;
+        const { customerInfoByPhone, paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
         } = this.state;
 
         if (blockAppointments.length > 0) {
@@ -1427,8 +1437,8 @@ class TabCheckout extends Layout {
                 customDiscountFixed: customDiscountFixedLocal,
                 customDiscountPercent: customDiscountPercentLocal,
                 firstName: customerInfoBuyAppointment.firstName ? customerInfoBuyAppointment.firstName : "",
-                lastName:   customerInfoBuyAppointment.lastName ? customerInfoBuyAppointment.lastName : "",
-                phoneNumber:  customerInfoBuyAppointment.phone ? customerInfoBuyAppointment.phone : "",
+                lastName: customerInfoBuyAppointment.lastName ? customerInfoBuyAppointment.lastName : "",
+                phoneNumber: customerInfoBuyAppointment.phone ? customerInfoBuyAppointment.phone : "",
                 customerId: customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0,
             };
             const optionAction = {

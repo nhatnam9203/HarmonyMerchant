@@ -410,7 +410,7 @@ class PopupInvoicePrint extends React.Component {
                                                         {`- Entry method: ${getPaymentString(data.paymentMethod ? data.paymentMethod : "")}`}
                                                     </Text>
                                                     {
-                                                        data.paymentMethod && data.paymentMethod === "credit_card" ?
+                                                        data.paymentMethod && data.paymentMethod === "credit_card" || data.paymentMethod === "debit_card" ?
                                                             <View style={{ marginTop: scaleSzie(5) }} >
                                                                 <Text style={[styleInvoice.txt_total, { fontSize: scaleSzie(10) }]} >
                                                                     {`    ${data.paymentInformation && data.paymentInformation.type ? data.paymentInformation.type : ""}: ***********${data.paymentInformation && data.paymentInformation.number ? data.paymentInformation.number : ""}`}

@@ -310,7 +310,7 @@ export const getArrayServicesFromAppointment = (services = []) => {
             },
             serviceName: 'Service',
             staff: service.staff,
-            note: service.note ? service.note  : ""
+            note: service.note ? service.note : ""
         }
     });
     return temptArrayServices
@@ -762,7 +762,7 @@ export const getPaymentString = (type) => {
             method = 'Others - Check';
             break;
         default:
-            method = ''
+            method = 'Debit Cards'
     }
     return method
 }
@@ -841,6 +841,9 @@ export const getPaymentStringInvoice = (type) => {
             break;
         case 'Cheque/Bank Transfer':
             method = 'other';
+            break;
+        case 'Debit Card':
+            method = 'debit_card';
             break;
         default:
             method = ''

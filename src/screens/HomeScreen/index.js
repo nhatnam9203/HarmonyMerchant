@@ -65,9 +65,6 @@ class HomeScreen extends Layout {
             const isConnected = state.isConnected ? state.isConnected : false;
             this.watcherNetwork.next(isConnected);
         });
-
-        // this.props.actions.marketing.se
-
     }
 
     initWatcherNetwork = () => {

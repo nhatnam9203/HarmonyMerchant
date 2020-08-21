@@ -183,13 +183,13 @@ RCT_EXPORT_METHOD(cancelTransaction){
 }
 
 
-RCT_EXPORT_METHOD(sendTransaction:(NSString *)amount tipAmount:(NSString *)tipAmount callback:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType amount:(NSString *)amount tipAmount:(NSString *)tipAmount callback:(RCTResponseSenderBlock)callback)
 {
   MyApp *myapp = [MyApp sharedSigleton];
   PaymentRequest *paymentRequest = [[PaymentRequest alloc] init];
   myapp.poslink.paymentRequest = paymentRequest;
   
- paymentRequest.TenderType = [PaymentRequest ParseTenderType:@"CREDIT"];
+ paymentRequest.TenderType = [PaymentRequest ParseTenderType:tenderType];
   paymentRequest.TransType = [PaymentRequest ParseTransType:@"SALE"];
   
   paymentRequest.Amount = amount;
@@ -305,9 +305,9 @@ RCT_EXPORT_METHOD(batchTransaction:(RCTResponseSenderBlock)callback)
   BatchRequest *batchRequest = [[BatchRequest alloc] init];
   
   batchRequest.TransType = [BatchRequest ParseTransType:@"BATCHCLOSE"];
-  batchRequest.EDCType = [BatchRequest ParseEDCType:@"CREDIT"];
-  batchRequest.PaymentType = [BatchRequest ParseTransType:@"ALL"];
-  batchRequest.CardType = [BatchRequest ParseEDCType:@"ALL"];
+  batchRequest.EDCType = [BatchRequest ParseEDCType:@"ALL"];
+  batchRequest.PaymentType = [BatchRequest ParseTransType:@""];
+  batchRequest.CardType = [BatchRequest ParseEDCType:@""];
   batchRequest.Timestamp = @"";
   batchRequest.SAFIndicator = @"";
   batchRequest.RecordNum = @"";

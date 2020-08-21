@@ -8,7 +8,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import QRCode from 'react-native-qrcode-svg';
 import _ from 'ramda';
 
-import { scaleSzie, localize, formatNumberFromCurrency, formatMoney } from '@utils';
+import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber } from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
     PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode, PopupProcessingCredit, PopupInvoicePrint,
@@ -38,7 +38,7 @@ class Layout extends React.Component {
         return (
             <View style={styles.headerContainer} >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                    <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { fontSize: scaleSzie(14) }]} >
+                    <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { fontSize: scaleSzie(12) }]} >
                         {`${localize('Customer', language)}:`}
                     </Text>
                     {
@@ -46,26 +46,33 @@ class Layout extends React.Component {
                             <ButtonCustom
                                 width={scaleSzie(100)}
                                 height={30}
-                                backgroundColor="rgb(247,247,247)"
+                                backgroundColor="#F8F8F8"
                                 title={localize('Enter Name', language)}
-                                textColor="rgb(63,63,63)"
+                                textColor="#404040"
                                 onPress={this.displayPopupCustomerInfo}
                                 style={{
-                                    borderWidth: 1, borderColor: 'rgb(199,199,199)',
+                                    borderWidth: 1, borderColor: '#EEEEEE',
                                     borderRadius: scaleSzie(3),
                                     marginHorizontal: scaleSzie(14),
                                     alignItems: "flex-start",
                                     paddingHorizontal: scaleSzie(10)
                                 }}
-                                styleText={{ fontSize: scaleSzie(12), }}
+                                styleText={{ fontSize: scaleSzie(12), fontWeight: "500" }}
                             />
-                            : <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(30), fontSize: scaleSzie(14) }]} >
-                                {`${name}`}
-                            </Text>
+                            :
+                            <View style={{
+                                backgroundColor: "#F8F8F8", height: scaleSzie(30), justifyContent: "center",
+                                paddingRight: scaleSzie(30), paddingLeft: scaleSzie(8), borderWidth: 1, borderColor: '#EEEEEE', borderRadius: scaleSzie(3),
+                                marginLeft: scaleSzie(15), marginRight: scaleSzie(20)
+                            }} >
+                                <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { fontSize: scaleSzie(12), color: "#404040", fontWeight: "600" }]} >
+                                    {`${name}`}
+                                </Text>
+                            </View>
                     }
 
 
-                    <Text onPress={this.displayPopupCustomerInfo} style={styles.textHeader} >
+                    <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { fontSize: scaleSzie(12) }]} >
                         {`${localize('Phone', language)}:`}
                     </Text>
                     {
@@ -73,22 +80,29 @@ class Layout extends React.Component {
                             <ButtonCustom
                                 width={scaleSzie(100)}
                                 height={30}
-                                backgroundColor="rgb(247,247,247)"
+                                backgroundColor="#F8F8F8"
                                 title={localize('Enter Phone', language)}
-                                textColor="rgb(63,63,63)"
+                                textColor="#404040"
                                 onPress={this.displayPopupCustomerInfo}
                                 style={{
-                                    borderWidth: 1, borderColor: 'rgb(199,199,199)',
+                                    borderWidth: 1, borderColor: '#EEEEEE',
                                     borderRadius: scaleSzie(3),
                                     marginHorizontal: scaleSzie(14),
                                     alignItems: "flex-start",
                                     paddingHorizontal: scaleSzie(10)
                                 }}
-                                styleText={{ fontSize: scaleSzie(12), }}
+                                styleText={{ fontSize: scaleSzie(12), fontWeight: "500" }}
                             />
-                            : <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(12) }]} >
-                                {phone}
-                            </Text>
+                            :
+                            <View style={{
+                                backgroundColor: "#F8F8F8", height: scaleSzie(30), justifyContent: "center",
+                                paddingRight: scaleSzie(30), paddingLeft: scaleSzie(8), borderWidth: 1, borderColor: '#EEEEEE', borderRadius: scaleSzie(3),
+                                marginLeft: scaleSzie(15)
+                            }} >
+                                <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { fontSize: scaleSzie(12), fontWeight: "600" }]} >
+                                    {phone}
+                                </Text>
+                            </View>
                     }
 
                 </View>
@@ -349,9 +363,9 @@ class Layout extends React.Component {
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
         const temptGrandTotal = groupAppointment.total ? groupAppointment.total : 0;
 
-        const totalLocal = Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2);
+        const totalLocal = roundFloatNumber(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal));
         const paidAmounts = paymentDetailInfo.paidAmounts ? paymentDetailInfo.paidAmounts.slice(0).reverse() : [];
-
+        const tempTotal = isOfflineMode ? totalLocal : temptGrandTotal;
 
         return (
             <View style={{ flex: 1 }} >
@@ -391,18 +405,20 @@ class Layout extends React.Component {
                         />)
                     }
                     {/* ----------- Grand Total ----------- */}
-                    <View style={{ paddingHorizontal: scaleSzie(10) }} >
+                    {
+                        parseFloat(tempTotal) > 0 ? <View style={{ paddingHorizontal: scaleSzie(10) }} >
                         <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
-                        {/* ---------- Tip ------ */}
                         <View style={styles.payNumberTextContainer} >
                             <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#0764B0" }]} >
                                 {`${localize('Grand Total', language)}:`}
                             </Text>
                             <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: 'rgb(65,184,85)' }]} >
-                                {`$ ${isOfflineMode ? formatMoney(totalLocal) : formatMoney(temptGrandTotal)}`}
+                                {`$ ${formatMoney(tempTotal)}`}
                             </Text>
                         </View>
-                    </View>
+                    </View> : null
+                    }
+                    
 
                     {/* ----------- Paid Amount ----------- */}
                     {
@@ -512,13 +528,16 @@ class Layout extends React.Component {
         const isShowAddBlock = length_blockAppointments > 0 && blockAppointments[length_blockAppointments - 1].total != "0.00" ? true : false;
 
         return (
-            <View style={{ flex: 1 }} >
+            <View style={{
+                flex: 1,
+            }} >
                 {/* -------- Header Basket -------- */}
                 <View style={[styles.headerBasket, {
                     flexDirection: "row", paddingHorizontal: scaleSzie(8),
+                    backgroundColor: "#F1F1F1"
                 },]} >
                     <View style={{ flex: 1 }} />
-                    <Text style={styles.textHeader} >
+                    <Text style={[styles.textHeader, { fontWeight: "600", fontSize: scaleSzie(16) }]} >
                         {localize('Basket', language)}
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
@@ -545,6 +564,69 @@ class Layout extends React.Component {
                 <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
                     {this.renderButtonChekout()}
                 </View>
+            </View>
+        );
+    }
+
+    renderPaymetsMethod() {
+        const { language } = this.props;
+        return (
+            <View style={{
+                flex: 1,
+                borderRightWidth: 1,
+                borderRightColor: 'rgb(197, 197, 197)',
+            }} >
+                <View style={[styles.payment_header, { paddingLeft: scaleSzie(20) }]} >
+                    <Text style={[styles.textHeader, { fontWeight: "600", fontSize: scaleSzie(15) }]} >
+                        {localize('Select payment method', language)}
+                    </Text>
+                </View>
+
+
+                <View style={styles.box_payment_container} >
+                    {
+                        ['HarmonyPay', 'Cash'].map((title, index) => <ItemPaymentMethod
+                            key={index}
+                            title={title}
+                            selectedPayment={this.selectedPayment}
+                            paymentSelected={this.state.paymentSelected}
+                        />)
+                    }
+                </View>
+                <View style={styles.box_payment_container} >
+                    {
+                        ['Credit Cards', 'Debit Cards'].map((title, index) => <ItemPaymentMethod
+                            key={index}
+                            title={title}
+                            selectedPayment={this.selectedPayment}
+                            paymentSelected={this.state.paymentSelected}
+                        />)
+
+                    }
+                </View>
+
+                <View style={{ marginTop: scaleSzie(30), paddingHorizontal: scaleSzie(20), }} >
+                    <ItemPaymentMethod
+                        title={"Others - Check"}
+                        selectedPayment={this.selectedPayment}
+                        paymentSelected={this.state.paymentSelected}
+                    />
+                </View>
+
+                {/* ------ Footer ----- */}
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(8) }} >
+                    <ButtonCustom
+                        width={scaleSzie(350)}
+                        height={60}
+                        backgroundColor="#F1F1F1"
+                        title={localize('BACK', language)}
+                        textColor="#6A6A6A"
+                        onPress={this.backAddBasket}
+                        style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                        styleText={{ fontSize: scaleSzie(26) }}
+                    />
+                </View>
+
             </View>
         );
     }
@@ -719,54 +801,6 @@ class Layout extends React.Component {
         }
     }
 
-    renderPaymetsMethod() {
-        const { language } = this.props;
-        return (
-            <View style={{
-                flex: 1, borderRightWidth: 1, borderRightColor: 'rgb(197, 197, 197)',
-                paddingHorizontal: scaleSzie(22)
-            }} >
-                <Text style={[styles.textHeader, { fontSize: scaleSzie(18), marginTop: scaleSzie(40), marginBottom: scaleSzie(50) }]} >
-                    {localize('Select Payment Method', language)}
-                </Text>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
-                    {
-                        ['HarmonyPay', 'Cash'].map((title, index) => <ItemPaymentMethod
-                            key={index}
-                            title={title}
-                            selectedPayment={this.selectedPayment}
-                            paymentSelected={this.state.paymentSelected}
-                        />)
-                    }
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: scaleSzie(30) }} >
-                    {
-                        ['Credit Cards', 'Others - Check'].map((title, index) => <ItemPaymentMethod
-                            key={index}
-                            title={title}
-                            selectedPayment={this.selectedPayment}
-                            paymentSelected={this.state.paymentSelected}
-                        />)
-
-                    }
-                </View>
-                {/* ------ Footer ----- */}
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(8) }} >
-                    <ButtonCustom
-                        width={scaleSzie(350)}
-                        height={60}
-                        backgroundColor="#F1F1F1"
-                        title={localize('BACK', language)}
-                        textColor="#6A6A6A"
-                        onPress={this.backAddBasket}
-                        style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                        styleText={{ fontSize: scaleSzie(26) }}
-                    />
-                </View>
-
-            </View>
-        );
-    }
 
     renderOfflineMode() {
         const { language } = this.props;

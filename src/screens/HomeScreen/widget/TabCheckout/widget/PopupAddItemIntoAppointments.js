@@ -119,10 +119,16 @@ class PopupAddItemIntoAppointments extends React.Component {
 
                 }} >
                     <Text style={{
-                        textAlign: "center", marginVertical: scaleSzie(15),
+                        textAlign: "center", marginTop: scaleSzie(15),
                         fontWeight: "600", fontSize: scaleSzie(14), color: "#404040"
                     }} >
-                        {`Please choose the client to add this service/product.`}
+                        {`Please choose the client to add`}
+                    </Text>
+                    <Text style={{
+                        textAlign: "center", marginBottom: scaleSzie(15),
+                        fontWeight: "600", fontSize: scaleSzie(14), color: "#404040"
+                    }} >
+                        {`this service/product.`}
                     </Text>
                     <View style={{ flex: 1 }} >
 

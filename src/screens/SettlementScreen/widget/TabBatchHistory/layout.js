@@ -25,7 +25,7 @@ class Layout extends React.Component {
                     ref={this.scrollTabRef}
                     style={{}}
                     initialPage={0}
-                    locked={false}
+                    locked={true}
                     renderTabBar={() => <View />}
                 >
                     <BatchHistoryList
