@@ -762,7 +762,7 @@ export const getPaymentString = (type) => {
             method = 'Others - Check';
             break;
         default:
-            method = ''
+            method = 'Debit Cards'
     }
     return method
 }
@@ -843,7 +843,7 @@ export const getPaymentStringInvoice = (type) => {
             method = 'other';
             break;
         default:
-            method = ''
+            method = 'debit_card'
     }
     return method
 }

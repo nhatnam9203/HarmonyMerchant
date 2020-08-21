@@ -368,7 +368,7 @@ export default class Layout extends React.Component {
                                                 </View>
                                             </View>
                                             {
-                                                data.paymentMethod === "credit_card" ?
+                                                data.paymentMethod === "credit_card" || data.paymentMethod === "debit_card"  ?
                                                     <View style={{ marginTop: scaleSzie(5) }} >
                                                         <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
                                                             {`    ${data.paymentInformation && data.paymentInformation.type ? data.paymentInformation.type : ""}: ***********${data.paymentInformation && data.paymentInformation.number ? data.paymentInformation.number : ""}`}

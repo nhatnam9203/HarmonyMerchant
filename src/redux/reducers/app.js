@@ -14,8 +14,8 @@ const initialState = {
     question: [],
     isFlashScreen: true,
 
-    // visibleEnterPin: true,
-    visibleEnterPin: false,
+    visibleEnterPin: true,
+    // visibleEnterPin: false,
 
     isSubmitTax: false,
     visibleEnterPinInvoice: false,

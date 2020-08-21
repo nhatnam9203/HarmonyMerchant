@@ -298,7 +298,7 @@ function* paymentAppointment(action) {
                 type: "PAY_APPOINTMENT_ID",
                 payload: responses.data
             });
-            if (action.paymentMethod !== 'harmony' && action.paymentMethod !== 'credit_card') {
+            if (action.paymentMethod !== 'harmony' && action.paymentMethod !== 'credit_card' && action.paymentMethod !== "debit_card") {
                 yield put({
                     type: 'CHECKOUT_SUBMIT',
                     body: {},
@@ -309,7 +309,7 @@ function* paymentAppointment(action) {
                     amount: action.amount,
                 });
             };
-            if (action.paymentMethod == 'credit_card' && action.creditCardInfo) {
+            if ((action.paymentMethod == 'credit_card' || action.paymentMethod == 'debit_card') && action.creditCardInfo) {
                 yield put({
                     type: 'SUBMIT_PAYMENT_WITH_CREDIT_CARD',
                     body: {
@@ -366,7 +366,7 @@ function* createAnymousAppointment(action) {
                     type: "SET_CANCEL_APPOINTMENT"
                 })
             }
-            if (action.paymentMethod !== 'credit_card') {
+            if (action.paymentMethod !== 'credit_card' && action.paymentMethod !== 'debit_card' ) {
                 yield put({
                     type: 'CHECK_OUT_APPOINTMENT',
                     body: {

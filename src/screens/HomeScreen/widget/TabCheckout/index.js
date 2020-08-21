@@ -445,6 +445,9 @@ class TabCheckout extends Layout {
             case 'Credit Cards':
                 method = 'credit_card';
                 break;
+            case 'Debit Cards':
+                method = 'debit_card';
+                break;
             case 'Others - Check':
                 method = 'other';
                 break;
@@ -890,7 +893,7 @@ class TabCheckout extends Layout {
             return;
         }
 
-        if (isOfflineMode && method === 'credit_card') {
+        if (isOfflineMode && (method === 'credit_card' || method === 'debit_card')) {
             alert("Not Support Offline Mode")
             return;
         }
@@ -967,7 +970,7 @@ class TabCheckout extends Layout {
 
         if (moneyUserGiveForStaff == 0 && groupAppointment && total != 0) {
             alert('Enter amount!');
-        } else if ((method === 'harmony' || method === 'credit_card') && moneyUserGiveForStaff > dueAmount) {
+        } else if ((method === 'harmony' || method === 'credit_card' || method === "debit_card") && moneyUserGiveForStaff > dueAmount) {
             alert('The change not bigger than total money!');
         } else {
             await this.setState({
@@ -979,7 +982,7 @@ class TabCheckout extends Layout {
                 if (method === 'harmony') {
                     this.props.actions.app.loadingApp();
                     this.setupSignalR(profile, token, groupAppointment.checkoutGroupId, deviceId, method, moneyUserGiveForStaff);
-                } else if (method === 'credit_card') {
+                } else if (method === 'credit_card' || method === "debit_card") {
                     if (paxMachineInfo.isSetup) {
                         if (moneyUserGiveForStaff == 0) {
                             alert('Enter amount!');
@@ -997,7 +1000,7 @@ class TabCheckout extends Layout {
                 }
 
             } else { // ------ Handle Buy at store -------
-                if (method === 'credit_card') {
+                if (method === 'credit_card' || method === "debit_card") {
                     this.hanleCreditCardProcess(false, moneyUserGiveForStaff);
                 } else if (method === 'harmony') {
                     this.popupSendLinkInstallRef.current.setStateFromParent('');

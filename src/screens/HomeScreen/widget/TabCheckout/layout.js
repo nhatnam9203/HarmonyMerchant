@@ -38,7 +38,7 @@ class Layout extends React.Component {
         return (
             <View style={styles.headerContainer} >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                    <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { fontSize: scaleSzie(14) }]} >
+                    <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { fontSize: scaleSzie(12) }]} >
                         {`${localize('Customer', language)}:`}
                     </Text>
                     {
@@ -46,26 +46,33 @@ class Layout extends React.Component {
                             <ButtonCustom
                                 width={scaleSzie(100)}
                                 height={30}
-                                backgroundColor="rgb(247,247,247)"
+                                backgroundColor="#F8F8F8"
                                 title={localize('Enter Name', language)}
-                                textColor="rgb(63,63,63)"
+                                textColor="#404040"
                                 onPress={this.displayPopupCustomerInfo}
                                 style={{
-                                    borderWidth: 1, borderColor: 'rgb(199,199,199)',
+                                    borderWidth: 1, borderColor: '#EEEEEE',
                                     borderRadius: scaleSzie(3),
                                     marginHorizontal: scaleSzie(14),
                                     alignItems: "flex-start",
                                     paddingHorizontal: scaleSzie(10)
                                 }}
-                                styleText={{ fontSize: scaleSzie(12), }}
+                                styleText={{ fontSize: scaleSzie(12), fontWeight: "500" }}
                             />
-                            : <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(30), fontSize: scaleSzie(14) }]} >
-                                {`${name}`}
-                            </Text>
+                            :
+                            <View style={{
+                                backgroundColor: "#F8F8F8", height: scaleSzie(30), justifyContent: "center",
+                                paddingRight: scaleSzie(30), paddingLeft: scaleSzie(8), borderWidth: 1, borderColor: '#EEEEEE', borderRadius: scaleSzie(3),
+                                marginLeft: scaleSzie(15), marginRight: scaleSzie(20)
+                            }} >
+                                <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { fontSize: scaleSzie(12), color: "#404040", fontWeight: "600" }]} >
+                                    {`${name}`}
+                                </Text>
+                            </View>
                     }
 
 
-                    <Text onPress={this.displayPopupCustomerInfo} style={styles.textHeader} >
+                    <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { fontSize: scaleSzie(12) }]} >
                         {`${localize('Phone', language)}:`}
                     </Text>
                     {
@@ -73,22 +80,29 @@ class Layout extends React.Component {
                             <ButtonCustom
                                 width={scaleSzie(100)}
                                 height={30}
-                                backgroundColor="rgb(247,247,247)"
+                                backgroundColor="#F8F8F8"
                                 title={localize('Enter Phone', language)}
-                                textColor="rgb(63,63,63)"
+                                textColor="#404040"
                                 onPress={this.displayPopupCustomerInfo}
                                 style={{
-                                    borderWidth: 1, borderColor: 'rgb(199,199,199)',
+                                    borderWidth: 1, borderColor: '#EEEEEE',
                                     borderRadius: scaleSzie(3),
                                     marginHorizontal: scaleSzie(14),
                                     alignItems: "flex-start",
                                     paddingHorizontal: scaleSzie(10)
                                 }}
-                                styleText={{ fontSize: scaleSzie(12), }}
+                                styleText={{ fontSize: scaleSzie(12), fontWeight: "500" }}
                             />
-                            : <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { marginLeft: scaleSzie(12), marginRight: scaleSzie(12) }]} >
-                                {phone}
-                            </Text>
+                            :
+                            <View style={{
+                                backgroundColor: "#F8F8F8", height: scaleSzie(30), justifyContent: "center",
+                                paddingRight: scaleSzie(30), paddingLeft: scaleSzie(8), borderWidth: 1, borderColor: '#EEEEEE', borderRadius: scaleSzie(3),
+                                marginLeft: scaleSzie(15)
+                            }} >
+                                <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { fontSize: scaleSzie(12), fontWeight: "600" }]} >
+                                    {phone}
+                                </Text>
+                            </View>
                     }
 
                 </View>
@@ -513,8 +527,6 @@ class Layout extends React.Component {
         return (
             <View style={{
                 flex: 1,
-                borderLeftWidth: 1,
-                borderLeftColor: 'rgb(197, 197, 197)',
             }} >
                 {/* -------- Header Basket -------- */}
                 <View style={[styles.headerBasket, {
@@ -558,6 +570,8 @@ class Layout extends React.Component {
         return (
             <View style={{
                 flex: 1,
+                 borderRightWidth: 1,
+                borderRightColor: 'rgb(197, 197, 197)',
             }} >
                 <View style={[styles.payment_header, { paddingLeft: scaleSzie(20) }]} >
                     <Text style={[styles.textHeader, { fontWeight: "600", fontSize: scaleSzie(15) }]} >
@@ -588,7 +602,7 @@ class Layout extends React.Component {
                     }
                 </View>
 
-                <View style={{ marginTop: scaleSzie(30), paddingHorizontal: scaleSzie(25), }} >
+                <View style={{ marginTop: scaleSzie(30), paddingHorizontal: scaleSzie(20), }} >
                     <ItemPaymentMethod
                         title={"Others - Check"}
                         selectedPayment={this.selectedPayment}
@@ -845,7 +859,7 @@ class Layout extends React.Component {
                     <ScrollableTabView
                         ref={this.scrollTabRef}
                         style={{}}
-                        initialPage={1}
+                        initialPage={0}
                         locked={true}
                         renderTabBar={() => <View />}
                         onChangeTab={(index) => {

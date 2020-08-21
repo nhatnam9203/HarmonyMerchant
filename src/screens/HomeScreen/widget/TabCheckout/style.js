@@ -122,7 +122,7 @@ export default StyleSheet.create({
     box_payment_container: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingHorizontal: scaleSzie(25),
+        paddingHorizontal: scaleSzie(20),
         marginTop: scaleSzie(30)
     }
 })

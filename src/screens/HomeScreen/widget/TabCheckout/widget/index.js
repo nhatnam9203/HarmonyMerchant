@@ -29,23 +29,51 @@ import PopupAddItemIntoAppointments from "./PopupAddItemIntoAppointments";
 import styles from "../style";
 import ICON from "@resources";
 
+function getPaymentLogoByName(name) {
+    let logo = "";
+    switch (name) {
+        case "HarmonyPay":
+            logo = "harmony_payment";
+            break;
+        case "Cash":
+            logo = "cash_payment";
+            break;
+        case "HarmonyPay":
+            logo = "harmony_payment";
+            break;
+        case "Credit Cards":
+            logo = "credit_payment";
+            break;
+        case "Debit Cards":
+            logo = "debit_payment";
+            break;
+        case "Others - Check":
+            logo = "other_payment";
+            break;
+        default:
+            logo = "harmony_payment";
+    }
+    return logo;
+}
+
 const ItemPaymentMethod = ({ title, selectedPayment, paymentSelected }) => {
     const temptBackground = title === paymentSelected ? { backgroundColor: '#0764B0' } : {};
     const temptTextColor = title === paymentSelected ? { color: '#fff' } : {};
-    const logo = title === paymentSelected ? "harmony_payment_se" :  "harmony_payment";
+    const logo = getPaymentLogoByName(title);
+    const tempLogo = title === paymentSelected ? `${logo}_se` : logo;
 
     return (
         <Button onPress={() => selectedPayment(title)} style={[{
-            width: scaleSzie(180), height: scaleSzie(80),
+            width: scaleSzie(190), height: scaleSzie(80),
             //  borderWidth: 1, borderColor: '#6A6A6A',
             backgroundColor: "#fff",
             justifyContent: 'center', alignItems: 'center',
-            borderRadius:8,
+            borderRadius: 8,
             ...Platform.select({
                 ios: {
                     shadowRadius: 2,
                     shadowColor: "#000",
-                    shadowOffset: { width: 0, height: 2 },
+                    shadowOffset: { width: 0, height: 3 },
                     shadowOpacity: 0.25,
                     shadowRadius: 4,
                 },
@@ -54,13 +82,13 @@ const ItemPaymentMethod = ({ title, selectedPayment, paymentSelected }) => {
                 },
             })
         }, temptBackground]} >
-            <Image 
-                source={ICON[logo]}
+            <Image
+                source={ICON[tempLogo]}
             />
             <Text style={[{
                 fontSize: scaleSzie(13),
-                color: '#404040',marginTop:scaleSzie(8)
-            },  temptTextColor]} >
+                color: '#404040', marginTop: scaleSzie(8)
+            }, temptTextColor]} >
                 {title}
             </Text>
         </Button>
