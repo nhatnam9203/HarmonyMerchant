@@ -36,7 +36,7 @@ class HomeScreen extends Layout {
     }
 
     componentDidMount() {
-        this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
+        // this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {
@@ -56,18 +56,15 @@ class HomeScreen extends Layout {
             }
         );
 
-        setTimeout(() => {
-            this.scrollTabParentRef.current.goToPage(1, false);
-        }, 50);
+        // setTimeout(() => {
+        //     this.scrollTabParentRef.current.goToPage(1, false);
+        // }, 50);
         this.initWatcherNetwork();
 
         this.unsubscribeNetInfo = NetInfo.addEventListener(state => {
             const isConnected = state.isConnected ? state.isConnected : false;
             this.watcherNetwork.next(isConnected);
         });
-
-        // this.props.actions.marketing.se
-
     }
 
     initWatcherNetwork = () => {

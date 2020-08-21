@@ -8,7 +8,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import QRCode from 'react-native-qrcode-svg';
 import _ from 'ramda';
 
-import { scaleSzie, localize, formatNumberFromCurrency, formatMoney } from '@utils';
+import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber } from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
     PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode, PopupProcessingCredit, PopupInvoicePrint,
@@ -349,7 +349,7 @@ class Layout extends React.Component {
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
         const temptGrandTotal = groupAppointment.total ? groupAppointment.total : 0;
 
-        const totalLocal = Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2);
+        const totalLocal = roundFloatNumber(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal));
         const paidAmounts = paymentDetailInfo.paidAmounts ? paymentDetailInfo.paidAmounts.slice(0).reverse() : [];
 
 
@@ -392,8 +392,7 @@ class Layout extends React.Component {
                     }
                     {/* ----------- Grand Total ----------- */}
                     <View style={{ paddingHorizontal: scaleSzie(10) }} >
-                        <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
-                        {/* ---------- Tip ------ */}
+                        {/* <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
                         <View style={styles.payNumberTextContainer} >
                             <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#0764B0" }]} >
                                 {`${localize('Grand Total', language)}:`}
@@ -401,7 +400,7 @@ class Layout extends React.Component {
                             <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: 'rgb(65,184,85)' }]} >
                                 {`$ ${isOfflineMode ? formatMoney(totalLocal) : formatMoney(temptGrandTotal)}`}
                             </Text>
-                        </View>
+                        </View> */}
                     </View>
 
                     {/* ----------- Paid Amount ----------- */}
@@ -512,13 +511,18 @@ class Layout extends React.Component {
         const isShowAddBlock = length_blockAppointments > 0 && blockAppointments[length_blockAppointments - 1].total != "0.00" ? true : false;
 
         return (
-            <View style={{ flex: 1 }} >
+            <View style={{
+                flex: 1,
+                borderLeftWidth: 1,
+                borderLeftColor: 'rgb(197, 197, 197)',
+            }} >
                 {/* -------- Header Basket -------- */}
                 <View style={[styles.headerBasket, {
                     flexDirection: "row", paddingHorizontal: scaleSzie(8),
+                    backgroundColor: "#F1F1F1"
                 },]} >
                     <View style={{ flex: 1 }} />
-                    <Text style={styles.textHeader} >
+                    <Text style={[styles.textHeader, { fontWeight: "600", fontSize: scaleSzie(16) }]} >
                         {localize('Basket', language)}
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
@@ -545,6 +549,67 @@ class Layout extends React.Component {
                 <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
                     {this.renderButtonChekout()}
                 </View>
+            </View>
+        );
+    }
+
+    renderPaymetsMethod() {
+        const { language } = this.props;
+        return (
+            <View style={{
+                flex: 1,
+            }} >
+                <View style={[styles.payment_header, { paddingLeft: scaleSzie(20) }]} >
+                    <Text style={[styles.textHeader, { fontWeight: "600", fontSize: scaleSzie(15) }]} >
+                        {localize('Select payment method', language)}
+                    </Text>
+                </View>
+
+
+                <View style={styles.box_payment_container} >
+                    {
+                        ['HarmonyPay', 'Cash'].map((title, index) => <ItemPaymentMethod
+                            key={index}
+                            title={title}
+                            selectedPayment={this.selectedPayment}
+                            paymentSelected={this.state.paymentSelected}
+                        />)
+                    }
+                </View>
+                <View style={styles.box_payment_container} >
+                    {
+                        ['Credit Cards', 'Debit Cards'].map((title, index) => <ItemPaymentMethod
+                            key={index}
+                            title={title}
+                            selectedPayment={this.selectedPayment}
+                            paymentSelected={this.state.paymentSelected}
+                        />)
+
+                    }
+                </View>
+
+                <View style={{ marginTop: scaleSzie(30), paddingHorizontal: scaleSzie(25), }} >
+                    <ItemPaymentMethod
+                        title={"Others - Check"}
+                        selectedPayment={this.selectedPayment}
+                        paymentSelected={this.state.paymentSelected}
+                    />
+                </View>
+
+                {/* ------ Footer ----- */}
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(8) }} >
+                    <ButtonCustom
+                        width={scaleSzie(350)}
+                        height={60}
+                        backgroundColor="#F1F1F1"
+                        title={localize('BACK', language)}
+                        textColor="#6A6A6A"
+                        onPress={this.backAddBasket}
+                        style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                        styleText={{ fontSize: scaleSzie(26) }}
+                    />
+                </View>
+
             </View>
         );
     }
@@ -719,54 +784,6 @@ class Layout extends React.Component {
         }
     }
 
-    renderPaymetsMethod() {
-        const { language } = this.props;
-        return (
-            <View style={{
-                flex: 1, borderRightWidth: 1, borderRightColor: 'rgb(197, 197, 197)',
-                paddingHorizontal: scaleSzie(22)
-            }} >
-                <Text style={[styles.textHeader, { fontSize: scaleSzie(18), marginTop: scaleSzie(40), marginBottom: scaleSzie(50) }]} >
-                    {localize('Select Payment Method', language)}
-                </Text>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
-                    {
-                        ['HarmonyPay', 'Cash'].map((title, index) => <ItemPaymentMethod
-                            key={index}
-                            title={title}
-                            selectedPayment={this.selectedPayment}
-                            paymentSelected={this.state.paymentSelected}
-                        />)
-                    }
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: scaleSzie(30) }} >
-                    {
-                        ['Credit Cards', 'Others - Check'].map((title, index) => <ItemPaymentMethod
-                            key={index}
-                            title={title}
-                            selectedPayment={this.selectedPayment}
-                            paymentSelected={this.state.paymentSelected}
-                        />)
-
-                    }
-                </View>
-                {/* ------ Footer ----- */}
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(8) }} >
-                    <ButtonCustom
-                        width={scaleSzie(350)}
-                        height={60}
-                        backgroundColor="#F1F1F1"
-                        title={localize('BACK', language)}
-                        textColor="#6A6A6A"
-                        onPress={this.backAddBasket}
-                        style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                        styleText={{ fontSize: scaleSzie(26) }}
-                    />
-                </View>
-
-            </View>
-        );
-    }
 
     renderOfflineMode() {
         const { language } = this.props;
@@ -828,7 +845,7 @@ class Layout extends React.Component {
                     <ScrollableTabView
                         ref={this.scrollTabRef}
                         style={{}}
-                        initialPage={0}
+                        initialPage={1}
                         locked={true}
                         renderTabBar={() => <View />}
                         onChangeTab={(index) => {

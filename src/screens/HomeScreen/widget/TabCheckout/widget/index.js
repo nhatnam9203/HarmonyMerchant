@@ -1,9 +1,11 @@
 import React from 'react';
 import {
     View,
+    Platform,
+    Image
 } from 'react-native';
 
-import { scaleSzie} from '@utils';
+import { scaleSzie } from '@utils';
 import {
     Text, Button,
 } from '@components';
@@ -25,17 +27,40 @@ import PopupChangeCustomerInfo from "./PopupChangeCustomerInfo";
 import PopupAddItemIntoAppointments from "./PopupAddItemIntoAppointments";
 
 import styles from "../style";
+import ICON from "@resources";
 
 const ItemPaymentMethod = ({ title, selectedPayment, paymentSelected }) => {
     const temptBackground = title === paymentSelected ? { backgroundColor: '#0764B0' } : {};
     const temptTextColor = title === paymentSelected ? { color: '#fff' } : {};
+    const logo = title === paymentSelected ? "harmony_payment_se" :  "harmony_payment";
 
     return (
         <Button onPress={() => selectedPayment(title)} style={[{
-            width: scaleSzie(180), height: scaleSzie(80), borderWidth: 1, borderColor: '#6A6A6A',
-            justifyContent: 'center', alignItems: 'center'
+            width: scaleSzie(180), height: scaleSzie(80),
+            //  borderWidth: 1, borderColor: '#6A6A6A',
+            backgroundColor: "#fff",
+            justifyContent: 'center', alignItems: 'center',
+            borderRadius:8,
+            ...Platform.select({
+                ios: {
+                    shadowRadius: 2,
+                    shadowColor: "#000",
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 4,
+                },
+                android: {
+                    elevation: 2,
+                },
+            })
         }, temptBackground]} >
-            <Text style={[styles.textHeader, { fontSize: scaleSzie(18) }, temptTextColor]} >
+            <Image 
+                source={ICON[logo]}
+            />
+            <Text style={[{
+                fontSize: scaleSzie(13),
+                color: '#404040',marginTop:scaleSzie(8)
+            },  temptTextColor]} >
                 {title}
             </Text>
         </Button>
