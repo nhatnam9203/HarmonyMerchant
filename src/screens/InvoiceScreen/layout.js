@@ -361,7 +361,7 @@ export default class Layout extends React.Component {
                                                     {/* ------------ Amount -------------- */}
 
                                                 </Text>
-                                                <View style={{ flex: 1, alignItems: "flex-end" }} >
+                                                <View style={{ flex: 1, alignItems: "flex-end" ,justifyContent:"center"}} >
                                                     <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
                                                         {`$${data.amount ? data.amount : ""}`}
                                                     </Text>
@@ -387,13 +387,13 @@ export default class Layout extends React.Component {
 
                             <View style={{ height: scaleSzie(16) }} />
                             {
-                                parseFloat(refundAmount) > 0 ? <Text style={{ color: '#404040', fontSize: scaleSzie(10), fontWeight: "bold" }} >
+                                parseFloat(refundAmount) > 0 ? <Text style={{  fontSize: scaleSzie(10), fontWeight: "bold" }} >
                                     {`Change : $ ${invoiceDetail.refundAmount ? invoiceDetail.refundAmount : 0.00}`}
                                 </Text> : null
                             }
 
                             {
-                                promotionNotes ? <Text style={{ color: '#404040', fontSize: scaleSzie(11), fontWeight: "bold" }} >
+                                promotionNotes ? <Text style={{  fontSize: 16, fontWeight: "bold" }} >
                                     {`Discount note: `}
                                     <Text style={{ fontWeight: "500" }} >
                                         {`${promotionNotes}`}
@@ -480,7 +480,7 @@ export default class Layout extends React.Component {
                             }
                             <View style={{ height: scaleSzie(16) }} />
                             {
-                                promotionNotes ? <Text style={{ color: '#404040', fontSize: scaleSzie(13), fontWeight: "bold" }} >
+                                promotionNotes ? <Text style={{ fontSize: 16, fontWeight: "bold" }} >
                                     {`Discount note: `}
                                     <Text style={{ fontWeight: "500" }} >
                                         {`${promotionNotes}`}

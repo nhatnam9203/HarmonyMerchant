@@ -441,7 +441,7 @@ class PopupInvoicePrint extends React.Component {
 
 
                                     {
-                                        promotionNotes ? <Text style={{ color: '#404040', fontSize: scaleSzie(11), fontWeight: "bold",
+                                        promotionNotes ? <Text style={{  fontSize: 16, fontWeight: "bold",
                                         marginTop:scaleSzie(10)
                                         }} >
                                             {`Discount note: `}

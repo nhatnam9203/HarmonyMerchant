@@ -97,14 +97,14 @@ class TabFirstSettle extends Layout {
             PosLink.setupPax(ip, port, timeout);
             for (let i = 0; i < CARD_TYPE.length; i++) {
                 try {
-                    let amountData = await PosLink.reportTransaction("LOCALTOTALREPORT", "CREDIT", CARD_TYPE[i], "SALE");
+                    let amountData = await PosLink.reportTransaction("LOCALTOTALREPORT", "ALL", CARD_TYPE[i], "SALE");
                     let amountResult = JSON.parse(amountData);
                     let creditAmount = amountResult.CreditAmount ? parseFloat(amountResult.CreditAmount) : 0;
                     totalReport = totalReport + creditAmount;
 
 
                     for (let j = 0; j < PAYMENT_TYPE.length; j++) {
-                        let data = await PosLink.reportTransaction("LOCALDETAILREPORT", "CREDIT", CARD_TYPE[i], PAYMENT_TYPE[j]);
+                        let data = await PosLink.reportTransaction("LOCALDETAILREPORT", "ALLL", CARD_TYPE[i], PAYMENT_TYPE[j]);
                         let result = JSON.parse(data);
                         let creditCount = result.TotalRecord ? parseInt(result.TotalRecord) : 0;
                         totalRecord = totalRecord + creditCount;
