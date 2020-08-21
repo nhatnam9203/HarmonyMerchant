@@ -989,7 +989,6 @@ class TabCheckout extends Layout {
                         } else {
                             this.hanleCreditCardProcess(true, moneyUserGiveForStaff);
                         }
-
                     } else {
                         setTimeout(() => {
                             alert('Please connect your Pax to take payment.');
@@ -1032,7 +1031,11 @@ class TabCheckout extends Layout {
 
     async hanleCreditCardProcess(online = true, moneyUserGiveForStaff) {
         const { paxMachineInfo } = this.props;
+        const { paymentSelected } = this.state;
         const { ip, port, timeout } = paxMachineInfo;
+
+        // Debit Cards
+        // Credit Cards
 
         // 1. Check setup pax 
         PosLink.setupPax(ip, port, timeout);
@@ -1047,7 +1050,9 @@ class TabCheckout extends Layout {
         // 3. Send Transaction 
         // CREDIT
         // DEBIT
-        PosLink.sendTransaction("CREDIT", parseFloat(moneyCreditCard), 0, (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
+
+        const tenderType = paymentSelected === "Credit Cards" ? "CREDIT" : "DEBIT";
+        PosLink.sendTransaction(tenderType, parseFloat(moneyCreditCard), 0, (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
     }
 
     async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {

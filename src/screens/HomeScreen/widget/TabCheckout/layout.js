@@ -365,7 +365,7 @@ class Layout extends React.Component {
 
         const totalLocal = roundFloatNumber(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal));
         const paidAmounts = paymentDetailInfo.paidAmounts ? paymentDetailInfo.paidAmounts.slice(0).reverse() : [];
-
+        const tempTotal = isOfflineMode ? totalLocal : temptGrandTotal;
 
         return (
             <View style={{ flex: 1 }} >
@@ -405,17 +405,20 @@ class Layout extends React.Component {
                         />)
                     }
                     {/* ----------- Grand Total ----------- */}
-                    <View style={{ paddingHorizontal: scaleSzie(10) }} >
-                        {/* <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
+                    {
+                        parseFloat(tempTotal) > 0 ? <View style={{ paddingHorizontal: scaleSzie(10) }} >
+                        <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
                         <View style={styles.payNumberTextContainer} >
                             <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#0764B0" }]} >
                                 {`${localize('Grand Total', language)}:`}
                             </Text>
                             <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: 'rgb(65,184,85)' }]} >
-                                {`$ ${isOfflineMode ? formatMoney(totalLocal) : formatMoney(temptGrandTotal)}`}
+                                {`$ ${formatMoney(tempTotal)}`}
                             </Text>
-                        </View> */}
-                    </View>
+                        </View>
+                    </View> : null
+                    }
+                    
 
                     {/* ----------- Paid Amount ----------- */}
                     {
@@ -570,7 +573,7 @@ class Layout extends React.Component {
         return (
             <View style={{
                 flex: 1,
-                 borderRightWidth: 1,
+                borderRightWidth: 1,
                 borderRightColor: 'rgb(197, 197, 197)',
             }} >
                 <View style={[styles.payment_header, { paddingLeft: scaleSzie(20) }]} >

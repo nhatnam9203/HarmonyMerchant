@@ -842,8 +842,11 @@ export const getPaymentStringInvoice = (type) => {
         case 'Cheque/Bank Transfer':
             method = 'other';
             break;
+        case 'Debit Card':
+            method = 'debit_card';
+            break;
         default:
-            method = 'debit_card'
+            method = ''
     }
     return method
 }

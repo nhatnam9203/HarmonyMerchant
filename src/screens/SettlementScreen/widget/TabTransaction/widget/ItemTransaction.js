@@ -7,13 +7,33 @@ import {
 
 import { scaleSzie, formatWithMoment } from '@utils';
 import { Text } from '@components';
-import IMAGE from '@resources';
+import ICON from '@resources';
 
+function getCredicardIcon(type) {
+    let icon = "";
+    if (`${type}`.indexOf("visa") !== -1) {
+        icon = ICON.visaLogo;
+    } else if (`${type}`.indexOf("mastercard") !== -1) {
+        icon = ICON.masterCardLogo;
+    } else if (`${type}`.indexOf("discover") !== -1) {
+        icon = ICON.discover;
+    } else if (`${type}`.indexOf("americanexpress") !== -1) {
+        icon = ICON.amricanExpressLogo;
+    } else if (`${type}`.indexOf("other") !== -1) {
+        icon = ICON.otherPaymentLogo;
+    } else {
+        icon = ICON.otherPaymentLogo;
+    }
 
+    return icon;
+}
 
 const ItemTransaction = (props) => {
     const { data } = props;
-    const logoPayment = data.paymentData.method
+    const cardType = data.paymentData && data.paymentData.card_type ? data.paymentData.card_type : "";
+    // console.log("cardType: ", cardType.toLowerCase());
+    const creditCardLogo = getCredicardIcon(`${cardType}`.toLowerCase());
+
     return (
         <View style={{
             height: scaleSzie(60), backgroundColor: '#FAFAFA',
@@ -53,11 +73,13 @@ const ItemTransaction = (props) => {
             </View>
             {/* --------- Col 5 --------- */}
             <View style={{ width: scaleSzie(110), alignItems: 'center', flexDirection: 'row' }} >
-                {
+
+                <Image source={creditCardLogo} style={{ width: scaleSzie(30), height: scaleSzie(20) }} />
+                {/* {
                     data.paymentData.card_type === 'Mastercard' ? <Image source={IMAGE.masterCardLogo}
                         style={{ width: scaleSzie(30), height: scaleSzie(20) }}
                     /> : <Image source={IMAGE.visaLogo} style={{ width: scaleSzie(30), height: scaleSzie(20) }} />
-                }
+                } */}
                 <View style={{ width: 10 }} />
                 <Text style={styles.textHeaderContent} >
                     {data.paymentData.card_number}
