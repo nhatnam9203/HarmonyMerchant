@@ -94,28 +94,45 @@ class TabFirstSettle extends Layout {
             let totalRecord = 0;
             let isError = false;
 
-            PosLink.setupPax(ip, port, timeout);
-            for (let i = 0; i < CARD_TYPE.length; i++) {
-                try {
-                    let amountData = await PosLink.reportTransaction("LOCALTOTALREPORT", "ALL", CARD_TYPE[i], "SALE");
-                    let amountResult = JSON.parse(amountData);
-                    let creditAmount = amountResult.CreditAmount ? parseFloat(amountResult.CreditAmount) : 0;
-                    totalReport = totalReport + creditAmount;
+            try {
+                // ----------- Total Report --------
+                PosLink.setupPax(ip, port, timeout);
+                let amountData = await PosLink.reportTransaction("LOCALTOTALREPORT", "ALL", "", "");
+                let amountResult = JSON.parse(amountData);
+                totalReport = amountResult.CreditAmount ? parseFloat(amountResult.CreditAmount) : 0;
 
-
-                    for (let j = 0; j < PAYMENT_TYPE.length; j++) {
-                        let data = await PosLink.reportTransaction("LOCALDETAILREPORT", "ALLL", CARD_TYPE[i], PAYMENT_TYPE[j]);
-                        let result = JSON.parse(data);
-                        let creditCount = result.TotalRecord ? parseInt(result.TotalRecord) : 0;
-                        totalRecord = totalRecord + creditCount;
-                    }
-                } catch (error) {
-                    isError = true;
-                    this.props.actions.app.connectPaxMachineError(`${error}`);
-                    break;
-
-                }
+                // ----------- Total Amount --------
+                let data = await PosLink.reportTransaction("LOCALDETAILREPORT", "ALL", "", "");
+                let result = JSON.parse(data);
+                totalRecord = result.TotalRecord ? parseInt(result.TotalRecord) : 0;
+            } catch (error) {
+                isError = true;
+                this.props.actions.app.connectPaxMachineError(`${error}`);
             }
+
+
+
+            // for (let i = 0; i < CARD_TYPE.length; i++) {
+            //     try {
+            //         let amountData = await PosLink.reportTransaction("LOCALTOTALREPORT", "ALL", CARD_TYPE[i], "SALE");
+            //         let amountResult = JSON.parse(amountData);
+            //         let creditAmount = amountResult.CreditAmount ? parseFloat(amountResult.CreditAmount) : 0;
+            //         totalReport = totalReport + creditAmount;
+
+
+            //         for (let j = 0; j < PAYMENT_TYPE.length; j++) {
+            //             let data = await PosLink.reportTransaction("LOCALDETAILREPORT", "ALL", CARD_TYPE[i], PAYMENT_TYPE[j]);
+            //             let result = JSON.parse(data);
+            //             let creditCount = result.TotalRecord ? parseInt(result.TotalRecord) : 0;
+            //             totalRecord = totalRecord + creditCount;
+            //         }
+            //     } catch (error) {
+            //         isError = true;
+            //         this.props.actions.app.connectPaxMachineError(`${error}`);
+            //         break;
+
+            //     }
+            // }
             if (!isError) {
                 this.props.actions.app.ConnectPaxMachineSuccess();
                 const moneyInPax = formatMoney(roundFloatNumber(totalReport / 100));
@@ -136,7 +153,7 @@ class TabFirstSettle extends Layout {
     }
 
     continueSettlement = () => {
-        const {settleWaiting} = this.props;
+        const { settleWaiting } = this.props;
         const { creditCount, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment, note, discountSettlement } = this.state;
         this.props.gotoTabSecondSettle({
             paymentByHarmony: editPaymentByHarmony,
@@ -226,10 +243,10 @@ class TabFirstSettle extends Layout {
 
     onPressGiftCardTotal = () => {
         const { gitfCardSales } = this.props;
-        if(gitfCardSales.length >0 ){
+        if (gitfCardSales.length > 0) {
             this.props.onPressGiftCardTotal();
         }
-       
+
     }
 
 
