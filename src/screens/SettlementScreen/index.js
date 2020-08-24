@@ -9,6 +9,7 @@ class SettlementScreen extends Layout {
         super(props);
         this.state = {
             isFocus: true,
+            currentPage: 0
         };
         this.scrollTabRef = React.createRef();
         this.tabSettleRef = React.createRef();
@@ -22,7 +23,8 @@ class SettlementScreen extends Layout {
             'didBlur',
             payload => {
                 this.setState({
-                    isFocus: false
+                    isFocus: false,
+                    currentPage: 0
                 });
                 this.scrollTabRef.current.goToPage(0);
                 this.checkPermissionRef.current.setStateFromParent('');
@@ -46,18 +48,21 @@ class SettlementScreen extends Layout {
 
     onChangeTab = (index) => {
         const currentIndex = index.i;
+        this.setState({
+            currentPage: currentIndex
+        })
         if (currentIndex === 1) {
             if (this.transactionTabRef.current) {
                 this.transactionTabRef.current.searchTransactions();
             }
         } else if (currentIndex === 2) {
             this.props.actions.invoice.getBatchHistory();
-            if(this.batchHistoryTabRef.current){
+            if (this.batchHistoryTabRef.current) {
                 this.batchHistoryTabRef.current.setStateFromParent();
-            }else{
-                setTimeout(() =>{
+            } else {
+                setTimeout(() => {
                     this.batchHistoryTabRef.current.setStateFromParent();
-                },300)
+                }, 300)
             }
         }
     }

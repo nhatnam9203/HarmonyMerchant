@@ -76,7 +76,7 @@ export default class Layout extends React.Component {
 
     render() {
         const { navigation, language, settlementTabPermission, isShowBackSettlement,isShowBackBatchHistory } = this.props;
-        const { isFocus } = this.state;
+        const { isFocus,currentPage } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -92,7 +92,7 @@ export default class Layout extends React.Component {
                     </Button>
 
                     {
-                        isShowBackSettlement ? <Button onPress={this.backSettlementTab} style={{
+                        isShowBackSettlement && currentPage === 0 ? <Button onPress={this.backSettlementTab} style={{
                             position: 'absolute', top: 20, right: 0,
                             width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
                         }} >
@@ -101,7 +101,7 @@ export default class Layout extends React.Component {
                     }
 
                     {
-                        isShowBackBatchHistory ? <Button onPress={this.backBatchHistoryTab} style={{
+                        isShowBackBatchHistory && currentPage === 2 ? <Button onPress={this.backBatchHistoryTab} style={{
                             position: 'absolute', top: 20, right: 0,
                             width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
                         }} >

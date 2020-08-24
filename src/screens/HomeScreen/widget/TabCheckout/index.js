@@ -446,7 +446,8 @@ class TabCheckout extends Layout {
                 method = 'credit_card';
                 break;
             case 'Debit Cards':
-                method = 'debit_card';
+                // method = 'debit_card';
+                method = 'credit_card';
                 break;
             case 'Others - Check':
                 method = 'other';

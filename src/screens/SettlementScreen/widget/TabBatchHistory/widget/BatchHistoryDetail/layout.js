@@ -51,14 +51,14 @@ class Layout extends React.Component {
                     />
                 </Button>
 
-                <Button onPress={this.printBatchHistoryDetail} style={{
+                {/* <Button onPress={this.printBatchHistoryDetail} style={{
                     position: "absolute", top: scaleSzie(10), right: scaleSzie(50),
                     justifyContent: "center"
                 }} >
                     <Image source={ICON.print_batch_history}
                         style={{ width: scaleSzie(30), height: scaleSzie(30) }}
                     />
-                </Button>
+                </Button> */}
             </View>
         );
     }
