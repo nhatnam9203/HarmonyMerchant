@@ -129,14 +129,12 @@ function StaffTab({ style, showBackButton }, ref) {
       //   setTitleRangeTime(RANGE_TIME_DEFAULT);
     },
     didFocus: async () => {
-      console.log("====> screen report -> staff didFocus");
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
   }));
 
   /**effect */
   useEffect(() => {
-    console.log("====> screen report -> staff dimount");
     // layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
   }, []);
 

@@ -70,7 +70,6 @@ function ReportScreen2({ showBackButton }, ref) {
       }
     },
     didBlur: () => {
-      console.log("====> screen report -> didBlur");
       setIsMount(false);
       switch (tabIndex) {
         case 0:

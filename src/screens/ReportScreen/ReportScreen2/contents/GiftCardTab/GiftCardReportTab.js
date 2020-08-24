@@ -8,7 +8,12 @@ import { localize } from "@utils";
 import actions from "@actions";
 import { ModalCustom } from "@components";
 
-import { PopupButton, TableList, ReportTabLayout } from "../../widget";
+import {
+  PopupButton,
+  TableList,
+  ReportTabLayout,
+  CalendarRangePicker,
+} from "../../widget";
 import GiftCardBarGroupChart from "./chart/GiftCardReportChart";
 
 const VIEW_MODE = {
