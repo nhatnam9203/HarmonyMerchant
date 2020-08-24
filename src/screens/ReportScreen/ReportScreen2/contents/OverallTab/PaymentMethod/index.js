@@ -14,6 +14,8 @@ import { ReportLayout } from "../../../widget";
 import PaymentMethod from "./PaymentMethod";
 import PaymentStatistic from "./PaymentStatistic";
 
+const RANGE_TIME_DEFAULT = "This Week";
+
 function PaymentMethodTab({ style, showBackButton }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -36,7 +38,7 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
   );
 
   /**state */
-  const [titleRangeTime, setTitleRangeTime] = useState("This week");
+  const [titleRangeTime, setTitleRangeTime] = useState(RANGE_TIME_DEFAULT);
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);
 
@@ -123,10 +125,11 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
       layoutRef.current.goBack();
     },
     didBlur: () => {
-      setTitleRangeTime("This week");
+      // setTitleRangeTime("This week");
     },
     didFocus: () => {
       // console.log("====> screen report -> staff didFocus");
+      layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
   }));
 

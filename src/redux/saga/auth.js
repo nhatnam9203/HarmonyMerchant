@@ -148,16 +148,14 @@ function* checkStaffPermission(action) {
           isShowLoading: true,
         });
       } else if (action.tabName === "Reports") {
+        // console.log("======> auth middle ware", action.tabName);
+
         yield put({
           type: "TOGGLE_REPORT_TAB_PERMISSION",
           payload: false,
         });
         yield put({
-          type: "GET_LIST_STAFFS_SALARY_TOP",
-          method: "GET",
-          token: true,
-          api: `${apiConfigs.BASE_API}staff/salary?quickFilter=thisWeek`,
-          isShowLoading: true,
+          type: "TOGGLE_REPORT_TAB_PERMISSION_SUCCESS",
         });
       } else if (action.tabName === "Settings") {
         const state = yield select();

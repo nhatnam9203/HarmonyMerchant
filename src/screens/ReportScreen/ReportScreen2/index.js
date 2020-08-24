@@ -3,6 +3,7 @@ import React, {
   forwardRef,
   useRef,
   useState,
+  useEffect,
 } from "react";
 import { View } from "react-native";
 import { useSelector } from "react-redux";
@@ -24,8 +25,15 @@ import styles from "./style";
 function ReportScreen2({ showBackButton }, ref) {
   const language = useSelector((state) => state.dataLocal.language);
 
+  const reportTabPermission = useSelector(
+    (state) => state.staff.reportTabPermission
+  );
+  const reportTabPermissionSuccess = useSelector(
+    (state) => state.staff.reportTabPermissionSuccess
+  );
   /**state */
   const [tabIndex, setTabIndex] = useState(0);
+  const [isMount, setIsMount] = useState(false);
 
   /**refs */
   const staffRef = useRef(null);
@@ -62,6 +70,8 @@ function ReportScreen2({ showBackButton }, ref) {
       }
     },
     didBlur: () => {
+      console.log("====> screen report -> didBlur");
+      setIsMount(false);
       switch (tabIndex) {
         case 0:
         default:
@@ -75,14 +85,7 @@ function ReportScreen2({ showBackButton }, ref) {
           break;
       }
     },
-    didFocus: () => {
-      switch (tabIndex) {
-        case 0:
-        default:
-          staffRef.current.didFocus();
-          break;
-      }
-    },
+    didFocus: () => {},
   }));
 
   const onTabChange = (taIndex) => {
@@ -100,6 +103,32 @@ function ReportScreen2({ showBackButton }, ref) {
   const onShowBackButton = (bl) => {
     showBackButton(bl);
   };
+
+  //
+  useEffect(() => {
+    if (reportTabPermissionSuccess === true && isMount) {
+      switch (tabIndex) {
+        case 0:
+          staffRef?.current.didFocus();
+          break;
+          // case 1:
+          //   giftCardRef.current.goBack();
+          break;
+        case 1:
+          customerRef?.current.didFocus();
+          break;
+        case 2:
+          overallRef?.current.didFocus();
+          break;
+        default:
+          break;
+      }
+    }
+
+    if (reportTabPermission === true && isMount === false) {
+      setIsMount(true);
+    }
+  }, [reportTabPermission, reportTabPermissionSuccess]);
 
   return (
     <View style={styles.container}>

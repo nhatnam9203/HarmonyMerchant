@@ -14,7 +14,7 @@ import { TabMarketing, TabAppointment, TabCheckout } from './widget';
 export default class Layout extends React.Component {
 
     render() {
-        const { language, navigation,marketingTabPermission } = this.props;
+        const { language, navigation, marketingTabPermission } = this.props;
         const { isFocus } = this.state;
         return (
             <ParentContainer

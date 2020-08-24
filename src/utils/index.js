@@ -1001,5 +1001,5 @@ export const getTotalProductByQuantity = (unitPrice = 0, quantity = 0) => {
 }
 
 
-export const CARD_TYPE = ["VISA", "MASTERCARD", "AMEX", "DISCOVER", "OTHER"];
+export const CARD_TYPE = ["VISA", "MASTERCARD", "AMEX", "DISCOVER"];
 export const PAYMENT_TYPE = ["SALE", "RETURN", "VOID SALE"]
