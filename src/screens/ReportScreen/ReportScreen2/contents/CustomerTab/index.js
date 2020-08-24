@@ -15,6 +15,8 @@ import { ReportLayout } from "../../widget";
 import CustomerReportTab from "./CustomerReportTab";
 import CustomerStatistic from "./CustomerStatistic";
 
+const RANGE_TIME_DEFAULT = "This Week";
+
 function CustomerTab({ style, showBackButton }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -37,7 +39,7 @@ function CustomerTab({ style, showBackButton }, ref) {
   );
 
   /**state */
-  const [titleRangeTime, setTitleRangeTime] = useState("This week");
+  const [titleRangeTime, setTitleRangeTime] = useState(RANGE_TIME_DEFAULT);
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);
 
@@ -58,8 +60,9 @@ function CustomerTab({ style, showBackButton }, ref) {
   //callback
   const onChangeTimeTitle = async (titmeTitle) => {
     await setTitleRangeTime(titmeTitle);
-    // TODO: call reload list
     await getCustomerReportSales();
+
+    // TODO: call reload list
   };
 
   const onChangeFilterNames = (names) => {
@@ -122,10 +125,11 @@ function CustomerTab({ style, showBackButton }, ref) {
     },
     didBlur: () => {
       // console.log("====> screen report -> customer didBlur");
-      getCustomerReportSales();
+      // getCustomerReportSales();
     },
     didFocus: () => {
       // console.log("====> screen report -> staff didFocus");
+      layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
   }));
 
@@ -145,7 +149,7 @@ function CustomerTab({ style, showBackButton }, ref) {
         isDownloadReport={isDownloadReport}
       >
         <CustomerReportTab
-          style={{ flex: 1}}
+          style={{ flex: 1 }}
           tabLabel="Customer"
           onGoStatistics={onGoStatistics}
           showCalendar={() => showCalendar(true)}
@@ -156,7 +160,7 @@ function CustomerTab({ style, showBackButton }, ref) {
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
         <CustomerStatistic
-          style={{ flex: 1}}
+          style={{ flex: 1 }}
           tabLabel="Customer Statistics"
           title="Customer Statistics"
           titleRangeTime={titleRangeTime}

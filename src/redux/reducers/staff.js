@@ -18,6 +18,7 @@ const initialState = {
   isDownloadReportStaff: false,
   pathFileReportStaffSalary: null,
   pathFileReportStaffStatistic: null,
+  reportTabPermissionSuccess: false,
 };
 
 function appReducer(state = initialState, action) {
@@ -137,11 +138,18 @@ function appReducer(state = initialState, action) {
       return {
         ...state,
         reportTabPermission: action.payload,
+        reportTabPermissionSuccess: false,
+      };
+    case "TOGGLE_REPORT_TAB_PERMISSION_SUCCESS":
+      return {
+        ...state,
+        reportTabPermissionSuccess: true,
       };
     case "CLOSE_ALL_POPUP_PIN_CODE":
       return {
         ...state,
         reportTabPermission: false,
+        reportTabPermissionSuccess: false,
       };
     case "DOWNLOAD_REPORT_STAFF":
       return {

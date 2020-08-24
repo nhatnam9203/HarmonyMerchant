@@ -52,7 +52,8 @@ function OverallTab({ style, showBackButton }, ref) {
       efficiencyTabRef?.current?.didBlur();
     },
     didFocus: () => {
-      // console.log("====> screen report -> staff didFocus");
+      paymentTabRef?.current?.didFocus();
+      efficiencyTabRef?.current?.didFocus();
     },
   }));
 
