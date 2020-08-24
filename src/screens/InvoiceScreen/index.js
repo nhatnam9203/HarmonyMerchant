@@ -58,7 +58,10 @@ class InvoiceScreen extends Layout {
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {
-                this.setState(initalState);
+                this.setState(prevStatet => ({
+                    ...initalState,
+                    invoiceDetail: prevStatet.invoiceDetail
+                }));
                 this.checkInvoicePermissionRef.current.setStateFromParent('');
             }
         );

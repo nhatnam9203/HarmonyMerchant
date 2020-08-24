@@ -39,7 +39,7 @@ const initalState = {
     invoiceNo: "",
     checkoutPayments: [],
 
-    promotionNotes:""
+    promotionNotes: ""
 }
 
 class PopupInvoicePrint extends React.Component {
@@ -52,7 +52,7 @@ class PopupInvoicePrint extends React.Component {
 
     setStateFromParent = async (
         basket, temptSubTotal, temptTax, temptDiscount,
-        temptTip, temptTotal, paymentSelected, isPrintTempt, printMachine,promotionNotes,
+        temptTip, temptTotal, paymentSelected, isPrintTempt, printMachine, promotionNotes,
         titleInvoice = "SALE", invoiceNo = "", checkoutPayments = []
     ) => {
 
@@ -191,10 +191,11 @@ class PopupInvoicePrint extends React.Component {
     render() {
         const { language, visiblePrintInvoice, profile, paymentDetailInfo, profileStaffLogin } = this.props;
         const { basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, isPrintTempt,
-            isSignature, paymentMethods, titleInvoice, invoiceNo, checkoutPayments,promotionNotes
+            isSignature, paymentMethods, titleInvoice, invoiceNo, checkoutPayments, promotionNotes
         } = this.state;
 
         const temtCheckoutPayment = paymentMethods.length > 0 ? paymentMethods : checkoutPayments;
+        // console.log("---- temtCheckoutPayment : ", temtCheckoutPayment);
 
         return (
             <Modal
@@ -311,12 +312,12 @@ class PopupInvoicePrint extends React.Component {
                                                 {`DESCRIPTION`}
                                             </Text>
                                         </View>
-                                        <View style={{ justifyContent: "center" }} >
+                                        <View style={{ justifyContent: "center", width: scaleSzie(70) }} >
                                             <Text style={[styleInvoice.txt_info, { fontSize: 18, fontWeight: "400" }]} >
                                                 {`PRICE`}
                                             </Text>
                                         </View>
-                                        <View style={{ width: scaleSzie(50), justifyContent: "center", alignItems: "center" }} >
+                                        <View style={{ width: scaleSzie(30), justifyContent: "center", alignItems: "center" }} >
                                             <Text style={[styleInvoice.txt_info, { fontSize: 18, fontWeight: "400" }]} >
                                                 {`QTY`}
                                             </Text>
@@ -406,9 +407,16 @@ class PopupInvoicePrint extends React.Component {
                                         !isPrintTempt ? <View>
                                             {
                                                 temtCheckoutPayment.map((data, index) => <View key={index} style={{ marginBottom: scaleSzie(4) }} >
-                                                    <Text style={[styleInvoice.txt_total,]} >
-                                                        {`- Entry method: ${getPaymentString(data.paymentMethod ? data.paymentMethod : "")}`}
-                                                    </Text>
+                                                    <View style={{ flexDirection: "row" }} >
+                                                        <Text style={[styleInvoice.txt_total,]} >
+                                                            {`- Entry method: ${getPaymentString(data.paymentMethod ? data.paymentMethod : "")}`}
+                                                        </Text>
+                                                        <View style={{ flex: 1, alignItems: "flex-end", justifyContent: "center" }} >
+                                                            <Text style={[styleInvoice.txt_total, { fontSize: scaleSzie(10) }]} >
+                                                                {`$${data.amount ? data.amount : ""}`}
+                                                            </Text>
+                                                        </View>
+                                                    </View>
                                                     {
                                                         data.paymentMethod && data.paymentMethod === "credit_card" || data.paymentMethod === "debit_card" ?
                                                             <View style={{ marginTop: scaleSzie(5) }} >
@@ -441,8 +449,9 @@ class PopupInvoicePrint extends React.Component {
 
 
                                     {
-                                        promotionNotes ? <Text style={{  fontSize: 16, fontWeight: "bold",
-                                        marginTop:scaleSzie(10)
+                                        promotionNotes ? <Text style={{
+                                            fontSize: 16, fontWeight: "bold",
+                                            marginTop: scaleSzie(10)
                                         }} >
                                             {`Discount note: `}
                                             <Text style={{ fontWeight: "500" }} >
@@ -549,13 +558,15 @@ const ItemInvoice = ({ item, index }) => {
                         </Text> : null
                 }
             </View>
-            <View style={{ justifyContent: "center" }} >
+            <View style={{ justifyContent: "center", width: scaleSzie(70) }} >
                 <Text style={[styleInvoice.txt_info,]} >
                     {`$ ${price}`}
                 </Text>
             </View>
             <View style={{
-                width: scaleSzie(50), justifyContent: "center", alignItems: "center",
+                // width: scaleSzie(50), justifyContent: "center", alignItems: "center",
+                width: scaleSzie(30), justifyContent: "center", alignItems: "center",
+                // paddingLeft: scaleSzie(6)
             }} >
                 <Text style={[styleInvoice.txt_info,]} >
                     {quanlitySet}

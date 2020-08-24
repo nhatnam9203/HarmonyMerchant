@@ -260,7 +260,7 @@ const LegendChart = ({ color, label }) => (
         width: 30,
         height: 30,
         backgroundColor: color,
-        marginRight: 20,
+        marginRight: 10,
       }}
     />
     <Text

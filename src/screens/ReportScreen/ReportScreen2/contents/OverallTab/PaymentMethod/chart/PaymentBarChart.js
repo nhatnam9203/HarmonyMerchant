@@ -61,7 +61,7 @@ const yAxis = {
     textColor: processColor("#0764B0"),
     granularity: 10,
     labelCount: 10,
-    valueFormatter: "#.# '$'",
+    valueFormatter: "###,###,###.##",
   },
   right: {
     drawLabels: false,
@@ -115,7 +115,7 @@ export default function PaymentBarChart({ data }) {
               ],
               valueTextSize: 14,
               valueTextColor: processColor("#0764B0"),
-              valueFormatter: "0.00",
+              valueFormatter: "###,###,##0.00",
             },
           },
         ],
