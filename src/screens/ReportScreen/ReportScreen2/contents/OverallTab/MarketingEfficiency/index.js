@@ -14,6 +14,8 @@ import { ReportLayout } from "../../../widget";
 import MarketingEfficiency from "./MarketingEfficiency";
 import MarketingEfficiencyStatistic from "./MarketingEfficiencyStatistic";
 
+const RANGE_TIME_DEFAULT = "This Week";
+
 function MarketingEfficiencyTab({ style, showBackButton }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -36,7 +38,7 @@ function MarketingEfficiencyTab({ style, showBackButton }, ref) {
   );
 
   /**state */
-  const [titleRangeTime, setTitleRangeTime] = useState("This week");
+  const [titleRangeTime, setTitleRangeTime] = useState(RANGE_TIME_DEFAULT);
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);
 
@@ -123,10 +125,11 @@ function MarketingEfficiencyTab({ style, showBackButton }, ref) {
       layoutRef.current.goBack();
     },
     didBlur: () => {
-      setTitleRangeTime("This week");
+      // setTitleRangeTime("This week");
     },
     didFocus: () => {
       // console.log("====> screen report -> staff didFocus");
+      layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
   }));
 
@@ -146,7 +149,7 @@ function MarketingEfficiencyTab({ style, showBackButton }, ref) {
         isDownloadReport={isDownloadReport}
       >
         <MarketingEfficiency
-          style={{ flex: 1}}
+          style={{ flex: 1 }}
           tabLabel="Marketing Efficiency"
           onGoStatistics={onGoStatistics}
           showCalendar={() => showCalendar(true)}
@@ -157,7 +160,7 @@ function MarketingEfficiencyTab({ style, showBackButton }, ref) {
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
         <MarketingEfficiencyStatistic
-          style={{ flex: 1}}
+          style={{ flex: 1 }}
           tabLabel="Marketing Efficiency Statistics"
           title="Marketing Efficiency Statistics"
           titleRangeTime={titleRangeTime}
