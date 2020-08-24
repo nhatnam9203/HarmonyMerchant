@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
+import { Calendar } from "react-native-calendars";
 
 import IMAGE from "@resources";
 import { localize } from "@utils";
 import actions from "@actions";
+import { ModalCustom } from "@components";
 
 import { PopupButton, TableList, ReportTabLayout } from "../../widget";
 import GiftCardBarGroupChart from "./chart/GiftCardReportChart";
@@ -197,6 +199,26 @@ export default function GiftCardReportTab({
               margin: 20,
             }}
           >
+            <View
+              style={{
+                height: 50,
+                position: "absolute",
+                left: 0,
+                top: -25,
+                right: 0,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CalendarRangePicker
+                renderBase={() => (
+                  <PopupButton
+                    text="Export"
+                    // imageSrc={IMAGE.export}
+                  />
+                )}
+              />
+            </View>
             <GiftCardBarGroupChart data={chartData} />
           </View>
         )}
