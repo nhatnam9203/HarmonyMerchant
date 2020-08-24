@@ -24,27 +24,29 @@ const yAxis = {
     drawLabels: true,
     drawAxisLine: true,
     drawGridLines: true,
-    axisMinimum: 0,
+    axisMinimum: -1,
     // axisMaximum: 1500,
     textSize: 14,
     formSize: 14,
     textColor: processColor("#0764B0"),
-    granularity: 10,
+    granularityEnabled: true,
+    granularity: 1,
     labelCount: 10,
-    valueFormatter: "#.# '$'",
+    valueFormatter: "###,###,###.##",
   },
   right: {
     drawLabels: true,
     drawAxisLine: true,
     drawGridLines: false,
-    axisMinimum: 0,
+    axisMinimum: -1,
     // axisMaximum: 1500,
     textSize: 14,
     formSize: 14,
     textColor: processColor("#E5B960"),
-    granularity: 10,
+    granularityEnabled: true,
+    granularity: 1,
     labelCount: 10,
-    valueFormatter: "#.# '$'",
+    valueFormatter: "###,###,###.##",
   },
 };
 
@@ -54,6 +56,7 @@ const pickValuesForKey = (array, forKey, format, unit = "") => {
     const [key, value] = item[0];
     if (format === "float") {
       const ft = formatNumberFromCurrency(value);
+
       return parseFloat(ft.toFixed(2));
     }
     return value + unit;
@@ -82,9 +85,10 @@ export default function MarketingBarGroupChart({ data }) {
             config: {
               colors: [processColor("#80C6FF")],
               drawValues: true,
-              valueTextSize: 12,
+              valueTextSize: 11,
               valueTextColor: processColor("#404040"),
-              valueFormatter: "0.00",
+              valueFormatter: "###,###,##0.00;-###,###,##0.00",
+              wordWrapEnabled: true,
             },
           },
           {
@@ -93,9 +97,10 @@ export default function MarketingBarGroupChart({ data }) {
             config: {
               colors: [processColor("#E5B960")],
               drawValues: true,
-              valueTextSize: 12,
+              valueTextSize: 11,
               valueTextColor: processColor("#404040"),
-              valueFormatter: "0.00",
+              valueFormatter: "###,###,##0.00;-###,###,##0.00",
+              wordWrapEnabled: true,
             },
           },
         ],
@@ -126,6 +131,7 @@ export default function MarketingBarGroupChart({ data }) {
         drawGridLines: false,
         axisMaximum: 5,
         axisMinimum: 0,
+        yOffset: 30
       };
 
       setXAxis(createXAxis);
@@ -161,7 +167,7 @@ export default function MarketingBarGroupChart({ data }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
+    flex: 3,
     margin: 20,
   },
   chart: {
