@@ -169,6 +169,4 @@ export function updatePromotionNote(promotionNoteId,notes) {
         api: `${apiConfigs.BASE_API}appointment/promotion/note/${promotionNoteId}`
     }
 }
-// https://dev.harmonypayment.com/api/appointment/promotion/note/{appointemntId}
-// https://dev.harmonypayment.com/api/appointment/promotion/note/{promotionNoteId}
 

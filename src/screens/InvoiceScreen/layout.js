@@ -151,7 +151,23 @@ export default class Layout extends React.Component {
         const { language } = this.props;
         const { invoiceDetail } = this.state;
         const status = invoiceDetail.status ? invoiceDetail.status : '';
-        if (status === 'paid') {
+        // console.log("---- invoiceDetail : ",JSON.stringify(invoiceDetail));
+
+        let isDebitPayment = false;
+        const paymentMethod =invoiceDetail.paymentMethod ? invoiceDetail.paymentMethod : "";
+
+        try {
+            if(paymentMethod && paymentMethod === "credit_card"){
+                const paymentInformation = invoiceDetail.paymentInformation.length > 0 ? invoiceDetail.paymentInformation : false;
+                isDebitPayment = paymentInformation && paymentInformation[0].paymentData &&  `${paymentInformation[0].paymentData.transaction_type}`.toUpper() == "CREDIT" ? false : true;
+            }
+        } catch (error) {
+            // console.log("---- error : ", error);
+            isDebitPayment= false;
+        }
+      
+
+        if (status === 'paid' && !isDebitPayment) {
             return (
                 <ButtonCustom
                     width={'100%'}
@@ -164,7 +180,7 @@ export default class Layout extends React.Component {
                     styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
                 />
             );
-        } else if (status === 'complete') {
+        } else if (status === 'complete' && !isDebitPayment) {
             return (
                 <ButtonCustom
                     width={'100%'}

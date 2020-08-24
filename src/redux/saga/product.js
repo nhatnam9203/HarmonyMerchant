@@ -239,6 +239,7 @@ function* exportInventory(action) {
                 description: 'File downloaded by download manager.',
                 path: `${dirs.DocumentDir}/${action.fileName}.${action.extention}`,
             }).fetch('GET', responses.data.path, {});
+            
             yield put({
                 type: 'DOWNLOAD_INVENTORY_SUCCESS',
                 payload: fileDownload.path()

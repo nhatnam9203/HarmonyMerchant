@@ -1,5 +1,7 @@
 import _ from "ramda";
 import React from "react";
+import {Platform} from "react-native";
+import RNFetchBlob from 'rn-fetch-blob';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -33,7 +35,19 @@ class BatchHistoryList extends Layout {
     }
 
     shareBatchHistoryList = () => {
-
+        // this.props.actions.upload.exportBatchHistory();
+        // https://dev.harmonypayment.com/media/Smile-store-report-24-08-2020.pdf
+        try {
+            const imageUri = "https://dev.harmonypayment.com/media/Smile-store-report-24-08-2020.pdf" ;
+            if (Platform.OS === 'ios') {
+                RNFetchBlob.ios.previewDocument(imageUri)
+            } else {
+                const android = RNFetchBlob.android;
+                android.actionViewIntent(imageUri, 'application/vnd.android.package-archive')
+            }
+        } catch (error) {
+            alert(error)
+        }
     }
 
     printBatchHistoryList = () => {
