@@ -1,11 +1,11 @@
 import _ from "ramda";
 import React from "react";
-import {Platform} from "react-native";
+import { Platform, Linking, Alert, Share } from "react-native";
 import RNFetchBlob from 'rn-fetch-blob';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import {  getQuickFilterStringInvoice } from '@utils';
+import { getQuickFilterStringInvoice } from '@utils';
 
 class BatchHistoryList extends Layout {
 
@@ -19,7 +19,7 @@ class BatchHistoryList extends Layout {
         this.modalCalendarRef = React.createRef();
     }
 
-    setStateFromParent = async () =>{
+    setStateFromParent = async () => {
         await this.setState({
             titleRangeTime: 'Time Range',
             visibleCalendar: false,
@@ -34,20 +34,8 @@ class BatchHistoryList extends Layout {
         this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(`0`);
     }
 
-    shareBatchHistoryList = () => {
-        // this.props.actions.upload.exportBatchHistory();
-        // https://dev.harmonypayment.com/media/Smile-store-report-24-08-2020.pdf
-        try {
-            const imageUri = "https://dev.harmonypayment.com/media/Smile-store-report-24-08-2020.pdf" ;
-            if (Platform.OS === 'ios') {
-                RNFetchBlob.ios.previewDocument(imageUri)
-            } else {
-                const android = RNFetchBlob.android;
-                android.actionViewIntent(imageUri, 'application/vnd.android.package-archive')
-            }
-        } catch (error) {
-            alert(error)
-        }
+    shareBatchHistoryList = async () => {
+        this.props.actions.upload.exportBatchHistory();
     }
 
     printBatchHistoryList = () => {

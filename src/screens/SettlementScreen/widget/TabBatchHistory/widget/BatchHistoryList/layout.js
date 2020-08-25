@@ -96,14 +96,14 @@ class Layout extends React.Component {
                     </View>
                 </View>
                 {/* ----------- ICON ----------- */}
-                {/* <Button onPress={this.shareBatchHistoryList} style={{
+                <Button onPress={this.shareBatchHistoryList} style={{
                     position: "absolute", top: scaleSzie(3), right: scaleSzie(10),
                     justifyContent: "center"
                 }} >
                     <Image source={ICON.share_batch_history}
                         style={{ width: scaleSzie(30), height: scaleSzie(30) }}
                     />
-                </Button> */}
+                </Button>
 
                 {/* <Button onPress={this.printBatchHistoryList} style={{
                     position: "absolute", top: scaleSzie(3), right: scaleSzie(50),
