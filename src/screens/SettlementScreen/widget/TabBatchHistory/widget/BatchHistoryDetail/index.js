@@ -1,17 +1,7 @@
-import React from 'react';
-import { NativeModules, Alert } from 'react-native';
 import _ from "ramda";
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import {
-    formatNumberFromCurrency, formatMoney, scaleSzie, roundFloatNumber, requestAPI,
-    CARD_TYPE, PAYMENT_TYPE
-} from '@utils';
-import apiConfigs from '@configs/api';
-
-
-const PosLink = NativeModules.MyApp;
 
 class BatchHistoryDetail extends Layout {
 

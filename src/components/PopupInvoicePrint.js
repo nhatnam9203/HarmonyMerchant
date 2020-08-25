@@ -447,6 +447,18 @@ class PopupInvoicePrint extends React.Component {
                                         </View> : <View />
                                     }
 
+                                    {
+                                        isPrintTempt ? <View style={{ height: scaleSzie(15), flexDirection: "row", marginTop: scaleSzie(15) }} >
+                                            <View style={{ width: scaleSzie(70), justifyContent: "flex-end" }} >
+                                                <Text style={[styleInvoice.txt_total, { fontSize: 18, fontWeight: "600" }]} >
+                                                    {"Signature:"}
+                                                </Text>
+                                            </View>
+                                            <View style={{ width: scaleSzie(50) }} />
+                                            <View style={{ flex: 1, borderBottomColor: "#000", borderBottomWidth: 1, }} />
+                                        </View> : <View />
+                                    }
+
 
                                     {
                                         promotionNotes ? <Text style={{
