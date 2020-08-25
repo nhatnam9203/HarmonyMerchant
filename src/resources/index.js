@@ -11,6 +11,7 @@ export default {
   checkBox: require('./img/check-box.png'),
   sortDown: require('./img/down.png'),
   sortUp: require('./img/up.png'),
+  sortNone: require('./img/sort_none.png'),
   indicate: require('./img/indicate.png'),
   addStaff: require('./img/addStaff.png'),
   closePopup: require('./img/closePopup.png'),
