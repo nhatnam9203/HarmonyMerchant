@@ -75,39 +75,54 @@ const getDateRange = (title, timeUrl) => {
   switch (title) {
     case "Today":
       return {
-        start: currentDate.format("MM/DD/YYYY"),
-        end: currentDate.format("MM/DD/YYYY"),
+        since: currentDate.valueOf(),
+        valueFormatter: [currentDate.format("MM/DD/YYYY")],
+        // start: currentDate.format("MM/DD/YYYY"),
+        // end: currentDate.format("MM/DD/YYYY"),
       };
     case "Yesterday":
       const yesterday = currentDate.subtract(1, "days");
       return {
-        start: yesterday.format("MM/DD/YYYY"),
-        end: currentDate.format("MM/DD/YYYY"),
+        since: yesterday.valueOf(),
+        valueFormatter: [
+          yesterday.format("MM/DD/YYYY"),
+          currentDate.format("MM/DD/YYYY"),
+        ],
+        // start: yesterday.format("MM/DD/YYYY"),
+        // end: currentDate.format("MM/DD/YYYY"),
       };
     case "This Week":
       const weekStart = currentDate.clone().startOf("isoweek");
       return {
-        start: weekStart.format("MM/DD/YYYY"),
-        end: currentDate.format("MM/DD/YYYY"),
+        since: weekStart.valueOf(),
+        valueFormatter: [],
+        // start: weekStart.format("MM/DD/YYYY"),
+        // end: currentDate.format("MM/DD/YYYY"),
       };
     case "Last Week":
       const lastWeek = currentDate.subtract(1, "weeks");
       return {
-        start: lastWeek.startOf("isoweek").format("MM/DD/YYYY"),
-        end: lastWeek.endOf("isoweek").format("MM/DD/YYYY"),
+        since: lastWeek.startOf("isoweek").valueOf(),
+        valueFormatter: [],
+        // start: lastWeek.startOf("isoweek").format("MM/DD/YYYY"),
+        // end: lastWeek.endOf("isoweek").format("MM/DD/YYYY"),
       };
       break;
     case "This Month":
       const thisMonth = currentDate.clone().startOf("month");
       return {
-        start: thisMonth.format("MM/DD/YYYY"),
-        end: currentDate.format("MM/DD/YYYY"),
+        since: thisMonth.valueOf(),
+        valueFormatter: [],
+        // start: thisMonth.format("MM/DD/YYYY"),
+        // end: currentDate.format("MM/DD/YYYY"),
       };
     case "Last Month":
       const lastMonth = currentDate.subtract(1, "months");
       return {
-        start: lastMonth.startOf("month").format("MM/DD/YYYY"),
-        end: lastMonth.endOf("month").format("MM/DD/YYYY"),
+        since: lastMonth.startOf("month").valueOf(),
+        valueFormatter: [],
+        // start: lastMonth.startOf("month").format("MM/DD/YYYY"),
+        // end: lastMonth.endOf("month").format("MM/DD/YYYY"),
       };
     default:
       if (!timeUrl || _.isEmpty(timeUrl)) return null;
@@ -117,8 +132,10 @@ const getDateRange = (title, timeUrl) => {
       const startArr = strArr[0]?.split("=");
       const endArr = strArr[1]?.split("=");
       if (startArr?.length != 2 || endArr?.length != 2) return null;
-
+      const startDate = moment(startArr[1]);
       return {
+        since: startDate.valueOf(),
+        valueFormatter: [],
         start: startArr[1],
         end: endArr[1],
       };
@@ -188,7 +205,10 @@ export default function GiftCardBarGroupChart({
 
       const dataSets = []; // Object.values(dateSets);
       const createDataSet = {
-        dataSets: dataSets,
+        dataSets: [
+          { x: 1, y: 500 },
+          { x: 2, y: 1000 },
+        ],
         config: {
           // BarData
           barWidth: 0.2,
@@ -200,8 +220,8 @@ export default function GiftCardBarGroupChart({
         },
       };
 
-      // setDataChart(createDataSet);
-      setDataChart({});
+      setDataChart(createDataSet);
+      // setDataChart({});
 
       const valueFormatter = Object.keys(dateDataDict);
     } else {
@@ -226,10 +246,12 @@ export default function GiftCardBarGroupChart({
       drawAxisLine: true,
       drawGridLines: false,
       drawLabels: true,
+      labelCount: 7,
       timeUnit: "DAYS",
-      since: 0,
-      valueFormatter: "date",
       valueFormatterPattern: "YYYY/MM/dd",
+      axisMaximum: 30,
+      axisMinimum: 0,
+      ...dateValues,
     };
 
     setXAxis(createXAxis);
@@ -262,7 +284,7 @@ export default function GiftCardBarGroupChart({
           doubleTapToZoomEnabled={false}
           dragDecelerationEnabled={false}
           dragDecelerationFrictionCoef={0.99}
-          zoom={{ scaleX: 3, scaleY: 1, xValue: 0, yValue: 0 }}
+          zoom={{ scaleX: 1, scaleY: 1, xValue: 7, yValue: 0 }}
           highlightFullBarEnabled={false}
         />
       )}
