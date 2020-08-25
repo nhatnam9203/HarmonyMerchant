@@ -118,7 +118,7 @@ function TableList(
 
   const setListData = (sort) => {
     let sortList = tableData;
-    if (sortKey && sortList.length > 0) {
+    if (sortKey && sortList?.length > 0) {
       sortList.sort((a, b) => {
         if (sort === SORT_STATE.desc) {
           return strCompare(a[sortKey], b[sortKey]);

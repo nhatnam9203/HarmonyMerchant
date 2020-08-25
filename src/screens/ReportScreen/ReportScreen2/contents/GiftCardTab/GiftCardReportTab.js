@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { Calendar } from "react-native-calendars";
 
 import IMAGE from "@resources";
 import { localize } from "@utils";
-import actions from "@actions";
-import { ModalCustom } from "@components";
 
 import {
   PopupButton,
@@ -28,6 +25,7 @@ export default function GiftCardReportTab({
   style,
   onGoStatistics,
   titleRangeTime,
+  urlRangeTime,
   showCalendar,
   onChangeFilterNames,
   onChangeFilterId,
@@ -224,7 +222,11 @@ export default function GiftCardReportTab({
                 )}
               />
             </View>
-            <GiftCardBarGroupChart data={chartData} />
+            <GiftCardBarGroupChart
+              data={chartData}
+              titleRangeTime={titleRangeTime}
+              urlRangeTime={urlRangeTime}
+            />
           </View>
         )}
       </ReportTabLayout>

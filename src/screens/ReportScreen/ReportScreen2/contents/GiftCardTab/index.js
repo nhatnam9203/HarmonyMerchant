@@ -37,6 +37,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
 
   /**state */
   const [titleRangeTime, setTitleRangeTime] = useState("This week");
+  const [urlRangeTime, setUrlRangeTime] = useState(null);
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);
 
@@ -60,8 +61,8 @@ function GiftCardTab({ style, showBackButton }, ref) {
   //callback
   const onChangeTimeTitle = async (titmeTitle) => {
     await setTitleRangeTime(titmeTitle);
-    // TODO: call reload list
     await getGiftCardReportSales();
+    setUrlRangeTime(layoutRef?.current?.getTimeUrl());
   };
 
   const onChangeFilterNames = (names) => {
@@ -147,18 +148,19 @@ function GiftCardTab({ style, showBackButton }, ref) {
         isDownloadReport={isDownloadReport}
       >
         <GiftCardReportTab
-          style={{ flex: 1}}
+          style={{ flex: 1 }}
           tabLabel="Gift Card"
           onGoStatistics={onGoStatistics}
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
+          urlRangeTime={urlRangeTime}
           onChangeFilterNames={onChangeFilterNames}
           showExportFile={() => onShowPopupExport("GiftCard")}
           pathFileExport={giftCardExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
         <GiftCardStatistic
-          style={{ flex: 1}}
+          style={{ flex: 1 }}
           tabLabel="Gift Card Statistics"
           title="Gift Card Statistics"
           titleRangeTime={titleRangeTime}

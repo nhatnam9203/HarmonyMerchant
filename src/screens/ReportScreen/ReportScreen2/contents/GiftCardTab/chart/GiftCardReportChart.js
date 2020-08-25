@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, processColor, View, Text } from "react-native";
 import { BarChart } from "react-native-charts-wrapper";
 import _ from "ramda";
+import moment from "moment";
 
 import { formatNumberFromCurrency } from "@utils";
 
@@ -46,6 +47,19 @@ const yAxis = {
   },
 };
 
+const colors = [
+  processColor("#FF7F00"),
+  processColor("#CAB2D6"),
+  processColor("#1F78B4"),
+  processColor("#80C6FF"),
+  processColor("#E5B960"),
+  processColor("#FEBBFF"),
+  processColor("#1F7810"),
+  processColor("#80C610"),
+  processColor("#CAB610"),
+  processColor("#1F11B4"),
+];
+
 const pickValuesForKey = (array, forKey, format) => {
   return array.map((obj) => {
     const item = Object.entries(obj).filter(([key, value]) => key === forKey);
@@ -55,7 +69,44 @@ const pickValuesForKey = (array, forKey, format) => {
   });
 };
 
-export default function GiftCardBarGroupChart({ data }) {
+const getDateRange = (title, timeUrl) => {
+  switch (title) {
+    case "Today":
+
+      break;
+    case "Yesterday":
+
+      break;
+    case "This Week":
+      break;
+    case "Last Week":
+      break;
+    case "This Month":
+      break;
+    case "Last Month":
+
+      break;
+    default:
+      if (_.isEmpty(timeUrl)) return null;
+
+      const strArr = timeUrl.split("&");
+      if (strArr?.length != 2) return null;
+      const startArr = strArr[0].split("=");
+      const endArr = strArr[1].split("=");
+      if (startArr?.length != 2 || endArr?.length != 2) return null;
+
+      return {
+        start: startArr[1],
+        end: endArr[1],
+      };
+  }
+};
+
+export default function GiftCardBarGroupChart({
+  data,
+  titleRangeTime,
+  urlRangeTime,
+}) {
   /**state store */
   const [dataChart, setDataChart] = useState({});
   const [xAxis, setXAxis] = useState({});
@@ -65,18 +116,6 @@ export default function GiftCardBarGroupChart({ data }) {
   useEffect(() => {
     if (data) {
       // ======= map values =======
-      const colors = [
-        processColor("#FF7F00"),
-        processColor("#CAB2D6"),
-        processColor("#1F78B4"),
-        processColor("#80C6FF"),
-        processColor("#E5B960"),
-        processColor("#FEBBFF"),
-        processColor("#1F7810"),
-        processColor("#80C610"),
-        processColor("#CAB610"),
-        processColor("#1F11B4"),
-      ];
 
       let dateDataDict = Object.create({}); // data for dateString
       let dateSets = Object.create({});
@@ -166,6 +205,12 @@ export default function GiftCardBarGroupChart({ data }) {
     // ======= map formatter =======
   }, [data]);
 
+  useEffect(() => {
+    const dateValues = getDateRange(titleRangeTime, urlRangeTime);
+
+    console.log(`========> ${titleRangeTime} - ${urlRangeTime}`);
+  }, [urlRangeTime]);
+
   return (
     <View style={styles.container}>
       <View style={styles.amountContent}>
@@ -176,17 +221,25 @@ export default function GiftCardBarGroupChart({ data }) {
       </View>
       {!_.isEmpty(xAxis) && !_.isEmpty(dataChart) && (
         <BarChart
-          doubleTapToZoomEnabled={false}
-          touchEnabled={false}
           dragEnabled={true}
           style={styles.chart}
           data={dataChart}
           xAxis={xAxis}
           yAxis={yAxis}
-          animation={{ durationX: 500 }}
+          animation={{ durationX: 200 }}
           legend={legend}
-          gridBackgroundColor={processColor("transparent")}
           entryLabelTextSize={14}
+          touchEnabled={true}
+          dragEnabled={true}
+          scaleEnabled={true}
+          scaleXEnabled={true}
+          scaleYEnabled={true}
+          pinchZoom={true}
+          doubleTapToZoomEnabled={false}
+          dragDecelerationEnabled={false}
+          dragDecelerationFrictionCoef={0.99}
+          zoom={{ scaleX: 3, scaleY: 1, xValue: 0, yValue: 0 }}
+          highlightFullBarEnabled={false}
         />
       )}
     </View>
