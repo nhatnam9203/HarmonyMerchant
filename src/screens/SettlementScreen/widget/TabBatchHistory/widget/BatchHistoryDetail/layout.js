@@ -84,7 +84,7 @@ class Layout extends React.Component {
 
 
     renderStaffsTable() {
-        const {  gitfCardSalesBySettlementId, staffSalesBySettlementId } = this.props;
+        const { gitfCardSalesBySettlementId, staffSalesBySettlementId } = this.props;
         let totalAmount = 0;
         let giftCardTotal = 0
         if (staffSalesBySettlementId.length > 0) {
