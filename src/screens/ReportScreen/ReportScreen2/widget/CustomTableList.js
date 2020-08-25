@@ -19,7 +19,7 @@ import {
   roundFloatNumber,
   formatNumberFromCurrency,
   formatMoney,
-  scaleSzie
+  scaleSzie,
 } from "@utils";
 import IMAGE from "@resources";
 
@@ -106,6 +106,7 @@ function TableList(
     renderActionCell,
     checkSumItem,
     sortKey,
+    sortDefault,
   },
   ref
 ) {
@@ -121,9 +122,9 @@ function TableList(
       sortList.sort((a, b) => {
         if (sort === SORT_STATE.desc) {
           return strCompare(a[sortKey], b[sortKey]);
-        } else {
+        } else if (sort === SORT_STATE.asc) {
           return strCompare(b[sortKey], a[sortKey]);
-        }
+        } else return 0;
       });
     }
 
@@ -188,8 +189,10 @@ function TableList(
 
   useEffect(() => {
     // set data and sort -> render
-    setSortState(SORT_STATE.desc);
-    setListData(SORT_STATE.desc);
+    if (!sortDefault) {
+      setSortState(SORT_STATE.desc);
+      setListData(SORT_STATE.desc);
+    }
   }, [sortKey]);
 
   // get width render cell with index or key
