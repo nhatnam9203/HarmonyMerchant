@@ -38,7 +38,7 @@ const dataConfig = {
 };
 const highlights = [{ x: 3 }, { x: 6 }];
 const xAxisDefault = {
-  valueFormatter: ["Cash", "Credit Card", "Harmony Pay", "Other-Check"],
+  valueFormatter: ["Cash", "Credit Card", "HarmonyPay", "Other"],
   granularityEnabled: true,
   granularity: 1,
   centerAxisLabels: false,

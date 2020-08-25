@@ -70,29 +70,52 @@ const pickValuesForKey = (array, forKey, format) => {
 };
 
 const getDateRange = (title, timeUrl) => {
+  const currentDate = moment();
+
   switch (title) {
     case "Today":
-
-      break;
+      return {
+        start: currentDate.format("MM/DD/YYYY"),
+        end: currentDate.format("MM/DD/YYYY"),
+      };
     case "Yesterday":
-
-      break;
+      const yesterday = currentDate.subtract(1, "days");
+      return {
+        start: yesterday.format("MM/DD/YYYY"),
+        end: currentDate.format("MM/DD/YYYY"),
+      };
     case "This Week":
-      break;
+      const weekStart = currentDate.clone().startOf("isoweek");
+      return {
+        start: weekStart.format("MM/DD/YYYY"),
+        end: currentDate.format("MM/DD/YYYY"),
+      };
     case "Last Week":
+      const lastWeek = currentDate.subtract(1, "weeks");
+      return {
+        start: lastWeek.startOf("isoweek").format("MM/DD/YYYY"),
+        end: lastWeek.endOf("isoweek").format("MM/DD/YYYY"),
+      };
       break;
     case "This Month":
-      break;
+      const thisMonth = currentDate.clone().startOf("month");
+      return {
+        start: thisMonth.format("MM/DD/YYYY"),
+        end: currentDate.format("MM/DD/YYYY"),
+      };
     case "Last Month":
-
-      break;
+      const lastMonth = currentDate.subtract(1, "months");
+      return {
+        start: lastMonth.startOf("month").format("MM/DD/YYYY"),
+        end: lastMonth.endOf("month").format("MM/DD/YYYY"),
+      };
     default:
-      if (_.isEmpty(timeUrl)) return null;
+      if (!timeUrl || _.isEmpty(timeUrl)) return null;
 
-      const strArr = timeUrl.split("&");
+      const strArr = timeUrl?.split("&");
       if (strArr?.length != 2) return null;
-      const startArr = strArr[0].split("=");
-      const endArr = strArr[1].split("=");
+      const startArr = strArr[0]?.split("=");
+      const endArr = strArr[1]?.split("=");
       if (startArr?.length != 2 || endArr?.length != 2) return null;
 
       return {
@@ -163,7 +186,7 @@ export default function GiftCardBarGroupChart({
         });
       });
 
-      const dataSets = Object.values(dateSets);
+      const dataSets = []; // Object.values(dateSets);
       const createDataSet = {
         dataSets: dataSets,
         config: {
@@ -177,29 +200,12 @@ export default function GiftCardBarGroupChart({
         },
       };
 
-      setDataChart(createDataSet);
+      // setDataChart(createDataSet);
+      setDataChart({});
 
       const valueFormatter = Object.keys(dateDataDict);
-      const createXAxis = {
-        valueFormatter: valueFormatter,
-        centerAxisLabels: true,
-        position: "BOTTOM",
-        granularityEnabled: true,
-        granularity: 1,
-        textSize: 14,
-        formSize: 14,
-        textColor: processColor("#0764B0"),
-        drawAxisLine: true,
-        drawGridLines: false,
-        drawLabels: true,
-        axisMinimum: 0,
-        axisMaximum: 7,
-      };
-
-      setXAxis(createXAxis);
     } else {
       setDataChart({});
-      setXAxis({});
     }
 
     // ======= map formatter =======
@@ -208,7 +214,25 @@ export default function GiftCardBarGroupChart({
   useEffect(() => {
     const dateValues = getDateRange(titleRangeTime, urlRangeTime);
 
-    console.log(`========> ${titleRangeTime} - ${urlRangeTime}`);
+    const createXAxis = {
+      // valueFormatter: valueFormatter,
+      centerAxisLabels: true,
+      position: "BOTTOM",
+      granularityEnabled: true,
+      granularity: 1,
+      textSize: 14,
+      formSize: 14,
+      textColor: processColor("#0764B0"),
+      drawAxisLine: true,
+      drawGridLines: false,
+      drawLabels: true,
+      timeUnit: "DAYS",
+      since: 0,
+      valueFormatter: "date",
+      valueFormatterPattern: "YYYY/MM/dd",
+    };
+
+    setXAxis(createXAxis);
   }, [urlRangeTime]);
 
   return (
