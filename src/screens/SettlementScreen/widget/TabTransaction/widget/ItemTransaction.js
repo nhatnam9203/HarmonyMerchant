@@ -31,8 +31,8 @@ function getCredicardIcon(type) {
 const ItemTransaction = (props) => {
     const { data } = props;
     const cardType = data.paymentData && data.paymentData.card_type ? data.paymentData.card_type : "";
-    // console.log("cardType: ", cardType.toLowerCase());
     const creditCardLogo = getCredicardIcon(`${cardType}`.toLowerCase());
+    const transactionType = data.paymentData && data.paymentData.transaction_type ? `${data.paymentData.transaction_type}`.toUpperCase() : "";
 
     return (
         <View style={{
@@ -41,7 +41,7 @@ const ItemTransaction = (props) => {
         }} >
             {/* --------- Col 1 --------- */}
             <View style={{
-                width: scaleSzie(130), justifyContent: 'center', paddingRight: scaleSzie(10),
+                width: scaleSzie(100), justifyContent: 'center', paddingRight: scaleSzie(10),
             }} >
                 <Text style={[styles.textHeaderContent, { marginLeft: scaleSzie(10), }]}
                     numberOfLines={1}
@@ -50,7 +50,7 @@ const ItemTransaction = (props) => {
                 </Text>
             </View>
             {/* --------- Col 2 --------- */}
-            <View style={{ width: scaleSzie(120), justifyContent: 'center' }} >
+            <View style={{ width: scaleSzie(110), justifyContent: 'center' }} >
                 <Text style={styles.textHeaderContent} >
                     {formatWithMoment(data.createdDate, 'MM/DD/YYYY')}
                 </Text>
@@ -66,20 +66,26 @@ const ItemTransaction = (props) => {
                 </Text>
             </View>
             {/* --------- Col 4 --------- */}
-            <View style={{ width: scaleSzie(100), justifyContent: 'center' }} >
+            <View style={{ width: scaleSzie(90), justifyContent: 'center' }} >
                 <Text style={styles.textHeaderContent} >
                     {data.status}
                 </Text>
             </View>
             {/* --------- Col 5 --------- */}
-            <View style={{ width: scaleSzie(130), alignItems: 'center', flexDirection: 'row' }} >
+            <View style={{ width: scaleSzie(110), alignItems: 'center', flexDirection: 'row' }} >
                 <Image source={creditCardLogo} style={{ width: scaleSzie(30), height: scaleSzie(20) }} />
                 <View style={{ width: 10 }} />
                 <Text style={styles.textHeaderContent} >
                     {data.paymentData.card_number}
                 </Text>
             </View>
-            {/* --------- Col 5 --------- */}
+             {/* --------- Col 6 --------- */}
+             <View style={{ width: scaleSzie(90), justifyContent: 'center' }} >
+                <Text style={styles.textHeaderContent} >
+                    {transactionType}
+                </Text>
+            </View>
+            {/* --------- Col 7 --------- */}
             <View style={{ flex: 1, justifyContent: 'center' }} >
                 <Text style={[styles.textHeaderContent, { fontWeight: "600" }]} >
                     {`$ ${data.amount}`}
