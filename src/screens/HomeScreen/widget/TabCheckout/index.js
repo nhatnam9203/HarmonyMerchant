@@ -449,7 +449,7 @@ class TabCheckout extends Layout {
                 // method = 'debit_card';
                 method = 'credit_card';
                 break;
-            case 'Others - Check':
+            case 'Other - Check':
                 method = 'other';
                 break;
             default:
@@ -595,7 +595,7 @@ class TabCheckout extends Layout {
         if (!_.isEmpty(connectionSignalR)) {
             connectionSignalR.stop();
         }
-        if (paymentSelected === 'Cash' || paymentSelected === 'Others - Check') {
+        if (paymentSelected === 'Cash' || paymentSelected === 'Other - Check') {
             const printMachine = await checkStatusPrint();
             if (printMachine) {
                 this.openCashDrawer(printMachine);
@@ -695,7 +695,7 @@ class TabCheckout extends Layout {
             if (!_.isEmpty(connectionSignalR)) {
                 connectionSignalR.stop();
             }
-            if (paymentSelected === 'Cash' || paymentSelected === 'Others - Check') {
+            if (paymentSelected === 'Cash' || paymentSelected === 'Other - Check') {
                 this.openCashDrawer(printMachine);
             }
             this.showInvoicePrint(printMachine, false);

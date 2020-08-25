@@ -759,7 +759,7 @@ export const getPaymentString = (type) => {
             method = 'Credit Cards';
             break;
         case 'other':
-            method = 'Others - Check';
+            method = 'Other - Check';
             break;
         default:
             method = 'Debit Cards'

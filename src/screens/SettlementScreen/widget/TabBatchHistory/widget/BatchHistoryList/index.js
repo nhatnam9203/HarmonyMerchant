@@ -35,7 +35,17 @@ class BatchHistoryList extends Layout {
     }
 
     shareBatchHistoryList = async () => {
-        this.props.actions.upload.exportBatchHistory();
+        const { batchHistoryPagesCurrent } = this.props;
+        const { keySearch } = this.state;
+        const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
+
+        this.props.actions.upload.exportBatchHistory(
+            keySearch ? keySearch : "",
+            isCustomizeDate ? startDate : "",
+            isCustomizeDate ? endDate : "",
+            quickFilter ? getQuickFilterStringInvoice(quickFilter) : "",
+            batchHistoryPagesCurrent
+        );
     }
 
     printBatchHistoryList = () => {

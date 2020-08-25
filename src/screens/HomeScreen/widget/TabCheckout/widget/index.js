@@ -47,7 +47,7 @@ function getPaymentLogoByName(name) {
         case "Debit Cards":
             logo = "debit_payment";
             break;
-        case "Others - Check":
+        case "Other - Check":
             logo = "other_payment";
             break;
         default:

@@ -115,7 +115,7 @@ class Layout extends React.Component {
                             />
                             <Text style={styles.textBtnCashier} >
 
-                                {localize('Print receipt', language)}
+                                {localize('Print Receipt', language)}
                             </Text>
                         </Button> : <View />
                     }
@@ -578,7 +578,7 @@ class Layout extends React.Component {
             }} >
                 <View style={[styles.payment_header, { paddingLeft: scaleSzie(20) }]} >
                     <Text style={[styles.textHeader, { fontWeight: "600", fontSize: scaleSzie(15) }]} >
-                        {localize('Select payment method', language)}
+                        {localize('Select Payment Method', language)}
                     </Text>
                 </View>
 
@@ -607,7 +607,7 @@ class Layout extends React.Component {
 
                 <View style={{ marginTop: scaleSzie(30), paddingHorizontal: scaleSzie(20), }} >
                     <ItemPaymentMethod
-                        title={"Others - Check"}
+                        title={"Other - Check"}
                         selectedPayment={this.selectedPayment}
                         paymentSelected={this.state.paymentSelected}
                     />
