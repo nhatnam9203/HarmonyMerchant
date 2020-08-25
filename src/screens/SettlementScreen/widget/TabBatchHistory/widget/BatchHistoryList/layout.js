@@ -227,7 +227,7 @@ const RowTable = ({ data, onPress }) => {
             {/* --------- Date  ---------- */}
             <View style={{ flex: 1, justifyContent: "center" }} >
                 <Text style={[styles.txt_row_table, {}]} >
-                    {`${data.settlementDate ? formatWithMoment(data.settlementDate, "MMMM DD, YYYY") : ""}`}
+                    {`${data.settlementDate ? formatWithMoment(data.settlementDate, "MM/DD/YYYY") : ""}`}
                 </Text>
             </View>
             {/* --------- Time  ---------- */}

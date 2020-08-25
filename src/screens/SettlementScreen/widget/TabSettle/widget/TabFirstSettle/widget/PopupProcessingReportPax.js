@@ -45,7 +45,7 @@ class PopupProcessingReportPax extends React.Component {
                 }} >
                     <View style={{ flex: 1, alignItems: 'center' }} >
                         <Text style={{ color: '#0764B0', fontSize: scaleSzie(24), fontWeight: 'bold' }} >
-                            {`${localize('Please wait', language)} !`}
+                            {`${localize('Please wait', language)}!`}
                         </Text>
                         <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginTop: scaleSzie(4),textAlign:"center" }} >
                             {`${localize(`The system is getting reports from your Pax machine. Don't use Pax machine while getting!`, language)} ...`}

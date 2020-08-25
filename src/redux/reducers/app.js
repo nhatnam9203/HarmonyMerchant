@@ -238,7 +238,7 @@ function appReducer(state = initialState, action) {
                 ...state,
                 connectPAXStatus: {
                     status: true,
-                    message: "( Connect to PAX machine success! )"
+                    message: "( Pax terminal successfully connected! )"
                 }
             }
         case 'TOGGLE_SETTING_TAB_PERMISSION':

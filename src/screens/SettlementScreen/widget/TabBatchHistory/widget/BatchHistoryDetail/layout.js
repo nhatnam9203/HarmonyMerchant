@@ -36,7 +36,7 @@ class Layout extends React.Component {
                     </Text>
                 </Text>
                 <Text style={[styles.txt_top_title, { fontWeight: '400', marginRight: scaleSzie(20) }]}  >
-                    {`${formatWithMoment(settlementDate, "MMMM DD, YYYY hh:mm A")}`}
+                    {`${formatWithMoment(settlementDate, "MM/DD/YYYY hh:mm A")}`}
                 </Text>
                 <Text style={[styles.txt_top_title, { fontWeight: 'bold', marginRight: scaleSzie(20) }]}  >
                     {`$ ${total}`}

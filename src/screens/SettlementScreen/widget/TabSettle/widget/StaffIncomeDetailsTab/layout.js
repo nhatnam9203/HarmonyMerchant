@@ -147,11 +147,11 @@ const HeaderTable = ({ }) => {
 const RowTable = ({ data }) => {
     return (
         <View style={{
-            height: scaleSzie(35), backgroundColor: "#FAFAFA", flexDirection: "row", paddingHorizontal: scaleSzie(10), marginBottom: 2
+            minHeight: scaleSzie(35), backgroundColor: "#FAFAFA", flexDirection: "row", paddingHorizontal: scaleSzie(10), marginBottom: 2
         }} >
             {/* --------- Services / Products  ---------- */}
             <View style={{ flex: 1, justifyContent: "center" }} >
-                <Text numberOfLines={1} style={styles.txt_row_table} >
+                <Text  style={styles.txt_row_table} >
                     {`${data.name ? data.name : ""}`}
                 </Text>
             </View>
