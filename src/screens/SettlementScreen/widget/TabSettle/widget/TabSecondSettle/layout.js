@@ -160,7 +160,7 @@ class Layout extends React.Component {
                 />
                 <View style={{ height: 1 }} />
                 <ItemPaymentsReport
-                    title="Credit card"
+                    title="Credit Card"
                     backgroundColor="#075BA0"
                     value={paymentByCreditCard}
                 />
@@ -225,7 +225,7 @@ class Layout extends React.Component {
         return (
             <View style={{ flex: 1, }} >
                 <ItemPaymentsReport
-                    title="Credit card transactions:"
+                    title="Credit Card Transactions:"
                     backgroundColor="#0764B0"
                     txtStyle={{
                         color: "#ffff",
