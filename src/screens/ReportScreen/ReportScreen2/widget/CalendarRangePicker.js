@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TouchableWithoutFeedback,
   View,
@@ -9,12 +9,18 @@ import {
   Platform,
 } from "react-native";
 import { Calendar } from "react-native-calendars";
-import XDate from "xdate";
+import moment from "moment";
 
-import { ModalCustom } from "@components";
+const DATE_FORMAT = "MM/DD/YYYY";
 
-const CalendarRangePicker = ({ renderBase }) => {
+const CalendarRangePicker = ({
+  renderBase,
+  minDate = moment().format(DATE_FORMAT),
+  maxDate = moment().format(DATE_FORMAT),
+}) => {
   const [visible, setVisible] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const [currentMonth, setCurrentMonth] = useState(null);
 
   const showPicker = () => {
     setVisible(true);
@@ -23,6 +29,24 @@ const CalendarRangePicker = ({ renderBase }) => {
   const hidePicker = () => {
     setVisible(false);
   };
+
+  // console.log(`======> ${minDate} - ${maxDate}`);
+
+  const onDayPress = (day) => {
+    setSelected(day);
+    hidePicker();
+  };
+
+  const onMonthChange = (month) => {
+    setCurrentMonth(month.month);
+  };
+
+  useEffect(() => {
+    if (minDate && maxDate) {
+      setCurrentMonth(moment(minDate).get("month") + 1);
+      setSelected(null);
+    }
+  }, [minDate, maxDate]);
 
   /**render */
 
@@ -40,16 +64,50 @@ const CalendarRangePicker = ({ renderBase }) => {
       >
         <View style={[styles.container, styles.shadowP]}>
           <Calendar
-            current={XDate.today().toString("yyyy-MM-dd")}
-            minDate={"2020-05-10"}
-            maxDate={XDate.today().toString("yyyy-MM-dd")}
-            showWeekNumbers={true}
-            firstDay={1}
-            onDayPress={(day) => {
-              console.log("selected day", day);
+            style={{ marginBottom: 10 }}
+            theme={{
+              textSectionTitleDisabledColor: "#d9e1e8",
+
+              // month
+              textMonthFontSize: 16,
+              textMonthFontWeight: "bold",
+              monthTextColor: "#0764B0",
+
+              // arrow
+              arrowColor: "#0764B0",
+              disabledArrowColor: "#d9e1e8",
+              arrowStyle: { padding: 0 },
+
+              // day selected
+              selectedDayTextColor: "white",
+              selectedDayBackgroundColor: "#0764B0",
+
+              //day name
+              textSectionTitleColor: "#0764B0",
+              textDayHeaderFontSize: 15,
+              textDayHeaderFontWeight: "normal",
             }}
+            current={moment(minDate).add(1, "day").format(DATE_FORMAT)}
+            minDate={moment(minDate).add(1, "day").format(DATE_FORMAT)}
+            maxDate={maxDate}
+            showWeekNumbers={false}
+            firstDay={1}
+            onDayPress={onDayPress}
+            onMonthChange={onMonthChange}
             markingType={"period"}
-            markedDates={{}}
+            markedDates={{
+              [selected?.dateString]: {
+                selected: true,
+                disableTouchEvent: true,
+                startingDay: true,
+                endingDay: true,
+                color: "#0764B0",
+              },
+            }}
+            disableAllTouchEventsForDisabledDays
+            hideExtraDays={true}
+            disableArrowLeft={currentMonth <= moment(minDate).get("month") + 1}
+            disableArrowRight={currentMonth >= moment(maxDate).get("month") + 1}
           />
           <TouchableOpacity onPress={hidePicker}>
             <View style={styles.btnClose}>
@@ -70,21 +128,6 @@ const RenderBase = (renderBase) => {
   return null;
 };
 
-const RenderHeader = (date) => {
-  const monthYear = XDate(date).toString("MMMM yyyy");
-
-  return (
-    <View style={styles.calendarHeader}>
-      <Text>{monthYear}</Text>
-      <TouchableOpacity>
-        <View>
-          <Text>Close</Text>
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
 const styles = StyleSheet.create({
   container: {
     marginTop: 50,
@@ -103,7 +146,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   btnClose: {
-    width: 160,
+    width: "100%",
     height: 45,
     backgroundColor: "#0764B0",
     justifyContent: "center",
