@@ -95,7 +95,7 @@ const getDateRange = (title, timeUrl) => {
     case "Today":
       return {
         since: currentDate.valueOf(),
-        valueFormatter: [currentDate.format("DD/MM")],
+        valueFormatter: [currentDate.clone().format(DATE_FORMAT)],
         // start: currentDate.format("MM/DD/YYYY"),
         // end: currentDate.format("MM/DD/YYYY"),
       };
@@ -104,8 +104,8 @@ const getDateRange = (title, timeUrl) => {
       return {
         since: yesterday.valueOf(),
         valueFormatter: [
-          yesterday.format("DD/MM"),
-          currentDate.format("DD/MM"),
+          yesterday.format(DATE_FORMAT),
+          currentDate.format(DATE_FORMAT),
         ],
         // start: yesterday.format("MM/DD/YYYY"),
         // end: currentDate.format("MM/DD/YYYY"),
@@ -115,8 +115,8 @@ const getDateRange = (title, timeUrl) => {
       return {
         since: weekStart.clone().valueOf(),
         valueFormatter: getDatesBetween(weekStart, currentDate),
-        start: weekStart.format(DATE_FORMAT),
-        end: currentDate.format(DATE_FORMAT),
+        start: weekStart.clone().format(DATE_FORMAT),
+        end: currentDate.clone().format(DATE_FORMAT),
       };
     case "Last Week":
       const lastWeek = currentDate.clone().subtract(1, "weeks");
@@ -171,15 +171,24 @@ const getDateRange = (title, timeUrl) => {
 
 /**RENDER */
 const CalendarPickerComponent = React.forwardRef((props, ref) => {
-  const { startDate, endDate } = props;
+  const { startDate, endDate, onChangeSelectDay } = props;
+  const [selectDate, setSelectDate] = useState("");
+
+  /**function */
+  const onCalendarSelectDay = (day) => {
+    setSelectDate(day);
+    if (onChangeSelectDay) onChangeSelectDay(day);
+  };
+
   return (
     <View style={styles.calendarPicker}>
       <CalendarRangePicker
         minDate={startDate}
         maxDate={endDate}
+        onSelectDay={onCalendarSelectDay}
         renderBase={() => (
           <PopupButton
-            text="Select day"
+            text={`Chart started in : ${selectDate}`}
             // imageSrc={IMAGE.export}
           />
         )}
@@ -196,76 +205,33 @@ export default function GiftCardBarGroupChart({
   /**state store */
   const [dataChart, setDataChart] = useState({});
   const [xAxis, setXAxis] = useState({});
-  const [dateValues, setDateValues] = useState(null);
+
   const [dateRange, setDateRange] = useState(null);
+  const [startDate, setStartDate] = useState(null);
 
   const calendarPicker = useRef(null);
 
-  /**useEffect */
-  // add listener data change, map to chart data set
-  useEffect(() => {
-    if (data && dateValues) {
-      // ======= map values =======
+  const onChangeSelectDay = (day) => {
+    setStartDate(day);
+  };
 
-      let dateSets = Object.create({});
+  const filterWithStartDate = (x, startDate, maxCount = MAX_LABEL_COUNT) => {
+    return (
+      moment(x).isBefore(moment(startDate).add(maxCount, "day")) &&
+      moment(x).isAfter(moment(startDate).subtract(1, "day"))
+    );
+  };
 
-      // get all date to create key | xAxis value format
-      data.forEach((item, index) => {
-        const label = item.type || `${index}`;
-        const giftCardStatistics = item.giftCardStatistics || [];
-
-        let values = [];
-        dateValues?.forEach((xDate) => {
-          const statisticItem = giftCardStatistics.find((x) =>
-            moment(x.date).isSame(xDate)
-          );
-          if (statisticItem) {
-            values.push(formatNumberFromCurrency(statisticItem["sales"]));
-          } else values.push(0);
-        });
-
-        if (dateSets[label] === undefined) {
-          dateSets[label] = {
-            values: values,
-            label: label,
-            config: {
-              colors: [colors[index] || processColor("#80C6FF")],
-              drawValues: false,
-              valueTextSize: 14,
-              valueTextColor: processColor("#0764B0"),
-              valueFormatter: "###,###,##0.00;-###,###,##0.00",
-            },
-          };
-        }
-      });
-
-      const createDataSet = {
-        dataSets: Object.values(dateSets),
-        config: {
-          // BarData
-          barWidth: (0.8 / (Object.keys(dateSets).length || 1)) * 2,
-          group: {
-            fromX: 0,
-            groupSpace: 0.2,
-            barSpace: 0,
-          },
-        },
-      };
-
-      setDataChart(createDataSet);
-    } else {
-      setDataChart([]);
-    }
-
-    // ======= map formatter =======
-  }, [data, dateValues]);
-
-  useEffect(() => {
-    const dates = getDateRange(titleRangeTime, urlRangeTime);
-    setDateRange(dates);
-    setDateValues(dates?.valueFormatter);
-    const createXAxis = {
-      // valueFormatter: valueFormatter,
+  /**
+   * return XAxis object
+   * @param {*} dates
+   * @param {*} startDate
+   * @param {*} maxCount
+   */
+  const factoryXAxis = (dates, startDate, maxCount = MAX_LABEL_COUNT) => {
+    if (!dates) return {};
+    const { since, valueFormatter } = dates;
+    return {
       centerAxisLabels: true,
       position: "BOTTOM",
       granularityEnabled: true,
@@ -276,24 +242,114 @@ export default function GiftCardBarGroupChart({
       drawAxisLine: true,
       drawGridLines: false,
       drawLabels: true,
-      labelCount: MAX_LABEL_COUNT,
+      labelCount: maxCount,
       timeUnit: "DAYS",
       valueFormatterPattern: "MM/DD/YYYY",
-      axisMaximum: dates?.valueFormatter?.length || 1,
+      axisMaximum: Math.min(maxCount, valueFormatter?.length),
       axisMinimum: 0,
-      ...dates,
+      since,
+      valueFormatter:
+        startDate && valueFormatter.length > maxCount
+          ? valueFormatter.filter((x) =>
+              filterWithStartDate(x, startDate, maxCount)
+            )
+          : valueFormatter,
     };
+  };
 
-    setXAxis(createXAxis);
+  const factoryDataSets = (
+    data,
+    dates,
+    startDate,
+    maxCount = MAX_LABEL_COUNT
+  ) => {
+    let dateSets = Object.create({});
+
+    // get all date to create key | xAxis value format
+    data.forEach((item, index) => {
+      const label = item.type || `${index}`;
+      const giftCardStatistics = item.giftCardStatistics || [];
+
+      let values = [];
+      const valueFormatter = startDate
+        ? dates.valueFormatter.filter((x) =>
+            filterWithStartDate(x, startDate, maxCount)
+          )
+        : dates.valueFormatter;
+
+      console.log("valueFormatter", valueFormatter);
+      valueFormatter.forEach((xDate) => {
+        const statisticItem = giftCardStatistics.find((x) =>
+          moment(x.date).isSame(xDate)
+        );
+        if (statisticItem) {
+          values.push(formatNumberFromCurrency(statisticItem["sales"]));
+        } else values.push(0);
+      });
+      console.log("values", values);
+
+      if (dateSets[label] === undefined) {
+        dateSets[label] = {
+          values: values,
+          label: label,
+          config: {
+            colors: [colors[index] || processColor("#80C6FF")],
+            drawValues: false,
+            valueTextSize: 14,
+            valueTextColor: processColor("#0764B0"),
+            valueFormatter: "###,###,##0.00;-###,###,##0.00",
+          },
+        };
+      }
+    });
+
+    return {
+      dataSets: Object.values(dateSets) || [],
+      config: {
+        // BarData
+        barWidth: 0.8 / (Object.keys(dateSets).length || 1),
+        group: {
+          fromX: 0,
+          groupSpace: 0.2,
+          barSpace: 0,
+        },
+      },
+    };
+  };
+
+  /**useEffect */
+  // add listener data change, map to chart data set
+  useEffect(() => {
+    if (data && dateRange) {
+      // ======= map values =======
+
+      setDataChart(factoryDataSets(data, dateRange, startDate));
+    } else {
+      setDataChart([]);
+    }
+  }, [data, dateRange, startDate]);
+
+  useEffect(() => {
+    const dates = getDateRange(titleRangeTime, urlRangeTime);
+    setDateRange(dates);
+
+    setXAxis(factoryXAxis(dates, startDate));
   }, [urlRangeTime]);
+
+  useEffect(() => {
+    if (dateRange && startDate) {
+      setXAxis(factoryXAxis(dateRange, startDate));
+    }
+  }, [startDate, dateRange]);
 
   return (
     <View style={styles.container}>
-      {dateValues?.length > MAX_LABEL_COUNT && dateRange && (
+      {dateRange?.valueFormatter?.length > MAX_LABEL_COUNT && (
         <CalendarPickerComponent
           ref={calendarPicker}
           startDate={dateRange?.start}
           endDate={dateRange?.end}
+          onChangeSelectDay={onChangeSelectDay}
         />
       )}
       <View style={{ flex: 1 }}>

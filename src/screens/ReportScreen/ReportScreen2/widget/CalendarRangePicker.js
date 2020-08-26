@@ -17,6 +17,7 @@ const CalendarRangePicker = ({
   renderBase,
   minDate = moment().format(DATE_FORMAT),
   maxDate = moment().format(DATE_FORMAT),
+  onSelectDay,
 }) => {
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState(null);
@@ -30,10 +31,10 @@ const CalendarRangePicker = ({
     setVisible(false);
   };
 
-  // console.log(`======> ${minDate} - ${maxDate}`);
-
   const onDayPress = (day) => {
     setSelected(day);
+    if (typeof onSelectDay === "function")
+      onSelectDay(moment(day.dateString).format(DATE_FORMAT));
     hidePicker();
   };
 
@@ -87,7 +88,11 @@ const CalendarRangePicker = ({
               textDayHeaderFontSize: 15,
               textDayHeaderFontWeight: "normal",
             }}
-            current={moment(minDate).add(1, "day").format(DATE_FORMAT)}
+            current={
+              selected
+                ? selected?.dateString
+                : moment(minDate).add(1, "day").format(DATE_FORMAT)
+            }
             minDate={moment(minDate).add(1, "day").format(DATE_FORMAT)}
             maxDate={maxDate}
             showWeekNumbers={false}
