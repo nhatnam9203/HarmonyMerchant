@@ -36,20 +36,20 @@ class Layout extends React.Component {
                     </Text>
                 </Text>
                 <Text style={[styles.txt_top_title, { fontWeight: '400', marginRight: scaleSzie(20) }]}  >
-                    {`${formatWithMoment(settlementDate, "MMMM DD, YYYY hh:mm A")}`}
+                    {`${formatWithMoment(settlementDate, "MM/DD/YYYY hh:mm A")}`}
                 </Text>
                 <Text style={[styles.txt_top_title, { fontWeight: 'bold', marginRight: scaleSzie(20) }]}  >
                     {`$ ${total}`}
                 </Text>
 
-                <Button onPress={this.shareBatchHistoryDetail} style={{
+                {/* <Button onPress={this.shareBatchHistoryDetail} style={{
                     position: "absolute", top: scaleSzie(10), right: scaleSzie(10),
                     justifyContent: "center"
                 }} >
                     <Image source={ICON.share_batch_history}
                         style={{ width: scaleSzie(30), height: scaleSzie(30) }}
                     />
-                </Button>
+                </Button> */}
 
                 {/* <Button onPress={this.printBatchHistoryDetail} style={{
                     position: "absolute", top: scaleSzie(10), right: scaleSzie(50),
@@ -84,7 +84,7 @@ class Layout extends React.Component {
 
 
     renderStaffsTable() {
-        const {  gitfCardSalesBySettlementId, staffSalesBySettlementId } = this.props;
+        const { gitfCardSalesBySettlementId, staffSalesBySettlementId } = this.props;
         let totalAmount = 0;
         let giftCardTotal = 0
         if (staffSalesBySettlementId.length > 0) {

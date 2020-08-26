@@ -4,12 +4,12 @@ import {
 } from 'react-native';
 
 import { scaleSzie, localize, updateStateChildren } from '@utils';
-import { Text, InputForm,ButtonCustom } from '@components';
+import { Text, InputForm, ButtonCustom } from '@components';
 import ItemPromo from './ItemPromo';
 import ItemCheckBoxInput from './ItemCheckBoxInput';
 import connectRedux from '@redux/ConnectRedux';
 
- class PromotionFour extends React.Component {
+class PromotionFour extends React.Component {
 
     constructor(props) {
         super(props);
@@ -19,7 +19,7 @@ import connectRedux from '@redux/ConnectRedux';
         };
     }
 
-    setStateFromParent = async (data) =>{
+    setStateFromParent = async (data) => {
         await this.setState({
             data
         })
@@ -31,11 +31,11 @@ import connectRedux from '@redux/ConnectRedux';
         })
     }
 
-    showContent =  () => {
+    showContent = () => {
         this.setState(prevState => ({
             isShowContent: !prevState.isShowContent
-        }),() =>{
-            if(!this.state.isShowContent){
+        }), () => {
+            if (!this.state.isShowContent) {
                 this.props.toogleOtherPromotions("promotionFourRef");
             }
         })
@@ -47,19 +47,20 @@ import connectRedux from '@redux/ConnectRedux';
         this.setState({
             data: updateStateChildren('isDisabled', isCheck, data)
         });
-        this.props.actions.marketing.setStatusApplyButton(true,4);
+        this.props.actions.marketing.setStatusApplyButton(true, 4);
     }
 
     applyPromotion = () => {
         const { data } = this.state;
-        this.props.applyPromotion(data.promotionId)
+        const isSendNoti = data.isDisabled === 0 ? false : true;
+        this.props.applyPromotion(data.promotionId, isSendNoti);
     }
 
     // ----------- RENDER ----------
 
     render() {
-        const { language ,onFocus,isApplyFourthPromotion} = this.props;
-        const { data,isShowContent } = this.state;
+        const { language, onFocus, isApplyFourthPromotion } = this.props;
+        const { data, isShowContent } = this.state;
         const { campaignName } = data;
 
         return (
@@ -81,10 +82,10 @@ import connectRedux from '@redux/ConnectRedux';
                             this.setState({
                                 data: updateStateChildren('campaignName', value, data)
                             });
-                            this.props.actions.marketing.setStatusApplyButton(true,4);
+                            this.props.actions.marketing.setStatusApplyButton(true, 4);
                         }}
                         style={{ marginBottom: scaleSzie(10) }}
-                        styleTitle={{fontWeight:"600"}}
+                        styleTitle={{ fontWeight: "600" }}
                         onFocus={() => onFocus(210)}
                     />
                     {/* ---- Row ---- */}
@@ -99,10 +100,10 @@ import connectRedux from '@redux/ConnectRedux';
                                 this.setState({
                                     data: updateStateChildren('promotionApplyOn', value, data)
                                 });
-                                this.props.actions.marketing.setStatusApplyButton(true,4);
+                                this.props.actions.marketing.setStatusApplyButton(true, 4);
                             }}
                             style={{ marginBottom: scaleSzie(10) }}
-                            styleTitle={{fontWeight:"600"}}
+                            styleTitle={{ fontWeight: "600" }}
                             onFocus={() => onFocus(280)}
                         />
                     </View>
@@ -110,7 +111,7 @@ import connectRedux from '@redux/ConnectRedux';
                     <Text style={{
                         color: '#404040',
                         fontSize: scaleSzie(14),
-                        fontWeight:"600"
+                        fontWeight: "600"
                     }} >
                         {`${localize('Promotion form', language)}:`}
                     </Text>
@@ -125,7 +126,7 @@ import connectRedux from '@redux/ConnectRedux';
                                 this.setState({
                                     data: updateStateChildren('discount', value, data)
                                 });
-                                this.props.actions.marketing.setStatusApplyButton(true,4);
+                                this.props.actions.marketing.setStatusApplyButton(true, 4);
                             }}
                             selectCheckbox={() => {
                                 if (data.discountType === 'discount_percent') {
@@ -133,13 +134,13 @@ import connectRedux from '@redux/ConnectRedux';
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                    this.props.actions.marketing.setStatusApplyButton(true,4);
+                                    this.props.actions.marketing.setStatusApplyButton(true, 4);
                                 } else {
                                     const tempData = updateStateChildren('discountType', 'discount_percent', data)
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                    this.props.actions.marketing.setStatusApplyButton(true,4);
+                                    this.props.actions.marketing.setStatusApplyButton(true, 4);
                                 }
                             }}
                             onFocus={() => onFocus(360)}
@@ -154,7 +155,7 @@ import connectRedux from '@redux/ConnectRedux';
                                 this.setState({
                                     data: updateStateChildren('discount', value, data)
                                 });
-                                this.props.actions.marketing.setStatusApplyButton(true,4);
+                                this.props.actions.marketing.setStatusApplyButton(true, 4);
                             }}
                             selectCheckbox={() => {
                                 if (data.discountType === 'discount_fixtom') {
@@ -162,20 +163,20 @@ import connectRedux from '@redux/ConnectRedux';
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                    this.props.actions.marketing.setStatusApplyButton(true,4);
+                                    this.props.actions.marketing.setStatusApplyButton(true, 4);
                                 } else {
                                     const tempData = updateStateChildren('discountType', 'discount_fixtom', data);
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                    this.props.actions.marketing.setStatusApplyButton(true,4);
+                                    this.props.actions.marketing.setStatusApplyButton(true, 4);
                                 }
                             }}
-                             onFocus={() => onFocus(360)}
+                            onFocus={() => onFocus(360)}
                         />
                     </View>
-                    <View style={{alignItems:'center',marginTop:scaleSzie(20)}} >
-                         {
+                    <View style={{ alignItems: 'center', marginTop: scaleSzie(20) }} >
+                        {
                             isApplyFourthPromotion ? <ButtonCustom
                                 width={scaleSzie(150)}
                                 height={40}

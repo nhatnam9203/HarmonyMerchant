@@ -1,9 +1,11 @@
 import _ from "ramda";
 import React from "react";
+import { Platform, Linking, Alert, Share } from "react-native";
+import RNFetchBlob from 'rn-fetch-blob';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import {  getQuickFilterStringInvoice } from '@utils';
+import { getQuickFilterStringInvoice } from '@utils';
 
 class BatchHistoryList extends Layout {
 
@@ -17,7 +19,7 @@ class BatchHistoryList extends Layout {
         this.modalCalendarRef = React.createRef();
     }
 
-    setStateFromParent = async () =>{
+    setStateFromParent = async () => {
         await this.setState({
             titleRangeTime: 'Time Range',
             visibleCalendar: false,
@@ -32,8 +34,8 @@ class BatchHistoryList extends Layout {
         this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(`0`);
     }
 
-    shareBatchHistoryList = () => {
-
+    shareBatchHistoryList = async () => {
+        this.props.actions.upload.exportBatchHistory();
     }
 
     printBatchHistoryList = () => {

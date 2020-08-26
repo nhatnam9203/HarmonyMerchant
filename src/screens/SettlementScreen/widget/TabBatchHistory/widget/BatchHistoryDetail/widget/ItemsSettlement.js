@@ -132,22 +132,16 @@ export const TotalItem = ({ total }) => {
     return (
         <View style={{
             height: scaleSzie(35),
-            flexDirection: "row", backgroundColor: "#DCF7FF"
+            flexDirection: "row", backgroundColor: "#DCF7FF",paddingHorizontal: scaleSzie(13)
         }} >
             {/* ---------- Name -------- */}
-            <View style={[{ flex: 1, paddingLeft: scaleSzie(13) }, styles.container]} >
+            <View style={[{ flex: 1 }, styles.container]} >
                 <Text style={[styles.txt_item, { fontWeight: "600", color: "#404040", fontSize: scaleSzie(14) }]} >
                     {"Total"}
                 </Text>
             </View>
-            {/* ---------- Sales -------- */}
-            <View style={[{ flex: 0.6 }, styles.container]} />
-            {/* ---------- Tax -------- */}
-            <View style={[{ flex: 0.5 }, styles.container]} />
-            {/* ---------- Tip -------- */}
-            <View style={[{ flex: 0.5 }, styles.container]} />
             {/* ---------- Total Sales -------- */}
-            <View style={[{ flex: 0.8, justifyContent: "center" }]} >
+            <View style={[{ flex: 0.8, justifyContent: "center",alignItems:"flex-end" }]} >
                 <Text style={[styles.txt_item, { fontWeight: "600", color: "#4CD964", fontSize: scaleSzie(14) }]} >
                     {`$  ${total ? total : 0.00}`}
                 </Text>

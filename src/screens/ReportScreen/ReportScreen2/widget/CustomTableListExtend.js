@@ -109,6 +109,7 @@ function TableListExtended(
     checkSumItem,
     sortKey,
     unitKeys,
+    sortDefault,
   },
   ref
 ) {
@@ -122,11 +123,11 @@ function TableListExtended(
 
   const setListData = (sort) => {
     let sortList = tableData;
-    if (sortKey && sortList?.length > 0) {
+    if (sortKey && sortList.length > 0 && sort !== SORT_STATE.none) {
       sortList.sort((a, b) => {
         if (sort === SORT_STATE.desc) {
           return strCompare(a[sortKey], b[sortKey]);
-        } else {
+        } else if (sort === SORT_STATE.asc) {
           return strCompare(b[sortKey], a[sortKey]);
         }
       });
@@ -184,8 +185,12 @@ function TableListExtended(
         });
         setSumObject(sumObj);
       }
-
-      setListData(sortState);
+      if (sortDefault) {
+        setSortState(sortDefault);
+        setListData(sortDefault);
+      } else {
+        setListData(sortState);
+      }
       const valueObject = pickObjectFromKeys(
         tableData,
         whiteKeys.filter((x) => x !== sumTotalKey)
@@ -216,9 +221,14 @@ function TableListExtended(
 
   useEffect(() => {
     // set data and sort -> render
-    setSortState(SORT_STATE.desc);
-    setListData(SORT_STATE.desc);
-  }, [sortKey]);
+    if (!sortDefault) {
+      setSortState(SORT_STATE.desc);
+      setListData(SORT_STATE.desc);
+    } else {
+      setSortState(sortDefault);
+      setListData(sortDefault);
+    }
+  }, [sortKey, sortDefault]);
 
   // get width render cell with index or key
   const getCellWidth = (index, key) => {
@@ -340,7 +350,9 @@ function TableListExtended(
                       source={
                         sortState === SORT_STATE.asc
                           ? IMAGE.sortUp
-                          : IMAGE.sortDown
+                          : sortState === SORT_STATE.desc
+                          ? IMAGE.sortDown
+                          : IMAGE.sortNone
                       }
                       resizeMode="center"
                     />
@@ -367,7 +379,9 @@ function TableListExtended(
                     source={
                       sortState === SORT_STATE.asc
                         ? IMAGE.sortUp
-                        : IMAGE.sortDown
+                        : sortState === SORT_STATE.desc
+                        ? IMAGE.sortDown
+                        : IMAGE.sortNone
                     }
                     resizeMode="center"
                   />

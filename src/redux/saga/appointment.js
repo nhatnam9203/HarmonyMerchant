@@ -1,8 +1,10 @@
 import { put, takeLatest, all, select, takeEvery } from "redux-saga/effects";
 import _ from "ramda";
+import {Alert} from "react-native";
 
 import { requestAPI } from '../../utils';
 import apiConfigs from '../../configs/api';
+import { from } from "rxjs";
 
 function* getAppointmentById(action) {
     try {
@@ -62,6 +64,23 @@ function* getGroupAppointmentById(action) {
                         dueAmount: data && data.dueAmount ? data.dueAmount : 0
                     }
                 });
+
+                const subTotal = data.subTotal ? parseFloat(data.subTotal) : 0;
+                const discount =  data.discount ? parseFloat(data.discount) : 0;
+                if(subTotal < discount){
+                    setTimeout(() =>{
+                        Alert.alert(
+                            `Warning`,
+                            `Discount cannot be more than the subtotal.`,
+                            [
+        
+                                { text: 'OK', onPress: () => { } }
+                            ],
+                            { cancelable: false }
+                        );
+                    },500);
+                    return;
+                }
 
                 // ------------ CHECKOUT_SUBMIT CREDIT CARD ---------
                 if (action.isCheckoutSubmit) {

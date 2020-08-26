@@ -14,13 +14,13 @@ import {
     Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupCalendar, PopupCheckStaffPermission,
     PopupConfirmInvoiceStatus, PopupProcessingCredit, PopupInvoicePrint, PopupConfirmPrintInvoice
 } from '@components';
-import { scaleSzie, localize, formatWithMoment, getStaffNameForInvoice, formatMoney, getPaymentString } from '@utils';
+import { scaleSzie, localize, formatWithMoment, getStaffNameForInvoice, formatMoney, getPaymentString, PAYMENT_METHODS } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import {
-    ItemInvoice,
-    ItemInfo, ItemButton, ItemHistory,
+    ItemInvoice, ItemButton, ItemHistory,
 } from './widget';
+
 
 export default class Layout extends React.Component {
 
@@ -110,9 +110,7 @@ export default class Layout extends React.Component {
                     <View style={{ width: scaleSzie(170), marginLeft: scaleSzie(16) }} >
                         <Dropdown
                             label={localize('Payment Method', language)}
-                            data={[{ value: '' }, { value: 'HP-Harmony Account' }, { value: 'HP-Credit Card' },
-                            { value: 'Credit Card' }, { value: 'Cash' }, { value: 'Cheque/Bank Transfer' }
-                            ]}
+                            data={PAYMENT_METHODS}
                             value={paymentMethod}
                             onChangeText={(value) => this.updateSearchFilterInfo('paymentMethod', value)}
                             containerStyle={{
@@ -151,7 +149,23 @@ export default class Layout extends React.Component {
         const { language } = this.props;
         const { invoiceDetail } = this.state;
         const status = invoiceDetail.status ? invoiceDetail.status : '';
-        if (status === 'paid') {
+        // console.log("---- invoiceDetail : ",JSON.stringify(invoiceDetail));
+
+        let isDebitPayment = false;
+        const paymentMethod = invoiceDetail.paymentMethod ? invoiceDetail.paymentMethod : "";
+
+        try {
+            if (paymentMethod && paymentMethod === "credit_card") {
+                const paymentInformation = invoiceDetail.paymentInformation.length > 0 ? invoiceDetail.paymentInformation : false;
+                isDebitPayment = paymentInformation && paymentInformation[0].paymentData && `${paymentInformation[0].paymentData.transaction_type}`.toUpper() == "CREDIT" ? false : true;
+            }
+        } catch (error) {
+            // console.log("---- error : ", error);
+            isDebitPayment = false;
+        }
+
+
+        if (status === 'paid' && !isDebitPayment) {
             return (
                 <ButtonCustom
                     width={'100%'}
@@ -164,7 +178,7 @@ export default class Layout extends React.Component {
                     styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
                 />
             );
-        } else if (status === 'complete') {
+        } else if (status === 'complete' && !isDebitPayment) {
             return (
                 <ButtonCustom
                     width={'100%'}
@@ -361,14 +375,14 @@ export default class Layout extends React.Component {
                                                     {/* ------------ Amount -------------- */}
 
                                                 </Text>
-                                                <View style={{ flex: 1, alignItems: "flex-end" ,justifyContent:"center"}} >
+                                                <View style={{ flex: 1, alignItems: "flex-end", justifyContent: "center" }} >
                                                     <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
                                                         {`$${data.amount ? data.amount : ""}`}
                                                     </Text>
                                                 </View>
                                             </View>
                                             {
-                                                data.paymentMethod === "credit_card" || data.paymentMethod === "debit_card"  ?
+                                                data.paymentMethod === "credit_card" || data.paymentMethod === "debit_card" ?
                                                     <View style={{ marginTop: scaleSzie(5) }} >
                                                         <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
                                                             {`    ${data.paymentInformation && data.paymentInformation.type ? data.paymentInformation.type : ""}: ***********${data.paymentInformation && data.paymentInformation.number ? data.paymentInformation.number : ""}`}
@@ -387,13 +401,13 @@ export default class Layout extends React.Component {
 
                             <View style={{ height: scaleSzie(16) }} />
                             {
-                                parseFloat(refundAmount) > 0 ? <Text style={{  fontSize: scaleSzie(10), fontWeight: "bold" }} >
+                                parseFloat(refundAmount) > 0 ? <Text style={{ fontSize: scaleSzie(10), fontWeight: "bold" }} >
                                     {`Change : $ ${invoiceDetail.refundAmount ? invoiceDetail.refundAmount : 0.00}`}
                                 </Text> : null
                             }
 
                             {
-                                promotionNotes ? <Text style={{  fontSize: 16, fontWeight: "bold" }} >
+                                promotionNotes ? <Text style={{ fontSize: 16, fontWeight: "bold" }} >
                                     {`Discount note: `}
                                     <Text style={{ fontWeight: "500" }} >
                                         {`${promotionNotes}`}

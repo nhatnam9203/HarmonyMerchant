@@ -40,14 +40,15 @@ export function getPromotionByMerchant(isLoading = true) {
     }
 }
 
-export function updatePromotionByMerchant(body,promotionId = 1) {
+export function updatePromotionByMerchant(body,promotionId = 1,isSendNoti = true) {
     return {
         type: 'UPDATE_PROMOTION_BY_MERCHANT',
         method: 'POST',
         token: true,
         body,
         api: `${apiConfigs.BASE_API}merchantPromotion`,
-        promotionId
+        promotionId,
+        isSendNoti
     }
 }
 
@@ -169,6 +170,4 @@ export function updatePromotionNote(promotionNoteId,notes) {
         api: `${apiConfigs.BASE_API}appointment/promotion/note/${promotionNoteId}`
     }
 }
-// https://dev.harmonypayment.com/api/appointment/promotion/note/{appointemntId}
-// https://dev.harmonypayment.com/api/appointment/promotion/note/{promotionNoteId}
 

@@ -595,7 +595,7 @@ class Layout extends React.Component {
                 </View>
                 <View style={styles.box_payment_container} >
                     {
-                        ['Credit Cards', 'Debit Cards'].map((title, index) => <ItemPaymentMethod
+                        ['Credit Card', 'Debit Card'].map((title, index) => <ItemPaymentMethod
                             key={index}
                             title={title}
                             selectedPayment={this.selectedPayment}
@@ -607,7 +607,7 @@ class Layout extends React.Component {
 
                 <View style={{ marginTop: scaleSzie(30), paddingHorizontal: scaleSzie(20), }} >
                     <ItemPaymentMethod
-                        title={"Others - Check"}
+                        title={"Other"}
                         selectedPayment={this.selectedPayment}
                         paymentSelected={this.state.paymentSelected}
                     />

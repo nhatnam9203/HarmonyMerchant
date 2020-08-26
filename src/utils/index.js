@@ -827,10 +827,12 @@ export const validBirthday = (birthday) => {
     return true
 }
 
+export const PAYMENT_METHODS  = [{ value: '' }, { value: 'HarmonyPay' },{ value: 'Credit Card' }, { value: 'Cash' }, { value: 'Other' }];
+
 export const getPaymentStringInvoice = (type) => {
     let method = '';
     switch (type) {
-        case 'HP-Harmony Account':
+        case 'HarmonyPay':
             method = 'harmony';
             break;
         case 'Cash':
@@ -839,7 +841,7 @@ export const getPaymentStringInvoice = (type) => {
         case 'Credit Card':
             method = 'credit_card';
             break;
-        case 'Cheque/Bank Transfer':
+        case 'Other':
             method = 'other';
             break;
         case 'Debit Card':
