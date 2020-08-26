@@ -52,7 +52,8 @@ class PromotionFive extends React.Component {
 
     applyPromotion = () => {
         const { data } = this.state;
-        this.props.applyPromotion(data.promotionId)
+        const isSendNoti = data.isDisabled === 0 ? false : true;
+        this.props.applyPromotion(data.promotionId,isSendNoti);
     }
 
     // ----------- RENDER ----------

@@ -146,7 +146,7 @@ function* updatePromotionByMerchant(action) {
             yield put({
                 type: 'SET_STATUS_APPLY_BUTTON',
                 payload: false,
-                promotionId:action.promotionId
+                promotionId: action.promotionId
             });
             yield put({
                 type: 'GET_PROMOTION_BY_MERCHANT',
@@ -154,13 +154,15 @@ function* updatePromotionByMerchant(action) {
                 token: true,
                 api: `${apiConfigs.BASE_API}merchantpromotion`
             });
+            if (action.isSendNoti) {
+                yield put({
+                    type: 'SEND_NOTI_BY_PROMOTION_ID',
+                    method: 'GET',
+                    token: true,
+                    api: `${apiConfigs.BASE_API}merchantpromotion/promotion/${action.promotionId}`
+                });
+            }
 
-            yield put({
-                type: 'SEND_NOTI_BY_PROMOTION_ID',
-                method: 'GET',
-                token: true,
-                api: `${apiConfigs.BASE_API}merchantpromotion/promotion/${action.promotionId}`
-            })
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -190,16 +192,16 @@ function* getPromotionByAppointment(action) {
             if (action.isBlock) {
                 yield put({
                     type: 'GET_PROMOTION_BY_BLOCK_APPOINTMENT_SUCCESS',
-                    payload:responses.data && responses.data.promotions ? responses.data.promotions  : [],
+                    payload: responses.data && responses.data.promotions ? responses.data.promotions : [],
                     appointmentId: action.appointmentId,
-                    promotionNotes: responses.data && responses.data.notes ? responses.data.notes  : {},
+                    promotionNotes: responses.data && responses.data.notes ? responses.data.notes : {},
                 })
             } else {
                 yield put({
                     type: 'GET_PROMOTION_BY_APPOINTMENT_SUCCESS',
-                    payload: responses.data && responses.data.promotions ? responses.data.promotions  : [],
+                    payload: responses.data && responses.data.promotions ? responses.data.promotions : [],
                     appointmentId: action.appointmentId,
-                    promotionNotes: responses.data && responses.data.notes ? responses.data.notes  : {},
+                    promotionNotes: responses.data && responses.data.notes ? responses.data.notes : {},
                 })
             }
 
@@ -347,7 +349,7 @@ function* updatePromotionNote(action) {
         console.log('updatePromotionNote : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
@@ -373,7 +375,7 @@ function* addPromotionNote(action) {
         // console.log('addPromotionNote : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
