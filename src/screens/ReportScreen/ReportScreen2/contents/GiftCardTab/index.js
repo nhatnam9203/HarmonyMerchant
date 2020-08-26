@@ -14,6 +14,8 @@ import { ReportLayout } from "../../widget";
 import GiftCardReportTab from "./GiftCardReportTab";
 import GiftCardStatistic from "./GiftCardStatistic";
 
+const RANGE_TIME_DEFAULT = "This Week";
+
 function GiftCardTab({ style, showBackButton }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -36,7 +38,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
   );
 
   /**state */
-  const [titleRangeTime, setTitleRangeTime] = useState("This week");
+  const [titleRangeTime, setTitleRangeTime] = useState(RANGE_TIME_DEFAULT);
   const [urlRangeTime, setUrlRangeTime] = useState(null);
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);

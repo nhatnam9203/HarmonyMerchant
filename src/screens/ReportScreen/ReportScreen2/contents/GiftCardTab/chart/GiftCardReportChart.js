@@ -171,12 +171,10 @@ const getDateRange = (title, timeUrl) => {
 
 /**RENDER */
 const CalendarPickerComponent = React.forwardRef((props, ref) => {
-  const { startDate, endDate, onChangeSelectDay } = props;
-  const [selectDate, setSelectDate] = useState("");
+  const { startDate, endDate, onChangeSelectDay, selectDay } = props;
 
   /**function */
   const onCalendarSelectDay = (day) => {
-    setSelectDate(day);
     if (onChangeSelectDay) onChangeSelectDay(day);
   };
 
@@ -188,7 +186,7 @@ const CalendarPickerComponent = React.forwardRef((props, ref) => {
         onSelectDay={onCalendarSelectDay}
         renderBase={() => (
           <PopupButton
-            text={`Chart started in : ${selectDate}`}
+            text={`Chart started in : ${selectDay}`}
             // imageSrc={IMAGE.export}
           />
         )}
@@ -231,6 +229,7 @@ export default function GiftCardBarGroupChart({
   const factoryXAxis = (dates, startDate, maxCount = MAX_LABEL_COUNT) => {
     if (!dates) return {};
     const { since, valueFormatter } = dates;
+    console.log("factoryXAxis", valueFormatter);
     return {
       centerAxisLabels: true,
       position: "BOTTOM",
@@ -321,8 +320,6 @@ export default function GiftCardBarGroupChart({
   // add listener data change, map to chart data set
   useEffect(() => {
     if (data && dateRange) {
-      // ======= map values =======
-
       setDataChart(factoryDataSets(data, dateRange, startDate));
     } else {
       setDataChart([]);
@@ -332,6 +329,7 @@ export default function GiftCardBarGroupChart({
   useEffect(() => {
     const dates = getDateRange(titleRangeTime, urlRangeTime);
     setDateRange(dates);
+    setStartDate(dates?.start);
 
     setXAxis(factoryXAxis(dates, startDate));
   }, [urlRangeTime]);
@@ -350,6 +348,7 @@ export default function GiftCardBarGroupChart({
           startDate={dateRange?.start}
           endDate={dateRange?.end}
           onChangeSelectDay={onChangeSelectDay}
+          selectDay={startDate}
         />
       )}
       <View style={{ flex: 1 }}>

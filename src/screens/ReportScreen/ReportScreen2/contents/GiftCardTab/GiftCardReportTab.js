@@ -21,6 +21,8 @@ const FILTER_NAME_DEFAULT = "All Type";
 const ACTIVE_COLOR = "#0764B0";
 const INACTIVE_COLOR = "#6A6A6A";
 
+
+
 export default function GiftCardReportTab({
   style,
   onGoStatistics,
@@ -45,7 +47,7 @@ export default function GiftCardReportTab({
   const [viewMode, setViewMode] = useState(VIEW_MODE.LIST);
   const [filterNameItem, setFilterNameItem] = useState(FILTER_NAME_DEFAULT);
   const [filterNames, setFilterNames] = useState([]);
-  const [chartData, setChartData] = useState([]);
+  const [chartData, setChartData] = useState(null);
 
   /**function */
   const changeViewMode = (mode) => {
@@ -57,14 +59,14 @@ export default function GiftCardReportTab({
   const viewModeChart = () => changeViewMode(VIEW_MODE.CHART);
 
   const bindChartData = async () => {
-    if (!giftCardReportList) return [];
+    // if (!giftCardReportList) return [];
     // console.log(overallPaymentMethodList);
     // const data = createChartObjectFromValues(
     //   marketingEfficiencyList,
     //   "method",
     //   "netPayment"
     // );
-    await setChartData(giftCardReportList);
+    await setChartData(giftCardReportList || []);
   };
 
   // create filter name data
