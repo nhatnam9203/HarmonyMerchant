@@ -34,3 +34,13 @@ export function exportBatchHistory(key = "", timeStart = "", timeEnd = "", quick
         api: `${apiConfigs.BASE_API}settlement/search/export?key=${key}&timeStart=${timeStart}&timeEnd=${timeEnd}&quickFilter=${quickFilter}&page=${page}`,
     }
 }
+
+export function exportBatchDetail(settlementId) {
+    return {
+        type: 'EXPORT_BATCH_DETAIL',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}settlement/search/export/${settlementId}
+        `,
+    }
+}

@@ -32,7 +32,9 @@ class BatchHistoryDetail extends Layout {
     }
 
     shareBatchHistoryDetail = () =>{
-
+        const {settlementDetail} = this.state;
+        const settlementId = settlementDetail.settlementId ?  settlementDetail.settlementId : 0;
+        this.props.actions.upload.exportBatchDetail(settlementId);
     }
 
     printBatchHistoryDetail = () =>{

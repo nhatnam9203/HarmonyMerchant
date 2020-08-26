@@ -108,7 +108,51 @@ function* exportBatchHistory(action) {
             })
         }
     } catch (error) {
-        console.log("---- error ----", error);
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+function* exportBatchDetail(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            const pdfPath = responses.data && responses.data.path ? responses.data.path : "";
+            const dirs = RNFetchBlob.fs.dirs;
+            const fileDownload = yield RNFetchBlob.config({
+                fileCache: true,
+                appendExt: 'pdf',
+                path: `${dirs.DocumentDir}/BatchDetail.pdf`,
+            }).fetch('GET', pdfPath, {});
+
+            const filePath = fileDownload.path();
+            try {
+                if (Platform.OS === 'ios') {
+                    RNFetchBlob.ios.previewDocument(filePath)
+                } else {
+                    const android = RNFetchBlob.android;
+                    android.actionViewIntent(filePath, 'application/vnd.android.package-archive')
+                }
+            } catch (error) {
+                throw error;
+            }
+
+
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -120,5 +164,6 @@ export default function* saga() {
         takeLatest('UPLOAD_AVATAR', uploadAvatar),
         takeLatest('UPLOAD_BANNER', uploadBanner),
         takeLatest('EXPORT_BATCH_HISTORY', exportBatchHistory),
+        takeLatest('EXPORT_BATCH_DETAIL', exportBatchDetail),
     ])
 }

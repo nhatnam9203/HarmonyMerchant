@@ -42,14 +42,14 @@ class Layout extends React.Component {
                     {`$ ${total}`}
                 </Text>
 
-                {/* <Button onPress={this.shareBatchHistoryDetail} style={{
+                <Button onPress={this.shareBatchHistoryDetail} style={{
                     position: "absolute", top: scaleSzie(10), right: scaleSzie(10),
                     justifyContent: "center"
                 }} >
                     <Image source={ICON.share_batch_history}
                         style={{ width: scaleSzie(30), height: scaleSzie(30) }}
                     />
-                </Button> */}
+                </Button>
 
                 {/* <Button onPress={this.printBatchHistoryDetail} style={{
                     position: "absolute", top: scaleSzie(10), right: scaleSzie(50),
