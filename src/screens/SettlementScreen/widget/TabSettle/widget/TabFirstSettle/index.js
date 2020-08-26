@@ -192,7 +192,7 @@ class TabFirstSettle extends Layout {
                 setTimeout(() => {
                     Alert.alert(
                         "Warning",
-                        "You have some appointments need completing before submit settlement. Do you want continue?",
+                        "Please review your calendar. There are appointments that have not checked-out yet. Do you want to continue with settlement and cancel all unpaid appointments?",
                         [
 
                             {

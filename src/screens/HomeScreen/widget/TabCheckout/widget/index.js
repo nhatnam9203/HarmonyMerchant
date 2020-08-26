@@ -26,7 +26,6 @@ import PopupBlockDiscount from "./PopupBlockDiscount";
 import PopupChangeCustomerInfo from "./PopupChangeCustomerInfo";
 import PopupAddItemIntoAppointments from "./PopupAddItemIntoAppointments";
 
-import styles from "../style";
 import ICON from "@resources";
 
 function getPaymentLogoByName(name) {
@@ -38,16 +37,13 @@ function getPaymentLogoByName(name) {
         case "Cash":
             logo = "cash_payment";
             break;
-        case "HarmonyPay":
-            logo = "harmony_payment";
-            break;
-        case "Credit Cards":
+        case "Credit Card":
             logo = "credit_payment";
             break;
-        case "Debit Cards":
+        case "Debit Card":
             logo = "debit_payment";
             break;
-        case "Others - Check":
+        case "Other":
             logo = "other_payment";
             break;
         default:

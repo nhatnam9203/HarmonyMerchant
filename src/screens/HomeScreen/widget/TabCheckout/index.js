@@ -442,14 +442,14 @@ class TabCheckout extends Layout {
             case 'Cash':
                 method = 'cash';
                 break;
-            case 'Credit Cards':
+            case 'Credit Card':
                 method = 'credit_card';
                 break;
-            case 'Debit Cards':
+            case 'Debit Card':
                 // method = 'debit_card';
                 method = 'credit_card';
                 break;
-            case 'Others - Check':
+            case 'Other':
                 method = 'other';
                 break;
             default:
@@ -595,7 +595,7 @@ class TabCheckout extends Layout {
         if (!_.isEmpty(connectionSignalR)) {
             connectionSignalR.stop();
         }
-        if (paymentSelected === 'Cash' || paymentSelected === 'Others - Check') {
+        if (paymentSelected === 'Cash' || paymentSelected === 'Other') {
             const printMachine = await checkStatusPrint();
             if (printMachine) {
                 this.openCashDrawer(printMachine);
@@ -695,7 +695,7 @@ class TabCheckout extends Layout {
             if (!_.isEmpty(connectionSignalR)) {
                 connectionSignalR.stop();
             }
-            if (paymentSelected === 'Cash' || paymentSelected === 'Others - Check') {
+            if (paymentSelected === 'Cash' || paymentSelected === 'Other') {
                 this.openCashDrawer(printMachine);
             }
             this.showInvoicePrint(printMachine, false);
@@ -1052,7 +1052,7 @@ class TabCheckout extends Layout {
         // CREDIT
         // DEBIT
 
-        const tenderType = paymentSelected === "Credit Cards" ? "CREDIT" : "DEBIT";
+        const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
         PosLink.sendTransaction(tenderType, parseFloat(moneyCreditCard), 0, (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
     }
 
@@ -1411,7 +1411,7 @@ class TabCheckout extends Layout {
 
     submitSerialCode = async (code) => {
         const { groupAppointment, profile, profileStaffLogin, blockAppointments, customerInfoBuyAppointment } = this.props;
-        const { customerInfoByPhone, paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
+        const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal,
         } = this.state;
 
         if (blockAppointments.length > 0) {
