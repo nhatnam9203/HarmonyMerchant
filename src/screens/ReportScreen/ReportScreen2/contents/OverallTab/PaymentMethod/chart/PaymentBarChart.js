@@ -39,16 +39,19 @@ const yAxis = {
 const pickValuesForKey = (array, forKey, format) => {
   return array.map((obj) => {
     const item = Object.entries(obj).filter(([key, value]) => key === forKey);
-    const [key, value] = item[0];
-    if (format === "float") return formatNumberFromCurrency(value);
-    return value + "";
+    if (item && item.length > 0) {
+      const [key, value] = item[0];
+      if (format === "float" && value) return formatNumberFromCurrency(value);
+      return value + "";
+    }
+    return format === "float" ? 0 : "";
   });
 };
 
 export default function PaymentBarChart({ data }) {
   /**state store */
-  const [dataChart, setDataChart] = useState(null);
-  const [xAxis, setXAxis] = useState(null);
+  const [dataChart, setDataChart] = useState({});
+  const [xAxis, setXAxis] = useState({});
 
   /**useEffect */
   // add listener data change, map to chart data set
@@ -108,8 +111,8 @@ export default function PaymentBarChart({ data }) {
 
       setXAxis(createXAxis);
     } else {
-      setDataChart(dataConfig);
-      setXAxis(xAxisDefault);
+      setDataChart({});
+      setXAxis({});
     }
 
     // ======= map formatter =======

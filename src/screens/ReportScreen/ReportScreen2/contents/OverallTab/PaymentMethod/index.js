@@ -62,7 +62,6 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
   //callback
   const onChangeTimeTitle = async (titmeTitle) => {
     await setTitleRangeTime(titmeTitle);
-    // TODO: call reload list
     await getOverallPaymentMethod();
   };
 

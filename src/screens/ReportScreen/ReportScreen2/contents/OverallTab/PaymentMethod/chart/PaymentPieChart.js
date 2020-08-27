@@ -27,15 +27,18 @@ const calcMaxPercent = (arr) => {
     return a + b;
   }, 0);
 
-  return parseFloat(Math.max(...arr) / sum * 100).toFixed(2) ;
+  return parseFloat((Math.max(...arr) / sum) * 100).toFixed(2);
 };
 
 const pickValuesForKey = (array, forKey, format) => {
   return array.map((obj) => {
     const item = Object.entries(obj).filter(([key, value]) => key === forKey);
-    const [key, value] = item[0];
-    if (format === "float") return formatNumberFromCurrency(value);
-    return value + "";
+    if (item && item.length > 0) {
+      const [key, value] = item[0];
+      if (format === "float" && value) return formatNumberFromCurrency(value);
+      return value + "";
+    }
+    return format === "float" ? 0 : "";
   });
 };
 
@@ -63,7 +66,6 @@ export default function PaymentBarChart({ data }) {
         obj.label = formatterValues[index];
         mapValues.push(obj);
       });
-
 
       const createDataSet = {
         dataSets: [

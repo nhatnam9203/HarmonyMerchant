@@ -51,23 +51,14 @@ export default function PaymentMethod({
   const viewModeChart = () => changeViewMode(VIEW_MODE.CHART);
 
   const bindChartData = async () => {
-    if (!overallPaymentMethodList) return [];
-    // console.log(overallPaymentMethodList);
-    // const data = createChartObjectFromValues(
-    //   marketingEfficiencyList,
-    //   "method",
-    //   "netPayment"
-    // );
-    await setChartData(overallPaymentMethodList);
+    await setChartData(overallPaymentMethodList || []);
   };
 
   // create filter name data
   const bindFilterName = () => {
-    if (!overallPaymentMethodList) return [];
-
     let array = [];
 
-    const arrMap = overallPaymentMethodList.map((item) => ({
+    const arrMap = overallPaymentMethodList?.map((item) => ({
       value: item.method,
       ...item,
     }));
