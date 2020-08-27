@@ -335,6 +335,13 @@ function* updateStaffsPosition(action) {
     //console.log('forgotPin : ' + JSON.stringify(responses));
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
+      // yield put({
+      //     type: "GET_STAFF_BY_MERCHANR_ID",
+      //     method: "GET",
+      //     token: true,
+      //     api: `${apiConfigs.BASE_API}staff`,
+      //     isShowLoading: true,
+      // })
     } else if (parseInt(codeNumber) === 401) {
       yield put({
         type: "UNAUTHORIZED",

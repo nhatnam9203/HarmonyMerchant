@@ -81,6 +81,10 @@ class StaffInfo extends Layout {
         this.cellphoneRef = React.createRef();
         this.scrollStaffRef = React.createRef();
         this.cashPercentRef = React.createRef();
+        this.perHourServiceSalaryRef = React.createRef();
+        this.commissionSalaryRef = React.createRef();
+        this.percentTipFeeRef = React.createRef();
+        this.fixedAmountTipFeeRef = React.createRef();
     }
 
     scrollStaffTo(position) {
@@ -266,8 +270,27 @@ class StaffInfo extends Layout {
                 isDisabled: (user.isDisabled === 'Active' ? 0 : 1),
                 address: temptAddress,
                 workingTime: objWorkingTime,
-                salary: objSalary,
-                tipFee: objTipFee,
+                salary: {
+                    perHour: {
+                        value: parseFloat(this.perHourServiceSalaryRef.current.state.value ? this.perHourServiceSalaryRef.current.state.value : 0),
+                        isCheck: this.perHourServiceSalaryRef.current.state.isCheck
+                    },
+                    commission: {
+                        value: parseFloat(this.commissionSalaryRef.current.state.value ? this.commissionSalaryRef.current.state.value : 0),
+                        isCheck: this.commissionSalaryRef.current.state.isCheck
+                    }
+                },
+                tipFee:  {
+                    percent: {
+                        value: parseFloat(this.percentTipFeeRef.current.state.value ? this.percentTipFeeRef.current.state.value : 0),
+                        isCheck: this.percentTipFeeRef.current.state.isCheck
+                    },
+                    fixedAmount: {
+                        value: parseFloat(this.fixedAmountTipFeeRef.current.state.value ? this.fixedAmountTipFeeRef.current.state.value : 0),
+                        isCheck: this.fixedAmountTipFeeRef.current.state.isCheck
+                    }
+                },
+                
                 fileId: this.state.fileId,
                 productSalary: objProjectSalary,
                 cashPercent : parseFloat(this.cashPercentRef.current.state.value ? this.cashPercentRef.current.state.value: 0)
@@ -334,6 +357,22 @@ class StaffInfo extends Layout {
                 ref.setStateFromParent();
             }
         }
+    }
+
+    disableCommisionServiceSalary = () => {
+        this.commissionSalaryRef.current.setStateFromParent();
+    }
+
+    disablePerHourSalary = () => {
+        this.perHourServiceSalaryRef.current.setStateFromParent();
+    }
+
+    disableFixedAmountTip = () => {
+        this.fixedAmountTipFeeRef.current.setStateFromParent();
+    }
+
+    disablePercentTip = () => {
+        this.percentTipFeeRef.current.setStateFromParent();
     }
 
     componentWillUnmount(){

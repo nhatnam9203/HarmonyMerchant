@@ -169,6 +169,7 @@ class Layout extends React.Component {
                         refreshing={refreshListStaffs}
                         scrollPercent={5}
                         onMoveEnd={({ data }) => this.updateStaffsPosition(data, isShowSearch)}
+                        // onDragEnd={({ data }) => this.onDragEnd(data)}
                     />
                 </View>
                 <PopupConfirm

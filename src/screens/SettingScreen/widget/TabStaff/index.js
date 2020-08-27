@@ -116,11 +116,22 @@ class TabStaff extends Layout {
         this.props.actions.staff.editStaff(staff, id)
     }
 
+    findIsActiveOfStaff = (staffId) =>{
+        const {listStaffByMerchant} = this.props;
+        const staffSelect = listStaffByMerchant.find((staff) => staff.staffId === staffId);
+        if(staffSelect){
+            return staffSelect.isActive;
+        }
+        return false;
+    }
+
     updateStaffsPosition = (data, isShowSearch) => {
         if (!isShowSearch) {
             const staffsUpdate = data.map((staff, index) => {
+                // console.log("--- staff : ",staff);
                 return {
                     ...staff,
+                    isActive: this.findIsActiveOfStaff(staff.staffId),
                     position: index
                 }
             });
@@ -134,6 +145,10 @@ class TabStaff extends Layout {
             this.props.actions.staff.updateStaffsPosition(body);
         }
     }
+
+    // onDragEnd = (data)=>{
+    //     console.log('---- onDragEnd :',data);
+    // }
 
     toggleStaffActive = (staff, isActive) => {
         this.props.actions.staff.editStaff({

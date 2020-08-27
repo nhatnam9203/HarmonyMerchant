@@ -7,15 +7,15 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, Text, ItemWorkingTime } from '@components';
-import { scaleSzie, localize, BusinessWorkingTime, hideCharactes} from '@utils';
+import { scaleSzie, localize, BusinessWorkingTime, hideCharactes } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class TabAdminInfo extends React.Component {
 
     constructor(props) {
         super(props);
-        const {profile} = this.props;
-        this.state= {
+        const { profile } = this.props;
+        this.state = {
             businessHour: profile.businessHour ? profile.businessHour : BusinessWorkingTime
         }
         this.inputRefsTime = [];
@@ -27,7 +27,7 @@ class TabAdminInfo extends React.Component {
         }
     };
 
-    
+
 
     nextTab = () => {
         const { profile } = this.props;
@@ -60,7 +60,7 @@ class TabAdminInfo extends React.Component {
 
     renderBody() {
         const { profile, language } = this.props;
-        const {businessHour} = this.state;
+        const { businessHour } = this.state;
         const { businessName, address, city, zip, taxId, phone, email,
             state, businessBank
         } = profile;
@@ -78,14 +78,16 @@ class TabAdminInfo extends React.Component {
                         title={localize('Business Name', language)}
                         value={businessName}
                     />
+
+                    <ItemTextStoreInfo
+                        title={localize('Business Address', language)}
+                        value={address}
+                    />
+
                     <ItemTextStoreInfoNotTilte
                         city={city}
                         state={state && state.name ? state.name : ''}
                         zipcode={zip}
-                    />
-                    <ItemTextStoreInfo
-                        title={localize('Business Address', language)}
-                        value={address}
                     />
 
                     <ItemTextStoreInfo
@@ -102,11 +104,11 @@ class TabAdminInfo extends React.Component {
                     />
                     <ItemTextStoreInfo
                         title={localize('Account Number', language)}
-                        value={businessBank && businessBank.accountNumber ?hideCharactes(businessBank.accountNumber) : ''}
+                        value={businessBank && businessBank.accountNumber ? hideCharactes(businessBank.accountNumber) : ''}
                     />
                     <ItemTextStoreInfo
                         title={localize('Routing Number', language)}
-                        value={businessBank && businessBank.routingNumber ?hideCharactes(businessBank.routingNumber) : ''}
+                        value={businessBank && businessBank.routingNumber ? hideCharactes(businessBank.routingNumber) : ''}
                     />
                     <ItemTextStoreInfo
                         title="EIN"
@@ -114,7 +116,7 @@ class TabAdminInfo extends React.Component {
                     />
 
                     {/* -------- Business Hours --------- */}
-                    <View style={{ paddingLeft: scaleSzie(90),   marginTop: scaleSzie(25)}} >
+                    <View style={{ paddingLeft: scaleSzie(90), marginTop: scaleSzie(25) }} >
                         <Text style={{
                             color: '#404040',
                             fontSize: scaleSzie(16),
@@ -143,7 +145,7 @@ class TabAdminInfo extends React.Component {
 
                     </View>
                     {/* --------------- End -------------- */}
-                    <View style={{ paddingLeft: scaleSzie(90),   marginTop: scaleSzie(25)}} >
+                    <View style={{ paddingLeft: scaleSzie(90), marginTop: scaleSzie(25) }} >
                         <Text style={{
                             color: '#404040',
                             fontSize: scaleSzie(16),
@@ -153,8 +155,8 @@ class TabAdminInfo extends React.Component {
                         </Text>
                     </View>
                     <View style={{ height: scaleSzie(20) }} />
-                     {/* -------- Business Hours --------- */}
-                    
+                    {/* -------- Business Hours --------- */}
+
                     {
                         businessBank && businessBank.imageUrl ? <View style={{ height: scaleSzie(200), alignItems: 'center' }} >
                             <View style={{ height: scaleSzie(200), width: scaleSzie(200) }} >
@@ -201,9 +203,9 @@ class TabAdminInfo extends React.Component {
         );
     }
 
-    componentDidUpdate(prevProps,prevState){
-        const {tabCurrent,loading,isUpdateMerchantSetting} = this.props;
-        if(tabCurrent === 0 && prevProps.loading !== loading &&  !loading && isUpdateMerchantSetting ){
+    componentDidUpdate(prevProps, prevState) {
+        const { tabCurrent, loading, isUpdateMerchantSetting } = this.props;
+        if (tabCurrent === 0 && prevProps.loading !== loading && !loading && isUpdateMerchantSetting) {
             this.props.nextTab();
             this.props.actions.app.resetStateUpdateMerchantSetting(false);
         }

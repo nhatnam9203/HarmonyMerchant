@@ -30,13 +30,18 @@ class Layout extends React.Component {
         const { street, city, state, zip } = address;
         const { nameRole } = roles;
         const { language, isEditStaff, infoStaffHandle } = this.props;
-        const {dynamicMarginBottomState} = this.state;
+        const { dynamicMarginBottomState } = this.state;
 
         const temptDataWorkingTime = isEditStaff ? infoStaffHandle.workingTimes : this.state.workingTime;
         const temptDataTipFee = isEditStaff ? infoStaffHandle.tipFees : this.state.tipFee;
         const temptDataSalary = isEditStaff ? infoStaffHandle.salaries : this.state.salary;
         const temptDataProductScalary = isEditStaff ? infoStaffHandle.productSalaries : this.state.productSalary;
         const temptCashPercent = isEditStaff ? infoStaffHandle.cashPercent : this.state.cashPercent;
+
+        const perHour_ServiceSalary = temptDataSalary["perHour"] ? temptDataSalary["perHour"] : { value: 0, isCheck: false };
+        const commision_ServiceSalary = temptDataSalary["commission"] ? temptDataSalary["commission"] : { value: 0, isCheck: false };
+        const percent_TipFee = temptDataTipFee["percent"] ? temptDataTipFee["percent"] : { value: 0, isCheck: false };
+        const fixedAmount_TipFee = temptDataTipFee["fixedAmount"] ? temptDataTipFee["fixedAmount"] : { value: 0, isCheck: false };
 
         return (
             <View style={styles.body} >
@@ -248,22 +253,27 @@ class Layout extends React.Component {
                     <TitleTabAdminInfo
                         title={localize('Service Salary', language)}
                     />
-                    {
-                        Object.keys(temptDataSalary).map((tip, index) => {
-                            const temptTitle = tip == 'perHour' ? 'Per Hour' : 'Commission';
-                            const temptChar = tip == 'perHour' ? '($)' : '(%)';
-                            return <ItemScalary
-                                key={index}
-                                ref={this.setRefSalary}
-                                title={`${localize(temptTitle, language)} ${temptChar}`}
-                                placeholder={'10'}
-                                dataInit={temptDataSalary[tip]}
-                                onFocus={() => this.scrollStaffTo(1100)}
-                                type={`${temptTitle} ${temptChar}`}
-                                toogleCheck={this.disableServiceSalary.bind(this,`${temptTitle} ${temptChar}`)}
-                            />
-                        })
-                    }
+
+                    {/* ----- Per Hour ServiceSalary ---- */}
+                    <ItemScalary
+                        ref={this.perHourServiceSalaryRef}
+                        title={`${localize("Per Hour", language)} ($)`}
+                        placeholder={'10'}
+                        dataInit={perHour_ServiceSalary}
+                        onFocus={() => this.scrollStaffTo(1100)}
+                        toogleCheck={this.disableCommisionServiceSalary}
+                    />
+
+                    {/* ----- Commission ServiceSalary ---- */}
+                    <ItemScalary
+                        ref={this.commissionSalaryRef}
+                        title={`${localize("Commission", language)} (%)`}
+                        placeholder={'10'}
+                        dataInit={commision_ServiceSalary}
+                        onFocus={() => this.scrollStaffTo(1100)}
+                        toogleCheck={this.disablePerHourSalary}
+                    />
+
 
                     {/* ----- Product Salary ---- */}
                     <TitleTabAdminInfo
@@ -290,7 +300,26 @@ class Layout extends React.Component {
                     <TitleTabAdminInfo
                         title={localize('Tip fee', language)}
                     />
-                    {
+                     {/* ----- Percent Tip Fee ---- */}
+                     <ItemScalary
+                        ref={this.percentTipFeeRef}
+                        title={`${localize("Percent", language)} (%)`}
+                        placeholder={'10'}
+                        dataInit={percent_TipFee}
+                        onFocus={() => this.scrollStaffTo(1300)}
+                        toogleCheck={this.disableFixedAmountTip}
+                    />
+
+                    {/* ----- Fix amount Tip Fee ---- */}
+                    <ItemScalary
+                        ref={this.fixedAmountTipFeeRef}
+                        title={`${localize("Fixed Amount", language)} ($)`}
+                        placeholder={'10'}
+                        dataInit={fixedAmount_TipFee}
+                        onFocus={() => this.scrollStaffTo(1300)}
+                        toogleCheck={this.disablePercentTip}
+                    />
+                    {/* {
                         Object.keys(temptDataTipFee).map((tip, index) => {
                             const temptTitle = tip == 'percent' ? 'Percent' : 'Fixed Amount';
                             const temptChar = tip == 'percent' ? '(%)' : '($)';
@@ -303,10 +332,10 @@ class Layout extends React.Component {
                                 dataInit={temptDataTipFee[tip]}
                                 onFocus={() => this.scrollStaffTo(1300)}
                                 type={`${temptTitle} ${temptChar}`}
-                                toogleCheck={this.disableTip.bind(this,`${temptTitle} ${temptChar}`)}
+                                toogleCheck={this.disableTip.bind(this, `${temptTitle} ${temptChar}`)}
                             />
                         })
-                    }
+                    } */}
 
                     {/* -----  Payout With Cash ---- */}
                     <TitleTabAdminInfo
@@ -478,7 +507,7 @@ const ItemAdminInfoDoubleItem = ({ title, placeholder, children, value, onChange
                         onChangeText={(value => onChangeText(value))}
                     />
                 </View>
-
+                <View style={{ width: scaleSzie(5) }} />
                 <View style={{ flex: 1, }} >
                     {children}
                 </View>
