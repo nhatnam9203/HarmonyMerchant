@@ -105,11 +105,14 @@ function SalesByServiceTab({ style, showBackButton }, ref) {
   };
 
   const onRequestExportFileToServer = (currentTab, titleExportFile) => {
+    const filterItem = serviceSaleByServiceList.find(
+      (item) => item.name === filterNameItem
+    );
     switch (currentTab) {
       case 0:
         dispatch(
           actions.report.exportServiceSaleByService(
-            getServiceId(),
+            getServiceId() || filterItem?.serviceId,
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
@@ -118,9 +121,6 @@ function SalesByServiceTab({ style, showBackButton }, ref) {
         );
         break;
       case 1:
-        const filterItem = serviceSaleByServiceList.find(
-          (item) => item.name === filterNameItem
-        );
         if (!filterItem) return;
         dispatch(
           actions.report.exportServiceSaleByServiceDetail(

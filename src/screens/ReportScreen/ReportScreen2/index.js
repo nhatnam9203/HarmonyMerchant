@@ -87,15 +87,31 @@ function ReportScreen2({ showBackButton }, ref) {
     didFocus: () => {},
   }));
 
-  const onTabChange = (taIndex) => {
-    staffRef?.current?.goBack();
-    giftCardRef?.current?.goBack();
-    customerRef?.current?.goBack();
-    serviceRef?.current?.goBack();
-    productRef?.current?.goBack();
-    overallRef?.current?.goBack();
+  const onTabChange = (index) => {
+    switch (tabIndex) {
+      case 0:
+        staffRef.current.goBack();
+        break;
+      case 1:
+        giftCardRef.current.goBack();
+        break;
+      case 2:
+        customerRef.current.goBack();
+        break;
+      case 3:
+        serviceRef.current.goBack();
+        break;
+      case 4:
+        productRef.current.goBack();
+        break;
+      case 5:
+        overallRef.current.goBack();
+        break;
+      default:
+        break;
+    }
 
-    setTabIndex(taIndex);
+    setTabIndex(index);
     showBackButton(false);
   };
 

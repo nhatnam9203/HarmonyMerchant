@@ -60,9 +60,8 @@ function StaffTab({ style, showBackButton }, ref) {
   };
 
   //callback
-  const onChangeTimeTitle = async (titmeTitle) => {
-    // console.log("======> onChangeTimeTitle", titmeTitle);
-    await setTitleRangeTime(titmeTitle);
+  const onChangeTimeTitle = async (timeTitle) => {
+    await setTitleRangeTime(timeTitle);
     await getListStaffsSalaryTop();
   };
 
@@ -134,9 +133,6 @@ function StaffTab({ style, showBackButton }, ref) {
   }));
 
   /**effect */
-  useEffect(() => {
-    // layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
-  }, []);
 
   return (
     <View style={[styles.container, style]}>

@@ -105,11 +105,15 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
   };
 
   const onRequestExportFileToServer = (currentTab, titleExportFile) => {
+    const filterItem = serviceSaleByCategoryList.find(
+      (item) => item.categoryName === filterNameItem
+    );
+
     switch (currentTab) {
       case 0:
         dispatch(
           actions.report.exportServiceSaleByCategory(
-            getCategoryId(),
+            getCategoryId()||filterItem?.categoryId,
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
@@ -118,9 +122,7 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
         );
         break;
       case 1:
-        const filterItem = serviceSaleByCategoryList.find(
-          (item) => item.categoryName === filterNameItem
-        );
+
         if (!filterItem) return;
         dispatch(
           actions.report.exportServiceSaleByCategoryDetail(

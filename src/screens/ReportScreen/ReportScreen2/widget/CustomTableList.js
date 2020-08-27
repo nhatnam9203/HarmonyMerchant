@@ -208,11 +208,6 @@ function TableList(
     return priceKeys?.indexOf(key) >= 0;
   };
 
-  // useImperativeHandle(ref, () => ({
-  //   getSumObjects: () => {
-  //     return sumObject;
-  //   },
-  // }));
 
   /**render */
   // render cell

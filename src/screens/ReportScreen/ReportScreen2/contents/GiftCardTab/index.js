@@ -85,6 +85,9 @@ function GiftCardTab({ style, showBackButton }, ref) {
   };
 
   const onRequestExportFileToServer = (currentTab, titleExportFile) => {
+    const filterItem = giftCardReportList.find(
+      (item) => item.type === filterNameItem
+    );
     switch (currentTab) {
       case 0:
         dispatch(
@@ -92,14 +95,12 @@ function GiftCardTab({ style, showBackButton }, ref) {
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
-            titleExportFile
+            titleExportFile,
+            filterItem?.giftCardGeneralId
           )
         );
         break;
       case 1:
-        const filterItem = giftCardReportList.find(
-          (item) => item.type === filterNameItem
-        );
         if (!filterItem) return;
         dispatch(
           actions.report.exportGiftCardReportSalesStatistics(
@@ -132,7 +133,6 @@ function GiftCardTab({ style, showBackButton }, ref) {
     didFocus: () => {
       // console.log("====> screen report -> staff didFocus");
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
-
     },
   }));
 

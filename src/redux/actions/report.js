@@ -81,39 +81,42 @@ export const ACTION_TYPES = {
 /** Get List */
 export function getOverallPaymentMethod(
   isShowLoading = true,
-  params = "quickFilter=thisWeek"
+  params = "quickFilter=thisWeek",
+  method = "all"
 ) {
   return {
     type: ACTION_TYPES.OPM_GetList,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}overall/paymentMethod?${params}`,
+    api: `${apiConfigs.BASE_API}overall/paymentMethod?${params}&method=${method}`,
     isShowLoading,
   };
 }
 
 export function getOverallMarketingEfficiency(
   isShowLoading = true,
-  params = "quickFilter=thisWeek"
+  params = "quickFilter=thisWeek",
+  promotionId = 0
 ) {
   return {
     type: ACTION_TYPES.OME_GetList,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}overall/marketingEfficiency?${params}`,
+    api: `${apiConfigs.BASE_API}overall/marketingEfficiency?${params}&promotionId=${promotionId}`,
     isShowLoading,
   };
 }
 
 export function getGiftCardReportSales(
   isShowLoading = true,
-  params = "quickFilter=thisWeek"
+  params = "quickFilter=thisWeek",
+  giftCardGeneralId = 0
 ) {
   return {
     type: ACTION_TYPES.GiftCard_GetList,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}giftCard/reportSales?${params}`,
+    api: `${apiConfigs.BASE_API}giftCard/reportSales?${params}&giftCardGeneralId=${giftCardGeneralId}`,
     isShowLoading,
   };
 }
@@ -179,13 +182,14 @@ export function exportPaymentMethod(
   params = "quickFilter=thisWeek",
   isShowLoading = true,
   type = "excel",
-  fileName
+  fileName,
+  method = "all"
 ) {
   return {
     type: ACTION_TYPES.OPM_Export,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}overall/paymentMethod/export?${params}`,
+    api: `${apiConfigs.BASE_API}overall/paymentMethod/export?${params}&method=${method}`,
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
@@ -214,13 +218,14 @@ export function exportMarketingEfficiency(
   params = "quickFilter=thisWeek",
   isShowLoading = true,
   type = "excel",
-  fileName
+  fileName,
+  promotionId = 0
 ) {
   return {
     type: ACTION_TYPES.OME_Export,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}overall/marketingEfficiency/export?${params}`,
+    api: `${apiConfigs.BASE_API}overall/marketingEfficiency/export?${params}&promotionId=${promotionId}`,
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
@@ -249,13 +254,14 @@ export function exportGiftCardReportSales(
   params = "quickFilter=thisWeek",
   isShowLoading = true,
   type = "excel",
-  fileName
+  fileName,
+  giftCardGeneralId = 0
 ) {
   return {
     type: ACTION_TYPES.GiftCard_Export,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}giftCard/reportSales/export?${params}&giftCardGeneralId=0`,
+    api: `${apiConfigs.BASE_API}giftCard/reportSales/export?${params}&giftCardGeneralId=${giftCardGeneralId}`,
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
@@ -325,7 +331,7 @@ export function exportCustomerSalesSales(
 /**Export PRODUCT REPORT */
 
 export function exportProductSaleByCategory(
-  categoryId,
+  categoryId = "top5",
   params = "quickFilter=thisWeek",
   isShowLoading = true,
   type = "excel",
@@ -361,7 +367,7 @@ export function exportProductSaleByCategoryDetail(
 }
 
 export function exportProductSaleByProduct(
-  productId,
+  productId = "top5",
   params = "quickFilter=thisWeek",
   isShowLoading = true,
   type = "excel",

@@ -59,7 +59,7 @@ export default function PaymentMethod({
     let array = [];
 
     const arrMap = overallPaymentMethodList?.map((item) => ({
-      value: item.method,
+      value: item.displayMethod,
       ...item,
     }));
     array.push(...arrMap);
@@ -75,7 +75,7 @@ export default function PaymentMethod({
   const filterDataTable = () => {
     return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
       ? overallPaymentMethodList.filter(
-          (item) => item.method === filterNameItem
+          (item) => item.displayMethod === filterNameItem
         )
       : overallPaymentMethodList;
   };
@@ -162,14 +162,14 @@ export default function PaymentMethod({
           <TableList
             tableData={filterDataTable()}
             tableHead={{
-              method: localize("Payment", language),
+              displayMethod: localize("Payment", language),
               transactions: localize("Transactions", language),
               grossPayment: localize("Gross Payments", language),
               refund: localize("Refunds", language),
               netPayment: localize("Net Payments", language),
             }}
             whiteKeys={[
-              "method",
+              "displayMethod",
               "transactions",
               "grossPayment",
               "refund",
@@ -177,7 +177,7 @@ export default function PaymentMethod({
               "action",
             ]}
             primaryId="method"
-            sumTotalKey="method"
+            sumTotalKey="displayMethod"
             calcSumKeys={[
               "transactions",
               "grossPayment",
@@ -186,7 +186,7 @@ export default function PaymentMethod({
             ]}
             priceKeys={["grossPayment", "refund", "netPayment"]}
             tableCellWidth={{
-              method: 200,
+              displayMethod: 200,
               transactions: 150,
               grossPayment: 200,
               refund: 160,
