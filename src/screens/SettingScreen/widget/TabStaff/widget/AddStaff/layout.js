@@ -17,8 +17,6 @@ import { scaleSzie, localize } from '@utils';
 import { ItemAdminInfo, ItemAdminCellPhone } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
-import { traverse } from 'ramda';
-
 
 class Layout extends React.Component {
 

@@ -12,7 +12,7 @@ import Button from "./Button";
 import PopupParent from './PopupParent';
 import connectRedux from '@redux/ConnectRedux';
 
-import { scaleSzie, roundFloatNumber,formatNumberFromCurrency } from '../utils';
+import { scaleSzie, roundFloatNumber, formatNumberFromCurrency } from '../utils';
 
 class PopupChangeTip extends React.Component {
 
@@ -33,13 +33,14 @@ class PopupChangeTip extends React.Component {
         this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardDidHide);
     }
 
-    setStateFromParent = async (appointmentId, tip, subTotal = 0) => {
-        // console.log("---- subTotal : ", subTotal);
+    setStateFromParent = async (appointmentId, tip, subTotal = 0, tipPercent) => {
+        // console.log("---- tipPercent : ", parseInt(tipPercent));
         await this.setState({
             appointmentId,
             tip,
             subTotal,
             percent: 0,
+            percent: parseInt(tipPercent)
         });
     }
 
@@ -68,18 +69,18 @@ class PopupChangeTip extends React.Component {
     }
 
     submitChangeStylist = () => {
-        const { appointmentId, tip ,percent} = this.state;
-        this.props.actions.marketing.changeStylist(0, 0, tip, appointmentId, 0, percent,"",true);
+        const { appointmentId, tip, percent } = this.state;
+        this.props.actions.marketing.changeStylist(0, 0, tip, appointmentId, 0, percent, "", true);
         this.props.onRequestClose();
     }
 
     selectPercent = async (percent) => {
         const { subTotal } = this.state;
         // console.log("-----subTotal : ",subTotal);
-        const tip = ( formatNumberFromCurrency(subTotal) * percent) / 100;
+        const tip = (formatNumberFromCurrency(subTotal) * percent) / 100;
         await this.setState({
             percent,
-            tip : roundFloatNumber(tip)
+            tip: roundFloatNumber(tip)
         });
     }
 

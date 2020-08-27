@@ -116,11 +116,22 @@ class TabStaff extends Layout {
         this.props.actions.staff.editStaff(staff, id)
     }
 
+    findIsActiveOfStaff = (staffId) =>{
+        const {listStaffByMerchant} = this.props;
+        const staffSelect = listStaffByMerchant.find((staff) => staff.staffId === staffId);
+        if(staffSelect){
+            return staffSelect.isActive;
+        }
+        return false;
+    }
+
     updateStaffsPosition = (data, isShowSearch) => {
         if (!isShowSearch) {
             const staffsUpdate = data.map((staff, index) => {
+                // console.log("--- staff : ",staff);
                 return {
                     ...staff,
+                    // isActive: this.findIsActiveOfStaff(staff.staffId),
                     position: index
                 }
             });
@@ -135,7 +146,20 @@ class TabStaff extends Layout {
         }
     }
 
+    // onDragEnd = (data)=>{
+    //     console.log('---- onDragEnd :',data);
+    // }
+
     toggleStaffActive = (staff, isActive) => {
+        const {listStaffByMerchant} = this.props;
+        const tempStaffList = [...listStaffByMerchant];
+        for(let  i = 0 ; i< tempStaffList.length ;i++){
+            if(tempStaffList[i].staffId === staff.staffId){
+                tempStaffList[i].isActive = isActive;
+                break;
+            }
+        }
+        this.props.actions.staff.updateStaffsPositionLocal(tempStaffList);
         this.props.actions.staff.editStaff({
             ...staff,
             workingTime: staff.workingTimes,

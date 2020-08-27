@@ -58,11 +58,9 @@ class InvoiceScreen extends Layout {
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {
-                this.setState(prevStatet => ({
-                    ...initalState,
-                    invoiceDetail: prevStatet.invoiceDetail
-                }));
+                this.setState(initalState);
                 this.checkInvoicePermissionRef.current.setStateFromParent('');
+                this.resetInvoiceItem();
             }
         );
         this.didFocusSubscription = this.props.navigation.addListener(
@@ -76,6 +74,13 @@ class InvoiceScreen extends Layout {
             }
         );
     }
+
+    resetInvoiceItem = () => {
+        for (let i = 0; i < this.listInvoiceRef.length; i++) {
+            this.listInvoiceRef[i].setStateFromParent(false);
+        }
+    }
+
 
     async updateSearchFilterInfo(key, value, keyParent = '') {
         const { searchFilter } = this.state;

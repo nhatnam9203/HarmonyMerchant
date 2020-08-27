@@ -50,19 +50,22 @@ class ItemCustomerBasket extends React.Component {
         const discount = appointmentDetail && appointmentDetail.discount ? appointmentDetail.discount : 0;
         const tax = appointmentDetail && appointmentDetail.tax ? appointmentDetail.tax : 0;
         const total = appointmentDetail && appointmentDetail.total ? appointmentDetail.total : 0;
+        const tipPercent = appointmentDetail && appointmentDetail.tipPercent ? appointmentDetail.tipPercent : 0;
 
         const temptSubTotal = !appointmentDetail || _.isEmpty(appointmentDetail) ? subTotalLocal : subTotal;
         const temptTotal = !appointmentDetail || _.isEmpty(appointmentDetail) ? Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2) : total;
         const temptDiscount = !appointmentDetail || _.isEmpty(appointmentDetail) ? discountTotalLocal : discount;
         const temptTip = !appointmentDetail || _.isEmpty(appointmentDetail) ? tipLocal : tipAmount;
         const temptTax = !appointmentDetail || _.isEmpty(appointmentDetail) ? taxLocal : tax;
+      
 
         return {
             temptSubTotal,
             temptTotal,
             temptDiscount,
             temptTip,
-            temptTax
+            temptTax,
+            tipPercent
         }
     }
 
@@ -76,14 +79,14 @@ class ItemCustomerBasket extends React.Component {
 
     }
 
-    showModalTipAppointment = (tip) => {
+    showModalTipAppointment = (tip,tipPercent) => {
         const { groupAppointment, paymentDetailInfo } = this.props;
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         if (checkoutPayments.length === 0) {
             const { appointmentDetail } = this.props;
             // console.log("------ appointmentDetail : ", JSON.stringify(appointmentDetail));
             const appointmentId = _.isEmpty(groupAppointment) ? -1 : appointmentDetail.appointmentId;
-            this.props.showModalTipAppointment(appointmentId, tip, appointmentDetail.subTotal ? appointmentDetail.subTotal : 0);
+            this.props.showModalTipAppointment(appointmentId, tip, appointmentDetail.subTotal ? appointmentDetail.subTotal : 0,tipPercent);
         }
     }
 
@@ -162,7 +165,7 @@ class ItemCustomerBasket extends React.Component {
         } = this.props;
         let basket = [];
         const appointmentId = appointmentDetail && appointmentDetail.appointmentId ? appointmentDetail.appointmentId : -1;
-        const { temptSubTotal, temptTotal, temptDiscount, temptTip, temptTax } = this.getTypesOfMoneyAppointment(appointmentDetail);
+        const { temptSubTotal, temptTotal, temptDiscount, temptTip, temptTax,tipPercent } = this.getTypesOfMoneyAppointment(appointmentDetail);
         if (appointmentDetail) {
             const { services, products, extras, giftCards } = appointmentDetail;
             const arrayProducts = getArrayProductsFromAppointment(products);
@@ -224,7 +227,7 @@ class ItemCustomerBasket extends React.Component {
 
                             {/* ---------- Tip ------ */}
                             <View style={styles.payNumberTextContainer} >
-                                <Button style={{ flexDirection: "row" }} onPress={this.showModalTipAppointment.bind(this, temptTip)} >
+                                <Button style={{ flexDirection: "row" }} onPress={this.showModalTipAppointment.bind(this, temptTip,tipPercent)} >
                                     <Text style={styles.textPay} >
                                         {`${localize('Tip', language)}:  `}
                                     </Text>

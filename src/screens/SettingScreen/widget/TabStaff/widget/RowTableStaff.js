@@ -21,10 +21,8 @@ class RowTable extends React.Component {
         const { staff } = this.props
         this.state = {
             isArchive: true,
-            isActive: staff.isActive ? staff.isActive : false
         }
     }
-
 
     handleArchirveStaff = () => {
         this.setState({
@@ -40,21 +38,12 @@ class RowTable extends React.Component {
 
     toggleIsActive = async (isActive) => {
         const { staff } = this.props;
-        if (this.state.isActive !== isActive) {
-            await this.setState({
-                isActive: isActive
-            });
-            this.props.toggleStaffActive(staff, isActive);
-        }
-
-
+        this.props.toggleStaffActive(staff, isActive);
     }
 
     render() {
         const { staff, index, archiveStaff, editStaff, restoreStaff, move, moveEnd,
-            toggleStaffActive
         } = this.props;
-        const { isActive } = this.state;
 
         return (
             <TouchableOpacity
@@ -122,11 +111,9 @@ class RowTable extends React.Component {
 
                         <Switch
                             trackColor={{ false: "#767577", true: "#0764B0" }}
-                            // thumbColor={toogle ? "#f5dd4b" : "#f4f3f4"}
                             ios_backgroundColor="#E5E5E5"
                             onValueChange={this.toggleIsActive}
-                            // value={staff.isActive ? staff.isActive : false}
-                            value={isActive}
+                            value={staff.isActive}
                         />
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -184,16 +171,6 @@ class RowTable extends React.Component {
                 </View>
             </TouchableOpacity>
         );
-    }
-
-    async componentDidUpdate(prevProps, prevState) {
-        const { staff, loading } = this.props;
-
-        if (prevProps.loading !== loading && !loading && staff.isActive !== this.state.isActive) {
-            await this.setState({
-                isActive: staff.isActive
-            })
-        }
     }
 
 }

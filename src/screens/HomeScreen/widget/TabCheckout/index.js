@@ -1315,8 +1315,8 @@ class TabCheckout extends Layout {
         }
     }
 
-    showModalTipAppointment = async (appointmentId, tip, subTotal) => {
-        this.changeTipRef.current.setStateFromParent(appointmentId, tip, subTotal);
+    showModalTipAppointment = async (appointmentId, tip, subTotal,tipPercent) => {
+        this.changeTipRef.current.setStateFromParent(appointmentId, tip, subTotal,tipPercent);
         await this.setState({
             visibleChangeTip: true
         })
