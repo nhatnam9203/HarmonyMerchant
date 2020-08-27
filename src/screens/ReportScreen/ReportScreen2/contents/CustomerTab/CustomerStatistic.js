@@ -22,7 +22,6 @@ export default function CustomerStatistic(props, ref) {
   /**useEffect */
   useEffect(() => {
     const item = customerReportList.find((item) => item.name === filterId);
-    console.log(item);
     setTable({
       tableData: item?.details || [],
       tableHead: {

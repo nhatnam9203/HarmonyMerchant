@@ -277,7 +277,6 @@ function* exportReport(action) {
     const responses = yield requestAPI(action);
 
     const { codeNumber } = responses;
-    console.log(`${JSON.stringify(responses)}`);
     if (parseInt(codeNumber) == 200) {
       const dirs = RNFetchBlob.fs.dirs;
       const fileDownload = yield RNFetchBlob.config({
