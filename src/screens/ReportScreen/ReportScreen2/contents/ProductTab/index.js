@@ -52,8 +52,9 @@ function ProductTab({ style, showBackButton }, ref) {
       salesByProductTabRef?.current?.didBlur();
     },
     didFocus: () => {
-      // console.log("====> screen report -> staff didFocus");
-    },
+      salesByCategoryTabRef?.current?.didFocus();
+      salesByProductTabRef?.current?.didFocus();
+        },
   }));
 
   return (

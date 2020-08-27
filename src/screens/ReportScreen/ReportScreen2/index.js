@@ -108,16 +108,22 @@ function ReportScreen2({ showBackButton }, ref) {
     if (reportTabPermissionSuccess === true && isMount) {
       switch (tabIndex) {
         case 0:
-          staffRef?.current.didFocus();
-          break;
-          // case 1:
-          //   giftCardRef.current.goBack();
+          staffRef.current.didFocus();
           break;
         case 1:
-          customerRef?.current.didFocus();
+          giftCardRef.current.didFocus();
           break;
         case 2:
-          overallRef?.current.didFocus();
+          customerRef.current.didFocus();
+          break;
+        case 3:
+          serviceRef.current.didFocus();
+          break;
+        case 4:
+          productRef.current.didFocus();
+          break;
+        case 5:
+          overallRef.current.didFocus();
           break;
         default:
           break;

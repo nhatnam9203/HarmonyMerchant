@@ -52,7 +52,8 @@ function ServiceTab({ style, showBackButton }, ref) {
       salesByServiceTabRef?.current?.didBlur();
     },
     didFocus: () => {
-      // console.log("====> screen report -> staff didFocus");
+      salesByCategoryTabRef?.current?.didFocus();
+      salesByServiceTabRef?.current?.didFocus();
     },
   }));
 

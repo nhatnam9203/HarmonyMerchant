@@ -22,6 +22,7 @@ const FILTER_NAME_DEFAULT_LIST = [
 ];
 
 const FILTER_NAME_DEFAULT = FILTER_NAME_DEFAULT_LIST[1]?.value;
+const RANGE_TIME_DEFAULT = "This Week";
 
 function SalesByCategoryTab({ style, showBackButton }, ref) {
   /**redux store*/
@@ -45,7 +46,7 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
   );
 
   /**state */
-  const [titleRangeTime, setTitleRangeTime] = useState("This week");
+  const [titleRangeTime, setTitleRangeTime] = useState(RANGE_TIME_DEFAULT);
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);
 
@@ -146,10 +147,10 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
       layoutRef.current.goBack();
     },
     didBlur: () => {
-      setTitleRangeTime("This week");
+      // setTitleRangeTime("This week");
     },
     didFocus: () => {
-      // console.log("====> screen report -> staff didFocus");
+      layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
   }));
 

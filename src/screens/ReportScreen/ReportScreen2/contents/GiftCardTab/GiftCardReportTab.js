@@ -9,7 +9,6 @@ import {
   PopupButton,
   TableList,
   ReportTabLayout,
-  CalendarRangePicker,
 } from "../../widget";
 import GiftCardBarGroupChart from "./chart/GiftCardReportChart";
 

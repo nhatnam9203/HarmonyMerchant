@@ -127,10 +127,12 @@ function GiftCardTab({ style, showBackButton }, ref) {
     },
     didBlur: () => {
       // console.log("====> screen report -> giftcard didBlur");
-      getGiftCardReportSales();
+      // getGiftCardReportSales();
     },
     didFocus: () => {
       // console.log("====> screen report -> staff didFocus");
+      layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
+
     },
   }));
 

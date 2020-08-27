@@ -184,6 +184,8 @@ const CalendarPickerComponent = forwardRef((props, ref) => {
     if (onChangeSelectDay) onChangeSelectDay(day);
   };
 
+  const timeRangeEnd = moment(selectDay).add(MAX_LABEL_COUNT - 1, "days");
+
   return (
     <View style={styles.calendarPicker}>
       <CalendarRangePicker
@@ -191,7 +193,13 @@ const CalendarPickerComponent = forwardRef((props, ref) => {
         maxDate={endDate}
         onSelectDay={onCalendarSelectDay}
         renderBase={() => (
-          <PopupButton text={`Chart started in : ${selectDay}`} />
+          <PopupButton
+            text={`Time ranges : ${selectDay} - ${
+              timeRangeEnd.isBefore(moment())
+                ? timeRangeEnd.format(DATE_FORMAT)
+                : moment().format(DATE_FORMAT)
+            }`}
+          />
         )}
       />
     </View>
