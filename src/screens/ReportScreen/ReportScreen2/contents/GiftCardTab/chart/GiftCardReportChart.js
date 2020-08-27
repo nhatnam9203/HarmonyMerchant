@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useRef, forwardRef } from "react";
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import { StyleSheet, processColor, View, Text } from "react-native";
 import { BarChart } from "react-native-charts-wrapper";
 import _ from "ramda";
@@ -170,7 +176,7 @@ const getDateRange = (title, timeUrl) => {
 };
 
 /**RENDER */
-const CalendarPickerComponent = React.forwardRef((props, ref) => {
+const CalendarPickerComponent = forwardRef((props, ref) => {
   const { startDate, endDate, onChangeSelectDay, selectDay } = props;
 
   /**function */
@@ -185,10 +191,7 @@ const CalendarPickerComponent = React.forwardRef((props, ref) => {
         maxDate={endDate}
         onSelectDay={onCalendarSelectDay}
         renderBase={() => (
-          <PopupButton
-            text={`Chart started in : ${selectDay}`}
-            // imageSrc={IMAGE.export}
-          />
+          <PopupButton text={`Chart started in : ${selectDay}`} />
         )}
       />
     </View>
@@ -206,8 +209,6 @@ export default function GiftCardBarGroupChart({
 
   const [dateRange, setDateRange] = useState(null);
   const [startDate, setStartDate] = useState(null);
-
-  const calendarPicker = useRef(null);
 
   const onChangeSelectDay = (day) => {
     setStartDate(day);
@@ -229,7 +230,6 @@ export default function GiftCardBarGroupChart({
   const factoryXAxis = (dates, startDate, maxCount = MAX_LABEL_COUNT) => {
     if (!dates) return {};
     const { since, valueFormatter } = dates;
-    console.log("factoryXAxis", valueFormatter);
     return {
       centerAxisLabels: true,
       position: "BOTTOM",
@@ -276,7 +276,6 @@ export default function GiftCardBarGroupChart({
           )
         : dates.valueFormatter;
 
-      console.log("valueFormatter", valueFormatter);
       valueFormatter.forEach((xDate) => {
         const statisticItem = giftCardStatistics.find((x) =>
           moment(x.date).isSame(xDate)
@@ -285,7 +284,6 @@ export default function GiftCardBarGroupChart({
           values.push(formatNumberFromCurrency(statisticItem["sales"]));
         } else values.push(0);
       });
-      console.log("values", values);
 
       if (dateSets[label] === undefined) {
         dateSets[label] = {
@@ -344,7 +342,6 @@ export default function GiftCardBarGroupChart({
     <View style={styles.container}>
       {dateRange?.valueFormatter?.length > MAX_LABEL_COUNT && (
         <CalendarPickerComponent
-          ref={calendarPicker}
           startDate={dateRange?.start}
           endDate={dateRange?.end}
           onChangeSelectDay={onChangeSelectDay}
@@ -368,16 +365,16 @@ export default function GiftCardBarGroupChart({
             animation={{ durationX: 200 }}
             legend={legend}
             entryLabelTextSize={14}
-            touchEnabled={true}
-            dragEnabled={true}
-            scaleEnabled={true}
-            scaleXEnabled={true}
-            scaleYEnabled={true}
-            pinchZoom={true}
-            doubleTapToZoomEnabled={false}
-            dragDecelerationEnabled={false}
-            dragDecelerationFrictionCoef={0.99}
-            zoom={{ scaleX: 1, scaleY: 1, xValue: 0, yValue: 0 }}
+            touchEnabled={false}
+            // dragEnabled={true}
+            // scaleEnabled={true}
+            // scaleXEnabled={true}
+            // scaleYEnabled={true}
+            // pinchZoom={true}
+            // doubleTapToZoomEnabled={false}
+            // dragDecelerationEnabled={false}
+            // dragDecelerationFrictionCoef={0.99}
+            // zoom={{ scaleX: 1, scaleY: 1, xValue: 0, yValue: 0 }}
             highlightFullBarEnabled={false}
           />
         )}

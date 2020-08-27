@@ -1,4 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import {
   TouchableWithoutFeedback,
   View,
@@ -13,15 +19,20 @@ import moment from "moment";
 
 const DATE_FORMAT = "MM/DD/YYYY";
 
-const CalendarRangePicker = ({
-  renderBase,
-  minDate = moment().format(DATE_FORMAT),
-  maxDate = moment().format(DATE_FORMAT),
-  onSelectDay,
-}) => {
+function CalendarRangePicker(
+  {
+    renderBase,
+    minDate = moment().format(DATE_FORMAT),
+    maxDate = moment().format(DATE_FORMAT),
+    onSelectDay,
+  },
+  ref
+) {
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(null);
+
+  const calendarRef = useRef(null);
 
   const showPicker = () => {
     setVisible(true);
@@ -32,7 +43,7 @@ const CalendarRangePicker = ({
   };
 
   const onDayPress = (day) => {
-    setSelected(day);
+    setSelected(day.dateString);
     if (typeof onSelectDay === "function")
       onSelectDay(moment(day.dateString).format(DATE_FORMAT));
     hidePicker();
@@ -48,6 +59,15 @@ const CalendarRangePicker = ({
       setSelected(null);
     }
   }, [minDate, maxDate]);
+
+  // public function
+  useImperativeHandle(ref, () => ({
+    selectDay: (day) => {
+      setSelected(day);
+      if (typeof onSelectDay === "function")
+        onSelectDay(moment(day).format(DATE_FORMAT));
+    },
+  }));
 
   /**render */
 
@@ -65,6 +85,7 @@ const CalendarRangePicker = ({
       >
         <View style={[styles.container, styles.shadowP]}>
           <Calendar
+            ref={calendarRef}
             style={{ marginBottom: 10 }}
             theme={{
               textSectionTitleDisabledColor: "#d9e1e8",
@@ -89,9 +110,7 @@ const CalendarRangePicker = ({
               textDayHeaderFontWeight: "normal",
             }}
             current={
-              selected
-                ? selected?.dateString
-                : moment(minDate).add(1, "day").format(DATE_FORMAT)
+              selected ?? moment(minDate).add(1, "day").format(DATE_FORMAT)
             }
             minDate={moment(minDate).add(1, "day").format(DATE_FORMAT)}
             maxDate={maxDate}
@@ -101,7 +120,7 @@ const CalendarRangePicker = ({
             onMonthChange={onMonthChange}
             markingType={"period"}
             markedDates={{
-              [selected?.dateString]: {
+              [selected]: {
                 selected: true,
                 disableTouchEvent: true,
                 startingDay: true,
@@ -123,7 +142,7 @@ const CalendarRangePicker = ({
       </Modal>
     </View>
   );
-};
+}
 
 const RenderBase = (renderBase) => {
   if (typeof renderBase === "function") {
@@ -177,4 +196,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CalendarRangePicker;
+export default CalendarRangePicker = forwardRef(CalendarRangePicker);
