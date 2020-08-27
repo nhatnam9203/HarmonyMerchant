@@ -114,3 +114,12 @@ export function updatePrinterPortType(type) {
         payload: type
     }
 }
+
+export function selectPrinter(printer) {
+    return {
+        type: 'SELECT_PRINTER',
+        payload: printer
+    }
+}
+
+

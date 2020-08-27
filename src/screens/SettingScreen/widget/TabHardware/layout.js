@@ -40,7 +40,9 @@ class Layout extends React.Component {
                     <SetupHardware
                         backListDevices={this.backListDevices}
                     />
-                     <PrinterList />
+                     <PrinterList 
+                          backHomeHardware={this.backHomeHardware}
+                     />
 
 
                 </ScrollableTabView>
