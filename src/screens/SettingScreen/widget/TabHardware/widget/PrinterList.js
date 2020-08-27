@@ -21,6 +21,10 @@ class PrinterList extends React.Component {
         this.props.backHomeHardware();
     }
 
+    selectPortType = (type) => {
+        this.props.actions.dataLocal.updatePrinterPortType(type);
+    }
+
     // -------- Render ------
 
     renderNoConnected() {
@@ -91,7 +95,7 @@ class PrinterList extends React.Component {
     }
 
     render() {
-        const { paxMachineInfo, language } = this.props;
+        const { printerPortType, language } = this.props;
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(14), paddingTop: scaleSzie(20) }} >
                 <Text style={{
@@ -101,18 +105,74 @@ class PrinterList extends React.Component {
                 }} >
                     {localize('Connect Printer By', language)}
                 </Text>
-                <ItemConnect
-                    title="Bluetooth"
-                />
-                <ItemConnect
-                    title="LAN"
-                />
-                <ItemConnect
-                    title="USB"
-                />
+                <View style={{ paddingLeft: scaleSzie(15) }} >
+                    <ItemConnect
+                        title="Bluetooth"
+                        isSelect={printerPortType === "Bluetooth" ? true : false}
+                        onPress={this.selectPortType}
+                    />
+                    <ItemConnect
+                        title="LAN"
+                        isSelect={printerPortType === "LAN" ? true : false}
+                        onPress={this.selectPortType}
+                    />
+                    <ItemConnect
+                        title="USB"
+                        isSelect={printerPortType === "USB" ? true : false}
+                        onPress={this.selectPortType}
+                    />
+                </View>
 
-                {/* radioExport */}
-                {/* radioExportSe */}
+                <Text style={{
+                    fontSize: scaleSzie(16),
+                    fontWeight: '600',
+                    color: '#0764B0', marginTop: scaleSzie(20), marginBottom: scaleSzie(10)
+                }} >
+                    {localize('My Printer Device', language)}
+                </Text>
+
+                <View style={{
+                    height: scaleSzie(40), backgroundColor: "rgb(250,250,250)", borderRadius: 6,
+                    flexDirection: "row", alignItems: "center", paddingLeft: scaleSzie(15),
+                    paddingRight: scaleSzie(40), justifyContent: "space-between"
+                }} >
+                    <Text style={{
+                        fontSize: scaleSzie(14),
+                        fontWeight: '500',
+                    }} >
+                        {"BT:mPOP"}
+                    </Text>
+                    <Text style={{
+                        fontSize: scaleSzie(14),
+                        fontWeight: '500',
+                        color: '#0764B0',
+                    }} >
+                        {"Connected"}
+                    </Text>
+                </View>
+
+                {/* ------- List Device ----- */}
+                <Text style={{
+                    fontSize: scaleSzie(16),
+                    fontWeight: '600',
+                    color: '#0764B0', marginTop: scaleSzie(30), marginBottom: scaleSzie(10)
+                }} >
+                    {localize('Other Devices', language)}
+                </Text>
+
+                <View style={{
+                    height: scaleSzie(40), backgroundColor: "rgb(250,250,250)", borderRadius: 6,
+                    flexDirection: "row", alignItems: "center", paddingLeft: scaleSzie(15),
+                    paddingRight: scaleSzie(40),
+                }} >
+                    <Text style={{
+                        fontSize: scaleSzie(14),
+                        fontWeight: '500',
+                    }} >
+                        {"BT:mPOP"}
+                    </Text>
+                </View>
+
 
                 {/* ------- Footer -------- */}
                 <View style={{ position: 'absolute', bottom: 0, width: '100%', justifyContent: 'flex-end', paddingBottom: scaleSzie(30) }} >
@@ -135,20 +195,23 @@ class PrinterList extends React.Component {
     }
 }
 
-const ItemConnect = ({ title }) => {
+const ItemConnect = ({ title, isSelect, onPress }) => {
+    const tempIconSelect = isSelect ? ICON.radioExportSe : ICON.radioExport;
+
     return (
-        <View style={{ flexDirection: "row", alignItems: "center", marginTop: scaleSzie(10) }} >
-            <Image source={ICON.radioExport} />
+        <Button onPress={() => onPress(title)} style={{ flexDirection: "row", alignItems: "center", marginTop: scaleSzie(10) }} >
+            <Image source={tempIconSelect} />
             <Text style={{ fontSize: scaleSzie(14), color: "rgb(131,131,131)", marginLeft: scaleSzie(10) }} >
                 {title}
             </Text>
-        </View>
+        </Button>
     );
 }
 
 const mapStateToProps = state => ({
     paxMachineInfo: state.dataLocal.paxMachineInfo,
     language: state.dataLocal.language,
+    printerPortType: state.dataLocal.printerPortType
 })
 
 export default connectRedux(mapStateToProps, PrinterList);
