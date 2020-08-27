@@ -19,7 +19,9 @@ const initialState = {
     versionApp: "",
     checkEmailToResetPax: "",
     MIDStorage: "",
-    isRememberMID: false
+    isRememberMID: false,
+    printerList: [],
+    printerPortType: "Bluetooth"
 }
 
 function dataLocal(state = initialState, action) {
@@ -138,6 +140,16 @@ function dataLocal(state = initialState, action) {
                 versionApp: action.payload
             }
 
+        case 'UPDATE_PRINTER_LIST':
+            return {
+                ...state,
+                printerList: action.payload,
+            }
+        case 'UPDATE_PRINTER_PORT_TYPE':
+            return {
+                ...state,
+                printerPortType: action.payload,
+            }
         default:
             return state
     }

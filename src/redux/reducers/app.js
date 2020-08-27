@@ -32,7 +32,9 @@ const initialState = {
         message: "is connecting to Pax machine ....",
     },
     isUpdateMerchantSetting: false,
-    settingTabPermission: false
+    settingTabPermission: false,
+    // printerList: [],
+    // printerPortType: "Bluetooth"
 }
 
 function appReducer(state = initialState, action) {
@@ -246,11 +248,22 @@ function appReducer(state = initialState, action) {
                 ...state,
                 settingTabPermission: action.payload
             }
-            case 'CLOSE_ALL_POPUP_PIN_CODE':
-                return {
-                    ...state,
-                    settingTabPermission: false,
-                }
+        case 'CLOSE_ALL_POPUP_PIN_CODE':
+            return {
+                ...state,
+                settingTabPermission: false,
+            }
+        // case 'UPDATE_PRINTER_LIST':
+        //     return {
+        //         ...state,
+        //         printerList: action.payload,
+        //     }
+        // case 'UPDATE_PRINTER_PORT_TYPE':
+        //     return {
+        //         ...state,
+        //         printerPortType: action.payload,
+        //     }
+
         default:
             return state
     }

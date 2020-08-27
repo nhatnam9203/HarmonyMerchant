@@ -1035,8 +1035,6 @@ class TabCheckout extends Layout {
         const { paymentSelected } = this.state;
         const { ip, port, timeout } = paxMachineInfo;
 
-        // Debit Cards
-        // Credit Cards
 
         // 1. Check setup pax 
         PosLink.setupPax(ip, port, timeout);
@@ -1049,9 +1047,6 @@ class TabCheckout extends Layout {
         const moneyCreditCard = Number(formatNumberFromCurrency(moneyUserGiveForStaff) * 100).toFixed(2);
 
         // 3. Send Transaction 
-        // CREDIT
-        // DEBIT
-
         const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
         PosLink.sendTransaction(tenderType, parseFloat(moneyCreditCard), 0, (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
     }
