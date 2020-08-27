@@ -6,8 +6,8 @@ import { NativeModules } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
-    getArrayProductsFromAppointment, getArrayServicesFromAppointment, requestAPI,
-    getArrayExtrasFromAppointment, formatNumberFromCurrency, getStaffInfoById, splitPlusInPhoneNumber,
+    getArrayProductsFromAppointment, getArrayServicesFromAppointment, 
+    getArrayExtrasFromAppointment, formatNumberFromCurrency, getStaffInfoById,
     formatWithMoment, checkStatusPrint
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
