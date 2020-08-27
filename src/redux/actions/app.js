@@ -264,3 +264,9 @@ export function closeAllPopupPincode() {
     }
 }
 
+export function updatePrinterList(printers) {
+    return {
+        type: 'UPDATE_PRINTER_LIST',
+        payload: printers
+    }
+}

@@ -7,17 +7,17 @@ import {
 } from 'react-native';
 
 import { Button, Text } from '@components';
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize, checkStatusPrint } from '@utils';
 import IMAGE from '@resources';
 import connectRedux from '@redux/ConnectRedux';
 
 class HomeHardware extends React.Component {
 
-    onPressBox = (type) => {
+    onPressBox = async (type) => {
         if (type === 'Pax') {
             this.props.gotoListDevices(type);
         } else {
-            alert('Coming Soon')
+            this.props.goToPrinterList();
         }
 
     }
@@ -76,12 +76,9 @@ class HomeHardware extends React.Component {
                         {
                             paxMachineInfo.isSetup ? <Button onPress={this.deleteHardware} style={{
                                 width: scaleSzie(20), height: scaleSzie(20),
-                                 position: "absolute", top: 5, right: 5,
+                                position: "absolute", top: 5, right: 5,
                                 borderRadius: scaleSzie(10), justifyContent: "center", alignItems: "center"
                             }} >
-                                {/* <Text style={{color:"#fff",fontSize:scaleSzie(14) ,fontWeight:"500"}} >
-                                    x
-                                </Text> */}
                                 <Image source={IMAGE.deleteIconBanner}
                                     style={{ width: scaleSzie(10), height: scaleSzie(10) }}
                                 />
@@ -90,7 +87,7 @@ class HomeHardware extends React.Component {
 
                     </Button>
                     {/* ------------- Box 3 ----------- */}
-                    {/* <Button onPress={() => this.onPressBox('Print')} style={[styles.box,{marginLeft:scaleSzie(20)}]} >
+                    <Button onPress={() => this.onPressBox('Print')} style={[styles.box, { marginLeft: scaleSzie(20) }]} >
                         <View style={styles.containerIconBox} >
                             <Image source={IMAGE.Print} style={{
                                 width: scaleSzie(28),
@@ -99,13 +96,13 @@ class HomeHardware extends React.Component {
                         </View>
                         <View style={styles.containerTextBox} >
                             <Text style={styles.textBox} >
-                                Receipt printer
-                        </Text>
+                                {'Receipt printer'}
+                            </Text>
                             <Text style={[styles.textBox, { fontWeight: 'normal', fontSize: scaleSzie(11), marginTop: scaleSzie(10) }]} >
-                                No device
-                        </Text>
+                                {'No device'}
+                            </Text>
                         </View>
-                    </Button> */}
+                    </Button>
                 </View>
 
             </View>

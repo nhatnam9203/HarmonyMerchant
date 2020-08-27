@@ -12,7 +12,7 @@ import { ButtonCustom, Text, Dropdown } from '@components';
 import { scaleSzie, localize, WorkingTime, getNameLanguage } from '@utils';
 import IMAGE from '@resources';
 import styles from './style';
-import { HomeHardware, AddDeviceHardware,SetupHardware } from './widget';
+import { HomeHardware, AddDeviceHardware, SetupHardware ,PrinterList} from './widget';
 
 class Layout extends React.Component {
 
@@ -31,14 +31,17 @@ class Layout extends React.Component {
                 >
                     <HomeHardware
                         gotoListDevices={this.gotoListDevices}
+                        goToPrinterList={this.goToPrinterList}
                     />
-                    <AddDeviceHardware 
-                    gotoSetupDevice={this.gotoSetupDevice}
-                    backHomeHardware={this.backHomeHardware}
+                    <AddDeviceHardware
+                        gotoSetupDevice={this.gotoSetupDevice}
+                        backHomeHardware={this.backHomeHardware}
                     />
-                    <SetupHardware 
-                    backListDevices={this.backListDevices}
+                    <SetupHardware
+                        backListDevices={this.backListDevices}
                     />
+                     <PrinterList />
+
 
                 </ScrollableTabView>
             </View>

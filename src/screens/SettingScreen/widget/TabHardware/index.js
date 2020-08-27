@@ -2,7 +2,7 @@ import React from 'react';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { getNameLanguage, getPosotion } from '@utils';
+import {checkStatusPrint} from '@utils';
 
 class TabHardware extends Layout {
 
@@ -27,6 +27,18 @@ class TabHardware extends Layout {
 
     backListDevices =() =>{
         this.scrollTabHardwareRef.current.goToPage(1);
+    }
+
+    goToPrinterList = async () =>{
+        this.scrollTabHardwareRef.current.goToPage(3);
+        // const printMachine = await checkStatusPrint();
+        // this.props.actions.app.updatePrinterList([
+        //     {
+        //         "macAddress": "",
+        //         "portName": "BT:mPOP",
+        //         "modelName": "POP10 WHT"
+        //     }
+        // ]);
     }
 
 
