@@ -771,9 +771,9 @@ export const formatWithMoment = (data, key) => {
     return moment.parseZone(data).format(key);
 }
 
-export const checkStatusPrint = async () => {
+export const checkStatusPrint = async (portType = "Bluetooth" ) => {
     try {
-        const printer = await PrintManager.getInstance().portDiscovery();
+        const printer = await PrintManager.getInstance().portDiscovery(portType);
         console.log("--- printer : ", JSON.stringify(printer));
         return printer;
         // if (printer.length > 0) {

@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { Button, Text, ButtonCustom } from '@components';
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize ,checkStatusPrint} from '@utils';
 import ICON from '@resources';
 import connectRedux from '@redux/ConnectRedux';
 
@@ -21,8 +21,24 @@ class PrinterList extends React.Component {
         this.props.backHomeHardware();
     }
 
-    selectPortType = (type) => {
-        this.props.actions.dataLocal.updatePrinterPortType(type);
+    selectPortType = async (type) => {
+        try {
+            this.props.actions.dataLocal.updatePrinterPortType(type);
+            this.props.actions.app.loadingApp()
+            const printMachine = await checkStatusPrint(type);
+            this.props.actions.dataLocal.updatePrinterList(printMachine);
+            this.props.actions.app.stopLoadingApp();
+        } catch (error) {
+            this.props.actions.app.stopLoadingApp();
+            setTimeout(() =>{
+                alert(error)
+            },500)
+        }
+
+    }
+
+    selectPrinter = (printer) => {
+        this.props.actions.dataLocal.selectPrinter(printer);
     }
 
     // -------- Render ------
@@ -95,7 +111,7 @@ class PrinterList extends React.Component {
     }
 
     render() {
-        const { printerPortType, language } = this.props;
+        const { printerPortType, language, printerList, printerSelect } = this.props;
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(14), paddingTop: scaleSzie(20) }} >
                 <Text style={{
@@ -128,50 +144,16 @@ class PrinterList extends React.Component {
                     fontWeight: '600',
                     color: '#0764B0', marginTop: scaleSzie(20), marginBottom: scaleSzie(10)
                 }} >
-                    {localize('My Printer Device', language)}
+                    {localize('My Printer Devices', language)}
                 </Text>
-
-                <View style={{
-                    height: scaleSzie(40), backgroundColor: "rgb(250,250,250)", borderRadius: 6,
-                    flexDirection: "row", alignItems: "center", paddingLeft: scaleSzie(15),
-                    paddingRight: scaleSzie(40), justifyContent: "space-between"
-                }} >
-                    <Text style={{
-                        fontSize: scaleSzie(14),
-                        fontWeight: '500',
-                    }} >
-                        {"BT:mPOP"}
-                    </Text>
-                    <Text style={{
-                        fontSize: scaleSzie(14),
-                        fontWeight: '500',
-                        color: '#0764B0',
-                    }} >
-                        {"Connected"}
-                    </Text>
-                </View>
-
-                {/* ------- List Device ----- */}
-                <Text style={{
-                    fontSize: scaleSzie(16),
-                    fontWeight: '600',
-                    color: '#0764B0', marginTop: scaleSzie(30), marginBottom: scaleSzie(10)
-                }} >
-                    {localize('Other Devices', language)}
-                </Text>
-
-                <View style={{
-                    height: scaleSzie(40), backgroundColor: "rgb(250,250,250)", borderRadius: 6,
-                    flexDirection: "row", alignItems: "center", paddingLeft: scaleSzie(15),
-                    paddingRight: scaleSzie(40),
-                }} >
-                    <Text style={{
-                        fontSize: scaleSzie(14),
-                        fontWeight: '500',
-                    }} >
-                        {"BT:mPOP"}
-                    </Text>
-                </View>
+                {
+                    printerList && printerList.map((printer) => <ItemPrinter
+                        key={printer.portName}
+                        portName={printer.portName}
+                        isConnected={printer.portName === printerSelect ? true : false}
+                        onPress={this.selectPrinter}
+                    />)
+                }
 
 
                 {/* ------- Footer -------- */}
@@ -208,10 +190,39 @@ const ItemConnect = ({ title, isSelect, onPress }) => {
     );
 }
 
+const ItemPrinter = ({ portName, isConnected, onPress }) => {
+
+    return (
+        <Button onPress={() => onPress(portName)} style={{
+            height: scaleSzie(40), backgroundColor: "rgb(250,250,250)", borderRadius: 6,
+            flexDirection: "row", alignItems: "center", paddingLeft: scaleSzie(15),
+            paddingRight: scaleSzie(40), justifyContent: "space-between",
+            marginBottom: scaleSzie(13)
+        }} >
+            <Text style={{
+                fontSize: scaleSzie(14),
+                fontWeight: '600',
+            }} >
+                {portName}
+            </Text>
+
+            <Text style={{
+                fontSize: scaleSzie(12),
+                fontWeight: '600',
+                color: '#0764B0',
+            }} >
+                {`${isConnected ? "Connected" : ""}`}
+            </Text>
+        </Button>
+    );
+}
+
 const mapStateToProps = state => ({
     paxMachineInfo: state.dataLocal.paxMachineInfo,
     language: state.dataLocal.language,
-    printerPortType: state.dataLocal.printerPortType
+    printerPortType: state.dataLocal.printerPortType,
+    printerList: state.dataLocal.printerList,
+    printerSelect: state.dataLocal.printerSelect
 })
 
 export default connectRedux(mapStateToProps, PrinterList);
