@@ -37,7 +37,7 @@ const FirebaseNotificationProvider = () => {
   // TODO : save redux app local
   console.log(firebaseToken);
 
-  return <></>;
+  return null;
 };
 
 export default FirebaseNotificationProvider;
