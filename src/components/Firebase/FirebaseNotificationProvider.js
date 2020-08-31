@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import useFirebaseNotification from "./useFirebaseNotification";
 import NotifService from "@utils/NotifService";
 import NavigationServices from "../../navigators/NavigatorServices";
-import firebase from "@react-native-firebase/app";
+// import firebase from "@react-native-firebase/app";
 
 const FirebaseNotificationProvider = () => {
   const dispatch = useDispatch();
@@ -18,10 +18,10 @@ const FirebaseNotificationProvider = () => {
     // console.log("==> notification onForegroundMessage", JSON.stringify(data));
     // TODO: process message on foreground state
     notifyService?.firebaseNotify(data);
-    firebase
-      .notifications()
-      .displayNotification(data)
-      .catch((err) => console.error(err));
+    // firebase
+    //   .notifications()
+    //   .displayNotification(data)
+    //   .catch((err) => console.error(err));
   };
 
   const onBackgroundMessage = ({ data }) => {
