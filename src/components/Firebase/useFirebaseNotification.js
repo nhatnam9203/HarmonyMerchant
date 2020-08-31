@@ -3,7 +3,7 @@ import messaging from "@react-native-firebase/messaging";
 import React from "react";
 
 const FIREBASE_TOKEN_STORE_KEY = "fcmToken";
-const SAVE_STORE_TOKEN = false;
+const SAVE_STORE_TOKEN = true;
 
 const saveStoreToken = async (token) => {
   if (token) {

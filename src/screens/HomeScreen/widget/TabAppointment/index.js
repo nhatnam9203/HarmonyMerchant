@@ -60,11 +60,11 @@ class TabAppointment extends Layout {
     }
 
     componentDidMount() {
-        AppState.addEventListener("change", this.handleAppStateChange);
-        // ------- Register Notification ------
-        this.notif = new NotifService(
-            this.onNotif.bind(this),
-        );
+      AppState.addEventListener("change", this.handleAppStateChange);
+      // ------- Register Notification ------
+      // this.notif = new NotifService(
+      //     this.onNotif.bind(this),
+      // );
     }
 
 
@@ -112,7 +112,7 @@ class TabAppointment extends Layout {
     }
 
     handleNewAppointmentNotification = (appointment) => {
-        this.notif.localNotif(null, appointment);
+        // this.notif.localNotif(null, appointment);
     }
 
     onMessageFromWebview = async (event) => {
@@ -206,7 +206,7 @@ class TabAppointment extends Layout {
         const services = [];
         const extras = [];
         const products = [];
-       
+
         for(let i = 0 ; i < basket.length ; i ++){
             const temptItem = basket[i];
             if(temptItem.type === "Service"){
@@ -217,7 +217,7 @@ class TabAppointment extends Layout {
                 products.push(temptItem)
             }
         }
-        
+
         return services.concat(extras,products);
     }
 
@@ -313,7 +313,7 @@ class TabAppointment extends Layout {
     removeItemBasket = (item) => {
         const { appointmentId, basket } = this.state;
         if (appointmentId !== -1) {
-            // ----- Remove With Appointmnet 
+            // ----- Remove With Appointmnet
             let dataRemove = {};
             switch (item.type) {
                 case 'Product':
