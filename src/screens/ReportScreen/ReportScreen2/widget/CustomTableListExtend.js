@@ -1,27 +1,21 @@
-import PropTypes from "prop-types";
-import React, {
-  useEffect,
-  useState,
-  useImperativeHandle,
-  forwardRef,
-} from "react";
+import IMAGE from "@resources";
 import {
-  FlatList,
-  ScrollView,
+  formatMoney,
+  formatNumberFromCurrency,
+  roundFloatNumber,
+  scaleSzie,
+} from "@utils";
+import PropTypes from "prop-types";
+import _ from "ramda";
+import React, { forwardRef, useEffect, useState } from "react";
+import {
+  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  Image,
+  Animated,
 } from "react-native";
-import _ from "ramda";
-import {
-  roundFloatNumber,
-  formatNumberFromCurrency,
-  formatMoney,
-  scaleSzie,
-} from "@utils";
-import IMAGE from "@resources";
 import { StickyForm } from "react-native-largelist-v3";
 
 const TABLE_HEADER_HEIGHT = 50;
@@ -29,6 +23,7 @@ const TABLE_ROW_HEIGHT = 50;
 const TABLE_CELL_DEFAULT_WIDTH = 160;
 const HEAD_FONT_SIZE = 17;
 const CELL_FONT_SIZE = 15;
+const IndicatorWidth = 200;
 
 const TABLE_HEADER_KEY = "report-header";
 const TABLE_SUMMARY_KEY = "report-summary";
@@ -84,35 +79,25 @@ const SORT_STATE = {
   asc: "ASC",
 };
 
-/**
- * !error: header long bug ui
- * !error: calcSum -> pagination bug
- * */
-function TableListExtended(
-  {
-    tableData,
-    tableHead,
-    tableCellWidth,
-    whiteKeys,
-    calcSumKeys,
-    sumTotalKey,
-    priceKeys,
-    primaryId,
-    extraData,
-    noHead = false,
-    renderCell,
-    onCellPress,
-    onRowPress,
-    showSumOnBottom,
-    renderFooter,
-    renderActionCell,
-    checkSumItem,
-    sortKey,
-    unitKeys,
-    sortDefault,
-  },
-  ref
-) {
+function TableListExtended({
+  tableData,
+  tableHead,
+  tableCellWidth,
+  whiteKeys,
+  calcSumKeys,
+  sumTotalKey,
+  priceKeys,
+  primaryId,
+  noHead = false,
+  renderCell,
+  onCellPress,
+  onRowPress,
+  renderActionCell,
+  checkSumItem,
+  sortKey,
+  unitKeys,
+  sortDefault,
+}) {
   /**state */
   const [headerContent, setHeaderContent] = useState({});
   const [data, setData] = useState([]);
@@ -120,6 +105,24 @@ function TableListExtended(
   const [sumObject, setSumObject] = useState({});
   const [tableWidth, setTableWidth] = useState(0);
   const [sortState, setSortState] = useState(SORT_STATE.none);
+
+  // scroll
+
+  const [fullSizeContentWidth, setFullSizeContentWidth] = useState(1);
+
+  const [visibleScrollPartWidth, setVisibleScrollPartWidth] = useState(1);
+
+  const [indicatorFlexibleWidth, setIndicatorFlexibleWidth] = useState(
+    IndicatorWidth
+  );
+
+  const [isIndicatorHidden, setIsIndicatorHidden] = useState(true);
+  const [
+    scrollIndicatorContainerWidth,
+    setScrollIndicatorContainerWidth,
+  ] = useState(1);
+
+  const [fromLeft, setFromLeft] = useState(0);
 
   const setListData = (sort) => {
     let sortList = tableData;
@@ -240,6 +243,31 @@ function TableListExtended(
 
   const isPriceCell = (key) => {
     return priceKeys?.indexOf(key) >= 0;
+  };
+
+  const onScroll = ({
+    nativeEvent: {
+      contentOffset: { x, y },
+    },
+  }) => {
+    console.log(
+      `onScroll => ${visibleScrollPartWidth} fullSizeContentWidth => ${fullSizeContentWidth}`
+    );
+
+    const movePercent =
+      fullSizeContentWidth === visibleScrollPartWidth
+        ? 0
+        : x / ((fullSizeContentWidth - visibleScrollPartWidth) / 100);
+
+    const position =
+      ((visibleScrollPartWidth -
+        indicatorFlexibleWidth -
+        (visibleScrollPartWidth - scrollIndicatorContainerWidth)) /
+        100) *
+      movePercent;
+
+    setFromLeft(position);
+    console.log(`onScroll => ${position} movePercent => ${movePercent}`);
   };
 
   /**render */
@@ -467,15 +495,38 @@ function TableListExtended(
       <StickyForm
         style={{ backgroundColor: "white" }}
         contentStyle={{ width: tableWidth ?? "100%" }}
+        onContentSizeChange={({ width, height }) => {
+          setFullSizeContentWidth(width);
+        }}
+        onSizeChange={({ width, height }) => {
+          console.log(width);
+        }}
+        onLayout={(e) => setVisibleScrollPartWidth(e.nativeEvent.layout.width)}
         data={dataFactory}
         heightForSection={() => TABLE_ROW_HEIGHT}
         heightForIndexPath={() => TABLE_ROW_HEIGHT}
         renderHeader={renderHeader}
         renderSection={renderSection}
         renderIndexPath={renderItem}
-        // directionalLockEnabled={true}
         bounces={false}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        onScroll={onScroll}
       />
+
+      <Animated.View
+        style={styles.scrollIndicatorContainer}
+        onLayout={(e) =>
+          setScrollIndicatorContainerWidth(e.nativeEvent.layout.width)
+        }
+      >
+        <View
+          style={[
+            styles.scrollIndicator,
+            { left: fromLeft, width: indicatorFlexibleWidth },
+          ]}
+        />
+      </Animated.View>
     </View>
   );
 }
@@ -533,28 +584,33 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 0,
   },
+
   row: {
     backgroundColor: "#FFFFFF",
     height: TABLE_ROW_HEIGHT,
     flexDirection: "row",
     justifyContent: "space-evenly",
   },
+
   head: {
     height: TABLE_HEADER_HEIGHT,
     backgroundColor: "#FAFAFA",
   },
+
   cell: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 10,
   },
+
   txtCell: {
     fontSize: CELL_FONT_SIZE,
     color: "#6A6A6A",
     textAlign: "center",
     flexWrap: "wrap",
   },
+
   txtHead: {
     fontSize: HEAD_FONT_SIZE,
     color: "#0764B0",
@@ -562,10 +618,12 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     textAlign: "center",
   },
+
   separator: {
     height: 1,
     backgroundColor: "#E5E5E5",
   },
+
   txtSum: {
     fontSize: HEAD_FONT_SIZE,
     color: "#404040",
@@ -573,12 +631,14 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     textAlign: "center",
   },
+
   headName: {
     margin: 0,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FAFAFA",
   },
+
   btnSort: {
     width: 30,
     position: "absolute",
@@ -587,5 +647,25 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: "center",
     alignItems: "center",
+  },
+
+  scrollIndicatorContainer: {
+    position: "absolute",
+    left: 0,
+    bottom: 2,
+    right: 0,
+    overflow: "hidden",
+    borderRadius: 10,
+    width: 6,
+    marginVertical: 3,
+  },
+
+  scrollIndicator: {
+    position: "absolute",
+    bottom: 0,
+    height: 6,
+    borderRadius: 3,
+    opacity: 1,
+    backgroundColor: "blue",
   },
 });

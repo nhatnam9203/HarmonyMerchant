@@ -430,7 +430,7 @@ class PopupStaffInvoicePrint extends React.Component {
                                 title={`${index + 1}. ${localize(
                                   x.receiptType,
                                   language
-                                )} (${x.commission}$)`}
+                                )} ($ ${x.commission})`}
                                 value={`$ ${x.total}`}
                               />
                               <ItemStaffInvoice
