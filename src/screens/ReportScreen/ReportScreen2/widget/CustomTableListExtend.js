@@ -416,7 +416,7 @@ function TableListExtended({
                         ? unitKeys[key]
                           ? item[key] + " " + unitKeys[key]
                           : "$ " + item[key]
-                        : item[key]}
+                        : item[key] || "-"}
                     </Text>
                   )}
             </TableCell>
