@@ -59,7 +59,7 @@ export default function PaymentBarChart({ data }) {
     if (data) {
       // ======= map values =======
       let mapValues = [];
-      let formatterValues = pickValuesForKey(data, "method", "string");
+      let formatterValues = pickValuesForKey(data, "displayMethod", "string");
 
       // run object get value push in array mapValues
       pickValuesForKey(data, "netPayment", "float").forEach((d) => {

@@ -3,18 +3,18 @@ import {
   formatMoney,
   formatNumberFromCurrency,
   roundFloatNumber,
-  scaleSzie,
+  scaleSzie
 } from "@utils";
 import PropTypes from "prop-types";
 import _ from "ramda";
 import React, { forwardRef, useEffect, useState } from "react";
 import {
+  Animated,
   Image,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  Animated,
+  View
 } from "react-native";
 import { StickyForm } from "react-native-largelist-v3";
 
@@ -28,6 +28,7 @@ const IndicatorWidth = 200;
 const TABLE_HEADER_KEY = "report-header";
 const TABLE_SUMMARY_KEY = "report-summary";
 const TABLE_ACTION_KEY = "action";
+const KEY_CONCAT_FOR_INDEX = "#";
 
 const uniqueId = (key, index, defaultPrefix = "key") =>
   defaultPrefix + key + "-index" + index;
@@ -103,26 +104,26 @@ function TableListExtended({
   const [data, setData] = useState([]);
   const [dataFactory, setDataFactory] = useState([]);
   const [sumObject, setSumObject] = useState({});
-  const [tableWidth, setTableWidth] = useState(0);
+  const [tableWidth, setTableWidth] = useState(1);
   const [sortState, setSortState] = useState(SORT_STATE.none);
 
+  const stickyFormRef = React.useRef(null);
   // scroll
 
   const [fullSizeContentWidth, setFullSizeContentWidth] = useState(1);
 
   const [visibleScrollPartWidth, setVisibleScrollPartWidth] = useState(1);
 
-  const [indicatorFlexibleWidth, setIndicatorFlexibleWidth] = useState(
-    IndicatorWidth
-  );
+  const [indicatorFlexibleWidth] = useState(IndicatorWidth);
+  const [offsetXMap, setOffsetXMap] = useState(new Map());
 
-  const [isIndicatorHidden, setIsIndicatorHidden] = useState(true);
   const [
     scrollIndicatorContainerWidth,
     setScrollIndicatorContainerWidth,
   ] = useState(1);
 
   const [fromLeft, setFromLeft] = useState(0);
+  const [currentOffset, setCurrentOffset] = useState({ x: 0, y: 0 });
 
   const setListData = (sort) => {
     let sortList = tableData;
@@ -215,9 +216,12 @@ function TableListExtended({
       dataArr.push(data);
       setDataFactory(dataArr);
 
+      let map = new Map();
       whiteKeys.forEach((key, index) => {
         width += getCellWidth(index, key);
+        map.set(index + KEY_CONCAT_FOR_INDEX + key, width);
       });
+      setOffsetXMap(map);
       setTableWidth(width);
     }
   }, [tableData, whiteKeys]);
@@ -250,10 +254,6 @@ function TableListExtended({
       contentOffset: { x, y },
     },
   }) => {
-    console.log(
-      `onScroll => ${visibleScrollPartWidth} fullSizeContentWidth => ${fullSizeContentWidth}`
-    );
-
     const movePercent =
       fullSizeContentWidth === visibleScrollPartWidth
         ? 0
@@ -267,7 +267,27 @@ function TableListExtended({
       movePercent;
 
     setFromLeft(position);
-    console.log(`onScroll => ${position} movePercent => ${movePercent}`);
+    setCurrentOffset({ x: x, y: y });
+  };
+
+  const isContentSmallerThanScrollView =
+    fullSizeContentWidth - visibleScrollPartWidth <= 0;
+
+  onMomentumScrollEnd = () => {
+    if (!currentOffset || _.isEmpty(currentOffset)) return;
+
+    offsetXMap?.forEach((value, key, map) => {
+      const arrStr = key.split(KEY_CONCAT_FOR_INDEX);
+      const cellWidth = getCellWidth(arrStr[0], arrStr[1]);
+
+      let { x, y } = currentOffset;
+
+      if (x > value - cellWidth && x < value) {
+        x = value - cellWidth;
+        stickyFormRef.current.scrollTo({ x: x, y: y });
+        return;
+      }
+    });
   };
 
   /**render */
@@ -493,15 +513,16 @@ function TableListExtended({
   return (
     <View style={styles.container}>
       <StickyForm
+        ref={stickyFormRef}
         style={{ backgroundColor: "white" }}
         contentStyle={{ width: tableWidth ?? "100%" }}
-        onContentSizeChange={({ width, height }) => {
+        onContentSizeChange={({ width }) => {
           setFullSizeContentWidth(width);
         }}
-        onSizeChange={({ width, height }) => {
-          console.log(width);
+        onSizeChange={({ width }) => {
+          setVisibleScrollPartWidth(width);
         }}
-        onLayout={(e) => setVisibleScrollPartWidth(e.nativeEvent.layout.width)}
+        // onLayout={(e) => setVisibleScrollPartWidth(e.nativeEvent.layout.width)}
         data={dataFactory}
         heightForSection={() => TABLE_ROW_HEIGHT}
         heightForIndexPath={() => TABLE_ROW_HEIGHT}
@@ -509,24 +530,30 @@ function TableListExtended({
         renderSection={renderSection}
         renderIndexPath={renderItem}
         bounces={false}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={isContentSmallerThanScrollView}
+        showsVerticalScrollIndicator={true}
         onScroll={onScroll}
+        // onMomentumScrollEnd={onMomentumScrollEnd}
+        scrollEventThrottle={1}
+        onScrollEndDrag={onMomentumScrollEnd}
+        directionalLockEnabled={true}
+        pagingEnabled={true}
       />
-
-      <Animated.View
-        style={styles.scrollIndicatorContainer}
-        onLayout={(e) =>
-          setScrollIndicatorContainerWidth(e.nativeEvent.layout.width)
-        }
-      >
-        <View
-          style={[
-            styles.scrollIndicator,
-            { left: fromLeft, width: indicatorFlexibleWidth },
-          ]}
-        />
-      </Animated.View>
+      {!isContentSmallerThanScrollView && (
+        <Animated.View
+          style={styles.scrollIndicatorContainer}
+          onLayout={(e) =>
+            setScrollIndicatorContainerWidth(e.nativeEvent.layout.width)
+          }
+        >
+          <View
+            style={[
+              styles.scrollIndicator,
+              { left: fromLeft, width: indicatorFlexibleWidth },
+            ]}
+          />
+        </Animated.View>
+      )}
     </View>
   );
 }
@@ -652,20 +679,23 @@ const styles = StyleSheet.create({
   scrollIndicatorContainer: {
     position: "absolute",
     left: 0,
-    bottom: 2,
+    bottom: 0,
     right: 0,
     overflow: "hidden",
-    borderRadius: 10,
-    width: 6,
-    marginVertical: 3,
+    borderRadius: 5,
+    height: 10,
+    margin: 4,
+    backgroundColor: "#E1E1E1",
+    borderWidth: 1,
+    borderColor: "#F5F5F5",
   },
 
   scrollIndicator: {
     position: "absolute",
     bottom: 0,
-    height: 6,
-    borderRadius: 3,
-    opacity: 1,
-    backgroundColor: "blue",
+    top: 0,
+    borderRadius: 5,
+    opacity: 0.5,
+    backgroundColor: "#6D6D6D",
   },
 });
