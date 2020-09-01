@@ -3,7 +3,7 @@ import {
   formatMoney,
   formatNumberFromCurrency,
   roundFloatNumber,
-  scaleSzie
+  scaleSzie,
 } from "@utils";
 import PropTypes from "prop-types";
 import _ from "ramda";
@@ -14,7 +14,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import { StickyForm } from "react-native-largelist-v3";
 
@@ -80,6 +80,13 @@ const SORT_STATE = {
   asc: "ASC",
 };
 
+const SCROLL_MODE = {
+  none: "NONE",
+  drag: "DRAG",
+  scroll: "SCROLL",
+  block: "BLOCK",
+};
+
 function TableListExtended({
   tableData,
   tableHead,
@@ -106,6 +113,7 @@ function TableListExtended({
   const [sumObject, setSumObject] = useState({});
   const [tableWidth, setTableWidth] = useState(1);
   const [sortState, setSortState] = useState(SORT_STATE.none);
+  const [scrollMode, setScrollMode] = useState(SCROLL_MODE.none);
 
   const stickyFormRef = React.useRef(null);
   // scroll
@@ -273,8 +281,46 @@ function TableListExtended({
   const isContentSmallerThanScrollView =
     fullSizeContentWidth - visibleScrollPartWidth <= 0;
 
+  onMomentumScrollBegin = () => {
+    if (scrollMode === SCROLL_MODE.block) return;
+
+    setScrollMode(SCROLL_MODE.none);
+  };
+
   onMomentumScrollEnd = () => {
-    if (!currentOffset || _.isEmpty(currentOffset)) return;
+    if (scrollMode === SCROLL_MODE.block) return;
+
+    if (
+      !currentOffset ||
+      _.isEmpty(currentOffset || scrollMode !== SCROLL_MODE.scroll)
+    )
+      return;
+    setScrollMode(SCROLL_MODE.scroll);
+  };
+
+  onScrollBeginDrag = () => {
+    if (scrollMode === SCROLL_MODE.block || scrollMode === SCROLL_MODE.scroll)
+      return;
+    setScrollMode(SCROLL_MODE.none);
+  };
+
+  onScrollEndDrag = () => {
+    if (scrollMode === SCROLL_MODE.block) return;
+
+    if (
+      !currentOffset ||
+      _.isEmpty(currentOffset || scrollMode !== SCROLL_MODE.drag)
+    )
+      return;
+
+    setTimeout(() => {
+      setScrollMode(SCROLL_MODE.drag);
+    }, 20);
+  };
+
+  autoScroll = () => {
+    if (scrollMode === SCROLL_MODE.none || scrollMode === SCROLL_MODE.block)
+      return;
 
     offsetXMap?.forEach((value, key, map) => {
       const arrStr = key.split(KEY_CONCAT_FOR_INDEX);
@@ -284,15 +330,24 @@ function TableListExtended({
 
       if (x > value - cellWidth && x < value) {
         x = value - cellWidth;
-        stickyFormRef.current.scrollTo({ x: x, y: y });
+        setScrollMode(SCROLL_MODE.block);
+        stickyFormRef.current.scrollTo({ x: x, y: y }).then(() => {
+          setScrollMode(SCROLL_MODE.none);
+        });
+
         return;
       }
     });
   };
 
+  React.useEffect(() => {
+    if (scrollMode === SCROLL_MODE.drag || scrollMode === SCROLL_MODE.scroll) {
+      autoScroll();
+    }
+  }, [scrollMode]);
+
   /**render */
   // render cell
-
   const renderItem = ({ row }) => {
     const item = data[row];
     const cellKey = getCellKey(item, primaryId);
@@ -533,11 +588,12 @@ function TableListExtended({
         showsHorizontalScrollIndicator={isContentSmallerThanScrollView}
         showsVerticalScrollIndicator={true}
         onScroll={onScroll}
-        // onMomentumScrollEnd={onMomentumScrollEnd}
-        scrollEventThrottle={1}
-        onScrollEndDrag={onMomentumScrollEnd}
+        onMomentumScrollBegin={onMomentumScrollBegin}
+        onMomentumScrollEnd={onMomentumScrollEnd}
+        scrollEventThrottle={16}
+        onScrollEndDrag={onScrollEndDrag}
+        onScrollBeginDrag={onScrollBeginDrag}
         directionalLockEnabled={true}
-        pagingEnabled={true}
       />
       {!isContentSmallerThanScrollView && (
         <Animated.View
