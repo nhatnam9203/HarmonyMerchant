@@ -33,6 +33,8 @@ export default function StaffStatistic(props, ref) {
         salaryWage: localize("Salary Wage", language),
         tipAmount: localize("Tip Amount", language),
         salary: localize("Salary", language),
+        loginTime: localize("Login Time", language),
+        logoutTime: localize("Logout Time", language),
       },
       whiteKeys: [
         "dateString",
@@ -44,6 +46,8 @@ export default function StaffStatistic(props, ref) {
         "salaryWage",
         "tipAmount",
         "salary",
+        "loginTime",
+        "logoutTime",
       ],
       primaryId: "date",
       sumTotalKey: "dateString",
@@ -69,7 +73,7 @@ export default function StaffStatistic(props, ref) {
       ],
       sortKey: "dateString",
       unitKeys: { workingHour: "hrs" },
-      tableCellWidth: { appointmentId: 80 },
+      tableCellWidth: { dateString: 200, loginTime: 140, logoutTime: 140 },
     });
   }, [filterId, listStaffsSalary]);
 
