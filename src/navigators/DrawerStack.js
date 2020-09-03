@@ -1,5 +1,4 @@
-import { createDrawerNavigator, createStackNavigator } from "react-navigation";
-import getSlideFromRightTransition from "react-navigation-slide-from-right-transition";
+import { createDrawerNavigator } from "react-navigation";
 import { scaleSzie } from "../utils";
 
 import {
@@ -25,7 +24,7 @@ const DrawerStack = createDrawerNavigator(
     Settlement: SettlementScreen,
     Reports: ReportScreen
   }, {
-  initialRouteName: "Setting",
+  initialRouteName: "Home",
   contentComponent: SlideDrawer,
   drawerWidth: scaleSzie(220),
   overlayColor: "rgba(0, 0, 0, 0.5) ",
