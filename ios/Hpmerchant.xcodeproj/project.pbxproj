@@ -246,8 +246,8 @@
 		366C013324DBC6DE00BAA83B /* DataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009824DBC6DD00BAA83B /* DataExtract.swift */; };
 		366C013424DBC6DE00BAA83B /* DataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009824DBC6DD00BAA83B /* DataExtract.swift */; };
 		36F619BC2500D83B00893A84 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36F619BA2500D81B00893A84 /* GoogleService-Info.plist */; };
-		36F619BD2500D84400893A84 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 365E73FA24F8F38400D2CDB9 /* GoogleService-Info.plist */; };
 		36F619C02500D9AC00893A84 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36F619BF2500D9AC00893A84 /* GoogleService-Info.plist */; };
+		36F619C12500DB3900893A84 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 365E73FA24F8F38400D2CDB9 /* GoogleService-Info.plist */; };
 		36FD0B8B24EB95CB00A50EBB /* libRNSpringScrollView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3649D09124E65E8D003C8174 /* libRNSpringScrollView.a */; };
 		7C186DA69A5F305D9BABAA7C /* libPods-Hpmerchant-Hpmerchant_Production.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BBD25C8CE37C1AB57107F998 /* libPods-Hpmerchant-Hpmerchant_Production.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -673,7 +673,6 @@
 		366C009824DBC6DD00BAA83B /* DataExtract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataExtract.swift; sourceTree = "<group>"; };
 		3684056524F8BCA200021B55 /* Staing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Staing.entitlements; sourceTree = "<group>"; };
 		3684059024F8BCDA00021B55 /* HPMerchant.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HPMerchant.entitlements; sourceTree = "<group>"; };
-		36F619B62500D6C200893A84 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Users/nhatran/Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		36F619BA2500D81B00893A84 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		36F619BE2500D99A00893A84 /* Dev.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Dev.entitlements; sourceTree = "<group>"; };
 		36F619BF2500D9AC00893A84 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -900,7 +899,6 @@
 				230F1DDC24D3DA2300A95898 /* staging.plist */,
 				23FE295423C77BEF00E95925 /* File.swift */,
 				23FE295323C77BEF00E95925 /* Hpmerchant-Bridging-Header.h */,
-				36F619B62500D6C200893A84 /* GoogleService-Info.plist */,
 			);
 			name = Hpmerchant;
 			sourceTree = "<group>";
@@ -1805,7 +1803,7 @@
 			files = (
 				230F1DD324D3DA2200A95898 /* Images.xcassets in Resources */,
 				230F1DD424D3DA2200A95898 /* LaunchScreen.xib in Resources */,
-				36F619BD2500D84400893A84 /* GoogleService-Info.plist in Resources */,
+				36F619C12500DB3900893A84 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
