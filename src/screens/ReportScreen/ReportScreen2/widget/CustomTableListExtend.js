@@ -119,20 +119,15 @@ function TableListExtended({
   // scroll
 
   const [fullSizeContentWidth, setFullSizeContentWidth] = useState(1);
-
   const [visibleScrollPartWidth, setVisibleScrollPartWidth] = useState(1);
-
   const [indicatorFlexibleWidth] = useState(IndicatorWidth);
   const [offsetXMap, setOffsetXMap] = useState(new Map());
-
   const [
     scrollIndicatorContainerWidth,
     setScrollIndicatorContainerWidth,
   ] = useState(1);
-
   const [fromLeft, setFromLeft] = useState(0);
   const [currentOffset, setCurrentOffset] = useState({ x: 0, y: 0 });
-
   const setListData = (sort) => {
     let sortList = tableData;
     if (sortKey && sortList.length > 0 && sort !== SORT_STATE.none) {
@@ -147,7 +142,6 @@ function TableListExtended({
 
     setData(sortList);
   };
-
   const changeSortData = () => {
     if (!sortKey) {
       setSortState(SORT_STATE.none);
@@ -164,9 +158,7 @@ function TableListExtended({
     setSortState(sort);
     setListData(sort);
   };
-
   /**effect */
-
   // bind header - table data
   useEffect(() => {
     if (noHead) {
@@ -216,10 +208,12 @@ function TableListExtended({
         itemObject["data"] = Object.values(valueObject[index]);
         factoryItems.push(itemObject);
       });
+
       const data = Object.create({
         sectionTitle: "",
         items: factoryItems,
       });
+
       let dataArr = [];
       dataArr.push(data);
       setDataFactory(dataArr);
@@ -283,7 +277,6 @@ function TableListExtended({
 
   onMomentumScrollBegin = () => {
     if (scrollMode === SCROLL_MODE.block) return;
-
     setScrollMode(SCROLL_MODE.none);
   };
 
@@ -315,7 +308,7 @@ function TableListExtended({
 
     setTimeout(() => {
       setScrollMode(SCROLL_MODE.drag);
-    }, 20);
+    }, 16);
   };
 
   autoScroll = () => {
@@ -569,7 +562,7 @@ function TableListExtended({
     <View style={styles.container}>
       <StickyForm
         ref={stickyFormRef}
-        style={{ backgroundColor: "white" }}
+        style={{ backgroundColor: "white", marginBottom: 5 }}
         contentStyle={{ width: tableWidth ?? "100%" }}
         onContentSizeChange={({ width }) => {
           setFullSizeContentWidth(width);
@@ -594,6 +587,7 @@ function TableListExtended({
         onScrollEndDrag={onScrollEndDrag}
         onScrollBeginDrag={onScrollBeginDrag}
         directionalLockEnabled={true}
+        renderFooter={() => <View style={{ height: 20 }} />}
       />
       {!isContentSmallerThanScrollView && (
         <Animated.View
@@ -666,6 +660,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 0,
+    marginBottom: 5,
   },
 
   row: {
