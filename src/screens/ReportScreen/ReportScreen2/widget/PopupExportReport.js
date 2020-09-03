@@ -1,24 +1,24 @@
-import React, { useState, useEffect, forwardRef } from "react";
+import { Button, ButtonCustom, ModalCustom } from "@components";
+import IMAGE from "@resources";
+import { localize, scaleSzie } from "@utils";
+import React, { useEffect, useState } from "react";
 import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  TextInput,
-  KeyboardAvoidingView,
-  Image,
+  Image, KeyboardAvoidingView, StyleSheet, Text,
+
+
+  TextInput, View
 } from "react-native";
 
-import { ButtonCustom, ModalCustom, Button } from "@components";
-import { scaleSzie, localize } from "@utils";
-import IMAGE from "@resources";
 
-const { width } = Dimensions.get("window");
 
-function PopupExportReport(
-  { title, visible, onRequestClose, language, exportFile, fileName },
-  ref
-) {
+function PopupExportReport({
+  title,
+  visible,
+  onRequestClose,
+  language,
+  exportFile,
+  fileName,
+}) {
   /**state */
   const [exportTitle, setExportTitle] = useState("Report Staff");
 
@@ -168,4 +168,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PopupExportReport = forwardRef(PopupExportReport);
+export default PopupExportReport;

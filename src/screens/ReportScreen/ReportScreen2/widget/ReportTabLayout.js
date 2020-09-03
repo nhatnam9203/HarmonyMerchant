@@ -1,52 +1,16 @@
-import React, {
-  useRef,
-  useImperativeHandle,
-  forwardRef,
-  useState,
-  useCallback,
-  useEffect,
-} from "react";
-import PropTypes from "prop-types";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  Platform,
-} from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-
-import RNFetchBlob from "rn-fetch-blob";
-import ScrollableTabView from "react-native-scrollable-tab-view";
-import { Dropdown } from "react-native-material-dropdown";
-
-import { PopupCalendar } from "@components";
-import actions from "@actions";
 import IMAGE from "@resources";
-import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
-
-import PopupLoadingExportReport from "./PopupLoadingExportReport";
-import PopupExportReport from "./PopupExportReport";
+import { localize } from "@utils";
+import PropTypes from "prop-types";
+import React from "react";
+import { View } from "react-native";
+import { Dropdown } from "react-native-material-dropdown";
+import { useSelector } from "react-redux";
+import HeaderTitle from "./HeaderTitle";
 import HeaderTooltip from "./HeaderTooltip";
 import PopupButton from "./PopupButton";
-import HeaderTitle from "./HeaderTitle";
-
-/**create new object from two value for two key of object */
-const createChartObjectFromValues = (array, key, keyValue) => {
-  let response = [];
-  array.forEach((obj) => {
-    let mapObj = Object.create({});
-    mapObj[obj[key]] = formatNumberFromCurrency(obj[keyValue]);
-    response.push(mapObj);
-  });
-
-  return response;
-};
 
 function ReportTabLayout({
   style,
-  onGoStatistics,
   titleRangeTime,
   showCalendar,
   showExportFile,
@@ -63,8 +27,6 @@ function ReportTabLayout({
   filterNameDefaultList = [],
   title,
 }) {
-  /**redux store*/
-  const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
   /**state */
@@ -139,8 +101,4 @@ function ReportTabLayout({
   );
 }
 
-ReportTabLayout.propTypes = {
-  children: PropTypes.node.children,
-};
-
-export default ReportTabLayout = forwardRef(ReportTabLayout);
+export default ReportTabLayout;

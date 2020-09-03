@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-
 import IMAGE from "@resources";
 import { localize } from "@utils";
-
-import { TableListExtended, ReportTabLayout, TableList } from "../../widget";
+import React, { useEffect, useState } from "react";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { useSelector } from "react-redux";
 import { PopupStaffInvoicePrint } from "../../../widget";
+import { ReportTabLayout, TableListExtended } from "../../widget";
 
 const FILTER_NAME_DEFAULT = "All Staff";
 
@@ -21,8 +19,6 @@ export default function StaffReportTab({
   pathFileExport,
   handleTheDownloadedFile,
 }) {
-  /**redux store*/
-  const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
   const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
@@ -86,7 +82,7 @@ export default function StaffReportTab({
     setShowStaffInvoicePrint(true);
   };
 
-  const onRowPress = ({ key, row, item }) => {
+  const onRowPress = ({ item }) => {
     showPopupStaffInvoice(item);
   };
 
@@ -97,7 +93,7 @@ export default function StaffReportTab({
 
   /**render */
   //callback render action cell
-  const renderActionCell = ({ key, row, column, item }) => {
+  const renderActionCell = ({ item }) => {
     return (
       <View style={styles.cellAction}>
         <TouchableOpacity onPress={() => goStatistics(item)}>
@@ -109,7 +105,7 @@ export default function StaffReportTab({
     );
   };
 
-  const renderCell = ({ key, row, column, item, isPrice, keyUnique }) => {
+  const renderCell = () => {
     return null;
   };
 
