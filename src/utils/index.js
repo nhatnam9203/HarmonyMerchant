@@ -829,7 +829,7 @@ export const getModalNameOfPrinter = (printers, tempModalName) => {
 export const checkStatusPrint = async (portType = "Bluetooth") => {
     try {
         const printer = await PrintManager.getInstance().portDiscovery(portType);
-        console.log("--- printer : ", JSON.stringify(printer));
+        // console.log("--- printer : ", JSON.stringify(printer));
         return printer ? printer : [];
     } catch (error) {
         throw error

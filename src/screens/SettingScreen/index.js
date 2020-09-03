@@ -3,6 +3,7 @@ import { Keyboard } from "react-native";
 
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
+import {checkStatusPrint} from "@utils";
 
 class SettingScreen extends Layout {
   constructor(props) {
@@ -85,6 +86,8 @@ class SettingScreen extends Layout {
         return this.props.actions.extra.getExtraByMerchant();
       case 5:
         return this.updateTaxFromParent();
+      case 6:
+        this.getPrinters();
       default:
     }
   };
@@ -140,6 +143,22 @@ class SettingScreen extends Layout {
     this.props.navigation.navigate("Home");
   };
 
+  getPrinters = async () => {
+    const { printerPortType } = this.props;
+    try {
+      this.props.actions.app.loadingApp()
+      const printMachine = await checkStatusPrint(printerPortType);
+      this.props.actions.dataLocal.updatePrinterList(printMachine);
+      this.props.actions.app.stopLoadingApp();
+  } catch (error) {
+      this.props.actions.app.stopLoadingApp();
+      setTimeout(() => {
+          alert(error)
+      }, 500)
+  }
+
+  }
+
   componentWillUnmount() {
     this.didBlurSubscription.remove();
     this.didFocusSubscription.remove();
@@ -151,6 +170,8 @@ const mapStateToProps = (state) => ({
   language: state.dataLocal.language,
   loading: state.app.loading,
   settingTabPermission: state.app.settingTabPermission,
+
+  printerPortType: state.dataLocal.printerPortType
 });
 
 export default connectRedux(mapStateToProps, SettingScreen);

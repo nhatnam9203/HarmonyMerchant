@@ -735,7 +735,6 @@ class TabCheckout extends Layout {
     }
 
     handleHarmonyPayment = async (checkoutPaymentInfo) => {
-        //console.log("checkoutPayment : ", JSON.stringify(checkoutPaymentInfo));
         await this.setState({
             changeButtonDone: false,
             isCancelHarmonyPay: false,
