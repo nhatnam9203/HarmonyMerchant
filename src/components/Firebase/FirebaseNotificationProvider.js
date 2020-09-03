@@ -76,6 +76,10 @@ const FirebaseNotificationProvider = () => {
     };
   }, []);
 
+  React.useEffect(() => {
+    if (firebaseToken) dispatch(actions.app.saveFirebaseToken(firebaseToken));
+  }, [firebaseToken]);
+
   return null;
 };
 

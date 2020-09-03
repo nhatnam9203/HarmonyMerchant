@@ -22,7 +22,9 @@ function* login(action) {
     yield put({ type: "LOADING_ROOT" });
 
     // Add firebaseToken & device id to login
-    const fcmToken = yield call(getFcmToken);
+    let fcmToken = yield select((state) => state.app.firebaseToken);
+    if (!fcmToken) fcmToken = yield call(getFcmToken);
+
     const deviceUniqueId = yield call(getDeviceId);
 
     let body = action.body || {};
