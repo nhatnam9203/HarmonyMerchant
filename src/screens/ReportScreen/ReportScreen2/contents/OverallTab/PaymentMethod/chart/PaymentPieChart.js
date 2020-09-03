@@ -54,7 +54,7 @@ export default function PaymentBarChart({ data }) {
       // ======= map values =======
 
       let mapValues = [];
-      let formatterValues = pickValuesForKey(data, "method", "string");
+      let formatterValues = pickValuesForKey(data, "displayMethod", "string");
       let findMaxValues = [];
 
       // run object get value push in array mapValues

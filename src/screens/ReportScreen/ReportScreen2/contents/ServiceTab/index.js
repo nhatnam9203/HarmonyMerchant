@@ -58,7 +58,7 @@ function ServiceTab({ style, showBackButton }, ref) {
   }));
 
   return (
-    <View style={style}>
+    <View style={[style, { paddingTop: 10 }]}>
       <CustomScrollTab onHeaderTabChanged={onChangeTab}>
         <SalesByCategory
           style={{ flex: 1 }}

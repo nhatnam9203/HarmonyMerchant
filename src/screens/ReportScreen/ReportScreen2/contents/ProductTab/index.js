@@ -58,10 +58,10 @@ function ProductTab({ style, showBackButton }, ref) {
   }));
 
   return (
-    <View style={style}>
+    <View style={[style, {paddingTop: 10}]}>
       <CustomScrollTab onHeaderTabChanged={onChangeTab}>
         <SalesByCategory
-          style={{ flex: 1 }}
+          style={{ flex: 1, }}
           ref={salesByCategoryTabRef}
           tabLabel="Sales By Category"
           showBackButton={showBackButton}
