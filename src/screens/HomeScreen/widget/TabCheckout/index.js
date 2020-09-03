@@ -6,9 +6,9 @@ import { NativeModules } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
-    getArrayProductsFromAppointment, getArrayServicesFromAppointment, 
+    getArrayProductsFromAppointment, getArrayServicesFromAppointment,
     getArrayExtrasFromAppointment, formatNumberFromCurrency, getStaffInfoById,
-    formatWithMoment, checkStatusPrint
+    formatWithMoment, checkStatusPrint, getPortNameOfPrinter
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 import apiConfigs from '@configs/api';
@@ -705,14 +705,22 @@ class TabCheckout extends Layout {
     }
 
     printTemptInvoice = async () => {
-        const printMachine = await checkStatusPrint();
-
-        // this.showInvoicePrint(printMachine);
-        if (printMachine) {
-            this.showInvoicePrint(printMachine);
+        const { printerSelect, printerList } = this.props;
+        const portName = getPortNameOfPrinter(printerList, printerSelect);
+        if (portName !== "") {
+            this.showInvoicePrint(portName);
         } else {
             alert('Please connect to your printer! ');
         }
+
+        // ---------- Old code ---------
+        // const printMachine = await checkStatusPrint();
+        // this.showInvoicePrint(printMachine);
+        // if (printMachine) {
+        //     this.showInvoicePrint(printMachine);
+        // } else {
+        //     alert('Please connect to your printer! ');
+        // }
     }
 
     checkStatusCashier = async () => {
@@ -1310,8 +1318,8 @@ class TabCheckout extends Layout {
         }
     }
 
-    showModalTipAppointment = async (appointmentId, tip, subTotal,tipPercent) => {
-        this.changeTipRef.current.setStateFromParent(appointmentId, tip, subTotal,tipPercent);
+    showModalTipAppointment = async (appointmentId, tip, subTotal, tipPercent) => {
+        this.changeTipRef.current.setStateFromParent(appointmentId, tip, subTotal, tipPercent);
         await this.setState({
             visibleChangeTip: true
         })
@@ -1760,7 +1768,10 @@ const mapStateToProps = state => ({
     fromTimeBlockAppointment: state.appointment.fromTimeBlockAppointment,
     versionApp: state.dataLocal.versionApp,
     customerInfoBuyAppointment: state.appointment.customerInfoBuyAppointment,
-    bookingGroupId: state.appointment.bookingGroupId
+    bookingGroupId: state.appointment.bookingGroupId,
+
+    printerSelect: state.dataLocal.printerSelect,
+    printerList: state.dataLocal.printerList
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);

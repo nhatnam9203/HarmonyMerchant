@@ -80,6 +80,7 @@ class PopupInvoicePrint extends React.Component {
 
     doPrint = async () => {
         const { printMachine, isSignature } = this.state;
+         console.log("--- printMachine : ",printMachine);
         try {
             await this.setState({
                 isProcessingPrint: true

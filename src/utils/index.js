@@ -710,33 +710,6 @@ export function formatDateApi(eDate) {
 }
 
 
-export const PRINTER_MACHINE = {
-    "BT:mPOP": {
-        printerModels: "mPOP",
-        portName: "BT:mPOP",
-        isCashier: true,
-        isPrint: true,
-        emulation: "StarPRNT",
-        widthPaper: "400",
-    },
-    "BT:TSP100": {
-        printerModels: "TSP100",
-        portName: "BT:TSP100",
-        isCashier: false,
-        isPrint: true,
-        emulation: "StarGraphic",
-        widthPaper: "576"
-    },
-    "WIFI": {
-        printerModels: "TSP100",
-        portName: "TCP:192.168.254.12",
-        isCashier: false,
-        isPrint: true,
-        emulation: "StarGraphic",
-        widthPaper: "576"
-    }
-};
-
 export const getShortNameToPrintInvoice = (name) => {
     if (name.length < 17) {
         return name;
@@ -771,7 +744,49 @@ export const formatWithMoment = (data, key) => {
     return moment.parseZone(data).format(key);
 }
 
-export const getPortNameOfPrinter = (printers, modelName) => {
+export const PRINTER_MACHINE = {
+    "BT:mPOP": {
+        printerModels: "mPOP",
+        portName: "BT:mPOP",
+        isCashier: true,
+        isPrint: true,
+        emulation: "StarPRNT",
+        widthPaper: "400",
+    },
+    "BT:TSP100": {
+        printerModels: "TSP100",
+        portName: "BT:TSP100",
+        isCashier: false,
+        isPrint: true,
+        emulation: "StarGraphic",
+        widthPaper: "576"
+    },
+    "WIFI": {
+        printerModels: "TSP100",
+        portName: "TCP:192.168.254.12",
+        isCashier: false,
+        isPrint: true,
+        emulation: "StarGraphic",
+        widthPaper: "576"
+    }
+};
+
+export const getInfoFromModelName = (modelName) => {
+    let emulation = "";
+    let widthPaper = "";
+    const tempPortName = `${modelName}`.toLowerCase();
+    if (tempPortName.indexOf("pop") != -1) {
+        emulation = "StarPRNT";
+        widthPaper = "400"
+    } else if (tempPortName.indexOf("tsp") != -1) {
+        emulation = "StarGraphic";
+        widthPaper = "576"
+    }
+
+    return { emulation, widthPaper }
+}
+
+export const getPortNameOfPrinter = (printers = [], modelName = "") => {
     let portName = "";
     for (let i = 0; i < printers.length; i++) {
         const printer = printers[i];
@@ -780,6 +795,9 @@ export const getPortNameOfPrinter = (printers, modelName) => {
             break;
         }
     };
+    if (portName) {
+
+    }
     return portName;
 }
 
@@ -799,20 +817,7 @@ export const checkStatusPrint = async (portType = "Bluetooth") => {
     try {
         const printer = await PrintManager.getInstance().portDiscovery(portType);
         console.log("--- printer : ", JSON.stringify(printer));
-        return printer;
-        // if (printer.length > 0) {
-        //     let portName = false;
-        //     for (let i = 0; i < printer.length; i++) {
-        //         let tempt_portName = printer[i].portName ? printer[i].portName : "";
-        //         if (tempt_portName === "BT:mPOP" || tempt_portName === "BT:TSP100") {
-        //             portName = tempt_portName;
-        //             break;
-        //         }
-        //     };
-        //     return portName ? portName : false;
-        // } else {
-        //     return false
-        // }
+        return printer ? printer : [];
     } catch (error) {
         throw error
     }
