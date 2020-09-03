@@ -14,7 +14,7 @@ import { captureRef, releaseCapture } from "react-native-view-shot";
 import ButtonCustom from './ButtonCustom';
 import {
     scaleSzie, localize, PRINTER_MACHINE, getPaymentString, formatMoney, formatWithMoment,
-    getStaffNameForInvoice,
+    getStaffNameForInvoice,getInfoFromModelNameOfPrinter
 } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 import PrintManager from '@lib/PrintManager';
