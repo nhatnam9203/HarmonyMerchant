@@ -41,13 +41,13 @@ export default class PrintManager {
         }
     }
 
-    async print(portName, commands) {
+    async print(emulation, commands, portName) {
         // StarGraphic,
         // StarPRNT
         // StarLine
         try {
 
-            let printResult = await StarPRNT.print(PRINTER_MACHINE[portName].emulation, commands, portName);
+            let printResult = await StarPRNT.print(emulation, commands, portName);
             // console.log(printResult); // Success!
         } catch (error) {
             // console.log('error : ', error);
@@ -55,12 +55,15 @@ export default class PrintManager {
     }
 
 
-    async checkStatus(portName) {
+    async checkStatus(portName, emulation) {
         try {
-            let printResult = await StarPRNT.checkStatus(portName, PRINTER_MACHINE[portName].emulation);
+            let status = await StarPRNT.checkStatus(portName, emulation);
+            // console.log("---- checkStatus: ",status);
             // console.log(printResult); // Success!
+            return status
         } catch (error) {
             // console.log('error : ', error);
+            throw error;
         }
     }
 

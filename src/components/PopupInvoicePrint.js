@@ -14,7 +14,7 @@ import { captureRef, releaseCapture } from "react-native-view-shot";
 import ButtonCustom from './ButtonCustom';
 import {
     scaleSzie, localize, PRINTER_MACHINE, getPaymentString, formatMoney, formatWithMoment,
-    getStaffNameForInvoice, formatNumberFromCurrency, roundFloatNumber
+    getStaffNameForInvoice,
 } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 import PrintManager from '@lib/PrintManager';
@@ -79,8 +79,10 @@ class PopupInvoicePrint extends React.Component {
     }
 
     doPrint = async () => {
-        const { printMachine, isSignature } = this.state;
-         console.log("--- printMachine : ",printMachine);
+        const { printerSelect, printerList } = this.props;
+        const { isSignature } = this.state;
+        const { portName, emulation, widthPaper } = getInfoFromModelNameOfPrinter(printerList, printerSelect);
+
         try {
             await this.setState({
                 isProcessingPrint: true
@@ -89,10 +91,10 @@ class PopupInvoicePrint extends React.Component {
             if (imageUri) {
                 let commands = [];
                 commands.push({ appendLineFeed: 0 });
-                commands.push({ appendBitmap: imageUri, width: PRINTER_MACHINE[printMachine].widthPaper, bothScale: true, diffusion: true, alignment: "Center" });
+                commands.push({ appendBitmap: imageUri, width: widthPaper, bothScale: true, diffusion: true, alignment: "Center" });
                 commands.push({ appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed });
 
-                await PrintManager.getInstance().print(printMachine, commands);
+                await PrintManager.getInstance().print(emulation, commands, portName);
                 const { isPrintTempt } = this.state;
                 releaseCapture(imageUri);
 
@@ -634,7 +636,10 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     profileStaffLogin: state.dataLocal.profileStaffLogin,
     profile: state.dataLocal.profile,
-    paymentDetailInfo: state.appointment.paymentDetailInfo
+    paymentDetailInfo: state.appointment.paymentDetailInfo,
+
+    printerSelect: state.dataLocal.printerSelect,
+    printerList: state.dataLocal.printerList
 });
 
 export default connectRedux(mapStateToProps, PopupInvoicePrint);

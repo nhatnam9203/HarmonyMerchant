@@ -771,19 +771,32 @@ export const PRINTER_MACHINE = {
     }
 };
 
-export const getInfoFromModelName = (modelName) => {
+export const getInfoFromModelNameOfPrinter = (printers = [], modelName = []) => {
+
     let emulation = "";
     let widthPaper = "";
-    const tempPortName = `${modelName}`.toLowerCase();
-    if (tempPortName.indexOf("pop") != -1) {
-        emulation = "StarPRNT";
-        widthPaper = "400"
-    } else if (tempPortName.indexOf("tsp") != -1) {
-        emulation = "StarGraphic";
-        widthPaper = "576"
+    let portName = "";
+
+    for (let i = 0; i < printers.length; i++) {
+        const printer = printers[i];
+        if (printer.modelName == modelName) {
+            portName = printer.portName;
+            break;
+        }
+    };
+
+    if (portName) {
+        const tempPortName = `${modelName}`.toLowerCase();
+        if (tempPortName.indexOf("pop") != -1) {
+            emulation = "StarPRNT";
+            widthPaper = "400"
+        } else if (tempPortName.indexOf("tsp") != -1) {
+            emulation = "StarGraphic";
+            widthPaper = "576"
+        }
     }
 
-    return { emulation, widthPaper }
+    return { portName, emulation, widthPaper }
 }
 
 export const getPortNameOfPrinter = (printers = [], modelName = "") => {

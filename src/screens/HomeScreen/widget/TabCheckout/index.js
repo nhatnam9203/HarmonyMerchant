@@ -8,7 +8,7 @@ import connectRedux from '@redux/ConnectRedux';
 import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment,
     getArrayExtrasFromAppointment, formatNumberFromCurrency, getStaffInfoById,
-    formatWithMoment, checkStatusPrint, getPortNameOfPrinter
+    formatWithMoment, checkStatusPrint, getPortNameOfPrinter,getInfoFromModelNameOfPrinter
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 import apiConfigs from '@configs/api';
@@ -706,7 +706,8 @@ class TabCheckout extends Layout {
 
     printTemptInvoice = async () => {
         const { printerSelect, printerList } = this.props;
-        const portName = getPortNameOfPrinter(printerList, printerSelect);
+        const {portName,emulation,widthPaper} = getInfoFromModelNameOfPrinter(printerList, printerSelect);
+       
         if (portName !== "") {
             this.showInvoicePrint(portName);
         } else {
