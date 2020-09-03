@@ -8,7 +8,7 @@ import connectRedux from '@redux/ConnectRedux';
 import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment,
     getArrayExtrasFromAppointment, formatNumberFromCurrency, getStaffInfoById,
-    formatWithMoment, checkStatusPrint, getPortNameOfPrinter,getInfoFromModelNameOfPrinter
+    formatWithMoment, getInfoFromModelNameOfPrinter
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 import apiConfigs from '@configs/api';
@@ -596,9 +596,11 @@ class TabCheckout extends Layout {
             connectionSignalR.stop();
         }
         if (paymentSelected === 'Cash' || paymentSelected === 'Other') {
-            const printMachine = await checkStatusPrint();
-            if (printMachine) {
-                this.openCashDrawer(printMachine);
+            const { printerSelect, printerList } = this.props;
+            const { portName } = getInfoFromModelNameOfPrinter(printerList, printerSelect);
+
+            if (portName) {
+                this.openCashDrawer(portName);
                 this.scrollTabRef.current.goToPage(0);
                 this.props.actions.appointment.closeModalPaymentCompleted();
                 this.props.gotoAppoitmentScreen();
@@ -685,20 +687,21 @@ class TabCheckout extends Layout {
     }
 
     printBill = async () => {
-        // this.showInvoicePrint("printMachine", false);
-
         this.pushAppointmentIdOfflineIntoWebview();
-        const printMachine = await checkStatusPrint();
-        if (printMachine) {
+
+        const { printerSelect, printerList } = this.props;
+        const { portName } = getInfoFromModelNameOfPrinter(printerList, printerSelect);
+
+        if (portName) {
             const { paymentSelected } = this.state;
             const { connectionSignalR } = this.props;
             if (!_.isEmpty(connectionSignalR)) {
                 connectionSignalR.stop();
             }
             if (paymentSelected === 'Cash' || paymentSelected === 'Other') {
-                this.openCashDrawer(printMachine);
+                this.openCashDrawer(portName);
             }
-            this.showInvoicePrint(printMachine, false);
+            this.showInvoicePrint(portName, false);
         } else {
             alert('Please connect to your printer!');
         }
@@ -706,35 +709,29 @@ class TabCheckout extends Layout {
 
     printTemptInvoice = async () => {
         const { printerSelect, printerList } = this.props;
-        const {portName,emulation,widthPaper} = getInfoFromModelNameOfPrinter(printerList, printerSelect);
-       
+        const { portName } = getInfoFromModelNameOfPrinter(printerList, printerSelect);
+
         if (portName !== "") {
             this.showInvoicePrint(portName);
         } else {
             alert('Please connect to your printer! ');
         }
-
-        // ---------- Old code ---------
-        // const printMachine = await checkStatusPrint();
-        // this.showInvoicePrint(printMachine);
-        // if (printMachine) {
-        //     this.showInvoicePrint(printMachine);
-        // } else {
-        //     alert('Please connect to your printer! ');
-        // }
     }
 
     checkStatusCashier = async () => {
-        const printMachine = await checkStatusPrint(true);
-        if (printMachine === "BT:mPOP") {
-            this.openCashDrawer(printMachine);
+
+        const { printerSelect, printerList } = this.props;
+        const { portName } = getInfoFromModelNameOfPrinter(printerList, printerSelect);
+
+        if (portName) {
+            this.openCashDrawer(portName);
         } else {
             alert('Please connect to your cash drawer.');
         }
     }
 
     openCashDrawer = async (portName) => {
-        PrintManager.getInstance().openCashDrawer(portName);
+        await PrintManager.getInstance().openCashDrawer(portName);
     }
 
     handleHarmonyPayment = async (checkoutPaymentInfo) => {

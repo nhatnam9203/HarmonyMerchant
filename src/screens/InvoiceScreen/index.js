@@ -11,7 +11,7 @@ import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment,
     getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment,
     getPaymentStringInvoice, getQuickFilterStringInvoice,
-    checkStatusPrint, PRINTER_MACHINE
+    checkStatusPrint, PRINTER_MACHINE,getInfoFromModelNameOfPrinter
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 
@@ -465,47 +465,19 @@ class InvoiceScreen extends Layout {
 
     printCustomerInvoice = async () => {
         try {
-            // let printers = await StarPRNT.portDiscovery('LAN');
-            // alert(JSON.stringify(printers));
-            // this.props.actions.app.loadingApp();
-            // const imageUri = await captureRef(this.viewShotRef, {});
-            // if (imageUri) {
-            //     let commands = [];
-            //     commands.push({ appendLineFeed: 0 });
-            //     commands.push({ appendBitmap: imageUri, width: 576, bothScale: true, diffusion: true, alignment: "Center" });
-            //     commands.push({ appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed });
+            const { printerSelect, printerList } = this.props;
+            const { portName, emulation, widthPaper } = getInfoFromModelNameOfPrinter(printerList, printerSelect);
 
-            //     await PrintManager.getInstance().print("TCP:192.168.254.12", commands);
-            //     releaseCapture(imageUri);
-            // }else{
-            //     this.props.actions.app.stopLoadingApp();
-            //     setTimeout(() =>{
-            //         alert("fail ")
-            //     },500)
-            // }
-
-            // this.props.actions.app.stopLoadingApp();
-
-            // StarPRNT.portDiscovery('LAN',
-            //     (data) => {
-            //         alert("data : ", data)
-            //     },
-            //     (err) => {
-            //         alert("err : ", err)
-            //     }
-            // )
-
-            const printMachine = await checkStatusPrint();
-            if (printMachine) {
+            if (portName) {
                 this.props.actions.app.loadingApp();
                 const imageUri = await captureRef(this.viewShotRef, {});
                 if (imageUri) {
                     let commands = [];
                     commands.push({ appendLineFeed: 0 });
-                    commands.push({ appendBitmap: imageUri, width: PRINTER_MACHINE[printMachine].widthPaper, bothScale: true, diffusion: true, alignment: "Center" });
+                    commands.push({ appendBitmap: imageUri, width: widthPaper, bothScale: true, diffusion: true, alignment: "Center" });
                     commands.push({ appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed });
 
-                    await PrintManager.getInstance().print(printMachine, commands);
+                    await PrintManager.getInstance().print(emulation, commands, portName);
                     releaseCapture(imageUri);
                 }
                 this.props.actions.app.stopLoadingApp();
@@ -564,7 +536,10 @@ const mapStateToProps = state => ({
     isLoadMoreInvoiceList: state.invoice.isLoadMoreInvoiceList,
     searchKeyword: state.invoice.searchKeyword,
     profileStaffLogin: state.dataLocal.profileStaffLogin,
-    invoiceTabPermission: state.invoice.invoiceTabPermission
+    invoiceTabPermission: state.invoice.invoiceTabPermission,
+
+    printerSelect: state.dataLocal.printerSelect,
+    printerList: state.dataLocal.printerList
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);

@@ -22,6 +22,7 @@ import {
   PRINTER_MACHINE,
   formatWithMoment,
   checkStatusPrint,
+  getInfoFromModelNameOfPrinter
 } from "@utils";
 import connectRedux from "@redux/ConnectRedux";
 import PrintManager from "@lib/PrintManager";
@@ -76,6 +77,9 @@ class PopupStaffInvoicePrint extends React.Component {
   doPrint = async (printMachine) => {
     // const { printMachine,} = this.state;
     // const printMachine = "BT:TSP100"
+
+    const { printerSelect, printerList } = this.props;
+    const { portName, emulation, widthPaper } = getInfoFromModelNameOfPrinter(printerList, printerSelect);
     try {
       await this.setState({
         isProcessingPrint: true,
@@ -86,7 +90,7 @@ class PopupStaffInvoicePrint extends React.Component {
         commands.push({ appendLineFeed: 0 });
         commands.push({
           appendBitmap: imageUri,
-          width: PRINTER_MACHINE[printMachine].widthPaper,
+          width: widthPaper,
           bothScale: true,
           diffusion: true,
           alignment: "Center",
@@ -95,7 +99,7 @@ class PopupStaffInvoicePrint extends React.Component {
           appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
         });
 
-        await PrintManager.getInstance().print(printMachine, commands);
+        await PrintManager.getInstance().print(emulation, commands, portName);
         releaseCapture(imageUri);
 
         await this.setState({
@@ -111,12 +115,14 @@ class PopupStaffInvoicePrint extends React.Component {
   };
 
   processPrintInvoice = async () => {
-    const printMachine = await checkStatusPrint();
-    if (printMachine) {
+    // const printMachine = await checkStatusPrint();
+    const { printerSelect, printerList } = this.props;
+    const { portName } = getInfoFromModelNameOfPrinter(printerList, printerSelect);
+    if (portName) {
       await this.setState({
         isSignature: true,
       });
-      this.doPrint(printMachine);
+      this.doPrint(portName);
     } else {
       alert("Please connect to your cash drawer.");
     }
@@ -132,7 +138,7 @@ class PopupStaffInvoicePrint extends React.Component {
       new Date().getMinutes() > 10
         ? new Date().getMinutes()
         : `0${new Date().getMinutes()}`
-    } ${surfix}`;
+      } ${surfix}`;
 
     return temptDate;
   }
@@ -140,7 +146,7 @@ class PopupStaffInvoicePrint extends React.Component {
   getDate() {
     return `${
       new Date().getMonth() + 1
-    }/${new Date().getDate()}/${new Date().getFullYear()}`;
+      }/${new Date().getDate()}/${new Date().getFullYear()}`;
   }
 
   cancelInvoicePrint = async () => {
@@ -237,7 +243,7 @@ class PopupStaffInvoicePrint extends React.Component {
     return (
       <Modal
         visible={visiblePrintInvoice}
-        onRequestClose={() => {}}
+        onRequestClose={() => { }}
         transparent={true}
       >
         <View
@@ -339,10 +345,10 @@ class PopupStaffInvoicePrint extends React.Component {
                               <ItemStaffInvoice
                                 title={`Tip Fee (${
                                   x.fee && x.fee.value ? x.fee.value : "0.00%"
-                                })`}
+                                  })`}
                                 value={`$ ${
                                   x.fee && x.fee.amount ? x.fee.amount : "0.00"
-                                }`}
+                                  }`}
                                 styleTilte={{
                                   fontSize: scaleSzie(13),
                                   fontWeight: "200",
@@ -623,6 +629,8 @@ const mapStateToProps = (state) => ({
   profile: state.dataLocal.profile,
   groupAppointment: state.appointment.groupAppointment,
   paymentDetailInfo: state.appointment.paymentDetailInfo,
+  printerSelect: state.dataLocal.printerSelect,
+  printerList: state.dataLocal.printerList
 });
 
 export default connectRedux(mapStateToProps, PopupStaffInvoicePrint);
