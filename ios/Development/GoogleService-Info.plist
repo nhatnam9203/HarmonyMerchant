@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>126818741090-6kq5j1s6d8uq072k6q2qj0sl12b4fksl.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.126818741090-6kq5j1s6d8uq072k6q2qj0sl12b4fksl</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>126818741090-9tjq0bmvt5b9ft7rd41ov9ju4k89ra31.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCvOQTA1xbso8cv5Be2XVoYVvAhFyCYEO4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>126818741090</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.merchant.harmony.dev</string>
+	<key>PROJECT_ID</key>
+	<string>harmonypay-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>harmonypay-app.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:126818741090:ios:c7a4b65d9d1cfa5b079a3b</string>
+	<key>DATABASE_URL</key>
+	<string>https://harmonypay-app.firebaseio.com</string>
+</dict>
+</plist>
