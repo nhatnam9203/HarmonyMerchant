@@ -83,6 +83,7 @@ jwIDAQAB</string>
 	<string>$(PRODUCT_NAME) would like access to your photo gallery</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

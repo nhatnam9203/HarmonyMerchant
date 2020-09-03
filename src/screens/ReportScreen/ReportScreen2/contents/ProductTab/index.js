@@ -48,26 +48,29 @@ function ProductTab({ style, showBackButton }, ref) {
     goBack: onGoBack,
     didBlur: () => {
       // setTitleRangeTime("This week");
+      salesByCategoryTabRef?.current?.didBlur();
+      salesByProductTabRef?.current?.didBlur();
     },
     didFocus: () => {
-      // console.log("====> screen report -> staff didFocus");
-    },
+      salesByCategoryTabRef?.current?.didFocus();
+      salesByProductTabRef?.current?.didFocus();
+        },
   }));
 
   return (
-    <View style={style}>
+    <View style={[style, {paddingTop: 10}]}>
       <CustomScrollTab onHeaderTabChanged={onChangeTab}>
         <SalesByCategory
-          style={{ flex: 1 }}
+          style={{ flex: 1, }}
           ref={salesByCategoryTabRef}
-          tabLabel="Sales by category"
+          tabLabel="Sales By Category"
           showBackButton={showBackButton}
         />
 
         <SalesByProduct
           style={{ flex: 1 }}
           ref={salesByProductTabRef}
-          tabLabel="Sales by product"
+          tabLabel="Sales By Product"
           showBackButton={showBackButton}
         />
       </CustomScrollTab>

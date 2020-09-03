@@ -58,10 +58,10 @@ function OverallTab({ style, showBackButton }, ref) {
   }));
 
   return (
-    <View style={style}>
+    <View style={[style, {paddingTop: 10}]}>
       <CustomScrollTab onHeaderTabChanged={onChangeTab}>
         <PaymentMethodTab
-          style={{ flex: 1 }}
+          style={{ flex: 1, }}
           ref={paymentTabRef}
           tabLabel="Payment Method"
           showBackButton={showBackButton}

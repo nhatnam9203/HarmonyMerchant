@@ -10,8 +10,8 @@ export default function SalesByCategoryStatistic(props, ref) {
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const customerReportList = useSelector(
-    (state) => state.report.customerReportList
+  const serviceSaleByCategoryList = useSelector(
+    (state) => state.report.serviceSaleByCategoryList
   );
 
   /**state */
@@ -21,33 +21,35 @@ export default function SalesByCategoryStatistic(props, ref) {
 
   /**useEffect */
   useEffect(() => {
-    const item = customerReportList.find((item) => item.type === filterId);
+    const item = serviceSaleByCategoryList.find(
+      (item) => item.categoryName === filterId
+    );
 
     setTable({
-      tableData: item?.giftCardStatistics || [],
+      tableData: item?.details || [],
       tableHead: {
-        appointmentId: localize("Appointment ID", language),
         dateString: localize("Date", language),
-        time: localize("Time", language),
-        no: localize("No. of Service", language),
-        staff: localize("Staff", language),
-        payAmount: localize("Pay Amount", language),
+        serviceCount: localize("No. of Service", language),
+        quantity: localize("Sale Qty", language),
+        totalDuration: localize("Total Durations", language),
+        totalSales: localize("Total Sales", language),
       },
       whiteKeys: [
-        "appointmentId",
         "dateString",
-        "time",
-        "no",
-        "staff",
-        "payAmount",
+        "serviceCount",
+        "quantity",
+        "totalDuration",
+        "totalSales",
       ],
-      primaryId: "appointmentId",
-      calcSumKeys: [],
-      sumTotalKey: "",
-      priceKeys: [],
-      tableCellWidth: { appointmentId: 80 },
+      primaryId: "date",
+      calcSumKeys: ["serviceCount", "quantity", "totalDuration", "totalSales"],
+      sumTotalKey: "dateString",
+      priceKeys: ["totalDuration", "totalSales"],
+      sortKey: "dateString",
+      unitKeys: { totalDuration: "hrs" },
+      tableCellWidth: { dateString: 180 },
     });
-  }, [filterId, customerReportList]);
+  }, [filterId, serviceSaleByCategoryList]);
 
   /**render */
 

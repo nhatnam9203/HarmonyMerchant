@@ -39,6 +39,8 @@ function ReportScreen2({ showBackButton }, ref) {
   const staffRef = useRef(null);
   const giftCardRef = useRef(null);
   const customerRef = useRef(null);
+  const serviceRef = useRef(null);
+  const productRef = useRef(null);
   const overallRef = useRef(null);
 
   /**public function  */
@@ -48,13 +50,19 @@ function ReportScreen2({ showBackButton }, ref) {
         case 0:
           staffRef.current.goBack();
           break;
-          // case 1:
-          //   giftCardRef.current.goBack();
-          break;
         case 1:
-          customerRef.current.goBack();
+          giftCardRef.current.goBack();
           break;
         case 2:
+          customerRef.current.goBack();
+          break;
+        case 3:
+          serviceRef.current.goBack();
+          break;
+        case 4:
+          productRef.current.goBack();
+          break;
+        case 5:
           overallRef.current.goBack();
           break;
         default:
@@ -62,14 +70,15 @@ function ReportScreen2({ showBackButton }, ref) {
       }
     },
     didBlur: () => {
-      console.log("====> screen report -> didBlur");
       setIsMount(false);
       switch (tabIndex) {
         case 0:
         default:
           staffRef?.current?.didBlur();
-          // giftCardRef?.current?.didBlur();
+          giftCardRef?.current?.didBlur();
           customerRef?.current?.didBlur();
+          serviceRef?.current?.didBlur();
+          productRef?.current?.didBlur();
           overallRef?.current?.didBlur();
 
           break;
@@ -78,13 +87,31 @@ function ReportScreen2({ showBackButton }, ref) {
     didFocus: () => {},
   }));
 
-  const onTabChange = (taIndex) => {
-    staffRef?.current?.goBack();
-    // giftCardRef?.current?.goBack();
-    customerRef?.current?.goBack();
-    overallRef?.current?.goBack();
+  const onTabChange = (index) => {
+    switch (tabIndex) {
+      case 0:
+        staffRef.current.goBack();
+        break;
+      case 1:
+        giftCardRef.current.goBack();
+        break;
+      case 2:
+        customerRef.current.goBack();
+        break;
+      case 3:
+        serviceRef.current.goBack();
+        break;
+      case 4:
+        productRef.current.goBack();
+        break;
+      case 5:
+        overallRef.current.goBack();
+        break;
+      default:
+        break;
+    }
 
-    setTabIndex(taIndex);
+    setTabIndex(index);
     showBackButton(false);
   };
 
@@ -97,16 +124,22 @@ function ReportScreen2({ showBackButton }, ref) {
     if (reportTabPermissionSuccess === true && isMount) {
       switch (tabIndex) {
         case 0:
-          staffRef?.current.didFocus();
-          break;
-          // case 1:
-          //   giftCardRef.current.goBack();
+          staffRef.current.didFocus();
           break;
         case 1:
-          customerRef?.current.didFocus();
+          giftCardRef.current.didFocus();
           break;
         case 2:
-          overallRef?.current.didFocus();
+          customerRef.current.didFocus();
+          break;
+        case 3:
+          serviceRef.current.didFocus();
+          break;
+        case 4:
+          productRef.current.didFocus();
+          break;
+        case 5:
+          overallRef.current.didFocus();
           break;
         default:
           break;
@@ -123,10 +156,10 @@ function ReportScreen2({ showBackButton }, ref) {
       <HeaderTabLayout
         tabIcons={[
           IMAGE.Staff,
-          // IMAGE.giftcard,
+          IMAGE.giftcard,
           IMAGE.Customer,
-          // IMAGE.Services,
-          // IMAGE.Report_Product,
+          IMAGE.Services,
+          IMAGE.Report_Product,
           IMAGE.Report_Overall,
         ]}
         onHeaderTabChanged={onTabChange}
@@ -137,28 +170,30 @@ function ReportScreen2({ showBackButton }, ref) {
           ref={staffRef}
           showBackButton={onShowBackButton}
         />
-        {/* <GiftCardTab
+        <GiftCardTab
           style={styles.content}
           tabLabel={localize("Gift Card", language)}
           ref={giftCardRef}
           showBackButton={onShowBackButton}
-        /> */}
+        />
         <CustomerTab
           style={styles.content}
           tabLabel={localize("Customer", language)}
           ref={customerRef}
           showBackButton={onShowBackButton}
         />
-        {/*<ServiceTab
+        <ServiceTab
           style={styles.content}
-          tabLabel="Services"
+          tabLabel={localize("Services", language)}
+          ref={serviceRef}
           showBackButton={onShowBackButton}
         />
         <ProductTab
           style={styles.content}
-          tabLabel="Product"
+          tabLabel={localize("Product", language)}
+          ref={productRef}
           showBackButton={onShowBackButton}
-        /> */}
+        />
         <OverallTab
           ref={overallRef}
           style={styles.content}

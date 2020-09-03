@@ -89,6 +89,7 @@
 		2399DEC122F1A9CF00DBCCFE /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2399DEBD22F1A9C100DBCCFE /* libRNFetchBlob.a */; };
 		23FE295523C77BEF00E95925 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FE295423C77BEF00E95925 /* File.swift */; };
 		3649D09224E660C0003C8174 /* libRNSpringScrollView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3649D09124E65E8D003C8174 /* libRNSpringScrollView.a */; };
+		365E73FB24F8F38400D2CDB9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 365E73FA24F8F38400D2CDB9 /* GoogleService-Info.plist */; };
 		366C009924DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
 		366C009A24DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
 		366C009B24DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
@@ -611,6 +612,7 @@
 		23FE295423C77BEF00E95925 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DC3A16DE477A97F683FBAE5 /* Pods-Hpmerchant_Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant_Dev.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant_Dev/Pods-Hpmerchant_Dev.debug.xcconfig"; sourceTree = "<group>"; };
+		365E73FA24F8F38400D2CDB9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexValueFormatter.swift; sourceTree = "<group>"; };
 		366C005924DBC6DD00BAA83B /* RNCombinedChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNCombinedChartView.swift; sourceTree = "<group>"; };
 		366C005A24DBC6DD00BAA83B /* RNCombinedChartManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNCombinedChartManager.swift; sourceTree = "<group>"; };
@@ -667,6 +669,8 @@
 		366C009624DBC6DD00BAA83B /* RNChartViewBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNChartViewBase.swift; sourceTree = "<group>"; };
 		366C009724DBC6DD00BAA83B /* ChartGroupHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartGroupHolder.swift; sourceTree = "<group>"; };
 		366C009824DBC6DD00BAA83B /* DataExtract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataExtract.swift; sourceTree = "<group>"; };
+		3684056524F8BCA200021B55 /* Staing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Staing.entitlements; sourceTree = "<group>"; };
+		3684059024F8BCDA00021B55 /* HPMerchant.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HPMerchant.entitlements; sourceTree = "<group>"; };
 		429BF6F6217ED276A895E802 /* Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig"; sourceTree = "<group>"; };
 		459E2B6AE93CFF269BF09721 /* Pods-Hpmerchant_Staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant_Staging.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant_Staging/Pods-Hpmerchant_Staging.release.xcconfig"; sourceTree = "<group>"; };
 		4DEC3923581CC3E42642C025 /* libPods-Hpmerchant-Hpmerchant_Staging.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant-Hpmerchant_Staging.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -887,6 +891,7 @@
 				230F1DDC24D3DA2300A95898 /* staging.plist */,
 				23FE295423C77BEF00E95925 /* File.swift */,
 				23FE295323C77BEF00E95925 /* Hpmerchant-Bridging-Header.h */,
+				365E73FA24F8F38400D2CDB9 /* GoogleService-Info.plist */,
 			);
 			name = Hpmerchant;
 			sourceTree = "<group>";
@@ -1237,6 +1242,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				3684059024F8BCDA00021B55 /* HPMerchant.entitlements */,
+				3684056524F8BCA200021B55 /* Staing.entitlements */,
 				366C005624DBC6DD00BAA83B /* ReactNativeCharts */,
 				23207B9C22FAC3BC0002C14B /* sdk */,
 				13B07FAE1A68108700A75B9A /* Hpmerchant */,
@@ -1355,7 +1362,7 @@
 					};
 					230F1DB324D3DA2200A95898 = {
 						DevelopmentTeam = 69WQLJ9K8N;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					232D64982465060100AA4473 = {
 						DevelopmentTeam = 69WQLJ9K8N;
@@ -1763,6 +1770,7 @@
 			files = (
 				230F1DD324D3DA2200A95898 /* Images.xcassets in Resources */,
 				230F1DD424D3DA2200A95898 /* LaunchScreen.xib in Resources */,
+				365E73FB24F8F38400D2CDB9 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2208,6 +2216,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = HPMerchant.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 54;
@@ -2263,6 +2272,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = HPMerchant.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 54;
@@ -2316,8 +2326,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_ENTITLEMENTS = Staing.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 51;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 69WQLJ9K8N;
@@ -2354,7 +2365,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony.staging;
 				PRODUCT_NAME = Staing;
-				PROVISIONING_PROFILE_SPECIFIER = HpMerchantStaging;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Hpmerchant-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -2370,6 +2381,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Staing.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 51;

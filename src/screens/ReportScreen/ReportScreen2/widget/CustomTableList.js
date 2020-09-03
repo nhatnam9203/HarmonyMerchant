@@ -107,6 +107,7 @@ function TableList(
     checkSumItem,
     sortKey,
     sortDefault,
+    unitKeys,
   },
   ref
 ) {
@@ -118,7 +119,7 @@ function TableList(
 
   const setListData = (sort) => {
     let sortList = tableData;
-    if (sortKey && sortList.length > 0) {
+    if (sortKey && sortList?.length > 0) {
       sortList.sort((a, b) => {
         if (sort === SORT_STATE.desc) {
           return strCompare(a[sortKey], b[sortKey]);
@@ -207,11 +208,6 @@ function TableList(
     return priceKeys?.indexOf(key) >= 0;
   };
 
-  // useImperativeHandle(ref, () => ({
-  //   getSumObjects: () => {
-  //     return sumObject;
-  //   },
-  // }));
 
   /**render */
   // render cell
@@ -253,7 +249,11 @@ function TableList(
                 ? cellActionRender
                 : cellRender ?? (
                     <Text style={styles.txtCell}>
-                      {isPriceCell(key) ? "$ " + item[key] : item[key]}
+                      {isPriceCell(key)
+                        ? unitKeys && unitKeys[key]
+                          ? item[key] + " " + unitKeys[key]
+                          : "$ " + item[key]
+                        : item[key]}
                     </Text>
                   )}
             </TableCell>
@@ -276,7 +276,10 @@ function TableList(
                 justifyContent: "center",
                 width: getCellWidth(index, key),
                 ...(isPriceCell(key) && { alignItems: "flex-end" }),
-                ...(sortKey === key && { flexDirection: "row" }),
+                ...(sortKey === key && {
+                  flexDirection: "row",
+                  alignItems: "center",
+                }),
               }}
             >
               <Text style={styles.txtHead}>{headerContent[key] ?? ""}</Text>
@@ -324,8 +327,12 @@ function TableList(
                 {calcSumKeys.indexOf(key) > -1 && (
                   <Text style={styles.txtSum}>
                     {isPriceCell(key)
-                      ? "$ " + formatMoney(sumObject[key])
-                      : sumObject[key] ?? ""}
+                      ? unitKeys && unitKeys[key]
+                        ? formatServerNumber(sumObject[key]) +
+                          " " +
+                          unitKeys[key]
+                        : "$ " + formatMoney(sumObject[key])
+                      : sumObject[key]}
                   </Text>
                 )}
               </TableCell>

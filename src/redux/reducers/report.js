@@ -19,7 +19,23 @@ const initialState = {
   giftCardStatisticExportFilePath: null,
 
   customerReportList: [],
-  customerExportFilePath: null,
+  exportFilePath: null,
+
+  serviceSaleByCategoryList: [],
+  serviceSaleByCategoryExportPath: null,
+  serviceSaleByCategoryDetailExportPath: null,
+
+  serviceSaleByServiceList: [],
+  serviceSaleByServiceExportPath: null,
+  serviceSaleByServiceDetailExportPath: null,
+
+  productSaleByCategoryList: [],
+  productSaleByCategoryExportPath: null,
+  productSaleByCategoryDetailExportPath: null,
+
+  productSaleByProductList: [],
+  productSaleByProductExportPath: null,
+  productSaleByProductDetailExportPath: null,
 };
 
 function appReducer(state = initialState, action) {
@@ -65,7 +81,12 @@ function appReducer(state = initialState, action) {
         overallPMStatisticExportFilePath: null,
         meStatisticExportFilePath: null,
         giftCardStatisticExportFilePath: null,
-        customerStatisticExportFilePath: null,
+        statisticExportFilePath: null,
+
+        serviceSaleByCategoryDetailExportPath: null,
+        serviceSaleByServiceDetailExportPath: null,
+        productSaleByCategoryDetailExportPath: null,
+        productSaleByProductDetailExportPath: null,
       };
     case ACTION_TYPES.OME_GetListSuccess:
       return {
@@ -99,7 +120,85 @@ function appReducer(state = initialState, action) {
     case ACTION_TYPES.Customer_ExportSuccess:
       return {
         ...state,
-        customerExportFilePath: action.payload,
+        exportFilePath: action.payload,
+        isDownloadReport: false,
+      };
+
+    // Service
+    case ACTION_TYPES.ServiceCategory_GetListSuccess:
+      return {
+        ...state,
+        serviceSaleByCategoryList: action.payload,
+      };
+
+    case ACTION_TYPES.ServiceCategory_ExportSuccess:
+      return {
+        ...state,
+        serviceSaleByCategoryExportPath: action.payload,
+        isDownloadReport: false,
+      };
+    case ACTION_TYPES.ServiceCategory_ExportStatisticSuccess:
+      return {
+        ...state,
+        serviceSaleByCategoryDetailExportPath: action.payload,
+        isDownloadReport: false,
+      };
+
+    case ACTION_TYPES.Service_GetListSuccess:
+      return {
+        ...state,
+        serviceSaleByServiceList: action.payload,
+      };
+
+    case ACTION_TYPES.Service_ExportSuccess:
+      return {
+        ...state,
+        serviceSaleByServiceExportPath: action.payload,
+        isDownloadReport: false,
+      };
+    case ACTION_TYPES.Service_ExportStatisticSuccess:
+      return {
+        ...state,
+        serviceSaleByServiceDetailExportPath: action.payload,
+        isDownloadReport: false,
+      };
+
+    // Product
+    case ACTION_TYPES.ProductCategory_GetListSuccess:
+      return {
+        ...state,
+        productSaleByCategoryList: action.payload,
+      };
+
+    case ACTION_TYPES.ProductCategory_ExportSuccess:
+      return {
+        ...state,
+        productSaleByCategoryExportPath: action.payload,
+        isDownloadReport: false,
+      };
+    case ACTION_TYPES.ProductCategory_ExportStatisticSuccess:
+      return {
+        ...state,
+        productSaleByCategoryDetailExportPath: action.payload,
+        isDownloadReport: false,
+      };
+
+    case ACTION_TYPES.Product_GetListSuccess:
+      return {
+        ...state,
+        productSaleByProductList: action.payload,
+      };
+
+    case ACTION_TYPES.Product_ExportSuccess:
+      return {
+        ...state,
+        productSaleByProductExportPath: action.payload,
+        isDownloadReport: false,
+      };
+    case ACTION_TYPES.Product_ExportStatisticSuccess:
+      return {
+        ...state,
+        productSaleByProductDetailExportPath: action.payload,
         isDownloadReport: false,
       };
 

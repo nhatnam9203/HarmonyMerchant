@@ -22,12 +22,12 @@ function CustomerTab({ style, showBackButton }, ref) {
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const customerExportFilePath = useSelector(
-    (state) => state.report.customerExportFilePath
+  const exportFilePath = useSelector(
+    (state) => state.report.exportFilePath
   );
 
-  // const customerStatisticExportFilePath = useSelector(
-  //   (state) => state.report.customerStatisticExportFilePath
+  // const statisticExportFilePath = useSelector(
+  //   (state) => state.report.statisticExportFilePath
   // );
 
   const customerReportList = useSelector(
@@ -156,7 +156,7 @@ function CustomerTab({ style, showBackButton }, ref) {
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
           showExportFile={() => onShowPopupExport("Customer")}
-          pathFileExport={customerExportFilePath}
+          pathFileExport={exportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
         <CustomerStatistic
@@ -169,7 +169,7 @@ function CustomerTab({ style, showBackButton }, ref) {
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
           showExportFile={() => onShowPopupExport("CustomerStatistic")}
-          // pathFileExport={customerStatisticExportFilePath}
+          // pathFileExport={statisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
       </ReportLayout>

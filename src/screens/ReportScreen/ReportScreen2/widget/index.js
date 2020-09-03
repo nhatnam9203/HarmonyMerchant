@@ -9,7 +9,8 @@ import CustomScrollTab from "./CustomScrollTab";
 import ReportStatisticLayout from "./ReportStatisticLayout";
 import ReportTabLayout from "./ReportTabLayout";
 import ReportLayout from "./ReportLayout";
-import TableListExtended from "./CustomTableListExtend.js";
+import TableListExtended from "./CustomTableListExtend";
+import CalendarRangePicker from "./CalendarRangePicker";
 
 module.exports = {
   HeaderTabLayout,
@@ -24,4 +25,5 @@ module.exports = {
   ReportTabLayout,
   ReportLayout,
   TableListExtended,
+  CalendarRangePicker,
 };

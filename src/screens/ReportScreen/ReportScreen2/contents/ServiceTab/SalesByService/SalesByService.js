@@ -7,8 +7,6 @@ import { localize } from "@utils";
 
 import { TableList, ReportTabLayout } from "../../../widget";
 
-const FILTER_NAME_DEFAULT = "All Type";
-
 export default function SalesByService({
   style,
   onGoStatistics,
@@ -19,29 +17,31 @@ export default function SalesByService({
   showExportFile,
   pathFileExport,
   handleTheDownloadedFile,
+  defaultFilterList,
+  defaultFilterName,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const customerReportList = useSelector(
-    (state) => state.report.customerReportList
+  const serviceSaleByServiceList = useSelector(
+    (state) => state.report.serviceSaleByServiceList
   );
 
   /**state */
-  const [filterNameItem, setFilterNameItem] = useState(FILTER_NAME_DEFAULT);
+  const [filterNameItem, setFilterNameItem] = useState(defaultFilterName);
   const [filterNames, setFilterNames] = useState([]);
 
   /**function */
 
   // create filter name data
   const bindFilterName = () => {
-    if (!customerReportList) return [];
+    if (!serviceSaleByServiceList) return [];
 
     let array = [];
 
-    const arrMap = customerReportList.map((item) => ({
-      value: item.type,
+    const arrMap = serviceSaleByServiceList.map((item) => ({
+      value: item.name,
       ...item,
     }));
     array.push(...arrMap);
@@ -55,9 +55,10 @@ export default function SalesByService({
 
   // binding data list for name filter
   const filterDataTable = () => {
-    return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
-      ? customerReportList.filter((item) => item.type === filterNameItem)
-      : customerReportList;
+    return filterNameItem &&
+      !defaultFilterList?.find((x) => x.value === filterNameItem)
+      ? serviceSaleByServiceList.filter((item) => item.name === filterNameItem)
+      : serviceSaleByServiceList;
   };
 
   // callback
@@ -78,7 +79,7 @@ export default function SalesByService({
   /**effect */
   useEffect(() => {
     bindFilterName();
-  }, [customerReportList]);
+  }, [serviceSaleByServiceList]);
 
   /**render */
   //callback render action cell
@@ -112,33 +113,35 @@ export default function SalesByService({
         showExportFile={showExportFile}
         pathFileExport={pathFileExport}
         handleTheDownloadedFile={handleTheDownloadedFile}
-        filterNameDefault={FILTER_NAME_DEFAULT}
+        filterNameDefaultList={defaultFilterList}
         rightTooltip={<></>}
       >
         <TableList
           tableData={filterDataTable()}
           tableHead={{
-            name: localize("Name", language),
-            appointments: localize("Appointments", language),
-            lastVisit: localize("Last Visit", language),
-            lastVisitSales: localize("Last Visit Sales", language),
-            totalSale: localize("Total Sales", language),
+            name: localize("Service", language),
+            quantity: localize("Sale Qty", language),
+            totalDuration: localize("Total Durations", language),
+            avgPrice: localize("Av. Price", language),
+            totalSales: localize("Total Sales", language),
           }}
           whiteKeys={[
             "name",
-            "appointments",
-            "lastVisit",
-            "lastVisitSales",
-            "totalSale",
+            "quantity",
+            "totalDuration",
+            "avgPrice",
+            "totalSales",
             "action",
           ]}
           primaryId="name"
-          sumTotalKey=""
-          calcSumKeys={[]}
-          priceKeys={[]}
+          sumTotalKey="name"
+          calcSumKeys={["quantity", "totalDuration", "avgPrice", "totalSales"]}
+          priceKeys={["totalDuration", "avgPrice", "totalSales"]}
+          sortKey="name"
+          unitKeys={{ totalDuration: "hrs" }}
           tableCellWidth={{
-            name: 160,
-            lastVisitSales: 200,
+            name: 200,
+            totalDuration: 180,
           }}
           renderCell={renderCell}
           renderActionCell={renderActionCell}

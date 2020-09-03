@@ -14,6 +14,8 @@ import { ReportLayout } from "../../widget";
 import GiftCardReportTab from "./GiftCardReportTab";
 import GiftCardStatistic from "./GiftCardStatistic";
 
+const RANGE_TIME_DEFAULT = "This Week";
+
 function GiftCardTab({ style, showBackButton }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -36,7 +38,8 @@ function GiftCardTab({ style, showBackButton }, ref) {
   );
 
   /**state */
-  const [titleRangeTime, setTitleRangeTime] = useState("This week");
+  const [titleRangeTime, setTitleRangeTime] = useState(RANGE_TIME_DEFAULT);
+  const [urlRangeTime, setUrlRangeTime] = useState(null);
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);
 
@@ -60,8 +63,8 @@ function GiftCardTab({ style, showBackButton }, ref) {
   //callback
   const onChangeTimeTitle = async (titmeTitle) => {
     await setTitleRangeTime(titmeTitle);
-    // TODO: call reload list
     await getGiftCardReportSales();
+    setUrlRangeTime(layoutRef?.current?.getTimeUrl());
   };
 
   const onChangeFilterNames = (names) => {
@@ -82,6 +85,9 @@ function GiftCardTab({ style, showBackButton }, ref) {
   };
 
   const onRequestExportFileToServer = (currentTab, titleExportFile) => {
+    const filterItem = giftCardReportList.find(
+      (item) => item.type === filterNameItem
+    );
     switch (currentTab) {
       case 0:
         dispatch(
@@ -89,14 +95,12 @@ function GiftCardTab({ style, showBackButton }, ref) {
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
-            titleExportFile
+            titleExportFile,
+            filterItem?.giftCardGeneralId
           )
         );
         break;
       case 1:
-        const filterItem = giftCardReportList.find(
-          (item) => item.type === filterNameItem
-        );
         if (!filterItem) return;
         dispatch(
           actions.report.exportGiftCardReportSalesStatistics(
@@ -124,10 +128,11 @@ function GiftCardTab({ style, showBackButton }, ref) {
     },
     didBlur: () => {
       // console.log("====> screen report -> giftcard didBlur");
-      getGiftCardReportSales();
+      // getGiftCardReportSales();
     },
     didFocus: () => {
       // console.log("====> screen report -> staff didFocus");
+      layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
   }));
 
@@ -147,18 +152,19 @@ function GiftCardTab({ style, showBackButton }, ref) {
         isDownloadReport={isDownloadReport}
       >
         <GiftCardReportTab
-          style={{ flex: 1}}
+          style={{ flex: 1 }}
           tabLabel="Gift Card"
           onGoStatistics={onGoStatistics}
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
+          urlRangeTime={urlRangeTime}
           onChangeFilterNames={onChangeFilterNames}
           showExportFile={() => onShowPopupExport("GiftCard")}
           pathFileExport={giftCardExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
         <GiftCardStatistic
-          style={{ flex: 1}}
+          style={{ flex: 1 }}
           tabLabel="Gift Card Statistics"
           title="Gift Card Statistics"
           titleRangeTime={titleRangeTime}

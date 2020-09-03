@@ -15,21 +15,30 @@ import { ReportLayout } from "../../../widget";
 import SalesByCategory from "./SalesByCategory";
 import SalesByCategoryStatistic from "./SalesByCategoryStatistic";
 
+const FILTER_NAME_DEFAULT_LIST = [
+  { value: "All Category", id: "all" },
+  { value: "Top 5 category", id: "top5" },
+  { value: "Top 10 category", id: "top10" },
+];
+
+const FILTER_NAME_DEFAULT = FILTER_NAME_DEFAULT_LIST[1]?.value;
+const RANGE_TIME_DEFAULT = "This Week";
+
 function SalesByCategoryTab({ style, showBackButton }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const customerExportFilePath = useSelector(
-    (state) => state.report.customerExportFilePath
+  const exportFilePath = useSelector(
+    (state) => state.report.serviceSaleByCategoryExportPath
   );
 
-  const customerStatisticExportFilePath = useSelector(
-    (state) => state.report.customerStatisticExportFilePath
+  const statisticExportFilePath = useSelector(
+    (state) => state.report.serviceSaleByCategoryDetailExportPath
   );
 
-  const customerReportList = useSelector(
-    (state) => state.report.customerReportList
+  const serviceSaleByCategoryList = useSelector(
+    (state) => state.report.serviceSaleByCategoryList
   );
 
   const isDownloadReport = useSelector(
@@ -37,7 +46,7 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
   );
 
   /**state */
-  const [titleRangeTime, setTitleRangeTime] = useState("This week");
+  const [titleRangeTime, setTitleRangeTime] = useState(RANGE_TIME_DEFAULT);
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);
 
@@ -45,11 +54,21 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
   const layoutRef = useRef(null);
 
   /**function */
-  const getGiftCardReportSales = async () => {
+
+  const getCategoryId = (filterId) => {
+    let defaultFilterId = filterId ?? filterNameItem;
+    const filterDefaultItem = FILTER_NAME_DEFAULT_LIST.find(
+      (x) => x.value === defaultFilterId
+    );
+    return filterDefaultItem?.id;
+  };
+
+  const getServiceSalesByCategory = async (filterId) => {
     await dispatch(
-      actions.report.getGiftCardReportSales(
+      actions.report.getServiceByCategoryReportSales(
         true,
-        layoutRef?.current?.getTimeUrl()
+        layoutRef?.current?.getTimeUrl(),
+        getCategoryId(filterId)
       )
     );
   };
@@ -62,7 +81,7 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
   const onChangeTimeTitle = async (titmeTitle) => {
     await setTitleRangeTime(titmeTitle);
     // TODO: call reload list
-    await getGiftCardReportSales();
+    await getServiceSalesByCategory();
   };
 
   const onChangeFilterNames = (names) => {
@@ -71,10 +90,13 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
 
   const onChangeFilterId = async (filterId) => {
     await setFilterNameItem(filterId);
+    if (FILTER_NAME_DEFAULT_LIST.find((x) => x.value === filterId)) {
+      await getServiceSalesByCategory(filterId);
+    }
   };
 
   const onGoStatistics = async (item) => {
-    await setFilterNameItem(item.type);
+    await setFilterNameItem(item.categoryName);
     layoutRef.current.goNext();
   };
 
@@ -83,10 +105,15 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
   };
 
   const onRequestExportFileToServer = (currentTab, titleExportFile) => {
+    const filterItem = serviceSaleByCategoryList.find(
+      (item) => item.categoryName === filterNameItem
+    );
+
     switch (currentTab) {
       case 0:
         dispatch(
-          actions.report.exportGiftCardReportSales(
+          actions.report.exportServiceSaleByCategory(
+            getCategoryId()||filterItem?.categoryId,
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
@@ -95,13 +122,11 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
         );
         break;
       case 1:
-        const filterItem = customerReportList.find(
-          (item) => item.type === filterNameItem
-        );
+
         if (!filterItem) return;
         dispatch(
-          actions.report.exportGiftCardReportSalesStatistics(
-            filterItem.giftCardGeneralId,
+          actions.report.exportServiceSaleByCategoryDetail(
+            filterItem.categoryId,
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
@@ -124,16 +149,16 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
       layoutRef.current.goBack();
     },
     didBlur: () => {
-      setTitleRangeTime("This week");
+      // setTitleRangeTime("This week");
     },
     didFocus: () => {
-      // console.log("====> screen report -> staff didFocus");
+      layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
   }));
 
   /**effect */
   useEffect(() => {
-    getGiftCardReportSales();
+    getServiceSalesByCategory();
   }, []);
 
   return (
@@ -148,28 +173,29 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
       >
         <SalesByCategory
           style={{ flex: 1, paddingTop: 10 }}
-          tabLabel="Sales by category"
+          tabLabel="Sales By Category"
           onGoStatistics={onGoStatistics}
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("Sales by category ")}
-          pathFileExport={customerExportFilePath}
+          showExportFile={() => onShowPopupExport("SalesByCategory")}
+          pathFileExport={exportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
+          onChangeFilterId={onChangeFilterId}
+          defaultFilterList={FILTER_NAME_DEFAULT_LIST}
+          defaultFilterName={FILTER_NAME_DEFAULT}
         />
         <SalesByCategoryStatistic
           style={{ flex: 1, paddingTop: 10 }}
-          tabLabel="Sales by category Statistics"
-          title="Sales by category Statistics"
+          tabLabel="Sales By Category Statistics"
+          title="Sales By Category Statistics"
           titleRangeTime={titleRangeTime}
           showCalendar={() => showCalendar(true)}
           dataFilters={filterNames}
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
-          showExportFile={() =>
-            onShowPopupExport("Sales by category Statistic ")
-          }
-          pathFileExport={customerStatisticExportFilePath}
+          showExportFile={() => onShowPopupExport("SalesByCategoryDetail")}
+          pathFileExport={statisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
       </ReportLayout>

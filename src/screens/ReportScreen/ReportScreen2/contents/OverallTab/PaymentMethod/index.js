@@ -62,7 +62,6 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
   //callback
   const onChangeTimeTitle = async (titmeTitle) => {
     await setTitleRangeTime(titmeTitle);
-    // TODO: call reload list
     await getOverallPaymentMethod();
   };
 
@@ -75,7 +74,7 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
   };
 
   const onGoStatistics = async (item) => {
-    await setFilterNameItem(item.method);
+    await setFilterNameItem(item.displayMethod);
     layoutRef.current.goNext();
   };
 
@@ -84,6 +83,9 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
   };
 
   const onRequestExportFileToServer = (currentTab, titleExportFile) => {
+    const item = overallPaymentMethodList.find(
+      (item) => item.displayMethod === filterNameItem
+    );
     switch (currentTab) {
       case 0:
         dispatch(
@@ -91,14 +93,12 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
-            titleExportFile
+            titleExportFile,
+            item?.method
           )
         );
         break;
       case 1:
-        const item = overallPaymentMethodList.find(
-          (item) => item.method === filterNameItem
-        );
         if (!item) return;
         dispatch(
           actions.report.exportPaymentMethodStatistics(
@@ -158,6 +158,7 @@ function PaymentMethodTab({ style, showBackButton }, ref) {
           showExportFile={() => onShowPopupExport("PaymentMethod")}
           pathFileExport={overallPMExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
+          onChangeFilterId={onChangeFilterId}
         />
         <PaymentStatistic
           style={{ flex: 1 }}

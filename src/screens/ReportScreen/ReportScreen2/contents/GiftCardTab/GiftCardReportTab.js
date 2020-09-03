@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import IMAGE from "@resources";
 import { localize } from "@utils";
-import actions from "@actions";
 
-import { PopupButton, TableList, ReportTabLayout } from "../../widget";
+import {
+  PopupButton,
+  TableList,
+  ReportTabLayout,
+} from "../../widget";
 import GiftCardBarGroupChart from "./chart/GiftCardReportChart";
 
 const VIEW_MODE = {
@@ -17,10 +20,13 @@ const FILTER_NAME_DEFAULT = "All Type";
 const ACTIVE_COLOR = "#0764B0";
 const INACTIVE_COLOR = "#6A6A6A";
 
+
+
 export default function GiftCardReportTab({
   style,
   onGoStatistics,
   titleRangeTime,
+  urlRangeTime,
   showCalendar,
   onChangeFilterNames,
   onChangeFilterId,
@@ -40,7 +46,7 @@ export default function GiftCardReportTab({
   const [viewMode, setViewMode] = useState(VIEW_MODE.LIST);
   const [filterNameItem, setFilterNameItem] = useState(FILTER_NAME_DEFAULT);
   const [filterNames, setFilterNames] = useState([]);
-  const [chartData, setChartData] = useState([]);
+  const [chartData, setChartData] = useState(null);
 
   /**function */
   const changeViewMode = (mode) => {
@@ -52,14 +58,14 @@ export default function GiftCardReportTab({
   const viewModeChart = () => changeViewMode(VIEW_MODE.CHART);
 
   const bindChartData = async () => {
-    if (!giftCardReportList) return [];
+    // if (!giftCardReportList) return [];
     // console.log(overallPaymentMethodList);
     // const data = createChartObjectFromValues(
     //   marketingEfficiencyList,
     //   "method",
     //   "netPayment"
     // );
-    await setChartData(giftCardReportList);
+    await setChartData(giftCardReportList || []);
   };
 
   // create filter name data
@@ -197,7 +203,11 @@ export default function GiftCardReportTab({
               margin: 20,
             }}
           >
-            <GiftCardBarGroupChart data={chartData} />
+            <GiftCardBarGroupChart
+              data={chartData}
+              titleRangeTime={titleRangeTime}
+              urlRangeTime={urlRangeTime}
+            />
           </View>
         )}
       </ReportTabLayout>

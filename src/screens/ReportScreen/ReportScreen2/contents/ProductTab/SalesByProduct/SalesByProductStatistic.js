@@ -10,8 +10,8 @@ export default function SalesByProductStatistic(props, ref) {
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const customerReportList = useSelector(
-    (state) => state.report.customerReportList
+  const productSaleByProductList = useSelector(
+    (state) => state.report.productSaleByProductList
   );
 
   /**state */
@@ -21,33 +21,26 @@ export default function SalesByProductStatistic(props, ref) {
 
   /**useEffect */
   useEffect(() => {
-    const item = customerReportList.find((item) => item.type === filterId);
+    const item = productSaleByProductList.find(
+      (item) => item.name === filterId
+    );
 
     setTable({
-      tableData: item?.giftCardStatistics || [],
+      tableData: item?.details || [],
       tableHead: {
-        appointmentId: localize("Appointment ID", language),
         dateString: localize("Date", language),
-        time: localize("Time", language),
-        no: localize("No. of Service", language),
-        staff: localize("Staff", language),
-        payAmount: localize("Pay Amount", language),
+        quantity: localize("Qty Sold", language),
+        avgPrice: localize("Av. Price", language),
+        totalSales: localize("Total", language),
       },
-      whiteKeys: [
-        "appointmentId",
-        "dateString",
-        "time",
-        "no",
-        "staff",
-        "payAmount",
-      ],
-      primaryId: "appointmentId",
-      calcSumKeys: [],
-      sumTotalKey: "",
-      priceKeys: [],
+      whiteKeys: ["dateString", "quantity", "avgPrice", "totalSales"],
+      primaryId: "date",
+      calcSumKeys: ["quantity", "avgPrice", "totalSales"],
+      sumTotalKey: "dateString",
+      priceKeys: ["avgPrice", "totalSales"],
       tableCellWidth: { appointmentId: 80 },
     });
-  }, [filterId, customerReportList]);
+  }, [filterId, productSaleByProductList]);
 
   /**render */
 

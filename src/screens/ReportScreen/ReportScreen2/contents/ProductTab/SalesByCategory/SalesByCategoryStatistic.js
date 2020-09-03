@@ -10,8 +10,8 @@ export default function SalesByCategoryStatistic(props, ref) {
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const customerReportList = useSelector(
-    (state) => state.report.customerReportList
+  const productSaleByCategoryList = useSelector(
+    (state) => state.report.productSaleByCategoryList
   );
 
   /**state */
@@ -21,33 +21,27 @@ export default function SalesByCategoryStatistic(props, ref) {
 
   /**useEffect */
   useEffect(() => {
-    const item = customerReportList.find((item) => item.type === filterId);
+    const item = productSaleByCategoryList.find(
+      (item) => item.categoryName === filterId
+    );
 
     setTable({
-      tableData: item?.giftCardStatistics || [],
+      tableData: item?.details || [],
       tableHead: {
-        appointmentId: localize("Appointment ID", language),
         dateString: localize("Date", language),
-        time: localize("Time", language),
-        no: localize("No. of Service", language),
-        staff: localize("Staff", language),
-        payAmount: localize("Pay Amount", language),
+        quantity: localize("Qty Sold", language),
+        avgPrice: localize("Av. Price", language),
+        totalSales: localize("Total Amount", language),
       },
-      whiteKeys: [
-        "appointmentId",
-        "dateString",
-        "time",
-        "no",
-        "staff",
-        "payAmount",
-      ],
-      primaryId: "appointmentId",
-      calcSumKeys: [],
-      sumTotalKey: "",
-      priceKeys: [],
-      tableCellWidth: { appointmentId: 80 },
+      whiteKeys: ["dateString", "quantity", "avgPrice", "totalSales"],
+      primaryId: "date",
+      calcSumKeys: ["quantity", "avgPrice", "totalSales"],
+      sumTotalKey: "dateString",
+      priceKeys: ["avgPrice", "totalSales"],
+      sortKey: "dateString",
+      tableCellWidth: { dateString: 180, totalSales: 180 },
     });
-  }, [filterId, customerReportList]);
+  }, [filterId, productSaleByCategoryList]);
 
   /**render */
 

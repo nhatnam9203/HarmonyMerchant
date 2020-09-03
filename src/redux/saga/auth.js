@@ -1,14 +1,40 @@
-import { put, takeLatest, all, select } from "redux-saga/effects";
-import NavigationServices from "../../navigators/NavigatorServices";
-
+import AsyncStorage from "@react-native-community/async-storage";
+import DeviceInfo from "react-native-device-info";
+import { all, call, put, select, takeLatest } from "redux-saga/effects";
 import apiConfigs from "../../configs/api";
+import NavigationServices from "../../navigators/NavigatorServices";
 import { requestAPI } from "../../utils";
 
+const getFcmToken = async () => {
+  let token = "";
+  try {
+    token = await AsyncStorage.getItem("fcmToken");
+  } catch (error) {
+    console.log("Load token error: ", error);
+  }
+  return token;
+};
+const getDeviceId = async () => DeviceInfo.getUniqueId() || "simulator";
+
 function* login(action) {
+  let responses = {};
   try {
     yield put({ type: "LOADING_ROOT" });
-    const responses = yield requestAPI(action);
-    //console.log('responses : ', responses);
+
+    // Add firebaseToken & device id to login
+    const fcmToken = yield call(getFcmToken);
+    const deviceUniqueId = yield call(getDeviceId);
+
+    let body = action.body || {};
+    body = Object.assign({}, body, {
+      firebaseToken: fcmToken,
+      deviceId: deviceUniqueId,
+    });
+    action.body = body;
+
+    responses = yield requestAPI(action);
+
+    console.log("responses : ", responses);
     yield put({ type: "STOP_LOADING_ROOT" });
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
@@ -214,11 +240,56 @@ function* expiredToken(action) {
   yield put({ type: "LOGOUT_APP" });
 }
 
+function* requestLogout(action) {
+  try {
+    yield put({ type: "LOADING_ROOT" });
+    const deviceUniqueId = yield call(getDeviceId);
+    let body = action.body || {};
+    body = Object.assign({}, body, {
+      firebaseToken: "",
+      deviceId: deviceUniqueId,
+    });
+    action.body = body;
+
+    const responses = yield requestAPI(action);
+    yield put({ type: "STOP_LOADING_ROOT" });
+
+    NavigationServices.navigate("SignIn");
+    yield put({ type: "LOGOUT_APP" });
+  } catch (error) {
+    yield put({ type: error });
+  } finally {
+    yield put({ type: "STOP_LOADING_ROOT" });
+  }
+}
+
+function* activeFirebase(action) {
+  try {
+    yield put({ type: "LOADING_ROOT" });
+    const deviceUniqueId = yield call(getDeviceId);
+    let body = action.body || {};
+    body = Object.assign({}, body, {
+      firebaseToken: "",
+      deviceId: deviceUniqueId,
+    });
+    action.body = body;
+
+    const responses = yield requestAPI(action);
+    yield put({ type: "STOP_LOADING_ROOT" });
+  } catch (error) {
+    yield put({ type: error });
+  } finally {
+    yield put({ type: "STOP_LOADING_ROOT" });
+  }
+}
+
 export default function* saga() {
   yield all([
     takeLatest("LOGIN_APP", login),
     takeLatest("UNAUTHORIZED", expiredToken),
     takeLatest("FORGOT_PASSWORD", forgotPassword),
     takeLatest("CHECK_STAFF_PERMISSION", checkStaffPermission),
+    takeLatest("REQUEST_LOGOUT_APP", requestLogout),
+    takeLatest("ACTIVE_FIREBASE", activeFirebase),
   ]);
 }

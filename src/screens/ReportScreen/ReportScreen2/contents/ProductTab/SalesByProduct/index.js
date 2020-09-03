@@ -14,21 +14,31 @@ import { ReportLayout } from "../../../widget";
 import SalesByProduct from "./SalesByProduct";
 import SalesByProductStatistic from "./SalesByProductStatistic";
 
+const FILTER_NAME_DEFAULT_LIST = [
+  { value: "All product", id: "all" },
+  { value: "Top 5 product", id: "top5" },
+  { value: "Top 10 product", id: "top10" },
+];
+
+const FILTER_NAME_DEFAULT = FILTER_NAME_DEFAULT_LIST[1]?.value;
+
+const RANGE_TIME_DEFAULT = "This Week";
+
 function SalesByProductTab({ style, showBackButton }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const customerExportFilePath = useSelector(
-    (state) => state.report.customerExportFilePath
+  const exportFilePath = useSelector(
+    (state) => state.report.productSaleByProductExportPath
   );
 
-  const customerStatisticExportFilePath = useSelector(
-    (state) => state.report.customerStatisticExportFilePath
+  const statisticExportFilePath = useSelector(
+    (state) => state.report.productSaleByProductDetailExportPath
   );
 
-  const customerReportList = useSelector(
-    (state) => state.report.customerReportList
+  const productSaleByProductList = useSelector(
+    (state) => state.report.productSaleByProductList
   );
 
   const isDownloadReport = useSelector(
@@ -36,7 +46,7 @@ function SalesByProductTab({ style, showBackButton }, ref) {
   );
 
   /**state */
-  const [titleRangeTime, setTitleRangeTime] = useState("This week");
+  const [titleRangeTime, setTitleRangeTime] = useState(RANGE_TIME_DEFAULT);
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);
 
@@ -44,11 +54,21 @@ function SalesByProductTab({ style, showBackButton }, ref) {
   const layoutRef = useRef(null);
 
   /**function */
-  const getGiftCardReportSales = async () => {
+
+  const getProductId = (filterId) => {
+    let defaultFilterId = filterId ?? filterNameItem;
+    const filterDefaultItem = FILTER_NAME_DEFAULT_LIST.find(
+      (x) => x.value === defaultFilterId
+    );
+    return filterDefaultItem?.id;
+  };
+
+  const getProductSaleByProduct = async (filterId) => {
     await dispatch(
-      actions.report.getGiftCardReportSales(
+      actions.report.getProductByProductReportSales(
         true,
-        layoutRef?.current?.getTimeUrl()
+        layoutRef?.current?.getTimeUrl(),
+        getProductId(filterId)
       )
     );
   };
@@ -61,7 +81,7 @@ function SalesByProductTab({ style, showBackButton }, ref) {
   const onChangeTimeTitle = async (titmeTitle) => {
     await setTitleRangeTime(titmeTitle);
     // TODO: call reload list
-    await getGiftCardReportSales();
+    await getProductSaleByProduct();
   };
 
   const onChangeFilterNames = (names) => {
@@ -70,10 +90,13 @@ function SalesByProductTab({ style, showBackButton }, ref) {
 
   const onChangeFilterId = async (filterId) => {
     await setFilterNameItem(filterId);
+    if (FILTER_NAME_DEFAULT_LIST.find((x) => x.value === filterId)) {
+      await getProductSaleByProduct(filterId);
+    }
   };
 
   const onGoStatistics = async (item) => {
-    await setFilterNameItem(item.type);
+    await setFilterNameItem(item.name);
     layoutRef.current.goNext();
   };
 
@@ -82,10 +105,15 @@ function SalesByProductTab({ style, showBackButton }, ref) {
   };
 
   const onRequestExportFileToServer = (currentTab, titleExportFile) => {
+    const filterItem = productSaleByProductList.find(
+      (item) => item.name === filterNameItem
+    );
+
     switch (currentTab) {
       case 0:
         dispatch(
-          actions.report.exportGiftCardReportSales(
+          actions.report.exportProductSaleByProduct(
+            getProductId() || filterItem?.productId,
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
@@ -94,13 +122,10 @@ function SalesByProductTab({ style, showBackButton }, ref) {
         );
         break;
       case 1:
-        const filterItem = customerReportList.find(
-          (item) => item.type === filterNameItem
-        );
         if (!filterItem) return;
         dispatch(
-          actions.report.exportGiftCardReportSalesStatistics(
-            filterItem.giftCardGeneralId,
+          actions.report.exportProductSaleByProductDetail(
+            filterItem.productId,
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
@@ -123,16 +148,16 @@ function SalesByProductTab({ style, showBackButton }, ref) {
       layoutRef.current.goBack();
     },
     didBlur: () => {
-      setTitleRangeTime("This week");
+      // setTitleRangeTime("This week");
     },
     didFocus: () => {
-      // console.log("====> screen report -> staff didFocus");
+      layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
   }));
 
   /**effect */
   useEffect(() => {
-    getGiftCardReportSales();
+    getProductSaleByProduct();
   }, []);
 
   return (
@@ -152,9 +177,12 @@ function SalesByProductTab({ style, showBackButton }, ref) {
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("Sales by product ")}
-          pathFileExport={customerExportFilePath}
+          showExportFile={() => onShowPopupExport("SalesByProduct")}
+          pathFileExport={exportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
+          onChangeFilterId={onChangeFilterId}
+          defaultFilterList={FILTER_NAME_DEFAULT_LIST}
+          defaultFilterName={FILTER_NAME_DEFAULT}
         />
         <SalesByProductStatistic
           style={{ flex: 1, paddingTop: 10 }}
@@ -165,10 +193,8 @@ function SalesByProductTab({ style, showBackButton }, ref) {
           dataFilters={filterNames}
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
-          showExportFile={() =>
-            onShowPopupExport("Sales by product Statistic ")
-          }
-          pathFileExport={customerStatisticExportFilePath}
+          showExportFile={() => onShowPopupExport("SalesByProductStatistic")}
+          pathFileExport={statisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
         />
       </ReportLayout>

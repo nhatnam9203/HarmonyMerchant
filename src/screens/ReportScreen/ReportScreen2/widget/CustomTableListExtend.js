@@ -1,27 +1,21 @@
-import PropTypes from "prop-types";
-import React, {
-  useEffect,
-  useState,
-  useImperativeHandle,
-  forwardRef,
-} from "react";
+import IMAGE from "@resources";
 import {
-  FlatList,
-  ScrollView,
+  formatMoney,
+  formatNumberFromCurrency,
+  roundFloatNumber,
+  scaleSzie,
+} from "@utils";
+import PropTypes from "prop-types";
+import _ from "ramda";
+import React, { forwardRef, useEffect, useState } from "react";
+import {
+  Animated,
+  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  Image,
 } from "react-native";
-import _ from "ramda";
-import {
-  roundFloatNumber,
-  formatNumberFromCurrency,
-  formatMoney,
-  scaleSzie,
-} from "@utils";
-import IMAGE from "@resources";
 import { StickyForm } from "react-native-largelist-v3";
 
 const TABLE_HEADER_HEIGHT = 50;
@@ -29,10 +23,12 @@ const TABLE_ROW_HEIGHT = 50;
 const TABLE_CELL_DEFAULT_WIDTH = 160;
 const HEAD_FONT_SIZE = 17;
 const CELL_FONT_SIZE = 15;
+const IndicatorWidth = 200;
 
 const TABLE_HEADER_KEY = "report-header";
 const TABLE_SUMMARY_KEY = "report-summary";
 const TABLE_ACTION_KEY = "action";
+const KEY_CONCAT_FOR_INDEX = "#";
 
 const uniqueId = (key, index, defaultPrefix = "key") =>
   defaultPrefix + key + "-index" + index;
@@ -84,43 +80,54 @@ const SORT_STATE = {
   asc: "ASC",
 };
 
-/**
- * !error: header long bug ui
- * !error: calcSum -> pagination bug
- * */
-function TableListExtended(
-  {
-    tableData,
-    tableHead,
-    tableCellWidth,
-    whiteKeys,
-    calcSumKeys,
-    sumTotalKey,
-    priceKeys,
-    primaryId,
-    extraData,
-    noHead = false,
-    renderCell,
-    onCellPress,
-    onRowPress,
-    showSumOnBottom,
-    renderFooter,
-    renderActionCell,
-    checkSumItem,
-    sortKey,
-    unitKeys,
-    sortDefault,
-  },
-  ref
-) {
+const SCROLL_MODE = {
+  none: "NONE",
+  drag: "DRAG",
+  scroll: "SCROLL",
+  block: "BLOCK",
+};
+
+function TableListExtended({
+  tableData,
+  tableHead,
+  tableCellWidth,
+  whiteKeys,
+  calcSumKeys,
+  sumTotalKey,
+  priceKeys,
+  primaryId,
+  noHead = false,
+  renderCell,
+  onCellPress,
+  onRowPress,
+  renderActionCell,
+  checkSumItem,
+  sortKey,
+  unitKeys,
+  sortDefault,
+}) {
   /**state */
   const [headerContent, setHeaderContent] = useState({});
   const [data, setData] = useState([]);
   const [dataFactory, setDataFactory] = useState([]);
   const [sumObject, setSumObject] = useState({});
-  const [tableWidth, setTableWidth] = useState(0);
+  const [tableWidth, setTableWidth] = useState(1);
   const [sortState, setSortState] = useState(SORT_STATE.none);
+  const [scrollMode, setScrollMode] = useState(SCROLL_MODE.none);
 
+  const stickyFormRef = React.useRef(null);
+  // scroll
+
+  const [fullSizeContentWidth, setFullSizeContentWidth] = useState(1);
+  const [visibleScrollPartWidth, setVisibleScrollPartWidth] = useState(1);
+  const [indicatorFlexibleWidth] = useState(IndicatorWidth);
+  const [offsetXMap, setOffsetXMap] = useState(new Map());
+  const [
+    scrollIndicatorContainerWidth,
+    setScrollIndicatorContainerWidth,
+  ] = useState(1);
+  const [fromLeft, setFromLeft] = useState(0);
+  const [currentOffset, setCurrentOffset] = useState({ x: 0, y: 0 });
   const setListData = (sort) => {
     let sortList = tableData;
     if (sortKey && sortList.length > 0 && sort !== SORT_STATE.none) {
@@ -135,7 +142,6 @@ function TableListExtended(
 
     setData(sortList);
   };
-
   const changeSortData = () => {
     if (!sortKey) {
       setSortState(SORT_STATE.none);
@@ -152,9 +158,7 @@ function TableListExtended(
     setSortState(sort);
     setListData(sort);
   };
-
   /**effect */
-
   // bind header - table data
   useEffect(() => {
     if (noHead) {
@@ -204,17 +208,22 @@ function TableListExtended(
         itemObject["data"] = Object.values(valueObject[index]);
         factoryItems.push(itemObject);
       });
+
       const data = Object.create({
         sectionTitle: "",
         items: factoryItems,
       });
+
       let dataArr = [];
       dataArr.push(data);
       setDataFactory(dataArr);
 
+      let map = new Map();
       whiteKeys.forEach((key, index) => {
         width += getCellWidth(index, key);
+        map.set(index + KEY_CONCAT_FOR_INDEX + key, width);
       });
+      setOffsetXMap(map);
       setTableWidth(width);
     }
   }, [tableData, whiteKeys]);
@@ -242,9 +251,96 @@ function TableListExtended(
     return priceKeys?.indexOf(key) >= 0;
   };
 
+  const onScroll = ({
+    nativeEvent: {
+      contentOffset: { x, y },
+    },
+  }) => {
+    const movePercent =
+      fullSizeContentWidth === visibleScrollPartWidth
+        ? 0
+        : x / ((fullSizeContentWidth - visibleScrollPartWidth) / 100);
+
+    const position =
+      ((visibleScrollPartWidth -
+        indicatorFlexibleWidth -
+        (visibleScrollPartWidth - scrollIndicatorContainerWidth)) /
+        100) *
+      movePercent;
+
+    setFromLeft(position);
+    setCurrentOffset({ x: x, y: y });
+  };
+
+  const isContentSmallerThanScrollView =
+    fullSizeContentWidth - visibleScrollPartWidth <= 0;
+
+  onMomentumScrollBegin = () => {
+    if (scrollMode === SCROLL_MODE.block) return;
+    setScrollMode(SCROLL_MODE.none);
+  };
+
+  onMomentumScrollEnd = () => {
+    if (scrollMode === SCROLL_MODE.block) return;
+
+    if (
+      !currentOffset ||
+      _.isEmpty(currentOffset || scrollMode !== SCROLL_MODE.scroll)
+    )
+      return;
+    setScrollMode(SCROLL_MODE.scroll);
+  };
+
+  onScrollBeginDrag = () => {
+    if (scrollMode === SCROLL_MODE.block || scrollMode === SCROLL_MODE.scroll)
+      return;
+    setScrollMode(SCROLL_MODE.none);
+  };
+
+  onScrollEndDrag = () => {
+    if (scrollMode === SCROLL_MODE.block) return;
+
+    if (
+      !currentOffset ||
+      _.isEmpty(currentOffset || scrollMode !== SCROLL_MODE.drag)
+    )
+      return;
+
+    setTimeout(() => {
+      setScrollMode(SCROLL_MODE.drag);
+    }, 16);
+  };
+
+  autoScroll = () => {
+    if (scrollMode === SCROLL_MODE.none || scrollMode === SCROLL_MODE.block)
+      return;
+
+    offsetXMap?.forEach((value, key, map) => {
+      const arrStr = key.split(KEY_CONCAT_FOR_INDEX);
+      const cellWidth = getCellWidth(arrStr[0], arrStr[1]);
+
+      let { x, y } = currentOffset;
+
+      if (x > value - cellWidth && x < value) {
+        x = value - cellWidth;
+        setScrollMode(SCROLL_MODE.block);
+        stickyFormRef.current.scrollTo({ x: x, y: y }).then(() => {
+          setScrollMode(SCROLL_MODE.none);
+        });
+
+        return;
+      }
+    });
+  };
+
+  React.useEffect(() => {
+    if (scrollMode === SCROLL_MODE.drag || scrollMode === SCROLL_MODE.scroll) {
+      autoScroll();
+    }
+  }, [scrollMode]);
+
   /**render */
   // render cell
-
   const renderItem = ({ row }) => {
     const item = data[row];
     const cellKey = getCellKey(item, primaryId);
@@ -313,7 +409,7 @@ function TableListExtended(
                         ? unitKeys[key]
                           ? item[key] + " " + unitKeys[key]
                           : "$ " + item[key]
-                        : item[key]}
+                        : item[key] || "-"}
                     </Text>
                   )}
             </TableCell>
@@ -465,17 +561,49 @@ function TableListExtended(
   return (
     <View style={styles.container}>
       <StickyForm
-        style={{ backgroundColor: "white" }}
+        ref={stickyFormRef}
+        style={{ backgroundColor: "white", marginBottom: 5 }}
         contentStyle={{ width: tableWidth ?? "100%" }}
+        onContentSizeChange={({ width }) => {
+          setFullSizeContentWidth(width);
+        }}
+        onSizeChange={({ width }) => {
+          setVisibleScrollPartWidth(width);
+        }}
+        // onLayout={(e) => setVisibleScrollPartWidth(e.nativeEvent.layout.width)}
         data={dataFactory}
         heightForSection={() => TABLE_ROW_HEIGHT}
         heightForIndexPath={() => TABLE_ROW_HEIGHT}
         renderHeader={renderHeader}
         renderSection={renderSection}
         renderIndexPath={renderItem}
-        // directionalLockEnabled={true}
         bounces={false}
+        showsHorizontalScrollIndicator={isContentSmallerThanScrollView}
+        showsVerticalScrollIndicator={true}
+        onScroll={onScroll}
+        onMomentumScrollBegin={onMomentumScrollBegin}
+        onMomentumScrollEnd={onMomentumScrollEnd}
+        scrollEventThrottle={16}
+        onScrollEndDrag={onScrollEndDrag}
+        onScrollBeginDrag={onScrollBeginDrag}
+        directionalLockEnabled={true}
+        renderFooter={() => <View style={{ height: 20 }} />}
       />
+      {!isContentSmallerThanScrollView && (
+        <Animated.View
+          style={styles.scrollIndicatorContainer}
+          onLayout={(e) =>
+            setScrollIndicatorContainerWidth(e.nativeEvent.layout.width)
+          }
+        >
+          <View
+            style={[
+              styles.scrollIndicator,
+              { left: fromLeft, width: indicatorFlexibleWidth },
+            ]}
+          />
+        </Animated.View>
+      )}
     </View>
   );
 }
@@ -532,29 +660,35 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 0,
+    marginBottom: 5,
   },
+
   row: {
     backgroundColor: "#FFFFFF",
     height: TABLE_ROW_HEIGHT,
     flexDirection: "row",
     justifyContent: "space-evenly",
   },
+
   head: {
     height: TABLE_HEADER_HEIGHT,
     backgroundColor: "#FAFAFA",
   },
+
   cell: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 10,
   },
+
   txtCell: {
     fontSize: CELL_FONT_SIZE,
     color: "#6A6A6A",
     textAlign: "center",
     flexWrap: "wrap",
   },
+
   txtHead: {
     fontSize: HEAD_FONT_SIZE,
     color: "#0764B0",
@@ -562,10 +696,12 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     textAlign: "center",
   },
+
   separator: {
     height: 1,
     backgroundColor: "#E5E5E5",
   },
+
   txtSum: {
     fontSize: HEAD_FONT_SIZE,
     color: "#404040",
@@ -573,12 +709,14 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     textAlign: "center",
   },
+
   headName: {
     margin: 0,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FAFAFA",
   },
+
   btnSort: {
     width: 30,
     position: "absolute",
@@ -587,5 +725,28 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: "center",
     alignItems: "center",
+  },
+
+  scrollIndicatorContainer: {
+    position: "absolute",
+    left: 0,
+    bottom: 0,
+    right: 0,
+    overflow: "hidden",
+    borderRadius: 5,
+    height: 10,
+    margin: 4,
+    backgroundColor: "#E1E1E1",
+    borderWidth: 1,
+    borderColor: "#F5F5F5",
+  },
+
+  scrollIndicator: {
+    position: "absolute",
+    bottom: 0,
+    top: 0,
+    borderRadius: 5,
+    opacity: 0.5,
+    backgroundColor: "#6D6D6D",
   },
 });

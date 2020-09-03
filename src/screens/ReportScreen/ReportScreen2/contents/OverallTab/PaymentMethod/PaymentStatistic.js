@@ -21,7 +21,7 @@ export default function PaymentStatistic(props, ref) {
   /**useEffect */
   useEffect(() => {
     const item = overallPaymentMethodList.find(
-      (item) => item.method === filterId
+      (item) => item.displayMethod === filterId
     );
 
     setTable({

@@ -60,8 +60,8 @@ function MarketingEfficiencyTab({ style, showBackButton }, ref) {
   };
 
   //callback
-  const onChangeTimeTitle = async (titmeTitle) => {
-    await setTitleRangeTime(titmeTitle);
+  const onChangeTimeTitle = async (timeTitle) => {
+    await setTitleRangeTime(timeTitle);
     // TODO: call reload list
     await getMarketingEfficiencyMethod();
   };
@@ -84,6 +84,10 @@ function MarketingEfficiencyTab({ style, showBackButton }, ref) {
   };
 
   const onRequestExportFileToServer = (currentTab, titleExportFile) => {
+    const promotion = marketingEfficiencyList.find(
+      (item) => item.name === filterNameItem
+    );
+
     switch (currentTab) {
       case 0:
         dispatch(
@@ -91,14 +95,12 @@ function MarketingEfficiencyTab({ style, showBackButton }, ref) {
             layoutRef?.current?.getTimeUrl(),
             true,
             "excel",
-            titleExportFile
+            titleExportFile,
+            promotion?.promotionId
           )
         );
         break;
       case 1:
-        const promotion = marketingEfficiencyList.find(
-          (item) => item.name === filterNameItem
-        );
         if (!promotion) return;
         dispatch(
           actions.report.exportMarketingEfficiencyStatistics(
@@ -158,6 +160,7 @@ function MarketingEfficiencyTab({ style, showBackButton }, ref) {
           showExportFile={() => onShowPopupExport("MarketingEfficiency")}
           pathFileExport={meExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
+          onChangeFilterId={onChangeFilterId}
         />
         <MarketingEfficiencyStatistic
           style={{ flex: 1 }}
