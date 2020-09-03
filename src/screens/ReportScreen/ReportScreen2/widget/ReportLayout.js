@@ -1,25 +1,19 @@
-import React, {
-  useRef,
-  useImperativeHandle,
-  forwardRef,
-  useState,
-  useCallback,
-  useEffect,
-} from "react";
-import { View, Platform } from "react-native";
-
-import RNFetchBlob from "rn-fetch-blob";
-import { useSelector, useDispatch } from "react-redux";
-import ScrollableTabView from "react-native-scrollable-tab-view";
-
-import { PopupCalendar } from "@components";
 import actions from "@actions";
-import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
-
-import PopupLoadingExportReport from "./PopupLoadingExportReport";
+import { PopupCalendar } from "@components";
+import { getQuickFilterTimeRange, localize, scaleSzie } from "@utils";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
+import { Platform, View } from "react-native";
+import ScrollableTabView from "react-native-scrollable-tab-view";
+import { useDispatch, useSelector } from "react-redux";
+import RNFetchBlob from "rn-fetch-blob";
 import PopupExportReport from "./PopupExportReport";
-
-const FILTER_NAME_DEFAULT = "All Staff";
+import PopupLoadingExportReport from "./PopupLoadingExportReport";
 
 function ReportLayout(
   {
@@ -40,7 +34,6 @@ function ReportLayout(
   /**refs */
   const scrollPage = useRef(null);
   const modalCalendarRef = useRef(null);
-  const modalExportRef = useRef(null);
 
   /**state */
   const [visibleCalendar, setVisibleCalendar] = useState(false);
@@ -167,7 +160,6 @@ function ReportLayout(
 
   // call action export staff
   const requestExportFileToServer = () => {
-    const url = getFilterTimeParams();
     setVisiblePopupExport(false);
     if (onRequestExportFileToServer) {
       onRequestExportFileToServer(currentTab, titleExportFile);
@@ -219,7 +211,6 @@ function ReportLayout(
       />
 
       <PopupExportReport
-        ref={modalExportRef}
         title={localize("Export", language)}
         fileName={titleExportFile}
         visible={visiblePopupExport}

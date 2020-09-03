@@ -5,11 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import IMAGE from "@resources";
 import { localize } from "@utils";
 
-import {
-  PopupButton,
-  TableList,
-  ReportTabLayout,
-} from "../../widget";
+import { PopupButton, TableList, ReportTabLayout } from "../../widget";
 import GiftCardBarGroupChart from "./chart/GiftCardReportChart";
 
 const VIEW_MODE = {
@@ -19,8 +15,6 @@ const VIEW_MODE = {
 const FILTER_NAME_DEFAULT = "All Type";
 const ACTIVE_COLOR = "#0764B0";
 const INACTIVE_COLOR = "#6A6A6A";
-
-
 
 export default function GiftCardReportTab({
   style,

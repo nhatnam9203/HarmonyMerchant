@@ -1,17 +1,13 @@
+import actions from "@actions";
 import React, {
-  useEffect,
-  useState,
-  useRef,
   forwardRef,
   useImperativeHandle,
+  useRef,
+  useState,
 } from "react";
-import { View, StyleSheet } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-
-import actions from "@actions";
-
+import { StyleSheet, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { ReportLayout } from "../../widget";
-
 import StaffReportTab from "./StaffReportTab";
 import StaffStatistic from "./StaffStatistic";
 
@@ -20,7 +16,6 @@ const RANGE_TIME_DEFAULT = "This Week";
 function StaffTab({ style, showBackButton }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
-  const language = useSelector((state) => state.dataLocal.language);
 
   const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
 

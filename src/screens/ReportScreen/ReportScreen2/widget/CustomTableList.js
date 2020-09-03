@@ -1,27 +1,21 @@
+import IMAGE from "@resources";
+import {
+  formatMoney,
+  formatNumberFromCurrency,
+  roundFloatNumber,
+  scaleSzie,
+} from "@utils";
 import PropTypes from "prop-types";
-import React, {
-  useEffect,
-  useState,
-  useImperativeHandle,
-  forwardRef,
-  useCallback,
-} from "react";
+import _ from "ramda";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
+  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  Image,
 } from "react-native";
-import _ from "ramda";
-import {
-  roundFloatNumber,
-  formatNumberFromCurrency,
-  formatMoney,
-  scaleSzie,
-} from "@utils";
-import IMAGE from "@resources";
 
 const TABLE_HEADER_HEIGHT = 50;
 const TABLE_ROW_HEIGHT = 50;
@@ -56,15 +50,6 @@ const sumPropertiesKey = (array, key) => {
   return 0;
 };
 
-/**filter object for keys input */
-const pickObjectFromKeys = (array, keys) => {
-  return array.map((obj) => {
-    return Object.fromEntries(
-      Object.entries(obj).filter(([key]) => keys.includes(key))
-    );
-  });
-};
-
 /**get unique key for render row */
 const getCellKey = (item, primaryId) => {
   if (!primaryId || primaryId.length <= 0) {
@@ -82,35 +67,28 @@ const SORT_STATE = {
   desc: "DESC",
   asc: "ASC",
 };
-/**
- * !error: header long bug ui
- * !error: calcSum -> pagination bug
- * */
-function TableList(
-  {
-    tableData,
-    tableHead,
-    tableCellWidth,
-    whiteKeys,
-    calcSumKeys,
-    sumTotalKey,
-    priceKeys,
-    primaryId,
-    extraData,
-    noHead = false,
-    renderCell,
-    onCellPress,
-    onRowPress,
-    showSumOnBottom,
-    renderFooter,
-    renderActionCell,
-    checkSumItem,
-    sortKey,
-    sortDefault,
-    unitKeys,
-  },
-  ref
-) {
+
+function TableList({
+  tableData,
+  tableHead,
+  tableCellWidth,
+  whiteKeys,
+  calcSumKeys,
+  sumTotalKey,
+  priceKeys,
+  primaryId,
+  noHead = false,
+  renderCell,
+  onCellPress,
+  onRowPress,
+  showSumOnBottom,
+  renderFooter,
+  renderActionCell,
+  checkSumItem,
+  sortKey,
+  sortDefault,
+  unitKeys,
+}) {
   /**state */
   const [headerContent, setHeaderContent] = useState({});
   const [data, setData] = useState(null);
@@ -208,10 +186,9 @@ function TableList(
     return priceKeys?.indexOf(key) >= 0;
   };
 
-
   /**render */
   // render cell
-  const renderItem = ({ item, index, separators }) => {
+  const renderItem = ({ item, index }) => {
     const cellKey = getCellKey(item, primaryId);
 
     return (
@@ -409,28 +386,7 @@ function TableList(
   );
 }
 
-TableList.propTypes = {
-  tableData: PropTypes.array.isRequired,
-  tableHead: PropTypes.array,
-  noHead: PropTypes.bool,
-  calcSumKeys: PropTypes.array,
-  tableCellWidth: PropTypes.array,
-  whiteKeys: PropTypes.array.isRequired,
-  primaryId: PropTypes.any.isRequired,
-  sumTotalKey: PropTypes.string,
-  priceKeys: PropTypes.array,
-  extraData: PropTypes.object.extraData,
-  renderCell: PropTypes.object,
-  onCellPress: PropTypes.func,
-  onRowPress: PropTypes.func,
-  showSumOnBottom: PropTypes.bool,
-  onChangeSumObjects: PropTypes.func,
-  renderFooter: PropTypes.func,
-  renderIconCell: PropTypes.func,
-  sortKey: PropTypes.string,
-};
-
-export default TableList = forwardRef(TableList);
+export default TableList;
 
 //================================
 // Component

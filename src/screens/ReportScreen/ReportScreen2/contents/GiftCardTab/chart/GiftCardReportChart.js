@@ -1,16 +1,9 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
-import { StyleSheet, processColor, View, Text } from "react-native";
-import { BarChart } from "react-native-charts-wrapper";
-import _ from "ramda";
-import moment from "moment";
-
 import { formatNumberFromCurrency } from "@utils";
+import moment from "moment";
+import _ from "ramda";
+import React, { forwardRef, useEffect, useState } from "react";
+import { processColor, StyleSheet, Text, View } from "react-native";
+import { BarChart } from "react-native-charts-wrapper";
 import { CalendarRangePicker, PopupButton } from "../../../widget";
 
 const MAX_LABEL_COUNT = 7;
@@ -70,15 +63,6 @@ const colors = [
   processColor("#1F11B4"),
 ];
 
-const pickValuesForKey = (array, forKey, format) => {
-  return array.map((obj) => {
-    const item = Object.entries(obj).filter(([key, value]) => key === forKey);
-    const [key, value] = item[0];
-    if (format === "float") return formatNumberFromCurrency(value);
-    return value + "";
-  });
-};
-
 // Returns an array of dates between the two dates
 const getDatesBetween = (startDate, endDate) => {
   let dates = [];
@@ -135,7 +119,6 @@ const getDateRange = (title, timeUrl) => {
         start: lastWeek.startOf("isoweek").format(DATE_FORMAT),
         end: lastWeek.endOf("isoweek").format(DATE_FORMAT),
       };
-      break;
     case "This Month":
       return {
         since: currentDate.clone().startOf("month").valueOf(),
@@ -176,7 +159,7 @@ const getDateRange = (title, timeUrl) => {
 };
 
 /**RENDER */
-const CalendarPickerComponent = forwardRef((props, ref) => {
+const CalendarPickerComponent = (props) => {
   const { startDate, endDate, onChangeSelectDay, selectDay } = props;
 
   /**function */
@@ -204,7 +187,7 @@ const CalendarPickerComponent = forwardRef((props, ref) => {
       />
     </View>
   );
-});
+};
 
 export default function GiftCardBarGroupChart({
   data,
