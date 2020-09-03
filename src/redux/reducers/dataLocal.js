@@ -20,8 +20,22 @@ const initialState = {
     checkEmailToResetPax: "",
     MIDStorage: "",
     isRememberMID: false,
-    printerList: [],
-    printerPortType: "Bluetooth"
+    // printerList: [],
+    printerPortType: "Bluetooth",
+    printerList: [
+        {
+            "macAddress": "00:11:62:17:82:a8",
+            "portName": "BT:TSP100",
+            "modelName": "TSP143IIIBI GY"
+        },
+        {
+            "macAddress": "",
+            "portName": "BT:mPOP",
+            "modelName": "POP10 WHT"
+        }
+    ],
+    printerSelect: ""
+
 }
 
 function dataLocal(state = initialState, action) {
@@ -144,11 +158,17 @@ function dataLocal(state = initialState, action) {
             return {
                 ...state,
                 printerList: action.payload,
+                printerSelect: state.printerSelect === "" && action.payload.length > 0 ? (action.payload)[0].portName : state.printerSelect
             }
         case 'UPDATE_PRINTER_PORT_TYPE':
             return {
                 ...state,
                 printerPortType: action.payload,
+            }
+        case 'SELECT_PRINTER':
+            return {
+                ...state,
+                printerSelect: action.payload,
             }
         default:
             return state
