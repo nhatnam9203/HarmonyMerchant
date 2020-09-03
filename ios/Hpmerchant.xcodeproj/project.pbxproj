@@ -89,7 +89,6 @@
 		2399DEC122F1A9CF00DBCCFE /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2399DEBD22F1A9C100DBCCFE /* libRNFetchBlob.a */; };
 		23FE295523C77BEF00E95925 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FE295423C77BEF00E95925 /* File.swift */; };
 		3649D09224E660C0003C8174 /* libRNSpringScrollView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3649D09124E65E8D003C8174 /* libRNSpringScrollView.a */; };
-		365E73FB24F8F38400D2CDB9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 365E73FA24F8F38400D2CDB9 /* GoogleService-Info.plist */; };
 		366C009924DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
 		366C009A24DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
 		366C009B24DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
@@ -246,7 +245,9 @@
 		366C013224DBC6DE00BAA83B /* DataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009824DBC6DD00BAA83B /* DataExtract.swift */; };
 		366C013324DBC6DE00BAA83B /* DataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009824DBC6DD00BAA83B /* DataExtract.swift */; };
 		366C013424DBC6DE00BAA83B /* DataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009824DBC6DD00BAA83B /* DataExtract.swift */; };
-		36BB18F3250098EB0016B6CF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36BB18C8250098EB0016B6CF /* GoogleService-Info.plist */; };
+		36F619BC2500D83B00893A84 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36F619BA2500D81B00893A84 /* GoogleService-Info.plist */; };
+		36F619BD2500D84400893A84 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 365E73FA24F8F38400D2CDB9 /* GoogleService-Info.plist */; };
+		36F619C02500D9AC00893A84 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36F619BF2500D9AC00893A84 /* GoogleService-Info.plist */; };
 		36FD0B8B24EB95CB00A50EBB /* libRNSpringScrollView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3649D09124E65E8D003C8174 /* libRNSpringScrollView.a */; };
 		7C186DA69A5F305D9BABAA7C /* libPods-Hpmerchant-Hpmerchant_Production.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BBD25C8CE37C1AB57107F998 /* libPods-Hpmerchant-Hpmerchant_Production.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -672,7 +673,10 @@
 		366C009824DBC6DD00BAA83B /* DataExtract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataExtract.swift; sourceTree = "<group>"; };
 		3684056524F8BCA200021B55 /* Staing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Staing.entitlements; sourceTree = "<group>"; };
 		3684059024F8BCDA00021B55 /* HPMerchant.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HPMerchant.entitlements; sourceTree = "<group>"; };
-		36BB18C8250098EB0016B6CF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Users/nhatran/Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		36F619B62500D6C200893A84 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Users/nhatran/Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		36F619BA2500D81B00893A84 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		36F619BE2500D99A00893A84 /* Dev.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Dev.entitlements; sourceTree = "<group>"; };
+		36F619BF2500D9AC00893A84 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		429BF6F6217ED276A895E802 /* Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig"; sourceTree = "<group>"; };
 		459E2B6AE93CFF269BF09721 /* Pods-Hpmerchant_Staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant_Staging.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant_Staging/Pods-Hpmerchant_Staging.release.xcconfig"; sourceTree = "<group>"; };
 		4DEC3923581CC3E42642C025 /* libPods-Hpmerchant-Hpmerchant_Staging.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant-Hpmerchant_Staging.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -880,6 +884,9 @@
 		13B07FAE1A68108700A75B9A /* Hpmerchant */ = {
 			isa = PBXGroup;
 			children = (
+				36F619BB2500D82900893A84 /* Development */,
+				36F619B92500D81000893A84 /* Staging */,
+				36F619B82500D7FE00893A84 /* Product */,
 				23207BB222FACFD70002C14B /* ExtData */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -893,8 +900,7 @@
 				230F1DDC24D3DA2300A95898 /* staging.plist */,
 				23FE295423C77BEF00E95925 /* File.swift */,
 				23FE295323C77BEF00E95925 /* Hpmerchant-Bridging-Header.h */,
-				36BB18C8250098EB0016B6CF /* GoogleService-Info.plist */,
-				365E73FA24F8F38400D2CDB9 /* GoogleService-Info.plist */,
+				36F619B62500D6C200893A84 /* GoogleService-Info.plist */,
 			);
 			name = Hpmerchant;
 			sourceTree = "<group>";
@@ -1169,6 +1175,30 @@
 			path = radar;
 			sourceTree = "<group>";
 		};
+		36F619B82500D7FE00893A84 /* Product */ = {
+			isa = PBXGroup;
+			children = (
+				36F619BA2500D81B00893A84 /* GoogleService-Info.plist */,
+			);
+			path = Product;
+			sourceTree = "<group>";
+		};
+		36F619B92500D81000893A84 /* Staging */ = {
+			isa = PBXGroup;
+			children = (
+				365E73FA24F8F38400D2CDB9 /* GoogleService-Info.plist */,
+			);
+			name = Staging;
+			sourceTree = "<group>";
+		};
+		36F619BB2500D82900893A84 /* Development */ = {
+			isa = PBXGroup;
+			children = (
+				36F619BF2500D9AC00893A84 /* GoogleService-Info.plist */,
+			);
+			path = Development;
+			sourceTree = "<group>";
+		};
 		51A61F587B2C0002B60C1005 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1245,6 +1275,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				36F619BE2500D99A00893A84 /* Dev.entitlements */,
 				3684059024F8BCDA00021B55 /* HPMerchant.entitlements */,
 				3684056524F8BCA200021B55 /* Staing.entitlements */,
 				366C005624DBC6DD00BAA83B /* ReactNativeCharts */,
@@ -1764,7 +1795,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				36BB18F3250098EB0016B6CF /* GoogleService-Info.plist in Resources */,
+				36F619BC2500D83B00893A84 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1774,7 +1805,7 @@
 			files = (
 				230F1DD324D3DA2200A95898 /* Images.xcassets in Resources */,
 				230F1DD424D3DA2200A95898 /* LaunchScreen.xib in Resources */,
-				365E73FB24F8F38400D2CDB9 /* GoogleService-Info.plist in Resources */,
+				36F619BD2500D84400893A84 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1784,6 +1815,7 @@
 			files = (
 				232D64B82465060100AA4473 /* Images.xcassets in Resources */,
 				232D64B92465060100AA4473 /* LaunchScreen.xib in Resources */,
+				36F619C02500D9AC00893A84 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2438,6 +2470,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Dev.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 39;
@@ -2492,6 +2525,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Dev.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 39;
