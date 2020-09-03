@@ -771,7 +771,31 @@ export const formatWithMoment = (data, key) => {
     return moment.parseZone(data).format(key);
 }
 
-export const checkStatusPrint = async (portType = "Bluetooth" ) => {
+export const getPortNameOfPrinter = (printers, modelName) => {
+    let portName = "";
+    for (let i = 0; i < printers.length; i++) {
+        const printer = printers[i];
+        if (printer.modelName == modelName) {
+            portName = printer.portName;
+            break;
+        }
+    };
+    return portName;
+}
+
+export const getModalNameOfPrinter = (printers, tempModalName) => {
+    let modelName = "";
+    for (let i = 0; i < printers.length; i++) {
+        const printer = printers[i];
+        if (printer.modelName == tempModalName) {
+            modelName = printer.modelName;
+            break;
+        }
+    };
+    return modelName;
+}
+
+export const checkStatusPrint = async (portType = "Bluetooth") => {
     try {
         const printer = await PrintManager.getInstance().portDiscovery(portType);
         console.log("--- printer : ", JSON.stringify(printer));
@@ -797,7 +821,7 @@ export const checkStatusPrint = async (portType = "Bluetooth" ) => {
 export const checkStatusPrint_1 = async () => {
     try {
         const printer = await PrintManager.getInstance().portDiscovery();
-        console.log("--- printer : ",printer);
+        console.log("--- printer : ", printer);
         if (printer.length > 0) {
             let portName = false;
             for (let i = 0; i < printer.length; i++) {
@@ -851,7 +875,7 @@ export const validBirthday = (birthday) => {
     return true
 }
 
-export const PAYMENT_METHODS  = [{ value: '' }, { value: 'HarmonyPay' },{ value: 'Credit Card' }, { value: 'Cash' }, { value: 'Other' }];
+export const PAYMENT_METHODS = [{ value: '' }, { value: 'HarmonyPay' }, { value: 'Credit Card' }, { value: 'Cash' }, { value: 'Other' }];
 
 export const getPaymentStringInvoice = (type) => {
     let method = '';

@@ -149,8 +149,8 @@ class PrinterList extends React.Component {
                 {
                     printerList && printerList.map((printer) => <ItemPrinter
                         key={printer.portName}
-                        portName={printer.portName}
-                        isConnected={printer.portName === printerSelect ? true : false}
+                        modelName={printer.modelName}
+                        isConnected={printer.modelName == printerSelect ? true : false}
                         onPress={this.selectPrinter}
                     />)
                 }
@@ -190,10 +190,10 @@ const ItemConnect = ({ title, isSelect, onPress }) => {
     );
 }
 
-const ItemPrinter = ({ portName, isConnected, onPress }) => {
+const ItemPrinter = ({ modelName, isConnected, onPress }) => {
 
     return (
-        <Button onPress={() => onPress(portName)} style={{
+        <Button onPress={() => onPress(modelName)} style={{
             height: scaleSzie(40), backgroundColor: "rgb(250,250,250)", borderRadius: 6,
             flexDirection: "row", alignItems: "center", paddingLeft: scaleSzie(15),
             paddingRight: scaleSzie(40), justifyContent: "space-between",
@@ -203,7 +203,7 @@ const ItemPrinter = ({ portName, isConnected, onPress }) => {
                 fontSize: scaleSzie(14),
                 fontWeight: '600',
             }} >
-                {portName}
+                {modelName}
             </Text>
 
             <Text style={{

@@ -253,17 +253,6 @@ function appReducer(state = initialState, action) {
                 ...state,
                 settingTabPermission: false,
             }
-        // case 'UPDATE_PRINTER_LIST':
-        //     return {
-        //         ...state,
-        //         printerList: action.payload,
-        //     }
-        // case 'UPDATE_PRINTER_PORT_TYPE':
-        //     return {
-        //         ...state,
-        //         printerPortType: action.payload,
-        //     }
-
         default:
             return state
     }

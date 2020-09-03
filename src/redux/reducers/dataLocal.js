@@ -1,3 +1,5 @@
+import { getPortNameOfPrinter,getModalNameOfPrinter } from "@utils";
+
 const initialState = {
     profile: {},
     token: false,
@@ -158,7 +160,7 @@ function dataLocal(state = initialState, action) {
             return {
                 ...state,
                 printerList: action.payload,
-                printerSelect: state.printerSelect === "" && action.payload.length > 0 ? (action.payload)[0].portName : state.printerSelect
+                printerSelect: getModalNameOfPrinter(action.payload, state.printerSelect)
             }
         case 'UPDATE_PRINTER_PORT_TYPE':
             return {

@@ -30,32 +30,37 @@ class TabHardware extends Layout {
     }
 
     goToPrinterList = async () => {
-        const {printerPortType} = this.props
+        // const { printerPortType } = this.props
         this.scrollTabHardwareRef.current.goToPage(3);
-        try {
-            this.props.actions.app.loadingApp()
-            const printMachine = await checkStatusPrint(printerPortType);
-            this.props.actions.dataLocal.updatePrinterList(printMachine);
-            this.props.actions.app.stopLoadingApp();
-        } catch (error) {
-            this.props.actions.app.stopLoadingApp();
-            setTimeout(() =>{
-                alert(error)
-            },500)
-        }
+        // try {
+        //     this.props.actions.app.loadingApp()
+        //     const printMachine = await checkStatusPrint(printerPortType);
+        //     this.props.actions.dataLocal.updatePrinterList(printMachine);
+        //     this.props.actions.app.stopLoadingApp();
+        // } catch (error) {
+        //     this.props.actions.app.stopLoadingApp();
+        //     setTimeout(() => {
+        //         alert(error)
+        //     }, 500)
+        // }
         // const printMachine = await checkStatusPrint();
-        // this.props.actions.dataLocal.updatePrinterList([
-        //     {
-        //         "macAddress": "00:11:62:17:82:a8",
-        //         "portName": "BT:TSP100",
-        //         "modelName": "TSP143IIIBI GY"
-        //     },
-        //     {
-        //         "macAddress": "",
-        //         "portName": "BT:mPOP",
-        //         "modelName": "POP10 WHT"
-        //     }
-        // ]);
+        this.props.actions.dataLocal.updatePrinterList([
+            {
+                "macAddress": "00:11:62:17:82:a8",
+                "portName": "BT:TSP100",
+                "modelName": "TSP143IIIBI GY"
+            },
+            {
+                "macAddress": "",
+                "portName": "BT:mPOP",
+                "modelName": "POP10 WHT"
+            },
+            {
+                "macAddress": "",
+                "portName": "TCP:192.168.254.12",
+                "modelName": "TSP143W"
+            }
+        ]);
     }
 
     selectPortType = async (type) => {
@@ -67,9 +72,9 @@ class TabHardware extends Layout {
             this.props.actions.app.stopLoadingApp();
         } catch (error) {
             this.props.actions.app.stopLoadingApp();
-            setTimeout(() =>{
+            setTimeout(() => {
                 alert(error)
-            },500)
+            }, 500)
         }
 
     }

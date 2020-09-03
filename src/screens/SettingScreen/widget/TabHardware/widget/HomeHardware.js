@@ -29,7 +29,7 @@ class HomeHardware extends React.Component {
     // -------- Render ------
 
     render() {
-        const { paxMachineInfo, language } = this.props;
+        const { paxMachineInfo, language ,printerSelect} = this.props;
         const temptTitle = !paxMachineInfo.isSetup ? 'No Device' : paxMachineInfo.name;
         return (
             <View style={{ flex: 1 }} >
@@ -99,7 +99,7 @@ class HomeHardware extends React.Component {
                                 {'Receipt printer'}
                             </Text>
                             <Text style={[styles.textBox, { fontWeight: 'normal', fontSize: scaleSzie(11), marginTop: scaleSzie(10) }]} >
-                                {'No device'}
+                                {`${printerSelect === "" ? "No device" : printerSelect}`}
                             </Text>
                         </View>
                     </Button>
@@ -149,6 +149,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
     paxMachineInfo: state.dataLocal.paxMachineInfo,
     language: state.dataLocal.language,
+    printerSelect: state.dataLocal.printerSelect
 })
 
 export default connectRedux(mapStateToProps, HomeHardware);

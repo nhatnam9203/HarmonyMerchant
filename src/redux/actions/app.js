@@ -264,16 +264,3 @@ export function closeAllPopupPincode() {
     }
 }
 
-// export function updatePrinterList(printers) {
-//     return {
-//         type: 'UPDATE_PRINTER_LIST',
-//         payload: printers
-//     }
-// }
-
-// export function updatePrinterPortType(type) {
-//     return {
-//         type: 'UPDATE_PRINTER_PORT_TYPE',
-//         payload: type
-//     }
-// }
