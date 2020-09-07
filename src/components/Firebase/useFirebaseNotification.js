@@ -6,9 +6,11 @@ const FIREBASE_TOKEN_STORE_KEY = "fcmToken";
 const SAVE_STORE_TOKEN = true;
 
 const saveStoreToken = async (token) => {
-  if (token) {
+  if (!!token) {
     // user has a device token
     await AsyncStorage.setItem(FIREBASE_TOKEN_STORE_KEY, token);
+  } else {
+    await AsyncStorage.removeItem(FIREBASE_TOKEN_STORE_KEY);
   }
 };
 
@@ -23,7 +25,7 @@ function useFirebaseNotification({
 
   const getToken = async () => {
     let fcmToken = null;
-    console.log("===============> getToken ");
+    // console.log("===============> getToken ");
 
     if (SAVE_STORE_TOKEN) {
       fcmToken = await AsyncStorage.getItem(FIREBASE_TOKEN_STORE_KEY);
@@ -31,11 +33,12 @@ function useFirebaseNotification({
       if (!fcmToken) {
         fcmToken = await messaging().getToken();
         await saveStoreToken(fcmToken);
-        console.log("===============> save Token to store");
+        // console.log("===============> save Token to store");
       }
     } else {
       fcmToken = await messaging().getToken();
     }
+    // console.log("===============> setFirebaseToken", fcmToken);
 
     setFirebaseToken(fcmToken);
   };
@@ -43,13 +46,15 @@ function useFirebaseNotification({
   // request when first launch app
   const requestUserPermission = async () => {
     const authStatus = await messaging().requestPermission();
-console.log("===============> requestUserPermission");
+    // console.log("===============> requestUserPermission");
     switch (authStatus) {
       case messaging.AuthorizationStatus.NOT_DETERMINED:
         //Permission has not yet been requested for your application.
         if (typeof onMessageError === "function") {
           onMessageError();
         }
+        saveStoreToken(undefined);
+        setFirebaseToken(null);
         break;
       case messaging.AuthorizationStatus.DENIED:
         //The user has denied notification permissions.
@@ -57,13 +62,16 @@ console.log("===============> requestUserPermission");
         if (typeof onMessageError === "function") {
           onMessageError();
         }
+        saveStoreToken(undefined);
+        setFirebaseToken(null);
+
         break;
       case messaging.AuthorizationStatus.AUTHORIZED:
       case messaging.AuthorizationStatus.PROVISIONAL:
       default:
         await getToken();
         registryListeners();
-        console.log("===============> requestUserPermission OK");
+        // console.log("===============> requestUserPermission OK");
 
         break;
     }

@@ -6,10 +6,9 @@ import NavigationServices from "../../navigators/NavigatorServices";
 import { requestAPI } from "../../utils";
 
 const getFcmToken = async () => {
-  let token = "";
+  let token = null;
   try {
     token = await AsyncStorage.getItem("fcmToken");
-    console.log("AsyncStorage get token -> ", token);
   } catch (error) {
     console.log("Load token error: ", error);
   }
@@ -23,11 +22,7 @@ function* login(action) {
     yield put({ type: "LOADING_ROOT" });
 
     // Add firebaseToken & device id to login
-    let fcmToken = yield select((state) => state.app.firebaseToken);
-    console.log("store get token -> ", fcmToken);
-
-    if (!fcmToken) fcmToken = yield call(getFcmToken);
-
+    const fcmToken = yield call(getFcmToken);
     const deviceUniqueId = yield call(getDeviceId);
 
     let body = action.body || {};
@@ -39,7 +34,6 @@ function* login(action) {
 
     responses = yield requestAPI(action);
 
-    console.log("responses : ", responses);
     yield put({ type: "STOP_LOADING_ROOT" });
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
@@ -272,9 +266,12 @@ function* activeFirebase(action) {
   try {
     yield put({ type: "LOADING_ROOT" });
     const deviceUniqueId = yield call(getDeviceId);
+    // let fcmToken = yield select((state) => state.app.firebaseToken);
+    const fcmToken = action.firebaseToken;
+    // console.log("activeFirebase send", fcmToken);
     let body = action.body || {};
     body = Object.assign({}, body, {
-      firebaseToken: "",
+      firebaseToken: fcmToken,
       deviceId: deviceUniqueId,
     });
     action.body = body;

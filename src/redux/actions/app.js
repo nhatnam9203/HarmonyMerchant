@@ -259,10 +259,3 @@ export function closeAllPopupPincode() {
     type: "CLOSE_ALL_POPUP_PIN_CODE",
   };
 }
-
-export function saveFirebaseToken(token) {
-  return {
-    type: "SAVE_FIREBASE_TOKEN",
-    payload: token,
-  };
-}

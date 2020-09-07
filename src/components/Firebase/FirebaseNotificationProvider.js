@@ -15,7 +15,7 @@ const FirebaseNotificationProvider = () => {
   let notifyService;
 
   const onForegroundMessage = (data) => {
-    console.log("==> notification onForegroundMessage", JSON.stringify(data));
+    // console.log("==> notification onForegroundMessage", JSON.stringify(data));
     // TODO: process message on foreground state
     notifyService?.firebaseNotify(data);
     // firebase
@@ -25,12 +25,12 @@ const FirebaseNotificationProvider = () => {
   };
 
   const onBackgroundMessage = ({ data }) => {
-    console.log("===> notification onBackgroundMessage", JSON.stringify(data));
+    // console.log("===> notification onBackgroundMessage", JSON.stringify(data));
     // TODO: process message on background state
   };
 
   const onOpenedApp = ({ data }) => {
-    console.log("=====> notification onOpenedApp", JSON.stringify(data));
+    // console.log("=====> notification onOpenedApp", JSON.stringify(data));
     // TODO: process message on onOpenedApp
   };
 
@@ -55,13 +55,13 @@ const FirebaseNotificationProvider = () => {
   // console.log(firebaseToken);
 
   const _handleAppStateChange = (nextAppState) => {
-    if (
-      currentAppState === "active" &&
-      nextAppState.match(/inactive|background/)
-    ) {
-      // call server active firebase
-      dispatch(actions.auth.activeFirebase());
-    }
+    // if (
+    //   currentAppState.match(/inactive|background/) &&
+    //   nextAppState === "active"
+    // ) {
+    //   // call server active firebase
+    //   dispatch(actions.auth.activeFirebase());
+    // }
 
     setCurrentAppState(nextAppState);
   };
@@ -76,12 +76,10 @@ const FirebaseNotificationProvider = () => {
     };
   }, []);
 
+  // call server update token when firebase token change
   React.useEffect(() => {
-    if (firebaseToken) dispatch(actions.app.saveFirebaseToken(firebaseToken));
-    console.log("firebaseToken useEffect-> ", firebaseToken);
+    dispatch(actions.auth.activeFirebase(firebaseToken));
   }, [firebaseToken]);
-
-  console.log("firebaseToken -> ", firebaseToken);
 
   return null;
 };

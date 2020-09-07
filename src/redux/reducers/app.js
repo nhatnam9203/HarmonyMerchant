@@ -35,7 +35,6 @@ const initialState = {
   settingTabPermission: false,
   // printerList: [],
   // printerPortType: "Bluetooth"
-  firebaseToken: null,
 };
 
 function appReducer(state = initialState, action) {
@@ -257,11 +256,6 @@ function appReducer(state = initialState, action) {
         settingTabPermission: false,
       };
 
-    case "SAVE_FIREBASE_TOKEN":
-      return {
-        ...state,
-        firebaseToken: action.payload,
-      };
     default:
       return state;
   }
