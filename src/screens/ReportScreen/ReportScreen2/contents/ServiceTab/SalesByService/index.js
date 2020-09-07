@@ -24,7 +24,7 @@ const FILTER_NAME_DEFAULT = FILTER_NAME_DEFAULT_LIST[1]?.value;
 
 const RANGE_TIME_DEFAULT = "This Week";
 
-function SalesByServiceTab({ style, showBackButton }, ref) {
+function SalesByServiceTab({ style, showBackButton, showHeader }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
@@ -98,6 +98,7 @@ function SalesByServiceTab({ style, showBackButton }, ref) {
   const onGoStatistics = async (item) => {
     await setFilterNameItem(item.name);
     layoutRef.current.goNext();
+    showHeader(false);
   };
 
   const onShowPopupExport = (title) => {

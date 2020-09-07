@@ -15,7 +15,7 @@ const FirebaseNotificationProvider = () => {
   let notifyService;
 
   const onForegroundMessage = (data) => {
-    // console.log("==> notification onForegroundMessage", JSON.stringify(data));
+    console.log("==> notification onForegroundMessage", JSON.stringify(data));
     // TODO: process message on foreground state
     notifyService?.firebaseNotify(data);
     // firebase
@@ -25,12 +25,12 @@ const FirebaseNotificationProvider = () => {
   };
 
   const onBackgroundMessage = ({ data }) => {
-    // console.log("===> notification onBackgroundMessage", JSON.stringify(data));
+    console.log("===> notification onBackgroundMessage", JSON.stringify(data));
     // TODO: process message on background state
   };
 
   const onOpenedApp = ({ data }) => {
-    // console.log("=====> notification onOpenedApp", JSON.stringify(data));
+    console.log("=====> notification onOpenedApp", JSON.stringify(data));
     // TODO: process message on onOpenedApp
   };
 
@@ -78,7 +78,10 @@ const FirebaseNotificationProvider = () => {
 
   React.useEffect(() => {
     if (firebaseToken) dispatch(actions.app.saveFirebaseToken(firebaseToken));
+    console.log("firebaseToken useEffect-> ", firebaseToken);
   }, [firebaseToken]);
+
+  console.log("firebaseToken -> ", firebaseToken);
 
   return null;
 };

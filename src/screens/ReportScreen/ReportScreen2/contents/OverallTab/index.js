@@ -18,6 +18,7 @@ function OverallTab({ style, showBackButton }, ref) {
 
   /**state store */
   const [currentTab, setCurrentTab] = useState(0);
+  const [showHeader, setShowHeader] = useState(true);
 
   /**refs */
   const paymentTabRef = useRef(null);
@@ -41,6 +42,12 @@ function OverallTab({ style, showBackButton }, ref) {
       default:
         break;
     }
+
+    setShowHeader(true);
+  };
+
+  const onShowHeader = (bl) => {
+    setShowHeader(bl);
   };
 
   // public func
@@ -58,13 +65,14 @@ function OverallTab({ style, showBackButton }, ref) {
   }));
 
   return (
-    <View style={[style, {paddingTop: 10}]}>
-      <CustomScrollTab onHeaderTabChanged={onChangeTab}>
+    <View style={[style, { paddingTop: 10 }]}>
+      <CustomScrollTab onHeaderTabChanged={onChangeTab} showHeader={showHeader}>
         <PaymentMethodTab
-          style={{ flex: 1, }}
+          style={{ flex: 1 }}
           ref={paymentTabRef}
           tabLabel="Payment Method"
           showBackButton={showBackButton}
+          showHeader={onShowHeader}
         />
 
         <MarketingEfficiencyTab
@@ -72,6 +80,7 @@ function OverallTab({ style, showBackButton }, ref) {
           ref={efficiencyTabRef}
           tabLabel="Marketing Efficiency"
           showBackButton={showBackButton}
+          showHeader={onShowHeader}
         />
       </CustomScrollTab>
     </View>

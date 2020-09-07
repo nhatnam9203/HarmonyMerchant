@@ -25,7 +25,7 @@ const FILTER_NAME_DEFAULT = FILTER_NAME_DEFAULT_LIST[1]?.value;
 
 const RANGE_TIME_DEFAULT = "This Week";
 
-function SalesByCategoryTab({ style, showBackButton }, ref) {
+function SalesByCategoryTab({ style, showBackButton, showHeader }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
@@ -99,6 +99,7 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
   const onGoStatistics = async (item) => {
     await setFilterNameItem(item.categoryName);
     layoutRef.current.goNext();
+    showHeader(false);
   };
 
   const onShowPopupExport = (title) => {
@@ -123,7 +124,6 @@ function SalesByCategoryTab({ style, showBackButton }, ref) {
         );
         break;
       case 1:
-
         if (!filterItem) return;
         dispatch(
           actions.report.exportProductSaleByCategoryDetail(

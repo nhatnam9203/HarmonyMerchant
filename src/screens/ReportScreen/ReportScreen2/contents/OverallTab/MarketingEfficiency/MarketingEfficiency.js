@@ -81,7 +81,7 @@ export default function MarketingEfficiency({
 
   // binding data list for name filter
   const filterDataTable = () => {
-    return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
+    return filterNameItem !== FILTER_NAME_DEFAULT
       ? marketingEfficiencyList.filter((item) => item.name === filterNameItem)
       : marketingEfficiencyList;
   };

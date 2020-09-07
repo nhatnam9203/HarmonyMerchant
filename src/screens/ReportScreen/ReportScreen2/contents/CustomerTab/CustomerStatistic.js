@@ -55,7 +55,7 @@ export default function CustomerStatistic(props, ref) {
     <ReportStatisticLayout
       {...props}
       {...table}
-      title={"Customer Report Statistics"}
+      title={"Customer Statistics"}
       isShowExportButton={false}
     />
   );

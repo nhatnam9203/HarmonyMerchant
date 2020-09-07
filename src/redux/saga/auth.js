@@ -9,6 +9,7 @@ const getFcmToken = async () => {
   let token = "";
   try {
     token = await AsyncStorage.getItem("fcmToken");
+    console.log("AsyncStorage get token -> ", token);
   } catch (error) {
     console.log("Load token error: ", error);
   }
@@ -23,6 +24,8 @@ function* login(action) {
 
     // Add firebaseToken & device id to login
     let fcmToken = yield select((state) => state.app.firebaseToken);
+    console.log("store get token -> ", fcmToken);
+
     if (!fcmToken) fcmToken = yield call(getFcmToken);
 
     const deviceUniqueId = yield call(getDeviceId);

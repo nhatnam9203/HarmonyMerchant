@@ -57,7 +57,7 @@ export default function SalesByCategoryStatistic(props, ref) {
     <ReportStatisticLayout
       {...props}
       {...table}
-      title={"Sales by category statistics"}
+      title={"Category statistics"}
     />
   );
 }

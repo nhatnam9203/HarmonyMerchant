@@ -18,6 +18,7 @@ function ServiceTab({ style, showBackButton }, ref) {
 
   /**state store */
   const [currentTab, setCurrentTab] = useState(0);
+  const [showHeader, setShowHeader] = useState(true);
 
   /**refs */
   const salesByCategoryTabRef = useRef(null);
@@ -41,6 +42,11 @@ function ServiceTab({ style, showBackButton }, ref) {
       default:
         break;
     }
+    setShowHeader(true);
+  };
+
+  const onShowHeader = (bl) => {
+    setShowHeader(bl);
   };
 
   // public func
@@ -59,12 +65,13 @@ function ServiceTab({ style, showBackButton }, ref) {
 
   return (
     <View style={[style, { paddingTop: 10 }]}>
-      <CustomScrollTab onHeaderTabChanged={onChangeTab}>
+      <CustomScrollTab onHeaderTabChanged={onChangeTab} showHeader={showHeader}>
         <SalesByCategory
           style={{ flex: 1 }}
           ref={salesByCategoryTabRef}
           tabLabel="Sales By Category"
           showBackButton={showBackButton}
+          showHeader={onShowHeader}
         />
 
         <SalesByService
@@ -72,6 +79,7 @@ function ServiceTab({ style, showBackButton }, ref) {
           ref={salesByServiceTabRef}
           tabLabel="Sales By Service"
           showBackButton={showBackButton}
+          showHeader={onShowHeader}
         />
       </CustomScrollTab>
     </View>

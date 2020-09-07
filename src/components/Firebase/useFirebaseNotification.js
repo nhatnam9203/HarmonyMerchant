@@ -23,6 +23,7 @@ function useFirebaseNotification({
 
   const getToken = async () => {
     let fcmToken = null;
+    console.log("===============> getToken ");
 
     if (SAVE_STORE_TOKEN) {
       fcmToken = await AsyncStorage.getItem(FIREBASE_TOKEN_STORE_KEY);
@@ -30,6 +31,7 @@ function useFirebaseNotification({
       if (!fcmToken) {
         fcmToken = await messaging().getToken();
         await saveStoreToken(fcmToken);
+        console.log("===============> save Token to store");
       }
     } else {
       fcmToken = await messaging().getToken();
@@ -41,7 +43,7 @@ function useFirebaseNotification({
   // request when first launch app
   const requestUserPermission = async () => {
     const authStatus = await messaging().requestPermission();
-
+console.log("===============> requestUserPermission");
     switch (authStatus) {
       case messaging.AuthorizationStatus.NOT_DETERMINED:
         //Permission has not yet been requested for your application.
@@ -61,6 +63,8 @@ function useFirebaseNotification({
       default:
         await getToken();
         registryListeners();
+        console.log("===============> requestUserPermission OK");
+
         break;
     }
   };

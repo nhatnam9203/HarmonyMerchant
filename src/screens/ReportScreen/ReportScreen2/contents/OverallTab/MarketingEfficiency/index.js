@@ -16,7 +16,7 @@ import MarketingEfficiencyStatistic from "./MarketingEfficiencyStatistic";
 
 const RANGE_TIME_DEFAULT = "This Week";
 
-function MarketingEfficiencyTab({ style, showBackButton }, ref) {
+function MarketingEfficiencyTab({ style, showBackButton, showHeader }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
@@ -77,6 +77,7 @@ function MarketingEfficiencyTab({ style, showBackButton }, ref) {
   const onGoStatistics = async (item) => {
     await setFilterNameItem(item.name);
     layoutRef.current.goNext();
+    showHeader(false);
   };
 
   const onShowPopupExport = (title) => {
