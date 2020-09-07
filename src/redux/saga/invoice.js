@@ -1,4 +1,4 @@
-import { put, takeLatest, all,select } from "redux-saga/effects";
+import { put, takeLatest, all, select } from "redux-saga/effects";
 
 import apiConfigs from '../../configs/api';
 import { requestAPI } from '../../utils';
@@ -254,9 +254,9 @@ function* changeStatustransaction(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const state = yield select();
-        const { editInvoiceToken } = state.dataLocal;
-        const temptAction = { ...action, token: editInvoiceToken }
-        console.log("---- temptAction: ", temptAction);
+        const { profileLoginInvoice } = state.dataLocal;
+        const temptAction = { ...action, token: profileLoginInvoice.token ? profileLoginInvoice.token : "" };
+        // console.log("---- temptAction: ", temptAction);
         const responses = yield requestAPI(temptAction);
         yield put({ type: 'STOP_LOADING_ROOT' });
         // console.log('changeStatustransaction  : ' + JSON.stringify(responses));

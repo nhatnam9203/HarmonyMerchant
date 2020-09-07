@@ -98,11 +98,13 @@ export function clearSearchBatchHistory() {
     }
 }
 
-export function changeStatustransaction(checkoutId, params) {
+export function changeStatustransaction(checkoutId, params,responseData) {
     return {
         type: 'CHANGE_STATUS_TRANSACTION',
         method: 'PUT',
-        body: {},
+        body: {
+            responseData:responseData
+        },
         api: `${apiConfigs.BASE_API}checkout/paymentvoidrefundtransaction/${checkoutId}`,
         token: true,
         params
@@ -227,4 +229,3 @@ export function toggleDisplayBackBatchHistoryIcon(visible = true) {
         payload: visible
     }
 }
-

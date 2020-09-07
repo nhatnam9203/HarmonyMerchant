@@ -295,7 +295,7 @@ class InvoiceScreen extends Layout {
         });
 
         if (data.status === 1) {
-            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch());
+            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch(), data);
             await this.setState({
                 titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
             })
@@ -309,7 +309,6 @@ class InvoiceScreen extends Layout {
 
     handleResultRefundTransaction = async result => {
         const { invoiceDetail } = this.state;
-
         await this.setState({
             visibleProcessingCredit: false
         });
@@ -539,7 +538,8 @@ const mapStateToProps = state => ({
     invoiceTabPermission: state.invoice.invoiceTabPermission,
 
     printerSelect: state.dataLocal.printerSelect,
-    printerList: state.dataLocal.printerList
+    printerList: state.dataLocal.printerList,
+    profileLoginInvoice: state.dataLocal.profileLoginInvoice
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);

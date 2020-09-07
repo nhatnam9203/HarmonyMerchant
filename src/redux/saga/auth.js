@@ -128,8 +128,8 @@ function* checkStaffPermission(action) {
           isLoadMore: true,
         });
         yield put({
-          type: "UPDATE_TOKEN_EDIT_INVOICE",
-          payload: responses.data && responses.data.token ? responses.data.token : ""
+          type: "UPDATE_PROFILE_LOGIN_INVOICE",
+          payload: responses.data && responses.data ? responses.data : {}
         })
       } else if (action.tabName === "Settlement") {
         yield put({

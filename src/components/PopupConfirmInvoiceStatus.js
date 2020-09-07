@@ -9,7 +9,7 @@ import {
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
-import { scaleSzie, formatWithMoment} from '@utils';
+import { scaleSzie, formatWithMoment,getPaymentString } from '@utils';
 
 
 class PopupConfirmInvoiceStatus extends React.Component {
@@ -30,11 +30,11 @@ class PopupConfirmInvoiceStatus extends React.Component {
                 isSettlement: 0,
                 createdById: 0,
                 modifiedById: 0,
-                createdBy:'',
-                modifiedBy:'',
-                user:{
-                    firstName:'',
-                    lastName:''
+                createdBy: '',
+                modifiedBy: '',
+                user: {
+                    firstName: '',
+                    lastName: ''
                 }
             }
         }
@@ -51,9 +51,9 @@ class PopupConfirmInvoiceStatus extends React.Component {
     // ---------- Render --------
 
     render() {
-        const { title, visible, onRequestClose, language,confirmChangeInvoiceStatus } = this.props;
-        const {invoiceDetail}= this.state;
-        const temptStatus =  invoiceDetail.status === 'paid' ? 'Refund' : 'VOID';
+        const { title, visible, onRequestClose, language, confirmChangeInvoiceStatus, profileLoginInvoice } = this.props;
+        const { invoiceDetail } = this.state;
+        const temptStatus = invoiceDetail.status === 'paid' ? 'Refund' : 'VOID';
         return (
             <PopupParent
                 title={title}
@@ -70,21 +70,21 @@ class PopupConfirmInvoiceStatus extends React.Component {
                     <View style={{ flex: 1 }} >
                         <View style={{ alignItems: 'center', marginTop: scaleSzie(12), marginBottom: scaleSzie(20) }} >
                             <Text style={{ color: '#000', fontSize: scaleSzie(20), fontWeight: 'bold' }} >
-                              {`Please confirm you want to ${temptStatus}`}
+                                {`Please confirm you want to ${temptStatus}`}
                             </Text>
                             <Text style={{ color: '#000', fontSize: scaleSzie(20), fontWeight: 'bold' }} >
-                                this invoice!
+                                {`this invoice!`}
                             </Text>
                         </View>
                         <Text style={{ color: '#000', fontSize: scaleSzie(20), textAlign: 'center', }} >
                             INVOICE DETAIL
                         </Text>
                         {/* ----------- Line --------- */}
-                        <View style={{ paddingHorizontal: scaleSzie(20), height: scaleSzie(1.5), marginTop: scaleSzie(16) }} >
+                        <View style={{ paddingHorizontal: scaleSzie(0), height: scaleSzie(1.5), marginTop: scaleSzie(16) }} >
                             <View style={{ flex: 1, backgroundColor: 'rgb(186,186,186)' }} />
                         </View>
                         {/* ---------- Body ----------- */}
-                        <View style={{ flex: 1, paddingHorizontal: scaleSzie(20) }} >
+                        <View style={{ flex: 1, paddingHorizontal: scaleSzie(0) }} >
                             <ScrollView
                                 showsVerticalScrollIndicator={false}
                                 keyboardShouldPersistTaps="always"
@@ -98,6 +98,7 @@ class PopupConfirmInvoiceStatus extends React.Component {
                                     <ItemDetail
                                         title={'Customer Name:'}
                                         value={invoiceDetail.user ? `${invoiceDetail.user.firstName} ${invoiceDetail.user.lastName}` : ''}
+                                        // valueStyle={{fontSize:scaleSzie(14)}}
                                     />
                                     <ItemDetail
                                         title={'Phone Number:'}
@@ -105,11 +106,11 @@ class PopupConfirmInvoiceStatus extends React.Component {
                                     />
                                     <ItemDetail
                                         title={'Date:'}
-                                        value={invoiceDetail.createdDate ? `${formatWithMoment(invoiceDetail.createdDate,'MM/DD/YYYY')}` : ''}
+                                        value={invoiceDetail.createdDate ? `${formatWithMoment(invoiceDetail.createdDate, 'MM/DD/YYYY')}` : ''}
                                     />
                                     <ItemDetail
                                         title={'Time:'}
-                                        value={invoiceDetail.createdDate ? `${formatWithMoment(invoiceDetail.createdDate,'hh:mm A')}` : ''}
+                                        value={invoiceDetail.createdDate ? `${formatWithMoment(invoiceDetail.createdDate, 'hh:mm A')}` : ''}
                                     />
                                     <ItemDetail
                                         title={'Status:'}
@@ -117,7 +118,7 @@ class PopupConfirmInvoiceStatus extends React.Component {
                                     />
                                     <ItemDetail
                                         title={'Payment Method:'}
-                                        value={invoiceDetail.paymentMethod ? invoiceDetail.paymentMethod : ''}
+                                        value={invoiceDetail.paymentMethod ?getPaymentString(invoiceDetail.paymentMethod) : ''}
                                     />
                                     <ItemDetail
                                         title={'Total Amount:'}
@@ -129,7 +130,7 @@ class PopupConfirmInvoiceStatus extends React.Component {
                                     />
                                     <ItemDetail
                                         title={'Modified By:'}
-                                        value={invoiceDetail.modifiedBy ? invoiceDetail.modifiedBy : ''}
+                                        value={profileLoginInvoice && profileLoginInvoice.displayName ? profileLoginInvoice.displayName : ''}
                                     />
                                     <View style={{ height: scaleSzie(200) }} />
                                 </TouchableOpacity>
@@ -145,7 +146,7 @@ class PopupConfirmInvoiceStatus extends React.Component {
                             backgroundColor="#0764B0"
                             title={'YES'}
                             textColor="#fff"
-                            onPress={() =>confirmChangeInvoiceStatus() }
+                            onPress={() => confirmChangeInvoiceStatus()}
                             style={{
                                 borderRadius: scaleSzie(4),
                                 borderColor: '#C5C5C5',
@@ -180,16 +181,16 @@ class PopupConfirmInvoiceStatus extends React.Component {
     }
 }
 
-const ItemDetail = ({ title, value }) => {
+const ItemDetail = ({ title, value,titleStyle,valueStyle }) => {
     return (
         <View style={{ height: scaleSzie(26), flexDirection: 'row' }} >
             <View style={{ flex: 1, justifyContent: 'center' }} >
-                <Text style={styles.textCommon} >
+                <Text style={[styles.textCommon,{titleStyle}]} >
                     {title}
                 </Text>
             </View>
             <View style={{ flex: 1, justifyContent: 'center' }} >
-                <Text style={[styles.textValue, { fontWeight: '600' }]} >
+                <Text style={[styles.textValue, { fontWeight: '500' },valueStyle]} >
                     {value}
                 </Text>
             </View>
@@ -200,11 +201,11 @@ const ItemDetail = ({ title, value }) => {
 const styles = StyleSheet.create({
     textCommon: {
         color: '#707070',
-        fontSize: scaleSzie(16)
+        fontSize: scaleSzie(15)
     },
     textValue: {
         color: '#404040',
-        fontSize: scaleSzie(18)
+        fontSize: scaleSzie(16)
     }
 })
 

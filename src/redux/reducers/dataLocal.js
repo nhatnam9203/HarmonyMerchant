@@ -26,7 +26,7 @@ const initialState = {
     printerPortType: "Bluetooth",
     printerList: [],
     printerSelect: "",
-    editInvoiceToken: ""
+    profileLoginInvoice: {}
 }
 
 function dataLocal(state = initialState, action) {
@@ -161,10 +161,10 @@ function dataLocal(state = initialState, action) {
                 ...state,
                 printerSelect: action.payload,
             }
-        case 'UPDATE_TOKEN_EDIT_INVOICE':
+        case 'UPDATE_PROFILE_LOGIN_INVOICE':
             return {
                 ...state,
-                editInvoiceToken: action.payload,
+                profileLoginInvoice: action.payload,
             }
         default:
             return state
