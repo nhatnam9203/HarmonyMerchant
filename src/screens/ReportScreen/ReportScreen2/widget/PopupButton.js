@@ -1,8 +1,7 @@
 import React from "react";
 import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native";
 
-
-const BOX_DEFAULT_WIDTH = 60;
+const BOX_DEFAULT_WIDTH = 80;
 const BOX_DEFAULT_HEIGHT = 45;
 
 const ICON_DEFAULT_SIZE = 30;
@@ -24,8 +23,8 @@ export default function PopupButton({
       <View style={[styles.container, styles.borderStyle, style]}>
         {children ?? (
           <View style={styles.content}>
-            {text && text.length > 0 && (
-              <Text style={[styles.text, txtStyle]}>{text || ""}</Text>
+            {!!text && text.length > 0 && (
+              <Text style={[styles.text, txtStyle]}>{text || "..."}</Text>
             )}
             {imageSrc && (
               <Image

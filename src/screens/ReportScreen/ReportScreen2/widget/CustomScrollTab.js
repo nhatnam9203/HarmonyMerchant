@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  TouchableOpacity,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 
 import IMAGE from "@resources";
@@ -27,6 +22,7 @@ export default function CustomScrollTab({
   children,
   tabIcons,
   onHeaderTabChanged,
+  showHeader,
 }) {
   /**process */
   const [tabCurrent, changeTabCurrent] = useState(SCROLL_PAGE_DEFAULT);
@@ -40,7 +36,11 @@ export default function CustomScrollTab({
 
   /**render */
   const renderHeaderTab = (args) => {
-    return <CustomTabBar {...args} tabIcons={tabIcons} />;
+    return showHeader ? (
+      <CustomTabBar {...args} tabIcons={tabIcons} />
+    ) : (
+      <View />
+    );
   };
 
   return (

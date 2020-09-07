@@ -5,7 +5,7 @@ import { ReportStatisticLayout } from "../../widget";
 import { localize } from "@utils";
 
 export default function CustomerStatistic(props, ref) {
-  const { filterId } = props;
+  const { filterId, ...subProps } = props;
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
@@ -53,9 +53,10 @@ export default function CustomerStatistic(props, ref) {
 
   return (
     <ReportStatisticLayout
-      {...props}
+      {...subProps}
       {...table}
-      title={"Customer Report Statistics"}
+      title={"Customer Statistics"}
+      subTitle={filterId}
       isShowExportButton={false}
     />
   );

@@ -44,7 +44,7 @@ export default function SalesByServiceStatistic(props, ref) {
       primaryId: "date",
       calcSumKeys: ["quantity", "totalDuration", "avgPrice", "totalSales"],
       sumTotalKey: "dateString",
-      priceKeys: ["totalDuration","avgPrice", "totalSales"],
+      priceKeys: ["totalDuration", "avgPrice", "totalSales"],
       sortKeys: "dateString",
       unitKeys: { totalDuration: "hrs" },
       tableCellWidth: { dateString: 180, totalSales: 200 },
@@ -54,10 +54,6 @@ export default function SalesByServiceStatistic(props, ref) {
   /**render */
 
   return (
-    <ReportStatisticLayout
-      {...props}
-      {...table}
-      title={"Sales by service statistics"}
-    />
+    <ReportStatisticLayout {...props} {...table} title={"Service statistics"} />
   );
 }

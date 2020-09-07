@@ -55,13 +55,13 @@ const FirebaseNotificationProvider = () => {
   // console.log(firebaseToken);
 
   const _handleAppStateChange = (nextAppState) => {
-    if (
-      currentAppState === "active" &&
-      nextAppState.match(/inactive|background/)
-    ) {
-      // call server active firebase
-      dispatch(actions.auth.activeFirebase());
-    }
+    // if (
+    //   currentAppState.match(/inactive|background/) &&
+    //   nextAppState === "active"
+    // ) {
+    //   // call server active firebase
+    //   dispatch(actions.auth.activeFirebase());
+    // }
 
     setCurrentAppState(nextAppState);
   };
@@ -76,8 +76,9 @@ const FirebaseNotificationProvider = () => {
     };
   }, []);
 
+  // call server update token when firebase token change
   React.useEffect(() => {
-    if (firebaseToken) dispatch(actions.app.saveFirebaseToken(firebaseToken));
+    dispatch(actions.auth.activeFirebase(firebaseToken));
   }, [firebaseToken]);
 
   return null;

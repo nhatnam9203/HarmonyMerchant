@@ -18,6 +18,7 @@ function ProductTab({ style, showBackButton }, ref) {
 
   /**state store */
   const [currentTab, setCurrentTab] = useState(0);
+  const [showHeader, setShowHeader] = useState(true);
 
   /**refs */
   const salesByCategoryTabRef = useRef(null);
@@ -41,6 +42,11 @@ function ProductTab({ style, showBackButton }, ref) {
       default:
         break;
     }
+    setShowHeader(true);
+  };
+
+  const onShowHeader = (bl) => {
+    setShowHeader(bl);
   };
 
   // public func
@@ -54,17 +60,18 @@ function ProductTab({ style, showBackButton }, ref) {
     didFocus: () => {
       salesByCategoryTabRef?.current?.didFocus();
       salesByProductTabRef?.current?.didFocus();
-        },
+    },
   }));
 
   return (
-    <View style={[style, {paddingTop: 10}]}>
-      <CustomScrollTab onHeaderTabChanged={onChangeTab}>
+    <View style={[style, { paddingTop: 10 }]}>
+      <CustomScrollTab onHeaderTabChanged={onChangeTab} showHeader={showHeader}>
         <SalesByCategory
-          style={{ flex: 1, }}
+          style={{ flex: 1 }}
           ref={salesByCategoryTabRef}
           tabLabel="Sales By Category"
           showBackButton={showBackButton}
+          showHeader={onShowHeader}
         />
 
         <SalesByProduct
@@ -72,6 +79,7 @@ function ProductTab({ style, showBackButton }, ref) {
           ref={salesByProductTabRef}
           tabLabel="Sales By Product"
           showBackButton={showBackButton}
+          showHeader={onShowHeader}
         />
       </CustomScrollTab>
     </View>

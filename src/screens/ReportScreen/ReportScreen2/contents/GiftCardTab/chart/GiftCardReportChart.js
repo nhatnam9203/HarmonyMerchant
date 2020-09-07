@@ -93,10 +93,7 @@ const getDateRange = (title, timeUrl) => {
       const yesterday = currentDate.clone().subtract(1, "days");
       return {
         since: yesterday.valueOf(),
-        valueFormatter: [
-          yesterday.format(DATE_FORMAT),
-          currentDate.format(DATE_FORMAT),
-        ],
+        valueFormatter: [yesterday.format(DATE_FORMAT)],
         // start: yesterday.format("MM/DD/YYYY"),
         // end: currentDate.format("MM/DD/YYYY"),
       };
@@ -104,7 +101,7 @@ const getDateRange = (title, timeUrl) => {
       const weekStart = currentDate.clone().startOf("isoweek");
       return {
         since: weekStart.clone().valueOf(),
-        valueFormatter: getDatesBetween(weekStart, currentDate),
+        valueFormatter: getDatesBetween(weekStart.clone(), currentDate.clone()),
         start: weekStart.clone().format(DATE_FORMAT),
         end: currentDate.clone().format(DATE_FORMAT),
       };

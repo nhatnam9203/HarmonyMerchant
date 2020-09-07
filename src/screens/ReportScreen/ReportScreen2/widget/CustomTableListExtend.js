@@ -55,6 +55,13 @@ const sumPropertiesKey = (array, key) => {
 
 /**filter object for keys input */
 const pickObjectFromKeys = (array, keys) => {
+  if (!array || !keys) return [];
+  Object.fromEntries =
+    Object.fromEntries ||
+    ((arr) => {
+      return arr.reduce((acc, [k, v]) => ((acc[k] = v), acc), {});
+    });
+
   return array.map((obj) => {
     return Object.fromEntries(
       Object.entries(obj).filter(([key]) => keys.includes(key))
