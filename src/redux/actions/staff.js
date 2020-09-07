@@ -1,13 +1,14 @@
 import apiConfigs from "../../configs/api";
 
-export function addStaffByMerchant(body, id = "") {
+export function addStaffByMerchant(body,searchFilter = false) {
   return {
     type: "ADD_STAFF_BY_MERCHANT",
     body,
     method: "POST",
     token: true,
     api: `${apiConfigs.BASE_API}staff`,
-    merchantId: id,
+    // merchantId: id,
+    searchFilter
   };
 }
 
@@ -74,13 +75,14 @@ export function restoreStaff(id,searchFilter =false) {
   };
 }
 
-export function editStaff(body, id = "") {
+export function editStaff(body, id = "",searchFilter =false) {
   return {
     type: "EDIT_STAFF_BY_MERCHANT",
     body,
     method: "PUT",
     token: true,
     api: `${apiConfigs.BASE_API}staff/${id}`,
+    searchFilter
   };
 }
 

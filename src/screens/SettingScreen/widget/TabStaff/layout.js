@@ -31,7 +31,7 @@ class Layout extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
                                     placeholder={localize('Staff Name', language)}
                                     value={keySearch}
-                                    onChangeText={(value) =>  this.updateSearchFilterInfo('keySearch', value)}
+                                    onChangeText={(value) => this.updateSearchFilterInfo('keySearch', value)}
                                     onSubmitEditing={this.searchStaff}
                                 />
                             </View>

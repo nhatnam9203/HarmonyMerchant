@@ -125,11 +125,13 @@ class TabStaff extends Layout {
 
     // ------ ADD EDIT STAFF -----
     submitAddStaff = (staff) => {
-        this.props.actions.staff.addStaffByMerchant(staff)
+        const { searchFilter } = this.state;
+        this.props.actions.staff.addStaffByMerchant(staff,searchFilter);
     }
 
     submitEditStaff = (staff, id) => {
-        this.props.actions.staff.editStaff(staff, id)
+        const { searchFilter } = this.state;
+        this.props.actions.staff.editStaff(staff, id,searchFilter);
     }
 
     findIsActiveOfStaff = (staffId) => {
@@ -173,6 +175,8 @@ class TabStaff extends Layout {
 
     toggleStaffActive = (staff, isActive) => {
         const { listStaffByMerchant } = this.props;
+        const { searchFilter } = this.state;
+
         const tempStaffList = [...listStaffByMerchant];
         for (let i = 0; i < tempStaffList.length; i++) {
             if (tempStaffList[i].staffId === staff.staffId) {
@@ -198,7 +202,9 @@ class TabStaff extends Layout {
             }
             ,
             isActive
-        }, staff.staffId ? staff.staffId : 0)
+        }, staff.staffId ? staff.staffId : 0,
+        searchFilter
+        )
     }
 
 
