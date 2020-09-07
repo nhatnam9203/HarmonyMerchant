@@ -7,9 +7,8 @@ import {
 import DraggableFlatList from 'react-native-draggable-flatlist';
 
 import { scaleSzie, localize } from '@utils';
-import { Text, Button, ButtonCustom, Dropdown, PopupConfirm } from '@components';
+import { Text, Button, ButtonCustom, Dropdown, PopupConfirm, ClearTextInputIcon } from '@components';
 import styles from './style';
-import IMAGE from '@resources';
 import { HeaderTableStaff, RowTableStaff, AddStaff, RowTableEmptyStaff } from './widget';
 
 class Layout extends React.Component {
@@ -42,10 +41,14 @@ class Layout extends React.Component {
                                     onSubmitEditing={this.searchStaff}
                                 />
                             </View>
-                            <Button onPress={this.searchStaff} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
-                                <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
-                            </Button>
+                            {
+                                keySearch.length > 0 ? <Button onPress={this.clearSearchText} style={{
+                                    width: scaleSzie(35), alignItems: 'center', justifyContent: 'center',
 
+                                }} >
+                                    <ClearTextInputIcon />
+                                </Button> : null
+                            }
                         </View>
                     </View>
                     <View style={{ width: scaleSzie(170), alignItems: 'flex-end' }} >
@@ -169,7 +172,7 @@ class Layout extends React.Component {
                         refreshing={refreshListStaffs}
                         scrollPercent={5}
                         onMoveEnd={({ data }) => this.updateStaffsPosition(data, isShowSearch)}
-                        // onDragEnd={({ data }) => this.onDragEnd(data)}
+                    // onDragEnd={({ data }) => this.onDragEnd(data)}
                     />
                 </View>
                 <PopupConfirm

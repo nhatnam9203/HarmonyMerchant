@@ -70,11 +70,12 @@ class TabStaff extends Layout {
     searchStaff = () => {
         const { searchFilter } = this.state;
         const { keySearch, role, status } = searchFilter;
-        if (keySearch == '' && role == '' & status == '') {
-            this.props.actions.staff.clearSearch();
-        } else {
-            this.props.actions.staff.searchStaffByName(keySearch, role, status);
-        }
+        this.props.actions.staff.searchStaffByName(keySearch, role, status);
+        // if (keySearch == '' && role == '' & status == '') {
+        //     this.props.actions.staff.clearSearch();
+        // } else {
+        //     this.props.actions.staff.searchStaffByName(keySearch, role, status);
+        // }
 
     }
 
@@ -116,10 +117,10 @@ class TabStaff extends Layout {
         this.props.actions.staff.editStaff(staff, id)
     }
 
-    findIsActiveOfStaff = (staffId) =>{
-        const {listStaffByMerchant} = this.props;
+    findIsActiveOfStaff = (staffId) => {
+        const { listStaffByMerchant } = this.props;
         const staffSelect = listStaffByMerchant.find((staff) => staff.staffId === staffId);
-        if(staffSelect){
+        if (staffSelect) {
             return staffSelect.isActive;
         }
         return false;
@@ -146,15 +147,16 @@ class TabStaff extends Layout {
         }
     }
 
-    // onDragEnd = (data)=>{
-    //     console.log('---- onDragEnd :',data);
-    // }
+    clearSearchText = () => {
+        this.updateSearchFilterInfo("keySearch","");
+
+    }
 
     toggleStaffActive = (staff, isActive) => {
-        const {listStaffByMerchant} = this.props;
+        const { listStaffByMerchant } = this.props;
         const tempStaffList = [...listStaffByMerchant];
-        for(let  i = 0 ; i< tempStaffList.length ;i++){
-            if(tempStaffList[i].staffId === staff.staffId){
+        for (let i = 0; i < tempStaffList.length; i++) {
+            if (tempStaffList[i].staffId === staff.staffId) {
                 tempStaffList[i].isActive = isActive;
                 break;
             }

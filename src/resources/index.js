@@ -89,6 +89,8 @@ export default {
   refresh_settlement: require('./img/refresh_settlement.png'),
   print_batch_history: require('./img/print_batch_history.png'),
   share_batch_history: require('./img/share_batch_history.png'),
+  clear_text_input: require('./img/closePopup.png'),
+
 
   // --- Payment ---
   cash_payment_se: require('./payment/cash_payment_se.png'),

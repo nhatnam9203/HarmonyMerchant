@@ -48,6 +48,7 @@ import PopupChangePriceAmountProduct from "./PopupChangePriceAmountProduct";
 import PopupChangeTip from "./PopupChangeTip";
 import PopupConfirmPrintInvoice from "./PopupConfirmPrintInvoice";
 import ItemWorkingTime from "./ItemWorkingTime";
+import ClearTextInputIcon from "./ClearTextInputIcon";
 
 module.exports = {
     Button,
@@ -99,5 +100,6 @@ module.exports = {
     PopupChangePriceAmountProduct,
     PopupChangeTip,
     PopupConfirmPrintInvoice,
-    ItemWorkingTime
+    ItemWorkingTime,
+    ClearTextInputIcon
 }

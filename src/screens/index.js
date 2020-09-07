@@ -13,7 +13,6 @@ import BankInfoScreen from './BankInfoScreen';
 import BusinessInfoScreen from './BusinessInfoScreen';
 import PrincipalScreen from './PrincipalScreen';
 import SlideDrawer from './SlideDrawer';
-import LockScreen from './LockScreen';
 import SettingScreen from './SettingScreen';
 import InventoryScreen from './InventoryScreen';
 import CustomerScreen from './CustomerScreen';
@@ -40,7 +39,6 @@ module.exports = {
     BusinessInfoScreen,
     PrincipalScreen,
     SlideDrawer,
-    LockScreen,
     SettingScreen,
     InventoryScreen,
     CustomerScreen,
