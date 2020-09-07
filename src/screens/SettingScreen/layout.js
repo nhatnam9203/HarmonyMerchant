@@ -88,7 +88,9 @@ export default class Layout extends React.Component {
                                 <TabStaff
                                     ref={this.tabStaffRef}
                                 />
-                                <TabCategories />
+                                <TabCategories 
+                                    ref={this.tabCategoriesRef}
+                                />
                                 <TabService />
                                 <TabExtra/>
                                 <TabTAX  ref={this.taxTabRef}/>

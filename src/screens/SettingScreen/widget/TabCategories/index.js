@@ -30,37 +30,54 @@ class TabCategories extends Layout {
         this.editCategoryRef = React.createRef();
     }
 
-    clearSearchText = () =>{
-        this.updateSearchFilterInfo('keySearch', "");
+    setStateFromParent = async () => {
+        await this.setState({
+            searchFilter: {
+                keySearch: '',
+                category: '',
+                status: ''
+            }
+        });
     }
 
-  async  updateSearchFilterInfo(key, value, keyParent = '') {
+    clearSearchText = () => {
+        const { searchFilter } = this.state;
+        const { category, status } = searchFilter;
+        this.updateSearchFilterInfo('keySearch', "");
+        this.props.actions.category.getCategoriesByMerchantId("", status, category);
+    }
+
+    async updateSearchFilterInfo(key, value, keyParent = '') {
         const { searchFilter } = this.state;
         if (keyParent !== '') {
             const temptParent = searchFilter[keyParent];
             const temptChild = { ...temptParent, [key]: value };
             const temptUpdate = { ...searchFilter, [keyParent]: temptChild };
-           await this.setState({
+            await this.setState({
                 searchFilter: temptUpdate
             });
         } else {
             const temptUpdate = { ...searchFilter, [key]: value };
-          await  this.setState({
+            await this.setState({
                 searchFilter: temptUpdate
             });
         }
 
-        if(key !== "keySearch"){
-            setTimeout(() =>{
+        if (key !== "keySearch") {
+            setTimeout(() => {
                 this.searchCategories();
-            },500);
+            }, 500);
+        }else{
+            if(value === ""){
+                this.searchCategories();
+            }
         }
     }
 
-    searchCategories = () => {
+    searchCategories = (isShowLoading =  true) => {
         const { searchFilter } = this.state;
         const { keySearch, category, status } = searchFilter;
-        this.props.actions.category.getCategoriesByMerchantId(keySearch, status, category);
+        this.props.actions.category.getCategoriesByMerchantId(keySearch, status, category,isShowLoading);
     }
 
     togglePopupArchive = (visible) => {
@@ -76,20 +93,22 @@ class TabCategories extends Layout {
     }
 
     archiveCategoryYess = async () => {
+        const { searchFilter } = this.state;
         await this.setState({
             visibleArchive: false,
         });
-        this.props.actions.category.archiveCategory(this.state.categoryHandle.categoryId);
+        this.props.actions.category.archiveCategory(this.state.categoryHandle.categoryId,searchFilter);
     }
 
     restoreServiceYess = async () => {
+        const { searchFilter } = this.state;
         await this.setState({
             visibleRestore: false,
         });
-        this.props.actions.category.restoreCategory(this.state.categoryHandle.categoryId);
+        this.props.actions.category.restoreCategory(this.state.categoryHandle.categoryId,searchFilter);
     }
 
-   
+
 
     showModalAddCategory = () => {
         this.addCategoryRef.current.setStateDefaultFromParent();

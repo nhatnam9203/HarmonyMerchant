@@ -53,7 +53,10 @@ class TabStaff extends Layout {
             setTimeout(() => {
                 this.searchStaff();
             }, 300)
-
+        }else{
+            if(value === ""){
+                this.searchStaff();
+            }
         }
     }
 

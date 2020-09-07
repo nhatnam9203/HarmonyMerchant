@@ -18,6 +18,7 @@ class SettingScreen extends Layout {
     this.generalTabRef = React.createRef();
     this.checkPermissionRef = React.createRef();
     this.tabStaffRef = React.createRef();
+    this.tabCategoriesRef = React.createRef();
   }
 
   componentDidMount() {
@@ -81,6 +82,7 @@ class SettingScreen extends Layout {
         this.resetStateStaffSetting();
         return this.props.actions.staff.getStaffByMerchantId();
       case 2:
+        this.resetStateCategoriesSetting();
         return this.props.actions.category.getCategoriesByMerchantId();
       case 3:
         return this.props.actions.service.getServicesByMerchant();
@@ -93,6 +95,16 @@ class SettingScreen extends Layout {
       default:
     }
   };
+
+  resetStateCategoriesSetting = () => {
+    if (this.tabCategoriesRef.current) {
+      this.tabCategoriesRef.current.setStateFromParent();
+    } else {
+      setTimeout(() => {
+        this.tabCategoriesRef.current.setStateFromParent();
+      }, 500)
+    }
+  }
 
   resetStateStaffSetting = () => {
     if (this.tabStaffRef.current) {

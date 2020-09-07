@@ -268,7 +268,7 @@ function* requestLogout(action) {
 
 function* activeFirebase(action) {
   try {
-    yield put({ type: "LOADING_ROOT" });
+    // yield put({ type: "LOADING_ROOT" });
     const deviceUniqueId = yield call(getDeviceId);
     // let fcmToken = yield select((state) => state.app.firebaseToken);
     const fcmToken = action.firebaseToken;

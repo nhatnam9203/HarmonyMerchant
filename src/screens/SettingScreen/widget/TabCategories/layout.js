@@ -9,7 +9,7 @@ import DraggableFlatList from 'react-native-draggable-flatlist';
 import { scaleSzie, localize, getArrayNameCategories } from '@utils';
 import {
     Text, Button, ButtonCustom, Dropdown, PopupConfirm,
-    PopupEditAddCategories,ClearTextInputIcon
+    PopupEditAddCategories, ClearTextInputIcon
 } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
@@ -36,7 +36,7 @@ class Layout extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
                                     placeholder={localize('Catgory Name', language)}
                                     value={keySearch}
-                                    onChangeText={(value) =>  this.updateSearchFilterInfo('keySearch', value)}
+                                    onChangeText={(value) => this.updateSearchFilterInfo('keySearch', value)}
                                     onSubmitEditing={this.searchCategories}
                                 />
                             </View>
@@ -143,7 +143,7 @@ class Layout extends React.Component {
 
     renderTableStaff() {
         const { categoriesByMerchant, refreshListCategories,
-            isShowSearchCategories,language
+            isShowSearchCategories, language
         } = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
         // const temptData = isShowSearchCategories ? listCategoriesSearch : categoriesByMerchant;
@@ -153,7 +153,7 @@ class Layout extends React.Component {
                 key: `item-${index}`,
             }
         });
-        
+
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
@@ -178,7 +178,7 @@ class Layout extends React.Component {
                         keyExtractor={(item, index) => `${index}`}
                         ListEmptyComponent={<RowTableEmptyCategories />}
                         refreshing={refreshListCategories}
-                        onRefresh={() => this.props.actions.category.getCategoriesByMerchantId("","","",false)}
+                        onRefresh={() => this.searchCategories(false)}
                         scrollPercent={5}
                         onMoveEnd={({ data }) => this.updatePositionCategories(data, isShowSearchCategories)}
                     />

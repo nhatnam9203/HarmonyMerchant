@@ -20,23 +20,25 @@ export function getCategoriesByMerchantId(name = '', status = '', type = '',isSh
     }
 }
 
-export function archiveCategory(id) {
+export function archiveCategory(id,searchFilter) {
     return {
         type: 'ARCHIVE_CATEGORY',
         body: {},
         method: 'PUT',
         token: true,
         api: `${apiConfigs.BASE_API}category/archive/${id}`,
+        searchFilter
     }
 }
 
-export function restoreCategory(id) {
+export function restoreCategory(id,searchFilter) {
     return {
         type: 'RESTORE_CATEGORY',
         body: {},
         method: 'PUT',
         token: true,
         api: `${apiConfigs.BASE_API}category/restore/${id}`,
+        searchFilter
     }
 }
 
