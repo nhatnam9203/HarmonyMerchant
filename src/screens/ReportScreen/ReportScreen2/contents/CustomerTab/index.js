@@ -22,9 +22,7 @@ function CustomerTab({ style, showBackButton }, ref) {
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const exportFilePath = useSelector(
-    (state) => state.report.exportFilePath
-  );
+  const exportFilePath = useSelector((state) => state.report.exportFilePath);
 
   // const statisticExportFilePath = useSelector(
   //   (state) => state.report.statisticExportFilePath

@@ -38,6 +38,7 @@ export default function ReportStatisticLayout({
   renderTable,
   sortKey,
   unitKeys,
+  subTitle,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -71,7 +72,10 @@ export default function ReportStatisticLayout({
 
   return (
     <View style={style}>
-      <HeaderTitle title={title || localize("Statistics", language)} />
+      <HeaderTitle
+        title={title || localize("Statistics", language)}
+        subTitle={subTitle}
+      />
       <HeaderTooltip
         rightComponent={
           <>
@@ -101,18 +105,20 @@ export default function ReportStatisticLayout({
           onPress={showCalendar}
           style={{ marginRight: 20 }}
         />
-        <Dropdown
-          data={dataFilters}
-          onChangeText={(text) => onChangeFilter(text)}
-          dropdownPosition={2}
-          value={filterId}
-          renderBase={() => (
-            <PopupButton
-              text={filterId}
-              imageSrc={IMAGE.Report_Dropdown_Arrow}
-            />
-          )}
-        />
+        {filterId && (
+          <Dropdown
+            data={dataFilters}
+            onChangeText={(text) => onChangeFilter(text)}
+            dropdownPosition={2}
+            value={filterId}
+            renderBase={() => (
+              <PopupButton
+                text={filterId}
+                imageSrc={IMAGE.Report_Dropdown_Arrow}
+              />
+            )}
+          />
+        )}
       </HeaderTooltip>
 
       <View style={{ flex: 1 }}>
