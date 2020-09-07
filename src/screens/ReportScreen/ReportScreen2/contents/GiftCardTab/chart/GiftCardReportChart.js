@@ -93,10 +93,7 @@ const getDateRange = (title, timeUrl) => {
       const yesterday = currentDate.clone().subtract(1, "days");
       return {
         since: yesterday.valueOf(),
-        valueFormatter: [
-          yesterday.format(DATE_FORMAT),
-          currentDate.format(DATE_FORMAT),
-        ],
+        valueFormatter: [yesterday.format(DATE_FORMAT)],
         // start: yesterday.format("MM/DD/YYYY"),
         // end: currentDate.format("MM/DD/YYYY"),
       };
@@ -104,7 +101,7 @@ const getDateRange = (title, timeUrl) => {
       const weekStart = currentDate.clone().startOf("isoweek");
       return {
         since: weekStart.clone().valueOf(),
-        valueFormatter: getDatesBetween(weekStart, currentDate),
+        valueFormatter: getDatesBetween(weekStart.clone(), currentDate.clone()),
         start: weekStart.clone().format(DATE_FORMAT),
         end: currentDate.clone().format(DATE_FORMAT),
       };
@@ -267,6 +264,8 @@ export default function GiftCardBarGroupChart({
           )
         : dates.valueFormatter;
 
+      console.log("valueFormatter", valueFormatter);
+
       valueFormatter.forEach((xDate) => {
         const statisticItem = giftCardStatistics.find((x) =>
           moment(x.date).isSame(xDate)
@@ -275,6 +274,8 @@ export default function GiftCardBarGroupChart({
           values.push(formatNumberFromCurrency(statisticItem["sales"]));
         } else values.push(0);
       });
+
+      console.log("values", values);
 
       if (dateSets[label] === undefined) {
         dateSets[label] = {
@@ -309,6 +310,8 @@ export default function GiftCardBarGroupChart({
   // add listener data change, map to chart data set
   useEffect(() => {
     if (data && dateRange) {
+      console.log("dateRange", dateRange);
+      console.log("startDate", startDate);
       setDataChart(factoryDataSets(data, dateRange, startDate));
     } else {
       setDataChart([]);
