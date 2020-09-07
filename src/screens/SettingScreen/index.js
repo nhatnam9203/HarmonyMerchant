@@ -3,7 +3,7 @@ import { Keyboard } from "react-native";
 
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
-import {checkStatusPrint} from "@utils";
+import { checkStatusPrint } from "@utils";
 
 class SettingScreen extends Layout {
   constructor(props) {
@@ -146,16 +146,19 @@ class SettingScreen extends Layout {
   getPrinters = async () => {
     const { printerPortType } = this.props;
     try {
+      if (!printerPortType) {
+        this.props.actions.dataLocal.updatePrinterPortType("Bluetooth");
+      }
       this.props.actions.app.loadingApp()
-      const printMachine = await checkStatusPrint(printerPortType);
+      const printMachine = await checkStatusPrint(printerPortType ? printerPortType : "Bluetooth");
       this.props.actions.dataLocal.updatePrinterList(printMachine);
       this.props.actions.app.stopLoadingApp();
-  } catch (error) {
+    } catch (error) {
       this.props.actions.app.stopLoadingApp();
       setTimeout(() => {
-          alert(error)
+        alert(error)
       }, 500)
-  }
+    }
 
   }
 

@@ -1,4 +1,4 @@
-import { getPortNameOfPrinter,getModalNameOfPrinter } from "@utils";
+import { getPortNameOfPrinter, getModalNameOfPrinter } from "@utils";
 
 const initialState = {
     profile: {},
@@ -24,20 +24,9 @@ const initialState = {
     isRememberMID: false,
     // printerList: [],
     printerPortType: "Bluetooth",
-    printerList: [
-        {
-            "macAddress": "00:11:62:17:82:a8",
-            "portName": "BT:TSP100",
-            "modelName": "TSP143IIIBI GY"
-        },
-        {
-            "macAddress": "",
-            "portName": "BT:mPOP",
-            "modelName": "POP10 WHT"
-        }
-    ],
-    printerSelect: ""
-
+    printerList: [],
+    printerSelect: "",
+    editInvoiceToken: ""
 }
 
 function dataLocal(state = initialState, action) {
@@ -171,6 +160,11 @@ function dataLocal(state = initialState, action) {
             return {
                 ...state,
                 printerSelect: action.payload,
+            }
+        case 'UPDATE_TOKEN_EDIT_INVOICE':
+            return {
+                ...state,
+                editInvoiceToken: action.payload,
             }
         default:
             return state
