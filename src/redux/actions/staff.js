@@ -54,7 +54,7 @@ export function clearSearch() {
   };
 }
 
-export function archiveStaff(id,searchFilter) {
+export function archiveStaff(id,searchFilter = false) {
   return {
     type: "ARCHICVE_STAFF",
     method: "PUT",
@@ -64,7 +64,7 @@ export function archiveStaff(id,searchFilter) {
   };
 }
 
-export function restoreStaff(id,searchFilter) {
+export function restoreStaff(id,searchFilter =false) {
   return {
     type: "RESTORE_STAFF",
     method: "PUT",

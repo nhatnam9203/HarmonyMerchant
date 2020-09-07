@@ -67,17 +67,17 @@ class TabCategories extends Layout {
             setTimeout(() => {
                 this.searchCategories();
             }, 500);
-        }else{
-            if(value === ""){
+        } else {
+            if (value === "") {
                 this.searchCategories();
             }
         }
     }
 
-    searchCategories = (isShowLoading =  true) => {
+    searchCategories = (isShowLoading = true) => {
         const { searchFilter } = this.state;
         const { keySearch, category, status } = searchFilter;
-        this.props.actions.category.getCategoriesByMerchantId(keySearch, status, category,isShowLoading);
+        this.props.actions.category.getCategoriesByMerchantId(keySearch, status, category, isShowLoading);
     }
 
     togglePopupArchive = (visible) => {
@@ -97,7 +97,7 @@ class TabCategories extends Layout {
         await this.setState({
             visibleArchive: false,
         });
-        this.props.actions.category.archiveCategory(this.state.categoryHandle.categoryId,searchFilter);
+        this.props.actions.category.archiveCategory(this.state.categoryHandle.categoryId, searchFilter);
     }
 
     restoreServiceYess = async () => {
@@ -105,7 +105,7 @@ class TabCategories extends Layout {
         await this.setState({
             visibleRestore: false,
         });
-        this.props.actions.category.restoreCategory(this.state.categoryHandle.categoryId,searchFilter);
+        this.props.actions.category.restoreCategory(this.state.categoryHandle.categoryId, searchFilter);
     }
 
 
@@ -116,10 +116,11 @@ class TabCategories extends Layout {
     }
 
     submitAddCategory = async (category) => {
+        const { searchFilter } = this.state;
         await this.setState({
             visibleAdd: false
         });
-        this.props.actions.category.addCategory(category);
+        this.props.actions.category.addCategory(category, searchFilter);
 
     }
 
@@ -138,13 +139,17 @@ class TabCategories extends Layout {
     }
 
     submitEditCategory = async (category) => {
+        const { searchFilter } = this.state;
         await this.setState({
             visibleEdit: false
         });
         this.props.actions.category.editCategory({
             CategoryType: category.categoryType,
             name: category.name
-        }, category.categoryId);
+        },
+            category.categoryId,
+            searchFilter
+        );
 
     }
 

@@ -12,11 +12,13 @@ function* addCategory(action) {
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", category: "", status: "" };
+            const { keySearch, category, status } = searchFilter;
             yield put({
                 type: 'GET_CATEGORIES_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}category`,
+                api: `${apiConfigs.BASE_API}category/search?name=${keySearch}&status=${status}&type=${category}`,
                 isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
@@ -74,7 +76,7 @@ function* archiveCategory(action) {
         const { codeNumber } = responses;
         //console.log('--- responses : ', responses);
         if (parseInt(codeNumber) == 200) {
-            const  searchFilter  = action.searchFilter ? action.searchFilter : { keySearch: "", category: "", status: "" };
+            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", category: "", status: "" };
             const { keySearch, category, status } = searchFilter;
             yield put({ type: 'IS_GET_LIST_SEARCH_CATEGORIES' });
             yield put({
@@ -108,7 +110,7 @@ function* restoreCategory(action) {
         const { codeNumber } = responses;
         //console.log('--- restoreCategory : ', responses);
         if (parseInt(codeNumber) == 200) {
-            const  searchFilter  = action.searchFilter ? action.searchFilter : { keySearch: "", category: "", status: "" };
+            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", category: "", status: "" };
             const { keySearch, category, status } = searchFilter;
             yield put({ type: 'IS_GET_LIST_SEARCH_CATEGORIES' });
             yield put({
@@ -142,12 +144,14 @@ function* editCategory(action) {
         //console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", category: "", status: "" };
+            const { keySearch, category, status } = searchFilter;
             yield put({ type: 'IS_GET_LIST_SEARCH_CATEGORIES' });
             yield put({
                 type: 'GET_CATEGORIES_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}category/search?name=&status=&type=`,
+                api: `${apiConfigs.BASE_API}category/search?name=${keySearch}&status=${status}&type=${category}`,
                 isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {

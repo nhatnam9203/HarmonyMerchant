@@ -1,12 +1,13 @@
 import apiConfigs from '../../configs/api';
 
-export function addCategory(body) {
+export function addCategory(body,searchFilter =false) {
     return {
         type: 'ADD_CATEGORY',
         body,
         method: 'POST',
         token: true,
         api: `${apiConfigs.BASE_API}category`,
+        searchFilter
     }
 }
 
@@ -20,7 +21,7 @@ export function getCategoriesByMerchantId(name = '', status = '', type = '',isSh
     }
 }
 
-export function archiveCategory(id,searchFilter) {
+export function archiveCategory(id,searchFilter = false) {
     return {
         type: 'ARCHIVE_CATEGORY',
         body: {},
@@ -31,7 +32,7 @@ export function archiveCategory(id,searchFilter) {
     }
 }
 
-export function restoreCategory(id,searchFilter) {
+export function restoreCategory(id,searchFilter = false) {
     return {
         type: 'RESTORE_CATEGORY',
         body: {},
@@ -42,13 +43,14 @@ export function restoreCategory(id,searchFilter) {
     }
 }
 
-export function editCategory(body, id) {
+export function editCategory(body, id,searchFilter = false) {
     return {
         type: 'EDIT_CATEGORY',
         body,
         method: 'PUT',
         token: true,
         api: `${apiConfigs.BASE_API}category/${id}`,
+        searchFilter
     }
 }
 
