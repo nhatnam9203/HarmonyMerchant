@@ -17,6 +17,7 @@ class SettingScreen extends Layout {
     this.taxTabRef = React.createRef();
     this.generalTabRef = React.createRef();
     this.checkPermissionRef = React.createRef();
+    this.tabStaffRef = React.createRef();
   }
 
   componentDidMount() {
@@ -77,6 +78,7 @@ class SettingScreen extends Layout {
           false
         );
       case 1:
+        this.resetStateStaffSetting();
         return this.props.actions.staff.getStaffByMerchantId();
       case 2:
         return this.props.actions.category.getCategoriesByMerchantId();
@@ -91,6 +93,16 @@ class SettingScreen extends Layout {
       default:
     }
   };
+
+  resetStateStaffSetting = () => {
+    if (this.tabStaffRef.current) {
+      this.tabStaffRef.current.setStateFromParent();
+    } else {
+      setTimeout(() => {
+        this.tabStaffRef.current.setStateFromParent();
+      }, 500)
+    }
+  }
 
   updateTaxFromParent = () => {
     const { profile } = this.props;
@@ -174,7 +186,8 @@ const mapStateToProps = (state) => ({
   loading: state.app.loading,
   settingTabPermission: state.app.settingTabPermission,
 
-  printerPortType: state.dataLocal.printerPortType
+  printerPortType: state.dataLocal.printerPortType,
+  isAddStaff: state.staff.isAddStaff
 });
 
 export default connectRedux(mapStateToProps, SettingScreen);
