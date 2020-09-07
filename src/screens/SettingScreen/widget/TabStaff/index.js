@@ -24,20 +24,26 @@ class TabStaff extends Layout {
         }
     }
 
-    updateSearchFilterInfo(key, value, keyParent = '') {
+    async updateSearchFilterInfo(key, value, keyParent = '') {
         const { searchFilter } = this.state;
         if (keyParent !== '') {
             const temptParent = searchFilter[keyParent];
             const temptChild = { ...temptParent, [key]: value };
             const temptUpdate = { ...searchFilter, [keyParent]: temptChild };
-            this.setState({
+            await this.setState({
                 searchFilter: temptUpdate
-            })
+            });
         } else {
             const temptUpdate = { ...searchFilter, [key]: value };
-            this.setState({
+            await this.setState({
                 searchFilter: temptUpdate
-            })
+            });
+        }
+        if (key !== "keySearch") {
+            setTimeout(() =>{
+                this.searchStaff();
+            },300)
+          
         }
     }
 
@@ -54,29 +60,25 @@ class TabStaff extends Layout {
     }
 
     archirveStaffYess = async () => {
+        const { searchFilter } = this.state;
         await this.setState({
             visibleArchive: false,
         });
-        this.props.actions.staff.archiveStaff(this.state.staffHandle.staffId);
+        this.props.actions.staff.archiveStaff(this.state.staffHandle.staffId,searchFilter);
     }
 
     archirveRestoreYess = async () => {
+        const { searchFilter } = this.state;
         await this.setState({
             visibleRestore: false,
         });
-        this.props.actions.staff.restoreStaff(this.state.staffHandle.staffId);
+        this.props.actions.staff.restoreStaff(this.state.staffHandle.staffId,searchFilter);
     }
 
     searchStaff = () => {
         const { searchFilter } = this.state;
         const { keySearch, role, status } = searchFilter;
-        this.props.actions.staff.searchStaffByName(keySearch, role, status);
-        // if (keySearch == '' && role == '' & status == '') {
-        //     this.props.actions.staff.clearSearch();
-        // } else {
-        //     this.props.actions.staff.searchStaffByName(keySearch, role, status);
-        // }
-
+        this.props.actions.staff.getStaffByMerchantId(keySearch, role, status);
     }
 
     addStaff = async () => {
@@ -148,7 +150,11 @@ class TabStaff extends Layout {
     }
 
     clearSearchText = () => {
-        this.updateSearchFilterInfo("keySearch","");
+        const { searchFilter } = this.state;
+        const {  role, status } = searchFilter;
+      
+        this.updateSearchFilterInfo("keySearch", "");
+        this.props.actions.staff.getStaffByMerchantId("", role, status);
 
     }
 

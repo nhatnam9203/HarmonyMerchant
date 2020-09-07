@@ -137,15 +137,15 @@ class Layout extends React.Component {
 
 
     renderTableStaff() {
-        const { listStaffByMerchant, isShowSearch, listSearchStaff, refreshListStaffs, language } = this.props;
+        const { listStaffByMerchant, isShowSearch, refreshListStaffs, language } = this.props;
         const { visibleArchive, visibleRestore } = this.state;
-        const temptData = isShowSearch ? listSearchStaff : listStaffByMerchant;
-        const data = temptData.map((item, index) => {
+        const data = listStaffByMerchant.map((item, index) => {
             return {
                 ...item,
                 key: `item-${index}`,
             }
         });
+
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
@@ -168,11 +168,11 @@ class Layout extends React.Component {
                         />}
                         keyExtractor={(item, index) => `${index}`}
                         ListEmptyComponent={<RowTableEmptyStaff />}
-                        onRefresh={() => this.props.actions.staff.getStaffByMerchantId()}
+                        // onRefresh={() => this.props.actions.staff.getStaffByMerchantId()}
+                        onRefresh={this.searchStaff}
                         refreshing={refreshListStaffs}
                         scrollPercent={5}
                         onMoveEnd={({ data }) => this.updateStaffsPosition(data, isShowSearch)}
-                    // onDragEnd={({ data }) => this.onDragEnd(data)}
                     />
                 </View>
                 <PopupConfirm

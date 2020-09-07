@@ -4,8 +4,8 @@ import {
     FlatList
 } from 'react-native';
 
-import { FooterTab, PopupConfirm, Text} from '@components';
-import { scaleSzie ,localize} from '@utils';
+import { FooterTab, PopupConfirm, Text } from '@components';
+import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import StaffInfo from '../StaffInfo';
 import { TableHeader, RowTable, RowEmptyTable } from './widget';
@@ -14,7 +14,7 @@ import { TableHeader, RowTable, RowEmptyTable } from './widget';
 class Layout extends React.Component {
 
     renderTable() {
-        const { listStaffByMerchant, refreshListStaffs,language } = this.props;
+        const { listStaffByMerchant, refreshListStaffs, language } = this.props;
 
         return (
             <View style={{ flex: 1 }}>
@@ -41,7 +41,7 @@ class Layout extends React.Component {
                         />}
                         keyExtractor={(item, index) => `${item.staffId}`}
                         ListEmptyComponent={<RowEmptyTable />}
-                        onRefresh={() => this.props.actions.staff.getStaffByMerchantId(false)}
+                        onRefresh={() => this.props.actions.staff.getStaffByMerchantId("", "", "", false)}
                         refreshing={refreshListStaffs}
                     />
                 </View>
@@ -56,11 +56,11 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { isAddStaff, language, stateCity ,profile} = this.props;
+        const { isAddStaff, language, stateCity, profile } = this.props;
         const { visibleArchive, visibleRestore, infoStaffHandle,
             isEditStaff
         } = this.state;
-       
+
         return (
             <View style={styles.container} >
                 {isAddStaff ? <StaffInfo
