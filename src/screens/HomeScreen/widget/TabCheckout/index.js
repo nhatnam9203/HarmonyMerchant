@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'ramda';
 const signalR = require('@microsoft/signalr');
 import { NativeModules } from 'react-native';
+import env from 'react-native-config';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -1062,6 +1063,8 @@ class TabCheckout extends Layout {
         })
         try {
             const result = JSON.parse(message);
+            const tempEnv = env.IS_PRODUCTION;
+            // console.log("---- handleResponseCreditCard: ", JSON.stringify(result));
             if (result.status == 0) {
                 if (result.message === "ABORTED") {
                     return;
@@ -1071,32 +1074,38 @@ class TabCheckout extends Layout {
                 }, 300)
 
             } else if (result.ResultTxt && result.ResultTxt == "OK") {
-                const { profile, groupAppointment, profileStaffLogin, customerInfoBuyAppointment } = this.props;
-                const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser, customerInfoByPhone } = this.state;
-                let method = this.getPaymentString(paymentSelected);
-
-                if (online) {
-                    // ------ Payment with credit online card success ----
-                    this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff, message, profile.merchantId);
+                if (tempEnv == "Production" && result.Message === "DEMO APPROVED") {
+                    alert("You're running your Pax on DEMO MODE!")
                 } else {
-                    // ------ Payment with credit offline card success ----
-                    const dataAnymousAppoitment = this.getBasketOffline();
-                    const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } = dataAnymousAppoitment;
-                    const userId = customerInfoByPhone.userId ? customerInfoByPhone.userId : 0;
-                    this.props.actions.appointment.createAnymousAppointment(
-                        profile.merchantId,
-                        customerInfoBuyAppointment.userId ? customerInfoBuyAppointment.userId : 0,
-                        customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0,
-                        profileStaffLogin.staffId,
-                        arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
-                        customDiscountFixedLocal, customDiscountPercentLocal,
-                        customerInfoBuyAppointment.firstName ? customerInfoBuyAppointment.firstName : "",
-                        customerInfoBuyAppointment.lastName ? customerInfoBuyAppointment.lastName : "",
-                        customerInfoBuyAppointment.phone ? customerInfoBuyAppointment.phone : "",
-                        moneyUserGiveForStaff,
-                        message,
-                    );
+                    const { profile, groupAppointment, profileStaffLogin, customerInfoBuyAppointment } = this.props;
+                    const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser, customerInfoByPhone } = this.state;
+                    let method = this.getPaymentString(paymentSelected);
+
+                    if (online) {
+                        // ------ Payment with credit online card success ----
+                        this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff, message, profile.merchantId);
+                    } else {
+                        // ------ Payment with credit offline card success ----
+                        const dataAnymousAppoitment = this.getBasketOffline();
+                        const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } = dataAnymousAppoitment;
+                        const userId = customerInfoByPhone.userId ? customerInfoByPhone.userId : 0;
+                        this.props.actions.appointment.createAnymousAppointment(
+                            profile.merchantId,
+                            customerInfoBuyAppointment.userId ? customerInfoBuyAppointment.userId : 0,
+                            customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0,
+                            profileStaffLogin.staffId,
+                            arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
+                            customDiscountFixedLocal, customDiscountPercentLocal,
+                            customerInfoBuyAppointment.firstName ? customerInfoBuyAppointment.firstName : "",
+                            customerInfoBuyAppointment.lastName ? customerInfoBuyAppointment.lastName : "",
+                            customerInfoBuyAppointment.phone ? customerInfoBuyAppointment.phone : "",
+                            moneyUserGiveForStaff,
+                            message,
+                        );
+                    }
                 }
+
+
             } else {
                 setTimeout(() => {
                     alert(result.ResultTxt ? result.ResultTxt : "Transaction failed:");

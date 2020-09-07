@@ -1,5 +1,4 @@
-import { put, takeLatest, all, join } from "redux-saga/effects";
-import NavigationServices from "../../navigators/NavigatorServices";
+import { put, takeLatest, all, select } from "redux-saga/effects";
 
 import apiConfigs from '../../configs/api';
 import { requestAPI } from '../../utils';
@@ -254,7 +253,11 @@ function* getBatchHistory(action) {
 function* changeStatustransaction(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
-        const responses = yield requestAPI(action);
+        const state = yield select();
+        const { profileLoginInvoice } = state.dataLocal;
+        const temptAction = { ...action, token: profileLoginInvoice.token ? profileLoginInvoice.token : "" };
+        // console.log("---- temptAction: ", temptAction);
+        const responses = yield requestAPI(temptAction);
         yield put({ type: 'STOP_LOADING_ROOT' });
         // console.log('changeStatustransaction  : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
@@ -280,6 +283,7 @@ function* changeStatustransaction(action) {
             })
         }
     } catch (error) {
+        // console.log("--Error: ", error);
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -466,7 +470,7 @@ function* getGiftCardSalesBySettlementId(action) {
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
         // console.log('getGiftCardSalesBySettlementId  : ' + JSON.stringify(responses));
-        console.log("---- data : ",responses.data.length);
+        console.log("---- data : ", responses.data.length);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({

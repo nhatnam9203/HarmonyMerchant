@@ -15,10 +15,11 @@ export default class PrintManager {
     }
 
     portDiscovery(portType = "Bluetooth") {
+        const temptPortType = portType === "Bluetooth" ? "Bluetooth" : "All";
         return Promise.race([
-            StarPRNT.portDiscovery(portType),
+            StarPRNT.portDiscovery(temptPortType),
             new Promise((_, reject) =>
-                setTimeout(() => reject('Timeout'), 15000)
+                setTimeout(() => reject('Timeout'), 50000)
             )
         ])
     }

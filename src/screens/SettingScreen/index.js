@@ -3,7 +3,7 @@ import { Keyboard } from "react-native";
 
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
-import {checkStatusPrint} from "@utils";
+import { checkStatusPrint } from "@utils";
 
 class SettingScreen extends Layout {
   constructor(props) {
@@ -17,6 +17,7 @@ class SettingScreen extends Layout {
     this.taxTabRef = React.createRef();
     this.generalTabRef = React.createRef();
     this.checkPermissionRef = React.createRef();
+    this.tabStaffRef = React.createRef();
   }
 
   componentDidMount() {
@@ -77,6 +78,7 @@ class SettingScreen extends Layout {
           false
         );
       case 1:
+        this.resetStateStaffSetting();
         return this.props.actions.staff.getStaffByMerchantId();
       case 2:
         return this.props.actions.category.getCategoriesByMerchantId();
@@ -91,6 +93,16 @@ class SettingScreen extends Layout {
       default:
     }
   };
+
+  resetStateStaffSetting = () => {
+    if (this.tabStaffRef.current) {
+      this.tabStaffRef.current.setStateFromParent();
+    } else {
+      setTimeout(() => {
+        this.tabStaffRef.current.setStateFromParent();
+      }, 500)
+    }
+  }
 
   updateTaxFromParent = () => {
     const { profile } = this.props;
@@ -146,16 +158,19 @@ class SettingScreen extends Layout {
   getPrinters = async () => {
     const { printerPortType } = this.props;
     try {
+      if (!printerPortType) {
+        this.props.actions.dataLocal.updatePrinterPortType("Bluetooth");
+      }
       this.props.actions.app.loadingApp()
-      const printMachine = await checkStatusPrint(printerPortType);
+      const printMachine = await checkStatusPrint(printerPortType ? printerPortType : "Bluetooth");
       this.props.actions.dataLocal.updatePrinterList(printMachine);
       this.props.actions.app.stopLoadingApp();
-  } catch (error) {
+    } catch (error) {
       this.props.actions.app.stopLoadingApp();
       setTimeout(() => {
-          alert(error)
+        alert(error)
       }, 500)
-  }
+    }
 
   }
 
@@ -171,7 +186,8 @@ const mapStateToProps = (state) => ({
   loading: state.app.loading,
   settingTabPermission: state.app.settingTabPermission,
 
-  printerPortType: state.dataLocal.printerPortType
+  printerPortType: state.dataLocal.printerPortType,
+  isAddStaff: state.staff.isAddStaff
 });
 
 export default connectRedux(mapStateToProps, SettingScreen);

@@ -131,7 +131,7 @@ class TabProducts extends React.Component {
                         keyExtractor={(item, index) => `${item.productId}`}
                         ListEmptyComponent={<RowEmptyTableProducts />}
                         refreshing={refreshListProducts}
-                    onRefresh={() => this.props.actions.product.getProductsByMerchant(false)}
+                    onRefresh={() => this.props.actions.product.getProductsByMerchant("", "", false)}
                     />
                 </View>
             </View>

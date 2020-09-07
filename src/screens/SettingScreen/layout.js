@@ -60,7 +60,7 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { language, navigation,settingTabPermission } = this.props;
+        const { language, navigation,settingTabPermission,isAddStaff } = this.props;
         const { isFocus, indexTab } = this.state;
         return (
             <ParentContainer
@@ -85,7 +85,9 @@ export default class Layout extends React.Component {
                                 renderTabBar={() => <View />}
                             >
                                 <TabGaneral ref={this.generalTabRef} />
-                                <TabStaff />
+                                <TabStaff
+                                    ref={this.tabStaffRef}
+                                />
                                 <TabCategories />
                                 <TabService />
                                 <TabExtra/>
@@ -99,7 +101,7 @@ export default class Layout extends React.Component {
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
                     {
-                        indexTab === 1 ? <Button onPress={this.backTab} style={{
+                        indexTab === 1 && isAddStaff ? <Button onPress={this.backTab} style={{
                             position: 'absolute', top: 20, right: 0,
                             width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
                         }} >

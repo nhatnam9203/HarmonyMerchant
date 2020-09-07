@@ -21,12 +21,12 @@ export function createAdmin(body) {
   };
 }
 
-export function getStaffByMerchantId(isShowLoading = true) {
+export function getStaffByMerchantId(name = "", role = "", status = "",isShowLoading = true) {
   return {
     type: "GET_STAFF_BY_MERCHANR_ID",
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}staff`,
+    api: `${apiConfigs.BASE_API}staff/search?name=${name}&role=${role}&status=${status}`,
     isShowLoading,
   };
 }
@@ -54,21 +54,23 @@ export function clearSearch() {
   };
 }
 
-export function archiveStaff(id) {
+export function archiveStaff(id,searchFilter) {
   return {
     type: "ARCHICVE_STAFF",
     method: "PUT",
     token: true,
     api: `${apiConfigs.BASE_API}staff/archive/${id}`,
+    searchFilter
   };
 }
 
-export function restoreStaff(id) {
+export function restoreStaff(id,searchFilter) {
   return {
     type: "RESTORE_STAFF",
     method: "PUT",
     token: true,
     api: `${apiConfigs.BASE_API}staff/restore/${id}`,
+    searchFilter
   };
 }
 

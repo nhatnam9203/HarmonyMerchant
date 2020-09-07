@@ -624,7 +624,7 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { language, navigation, visibleConfirmPrintInvoice, invoiceTabPermission } = this.props;
+        const { language, navigation, visibleConfirmPrintInvoice, invoiceTabPermission,profileLoginInvoice} = this.props;
         const { visibleCalendar, isFocus, visibleConfirmInvoiceStatus, transactionId, visiblePrintInvoice } = this.state;
         return (
             <ParentContainer
@@ -665,6 +665,7 @@ export default class Layout extends React.Component {
                     title={localize('Confirmation', language)}
                     confirmChangeInvoiceStatus={this.confirmChangeInvoiceStatus}
                     onRequestClose={() => this.setState({ visibleConfirmInvoiceStatus: false })}
+                    profileLoginInvoice={profileLoginInvoice}
                 />
                 <PopupProcessingCredit
                     ref={this.popupProcessingCreditRef}
