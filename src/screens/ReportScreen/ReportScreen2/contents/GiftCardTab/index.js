@@ -88,6 +88,9 @@ function GiftCardTab({ style, showBackButton }, ref) {
     const filterItem = giftCardReportList.find(
       (item) => item.type === filterNameItem
     );
+
+    console.log(filterItem);
+
     switch (currentTab) {
       case 0:
         dispatch(
@@ -162,6 +165,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
           showExportFile={() => onShowPopupExport("GiftCard")}
           pathFileExport={giftCardExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
+          onChangeFilterId={onChangeFilterId}
         />
         <GiftCardStatistic
           style={{ flex: 1 }}
