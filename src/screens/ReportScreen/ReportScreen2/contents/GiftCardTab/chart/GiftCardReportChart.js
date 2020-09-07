@@ -264,8 +264,6 @@ export default function GiftCardBarGroupChart({
           )
         : dates.valueFormatter;
 
-      console.log("valueFormatter", valueFormatter);
-
       valueFormatter.forEach((xDate) => {
         const statisticItem = giftCardStatistics.find((x) =>
           moment(x.date).isSame(xDate)
@@ -274,8 +272,6 @@ export default function GiftCardBarGroupChart({
           values.push(formatNumberFromCurrency(statisticItem["sales"]));
         } else values.push(0);
       });
-
-      console.log("values", values);
 
       if (dateSets[label] === undefined) {
         dateSets[label] = {
@@ -310,8 +306,6 @@ export default function GiftCardBarGroupChart({
   // add listener data change, map to chart data set
   useEffect(() => {
     if (data && dateRange) {
-      console.log("dateRange", dateRange);
-      console.log("startDate", startDate);
       setDataChart(factoryDataSets(data, dateRange, startDate));
     } else {
       setDataChart([]);
