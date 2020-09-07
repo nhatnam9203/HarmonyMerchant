@@ -3,14 +3,13 @@ import {
     View,
     Image,
     TextInput,
-    FlatList,
 } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 
-import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
+import { scaleSzie, localize, getArrayNameCategories } from '@utils';
 import {
     Text, Button, ButtonCustom, Dropdown, PopupConfirm,
-    PopupEditAddCategories
+    PopupEditAddCategories,ClearTextInputIcon
 } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
@@ -37,18 +36,21 @@ class Layout extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
                                     placeholder={localize('Catgory Name', language)}
                                     value={keySearch}
-                                    onChangeText={(value) => {
-                                        if (value === '') {
-                                            this.props.actions.category.clearSearchCategories();
-                                        }
-                                        this.updateSearchFilterInfo('keySearch', value)
-                                    }}
+                                    onChangeText={(value) =>  this.updateSearchFilterInfo('keySearch', value)}
                                     onSubmitEditing={this.searchCategories}
                                 />
                             </View>
-                            <Button onPress={this.searchCategories} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
-                                <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
-                            </Button>
+                            {/* <Button onPress={this.searchCategories} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
+                               <ClearTextInputIcon />
+                            </Button> */}
+                            {
+                                keySearch.length > 0 ? <Button onPress={this.clearSearchText} style={{
+                                    width: scaleSzie(35), alignItems: 'center', justifyContent: 'center',
+
+                                }} >
+                                    <ClearTextInputIcon />
+                                </Button> : null
+                            }
 
                         </View>
                     </View>
@@ -141,17 +143,17 @@ class Layout extends React.Component {
 
     renderTableStaff() {
         const { categoriesByMerchant, refreshListCategories,
-            isShowSearchCategories, listCategoriesSearch,
-            language
+            isShowSearchCategories,language
         } = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
-        const temptData = isShowSearchCategories ? listCategoriesSearch : categoriesByMerchant;
-        const data = temptData.map((item, index) => {
+        // const temptData = isShowSearchCategories ? listCategoriesSearch : categoriesByMerchant;
+        const data = categoriesByMerchant.map((item, index) => {
             return {
                 ...item,
                 key: `item-${index}`,
             }
         });
+        
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
@@ -176,7 +178,7 @@ class Layout extends React.Component {
                         keyExtractor={(item, index) => `${index}`}
                         ListEmptyComponent={<RowTableEmptyCategories />}
                         refreshing={refreshListCategories}
-                        onRefresh={() => this.props.actions.category.getCategoriesByMerchantId(false)}
+                        onRefresh={() => this.props.actions.category.getCategoriesByMerchantId("","","",false)}
                         scrollPercent={5}
                         onMoveEnd={({ data }) => this.updatePositionCategories(data, isShowSearchCategories)}
                     />

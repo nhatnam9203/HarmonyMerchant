@@ -198,13 +198,6 @@ class TabStaff extends Layout {
         }, staff.staffId ? staff.staffId : 0)
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        const { isShowSearch, isGetListSearchStaff } = this.props;
-        if (isShowSearch && isGetListSearchStaff) {
-            this.searchStaff();
-        }
-
-    }
 
 }
 

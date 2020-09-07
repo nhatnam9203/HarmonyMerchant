@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { FooterTab, PopupConfirm, PopupEditAddCategories } from '@components';
-import { scaleSzie,localize } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import HeaderTableCategories from './HeaderTableCategories';
 import RowTableCategories from './RowTableCategories';
 import RowEmptyTableCategories from './RowEmptyTableCategories';
@@ -39,7 +39,7 @@ class TabCategories extends React.Component {
         }
     };
 
-    async  togglePopupArchive(bool, category = {}) {
+    async togglePopupArchive(bool, category = {}) {
         if (bool === true) {
             await this.setState({
                 categoryInfoHandle: category
@@ -50,7 +50,7 @@ class TabCategories extends React.Component {
         }))
     }
 
-    async  togglePopupRestore(bool, category = {}) {
+    async togglePopupRestore(bool, category = {}) {
         if (bool === true) {
             await this.setState({
                 categoryInfoHandle: category
@@ -61,22 +61,22 @@ class TabCategories extends React.Component {
         }))
     }
 
-   async archirveServiceYess() {
-      await  this.setState({
+    async archirveServiceYess() {
+        await this.setState({
             visibleArchive: false
         })
         const { categoryInfoHandle } = this.state;
         this.props.actions.category.archiveCategory(categoryInfoHandle.categoryId);
-       
+
     }
 
-   async restoreStaffYess() {
-     await   this.setState({
+    async restoreStaffYess() {
+        await this.setState({
             visibleRestore: false
         })
         const { categoryInfoHandle } = this.state;
         this.props.actions.category.restoreCategory(categoryInfoHandle.categoryId);
-        
+
     }
 
     async showModalEditcategory(category) {
@@ -87,29 +87,29 @@ class TabCategories extends React.Component {
     }
 
     addCategory = async (category) => {
-       await this.setState({
+        await this.setState({
             visibleAdd: false
         });
         this.props.actions.category.addCategory(category);
-       
+
     }
 
-    editCategory =async  (category) => {
+    editCategory = async (category) => {
         // ---- edit category ----
-       await this.setState({
+        await this.setState({
             visibleEdit: false
         });
         this.props.actions.category.editCategory({
             CategoryType: category.categoryType,
             name: category.name
         }, category.categoryId);
-       
+
     }
 
     // --------- Render ------
 
     renderTable() {
-        const { categoriesByMerchant,refreshListCategories } = this.props;
+        const { categoriesByMerchant, refreshListCategories } = this.props;
 
         return (
             <View style={{ flex: 1 }} >
@@ -129,7 +129,7 @@ class TabCategories extends React.Component {
                         keyExtractor={(item, index) => `${item.categoryId}`}
                         ListEmptyComponent={<RowEmptyTableCategories />}
                         refreshing={refreshListCategories}
-                        onRefresh={() => this.props.actions.category.getCategoriesByMerchantId(false)}
+                        onRefresh={() => this.props.actions.category.getCategoriesByMerchantId("", "", "", false)}
                     />
                 </View>
             </View>
@@ -137,7 +137,7 @@ class TabCategories extends React.Component {
     }
 
     render() {
-        const {language} = this.props;
+        const { language } = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit,
         } = this.state;
 

@@ -30,21 +30,37 @@ class TabCategories extends Layout {
         this.editCategoryRef = React.createRef();
     }
 
-    updateSearchFilterInfo(key, value, keyParent = '') {
+    clearSearchText = () =>{
+        this.updateSearchFilterInfo('keySearch', "");
+    }
+
+  async  updateSearchFilterInfo(key, value, keyParent = '') {
         const { searchFilter } = this.state;
         if (keyParent !== '') {
             const temptParent = searchFilter[keyParent];
             const temptChild = { ...temptParent, [key]: value };
             const temptUpdate = { ...searchFilter, [keyParent]: temptChild };
-            this.setState({
+           await this.setState({
                 searchFilter: temptUpdate
-            })
+            });
         } else {
             const temptUpdate = { ...searchFilter, [key]: value };
-            this.setState({
+          await  this.setState({
                 searchFilter: temptUpdate
-            })
+            });
         }
+
+        if(key !== "keySearch"){
+            setTimeout(() =>{
+                this.searchCategories();
+            },500);
+        }
+    }
+
+    searchCategories = () => {
+        const { searchFilter } = this.state;
+        const { keySearch, category, status } = searchFilter;
+        this.props.actions.category.getCategoriesByMerchantId(keySearch, status, category);
     }
 
     togglePopupArchive = (visible) => {
@@ -73,16 +89,7 @@ class TabCategories extends Layout {
         this.props.actions.category.restoreCategory(this.state.categoryHandle.categoryId);
     }
 
-    searchCategories = () => {
-        const { searchFilter } = this.state;
-        const { keySearch, category, status } = searchFilter;
-        //console.log('searchFilter : ', searchFilter);
-        if (keySearch == '' && category == '' & status == '') {
-            this.props.actions.category.clearSearchCategories();
-        } else {
-            this.props.actions.category.searchCategories(keySearch, status, category);
-        }
-    }
+   
 
     showModalAddCategory = () => {
         this.addCategoryRef.current.setStateDefaultFromParent();
