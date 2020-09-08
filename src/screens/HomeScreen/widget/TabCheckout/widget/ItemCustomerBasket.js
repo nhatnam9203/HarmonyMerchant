@@ -77,6 +77,7 @@ class ItemCustomerBasket extends React.Component {
         } else {
             if (checkoutPayments.length === 0) {
                 const appointmentId = _.isEmpty(groupAppointment) ? -1 : this.props.appointmentDetail.appointmentId;
+                // console.log("----- appointmentId: ",appointmentId);
                 this.props.showModalDiscount(appointmentId);
             }
         }
