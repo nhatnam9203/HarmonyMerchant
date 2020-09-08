@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     View,
-    Image,
     TextInput,
 } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
@@ -12,7 +11,6 @@ import {
     PopupEditAddCategories, ClearTextInputIcon
 } from '@components';
 import styles from './style';
-import IMAGE from '@resources';
 import { HeaderTableCategories, RowTableCategories, RowTableEmptyCategories } from './widget';
 
 class Layout extends React.Component {
@@ -40,9 +38,6 @@ class Layout extends React.Component {
                                     onSubmitEditing={this.searchCategories}
                                 />
                             </View>
-                            {/* <Button onPress={this.searchCategories} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
-                               <ClearTextInputIcon />
-                            </Button> */}
                             {
                                 keySearch.length > 0 ? <Button onPress={this.clearSearchText} style={{
                                     width: scaleSzie(35), alignItems: 'center', justifyContent: 'center',

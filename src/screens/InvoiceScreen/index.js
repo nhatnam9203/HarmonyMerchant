@@ -100,7 +100,7 @@ class InvoiceScreen extends Layout {
         if (key !== "keySearch") {
             setTimeout(() => {
                 this.searchInvoice();
-            }, 500);
+            }, 100);
         } else {
             this.props.actions.invoice.updateSearchKeyword(this.state.searchFilter.keySearch);
         }
@@ -141,7 +141,7 @@ class InvoiceScreen extends Layout {
         });
         setTimeout(() => {
             this.searchInvoice();
-        }, 500);
+        }, 200);
     }
 
     handleLockScreen = () => {
@@ -189,6 +189,11 @@ class InvoiceScreen extends Layout {
     searchInvoiceWithKeyword = () => {
         this.props.actions.invoice.updateSearchKeyword(this.state.searchFilter.keySearch);
         this.searchInvoice();
+    }
+
+    clearSearchText = async () => {
+        await this.updateSearchFilterInfo('keySearch', "");
+        // this.searchInvoice();
     }
 
     searchInvoice = (page = 1, isShowLoading = true, isLoadMore = false) => {

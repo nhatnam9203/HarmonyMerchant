@@ -6,7 +6,7 @@ import {
     FlatList
 } from 'react-native';
 
-import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, PopupCheckStaffPermission } from '@components';
+import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, PopupCheckStaffPermission,ClearTextInputIcon } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
@@ -53,10 +53,14 @@ export default class Layout extends React.Component {
                                     onSubmitEditing={this.searchCustomer}
                                 />
                             </View>
-                            <Button onPress={this.searchCustomer} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
-                                <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
-                            </Button>
+                            {
+                                keySearch.length > 0 ? <Button onPress={this.clearSearchText} style={{
+                                    width: scaleSzie(35), alignItems: 'center', justifyContent: 'center',
 
+                                }} >
+                                    <ClearTextInputIcon />
+                                </Button> : null
+                            }
                         </View>
                     </View>
                     <View style={{ width: scaleSzie(170), alignItems: 'flex-end' }} >

@@ -9,7 +9,7 @@ import DraggableFlatList from 'react-native-draggable-flatlist';
 
 import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
 import {
-    Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService,
+    Text, Button, ButtonCustom, Dropdown, PopupConfirm, ClearTextInputIcon,
     PopupEditAddExtra
 } from '@components';
 import styles from './style';
@@ -37,18 +37,18 @@ class Layout extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
                                     placeholder={localize('Extra Name', language)}
                                     value={keySearch}
-                                    onChangeText={(value) => {
-                                        if (value === '') {
-                                            this.props.actions.extra.clearSearchExtra();
-                                        }
-                                        this.updateSearchFilterInfo('keySearch', value)
-                                    }}
+                                    onChangeText={(value) => this.updateSearchFilterInfo('keySearch', value)}
                                     onSubmitEditing={this.searchExtra}
                                 />
                             </View>
-                            <Button onPress={this.searchExtra} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
-                                <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
-                            </Button>
+                            {
+                                keySearch.length > 0 ? <Button onPress={this.clearSearchText} style={{
+                                    width: scaleSzie(35), alignItems: 'center', justifyContent: 'center',
+
+                                }} >
+                                    <ClearTextInputIcon />
+                                </Button> : null
+                            }
 
                         </View>
                     </View>
@@ -129,7 +129,7 @@ class Layout extends React.Component {
         } = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
         const temptData = isShowSearchExtra ? listExtrasSearch : extrasByMerchant;
-        const data = temptData.map((item,index) => {
+        const data = temptData.map((item, index) => {
             return {
                 ...item,
                 key: `item-${index}`,
@@ -160,9 +160,9 @@ class Layout extends React.Component {
                         keyExtractor={(item, index) => `${item.extraId}`}
                         ListEmptyComponent={<RowTableEmptyExtra />}
                         refreshing={refreshListExtras}
-                        onRefresh={() => this.props.actions.extra.getExtraByMerchant(false)}
+                        onRefresh={() => this.searchExtra(false)}
                         scrollPercent={5}
-                        onMoveEnd={({ data }) =>this.updateExtrasPosition(data,isShowSearchExtra)}
+                        onMoveEnd={({ data }) => this.updateExtrasPosition(data, isShowSearchExtra)}
                     />
                 </View>
                 <PopupEditAddExtra

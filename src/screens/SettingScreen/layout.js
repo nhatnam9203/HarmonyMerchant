@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { StatusBarHeader, Button, ParentContainer, Text, PopupLogout,PopupCheckStaffPermission } from '@components';
+import { StatusBarHeader, Button, ParentContainer, Text, PopupLogout, PopupCheckStaffPermission } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
@@ -60,7 +60,7 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { language, navigation,settingTabPermission,isAddStaff } = this.props;
+        const { language, navigation, settingTabPermission, isAddStaff } = this.props;
         const { isFocus, indexTab } = this.state;
         return (
             <ParentContainer
@@ -88,12 +88,14 @@ export default class Layout extends React.Component {
                                 <TabStaff
                                     ref={this.tabStaffRef}
                                 />
-                                <TabCategories 
+                                <TabCategories
                                     ref={this.tabCategoriesRef}
                                 />
-                                <TabService />
-                                <TabExtra/>
-                                <TabTAX  ref={this.taxTabRef}/>
+                                <TabService
+                                    ref={this.tabServiceRef}
+                                />
+                                <TabExtra ref={this.tabExtraRef} />
+                                <TabTAX ref={this.taxTabRef} />
                                 <TabHardware />
                             </ScrollableTabView>
                         </View>

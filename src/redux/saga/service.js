@@ -8,14 +8,16 @@ function* addServiceByMerchant(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    //console.log('--- responses : ', responses);
+        //console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", category: "", status: "" };
+            const { keySearch, category, status } = searchFilter;
             yield put({
                 type: 'GET_SERVICE_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}service`,
+                api: `${apiConfigs.BASE_API}service/search?name=${keySearch}&category=${category}&status=${status}`,
                 isShowLoading: true
             })
             yield put({
@@ -47,7 +49,7 @@ function* getServicesByMerchant(action) {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-    //console.log('getServicesByMerchant : ', responses);
+        //console.log('getServicesByMerchant : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -67,14 +69,14 @@ function* getServicesByMerchant(action) {
                 type: 'UNAUTHORIZED'
             })
         } else {
-            yield put({ type : 'GET_SERVICE_BY_MERCHANT_FAIL'});
+            yield put({ type: 'GET_SERVICE_BY_MERCHANT_FAIL' });
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
             })
         }
     } catch (error) {
-        yield put({ type : 'GET_SERVICE_BY_MERCHANT_FAIL'});
+        yield put({ type: 'GET_SERVICE_BY_MERCHANT_FAIL' });
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -86,14 +88,16 @@ function* archiveService(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-    //console.log('--- responses : ', responses);
+        //console.log('--- responses : ', responses);
         if (parseInt(codeNumber) == 200) {
+            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", category: "", status: "" };
+            const { keySearch, category, status } = searchFilter;
             yield put({ type: 'IS_GET_LIST_SEARCH_SERVICE' });
             yield put({
                 type: 'GET_SERVICE_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}service`,
+                api: `${apiConfigs.BASE_API}service/search?name=${keySearch}&category=${category}&status=${status}`,
                 isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
@@ -118,14 +122,16 @@ function* restoreService(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-    //console.log('--- restoreService : ', responses);
+        //console.log('--- restoreService : ', responses);
         if (parseInt(codeNumber) == 200) {
+            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", category: "", status: "" };
+            const { keySearch, category, status } = searchFilter;
             yield put({ type: 'IS_GET_LIST_SEARCH_SERVICE' });
             yield put({
                 type: 'GET_SERVICE_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}service`,
+                api: `${apiConfigs.BASE_API}service/search?name=${keySearch}&category=${category}&status=${status}`,
                 isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
@@ -149,15 +155,18 @@ function* editService(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    //console.log('--- responses : ', responses);
+        //console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", category: "", status: "" };
+            const { keySearch, category, status } = searchFilter;
             yield put({ type: 'IS_GET_LIST_SEARCH_SERVICE' });
             yield put({
                 type: 'GET_SERVICE_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}service`,
+                // api: `${apiConfigs.BASE_API}service`,
+                api: `${apiConfigs.BASE_API}service/search?name=${keySearch}&category=${category}&status=${status}`,
                 isShowLoading: true,
                 isGetListExtra: true
             })
@@ -183,7 +192,7 @@ function* searchService(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-    //console.log('--- responses : ', responses);
+        //console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -211,7 +220,7 @@ function* updateSerivePosition(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    //console.log('--- updateSerivePosition : ', responses);
+        //console.log('--- updateSerivePosition : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             // yield put({

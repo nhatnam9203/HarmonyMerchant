@@ -9,7 +9,7 @@ import connectRedux from '@redux/ConnectRedux';
 import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment,
     getArrayExtrasFromAppointment, formatNumberFromCurrency, getStaffInfoById,
-    formatWithMoment, getInfoFromModelNameOfPrinter
+    formatWithMoment, getInfoFromModelNameOfPrinter,getArrayGiftCardsFromAppointment
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 import apiConfigs from '@configs/api';
@@ -1307,11 +1307,12 @@ class TabCheckout extends Layout {
         if (appointmentId !== -1) {
             const { groupAppointment } = this.props;
             const appointment = groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentId);
-            const { services, products, extras } = appointment;
+            const { services, products, extras,giftCards } = appointment;
             const arrayProducts = getArrayProductsFromAppointment(products);
             const arryaServices = getArrayServicesFromAppointment(services);
             const arrayExtras = getArrayExtrasFromAppointment(extras);
-            const temptBasket = arrayProducts.concat(arryaServices, arrayExtras);
+            const arrayGiftCards = getArrayGiftCardsFromAppointment(giftCards);
+            const temptBasket = arrayProducts.concat(arryaServices, arrayExtras,arrayGiftCards);
             if (temptBasket.length > 0) {
                 this.props.actions.marketing.getPromotionByAppointment(appointmentId);
             }

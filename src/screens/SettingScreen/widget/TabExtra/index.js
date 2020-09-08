@@ -24,22 +24,54 @@ class TabExtra extends Layout {
         this.editExtraRef = React.createRef();
     }
 
+    setStateFromParent =async () =>{
+        await this.setState({
+            searchFilter: {
+                keySearch: '',
+                category: '',
+                status: ''
+            }
+        })
+    }
 
-    updateSearchFilterInfo(key, value, keyParent = '') {
+    async updateSearchFilterInfo(key, value, keyParent = '') {
         const { searchFilter } = this.state;
         if (keyParent !== '') {
             const temptParent = searchFilter[keyParent];
             const temptChild = { ...temptParent, [key]: value };
             const temptUpdate = { ...searchFilter, [keyParent]: temptChild };
-            this.setState({
+            await this.setState({
                 searchFilter: temptUpdate
-            })
+            });
         } else {
             const temptUpdate = { ...searchFilter, [key]: value };
-            this.setState({
+            await this.setState({
                 searchFilter: temptUpdate
-            })
+            });
         }
+
+        if (key !== "keySearch") {
+            setTimeout(() => {
+                this.searchExtra();
+            }, 100);
+        } else {
+            if (value === "") {
+                this.searchExtra();
+            }
+        }
+    }
+
+    clearSearchText = () => {
+        this.updateSearchFilterInfo('keySearch', "");
+        const { searchFilter } = this.state;
+        const { status } = searchFilter;
+        this.props.actions.extra.getExtraByMerchant("", status, true);
+    }
+
+    searchExtra = (isShowLoading = true) => {
+        const { searchFilter } = this.state;
+        const { keySearch, status } = searchFilter;
+        this.props.actions.extra.getExtraByMerchant(keySearch, status, isShowLoading);
     }
 
     togglePopupArchive = (visible) => {
@@ -55,29 +87,21 @@ class TabExtra extends Layout {
     }
 
     archiveExtraYess = async () => {
+        const { searchFilter } = this.state;
         await this.setState({
             visibleArchive: false,
         });
-        this.props.actions.extra.archiveExtra(this.state.extraHandle.extraId);
+        this.props.actions.extra.archiveExtra(this.state.extraHandle.extraId, searchFilter);
     }
 
     restoreExtraYess = async () => {
+        const { searchFilter } = this.state;
         await this.setState({
             visibleRestore: false,
         });
-        this.props.actions.extra.restoreExtra(this.state.extraHandle.extraId);
+        this.props.actions.extra.restoreExtra(this.state.extraHandle.extraId, searchFilter);
     }
 
-    searchService = () => {
-        const { searchFilter } = this.state;
-        const { keySearch, category, status } = searchFilter;
-        if (keySearch == '' && category == '' & status == '') {
-            // this.props.actions.service.clearSearchService();
-        } else {
-            // const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Service') : '';
-            // this.props.actions.service.searchService(keySearch, temptCategory, status);
-        }
-    }
 
     showModalAddExtra = () => {
         this.addExtraRef.current.setStateDefaultFromParent();
@@ -85,10 +109,19 @@ class TabExtra extends Layout {
     }
 
     submitAddExtra = async (extra) => {
+        const { searchFilter } = this.state;
         await this.setState({ visibleAdd: false })
-        this.props.actions.extra.addExtraByMerchant(extra);
-
+        this.props.actions.extra.addExtraByMerchant(extra,searchFilter);
     }
+
+    submitEditExtra = async (extra) => {
+        const { searchFilter } = this.state;
+        await this.setState({
+            visibleEdit: false
+        })
+        this.props.actions.extra.editExtra(extra, extra.extraId,searchFilter);
+    }
+
 
     archiveExtra(extra) {
         this.setState({
@@ -104,30 +137,12 @@ class TabExtra extends Layout {
         })
     }
 
-    submitEditExtra = async (extra) => {
-        await this.setState({
-            visibleEdit: false
-        })
-        this.props.actions.extra.editExtra(extra, extra.extraId);
-
-    }
-
+    
     restoreExtra(extra) {
         this.setState({
             visibleRestore: true,
             extraHandle: extra
         })
-    }
-
-    searchExtra = () => {
-        const { searchFilter } = this.state;
-        const { keySearch, category, status } = searchFilter;
-        if (keySearch == '' & status == '') {
-            this.props.actions.extra.clearSearchExtra();
-        } else {
-            this.props.actions.extra.searchExtra(keySearch, status)
-        }
-
     }
 
     updateExtrasPosition = (data, isShowSearchExtra) => {

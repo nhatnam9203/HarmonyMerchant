@@ -10,7 +10,7 @@ import _ from 'ramda';
 
 import { scaleSzie, localize, formatWithMoment } from '@utils';
 import {
-    Text, Button, PopupCalendar, ButtonCustom
+    Text, Button, PopupCalendar, ButtonCustom,ClearTextInputIcon
 } from '@components';
 import styles from "./style";
 import ICON from "@resources";
@@ -36,13 +36,23 @@ class Layout extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
                                     placeholder={localize('Search', language)}
                                     value={keySearch}
-                                    onChangeText={(keySearch) => this.setState({keySearch}) }
+                                    onChangeText={(keySearch) => this.setState({ keySearch })}
                                     onSubmitEditing={this.searchBatchHistory}
                                 />
                             </View>
-                            <Button onPress={this.searchBatchHistory} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
+                            {/* <Button onPress={this.searchBatchHistory} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
                                 <Image source={ICON.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
-                            </Button>
+                            </Button> */}
+
+                            {
+                                keySearch.length > 0 ? <Button onPress={() => this.setState({keySearch:""})} style={{
+                                    width: scaleSzie(35), alignItems: 'center', justifyContent: 'center',
+
+                                }} >
+                                    <ClearTextInputIcon />
+                                </Button> : null
+                            }
+
 
                         </View>
                     </View>

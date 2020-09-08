@@ -407,18 +407,18 @@ class Layout extends React.Component {
                     {/* ----------- Grand Total ----------- */}
                     {
                         parseFloat(tempTotal) > 0 ? <View style={{ paddingHorizontal: scaleSzie(10) }} >
-                        <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
-                        <View style={styles.payNumberTextContainer} >
-                            <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#0764B0" }]} >
-                                {`${localize('Grand Total', language)}:`}
-                            </Text>
-                            <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: 'rgb(65,184,85)' }]} >
-                                {`$ ${formatMoney(tempTotal)}`}
-                            </Text>
-                        </View>
-                    </View> : null
+                            <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
+                            <View style={styles.payNumberTextContainer} >
+                                <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#0764B0" }]} >
+                                    {`${localize('Grand Total', language)}:`}
+                                </Text>
+                                <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: 'rgb(65,184,85)' }]} >
+                                    {`$ ${formatMoney(tempTotal)}`}
+                                </Text>
+                            </View>
+                        </View> : null
                     }
-                    
+
 
                     {/* ----------- Paid Amount ----------- */}
                     {
@@ -639,7 +639,7 @@ class Layout extends React.Component {
 
         let isAcceptPay = !_.isEmpty(groupAppointment) ? (groupAppointment.total && parseFloat(groupAppointment.total) > 0 ? true : false) : (basket.length > 0 ? true : false);
         isAcceptPay = paymentSelected === "Cash" ? true : isAcceptPay;
- 
+
         if (tabCurrent === 1) {
             if (changeButtonDone && isCancelHarmonyPay) {
                 if (paymentSelected === 'HarmonyPay') {

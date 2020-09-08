@@ -30,21 +30,56 @@ class TabService extends Layout {
         this.editServiceRef = React.createRef();
     }
 
-    updateSearchFilterInfo(key, value, keyParent = '') {
+    setStateFromParent = async () =>{
+        await this.setState({
+            searchFilter: {
+                keySearch: '',
+                category: '',
+                status: ''
+            }
+        })
+    }
+
+    async updateSearchFilterInfo(key, value, keyParent = '') {
         const { searchFilter } = this.state;
         if (keyParent !== '') {
             const temptParent = searchFilter[keyParent];
             const temptChild = { ...temptParent, [key]: value };
             const temptUpdate = { ...searchFilter, [keyParent]: temptChild };
-            this.setState({
+            await this.setState({
                 searchFilter: temptUpdate
-            })
+            });
         } else {
             const temptUpdate = { ...searchFilter, [key]: value };
-            this.setState({
+            await this.setState({
                 searchFilter: temptUpdate
-            })
+            });
         }
+
+        if (key !== "keySearch") {
+            setTimeout(() => {
+                this.searchService();
+            }, 100);
+        } else {
+            if (value === "") {
+                this.searchService();
+            }
+        }
+    }
+
+    clearSearchText = () => {
+        this.updateSearchFilterInfo('keySearch', "");
+        const { searchFilter } = this.state;
+        const {  category, status } = searchFilter;
+        const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Service') : '';
+        this.props.actions.service.getServicesByMerchant("", temptCategory, status);
+    }
+
+    searchService = (isShowLoading =  true) => {
+        const { searchFilter } = this.state;
+        const { keySearch, category, status } = searchFilter;
+        const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Service') : '';
+        this.props.actions.service.getServicesByMerchant(keySearch, temptCategory, status,isShowLoading);
     }
 
     togglePopupArchive = (visible) => {
@@ -60,28 +95,19 @@ class TabService extends Layout {
     }
 
     archiveServiceYess = async () => {
+        const { searchFilter } = this.state;
         await this.setState({
             visibleArchive: false,
         });
-        this.props.actions.service.archiveService(this.state.serviceHanle.serviceId);
+        this.props.actions.service.archiveService(this.state.serviceHanle.serviceId,searchFilter);
     }
 
     restoreServiceYess = async () => {
+        const { searchFilter } = this.state;
         await this.setState({
             visibleRestore: false,
         });
-        this.props.actions.service.restoreService(this.state.serviceHanle.serviceId);
-    }
-
-    searchService = () => {
-        const { searchFilter } = this.state;
-        const { keySearch, category, status } = searchFilter;
-        if (keySearch == '' && category == '' & status == '') {
-            this.props.actions.service.clearSearchService();
-        } else {
-            const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Service') : '';
-            this.props.actions.service.searchService(keySearch, temptCategory, status);
-        }
+        this.props.actions.service.restoreService(this.state.serviceHanle.serviceId,searchFilter);
     }
 
     showModalAddService = () => {
@@ -95,7 +121,8 @@ class TabService extends Layout {
     }
 
     submitAddService = (service) => {
-        this.props.actions.service.addServiceByMerchant(service);
+        const { searchFilter } = this.state;
+        this.props.actions.service.addServiceByMerchant(service,searchFilter);
         this.setState({ visibleAdd: false })
     }
 
@@ -114,8 +141,9 @@ class TabService extends Layout {
     }
 
     submitEditService = async (service) => {
+        const { searchFilter } = this.state;
         await this.setState({ visibleEdit: false })
-        this.props.actions.service.editService(service, service.serviceId);
+        this.props.actions.service.editService(service, service.serviceId,searchFilter);
 
     }
 

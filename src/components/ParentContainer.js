@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import UserInactivity from 'react-native-user-inactivity';
+import _ from "ramda";
 
 import connectRedux from '@redux/ConnectRedux';
 
@@ -33,10 +34,18 @@ class ParentContainer extends Component {
     }
 
     handleInactive = isActive => {
-        const { activeScreen, visibleEnterPinInvoice, visibleEnterPin, isOfflineMode, autoLockScreenAfter } = this.props;
+        const { activeScreen, visibleEnterPinInvoice, visibleEnterPin, isOfflineMode,
+            autoLockScreenAfter, groupAppointment,
+            invoiceTabPermission, settlementTabPermission, customerTabPermission,
+            inventoryTabPermission, reportTabPermission, settingTabPermission
+        } = this.props;
         const parent = this.props.navigation.dangerouslyGetParent();
         const isDrawerOpen = parent && parent.state && parent.state.isDrawerOpen;
-        if (!isActive && activeScreen && !visibleEnterPinInvoice && !visibleEnterPin && !isDrawerOpen && !isOfflineMode && autoLockScreenAfter != "Never") {
+        if (!isActive && activeScreen && !visibleEnterPin && !isDrawerOpen && !isOfflineMode && autoLockScreenAfter != "Never"
+            && _.isEmpty(groupAppointment) && !invoiceTabPermission && !settlementTabPermission
+            && !customerTabPermission && !inventoryTabPermission && !reportTabPermission
+            && !settingTabPermission
+        ) {
             this.props.handleLockScreen();
         }
     }
@@ -67,6 +76,16 @@ const mapStateToProps = state => ({
     visibleEnterPinInvoice: state.app.visibleEnterPinInvoice,
     visibleEnterPin: state.app.visibleEnterPin,
     isOfflineMode: state.network.isOfflineMode,
+
+    groupAppointment: state.appointment.groupAppointment,
+    invoiceTabPermission: state.invoice.invoiceTabPermission,
+    settlementTabPermission: state.invoice.settlementTabPermission,
+    customerTabPermission: state.customer.customerTabPermission,
+    inventoryTabPermission: state.product.inventoryTabPermission,
+    reportTabPermission: state.staff.reportTabPermission,
+    settingTabPermission: state.app.settingTabPermission,
+
+
 })
 
 

@@ -128,7 +128,7 @@ class HomeScreen extends Layout {
 
     createABlockAppointment = (appointmentId, fromTime) => {
         this.props.actions.appointment.updateFromTimeBlockAppointment(fromTime ? fromTime : new Date());
-        this.props.actions.appointment.getBlockAppointmentById(appointmentId,true);
+        this.props.actions.appointment.getBlockAppointmentById(appointmentId, true);
         this.scrollTabParentRef.current.goToPage(2);
     }
 

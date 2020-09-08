@@ -17,6 +17,7 @@ import { TextField } from '../../../../react-native-material-textfield';
 
 import DropdownItem from '../item';
 import styles from './styles';
+import Button from "../../../../Button";
 
 export default class Dropdown extends PureComponent {
   static defaultProps = {
@@ -55,8 +56,11 @@ export default class Dropdown extends PureComponent {
     rippleOpacity: 0.54,
     shadeOpacity: 0.12,
 
-    rippleDuration: 400,
-    animationDuration: 225,
+    rippleDuration: 300,
+    animationDuration: 0,
+
+    // rippleDuration: 400,
+    // animationDuration: 225,
 
     fontSize: 16,
 
@@ -730,12 +734,14 @@ export default class Dropdown extends PureComponent {
 
     return (
       <View onLayout={this.onLayout} ref={this.updateContainerRef} style={containerStyle}>
-        <TouchableWithoutFeedback {...touchableProps}>
+        {/* <TouchableWithoutFeedback {...touchableProps}> */}
+        <Button {...touchableProps} >
           <View pointerEvents='box-only'>
             {this.renderBase(props)}
             {this.renderRipple()}
           </View>
-        </TouchableWithoutFeedback>
+          </Button>
+        {/* </TouchableWithoutFeedback> */}
 
         <Modal
           visible={modal}
