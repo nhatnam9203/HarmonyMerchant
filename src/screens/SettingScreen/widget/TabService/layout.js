@@ -3,12 +3,11 @@ import {
     View,
     Image,
     TextInput,
-    FlatList,
 } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 
 import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
-import { Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService } from '@components';
+import { Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService, ClearTextInputIcon } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import { HeaderTableService, RowTableService, RowTableEmptyService } from './widget';
@@ -34,18 +33,22 @@ class Layout extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
                                     placeholder={localize('Service', language)}
                                     value={keySearch}
-                                    onChangeText={(value) => {
-                                        if (value === '') {
-                                            this.props.actions.service.clearSearchService();
-                                        }
-                                        this.updateSearchFilterInfo('keySearch', value)
-                                    }}
+                                    onChangeText={(value) => this.updateSearchFilterInfo('keySearch', value)}
                                     onSubmitEditing={this.searchService}
                                 />
                             </View>
-                            <Button onPress={this.searchService} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
+                            {/* <Button onPress={this.searchService} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
                                 <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
-                            </Button>
+                            </Button> */}
+                            {
+                                keySearch.length > 0 ? <Button onPress={this.clearSearchText} style={{
+                                    width: scaleSzie(35), alignItems: 'center', justifyContent: 'center',
+
+                                }} >
+                                    <ClearTextInputIcon />
+                                </Button> : null
+                            }
+
 
                         </View>
                     </View>
@@ -70,8 +73,9 @@ class Layout extends React.Component {
         const { language, categoriesByMerchant } = this.props;
         const { searchFilter } = this.state;
         const { category, status } = searchFilter;
-        const dataServicesCategory =getArrayNameCategories(categoriesByMerchant, 'Service');
-        dataServicesCategory.unshift({value:''});
+        const dataServicesCategory = getArrayNameCategories(categoriesByMerchant, 'Service');
+        dataServicesCategory.unshift({ value: '' });
+
         return (
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
@@ -138,12 +142,11 @@ class Layout extends React.Component {
 
     renderTableStaff() {
         const { servicesByMerchant, categoriesByMerchant,
-            isShowSearchService, listServicesSearch,refreshListServices,
+            isShowSearchService, listServicesSearch, refreshListServices,
             language
         } = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
-        const temptData = isShowSearchService ? listServicesSearch : servicesByMerchant;
-        const data = temptData.map((item,index) => {
+        const data = servicesByMerchant.map((item, index) => {
             return {
                 ...item,
                 key: `item-${index}`,
@@ -157,11 +160,11 @@ class Layout extends React.Component {
                 <View style={{ height: scaleSzie(10) }} />
                 <View style={{ flex: 1 }} >
                     <HeaderTableService
-                    language={language}
+                        language={language}
                     />
                     <DraggableFlatList
                         data={data}
-                        renderItem={({ item, index , move, moveEnd, isActive}) => <RowTableService
+                        renderItem={({ item, index, move, moveEnd, isActive }) => <RowTableService
                             index={index}
                             service={item}
                             archiveService={() => this.archiveService(item)}
@@ -174,9 +177,9 @@ class Layout extends React.Component {
                         keyExtractor={(item, index) => `${index}`}
                         ListEmptyComponent={<RowTableEmptyService />}
                         refreshing={refreshListServices}
-                        onRefresh={() => this.props.actions.service.getServicesByMerchant(false)}
+                        onRefresh={() => this.searchService(false)}
                         scrollPercent={5}
-                        onMoveEnd={({ data }) =>this.updateServicePosition(data,isShowSearchService)}
+                        onMoveEnd={({ data }) => this.updateServicePosition(data, isShowSearchService)}
                     />
                 </View>
                 <PopupAddEditService

@@ -1,52 +1,23 @@
 import apiConfigs from '../../configs/api';
 
-export function addServiceByMerchant(body) {
+export function addServiceByMerchant(body,searchFilter = false) {
     return {
         type: 'ADD_SERVICE_BY_MERCHANT',
         body,
         method: 'POST',
         token: true,
         api: `${apiConfigs.BASE_API}service`,
+        searchFilter
     }
 }
 
-export function getServicesByMerchant(isShowLoading = true) {
+export function getServicesByMerchant(name = '', category = '', status = '',isShowLoading = true) {
     return {
         type: 'GET_SERVICE_BY_MERCHANT',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}service`,
+        api: `${apiConfigs.BASE_API}service/search?name=${name}&category=${category}&status=${status}`,
         isShowLoading
-    }
-}
-
-export function archiveService(id) {
-    return {
-        type: 'ARCHIVE_SERVICE',
-        body: {},
-        method: 'PUT',
-        token: true,
-        api: `${apiConfigs.BASE_API}service/archive/${id}`,
-    }
-}
-
-export function restoreService(id) {
-    return {
-        type: 'RESTORE_SERVICE',
-        body: {},
-        method: 'PUT',
-        token: true,
-        api: `${apiConfigs.BASE_API}service/restore/${id}`,
-    }
-}
-
-export function editService(body, id) {
-    return {
-        type: 'EDIT_SERVICE',
-        body,
-        method: 'PUT',
-        token: true,
-        api: `${apiConfigs.BASE_API}service/${id}`,
     }
 }
 
@@ -56,6 +27,39 @@ export function searchService(name = '', category = '', status = '') {
         method: 'GET',
         token: true,
         api: `${apiConfigs.BASE_API}service/search?name=${name}&category=${category}&status=${status}`
+    }
+}
+
+export function archiveService(id,searchFilter = false) {
+    return {
+        type: 'ARCHIVE_SERVICE',
+        body: {},
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}service/archive/${id}`,
+        searchFilter
+    }
+}
+
+export function restoreService(id,searchFilter = false) {
+    return {
+        type: 'RESTORE_SERVICE',
+        body: {},
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}service/restore/${id}`,
+        searchFilter
+    }
+}
+
+export function editService(body, id,searchFilter = false) {
+    return {
+        type: 'EDIT_SERVICE',
+        body,
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}service/${id}`,
+        searchFilter
     }
 }
 
