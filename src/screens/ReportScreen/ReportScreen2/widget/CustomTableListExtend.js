@@ -15,8 +15,11 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions,
 } from "react-native";
 import { StickyForm } from "react-native-largelist-v3";
+
+const { height: screenHeight, width: screenWidth } = Dimensions.get("window");
 
 const TABLE_HEADER_HEIGHT = 50;
 const TABLE_ROW_HEIGHT = 50;
@@ -24,6 +27,7 @@ const TABLE_CELL_DEFAULT_WIDTH = 160;
 const HEAD_FONT_SIZE = 17;
 const CELL_FONT_SIZE = 15;
 const IndicatorWidth = 200;
+const MAX_COLUMNS_COUNT = 6;
 
 const TABLE_HEADER_KEY = "report-header";
 const TABLE_SUMMARY_KEY = "report-summary";
@@ -87,13 +91,7 @@ const SORT_STATE = {
   asc: "ASC",
 };
 
-const SCROLL_MODE = {
-  none: "NONE",
-  drag: "DRAG",
-  scroll: "SCROLL",
-  block: "BLOCK",
-};
-
+let autoScrollTimer;
 function TableListExtended({
   tableData,
   tableHead,
@@ -120,7 +118,6 @@ function TableListExtended({
   const [sumObject, setSumObject] = useState({});
   const [tableWidth, setTableWidth] = useState(1);
   const [sortState, setSortState] = useState(SORT_STATE.none);
-  const [scrollMode, setScrollMode] = useState(SCROLL_MODE.none);
 
   const stickyFormRef = React.useRef(null);
   // scroll
@@ -135,6 +132,7 @@ function TableListExtended({
   ] = useState(1);
   const [fromLeft, setFromLeft] = useState(0);
   const [currentOffset, setCurrentOffset] = useState({ x: 0, y: 0 });
+
   const setListData = (sort) => {
     let sortList = tableData;
     if (sortKey && sortList.length > 0 && sort !== SORT_STATE.none) {
@@ -149,6 +147,7 @@ function TableListExtended({
 
     setData(sortList);
   };
+
   const changeSortData = () => {
     if (!sortKey) {
       setSortState(SORT_STATE.none);
@@ -248,6 +247,10 @@ function TableListExtended({
 
   // get width render cell with index or key
   const getCellWidth = (index, key) => {
+    if (!!tableCellWidth) {
+      return screenWidth / MAX_COLUMNS_COUNT;
+    }
+
     if (tableCellWidth && tableCellWidth[key]) {
       return tableCellWidth[key];
     }
@@ -282,69 +285,44 @@ function TableListExtended({
   const isContentSmallerThanScrollView =
     fullSizeContentWidth - visibleScrollPartWidth <= 0;
 
-  onMomentumScrollBegin = () => {
-    if (scrollMode === SCROLL_MODE.block) return;
-    setScrollMode(SCROLL_MODE.none);
-  };
-
-  onMomentumScrollEnd = () => {
-    if (scrollMode === SCROLL_MODE.block) return;
-
-    if (
-      !currentOffset ||
-      _.isEmpty(currentOffset || scrollMode !== SCROLL_MODE.scroll)
-    )
-      return;
-    setScrollMode(SCROLL_MODE.scroll);
-  };
-
-  onScrollBeginDrag = () => {
-    if (scrollMode === SCROLL_MODE.block || scrollMode === SCROLL_MODE.scroll)
-      return;
-    setScrollMode(SCROLL_MODE.none);
-  };
-
-  onScrollEndDrag = () => {
-    if (scrollMode === SCROLL_MODE.block) return;
-
-    if (
-      !currentOffset ||
-      _.isEmpty(currentOffset || scrollMode !== SCROLL_MODE.drag)
-    )
-      return;
-
-    setTimeout(() => {
-      setScrollMode(SCROLL_MODE.drag);
-    }, 16);
-  };
-
-  autoScroll = () => {
-    if (scrollMode === SCROLL_MODE.none || scrollMode === SCROLL_MODE.block)
-      return;
-
-    offsetXMap?.forEach((value, key, map) => {
-      const arrStr = key.split(KEY_CONCAT_FOR_INDEX);
-      const cellWidth = getCellWidth(arrStr[0], arrStr[1]);
-
-      let { x, y } = currentOffset;
-
-      if (x > value - cellWidth && x < value) {
-        x = value - cellWidth;
-        setScrollMode(SCROLL_MODE.block);
-        stickyFormRef.current.scrollTo({ x: x, y: y }).then(() => {
-          setScrollMode(SCROLL_MODE.none);
-        });
-
-        return;
-      }
-    });
-  };
-
-  React.useEffect(() => {
-    if (scrollMode === SCROLL_MODE.drag || scrollMode === SCROLL_MODE.scroll) {
-      autoScroll();
+  // khi kéo và thả sẽ gọi
+  const onMomentumScrollBegin = () => {
+    if (autoScrollTimer) {
+      clearTimeout(autoScrollTimer);
     }
-  }, [scrollMode]);
+  };
+
+  const onMomentumScrollEnd = () => {
+    autoScroll();
+  };
+
+  onScrollBeginDrag = () => {};
+
+  const onScrollEndDrag = () => {
+    autoScroll();
+  };
+
+  const autoScroll = () => {
+    if (autoScrollTimer) {
+      clearTimeout(autoScrollTimer);
+    }
+
+    autoScrollTimer = setTimeout(() => {
+      offsetXMap?.forEach((value, key, map) => {
+        const arrStr = key.split(KEY_CONCAT_FOR_INDEX);
+        const cellWidth = getCellWidth(arrStr[0], arrStr[1]);
+
+        let { x, y } = currentOffset;
+
+        if (x > value - cellWidth && x <= value) {
+          x = x <= value - cellWidth / 2 ? value - cellWidth : value;
+
+          stickyFormRef.current.scrollTo({ x: x, y: y });
+          return;
+        }
+      });
+    }, 1000);
+  };
 
   /**render */
   // render cell

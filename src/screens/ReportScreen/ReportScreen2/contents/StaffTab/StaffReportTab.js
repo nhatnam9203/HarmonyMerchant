@@ -177,7 +177,7 @@ export default function StaffReportTab({
           unitKeys={{ workingHour: "hrs" }}
           sortDefault="NONE"
           sortKey="name"
-          tableCellWidth={{ name: 160}}
+          tableCellWidth={{}}
           renderCell={renderCell}
           renderActionCell={renderActionCell}
           onRowPress={onRowPress}
