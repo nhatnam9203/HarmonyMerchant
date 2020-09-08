@@ -20,11 +20,11 @@ import {
 } from "react-native";
 import { StickyForm } from "react-native-largelist-v3";
 import { NormalHeader } from "react-native-spring-scrollview/NormalHeader";
-import { RefreshHeader } from "react-native-spring-scrollview/RefreshHeader";
-
-class MyHeader extends RefreshHeader {
-  static style: string = "stickyContent";
-}
+import {
+  WithLastDateHeader,
+  ChineseNormalHeader,
+  ChineseWithLastDateHeader,
+} from "react-native-spring-scrollview/Customize";
 
 const { height: screenHeight, width: screenWidth } = Dimensions.get("window");
 
@@ -312,6 +312,7 @@ function TableListExtended({
   };
 
   const autoScroll = () => {
+    if (isRefreshing) return;
     if (autoScrollTimer) {
       clearTimeout(autoScrollTimer);
     }
@@ -556,14 +557,9 @@ function TableListExtended({
     );
   };
 
-  const renderSeparator = () => {
-    return <View style={styles.separator} />;
-  };
-
   React.useEffect(() => {
     if (!isRefreshing) {
       stickyFormRef.current.endRefresh();
-    } else {
     }
   }, [isRefreshing]);
 
@@ -597,7 +593,13 @@ function TableListExtended({
         onScrollBeginDrag={onScrollBeginDrag}
         directionalLockEnabled={true}
         renderFooter={() => <View style={{ height: 20 }} />}
-        onRefresh={onRefresh}
+        onRefresh={() => {
+          onRefresh();
+          setTimeout(() => {
+            stickyFormRef.current.endRefresh();
+          }, 2000);
+        }}
+        refreshHeader={NormalHeader}
       />
       {!isContentSmallerThanScrollView && (
         <Animated.View
