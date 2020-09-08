@@ -51,10 +51,9 @@ class TabExtra extends Layout {
         }
 
         if (key !== "keySearch") {
-            // setTimeout(() => {
-            //     this.searchExtra();
-            // }, 500);
-            this.searchExtra();
+            setTimeout(() => {
+                this.searchExtra();
+            }, 100);
         } else {
             if (value === "") {
                 this.searchExtra();

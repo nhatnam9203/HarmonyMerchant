@@ -59,7 +59,7 @@ class TabTransaction extends Layout {
         });
         setTimeout(() => {
             this.searchTransactions();
-        }, 500);
+        }, 200);
     }
 
     updateSearchFilterInfo = async (key, value) => {
@@ -70,7 +70,7 @@ class TabTransaction extends Layout {
         if (key !== "keySearch") {
             setTimeout(() => {
                 this.searchTransactions();
-            }, 500);
+            }, 100);
         } else {
             // this.props.actions.invoice.updateSearchKeyword(this.state.searchFilter.keySearch);
         }

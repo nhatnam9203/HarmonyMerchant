@@ -85,7 +85,7 @@ class BatchHistoryList extends Layout {
         });
         setTimeout(() => {
             this.searchBatchHistory();
-        }, 500);
+        }, 200);
     }
 
     loadMoreBatchHistoryList = () => {

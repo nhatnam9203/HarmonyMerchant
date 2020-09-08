@@ -127,7 +127,7 @@ class InventoryScreen extends Layout {
         if (key !== "keySearch") {
             setTimeout(() => {
                 this.searchProduct();
-            }, 500);
+            }, 100);
         } else {
             if (value === "") {
                 this.searchProduct();

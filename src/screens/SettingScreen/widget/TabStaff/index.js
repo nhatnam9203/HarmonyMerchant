@@ -50,10 +50,9 @@ class TabStaff extends Layout {
             });
         }
         if (key !== "keySearch") {
-            // setTimeout(() => {
-            //     this.searchStaff();
-            // }, 300);
-            this.searchStaff();
+            setTimeout(() => {
+                this.searchStaff();
+            }, 100);
         }else{
             if(value === ""){
                 this.searchStaff();
