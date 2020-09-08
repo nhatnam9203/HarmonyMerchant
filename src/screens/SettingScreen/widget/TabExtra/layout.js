@@ -37,7 +37,7 @@ class Layout extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
                                     placeholder={localize('Extra Name', language)}
                                     value={keySearch}
-                                    onChangeText={(value) =>   this.updateSearchFilterInfo('keySearch', value) }
+                                    onChangeText={(value) => this.updateSearchFilterInfo('keySearch', value)}
                                     onSubmitEditing={this.searchExtra}
                                 />
                             </View>
@@ -129,7 +129,7 @@ class Layout extends React.Component {
         } = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
         const temptData = isShowSearchExtra ? listExtrasSearch : extrasByMerchant;
-        const data = temptData.map((item,index) => {
+        const data = temptData.map((item, index) => {
             return {
                 ...item,
                 key: `item-${index}`,
@@ -160,9 +160,9 @@ class Layout extends React.Component {
                         keyExtractor={(item, index) => `${item.extraId}`}
                         ListEmptyComponent={<RowTableEmptyExtra />}
                         refreshing={refreshListExtras}
-                        onRefresh={() => this.props.actions.extra.getExtraByMerchant(false)}
+                        onRefresh={() => this.searchExtra(false)}
                         scrollPercent={5}
-                        onMoveEnd={({ data }) =>this.updateExtrasPosition(data,isShowSearchExtra)}
+                        onMoveEnd={({ data }) => this.updateExtrasPosition(data, isShowSearchExtra)}
                     />
                 </View>
                 <PopupEditAddExtra

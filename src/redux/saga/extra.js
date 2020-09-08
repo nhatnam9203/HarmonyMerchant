@@ -1,6 +1,5 @@
-import { put, takeLatest, all, join } from "redux-saga/effects";
+import { put, takeLatest, all } from "redux-saga/effects";
 
-import NavigationServices from "../../navigators/NavigatorServices";
 import { requestAPI } from '../../utils';
 import apiConfigs from '../../configs/api';
 
@@ -9,21 +8,23 @@ function* addExtraByMerchant(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-    //console.log('--- responses : ', responses);
+        //console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", status: "" };
+            const { keySearch, status } = searchFilter;
             yield put({
                 type: 'GET_EXTRA_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}extra`,
+                api: `${apiConfigs.BASE_API}extra/search?name=${keySearch}&status=${status}`,
                 isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -41,7 +42,7 @@ function* getExtraByMerchant(action) {
         action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-    //console.log('getExtraByMerchant : ', responses);
+        //console.log('getExtraByMerchant : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -53,14 +54,14 @@ function* getExtraByMerchant(action) {
                 type: 'UNAUTHORIZED'
             })
         } else {
-            yield put({type:'GET_EXTRA_BY_MERCHANT_FAIL'});
+            yield put({ type: 'GET_EXTRA_BY_MERCHANT_FAIL' });
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
             })
         }
     } catch (error) {
-        yield put({type:'GET_EXTRA_BY_MERCHANT_FAIL'});
+        yield put({ type: 'GET_EXTRA_BY_MERCHANT_FAIL' });
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -72,21 +73,23 @@ function* archiveExtra(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-    //console.log('--- archiveExtra : ', responses);
+        //console.log('--- archiveExtra : ', responses);
         if (parseInt(codeNumber) == 200) {
-            yield put({type:'IS_GET_LIST_SEARCH_EXTRA'});
+            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", status: "" };
+            const { keySearch, status } = searchFilter;
+            yield put({ type: 'IS_GET_LIST_SEARCH_EXTRA' });
             yield put({
                 type: 'GET_EXTRA_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}extra`,
+                api: `${apiConfigs.BASE_API}extra/search?name=${keySearch}&status=${status}`,
                 isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -104,21 +107,23 @@ function* restoreExtra(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-    //console.log('--- restoreExtra : ', responses);
+        //console.log('--- restoreExtra : ', responses);
         if (parseInt(codeNumber) == 200) {
-            yield put({type:'IS_GET_LIST_SEARCH_EXTRA'});
+            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", status: "" };
+            const { keySearch, status } = searchFilter;
+            yield put({ type: 'IS_GET_LIST_SEARCH_EXTRA' });
             yield put({
                 type: 'GET_EXTRA_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}extra`,
+                api: `${apiConfigs.BASE_API}extra/search?name=${keySearch}&status=${status}`,
                 isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -135,22 +140,24 @@ function* editExtra(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    //console.log('--- responses : ', responses);
+        //console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            yield put({type:'IS_GET_LIST_SEARCH_EXTRA'});
+            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", status: "" };
+            const { keySearch, status } = searchFilter;
+            yield put({ type: 'IS_GET_LIST_SEARCH_EXTRA' });
             yield put({
                 type: 'GET_EXTRA_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}extra`,
+                api: `${apiConfigs.BASE_API}extra/search?name=${keySearch}&status=${status}`,
                 isShowLoading: true,
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -167,7 +174,7 @@ function* searchExtra(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    //console.log('--- responses : ', responses);
+        //console.log('--- responses : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -179,7 +186,7 @@ function* searchExtra(action) {
             yield put({
                 type: 'UNAUTHORIZED'
             })
-        }else {
+        } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
@@ -196,7 +203,7 @@ function* updatePositionExtras(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-    //console.log('--- updateSerivePosition : ', responses);
+        //console.log('--- updateSerivePosition : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             // yield put({

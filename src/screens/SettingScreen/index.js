@@ -20,7 +20,7 @@ class SettingScreen extends Layout {
     this.tabStaffRef = React.createRef();
     this.tabCategoriesRef = React.createRef();
     this.tabServiceRef = React.createRef();
-
+    this.tabExtraRef = React.createRef();
   }
 
   componentDidMount() {
@@ -90,6 +90,7 @@ class SettingScreen extends Layout {
         this.resetStateServiceSetting();
         return this.props.actions.service.getServicesByMerchant();
       case 4:
+        this.resetStateExtraSetting();
         return this.props.actions.extra.getExtraByMerchant();
       case 5:
         return this.updateTaxFromParent();
@@ -99,7 +100,17 @@ class SettingScreen extends Layout {
     }
   };
 
-  resetStateServiceSetting = () =>{
+  resetStateExtraSetting = () => {
+    if (this.tabExtraRef.current) {
+      this.tabExtraRef.current.setStateFromParent();
+    } else {
+      setTimeout(() => {
+        this.tabExtraRef.current.setStateFromParent();
+      }, 500)
+    }
+  }
+
+  resetStateServiceSetting = () => {
     if (this.tabServiceRef.current) {
       this.tabServiceRef.current.setStateFromParent();
     } else {
