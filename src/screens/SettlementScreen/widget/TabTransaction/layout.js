@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { scaleSzie, localize, } from '@utils';
-import { Text, Button, ButtonCustom, Dropdown, PopupCalendar } from '@components';
+import { Text, Button, ButtonCustom, Dropdown, PopupCalendar,ClearTextInputIcon } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import { ItemTransaction, HeaderTableTransaction } from './widget';
@@ -37,9 +37,15 @@ class Layout extends React.Component {
                                     onSubmitEditing={this.searchTransactions}
                                 />
                             </View>
-                            <Button onPress={this.searchTransactions} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
-                                <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
-                            </Button>
+
+                            {
+                                keySearch.length > 0 ? <Button onPress={this.clearSearchText} style={{
+                                    width: scaleSzie(35), alignItems: 'center', justifyContent: 'center',
+
+                                }} >
+                                    <ClearTextInputIcon />
+                                </Button> : null
+                            }
 
                         </View>
                     </View>
@@ -129,7 +135,7 @@ class Layout extends React.Component {
                         renderItem={({ item, index }) => <ItemTransaction data={item} />}
                         keyExtractor={(item, index) => `${index}`}
                         refreshing={refreshingTransaction}
-                        onRefresh={this.searchTransactions.bind(this,false)}
+                        onRefresh={this.searchTransactions.bind(this, false)}
                     />
 
                 </View>

@@ -53,6 +53,12 @@ class CustomerScreen extends Layout {
         }
     }
 
+    clearSearchText = () =>{
+        this.setState({
+            keySearch:""
+        })
+    } 
+
     searchCustomer = (isShowLoading = true) => {
         const { keySearch } = this.state;
         this.props.actions.customer.getListCustomersByMerchant(keySearch, isShowLoading);

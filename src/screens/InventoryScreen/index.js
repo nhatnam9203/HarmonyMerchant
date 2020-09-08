@@ -135,6 +135,10 @@ class InventoryScreen extends Layout {
         }
     }
 
+    clearSearchText = () =>{
+        this.updateSearchFilterInfo('keySearch', "")
+    }
+
 
     onRefreshProductList = () => {
         this.searchProduct(false);

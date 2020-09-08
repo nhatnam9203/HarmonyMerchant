@@ -25,7 +25,7 @@ class TabTransaction extends Layout {
         this.searchTransactions();
     }
 
-    resetStateFromParent = async () =>{
+    resetStateFromParent = async () => {
         await this.setState(initalSate);
     }
 
@@ -74,6 +74,10 @@ class TabTransaction extends Layout {
         } else {
             // this.props.actions.invoice.updateSearchKeyword(this.state.searchFilter.keySearch);
         }
+    }
+
+    clearSearchText = () => {
+        this.updateSearchFilterInfo('keySearch', "")
     }
 
 

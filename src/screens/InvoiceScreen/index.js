@@ -191,6 +191,11 @@ class InvoiceScreen extends Layout {
         this.searchInvoice();
     }
 
+    clearSearchText = async () => {
+        await this.updateSearchFilterInfo('keySearch', "");
+        // this.searchInvoice();
+    }
+
     searchInvoice = (page = 1, isShowLoading = true, isLoadMore = false) => {
         const { searchKeyword } = this.props
         const { searchFilter } = this.state;

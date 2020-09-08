@@ -12,7 +12,7 @@ import _ from 'ramda';
 
 import {
     Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupCalendar, PopupCheckStaffPermission,
-    PopupConfirmInvoiceStatus, PopupProcessingCredit, PopupInvoicePrint, PopupConfirmPrintInvoice
+    PopupConfirmInvoiceStatus, PopupProcessingCredit, PopupInvoicePrint, PopupConfirmPrintInvoice,ClearTextInputIcon
 } from '@components';
 import { scaleSzie, localize, formatWithMoment, getStaffNameForInvoice, formatMoney, getPaymentString, PAYMENT_METHODS } from '@utils';
 import styles from './style';
@@ -56,9 +56,15 @@ export default class Layout extends React.Component {
                                     onSubmitEditing={this.searchInvoiceWithKeyword}
                                 />
                             </View>
-                            <Button onPress={this.searchInvoiceWithKeyword} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
-                                <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
-                            </Button>
+
+                            {
+                                keySearch.length > 0 ? <Button onPress={this.clearSearchText} style={{
+                                    width: scaleSzie(35), alignItems: 'center', justifyContent: 'center',
+
+                                }} >
+                                    <ClearTextInputIcon />
+                                </Button> : null
+                            }
 
                         </View>
                     </View>
@@ -615,9 +621,6 @@ export default class Layout extends React.Component {
                             />
                         </Button> : null
                     }
-
-
-
                 </View>
             </View>
         );
