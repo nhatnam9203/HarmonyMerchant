@@ -51,7 +51,9 @@ function appReducer(state = initialState, action) {
     case "GET_STAFF_BY_MERCHANR_ID_SUCCESS":
       return {
         ...state,
-        listStaffByMerchant: action.payload,
+        listStaffByMerchant: !searchFilter.searchFilter ? action.payload : state.listStaffByMerchant,
+        listSearchStaff:  searchFilter.searchFilter ? action.payload : state.listSearchStaff,
+        isShowSearchResult:searchFilter.searchFilter ,
         refreshListStaffs: false,
       };
     case "GET_STAFF_BY_MERCHANR_ID_FAIL":

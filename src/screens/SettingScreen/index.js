@@ -103,41 +103,45 @@ class SettingScreen extends Layout {
   resetStateExtraSetting = () => {
     if (this.tabExtraRef.current) {
       this.tabExtraRef.current.setStateFromParent();
-    } else {
-      setTimeout(() => {
-        this.tabExtraRef.current.setStateFromParent();
-      }, 500)
-    }
+    } 
+    // else {
+    //   setTimeout(() => {
+    //     this.tabExtraRef.current.setStateFromParent();
+    //   }, 500)
+    // }
   }
 
   resetStateServiceSetting = () => {
     if (this.tabServiceRef.current) {
       this.tabServiceRef.current.setStateFromParent();
-    } else {
-      setTimeout(() => {
-        this.tabServiceRef.current.setStateFromParent();
-      }, 500)
     }
+    //  else {
+    //   setTimeout(() => {
+    //     this.tabServiceRef.current.setStateFromParent();
+    //   }, 500)
+    // }
   }
 
   resetStateCategoriesSetting = () => {
     if (this.tabCategoriesRef.current) {
       this.tabCategoriesRef.current.setStateFromParent();
-    } else {
-      setTimeout(() => {
-        this.tabCategoriesRef.current.setStateFromParent();
-      }, 500)
-    }
+    } 
+    // else {
+    //   setTimeout(() => {
+    //     this.tabCategoriesRef.current.setStateFromParent();
+    //   }, 500)
+    // }
   }
 
   resetStateStaffSetting = () => {
     if (this.tabStaffRef.current) {
       this.tabStaffRef.current.setStateFromParent();
-    } else {
-      setTimeout(() => {
-        this.tabStaffRef.current.setStateFromParent();
-      }, 500)
-    }
+    } 
+    // else {
+    //   setTimeout(() => {
+    //     this.tabStaffRef.current.setStateFromParent();
+    //   }, 500)
+    // }
   }
 
   updateTaxFromParent = () => {

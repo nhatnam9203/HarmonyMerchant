@@ -8,7 +8,7 @@ import DraggableFlatList from 'react-native-draggable-flatlist';
 
 import {
     Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupAddEditProduct,
-    ModalCustom, PopupCheckStaffPermission,ClearTextInputIcon
+    ModalCustom, PopupCheckStaffPermission, ClearTextInputIcon
 } from '@components';
 import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
 import styles from './style';
@@ -55,7 +55,7 @@ export default class Layout extends React.Component {
                             {/* <Button onPress={this.searchProduct} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
                                 <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
                             </Button> */}
-                             {
+                            {
                                 keySearch.length > 0 ? <Button onPress={this.clearSearchText} style={{
                                     width: scaleSzie(35), alignItems: 'center', justifyContent: 'center',
 
