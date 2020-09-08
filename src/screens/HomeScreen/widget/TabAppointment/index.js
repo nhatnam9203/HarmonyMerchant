@@ -60,11 +60,11 @@ class TabAppointment extends Layout {
     }
 
     componentDidMount() {
-      AppState.addEventListener("change", this.handleAppStateChange);
-      // ------- Register Notification ------
-      // this.notif = new NotifService(
-      //     this.onNotif.bind(this),
-      // );
+        AppState.addEventListener("change", this.handleAppStateChange);
+        // ------- Register Notification ------
+        // this.notif = new NotifService(
+        //     this.onNotif.bind(this),
+        // );
     }
 
 
@@ -202,23 +202,23 @@ class TabAppointment extends Layout {
         return total;
     }
 
-    formartBasket = (basket = []) =>{
+    formartBasket = (basket = []) => {
         const services = [];
         const extras = [];
         const products = [];
 
-        for(let i = 0 ; i < basket.length ; i ++){
+        for (let i = 0; i < basket.length; i++) {
             const temptItem = basket[i];
-            if(temptItem.type === "Service"){
+            if (temptItem.type === "Service") {
                 services.push(temptItem);
-            }else if(temptItem.type === "Extra"){
+            } else if (temptItem.type === "Extra") {
                 extras.push(temptItem);
-            }else if(temptItem.type === "Product"){
+            } else if (temptItem.type === "Product") {
                 products.push(temptItem)
             }
         }
 
-        return services.concat(extras,products);
+        return services.concat(extras, products);
     }
 
     addAmount = async () => {
@@ -394,13 +394,18 @@ class TabAppointment extends Layout {
     }
 
     showModalDiscount = () => {
+        const { profileStaffLogin } = this.props;
         const { basket } = this.state;
         if (basket.length > 0) {
-            const { appointmentId } = this.state;
-            this.props.actions.marketing.getPromotionByAppointment(appointmentId);
-            this.setState({
-                visibleDiscount: true
-            })
+            if (profileStaffLogin.roleName !== "Admin") {
+                alert("You don't have permission!")
+            } else {
+                const { appointmentId } = this.state;
+                this.props.actions.marketing.getPromotionByAppointment(appointmentId);
+                this.setState({
+                    visibleDiscount: true
+                })
+            }
         }
     }
 
@@ -492,6 +497,7 @@ const mapStateToProps = state => ({
     isReloadWebview: state.app.isReloadWebview,
     deviceId: state.dataLocal.deviceId,
     extrasByMerchant: state.extra.extrasByMerchant,
+    profileStaffLogin: state.dataLocal.profileStaffLogin
 })
 
 
