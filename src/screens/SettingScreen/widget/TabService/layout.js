@@ -37,9 +37,6 @@ class Layout extends React.Component {
                                     onSubmitEditing={this.searchService}
                                 />
                             </View>
-                            {/* <Button onPress={this.searchService} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
-                                <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
-                            </Button> */}
                             {
                                 keySearch.length > 0 ? <Button onPress={this.clearSearchText} style={{
                                     width: scaleSzie(35), alignItems: 'center', justifyContent: 'center',
@@ -48,8 +45,6 @@ class Layout extends React.Component {
                                     <ClearTextInputIcon />
                                 </Button> : null
                             }
-
-
                         </View>
                     </View>
                     <View style={{ width: scaleSzie(170), alignItems: 'flex-end' }} >

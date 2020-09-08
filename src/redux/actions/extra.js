@@ -10,13 +10,22 @@ export function addExtraByMerchant(body) {
     }
 }
 
-export function getExtraByMerchant(isShowLoading = true) {
+export function getExtraByMerchant(name = '', status = '',isShowLoading = true) {
     return {
         type: 'GET_EXTRA_BY_MERCHANT',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}extra`,
+        api: `${apiConfigs.BASE_API}extra/search?name=${name}&status=${status}`,
         isShowLoading
+    }
+}
+
+export function searchExtra(name = '', status = '') {
+    return {
+        type: 'SEARCH_EXTRA',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}extra/search?name=${name}&status=${status}`
     }
 }
 
@@ -50,14 +59,6 @@ export function editExtra(body, id) {
     }
 }
 
-export function searchExtra(name = '', status = '') {
-    return {
-        type: 'SEARCH_EXTRA',
-        method: 'GET',
-        token: true,
-        api: `${apiConfigs.BASE_API}extra/search?name=${name}&status=${status}`
-    }
-}
 
 export function clearSearchExtra() {
     return {

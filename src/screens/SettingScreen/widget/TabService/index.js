@@ -68,7 +68,11 @@ class TabService extends Layout {
     }
 
     clearSearchText = () => {
-        this.updateSearchFilterInfo('keySearch', "")
+        this.updateSearchFilterInfo('keySearch', "");
+        const { searchFilter } = this.state;
+        const {  category, status } = searchFilter;
+        const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Service') : '';
+        this.props.actions.service.getServicesByMerchant("", temptCategory, status);
     }
 
     searchService = (isShowLoading =  true) => {
