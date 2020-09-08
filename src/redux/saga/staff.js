@@ -20,7 +20,7 @@ function* addStaffByMerchant(action) {
         token: true,
         api: `${apiConfigs.BASE_API}staff/search?name=${keySearch ? keySearch : ""}&role=${role ? role : ""}&status=${status ? status : ""}`,
         isShowLoading: true,
-        searchFilter: action.searchFilter
+        searchFilter: action.searchFilter ? action.searchFilter : false
       });
     } else if (parseInt(codeNumber) === 401) {
       yield put({
@@ -49,7 +49,7 @@ function* getStaffByMerchantId(action) {
       yield put({
         type: "GET_STAFF_BY_MERCHANR_ID_SUCCESS",
         payload: responses.data,
-        searchFilter: action.searchFilter
+        searchFilter: action.searchFilter ? action.searchFilter : false
       });
       yield put({
         type: "SWICH_ADD_STAFF",
@@ -67,6 +67,7 @@ function* getStaffByMerchantId(action) {
       });
     }
   } catch (error) {
+    console.log("----error: ",error);
     yield put({ type: "GET_STAFF_BY_MERCHANR_ID_FAIL" });
     yield put({ type: error });
   } finally {
@@ -134,7 +135,7 @@ function* archiveStaff(action) {
         token: true,
         api: `${apiConfigs.BASE_API}staff/search?name=${keySearch ? keySearch : ""}&role=${role ? role : ""}&status=${status ? status : ""}`,
         isShowLoading: true,
-        searchFilter: action.searchFilter
+        searchFilter: action.searchFilter ? action.searchFilter : false
       });
     } else if (parseInt(codeNumber) === 401) {
       yield put({
@@ -169,7 +170,7 @@ function* restoreStaff(action) {
         token: true,
         api: `${apiConfigs.BASE_API}staff/search?name=${keySearch ? keySearch : ""}&role=${role ? role : ""}&status=${status ? status : ""}`,
         isShowLoading: true,
-        searchFilter: action.searchFilter
+        searchFilter: action.searchFilter ? action.searchFilter : false
       });
     } else if (parseInt(codeNumber) === 401) {
       yield put({
@@ -239,7 +240,7 @@ function* editStaff(action) {
         // api: `${apiConfigs.BASE_API}staff`,
         api: `${apiConfigs.BASE_API}staff/search?name=${keySearch ? keySearch : ""}&role=${role ? role : ""}&status=${status ? status : ""}`,
         isShowLoading: true,
-        searchFilter: action.searchFilter
+        searchFilter: action.searchFilter ? action.searchFilter : false
       });
       yield put({
         type: "RESET_NEED_SETTING_STORE",

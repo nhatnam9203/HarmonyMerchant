@@ -41,7 +41,7 @@ class Layout extends React.Component {
                         />}
                         keyExtractor={(item, index) => `${item.staffId}`}
                         ListEmptyComponent={<RowEmptyTable />}
-                        onRefresh={() => this.props.actions.staff.getStaffByMerchantId("", "", "", false)}
+                        onRefresh={() => this.props.actions.staff.getStaffByMerchantId("", "", "",false ,false)}
                         refreshing={refreshListStaffs}
                     />
                 </View>

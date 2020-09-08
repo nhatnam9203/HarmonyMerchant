@@ -131,9 +131,10 @@ class Layout extends React.Component {
 
 
     renderTableStaff() {
-        const { listStaffByMerchant, isShowSearch, refreshListStaffs, language } = this.props;
+        const { listStaffByMerchant, isShowSearch, refreshListStaffs, language, isShowSearchResult, listSearchStaff } = this.props;
         const { visibleArchive, visibleRestore } = this.state;
-        const data = listStaffByMerchant.map((item, index) => {
+        const tempData = isShowSearchResult ? listSearchStaff : listStaffByMerchant;
+        const data = tempData.map((item, index) => {
             return {
                 ...item,
                 key: `item-${index}`,
@@ -162,7 +163,6 @@ class Layout extends React.Component {
                         />}
                         keyExtractor={(item, index) => `${index}`}
                         ListEmptyComponent={<RowTableEmptyStaff />}
-                        // onRefresh={() => this.props.actions.staff.getStaffByMerchantId()}
                         onRefresh={this.searchStaff}
                         refreshing={refreshListStaffs}
                         scrollPercent={5}

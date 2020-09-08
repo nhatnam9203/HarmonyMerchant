@@ -91,7 +91,7 @@ class TabStaff extends Layout {
     searchStaff = () => {
         const { searchFilter } = this.state;
         const { keySearch, role, status } = searchFilter;
-        this.props.actions.staff.getStaffByMerchantId(keySearch, role, status);
+        this.props.actions.staff.getStaffByMerchantId(keySearch, role, status,searchFilter);
     }
 
     addStaff = async () => {
@@ -169,7 +169,7 @@ class TabStaff extends Layout {
         const { role, status } = searchFilter;
 
         this.updateSearchFilterInfo("keySearch", "");
-        this.props.actions.staff.getStaffByMerchantId("", role, status);
+        this.props.actions.staff.getStaffByMerchantId("", role, status,searchFilter);
 
     }
 
@@ -219,7 +219,8 @@ const mapStateToProps = state => ({
     listSearchStaff: state.staff.listSearchStaff,
     stateCity: state.dataLocal.stateCity,
     refreshListStaffs: state.staff.refreshListStaffs,
-    isGetListSearchStaff: state.staff.isGetListSearchStaff
+    isGetListSearchStaff: state.staff.isGetListSearchStaff,
+    isShowSearchResult: state.staff.isShowSearchResult
 })
 
 

@@ -19,6 +19,8 @@ const initialState = {
   pathFileReportStaffSalary: null,
   pathFileReportStaffStatistic: null,
   reportTabPermissionSuccess: false,
+
+  isShowSearchResult: false
 };
 
 function appReducer(state = initialState, action) {
@@ -49,11 +51,12 @@ function appReducer(state = initialState, action) {
         refreshListStaffs: !action.isShowLoading,
       };
     case "GET_STAFF_BY_MERCHANR_ID_SUCCESS":
+      console.log("---- GET_STAFF_BY_MERCHANR_ID_SUCCESS: ",action);
       return {
         ...state,
-        listStaffByMerchant: !searchFilter.searchFilter ? action.payload : state.listStaffByMerchant,
-        listSearchStaff:  searchFilter.searchFilter ? action.payload : state.listSearchStaff,
-        isShowSearchResult:searchFilter.searchFilter ,
+        listStaffByMerchant: !action.searchFilter ? action.payload : state.listStaffByMerchant,
+        listSearchStaff: action.searchFilter ? action.payload : state.listSearchStaff,
+        isShowSearchResult: action.searchFilter ? true : false,
         refreshListStaffs: false,
       };
     case "GET_STAFF_BY_MERCHANR_ID_FAIL":
