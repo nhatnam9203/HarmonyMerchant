@@ -27,6 +27,8 @@ export default function PaymentMethod({
   showExportFile,
   pathFileExport,
   handleTheDownloadedFile,
+  onRefresh,
+  isRefreshing,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -194,6 +196,8 @@ export default function PaymentMethod({
             }}
             renderCell={renderCell}
             renderActionCell={renderActionCell}
+            onRefresh={onRefresh}
+            isRefreshing={isRefreshing}
           />
         ) : (
           <View style={{ flex: 1, flexDirection: "row", margin: 20 }}>

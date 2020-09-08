@@ -15,6 +15,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  RefreshControl,
 } from "react-native";
 
 const TABLE_HEADER_HEIGHT = 50;
@@ -48,6 +49,12 @@ const sumPropertiesKey = (array, key) => {
     return values.reduce((a, b) => a + b);
   }
   return 0;
+};
+
+const avgPropertiesKey = (array, key) => {
+  if (array?.length <= 0) return 0;
+  const sum = sumPropertiesKey(array, key);
+  return sum / array.length;
 };
 
 /**get unique key for render row */
@@ -88,6 +95,9 @@ function TableList({
   sortKey,
   sortDefault,
   unitKeys,
+  calcAvgKeys,
+  isRefreshing,
+  onRefresh
 }) {
   /**state */
   const [headerContent, setHeaderContent] = useState({});
@@ -159,8 +169,15 @@ function TableList({
               ? checkSumItem[key]
               : sumPropertiesKey(tableData, key);
         });
-        setSumObject(sumObj);
       }
+
+      if (calcAvgKeys?.length > 0) {
+        calcAvgKeys.forEach((key) => {
+          sumObj[key] = avgPropertiesKey(tableData, key);
+        });
+      }
+
+      setSumObject(sumObj);
     }
 
     setListData(sortState);
@@ -301,7 +318,19 @@ function TableList({
                   <Text style={styles.txtSum}>{"Total"}</Text>
                 )}
 
-                {calcSumKeys.indexOf(key) > -1 && (
+                {calcSumKeys?.indexOf(key) > -1 && (
+                  <Text style={styles.txtSum}>
+                    {isPriceCell(key)
+                      ? unitKeys && unitKeys[key]
+                        ? formatServerNumber(sumObject[key]) +
+                          " " +
+                          unitKeys[key]
+                        : "$ " + formatMoney(sumObject[key])
+                      : sumObject[key]}
+                  </Text>
+                )}
+
+                {calcAvgKeys?.indexOf(key) > -1 && (
                   <Text style={styles.txtSum}>
                     {isPriceCell(key)
                       ? unitKeys && unitKeys[key]
@@ -380,6 +409,9 @@ function TableList({
         ItemSeparatorComponent={renderSeparator}
         ListEmptyComponent={renderListEmpty}
         // extraData={selectedItem}
+        refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+        }
       />
       {showSumOnBottom && onRenderFooter()}
     </View>

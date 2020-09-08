@@ -19,6 +19,8 @@ export default function CustomerReportTab({
   showExportFile,
   pathFileExport,
   handleTheDownloadedFile,
+  onRefresh,
+  isRefreshing,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -143,6 +145,8 @@ export default function CustomerReportTab({
           }}
           renderCell={renderCell}
           renderActionCell={renderActionCell}
+          onRefresh={onRefresh}
+          isRefreshing={isRefreshing}
         />
       </ReportTabLayout>
     </View>

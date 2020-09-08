@@ -41,6 +41,7 @@ function PaymentMethodTab({ style, showBackButton, showHeader }, ref) {
   const [titleRangeTime, setTitleRangeTime] = useState(RANGE_TIME_DEFAULT);
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   /**ref */
   const layoutRef = useRef(null);
@@ -139,6 +140,15 @@ function PaymentMethodTab({ style, showBackButton, showHeader }, ref) {
     getOverallPaymentMethod();
   }, []);
 
+  const refreshData = () => {
+    setRefreshing(true);
+    getOverallPaymentMethod();
+  };
+
+  React.useEffect(() => {
+    setRefreshing(false);
+  }, [overallPaymentMethodList]);
+
   return (
     <View style={[styles.container, style]}>
       <ReportLayout
@@ -160,6 +170,8 @@ function PaymentMethodTab({ style, showBackButton, showHeader }, ref) {
           pathFileExport={overallPMExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
           onChangeFilterId={onChangeFilterId}
+          onRefresh={refreshData}
+          isRefreshing={refreshing}
         />
         <PaymentStatistic
           style={{ flex: 1 }}
@@ -173,6 +185,8 @@ function PaymentMethodTab({ style, showBackButton, showHeader }, ref) {
           showExportFile={() => onShowPopupExport("PaymentMethodStatistic")}
           pathFileExport={overallPMStatisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
+          onRefresh={refreshData}
+          isRefreshing={refreshing}
         />
       </ReportLayout>
     </View>

@@ -35,6 +35,7 @@ function StaffTab({ style, showBackButton }, ref) {
   const [titleRangeTime, setTitleRangeTime] = useState(RANGE_TIME_DEFAULT);
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   /**ref */
   const layoutRef = useRef(null);
@@ -113,6 +114,10 @@ function StaffTab({ style, showBackButton }, ref) {
     layoutRef.current.handleTheDownloadedFile(filePath);
   };
 
+  const onRefreshData = () => {
+    getListStaffsSalaryTop();
+  };
+
   // public function
   useImperativeHandle(ref, () => ({
     goBack: () => {
@@ -128,6 +133,14 @@ function StaffTab({ style, showBackButton }, ref) {
   }));
 
   /**effect */
+  const refreshData = () => {
+    setRefreshing(true);
+    getListStaffsSalaryTop();
+  };
+
+  React.useEffect(() => {
+    setRefreshing(false);
+  }, [listStaffsSalary]);
 
   return (
     <View style={[styles.container, style]}>
@@ -149,6 +162,8 @@ function StaffTab({ style, showBackButton }, ref) {
           showExportFile={() => onShowPopupExport("StaffSalary")}
           pathFileExport={pathFileReportStaff}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
+          onRefresh={refreshData}
+          isRefreshing={refreshing}
         />
         <StaffStatistic
           style={{ flex: 1 }}
@@ -162,6 +177,8 @@ function StaffTab({ style, showBackButton }, ref) {
           showExportFile={() => onShowPopupExport("StaffStatistic")}
           pathFileExport={pathFileReportStaffStatistic}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
+          onRefresh={refreshData}
+          isRefreshing={refreshing}
         />
       </ReportLayout>
     </View>

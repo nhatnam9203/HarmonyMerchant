@@ -40,6 +40,7 @@ function CustomerTab({ style, showBackButton }, ref) {
   const [titleRangeTime, setTitleRangeTime] = useState(RANGE_TIME_DEFAULT);
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   /**ref */
   const layoutRef = useRef(null);
@@ -136,6 +137,15 @@ function CustomerTab({ style, showBackButton }, ref) {
     getCustomerReportSales();
   }, []);
 
+  const refreshData = () => {
+    setRefreshing(true);
+    getCustomerReportSales();
+  };
+
+  React.useEffect(() => {
+    setRefreshing(false);
+  }, [customerReportList]);
+
   return (
     <View style={[styles.container, style]}>
       <ReportLayout
@@ -156,6 +166,8 @@ function CustomerTab({ style, showBackButton }, ref) {
           showExportFile={() => onShowPopupExport("Customer")}
           pathFileExport={exportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
+          onRefresh={refreshData}
+          isRefreshing={refreshing}
         />
         <CustomerStatistic
           style={{ flex: 1 }}
@@ -169,6 +181,8 @@ function CustomerTab({ style, showBackButton }, ref) {
           showExportFile={() => onShowPopupExport("CustomerStatistic")}
           // pathFileExport={statisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
+          onRefresh={refreshData}
+          isRefreshing={refreshing}
         />
       </ReportLayout>
     </View>

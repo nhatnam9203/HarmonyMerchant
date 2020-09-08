@@ -19,6 +19,8 @@ export default function SalesByCategory({
   handleTheDownloadedFile,
   defaultFilterList,
   defaultFilterName,
+  onRefresh,
+  isRefreshing,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -148,6 +150,8 @@ export default function SalesByCategory({
           }}
           renderCell={renderCell}
           renderActionCell={renderActionCell}
+          onRefresh={onRefresh}
+          isRefreshing={isRefreshing}
         />
       </ReportTabLayout>
     </View>

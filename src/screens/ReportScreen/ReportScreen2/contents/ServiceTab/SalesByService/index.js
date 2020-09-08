@@ -49,6 +49,7 @@ function SalesByServiceTab({ style, showBackButton, showHeader }, ref) {
   const [titleRangeTime, setTitleRangeTime] = useState(RANGE_TIME_DEFAULT);
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   /**ref */
   const layoutRef = useRef(null);
@@ -142,6 +143,8 @@ function SalesByServiceTab({ style, showBackButton, showHeader }, ref) {
     layoutRef.current.handleTheDownloadedFile(filePath);
   };
 
+
+
   // public function
   useImperativeHandle(ref, () => ({
     goBack: () => {
@@ -159,6 +162,15 @@ function SalesByServiceTab({ style, showBackButton, showHeader }, ref) {
   useEffect(() => {
     getServiceSaleByService();
   }, []);
+
+  const refreshData = () => {
+    setRefreshing(true);
+    getServiceSaleByService();
+  };
+
+  React.useEffect(() => {
+    setRefreshing(false);
+  }, [serviceSaleByServiceList]);
 
   return (
     <View style={[styles.container, style]}>
@@ -183,6 +195,8 @@ function SalesByServiceTab({ style, showBackButton, showHeader }, ref) {
           onChangeFilterId={onChangeFilterId}
           defaultFilterList={FILTER_NAME_DEFAULT_LIST}
           defaultFilterName={FILTER_NAME_DEFAULT}
+          onRefresh={refreshData}
+          isRefreshing={refreshing}
         />
         <SalesByServiceStatistic
           style={{ flex: 1, paddingTop: 10 }}
@@ -196,6 +210,8 @@ function SalesByServiceTab({ style, showBackButton, showHeader }, ref) {
           showExportFile={() => onShowPopupExport("SalesByServiceDetail")}
           pathFileExport={statisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
+          onRefresh={refreshData}
+          isRefreshing={refreshing}
         />
       </ReportLayout>
     </View>

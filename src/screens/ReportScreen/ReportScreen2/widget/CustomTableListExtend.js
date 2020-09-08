@@ -16,8 +16,15 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
+  RefreshControl,
 } from "react-native";
 import { StickyForm } from "react-native-largelist-v3";
+import { NormalHeader } from "react-native-spring-scrollview/NormalHeader";
+import { RefreshHeader } from "react-native-spring-scrollview/RefreshHeader";
+
+class MyHeader extends RefreshHeader {
+  static style: string = "stickyContent";
+}
 
 const { height: screenHeight, width: screenWidth } = Dimensions.get("window");
 
@@ -110,6 +117,8 @@ function TableListExtended({
   sortKey,
   unitKeys,
   sortDefault,
+  onRefresh,
+  isRefreshing,
 }) {
   /**state */
   const [headerContent, setHeaderContent] = useState({});
@@ -332,7 +341,11 @@ function TableListExtended({
 
     return (
       <TableRow
-        style={{ flexDirection: "row" }}
+        style={{
+          flexDirection: "row",
+          borderBottomColor: "#E5E5E5",
+          borderBottomWidth: 1,
+        }}
         key={cellKey}
         onPress={() => onRowPress({ item, row })}
         disabled={!onRowPress}
@@ -543,6 +556,17 @@ function TableListExtended({
     );
   };
 
+  const renderSeparator = () => {
+    return <View style={styles.separator} />;
+  };
+
+  React.useEffect(() => {
+    if (!isRefreshing) {
+      stickyFormRef.current.endRefresh();
+    } else {
+    }
+  }, [isRefreshing]);
+
   return (
     <View style={styles.container}>
       <StickyForm
@@ -562,7 +586,7 @@ function TableListExtended({
         renderHeader={renderHeader}
         renderSection={renderSection}
         renderIndexPath={renderItem}
-        bounces={false}
+        // bounces={false}
         showsHorizontalScrollIndicator={isContentSmallerThanScrollView}
         showsVerticalScrollIndicator={true}
         onScroll={onScroll}
@@ -573,6 +597,7 @@ function TableListExtended({
         onScrollBeginDrag={onScrollBeginDrag}
         directionalLockEnabled={true}
         renderFooter={() => <View style={{ height: 20 }} />}
+        onRefresh={onRefresh}
       />
       {!isContentSmallerThanScrollView && (
         <Animated.View

@@ -42,7 +42,7 @@ function* login(action) {
 
     // Add firebaseToken & device id to login
     const fcmToken = yield call(getFcmToken);
-    console.log("=========> login get token ", fcmToken);
+    // console.log("=========> login get token ", fcmToken);
     const deviceUniqueId = yield call(getDeviceId);
 
     let body = action.body || {};

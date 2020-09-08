@@ -18,6 +18,8 @@ export default function StaffReportTab({
   showExportFile,
   pathFileExport,
   handleTheDownloadedFile,
+  onRefresh,
+  isRefreshing,
 }) {
   const language = useSelector((state) => state.dataLocal.language);
 
@@ -138,6 +140,7 @@ export default function StaffReportTab({
             workingHour: localize("Working Hour", language),
             salaryWage: localize("Salary Wage", language),
             tip: localize("Tip Amount", language),
+            discountByStaff: localize("Discount By Staff", language),
             salary: localize("Salary", language),
           }}
           whiteKeys={[
@@ -149,6 +152,7 @@ export default function StaffReportTab({
             "workingHour",
             "salaryWage",
             "tip",
+            "discountByStaff",
             "salary",
             "action",
           ]}
@@ -162,6 +166,7 @@ export default function StaffReportTab({
             "workingHour",
             "salaryWage",
             "tip",
+            "discountByStaff",
             "salary",
           ]}
           priceKeys={[
@@ -172,6 +177,7 @@ export default function StaffReportTab({
             "workingHour",
             "salaryWage",
             "tip",
+            "discountByStaff",
             "salary",
           ]}
           unitKeys={{ workingHour: "hrs" }}
@@ -181,6 +187,8 @@ export default function StaffReportTab({
           renderCell={renderCell}
           renderActionCell={renderActionCell}
           onRowPress={onRowPress}
+          onRefresh={onRefresh}
+          isRefreshing={isRefreshing}
         />
       </ReportTabLayout>
 

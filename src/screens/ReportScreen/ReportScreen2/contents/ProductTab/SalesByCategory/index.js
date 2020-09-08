@@ -50,6 +50,7 @@ function SalesByCategoryTab({ style, showBackButton, showHeader }, ref) {
   const [titleRangeTime, setTitleRangeTime] = useState(RANGE_TIME_DEFAULT);
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   /**ref */
   const layoutRef = useRef(null);
@@ -162,6 +163,15 @@ function SalesByCategoryTab({ style, showBackButton, showHeader }, ref) {
     getProductSaleByCategory();
   }, []);
 
+  const refreshData = () => {
+    setRefreshing(true);
+    getProductSaleByCategory();
+  };
+
+  React.useEffect(() => {
+    setRefreshing(false);
+  }, [productSaleByCategoryList]);
+
   return (
     <View style={[styles.container, style]}>
       <ReportLayout
@@ -185,6 +195,8 @@ function SalesByCategoryTab({ style, showBackButton, showHeader }, ref) {
           onChangeFilterId={onChangeFilterId}
           defaultFilterList={FILTER_NAME_DEFAULT_LIST}
           defaultFilterName={FILTER_NAME_DEFAULT}
+          onRefresh={refreshData}
+          isRefreshing={refreshing}
         />
         <SalesByCategoryStatistic
           style={{ flex: 1, paddingTop: 10 }}
@@ -198,6 +210,8 @@ function SalesByCategoryTab({ style, showBackButton, showHeader }, ref) {
           showExportFile={() => onShowPopupExport("SalesByCategoryStatistic")}
           pathFileExport={statisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
+          onRefresh={refreshData}
+          isRefreshing={refreshing}
         />
       </ReportLayout>
     </View>
