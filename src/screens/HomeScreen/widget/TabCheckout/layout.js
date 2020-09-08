@@ -618,9 +618,9 @@ class Layout extends React.Component {
                     <ButtonCustom
                         width={scaleSzie(350)}
                         height={60}
-                        backgroundColor="#F1F1F1"
                         title={localize('BACK', language)}
-                        textColor="#6A6A6A"
+                        backgroundColor="#0764B0"
+                        textColor="#fff"
                         onPress={this.backAddBasket}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                         styleText={{ fontSize: scaleSzie(26) }}
@@ -637,8 +637,9 @@ class Layout extends React.Component {
         const { tabCurrent, basket, paymentSelected, changeButtonDone, isCancelHarmonyPay
         } = this.state;
 
-        const acceptPay = !_.isEmpty(groupAppointment) ? (groupAppointment.total && parseFloat(groupAppointment.total) > 0 ? true : false) : (basket.length > 0 ? true : false);
-
+        let isAcceptPay = !_.isEmpty(groupAppointment) ? (groupAppointment.total && parseFloat(groupAppointment.total) > 0 ? true : false) : (basket.length > 0 ? true : false);
+        isAcceptPay = paymentSelected === "Cash" ? true : isAcceptPay;
+ 
         if (tabCurrent === 1) {
             if (changeButtonDone && isCancelHarmonyPay) {
                 if (paymentSelected === 'HarmonyPay') {
@@ -685,7 +686,7 @@ class Layout extends React.Component {
                     }}
                     styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
                 />
-            } else if (paymentSelected === '' || !acceptPay) {
+            } else if (paymentSelected === '' || !isAcceptPay) {
                 return (
                     <ButtonCustom
                         width={`100%`}
@@ -843,9 +844,9 @@ class Layout extends React.Component {
                     <ButtonCustom
                         width={scaleSzie(350)}
                         height={60}
-                        backgroundColor="#F1F1F1"
                         title={localize('BACK', language)}
-                        textColor="#6A6A6A"
+                        backgroundColor="#0764B0"
+                        textColor="#fff"
                         onPress={() => this.scrollTabRef.current.goToPage(1)}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                         styleText={{ fontSize: scaleSzie(26) }}
