@@ -64,9 +64,10 @@ class TabCategories extends Layout {
         }
 
         if (key !== "keySearch") {
-            setTimeout(() => {
-                this.searchCategories();
-            }, 500);
+            // setTimeout(() => {
+            //     this.searchCategories();
+            // }, 500);
+              this.searchCategories();
         } else {
             if (value === "") {
                 this.searchCategories();

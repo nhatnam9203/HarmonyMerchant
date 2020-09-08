@@ -2,9 +2,8 @@ import { put, takeLatest, all, select, takeEvery } from "redux-saga/effects";
 import _ from "ramda";
 import {Alert} from "react-native";
 
-import { requestAPI } from '../../utils';
+import { requestAPI ,formatNumberFromCurrency} from '../../utils';
 import apiConfigs from '../../configs/api';
-import { from } from "rxjs";
 
 function* getAppointmentById(action) {
     try {
@@ -65,8 +64,8 @@ function* getGroupAppointmentById(action) {
                     }
                 });
 
-                const subTotal = data.subTotal ? parseFloat(data.subTotal) : 0;
-                const discount =  data.discount ? parseFloat(data.discount) : 0;
+                const subTotal = data.subTotal ? formatNumberFromCurrency(data.subTotal) : 0;
+                const discount =  data.discount ? formatNumberFromCurrency(data.discount) : 0;
                 if(subTotal < discount){
                     setTimeout(() =>{
                         Alert.alert(

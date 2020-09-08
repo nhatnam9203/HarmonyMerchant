@@ -57,9 +57,10 @@ class TabService extends Layout {
         }
 
         if (key !== "keySearch") {
-            setTimeout(() => {
-                this.searchService();
-            }, 500);
+            // setTimeout(() => {
+            //     this.searchService();
+            // }, 500);
+            this.searchService();
         } else {
             if (value === "") {
                 this.searchService();
