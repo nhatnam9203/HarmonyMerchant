@@ -90,8 +90,12 @@ class ItemBlockBasket extends React.Component {
     }
 
     showModalDiscount = () => {
-        const { appointmentDetail } = this.props;
-        this.props.actions.marketing.getPromotionByAppointment(appointmentDetail.appointmentId, true);
+        const { appointmentDetail, profileStaffLogin } = this.props;
+        if (profileStaffLogin.roleName !== "Admin") {
+            alert("You don't have permission!")
+        } else {
+            this.props.actions.marketing.getPromotionByAppointment(appointmentDetail.appointmentId, true);
+        }
     }
 
     showModalTipAppointment = (tip) => {
@@ -303,7 +307,8 @@ class ItemBlockBasket extends React.Component {
 const mapStateToProps = state => ({
     groupAppointment: state.appointment.groupAppointment,
     paymentDetailInfo: state.appointment.paymentDetailInfo,
-    blockAppointments: state.appointment.blockAppointments
+    blockAppointments: state.appointment.blockAppointments,
+    profileStaffLogin: state.dataLocal.profileStaffLogin
 });
 
 export default connectRedux(mapStateToProps, ItemBlockBasket);

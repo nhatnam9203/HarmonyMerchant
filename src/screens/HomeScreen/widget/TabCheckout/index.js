@@ -1088,7 +1088,6 @@ class TabCheckout extends Layout {
                         // ------ Payment with credit offline card success ----
                         const dataAnymousAppoitment = this.getBasketOffline();
                         const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } = dataAnymousAppoitment;
-                        const userId = customerInfoByPhone.userId ? customerInfoByPhone.userId : 0;
                         this.props.actions.appointment.createAnymousAppointment(
                             profile.merchantId,
                             customerInfoBuyAppointment.userId ? customerInfoBuyAppointment.userId : 0,

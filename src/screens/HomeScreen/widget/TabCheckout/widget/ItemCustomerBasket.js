@@ -57,7 +57,7 @@ class ItemCustomerBasket extends React.Component {
         const temptDiscount = !appointmentDetail || _.isEmpty(appointmentDetail) ? discountTotalLocal : discount;
         const temptTip = !appointmentDetail || _.isEmpty(appointmentDetail) ? tipLocal : tipAmount;
         const temptTax = !appointmentDetail || _.isEmpty(appointmentDetail) ? taxLocal : tax;
-      
+
 
         return {
             temptSubTotal,
@@ -70,23 +70,26 @@ class ItemCustomerBasket extends React.Component {
     }
 
     showModalDiscount = () => {
-        const { groupAppointment, paymentDetailInfo } = this.props;
+        const { groupAppointment, paymentDetailInfo, profileStaffLogin } = this.props;
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
-        if (checkoutPayments.length === 0) {
-            const appointmentId = _.isEmpty(groupAppointment) ? -1 : this.props.appointmentDetail.appointmentId;
-            this.props.showModalDiscount(appointmentId);
+        if (profileStaffLogin.roleName !== "Admin") {
+            alert("You don't have permission!")
+        } else {
+            if (checkoutPayments.length === 0) {
+                const appointmentId = _.isEmpty(groupAppointment) ? -1 : this.props.appointmentDetail.appointmentId;
+                this.props.showModalDiscount(appointmentId);
+            }
         }
-
     }
 
-    showModalTipAppointment = (tip,tipPercent) => {
+    showModalTipAppointment = (tip, tipPercent) => {
         const { groupAppointment, paymentDetailInfo } = this.props;
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         if (checkoutPayments.length === 0) {
             const { appointmentDetail } = this.props;
             // console.log("------ appointmentDetail : ", JSON.stringify(appointmentDetail));
             const appointmentId = _.isEmpty(groupAppointment) ? -1 : appointmentDetail.appointmentId;
-            this.props.showModalTipAppointment(appointmentId, tip, appointmentDetail.subTotal ? appointmentDetail.subTotal : 0,tipPercent);
+            this.props.showModalTipAppointment(appointmentId, tip, appointmentDetail.subTotal ? appointmentDetail.subTotal : 0, tipPercent);
         }
     }
 
@@ -165,7 +168,7 @@ class ItemCustomerBasket extends React.Component {
         } = this.props;
         let basket = [];
         const appointmentId = appointmentDetail && appointmentDetail.appointmentId ? appointmentDetail.appointmentId : -1;
-        const { temptSubTotal, temptTotal, temptDiscount, temptTip, temptTax,tipPercent } = this.getTypesOfMoneyAppointment(appointmentDetail);
+        const { temptSubTotal, temptTotal, temptDiscount, temptTip, temptTax, tipPercent } = this.getTypesOfMoneyAppointment(appointmentDetail);
         if (appointmentDetail) {
             const { services, products, extras, giftCards } = appointmentDetail;
             const arrayProducts = getArrayProductsFromAppointment(products);
@@ -227,7 +230,7 @@ class ItemCustomerBasket extends React.Component {
 
                             {/* ---------- Tip ------ */}
                             <View style={styles.payNumberTextContainer} >
-                                <Button style={{ flexDirection: "row" }} onPress={this.showModalTipAppointment.bind(this, temptTip,tipPercent)} >
+                                <Button style={{ flexDirection: "row" }} onPress={this.showModalTipAppointment.bind(this, temptTip, tipPercent)} >
                                     <Text style={styles.textPay} >
                                         {`${localize('Tip', language)}:  `}
                                     </Text>
@@ -277,7 +280,8 @@ class ItemCustomerBasket extends React.Component {
 
 const mapStateToProps = state => ({
     groupAppointment: state.appointment.groupAppointment,
-    paymentDetailInfo: state.appointment.paymentDetailInfo
+    paymentDetailInfo: state.appointment.paymentDetailInfo,
+    profileStaffLogin: state.dataLocal.profileStaffLogin
 });
 
 export default connectRedux(mapStateToProps, ItemCustomerBasket);

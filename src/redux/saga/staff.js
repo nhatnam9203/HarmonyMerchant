@@ -12,13 +12,13 @@ function* addStaffByMerchant(action) {
     //console.log('--- addStaffByMerchant : ' + JSON.stringify(action.body));
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
-      const searchFilter = action.searchFilter ? action.searchFilter  : { keySearch:"", role:"", status:"" };
+      const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", role: "", status: "" };
       const { keySearch, role, status } = searchFilter;
       yield put({
         type: "GET_STAFF_BY_MERCHANR_ID",
         method: "GET",
         token: true,
-        api: `${apiConfigs.BASE_API}staff/search?name=${keySearch ? keySearch : "" }&role=${role ? role : ""}&status=${status ? status : ""}`,
+        api: `${apiConfigs.BASE_API}staff/search?name=${keySearch ? keySearch : ""}&role=${role ? role : ""}&status=${status ? status : ""}`,
         isShowLoading: true,
       });
     } else if (parseInt(codeNumber) === 401) {
@@ -123,14 +123,14 @@ function* archiveStaff(action) {
     //console.log('archiveStaff : ' + JSON.stringify(responses));
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
-      const searchFilter = action.searchFilter ? action.searchFilter  : { keySearch:"", role:"", status:"" };
+      const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", role: "", status: "" };
       const { keySearch, role, status } = searchFilter;
       yield put({ type: "IS_GET_LIST_SEARCH_STAFF" });
       yield put({
         type: "GET_STAFF_BY_MERCHANR_ID",
         method: "GET",
         token: true,
-        api: `${apiConfigs.BASE_API}staff/search?name=${keySearch ? keySearch : "" }&role=${role ? role : ""}&status=${status ? status : ""}`,
+        api: `${apiConfigs.BASE_API}staff/search?name=${keySearch ? keySearch : ""}&role=${role ? role : ""}&status=${status ? status : ""}`,
         isShowLoading: true,
       });
     } else if (parseInt(codeNumber) === 401) {
@@ -157,14 +157,14 @@ function* restoreStaff(action) {
     //console.log('restoreStaff : ' + JSON.stringify(responses));
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
-      const searchFilter = action.searchFilter ? action.searchFilter  : { keySearch:"", role:"", status:"" };
+      const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", role: "", status: "" };
       const { keySearch, role, status } = searchFilter;
       yield put({ type: "IS_GET_LIST_SEARCH_STAFF" });
       yield put({
         type: "GET_STAFF_BY_MERCHANR_ID",
         method: "GET",
         token: true,
-        api: `${apiConfigs.BASE_API}staff/search?name=${keySearch ? keySearch : "" }&role=${role ? role : ""}&status=${status ? status : ""}`,
+        api: `${apiConfigs.BASE_API}staff/search?name=${keySearch ? keySearch : ""}&role=${role ? role : ""}&status=${status ? status : ""}`,
         isShowLoading: true,
       });
     } else if (parseInt(codeNumber) === 401) {
@@ -226,14 +226,14 @@ function* editStaff(action) {
     //console.log('editStaff : ' + JSON.stringify(responses));
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
-      const searchFilter = action.searchFilter ? action.searchFilter  : { keySearch:"", role:"", status:"" };
+      const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", role: "", status: "" };
       const { keySearch, role, status } = searchFilter;
       yield put({
         type: "GET_STAFF_BY_MERCHANR_ID",
         method: "GET",
         token: true,
         // api: `${apiConfigs.BASE_API}staff`,
-        api: `${apiConfigs.BASE_API}staff/search?name=${keySearch ? keySearch : "" }&role=${role ? role : ""}&status=${status ? status : ""}`,
+        api: `${apiConfigs.BASE_API}staff/search?name=${keySearch ? keySearch : ""}&role=${role ? role : ""}&status=${status ? status : ""}`,
         isShowLoading: true,
       });
       yield put({
