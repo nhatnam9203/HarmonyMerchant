@@ -44,6 +44,7 @@ function appReducer(state = initialState, action) {
       return {
         ...state,
         overallPaymentMethodList: action.payload,
+        overallPMExportFilePath: null,
       };
     case "DOWNLOAD_REPORT_EXPORT":
       return {
@@ -92,6 +93,7 @@ function appReducer(state = initialState, action) {
       return {
         ...state,
         marketingEfficiencyList: action.payload,
+        meExportFilePath: null,
       };
     case ACTION_TYPES.GiftCard_GetListSuccess:
       return {
@@ -129,6 +131,7 @@ function appReducer(state = initialState, action) {
       return {
         ...state,
         serviceSaleByCategoryList: action.payload,
+        serviceSaleByCategoryExportPath: null,
       };
 
     case ACTION_TYPES.ServiceCategory_ExportSuccess:
@@ -148,6 +151,7 @@ function appReducer(state = initialState, action) {
       return {
         ...state,
         serviceSaleByServiceList: action.payload,
+        serviceSaleByServiceExportPath: null,
       };
 
     case ACTION_TYPES.Service_ExportSuccess:
@@ -168,6 +172,7 @@ function appReducer(state = initialState, action) {
       return {
         ...state,
         productSaleByCategoryList: action.payload,
+        productSaleByCategoryExportPath: null,
       };
 
     case ACTION_TYPES.ProductCategory_ExportSuccess:
@@ -187,6 +192,7 @@ function appReducer(state = initialState, action) {
       return {
         ...state,
         productSaleByProductList: action.payload,
+        productSaleByProductExportPath: null,
       };
 
     case ACTION_TYPES.Product_ExportSuccess:

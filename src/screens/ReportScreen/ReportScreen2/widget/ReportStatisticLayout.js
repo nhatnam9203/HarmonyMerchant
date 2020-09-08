@@ -39,6 +39,8 @@ export default function ReportStatisticLayout({
   sortKey,
   unitKeys,
   subTitle,
+  isRefreshing,
+  onRefresh,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -140,6 +142,8 @@ export default function ReportStatisticLayout({
               tableCellWidth={tableCellWidth}
               renderCell={renderCell}
               onCellPress={onCellPress}
+              isRefreshing={isRefreshing}
+              onRefresh={onRefresh}
             />
           ))}
       </View>

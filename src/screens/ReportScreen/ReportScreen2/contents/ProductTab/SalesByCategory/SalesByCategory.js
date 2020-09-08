@@ -19,6 +19,8 @@ export default function SalesByCategory({
   handleTheDownloadedFile,
   defaultFilterList,
   defaultFilterName,
+  onRefresh,
+  isRefreshing,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -136,6 +138,7 @@ export default function SalesByCategory({
           primaryId="categoryId"
           sumTotalKey="categoryName"
           calcSumKeys={["quantity", "avgPrice", "totalSales"]}
+          // calcAvgKeys={["avgPrice"]}
           priceKeys={["avgPrice", "totalSales"]}
           tableCellWidth={{
             categoryName: 180,
@@ -144,6 +147,8 @@ export default function SalesByCategory({
           sortKey="categoryName"
           renderCell={renderCell}
           renderActionCell={renderActionCell}
+          onRefresh={onRefresh}
+          isRefreshing={isRefreshing}
         />
       </ReportTabLayout>
     </View>

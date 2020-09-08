@@ -42,6 +42,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
   const [urlRangeTime, setUrlRangeTime] = useState(null);
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   /**ref */
   const layoutRef = useRef(null);
@@ -144,6 +145,15 @@ function GiftCardTab({ style, showBackButton }, ref) {
     getGiftCardReportSales();
   }, []);
 
+  const refreshData = () => {
+    setRefreshing(true);
+    getGiftCardReportSales();
+  };
+
+  React.useEffect(() => {
+    setRefreshing(false);
+  }, [giftCardReportList]);
+
   return (
     <View style={[styles.container, style]}>
       <ReportLayout
@@ -166,6 +176,8 @@ function GiftCardTab({ style, showBackButton }, ref) {
           pathFileExport={giftCardExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
           onChangeFilterId={onChangeFilterId}
+          onRefresh={refreshData}
+          isRefreshing={refreshing}
         />
         <GiftCardStatistic
           style={{ flex: 1 }}
@@ -179,6 +191,8 @@ function GiftCardTab({ style, showBackButton }, ref) {
           showExportFile={() => onShowPopupExport("GiftCardStatistic")}
           pathFileExport={giftCardStatisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
+          onRefresh={refreshData}
+          isRefreshing={refreshing}
         />
       </ReportLayout>
     </View>

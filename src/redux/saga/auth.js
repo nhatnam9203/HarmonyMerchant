@@ -5,14 +5,33 @@ import apiConfigs from "../../configs/api";
 import NavigationServices from "../../navigators/NavigatorServices";
 import { requestAPI } from "../../utils";
 
-const getFcmToken = async () => {
+const getAsyncStoreToken = async () => {
   let token = null;
   try {
     token = await AsyncStorage.getItem("fcmToken");
   } catch (error) {
     console.log("Load token error: ", error);
   }
+
   return token;
+};
+
+const getFcmToken = async () => {
+  const token = await getAsyncStoreToken();
+  if (token) {
+    return token;
+  }
+
+  return new Promise(async (resolve, reject) => {
+    const waiting = setTimeout(() => {
+      reject(null);
+    }, 10000);
+
+    const token = await getAsyncStoreToken();
+    resolve(token);
+
+    clearTimeout(waiting);
+  });
 };
 const getDeviceId = async () => DeviceInfo.getUniqueId() || "simulator";
 
@@ -23,6 +42,7 @@ function* login(action) {
 
     // Add firebaseToken & device id to login
     const fcmToken = yield call(getFcmToken);
+    // console.log("=========> login get token ", fcmToken);
     const deviceUniqueId = yield call(getDeviceId);
 
     let body = action.body || {};
@@ -126,8 +146,8 @@ function* checkStaffPermission(action) {
         });
         yield put({
           type: "UPDATE_PROFILE_LOGIN_INVOICE",
-          payload: responses.data && responses.data ? responses.data : {}
-        })
+          payload: responses.data && responses.data ? responses.data : {},
+        });
       } else if (action.tabName === "Settlement") {
         yield put({
           type: "TOGGLE_SETTLEMENT_TAB_PERMISSION",

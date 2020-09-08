@@ -27,6 +27,8 @@ export default function GiftCardReportTab({
   showExportFile,
   pathFileExport,
   handleTheDownloadedFile,
+  onRefresh,
+  isRefreshing,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -188,6 +190,8 @@ export default function GiftCardReportTab({
             }}
             renderCell={renderCell}
             renderActionCell={renderActionCell}
+            onRefresh={onRefresh}
+            isRefreshing={isRefreshing}
           />
         ) : (
           <View

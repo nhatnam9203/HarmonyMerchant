@@ -5,7 +5,7 @@ import { ReportStatisticLayout, TableListExtended } from "../../widget";
 import { localize } from "@utils";
 
 export default function StaffStatistic(props, ref) {
-  const { filterId } = props;
+  const { filterId, onRefresh, isRefreshing } = props;
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
@@ -91,6 +91,8 @@ export default function StaffStatistic(props, ref) {
         {...table}
         renderCell={renderCell}
         onCellPress={onCellPress}
+        onRefresh={onRefresh}
+        isRefreshing={isRefreshing}
       />
     );
   };

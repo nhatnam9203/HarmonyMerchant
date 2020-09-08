@@ -26,6 +26,8 @@ export default function MarketingEfficiency({
   showExportFile,
   pathFileExport,
   handleTheDownloadedFile,
+  onRefresh,
+  isRefreshing,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -184,6 +186,8 @@ export default function MarketingEfficiency({
             }}
             renderCell={renderCell}
             renderActionCell={renderActionCell}
+            onRefresh={onRefresh}
+            isRefreshing={isRefreshing}
           />
         ) : (
           <View

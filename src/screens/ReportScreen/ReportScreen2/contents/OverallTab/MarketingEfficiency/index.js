@@ -41,6 +41,7 @@ function MarketingEfficiencyTab({ style, showBackButton, showHeader }, ref) {
   const [titleRangeTime, setTitleRangeTime] = useState(RANGE_TIME_DEFAULT);
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   /**ref */
   const layoutRef = useRef(null);
@@ -141,6 +142,15 @@ function MarketingEfficiencyTab({ style, showBackButton, showHeader }, ref) {
     getMarketingEfficiencyMethod();
   }, []);
 
+  const refreshData = () => {
+    setRefreshing(true);
+    getMarketingEfficiencyMethod();
+  };
+
+  React.useEffect(() => {
+    setRefreshing(false);
+  }, [marketingEfficiencyList]);
+
   return (
     <View style={[styles.container, style]}>
       <ReportLayout
@@ -162,6 +172,8 @@ function MarketingEfficiencyTab({ style, showBackButton, showHeader }, ref) {
           pathFileExport={meExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
           onChangeFilterId={onChangeFilterId}
+          onRefresh={refreshData}
+          isRefreshing={refreshing}
         />
         <MarketingEfficiencyStatistic
           style={{ flex: 1 }}
@@ -177,6 +189,8 @@ function MarketingEfficiencyTab({ style, showBackButton, showHeader }, ref) {
           }
           pathFileExport={meStatisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
+          onRefresh={refreshData}
+          isRefreshing={refreshing}
         />
       </ReportLayout>
     </View>
