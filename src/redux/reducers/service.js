@@ -25,7 +25,9 @@ function appReducer(state = initialState, action) {
         case 'GET_SERVICE_BY_MERCHANT_SUCCESS':
             return {
                 ...state,
-                servicesByMerchant: action.payload,
+                servicesByMerchant: !action.searchFilter ? action.payload : state.servicesByMerchant,
+                listServicesSearch: action.searchFilter ? action.payload : state.listServicesSearch,
+                isShowSearchService: action.searchFilter,
                 refreshListServices: false
             }
         case 'GET_SERVICE_BY_MERCHANT_FAIL':

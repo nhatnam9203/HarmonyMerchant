@@ -145,7 +145,7 @@ class TabServices extends React.Component {
                         keyExtractor={(item, index) => `${item.serviceId}`}
                         ListEmptyComponent={<RowEmptyTableServices />}
                         refreshing={refreshListServices}
-                        onRefresh={() => this.props.actions.service.getServicesByMerchant("","","",false)}
+                        onRefresh={() => this.props.actions.service.getServicesByMerchant("","","",false,false)}
                     />
                 </View>
             </View>

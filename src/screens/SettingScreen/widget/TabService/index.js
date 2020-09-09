@@ -72,14 +72,14 @@ class TabService extends Layout {
         const { searchFilter } = this.state;
         const {  category, status } = searchFilter;
         const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Service') : '';
-        this.props.actions.service.getServicesByMerchant("", temptCategory, status);
+        this.props.actions.service.getServicesByMerchant("", temptCategory, status,searchFilter);
     }
 
     searchService = (isShowLoading =  true) => {
         const { searchFilter } = this.state;
         const { keySearch, category, status } = searchFilter;
         const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Service') : '';
-        this.props.actions.service.getServicesByMerchant(keySearch, temptCategory, status,isShowLoading);
+        this.props.actions.service.getServicesByMerchant(keySearch, temptCategory, status,searchFilter,isShowLoading);
     }
 
     togglePopupArchive = (visible) => {
@@ -170,14 +170,6 @@ class TabService extends Layout {
             });
             this.props.actions.service.updateServicePositionLocal(servicesUpdate);
             this.props.actions.service.updateSerivePosition(body);
-        }
-
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        const { isShowSearchService, isGetListSearchService } = this.props;
-        if (isShowSearchService && isGetListSearchService) {
-            this.searchService();
         }
 
     }

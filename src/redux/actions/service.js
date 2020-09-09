@@ -11,13 +11,14 @@ export function addServiceByMerchant(body,searchFilter = false) {
     }
 }
 
-export function getServicesByMerchant(name = '', category = '', status = '',isShowLoading = true) {
+export function getServicesByMerchant(name = '', category = '', status = '',searchFilter = false,isShowLoading = true) {
     return {
         type: 'GET_SERVICE_BY_MERCHANT',
         method: 'GET',
         token: true,
         api: `${apiConfigs.BASE_API}service/search?name=${name}&category=${category}&status=${status}`,
-        isShowLoading
+        isShowLoading,
+        searchFilter
     }
 }
 

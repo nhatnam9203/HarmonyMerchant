@@ -141,7 +141,8 @@ class Layout extends React.Component {
             language
         } = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
-        const data = servicesByMerchant.map((item, index) => {
+        const tempData = isShowSearchService ? listServicesSearch : servicesByMerchant;
+        const data = tempData.map((item, index) => {
             return {
                 ...item,
                 key: `item-${index}`,

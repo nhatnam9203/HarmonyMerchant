@@ -18,7 +18,8 @@ function* addServiceByMerchant(action) {
                 method: 'GET',
                 token: true,
                 api: `${apiConfigs.BASE_API}service/search?name=${keySearch}&category=${category}&status=${status}`,
-                isShowLoading: true
+                isShowLoading: true,
+                searchFilter: action.searchFilter ? action.searchFilter: false
             })
             yield put({
                 type: 'GET_EXTRA_BY_MERCHANT',
@@ -52,9 +53,13 @@ function* getServicesByMerchant(action) {
         //console.log('getServicesByMerchant : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", category: "", status: "" };
+            const { keySearch, category, status } = searchFilter;
+            const tempSearchFilter = keySearch || category || status ? true : false;
             yield put({
                 type: 'GET_SERVICE_BY_MERCHANT_SUCCESS',
-                payload: responses.data
+                payload: responses.data,
+                searchFilter: tempSearchFilter
             });
             if (action.isGetListExtra) {
                 yield put({
@@ -98,7 +103,8 @@ function* archiveService(action) {
                 method: 'GET',
                 token: true,
                 api: `${apiConfigs.BASE_API}service/search?name=${keySearch}&category=${category}&status=${status}`,
-                isShowLoading: true
+                isShowLoading: true,
+                searchFilter: action.searchFilter ? action.searchFilter: false
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -132,7 +138,8 @@ function* restoreService(action) {
                 method: 'GET',
                 token: true,
                 api: `${apiConfigs.BASE_API}service/search?name=${keySearch}&category=${category}&status=${status}`,
-                isShowLoading: true
+                isShowLoading: true,
+                searchFilter: action.searchFilter ? action.searchFilter: false
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -168,7 +175,8 @@ function* editService(action) {
                 // api: `${apiConfigs.BASE_API}service`,
                 api: `${apiConfigs.BASE_API}service/search?name=${keySearch}&category=${category}&status=${status}`,
                 isShowLoading: true,
-                isGetListExtra: true
+                isGetListExtra: true,
+                searchFilter: action.searchFilter ? action.searchFilter: false
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
