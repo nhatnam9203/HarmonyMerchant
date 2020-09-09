@@ -18,13 +18,13 @@ export default class Button extends React.PureComponent {
         this.click = false;
         setTimeout(() => {
             this.click = true;
-        }, 500);
+        }, 1000);
     }
 
     render() {
         return (
-            <TouchableOpacity {...this.props} onPress={this.onPress} 
-            activeOpacity={this.props.activeOpacity}
+            <TouchableOpacity {...this.props} onPress={this.onPress}
+                activeOpacity={this.props.activeOpacity}
             >
                 {this.props.children}
             </TouchableOpacity>

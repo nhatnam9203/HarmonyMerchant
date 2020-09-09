@@ -31,6 +31,7 @@ class SettingScreen extends Layout {
           isFocus: false,
         });
         this.checkPermissionRef.current.setStateFromParent("");
+        this.resetSettingTab();
       }
     );
     this.didFocusSubscription = this.props.navigation.addListener(
@@ -103,45 +104,25 @@ class SettingScreen extends Layout {
   resetStateExtraSetting = () => {
     if (this.tabExtraRef.current) {
       this.tabExtraRef.current.setStateFromParent();
-    } 
-    // else {
-    //   setTimeout(() => {
-    //     this.tabExtraRef.current.setStateFromParent();
-    //   }, 500)
-    // }
+    }
   }
 
   resetStateServiceSetting = () => {
     if (this.tabServiceRef.current) {
       this.tabServiceRef.current.setStateFromParent();
     }
-    //  else {
-    //   setTimeout(() => {
-    //     this.tabServiceRef.current.setStateFromParent();
-    //   }, 500)
-    // }
   }
 
   resetStateCategoriesSetting = () => {
     if (this.tabCategoriesRef.current) {
       this.tabCategoriesRef.current.setStateFromParent();
-    } 
-    // else {
-    //   setTimeout(() => {
-    //     this.tabCategoriesRef.current.setStateFromParent();
-    //   }, 500)
-    // }
+    }
   }
 
   resetStateStaffSetting = () => {
     if (this.tabStaffRef.current) {
       this.tabStaffRef.current.setStateFromParent();
-    } 
-    // else {
-    //   setTimeout(() => {
-    //     this.tabStaffRef.current.setStateFromParent();
-    //   }, 500)
-    // }
+    }
   }
 
   updateTaxFromParent = () => {
@@ -211,7 +192,14 @@ class SettingScreen extends Layout {
         alert(error)
       }, 500)
     }
+  }
 
+  resetSettingTab = () => {
+    const { isShowSearchCategories, isShowSearchExtra, isShowSearchService, isShowSearchStaff } = this.props;
+    isShowSearchCategories ? this.props.actions.category.getCategoriesByMerchantId('', '', '', false, false) : null;
+    isShowSearchExtra ? this.props.actions.extra.getExtraByMerchant('', '', false, false) : null;
+    isShowSearchService ? this.props.actions.service.getServicesByMerchant('', '', '', false, false) : null;
+    isShowSearchStaff ? this.props.actions.staff.getStaffByMerchantId("", "", "", false, false) : null;
   }
 
   componentWillUnmount() {
@@ -225,9 +213,13 @@ const mapStateToProps = (state) => ({
   language: state.dataLocal.language,
   loading: state.app.loading,
   settingTabPermission: state.app.settingTabPermission,
-
   printerPortType: state.dataLocal.printerPortType,
-  isAddStaff: state.staff.isAddStaff
+  isAddStaff: state.staff.isAddStaff,
+
+  isShowSearchCategories: state.category.isShowSearchCategories,
+  isShowSearchExtra: state.extra.isShowSearchExtra,
+  isShowSearchService: state.service.isShowSearchService,
+  isShowSearchStaff: state.staff.isShowSearchStaff,
 });
 
 export default connectRedux(mapStateToProps, SettingScreen);

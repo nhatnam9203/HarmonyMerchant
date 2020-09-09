@@ -18,8 +18,9 @@ import { TextField } from '../../../../react-native-material-textfield';
 import DropdownItem from '../item';
 import styles from './styles';
 import Button from "../../../../Button";
+import connectRedux from "@redux/ConnectRedux";
 
-export default class Dropdown extends PureComponent {
+class Dropdown extends PureComponent {
   static defaultProps = {
     hitSlop: { top: 6, right: 4, bottom: 6, left: 4 },
 
@@ -56,7 +57,7 @@ export default class Dropdown extends PureComponent {
     rippleOpacity: 0.54,
     shadeOpacity: 0.12,
 
-    rippleDuration: 300,
+    rippleDuration: 0,
     animationDuration: 0,
 
     // rippleDuration: 400,
@@ -666,6 +667,7 @@ export default class Dropdown extends PureComponent {
       accessibilityLabel,
 
       supportedOrientations,
+      loading,
 
       ...props
     } = this.props;
@@ -732,6 +734,9 @@ export default class Dropdown extends PureComponent {
       accessibilityLabel,
     };
 
+
+    let visible = loading ? false : modal;
+
     return (
       <View onLayout={this.onLayout} ref={this.updateContainerRef} style={containerStyle}>
         {/* <TouchableWithoutFeedback {...touchableProps}> */}
@@ -744,7 +749,7 @@ export default class Dropdown extends PureComponent {
         {/* </TouchableWithoutFeedback> */}
 
         <Modal
-          visible={modal}
+          visible={visible}
           transparent={true}
           onRequestClose={this.blur}
           supportedOrientations={supportedOrientations}
@@ -774,3 +779,10 @@ export default class Dropdown extends PureComponent {
     );
   }
 }
+
+
+const mapStateToProps = (state) => ({
+  loading: state.app.loading,
+});
+
+export default connectRedux(mapStateToProps, Dropdown);

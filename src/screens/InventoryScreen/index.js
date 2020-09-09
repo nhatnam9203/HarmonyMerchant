@@ -49,6 +49,7 @@ class InventoryScreen extends Layout {
                     isFocus: false
                 });
                 this.checkPermissionRef.current.setStateFromParent('');
+                this.props.actions.product.getProductsByMerchant("", "", false);
 
             }
         );
