@@ -13,10 +13,11 @@ import moment from 'moment';
 import { scaleSzie } from '../utils';
 import Modal from "./ModalCustom"
 import Button from "./Button";
+import connectRedux from '@redux/ConnectRedux';
 
 const { width } = Dimensions.get('window');
 
-export default class DatePicker extends Component {
+class DatePicker extends Component {
 
     setDate = (event, date) => {
         const temptDate = `${moment(date).format()}`;
@@ -26,13 +27,16 @@ export default class DatePicker extends Component {
     render() {
         const { visible, onRequestClose,
             heightPicker, title,
-            dateCalendar
+            dateCalendar,loading
         } = this.props;
         const height = heightPicker && heightPicker || scaleSzie(180);
+
+        const tempVisible = loading ? false : visible;
+
         return (
             <Modal
                 transparent={true}
-                visible={visible}
+                visible={tempVisible}
                 onRequestClose={() => onRequestClose()}
                 animationType={this.props.animationType || 'none'}
                 style={{
@@ -74,3 +78,8 @@ export default class DatePicker extends Component {
 
 }
 
+const mapStateToProps = state => ({
+    loading: state.app.loading,
+})
+
+export default connectRedux(mapStateToProps, DatePicker);

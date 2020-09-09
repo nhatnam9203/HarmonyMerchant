@@ -21,7 +21,6 @@ class IntroScreen extends Layout {
 
     }
 
-
 }
 
 const mapStateToProps = state => ({

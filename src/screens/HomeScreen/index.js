@@ -364,6 +364,4 @@ const mapStateToProps = state => ({
     isGoToTabMarketing: state.marketing.isGoToTabMarketing
 })
 
-
-
 export default connectRedux(mapStateToProps, HomeScreen);
