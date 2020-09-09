@@ -22,7 +22,8 @@ const initialState = {
     isApplyFourthPromotion: false,
     isApplyFivethPromotion: false,
     isGetPromotionOfAppointment: "",
-    promotionNotes:{}
+    promotionNotes:{},
+    isDiscountByOwner: true
 }
 
 function appReducer(state = initialState, action) {
@@ -91,7 +92,8 @@ function appReducer(state = initialState, action) {
                 visibleModalDiscount: true,
                 appointmentIdUpdatePromotion: action.appointmentId,
                 isGetPromotionOfAppointment: "success",
-                promotionNotes: action.promotionNotes
+                promotionNotes: action.promotionNotes,
+                isDiscountByOwner : action.isDiscountByOwner
             }
         case 'GET_PROMOTION_BY_APPOINTMENT_FAIL':
             return {

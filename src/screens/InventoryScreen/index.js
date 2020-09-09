@@ -136,7 +136,7 @@ class InventoryScreen extends Layout {
         }
     }
 
-    clearSearchText = () =>{
+    clearSearchText = () => {
         this.updateSearchFilterInfo('keySearch', "")
     }
 

@@ -5,14 +5,16 @@ import {
     ScrollView,
     TouchableOpacity,
     Alert,
-    TextInput
+    TextInput,
+    Image
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
 
-import { ButtonCustom, PopupParent } from '@components';
+import { ButtonCustom, PopupParent, Button } from '@components';
 import { scaleSzie, formatNumberFromCurrency, formatMoney, localize, roundNumber } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
+import ICON from "@resources";
 
 class PopupDiscount extends React.Component {
 
@@ -27,7 +29,8 @@ class PopupDiscount extends React.Component {
 
             customDiscountPercentLocal: 0,
             customDiscountFixedLocal: 0,
-            promotionNotes: ""
+            promotionNotes: "",
+            isDiscountByOwner: true
         };
         this.customDiscountRef = React.createRef();
         this.customFixedAmountRef = React.createRef();
@@ -72,8 +75,8 @@ class PopupDiscount extends React.Component {
                     { cancelable: false }
                 );
             } else {
-                const { promotionNotes } = this.state;
-                this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentIdUpdatePromotion, true);
+                const { promotionNotes, isDiscountByOwner } = this.state;
+                this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, isDiscountByOwner, appointmentIdUpdatePromotion, true);
                 this.props.actions.marketing.addPromotionNote(appointmentDetail.appointmentId, promotionNotes);
                 this.props.actions.marketing.closeModalDiscount();
                 this.resetState();
@@ -131,6 +134,10 @@ class PopupDiscount extends React.Component {
         this.scrollRef.current.scrollTo({ x: 0, y: num, animated: true })
     }
 
+    toggleCheckBox = () => {
+        this.setState(prevState => ({ isDiscountByOwner: !prevState.isDiscountByOwner }))
+    }
+
     // ------ Render -----
 
     render() {
@@ -141,7 +148,7 @@ class PopupDiscount extends React.Component {
             const appointmentDetail = appointmentIdUpdatePromotion !== -1 && !_.isEmpty(groupAppointment) && groupAppointment.appointments ? groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) : { subTotal: 0 };
             const { customDiscountPercent, customDiscountFixed } = appointmentDetail !== undefined && appointmentDetail && !_.isEmpty(appointmentDetail) ? appointmentDetail : { customDiscountPercent: 0, customDiscountFixed: 0 };
             const {
-                moneyDiscountCustom, moneyDiscountFixedAmout,
+                isDiscountByOwner,
                 customDiscountPercentLocal, customDiscountFixedLocal, promotionNotes
             } = this.state;
             const visible = visibleModalDiscount && !_.isEmpty(groupAppointment) ? true : false;
@@ -162,6 +169,7 @@ class PopupDiscount extends React.Component {
 
             const temptCustomDiscountPercent = _.isEmpty(appointmentDetail) ? customDiscountPercentLocal : customDiscountPercent;
             const temptCustomDiscountFixed = _.isEmpty(appointmentDetail) ? customDiscountFixedLocal : customDiscountFixed;
+            const tempCheckBoxIcon = isDiscountByOwner ? ICON.checkBox : ICON.checkBoxEmpty;
 
             return (
                 <PopupParent
@@ -204,6 +212,19 @@ class PopupDiscount extends React.Component {
                                         onChangeText={this.onChangeTextDiscountFixed}
                                         language={language}
                                     />
+
+                                    {/* ------------ Check Box ----------- */}
+                                    <View style={{ flexDirection: "row", marginTop: scaleSzie(2), marginBottom: scaleSzie(12), alignItems: "center" }} >
+                                        <Button onPress={this.toggleCheckBox} >
+                                            <Image source={tempCheckBoxIcon} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
+                                        </Button>
+                                        <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginLeft: scaleSzie(15) }} >
+                                            {`Discount By Owner`}
+                                        </Text>
+                                    </View>
+
+                                    <View style={{ height: 1, backgroundColor: "#707070" }} />
+                                    {/* borderBottomColor: '#707070', borderBottomWidth: 1, */}
 
 
                                     {/* ----------- Note  ----------- */}
@@ -272,12 +293,13 @@ class PopupDiscount extends React.Component {
     }
 
     async componentDidUpdate(prevProps, prevState) {
-        const { visibleModalDiscount, groupAppointment, isGetPromotionOfAppointment, promotionNotes } = this.props;
+        const { visibleModalDiscount, groupAppointment, isGetPromotionOfAppointment, promotionNotes,isDiscountByOwner } = this.props;
         const visible = visibleModalDiscount && !_.isEmpty(groupAppointment) ? true : false;
         if (prevProps.isGetPromotionOfAppointment !== isGetPromotionOfAppointment && isGetPromotionOfAppointment === "success" && visible) {
             this.props.actions.marketing.resetStateGetPromotionOfAppointment();
             await this.setState({
-                promotionNotes: promotionNotes.note ? promotionNotes.note : ""
+                promotionNotes: promotionNotes.note ? promotionNotes.note : "",
+                isDiscountByOwner:isDiscountByOwner
             });
 
         }
@@ -405,7 +427,7 @@ class CustomDiscountFixed extends React.Component {
         const { onChangeText, language } = this.props;
         return (
             <View style={{
-                flexDirection: 'row', height: scaleSzie(45), borderBottomColor: '#707070', borderBottomWidth: 1,
+                flexDirection: 'row', height: scaleSzie(45),
                 paddingBottom: scaleSzie(20)
             }} >
                 <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }} >
@@ -461,7 +483,8 @@ const mapStateToProps = state => ({
     appointmentIdUpdatePromotion: state.marketing.appointmentIdUpdatePromotion,
     language: state.dataLocal.language,
     isGetPromotionOfAppointment: state.marketing.isGetPromotionOfAppointment,
-    promotionNotes: state.marketing.promotionNotes
+    promotionNotes: state.marketing.promotionNotes,
+    isDiscountByOwner: state.marketing.isDiscountByOwner
 })
 
 

@@ -185,7 +185,7 @@ function* getPromotionByAppointment(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('getPromotionByAppointment : ', JSON.stringify(responses));
+        // console.log('getPromotionByAppointment : ', JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -202,6 +202,7 @@ function* getPromotionByAppointment(action) {
                     payload: responses.data && responses.data.promotions ? responses.data.promotions : [],
                     appointmentId: action.appointmentId,
                     promotionNotes: responses.data && responses.data.notes ? responses.data.notes : {},
+                    isDiscountByOwner: responses.data ? responses.data.isDiscountByOwner  : true,
                 })
             }
 

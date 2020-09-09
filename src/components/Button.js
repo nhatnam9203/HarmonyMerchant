@@ -18,7 +18,7 @@ export default class Button extends React.PureComponent {
         this.click = false;
         setTimeout(() => {
             this.click = true;
-        }, 1000);
+        }, 500);
     }
 
     render() {

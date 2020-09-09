@@ -200,6 +200,11 @@ class SettingScreen extends Layout {
     isShowSearchExtra ? this.props.actions.extra.getExtraByMerchant('', '', false, false) : null;
     isShowSearchService ? this.props.actions.service.getServicesByMerchant('', '', '', false, false) : null;
     isShowSearchStaff ? this.props.actions.staff.getStaffByMerchantId("", "", "", false, false) : null;
+    this.scrollTabRef.current.goToPage(0);
+    this.setState({
+      indexTab: 0,
+    })
+    
   }
 
   componentWillUnmount() {

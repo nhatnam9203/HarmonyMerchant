@@ -89,14 +89,15 @@ export function changeStylist(staffId, bookingServiceId, tipAmount, appointmentI
     }
 }
 
-export function customPromotion(discountPercent, discountFixtom, appointmentid, isGroup = false,isBlock = false) {
+export function customPromotion(discountPercent, discountFixtom, isDiscountByOwner,appointmentid, isGroup = false,isBlock = false) {
     return {
         type: 'CUSTOM_PROMOTION',
         method: 'PUT',
         token: true,
         body: {
             discountPercent,
-            discountFixtom
+            discountFixtom,
+            isDiscountByOwner
         },
         api: `${apiConfigs.BASE_API}appointment/custompromotion/${appointmentid}`,
         appointmentid,

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, Text, Dropdown, ItemWorkingTime, Button } from '@components';
-import { scaleSzie, localize, getNameStateById, TimeZones, hideCharactes,WorkingTime } from '@utils';
+import { scaleSzie, localize, getNameStateById, TimeZones, hideCharactes, WorkingTime } from '@utils';
 import ICON from "@resources";
 
 const AUTO_LOCK = ["2 Minutes", "5 Minutes", "10 Minutes", "15 Minutes", "Never"];
@@ -18,7 +18,7 @@ class Layout extends React.Component {
 
     renderSetup() {
         const { language, autoLockScreenAfter } = this.props;
-        const { languageApp, webLink,autoCloseAt, timezone, businessHour } = this.state;
+        const { languageApp, webLink, autoCloseAt, timezone, businessHour } = this.state;
 
         return (
             <View style={{ width: '100%', marginTop: scaleSzie(6) }} >
@@ -196,19 +196,15 @@ class Layout extends React.Component {
                         title={localize('Business Name', language)}
                         value={businessName}
                     />
+                    <ItemTextStoreInfo
+                        title={localize('Business Address', language)}
+                        value={address}
+                    />
                     <ItemTextStoreInfoNotTilte
                         city={city}
                         state={getNameStateById(stateCity, stateId)}
                         zipcode={zip}
                     />
-                    <ItemTextStoreInfo
-                        title={localize('Business Address', language)}
-                        value={address}
-                    />
-                    {/* <ItemTextStoreInfo
-                        title={localize('Federal Tax Id', language)}
-                        value={taxId}
-                    /> */}
                     <ItemTextStoreInfo
                         title={localize('Phone Number', language)}
                         value={phone}
