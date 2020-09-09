@@ -18,7 +18,8 @@ function* addExtraByMerchant(action) {
                 method: 'GET',
                 token: true,
                 api: `${apiConfigs.BASE_API}extra/search?name=${keySearch}&status=${status}`,
-                isShowLoading: true
+                isShowLoading: true,
+                searchFilter: action.searchFilter ? action.searchFilter : false
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -45,10 +46,14 @@ function* getExtraByMerchant(action) {
         //console.log('getExtraByMerchant : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", status: "" };
+            const { keySearch, status } = searchFilter;
+            const tempSearchFilter = keySearch || status ? true : false;
             yield put({
                 type: 'GET_EXTRA_BY_MERCHANT_SUCCESS',
-                payload: responses.data
-            })
+                payload: responses.data,
+                searchFilter: tempSearchFilter
+            });
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
@@ -83,7 +88,8 @@ function* archiveExtra(action) {
                 method: 'GET',
                 token: true,
                 api: `${apiConfigs.BASE_API}extra/search?name=${keySearch}&status=${status}`,
-                isShowLoading: true
+                isShowLoading: true,
+                searchFilter: action.searchFilter ? action.searchFilter : false
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -117,7 +123,8 @@ function* restoreExtra(action) {
                 method: 'GET',
                 token: true,
                 api: `${apiConfigs.BASE_API}extra/search?name=${keySearch}&status=${status}`,
-                isShowLoading: true
+                isShowLoading: true,
+                searchFilter: action.searchFilter ? action.searchFilter : false
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -152,6 +159,7 @@ function* editExtra(action) {
                 token: true,
                 api: `${apiConfigs.BASE_API}extra/search?name=${keySearch}&status=${status}`,
                 isShowLoading: true,
+                searchFilter: action.searchFilter ? action.searchFilter : false
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({

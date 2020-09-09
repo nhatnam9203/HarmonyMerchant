@@ -65,13 +65,13 @@ class TabExtra extends Layout {
         this.updateSearchFilterInfo('keySearch', "");
         const { searchFilter } = this.state;
         const { status } = searchFilter;
-        this.props.actions.extra.getExtraByMerchant("", status, true);
+        this.props.actions.extra.getExtraByMerchant("", status, searchFilter,true);
     }
 
     searchExtra = (isShowLoading = true) => {
         const { searchFilter } = this.state;
         const { keySearch, status } = searchFilter;
-        this.props.actions.extra.getExtraByMerchant(keySearch, status, isShowLoading);
+        this.props.actions.extra.getExtraByMerchant(keySearch, status, searchFilter,isShowLoading);
     }
 
     togglePopupArchive = (visible) => {
@@ -163,16 +163,6 @@ class TabExtra extends Layout {
             this.props.actions.extra.updatePositionExtras(body);
         }
     }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        const { isShowSearchExtra, isGetListSearchExtra } = this.props;
-        if (isShowSearchExtra && isGetListSearchExtra) {
-            this.searchExtra();
-        }
-
-    }
-
-
 }
 
 const mapStateToProps = state => ({

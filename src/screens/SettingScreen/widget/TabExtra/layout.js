@@ -135,6 +135,7 @@ class Layout extends React.Component {
                 key: `item-${index}`,
             }
         });
+
         return (
             <View style={styles.container} >
                 {this.renderSearch()}

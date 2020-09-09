@@ -11,13 +11,14 @@ export function addExtraByMerchant(body, searchFilter = false) {
     }
 }
 
-export function getExtraByMerchant(name = '', status = '', isShowLoading = true) {
+export function getExtraByMerchant(name = '', status = '', searchFilter = false,isShowLoading = true) {
     return {
         type: 'GET_EXTRA_BY_MERCHANT',
         method: 'GET',
         token: true,
         api: `${apiConfigs.BASE_API}extra/search?name=${name}&status=${status}`,
-        isShowLoading
+        isShowLoading,
+        searchFilter
     }
 }
 

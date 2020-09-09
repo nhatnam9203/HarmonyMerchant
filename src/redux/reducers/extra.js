@@ -24,7 +24,9 @@ function appReducer(state = initialState, action) {
         case 'GET_EXTRA_BY_MERCHANT_SUCCESS':
             return {
                 ...state,
-                extrasByMerchant: action.payload,
+                extrasByMerchant: !action.searchFilter ? action.payload : state.extrasByMerchant,
+                listExtrasSearch: action.searchFilter ? action.payload : state.listExtrasSearch,
+                isShowSearchExtra:action.searchFilter,
                 refreshListExtras: false
             }
         case 'GET_EXTRA_BY_MERCHANT_FAIL':

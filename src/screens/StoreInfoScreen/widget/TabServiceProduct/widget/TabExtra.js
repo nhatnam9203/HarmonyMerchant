@@ -126,7 +126,7 @@ class TabExtra extends React.Component {
                         keyExtractor={(item, index) => `${item.extraId}`}
                         ListEmptyComponent={<RowEmptyTableExtra />}
                         refreshing={refreshListExtras}
-                        onRefresh={() => this.props.actions.extra.getExtraByMerchant("","",false)}
+                        onRefresh={() => this.props.actions.extra.getExtraByMerchant("","",false,false)}
                     />
                 </View>
             </View>
