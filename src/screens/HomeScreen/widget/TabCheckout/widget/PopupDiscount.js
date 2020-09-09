@@ -222,9 +222,7 @@ class PopupDiscount extends React.Component {
                                             {`Discount By Owner`}
                                         </Text>
                                     </View>
-
                                     <View style={{ height: 1, backgroundColor: "#707070" }} />
-                                    {/* borderBottomColor: '#707070', borderBottomWidth: 1, */}
 
 
                                     {/* ----------- Note  ----------- */}

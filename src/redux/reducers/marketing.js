@@ -113,6 +113,7 @@ function appReducer(state = initialState, action) {
                 appointmentIdUpdatePromotion: action.appointmentId,
                 promotionNotes: action.promotionNotes,
                 isGetPromotionOfAppointment: "success",
+                isDiscountByOwner : action.isDiscountByOwner
             }
 
         case 'CLOSE_MODAL_DISCOUNT':

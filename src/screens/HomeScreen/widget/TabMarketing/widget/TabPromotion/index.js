@@ -69,7 +69,8 @@ class TabPromotion extends Layout {
     });
   }
 
-  applyPromotion = (promotionId,isSendNoti) => {
+  applyPromotion = (promotionId, isSendNoti) => {
+    console.log("--- promotionId :", promotionId);
     const { servicesByMerchant } = this.props;
 
     const promotionFirst = this.promotionFirstRef.current.state.data;
@@ -84,8 +85,29 @@ class TabPromotion extends Layout {
       serviceApply: getServiceIdByName(servicesByMerchant, promotionSeconde.serviceApply ? promotionSeconde.serviceApply : 0),
     };
 
-    const dataUpdate = [promotionFirst, temptPromotionSecond, promotionThird, promotionFour, promotionFive];
-    this.props.actions.marketing.updatePromotionByMerchant(dataUpdate, promotionId,isSendNoti);
+    let tempPromotion;
+    switch (parseInt(promotionId)) {
+      case 1:
+        tempPromotion = promotionFirst;
+        break;
+      case 2:
+        tempPromotion = temptPromotionSecond;
+        break;
+      case 3:
+        tempPromotion = promotionThird;
+        break;
+      case 4:
+        tempPromotion = promotionFour;
+        break;
+      case 5:
+        tempPromotion = promotionFive;
+        break;
+      default:
+        tempPromotion = promotionFive;
+    };
+
+    // const dataUpdate = [promotionFirst, temptPromotionSecond, promotionThird, promotionFour, promotionFive];
+    this.props.actions.marketing.updatePromotionByMerchant([tempPromotion], promotionId, isSendNoti);
   }
 
   checkSelectPromotion = () => {

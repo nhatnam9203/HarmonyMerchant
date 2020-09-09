@@ -152,7 +152,8 @@ function* updatePromotionByMerchant(action) {
                 type: 'GET_PROMOTION_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}merchantpromotion`
+                api: `${apiConfigs.BASE_API}merchantpromotion`,
+                isLoading: true
             });
             if (action.isSendNoti) {
                 yield put({
@@ -195,6 +196,7 @@ function* getPromotionByAppointment(action) {
                     payload: responses.data && responses.data.promotions ? responses.data.promotions : [],
                     appointmentId: action.appointmentId,
                     promotionNotes: responses.data && responses.data.notes ? responses.data.notes : {},
+                    isDiscountByOwner: responses.data ? responses.data.isDiscountByOwner : true,
                 })
             } else {
                 yield put({
@@ -202,7 +204,7 @@ function* getPromotionByAppointment(action) {
                     payload: responses.data && responses.data.promotions ? responses.data.promotions : [],
                     appointmentId: action.appointmentId,
                     promotionNotes: responses.data && responses.data.notes ? responses.data.notes : {},
-                    isDiscountByOwner: responses.data ? responses.data.isDiscountByOwner  : true,
+                    isDiscountByOwner: responses.data ? responses.data.isDiscountByOwner : true,
                 })
             }
 
