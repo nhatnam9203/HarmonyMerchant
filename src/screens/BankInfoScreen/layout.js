@@ -16,9 +16,7 @@ const { width } = Dimensions.get('window');
 export default class Layout extends React.Component {
 
     render() {
-        const {
-            bankName, routingNumber, accountNumber, accountHolderName
-        } = this.state.bankInfo;
+        const {bankName, routingNumber, accountNumber, accountHolderName } = this.state.bankInfo;
         const { language } = this.props;
         return (
             <FormInfoParent

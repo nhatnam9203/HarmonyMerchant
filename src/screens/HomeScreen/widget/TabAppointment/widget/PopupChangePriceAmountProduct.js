@@ -93,15 +93,14 @@ class PopupChangePriceAmountProduct extends React.Component {
     // --------------- Render -----------
 
     render() {
-        const { title, visible, listStaffByMerchant, onRequestClose, confimYes } = this.props;
-        const { name, tip, price, quantity } = this.state;
+        const { title, visible, onRequestClose } = this.props;
+        const { name, price, quantity } = this.state;
         return (
             <PopupParent
                 title={title}
                 visible={visible}
                 onRequestClose={() => onRequestClose()}
                 width={scaleSzie(260)}
-                // style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(50) }}
                 styleTitle={{ fontSize: scaleSzie(22), fontWeight: "bold" }}
             >
                 <View style={{
@@ -128,8 +127,6 @@ class PopupChangePriceAmountProduct extends React.Component {
                                 <TextInput
                                     style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
                                     value={name}
-                                    // onChangeText={(price) => this.setState({ price })}
-                                    // onFocus={() => this.onFocusToScroll(90)}
                                     editable={false}
                                 />
                             </View>
@@ -143,7 +140,6 @@ class PopupChangePriceAmountProduct extends React.Component {
                                 paddingHorizontal: scaleSzie(10), marginBottom: scaleSzie(10)
                             }} >
                                 <TextInputMask
-                                    // type="only-numbers"
                                     type={'money'}
                                     options={{
                                         precision: 2,

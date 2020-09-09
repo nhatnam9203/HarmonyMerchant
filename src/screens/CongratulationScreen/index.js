@@ -14,14 +14,10 @@ class CongratulationScreen extends Layout {
         this.props.actions.dataLocal.resetNeddSettingStore();
     }
 
-
-
 }
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-})
-
-
+});
 
 export default connectRedux(mapStateToProps, CongratulationScreen);

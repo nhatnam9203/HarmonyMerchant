@@ -2,15 +2,12 @@ import React from 'react';
 import {
     View,
     Text,
-    Dimensions,
     ScrollView,
     TouchableOpacity
 } from 'react-native';
 
 import { ButtonCustom, PopupParent } from '@components';
 import { scaleSzie, localize } from '@utils';
-
-const { width } = Dimensions.get('window');
 
 class PopupCustomerDetail extends React.Component {
 

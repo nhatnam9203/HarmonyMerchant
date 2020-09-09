@@ -136,8 +136,6 @@ class BusinessInfoScreen extends Layout {
         }
     }
 
-
-
 }
 
 const mapStateToProps = state => ({

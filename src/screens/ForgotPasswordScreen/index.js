@@ -24,17 +24,6 @@ class ForgotPasswordScreen extends Layout {
         } else {
             this.props.actions.auth.forgotPassword(email);
         }
-
-        // if (validateEmail(email)) {
-        //     if (isForgotPin) {
-        //         this.props.actions.staff.forgotPin(profile.merchantCode, email);
-        //     } else {
-        //         this.props.actions.auth.forgotPassword(email);
-        //     }
-
-        // } else {
-        //     alert('Email Invalid');
-        // }
     }
 
 }

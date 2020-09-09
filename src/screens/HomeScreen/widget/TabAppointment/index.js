@@ -1,7 +1,6 @@
 import React from 'react';
 import _ from 'ramda';
 import { Alert, AppState } from 'react-native';
-import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -9,7 +8,6 @@ import {
     validateIsNumber, getArrayProductsFromAppointment, getArrayServicesFromAppointment,
     getArrayExtrasFromAppointment
 } from '@utils';
-import NotifService from '@utils/NotifService';
 
 const initState = {
     isShowColProduct: false,
@@ -61,10 +59,6 @@ class TabAppointment extends Layout {
 
     componentDidMount() {
         AppState.addEventListener("change", this.handleAppStateChange);
-        // ------- Register Notification ------
-        // this.notif = new NotifService(
-        //     this.onNotif.bind(this),
-        // );
     }
 
 
@@ -91,7 +85,6 @@ class TabAppointment extends Layout {
     }
 
     connectWebview = () => {
-        //console.log('appointmentIdOffline : ',this.state.appointmentIdOffline);
         this.webviewRef.current.postMessage(JSON.stringify({
             action: 'PaidOffline',
             idAppointment: this.state.appointmentIdOffline
@@ -112,7 +105,6 @@ class TabAppointment extends Layout {
     }
 
     handleNewAppointmentNotification = (appointment) => {
-        // this.notif.localNotif(null, appointment);
     }
 
     onMessageFromWebview = async (event) => {
@@ -133,7 +125,6 @@ class TabAppointment extends Layout {
                     } else if (action == 'signinAppointment') {
                         this.props.bookAppointment(appointmentId);
                     } else if (action === 'addGroupAnyStaff') {
-                        // console.log('data : ', JSON.stringify(data));
                         this.props.createABlockAppointment(appointmentId, data.dataAnyStaff && data.dataAnyStaff.fromTime ? data.dataAnyStaff.fromTime : new Date());
                     } else if (action === 'push_notification' && data.isNotification) {
                         const appointment = data.appointment ? { ...data.appointment } : {};
@@ -142,7 +133,6 @@ class TabAppointment extends Layout {
                 }
             }
         } catch (error) {
-            //console.log('------ error : ', event);
         }
     }
 
@@ -251,7 +241,6 @@ class TabAppointment extends Layout {
                 });
                 await this.setState({
                     basket: temptBasket,
-                    // total: parseInt(this.amountRef.current.state.quanlity * productSeleted.price)
                     total: this.getPriceOfline(temptBasket)
                 })
             }

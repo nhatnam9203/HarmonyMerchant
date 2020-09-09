@@ -44,8 +44,6 @@ class PopupChangeStylist extends React.Component {
 
     setStateFromParent = async (service) => {
         const { staff } = service;
-        console.log("------ service : ", JSON.stringify(service));
-
         await this.setState({
             staffId: staff && staff.staffId ? staff.staffId : '',
             name: staff && staff.displayName ? staff.displayName : '',
@@ -114,7 +112,6 @@ class PopupChangeStylist extends React.Component {
                 visible={visible}
                 onRequestClose={() => onRequestClose()}
                 width={scaleSzie(260)}
-                // style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(50) }}
                 styleTitle={{ fontSize: scaleSzie(22), fontWeight: "bold" }}
             >
                 <View style={{
@@ -183,7 +180,6 @@ class PopupChangeStylist extends React.Component {
                                 paddingHorizontal: scaleSzie(10)
                             }} >
                                 <TextInputMask
-                                    // type="only-numbers"
                                     type={'money'}
                                     options={{
                                         precision: 2,
@@ -246,8 +242,6 @@ class PopupChangeStylist extends React.Component {
     }
 
 }
-
-
 
 const mapStateToProps = state => ({
     listStaffByMerchant: state.staff.listStaffByMerchant,

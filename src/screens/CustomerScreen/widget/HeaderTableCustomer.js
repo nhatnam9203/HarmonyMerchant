@@ -1,55 +1,20 @@
 import React from 'react';
 import {
     View,
-    Image,
     Text,
     StyleSheet
 } from 'react-native';
 
-import { Button } from '@components';
 import { scaleSzie,localize } from '@utils';
-import IMAGE from '@resources';
 
 class HeaderTableCustomer extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            sortUpStaffName: false,
-            sortUpId: false,
-            sortUpRole: false,
-            sortUpStatus: false
-        }
-    }
-
-    sortStaffName = () => {
-        this.setState(prevState => ({
-            sortUpStaffName: !prevState.sortUpStaffName
-        }))
-    }
-
-    sortId = () => {
-        this.setState(prevState => ({
-            sortUpId: !prevState.sortUpId
-        }))
-    }
-
-    sortRole = () => {
-        this.setState(prevState => ({
-            sortUpRole: !prevState.sortUpRole
-        }))
-    }
-
-    sortStatus = () => {
-        this.setState(prevState => ({
-            sortUpStatus: !prevState.sortUpStatus
-        }))
     }
 
     render() {
         const {language} = this.props;
-        const { sortUpStaffName} = this.state;
-        const iconSortStaffName = sortUpStaffName ? IMAGE.sortUp : IMAGE.sortDown;
         
         return (
             <View style={styles.tableHeader} >
@@ -65,9 +30,6 @@ class HeaderTableCustomer extends React.Component {
                         {localize('Name', language)}
                         </Text>
                     </View>
-                    {/* <Button onPress={this.sortStaffName} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
-                        <Image source={iconSortStaffName} style={styles.iconSort} />
-                    </Button> */}
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>

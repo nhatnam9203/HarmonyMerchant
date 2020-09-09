@@ -4,9 +4,7 @@ import {
     Text,
     TextInput,
     Alert,
-    Dimensions,
     ScrollView,
-    Image,
     TouchableOpacity
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
@@ -16,9 +14,6 @@ import {
     scaleSzie, localize, getIdStateByName, getNameStateById, ListCodeAreaPhone,
     getCodeAreaPhone, checkStateIsValid
 } from '@utils';
-import IMAGE from '@resources';
-
-const { width } = Dimensions.get('window');
 
 class PopupAddEditCustomer extends React.Component {
 
@@ -167,8 +162,7 @@ class PopupAddEditCustomer extends React.Component {
 
 
     render() {
-        const { title, visible, onRequestClose, isSave, language, stateCity
-        } = this.props;
+        const { title, visible, onRequestClose, isSave, language} = this.props;
         const temptTitleButton = isSave ? 'Save' : 'Add';
 
         const { dynamicMarginBottomState } = this.state;

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 
@@ -13,10 +11,7 @@ class ApplicationSubmitScreen extends Layout {
     }
 
     submit = () => {
-        const { navigation, generalInfo, businessInfo, bankInfo, principalInfo, selectPackageAndPricing } = this.props;
-        // const pricingType = navigation.getParam('pricingType', "annualy");
-        // const packagePricing = navigation.getParam('packagePricing', 1);
-
+        const { generalInfo, businessInfo, bankInfo, principalInfo, selectPackageAndPricing } = this.props;
         this.props.actions.app.registerUser({
             generalInfo,
             businessInfo,

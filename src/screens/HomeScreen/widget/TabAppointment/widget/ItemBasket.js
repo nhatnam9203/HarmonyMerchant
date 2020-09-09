@@ -12,7 +12,6 @@ import IMAGE from '@resources';
 
 const ItemBasket = ({ item, removeItemBasket, onPress, changeProductInBasket }) => {
     const { data } = item;
-    //console.log('---- item : ', item);
     const swipeoutBtns = [
         {
             backgroundColor: '#fff',
@@ -25,7 +24,6 @@ const ItemBasket = ({ item, removeItemBasket, onPress, changeProductInBasket }) 
         <Swipeout
             right={swipeoutBtns}
             buttonWidth={scaleSzie(45)}
-            // disabled={true}
             close={true}
         >
             <Button onPress={() => {
@@ -67,10 +65,7 @@ const ItemBasket = ({ item, removeItemBasket, onPress, changeProductInBasket }) 
                     </View>
 
                     {/* ------------ */}
-                    <View style={{
-                        flex: 1, justifyContent: 'center',
-                        //  alignItems: 'center'
-                    }} >
+                    <View style={{  flex: 1, justifyContent: 'center'}} >
                         <Text style={{ color: '#fff', fontSize: scaleSzie(13), }} >
                             {item.type === 'Product' ? item.quanlitySet : item.data.name}
                         </Text>
@@ -80,7 +75,6 @@ const ItemBasket = ({ item, removeItemBasket, onPress, changeProductInBasket }) 
                         flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(10),
                     }} >
                         <Text style={{ color: '#fff', fontSize: scaleSzie(14), }} >
-                            {/* {`$ ${data.price}`} */}
                             {`$ ${item.type === 'Product' ? getTotalProductByQuantity(data.price, item.quanlitySet) : formatMoney(data.price)}`}
                         </Text>
                     </View>

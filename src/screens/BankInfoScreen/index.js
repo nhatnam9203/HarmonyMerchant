@@ -91,7 +91,6 @@ class BankInfoScreen extends Layout {
             if (uriUpload != '') {
                 const temptBankInfo = { ...bankInfo, fileId: this.state.fileId };
                 this.props.actions.app.setBankInfo(temptBankInfo);
-                // this.props.navigation.navigate('PrincipalInfo');
                 this.props.goToPage(3);
             } else {
                 Alert.alert(`Please upload a photo`);
@@ -156,11 +155,6 @@ class BankInfoScreen extends Layout {
             this.props.actions.upload.resetStateUpload();
         }
     }
-
-    // componentWillUnmount() {
-    //     this.didBlurSubscription.remove();
-    //     this.didFocusSubscription.remove();
-    // }
 
 }
 

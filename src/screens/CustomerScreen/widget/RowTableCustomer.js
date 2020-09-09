@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     View,
-    Image,
     Text,
     StyleSheet
 } from 'react-native';
@@ -14,40 +13,11 @@ class RowTableCustomer extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            isArchive: true,
-            isCheck: false
-        }
-    }
-
-    handleArchirveStaff = () => {
-        this.setState({
-            isArchive: false
-        })
-    }
-
-    handleRestoreStaff = () => {
-        this.setState({
-            isArchive: true
-        })
-    }
-
-    selectCheckBox = () => {
-        this.setState(prevState => ({ isCheck: !prevState.isCheck }), () => {
-            if (!this.state.isCheck) {
-                this.props.unSelectAll();
-            }
-        })
-    }
-
-    setCheckBoxFromParent = (isSelect) => {
-        this.setState({ isCheck: isSelect })
     }
 
     render() {
-        const { customer, index, archiveService, editService, restoreService } = this.props;
-        const { isCheck } = this.state;
-        const temptIconCheckbox = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
+        const { customer} = this.props;
+
         return (
             <Button onPress={() => this.props.showModalDetail(customer)} style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
