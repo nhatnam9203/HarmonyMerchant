@@ -11,13 +11,14 @@ export function addCategory(body,searchFilter =false) {
     }
 }
 
-export function getCategoriesByMerchantId(name = '', status = '', type = '',isShowLoading = true) {
+export function getCategoriesByMerchantId(name = '', status = '', type = '',searchFilter =false,isShowLoading = true) {
     return {
         type: 'GET_CATEGORIES_BY_MERCHANR_ID',
         method: 'GET',
         token: true,
         api: `${apiConfigs.BASE_API}category/search?name=${name}&status=${status}&type=${type}`,
-        isShowLoading
+        isShowLoading,
+        searchFilter
     }
 }
 

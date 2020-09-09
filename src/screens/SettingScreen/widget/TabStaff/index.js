@@ -143,8 +143,8 @@ class TabStaff extends Layout {
         return false;
     }
 
-    updateStaffsPosition = (data, isShowSearch) => {
-        if (!isShowSearch) {
+    updateStaffsPosition = (data, isShowSearchStaff) => {
+        if (!isShowSearchStaff) {
             const staffsUpdate = data.map((staff, index) => {
                 // console.log("--- staff : ",staff);
                 return {
@@ -215,7 +215,7 @@ const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     listStaffByMerchant: state.staff.listStaffByMerchant,
     isAddStaff: state.staff.isAddStaff,
-    isShowSearch: state.staff.isShowSearch,
+    isShowSearchStaff: state.staff.isShowSearchStaff,
     listSearchStaff: state.staff.listSearchStaff,
     stateCity: state.dataLocal.stateCity,
     refreshListStaffs: state.staff.refreshListStaffs,

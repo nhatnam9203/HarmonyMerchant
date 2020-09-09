@@ -138,11 +138,11 @@ class Layout extends React.Component {
 
     renderTableStaff() {
         const { categoriesByMerchant, refreshListCategories,
-            isShowSearchCategories, language
+            isShowSearchCategories, language,listCategoriesSearch
         } = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
-        // const temptData = isShowSearchCategories ? listCategoriesSearch : categoriesByMerchant;
-        const data = categoriesByMerchant.map((item, index) => {
+        const temptData = isShowSearchCategories ? listCategoriesSearch : categoriesByMerchant;
+        const data = temptData.map((item, index) => {
             return {
                 ...item,
                 key: `item-${index}`,

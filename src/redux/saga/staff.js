@@ -46,10 +46,13 @@ function* getStaffByMerchantId(action) {
     const { codeNumber } = responses;
     // yield put({ type: 'STOP_LOADING_ROOT' });
     if (parseInt(codeNumber) == 200) {
+      const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", role: "", status: "" };
+      const { keySearch, role, status } = searchFilter;
+      const tempSearchFilter = keySearch || role || status ? true : false
       yield put({
         type: "GET_STAFF_BY_MERCHANR_ID_SUCCESS",
         payload: responses.data,
-        searchFilter: action.searchFilter ? action.searchFilter : false
+        searchFilter: tempSearchFilter
       });
       yield put({
         type: "SWICH_ADD_STAFF",
@@ -67,7 +70,7 @@ function* getStaffByMerchantId(action) {
       });
     }
   } catch (error) {
-    console.log("----error: ",error);
+    // console.log("----error: ",error);
     yield put({ type: "GET_STAFF_BY_MERCHANR_ID_FAIL" });
     yield put({ type: error });
   } finally {

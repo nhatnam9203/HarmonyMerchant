@@ -129,7 +129,7 @@ class TabCategories extends React.Component {
                         keyExtractor={(item, index) => `${item.categoryId}`}
                         ListEmptyComponent={<RowEmptyTableCategories />}
                         refreshing={refreshListCategories}
-                        onRefresh={() => this.props.actions.category.getCategoriesByMerchantId("", "", "", false)}
+                        onRefresh={() => this.props.actions.category.getCategoriesByMerchantId("", "", "", false,false)}
                     />
                 </View>
             </View>

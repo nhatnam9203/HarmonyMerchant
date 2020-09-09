@@ -44,7 +44,7 @@ class TabCategories extends Layout {
         const { searchFilter } = this.state;
         const { category, status } = searchFilter;
         this.updateSearchFilterInfo('keySearch', "");
-        this.props.actions.category.getCategoriesByMerchantId("", status, category);
+        this.props.actions.category.getCategoriesByMerchantId("", status, category,searchFilter);
     }
 
     async updateSearchFilterInfo(key, value, keyParent = '') {
@@ -77,7 +77,7 @@ class TabCategories extends Layout {
     searchCategories = (isShowLoading = true) => {
         const { searchFilter } = this.state;
         const { keySearch, category, status } = searchFilter;
-        this.props.actions.category.getCategoriesByMerchantId(keySearch, status, category, isShowLoading);
+        this.props.actions.category.getCategoriesByMerchantId(keySearch, status, category,searchFilter,isShowLoading);
     }
 
     togglePopupArchive = (visible) => {
@@ -179,13 +179,6 @@ class TabCategories extends Layout {
         }
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        const { isShowSearchCategories, isGetListSearchCategories } = this.props;
-        if (isShowSearchCategories && isGetListSearchCategories) {
-            this.searchCategories();
-        }
-
-    }
 
 }
 
@@ -195,7 +188,7 @@ const mapStateToProps = state => ({
     refreshListCategories: state.category.refreshListCategories,
     listCategoriesSearch: state.category.listCategoriesSearch,
     isShowSearchCategories: state.category.isShowSearchCategories,
-    isGetListSearchCategories: state.category.isGetListSearchCategories
+    isGetListSearchCategories: state.category.isGetListSearchCategories,
 })
 
 

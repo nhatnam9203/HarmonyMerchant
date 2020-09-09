@@ -5,7 +5,7 @@ const initialState = {
   listStaffByMerchant: [],
   listSearchStaff: [],
   isAddStaff: false,
-  isShowSearch: false,
+  isShowSearchStaff: false,
   refreshListStaffs: false,
   isResetInfoAdmin: false,
   isGetListSearchStaff: false,
@@ -51,12 +51,11 @@ function appReducer(state = initialState, action) {
         refreshListStaffs: !action.isShowLoading,
       };
     case "GET_STAFF_BY_MERCHANR_ID_SUCCESS":
-      console.log("---- GET_STAFF_BY_MERCHANR_ID_SUCCESS: ",action);
       return {
         ...state,
         listStaffByMerchant: !action.searchFilter ? action.payload : state.listStaffByMerchant,
         listSearchStaff: action.searchFilter ? action.payload : state.listSearchStaff,
-        isShowSearchResult: action.searchFilter ? true : false,
+        isShowSearchStaff: action.searchFilter,
         refreshListStaffs: false,
       };
     case "GET_STAFF_BY_MERCHANR_ID_FAIL":
@@ -72,14 +71,14 @@ function appReducer(state = initialState, action) {
     case "CLEAR_SEARCH":
       return {
         ...state,
-        isShowSearch: false,
+        isShowSearchStaff: false,
         listSearchStaff: [],
       };
     case "SEARCH_STAFF_BY_NAME_SUCCESS":
       return {
         ...state,
         listSearchStaff: action.payload,
-        isShowSearch: true,
+        isShowSearchStaff: true,
         isGetListSearchStaff: false,
       };
     case "RESET_INFO_ADMIN":

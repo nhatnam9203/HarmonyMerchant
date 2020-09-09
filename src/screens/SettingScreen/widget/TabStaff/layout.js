@@ -131,9 +131,9 @@ class Layout extends React.Component {
 
 
     renderTableStaff() {
-        const { listStaffByMerchant, isShowSearch, refreshListStaffs, language, isShowSearchResult, listSearchStaff } = this.props;
+        const { listStaffByMerchant, isShowSearchStaff, refreshListStaffs, language, listSearchStaff } = this.props;
         const { visibleArchive, visibleRestore } = this.state;
-        const tempData = isShowSearchResult ? listSearchStaff : listStaffByMerchant;
+        const tempData = isShowSearchStaff ? listSearchStaff : listStaffByMerchant;
         const data = tempData.map((item, index) => {
             return {
                 ...item,
@@ -166,7 +166,7 @@ class Layout extends React.Component {
                         onRefresh={this.searchStaff}
                         refreshing={refreshListStaffs}
                         scrollPercent={5}
-                        onMoveEnd={({ data }) => this.updateStaffsPosition(data, isShowSearch)}
+                        onMoveEnd={({ data }) => this.updateStaffsPosition(data, isShowSearchStaff)}
                     />
                 </View>
                 <PopupConfirm

@@ -6,7 +6,7 @@ const initialState = {
     refreshListCategories: false,
     listCategoriesSearch: [],
     isShowSearchCategories: false,
-    isGetListSearchCategories: false
+    isGetListSearchCategories: false,
 }
 
 function appReducer(state = initialState, action) {
@@ -25,7 +25,9 @@ function appReducer(state = initialState, action) {
         case 'GET_CATEGORIES_BY_MERCHANR_ID_SUCCESS':
             return {
                 ...state,
-                categoriesByMerchant: action.payload,
+                categoriesByMerchant: !action.searchFilter ? action.payload : state.categoriesByMerchant,
+                listCategoriesSearch: action.searchFilter ? action.payload : state.listCategoriesSearch,
+                isShowSearchCategories: action.searchFilter,
                 refreshListCategories: false
             }
         case 'GET_CATEGORIES_BY_MERCHANR_ID_FAIL':
@@ -77,7 +79,7 @@ function appReducer(state = initialState, action) {
 const persistConfig = {
     key: 'category',
     storage: AsyncStorage,
-    whitelist:["categoriesByMerchant"]
+    whitelist: ["categoriesByMerchant"]
 };
 
 module.exports = persistReducer(persistConfig, appReducer);
