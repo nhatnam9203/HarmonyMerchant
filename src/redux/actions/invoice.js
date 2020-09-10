@@ -98,7 +98,7 @@ export function clearSearchBatchHistory() {
     }
 }
 
-export function changeStatustransaction(checkoutId, params,responseData) {
+export function changeStatustransaction(checkoutId, params,responseData = {}) {
     return {
         type: 'CHANGE_STATUS_TRANSACTION',
         method: 'PUT',

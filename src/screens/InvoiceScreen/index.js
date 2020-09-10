@@ -300,7 +300,7 @@ class InvoiceScreen extends Layout {
         });
 
         if (data.status === 1) {
-            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch(), data);
+            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch(), result);
             await this.setState({
                 titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
             })
@@ -320,7 +320,7 @@ class InvoiceScreen extends Layout {
 
         const data = JSON.parse(result);
         if (data.status === 1 && data.ResultTxt === "OK") {
-            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch());
+            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch(), result);
             await this.setState({
                 titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
             })
