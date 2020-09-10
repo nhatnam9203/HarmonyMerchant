@@ -63,8 +63,9 @@ class ItemInvoice extends React.Component {
         const temptFirstName = user ? user.firstName : '';
         const temptLastName = user ? user.lastName : '';
         const colorStaus = this.getColorStatus(invoice.status);
+        const temptBackground = this.state.isSelected ? { backgroundColor: 'rgb(225,246,254)' } : {};
+        const settlementId = invoice.settlementId ? invoice.settlementId : 0;
 
-        const temptBackground = this.state.isSelected ? { backgroundColor: 'rgb(225,246,254)' } : {}
         return (
             <Button onPress={() => onPress()} style={[{
                 height: scaleSzie(62), paddingHorizontal: scaleSzie(10),
@@ -105,6 +106,12 @@ class ItemInvoice extends React.Component {
                 </View>
                 {/* ----------- Col 3 --------- */}
                 <View style={{ flex: 0.7, justifyContent: 'center', alignItems: 'flex-end' }} >
+                    {
+                        settlementId ? <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: "400", marginBottom: scaleSzie(2) }} >
+                            {`Batch ID: #${settlementId}`}
+                        </Text> : null
+                    }
+
                     <Text style={{ fontSize: scaleSzie(16), color: '#404040', fontWeight: "600" }} >
                         {`$ ${invoice.total}`}
                     </Text>

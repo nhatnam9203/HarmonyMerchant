@@ -27,7 +27,7 @@ class DatePicker extends Component {
     render() {
         const { visible, onRequestClose,
             heightPicker, title,
-            dateCalendar,loading
+            dateCalendar, loading
         } = this.props;
         const height = heightPicker && heightPicker || scaleSzie(180);
 

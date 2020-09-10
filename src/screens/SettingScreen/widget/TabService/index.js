@@ -30,7 +30,7 @@ class TabService extends Layout {
         this.editServiceRef = React.createRef();
     }
 
-    setStateFromParent = async () =>{
+    setStateFromParent = async () => {
         await this.setState({
             searchFilter: {
                 keySearch: '',
@@ -70,16 +70,16 @@ class TabService extends Layout {
     clearSearchText = () => {
         this.updateSearchFilterInfo('keySearch', "");
         const { searchFilter } = this.state;
-        const {  category, status } = searchFilter;
+        const { category, status } = searchFilter;
         const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Service') : '';
-        this.props.actions.service.getServicesByMerchant("", temptCategory, status,searchFilter);
+        this.props.actions.service.getServicesByMerchant("", temptCategory, status, { ...searchFilter, category: temptCategory });
     }
 
-    searchService = (isShowLoading =  true) => {
+    searchService = (isShowLoading = true) => {
         const { searchFilter } = this.state;
         const { keySearch, category, status } = searchFilter;
         const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Service') : '';
-        this.props.actions.service.getServicesByMerchant(keySearch, temptCategory, status,searchFilter,isShowLoading);
+        this.props.actions.service.getServicesByMerchant(keySearch, temptCategory, status,  { ...searchFilter, category: temptCategory }, isShowLoading);
     }
 
     togglePopupArchive = (visible) => {
@@ -96,18 +96,22 @@ class TabService extends Layout {
 
     archiveServiceYess = async () => {
         const { searchFilter } = this.state;
+        const {  category } = searchFilter;
+        const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Service') : '';
         await this.setState({
             visibleArchive: false,
         });
-        this.props.actions.service.archiveService(this.state.serviceHanle.serviceId,searchFilter);
+        this.props.actions.service.archiveService(this.state.serviceHanle.serviceId, { ...searchFilter, category: temptCategory });
     }
 
     restoreServiceYess = async () => {
         const { searchFilter } = this.state;
+        const {  category } = searchFilter;
+        const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Service') : '';
         await this.setState({
             visibleRestore: false,
         });
-        this.props.actions.service.restoreService(this.state.serviceHanle.serviceId,searchFilter);
+        this.props.actions.service.restoreService(this.state.serviceHanle.serviceId, { ...searchFilter, category: temptCategory });
     }
 
     showModalAddService = () => {
@@ -122,7 +126,9 @@ class TabService extends Layout {
 
     submitAddService = (service) => {
         const { searchFilter } = this.state;
-        this.props.actions.service.addServiceByMerchant(service,searchFilter);
+        const {  category } = searchFilter;
+        const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Service') : '';
+        this.props.actions.service.addServiceByMerchant(service, { ...searchFilter, category: temptCategory });
         this.setState({ visibleAdd: false })
     }
 
@@ -142,8 +148,10 @@ class TabService extends Layout {
 
     submitEditService = async (service) => {
         const { searchFilter } = this.state;
+        const {  category } = searchFilter;
+        const temptCategory = category != '' ? getCategoryIdByName(this.props.categoriesByMerchant, category, 'Service') : '';
         await this.setState({ visibleEdit: false })
-        this.props.actions.service.editService(service, service.serviceId,searchFilter);
+        this.props.actions.service.editService(service, service.serviceId, { ...searchFilter, category: temptCategory });
 
     }
 
