@@ -28,6 +28,7 @@ export default function MarketingEfficiency({
   handleTheDownloadedFile,
   onRefresh,
   isRefreshing,
+  resetTab,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -108,6 +109,14 @@ export default function MarketingEfficiency({
     bindChartData();
     bindFilterName();
   }, [marketingEfficiencyList]);
+
+  React.useEffect(() => {
+    if (resetTab) {
+      if (onChangeFilterId) {
+        onChangeFilterId(filterNameItem);
+      }
+    }
+  }, [resetTab]);
 
   /**render */
   //callback render action cell

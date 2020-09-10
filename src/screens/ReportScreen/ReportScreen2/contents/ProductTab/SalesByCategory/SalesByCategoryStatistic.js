@@ -40,6 +40,7 @@ export default function SalesByCategoryStatistic(props, ref) {
       priceKeys: ["avgPrice", "totalSales"],
       sortKey: "dateString",
       tableCellWidth: { dateString: 180, totalSales: 180 },
+      detailOfItem: item
     });
   }, [filterId, productSaleByCategoryList]);
 

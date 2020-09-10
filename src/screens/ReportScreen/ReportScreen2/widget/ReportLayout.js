@@ -24,6 +24,7 @@ function ReportLayout(
     onRequestExportFileToServer,
     isDownloadReport,
     fileExportType,
+    tabChange,
   },
   ref
 ) {
@@ -50,6 +51,7 @@ function ReportLayout(
   // go to statistics page
   const goNext = () => {
     scrollPage.current.goToPage(1);
+    if (tabChange) tabChange(1);
   };
 
   // go to salary page
@@ -59,6 +61,7 @@ function ReportLayout(
     // scroll to staff salary
     await dispatch(actions.report.resetExportFiles());
     scrollPage.current.goToPage(0);
+    if (tabChange) tabChange(0);
   };
 
   // public function

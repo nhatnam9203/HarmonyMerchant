@@ -21,6 +21,7 @@ export default function SalesByProduct({
   defaultFilterName,
   onRefresh,
   isRefreshing,
+  resetTab,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -83,6 +84,14 @@ export default function SalesByProduct({
   useEffect(() => {
     bindFilterName();
   }, [productSaleByProductList]);
+
+  React.useEffect(() => {
+    if (resetTab) {
+      if (onChangeFilterId) {
+        onChangeFilterId(filterNameItem);
+      }
+    }
+  }, [resetTab]);
 
   /**render */
   //callback render action cell

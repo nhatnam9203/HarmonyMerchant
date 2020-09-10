@@ -50,6 +50,7 @@ function SalesByProductTab({ style, showBackButton, showHeader }, ref) {
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [resetTab, setResetTab] = useState(false);
 
   /**ref */
   const layoutRef = useRef(null);
@@ -90,6 +91,7 @@ function SalesByProductTab({ style, showBackButton, showHeader }, ref) {
   };
 
   const onChangeFilterId = async (filterId) => {
+    setResetTab(false);
     await setFilterNameItem(filterId);
     if (FILTER_NAME_DEFAULT_LIST.find((x) => x.value === filterId)) {
       await getProductSaleByProduct(filterId);
@@ -144,6 +146,12 @@ function SalesByProductTab({ style, showBackButton, showHeader }, ref) {
     layoutRef.current.handleTheDownloadedFile(filePath);
   };
 
+  const onChangeTab = (tabIndex) => {
+    if (tabIndex === 0) {
+      setResetTab(true);
+    }
+  };
+
   // public function
   useImperativeHandle(ref, () => ({
     goBack: () => {
@@ -180,6 +188,7 @@ function SalesByProductTab({ style, showBackButton, showHeader }, ref) {
         onChangeTimeTitle={onChangeTimeTitle}
         onRequestExportFileToServer={onRequestExportFileToServer}
         isDownloadReport={isDownloadReport}
+        tabChange={onChangeTab}
       >
         <SalesByProduct
           style={{ flex: 1, paddingTop: 10 }}
@@ -194,6 +203,7 @@ function SalesByProductTab({ style, showBackButton, showHeader }, ref) {
           onChangeFilterId={onChangeFilterId}
           defaultFilterList={FILTER_NAME_DEFAULT_LIST}
           defaultFilterName={FILTER_NAME_DEFAULT}
+          resetTab={resetTab}
           onRefresh={refreshData}
           isRefreshing={refreshing}
         />

@@ -368,6 +368,7 @@ function* exportReport(action) {
             type: ACTION_TYPES.ProductCategory_ExportSuccess,
             payload: fileDownload.path(),
           });
+          break;
         case ACTION_TYPES.ProductCategory_ExportStatistic:
           yield put({
             type: ACTION_TYPES.ProductCategory_ExportStatisticSuccess,

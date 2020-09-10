@@ -42,6 +42,7 @@ function PaymentMethodTab({ style, showBackButton, showHeader }, ref) {
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [resetTab, setResetTab] = useState(false);
 
   /**ref */
   const layoutRef = useRef(null);
@@ -71,6 +72,7 @@ function PaymentMethodTab({ style, showBackButton, showHeader }, ref) {
   };
 
   const onChangeFilterId = async (filterId) => {
+    setResetTab(false);
     await setFilterNameItem(filterId);
   };
 
@@ -121,6 +123,12 @@ function PaymentMethodTab({ style, showBackButton, showHeader }, ref) {
     layoutRef.current.handleTheDownloadedFile(filePath);
   };
 
+  const onChangeTab = (tabIndex) => {
+    if (tabIndex === 0) {
+      setResetTab(true);
+    }
+  };
+
   // public function
   useImperativeHandle(ref, () => ({
     goBack: () => {
@@ -158,6 +166,8 @@ function PaymentMethodTab({ style, showBackButton, showHeader }, ref) {
         onChangeTimeTitle={onChangeTimeTitle}
         onRequestExportFileToServer={onRequestExportFileToServer}
         isDownloadReport={isDownloadReport}
+        tabChange={onChangeTab}
+
       >
         <PaymentMethod
           style={{ flex: 1 }}
@@ -171,6 +181,7 @@ function PaymentMethodTab({ style, showBackButton, showHeader }, ref) {
           handleTheDownloadedFile={onHandleTheDownloadedFile}
           onChangeFilterId={onChangeFilterId}
           onRefresh={refreshData}
+          resetTab={resetTab}
           isRefreshing={refreshing}
         />
         <PaymentStatistic

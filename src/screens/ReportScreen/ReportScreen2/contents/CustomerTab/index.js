@@ -166,6 +166,7 @@ function CustomerTab({ style, showBackButton }, ref) {
           showExportFile={() => onShowPopupExport("Customer")}
           pathFileExport={exportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
+          onChangeFilter={onChangeFilterId}
           onRefresh={refreshData}
           isRefreshing={refreshing}
         />
@@ -175,7 +176,7 @@ function CustomerTab({ style, showBackButton }, ref) {
           title="Customer Statistics"
           titleRangeTime={titleRangeTime}
           showCalendar={() => showCalendar(true)}
-          dataFilters={filterNames}
+          dataFilters={null}
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
           showExportFile={() => onShowPopupExport("CustomerStatistic")}

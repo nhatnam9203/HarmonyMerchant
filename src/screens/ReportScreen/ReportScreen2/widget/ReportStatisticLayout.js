@@ -41,6 +41,7 @@ export default function ReportStatisticLayout({
   subTitle,
   isRefreshing,
   onRefresh,
+  detailOfItem,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -107,7 +108,7 @@ export default function ReportStatisticLayout({
           onPress={showCalendar}
           style={{ marginRight: 20 }}
         />
-        {filterId && (
+        {dataFilters && (
           <Dropdown
             data={dataFilters}
             onChangeText={(text) => onChangeFilter(text)}
@@ -144,6 +145,7 @@ export default function ReportStatisticLayout({
               onCellPress={onCellPress}
               isRefreshing={isRefreshing}
               onRefresh={onRefresh}
+              checkSumItem={detailOfItem}
             />
           ))}
       </View>

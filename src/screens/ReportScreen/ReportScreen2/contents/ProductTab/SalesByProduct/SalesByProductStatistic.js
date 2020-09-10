@@ -39,6 +39,7 @@ export default function SalesByProductStatistic(props, ref) {
       sumTotalKey: "dateString",
       priceKeys: ["avgPrice", "totalSales"],
       tableCellWidth: { appointmentId: 80 },
+      detailOfItem: item,
     });
   }, [filterId, productSaleByProductList]);
 

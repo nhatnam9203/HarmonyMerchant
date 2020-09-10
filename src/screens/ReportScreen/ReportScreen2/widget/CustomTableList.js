@@ -97,7 +97,7 @@ function TableList({
   unitKeys,
   calcAvgKeys,
   isRefreshing,
-  onRefresh
+  onRefresh,
 }) {
   /**state */
   const [headerContent, setHeaderContent] = useState({});
@@ -241,7 +241,8 @@ function TableList({
             >
               {key === TABLE_ACTION_KEY
                 ? cellActionRender
-                : cellRender ?? (
+                : cellRender ??
+                  (item[key] ? (
                     <Text style={styles.txtCell}>
                       {isPriceCell(key)
                         ? unitKeys && unitKeys[key]
@@ -249,7 +250,9 @@ function TableList({
                           : "$ " + item[key]
                         : item[key]}
                     </Text>
-                  )}
+                  ) : (
+                    []
+                  ))}
             </TableCell>
           );
         })}

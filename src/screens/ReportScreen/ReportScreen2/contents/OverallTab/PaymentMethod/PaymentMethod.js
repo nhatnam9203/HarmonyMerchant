@@ -29,6 +29,7 @@ export default function PaymentMethod({
   handleTheDownloadedFile,
   onRefresh,
   isRefreshing,
+  resetTab
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -102,6 +103,14 @@ export default function PaymentMethod({
     bindChartData();
     bindFilterName();
   }, [overallPaymentMethodList]);
+
+  React.useEffect(() => {
+    if (resetTab) {
+      if (onChangeFilterId) {
+        onChangeFilterId(filterNameItem);
+      }
+    }
+  }, [resetTab]);
 
   /**render */
   //callback render action cell
