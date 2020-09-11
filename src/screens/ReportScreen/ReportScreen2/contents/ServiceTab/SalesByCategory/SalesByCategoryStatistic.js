@@ -47,6 +47,7 @@ export default function SalesByCategoryStatistic(props, ref) {
       priceKeys: ["totalDuration", "totalSales"],
       sortKey: "dateString",
       unitKeys: { totalDuration: "hrs" },
+      formatKeys: { totalDuration: "mins" },
       tableCellWidth: { dateString: 180 },
     });
   }, [filterId, serviceSaleByCategoryList]);

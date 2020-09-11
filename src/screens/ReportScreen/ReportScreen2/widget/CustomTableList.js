@@ -98,6 +98,7 @@ function TableList({
   calcAvgKeys,
   isRefreshing,
   onRefresh,
+  formatKeys = {},
 }) {
   /**state */
   const [headerContent, setHeaderContent] = useState({});
@@ -135,6 +136,55 @@ function TableList({
 
     setSortState(sort);
     setListData(sort);
+  };
+
+  const getCellValue = (item, key) => {
+    const format = formatKeys[key];
+    let value = item[key];
+    if (format === "mins" && value > 0) {
+      const str = parseFloat(value).toFixed(2).toString();
+      const splits = str.split(".");
+      if (splits.length === 2) {
+        return (
+          parseInt(splits[0]) +
+          " hrs " +
+          Math.floor((parseInt(splits[1]) / 100) * 60) +
+          " mins"
+        );
+      }
+
+      return value + " hrs";
+    }
+
+    return isPriceCell(key)
+      ? unitKeys && unitKeys[key]
+        ? value + " " + unitKeys[key]
+        : "$ " + value
+      : value;
+  };
+
+  const getHeaderCellValue = (value, key) => {
+    const format = formatKeys[key];
+    if (format === "mins" && value > 0) {
+      const str = parseFloat(value).toFixed(2).toString();
+      const splits = str.split(".");
+      if (splits.length === 2) {
+        return (
+          parseInt(splits[0]) +
+          " hrs " +
+          Math.floor((parseInt(splits[1]) / 100) * 60) +
+          " mins"
+        );
+      }
+
+      return value + " hrs";
+    }
+
+    return isPriceCell(key)
+      ? unitKeys && unitKeys[key]
+        ? formatServerNumber(sumObject[key]) + " " + unitKeys[key]
+        : "$ " + formatMoney(sumObject[key])
+      : sumObject[key];
   };
 
   /**effect */
@@ -244,11 +294,7 @@ function TableList({
                 : cellRender ??
                   (item[key] ? (
                     <Text style={styles.txtCell}>
-                      {isPriceCell(key)
-                        ? unitKeys && unitKeys[key]
-                          ? item[key] + " " + unitKeys[key]
-                          : "$ " + item[key]
-                        : item[key]}
+                      {getCellValue(item, key)}
                     </Text>
                   ) : (
                     []
@@ -323,13 +369,7 @@ function TableList({
 
                 {calcSumKeys?.indexOf(key) > -1 && (
                   <Text style={styles.txtSum}>
-                    {isPriceCell(key)
-                      ? unitKeys && unitKeys[key]
-                        ? formatServerNumber(sumObject[key]) +
-                          " " +
-                          unitKeys[key]
-                        : "$ " + formatMoney(sumObject[key])
-                      : sumObject[key]}
+                    {getHeaderCellValue(sumObject[key], key)}
                   </Text>
                 )}
 

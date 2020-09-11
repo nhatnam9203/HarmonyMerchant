@@ -147,7 +147,7 @@ export default function SalesByProduct({
           ]}
           primaryId="productId"
           sumTotalKey="name"
-          calcSumKeys={["stockOnHand", "quantity", "avgPrice", "totalSales"]}
+          calcSumKeys={["stockOnHand", "quantity", "totalSales"]}
           priceKeys={["avgPrice", "totalSales"]}
           sortKey="name"
           tableCellWidth={{

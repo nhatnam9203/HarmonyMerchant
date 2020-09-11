@@ -42,11 +42,12 @@ export default function SalesByServiceStatistic(props, ref) {
         "totalSales",
       ],
       primaryId: "date",
-      calcSumKeys: ["quantity", "totalDuration", "avgPrice", "totalSales"],
+      calcSumKeys: ["quantity", "totalDuration", "totalSales"],
       sumTotalKey: "dateString",
       priceKeys: ["totalDuration", "avgPrice", "totalSales"],
       sortKeys: "dateString",
       unitKeys: { totalDuration: "hrs" },
+      formatKeys: { totalDuration: "mins" },
       tableCellWidth: { dateString: 180, totalSales: 200 },
     });
   }, [filterId, serviceSaleByServiceList]);

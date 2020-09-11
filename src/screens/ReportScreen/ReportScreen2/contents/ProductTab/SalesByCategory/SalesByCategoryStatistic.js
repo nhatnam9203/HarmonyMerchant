@@ -35,7 +35,7 @@ export default function SalesByCategoryStatistic(props, ref) {
       },
       whiteKeys: ["dateString", "quantity", "avgPrice", "totalSales"],
       primaryId: "date",
-      calcSumKeys: ["quantity", "avgPrice", "totalSales"],
+      calcSumKeys: ["quantity",  "totalSales"],
       sumTotalKey: "dateString",
       priceKeys: ["avgPrice", "totalSales"],
       sortKey: "dateString",

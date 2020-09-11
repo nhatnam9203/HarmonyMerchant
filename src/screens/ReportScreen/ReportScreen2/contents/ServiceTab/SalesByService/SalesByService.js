@@ -146,7 +146,7 @@ export default function SalesByService({
           ]}
           primaryId="name"
           sumTotalKey="name"
-          calcSumKeys={["quantity", "totalDuration", "avgPrice", "totalSales"]}
+          calcSumKeys={["quantity", "totalDuration",  "totalSales"]}
           priceKeys={["totalDuration", "avgPrice", "totalSales"]}
           sortKey="name"
           unitKeys={{ totalDuration: "hrs" }}

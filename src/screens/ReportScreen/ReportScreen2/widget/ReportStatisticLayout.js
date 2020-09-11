@@ -42,6 +42,7 @@ export default function ReportStatisticLayout({
   isRefreshing,
   onRefresh,
   detailOfItem,
+  formatKeys,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -146,6 +147,7 @@ export default function ReportStatisticLayout({
               isRefreshing={isRefreshing}
               onRefresh={onRefresh}
               checkSumItem={detailOfItem}
+              formatKeys={formatKeys}
             />
           ))}
       </View>
