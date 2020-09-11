@@ -7,6 +7,7 @@ import {
     RefreshControl,
     Image,
 } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, Text, Dropdown, ItemWorkingTime, Button } from '@components';
 import { scaleSzie, localize, getNameStateById, TimeZones, hideCharactes, WorkingTime } from '@utils';
@@ -18,7 +19,7 @@ class Layout extends React.Component {
 
     renderSetup() {
         const { language, autoLockScreenAfter } = this.props;
-        const { languageApp, webLink, autoCloseAt, timezone, businessHour } = this.state;
+        const { languageApp, webLink, autoCloseAt, timezone, businessHour, turnAmount } = this.state;
 
         return (
             <View style={{ width: '100%', marginTop: scaleSzie(6) }} >
@@ -41,6 +42,42 @@ class Layout extends React.Component {
                         onChangeText={value => this.setState({ autoCloseAt: value })}
                         placeHolder='08:00 AM'
                     />
+
+                    {/* ------- Turn Amount  ------ */}
+                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
+                        <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
+                            <Text style={{
+                                color: '#404040',
+                                fontSize: scaleSzie(16),
+                                fontWeight: '600',
+                            }}  >
+                                {`Turn Amount:`}
+                            </Text>
+                        </View>
+                        <View style={{ height: scaleSzie(40), width: scaleSzie(140) }} >
+                            <TextInputMask
+                                type={'money'}
+                                options={{
+                                    precision: 2,
+                                    separator: '.',
+                                    delimiter: ',',
+                                    unit: '',
+                                    suffixUnit: ''
+                                }}
+                                placeholder="0.00"
+                                style={{
+                                    flex: 1,
+                                    fontSize: scaleSzie(16),
+                                    borderWidth: 1,
+                                    borderColor: '#C5C5C5',
+                                    paddingHorizontal: scaleSzie(10)
+                                }}
+                                value={turnAmount}
+                                onChangeText={value => this.setState({ turnAmount: value })}
+                            // onFocus={() => this.scrollProductTo(450)}
+                            />
+                        </View>
+                    </View>
 
                     {/* ------------ Item Auto lock ------------- */}
                     <View style={{ flexDirection: 'row', marginVertical: scaleSzie(15) }} >

@@ -242,6 +242,7 @@ class Layout extends React.Component {
 
                     <TitleTabAdminInfo
                         title={localize('Working Time', language)}
+                        style={{ color: "#0764B0" }}
                     />
                     {
                         Object.keys(temptDataWorkingTime).map((day, index) => {
@@ -253,6 +254,16 @@ class Layout extends React.Component {
                             />
                         })
                     }
+
+                     {/* ----- Service ---- */}
+                     {/* <TitleTabAdminInfo
+                        title={localize('Service', language)}
+                       
+                    />
+
+                    <Text style={{color:"#404040",fontSize:scaleSzie(14),marginTop:scaleSzie(10)}} >
+                        {`Assign services this staff can perform.`}
+                    </Text> */}
 
                     {/* ----- Service Salary ---- */}
                     <TitleTabAdminInfo
@@ -517,18 +528,18 @@ const ItemAdminInfoRole = ({ DropdowAdmin, DropdowStatusAdmin }) => {
     );
 }
 
-const TitleTabAdminInfo = ({ title }) => {
+const TitleTabAdminInfo = ({ title, style }) => {
     return (
         <View style={{
             paddingHorizontal: scaleSzie(25),
             marginTop: scaleSzie(14)
         }} >
-            <Text style={{
+            <Text style={[{
                 color: '#404040',
-                fontSize: scaleSzie(14),
+                fontSize: scaleSzie(16),
                 fontWeight: '600',
-
-            }}  >
+                color: "#0764B0"
+            }, style]}  >
                 {`${title}`}
             </Text>
         </View>

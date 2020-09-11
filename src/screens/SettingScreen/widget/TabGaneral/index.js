@@ -21,7 +21,8 @@ class TabGaneral extends Layout {
             autoLockScreenAfter: autoLockScreenAfter,
             timezone: profile.timezone ? profile.timezone : '',
             isUpdateInternal: false,
-            businessHour: profile.businessHour ? profile.businessHour : BusinessWorkingTime
+            businessHour: profile.businessHour ? profile.businessHour : BusinessWorkingTime,
+            turnAmount: profile.turnAmount ? profile.turnAmount : 0,
         };
         this.inputRefsTime = [];
     }
@@ -33,21 +34,22 @@ class TabGaneral extends Layout {
     };
 
 
-    setStateFromParent = async (webLink,timezone,autoCloseAt) => {
+    setStateFromParent = async (webLink, timezone, autoCloseAt,turnAmount) => {
         await this.setState({
             webLink,
             timezone,
             autoCloseAt,
+            turnAmount,
             isUpdateInternal: false,
         });
         this.updateWorkTime();
     }
 
-    updateWorkTime = () =>{
-        const {profile} = this.props;
+    updateWorkTime = () => {
+        const { profile } = this.props;
         const businessHour = profile.businessHour ? profile.businessHour : BusinessWorkingTime;
-        for(let i = 0; i< this.inputRefsTime.length; i++ ){
-         this.inputRefsTime[i].setStateFromParent(businessHour[this.inputRefsTime[i].props.title]);
+        for (let i = 0; i < this.inputRefsTime.length; i++) {
+            this.inputRefsTime[i].setStateFromParent(businessHour[this.inputRefsTime[i].props.title]);
         }
     }
 
@@ -69,14 +71,14 @@ class TabGaneral extends Layout {
         }
     }
 
-    changeAutoLockTime =(value) =>{
-       this.props.actions.dataLocal.updateAutoLockTime(value);
+    changeAutoLockTime = (value) => {
+        this.props.actions.dataLocal.updateAutoLockTime(value);
     }
 
     saveSettngApp = async () => {
         const { profile } = this.props;
-        const { languageApp, longitude, latitude, webLink,autoCloseAt, timezone } = this.state;
-       
+        const { languageApp, longitude, latitude, webLink, autoCloseAt, timezone ,turnAmount} = this.state;
+
         const temptLanguage = languageApp === 'English' ? 'en' : 'vi';
         this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
         await this.setState({
@@ -94,7 +96,7 @@ class TabGaneral extends Layout {
             }
         });
         this.props.actions.app.merchantSetting({
-            businessHour:objWorkingTime,
+            businessHour: objWorkingTime,
             webLink: webLink,
             latitude: latitude,
             longitude: longitude,
@@ -102,7 +104,8 @@ class TabGaneral extends Layout {
             taxProduct: profile.taxProduct,
             timezone,
             autoLockscreen: "",
-            autoCloseAt
+            autoCloseAt,
+            turnAmount
         });
     }
 
@@ -113,7 +116,8 @@ class TabGaneral extends Layout {
             await this.setState({
                 webLink: profile.webLink ? profile.webLink : '',
                 timezone: profile.timezone ? profile.timezone : '',
-                autoCloseAt:profile.autoCloseAt ? profile.autoCloseAt : '',
+                autoCloseAt: profile.autoCloseAt ? profile.autoCloseAt : '',
+                turnAmount: profile.turnAmount ? profile.turnAmount : 0,
             });
             this.updateWorkTime();
         }
@@ -122,7 +126,8 @@ class TabGaneral extends Layout {
             await this.setState({
                 webLink: profile.webLink ? profile.webLink : '',
                 timezone: profile.timezone ? profile.timezone : '',
-                autoCloseAt:profile.autoCloseAt ? profile.autoCloseAt : '',
+                autoCloseAt: profile.autoCloseAt ? profile.autoCloseAt : '',
+                turnAmount: profile.turnAmount ? profile.turnAmount : 0,
                 isUpdateInternal: false
             });
             this.updateWorkTime();

@@ -154,23 +154,6 @@ class SettingScreen extends Layout {
     // this.props.actions.app.handleLockScreen(true);
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    const { profile, loading } = this.props;
-    if (
-      prevProps.loading !== loading &&
-      prevProps.loading &&
-      !loading &&
-      !this.generalTabRef.current.state.isUpdateInternal &&
-      this.state.indexTab === 0
-    ) {
-      this.generalTabRef.current.setStateFromParent(
-        profile.webLink ? profile.webLink : "",
-        profile.timezone ? profile.timezone : "",
-        profile.autoCloseAt ? profile.autoCloseAt : ""
-      );
-    }
-  }
-
   closePopupCheckSettingTabPermission = () => {
     this.props.actions.app.toggleSettingTabPermission(false);
     this.props.navigation.navigate("Home");
@@ -205,6 +188,24 @@ class SettingScreen extends Layout {
       indexTab: 0,
     })
     
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { profile, loading } = this.props;
+    if (
+      prevProps.loading !== loading &&
+      prevProps.loading &&
+      !loading &&
+      !this.generalTabRef.current.state.isUpdateInternal &&
+      this.state.indexTab === 0
+    ) {
+      this.generalTabRef.current.setStateFromParent(
+        profile.webLink ? profile.webLink : "",
+        profile.timezone ? profile.timezone : "",
+        profile.autoCloseAt ? profile.autoCloseAt : "",
+        profile.turnAmount ? profile.turnAmount : 0,
+      );
+    }
   }
 
   componentWillUnmount() {
