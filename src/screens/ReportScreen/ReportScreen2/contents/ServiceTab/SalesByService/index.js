@@ -60,7 +60,7 @@ function SalesByServiceTab({ style, showBackButton, showHeader }, ref) {
   const getServiceId = (filterId) => {
     let defaultFilterId = filterId ?? filterNameItem;
     const filterDefaultItem = FILTER_NAME_DEFAULT_LIST.find(
-      (x) => x.value === defaultFilterId
+      (x) => x.value === defaultFilterId || x.id === defaultFilterId
     );
     return filterDefaultItem?.id;
   };
@@ -70,7 +70,7 @@ function SalesByServiceTab({ style, showBackButton, showHeader }, ref) {
       actions.report.getServiceByServiceReportSales(
         true,
         layoutRef?.current?.getTimeUrl(),
-        getServiceId(filterId)
+        getServiceId(filterId) ?? filterId
       )
     );
   };
@@ -172,7 +172,12 @@ function SalesByServiceTab({ style, showBackButton, showHeader }, ref) {
 
   const refreshData = () => {
     setRefreshing(true);
-    getServiceSaleByService();
+
+    const filterItem = serviceSaleByServiceList.find(
+      (item) => item.name === filterNameItem
+    );
+
+    getServiceSaleByService(getServiceId() || filterItem?.serviceId);
   };
 
   React.useEffect(() => {

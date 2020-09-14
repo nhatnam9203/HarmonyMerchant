@@ -114,10 +114,6 @@ function StaffTab({ style, showBackButton }, ref) {
     layoutRef.current.handleTheDownloadedFile(filePath);
   };
 
-  const onRefreshData = () => {
-    getListStaffsSalaryTop();
-  };
-
   // public function
   useImperativeHandle(ref, () => ({
     goBack: () => {

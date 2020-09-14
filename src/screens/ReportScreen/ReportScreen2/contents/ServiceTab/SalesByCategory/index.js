@@ -60,7 +60,7 @@ function SalesByCategoryTab({ style, showBackButton, showHeader }, ref) {
   const getCategoryId = (filterId) => {
     let defaultFilterId = filterId ?? filterNameItem;
     const filterDefaultItem = FILTER_NAME_DEFAULT_LIST.find(
-      (x) => x.value === defaultFilterId
+      (x) => x.value === defaultFilterId || x.id === defaultFilterId
     );
     return filterDefaultItem?.id;
   };
@@ -70,7 +70,7 @@ function SalesByCategoryTab({ style, showBackButton, showHeader }, ref) {
       actions.report.getServiceByCategoryReportSales(
         true,
         layoutRef?.current?.getTimeUrl(),
-        getCategoryId(filterId)
+        getCategoryId(filterId) ?? filterId
       )
     );
   };
@@ -172,7 +172,12 @@ function SalesByCategoryTab({ style, showBackButton, showHeader }, ref) {
 
   const refreshData = () => {
     setRefreshing(true);
-    getServiceSalesByCategory();
+
+    const filterItem = serviceSaleByCategoryList.find(
+      (item) => item.categoryName === filterNameItem
+    );
+
+    getServiceSalesByCategory(getCategoryId() || filterItem?.categoryId);
   };
 
   React.useEffect(() => {

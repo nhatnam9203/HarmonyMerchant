@@ -60,7 +60,7 @@ function SalesByProductTab({ style, showBackButton, showHeader }, ref) {
   const getProductId = (filterId) => {
     let defaultFilterId = filterId ?? filterNameItem;
     const filterDefaultItem = FILTER_NAME_DEFAULT_LIST.find(
-      (x) => x.value === defaultFilterId
+      (x) => x.value === defaultFilterId || x.id === defaultFilterId
     );
     return filterDefaultItem?.id;
   };
@@ -70,7 +70,7 @@ function SalesByProductTab({ style, showBackButton, showHeader }, ref) {
       actions.report.getProductByProductReportSales(
         true,
         layoutRef?.current?.getTimeUrl(),
-        getProductId(filterId)
+        getProductId(filterId) ?? filterId
       )
     );
   };
@@ -172,7 +172,12 @@ function SalesByProductTab({ style, showBackButton, showHeader }, ref) {
 
   const refreshData = () => {
     setRefreshing(true);
-    getProductSaleByProduct();
+
+    const filterItem = productSaleByProductList.find(
+      (item) => item.name === filterNameItem
+    );
+
+    getProductSaleByProduct(getProductId() || filterItem?.productId);
   };
 
   React.useEffect(() => {
