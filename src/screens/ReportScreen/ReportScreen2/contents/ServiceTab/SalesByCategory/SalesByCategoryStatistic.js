@@ -42,7 +42,7 @@ export default function SalesByCategoryStatistic(props, ref) {
         "totalSales",
       ],
       primaryId: "date",
-      calcSumKeys: ["serviceCount", "quantity", "totalDuration", "totalSales"],
+      calcSumKeys: ["quantity", "totalDuration", "totalSales"],
       sumTotalKey: "dateString",
       priceKeys: ["totalDuration", "totalSales"],
       sortKey: "dateString",

@@ -149,7 +149,7 @@ export default function SalesByCategory({
           ]}
           primaryId="categoryId"
           sumTotalKey="categoryName"
-          calcSumKeys={["serviceCount", "quantity", "totalHour", "totalSales"]}
+          calcSumKeys={["quantity", "totalHour", "totalSales"]}
           priceKeys={["totalHour", "totalSales"]}
           sortKey="totalSales"
           unitKeys={{ totalHour: "hrs" }}
