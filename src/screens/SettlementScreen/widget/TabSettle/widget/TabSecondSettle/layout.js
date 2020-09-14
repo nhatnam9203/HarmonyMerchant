@@ -218,9 +218,13 @@ class Layout extends React.Component {
     }
 
     renderOpenBatch() {
-        const { settleWaiting } = this.props;
+        const { settleWaiting,connectPAXStatus } = this.props;
         const { creditCount } = this.state;
+        const { status, message } = connectPAXStatus;
         const data = settleWaiting.paymentTransaction ? settleWaiting.paymentTransaction : [];
+
+        const isConnectPax = status && message && message == "( Pax terminal successfully connected! )" ? true : false;
+        const tempData = isConnectPax ? data : [];
 
         return (
             <View style={{ flex: 1, }} >
@@ -238,7 +242,7 @@ class Layout extends React.Component {
                 {/* -------- Header Table --------- */}
                 <HeaderOpenBatchTable />
                 <FlatList
-                    data={data}
+                    data={tempData}
                     renderItem={({ item, index }) => <ItemOpenBatchTable data={item} />}
                     keyExtractor={(item, index) => `${item.transactionId}_${index}`}
                 />
