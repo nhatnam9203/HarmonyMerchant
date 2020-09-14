@@ -111,9 +111,13 @@ function TableList({
     if (sortKey && sortList?.length > 0) {
       sortList.sort((a, b) => {
         if (sort === SORT_STATE.desc) {
-          return strCompare(a[sortKey], b[sortKey]);
+          return isPriceCell(sortKey)
+            ? formatServerNumber(b[sortKey]) - formatServerNumber(a[sortKey])
+            : strCompare(a[sortKey], b[sortKey]);
         } else if (sort === SORT_STATE.asc) {
-          return strCompare(b[sortKey], a[sortKey]);
+          return isPriceCell(sortKey)
+            ? formatServerNumber(a[sortKey]) - formatServerNumber(b[sortKey])
+            : strCompare(b[sortKey], a[sortKey]);
         } else return 0;
       });
     }
