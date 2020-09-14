@@ -22,8 +22,8 @@ class TabSecondSettle extends Layout {
                 discount: 0.00,
                 total: 0.00,
                 note: ``,
-                paymentByCashStatistic:0.00,
-                otherPaymentStatistic:0.00
+                paymentByCashStatistic: 0.00,
+                otherPaymentStatistic: 0.00
             },
             errorMessage: '',
             paxErrorMessage: ''
@@ -148,9 +148,11 @@ class TabSecondSettle extends Layout {
     }
 
     proccessingSettlement = async () => {
-        const { settleWaiting } = this.props;
+        const { settleWaiting, connectPAXStatus } = this.props;
         const { settleTotal } = this.state;
-        const body = { ...settleTotal, checkout: settleWaiting.checkout };
+        const { status, message } = connectPAXStatus;
+        const isConnectPax = status && message && message == "( Pax terminal successfully connected! )" ? true : false;
+        const body = { ...settleTotal, checkout: settleWaiting.checkout, isConnectPax };
 
         this.setState({
             numberFooter: 2,
@@ -222,7 +224,8 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     paxMachineInfo: state.dataLocal.paxMachineInfo,
     settleWaiting: state.invoice.settleWaiting,
-    isSettleBatch: state.invoice.isSettleBatch
+    isSettleBatch: state.invoice.isSettleBatch,
+    connectPAXStatus: state.app.connectPAXStatus,
 })
 
 

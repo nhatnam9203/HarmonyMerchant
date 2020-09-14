@@ -13,10 +13,7 @@ const initialState = {
   timeOutLockScreen: 15 * 1000 * 60,
   question: [],
   isFlashScreen: true,
-
   visibleEnterPin: true,
-  // visibleEnterPin: false,
-
   isSubmitTax: false,
   visibleEnterPinInvoice: false,
   isOfflineMode: false,
@@ -24,7 +21,6 @@ const initialState = {
   visibleDisconnect: false,
   visibleConnected: false,
   isReloadWebview: false,
-  // MIDStorage: "",
   packageAndPricingData: [],
   refreshingGeneral: false,
   connectPAXStatus: {
@@ -33,8 +29,6 @@ const initialState = {
   },
   isUpdateMerchantSetting: false,
   settingTabPermission: false,
-  // printerList: [],
-  // printerPortType: "Bluetooth"
 };
 
 function appReducer(state = initialState, action) {

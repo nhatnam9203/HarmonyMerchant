@@ -6,10 +6,8 @@ import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
     formatNumberFromCurrency, formatMoney, scaleSzie, roundFloatNumber, requestAPI,
-    CARD_TYPE, PAYMENT_TYPE
 } from '@utils';
 import apiConfigs from '@configs/api';
-
 
 const PosLink = NativeModules.MyApp;
 
@@ -110,29 +108,6 @@ class TabFirstSettle extends Layout {
                 this.props.actions.app.connectPaxMachineError(`${error}`);
             }
 
-
-
-            // for (let i = 0; i < CARD_TYPE.length; i++) {
-            //     try {
-            //         let amountData = await PosLink.reportTransaction("LOCALTOTALREPORT", "ALL", CARD_TYPE[i], "SALE");
-            //         let amountResult = JSON.parse(amountData);
-            //         let creditAmount = amountResult.CreditAmount ? parseFloat(amountResult.CreditAmount) : 0;
-            //         totalReport = totalReport + creditAmount;
-
-
-            //         for (let j = 0; j < PAYMENT_TYPE.length; j++) {
-            //             let data = await PosLink.reportTransaction("LOCALDETAILREPORT", "ALL", CARD_TYPE[i], PAYMENT_TYPE[j]);
-            //             let result = JSON.parse(data);
-            //             let creditCount = result.TotalRecord ? parseInt(result.TotalRecord) : 0;
-            //             totalRecord = totalRecord + creditCount;
-            //         }
-            //     } catch (error) {
-            //         isError = true;
-            //         this.props.actions.app.connectPaxMachineError(`${error}`);
-            //         break;
-
-            //     }
-            // }
             if (!isError) {
                 this.props.actions.app.ConnectPaxMachineSuccess();
                 const moneyInPax = formatMoney(roundFloatNumber(totalReport / 100));
