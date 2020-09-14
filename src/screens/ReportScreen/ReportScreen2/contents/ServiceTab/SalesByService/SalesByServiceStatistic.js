@@ -47,7 +47,7 @@ export default function SalesByServiceStatistic(props, ref) {
       priceKeys: ["totalDuration", "avgPrice", "totalSales"],
       sortKeys: "dateString",
       unitKeys: { totalDuration: "hrs" },
-      formatKeys: { totalDuration: "mins" },
+      // formatKeys: { totalDuration: "mins" },
       tableCellWidth: { dateString: 180, totalSales: 200 },
     });
   }, [filterId, serviceSaleByServiceList]);
