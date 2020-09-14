@@ -834,27 +834,6 @@ export const checkStatusPrint = async (portType = "Bluetooth") => {
     }
 }
 
-export const checkStatusPrint_1 = async () => {
-    try {
-        const printer = await PrintManager.getInstance().portDiscovery();
-        console.log("--- printer : ", printer);
-        if (printer.length > 0) {
-            let portName = false;
-            for (let i = 0; i < printer.length; i++) {
-                let tempt_portName = printer[i].portName ? printer[i].portName : "";
-                if (tempt_portName === "BT:mPOP" || tempt_portName === "BT:TSP100") {
-                    portName = tempt_portName;
-                    break;
-                }
-            };
-            return portName ? portName : false;
-        } else {
-            return false
-        }
-    } catch (error) {
-        throw error
-    }
-}
 
 export const roundNumber = (num) => {
     return (Math.round(num * 100) / 100).toFixed(2);

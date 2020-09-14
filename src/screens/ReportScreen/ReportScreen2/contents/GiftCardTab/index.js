@@ -90,7 +90,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
       (item) => item.type === filterNameItem
     );
 
-    console.log(filterItem);
+    // console.log(filterItem);
 
     switch (currentTab) {
       case 0:

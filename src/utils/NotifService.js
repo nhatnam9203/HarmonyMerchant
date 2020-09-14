@@ -40,7 +40,7 @@ export default class NotifService {
 
   popInitialNotification() {
     PushNotification.popInitialNotification((notification) =>
-      console.log("InitialNotication:", notification)
+      // console.log("InitialNotication:", notification)
     );
   }
 

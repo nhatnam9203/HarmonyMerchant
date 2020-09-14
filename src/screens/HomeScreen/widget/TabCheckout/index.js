@@ -1111,7 +1111,7 @@ class TabCheckout extends Layout {
                 }, 300)
             }
         } catch (error) {
-            console.log('error : ', error)
+            // console.log('error : ', error)
         }
     }
 

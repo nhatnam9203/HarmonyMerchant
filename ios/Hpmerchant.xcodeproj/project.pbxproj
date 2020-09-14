@@ -2253,7 +2253,7 @@
 				CODE_SIGN_ENTITLEMENTS = HPMerchant.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 54;
+				CURRENT_PROJECT_VERSION = 55;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
@@ -2281,7 +2281,7 @@
 					"\"$(SRCROOT)/HpMerchant\"",
 					"\"$(SRCROOT)/HPMerchant\"",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				OTHER_CFLAGS = "-fembed-bitcode";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2309,7 +2309,7 @@
 				CODE_SIGN_ENTITLEMENTS = HPMerchant.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 54;
+				CURRENT_PROJECT_VERSION = 55;
 				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2336,7 +2336,7 @@
 					"\"$(SRCROOT)/HpMerchant\"",
 					"\"$(SRCROOT)/HPMerchant\"",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				OTHER_CFLAGS = "-fembed-bitcode";
 				OTHER_LDFLAGS = (
 					"$(inherited)",

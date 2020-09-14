@@ -470,7 +470,7 @@ function* getGiftCardSalesBySettlementId(action) {
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
         // console.log('getGiftCardSalesBySettlementId  : ' + JSON.stringify(responses));
-        console.log("---- data : ", responses.data.length);
+        // console.log("---- data : ", responses.data.length);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
