@@ -29,6 +29,11 @@ const configs = {
         staging: 'mnF_3WG05SYllO2LScQOQIhTgfRs8ed003ce-e621-4347-babf-de7857b9c737',
         name: 'HpMerchant-IOS'
     },
+    codePushKeyANDROID: {
+        production: '_5E1ikfD-7PdT5JlapN9q4BfGAKy6Ohb2zHZpI',
+        staging: 'WIPNFxhxOnC-CPUztRPNuYj4HMhWmkKi-8UOj',
+        name: 'HpMerchant-IOS'
+    },
     bundleIdAppStore: 'com.merchant.harmony',
     bundleIdAdhoc: 'com.app.hpmerchant',
     bundleIdAdhocDEV: 'com.app.hpmerchant.dev',

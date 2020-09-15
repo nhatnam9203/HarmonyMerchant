@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Hpmerchant</string>
+    <string name="CodePushPublicKey">-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyDvbEcUEvQwdc662d747
+RmCyF0VmPdq2pB68FNEWY/NmBVgk0QyGfhCswxHPrJNg+PrXU6aOkARELZsPsHUG
+5vvmF1ZsELrdrWQ8WIAT5a/NK/duRpeS3AbXF4lkzMxXs5G90fvxZctyQRdL7/A8
+38Oqs3v9uDoC5YQa3OeM4GtlP9DGCzMLhKqkY8wiSeQE0hN0uEcr7YUVOk8o01VQ
+aGaT+l3HHtFMcmvjlqhvQd0MM3hSxUvIxeNAHPCczZSTc/qMi2O1dO2DuZmcHmM2
+tG1mbWPF0B9xiwWe3DF6dBZVrM6+WSQMtPUpnay6x1AuwN5Dr3YQ3wxTS+FlVt3C
+jwIDAQAB
+-----END PUBLIC KEY-----</string>
 </resources>
