@@ -10,7 +10,7 @@ import { persistor, store } from "./src/redux/store";
 import { name as appName } from "./app.json";
 import NavigatorServices from "./src/navigators/NavigatorServices";
 import { Loading, PopupDisconnected, PopupConnected } from "./src/components";
-import { FirebaseNotificationProvider } from "@firebase";
+// import { FirebaseNotificationProvider } from "@firebase";
 
 class App extends React.Component {
   constructor(props) {
@@ -30,7 +30,7 @@ class App extends React.Component {
           <Loading />
           <PopupDisconnected />
           <PopupConnected />
-          <FirebaseNotificationProvider />
+          {/* <FirebaseNotificationProvider /> */}
         </PersistGate>
       </Provider>
     );

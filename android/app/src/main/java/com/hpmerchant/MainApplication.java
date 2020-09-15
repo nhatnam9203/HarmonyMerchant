@@ -3,6 +3,7 @@ package com.hpmerchant;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.bolan9999.SpringScrollViewPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
@@ -24,6 +25,9 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.microsoft.codepush.react.CodePush;
+import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingPackage;
+// import io.invertase.firebase.ReactNativeFirebaseAppPackage;
+import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,6 +44,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativeFirebaseMessagingPackage(),
+            new ReactNativeFirebaseAppPackage(),
+            new AsyncStoragePackage(),
             new NetInfoPackage(),
             new SpringScrollViewPackage(),
             new SplashScreenReactPackage(),
