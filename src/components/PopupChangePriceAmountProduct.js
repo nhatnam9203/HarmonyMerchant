@@ -11,7 +11,6 @@ import _ from 'ramda';
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
-import { Dropdown } from './react-native-material-dropdown';
 import connectRedux from '@redux/ConnectRedux';
 
 import { scaleSzie } from '../utils';

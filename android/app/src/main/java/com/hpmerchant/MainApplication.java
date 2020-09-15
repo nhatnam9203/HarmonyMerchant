@@ -8,7 +8,6 @@ import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import fr.greweb.reactnativeviewshot.RNViewShotPackage;
-import cn.jystudio.bluetooth.RNBluetoothEscposPrinterPackage;
 import com.reactnativecommunity.rnpermissions.RNPermissionsPackage;
 import org.reactnative.camera.RNCameraPackage;
 import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
@@ -44,7 +43,6 @@ public class MainApplication extends Application implements ReactApplication {
             new RNDeviceInfo(),
             new ReactNativeConfigPackage(),
             new RNViewShotPackage(),
-            new RNBluetoothEscposPrinterPackage(),
             new RNPermissionsPackage(),
             new RNCameraPackage(),
             new ReactNativeYouTube(),
