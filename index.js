@@ -12,10 +12,13 @@ import NavigatorServices from "./src/navigators/NavigatorServices";
 import { Loading, PopupDisconnected, PopupConnected } from "./src/components";
 // import { FirebaseNotificationProvider } from "@firebase";
 
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     SplashScreen.hide();
+    console.disableYellowBox = true
+    console.ignoredYellowBox = ['Setting a timer'];
   }
 
   render() {

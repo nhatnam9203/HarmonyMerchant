@@ -268,7 +268,7 @@ function* editStaff(action) {
 
 function* loginStaff(action) {
   try {
-    yield put({ type: "LOADING_ROOT" });
+    // yield put({ type: "LOADING_ROOT" });
     const responses = yield requestAPI(action);
     //console.log('loginStaff : ' + JSON.stringify(responses));
     const { codeNumber } = responses;

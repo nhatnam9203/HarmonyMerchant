@@ -1,3 +1,10 @@
+// project.ext.envConfigFiles = [
+//         debug: ".env.dev",
+//         release: ".env.dev",
+//         stagingrelease: ".env.staging",
+//         productionrelease: ".env.production",
+//         anycustombuildlowercase: ".env.dev"
+// ]
 apply plugin: "com.android.application"
 
 import com.android.build.OutputFile
@@ -101,6 +108,12 @@ android {
             storePassword 'harmony123@'
             keyAlias = 'harmony-keystore'
             keyPassword 'harmony123@'
+            // if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+            //     storeFile file(MYAPP_UPLOAD_STORE_FILE)
+            //     storePassword MYAPP_UPLOAD_STORE_PASSWORD
+            //     keyAlias MYAPP_UPLOAD_KEY_ALIAS
+            //     keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+            // }
         }
     }
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -132,7 +145,24 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.config
         }
+        // debug {
+        //     applicationIdSuffix ".debug"
+        //     signingConfig signingConfigs.config
+        // }
+        //  debug {
+        //     applicationIdSuffix ".debug"
+        //     debuggable true
+        // }
+        // stagingrelease {
+        //     initWith(buildTypes.release)
+        //     // applicationIdSuffix ".staging"
+        // }
+        // productionrelease {
+        //     initWith release
+        // }
+
     }
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
