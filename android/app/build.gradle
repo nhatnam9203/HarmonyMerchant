@@ -95,6 +95,14 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
+    signingConfigs {
+        config {
+            storeFile file('/Users/phinhn/Desktop/Company Project/Hpmerchant/android/app/harmony-keystore.jks')
+            storePassword 'harmony123@'
+            keyAlias = 'harmony-keystore'
+            keyPassword 'harmony123@'
+        }
+    }
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     compileOptions {
