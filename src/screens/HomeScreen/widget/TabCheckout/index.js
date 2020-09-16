@@ -776,12 +776,12 @@ class TabCheckout extends Layout {
                 }
                 // ---------- Handle reload Tip in Customer App ---------
                 if (temptData.data && !_.isEmpty(temptData.data) && temptData.data.isTipAppointment) {
-                    this.props.actions.appointment.getGroupAppointmentById(temptData.data.appointmentId);
+                    this.props.actions.appointment.getGroupAppointmentById(temptData.data.appointmentId,false);
                 }
             });
 
             connection.onclose(async (error) => {
-                // console.log("------ SignalR onclose ");
+                console.log("------ SignalR onclose ");
                 this.props.actions.appointment.resetConnectSignalR();
             });
 

@@ -20,10 +20,11 @@ class SplashScreen extends Layout {
 
     async componentDidMount() {
         let version = await DeviceInfo.getVersion();
+        const latestVersion = "1.0.8";
         try {
             const res = await VersionCheck.needUpdate({
                 currentVersion: version,
-                latestVersion: "1.0.8",
+                latestVersion: latestVersion,
                 forceUpdate: true
             });
             if (res && res.isNeeded) {
@@ -52,7 +53,7 @@ class SplashScreen extends Layout {
                 }
 
                 if (version !== versionApp) {
-                    this.props.actions.dataLocal.updateVersionApp(version ? version : "1.0.7");
+                    this.props.actions.dataLocal.updateVersionApp(version ? version : latestVersion);
                 }
 
                 const tempEnv = env.IS_PRODUCTION;
