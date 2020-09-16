@@ -10,6 +10,7 @@ import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import { TabMarketing, TabAppointment, TabCheckout } from './widget';
+import configs from "@configs";
 
 export default class Layout extends React.Component {
 
@@ -67,11 +68,11 @@ export default class Layout extends React.Component {
                             pushAppointmentIdOfflineIntoWebview={this.pushAppointmentIdOfflineIntoWebview}
                         />
                     </ScrollableTabView>
-                    <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
+                    <Button onPress={this.openDrawer} style={configs.btn_left_position} >
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
 
-                    <Button onPress={this.showLockScreen} style={{ position: 'absolute', top: 20, right: 0 }} >
+                    <Button onPress={this.showLockScreen} style={configs.btn_right_position} >
                         <Image source={IMAGE.signOut} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
 

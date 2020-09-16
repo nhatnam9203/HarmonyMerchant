@@ -14,6 +14,7 @@ import {
     TabTransaction,
     TabBatchHistory
 } from './widget';
+import configs from "@configs";
 
 export default class Layout extends React.Component {
 
@@ -87,24 +88,22 @@ export default class Layout extends React.Component {
                     <StatusBarHeader />
                     {this.renderHeader()}
                     {this.renderTabContainer()}
-                    <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
+                    <Button onPress={this.openDrawer} style={configs.btn_left_position} >
                         <Image source={ICON.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
 
                     {
-                        isShowBackSettlement && currentPage === 0 ? <Button onPress={this.backSettlementTab} style={{
-                            position: 'absolute', top: 20, right: 0,
+                        isShowBackSettlement && currentPage === 0 ? <Button onPress={this.backSettlementTab} style={[configs.btn_right_position,{
                             width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
-                        }} >
+                        }]} >
                             <Image source={ICON.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
                         </Button> : <View />
                     }
 
                     {
-                        isShowBackBatchHistory && currentPage === 2 ? <Button onPress={this.backBatchHistoryTab} style={{
-                            position: 'absolute', top: 20, right: 0,
+                        isShowBackBatchHistory && currentPage === 2 ? <Button onPress={this.backBatchHistoryTab} style={[configs.btn_right_position,{
                             width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
-                        }} >
+                        }]} >
                             <Image source={ICON.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
                         </Button> : <View />
                     }

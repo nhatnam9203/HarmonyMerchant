@@ -10,6 +10,7 @@ import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import { TabStaff, TabService, TabExtra, TabCategories, TabGaneral, TabHardware, TabTAX } from './widget';
+import configs from "@configs";
 
 const MENU = ["General", "Staff", "Categories", "Services", "Extra", "Tax", "Hardware", "Logout"];
 
@@ -101,7 +102,7 @@ export default class Layout extends React.Component {
                         </View>
                     </View>
 
-                    <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
+                    <Button onPress={this.openDrawer} style={configs.btn_left_position} >
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
                     {

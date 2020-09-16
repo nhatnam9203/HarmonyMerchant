@@ -17,6 +17,7 @@ import {
     HeaderTableProducts, RowTableProducts, RowEmptyTableProducts, PopupDetailProduct,
     PopupRestock, PopupExport, PopupLoadingExport
 } from './widget';
+import configs from "@configs";
 
 export default class Layout extends React.Component {
 
@@ -52,9 +53,6 @@ export default class Layout extends React.Component {
                                     onSubmitEditing={this.searchProduct}
                                 />
                             </View>
-                            {/* <Button onPress={this.searchProduct} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
-                                <Image source={IMAGE.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
-                            </Button> */}
                             {
                                 keySearch.length > 0 ? <Button onPress={this.clearSearchText} style={{
                                     width: scaleSzie(35), alignItems: 'center', justifyContent: 'center',
@@ -85,7 +83,7 @@ export default class Layout extends React.Component {
 
     renderFilter() {
         const { language, categoriesByMerchant, pathFileInventory } = this.props;
-        const { isSelectAll, searchFilter } = this.state;
+        const {  searchFilter } = this.state;
         const { category } = searchFilter;
         const dataProductCategory = getArrayNameCategories(categoriesByMerchant, 'Product');
         dataProductCategory.unshift({ value: '' });
@@ -256,7 +254,7 @@ export default class Layout extends React.Component {
                     <View style={{ height: scaleSzie(10) }} />
                     {this.renderFilter()}
                     {this.renderTable()}
-                    <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
+                    <Button onPress={this.openDrawer} style={configs.btn_left_position} >
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
                 </View>

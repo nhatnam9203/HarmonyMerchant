@@ -3,7 +3,7 @@ import { Dimensions, Platform } from 'react-native';
 const configs = {
     VERSION: "1.0.6",
     BUILD: "",
-    DEFAULT_WIDTH: Platform.OS === 'ios' ? 768 : 768,
+    DEFAULT_WIDTH: Platform.OS === 'ios' ? 768 : 780,
     // DEFAULT_WIDTH: 736, mobile
     DEFAULT_HEIGHT: 736,
     FULL_WIDTH: Dimensions.get('window').width,
@@ -37,6 +37,16 @@ const configs = {
     bundleIdAppStore: 'com.merchant.harmony',
     bundleIdAdhoc: 'com.app.hpmerchant',
     bundleIdAdhocDEV: 'com.app.hpmerchant.dev',
+    btn_right_position:{
+        position: 'absolute', 
+        top:Platform.OS ==="ios" ? 20 : 0,  
+        right: 0 
+    },
+    btn_left_position:{
+        position: 'absolute', 
+        top:Platform.OS ==="ios" ? 20 : 0,  
+        left: 0 
+    }
 }
 
 export default configs;

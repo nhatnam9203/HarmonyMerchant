@@ -14,6 +14,7 @@ import {
     HeaderTableCustomer, RowTableCustomer, RowEmptyTableCustomer,
     PopupAddEditCustomer, PopupCustomerDetail
 } from './widget';
+import configs from "@configs";
 
 export default class Layout extends React.Component {
 
@@ -151,7 +152,7 @@ export default class Layout extends React.Component {
                     <View style={{ height: scaleSzie(18) }} />
                     {this.renderTable()}
 
-                    <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
+                    <Button onPress={this.openDrawer} style={configs.btn_left_position} >
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
                 </View>
