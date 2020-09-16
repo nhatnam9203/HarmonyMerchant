@@ -10,7 +10,7 @@ const getAsyncStoreToken = async () => {
   try {
     token = await AsyncStorage.getItem("fcmToken");
   } catch (error) {
-    console.log("Load token error: ", error);
+    // console.log("Load token error: ", error);
   }
 
   return token;

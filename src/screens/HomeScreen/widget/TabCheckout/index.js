@@ -781,7 +781,7 @@ class TabCheckout extends Layout {
             });
 
             connection.onclose(async (error) => {
-                console.log("------ SignalR onclose ");
+                // console.log("------ SignalR onclose ");
                 this.props.actions.appointment.resetConnectSignalR();
             });
 

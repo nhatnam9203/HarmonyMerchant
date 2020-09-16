@@ -70,7 +70,7 @@ class TabPromotion extends Layout {
   }
 
   applyPromotion = (promotionId, isSendNoti) => {
-    console.log("--- promotionId :", promotionId);
+    // console.log("--- promotionId :", promotionId);
     const { servicesByMerchant } = this.props;
 
     const promotionFirst = this.promotionFirstRef.current.state.data;
