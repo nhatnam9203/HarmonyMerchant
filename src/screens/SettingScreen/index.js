@@ -41,7 +41,7 @@ class SettingScreen extends Layout {
           isFocus: true,
         });
         this.checkPermissionRef.current.setStateFromParent("");
-        this.props.actions.app.toggleSettingTabPermission();
+        // this.props.actions.app.toggleSettingTabPermission();
       }
     );
   }
