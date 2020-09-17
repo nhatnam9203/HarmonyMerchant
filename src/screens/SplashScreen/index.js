@@ -121,49 +121,6 @@ class SplashScreen extends Layout {
         }
     }
 
-    checkForUpdateCodepush_1(deploymentKey) {
-        CodePush.checkForUpdate(deploymentKey)
-            .then(update => {
-                if (update) {
-                    if (update.failedInstall) {
-                        this.controlFlowInitApp();
-                    } else {
-                        let codePushOptions = {
-                            installMode: CodePush.InstallMode.ON_NEXT_RESTART,
-                            mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
-                            deploymentKey: deploymentKey
-                        };
-                        CodePush.sync(
-                            codePushOptions,
-                            this.codePushStatusDidChange.bind(this),
-                            this.codePushDownloadDidProgress.bind(this)
-                        );
-                    }
-
-                } else {
-                    this.controlFlowInitApp();
-                }
-            })
-            .catch(error => {
-                if (`${error}`.includes('Network request failed')) {
-                    Alert.alert(
-                        'Please check your internet!',
-                        'Restart application!',
-                        [
-
-                            {
-                                text: 'OK', onPress: () => {
-                                    CodePush.restartApp();
-                                }
-                            },
-                        ],
-                        { cancelable: false },
-                    );
-
-                }
-            })
-    }
-
     codePushStatusDidChange(syncStatus) {
         //console.log('progress : ' ,syncStatus);
     }

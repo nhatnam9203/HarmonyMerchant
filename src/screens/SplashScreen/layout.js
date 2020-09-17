@@ -18,7 +18,7 @@ export default class Layout extends React.Component {
                 style={styles.container}
                 source={IMAGE.splashScreen}
             >
-                <View style={{ flex: 1 }} />
+                {/* <View style={{ flex: 1 }} />
                 <View style={{ height: scaleSzie(220), alignItems: 'center' }} >
                     <Text style={{ color: '#fff', fontSize: scaleSzie(20), fontWeight: 'bold', marginBottom: scaleSzie(6) }} >
                         {`Checking Version`}
@@ -36,7 +36,7 @@ export default class Layout extends React.Component {
                     <Text style={{ color: '#fff', fontSize: scaleSzie(12), marginBottom: scaleSzie(6), marginTop: scaleSzie(10) }} >
                         {`${this.state.progress}%`}
                     </Text>
-                </View>
+                </View> */}
             </ImageBackground>
 
         );
