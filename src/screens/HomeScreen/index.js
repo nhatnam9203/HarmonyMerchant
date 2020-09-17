@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'ramda';
-import { Alert } from 'react-native';
+import { Alert, BackHandler } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, finalize } from 'rxjs/operators';
@@ -37,6 +37,10 @@ class HomeScreen extends Layout {
 
     componentDidMount() {
         this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
+
+        // ----------- Add Listener Back Action On Android --------------
+        BackHandler.addEventListener("hardwareBackPress", this.backAction);
+
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {
@@ -66,6 +70,23 @@ class HomeScreen extends Layout {
             this.watcherNetwork.next(isConnected);
         });
     }
+
+    backAction = () => {
+        if (this.state.isFocus) {
+            Alert.alert("Hold on!", "Are you sure you want to exit the application?", [
+                {
+                    text: "Cancel",
+                    onPress: () => null,
+                    style: "cancel"
+                },
+                { text: "YES", onPress: () => BackHandler.exitApp() }
+            ]);
+            return true;
+        } else {
+            return false
+        }
+
+    };
 
     initWatcherNetwork = () => {
         this.watcherNetwork.pipe(
@@ -341,6 +362,7 @@ class HomeScreen extends Layout {
         this.watcherNetwork.pipe(
             finalize(() => { })
         );
+        BackHandler.removeEventListener("hardwareBackPress", this.backAction);
     }
 
 

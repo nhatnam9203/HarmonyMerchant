@@ -56,7 +56,7 @@ class SplashScreen extends Layout {
                 }
 
                 const tempEnv = env.IS_PRODUCTION;
-                if (tempEnv == "Production" || tempEnv == "Staging") {
+                if (tempEnv == "Production" || tempEnv == "Staging" || tempEnv == "Dev" ) {
                     const deploymentKey = tempEnv == "Production" ? configs.codePushKeyIOS.production : configs.codePushKeyIOS.staging;
                     this.checkForUpdateCodepush(deploymentKey);
                 } else {
@@ -70,7 +70,58 @@ class SplashScreen extends Layout {
 
     }
 
-    checkForUpdateCodepush(deploymentKey) {
+    async checkForUpdateCodepush(deploymentKey) {
+        try {
+            const result = await Promise.race([
+                CodePush.checkForUpdate(deploymentKey),
+                new Promise((resolve, reject) => setTimeout(() => resolve("TIME_OUT"), 10000))
+            ]);
+
+            if (result === "TIME_OUT") {
+                this.controlFlowInitApp();
+            } else {
+                if (result) {
+                    if (result.failedInstall) {
+                        this.controlFlowInitApp();
+                    } else {
+                        let codePushOptions = {
+                            installMode: CodePush.InstallMode.ON_NEXT_RESTART,
+                            mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
+                            deploymentKey: deploymentKey
+                        };
+                        CodePush.sync(
+                            codePushOptions,
+                            this.codePushStatusDidChange.bind(this),
+                            this.codePushDownloadDidProgress.bind(this)
+                        );
+                    }
+
+                } else {
+                    this.controlFlowInitApp();
+                }
+            }
+
+        } catch (error) {
+            if (`${error}`.includes('Network request failed')) {
+                Alert.alert(
+                    'Please check your internet!',
+                    'Restart application!',
+                    [
+
+                        {
+                            text: 'OK', onPress: () => {
+                                CodePush.restartApp();
+                            }
+                        },
+                    ],
+                    { cancelable: false },
+                );
+
+            }
+        }
+    }
+
+    checkForUpdateCodepush_1(deploymentKey) {
         CodePush.checkForUpdate(deploymentKey)
             .then(update => {
                 if (update) {
