@@ -71,11 +71,18 @@ class SplashScreen extends Layout {
 
     }
 
-    checkForUpdateCodepush(deploymentKey) {
-        CodePush.checkForUpdate(deploymentKey)
-            .then(update => {
-                if (update) {
-                    if (update.failedInstall) {
+    async checkForUpdateCodepush(deploymentKey) {
+        try {
+            const result = await Promise.race([
+                CodePush.checkForUpdate(deploymentKey),
+                new Promise((resolve, reject) => setTimeout(() => resolve("TIME_OUT"), 10000))
+            ]);
+
+            if (result === "TIME_OUT") {
+                this.controlFlowInitApp();
+            } else {
+                if (result) {
+                    if (result.failedInstall) {
                         this.controlFlowInitApp();
                     } else {
                         let codePushOptions = {
@@ -93,26 +100,28 @@ class SplashScreen extends Layout {
                 } else {
                     this.controlFlowInitApp();
                 }
-            })
-            .catch(error => {
-                if (`${error}`.includes('Network request failed')) {
-                    Alert.alert(
-                        'Please check your internet!',
-                        'Restart application!',
-                        [
+            }
 
-                            {
-                                text: 'OK', onPress: () => {
-                                    CodePush.restartApp();
-                                }
-                            },
-                        ],
-                        { cancelable: false },
-                    );
+        } catch (error) {
+            if (`${error}`.includes('Network request failed')) {
+                Alert.alert(
+                    'Please check your internet!',
+                    'Restart application!',
+                    [
 
-                }
-            })
+                        {
+                            text: 'OK', onPress: () => {
+                                CodePush.restartApp();
+                            }
+                        },
+                    ],
+                    { cancelable: false },
+                );
+
+            }
+        }
     }
+
 
     codePushStatusDidChange(syncStatus) {
         //console.log('progress : ' ,syncStatus);
