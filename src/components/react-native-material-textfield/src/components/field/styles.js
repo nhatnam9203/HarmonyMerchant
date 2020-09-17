@@ -8,11 +8,10 @@ export default StyleSheet.create({
   },
 
   input: {
-    // top: scaleSzie(-10),
     padding: 0,
     margin: 0,
     flex: 1,
-    // backgroundColor:"red"
+    color:"#000"
   },
 
   row: {

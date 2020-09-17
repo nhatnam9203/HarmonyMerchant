@@ -74,13 +74,13 @@ export default class Layout extends React.Component {
                     {this.renderHeader()}
                     <View style={{ flex: 1, flexDirection: 'row' }} >
                         {this.renderMenu()}
-                        <View style={{ flex: 1 }} >
+                        <View style={{ flex: 1}} >
                             <ScrollableTabView
                                 ref={this.scrollTabRef}
                                 style={{}}
                                 initialPage={0}
                                 tabBarPosition="bottom"
-                                locked={true}
+                                // locked={true}
                                 springTension={1}
                                 springFriction={1}
                                 renderTabBar={() => <View />}

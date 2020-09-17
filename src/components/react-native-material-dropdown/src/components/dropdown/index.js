@@ -65,10 +65,10 @@ class Dropdown extends PureComponent {
 
     fontSize: 16,
 
-    // textColor: 'rgba(0, 0, 0, .87)',
     textColor: '#0764B0',
     itemColor: 'rgba(0, 0, 0, .54)',
     baseColor: 'rgba(0, 0, 0, .38)',
+
 
 
     itemCount: 4,
