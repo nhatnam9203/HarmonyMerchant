@@ -88,10 +88,10 @@ class TabStaff extends Layout {
         this.props.actions.staff.restoreStaff(this.state.staffHandle.staffId, searchFilter);
     }
 
-    searchStaff = () => {
+    searchStaff = (isShowLoading = true) => {
         const { searchFilter } = this.state;
         const { keySearch, role, status } = searchFilter;
-        this.props.actions.staff.getStaffByMerchantId(keySearch, role, status,searchFilter);
+        this.props.actions.staff.getStaffByMerchantId(keySearch, role, status,searchFilter,isShowLoading);
     }
 
     addStaff = async () => {

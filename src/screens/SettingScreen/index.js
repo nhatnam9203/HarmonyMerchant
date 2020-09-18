@@ -1,5 +1,5 @@
 import React from "react";
-import { Keyboard } from "react-native";
+import { Keyboard, Platform } from "react-native";
 
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
@@ -21,6 +21,7 @@ class SettingScreen extends Layout {
     this.tabCategoriesRef = React.createRef();
     this.tabServiceRef = React.createRef();
     this.tabExtraRef = React.createRef();
+    this.leftMenuSettingRef = React.createRef();
   }
 
   componentDidMount() {
@@ -58,19 +59,20 @@ class SettingScreen extends Layout {
     this.props.navigation.openDrawer();
   };
 
-  selectMenu(index) {
+  selectMenu = async (index) => {
     if (index === 7) {
       this.setState({
         visibleLogout: true,
       });
     } else {
-      this.setState({
-        indexTab: index,
-      });
-      this.fetchAPIsInSettingTab(index);
+      this.leftMenuSettingRef.current.setStateFromParent(index);
       this.scrollTabRef.current.goToPage(index);
+      setTimeout(() => {
+        this.fetchAPIsInSettingTab(index);
+      }, 10);
       Keyboard.dismiss();
     }
+
   }
 
   fetchAPIsInSettingTab = (index) => {
@@ -83,7 +85,7 @@ class SettingScreen extends Layout {
         );
       case 1:
         this.resetStateStaffSetting();
-        return this.props.actions.staff.getStaffByMerchantId();
+        return this.props.actions.staff.getStaffByMerchantId("","", "",false,false);
       case 2:
         this.resetStateCategoriesSetting();
         return this.props.actions.category.getCategoriesByMerchantId();
@@ -187,7 +189,7 @@ class SettingScreen extends Layout {
     this.setState({
       indexTab: 0,
     })
-    
+
   }
 
   componentDidUpdate(prevProps, prevState) {

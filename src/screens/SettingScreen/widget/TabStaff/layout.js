@@ -163,7 +163,7 @@ class Layout extends React.Component {
                         />}
                         keyExtractor={(item, index) => `${index}`}
                         ListEmptyComponent={<RowTableEmptyStaff />}
-                        onRefresh={this.searchStaff}
+                        onRefresh={this.searchStaff.bind(this,false)}
                         refreshing={refreshListStaffs}
                         scrollPercent={5}
                         onMoveEnd={({ data }) => this.updateStaffsPosition(data, isShowSearchStaff)}

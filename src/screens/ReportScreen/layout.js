@@ -21,6 +21,7 @@ import {
 } from "./widget";
 import { ScrollView } from "react-native-gesture-handler";
 import ReportScreen2 from "./ReportScreen2";
+import configs from "@configs";
 
 export default class Layout extends React.Component {
   renderHeader() {
@@ -233,7 +234,8 @@ export default class Layout extends React.Component {
           {/**button drawer */}
           <Button
             onPress={this.openDrawer}
-            style={{ position: "absolute", top: 20, left: 0 }}
+            // style={{ position: "absolute", top: 20, left: 0 }}
+            style={configs.btn_left_position} 
           >
             <Image
               source={IMAGE.openDrawer}

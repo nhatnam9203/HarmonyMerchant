@@ -1,7 +1,8 @@
 import React from 'react';
 import {
     View,
-    Image
+    Image,
+    Platform
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
@@ -11,6 +12,7 @@ import styles from './style';
 import IMAGE from '@resources';
 import { TabStaff, TabService, TabExtra, TabCategories, TabGaneral, TabHardware, TabTAX } from './widget';
 import configs from "@configs";
+import { prop } from 'ramda';
 
 const MENU = ["General", "Staff", "Categories", "Services", "Extra", "Tax", "Hardware", "Logout"];
 
@@ -30,39 +32,11 @@ export default class Layout extends React.Component {
         );
     }
 
-    renderMenu() {
-        const { indexTab } = this.state;
-        return (
-            <View style={{ width: scaleSzie(140), backgroundColor: 'rgb(250,250,250)' }} >
-                {
-                    MENU.map((title, index) => {
-                        const temptIcon = index === indexTab ? title : `${title}_in`;
-                        const temptBackground = index === indexTab ? { backgroundColor: '#fff', borderLeftColor: '#0764B0', borderLeftWidth: 7 } : {};
-                        const temptTextColorSelect = index === indexTab ? { color: '#0764B0' } : {}
-                        return (
-                            <Button onPress={() => this.selectMenu(index)} key={index} style={[{
-                                height: scaleSzie(50), borderBottomColor: 'rgb(241,241,241)', borderBottomWidth: 3,
-                                flexDirection: 'row', alignItems: "center", paddingLeft: scaleSzie(10)
-                            }, temptBackground]} >
-                                <Image source={IMAGE[temptIcon]} style={{
-                                    width: scaleSzie(18), height: scaleSzie(18),
-                                    marginRight: scaleSzie(10)
-                                }} />
-                                <Text style={[{ color: '#404040', fontSize: scaleSzie(16) }, temptTextColorSelect]} >
-                                    {title}
-                                </Text>
-                            </Button>
-                        );
-                    })
-                }
-
-            </View>
-        );
-    }
-
     render() {
         const { language, navigation, settingTabPermission, isAddStaff } = this.props;
         const { isFocus, indexTab } = this.state;
+        const isScrollWithoutAnimation = Platform.OS === "ios" ? false: true;
+
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -73,16 +47,20 @@ export default class Layout extends React.Component {
                     <StatusBarHeader />
                     {this.renderHeader()}
                     <View style={{ flex: 1, flexDirection: 'row' }} >
-                        {this.renderMenu()}
-                        <View style={{ flex: 1}} >
+                        <LeftMenuSetting
+                            ref={this.leftMenuSettingRef}
+                            selectMenu={this.selectMenu}
+                        />
+                        <View style={{ flex: 1 }} >
                             <ScrollableTabView
                                 ref={this.scrollTabRef}
                                 style={{}}
                                 initialPage={0}
                                 tabBarPosition="bottom"
-                                // locked={true}
+                                locked={true}
                                 springTension={1}
                                 springFriction={1}
+                                // scrollWithoutAnimation={isScrollWithoutAnimation}
                                 renderTabBar={() => <View />}
                             >
                                 <TabGaneral ref={this.generalTabRef} />
@@ -106,10 +84,9 @@ export default class Layout extends React.Component {
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
                     {
-                        indexTab === 1 && isAddStaff ? <Button onPress={this.backTab} style={{
-                            position: 'absolute', top: 20, right: 0,
+                        isAddStaff ? <Button onPress={this.backTab} style={[configs.btn_right_position,{
                             width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
-                        }} >
+                        }]} >
                             <Image source={IMAGE.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
                         </Button> : null
                     }
@@ -135,4 +112,54 @@ export default class Layout extends React.Component {
         );
     }
 }
+
+class LeftMenuSetting extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            indexTab: 0
+        };
+    }
+
+    setStateFromParent =async (indexTab) =>{
+        await this.setState({
+            indexTab
+        });
+    }
+
+    render() {
+        const {selectMenu} = this.props;
+        const { indexTab } = this.state;
+
+        return (
+            <View style={{ width: scaleSzie(140), backgroundColor: 'rgb(250,250,250)',zIndex:1 }} >
+                {
+                    MENU.map((title, index) => {
+                        const temptIcon = index === indexTab ? title : `${title}_in`;
+                        const temptBackground = index === indexTab ? { backgroundColor: '#fff', borderLeftColor: '#0764B0', borderLeftWidth: 7 } : {};
+                        const temptTextColorSelect = index === indexTab ? { color: '#0764B0' } : {}
+                        return (
+                            <Button onPress={() => selectMenu(index)} key={index} style={[{
+                                height: scaleSzie(50), borderBottomColor: 'rgb(241,241,241)', borderBottomWidth: 3,
+                                flexDirection: 'row', alignItems: "center", paddingLeft: scaleSzie(10)
+                            }, temptBackground]} >
+                                <Image source={IMAGE[temptIcon]} style={{
+                                    width: scaleSzie(18), height: scaleSzie(18),
+                                    marginRight: scaleSzie(10)
+                                }} />
+                                <Text style={[{ color: '#404040', fontSize: scaleSzie(16) }, temptTextColorSelect]} >
+                                    {title}
+                                </Text>
+                            </Button>
+                        );
+                    })
+                }
+
+            </View>
+        );
+    }
+
+}
+
 
