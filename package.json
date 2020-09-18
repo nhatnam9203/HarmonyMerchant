@@ -52,6 +52,7 @@
     "react-native-reanimated": "^1.9.0",
     "react-native-screens": "^2.9.0",
     "react-native-scrollable-tab-view": "^0.10.0",
+    "react-native-share": "^1.2.1",
     "react-native-sortable-listview": "^0.2.9",
     "react-native-splash-screen": "^3.2.0",
     "react-native-spring-scrollview": "^2.0.23",

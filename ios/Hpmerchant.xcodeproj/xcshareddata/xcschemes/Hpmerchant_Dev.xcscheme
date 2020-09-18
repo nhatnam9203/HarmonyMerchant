@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1130"
+   LastUpgradeVersion = "1200"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "NO"
@@ -14,8 +14,8 @@
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
-                     BlueprintIdentifier = "232D64982465060100AA4473"
-                     BuildableName = "Dev.app"
+                     BlueprintIdentifier = "23644C8525149E7C00D59096"
+                     BuildableName = "Hpmerchant_Dev.app"
                      BlueprintName = "Hpmerchant_Dev"
                      ReferencedContainer = "container:Hpmerchant.xcodeproj">
                   </BuildableReference>
@@ -46,8 +46,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "232D64982465060100AA4473"
-               BuildableName = "Dev.app"
+               BlueprintIdentifier = "23644C8525149E7C00D59096"
+               BuildableName = "Hpmerchant_Dev.app"
                BlueprintName = "Hpmerchant_Dev"
                ReferencedContainer = "container:Hpmerchant.xcodeproj">
             </BuildableReference>
@@ -63,10 +63,10 @@
       </Testables>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      launchStyle = "1"
+      launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
@@ -76,8 +76,8 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "232D64982465060100AA4473"
-            BuildableName = "Dev.app"
+            BlueprintIdentifier = "23644C8525149E7C00D59096"
+            BuildableName = "Hpmerchant_Dev.app"
             BlueprintName = "Hpmerchant_Dev"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
          </BuildableReference>
@@ -93,8 +93,8 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "232D64982465060100AA4473"
-            BuildableName = "Dev.app"
+            BlueprintIdentifier = "23644C8525149E7C00D59096"
+            BuildableName = "Hpmerchant_Dev.app"
             BlueprintName = "Hpmerchant_Dev"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
          </BuildableReference>

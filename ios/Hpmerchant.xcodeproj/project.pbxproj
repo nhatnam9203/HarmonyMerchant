@@ -54,208 +54,210 @@
 		232011EE22FAB38C0002C14B /* MyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 232011ED22FAB38C0002C14B /* MyApp.m */; };
 		23207BB522FAD00F0002C14B /* ExtDataPaymentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */; };
 		23207BB622FAD5BE0002C14B /* libPosLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23207BAF22FAC4730002C14B /* libPosLink.a */; };
-		232D649B2465060100AA4473 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FE295423C77BEF00E95925 /* File.swift */; };
-		232D649C2465060100AA4473 /* MyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 232011ED22FAB38C0002C14B /* MyApp.m */; };
-		232D649D2465060100AA4473 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		232D649E2465060100AA4473 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		232D649F2465060100AA4473 /* ExtDataPaymentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */; };
-		232D64A12465060100AA4473 /* libPosLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23207BAF22FAC4730002C14B /* libPosLink.a */; };
-		232D64A22465060100AA4473 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2399DEBD22F1A9C100DBCCFE /* libRNFetchBlob.a */; };
-		232D64A32465060100AA4473 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */; };
-		232D64A42465060100AA4473 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */; };
-		232D64A52465060100AA4473 /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342065F22DD7C1700E0EA35 /* StarIO.framework */; };
-		232D64A62465060100AA4473 /* StarIO_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */; };
-		232D64A72465060100AA4473 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
-		232D64A82465060100AA4473 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
-		232D64A92465060100AA4473 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
-		232D64AA2465060100AA4473 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		232D64AB2465060100AA4473 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
-		232D64AC2465060100AA4473 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
-		232D64AD2465060100AA4473 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
-		232D64AE2465060100AA4473 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
-		232D64AF2465060100AA4473 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
-		232D64B02465060100AA4473 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
-		232D64B12465060100AA4473 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		232D64B22465060100AA4473 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
-		232D64B32465060100AA4473 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
-		232D64B42465060100AA4473 /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87F14B6172B346F0950939FF /* libRNGestureHandler.a */; };
-		232D64B52465060100AA4473 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */; };
-		232D64B82465060100AA4473 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		232D64B92465060100AA4473 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		2342066122DD7C1800E0EA35 /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342065F22DD7C1700E0EA35 /* StarIO.framework */; };
 		2342066222DD7C1800E0EA35 /* StarIO_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */; };
 		2342066422DD7C2600E0EA35 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */; };
 		2342066622DD7C3100E0EA35 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */; };
+		23644C8825149E7C00D59096 /* RNBarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008C24DBC6DD00BAA83B /* RNBarChartManager.swift */; };
+		23644C8925149E7C00D59096 /* RNBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008E24DBC6DD00BAA83B /* RNBarChartView.swift */; };
+		23644C8A25149E7C00D59096 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FE295423C77BEF00E95925 /* File.swift */; };
+		23644C8B25149E7C00D59096 /* RNChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009624DBC6DD00BAA83B /* RNChartViewBase.swift */; };
+		23644C8C25149E7C00D59096 /* BarDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008A24DBC6DD00BAA83B /* BarDataExtract.swift */; };
+		23644C8D25149E7C00D59096 /* DataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009824DBC6DD00BAA83B /* DataExtract.swift */; };
+		23644C8E25149E7C00D59096 /* LargeValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006224DBC6DD00BAA83B /* LargeValueFormatter.swift */; };
+		23644C8F25149E7C00D59096 /* RNRadarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009424DBC6DD00BAA83B /* RNRadarChartView.swift */; };
+		23644C9025149E7C00D59096 /* FontUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006424DBC6DD00BAA83B /* FontUtils.swift */; };
+		23644C9125149E7C00D59096 /* RNRadarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C009324DBC6DD00BAA83B /* RNRadarChartManagerBridge.m */; };
+		23644C9225149E7C00D59096 /* RNScatterChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007824DBC6DD00BAA83B /* RNScatterChartManager.swift */; };
+		23644C9325149E7C00D59096 /* RNBarLineChartBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007024DBC6DD00BAA83B /* RNBarLineChartBaseManager.swift */; };
+		23644C9425149E7C00D59096 /* RNCandleStickChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008424DBC6DD00BAA83B /* RNCandleStickChartManager.swift */; };
+		23644C9525149E7C00D59096 /* RNBubbleChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006C24DBC6DD00BAA83B /* RNBubbleChartView.swift */; };
+		23644C9625149E7C00D59096 /* RNBarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C008D24DBC6DD00BAA83B /* RNBarChartManagerBridge.m */; };
+		23644C9725149E7C00D59096 /* HighlightUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006724DBC6DD00BAA83B /* HighlightUtils.swift */; };
+		23644C9825149E7C00D59096 /* RNCombinedChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C005B24DBC6DD00BAA83B /* RNCombinedChartManagerBridge.m */; };
+		23644C9925149E7C00D59096 /* ScatterDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007B24DBC6DD00BAA83B /* ScatterDataExtract.swift */; };
+		23644C9A25149E7C00D59096 /* RNHorizontalBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008F24DBC6DD00BAA83B /* RNHorizontalBarChartView.swift */; };
+		23644C9B25149E7C00D59096 /* RNRadarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009524DBC6DD00BAA83B /* RNRadarChartManager.swift */; };
+		23644C9C25149E7C00D59096 /* RNHorizontalBarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C009024DBC6DD00BAA83B /* RNHorizontalBarChartManagerBridge.m */; };
+		23644C9D25149E7C00D59096 /* LineDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008024DBC6DD00BAA83B /* LineDataExtract.swift */; };
+		23644C9E25149E7C00D59096 /* MyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 232011ED22FAB38C0002C14B /* MyApp.m */; };
+		23644C9F25149E7C00D59096 /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005E24DBC6DD00BAA83B /* BalloonMarker.swift */; };
+		23644CA025149E7C00D59096 /* RNBarChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008924DBC6DD00BAA83B /* RNBarChartViewBase.swift */; };
+		23644CA125149E7C00D59096 /* RNLineChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C007F24DBC6DD00BAA83B /* RNLineChartManagerBridge.m */; };
+		23644CA225149E7C00D59096 /* RadarDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009224DBC6DD00BAA83B /* RadarDataExtract.swift */; };
+		23644CA325149E7C00D59096 /* RNCombinedChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005924DBC6DD00BAA83B /* RNCombinedChartView.swift */; };
+		23644CA425149E7C00D59096 /* RNBarLineChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005F24DBC6DD00BAA83B /* RNBarLineChartViewBase.swift */; };
+		23644CA525149E7C00D59096 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
+		23644CA625149E7C00D59096 /* RNHorizontalBarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008B24DBC6DD00BAA83B /* RNHorizontalBarChartManager.swift */; };
+		23644CA725149E7C00D59096 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		23644CA825149E7C00D59096 /* RNCandleStickChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008324DBC6DD00BAA83B /* RNCandleStickChartView.swift */; };
+		23644CA925149E7C00D59096 /* RNCombinedChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005A24DBC6DD00BAA83B /* RNCombinedChartManager.swift */; };
+		23644CAA25149E7C00D59096 /* RNBubbleChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C006E24DBC6DD00BAA83B /* RNBubbleChartManagerBridge.m */; };
+		23644CAB25149E7C00D59096 /* EntryToDictionaryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006524DBC6DD00BAA83B /* EntryToDictionaryUtils.swift */; };
+		23644CAC25149E7C00D59096 /* ExtDataPaymentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */; };
+		23644CAD25149E7C00D59096 /* ChartDataSetConfigUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006624DBC6DD00BAA83B /* ChartDataSetConfigUtils.swift */; };
+		23644CAE25149E7C00D59096 /* BubbleDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006D24DBC6DD00BAA83B /* BubbleDataExtract.swift */; };
+		23644CAF25149E7C00D59096 /* ChartGroupHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009724DBC6DD00BAA83B /* ChartGroupHolder.swift */; };
+		23644CB025149E7C00D59096 /* RNPieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007324DBC6DD00BAA83B /* RNPieChartView.swift */; };
+		23644CB125149E7C00D59096 /* CandleDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008224DBC6DD00BAA83B /* CandleDataExtract.swift */; };
+		23644CB225149E7C00D59096 /* RNPieChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C007424DBC6DD00BAA83B /* RNPieChartManagerBridge.m */; };
+		23644CB325149E7C00D59096 /* RNScatterChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007924DBC6DD00BAA83B /* RNScatterChartView.swift */; };
+		23644CB425149E7C00D59096 /* RNCandleStickChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C008524DBC6DD00BAA83B /* RNCandleStickChartManagerBridge.m */; };
+		23644CB525149E7C00D59096 /* RNLineChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007E24DBC6DD00BAA83B /* RNLineChartManager.swift */; };
+		23644CB625149E7C00D59096 /* CombinedDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005C24DBC6DD00BAA83B /* CombinedDataExtract.swift */; };
+		23644CB725149E7C00D59096 /* PieDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007524DBC6DD00BAA83B /* PieDataExtract.swift */; };
+		23644CB825149E7C00D59096 /* RNScatterChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C007A24DBC6DD00BAA83B /* RNScatterChartManagerBridge.m */; };
+		23644CB925149E7C00D59096 /* RNPieChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007624DBC6DD00BAA83B /* RNPieChartManager.swift */; };
+		23644CBA25149E7C00D59096 /* RNLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007D24DBC6DD00BAA83B /* RNLineChartView.swift */; };
+		23644CBB25149E7C00D59096 /* ChartDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006124DBC6DD00BAA83B /* ChartDateFormatter.swift */; };
+		23644CBC25149E7C00D59096 /* CustomChartDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006F24DBC6DD00BAA83B /* CustomChartDateFormatter.swift */; };
+		23644CBD25149E7C00D59096 /* RNYAxisChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005D24DBC6DD00BAA83B /* RNYAxisChartViewBase.swift */; };
+		23644CBE25149E7C00D59096 /* BridgeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006824DBC6DD00BAA83B /* BridgeUtils.swift */; };
+		23644CBF25149E7C00D59096 /* RNBubbleChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006B24DBC6DD00BAA83B /* RNBubbleChartManager.swift */; };
+		23644CC025149E7C00D59096 /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
+		23644CC225149E7C00D59096 /* libPosLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23207BAF22FAC4730002C14B /* libPosLink.a */; };
+		23644CC325149E7C00D59096 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2399DEBD22F1A9C100DBCCFE /* libRNFetchBlob.a */; };
+		23644CC425149E7C00D59096 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */; };
+		23644CC525149E7C00D59096 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */; };
+		23644CC625149E7C00D59096 /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342065F22DD7C1700E0EA35 /* StarIO.framework */; };
+		23644CC725149E7C00D59096 /* StarIO_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */; };
+		23644CC825149E7C00D59096 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
+		23644CC925149E7C00D59096 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		23644CCA25149E7C00D59096 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		23644CCB25149E7C00D59096 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		23644CCC25149E7C00D59096 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
+		23644CCD25149E7C00D59096 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
+		23644CCE25149E7C00D59096 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
+		23644CCF25149E7C00D59096 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
+		23644CD025149E7C00D59096 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
+		23644CD125149E7C00D59096 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
+		23644CD225149E7C00D59096 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		23644CD325149E7C00D59096 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
+		23644CD425149E7C00D59096 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
+		23644CD525149E7C00D59096 /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87F14B6172B346F0950939FF /* libRNGestureHandler.a */; };
+		23644CD625149E7C00D59096 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */; };
+		23644CD725149E7C00D59096 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		23644CD925149E7C00D59096 /* libRNSpringScrollView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D1CE61916DC4F27B8E39081 /* libRNSpringScrollView.a */; };
+		23644CDB25149E7C00D59096 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		23644CDC25149E7C00D59096 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
+		23644CDD25149E7C00D59096 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36F619BA2500D81B00893A84 /* GoogleService-Info.plist */; };
 		2399DEC122F1A9CF00DBCCFE /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2399DEBD22F1A9C100DBCCFE /* libRNFetchBlob.a */; };
 		23FE295523C77BEF00E95925 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FE295423C77BEF00E95925 /* File.swift */; };
 		3649D09224E660C0003C8174 /* libRNSpringScrollView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3649D09124E65E8D003C8174 /* libRNSpringScrollView.a */; };
 		366C009924DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
-		366C009A24DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
 		366C009B24DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
 		366C009C24DBC6DE00BAA83B /* RNCombinedChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005924DBC6DD00BAA83B /* RNCombinedChartView.swift */; };
-		366C009D24DBC6DE00BAA83B /* RNCombinedChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005924DBC6DD00BAA83B /* RNCombinedChartView.swift */; };
 		366C009E24DBC6DE00BAA83B /* RNCombinedChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005924DBC6DD00BAA83B /* RNCombinedChartView.swift */; };
 		366C009F24DBC6DE00BAA83B /* RNCombinedChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005A24DBC6DD00BAA83B /* RNCombinedChartManager.swift */; };
-		366C00A024DBC6DE00BAA83B /* RNCombinedChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005A24DBC6DD00BAA83B /* RNCombinedChartManager.swift */; };
 		366C00A124DBC6DE00BAA83B /* RNCombinedChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005A24DBC6DD00BAA83B /* RNCombinedChartManager.swift */; };
 		366C00A224DBC6DE00BAA83B /* RNCombinedChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C005B24DBC6DD00BAA83B /* RNCombinedChartManagerBridge.m */; };
-		366C00A324DBC6DE00BAA83B /* RNCombinedChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C005B24DBC6DD00BAA83B /* RNCombinedChartManagerBridge.m */; };
 		366C00A424DBC6DE00BAA83B /* RNCombinedChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C005B24DBC6DD00BAA83B /* RNCombinedChartManagerBridge.m */; };
 		366C00A524DBC6DE00BAA83B /* CombinedDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005C24DBC6DD00BAA83B /* CombinedDataExtract.swift */; };
-		366C00A624DBC6DE00BAA83B /* CombinedDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005C24DBC6DD00BAA83B /* CombinedDataExtract.swift */; };
 		366C00A724DBC6DE00BAA83B /* CombinedDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005C24DBC6DD00BAA83B /* CombinedDataExtract.swift */; };
 		366C00A824DBC6DE00BAA83B /* RNYAxisChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005D24DBC6DD00BAA83B /* RNYAxisChartViewBase.swift */; };
-		366C00A924DBC6DE00BAA83B /* RNYAxisChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005D24DBC6DD00BAA83B /* RNYAxisChartViewBase.swift */; };
 		366C00AA24DBC6DE00BAA83B /* RNYAxisChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005D24DBC6DD00BAA83B /* RNYAxisChartViewBase.swift */; };
 		366C00AB24DBC6DE00BAA83B /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005E24DBC6DD00BAA83B /* BalloonMarker.swift */; };
-		366C00AC24DBC6DE00BAA83B /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005E24DBC6DD00BAA83B /* BalloonMarker.swift */; };
 		366C00AD24DBC6DE00BAA83B /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005E24DBC6DD00BAA83B /* BalloonMarker.swift */; };
 		366C00AE24DBC6DE00BAA83B /* RNBarLineChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005F24DBC6DD00BAA83B /* RNBarLineChartViewBase.swift */; };
-		366C00AF24DBC6DE00BAA83B /* RNBarLineChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005F24DBC6DD00BAA83B /* RNBarLineChartViewBase.swift */; };
 		366C00B024DBC6DE00BAA83B /* RNBarLineChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005F24DBC6DD00BAA83B /* RNBarLineChartViewBase.swift */; };
 		366C00B124DBC6DE00BAA83B /* ChartDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006124DBC6DD00BAA83B /* ChartDateFormatter.swift */; };
-		366C00B224DBC6DE00BAA83B /* ChartDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006124DBC6DD00BAA83B /* ChartDateFormatter.swift */; };
 		366C00B324DBC6DE00BAA83B /* ChartDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006124DBC6DD00BAA83B /* ChartDateFormatter.swift */; };
 		366C00B424DBC6DE00BAA83B /* LargeValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006224DBC6DD00BAA83B /* LargeValueFormatter.swift */; };
-		366C00B524DBC6DE00BAA83B /* LargeValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006224DBC6DD00BAA83B /* LargeValueFormatter.swift */; };
 		366C00B624DBC6DE00BAA83B /* LargeValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006224DBC6DD00BAA83B /* LargeValueFormatter.swift */; };
 		366C00B724DBC6DE00BAA83B /* FontUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006424DBC6DD00BAA83B /* FontUtils.swift */; };
-		366C00B824DBC6DE00BAA83B /* FontUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006424DBC6DD00BAA83B /* FontUtils.swift */; };
 		366C00B924DBC6DE00BAA83B /* FontUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006424DBC6DD00BAA83B /* FontUtils.swift */; };
 		366C00BA24DBC6DE00BAA83B /* EntryToDictionaryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006524DBC6DD00BAA83B /* EntryToDictionaryUtils.swift */; };
-		366C00BB24DBC6DE00BAA83B /* EntryToDictionaryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006524DBC6DD00BAA83B /* EntryToDictionaryUtils.swift */; };
 		366C00BC24DBC6DE00BAA83B /* EntryToDictionaryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006524DBC6DD00BAA83B /* EntryToDictionaryUtils.swift */; };
 		366C00BD24DBC6DE00BAA83B /* ChartDataSetConfigUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006624DBC6DD00BAA83B /* ChartDataSetConfigUtils.swift */; };
-		366C00BE24DBC6DE00BAA83B /* ChartDataSetConfigUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006624DBC6DD00BAA83B /* ChartDataSetConfigUtils.swift */; };
 		366C00BF24DBC6DE00BAA83B /* ChartDataSetConfigUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006624DBC6DD00BAA83B /* ChartDataSetConfigUtils.swift */; };
 		366C00C024DBC6DE00BAA83B /* HighlightUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006724DBC6DD00BAA83B /* HighlightUtils.swift */; };
-		366C00C124DBC6DE00BAA83B /* HighlightUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006724DBC6DD00BAA83B /* HighlightUtils.swift */; };
 		366C00C224DBC6DE00BAA83B /* HighlightUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006724DBC6DD00BAA83B /* HighlightUtils.swift */; };
 		366C00C324DBC6DE00BAA83B /* BridgeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006824DBC6DD00BAA83B /* BridgeUtils.swift */; };
-		366C00C424DBC6DE00BAA83B /* BridgeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006824DBC6DD00BAA83B /* BridgeUtils.swift */; };
 		366C00C524DBC6DE00BAA83B /* BridgeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006824DBC6DD00BAA83B /* BridgeUtils.swift */; };
 		366C00C624DBC6DE00BAA83B /* RNBubbleChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006B24DBC6DD00BAA83B /* RNBubbleChartManager.swift */; };
-		366C00C724DBC6DE00BAA83B /* RNBubbleChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006B24DBC6DD00BAA83B /* RNBubbleChartManager.swift */; };
 		366C00C824DBC6DE00BAA83B /* RNBubbleChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006B24DBC6DD00BAA83B /* RNBubbleChartManager.swift */; };
 		366C00C924DBC6DE00BAA83B /* RNBubbleChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006C24DBC6DD00BAA83B /* RNBubbleChartView.swift */; };
-		366C00CA24DBC6DE00BAA83B /* RNBubbleChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006C24DBC6DD00BAA83B /* RNBubbleChartView.swift */; };
 		366C00CB24DBC6DE00BAA83B /* RNBubbleChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006C24DBC6DD00BAA83B /* RNBubbleChartView.swift */; };
 		366C00CC24DBC6DE00BAA83B /* BubbleDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006D24DBC6DD00BAA83B /* BubbleDataExtract.swift */; };
-		366C00CD24DBC6DE00BAA83B /* BubbleDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006D24DBC6DD00BAA83B /* BubbleDataExtract.swift */; };
 		366C00CE24DBC6DE00BAA83B /* BubbleDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006D24DBC6DD00BAA83B /* BubbleDataExtract.swift */; };
 		366C00CF24DBC6DE00BAA83B /* RNBubbleChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C006E24DBC6DD00BAA83B /* RNBubbleChartManagerBridge.m */; };
-		366C00D024DBC6DE00BAA83B /* RNBubbleChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C006E24DBC6DD00BAA83B /* RNBubbleChartManagerBridge.m */; };
 		366C00D124DBC6DE00BAA83B /* RNBubbleChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C006E24DBC6DD00BAA83B /* RNBubbleChartManagerBridge.m */; };
 		366C00D224DBC6DE00BAA83B /* CustomChartDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006F24DBC6DD00BAA83B /* CustomChartDateFormatter.swift */; };
-		366C00D324DBC6DE00BAA83B /* CustomChartDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006F24DBC6DD00BAA83B /* CustomChartDateFormatter.swift */; };
 		366C00D424DBC6DE00BAA83B /* CustomChartDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006F24DBC6DD00BAA83B /* CustomChartDateFormatter.swift */; };
 		366C00D524DBC6DE00BAA83B /* RNBarLineChartBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007024DBC6DD00BAA83B /* RNBarLineChartBaseManager.swift */; };
-		366C00D624DBC6DE00BAA83B /* RNBarLineChartBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007024DBC6DD00BAA83B /* RNBarLineChartBaseManager.swift */; };
 		366C00D724DBC6DE00BAA83B /* RNBarLineChartBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007024DBC6DD00BAA83B /* RNBarLineChartBaseManager.swift */; };
 		366C00D824DBC6DE00BAA83B /* RNPieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007324DBC6DD00BAA83B /* RNPieChartView.swift */; };
-		366C00D924DBC6DE00BAA83B /* RNPieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007324DBC6DD00BAA83B /* RNPieChartView.swift */; };
 		366C00DA24DBC6DE00BAA83B /* RNPieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007324DBC6DD00BAA83B /* RNPieChartView.swift */; };
 		366C00DB24DBC6DE00BAA83B /* RNPieChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C007424DBC6DD00BAA83B /* RNPieChartManagerBridge.m */; };
-		366C00DC24DBC6DE00BAA83B /* RNPieChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C007424DBC6DD00BAA83B /* RNPieChartManagerBridge.m */; };
 		366C00DD24DBC6DE00BAA83B /* RNPieChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C007424DBC6DD00BAA83B /* RNPieChartManagerBridge.m */; };
 		366C00DE24DBC6DE00BAA83B /* PieDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007524DBC6DD00BAA83B /* PieDataExtract.swift */; };
-		366C00DF24DBC6DE00BAA83B /* PieDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007524DBC6DD00BAA83B /* PieDataExtract.swift */; };
 		366C00E024DBC6DE00BAA83B /* PieDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007524DBC6DD00BAA83B /* PieDataExtract.swift */; };
 		366C00E124DBC6DE00BAA83B /* RNPieChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007624DBC6DD00BAA83B /* RNPieChartManager.swift */; };
-		366C00E224DBC6DE00BAA83B /* RNPieChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007624DBC6DD00BAA83B /* RNPieChartManager.swift */; };
 		366C00E324DBC6DE00BAA83B /* RNPieChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007624DBC6DD00BAA83B /* RNPieChartManager.swift */; };
 		366C00E424DBC6DE00BAA83B /* RNScatterChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007824DBC6DD00BAA83B /* RNScatterChartManager.swift */; };
-		366C00E524DBC6DE00BAA83B /* RNScatterChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007824DBC6DD00BAA83B /* RNScatterChartManager.swift */; };
 		366C00E624DBC6DE00BAA83B /* RNScatterChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007824DBC6DD00BAA83B /* RNScatterChartManager.swift */; };
 		366C00E724DBC6DE00BAA83B /* RNScatterChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007924DBC6DD00BAA83B /* RNScatterChartView.swift */; };
-		366C00E824DBC6DE00BAA83B /* RNScatterChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007924DBC6DD00BAA83B /* RNScatterChartView.swift */; };
 		366C00E924DBC6DE00BAA83B /* RNScatterChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007924DBC6DD00BAA83B /* RNScatterChartView.swift */; };
 		366C00EA24DBC6DE00BAA83B /* RNScatterChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C007A24DBC6DD00BAA83B /* RNScatterChartManagerBridge.m */; };
-		366C00EB24DBC6DE00BAA83B /* RNScatterChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C007A24DBC6DD00BAA83B /* RNScatterChartManagerBridge.m */; };
 		366C00EC24DBC6DE00BAA83B /* RNScatterChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C007A24DBC6DD00BAA83B /* RNScatterChartManagerBridge.m */; };
 		366C00ED24DBC6DE00BAA83B /* ScatterDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007B24DBC6DD00BAA83B /* ScatterDataExtract.swift */; };
-		366C00EE24DBC6DE00BAA83B /* ScatterDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007B24DBC6DD00BAA83B /* ScatterDataExtract.swift */; };
 		366C00EF24DBC6DE00BAA83B /* ScatterDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007B24DBC6DD00BAA83B /* ScatterDataExtract.swift */; };
 		366C00F024DBC6DE00BAA83B /* RNLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007D24DBC6DD00BAA83B /* RNLineChartView.swift */; };
-		366C00F124DBC6DE00BAA83B /* RNLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007D24DBC6DD00BAA83B /* RNLineChartView.swift */; };
 		366C00F224DBC6DE00BAA83B /* RNLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007D24DBC6DD00BAA83B /* RNLineChartView.swift */; };
 		366C00F324DBC6DE00BAA83B /* RNLineChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007E24DBC6DD00BAA83B /* RNLineChartManager.swift */; };
-		366C00F424DBC6DE00BAA83B /* RNLineChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007E24DBC6DD00BAA83B /* RNLineChartManager.swift */; };
 		366C00F524DBC6DE00BAA83B /* RNLineChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007E24DBC6DD00BAA83B /* RNLineChartManager.swift */; };
 		366C00F624DBC6DE00BAA83B /* RNLineChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C007F24DBC6DD00BAA83B /* RNLineChartManagerBridge.m */; };
-		366C00F724DBC6DE00BAA83B /* RNLineChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C007F24DBC6DD00BAA83B /* RNLineChartManagerBridge.m */; };
 		366C00F824DBC6DE00BAA83B /* RNLineChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C007F24DBC6DD00BAA83B /* RNLineChartManagerBridge.m */; };
 		366C00F924DBC6DE00BAA83B /* LineDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008024DBC6DD00BAA83B /* LineDataExtract.swift */; };
-		366C00FA24DBC6DE00BAA83B /* LineDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008024DBC6DD00BAA83B /* LineDataExtract.swift */; };
 		366C00FB24DBC6DE00BAA83B /* LineDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008024DBC6DD00BAA83B /* LineDataExtract.swift */; };
 		366C00FC24DBC6DE00BAA83B /* CandleDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008224DBC6DD00BAA83B /* CandleDataExtract.swift */; };
-		366C00FD24DBC6DE00BAA83B /* CandleDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008224DBC6DD00BAA83B /* CandleDataExtract.swift */; };
 		366C00FE24DBC6DE00BAA83B /* CandleDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008224DBC6DD00BAA83B /* CandleDataExtract.swift */; };
 		366C00FF24DBC6DE00BAA83B /* RNCandleStickChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008324DBC6DD00BAA83B /* RNCandleStickChartView.swift */; };
-		366C010024DBC6DE00BAA83B /* RNCandleStickChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008324DBC6DD00BAA83B /* RNCandleStickChartView.swift */; };
 		366C010124DBC6DE00BAA83B /* RNCandleStickChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008324DBC6DD00BAA83B /* RNCandleStickChartView.swift */; };
 		366C010224DBC6DE00BAA83B /* RNCandleStickChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008424DBC6DD00BAA83B /* RNCandleStickChartManager.swift */; };
-		366C010324DBC6DE00BAA83B /* RNCandleStickChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008424DBC6DD00BAA83B /* RNCandleStickChartManager.swift */; };
 		366C010424DBC6DE00BAA83B /* RNCandleStickChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008424DBC6DD00BAA83B /* RNCandleStickChartManager.swift */; };
 		366C010524DBC6DE00BAA83B /* RNCandleStickChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C008524DBC6DD00BAA83B /* RNCandleStickChartManagerBridge.m */; };
-		366C010624DBC6DE00BAA83B /* RNCandleStickChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C008524DBC6DD00BAA83B /* RNCandleStickChartManagerBridge.m */; };
 		366C010724DBC6DE00BAA83B /* RNCandleStickChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C008524DBC6DD00BAA83B /* RNCandleStickChartManagerBridge.m */; };
 		366C010824DBC6DE00BAA83B /* RNBarChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008924DBC6DD00BAA83B /* RNBarChartViewBase.swift */; };
-		366C010924DBC6DE00BAA83B /* RNBarChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008924DBC6DD00BAA83B /* RNBarChartViewBase.swift */; };
 		366C010A24DBC6DE00BAA83B /* RNBarChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008924DBC6DD00BAA83B /* RNBarChartViewBase.swift */; };
 		366C010B24DBC6DE00BAA83B /* BarDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008A24DBC6DD00BAA83B /* BarDataExtract.swift */; };
-		366C010C24DBC6DE00BAA83B /* BarDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008A24DBC6DD00BAA83B /* BarDataExtract.swift */; };
 		366C010D24DBC6DE00BAA83B /* BarDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008A24DBC6DD00BAA83B /* BarDataExtract.swift */; };
 		366C010E24DBC6DE00BAA83B /* RNHorizontalBarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008B24DBC6DD00BAA83B /* RNHorizontalBarChartManager.swift */; };
-		366C010F24DBC6DE00BAA83B /* RNHorizontalBarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008B24DBC6DD00BAA83B /* RNHorizontalBarChartManager.swift */; };
 		366C011024DBC6DE00BAA83B /* RNHorizontalBarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008B24DBC6DD00BAA83B /* RNHorizontalBarChartManager.swift */; };
 		366C011124DBC6DE00BAA83B /* RNBarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008C24DBC6DD00BAA83B /* RNBarChartManager.swift */; };
-		366C011224DBC6DE00BAA83B /* RNBarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008C24DBC6DD00BAA83B /* RNBarChartManager.swift */; };
 		366C011324DBC6DE00BAA83B /* RNBarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008C24DBC6DD00BAA83B /* RNBarChartManager.swift */; };
 		366C011424DBC6DE00BAA83B /* RNBarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C008D24DBC6DD00BAA83B /* RNBarChartManagerBridge.m */; };
-		366C011524DBC6DE00BAA83B /* RNBarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C008D24DBC6DD00BAA83B /* RNBarChartManagerBridge.m */; };
 		366C011624DBC6DE00BAA83B /* RNBarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C008D24DBC6DD00BAA83B /* RNBarChartManagerBridge.m */; };
 		366C011724DBC6DE00BAA83B /* RNBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008E24DBC6DD00BAA83B /* RNBarChartView.swift */; };
-		366C011824DBC6DE00BAA83B /* RNBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008E24DBC6DD00BAA83B /* RNBarChartView.swift */; };
 		366C011924DBC6DE00BAA83B /* RNBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008E24DBC6DD00BAA83B /* RNBarChartView.swift */; };
 		366C011A24DBC6DE00BAA83B /* RNHorizontalBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008F24DBC6DD00BAA83B /* RNHorizontalBarChartView.swift */; };
-		366C011B24DBC6DE00BAA83B /* RNHorizontalBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008F24DBC6DD00BAA83B /* RNHorizontalBarChartView.swift */; };
 		366C011C24DBC6DE00BAA83B /* RNHorizontalBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008F24DBC6DD00BAA83B /* RNHorizontalBarChartView.swift */; };
 		366C011D24DBC6DE00BAA83B /* RNHorizontalBarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C009024DBC6DD00BAA83B /* RNHorizontalBarChartManagerBridge.m */; };
-		366C011E24DBC6DE00BAA83B /* RNHorizontalBarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C009024DBC6DD00BAA83B /* RNHorizontalBarChartManagerBridge.m */; };
 		366C011F24DBC6DE00BAA83B /* RNHorizontalBarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C009024DBC6DD00BAA83B /* RNHorizontalBarChartManagerBridge.m */; };
 		366C012024DBC6DE00BAA83B /* RadarDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009224DBC6DD00BAA83B /* RadarDataExtract.swift */; };
-		366C012124DBC6DE00BAA83B /* RadarDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009224DBC6DD00BAA83B /* RadarDataExtract.swift */; };
 		366C012224DBC6DE00BAA83B /* RadarDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009224DBC6DD00BAA83B /* RadarDataExtract.swift */; };
 		366C012324DBC6DE00BAA83B /* RNRadarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C009324DBC6DD00BAA83B /* RNRadarChartManagerBridge.m */; };
-		366C012424DBC6DE00BAA83B /* RNRadarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C009324DBC6DD00BAA83B /* RNRadarChartManagerBridge.m */; };
 		366C012524DBC6DE00BAA83B /* RNRadarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C009324DBC6DD00BAA83B /* RNRadarChartManagerBridge.m */; };
 		366C012624DBC6DE00BAA83B /* RNRadarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009424DBC6DD00BAA83B /* RNRadarChartView.swift */; };
-		366C012724DBC6DE00BAA83B /* RNRadarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009424DBC6DD00BAA83B /* RNRadarChartView.swift */; };
 		366C012824DBC6DE00BAA83B /* RNRadarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009424DBC6DD00BAA83B /* RNRadarChartView.swift */; };
 		366C012924DBC6DE00BAA83B /* RNRadarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009524DBC6DD00BAA83B /* RNRadarChartManager.swift */; };
-		366C012A24DBC6DE00BAA83B /* RNRadarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009524DBC6DD00BAA83B /* RNRadarChartManager.swift */; };
 		366C012B24DBC6DE00BAA83B /* RNRadarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009524DBC6DD00BAA83B /* RNRadarChartManager.swift */; };
 		366C012C24DBC6DE00BAA83B /* RNChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009624DBC6DD00BAA83B /* RNChartViewBase.swift */; };
-		366C012D24DBC6DE00BAA83B /* RNChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009624DBC6DD00BAA83B /* RNChartViewBase.swift */; };
 		366C012E24DBC6DE00BAA83B /* RNChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009624DBC6DD00BAA83B /* RNChartViewBase.swift */; };
 		366C012F24DBC6DE00BAA83B /* ChartGroupHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009724DBC6DD00BAA83B /* ChartGroupHolder.swift */; };
-		366C013024DBC6DE00BAA83B /* ChartGroupHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009724DBC6DD00BAA83B /* ChartGroupHolder.swift */; };
 		366C013124DBC6DE00BAA83B /* ChartGroupHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009724DBC6DD00BAA83B /* ChartGroupHolder.swift */; };
 		366C013224DBC6DE00BAA83B /* DataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009824DBC6DD00BAA83B /* DataExtract.swift */; };
-		366C013324DBC6DE00BAA83B /* DataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009824DBC6DD00BAA83B /* DataExtract.swift */; };
 		366C013424DBC6DE00BAA83B /* DataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009824DBC6DD00BAA83B /* DataExtract.swift */; };
 		36F619BC2500D83B00893A84 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36F619BA2500D81B00893A84 /* GoogleService-Info.plist */; };
-		36F619C02500D9AC00893A84 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36F619BF2500D9AC00893A84 /* GoogleService-Info.plist */; };
 		36F619C12500DB3900893A84 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 365E73FA24F8F38400D2CDB9 /* GoogleService-Info.plist */; };
-		36FD0B8B24EB95CB00A50EBB /* libRNSpringScrollView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3649D09124E65E8D003C8174 /* libRNSpringScrollView.a */; };
 		7C186DA69A5F305D9BABAA7C /* libPods-Hpmerchant-Hpmerchant_Production.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BBD25C8CE37C1AB57107F998 /* libPods-Hpmerchant-Hpmerchant_Production.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8C59C060D6EA94E3B5ADFA3B /* libPods-Hpmerchant-Hpmerchant_Staging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DEC3923581CC3E42642C025 /* libPods-Hpmerchant-Hpmerchant_Staging.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
-		B02E0E6DAF7F29AA27CDC35A /* (null) in Frameworks */ = {isa = PBXBuildFile; };
-		B124B99464A736A80EAE02F8 /* libPods-Hpmerchant-Hpmerchant_Dev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B433C90A07569EE0F1690854 /* libPods-Hpmerchant-Hpmerchant_Dev.a */; };
+		B02E0E6DAF7F29AA27CDC35A /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		C723999CEA59B3836E44B362 /* libPods-Hpmerchant-Hpmerchant_Production.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCBB44A8CC9207C0BF24EC41 /* libPods-Hpmerchant-Hpmerchant_Production.a */; };
 		C757D92E4E5E404DAE4671BF /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */; };
+		D1EFF31F7451A99832EEEB83 /* libPods-Hpmerchant-Hpmerchant_Dev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B433C90A07569EE0F1690854 /* libPods-Hpmerchant-Hpmerchant_Dev.a */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -602,13 +604,12 @@
 		23207BAF22FAC4730002C14B /* libPosLink.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPosLink.a; sourceTree = "<group>"; };
 		23207BB322FAD00F0002C14B /* ExtDataPaymentReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExtDataPaymentReq.h; sourceTree = "<group>"; };
 		23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExtDataPaymentReq.m; sourceTree = "<group>"; };
-		232D64C02465060100AA4473 /* Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dev.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		232D64EA2465060100AA4473 /* Hpmerchant_Production copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Hpmerchant_Production copy-Info.plist"; path = "/Users/phinhn/Desktop/Company Project/Hpmerchant_3/ios/Hpmerchant_Production copy-Info.plist"; sourceTree = "<absolute>"; };
-		23344DC92463F0FB00513F43 /* Hpmerchant copy3-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Hpmerchant copy3-Info.plist"; path = "/Users/phinhn/Desktop/Company Project/Hpmerchant_3/ios/Hpmerchant copy3-Info.plist"; sourceTree = "<absolute>"; };
 		2342065F22DD7C1700E0EA35 /* StarIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StarIO.framework; path = "../node_modules/react-native-star-prnt/ios/Frameworks/StarIO.framework"; sourceTree = "<group>"; };
 		2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StarIO_Extension.framework; path = "../node_modules/react-native-star-prnt/ios/Frameworks/StarIO_Extension.framework"; sourceTree = "<group>"; };
 		2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		23644CE425149E7C00D59096 /* Hpmerchant_Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hpmerchant_Dev.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		23644CE525149E7D00D59096 /* dev.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = dev.plist; path = "/Users/phinhn/Desktop/Company Project/Hpmerchant/ios/dev.plist"; sourceTree = "<absolute>"; };
 		2399DE9322F1A9C100DBCCFE /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/rn-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		23FE295323C77BEF00E95925 /* Hpmerchant-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hpmerchant-Bridging-Header.h"; sourceTree = "<group>"; };
 		23FE295423C77BEF00E95925 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
@@ -696,7 +697,7 @@
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B433C90A07569EE0F1690854 /* libPods-Hpmerchant-Hpmerchant_Dev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant-Hpmerchant_Dev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B682F2F177AFF7A1C2F0D93A /* Pods-Hpmerchant_Production.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant_Production.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant_Production/Pods-Hpmerchant_Production.debug.xcconfig"; sourceTree = "<group>"; };
-		BBD25C8CE37C1AB57107F998 /* libPods-Hpmerchant-Hpmerchant_Production.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant-Hpmerchant_Production.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCBB44A8CC9207C0BF24EC41 /* libPods-Hpmerchant-Hpmerchant_Production.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant-Hpmerchant_Production.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF36361383FE4C1EA8E570FA /* RNSpringScrollView.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSpringScrollView.xcodeproj; path = "../node_modules/react-native-spring-scrollview/ios/RNSpringScrollView.xcodeproj"; sourceTree = "<group>"; };
 		C28B99EF8822419DB3A40583 /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGestureHandler.xcodeproj; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -732,9 +733,10 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				190B834FB4BB4246962A3E7E /* libRNGestureHandler.a in Frameworks */,
 				C757D92E4E5E404DAE4671BF /* libRNImagePicker.a in Frameworks */,
-				B02E0E6DAF7F29AA27CDC35A /* (null) in Frameworks */,
+				B02E0E6DAF7F29AA27CDC35A /* BuildFile in Frameworks */,
 				7C186DA69A5F305D9BABAA7C /* libPods-Hpmerchant-Hpmerchant_Production.a in Frameworks */,
 				20C2FB8293574864B9DB94B3 /* libRNSpringScrollView.a in Frameworks */,
+				C723999CEA59B3836E44B362 /* libPods-Hpmerchant-Hpmerchant_Production.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -768,33 +770,33 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		232D64A02465060100AA4473 /* Frameworks */ = {
+		23644CC125149E7C00D59096 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				36FD0B8B24EB95CB00A50EBB /* libRNSpringScrollView.a in Frameworks */,
-				232D64A12465060100AA4473 /* libPosLink.a in Frameworks */,
-				232D64A22465060100AA4473 /* libRNFetchBlob.a in Frameworks */,
-				232D64A32465060100AA4473 /* ExternalAccessory.framework in Frameworks */,
-				232D64A42465060100AA4473 /* CoreBluetooth.framework in Frameworks */,
-				232D64A52465060100AA4473 /* StarIO.framework in Frameworks */,
-				232D64A62465060100AA4473 /* StarIO_Extension.framework in Frameworks */,
-				232D64A72465060100AA4473 /* JavaScriptCore.framework in Frameworks */,
-				232D64A82465060100AA4473 /* libRCTBlob.a in Frameworks */,
-				232D64A92465060100AA4473 /* libRCTAnimation.a in Frameworks */,
-				232D64AA2465060100AA4473 /* libReact.a in Frameworks */,
-				232D64AB2465060100AA4473 /* libRCTActionSheet.a in Frameworks */,
-				232D64AC2465060100AA4473 /* libRCTGeolocation.a in Frameworks */,
-				232D64AD2465060100AA4473 /* libRCTImage.a in Frameworks */,
-				232D64AE2465060100AA4473 /* libRCTLinking.a in Frameworks */,
-				232D64AF2465060100AA4473 /* libRCTNetwork.a in Frameworks */,
-				232D64B02465060100AA4473 /* libRCTSettings.a in Frameworks */,
-				232D64B12465060100AA4473 /* libRCTText.a in Frameworks */,
-				232D64B22465060100AA4473 /* libRCTVibration.a in Frameworks */,
-				232D64B32465060100AA4473 /* libRCTWebSocket.a in Frameworks */,
-				232D64B42465060100AA4473 /* libRNGestureHandler.a in Frameworks */,
-				232D64B52465060100AA4473 /* libRNImagePicker.a in Frameworks */,
-				B124B99464A736A80EAE02F8 /* libPods-Hpmerchant-Hpmerchant_Dev.a in Frameworks */,
+				23644CC225149E7C00D59096 /* libPosLink.a in Frameworks */,
+				23644CC325149E7C00D59096 /* libRNFetchBlob.a in Frameworks */,
+				23644CC425149E7C00D59096 /* ExternalAccessory.framework in Frameworks */,
+				23644CC525149E7C00D59096 /* CoreBluetooth.framework in Frameworks */,
+				23644CC625149E7C00D59096 /* StarIO.framework in Frameworks */,
+				23644CC725149E7C00D59096 /* StarIO_Extension.framework in Frameworks */,
+				23644CC825149E7C00D59096 /* JavaScriptCore.framework in Frameworks */,
+				23644CC925149E7C00D59096 /* libRCTBlob.a in Frameworks */,
+				23644CCA25149E7C00D59096 /* libRCTAnimation.a in Frameworks */,
+				23644CCB25149E7C00D59096 /* libReact.a in Frameworks */,
+				23644CCC25149E7C00D59096 /* libRCTActionSheet.a in Frameworks */,
+				23644CCD25149E7C00D59096 /* libRCTGeolocation.a in Frameworks */,
+				23644CCE25149E7C00D59096 /* libRCTImage.a in Frameworks */,
+				23644CCF25149E7C00D59096 /* libRCTLinking.a in Frameworks */,
+				23644CD025149E7C00D59096 /* libRCTNetwork.a in Frameworks */,
+				23644CD125149E7C00D59096 /* libRCTSettings.a in Frameworks */,
+				23644CD225149E7C00D59096 /* libRCTText.a in Frameworks */,
+				23644CD325149E7C00D59096 /* libRCTVibration.a in Frameworks */,
+				23644CD425149E7C00D59096 /* libRCTWebSocket.a in Frameworks */,
+				23644CD525149E7C00D59096 /* libRNGestureHandler.a in Frameworks */,
+				23644CD625149E7C00D59096 /* libRNImagePicker.a in Frameworks */,
+				23644CD925149E7C00D59096 /* libRNSpringScrollView.a in Frameworks */,
+				D1EFF31F7451A99832EEEB83 /* libPods-Hpmerchant-Hpmerchant_Dev.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -897,6 +899,7 @@
 				232011EC22FAB38C0002C14B /* MyApp.h */,
 				232011ED22FAB38C0002C14B /* MyApp.m */,
 				230F1DDC24D3DA2300A95898 /* staging.plist */,
+				23644CE525149E7D00D59096 /* dev.plist */,
 				23FE295423C77BEF00E95925 /* File.swift */,
 				23FE295323C77BEF00E95925 /* Hpmerchant-Bridging-Header.h */,
 			);
@@ -1016,7 +1019,7 @@
 				B433C90A07569EE0F1690854 /* libPods-Hpmerchant-Hpmerchant_Dev.a */,
 				4DEC3923581CC3E42642C025 /* libPods-Hpmerchant-Hpmerchant_Staging.a */,
 				733C62737B6DE915D934F562 /* libPods-Hpmerchant-Hpmerchant_Staing.a */,
-				BBD25C8CE37C1AB57107F998 /* libPods-Hpmerchant-Hpmerchant_Production.a */,
+				BCBB44A8CC9207C0BF24EC41 /* libPods-Hpmerchant-Hpmerchant_Production.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1285,8 +1288,6 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				230E40A1228D2CF900E114D6 /* Recovered References */,
 				51A61F587B2C0002B60C1005 /* Pods */,
-				23344DC92463F0FB00513F43 /* Hpmerchant copy3-Info.plist */,
-				232D64EA2465060100AA4473 /* Hpmerchant_Production copy-Info.plist */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -1297,8 +1298,8 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* HPMerchant.app */,
-				232D64C02465060100AA4473 /* Dev.app */,
 				230F1DDB24D3DA2200A95898 /* Staing.app */,
+				23644CE425149E7C00D59096 /* Hpmerchant_Dev.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1357,17 +1358,17 @@
 			productReference = 230F1DDB24D3DA2200A95898 /* Staing.app */;
 			productType = "com.apple.product-type.application";
 		};
-		232D64982465060100AA4473 /* Hpmerchant_Dev */ = {
+		23644C8525149E7C00D59096 /* Hpmerchant_Dev */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 232D64BD2465060100AA4473 /* Build configuration list for PBXNativeTarget "Hpmerchant_Dev" */;
+			buildConfigurationList = 23644CE125149E7C00D59096 /* Build configuration list for PBXNativeTarget "Hpmerchant_Dev" */;
 			buildPhases = (
-				232D64992465060100AA4473 /* [CP] Check Pods Manifest.lock */,
-				232D649A2465060100AA4473 /* Sources */,
-				232D64A02465060100AA4473 /* Frameworks */,
-				232D64B72465060100AA4473 /* Resources */,
-				232D64BA2465060100AA4473 /* Bundle React Native code and images */,
-				232D64BB2465060100AA4473 /* ShellScript */,
-				272F31E56FDF8680A31F10C7 /* [CP] Copy Pods Resources */,
+				23644C8625149E7C00D59096 /* [CP] Check Pods Manifest.lock */,
+				23644C8725149E7C00D59096 /* Sources */,
+				23644CC125149E7C00D59096 /* Frameworks */,
+				23644CDA25149E7C00D59096 /* Resources */,
+				23644CDE25149E7C00D59096 /* Bundle React Native code and images */,
+				23644CDF25149E7C00D59096 /* ShellScript */,
+				23644CE025149E7C00D59096 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1375,7 +1376,7 @@
 			);
 			name = Hpmerchant_Dev;
 			productName = "Hello World";
-			productReference = 232D64C02465060100AA4473 /* Dev.app */;
+			productReference = 23644CE425149E7C00D59096 /* Hpmerchant_Dev.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1396,7 +1397,7 @@
 						DevelopmentTeam = 69WQLJ9K8N;
 						ProvisioningStyle = Manual;
 					};
-					232D64982465060100AA4473 = {
+					23644C8525149E7C00D59096 = {
 						DevelopmentTeam = 69WQLJ9K8N;
 						ProvisioningStyle = Manual;
 					};
@@ -1483,8 +1484,8 @@
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* Hpmerchant_Production */,
-				232D64982465060100AA4473 /* Hpmerchant_Dev */,
 				230F1DB324D3DA2200A95898 /* Hpmerchant_Staging */,
+				23644C8525149E7C00D59096 /* Hpmerchant_Dev */,
 			);
 		};
 /* End PBXProject section */
@@ -1807,13 +1808,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		232D64B72465060100AA4473 /* Resources */ = {
+		23644CDA25149E7C00D59096 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				232D64B82465060100AA4473 /* Images.xcassets in Resources */,
-				232D64B92465060100AA4473 /* LaunchScreen.xib in Resources */,
-				36F619C02500D9AC00893A84 /* GoogleService-Info.plist in Resources */,
+				23644CDB25149E7C00D59096 /* Images.xcassets in Resources */,
+				23644CDC25149E7C00D59096 /* LaunchScreen.xib in Resources */,
+				23644CDD25149E7C00D59096 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1905,7 +1906,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Staging/Pods-Hpmerchant-Hpmerchant_Staging-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		232D64992465060100AA4473 /* [CP] Check Pods Manifest.lock */ = {
+		23644C8625149E7C00D59096 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1927,7 +1928,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		232D64BA2465060100AA4473 /* Bundle React Native code and images */ = {
+		23644CDE25149E7C00D59096 /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1941,7 +1942,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=$(which node)\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		232D64BB2465060100AA4473 /* ShellScript */ = {
+		23644CDF25149E7C00D59096 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1957,6 +1958,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 0f0084a0d929105cf47a24b38dd81f81901f8898 a429bc1d026280dc76172be9fa9b8d4c7afbdf2b261dc836bc1e3b6f8b32c7c3\n";
+		};
+		23644CE025149E7C00D59096 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev-resources.sh",
+				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WKYTPlayerView.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		23A6A60C22ACDBDF00739B1A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1974,24 +1993,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 0f0084a0d929105cf47a24b38dd81f81901f8898 a429bc1d026280dc76172be9fa9b8d4c7afbdf2b261dc836bc1e3b6f8b32c7c3\n";
-		};
-		272F31E56FDF8680A31F10C7 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev-resources.sh",
-				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WKYTPlayerView.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		7BF4CB7B6F05575B12C59C87 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2164,67 +2165,67 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		232D649A2465060100AA4473 /* Sources */ = {
+		23644C8725149E7C00D59096 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				366C011224DBC6DE00BAA83B /* RNBarChartManager.swift in Sources */,
-				366C011824DBC6DE00BAA83B /* RNBarChartView.swift in Sources */,
-				232D649B2465060100AA4473 /* File.swift in Sources */,
-				366C012D24DBC6DE00BAA83B /* RNChartViewBase.swift in Sources */,
-				366C010C24DBC6DE00BAA83B /* BarDataExtract.swift in Sources */,
-				366C013324DBC6DE00BAA83B /* DataExtract.swift in Sources */,
-				366C00B524DBC6DE00BAA83B /* LargeValueFormatter.swift in Sources */,
-				366C012724DBC6DE00BAA83B /* RNRadarChartView.swift in Sources */,
-				366C00B824DBC6DE00BAA83B /* FontUtils.swift in Sources */,
-				366C012424DBC6DE00BAA83B /* RNRadarChartManagerBridge.m in Sources */,
-				366C00E524DBC6DE00BAA83B /* RNScatterChartManager.swift in Sources */,
-				366C00D624DBC6DE00BAA83B /* RNBarLineChartBaseManager.swift in Sources */,
-				366C010324DBC6DE00BAA83B /* RNCandleStickChartManager.swift in Sources */,
-				366C00CA24DBC6DE00BAA83B /* RNBubbleChartView.swift in Sources */,
-				366C011524DBC6DE00BAA83B /* RNBarChartManagerBridge.m in Sources */,
-				366C00C124DBC6DE00BAA83B /* HighlightUtils.swift in Sources */,
-				366C00A324DBC6DE00BAA83B /* RNCombinedChartManagerBridge.m in Sources */,
-				366C00EE24DBC6DE00BAA83B /* ScatterDataExtract.swift in Sources */,
-				366C011B24DBC6DE00BAA83B /* RNHorizontalBarChartView.swift in Sources */,
-				366C012A24DBC6DE00BAA83B /* RNRadarChartManager.swift in Sources */,
-				366C011E24DBC6DE00BAA83B /* RNHorizontalBarChartManagerBridge.m in Sources */,
-				366C00FA24DBC6DE00BAA83B /* LineDataExtract.swift in Sources */,
-				232D649C2465060100AA4473 /* MyApp.m in Sources */,
-				366C00AC24DBC6DE00BAA83B /* BalloonMarker.swift in Sources */,
-				366C010924DBC6DE00BAA83B /* RNBarChartViewBase.swift in Sources */,
-				366C00F724DBC6DE00BAA83B /* RNLineChartManagerBridge.m in Sources */,
-				366C012124DBC6DE00BAA83B /* RadarDataExtract.swift in Sources */,
-				366C009D24DBC6DE00BAA83B /* RNCombinedChartView.swift in Sources */,
-				366C00AF24DBC6DE00BAA83B /* RNBarLineChartViewBase.swift in Sources */,
-				232D649D2465060100AA4473 /* AppDelegate.m in Sources */,
-				366C010F24DBC6DE00BAA83B /* RNHorizontalBarChartManager.swift in Sources */,
-				232D649E2465060100AA4473 /* main.m in Sources */,
-				366C010024DBC6DE00BAA83B /* RNCandleStickChartView.swift in Sources */,
-				366C00A024DBC6DE00BAA83B /* RNCombinedChartManager.swift in Sources */,
-				366C00D024DBC6DE00BAA83B /* RNBubbleChartManagerBridge.m in Sources */,
-				366C00BB24DBC6DE00BAA83B /* EntryToDictionaryUtils.swift in Sources */,
-				232D649F2465060100AA4473 /* ExtDataPaymentReq.m in Sources */,
-				366C00BE24DBC6DE00BAA83B /* ChartDataSetConfigUtils.swift in Sources */,
-				366C00CD24DBC6DE00BAA83B /* BubbleDataExtract.swift in Sources */,
-				366C013024DBC6DE00BAA83B /* ChartGroupHolder.swift in Sources */,
-				366C00D924DBC6DE00BAA83B /* RNPieChartView.swift in Sources */,
-				366C00FD24DBC6DE00BAA83B /* CandleDataExtract.swift in Sources */,
-				366C00DC24DBC6DE00BAA83B /* RNPieChartManagerBridge.m in Sources */,
-				366C00E824DBC6DE00BAA83B /* RNScatterChartView.swift in Sources */,
-				366C010624DBC6DE00BAA83B /* RNCandleStickChartManagerBridge.m in Sources */,
-				366C00F424DBC6DE00BAA83B /* RNLineChartManager.swift in Sources */,
-				366C00A624DBC6DE00BAA83B /* CombinedDataExtract.swift in Sources */,
-				366C00DF24DBC6DE00BAA83B /* PieDataExtract.swift in Sources */,
-				366C00EB24DBC6DE00BAA83B /* RNScatterChartManagerBridge.m in Sources */,
-				366C00E224DBC6DE00BAA83B /* RNPieChartManager.swift in Sources */,
-				366C00F124DBC6DE00BAA83B /* RNLineChartView.swift in Sources */,
-				366C00B224DBC6DE00BAA83B /* ChartDateFormatter.swift in Sources */,
-				366C00D324DBC6DE00BAA83B /* CustomChartDateFormatter.swift in Sources */,
-				366C00A924DBC6DE00BAA83B /* RNYAxisChartViewBase.swift in Sources */,
-				366C00C424DBC6DE00BAA83B /* BridgeUtils.swift in Sources */,
-				366C00C724DBC6DE00BAA83B /* RNBubbleChartManager.swift in Sources */,
-				366C009A24DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */,
+				23644C8825149E7C00D59096 /* RNBarChartManager.swift in Sources */,
+				23644C8925149E7C00D59096 /* RNBarChartView.swift in Sources */,
+				23644C8A25149E7C00D59096 /* File.swift in Sources */,
+				23644C8B25149E7C00D59096 /* RNChartViewBase.swift in Sources */,
+				23644C8C25149E7C00D59096 /* BarDataExtract.swift in Sources */,
+				23644C8D25149E7C00D59096 /* DataExtract.swift in Sources */,
+				23644C8E25149E7C00D59096 /* LargeValueFormatter.swift in Sources */,
+				23644C8F25149E7C00D59096 /* RNRadarChartView.swift in Sources */,
+				23644C9025149E7C00D59096 /* FontUtils.swift in Sources */,
+				23644C9125149E7C00D59096 /* RNRadarChartManagerBridge.m in Sources */,
+				23644C9225149E7C00D59096 /* RNScatterChartManager.swift in Sources */,
+				23644C9325149E7C00D59096 /* RNBarLineChartBaseManager.swift in Sources */,
+				23644C9425149E7C00D59096 /* RNCandleStickChartManager.swift in Sources */,
+				23644C9525149E7C00D59096 /* RNBubbleChartView.swift in Sources */,
+				23644C9625149E7C00D59096 /* RNBarChartManagerBridge.m in Sources */,
+				23644C9725149E7C00D59096 /* HighlightUtils.swift in Sources */,
+				23644C9825149E7C00D59096 /* RNCombinedChartManagerBridge.m in Sources */,
+				23644C9925149E7C00D59096 /* ScatterDataExtract.swift in Sources */,
+				23644C9A25149E7C00D59096 /* RNHorizontalBarChartView.swift in Sources */,
+				23644C9B25149E7C00D59096 /* RNRadarChartManager.swift in Sources */,
+				23644C9C25149E7C00D59096 /* RNHorizontalBarChartManagerBridge.m in Sources */,
+				23644C9D25149E7C00D59096 /* LineDataExtract.swift in Sources */,
+				23644C9E25149E7C00D59096 /* MyApp.m in Sources */,
+				23644C9F25149E7C00D59096 /* BalloonMarker.swift in Sources */,
+				23644CA025149E7C00D59096 /* RNBarChartViewBase.swift in Sources */,
+				23644CA125149E7C00D59096 /* RNLineChartManagerBridge.m in Sources */,
+				23644CA225149E7C00D59096 /* RadarDataExtract.swift in Sources */,
+				23644CA325149E7C00D59096 /* RNCombinedChartView.swift in Sources */,
+				23644CA425149E7C00D59096 /* RNBarLineChartViewBase.swift in Sources */,
+				23644CA525149E7C00D59096 /* AppDelegate.m in Sources */,
+				23644CA625149E7C00D59096 /* RNHorizontalBarChartManager.swift in Sources */,
+				23644CA725149E7C00D59096 /* main.m in Sources */,
+				23644CA825149E7C00D59096 /* RNCandleStickChartView.swift in Sources */,
+				23644CA925149E7C00D59096 /* RNCombinedChartManager.swift in Sources */,
+				23644CAA25149E7C00D59096 /* RNBubbleChartManagerBridge.m in Sources */,
+				23644CAB25149E7C00D59096 /* EntryToDictionaryUtils.swift in Sources */,
+				23644CAC25149E7C00D59096 /* ExtDataPaymentReq.m in Sources */,
+				23644CAD25149E7C00D59096 /* ChartDataSetConfigUtils.swift in Sources */,
+				23644CAE25149E7C00D59096 /* BubbleDataExtract.swift in Sources */,
+				23644CAF25149E7C00D59096 /* ChartGroupHolder.swift in Sources */,
+				23644CB025149E7C00D59096 /* RNPieChartView.swift in Sources */,
+				23644CB125149E7C00D59096 /* CandleDataExtract.swift in Sources */,
+				23644CB225149E7C00D59096 /* RNPieChartManagerBridge.m in Sources */,
+				23644CB325149E7C00D59096 /* RNScatterChartView.swift in Sources */,
+				23644CB425149E7C00D59096 /* RNCandleStickChartManagerBridge.m in Sources */,
+				23644CB525149E7C00D59096 /* RNLineChartManager.swift in Sources */,
+				23644CB625149E7C00D59096 /* CombinedDataExtract.swift in Sources */,
+				23644CB725149E7C00D59096 /* PieDataExtract.swift in Sources */,
+				23644CB825149E7C00D59096 /* RNScatterChartManagerBridge.m in Sources */,
+				23644CB925149E7C00D59096 /* RNPieChartManager.swift in Sources */,
+				23644CBA25149E7C00D59096 /* RNLineChartView.swift in Sources */,
+				23644CBB25149E7C00D59096 /* ChartDateFormatter.swift in Sources */,
+				23644CBC25149E7C00D59096 /* CustomChartDateFormatter.swift in Sources */,
+				23644CBD25149E7C00D59096 /* RNYAxisChartViewBase.swift in Sources */,
+				23644CBE25149E7C00D59096 /* BridgeUtils.swift in Sources */,
+				23644CBF25149E7C00D59096 /* RNBubbleChartManager.swift in Sources */,
+				23644CC025149E7C00D59096 /* IndexValueFormatter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2457,17 +2458,17 @@
 			};
 			name = Release;
 		};
-		232D64BE2465060100AA4473 /* Debug */ = {
+		23644CE225149E7C00D59096 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2206C6BACBF3ADBBCD9E5B86 /* Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Dev.entitlements;
+				CODE_SIGN_ENTITLEMENTS = HPMerchant.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 39;
+				CURRENT_PROJECT_VERSION = 55;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
@@ -2484,7 +2485,7 @@
 					"$(SRCROOT)/../node_modules/react-native-star-prnt/ios/Frameworks/**",
 					"$(SRCROOT)/../node_modules/react-native-spring-scrollview/ios/SpringScrollView",
 				);
-				INFOPLIST_FILE = "Hpmerchant_Production copy-Info.plist";
+				INFOPLIST_FILE = dev.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)/**",
@@ -2492,8 +2493,9 @@
 					"$(PROJECT_DIR)/sdk/inc/**",
 					"$(PROJECT_DIR)/sdk",
 					"\"$(SRCROOT)/HpMerchant\"",
+					"\"$(SRCROOT)/HPMerchant\"",
 				);
-				MARKETING_VERSION = 1.1.6;
+				MARKETING_VERSION = 1.1.2;
 				OTHER_CFLAGS = "-fembed-bitcode";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2501,7 +2503,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony.dev;
-				PRODUCT_NAME = Dev;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = HarmonyMerchantDev;
 				SWIFT_OBJC_BRIDGING_HEADER = "Hpmerchant-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2511,17 +2513,17 @@
 			};
 			name = Debug;
 		};
-		232D64BF2465060100AA4473 /* Release */ = {
+		23644CE325149E7C00D59096 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 429BF6F6217ED276A895E802 /* Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Dev.entitlements;
+				CODE_SIGN_ENTITLEMENTS = HPMerchant.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 39;
+				CURRENT_PROJECT_VERSION = 55;
 				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2537,7 +2539,7 @@
 					"$(SRCROOT)/../node_modules/react-native-star-prnt/ios/Frameworks/**",
 					"$(SRCROOT)/../node_modules/react-native-spring-scrollview/ios/SpringScrollView",
 				);
-				INFOPLIST_FILE = "Hpmerchant_Production copy-Info.plist";
+				INFOPLIST_FILE = dev.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)/**",
@@ -2545,8 +2547,9 @@
 					"$(PROJECT_DIR)/sdk/inc/**",
 					"$(PROJECT_DIR)/sdk",
 					"\"$(SRCROOT)/HpMerchant\"",
+					"\"$(SRCROOT)/HPMerchant\"",
 				);
-				MARKETING_VERSION = 1.1.6;
+				MARKETING_VERSION = 1.1.2;
 				OTHER_CFLAGS = "-fembed-bitcode";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2554,7 +2557,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony.dev;
-				PRODUCT_NAME = Dev;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = HarmonyMerchantDev;
 				SWIFT_OBJC_BRIDGING_HEADER = "Hpmerchant-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -2683,11 +2686,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		232D64BD2465060100AA4473 /* Build configuration list for PBXNativeTarget "Hpmerchant_Dev" */ = {
+		23644CE125149E7C00D59096 /* Build configuration list for PBXNativeTarget "Hpmerchant_Dev" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				232D64BE2465060100AA4473 /* Debug */,
-				232D64BF2465060100AA4473 /* Release */,
+				23644CE225149E7C00D59096 /* Debug */,
+				23644CE325149E7C00D59096 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

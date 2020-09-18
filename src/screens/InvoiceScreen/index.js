@@ -4,6 +4,7 @@ import _ from "ramda";
 import { captureRef, releaseCapture } from "react-native-view-shot";
 import { StarPRNT } from 'react-native-star-prnt';
 import RNFetchBlob from 'rn-fetch-blob';
+import Share from 'react-native-share';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -502,10 +503,11 @@ class InvoiceScreen extends Layout {
         try {
             const imageUri = await captureRef(this.viewShotRef, {});
             if (Platform.OS === 'ios') {
-                RNFetchBlob.ios.previewDocument(imageUri)
+                RNFetchBlob.ios.previewDocument(imageUri);
             } else {
-                const android = RNFetchBlob.android;
-                android.actionViewIntent(imageUri, 'application/vnd.android.package-archive')
+                const shareResponse = await Share.open({
+                    url: `file://${imageUri}`
+                });
             }
         } catch (error) {
             alert(error)
