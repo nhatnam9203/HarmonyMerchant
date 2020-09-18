@@ -91,7 +91,7 @@ class PopupInvoicePrint extends React.Component {
             if (imageUri) {
                 let commands = [];
                 commands.push({ appendLineFeed: 0 });
-                commands.push({ appendBitmap: imageUri, width: widthPaper, bothScale: true, diffusion: true, alignment: "Center" });
+                commands.push({ appendBitmap: imageUri, width: parseFloat(widthPaper), bothScale: true, diffusion: true, alignment: "Center" });
                 commands.push({ appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed });
 
                 await PrintManager.getInstance().print(emulation, commands, portName);
@@ -228,7 +228,7 @@ class PopupInvoicePrint extends React.Component {
                             >
                                 <View
                                     ref={this.viewShotRef}
-                                    style={{ paddingHorizontal: scaleSzie(10) }}
+                                    style={{ paddingHorizontal: scaleSzie(10),backgroundColor: '#FFFFFF' }}
                                 >
                                     {/* ------------- Store Name ----------- */}
                                     <Text style={[styleInvoice.txt_normal, { fontSize: 24, fontWeight: "600", marginTop: scaleSzie(8) }]} >

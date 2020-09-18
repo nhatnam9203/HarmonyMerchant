@@ -478,7 +478,7 @@ class InvoiceScreen extends Layout {
                 if (imageUri) {
                     let commands = [];
                     commands.push({ appendLineFeed: 0 });
-                    commands.push({ appendBitmap: imageUri, width: widthPaper, bothScale: true, diffusion: true, alignment: "Center" });
+                    commands.push({ appendBitmap: imageUri, width: parseFloat(widthPaper), bothScale: true, diffusion: true, alignment: "Center" });
                     commands.push({ appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed });
 
                     await PrintManager.getInstance().print(emulation, commands, portName);

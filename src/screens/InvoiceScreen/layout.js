@@ -222,7 +222,8 @@ export default class Layout extends React.Component {
                         <View
                             ref={this.viewShotRef}
                             style={{
-                                paddingHorizontal: scaleSzie(10)
+                                paddingHorizontal: scaleSzie(10),
+                                backgroundColor: '#FFFFFF'
                             }}
                         >
                             {/* ------------- Store Name ----------- */}
