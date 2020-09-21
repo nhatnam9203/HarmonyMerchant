@@ -1,14 +1,10 @@
 import React from 'react';
 import {
     View,
-    Image,
-    ScrollView,
-    FlatList,
 } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
-import { NavigationEvents } from 'react-navigation';
+// import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { CustomTabBar } from '@components';
+import { CustomTabBar,ScrollableTabView } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import { TabPromotion, TabCustomMarketing, TabCustomBanner } from './widget';

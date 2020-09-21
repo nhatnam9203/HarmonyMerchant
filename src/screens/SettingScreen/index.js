@@ -42,7 +42,7 @@ class SettingScreen extends Layout {
           isFocus: true,
         });
         this.checkPermissionRef.current.setStateFromParent("");
-        // this.props.actions.app.toggleSettingTabPermission();
+        this.props.actions.app.toggleSettingTabPermission();
       }
     );
   }
@@ -67,9 +67,14 @@ class SettingScreen extends Layout {
     } else {
       this.leftMenuSettingRef.current.setStateFromParent(index);
       this.scrollTabRef.current.goToPage(index);
-      setTimeout(() => {
+      if (index === 6) {
+        setTimeout(() => {
+          this.fetchAPIsInSettingTab(index);
+        }, 100);
+      } else {
         this.fetchAPIsInSettingTab(index);
-      }, 10);
+      }
+
       Keyboard.dismiss();
     }
 
@@ -81,20 +86,20 @@ class SettingScreen extends Layout {
         const { profile } = this.props;
         return this.props.actions.app.getMerchantByID(
           profile.merchantId,
-          false
+          true
         );
       case 1:
         this.resetStateStaffSetting();
-        return this.props.actions.staff.getStaffByMerchantId("","", "",false,false);
+        return this.props.actions.staff.getStaffByMerchantId("", "", "", false, false);
       case 2:
         this.resetStateCategoriesSetting();
-        return this.props.actions.category.getCategoriesByMerchantId();
+        return this.props.actions.category.getCategoriesByMerchantId('', '', '', false, false);
       case 3:
         this.resetStateServiceSetting();
-        return this.props.actions.service.getServicesByMerchant();
+        return this.props.actions.service.getServicesByMerchant('', '', '', false, false);
       case 4:
         this.resetStateExtraSetting();
-        return this.props.actions.extra.getExtraByMerchant();
+        return this.props.actions.extra.getExtraByMerchant('', '', false, false);
       case 5:
         return this.updateTaxFromParent();
       case 6:
@@ -149,11 +154,7 @@ class SettingScreen extends Layout {
   };
 
   backTab = () => {
-    const { indexTab } = this.state;
-    if (indexTab == 1) {
-      this.props.actions.staff.switchAddStaff(false);
-    }
-    // this.props.actions.app.handleLockScreen(true);
+    this.props.actions.staff.switchAddStaff(false);
   };
 
   closePopupCheckSettingTabPermission = () => {

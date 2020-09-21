@@ -7,12 +7,12 @@ import {
     TextInput,
     Platform
 } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+// import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { Text, Button, ButtonCustom, PopupConfirm } from '@components';
+import { Text, Button, ButtonCustom, PopupConfirm,ScrollableTabView } from '@components';
 import { ItemBanner } from './widget';
 
 class Layout extends React.Component {

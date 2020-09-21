@@ -1,18 +1,14 @@
 import React from 'react';
 import {
     View,
-    Image,
-    TextInput,
-    FlatList,
-    ActivityIndicator
+   
 } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+// import ScrollableTabView from 'react-native-scrollable-tab-view';
 import _ from "ramda";
 
-import { scaleSzie, localize, formatWithMoment } from '@utils';
-import { Text, Button, ButtonCustom, PopupCalendar } from '@components';
+import { } from '@utils';
+import { ScrollableTabView} from '@components';
 import styles from './style';
-import IMAGE from '@resources';
 import { BatchHistoryDetail, StaffIncomeDetailsTab, BatchHistoryList, GiftCardSalesDetailsTab } from './widget';
 
 class Layout extends React.Component {

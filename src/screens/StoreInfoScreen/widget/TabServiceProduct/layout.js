@@ -2,9 +2,9 @@ import React from 'react';
 import {
     View,
 } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+// import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { CustomTabBar } from '@components';
+import { CustomTabBar,ScrollableTabView } from '@components';
 import { scaleSzie ,localize} from '@utils';
 import styles from './style';
 import { TabCategories, TabServices, TabExtra, TabProducts } from './widget';

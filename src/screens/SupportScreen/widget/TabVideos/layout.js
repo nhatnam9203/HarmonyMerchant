@@ -7,7 +7,6 @@ import {
     Image,
     FlatList
 } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
 import YouTube from 'react-native-youtube';
 
 import { ButtonCustom, Text, Dropdown, Button } from '@components';

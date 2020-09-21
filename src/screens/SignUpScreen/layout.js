@@ -2,9 +2,9 @@ import React from 'react';
 import {
     View,
 } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+// import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { StatusBarHeader, } from '@components';
+import { StatusBarHeader,ScrollableTabView } from '@components';
 import styles from './style';
 import GeneralInfoScreen from "../GeneralInfoScreen";
 import BusinessInfo from "../BusinessInfoScreen";

@@ -5,9 +5,9 @@ import {
     ScrollView,
     FlatList,
 } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+// import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { CustomTabBar ,DefaultTabBar} from '@components';
+import { CustomTabBar ,ScrollableTabView} from '@components';
 
 import { scaleSzie } from '@utils';
 import styles from './style';

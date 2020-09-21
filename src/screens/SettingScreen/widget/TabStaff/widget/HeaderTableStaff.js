@@ -49,7 +49,7 @@ class HeaderTableStaff extends React.Component {
     render() {
         const { sortUpStaffName, sortUpId, sortUpRole, sortUpStatus } = this.state;
         return (
-            <View style={styles.tableHeader} >
+            <View style={[styles.tableHeader,{}]} >
                 {/* ----- 1 ------ */}
                 <View style={[{
                     width: scaleSzie(50),
@@ -121,8 +121,6 @@ const styles = StyleSheet.create({
     tableHeader: {
         height: scaleSzie(35),
         backgroundColor: '#fff',
-        borderBottomWidth: 0.5,
-        borderBottomColor: '#C5C5C5',
         flexDirection: 'row'
     },
     textTableHeader: {

@@ -4,7 +4,7 @@ import {
     Image,
     ScrollView,
 } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+// import ScrollableTabView from 'react-native-scrollable-tab-view';
 import QRCode from 'react-native-qrcode-svg';
 import _ from 'ramda';
 
@@ -12,7 +12,7 @@ import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatN
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
     PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode, PopupProcessingCredit, PopupInvoicePrint,
-    PopupChangePriceAmountProduct, PopupChangeTip
+    PopupChangePriceAmountProduct, PopupChangeTip,ScrollableTabView
 } from '@components';
 import styles from './style';
 import IMAGE from '@resources';

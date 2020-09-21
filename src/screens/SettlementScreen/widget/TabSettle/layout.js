@@ -2,10 +2,10 @@ import React from "react";
 import {
     View,
 } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+// import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import {} from '@utils';
-import { } from '@components';
+import { ScrollableTabView} from '@components';
 import styles from './style';
 import { TabFirstSettle, TabSecondSettle, StaffIncomeDetailsTab,GiftCardSalesDetailsTab } from './widget';
 

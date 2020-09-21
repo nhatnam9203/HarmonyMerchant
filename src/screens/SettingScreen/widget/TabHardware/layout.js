@@ -1,16 +1,11 @@
 import React from 'react';
 import {
     View,
-    ScrollView,
-    StyleSheet,
-    TextInput,
-    Image
+    
 } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+// import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { ButtonCustom, Text, Dropdown } from '@components';
-import { scaleSzie, localize, WorkingTime, getNameLanguage } from '@utils';
-import IMAGE from '@resources';
+import {ScrollableTabView } from '@components';
 import styles from './style';
 import { HomeHardware, AddDeviceHardware, SetupHardware ,PrinterList} from './widget';
 

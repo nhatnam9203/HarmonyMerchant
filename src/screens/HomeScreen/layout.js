@@ -3,9 +3,12 @@ import {
     View,
     Image
 } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+// import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { HomeTabBar, StatusBarHeader, Button, ParentContainer, PopupEnterPin, PopupCheckStaffPermission } from '@components';
+import { HomeTabBar, StatusBarHeader, Button, ParentContainer, 
+    PopupEnterPin, PopupCheckStaffPermission ,
+    ScrollableTabView
+} from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';

@@ -27,8 +27,8 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.microsoft.codepush.react.CodePush;
 import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingPackage;
-// import io.invertase.firebase.ReactNativeFirebaseAppPackage;
 import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
+import com.reactnativecommunity.viewpager.RNCViewPagerPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -65,6 +65,7 @@ public class MainApplication extends Application implements ReactApplication {
             new RNCWebViewPackage(),
             new ImagePickerPackage(),
             new RNGestureHandlerPackage(),
+              new RNCViewPagerPackage(),
             new CodePush("WIPNFxhxOnC-CPUztRPNuYj4HMhWmkKi-8UOj", MainApplication.this, BuildConfig.DEBUG)
       );
     }

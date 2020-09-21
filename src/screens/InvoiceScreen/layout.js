@@ -7,12 +7,13 @@ import {
     ScrollView,
     ActivityIndicator
 } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+// import ScrollableTabView from 'react-native-scrollable-tab-view';
 import _ from 'ramda';
 
 import {
     Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupCalendar, PopupCheckStaffPermission,
-    PopupConfirmInvoiceStatus, PopupProcessingCredit, PopupInvoicePrint, PopupConfirmPrintInvoice,ClearTextInputIcon
+    PopupConfirmInvoiceStatus, PopupProcessingCredit, PopupInvoicePrint, PopupConfirmPrintInvoice,ClearTextInputIcon,
+    ScrollableTabView
 } from '@components';
 import { scaleSzie, localize, formatWithMoment, getStaffNameForInvoice, formatMoney, getPaymentString, PAYMENT_METHODS } from '@utils';
 import styles from './style';

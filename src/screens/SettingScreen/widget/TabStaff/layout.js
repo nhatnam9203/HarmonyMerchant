@@ -149,6 +149,7 @@ class Layout extends React.Component {
                 <View style={{ height: scaleSzie(10) }} />
                 <View style={{ flex: 1 }} >
                     <HeaderTableStaff />
+                    <View style={{height:1,backgroundColor:"#C5C5C5"}} />
                     <DraggableFlatList
                         data={data}
                         renderItem={({ item, index, move, moveEnd, isActive }) => <RowTableStaff

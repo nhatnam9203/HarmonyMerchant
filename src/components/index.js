@@ -49,6 +49,7 @@ import PopupChangeTip from "./PopupChangeTip";
 import PopupConfirmPrintInvoice from "./PopupConfirmPrintInvoice";
 import ItemWorkingTime from "./ItemWorkingTime";
 import ClearTextInputIcon from "./ClearTextInputIcon";
+import ScrollableTabView from "./react-native-scrollable-tab-view";
 
 module.exports = {
     Button,
@@ -101,5 +102,6 @@ module.exports = {
     PopupChangeTip,
     PopupConfirmPrintInvoice,
     ItemWorkingTime,
-    ClearTextInputIcon
+    ClearTextInputIcon,
+    ScrollableTabView
 }

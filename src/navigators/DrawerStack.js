@@ -1,4 +1,4 @@
-import { createDrawerNavigator } from "react-navigation";
+import { createDrawerNavigator, createStackNavigator } from "react-navigation";
 import { scaleSzie } from "../utils";
 
 import {
@@ -24,11 +24,22 @@ const DrawerStack = createDrawerNavigator(
     Settlement: SettlementScreen,
     Reports: ReportScreen
   }, {
-  initialRouteName: "Setting",
+  initialRouteName: "Home",
   contentComponent: SlideDrawer,
   drawerWidth: scaleSzie(220),
   overlayColor: "rgba(0, 0, 0, 0.5) ",
 }
 );
+
+// const DrawerStack_1 = createStackNavigator(
+//   {
+//     Home: HomeScreen,
+
+//   },
+//   {
+//     initialRouteName: 'Home',
+//     headerMode: 'none',
+//   }
+// );
 
 export default DrawerStack;

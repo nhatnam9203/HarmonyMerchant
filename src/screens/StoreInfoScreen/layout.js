@@ -3,9 +3,9 @@ import {
     View,
     Image,
 } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+// import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import { DefaultTabBar, Button, StatusBarHeader } from '@components';
+import { DefaultTabBar, Button, StatusBarHeader,ScrollableTabView } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';

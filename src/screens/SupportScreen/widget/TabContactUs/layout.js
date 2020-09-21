@@ -6,7 +6,6 @@ import {
     TextInput,
     Image
 } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import { ButtonCustom, Text, Dropdown, Button } from '@components';
 import { scaleSzie, localize, WorkingTime, getNameLanguage } from '@utils';
