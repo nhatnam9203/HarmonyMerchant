@@ -3,7 +3,6 @@ import {
     View,
     
 } from 'react-native';
-// import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import {ScrollableTabView } from '@components';
 import styles from './style';

@@ -1,4 +1,4 @@
-import { createDrawerNavigator, createStackNavigator } from "react-navigation";
+import { createDrawerNavigator } from "react-navigation";
 import { scaleSzie } from "../utils";
 
 import {
@@ -31,15 +31,5 @@ const DrawerStack = createDrawerNavigator(
 }
 );
 
-// const DrawerStack_1 = createStackNavigator(
-//   {
-//     Home: HomeScreen,
-
-//   },
-//   {
-//     initialRouteName: 'Home',
-//     headerMode: 'none',
-//   }
-// );
 
 export default DrawerStack;

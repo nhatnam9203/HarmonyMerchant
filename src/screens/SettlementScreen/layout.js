@@ -3,7 +3,6 @@ import {
     View,
     Image,
 } from 'react-native';
-// import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import { Text, StatusBarHeader, Button, ParentContainer,
      PopupCheckStaffPermission, DefaultTabBar ,

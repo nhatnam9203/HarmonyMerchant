@@ -4,7 +4,6 @@ import {
     Image,
     ScrollView,
 } from 'react-native';
-// import ScrollableTabView from 'react-native-scrollable-tab-view';
 import QRCode from 'react-native-qrcode-svg';
 import _ from 'ramda';
 
@@ -12,7 +11,7 @@ import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatN
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
     PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode, PopupProcessingCredit, PopupInvoicePrint,
-    PopupChangePriceAmountProduct, PopupChangeTip,ScrollableTabView
+    PopupChangePriceAmountProduct, PopupChangeTip, ScrollableTabView
 } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
@@ -530,6 +529,7 @@ class Layout extends React.Component {
         return (
             <View style={{
                 flex: 1,
+                zIndex: 1
             }} >
                 {/* -------- Header Basket -------- */}
                 <View style={[styles.headerBasket, {
@@ -860,24 +860,24 @@ class Layout extends React.Component {
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
                 <View style={{ width: scaleSzie(446) }} >
-                    <ScrollableTabView
-                        ref={this.scrollTabRef}
-                        style={{}}
-                        initialPage={0}
-                        locked={true}
-                        renderTabBar={() => <View />}
-                        onChangeTab={(index) => {
-                            this.setState({ tabCurrent: index.i })
-                        }}
-                    >
-                        <View style={{ flex: 1, flexDirection: 'row' }} >
-                            {this.renderCategoriesCheckout()}
-                            {this.renderProductCheckout()}
-                            {this.renderAmountCheckout()}
-                        </View>
-                        {this.renderPaymetsMethod()}
-                        {this.renderOfflineMode()}
-                    </ScrollableTabView>
+                        <ScrollableTabView
+                            ref={this.scrollTabRef}
+                            style={{}}
+                            initialPage={0}
+                            locked={true}
+                            renderTabBar={() => <View />}
+                            onChangeTab={(index) => {
+                                this.setState({ tabCurrent: index.i })
+                            }}
+                        >
+                            <View style={{ flex: 1, flexDirection: 'row' }} >
+                                {this.renderCategoriesCheckout()}
+                                {this.renderProductCheckout()}
+                                {this.renderAmountCheckout()}
+                            </View>
+                            {this.renderPaymetsMethod()}
+                            {this.renderOfflineMode()}
+                        </ScrollableTabView>
                 </View>
                 {this.renderBasket()}
             </View>

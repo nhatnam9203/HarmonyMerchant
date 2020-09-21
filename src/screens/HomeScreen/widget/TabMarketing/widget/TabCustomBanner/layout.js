@@ -7,7 +7,6 @@ import {
     TextInput,
     Platform
 } from 'react-native';
-// import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import { scaleSzie, localize } from '@utils';
 import styles from './style';

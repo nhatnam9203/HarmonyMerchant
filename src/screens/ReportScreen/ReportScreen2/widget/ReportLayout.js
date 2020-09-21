@@ -9,7 +9,6 @@ import React, {
   useState,
 } from "react";
 import { Platform, View } from "react-native";
-// import ScrollableTabView from "react-native-scrollable-tab-view";
 import {ScrollableTabView} from "@components";
 import { useDispatch, useSelector } from "react-redux";
 import RNFetchBlob from "rn-fetch-blob";
