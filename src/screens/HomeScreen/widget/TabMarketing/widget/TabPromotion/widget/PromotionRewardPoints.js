@@ -60,6 +60,8 @@ class PromotionRewardPoints extends React.Component {
         const { language } = this.props;
         const { data,isShowContent } = this.state;
         const { campaignName } = data;
+        const earnPoint = (100* parseFloat(data.discount)/100);
+
         return (
             <ItemPromo
                 title={data.defaultName}
@@ -143,7 +145,7 @@ class PromotionRewardPoints extends React.Component {
                             {`${localize(' get ', language)}`}
                         </Text>
                         <Text style={{ color: '#0764B0', fontWeight: "bold" }} >
-                            {`${100* parseFloat(data.discount)}`}
+                            {`${parseInt(earnPoint)}`}
                         </Text>
                         <Text style={{}} >
                             {`${localize(' reward points', language)}`}

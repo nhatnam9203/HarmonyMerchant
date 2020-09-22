@@ -20,7 +20,7 @@ class SplashScreen extends Layout {
 
     async componentDidMount() {
         let version = await DeviceInfo.getVersion();
-        const latestVersion = "1.0.8";
+        const latestVersion = "1.1.2";
         try {
             const res = await VersionCheck.needUpdate({
                 currentVersion: version,
