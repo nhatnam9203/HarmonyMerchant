@@ -5,10 +5,11 @@ import {
     Image
 } from 'react-native';
 
-import { scaleSzie } from '@utils';
+import { scaleSzie ,checkIsTablet} from '@utils';
 import {
     Text, Button,
 } from '@components';
+import ICON from "@resources";
 
 import ItemCategory from './ItemCategory';
 import ColPlaceHolder from './ColPlaceHolder';
@@ -25,8 +26,6 @@ import ItemBlockBasket from "./ItemBlockBasket";
 import PopupBlockDiscount from "./PopupBlockDiscount";
 import PopupChangeCustomerInfo from "./PopupChangeCustomerInfo";
 import PopupAddItemIntoAppointments from "./PopupAddItemIntoAppointments";
-
-import ICON from "@resources";
 
 function getPaymentLogoByName(name) {
     let logo = "";
@@ -58,10 +57,14 @@ const ItemPaymentMethod = ({ title, selectedPayment, paymentSelected }) => {
     const logo = getPaymentLogoByName(title);
     const tempLogo = title === paymentSelected ? `${logo}_se` : logo;
 
+    const isTablet =  checkIsTablet();
+    const tempHeight = isTablet ? scaleSzie(65) : scaleSzie(80);
+    const icon_style = isTablet ? {width: scaleSzie(30),height:scaleSzie(30)}:{};
+    const tempTitleMarginTop = isTablet ? scaleSzie(2) : scaleSzie(8);
+ 
     return (
         <Button onPress={() => selectedPayment(title)} style={[{
-            width: scaleSzie(190), height: scaleSzie(80),
-            //  borderWidth: 1, borderColor: '#6A6A6A',
+            width: scaleSzie(190), height: tempHeight,
             backgroundColor: "#fff",
             justifyContent: 'center', alignItems: 'center',
             borderRadius: 8,
@@ -80,10 +83,11 @@ const ItemPaymentMethod = ({ title, selectedPayment, paymentSelected }) => {
         }, temptBackground]} >
             <Image
                 source={ICON[tempLogo]}
+                style={icon_style}
             />
             <Text style={[{
                 fontSize: scaleSzie(13),
-                color: '#404040', marginTop: scaleSzie(8)
+                color: '#404040', marginTop: tempTitleMarginTop
             }, temptTextColor]} >
                 {title}
             </Text>

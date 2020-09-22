@@ -8,7 +8,8 @@ import { StatusBarHeader, Button, ParentContainer, Text, ScrollableTabView } fro
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
-import { TabContactUs ,TabVideos} from './widget';
+import { TabContactUs, TabVideos } from './widget';
+import configs from "@configs";
 
 const MENU = ["Videos", "Contact us"];
 
@@ -93,7 +94,7 @@ export default class Layout extends React.Component {
                                 springFriction={1}
                                 renderTabBar={() => <View />}
                             >
-                               
+
                                 <TabVideos />
                                 <TabContactUs />
 
@@ -101,14 +102,13 @@ export default class Layout extends React.Component {
                         </View>
                     </View>
 
-                    <Button onPress={this.openDrawer} style={{ position: 'absolute', top: 20, left: 0 }} >
+                    <Button onPress={this.openDrawer} style={configs.btn_left_position} >
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
 
-                    <Button onPress={this.backTab} style={{
-                        position: 'absolute', top: 20, right: 0,
+                    <Button onPress={this.backTab} style={[configs.btn_right_position, {
                         width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
-                    }} >
+                    }]} >
                         <Image source={IMAGE.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
                     </Button>
                 </View>

@@ -7,7 +7,7 @@ import {
 import QRCode from 'react-native-qrcode-svg';
 import _ from 'ramda';
 
-import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber } from '@utils';
+import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber ,} from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
     PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode, PopupProcessingCredit, PopupInvoicePrint,
@@ -529,7 +529,8 @@ class Layout extends React.Component {
         return (
             <View style={{
                 flex: 1,
-                zIndex: 1
+                zIndex: 1,
+                backgroundColor: "#fff"
             }} >
                 {/* -------- Header Basket -------- */}
                 <View style={[styles.headerBasket, {
@@ -605,7 +606,7 @@ class Layout extends React.Component {
                     }
                 </View>
 
-                <View style={{ marginTop: scaleSzie(30), paddingHorizontal: scaleSzie(20), }} >
+                <View style={styles.box_payment_singular_container} >
                     <ItemPaymentMethod
                         title={"Other"}
                         selectedPayment={this.selectedPayment}
@@ -860,24 +861,27 @@ class Layout extends React.Component {
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
                 <View style={{ width: scaleSzie(446) }} >
-                        <ScrollableTabView
-                            ref={this.scrollTabRef}
-                            style={{}}
-                            initialPage={0}
-                            locked={true}
-                            renderTabBar={() => <View />}
-                            onChangeTab={(index) => {
-                                this.setState({ tabCurrent: index.i })
-                            }}
-                        >
-                            <View style={{ flex: 1, flexDirection: 'row' }} >
-                                {this.renderCategoriesCheckout()}
-                                {this.renderProductCheckout()}
-                                {this.renderAmountCheckout()}
-                            </View>
-                            {this.renderPaymetsMethod()}
-                            {this.renderOfflineMode()}
-                        </ScrollableTabView>
+                    <ScrollableTabView
+                        ref={this.scrollTabRef}
+                        style={{
+                            flex: 1,
+                        }}
+                        initialPage={0}
+                        locked={true}
+                        // scrollWithoutAnimation={true}
+                        renderTabBar={() => <View />}
+                        onChangeTab={(index) => {
+                            this.setState({ tabCurrent: index.i })
+                        }}
+                    >
+                        <View style={{ flex: 1, flexDirection: 'row' }} >
+                            {this.renderCategoriesCheckout()}
+                            {this.renderProductCheckout()}
+                            {this.renderAmountCheckout()}
+                        </View>
+                        {this.renderPaymetsMethod()}
+                        {this.renderOfflineMode()}
+                    </ScrollableTabView>
                 </View>
                 {this.renderBasket()}
             </View>

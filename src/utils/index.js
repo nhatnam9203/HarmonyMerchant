@@ -2,7 +2,7 @@ import {
     Platform,
     Dimensions,
     Linking,
-    Alert
+    Alert,
 } from 'react-native';
 import axios from 'axios';
 import { openSettings } from 'react-native-permissions';
@@ -14,7 +14,12 @@ import apiConfigs from '../configs/api';
 import Localization from '../localization';
 import ICON from "../resources";
 
-const { width } = Dimensions.get('window');
+const { width,height } = Dimensions.get('window');
+
+export const checkIsTablet = () =>{
+    const isTablet = parseFloat(width/height )  > 1.5 ? true : false;
+    return isTablet;
+}
 
 export const hiddenTabbar = stack => {
     stack.navigationOptions = ({ navigation }) => {

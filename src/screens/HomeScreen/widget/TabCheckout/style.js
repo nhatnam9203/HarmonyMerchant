@@ -1,13 +1,9 @@
 import {
     StyleSheet,
-    Dimensions,
     Platform
 } from 'react-native';
 
-import Configs from '@configs';
-import { scaleSzie } from '@utils';
-
-const { width, height } = Dimensions.get('window');
+import { scaleSzie ,checkIsTablet} from '@utils';
 
 export default StyleSheet.create({
     container: {
@@ -123,6 +119,10 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingHorizontal: scaleSzie(20),
-        marginTop: scaleSzie(30)
+        marginTop: checkIsTablet() ? scaleSzie(15) :  scaleSzie(30)
+    },
+    box_payment_singular_container :{
+        marginTop: checkIsTablet() ? scaleSzie(15) :  scaleSzie(30),
+        paddingHorizontal: scaleSzie(20),
     }
 })

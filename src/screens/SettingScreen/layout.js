@@ -14,7 +14,6 @@ import styles from './style';
 import IMAGE from '@resources';
 import { TabStaff, TabService, TabExtra, TabCategories, TabGaneral, TabHardware, TabTAX } from './widget';
 import configs from "@configs";
-import { prop } from 'ramda';
 
 const MENU = ["General", "Staff", "Categories", "Services", "Extra", "Tax", "Hardware", "Logout"];
 
